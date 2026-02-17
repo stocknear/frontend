@@ -19,6 +19,8 @@
     landing_hero_subtitle,
     landing_hero_cta_primary,
     landing_hero_cta_secondary,
+    landing_hero_badge_investors,
+    landing_hero_badge_trustpilot,
     landing_reviews_label,
     landing_reviews_title,
     landing_review_1_name,
@@ -84,6 +86,7 @@
     landing_trust_title,
     landing_trust_trustpilot,
     landing_trust_rating,
+    landing_trust_reviews,
     landing_trust_badge_data,
     landing_trust_badge_data_desc,
     landing_trust_badge_refund,
@@ -136,20 +139,17 @@
     landing_card_wiim_3_detail,
     landing_alerts_stat_speed,
     landing_alerts_stat_types,
-    landing_pain_label,
-    landing_pain_title,
-    landing_pain_subtitle,
-    landing_pain_1_title,
-    landing_pain_1_detail,
-    landing_pain_2_title,
-    landing_pain_2_detail,
-    landing_pain_3_title,
-    landing_pain_3_detail,
+    landing_how_label,
+    landing_how_title,
+    landing_how_step1_title,
+    landing_how_step1_description,
+    landing_how_step2_title,
+    landing_how_step2_description,
+    landing_how_step3_title,
+    landing_how_step3_description,
     landing_alerts_label,
     landing_alerts_title,
     landing_alerts_description,
-    landing_alerts_speed,
-    landing_alerts_types,
     landing_alerts_cta,
   } from "$lib/paraglide/messages.js";
 
@@ -158,23 +158,27 @@
 
   let failedMedia = new Set<string>();
 
-  type PainPointCard = {
+  type QuickStartStep = {
+    step: string;
     title: string;
     detail: string;
   };
 
-  const painPointCards: PainPointCard[] = [
+  const quickStartSteps: QuickStartStep[] = [
     {
-      title: landing_pain_1_title(),
-      detail: landing_pain_1_detail(),
+      step: "01",
+      title: landing_how_step1_title(),
+      detail: landing_how_step1_description(),
     },
     {
-      title: landing_pain_2_title(),
-      detail: landing_pain_2_detail(),
+      step: "02",
+      title: landing_how_step2_title(),
+      detail: landing_how_step2_description(),
     },
     {
-      title: landing_pain_3_title(),
-      detail: landing_pain_3_detail(),
+      step: "03",
+      title: landing_how_step3_title(),
+      detail: landing_how_step3_description(),
     },
   ];
 
@@ -261,6 +265,8 @@
       },
     },
   ];
+
+  const primaryFeatureShowcaseBlocks = featureShowcaseBlocks.slice(0, 2);
 
   type ToolCard = {
     href: string;
@@ -657,6 +663,18 @@
     },
   ];
 
+  const featuredReviewCards = reviewCards.slice(0, 3);
+  const featuredToolCards = additionalToolCards.slice(0, 4);
+
+  const ctaPrimaryClass =
+    "inline-flex items-center justify-center rounded-full bg-gray-900 px-7 py-3 text-base font-semibold text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200";
+
+  const ctaSecondaryClass =
+    "inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-7 py-3 text-base font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-200 dark:hover:bg-zinc-900";
+
+  const heroProofBadgeClass =
+    "inline-flex items-center rounded-full border border-gray-200 bg-white/90 px-3 py-1 text-xs font-medium text-gray-700 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-200";
+
   function lazyPlayVideo(node: HTMLVideoElement) {
     let sourceLoaded = false;
 
@@ -802,80 +820,93 @@
 
   <div class="text-gray-700 dark:text-zinc-200 w-full">
     <!-- Section 1: Hero -->
-    <section class="relative w-full border-b border-zinc-800 overflow-hidden">
+    <section
+      class="relative w-full overflow-hidden border-b border-gray-300 bg-white dark:border-zinc-700 dark:bg-zinc-950/60"
+    >
       <div
         class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-24"
       >
         <div class="mx-auto max-w-3xl text-center">
           <a
             href="/register"
-            class="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-white/80 hover:bg-white/10 transition-colors"
+            class="inline-flex w-fit items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-white/80 dark:hover:bg-white/10"
           >
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
             Built for retail investors
           </a>
 
           <h1
-            class="mt-6 text-balance text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white"
+            class="mt-6 text-balance text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-gray-900 dark:text-white"
           >
             {landing_hero_title()}
           </h1>
-          <p class="mt-5 text-base sm:text-xl leading-relaxed text-zinc-300">
+          <p class="mt-5 text-base sm:text-xl leading-relaxed text-gray-700 dark:text-zinc-300">
             {landing_hero_subtitle()}
           </p>
 
-          <div class="mt-8 flex justify-center">
-            <a
-              href="/register"
-              class="cursor-pointer inline-flex items-center justify-center px-7 py-3 text-base font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-500 transition-colors"
-            >
+          <div
+            class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          >
+            <a href="/register" class={ctaPrimaryClass}>
               {landing_hero_cta_primary()}
             </a>
-          </div>
-
-          <div class="mt-4 flex justify-center">
-            <a
-              href="/pricing"
-              class="text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
-            >
+            <a href="/pricing" class={ctaSecondaryClass}>
               {landing_hero_cta_secondary()}
             </a>
           </div>
 
-          <p class="mt-5 text-sm font-medium text-zinc-500">
+          <p class="mt-4 text-sm font-medium text-zinc-500">
             {landing_hero_cta_note()}
           </p>
+
+          <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+            <span class={heroProofBadgeClass}>
+              {landing_hero_badge_investors()}
+            </span>
+            <a
+              href="https://www.trustpilot.com/review/stocknear.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class={heroProofBadgeClass}
+            >
+              {landing_trust_rating()} {landing_hero_badge_trustpilot()}
+            </a>
+            <span class={heroProofBadgeClass}>{landing_alerts_stat_speed()}</span>
+          </div>
         </div>
 
         <div class="mt-12 md:mt-14">
-          <div class="relative mx-auto max-w-6xl">
-            <div class="relative overflow-hidden">
-              <div
-                class="origin-top-left transition-transform duration-700 ease-out lg:[transform:perspective(2500px)_rotateX(19deg)_skewX(11deg)]"
-              >
-                <img
-                  data-src="/img/landing-page/financial-chart.png"
-                  alt="Financial chart preview"
-                  class="w-full rounded-xl border w-80 h-full border-white/10 shadow-xl shadow-black/50"
-                  loading="lazy"
-                  decoding="async"
-                  use:lazyLoadImage
-                />
-              </div>
+          <div class="mx-auto 2xl:max-w-7xl">
+            <div class="relative pl-3 sm:pl-8 lg:pl-40 [perspective:2200px]">
+              <div class="relative overflow-hidden pt-4 lg:pt-6">
+                <div
+                  class="origin-top-left transition-transform duration-700 ease-out lg:[transform:rotateX(20deg)_skewX(12deg)]"
+                >
+                  <img
+                    data-src="/img/landing-page/financial-chart.png"
+                    alt="Financial chart preview"
+                    class="w-full rounded-xl border border-gray-300 shadow-xl shadow-black/50 dark:border-white/10"
+                    loading="lazy"
+                    decoding="async"
+                    use:lazyLoadImage
+                  />
+                </div>
 
-              <div
-                class="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#06080d] via-[#06080d]/75 to-transparent"
-              ></div>
-              <div
-                class="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#06080d] via-[#06080d]/80 to-transparent"
-              ></div>
+                <div
+                  class="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-zinc-950 dark:via-zinc-950/80"
+                ></div>
+                <div
+                  class="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-32 bg-gradient-to-l from-white via-white/85 to-transparent dark:from-zinc-950 dark:via-zinc-950/85"
+                ></div>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Section 2: Pain Points -->
+    <!-- Section 2: Quick Start -->
     <section
       class="border-t border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950/60"
     >
@@ -884,27 +915,28 @@
           <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400"
           >
-            {landing_pain_label()}
+            {landing_how_label()}
           </p>
           <h2
             class="mt-4 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
           >
-            {landing_pain_title()}
+            {landing_how_title()}
           </h2>
           <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300">
-            {landing_pain_subtitle()}
+            Sign up, choose your workflow, and start acting on clean signal in
+            minutes.
           </p>
         </div>
 
         <div class="mt-10 grid gap-5 md:grid-cols-3">
-          {#each painPointCards as card, index}
+          {#each quickStartSteps as card}
             <article
               class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/55 p-6"
             >
               <div
-                class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-xs font-bold text-violet-700 dark:bg-violet-500/20 dark:text-violet-200"
+                class="inline-flex rounded-full border border-violet-200 bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-700 dark:border-violet-500/30 dark:bg-violet-500/15 dark:text-violet-200"
               >
-                {String(index + 1).padStart(2, "0")}
+                Step {card.step}
               </div>
               <h3
                 class="mt-4 text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -981,7 +1013,7 @@
             <div class="mt-6">
               <a
                 href="/register"
-                class="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+                class={`${ctaPrimaryClass} px-6 py-2.5 text-sm`}
               >
                 {landing_alerts_cta()}
               </a>
@@ -1026,7 +1058,7 @@
                         >{item.ticker}</span
                       >
                       <span
-                        class={`rounded px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.04em] sm:text-[0.68rem] sm:px-2 ${item.toneClass}`}
+                        class={`rounded px-1.5 py-0.5 text-[0.68rem] font-bold uppercase tracking-[0.04em] sm:text-xs sm:px-2 ${item.toneClass}`}
                       >
                         {item.category}
                       </span>
@@ -1049,7 +1081,7 @@
                       {item.value}
                     </p>
                     <p
-                      class="text-[0.62rem] text-gray-400 dark:text-zinc-500 mt-0.5 sm:text-xs"
+                      class="mt-0.5 text-[0.72rem] text-gray-400 dark:text-zinc-500 sm:text-xs"
                     >
                       {item.time}
                     </p>
@@ -1067,6 +1099,9 @@
                 <span class="font-semibold text-gray-700 dark:text-zinc-300"
                   >{landing_card_alert_footer_value()}</span
                 >
+              </p>
+              <p class="mt-1 text-[11px] text-gray-400 dark:text-zinc-500">
+                Example of live alert layout
               </p>
             </div>
           </div>
@@ -1099,7 +1134,7 @@
         </div>
 
         <div class="space-y-16 sm:space-y-20">
-          {#each featureShowcaseBlocks as block}
+          {#each primaryFeatureShowcaseBlocks as block}
             <article
               class="grid gap-8 lg:grid-cols-2 lg:gap-12 lg:items-center"
             >
@@ -1138,7 +1173,7 @@
                 </ul>
                 <a
                   href={block.href}
-                  class="inline-flex items-center justify-center rounded-full px-6 py-2.5 mt-6 text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+                  class={`${ctaPrimaryClass} mt-6 px-6 py-2.5 text-sm`}
                 >
                   {block.linkLabel()}
                 </a>
@@ -1239,7 +1274,7 @@
                                 >{trade.ticker}</span
                               >
                               <span
-                                class={`rounded px-1.5 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.04em] sm:text-[0.68rem] sm:px-2 ${trade.toneClass}`}
+                                class={`rounded px-1.5 py-0.5 text-[0.68rem] font-bold uppercase tracking-[0.04em] sm:text-xs sm:px-2 ${trade.toneClass}`}
                               >
                                 {trade.sentiment}
                                 {trade.flowTag}
@@ -1263,7 +1298,7 @@
                               {formatOptionsFlowPremium(trade.premiumValue)}
                             </p>
                             <p
-                              class="text-[0.62rem] text-gray-400 dark:text-zinc-500 sm:text-xs"
+                              class="text-[0.72rem] text-gray-400 dark:text-zinc-500 sm:text-xs"
                             >
                               {trade.time}
                             </p>
@@ -1550,8 +1585,8 @@
           >
             {landing_more_tools_title()}
           </h3>
-          <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {#each additionalToolCards as tool}
+          <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {#each featuredToolCards as tool}
               <a
                 href={tool.href}
                 class="group rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 hover:border-violet-300 dark:hover:border-violet-700 hover:shadow-md transition-all"
@@ -1627,7 +1662,7 @@
           </h2>
         </div>
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {#each reviewCards as review}
+          {#each featuredReviewCards as review}
             <div
               class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
             >
@@ -1721,6 +1756,14 @@
           <p class="mt-3 text-lg text-gray-800 dark:text-zinc-300">
             {landing_trust_title()}
           </p>
+          <a
+            href="https://www.trustpilot.com/review/stocknear.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-2 inline-flex text-sm font-medium text-violet-600 transition-colors hover:text-violet-500 dark:text-violet-400 dark:hover:text-violet-300"
+          >
+            {landing_trust_reviews()}
+          </a>
         </div>
 
         <!-- Trust badges -->
@@ -1831,13 +1874,13 @@
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="/register"
-            class="cursor-pointer inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
+            class={`${ctaPrimaryClass} px-8 py-3.5`}
           >
             {landing_cta_primary()}
           </a>
           <a
             href="/pricing"
-            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+            class={`${ctaSecondaryClass} px-8 py-3.5`}
           >
             {landing_cta_secondary()}
           </a>

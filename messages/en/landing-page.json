@@ -4,11 +4,11 @@
   "landing_seo_description": "AI-powered stock analysis, real-time options flow, smart money tracking & 200+ screener filters. Join 10,000+ investors. 7-day free trial — plans from $0/mo.",
 
   "landing_hero_title": "See the move before the crowd does",
-  "landing_hero_subtitle": "Real-time prices, options flow, dark pool orders, news, financials, forecasts, and charts for every US stock and ETF. Act faster with clean signal.",
+  "landing_hero_subtitle": "Track live options flow, dark pool prints, catalysts, and financial context in one workspace so you can move from signal to decision faster.",
   "landing_hero_cta_primary": "Get Started Free",
   "landing_hero_cta_secondary": "View Pricing",
   "landing_hero_cta_demo": "See It In Action",
-  "landing_hero_cta_note": "No credit card required. Free forever.",
+  "landing_hero_cta_note": "No credit card required. Start free in under 30 seconds.",
   "landing_hero_badge_investors": "10,000+ Investors",
   "landing_hero_badge_trustpilot": "Trustpilot",
   "landing_hero_badge_reviews": "See Reviews",
@@ -26,8 +26,8 @@
   "landing_marquee_item_11": "POTUS Policy Tracker",
   "landing_marquee_item_12": "Pro Charts",
 
-  "landing_reviews_label": "WHAT TRADERS SAY",
-  "landing_reviews_title": "Loved by traders worldwide",
+  "landing_reviews_label": "CUSTOMER PROOF",
+  "landing_reviews_title": "Used daily by active retail investors",
   "landing_review_1_name": "James Grubb",
   "landing_review_1_role": "Stock & Options Trader",
   "landing_review_1_text": "I've used Unusual Whales, Ghostboard, Flowtopia, Big Short and Only Flows. Not only is Stocknear better, it has a more affordable price. Live option flow, dark pool, congress trading, hedge fund tracking and even POTUS tracking. If I could give 10 stars I would.",
@@ -57,10 +57,10 @@
   "landing_stats_trial_label": "Free Trial",
 
   "landing_features_label": "YOUR EDGE",
-  "landing_features_title": "The data Wall Street pays thousands for. Yours from $0.",
-  "landing_features_subtitle": "Real-time options flow, AI-powered research, and dark pool data in one platform. No more bouncing between 5 tabs.",
+  "landing_features_title": "One platform for signal, context, and faster decisions",
+  "landing_features_subtitle": "Real-time alerts, institutional flow, and catalyst-aware research without juggling multiple apps.",
 
-  "landing_more_tools_title": "And that's just the start",
+  "landing_more_tools_title": "More tools when you need deeper analysis",
   "landing_more_tool_screener_title": "Stock Screener",
   "landing_more_tool_screener_desc": "200+ filters across fundamentals, technicals, and options metrics. Pre-built strategies for dividend growth, value, and momentum.",
   "landing_more_tool_congress_title": "Congress & Insider Trading",
@@ -174,19 +174,19 @@
   "landing_alerts_stat_speed": "Avg delivery < 2 sec",
   "landing_alerts_stat_types": "6 alert types",
 
-  "landing_pain_label": "WHY INVESTORS SWITCH",
-  "landing_pain_title": "From noisy workflows to clear decisions",
-  "landing_pain_subtitle": "Stocknear removes the biggest friction points retail traders face every day.",
-  "landing_pain_1_title": "Too many tabs, no clear signal",
-  "landing_pain_1_detail": "Retail investors lose time bouncing between scanners, charting apps, and filings before making one decision.",
-  "landing_pain_2_title": "Important moves arrive too late",
-  "landing_pain_2_detail": "By the time alerts hit social feeds, the best entry is often gone. Speed and context matter together.",
-  "landing_pain_3_title": "Complex data feels unusable",
-  "landing_pain_3_detail": "Institutional-style data is powerful, but not if it takes analyst-level effort to decode every signal.",
+  "landing_pain_label": "START HERE",
+  "landing_pain_title": "What you can do in your first 5 minutes",
+  "landing_pain_subtitle": "Set up a clean workflow quickly and focus on decisions, not tool-hopping.",
+  "landing_pain_1_title": "Set high-signal alerts in under 60 seconds",
+  "landing_pain_1_detail": "Pick your tickers and get earnings, analyst, and price alerts delivered fast in one feed.",
+  "landing_pain_2_title": "See unusual options flow before it trends",
+  "landing_pain_2_detail": "Track premium, sentiment, and contract detail in real-time to spot institutional positioning earlier.",
+  "landing_pain_3_title": "Understand why price moved, not just that it moved",
+  "landing_pain_3_detail": "Get catalyst context tied to the move so you can judge whether it is noise, momentum, or a regime shift.",
 
   "landing_alerts_label": "NEVER MISS A MOVE",
-  "landing_alerts_title": "3 market-moving events in the last 3 minutes.",
-  "landing_alerts_description": "Earnings beats, analyst upgrades, insider buys, options flow spikes, and price targets — delivered in under 2 seconds. While others wait for the headline, you've already seen the filing.",
+  "landing_alerts_title": "Market-moving alerts delivered before the noise",
+  "landing_alerts_description": "Earnings beats, analyst changes, options spikes, and price triggers in one stream so you can react with context instead of headlines.",
   "landing_alerts_speed": "Avg delivery < 2 sec",
   "landing_alerts_types": "6 alert types",
   "landing_alerts_cta": "Get Started Free",
@@ -247,7 +247,7 @@
 
   "landing_pricing_cta": "See Full Comparison",
 
-  "landing_trust_title": "Trusted by 10,000+ investors worldwide",
+  "landing_trust_title": "Built for retail investors who need pro-grade data without pro-grade pricing",
   "landing_trust_trustpilot": "on Trustpilot",
   "landing_trust_rating": "4.6/5",
   "landing_trust_reviews": "Verify on Trustpilot",
@@ -256,7 +256,7 @@
   "landing_trust_badge_refund": "30-Day Money Back",
   "landing_trust_badge_refund_desc": "Full refund, no questions asked",
   "landing_trust_badge_trial": "7-Day Free Trial",
-  "landing_trust_badge_trial_desc": "No charge if you cancel within 7 days",
+  "landing_trust_badge_trial_desc": "Try paid plans for 7 days. Keep using the free tier anytime.",
 
   "landing_faq_title": "Frequently Asked Questions",
   "landing_faq_subtitle": "Clear answers about trials, billing, and what you get.",
@@ -275,8 +275,8 @@
   "landing_faq_q7_title": "What are credits and how do they work?",
   "landing_faq_q7_answer": "Credits are your monthly usage allowance for premium features like the AI Agent and bulk data downloads. Free gets 10 credits, Plus gets 150, and Pro gets 1,000. Credits reset every month based on your plan.",
 
-  "landing_cta_title": "Stop Trading Blind. Start Trading With Data.",
-  "landing_cta_description": "10,000+ investors already use Stocknear to track smart money, analyze options flow, and find trades faster. Your free account is 30 seconds away.",
+  "landing_cta_title": "Ready for faster, cleaner investing decisions?",
+  "landing_cta_description": "Join 10,000+ investors using Stocknear to track institutional activity, understand catalysts, and act with confidence.",
   "landing_cta_primary": "Get Started Free",
   "landing_cta_secondary": "View Pricing"
 }
