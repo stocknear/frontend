@@ -925,11 +925,11 @@
             </a>
           </div>
 
-          <p class="mt-4 text-sm font-medium text-zinc-500 hidden sm:block">
+          <p class="mt-4 text-sm font-medium text-zinc-500">
             {landing_hero_cta_note()}
           </p>
 
-          <div class="mt-5 hidden sm:flex flex-wrap items-center justify-center gap-2">
+          <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
             <span class={heroProofBadgeClass}>
               {landing_hero_badge_investors()}
             </span>
