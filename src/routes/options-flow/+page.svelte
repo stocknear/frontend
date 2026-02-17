@@ -341,10 +341,36 @@
     return 50;
   }
 
+  function parseWsNumeric(raw: any): number {
+    const cleaned = String(raw)
+      .replace(/[%$,]/g, "")
+      .trim()
+      .toUpperCase();
+    const multipliers: Record<string, number> = {
+      K: 1_000,
+      M: 1_000_000,
+      B: 1_000_000_000,
+    };
+    const suffix = cleaned.slice(-1);
+    return multipliers[suffix]
+      ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix]
+      : parseFloat(cleaned) || 0;
+  }
+
   function buildWsFilters() {
     const filters: Record<string, any> = {};
     if (filterQuery) filters.tickers = filterQuery;
+
     for (const rule of ruleOfList || []) {
+      if (!rule.value || rule.value === "any") continue;
+      if (
+        Array.isArray(rule.value) &&
+        rule.value.length === 1 &&
+        rule.value[0] === "any"
+      )
+        continue;
+
+      // --- Categorical filters (set-membership on the server) ---
       if (
         [
           "put_call",
@@ -358,33 +384,47 @@
       ) {
         filters[rule.name] = rule.value;
       }
+
+      // --- Moneyness (ITM / OTM) ---
+      if (rule.name === "moneyness" && Array.isArray(rule.value)) {
+        filters.moneyness = rule.value;
+      }
+
+      // --- Numeric "over" filters (cost_basis, size, volume, open_interest) ---
       if (
-        rule.name === "cost_basis" &&
+        ["cost_basis", "size", "volume", "open_interest"].includes(
+          rule.name,
+        ) &&
         rule.condition === "over" &&
         rule.value
       ) {
-        const cleaned = String(rule.value)
-          .replace(/[%$,]/g, "")
-          .trim()
-          .toUpperCase();
-        const multipliers = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
-        const suffix = cleaned.slice(-1);
-        const v = multipliers[suffix]
-          ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix]
-          : parseFloat(cleaned) || 0;
-        if (v > 0) filters.min_cost_basis = v;
+        const v = parseWsNumeric(rule.value);
+        if (v > 0) filters[`min_${rule.name}`] = v;
       }
-      if (rule.name === "size" && rule.condition === "over" && rule.value) {
-        const cleaned = String(rule.value)
-          .replace(/[%$,]/g, "")
-          .trim()
-          .toUpperCase();
-        const multipliers = { K: 1_000, M: 1_000_000, B: 1_000_000_000 };
-        const suffix = cleaned.slice(-1);
-        const v = multipliers[suffix]
-          ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix]
-          : parseFloat(cleaned) || 0;
-        if (v > 0) filters.min_size = v;
+
+      // --- Ratio filters: Vol/OI and Size/OI (percentage threshold) ---
+      if (
+        (rule.name === "volumeOIRatio" || rule.name === "sizeOIRatio") &&
+        rule.condition === "over" &&
+        rule.value
+      ) {
+        const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
+        if (v > 0) {
+          const key =
+            rule.name === "volumeOIRatio"
+              ? "min_volume_oi_ratio"
+              : "min_size_oi_ratio";
+          filters[key] = v;
+        }
+      }
+
+      // --- DTE (Days To Expiration) filter ---
+      if (rule.name === "date_expiration" && rule.condition && rule.value) {
+        const v = parseFloat(String(rule.value).replace(/[%$,]/g, ""));
+        if (!isNaN(v)) {
+          filters.dte_condition = rule.condition; // "over" | "under" | "exactly"
+          filters.dte_value = v;
+        }
       }
     }
     return filters;

@@ -1136,6 +1136,16 @@
           filters[`min_${rule.name}`] = parsed;
         }
       }
+      // Ratio filters: Size/Volume and Size/Avg Volume (pre-computed % in data)
+      if (
+        (rule.name === "sizeVolRatio" || rule.name === "sizeAvgVolRatio") &&
+        rule.condition === "over" &&
+        rule.value
+      ) {
+        const v =
+          parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
+        if (v > 0) filters[`min_${rule.name}`] = v;
+      }
     }
 
     return filters;
