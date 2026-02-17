@@ -892,7 +892,7 @@
       class="relative w-full overflow-hidden border-b border-gray-300 bg-white dark:border-zinc-700 dark:bg-zinc-950/60"
     >
       <div
-        class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-24"
+        class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-14 md:pt-20 md:pb-20 lg:pt-24 lg:pb-24"
       >
         <div class="mx-auto max-w-3xl text-center">
           <a
@@ -925,11 +925,11 @@
             </a>
           </div>
 
-          <p class="mt-4 text-sm font-medium text-zinc-500">
+          <p class="mt-4 text-sm font-medium text-zinc-500 hidden sm:block">
             {landing_hero_cta_note()}
           </p>
 
-          <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <div class="mt-5 hidden sm:flex flex-wrap items-center justify-center gap-2">
             <span class={heroProofBadgeClass}>
               {landing_hero_badge_investors()}
             </span>
@@ -946,140 +946,11 @@
           </div>
         </div>
 
-        <!-- Feature carousel -->
-        <div class="mt-12 md:mt-16">
-          <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
-            <!-- Cards container -->
-            <div class="relative overflow-hidden">
-              <div class="relative mx-auto w-[85%] sm:w-[65%] lg:w-[55%]">
-                {#each showcaseSlides as slide, i}
-                  {@const offset = ((i - activeSlide + showcaseSlides.length) % showcaseSlides.length)}
-                  <div
-                    class="transition-all duration-500 ease-in-out [will-change:transform,opacity]
-                      {i > 0 ? 'absolute inset-x-0 top-0 mx-auto' : ''}"
-                    style="
-                      transform: translateX({offset === 0 ? '0%' : offset === 1 ? '95%' : '-95%'}) scale({offset === 0 ? 1 : 0.88});
-                      opacity: {offset === 0 ? 1 : 0.4};
-                      z-index: {offset === 0 ? 30 : 10};
-                      filter: blur({offset === 0 ? 0 : 2}px);
-                    "
-                  >
-                    <div
-                      class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-black/20 dark:border-zinc-700/80 dark:bg-zinc-900 dark:shadow-black/50"
-                    >
-                      <!-- Screenshot -->
-                      <img
-                        data-src={slide.src}
-                        alt={slide.alt}
-                        class="w-full"
-                        loading="lazy"
-                        decoding="async"
-                        use:lazyLoadImage
-                      />
-                      <!-- Card text -->
-                      <div class="px-5 py-6 sm:px-8 sm:py-8 text-center">
-                        <h3
-                          class="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
-                        >
-                          {slide.title}
-                        </h3>
-                        <p
-                          class="mt-2.5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400 max-w-md mx-auto"
-                        >
-                          {slide.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                {/each}
-              </div>
-            </div>
-
-            <!-- Navigation arrows -->
-            <button
-              on:click={prevSlide}
-              class="absolute left-1 sm:left-3 lg:left-6 top-[40%] -translate-y-1/2 z-40 flex items-center justify-center size-10 sm:size-12 rounded-full border border-gray-200 bg-white/90 text-gray-600 shadow-lg backdrop-blur-sm transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800/90 dark:text-zinc-300 dark:hover:bg-zinc-700"
-              aria-label="Previous slide"
-            >
-              <svg class="size-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M13 4l-6 6 6 6"/>
-              </svg>
-            </button>
-            <button
-              on:click={nextSlide}
-              class="absolute right-1 sm:right-3 lg:right-6 top-[40%] -translate-y-1/2 z-40 flex items-center justify-center size-10 sm:size-12 rounded-full border border-gray-200 bg-white/90 text-gray-600 shadow-lg backdrop-blur-sm transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800/90 dark:text-zinc-300 dark:hover:bg-zinc-700"
-              aria-label="Next slide"
-            >
-              <svg class="size-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 4l6 6-6 6"/>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Progress bars -->
-          <div class="flex items-center justify-center gap-2 mt-8">
-            {#each showcaseSlides as _, i}
-              <button
-                on:click={() => selectSlide(i)}
-                class="h-1.5 rounded-full transition-all duration-500
-                  {activeSlide === i
-                  ? 'w-10 bg-violet-500'
-                  : 'w-6 bg-gray-300 hover:bg-gray-400 dark:bg-zinc-600 dark:hover:bg-zinc-500'}"
-                aria-label="Go to slide {i + 1}"
-              ></button>
-            {/each}
-          </div>
-        </div>
+      
       </div>
     </section>
 
-    <!-- Section 2: Quick Start -->
-    <section
-      class="border-t border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950/60"
-    >
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-18">
-        <div class="mx-auto max-w-3xl text-center">
-          <p
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400"
-          >
-            {landing_how_label()}
-          </p>
-          <h2
-            class="mt-4 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-          >
-            {landing_how_title()}
-          </h2>
-          <p class="mt-4 text-base sm:text-lg text-gray-700 dark:text-zinc-300">
-            Sign up, choose your workflow, and start acting on clean signal in
-            minutes.
-          </p>
-        </div>
 
-        <div class="mt-10 grid gap-5 md:grid-cols-3">
-          {#each quickStartSteps as card}
-            <article
-              class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-gray-50/70 dark:bg-zinc-900/55 p-6"
-            >
-              <div
-                class="inline-flex rounded-full border border-violet-200 bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-700 dark:border-violet-500/30 dark:bg-violet-500/15 dark:text-violet-200"
-              >
-                Step {card.step}
-              </div>
-              <h3
-                class="mt-4 text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
-              >
-                {card.title}
-              </h3>
-              <p
-                class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-400"
-              >
-                {card.detail}
-              </p>
-            </article>
-          {/each}
-        </div>
-      </div>
-    </section>
 
     <!-- Section 2.5: Real-Time Alerts Showcase -->
     <section class="border-t border-gray-300 dark:border-zinc-700">
