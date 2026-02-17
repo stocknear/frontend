@@ -978,30 +978,39 @@
             {/each}
           </div>
 
-          <!-- Image showcase with 3D perspective -->
-          <div class="mx-auto 2xl:max-w-7xl">
+          <!-- Image showcase with enhanced 3D perspective -->
+          <div class="relative mx-auto max-w-5xl 2xl:max-w-6xl">
+            <!-- Ambient glow behind image -->
+            <div class="pointer-events-none absolute inset-x-10 top-16 bottom-8 rounded-3xl bg-violet-500/[0.08] blur-3xl dark:bg-violet-500/[0.06]"></div>
+
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <div
-              class="relative pl-3 sm:pl-8 lg:pl-40 [perspective:2200px]"
+              class="relative pl-3 sm:pl-8 lg:pl-40 [perspective:1600px]"
               on:mouseenter={() => (isPaused = true)}
               on:mouseleave={() => (isPaused = false)}
             >
-              <div class="relative overflow-hidden pt-4 lg:pt-6">
+              <div class="relative overflow-hidden pt-4 lg:pt-6 [transform-style:preserve-3d]">
                 <div
-                  class="origin-top-left transition-transform duration-700 ease-out lg:[transform:rotateX(20deg)_skewX(12deg)]"
+                  class="origin-top-left transition-transform duration-700 ease-out lg:[transform:rotateX(16deg)_skewX(10deg)]"
                 >
-                  <div class="relative">
+                  <div class="relative [transform-style:preserve-3d]">
                     {#each showcaseSlides as slide, i}
-                      <img
-                        data-src={slide.src}
-                        alt={slide.alt}
-                        class="w-full rounded-xl border border-gray-300 shadow-xl shadow-black/50 dark:border-white/10 transition-opacity duration-700 ease-in-out
-                          {i > 0 ? 'absolute inset-0 h-full object-cover' : ''}
-                          {activeSlide === i ? 'opacity-100' : 'opacity-0 pointer-events-none'}"
-                        loading="lazy"
-                        decoding="async"
-                        use:lazyLoadImage
-                      />
+                      <div
+                        class="transition-all duration-700 ease-in-out [will-change:opacity,transform]
+                          {i > 0 ? 'absolute inset-0' : ''}
+                          {activeSlide === i ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03] pointer-events-none'}"
+                      >
+                        <img
+                          data-src={slide.src}
+                          alt={slide.alt}
+                          class="w-full rounded-2xl ring-1 ring-black/[0.08] dark:ring-white/[0.08] shadow-2xl shadow-black/40 dark:shadow-black/70"
+                          loading="lazy"
+                          decoding="async"
+                          use:lazyLoadImage
+                        />
+                        <!-- Glossy shine overlay -->
+                        <div class="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.07] via-transparent to-transparent"></div>
+                      </div>
                     {/each}
                   </div>
                 </div>
