@@ -4,7 +4,7 @@ export const load = async ({ locals }) => {
   const getAllChats = async () => {
     if (!user) return [];
 
-    const output = await pb.collection("chat").getList(1, 100, {
+    const output = await pb.collection("chat").getList(1, 50, {
       sort: "-updated",
       filter: `user="${user.id}"`,
     });
