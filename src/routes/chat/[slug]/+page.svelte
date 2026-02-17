@@ -2,7 +2,6 @@
   import ChatMessage from "$lib/components/Chat/ChatMessage.svelte";
 
   import Arrow from "lucide-svelte/icons/arrow-up";
-  import Plus from "lucide-svelte/icons/plus";
 
   import { getCreditFromQuery, agentOptions, agentCategory } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -1068,14 +1067,6 @@
                     </DropdownMenu.Content>
                   </DropdownMenu.Root>
                 </div>
-
-                <Button
-                  on:click={() => goto("/chat")}
-                  class="mr-auto h-9 w-9 shrink-0 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center px-0 py-0"
-                >
-                  <!--<span class="hidden sm:block"> New chat</span>-->
-                  <Plus class="h-5 w-5 inline-block" />
-                </Button>
 
                 <!--
             {#if data?.user}

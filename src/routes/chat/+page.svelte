@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { DateTime } from "luxon";
 
   import Arrow from "lucide-svelte/icons/arrow-up";
   import { mode } from "mode-watcher";
@@ -14,29 +13,15 @@
   import { agentOptions, agentCategory } from "$lib/utils";
   import { chatReasoning } from "$lib/store";
   import {
-  chat_ago,
-  chat_cancel,
   chat_credits,
   chat_credits_left,
-  chat_delete,
-  chat_delete_thread_confirm,
-  chat_delete_thread_title,
-  chat_get_started,
   chat_how_to_use_agents,
-  chat_last_message,
-  chat_no_threads,
   chat_placeholder,
-  chat_ready_description,
-  chat_ready_to_analyze,
   chat_seo_description,
   chat_seo_keywords,
   chat_seo_title,
   chat_stock_agents,
-  chat_threads,
   chat_title,
-  chat_toast_deleted,
-  chat_toast_error,
-  chat_toast_error_occurred,
   chat_toast_insufficient_credits,
 } from "$lib/paraglide/messages";
 
@@ -47,7 +32,6 @@
   export let data;
   export let form;
   let selectedGroup = "overview";
-  let historyChat = data?.getAllChats || [];
   let editorDiv;
   let editorView;
   let editorText = "";
@@ -58,31 +42,6 @@
   let selectedSuggestion = 0;
   let currentQuery = "";
   let isLoading = false;
-  let currentItem = {};
-
-  const formatDate = (dateString) => {
-    // Ensure the date string is ISO compliant
-    const isoDateString = dateString.replace(" ", "T");
-
-    // Parse input and current time as UTC
-    const inputDate = DateTime.fromISO(isoDateString, { zone: "utc" });
-    const currentUTC = DateTime.utc();
-
-    // Calculate difference in minutes
-    const diffInMinutes = Math.abs(
-      inputDate.diff(currentUTC, "minutes").minutes,
-    );
-
-    if (diffInMinutes < 60) {
-      return `${Math.round(diffInMinutes)} minutes`;
-    } else if (diffInMinutes < 1440) {
-      const hours = Math.round(diffInMinutes / 60);
-      return `${hours} hour${hours !== 1 ? "s" : ""}`;
-    } else {
-      const days = Math.round(diffInMinutes / 1440);
-      return `${days} day${days !== 1 ? "s" : ""}`;
-    }
-  };
 
   const randomChats = data?.randomChats || [];
   let agentNames = agentOptions?.map((item) => item?.name);
@@ -427,44 +386,6 @@
     });
   }
 
-  async function handleDeleteThread() {
-    const postData = {
-      threadId: currentItem?.id,
-    };
-
-    try {
-      const response = await fetch("/api/delete-chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      const output = await response.json();
-
-      if (output === "success") {
-        toast.success(chat_toast_deleted(), {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
-
-        const updatedHistoryChat = historyChat?.filter(
-          (item) => item.id !== currentItem?.id,
-        );
-
-        historyChat = [...updatedHistoryChat];
-      } else {
-        toast.error(chat_toast_error(), {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error(chat_toast_error_occurred(), {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
-    }
-  }
 </script>
 
 <SEO
@@ -533,7 +454,7 @@
 />
 
 <div
-  class="w-full max-w-8xl overflow-hidden m-auto min-h-screen bg-white dark:bg-default mb-16 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-8xl overflow-hidden m-auto min-h-screen mb-16 text-gray-700 dark:text-zinc-200"
 >
   <div class="flex flex-col m-auto justify-center items-center">
     <div class="text-center mb-10 w-full sm:px-3">
@@ -930,208 +851,10 @@
             </div>
           </div>
         </div>
-        {#if historyChat?.length > 0}
-          <div class="px-4 sm:px-0 pt-5 sm:pt-0 mx-auto w-full max-w-[850px]">
-            <h2
-              class="text-base sm:text-lg text-start w-full font-semibold tracking-tight text-gray-900 dark:text-white flex flex-row items-center"
-            >
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fasr"
-                data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block text-gray-800 dark:text-zinc-300"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-                ><path
-                  fill="currentColor"
-                  d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
-                ></path></svg>
- <span class="ml-2">{chat_threads()}</span>
-            </h2>
-            <div class="pb-2 last:mb-10 mt-2">
-              {#each historyChat as item}
-                <a
-                  href={"/chat/" + item?.id}
-                  class="block rounded-xl border p-3 mb-3 border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/60 transition-all cursor-pointer"
-                >
-                  <div class="group border-transparent rounded-t-md">
-                    <div class="mt-[2px]">
-                      <p class="text-[1rem]">
-                        {item?.message?.length > 250
-                          ? item?.message?.slice(0, 250) + "..."
-                          : item?.message}
-                      </p>
-                    </div>
-                    <div
-                      class="flex flex-row items-center justify-between w-full"
-                    >
-                      <span
-                        class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 w-full"
-                        >{chat_last_message()} {formatDate(item?.updated)} {chat_ago()}</span
-                      >
-                      <button
-                        on:click|preventDefault={(e) => {
-                          e.preventDefault();
-                          currentItem = item;
-                          const clicked =
-                            document.getElementById("deleteThread");
-                          clicked?.dispatchEvent(new MouseEvent("click"));
-                        }}
-                        class="flex gap-2 w-fit items-center sm:hover:text-red-600 dark:sm:hover:text-red-400 text-xs sm:text-sm text-gray-500 dark:text-zinc-400 border border-transparent cursor-pointer px-2 py-1 rounded-md transition"
-                        ><span class="text-sm"
-                          ><svg
-                            role="graphics-symbol"
-                            viewBox="0 0 16 16"
-                            class="w-3.5 h-3.5 sm:w-4 sm:h-4"
-                            fill="currentColor"
-                            stroke="currentColor"
-                            stroke-width="0"
-                            ><path
-                              d="M4.8623 15.4287H11.1445C12.1904 15.4287 12.8672 14.793 12.915 13.7402L13.3799 3.88965H14.1318C14.4736 3.88965 14.7402 3.62988 14.7402 3.28809C14.7402 2.95312 14.4736 2.69336 14.1318 2.69336H11.0898V1.66797C11.0898 0.62207 10.4268 0 9.29199 0H6.69434C5.56641 0 4.89648 0.62207 4.89648 1.66797V2.69336H1.86133C1.5332 2.69336 1.25977 2.95312 1.25977 3.28809C1.25977 3.62988 1.5332 3.88965 1.86133 3.88965H2.62012L3.08496 13.7471C3.13281 14.7998 3.80273 15.4287 4.8623 15.4287ZM6.1543 1.72949C6.1543 1.37402 6.40039 1.14844 6.7832 1.14844H9.20312C9.58594 1.14844 9.83203 1.37402 9.83203 1.72949V2.69336H6.1543V1.72949ZM4.99219 14.2188C4.61621 14.2188 4.34277 13.9453 4.32227 13.542L3.86426 3.88965H12.1152L11.6709 13.542C11.6572 13.9453 11.3838 14.2188 10.9941 14.2188H4.99219ZM5.9834 13.1182C6.27051 13.1182 6.45508 12.9336 6.44824 12.667L6.24316 5.50293C6.23633 5.22949 6.04492 5.05176 5.77148 5.05176C5.48438 5.05176 5.2998 5.23633 5.30664 5.50293L5.51172 12.667C5.51855 12.9404 5.70996 13.1182 5.9834 13.1182ZM8 13.1182C8.28711 13.1182 8.47852 12.9336 8.47852 12.667V5.50293C8.47852 5.23633 8.28711 5.05176 8 5.05176C7.71289 5.05176 7.52148 5.23633 7.52148 5.50293V12.667C7.52148 12.9336 7.71289 13.1182 8 13.1182ZM10.0166 13.1182C10.29 13.1182 10.4746 12.9404 10.4814 12.667L10.6934 5.50293C10.7002 5.23633 10.5088 5.05176 10.2285 5.05176C9.95508 5.05176 9.76367 5.22949 9.75684 5.50293L9.54492 12.667C9.53809 12.9336 9.72949 13.1182 10.0166 13.1182Z"
-                            ></path></svg>
-</span
-                        ></button
-                      >
-                    </div>
-                  </div>
-                </a>
-              {/each}
-            </div>
-          </div>
-        {:else if !data?.user}
-          <div class="mx-auto w-full max-w-[850px] px-4 sm:px-0">
-            <h2
-              class="text-base sm:text-lg text-start w-full font-semibold tracking-tight text-gray-900 dark:text-white flex flex-row items-center"
-            >
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fasr"
-                data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block text-gray-800 dark:text-zinc-300"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-                ><path
-                  fill="currentColor"
-                  d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
-                ></path></svg>
- <span class="ml-2">{chat_threads()}</span>
-            </h2>
-            <div class="pb-2 last:mb-10 mt-2">
-              {chat_no_threads()}
-            </div>
-
-            <div
-              class="bg-white/80 border border-gray-300 shadow dark:border-zinc-700 shadow-sm dark:bg-zinc-950/60 p-6 rounded-2xl mt-2 text-center mb-8"
-            >
-              <h2
-                class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4"
-              >
-                {chat_ready_to_analyze()}
-              </h2>
-              <p class="mb-4 text-gray-800 dark:text-zinc-300">
-                {chat_ready_description()}
-              </p>
-              <label
-                for="userLogin"
-                class="cursor-pointer bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 inline-block text-sm sm:text-[1rem] font-semibold"
-                >{chat_get_started()}</label
-              >
-            </div>
-          </div>
-        {:else}
-          <div class="mx-auto w-full max-w-[850px] px-4 sm:px-0">
-            <h2
-              class="text-base sm:text-lg text-start w-full font-semibold tracking-tight text-gray-900 dark:text-white flex flex-row items-center"
-            >
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fasr"
-                data-icon="rectangle-vertical-history"
-                class="w-5 h-5 inline-block text-gray-800 dark:text-zinc-300"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-                ><path
-                  fill="currentColor"
-                  d="M240 48V464H528V48H240zM192 0h48H528h48V48 464v48H528 240 192V464 48 0zM96 48h48V464H96V48zM0 96H48V416H0V96z"
-                ></path></svg>
- <span class="ml-2">{chat_threads()}</span>
-            </h2>
-            <div class="pb-2 last:mb-10 mt-2">
-              {chat_no_threads()}
-            </div>
-          </div>
-        {/if}
       </main>
     </div>
   </div>
 </div>
-
-<input type="checkbox" id="deleteThread" class="modal-toggle" />
-
-<dialog id="deleteThread" class="modal modal-middle p-3 sm:p-0">
-  <label for="deleteThread" class="cursor-pointer modal-backdrop"></label>
-
-  <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
-  >
-    <label
-      for="deleteThread"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
-    >
-      <svg
-        class="w-6 h-6 sm:w-7 sm:h-7"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        ><path
-          fill="currentColor"
-          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
-    </label>
-    <h3 class="text-lg font-medium mb-2">{chat_delete_thread_title()}</h3>
-    <p class="text-sm mb-6">
-      {chat_delete_thread_confirm()}
-    </p>
-    <div class="flex justify-end space-x-3">
-      <label
-        for="deleteThread"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">{chat_cancel()}</label
-      ><label
-        for="deleteThread"
-        on:click={handleDeleteThread}
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 flex items-center border border-rose-200/70 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300"
-        tabindex="0"
-        ><svg
-          stroke="currentColor"
-          fill="none"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="w-4 h-4 mr-2"
-          height="1em"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-          ><polyline points="3 6 5 6 21 6"></polyline><path
-            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-          ></path><line x1="10" y1="11" x2="10" y2="17"></line><line
-            x1="14"
-            y1="11"
-            x2="14"
-            y2="17"
-          ></line></svg>
-{chat_delete()}</label
-      >
-    </div>
-  </div>
-</dialog>
 
 {#await import("$lib/components/LoginPopup.svelte") then { default: Comp }}
   <svelte:component this={Comp} {data} />
