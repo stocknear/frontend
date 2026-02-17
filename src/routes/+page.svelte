@@ -658,19 +658,89 @@
   ];
 
   function lazyPlayVideo(node: HTMLVideoElement) {
+    let sourceLoaded = false;
+
+    const ensureVideoSourceLoaded = () => {
+      if (sourceLoaded) return;
+      const src = node.dataset.src;
+      if (!src) return;
+
+      if (node.dataset.poster) {
+        node.poster = node.dataset.poster;
+      }
+
+      node.src = src;
+      node.load();
+      sourceLoaded = true;
+    };
+
+    if (typeof IntersectionObserver === "undefined") {
+      ensureVideoSourceLoaded();
+      node.play().catch(() => {});
+      return {
+        destroy() {},
+      };
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
+            ensureVideoSourceLoaded();
             node.play().catch(() => {});
           } else {
             node.pause();
           }
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.25, rootMargin: "120px 0px" },
     );
     observer.observe(node);
+    return {
+      destroy() {
+        observer.disconnect();
+      },
+    };
+  }
+
+  function lazyLoadImage(node: HTMLImageElement) {
+    let sourceLoaded = false;
+
+    const ensureImageSourceLoaded = () => {
+      if (sourceLoaded) return;
+      const src = node.dataset.src;
+      if (!src) return;
+
+      if (node.dataset.srcset) {
+        node.srcset = node.dataset.srcset;
+      }
+
+      node.src = src;
+      sourceLoaded = true;
+    };
+
+    if (typeof IntersectionObserver === "undefined") {
+      ensureImageSourceLoaded();
+      return {
+        destroy() {},
+      };
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            ensureImageSourceLoaded();
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.01, rootMargin: "180px 0px" },
+    );
+
+    observer.observe(node);
+
     return {
       destroy() {
         observer.disconnect();
@@ -732,13 +802,7 @@
 
   <div class="text-gray-700 dark:text-zinc-200 w-full">
     <!-- Section 1: Hero -->
-    <section
-      class="relative w-full border-b border-zinc-800 bg-[#06080d] overflow-hidden"
-    >
-      <div
-        class="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_380px_at_50%_-8%,rgba(56,189,248,0.12),transparent_62%)]"
-      ></div>
-
+    <section class="relative w-full border-b border-zinc-800 overflow-hidden">
       <div
         class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-24"
       >
@@ -790,11 +854,12 @@
                 class="origin-top-left transition-transform duration-700 ease-out lg:[transform:perspective(2500px)_rotateX(19deg)_skewX(11deg)]"
               >
                 <img
-                  src="/img/landing-page/financial-chart.png"
+                  data-src="/img/landing-page/financial-chart.png"
                   alt="Financial chart preview"
                   class="w-full rounded-xl border w-80 h-full border-white/10 shadow-xl shadow-black/50"
                   loading="lazy"
                   decoding="async"
+                  use:lazyLoadImage
                 />
               </div>
 
@@ -942,13 +1007,14 @@
               {#each notificationShowcaseItems as item (item.id)}
                 <div class="flex items-center gap-3 px-4 py-3.5 sm:px-5">
                   <img
-                    src={`https://financialmodelingprep.com/image-stock/${item.ticker}.png`}
+                    data-src={`https://financialmodelingprep.com/image-stock/${item.ticker}.png`}
                     alt={`${item.ticker} logo`}
                     class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                     style="clip-path: circle(50%);"
                     loading="lazy"
                     width="36"
                     height="36"
+                    use:lazyLoadImage
                     on:error={(e) =>
                       ((e.currentTarget as HTMLImageElement).src =
                         "/pwa-192x192.png")}
@@ -1154,13 +1220,14 @@
                           style={`border-left-color: ${trade.borderColor};`}
                         >
                           <img
-                            src={`https://financialmodelingprep.com/image-stock/${trade.ticker}.png`}
+                            data-src={`https://financialmodelingprep.com/image-stock/${trade.ticker}.png`}
                             alt={`${trade.ticker} logo`}
                             class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                             style="clip-path: circle(50%);"
                             loading="lazy"
                             width="36"
                             height="36"
+                            use:lazyLoadImage
                             on:error={(e) =>
                               ((e.currentTarget as HTMLImageElement).src =
                                 "/pwa-192x192.png")}
@@ -1230,13 +1297,14 @@
                       class="flex items-center gap-3 border-b border-gray-200 dark:border-zinc-700 px-4 py-3 sm:px-5"
                     >
                       <img
-                        src="https://financialmodelingprep.com/image-stock/AAPL.png"
+                        data-src="https://financialmodelingprep.com/image-stock/AAPL.png"
                         alt="AAPL logo"
                         class="h-9 w-9 shrink-0 rounded-full border border-gray-200 p-0.5 dark:border-zinc-700"
                         style="clip-path: circle(50%);"
                         width="36"
                         height="36"
                         loading="lazy"
+                        use:lazyLoadImage
                         on:error={(e) =>
                           ((e.currentTarget as HTMLImageElement).src =
                             "/pwa-192x192.png")}
@@ -1449,8 +1517,8 @@
                 {:else if block.media.kind === "video"}
                   <video
                     class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
-                    src={block.media.src}
-                    poster={block.media.poster}
+                    data-src={block.media.src}
+                    data-poster={block.media.poster}
                     preload="none"
                     muted
                     loop
@@ -1463,10 +1531,11 @@
                 {:else}
                   <img
                     class="w-full rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm"
-                    src={block.media.src}
+                    data-src={block.media.src}
                     alt={block.media.alt}
                     loading="lazy"
                     on:error={() => markMediaFailed(block.id)}
+                    use:lazyLoadImage
                   />
                 {/if}
               </div>
