@@ -841,46 +841,48 @@
   <div
     class="flex items-center justify-between w-full 2xl:max-w-[1100px] px-4 py-2 mb-2"
   >
-    <!-- Mobile: sidebar toggle -->
-    <button
-      on:click={() => ($chatSidebarOpen = true)}
-      class="cursor-pointer lg:hidden p-2 text-gray-500 dark:text-zinc-400"
-      aria-label="Open chat history"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+    {#if editable}
+      <!-- Mobile: sidebar toggle -->
+      <button
+        on:click={() => ($chatSidebarOpen = true)}
+        class="cursor-pointer lg:hidden p-2 text-gray-500 dark:text-zinc-400"
+        aria-label="Open chat history"
       >
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-        <path d="M9 3v18" />
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect width="18" height="18" x="3" y="3" rx="2" />
+          <path d="M9 3v18" />
+        </svg>
+      </button>
 
-    <!-- Desktop: back arrow -->
-    <a
-      href="/chat"
-      class="hidden lg:block p-2 text-gray-500 dark:text-zinc-400"
-      aria-label="Back to chat"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+      <!-- Desktop: back arrow -->
+      <a
+        href="/chat"
+        class="hidden lg:block p-2 text-gray-500 dark:text-zinc-400"
+        aria-label="Back to chat"
       >
-        <path d="m15 18-6-6 6-6" />
-      </svg>
-    </a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </a>
+    {/if}
 
     <h1
       class="flex-1 text-sm font-medium text-gray-700 dark:text-zinc-300 truncate mx-3 text-center"

@@ -1,56 +1,76 @@
 import type { RequestHandler } from "./$types";
 import { getCreditFromQuery, agentOptions } from "$lib/utils";
+import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb } = locals;
+  const { apiURL, apiKey, user, pb, clientIp } = locals;
+
+  if (!user) {
+    return new Response(
+      JSON.stringify({ error: "Authentication required" }),
+      { status: 401 }
+    );
+  }
+
+  const rateLimit = checkRateLimit(clientIp, "chatMessage", RATE_LIMITS.chatMessage);
+  if (!rateLimit.allowed) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      { status: 429 }
+    );
+  }
+
   const { query, chatId, reasoning } = await request.json();
 
-  // simple premium check
-  /*
-  if (!["Pro", "Plus"].includes(user?.tier)) {
-    return new Response(
-      JSON.stringify({
-        error: "This feature is available exclusively for Plus and Pro members. Please upgrade your account <a href='/pricing' class='text-blue-800 sm:hover:text-muted dark:sm:hover:text-white dark:text-blue-500'>here</a> to gain access."
-      }),
-      { status: 400 }
-    );
-    
-  }
-    */
   const multiplier = reasoning === true ? 2 : 1;
   const costOfCredit = getCreditFromQuery(query, agentOptions)*multiplier;
-  
+
   if (user?.credits < costOfCredit) {
     return new Response(
       JSON.stringify({
-        error: `Insufficient credits. Your current balance is ${user?.credits}. Your prompt would cost ${costOfCredit} credits. Credits are reset at the start of each month.`
+        error: "Insufficient credits. Credits are reset at the start of each month."
       }),
       { status: 400 }
     );
-    
   }
-  
 
   if (query?.length > 10000) {
-    console.log("too long")
     return new Response(
-      JSON.stringify({ error: "Input text is too length" }),
+      JSON.stringify({ error: "Input text is too long" }),
       { status: 400 }
     );
   }
 
   if (query?.length < 1) {
-    console.log("too short")
     return new Response(
       JSON.stringify({ error: "Input text cannot be empty" }),
       { status: 400 }
     );
   }
 
+  // Get history and verify ownership
+  const chat = await pb.collection("chat").getOne(chatId);
+  if (chat?.user !== user?.id) {
+    return new Response(
+      JSON.stringify({ error: "Forbidden" }),
+      { status: 403 }
+    );
+  }
+  const messages = chat?.messages?.slice(-20) || [];
 
-  //get history based on pb:
-  const messages = (await pb.collection("chat").getOne(chatId))?.messages?.slice(-20) || [];
+  // Deduct credits atomically BEFORE processing
+  try {
+    await pb.collection("users").update(user.id, {
+      "credits-": costOfCredit,
+    });
+  } catch (e) {
+    console.error("Credit deduction error:", e);
+    return new Response(
+      JSON.stringify({ error: "Failed to process credits" }),
+      { status: 500 }
+    );
+  }
 
   try {
     const upstream = await fetch(`${apiURL}/chat`, {
@@ -63,35 +83,35 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     });
 
     if (!upstream.ok || !upstream.body) {
-      const errText = await upstream.text();
-      console.error("Upstream error:", errText);
-      return new Response(errText, { status: upstream.status });
+      console.error("Upstream error:", upstream.status);
+      return new Response(
+        JSON.stringify({ error: "Failed to connect to AI service" }),
+        { status: upstream.status }
+      );
     }
-
- 
 
     const decoder = new TextDecoder();
     const upstreamReader = upstream.body.getReader();
 
     let fullResponse = "";
     let controllerClosed = false;
-    
+
     let collectedSources = [];  // Track sources for saving
-    
+
     const stream = new ReadableStream({
       async start(controller) {
         try {
           while (true) {
             const { done, value } = await upstreamReader.read();
             if (done) break;
-            
+
             const chunk = decoder.decode(value, { stream: true });
-            
+
             // Only enqueue if controller is not closed
             if (!controllerClosed) {
               controller.enqueue(chunk);
             }
-            
+
             // Accumulate full response for server-side saving
             try {
               // Try to parse each chunk as JSON to extract content and sources
@@ -125,7 +145,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
             controllerClosed = true;
             controller.close();
           }
-          
+
           // Server-side backup save after streaming completes
           if (fullResponse && fullResponse.trim()) {
             try {
@@ -134,12 +154,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
               if (collectedSources && collectedSources.length > 0) {
                 systemMessage.sources = collectedSources;
               }
-              
-              const updatedMessages = [...messages, 
+
+              const updatedMessages = [...messages,
                 { content: query, role: "user" },
                 systemMessage
               ];
-              
+
               await pb?.collection("chat")?.update(chatId, {
                 'messages': JSON.stringify(updatedMessages)
               });
@@ -151,10 +171,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       }
     });
 
-    await pb?.collection("users")?.update(user?.id, {
-      credits: user?.credits - costOfCredit,
-      });
-
     return new Response(stream, {
       headers: {
         "Content-Type": "text/plain",
@@ -165,7 +181,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   } catch (err) {
     console.error("Handler error:", err);
     return new Response(
-      JSON.stringify({ error: "Failed to proxy stream" }),
+      JSON.stringify({ error: "An error occurred. Please try again." }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }

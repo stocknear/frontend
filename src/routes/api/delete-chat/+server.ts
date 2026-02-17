@@ -1,11 +1,17 @@
 import type { RequestHandler } from "./$types";
+import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { pb, user } = locals;
+  const { pb, user, clientIp } = locals;
   const data = await request.json();
 
   if (!user) {
     return new Response(JSON.stringify("unauthorized"), { status: 401 });
+  }
+
+  const rateLimit = checkRateLimit(clientIp, "chatDelete", RATE_LIMITS.chatDelete);
+  if (!rateLimit.allowed) {
+    return new Response(JSON.stringify("rate_limited"), { status: 429 });
   }
 
   let output;

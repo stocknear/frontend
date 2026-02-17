@@ -1,8 +1,9 @@
 import type { RequestHandler } from "./$types";
 import { getCreditFromQuery, agentOptions } from "$lib/utils";
+import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { user, pb } = locals;
+  const { user, pb, clientIp } = locals;
   const data = await request.json();
 
   // Early return if user is not logged in
@@ -12,11 +13,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       { status: 401 }
     );
   }
+  const rateLimit = checkRateLimit(clientIp, "chatCreate", RATE_LIMITS.chatCreate);
+  if (!rateLimit.allowed) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      { status: 429 }
+    );
+  }
+
   const costOfCredit = getCreditFromQuery(data?.query, agentOptions);
 
   if (user?.credits < costOfCredit) {
     return new Response(
-      JSON.stringify({ error: `Insufficient credits. Your current balance is ${user?.credits}.` }),
+      JSON.stringify({ error: "Insufficient credits. Credits are reset at the start of each month." }),
       { status: 400 }
     );
   }
@@ -41,7 +50,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   
     
     return new Response(
-      JSON.stringify({ error: "Error creating chat message", details: err.message }),
+      JSON.stringify({ error: "Error creating chat message" }),
       { status: 500 }
     );
   }

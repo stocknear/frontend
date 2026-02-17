@@ -119,4 +119,24 @@ export const RATE_LIMITS = {
     maxRequests: 3,
     windowMs: 15 * 60 * 1000, // 15 minutes
   },
+  // Chat message (AI query): 30 per minute
+  chatMessage: {
+    maxRequests: 30,
+    windowMs: 60 * 1000,
+  },
+  // Chat creation: 20 per minute
+  chatCreate: {
+    maxRequests: 20,
+    windowMs: 60 * 1000,
+  },
+  // Chat update (save): 60 per minute (streaming saves frequently)
+  chatUpdate: {
+    maxRequests: 60,
+    windowMs: 60 * 1000,
+  },
+  // Chat deletion: 10 per minute
+  chatDelete: {
+    maxRequests: 10,
+    windowMs: 60 * 1000,
+  },
 } as const;
