@@ -1647,7 +1647,18 @@
           // Handle live updates only (array of new trades)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
-            // Skip WS updates while a REST fetch is in-flight to avoid data race
+            // Always play notification sound for new live trades, regardless
+            // of current page, in-flight fetches, or batch size so the user
+            // is always aware new trades arrived.
+            if (!muted && audio) {
+              audio?.play()?.catch((error) => {
+                console.log("Audio play failed:", error);
+              });
+            }
+
+            // Skip data/pagination updates while a REST fetch is in-flight
+            // to avoid a data race — the REST response will set authoritative
+            // counts and data when it completes.
             if (isFetchingPage) return;
 
             // Safety: if server accidentally sends a huge batch, refresh from API instead
@@ -1669,22 +1680,21 @@
             totalItems = (totalItems || 0) + prepared.length;
             totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
 
-            // Only update visible rows when user is on page 1 (new trades
-            // sort to the top in default time-desc order). On page 2+ the
-            // user is browsing older data — don't disrupt their view.
-            if (currentPage === 1) {
+            // Only update visible rows when on page 1 AND using the default
+            // time-desc sort.  New trades sort to position 0 only in that
+            // configuration.  For any other sort (e.g. premium, size) or
+            // page 2+, prepending would displace items that legitimately
+            // belong on the current page — so we just update the counts
+            // above and leave the view untouched.
+            const isDefaultSort =
+              activeSortKey === "time" && activeSortOrder === "desc";
+
+            if (currentPage === 1 && isDefaultSort) {
               displayedData = [...prepared, ...displayedData].slice(
                 0,
                 rowsPerPage,
               );
               rawData = displayedData;
-            }
-
-            // Play notification sound for new live trades
-            if (!muted && audio) {
-              audio?.play()?.catch((error) => {
-                console.log("Audio play failed:", error);
-              });
             }
           }
         } catch (error) {

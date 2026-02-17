@@ -1385,7 +1385,18 @@
           // Handle live updates only (array of new trades)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
-            // Skip WS updates while a REST fetch is in-flight to avoid data race
+            // Always play notification sound for new live trades, regardless
+            // of current page, in-flight fetches, or batch size so the user
+            // is always aware new trades arrived.
+            if (!muted && audio) {
+              audio?.play()?.catch((error) => {
+                console.log("Audio play failed:", error);
+              });
+            }
+
+            // Skip data/pagination updates while a REST fetch is in-flight
+            // to avoid a data race — the REST response will set authoritative
+            // counts and data when it completes.
             if (isFetchingPage) return;
 
             // Safety: if server accidentally sends a huge batch, refresh from API instead
@@ -1401,15 +1412,25 @@
 
             console.log("Received new live trades:", newData.length);
 
-            // Prepend new trades to the current page display
-            displayedData = [...newData, ...displayedData];
-            rawData = displayedData;
+            // Update pagination metadata so controls stay accurate
+            totalItems = (totalItems || 0) + newData.length;
+            totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
 
-            // Play notification sound for new live trades
-            if (!muted && audio) {
-              audio?.play()?.catch((error) => {
-                console.log("Audio play failed:", error);
-              });
+            // Only update visible rows when on page 1 AND using the default
+            // date-desc sort.  New trades sort to position 0 only in that
+            // configuration.  For any other sort (e.g. premium, size) or
+            // page 2+, prepending would displace items that legitimately
+            // belong on the current page — so we just update the counts
+            // above and leave the view untouched.
+            const isDefaultSort =
+              activeSortKey === "date" && activeSortOrder === "desc";
+
+            if (currentPage === 1 && isDefaultSort) {
+              displayedData = [...newData, ...displayedData].slice(
+                0,
+                rowsPerPage,
+              );
+              rawData = displayedData;
             }
           }
         } catch (error) {
