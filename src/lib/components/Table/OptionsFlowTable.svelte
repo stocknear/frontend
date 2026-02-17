@@ -35,9 +35,10 @@
     { key: "size", label: "Size", align: "right" },
     { key: "vol", label: "Vol", align: "right" },
     { key: "oi", label: "OI", align: "right" },
-    { key: "volOi", label: "Vol/OI", align: "right" },
-    { key: "sizeOi", label: "Size/OI", align: "right" },
   ];
+
+  // Extra columns injected by the parent (e.g. Vol/OI when its filter is active)
+  export let extraColumns: { key: string; label: string; align: string }[] = [];
 
   let columns = [...defaultColumns];
 
@@ -56,7 +57,7 @@
         if (Array.isArray(parsedOrder) && parsedOrder.length > 0) {
           customColumnOrder = parsedOrder;
           if (forceReapply) {
-            columns = applyColumnOrder(defaultColumns);
+            columns = applyColumnOrder([...defaultColumns, ...extraColumns]);
             lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
           }
         }
@@ -114,7 +115,7 @@
 
   function resetColumnOrder(): void {
     customColumnOrder = [];
-    columns = [...defaultColumns];
+    columns = [...defaultColumns, ...extraColumns];
     lastAppliedColumnKeys = "";
 
     if (typeof localStorage !== "undefined") {
@@ -180,26 +181,15 @@
     dragOverColumnIndex = null;
   }
 
-  // Reactive: Apply column order when customColumnOrder changes
-  $: if (
-    defaultColumns &&
-    defaultColumns.length > 0 &&
-    customColumnOrder.length > 0
-  ) {
-    const currentColumnKeys = columns.map((c) => c.key).join(",");
-    const defaultKeys = defaultColumns.map((c) => c.key);
-    const matchingKeys = customColumnOrder.filter((key) =>
-      defaultKeys.includes(key),
-    );
-    const compatibilityRatio = matchingKeys.length / customColumnOrder.length;
-
-    if (
-      compatibilityRatio >= 0.5 &&
-      currentColumnKeys !== lastAppliedColumnKeys
-    ) {
-      columns = applyColumnOrder(defaultColumns);
-      lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
+  // Reactive: Rebuild columns whenever extraColumns or customColumnOrder changes
+  $: {
+    const allCols = [...defaultColumns, ...extraColumns];
+    if (customColumnOrder.length > 0) {
+      columns = applyColumnOrder(allCols);
+    } else {
+      columns = allCols;
     }
+    lastAppliedColumnKeys = columns.map((c) => c.key).join(",");
   }
 
   // Export reset function for parent component

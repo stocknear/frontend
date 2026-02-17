@@ -648,6 +648,19 @@
     "trade_leg_type",
   ];
 
+  // Show Vol/OI and Size/OI columns when the user has added the rule to
+  // their filter list — even if the value is still "any".  The column only
+  // hides when the rule is removed from ruleOfList entirely.
+  $: extraColumns = (() => {
+    const cols: { key: string; label: string; align: string }[] = [];
+    const ruleNames = new Set((ruleOfList || []).map((r: any) => r.name));
+    if (ruleNames.has("volumeOIRatio"))
+      cols.push({ key: "volOi", label: "Vol/OI", align: "right" });
+    if (ruleNames.has("sizeOIRatio"))
+      cols.push({ key: "sizeOi", label: "Size/OI", align: "right" });
+    return cols;
+  })();
+
   // Generate allRows from allRules
   $: allRows = Object?.entries(allRules)
     ?.sort(([, a], [, b]) => a.label.localeCompare(b.label)) // Sort by label
@@ -3535,6 +3548,7 @@
                 {displayedData}
                 {filteredData}
                 {rawData}
+                {extraColumns}
                 isLoading={isFetchingPage}
                 onSort={handleServerSort}
                 bind:resetColumnOrder={optionsFlowResetColumnOrder}
