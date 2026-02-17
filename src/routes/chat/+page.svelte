@@ -299,8 +299,8 @@
         return;
       }
 
-      goto(`/chat/${output.id}`);
-      invalidateAll();
+      await goto(`/chat/${output.id}`);
+      await invalidateAll();
     }
     isLoading = false;
   }
