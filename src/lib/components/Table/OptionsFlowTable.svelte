@@ -35,6 +35,8 @@
     { key: "size", label: "Size", align: "right" },
     { key: "vol", label: "Vol", align: "right" },
     { key: "oi", label: "OI", align: "right" },
+    { key: "volOi", label: "Vol/OI", align: "right" },
+    { key: "sizeOi", label: "Size/OI", align: "right" },
   ];
 
   let columns = [...defaultColumns];
@@ -656,6 +658,8 @@ ${insightData.traderTakeaway}
     size: "none",
     vol: "none",
     oi: "none",
+    volOi: "none",
+    sizeOi: "none",
   };
 
   // Store the current sort key and order
@@ -755,6 +759,16 @@ ${insightData.traderTakeaway}
         const oiA = parseFloat(a.open_interest);
         const oiB = parseFloat(b.open_interest);
         return sortOrder === "asc" ? oiA - oiB : oiB - oiA;
+      },
+      volOi: (a, b) => {
+        const rA = a.volOiRatio ?? 0;
+        const rB = b.volOiRatio ?? 0;
+        return sortOrder === "asc" ? rA - rB : rB - rA;
+      },
+      sizeOi: (a, b) => {
+        const rA = a.sizeOiRatio ?? 0;
+        const rB = b.sizeOiRatio ?? 0;
+        return sortOrder === "asc" ? rA - rB : rB - rA;
       },
       callPut: (a, b) => {
         const callPutA = a.put_call?.toUpperCase();
@@ -865,6 +879,16 @@ ${insightData.traderTakeaway}
         const oiA = parseFloat(a.open_interest);
         const oiB = parseFloat(b.open_interest);
         return sortOrder === "asc" ? oiA - oiB : oiB - oiA;
+      },
+      volOi: (a, b) => {
+        const rA = a.volOiRatio ?? 0;
+        const rB = b.volOiRatio ?? 0;
+        return sortOrder === "asc" ? rA - rB : rB - rA;
+      },
+      sizeOi: (a, b) => {
+        const rA = a.sizeOiRatio ?? 0;
+        const rB = b.sizeOiRatio ?? 0;
+        return sortOrder === "asc" ? rA - rB : rB - rA;
       },
       callPut: (a, b) => {
         const callPutA = a.put_call?.toUpperCase();
@@ -1145,6 +1169,22 @@ ${insightData.traderTakeaway}
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   }).format(item?.open_interest)}
+                </td>
+              {:else if column.key === "volOi"}
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                  {item?.volOiRatio != null &&
+                  isFinite(item.volOiRatio) &&
+                  item.volOiRatio > 0
+                    ? item.volOiRatio + "%"
+                    : ""}
+                </td>
+              {:else if column.key === "sizeOi"}
+                <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                  {item?.sizeOiRatio != null &&
+                  isFinite(item.sizeOiRatio) &&
+                  item.sizeOiRatio > 0
+                    ? item.sizeOiRatio + "%"
+                    : ""}
                 </td>
               {/if}
             {/each}

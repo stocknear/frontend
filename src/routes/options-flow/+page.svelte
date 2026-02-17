@@ -778,6 +778,13 @@
         return;
       }
       item.dte = daysLeft(item?.date_expiration);
+
+      // Pre-compute ratio percentages so the table can display & sort them
+      const vol = parseFloat(item?.volume) || 0;
+      const size = parseFloat(item?.size) || 0;
+      const oi = parseFloat(item?.open_interest) || 0;
+      item.volOiRatio = oi > 0 ? Math.ceil((vol / oi) * 100) : vol > 0 ? Infinity : 0;
+      item.sizeOiRatio = oi > 0 ? Math.ceil((size / oi) * 100) : size > 0 ? Infinity : 0;
     });
     return entries;
   };
