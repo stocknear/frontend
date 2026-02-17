@@ -86,6 +86,18 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ threadId: chatId }),
       });
+
+      if (!response.ok) {
+        const err = await response.json();
+        toast.error(
+          typeof err === "string" ? err : err?.error || "Failed to delete chat",
+          {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          },
+        );
+        return;
+      }
+
       const output = await response.json();
       if (output === "success") {
         toast.success("Chat deleted", {

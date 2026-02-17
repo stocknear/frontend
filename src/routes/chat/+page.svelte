@@ -277,6 +277,18 @@
       });
 
       const output = await response.json();
+
+      if (!response.ok) {
+        toast.error(
+          output?.error || "Something went wrong. Please try again!",
+          {
+            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+          },
+        );
+        isLoading = false;
+        return;
+      }
+
       goto(`/chat/${output.id}`);
     }
     isLoading = false;
@@ -454,35 +466,33 @@
 />
 
 <div
-  class="w-full max-w-8xl overflow-hidden m-auto min-h-screen mb-16 text-gray-700 dark:text-zinc-200"
+  class="w-full overflow-hidden m-auto min-h-[80vh] flex flex-col justify-center text-gray-700 dark:text-zinc-200"
 >
-  <div class="flex flex-col m-auto justify-center items-center">
-    <div class="text-center mb-10 w-full sm:px-3">
-      <main class="flex flex-1 flex-col gap-4 sm:p-4 md:gap-8 text-start">
-        <div class="px-4 bg-white/70 dark:bg-zinc-950/60">
-          <div
-            class="mx-auto w-full max-w-[850px] flex flex-col justify-center items-center gap-6 pb-8"
-          >
-            <img
-              class="m-auto w-16 sm:w-20 rounded-full pt-4"
-              src="/pwa-192x192.png"
-              alt="Stocknear Logo"
-              loading="lazy"
-            />
-            <h1
-              class="block text-2xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 text-center relative w-fit flex justify-center m-auto break-words"
-            >
-              {chat_title()}
-            </h1>
+  <div class="flex flex-col m-auto justify-center items-center w-full px-4">
+    <div
+      class="mx-auto w-full max-w-3xl flex flex-col justify-center items-center gap-6"
+    >
+      <div class="flex flex-col items-center gap-3">
+        <img
+          class="w-12 sm:w-14 rounded-full"
+          src="/pwa-192x192.png"
+          alt="Stocknear Logo"
+        />
+        <h1
+          class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white text-center"
+        >
+          {chat_title()}
+        </h1>
+      </div>
 
-            <div
-              class="block p-3 w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/90 dark:bg-zinc-950/70 shadow-sm"
-            >
-              <div
-                bind:this={editorDiv}
-                class="ml-2 bg-transparent w-full min-h-[50px]"
-                on:keydown={handleKeyDown}
-              />
+      <div
+        class="w-full p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/90 dark:bg-zinc-950/70 shadow-sm"
+      >
+        <div
+          bind:this={editorDiv}
+          class="ml-2 bg-transparent w-full min-h-[100px]"
+          on:keydown={handleKeyDown}
+        />
 
               <!-- Suggestions Dropdown -->
               {#if showSuggestions}
@@ -785,10 +795,11 @@
             </div>
 
             <div
-              class="grid grid-cols-1 md:grid-cols-2 gap-2 shrink w-full overflow-y-auto sidenav-scrollbar"
+              class="flex flex-wrap justify-center gap-2 w-full"
             >
               {#each randomChats as item}
-                <div
+                <button
+                  type="button"
                   on:click={() => {
                     if (data?.user) {
                       insertDefaultChat(item?.query);
@@ -798,60 +809,12 @@
                       closePopup?.dispatchEvent(new MouseEvent("click"));
                     }
                   }}
-                  class="flex flex-col rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/70 transition"
+                  class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/70 sm:hover:border-gray-400 dark:sm:hover:border-zinc-500 transition text-sm text-gray-700 dark:text-zinc-300"
                 >
-                  <div class="block flex-grow">
-                    <button
-                      type="button"
-                      class="w-full h-full p-2 group font-sans focus:outline-none outline-none outline-transparent transition duration-300 ease-in-out items-center relative group cursor-pointer"
-                      ><div
-                        class="flex leading-none items-center h-full flex-grow"
-                      >
-                        <div
-                          class="ml-2 text-left text-[0.95rem] text-gray-900 dark:text-white flex flex-col justify-center box-border relative text-wrap"
-                        >
-                          {item?.label}
-                          <div class="flex items-center font-medium pt-1">
-                            <svg
-                              viewBox="0 0 76 76"
-                              xmlns="http://www.w3.org/2000/svg"
-                              version="1.1"
-                              baseProfile="full"
-                              enable-background="new 0 0 76.00 76.00"
-                              xml:space="preserve"
-                              fill="currentColor"
-                              class="h-5 w-5 text-gray-600 dark:text-zinc-300"
-                              ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
-                                id="SVGRepo_tracerCarrier"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              ></g><g id="SVGRepo_iconCarrier"
-                                ><path
-                                  fill="currentColor"
-                                  fill-opacity="1"
-                                  stroke-width="0.2"
-                                  stroke-linejoin="round"
-                                  d="M 15.8332,47.5002L 15.8332,40.1901L 25.3332,31.6669L 30.0832,36.4169L 34.8331,20.5836L 44.3331,31.6669L 50.6664,25.3336L 45.9164,20.5836L 58.583,20.5836L 58.583,33.2502L 53.8331,28.5003L 44.3331,38.0002L 36.4165,28.5003L 31.6665,44.3335L 25.3332,38.0002L 15.8332,47.5002 Z "
-                                ></path><path
-                                  fill="currentColor"
-                                  fill-opacity="1"
-                                  stroke-width="0.2"
-                                  stroke-linejoin="round"
-                                  d="M 58.5833,55.4167L 53.8333,55.4167L 53.8333,34.8333L 58.5833,39.5833L 58.5833,55.4167 Z M 49.0833,55.4167L 44.3333,55.4167L 44.3333,44.3333L 49.0833,39.5834L 49.0833,55.4167 Z M 39.5833,55.4167L 34.8333,55.4167L 34.8333,45.9167L 37.2083,36.4167L 39.5833,39.5833L 39.5833,55.4167 Z M 30.0833,55.4167L 25.3333,55.4167L 25.3333,44.3333L 30.0833,49.0833L 30.0833,55.4167 Z M 20.5833,55.4167L 15.8333,55.4167L 15.8333,53.8334L 20.5833,49.0834L 20.5833,55.4167 Z "
-                                ></path></g
-                              ></svg>
-<span class="text-sm">{item?.type}</span>
-                          </div>
-                        </div>
-                      </div></button
-                    >
-                  </div>
-                </div>
+                  {item?.label}
+                </button>
               {/each}
             </div>
-          </div>
-        </div>
-      </main>
     </div>
   </div>
 </div>

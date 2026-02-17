@@ -6,12 +6,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
 
   if (!user) {
-    return new Response(JSON.stringify("unauthorized"), { status: 401 });
+    return new Response(JSON.stringify({ error: "Authentication required" }), { status: 401 });
   }
 
   const rateLimit = checkRateLimit(clientIp, "chatDelete", RATE_LIMITS.chatDelete);
   if (!rateLimit.allowed) {
-    return new Response(JSON.stringify("rate_limited"), { status: 429 });
+    return new Response(JSON.stringify({ error: "Too many requests. Please try again later." }), { status: 429 });
   }
 
   let output;
@@ -20,7 +20,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const chat = await pb.collection("chat").getOne(data?.threadId);
 
     if (chat?.user !== user?.id) {
-      return new Response(JSON.stringify("forbidden"), { status: 403 });
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
     }
 
     await pb.collection("chat").delete(data?.threadId);
