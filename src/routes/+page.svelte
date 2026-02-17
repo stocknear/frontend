@@ -680,32 +680,35 @@
   // Hero showcase slides
   const showcaseSlides = [
     {
-      label: "Options Flow",
+      title: "Follow the Flow",
+      description:
+        "Spot unusual options activity in real time and track the contracts that matter most",
       src: "/img/landing-page/options-flow.png",
       alt: "Real-time options flow dashboard",
     },
     {
-      label: "Financial Charts",
+      title: "Beautiful Financial Charts",
+      description:
+        "30+ years of financial history in one platform, built for modern fundamental analysis",
       src: "/img/landing-page/financial-chart.png",
-      alt: "Advanced financial charting tools",
+      alt: "Beautiful financial charts with 30+ years of company data",
     },
     {
-      label: "Congress Trading",
+      title: "Congress Trading",
+      description:
+        "Track portfolios and trading activity of influential political figures and decision makers",
       src: "/img/landing-page/congress-trading.png",
       alt: "Congress trading activity tracker",
     },
   ];
 
   let activeSlide = 0;
-  let isPaused = false;
   let autoplayTimer: ReturnType<typeof setInterval> | null = null;
 
   function startAutoplay() {
     stopAutoplay();
     autoplayTimer = setInterval(() => {
-      if (!isPaused) {
-        activeSlide = (activeSlide + 1) % showcaseSlides.length;
-      }
+      activeSlide = (activeSlide + 1) % showcaseSlides.length;
     }, 5000);
   }
 
@@ -718,6 +721,17 @@
 
   function selectSlide(index: number) {
     activeSlide = index;
+    startAutoplay();
+  }
+
+  function nextSlide() {
+    activeSlide = (activeSlide + 1) % showcaseSlides.length;
+    startAutoplay();
+  }
+
+  function prevSlide() {
+    activeSlide =
+      (activeSlide - 1 + showcaseSlides.length) % showcaseSlides.length;
     startAutoplay();
   }
 
@@ -932,97 +946,88 @@
           </div>
         </div>
 
-        <div class="mt-12 md:mt-14">
-          <!-- Feature showcase tabs -->
-          <div class="flex items-center justify-center gap-2 sm:gap-3 mb-8">
-            {#each showcaseSlides as slide, i}
-              <button
-                on:click={() => selectSlide(i)}
-                class="relative flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300
-                  {activeSlide === i
-                  ? 'bg-violet-600 text-white shadow-lg shadow-violet-500/25 dark:bg-violet-500'
-                  : 'border border-gray-200 bg-white text-gray-600 hover:border-violet-300 hover:text-violet-600 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-400 dark:hover:border-violet-600 dark:hover:text-violet-400'}"
-              >
-                {#if i === 0}
-                  <!-- Options Flow icon -->
-                  <svg class="size-3.5 sm:size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 8h3l2-5 3 10 2-5h4"/>
-                  </svg>
-                {:else if i === 1}
-                  <!-- Financial Charts icon -->
-                  <svg class="size-3.5 sm:size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 14V8M8 14V2M12 14V6"/>
-                  </svg>
-                {:else}
-                  <!-- Congress Trading icon -->
-                  <svg class="size-3.5 sm:size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 14h12M3 14V8l5-5 5 5v6M6 14v-3h4v3"/>
-                  </svg>
-                {/if}
-                {slide.label}
-              </button>
-            {/each}
+        <!-- Feature carousel -->
+        <div class="mt-12 md:mt-16">
+          <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
+            <!-- Cards container -->
+            <div class="relative overflow-hidden">
+              <div class="relative mx-auto w-[85%] sm:w-[65%] lg:w-[55%]">
+                {#each showcaseSlides as slide, i}
+                  {@const offset = ((i - activeSlide + showcaseSlides.length) % showcaseSlides.length)}
+                  <div
+                    class="transition-all duration-500 ease-in-out [will-change:transform,opacity]
+                      {i > 0 ? 'absolute inset-x-0 top-0 mx-auto' : ''}"
+                    style="
+                      transform: translateX({offset === 0 ? '0%' : offset === 1 ? '95%' : '-95%'}) scale({offset === 0 ? 1 : 0.88});
+                      opacity: {offset === 0 ? 1 : 0.4};
+                      z-index: {offset === 0 ? 30 : 10};
+                      filter: blur({offset === 0 ? 0 : 2}px);
+                    "
+                  >
+                    <div
+                      class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-black/20 dark:border-zinc-700/80 dark:bg-zinc-900 dark:shadow-black/50"
+                    >
+                      <!-- Screenshot -->
+                      <img
+                        data-src={slide.src}
+                        alt={slide.alt}
+                        class="w-full"
+                        loading="lazy"
+                        decoding="async"
+                        use:lazyLoadImage
+                      />
+                      <!-- Card text -->
+                      <div class="px-5 py-6 sm:px-8 sm:py-8 text-center">
+                        <h3
+                          class="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                        >
+                          {slide.title}
+                        </h3>
+                        <p
+                          class="mt-2.5 text-sm sm:text-base leading-relaxed text-gray-600 dark:text-zinc-400 max-w-md mx-auto"
+                        >
+                          {slide.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                {/each}
+              </div>
+            </div>
+
+            <!-- Navigation arrows -->
+            <button
+              on:click={prevSlide}
+              class="absolute left-1 sm:left-3 lg:left-6 top-[40%] -translate-y-1/2 z-40 flex items-center justify-center size-10 sm:size-12 rounded-full border border-gray-200 bg-white/90 text-gray-600 shadow-lg backdrop-blur-sm transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800/90 dark:text-zinc-300 dark:hover:bg-zinc-700"
+              aria-label="Previous slide"
+            >
+              <svg class="size-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 4l-6 6 6 6"/>
+              </svg>
+            </button>
+            <button
+              on:click={nextSlide}
+              class="absolute right-1 sm:right-3 lg:right-6 top-[40%] -translate-y-1/2 z-40 flex items-center justify-center size-10 sm:size-12 rounded-full border border-gray-200 bg-white/90 text-gray-600 shadow-lg backdrop-blur-sm transition-colors hover:bg-gray-100 dark:border-zinc-700 dark:bg-zinc-800/90 dark:text-zinc-300 dark:hover:bg-zinc-700"
+              aria-label="Next slide"
+            >
+              <svg class="size-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 4l6 6-6 6"/>
+              </svg>
+            </button>
           </div>
 
-          <!-- Slide progress indicators -->
-          <div class="flex items-center justify-center gap-1.5 mb-6">
+          <!-- Progress bars -->
+          <div class="flex items-center justify-center gap-2 mt-8">
             {#each showcaseSlides as _, i}
               <button
                 on:click={() => selectSlide(i)}
-                class="h-1 rounded-full transition-all duration-500
+                class="h-1.5 rounded-full transition-all duration-500
                   {activeSlide === i
-                  ? 'w-8 bg-violet-500'
-                  : 'w-2 bg-gray-300 hover:bg-gray-400 dark:bg-zinc-600 dark:hover:bg-zinc-500'}"
+                  ? 'w-10 bg-violet-500'
+                  : 'w-6 bg-gray-300 hover:bg-gray-400 dark:bg-zinc-600 dark:hover:bg-zinc-500'}"
                 aria-label="Go to slide {i + 1}"
               ></button>
             {/each}
-          </div>
-
-          <!-- Image showcase with enhanced 3D perspective -->
-          <div class="relative mx-auto max-w-5xl 2xl:max-w-6xl">
-            <!-- Ambient glow behind image -->
-            <div class="pointer-events-none absolute inset-x-10 top-16 bottom-8 rounded-3xl bg-violet-500/[0.08] blur-3xl dark:bg-violet-500/[0.06]"></div>
-
-            <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div
-              class="relative pl-3 sm:pl-8 lg:pl-40 [perspective:1600px]"
-              on:mouseenter={() => (isPaused = true)}
-              on:mouseleave={() => (isPaused = false)}
-            >
-              <div class="relative overflow-hidden pt-4 lg:pt-6 [transform-style:preserve-3d]">
-                <div
-                  class="origin-top-left transition-transform duration-700 ease-out lg:[transform:rotateX(16deg)_skewX(10deg)]"
-                >
-                  <div class="relative [transform-style:preserve-3d]">
-                    {#each showcaseSlides as slide, i}
-                      <div
-                        class="transition-all duration-700 ease-in-out [will-change:opacity,transform]
-                          {i > 0 ? 'absolute inset-0' : ''}
-                          {activeSlide === i ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03] pointer-events-none'}"
-                      >
-                        <img
-                          data-src={slide.src}
-                          alt={slide.alt}
-                          class="w-full rounded-2xl ring-1 ring-black/[0.08] dark:ring-white/[0.08] shadow-2xl shadow-black/40 dark:shadow-black/70"
-                          loading="lazy"
-                          decoding="async"
-                          use:lazyLoadImage
-                        />
-                        <!-- Glossy shine overlay -->
-                        <div class="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.07] via-transparent to-transparent"></div>
-                      </div>
-                    {/each}
-                  </div>
-                </div>
-
-                <div
-                  class="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-zinc-950 dark:via-zinc-950/80"
-                ></div>
-                <div
-                  class="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-32 bg-gradient-to-l from-white via-white/85 to-transparent dark:from-zinc-950 dark:via-zinc-950/85"
-                ></div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
