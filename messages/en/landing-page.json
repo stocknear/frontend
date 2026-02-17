@@ -187,7 +187,7 @@
   "landing_alerts_label": "NEVER MISS A MOVE",
   "landing_alerts_title": "Market-moving alerts delivered before the noise",
   "landing_alerts_description": "Earnings beats, analyst changes, options spikes, and price triggers in one stream so you can react with context instead of headlines.",
-  "landing_alerts_speed": "Avg delivery < 2 sec",
+  "landing_alerts_speed": "Real-time data under 100 ms",
   "landing_alerts_types": "6 alert types",
   "landing_alerts_cta": "Get Started Free",
 

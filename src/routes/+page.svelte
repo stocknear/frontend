@@ -150,6 +150,7 @@
     landing_alerts_label,
     landing_alerts_title,
     landing_alerts_description,
+    landing_alerts_speed,
     landing_alerts_cta,
   } from "$lib/paraglide/messages.js";
 
@@ -840,7 +841,9 @@
           >
             {landing_hero_title()}
           </h1>
-          <p class="mt-5 text-base sm:text-xl leading-relaxed text-gray-700 dark:text-zinc-300">
+          <p
+            class="mt-5 text-base sm:text-xl leading-relaxed text-gray-700 dark:text-zinc-300"
+          >
             {landing_hero_subtitle()}
           </p>
 
@@ -869,9 +872,10 @@
               rel="noopener noreferrer"
               class={heroProofBadgeClass}
             >
-              {landing_trust_rating()} {landing_hero_badge_trustpilot()}
+              {landing_trust_rating()}
+              {landing_hero_badge_trustpilot()}
             </a>
-            <span class={heroProofBadgeClass}>{landing_alerts_stat_speed()}</span>
+            <span class={heroProofBadgeClass}>{landing_alerts_speed()}</span>
           </div>
         </div>
 
@@ -883,7 +887,7 @@
                   class="origin-top-left transition-transform duration-700 ease-out lg:[transform:rotateX(20deg)_skewX(12deg)]"
                 >
                   <img
-                    data-src="/img/landing-page/financial-chart.png"
+                    data-src="/img/landing-page/congress-trading.png"
                     alt="Financial chart preview"
                     class="w-full rounded-xl border border-gray-300 shadow-xl shadow-black/50 dark:border-white/10"
                     loading="lazy"
@@ -900,7 +904,6 @@
                 ></div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -1872,16 +1875,10 @@
           {landing_cta_description()}
         </p>
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="/register"
-            class={`${ctaPrimaryClass} px-8 py-3.5`}
-          >
+          <a href="/register" class={`${ctaPrimaryClass} px-8 py-3.5`}>
             {landing_cta_primary()}
           </a>
-          <a
-            href="/pricing"
-            class={`${ctaSecondaryClass} px-8 py-3.5`}
-          >
+          <a href="/pricing" class={`${ctaSecondaryClass} px-8 py-3.5`}>
             {landing_cta_secondary()}
           </a>
         </div>

@@ -187,7 +187,7 @@
   "landing_alerts_label": "VERPASSE KEINEN MOVE",
   "landing_alerts_title": "3 marktbewegende Events in den letzten 3 Minuten.",
   "landing_alerts_description": "Earnings-Überraschungen, Analysten-Upgrades, Insiderkäufe, Optionsflow-Spikes und Kursziele — bei dir in unter 2 Sekunden. Während andere auf die Schlagzeile warten, hast du das Filing schon gesehen.",
-  "landing_alerts_speed": "Zustellung < 2 Sek.",
+  "landing_alerts_speed": "Echtzeitdaten unter 100 ms",
   "landing_alerts_types": "6 Alert-Typen",
   "landing_alerts_cta": "Kostenlos starten",
 
