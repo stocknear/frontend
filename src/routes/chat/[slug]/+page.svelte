@@ -7,7 +7,7 @@
   import { getCreditFromQuery, agentOptions, agentCategory } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import { goto } from "$app/navigation";
+  import { goto, beforeNavigate } from "$app/navigation";
   import { page } from "$app/stores";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -16,7 +16,7 @@
   import { EditorView, Decoration, DecorationSet } from "prosemirror-view";
   import { keymap } from "prosemirror-keymap";
   import { schema } from "prosemirror-schema-basic";
-  import { chatReasoning, chatSidebarOpen } from "$lib/store";
+  import { chatReasoning, chatSidebarOpen, chatDeleteTargetId } from "$lib/store";
   import {
   chat_credits,
   chat_credits_left,
@@ -41,9 +41,153 @@
 
   let chatId = data?.getChat?.id;
   let editable = data?.getChat?.editable ?? false;
+  let isBackgroundLoading = false;
+  let chatStatusPollTimeout: ReturnType<typeof setTimeout> | null = null;
+  let chatStatusPollRunId = 0;
+
+  const CHAT_STATUS_POLL_INTERVAL_MS = 1800;
+
+  function cancelChatStatusPolling(resetLoading = true) {
+    chatStatusPollRunId += 1;
+    if (chatStatusPollTimeout) {
+      clearTimeout(chatStatusPollTimeout);
+      chatStatusPollTimeout = null;
+    }
+
+    if (resetLoading) {
+      isBackgroundLoading = false;
+    }
+  }
+
+  function ensureLoadingPlaceholderMessage() {
+    const lastMessage = messages[messages.length - 1];
+    if (!lastMessage || lastMessage.role !== "system") {
+      messages = [...messages, { content: "", role: "system" }];
+    }
+  }
+
+  function resetActiveStreamState() {
+    cancelChatStatusPolling();
+
+    if (isStreaming && chatId && messages.length > 0) {
+      const snapshotMessages = messages.map((message) => ({ ...message }));
+      const lastIdx = snapshotMessages.length - 1;
+
+      if (
+        pendingContent &&
+        snapshotMessages[lastIdx] &&
+        snapshotMessages[lastIdx].role === "system"
+      ) {
+        snapshotMessages[lastIdx].content = pendingContent;
+      } else if (
+        !pendingContent &&
+        snapshotMessages[lastIdx] &&
+        snapshotMessages[lastIdx].role === "system" &&
+        !snapshotMessages[lastIdx].content
+      ) {
+        snapshotMessages.pop();
+      }
+
+      void saveChat(chatId, snapshotMessages);
+    }
+
+    activeStreamRunId += 1;
+
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+
+    pendingContent = "";
+    isLoading = false;
+    isStreaming = false;
+  }
+
+  async function pollChatStatus(targetChatId: string, runId: number) {
+    if (!targetChatId || runId !== chatStatusPollRunId || targetChatId !== chatId) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/chat-status?chatId=${encodeURIComponent(targetChatId)}`,
+      );
+
+      if (runId !== chatStatusPollRunId || targetChatId !== chatId) {
+        return;
+      }
+
+      if (!response.ok) {
+        cancelChatStatusPolling();
+        return;
+      }
+
+      const payload = await response.json();
+
+      if (runId !== chatStatusPollRunId || targetChatId !== chatId) {
+        return;
+      }
+
+      if (payload?.status === "running") {
+        isBackgroundLoading = true;
+        isLoading = false;
+        isStreaming = false;
+        ensureLoadingPlaceholderMessage();
+
+        chatStatusPollTimeout = setTimeout(() => {
+          void pollChatStatus(targetChatId, runId);
+        }, CHAT_STATUS_POLL_INTERVAL_MS);
+        return;
+      }
+
+      if (payload?.chat?.messages) {
+        messages = payload.chat.messages;
+        relatedQuestions = [];
+        editingMessageIndex = null;
+      }
+
+      if (payload?.status === "failed" && typeof payload?.error === "string") {
+        toast?.error(payload.error, {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+      }
+
+      cancelChatStatusPolling();
+    } catch (error) {
+      if (runId !== chatStatusPollRunId || targetChatId !== chatId) {
+        return;
+      }
+
+      chatStatusPollTimeout = setTimeout(() => {
+        void pollChatStatus(targetChatId, runId);
+      }, CHAT_STATUS_POLL_INTERVAL_MS);
+    }
+  }
+
+  function startChatStatusPolling(targetChatId = chatId) {
+    if (!targetChatId || !editable || isStreaming || isLoading) {
+      cancelChatStatusPolling();
+      return;
+    }
+
+    cancelChatStatusPolling(false);
+    const runId = chatStatusPollRunId;
+    void pollChatStatus(targetChatId, runId);
+  }
 
   // Re-initialize when navigating between chats
   $: if (data?.getChat?.id && data.getChat.id !== chatId) {
+    resetActiveStreamState();
     chatId = data.getChat.id;
     messages = data.getChat.messages || [
       { content: "Hello! How can I help you today?", role: "system" },
@@ -51,7 +195,7 @@
     editable = data.getChat.editable ?? false;
     relatedQuestions = [];
     editingMessageIndex = null;
-    isStreaming = false;
+    startChatStatusPolling(chatId);
   }
 
   // Chat title from first user message
@@ -79,42 +223,9 @@
       });
   }
 
-  async function handleHeaderDelete() {
-    if (!confirm("Are you sure you want to delete this chat?")) return;
-    try {
-      const response = await fetch("/api/delete-chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ threadId: chatId }),
-      });
-
-      if (!response.ok) {
-        const err = await response.json();
-        toast.error(
-          typeof err === "string" ? err : err?.error || "Failed to delete chat",
-          {
-            style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-          },
-        );
-        return;
-      }
-
-      const output = await response.json();
-      if (output === "success") {
-        toast.success("Chat deleted", {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
-        goto("/chat");
-      } else {
-        toast.error("Failed to delete chat", {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        });
-      }
-    } catch {
-      toast.error("An error occurred", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
-    }
+  function handleHeaderDelete() {
+    if (!chatId) return;
+    chatDeleteTargetId.set(chatId);
   }
 
   let chatContainer: HTMLDivElement;
@@ -130,6 +241,7 @@
   let animationFrameId = null; // For smooth rendering
   let pendingContent = ""; // Buffer for content updates
   let abortController: AbortController | null = null;
+  let activeStreamRunId = 0; // Guards against stale stream updates after navigation
   let userScrolledUp = false;
 
   let editorDiv;
@@ -233,16 +345,24 @@
   });
 
   // Function to save chat with debouncing during streaming
-  async function saveChatWithDebounce(assistantContent = "") {
+  async function saveChatWithDebounce(
+    assistantContent = "",
+    targetChatId = chatId,
+    runId = activeStreamRunId,
+  ) {
     if (saveTimeout) {
       clearTimeout(saveTimeout);
     }
 
     saveTimeout = setTimeout(async () => {
       // Only save if content has changed
-      if (assistantContent !== lastSavedContent) {
+      if (
+        assistantContent !== lastSavedContent &&
+        runId === activeStreamRunId &&
+        targetChatId === chatId
+      ) {
         lastSavedContent = assistantContent;
-        await saveChat();
+        await saveChat(targetChatId, messages);
       }
     }, 2000); // Save every 2 seconds during streaming
   }
@@ -273,6 +393,18 @@
       );
     }
   }
+
+  beforeNavigate((navigation) => {
+    const fromPath = navigation.from?.url?.pathname;
+    const toPath = navigation.to?.url?.pathname;
+
+    // Abort active streaming immediately when leaving this chat route or changing chat IDs.
+    if (fromPath && toPath && fromPath !== toPath) {
+      resetActiveStreamState();
+    } else if (navigation.to === null) {
+      resetActiveStreamState();
+    }
+  });
 
   onMount(async () => {
     editorView = new EditorView(editorDiv, {
@@ -338,6 +470,10 @@
         await llmChat(userQuery);
       }
     }
+
+    if (!isStreaming) {
+      startChatStatusPolling(chatId);
+    }
   });
 
   // Modified afterUpdate to only autoscroll during streaming (respects user scroll)
@@ -370,15 +506,28 @@
   }
 
   async function llmChat(userMessage?: string) {
-    if (isLoading || isStreaming) {
+    if (isLoading || isStreaming || isBackgroundLoading) {
       //making sure to not send another request when the llm is responding already
       return;
     }
 
+    cancelChatStatusPolling();
+
+    const streamChatId = chatId;
+    const streamRunId = activeStreamRunId + 1;
+    activeStreamRunId = streamRunId;
+
+    const runAbortController = new AbortController();
+    abortController = runAbortController;
+
+    const isCurrentRun = () =>
+      streamRunId === activeStreamRunId && streamChatId === chatId;
+
     isLoading = true;
     isStreaming = true;
-    abortController = new AbortController();
     userScrolledUp = false;
+    pendingContent = "";
+    lastSavedContent = "";
     // Clear related questions for new conversation
     relatedQuestions = [];
     // Use provided message or input text
@@ -395,7 +544,13 @@
     editorText = "";
 
     if (!userQuery || userQuery?.length < 1) {
-      isLoading = false;
+      if (isCurrentRun()) {
+        isLoading = false;
+        isStreaming = false;
+        if (abortController === runAbortController) {
+          abortController = null;
+        }
+      }
       return;
     }
 
@@ -403,6 +558,7 @@
     if (!userMessage) {
       messages = [...messages, { content: userQuery, role: "user" }];
     }
+    const didAppendUserMessage = !userMessage;
 
     // Add placeholder for assistant response
     messages = [...messages, { content: "", role: "system" }];
@@ -413,17 +569,32 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query: userQuery,
-          chatId: chatId,
+          chatId: streamChatId,
           reasoning: $chatReasoning,
         }),
-        signal: abortController.signal,
+        signal: runAbortController.signal,
       });
+
+      if (!isCurrentRun()) {
+        return;
+      }
 
       if (!res.ok || !res.body) {
         // Remove empty LLM message
         messages = messages?.slice(0, -1);
 
-        const errorMessage = (await res?.json())?.error || "Unknown error";
+        const errorPayload = await res?.json().catch(() => ({}));
+        if (res.status === 409) {
+          if (didAppendUserMessage) {
+            messages = messages?.slice(0, -1);
+          }
+          isLoading = false;
+          isStreaming = false;
+          startChatStatusPolling(streamChatId);
+          return;
+        }
+
+        const errorMessage = errorPayload?.error || "Unknown error";
         messages = [...messages, { content: errorMessage, role: "system" }];
         isLoading = false;
         return;
@@ -434,21 +605,22 @@
       let buffer = "";
       const idx = messages?.length - 1;
       let assistantText = "";
-      let updateBuffer = [];
-      let batchTimeout = null;
+      let updateBuffer: string[] = [];
+      let batchTimeout: ReturnType<typeof setTimeout> | null = null;
       let sourcesCollected = []; // Track sources for this response
 
       isLoading = false;
 
       while (true) {
         const { value, done } = await reader?.read();
-        if (done) break;
+        if (done || !isCurrentRun()) break;
 
         buffer += decoder?.decode(value, { stream: true });
         const lines = buffer?.split("\n");
         buffer = lines?.pop() ?? "";
 
         for (const line of lines) {
+          if (!isCurrentRun()) break;
           if (!line?.trim()) continue;
 
           try {
@@ -501,6 +673,10 @@
                   }
 
                   animationFrameId = requestAnimationFrame(() => {
+                    if (!isCurrentRun()) {
+                      animationFrameId = null;
+                      return;
+                    }
                     messages[idx].content = latestContent;
                     messages = [...messages]; // Trigger reactivity
                     animationFrameId = null;
@@ -511,12 +687,20 @@
               }, 30); // Batch updates every 30ms for smoother rendering
 
               // Save periodically during streaming
-              await saveChatWithDebounce(assistantText);
+              await saveChatWithDebounce(
+                assistantText,
+                streamChatId,
+                streamRunId,
+              );
             }
           } catch (err) {
             console.error("Parse error:", err, "Line:", line);
           }
         }
+      }
+
+      if (!isCurrentRun()) {
+        return;
       }
 
       isStreaming = false; // End streaming - disable
@@ -552,8 +736,12 @@
       }
 
       // Final save after streaming completes
-      await saveChat();
+      await saveChat(streamChatId, messages);
     } catch (error) {
+      if (!isCurrentRun()) {
+        return;
+      }
+
       if (error?.name === "AbortError") {
         // User stopped generation — keep partial content
         const lastIdx = messages.length - 1;
@@ -564,7 +752,7 @@
           // No content was received yet, remove the empty placeholder
           messages = messages.slice(0, -1);
         }
-        await saveChat();
+        await saveChat(streamChatId, messages);
       } else {
         console.error("Chat request failed:", error);
         messages = messages.slice(0, -1);
@@ -577,14 +765,20 @@
         ];
       }
     } finally {
-      isLoading = false;
-      isStreaming = false;
-      abortController = null;
+      if (streamRunId === activeStreamRunId && streamChatId === chatId) {
+        isLoading = false;
+        isStreaming = false;
+        if (abortController === runAbortController) {
+          abortController = null;
+        }
 
-      // Clear any pending saves in error cases
-      if (saveTimeout) {
-        clearTimeout(saveTimeout);
-        saveTimeout = null;
+        // Clear any pending saves in error cases
+        if (saveTimeout) {
+          clearTimeout(saveTimeout);
+          saveTimeout = null;
+        }
+      } else if (abortController === runAbortController) {
+        abortController = null;
       }
     }
   }
@@ -657,16 +851,18 @@
     editingMessageIndex = null;
   }
 
-  async function saveChat() {
-    const postData = { messages: messages, chatId: chatId };
+  async function saveChat(targetChatId = chatId, targetMessages = messages) {
+    const postData = { messages: targetMessages, chatId: targetChatId };
 
-    const response = await fetch("/api/update-chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postData),
-    });
-
-    const output = await response?.json();
+    try {
+      await fetch("/api/update-chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postData),
+      });
+    } catch (error) {
+      console.error("Failed to save chat:", error);
+    }
   }
 
   async function handleKeyDown(event) {
@@ -734,18 +930,12 @@
   }
 
   onDestroy(() => {
+    resetActiveStreamState();
+
     // Clean up event listeners and timeouts
     if (typeof window !== "undefined") {
       window.removeEventListener("beforeunload", handlePageUnload);
       window.removeEventListener("pagehide", handlePageUnload);
-    }
-
-    if (saveTimeout) {
-      clearTimeout(saveTimeout);
-    }
-
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
     }
   });
 
@@ -999,7 +1189,7 @@
     >
       <div class="pb-60">
         {#each messages as message, index}
-          {#if index === messages.length - 1 && message.role === "system" && isLoading}
+          {#if index === messages.length - 1 && message.role === "system" && (isLoading || isBackgroundLoading)}
             <ChatMessage
               {message}
               {index}
@@ -1324,11 +1514,14 @@
                       llmChat();
                     }
                   }}
-                  class="{editorText?.trim()?.length > 0 || isStreaming
+                  class="{(editorText?.trim()?.length > 0 &&
+                    !isLoading &&
+                    !isBackgroundLoading) ||
+                  isStreaming
                     ? 'cursor-pointer'
                     : 'cursor-not-allowed opacity-60'} h-11 w-11 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
                 >
-                  {#if isLoading}
+                  {#if isLoading || isBackgroundLoading}
                     <span
                       class="loading loading-spinner loading-xs text-center m-auto flex justify-center items-center text-white dark:text-black"
                     ></span>

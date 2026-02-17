@@ -1,5 +1,9 @@
 import type { RequestHandler } from "./$types";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
+import {
+  CHAT_ID_REGEX,
+  validateStoredChatMessages,
+} from "$lib/server/chatValidation";
 
 export const POST = (async ({ request, locals }) => {
   const { pb, user, clientIp } = locals;
@@ -32,8 +36,17 @@ export const POST = (async ({ request, locals }) => {
   }
 
   // Validate required data
-  if (!data?.chatId || !data?.messages) {
+  if (!data?.chatId || data?.messages === undefined) {
     return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400 });
+  }
+
+  if (typeof data.chatId !== "string" || !CHAT_ID_REGEX.test(data.chatId)) {
+    return new Response(JSON.stringify({ error: "Invalid chat ID" }), { status: 400 });
+  }
+
+  const messagesValidation = validateStoredChatMessages(data.messages);
+  if (!messagesValidation.ok) {
+    return new Response(JSON.stringify({ error: messagesValidation.error }), { status: 400 });
   }
 
   try {
@@ -44,11 +57,11 @@ export const POST = (async ({ request, locals }) => {
     }
 
     output = await pb.collection("chat").update(data.chatId, {
-      'messages': JSON.stringify(data.messages)
+      'messages': JSON.stringify(messagesValidation.messages)
     });
   } catch(e) {
     console.error("Database update error:", e);
-    output = { error: "Failed to update chat" };
+    return new Response(JSON.stringify({ error: "Failed to update chat" }), { status: 500 });
   }
 
   return new Response(JSON.stringify(output));

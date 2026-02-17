@@ -134,9 +134,19 @@ export const RATE_LIMITS = {
     maxRequests: 60,
     windowMs: 60 * 1000,
   },
+  // Chat plot-data fetches: 20 per minute
+  chatPlotData: {
+    maxRequests: 20,
+    windowMs: 60 * 1000,
+  },
   // Chat deletion: 10 per minute
   chatDelete: {
     maxRequests: 10,
+    windowMs: 60 * 1000,
+  },
+  // Chat generation status polling: 120 per minute
+  chatStatus: {
+    maxRequests: 120,
     windowMs: 60 * 1000,
   },
 } as const;

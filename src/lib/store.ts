@@ -240,6 +240,7 @@ export const sidebarExpanded = writable(<boolean>true);
 export const sidebarOpenField = writable(<boolean>false);
 
 export const chatSidebarOpen = writable(<boolean>false);
+export const chatDeleteTargetId = writable(<string | null>null);
 
 export const tagList = writable([
   {

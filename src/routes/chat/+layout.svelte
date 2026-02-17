@@ -14,7 +14,7 @@
     chat_toast_error,
     chat_toast_error_occurred,
   } from "$lib/paraglide/messages";
-  import { chatSidebarOpen } from "$lib/store";
+  import { chatSidebarOpen, chatDeleteTargetId } from "$lib/store";
 
   export let data;
   let searchQuery = "";
@@ -96,6 +96,20 @@
 
   function handleChatClick() {
     $chatSidebarOpen = false;
+  }
+
+  function openDeleteModal(threadId: string) {
+    if (!threadId) return;
+    currentItem = allChats.find((item) => item.id === threadId) || { id: threadId };
+    if (typeof document !== "undefined") {
+      const modal = document.getElementById("deleteThreadModal");
+      modal?.dispatchEvent(new MouseEvent("click"));
+    }
+  }
+
+  $: if ($chatDeleteTargetId) {
+    openDeleteModal($chatDeleteTargetId);
+    chatDeleteTargetId.set(null);
   }
 
   async function handleDeleteThread() {
@@ -264,10 +278,7 @@
                     </span>
                     <button
                       on:click|preventDefault|stopPropagation={() => {
-                        currentItem = item;
-                        const modal =
-                          document.getElementById("deleteThreadModal");
-                        modal?.dispatchEvent(new MouseEvent("click"));
+                        openDeleteModal(item.id);
                       }}
                       class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-md text-gray-400 dark:text-zinc-500 sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
                       aria-label="Delete chat"
