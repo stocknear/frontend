@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import DashboardView from "$lib/components/Dashboard/DashboardView.svelte";
 
@@ -157,9 +156,6 @@
   export let data;
   export let form;
 
-  let heroVideoEl: HTMLVideoElement;
-  let showPlayButton = false;
-  let heroVideoUnavailable = false;
   let failedMedia = new Set<string>();
 
   type PainPointCard = {
@@ -616,31 +612,6 @@
     (wiimTotalExplained / wiimTotalMove) * 100,
   );
 
-  onMount(() => {
-    const playHeroVideo = async () => {
-      if (!heroVideoEl || heroVideoUnavailable) return;
-      try {
-        await heroVideoEl.play();
-      } catch {
-        showPlayButton = true;
-      }
-    };
-
-    void playHeroVideo();
-  });
-
-  function handlePlayClick() {
-    if (heroVideoEl && !heroVideoUnavailable) {
-      heroVideoEl.play();
-      showPlayButton = false;
-    }
-  }
-
-  function handleHeroVideoError() {
-    heroVideoUnavailable = true;
-    showPlayButton = false;
-  }
-
   const reviewCards = [
     {
       name: landing_review_1_name(),
@@ -761,106 +732,78 @@
 
   <div class="text-gray-700 dark:text-zinc-200 w-full">
     <!-- Section 1: Hero -->
-    <section
-      class="w-full bg-gradient-to-b from-white via-gray-50/50 to-white dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900/80"
-    >
+    <section class="relative w-full border-b border-zinc-800 bg-[#06080d] overflow-hidden">
       <div
-        class="mx-auto w-full max-w-[100rem] px-4 sm:px-6 lg:px-8 py-14 sm:py-18 lg:py-20"
-      >
-        <div
-          class="grid gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center"
-        >
-          <div>
-            <h1
-              class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-tight text-gray-900 dark:text-white"
-            >
-              {landing_hero_title()}
-            </h1>
-            <p
-              class="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-gray-800 dark:text-zinc-300"
-            >
-              {landing_hero_subtitle()}
-            </p>
+        class="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_380px_at_50%_-8%,rgba(56,189,248,0.12),transparent_62%)]"
+      ></div>
 
-            <div class="mt-8 flex flex-col sm:flex-row gap-3.5">
-              <a
-                href="/register"
-                class="cursor-pointer inline-flex items-center justify-center px-7 py-3 text-base font-semibold rounded-full text-white bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 transition-colors"
-              >
-                {landing_hero_cta_primary()}
-              </a>
-              <a
-                href="/pricing"
-                class="inline-flex items-center justify-center gap-2 px-7 py-3 text-base font-medium rounded-full text-gray-700 dark:text-zinc-200 bg-white dark:bg-zinc-900/70 border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
-              >
-                {landing_hero_cta_secondary()}
-              </a>
-            </div>
+      <div class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-24">
+        <div class="mx-auto max-w-3xl text-center">
+          <a
+            href="/register"
+            class="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-white/80 hover:bg-white/10 transition-colors"
+          >
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Built for retail investors
+          </a>
 
-            <p
-              class="mt-6 text-sm font-medium text-gray-600 dark:text-zinc-400"
+          <h1
+            class="mt-6 text-balance text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05] text-white"
+          >
+            {landing_hero_title()}
+          </h1>
+          <p class="mt-5 text-base sm:text-xl leading-relaxed text-zinc-300">
+            {landing_hero_subtitle()}
+          </p>
+
+          <div class="mt-8 flex justify-center">
+            <a
+              href="/register"
+              class="cursor-pointer inline-flex items-center justify-center px-7 py-3 text-base font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-500 transition-colors"
             >
-              {landing_hero_cta_note()}
-            </p>
+              {landing_hero_cta_primary()}
+            </a>
           </div>
 
-          <div>
-            <div
-              class="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/70 shadow-xl"
+          <div class="mt-4 flex justify-center">
+            <a
+              href="/pricing"
+              class="text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
             >
-              {#if heroVideoUnavailable}
-                <div
-                  class="flex min-h-[20rem] items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50 p-6 text-center dark:from-zinc-900 dark:to-zinc-950 sm:min-h-[25rem] lg:min-h-[32rem]"
-                >
-                  <div class="max-w-xs">
-                    <p
-                      class="text-sm font-semibold text-gray-900 dark:text-white"
-                    >
-                      Hero Walkthrough Placeholder
-                    </p>
-                    <p
-                      class="mt-2 text-xs leading-relaxed text-gray-600 dark:text-zinc-400"
-                    >
-                      Add product intro video to /static/video/overview.mp4 or
-                      replace with /static/img/landing-page/overview.png
-                    </p>
-                  </div>
-                </div>
-              {:else}
-                <video
-                  bind:this={heroVideoEl}
-                  class="w-full min-h-[20rem] object-cover sm:min-h-[25rem] xl:min-h-[32rem]"
-                  src="/video/overview.mp4"
-                  poster="/img/landing-page/overview.png"
-                  preload="metadata"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  width="1280"
-                  height="720"
-                  on:error={handleHeroVideoError}
-                ></video>
-                {#if showPlayButton}
-                  <button
-                    on:click={handlePlayClick}
-                    class="absolute inset-0 flex items-center justify-center bg-black/35 transition-opacity hover:bg-black/45"
-                    aria-label="Play video"
-                  >
-                    <div
-                      class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-lg"
-                    >
-                      <svg
-                        class="w-6 h-6 text-gray-900 ml-0.5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </button>
-                {/if}
-              {/if}
+              {landing_hero_cta_secondary()}
+            </a>
+          </div>
+
+          <p class="mt-5 text-sm font-medium text-zinc-500">
+            {landing_hero_cta_note()}
+          </p>
+        </div>
+
+        <div class="mt-12 md:mt-14">
+          <div class="relative mx-auto max-w-6xl">
+            <div
+              class="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/60 p-2.5 sm:p-3 shadow-sm"
+            >
+              <div
+                class="origin-top-left transition-transform duration-700 ease-out lg:[transform:perspective(2500px)_rotateX(19deg)_skewX(11deg)]"
+              >
+                <img
+                  src="/img/landing-page/financial-chart.png"
+                  alt="Financial chart preview"
+                  class="w-full rounded-xl border border-white/10 shadow-xl shadow-black/50"
+                  width="2880"
+                  height="2074"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+
+              <div
+                class="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#06080d] via-[#06080d]/75 to-transparent"
+              ></div>
+              <div
+                class="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#06080d] via-[#06080d]/80 to-transparent"
+              ></div>
             </div>
           </div>
         </div>
