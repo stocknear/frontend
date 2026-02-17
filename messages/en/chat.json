@@ -66,5 +66,29 @@
   "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidia options flow",
 
   "chat_default_googl_flow_label": "GOOGL unusual order flow",
-  "chat_default_googl_flow_query": "@UnusualOrderFeed Google order flow"
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Google order flow",
+
+  "chat_default_compare_aapl_msft_label": "Compare Apple vs Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks compare Apple vs Microsoft",
+
+  "chat_default_analyst_ratings_label": "What do analysts say about Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst what are the latest analyst ratings and price targets for Amazon?",
+
+  "chat_default_dark_pool_label": "Any significant dark pool activity today?",
+  "chat_default_dark_pool_query": "Show me the most significant dark pool trades and activity from today",
+
+  "chat_default_dividend_label": "Best dividend stocks to buy right now",
+  "chat_default_dividend_query": "@StockScreener find me high dividend yield stocks with payout ratio below 80% and revenue growth above 0",
+
+  "chat_default_michael_burry_label": "What would Michael Burry think of the current market?",
+  "chat_default_michael_burry_query": "@MichaelBurry analyze the current market conditions and tell me what you see",
+
+  "chat_default_peter_lynch_label": "Peter Lynch's take on Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch would you consider Meta a good investment right now?",
+
+  "chat_default_sector_performance_label": "Which sectors are outperforming this week?",
+  "chat_default_sector_performance_query": "Give me a breakdown of sector performance this week and highlight which sectors are leading or lagging",
+
+  "chat_default_earnings_label": "Which companies report earnings this week?",
+  "chat_default_earnings_query": "What are the most important earnings reports coming up this week and what should I watch for?"
 }

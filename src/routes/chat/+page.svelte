@@ -4,7 +4,7 @@
   import Arrow from "lucide-svelte/icons/arrow-up";
   import { mode } from "mode-watcher";
   import { toast } from "svelte-sonner";
-  import { goto } from "$app/navigation";
+  import { goto, invalidateAll } from "$app/navigation";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { EditorState, Plugin } from "prosemirror-state";
@@ -43,7 +43,17 @@
   let currentQuery = "";
   let isLoading = false;
 
-  const randomChats = data?.randomChats || [];
+  const allDefaultChats = data?.allDefaultChats || [];
+  let displayedChats = shuffle(allDefaultChats).slice(0, 4);
+
+  function shuffle(arr) {
+    return [...arr].sort(() => 0.5 - Math.random());
+  }
+
+  function refreshSuggestions() {
+    displayedChats = shuffle(allDefaultChats).slice(0, 4);
+  }
+
   let agentNames = agentOptions?.map((item) => item?.name);
 
   const editorHighlighter = new Plugin({
@@ -290,6 +300,7 @@
       }
 
       goto(`/chat/${output.id}`);
+      invalidateAll();
     }
     isLoading = false;
   }
@@ -794,10 +805,24 @@
               </form>
             </div>
 
-            <div
-              class="flex flex-wrap justify-center gap-2 w-full"
-            >
-              {#each randomChats as item}
+            <div class="w-full rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden">
+              <div class="flex items-center justify-between px-5 pt-4 pb-2">
+                <span class="text-sm font-semibold text-gray-900 dark:text-white">Suggested questions</span>
+                <button
+                  type="button"
+                  on:click={refreshSuggestions}
+                  class="cursor-pointer p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
+                  aria-label="Refresh suggestions"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                    <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+                    <path d="M16 16h5v5" />
+                  </svg>
+                </button>
+              </div>
+              {#each displayedChats as item, i}
                 <button
                   type="button"
                   on:click={() => {
@@ -809,9 +834,13 @@
                       closePopup?.dispatchEvent(new MouseEvent("click"));
                     }
                   }}
-                  class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/70 sm:hover:border-gray-400 dark:sm:hover:border-zinc-500 transition text-sm text-gray-700 dark:text-zinc-300"
+                  class="cursor-pointer flex items-center gap-3 w-full px-5 py-3.5 text-left text-sm text-gray-700 dark:text-zinc-300 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/50 transition-colors {i < displayedChats.length - 1 ? 'border-b border-gray-100 dark:border-zinc-800' : ''}"
                 >
-                  {item?.label}
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0 text-gray-400 dark:text-zinc-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    <path d="M8 12h.01" /><path d="M12 12h.01" /><path d="M16 12h.01" />
+                  </svg>
+                  <span>{item?.label}</span>
                 </button>
               {/each}
             </div>

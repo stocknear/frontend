@@ -332,7 +332,7 @@
         {#if message?.role === "user"}
           <div class=" relative w-full">
             <div
-              class="flex flex-wrap items-center justify-end gap-2 p-1 select-none focus-within:transition-none hover:transition-none duration-300 group-hover/turn-messages:delay-300 pointer-events-none opacity-0 motion-safe:transition-opacity group-hover/turn-messages:pointer-events-auto group-hover/turn-messages:opacity-100 group-focus-within/turn-messages:pointer-events-auto group-focus-within/turn-messages:opacity-100 has-data-[state=open]:pointer-events-auto has-data-[state=open]:opacity-100"
+              class="flex flex-wrap items-center justify-end gap-2 p-1 select-none motion-safe:transition-opacity pointer-events-auto opacity-100 sm:pointer-events-none sm:opacity-0 sm:focus-within:transition-none sm:hover:transition-none sm:duration-300 sm:group-hover/turn-messages:delay-300 sm:group-hover/turn-messages:pointer-events-auto sm:group-hover/turn-messages:opacity-100 sm:group-focus-within/turn-messages:pointer-events-auto sm:group-focus-within/turn-messages:opacity-100 has-data-[state=open]:pointer-events-auto has-data-[state=open]:opacity-100"
             >
               <!-- Copy button -->
               <button

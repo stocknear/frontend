@@ -2,6 +2,7 @@
   import ChatMessage from "$lib/components/Chat/ChatMessage.svelte";
 
   import Arrow from "lucide-svelte/icons/arrow-up";
+  import Square from "lucide-svelte/icons/square";
 
   import { getCreditFromQuery, agentOptions, agentCategory } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -128,6 +129,8 @@
   let lastSavedContent = ""; // Track last saved content to avoid redundant saves
   let animationFrameId = null; // For smooth rendering
   let pendingContent = ""; // Buffer for content updates
+  let abortController: AbortController | null = null;
+  let userScrolledUp = false;
 
   let editorDiv;
   let editorView;
@@ -198,7 +201,10 @@
       );
 
       const coords = getCaretCoordinates(view);
-      suggestionPos = { top: coords.bottom + 4, left: coords.left };
+      suggestionPos = {
+        top: Math.min(coords.bottom + 4, window.innerHeight - 250),
+        left: Math.min(Math.max(coords.left, 8), window.innerWidth - 240),
+      };
       showSuggestions = suggestions.length > 0;
     } else {
       showSuggestions = false;
@@ -334,10 +340,9 @@
     }
   });
 
-  // Modified afterUpdate to only autoscroll during streaming
+  // Modified afterUpdate to only autoscroll during streaming (respects user scroll)
   afterUpdate(async () => {
-    if (isStreaming && bottomEl) {
-      // Wait for new messages to render
+    if (isStreaming && !userScrolledUp && bottomEl) {
       await tick();
       bottomEl.scrollIntoView({ behavior: "smooth" });
     }
@@ -372,6 +377,8 @@
 
     isLoading = true;
     isStreaming = true;
+    abortController = new AbortController();
+    userScrolledUp = false;
     // Clear related questions for new conversation
     relatedQuestions = [];
     // Use provided message or input text
@@ -409,6 +416,7 @@
           chatId: chatId,
           reasoning: $chatReasoning,
         }),
+        signal: abortController.signal,
       });
 
       if (!res.ok || !res.body) {
@@ -546,24 +554,58 @@
       // Final save after streaming completes
       await saveChat();
     } catch (error) {
-      console.error("Chat request failed:", error);
-      messages = messages.slice(0, -1);
-      messages = [
-        ...messages,
-        {
-          content: chat_error_connect(),
-          role: "system",
-        },
-      ];
+      if (error?.name === "AbortError") {
+        // User stopped generation — keep partial content
+        const lastIdx = messages.length - 1;
+        if (pendingContent && messages[lastIdx]?.role === "system") {
+          messages[lastIdx].content = pendingContent;
+          messages = [...messages];
+        } else if (!pendingContent && messages[lastIdx]?.role === "system" && !messages[lastIdx]?.content) {
+          // No content was received yet, remove the empty placeholder
+          messages = messages.slice(0, -1);
+        }
+        await saveChat();
+      } else {
+        console.error("Chat request failed:", error);
+        messages = messages.slice(0, -1);
+        messages = [
+          ...messages,
+          {
+            content: chat_error_connect(),
+            role: "system",
+          },
+        ];
+      }
     } finally {
       isLoading = false;
-      isStreaming = false; // Ensure streaming is disabled
+      isStreaming = false;
+      abortController = null;
 
       // Clear any pending saves in error cases
       if (saveTimeout) {
         clearTimeout(saveTimeout);
         saveTimeout = null;
       }
+    }
+  }
+
+  function stopStreaming() {
+    if (abortController) {
+      abortController.abort();
+    }
+  }
+
+  function handleScroll() {
+    if (!chatContainer) return;
+    const { scrollTop, scrollHeight, clientHeight } = chatContainer;
+    const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+    userScrolledUp = distanceFromBottom > 150;
+  }
+
+  function scrollToBottom() {
+    if (bottomEl) {
+      bottomEl.scrollIntoView({ behavior: "smooth" });
+      userScrolledUp = false;
     }
   }
 
@@ -953,6 +995,7 @@
     <main
       class="w-full overflow-y-auto p-4 space-y-4"
       bind:this={chatContainer}
+      on:scroll={handleScroll}
     >
       <div class="pb-60">
         {#each messages as message, index}
@@ -999,12 +1042,24 @@
         <div bind:this={bottomEl}></div>
       </div>
 
+      {#if userScrolledUp && isStreaming}
+        <button
+          on:click={scrollToBottom}
+          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-white dark:bg-zinc-900 text-gray-600 dark:text-zinc-300 rounded-full p-2 shadow-lg border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+          aria-label="Scroll to bottom"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 13l5 5 5-5" /><path d="M7 6l5 5 5-5" />
+          </svg>
+        </button>
+      {/if}
+
       <div
         class="bg-white dark:bg-zinc-950 fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
       >
         <div
           bind:this={editorDiv}
-          class="ml-2 bg-white dark:bg-zinc-950 w-full min-h-[5vh] sm:min-h-[60px] {!editable
+          class="ml-2 bg-white dark:bg-zinc-950 w-full min-h-[60px] max-h-[40vh] overflow-y-auto {!editable
             ? 'cursor-not-allowed'
             : ''}"
           on:keydown={handleKeyDown}
@@ -1027,7 +1082,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-9 w-9 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-11 w-11 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -1261,15 +1316,26 @@
 
                 <label
                   for={!data?.user ? "userLogin" : ""}
-                  on:click={() => (data?.user ? llmChat() : "")}
-                  class="{editorText?.trim()?.length > 0
+                  on:click={() => {
+                    if (!data?.user) return;
+                    if (isStreaming) {
+                      stopStreaming();
+                    } else {
+                      llmChat();
+                    }
+                  }}
+                  class="{editorText?.trim()?.length > 0 || isStreaming
                     ? 'cursor-pointer'
-                    : 'cursor-not-allowed opacity-60'} h-9 w-9 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
+                    : 'cursor-not-allowed opacity-60'} h-11 w-11 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
                 >
                   {#if isLoading}
                     <span
                       class="loading loading-spinner loading-xs text-center m-auto flex justify-center items-center text-white dark:text-black"
                     ></span>
+                  {:else if isStreaming}
+                    <Square
+                      class="w-4 h-4 fill-current text-center m-auto flex justify-center items-center text-white dark:text-black"
+                    />
                   {:else}
                     <Arrow
                       class="w-4 h-4 text-center m-auto flex justify-center items-center text-white dark:text-black"

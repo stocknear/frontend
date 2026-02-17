@@ -3,9 +3,7 @@ import { loginAction, registerAction, oauth2Action } from "$lib/server/authActio
 
 export const load = async () => {
   return {
-    randomChats: getDefaultChats()
-      ?.sort(() => 0.5 - Math.random())
-      ?.slice(0, 4),
+    allDefaultChats: getDefaultChats(),
   };
 };
 

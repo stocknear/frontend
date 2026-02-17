@@ -53,6 +53,22 @@ import {
   chat_default_nvidia_flow_query,
   chat_default_googl_flow_label,
   chat_default_googl_flow_query,
+  chat_default_compare_aapl_msft_label,
+  chat_default_compare_aapl_msft_query,
+  chat_default_analyst_ratings_label,
+  chat_default_analyst_ratings_query,
+  chat_default_dark_pool_label,
+  chat_default_dark_pool_query,
+  chat_default_dividend_label,
+  chat_default_dividend_query,
+  chat_default_michael_burry_label,
+  chat_default_michael_burry_query,
+  chat_default_peter_lynch_label,
+  chat_default_peter_lynch_query,
+  chat_default_sector_performance_label,
+  chat_default_sector_performance_query,
+  chat_default_earnings_label,
+  chat_default_earnings_query,
 } from "$lib/paraglide/messages";
 
 // Helper to get current locale safely (returns "en" as fallback)
@@ -2366,6 +2382,46 @@ export function getDefaultChats() {
     {
       label: chat_default_googl_flow_label(),
       query: chat_default_googl_flow_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_compare_aapl_msft_label(),
+      query: chat_default_compare_aapl_msft_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_analyst_ratings_label(),
+      query: chat_default_analyst_ratings_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_dark_pool_label(),
+      query: chat_default_dark_pool_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_dividend_label(),
+      query: chat_default_dividend_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_michael_burry_label(),
+      query: chat_default_michael_burry_query(),
+      type: "Investors",
+    },
+    {
+      label: chat_default_peter_lynch_label(),
+      query: chat_default_peter_lynch_query(),
+      type: "Investors",
+    },
+    {
+      label: chat_default_sector_performance_label(),
+      query: chat_default_sector_performance_query(),
+      type: "Stocks",
+    },
+    {
+      label: chat_default_earnings_label(),
+      query: chat_default_earnings_query(),
       type: "Stocks",
     },
   ];
