@@ -30,6 +30,7 @@
   "price_alert_earnings_will_report_today": "wird heute berichten",
   "price_alert_earnings_will_report_tomorrow": "wird morgen berichten",
   "price_alert_earnings_will_report_monday": "wird am Montag berichten",
+  "price_alert_earnings_will_report": "wird berichten",
   "price_alert_earnings_after_close": "nach Börsenschluss.",
   "price_alert_earnings_before_open": "vor Börseneröffnung.",
   "price_alert_earnings_during_market": "während der Handelszeit.",

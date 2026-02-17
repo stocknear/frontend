@@ -30,6 +30,7 @@
   "price_alert_earnings_will_report_today": "will report today",
   "price_alert_earnings_will_report_tomorrow": "will report tomorrow",
   "price_alert_earnings_will_report_monday": "will report Monday",
+  "price_alert_earnings_will_report": "will report",
   "price_alert_earnings_after_close": "after market closes.",
   "price_alert_earnings_before_open": "before market opens.",
   "price_alert_earnings_during_market": "during market.",

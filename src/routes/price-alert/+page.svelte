@@ -34,6 +34,7 @@
     price_alert_earnings_during_market,
     price_alert_earnings_in_eps,
     price_alert_earnings_in_revenue,
+    price_alert_earnings_will_report,
     price_alert_earnings_will_report_monday,
     price_alert_earnings_will_report_today,
     price_alert_earnings_will_report_tomorrow,
@@ -1336,18 +1337,7 @@
                               (<HoverStockChart symbol={item?.symbol} />)
                               {item?.isToday
                                 ? price_alert_earnings_will_report_today()
-                                : [
-                                      "Monday",
-                                      "Tuesday",
-                                      "Wednesday",
-                                      "Thursday",
-                                    ].includes(
-                                      new Date().toLocaleDateString("en-US", {
-                                        weekday: "long",
-                                      }),
-                                    )
-                                  ? price_alert_earnings_will_report_tomorrow()
-                                  : price_alert_earnings_will_report_monday()}
+                                : price_alert_earnings_will_report()}
                               {#if item?.time}
                                 {#if compareTimes(item?.time, "16:00") >= 0}
                                   {price_alert_earnings_after_close()}
