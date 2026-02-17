@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount, onDestroy } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
   import DashboardView from "$lib/components/Dashboard/DashboardView.svelte";
 
@@ -676,6 +677,58 @@
   const heroProofBadgeClass =
     "inline-flex items-center rounded-full border border-gray-200 bg-white/90 px-3 py-1 text-xs font-medium text-gray-700 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-200";
 
+  // Hero showcase slides
+  const showcaseSlides = [
+    {
+      label: "Options Flow",
+      src: "/img/landing-page/options-flow.png",
+      alt: "Real-time options flow dashboard",
+    },
+    {
+      label: "Financial Charts",
+      src: "/img/landing-page/financial-chart.png",
+      alt: "Advanced financial charting tools",
+    },
+    {
+      label: "Congress Trading",
+      src: "/img/landing-page/congress-trading.png",
+      alt: "Congress trading activity tracker",
+    },
+  ];
+
+  let activeSlide = 0;
+  let isPaused = false;
+  let autoplayTimer: ReturnType<typeof setInterval> | null = null;
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      if (!isPaused) {
+        activeSlide = (activeSlide + 1) % showcaseSlides.length;
+      }
+    }, 5000);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function selectSlide(index: number) {
+    activeSlide = index;
+    startAutoplay();
+  }
+
+  onMount(() => {
+    startAutoplay();
+  });
+
+  onDestroy(() => {
+    stopAutoplay();
+  });
+
   function lazyPlayVideo(node: HTMLVideoElement) {
     let sourceLoaded = false;
 
@@ -880,20 +933,77 @@
         </div>
 
         <div class="mt-12 md:mt-14">
+          <!-- Feature showcase tabs -->
+          <div class="flex items-center justify-center gap-2 sm:gap-3 mb-8">
+            {#each showcaseSlides as slide, i}
+              <button
+                on:click={() => selectSlide(i)}
+                class="relative flex items-center gap-1.5 sm:gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-300
+                  {activeSlide === i
+                  ? 'bg-violet-600 text-white shadow-lg shadow-violet-500/25 dark:bg-violet-500'
+                  : 'border border-gray-200 bg-white text-gray-600 hover:border-violet-300 hover:text-violet-600 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-400 dark:hover:border-violet-600 dark:hover:text-violet-400'}"
+              >
+                {#if i === 0}
+                  <!-- Options Flow icon -->
+                  <svg class="size-3.5 sm:size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 8h3l2-5 3 10 2-5h4"/>
+                  </svg>
+                {:else if i === 1}
+                  <!-- Financial Charts icon -->
+                  <svg class="size-3.5 sm:size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 14V8M8 14V2M12 14V6"/>
+                  </svg>
+                {:else}
+                  <!-- Congress Trading icon -->
+                  <svg class="size-3.5 sm:size-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 14h12M3 14V8l5-5 5 5v6M6 14v-3h4v3"/>
+                  </svg>
+                {/if}
+                {slide.label}
+              </button>
+            {/each}
+          </div>
+
+          <!-- Slide progress indicators -->
+          <div class="flex items-center justify-center gap-1.5 mb-6">
+            {#each showcaseSlides as _, i}
+              <button
+                on:click={() => selectSlide(i)}
+                class="h-1 rounded-full transition-all duration-500
+                  {activeSlide === i
+                  ? 'w-8 bg-violet-500'
+                  : 'w-2 bg-gray-300 hover:bg-gray-400 dark:bg-zinc-600 dark:hover:bg-zinc-500'}"
+                aria-label="Go to slide {i + 1}"
+              ></button>
+            {/each}
+          </div>
+
+          <!-- Image showcase with 3D perspective -->
           <div class="mx-auto 2xl:max-w-7xl">
-            <div class="relative pl-3 sm:pl-8 lg:pl-40 [perspective:2200px]">
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div
+              class="relative pl-3 sm:pl-8 lg:pl-40 [perspective:2200px]"
+              on:mouseenter={() => (isPaused = true)}
+              on:mouseleave={() => (isPaused = false)}
+            >
               <div class="relative overflow-hidden pt-4 lg:pt-6">
                 <div
                   class="origin-top-left transition-transform duration-700 ease-out lg:[transform:rotateX(20deg)_skewX(12deg)]"
                 >
-                  <img
-                    data-src="/img/landing-page/congress-trading.png"
-                    alt="Financial chart preview"
-                    class="w-full rounded-xl border border-gray-300 shadow-xl shadow-black/50 dark:border-white/10"
-                    loading="lazy"
-                    decoding="async"
-                    use:lazyLoadImage
-                  />
+                  <div class="relative">
+                    {#each showcaseSlides as slide, i}
+                      <img
+                        data-src={slide.src}
+                        alt={slide.alt}
+                        class="w-full rounded-xl border border-gray-300 shadow-xl shadow-black/50 dark:border-white/10 transition-opacity duration-700 ease-in-out
+                          {i > 0 ? 'absolute inset-0 h-full object-cover' : ''}
+                          {activeSlide === i ? 'opacity-100' : 'opacity-0 pointer-events-none'}"
+                        loading="lazy"
+                        decoding="async"
+                        use:lazyLoadImage
+                      />
+                    {/each}
+                  </div>
                 </div>
 
                 <div
