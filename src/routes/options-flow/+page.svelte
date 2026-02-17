@@ -390,40 +390,65 @@
         filters.moneyness = rule.value;
       }
 
-      // --- Numeric "over" filters (cost_basis, size, volume, open_interest) ---
+      // --- Numeric filters (cost_basis, size, volume, open_interest) ---
+      // Supports all conditions: over, under, between, exactly
       if (
         ["cost_basis", "size", "volume", "open_interest"].includes(
           rule.name,
         ) &&
-        rule.condition === "over" &&
+        rule.condition &&
         rule.value
       ) {
-        const v = parseWsNumeric(rule.value);
-        if (v > 0) filters[`min_${rule.name}`] = v;
+        if (rule.condition === "between" && Array.isArray(rule.value)) {
+          const lo = rule.value[0] != null ? parseWsNumeric(rule.value[0]) : null;
+          const hi = rule.value[1] != null ? parseWsNumeric(rule.value[1]) : null;
+          if (lo != null || hi != null) {
+            filters[`${rule.name}_filter`] = { condition: "between", value: [lo, hi] };
+          }
+        } else {
+          const v = parseWsNumeric(rule.value);
+          filters[`${rule.name}_filter`] = { condition: rule.condition, value: v };
+        }
       }
 
       // --- Ratio filters: Vol/OI and Size/OI (percentage threshold) ---
+      // Supports all conditions: over, under, between, exactly
       if (
         (rule.name === "volumeOIRatio" || rule.name === "sizeOIRatio") &&
-        rule.condition === "over" &&
+        rule.condition &&
         rule.value
       ) {
-        const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
-        if (v > 0) {
-          const key =
-            rule.name === "volumeOIRatio"
-              ? "min_volume_oi_ratio"
-              : "min_size_oi_ratio";
-          filters[key] = v;
+        const key =
+          rule.name === "volumeOIRatio"
+            ? "volume_oi_ratio_filter"
+            : "size_oi_ratio_filter";
+        if (rule.condition === "between" && Array.isArray(rule.value)) {
+          const lo = rule.value[0] != null ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, "")) : null;
+          const hi = rule.value[1] != null ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, "")) : null;
+          if (lo != null || hi != null) {
+            filters[key] = { condition: "between", value: [lo, hi] };
+          }
+        } else {
+          const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
+          filters[key] = { condition: rule.condition, value: v };
         }
       }
 
       // --- DTE (Days To Expiration) filter ---
       if (rule.name === "date_expiration" && rule.condition && rule.value) {
-        const v = parseFloat(String(rule.value).replace(/[%$,]/g, ""));
-        if (!isNaN(v)) {
-          filters.dte_condition = rule.condition; // "over" | "under" | "exactly"
-          filters.dte_value = v;
+        if (rule.condition === "between" && Array.isArray(rule.value)) {
+          const lo = rule.value[0] != null ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, "")) : null;
+          const hi = rule.value[1] != null ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, "")) : null;
+          if (lo != null || hi != null) {
+            filters.dte_condition = "between";
+            filters.dte_value = [lo, hi];
+          }
+        } else {
+          const v = parseFloat(String(rule.value).replace(/[%$,]/g, ""));
+          if (!isNaN(v)) {
+            filters.dte_condition = rule.condition; // "over" | "under" | "exactly"
+            filters.dte_value = v;
+          }
         }
       }
     }

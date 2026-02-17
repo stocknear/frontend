@@ -1129,22 +1129,40 @@
         filters[rule.name] = rule.value;
       } else if (
         ["size", "volume", "premium"].includes(rule.name) &&
-        rule.condition === "over"
+        rule.condition &&
+        rule.value
       ) {
-        const parsed = parseValue(rule.value);
-        if (!isNaN(parsed)) {
-          filters[`min_${rule.name}`] = parsed;
+        // Supports all conditions: over, under, between, exactly
+        if (rule.condition === "between" && Array.isArray(rule.value)) {
+          const lo = rule.value[0] != null ? parseValue(rule.value[0]) : null;
+          const hi = rule.value[1] != null ? parseValue(rule.value[1]) : null;
+          if (lo != null || hi != null) {
+            filters[`${rule.name}_filter`] = { condition: "between", value: [lo, hi] };
+          }
+        } else {
+          const parsed = parseValue(rule.value);
+          if (!isNaN(parsed)) {
+            filters[`${rule.name}_filter`] = { condition: rule.condition, value: parsed };
+          }
         }
       }
       // Ratio filters: Size/Volume and Size/Avg Volume (pre-computed % in data)
+      // Supports all conditions: over, under, between, exactly
       if (
         (rule.name === "sizeVolRatio" || rule.name === "sizeAvgVolRatio") &&
-        rule.condition === "over" &&
+        rule.condition &&
         rule.value
       ) {
-        const v =
-          parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
-        if (v > 0) filters[`min_${rule.name}`] = v;
+        if (rule.condition === "between" && Array.isArray(rule.value)) {
+          const lo = rule.value[0] != null ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, "")) : null;
+          const hi = rule.value[1] != null ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, "")) : null;
+          if (lo != null || hi != null) {
+            filters[`${rule.name}_filter`] = { condition: "between", value: [lo, hi] };
+          }
+        } else {
+          const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
+          filters[`${rule.name}_filter`] = { condition: rule.condition, value: v };
+        }
       }
     }
 
