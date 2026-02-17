@@ -7,12 +7,15 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { toast } from "svelte-sonner";
+  import { mode } from "mode-watcher";
 
   import { EditorState, Plugin } from "prosemirror-state";
   import { EditorView, Decoration, DecorationSet } from "prosemirror-view";
   import { keymap } from "prosemirror-keymap";
   import { schema } from "prosemirror-schema-basic";
-  import { chatReasoning } from "$lib/store";
+  import { chatReasoning, chatSidebarOpen } from "$lib/store";
   import {
   chat_credits,
   chat_credits_left,
@@ -37,6 +40,69 @@
 
   let chatId = data?.getChat?.id;
   let editable = data?.getChat?.editable ?? false;
+
+  // Re-initialize when navigating between chats
+  $: if (data?.getChat?.id && data.getChat.id !== chatId) {
+    chatId = data.getChat.id;
+    messages = data.getChat.messages || [
+      { content: "Hello! How can I help you today?", role: "system" },
+    ];
+    editable = data.getChat.editable ?? false;
+    relatedQuestions = [];
+    editingMessageIndex = null;
+    isStreaming = false;
+  }
+
+  // Chat title from first user message
+  $: chatTitle = (() => {
+    const first = messages?.find((m) => m.role === "user");
+    if (!first?.content) return "Chat";
+    return first.content.length > 50
+      ? first.content.slice(0, 50) + "..."
+      : first.content;
+  })();
+
+  function handleHeaderShare() {
+    const url = `${$page?.url?.origin}/chat/${chatId}`;
+    navigator.clipboard
+      ?.writeText(url)
+      ?.then(() => {
+        toast?.success("Link copied. Paste to share", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+      })
+      ?.catch(() => {
+        toast?.error("Something went wrong. Please try again!", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+      });
+  }
+
+  async function handleHeaderDelete() {
+    if (!confirm("Are you sure you want to delete this chat?")) return;
+    try {
+      const response = await fetch("/api/delete-chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ threadId: chatId }),
+      });
+      const output = await response.json();
+      if (output === "success") {
+        toast.success("Chat deleted", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+        goto("/chat");
+      } else {
+        toast.error("Failed to delete chat", {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        });
+      }
+    } catch {
+      toast.error("An error occurred", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
+  }
 
   let chatContainer: HTMLDivElement;
   let bottomEl: HTMLDivElement;
@@ -771,6 +837,104 @@
 <section
   class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0 text-gray-700 dark:text-zinc-200"
 >
+  <!-- Header bar -->
+  <div
+    class="flex items-center justify-between w-full 2xl:max-w-[1100px] px-4 py-2 mb-2"
+  >
+    <!-- Mobile: sidebar toggle -->
+    <button
+      on:click={() => ($chatSidebarOpen = true)}
+      class="cursor-pointer lg:hidden p-2 text-gray-500 dark:text-zinc-400"
+      aria-label="Open chat history"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect width="18" height="18" x="3" y="3" rx="2" />
+        <path d="M9 3v18" />
+      </svg>
+    </button>
+
+    <!-- Desktop: back arrow -->
+    <a
+      href="/chat"
+      class="hidden lg:block p-2 text-gray-500 dark:text-zinc-400"
+      aria-label="Back to chat"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </a>
+
+    <h1
+      class="flex-1 text-sm font-medium text-gray-700 dark:text-zinc-300 truncate mx-3 text-center"
+    >
+      {chatTitle}
+    </h1>
+
+    <div class="flex items-center gap-1">
+      <button
+        on:click={handleHeaderShare}
+        class="cursor-pointer p-2 text-gray-500 dark:text-zinc-400"
+        aria-label="Share chat"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4.5 h-4.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"
+          />
+        </svg>
+      </button>
+
+      {#if editable}
+        <button
+          on:click={handleHeaderDelete}
+          class="cursor-pointer p-2 text-gray-500 dark:text-zinc-400 sm:hover:text-red-500 dark:sm:hover:text-red-400"
+          aria-label="Delete chat"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4.5 h-4.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 6h18" />
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+          </svg>
+        </button>
+      {/if}
+    </div>
+  </div>
+
   <div class="relative w-full 2xl:max-w-[1100px] flex flex-col min-h-[80vh]">
     <main
       class="w-full overflow-y-auto p-4 space-y-4"
@@ -822,7 +986,7 @@
       </div>
 
       <div
-        class="bg-white dark:bg-zinc-950 fixed absolute bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
+        class="bg-white dark:bg-zinc-950 fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
       >
         <div
           bind:this={editorDiv}

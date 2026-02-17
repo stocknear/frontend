@@ -14,10 +14,9 @@
     chat_toast_error,
     chat_toast_error_occurred,
   } from "$lib/paraglide/messages";
+  import { chatSidebarOpen } from "$lib/store";
 
   export let data;
-
-  let sidebarOpen = false;
   let searchQuery = "";
   let searchTimeout: ReturnType<typeof setTimeout>;
   let currentItem: any = {};
@@ -96,7 +95,7 @@
   }
 
   function handleChatClick() {
-    sidebarOpen = false;
+    $chatSidebarOpen = false;
   }
 
   async function handleDeleteThread() {
@@ -135,34 +134,11 @@
 </script>
 
 <div class="flex w-full min-h-screen bg-white dark:bg-default">
-  <!-- Mobile hamburger button -->
-  {#if data?.user && allChats?.length > 0}
-    <button
-      on:click={() => (sidebarOpen = true)}
-      class="lg:hidden fixed top-20 left-3 z-40 p-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/90 text-gray-700 dark:text-zinc-200 shadow-sm"
-      aria-label="Open chat history"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect width="18" height="18" x="3" y="3" rx="2" />
-        <path d="M9 3v18" />
-      </svg>
-    </button>
-  {/if}
-
   <!-- Mobile backdrop -->
-  {#if sidebarOpen}
+  {#if $chatSidebarOpen}
     <button
-      class="lg:hidden fixed inset-0 bg-black/40 z-40"
-      on:click={() => (sidebarOpen = false)}
+      class="cursor-pointer lg:hidden fixed inset-0 bg-black/40 z-40"
+      on:click={() => ($chatSidebarOpen = false)}
       aria-label="Close sidebar"
     />
   {/if}
@@ -170,7 +146,7 @@
   <!-- Sidebar -->
   {#if data?.user && allChats?.length > 0}
     <aside
-      class="fixed top-0 left-0 z-50 lg:z-30 h-screen w-[280px] border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex flex-col transition-transform duration-200 ease-out {sidebarOpen
+      class="fixed top-0 left-0 z-50 lg:z-30 h-screen w-[280px] pt-0 lg:pt-16 border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex flex-col transition-transform duration-200 ease-out {$chatSidebarOpen
         ? 'translate-x-0'
         : '-translate-x-full lg:translate-x-0'}"
     >
@@ -200,8 +176,8 @@
 
           <!-- Close button (mobile only) -->
           <button
-            on:click={() => (sidebarOpen = false)}
-            class="lg:hidden p-2 ml-2 rounded-lg text-gray-500 dark:text-zinc-400 sm:hover:bg-gray-200 dark:sm:hover:bg-zinc-800 transition"
+            on:click={() => ($chatSidebarOpen = false)}
+            class="cursor-pointer lg:hidden p-2 ml-auto rounded-lg text-gray-500 dark:text-zinc-400 sm:hover:bg-gray-200 dark:sm:hover:bg-zinc-800 transition"
             aria-label="Close sidebar"
           >
             <svg
@@ -282,7 +258,7 @@
                           document.getElementById("deleteThreadModal");
                         modal?.dispatchEvent(new MouseEvent("click"));
                       }}
-                      class="flex-shrink-0 opacity-0 group-hover:opacity-100 focus:opacity-100 p-1 rounded-md text-gray-400 dark:text-zinc-500 sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
+                      class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-md text-gray-400 dark:text-zinc-500 sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
                       aria-label="Delete chat"
                     >
                       <svg

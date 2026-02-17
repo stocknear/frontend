@@ -239,6 +239,8 @@ export const sidebarOpen = writable(<boolean>false);
 export const sidebarExpanded = writable(<boolean>true);
 export const sidebarOpenField = writable(<boolean>false);
 
+export const chatSidebarOpen = writable(<boolean>false);
+
 export const tagList = writable([
   {
     name: "Meme",

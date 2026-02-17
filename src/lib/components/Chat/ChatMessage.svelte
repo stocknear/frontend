@@ -268,7 +268,7 @@
             <p
               class="w-full break-words overflow-wrap-anywhere leading-relaxed {message?.role ===
               'user'
-                ? 'p-3 rounded-2xl bg-white/80 dark:bg-zinc-950/60 text-gray-900 dark:text-zinc-100'
+                ? 'p-3 rounded-2xl bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-zinc-100'
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"
@@ -315,35 +315,6 @@
         {#if message?.role === "system"}
           {#if !isStreaming}
             <div class="flex items-center gap-1 mt-3 flex-wrap">
-              <button
-                type="button"
-                class="cursor-pointer inline-flex items-center gap-1 h-8 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 text-xs font-semibold leading-none text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
-                on:click={handleShare}
-                ><div
-                  class="flex flex-row items-center min-w-0 gap-x-1 justify-center"
-                >
-                  <div class="flex shrink-0 items-center justify-center size-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><path
-                        d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"
-                      ></path></svg>
-
-                  </div>
-                  <div class="text-align-center relative truncate leading-none">
-                    Share
-                  </div>
-                </div></button
-              >
-
-
               {#if editable}
                 <ChatFeedbackControls
                   {isStreaming}
