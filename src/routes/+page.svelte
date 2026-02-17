@@ -732,12 +732,16 @@
 
   <div class="text-gray-700 dark:text-zinc-200 w-full">
     <!-- Section 1: Hero -->
-    <section class="relative w-full border-b border-zinc-800 bg-[#06080d] overflow-hidden">
+    <section
+      class="relative w-full border-b border-zinc-800 bg-[#06080d] overflow-hidden"
+    >
       <div
         class="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_380px_at_50%_-8%,rgba(56,189,248,0.12),transparent_62%)]"
       ></div>
 
-      <div class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-24">
+      <div
+        class="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-24"
+      >
         <div class="mx-auto max-w-3xl text-center">
           <a
             href="/register"
@@ -781,18 +785,14 @@
 
         <div class="mt-12 md:mt-14">
           <div class="relative mx-auto max-w-6xl">
-            <div
-              class="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/60 p-2.5 sm:p-3 shadow-sm"
-            >
+            <div class="relative overflow-hidden">
               <div
                 class="origin-top-left transition-transform duration-700 ease-out lg:[transform:perspective(2500px)_rotateX(19deg)_skewX(11deg)]"
               >
                 <img
                   src="/img/landing-page/financial-chart.png"
                   alt="Financial chart preview"
-                  class="w-full rounded-xl border border-white/10 shadow-xl shadow-black/50"
-                  width="2880"
-                  height="2074"
+                  class="w-full rounded-xl border w-80 h-full border-white/10 shadow-xl shadow-black/50"
                   loading="lazy"
                   decoding="async"
                 />
