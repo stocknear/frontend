@@ -1663,10 +1663,22 @@
 
             console.log("Received new live trades:", newData.length);
 
-            // Prepend new trades to the current page display
             const prepared = prepareInitialFlowData(newData);
-            displayedData = [...prepared, ...displayedData];
-            rawData = displayedData;
+
+            // Update pagination metadata so controls stay accurate
+            totalItems = (totalItems || 0) + prepared.length;
+            totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
+
+            // Only update visible rows when user is on page 1 (new trades
+            // sort to the top in default time-desc order). On page 2+ the
+            // user is browsing older data — don't disrupt their view.
+            if (currentPage === 1) {
+              displayedData = [...prepared, ...displayedData].slice(
+                0,
+                rowsPerPage,
+              );
+              rawData = displayedData;
+            }
 
             // Play notification sound for new live trades
             if (!muted && audio) {
