@@ -1088,20 +1088,7 @@
               {/each}
             </div>
 
-            <!-- Footer -->
-            <div
-              class="border-t border-gray-200 dark:border-zinc-700 px-4 py-2.5 sm:px-5"
-            >
-              <p class="text-xs text-gray-500 dark:text-zinc-400 sm:text-sm">
-                {landing_card_alert_footer_pre()}
-                <span class="font-semibold text-gray-700 dark:text-zinc-300"
-                  >{landing_card_alert_footer_value()}</span
-                >
-              </p>
-              <p class="mt-1 text-[11px] text-gray-400 dark:text-zinc-500">
-                Example of live alert layout
-              </p>
-            </div>
+
           </div>
         </div>
       </div>
