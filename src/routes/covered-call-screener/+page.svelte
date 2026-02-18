@@ -427,6 +427,13 @@
       varType: "percentSign",
       category: "Earnings Report",
     },
+    earningsGap: {
+      label: "Earnings Gap (Days)",
+      step: [60, 30, 14, 7, 3, 0, -7, -14, -30],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Earnings Report",
+    },
     payoutRatio: {
       label: "Payout Ratio",
       step: ["100%", "80%", "60%", "40%", "20%", "0%", "-20%", "-40%"],
