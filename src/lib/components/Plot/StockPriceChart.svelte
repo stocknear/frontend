@@ -588,7 +588,6 @@
     startPointerId = evt.pointerId;
     startChartX = data.x;
     selectionStart = selectionEnd = { ...data };
-    try { (evt.target as HTMLElement)?.setPointerCapture(evt.pointerId); } catch {}
   };
 
   const onPointerMove = (evt: PointerEvent) => {
@@ -597,6 +596,7 @@
     if (!data) return;
     if (!isSelecting && startChartX !== null && Math.abs(data.x - startChartX) > DRAG_THRESHOLD_PX) {
       isSelecting = true;
+      try { (evt.target as HTMLElement)?.setPointerCapture(evt.pointerId); } catch {}
     }
     if (isSelecting) {
       selectionEnd = { ...data };
@@ -762,7 +762,7 @@
 
   <div
     bind:this={chartContainer}
-    class="w-full h-full touch-none"
+    class="w-full h-full touch-pan-y"
     on:pointerdown={onPointerDown}
     on:pointermove={onPointerMove}
     on:pointerup={onPointerUp}
