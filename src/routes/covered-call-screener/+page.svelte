@@ -118,17 +118,6 @@
   let isChartModalOpen = false;
   let modalItem: any = null;
 
-  const CHART_MODAL_FIELDS = [
-    "bid",
-    "breakeven",
-    "pctBeBid",
-    "moneynessPercent",
-    "returnVal",
-    "annualizedReturn",
-    "ptnlRtn",
-    "ifCalledAnnualized",
-    "profitProb",
-  ];
   let chartDataCache = new Map<string, any>();
 
   let strategyList = data?.getAllStrategies || [];
@@ -566,18 +555,16 @@
       return;
     }
 
-    // Fetch only this contract's chart fields from the existing API
+    // Fetch only this contract's chart fields from the feed API
     try {
-      const response = await fetch("/api/covered-call-screener-data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ruleOfList: CHART_MODAL_FIELDS,
-          optionContracts: [item.optionSymbol],
-        }),
+      const params = new URLSearchParams({
+        page: '1', pageSize: '1',
+        tab: 'income',
+        optionContracts: item.optionSymbol,
       });
+      const response = await fetch(`/api/covered-call-screener-feed?${params}`);
       const output = await response.json();
-      const contract = output?.data?.[0];
+      const contract = output?.items?.[0];
       if (contract) {
         chartDataCache.set(key, contract);
         modalItem = { ...item, ...contract };
