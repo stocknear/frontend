@@ -121,6 +121,25 @@
         <div
             class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
         >
+            <div class="flex justify-center mb-5 whitespace-nowrap">
+                <div class=" flex justify-center lg:mb-3">
+                    <a href="/cash-secured-put-screener"
+                        ><div
+                            class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                        >
+                            <div class="text-lg sm:text-xl font-semibold">
+                                Cash Secured Put Screener
+                            </div>
+                            <div
+                                class="-mt-2 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
+                            >
+                                New
+                            </div>
+                        </div></a
+                    >
+                </div>
+            </div>
+
             <div class="mx-auto max-w-3xl text-center">
                 <h1
                     class="mb-3 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
