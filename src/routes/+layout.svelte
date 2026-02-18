@@ -115,6 +115,7 @@
     layout_start_new_chat,
     layout_income_strategy,
     layout_covered_call_screener,
+    layout_cash_secured_put_screener,
     layout_backtesting_strategy,
   } from "$lib/paraglide/messages.js";
   //import Simulation from "lucide-svelte/icons/radical";
@@ -1058,6 +1059,21 @@
                           </Button>
                         </div>
                       </Sheet.Close>
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
+                              href="/cash-secured-put-screener"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_cash_secured_put_screener()}</a
+                            >
+                          </Button>
+                        </div>
+                      </Sheet.Close>
                     </Accordion.Content>
                   </Accordion.Item>
                 </Accordion.Root>
@@ -1820,6 +1836,11 @@
                               href="/covered-call-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_covered_call_screener()}</a
+                            >
+                            <a
+                              href="/cash-secured-put-screener"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_cash_secured_put_screener()}</a
                             >
                           </div>
                         </Accordion.Content>

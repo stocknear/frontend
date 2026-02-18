@@ -53,5 +53,6 @@
   "layout_logo_alt": "Stocknear-Logo",
   "layout_income_strategy": "Einkommensstrategie",
   "layout_covered_call_screener": "Covered-Call-Screener",
+  "layout_cash_secured_put_screener": "Cash-Secured-Put-Screener",
   "layout_backtesting_strategy": "Backtesting-Strategie"
 }
