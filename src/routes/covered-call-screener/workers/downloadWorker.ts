@@ -1,54 +1,41 @@
-// Cache to store previous requests
+// Cache to store completed responses
 let cache = new Map();
 
-// Pre-compiled rule key cache
-let lastRules = null;
-let lastRuleKey = null;
+// In-flight request deduplication: ruleKey -> Promise
+let pendingRequests = new Map();
 
 // Separate cache for stock screener earningsDate data (shared across all CC rule sets)
 let earningsCache = null;
 
 const getCoveredCallScreenerData = async (rules) => {
-  // Fast path: empty rules
-  if (!rules?.length) {
-    const emptyKey = `[]`;
-    if (cache.has(emptyKey)) return cache.get(emptyKey);
-  }
-
-  // Extract rule names with single pass
   const getRuleOfList = rules?.map((rule) => rule.name) || [];
-
-  // Fast path: check if we can reuse the last computed rule key
-  if (lastRules === rules) {
-    if (cache.has(lastRuleKey)) {
-      return cache.get(lastRuleKey);
-    }
-  }
-
-  // Create cache key - sort for consistent keys
   const ruleKey = JSON.stringify(getRuleOfList.sort());
 
-  // Cache the computed key
-  lastRules = rules;
-  lastRuleKey = ruleKey;
-
-  // Check cache
+  // Check completed cache
   if (cache.has(ruleKey)) {
     return cache.get(ruleKey);
   }
 
-  // Fetch new data
-  const response = await fetch("/api/covered-call-screener-data", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ruleOfList: getRuleOfList }),
-  });
+  // Deduplicate: if the same request is already in-flight, reuse its promise
+  if (pendingRequests.has(ruleKey)) {
+    return pendingRequests.get(ruleKey);
+  }
 
-  const output = await response.json();
+  // Start new fetch and track it
+  const fetchPromise = (async () => {
+    const response = await fetch("/api/covered-call-screener-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ruleOfList: getRuleOfList }),
+    });
+    const output = await response.json();
+    cache.set(ruleKey, output);
+    pendingRequests.delete(ruleKey);
+    return output;
+  })();
 
-  // Store in cache
-  cache.set(ruleKey, output);
-  return output;
+  pendingRequests.set(ruleKey, fetchPromise);
+  return fetchPromise;
 };
 
 // Fetch earnings fields for all symbols from the stock screener API
@@ -133,7 +120,7 @@ const filterValidItems = (data) => {
 };
 
 onmessage = async (event) => {
-  const { ruleOfList } = event.data || {};
+  const { ruleOfList, prefetch } = event.data || {};
 
   try {
     // Fetch CC data and earnings data map in parallel
@@ -141,6 +128,9 @@ onmessage = async (event) => {
       getCoveredCallScreenerData(ruleOfList),
       getEarningsDataMap(),
     ]);
+
+    // Prefetch: only warm the caches, don't update UI
+    if (prefetch) return;
 
     const rawData = output?.data || [];
 

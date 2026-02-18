@@ -94,9 +94,6 @@
     cash_secured_put_screener_toast_save_failed,
   } from "$lib/paraglide/messages";
 
-  import { writable } from "svelte/store";
-
-  let shouldLoadWorker = writable(false);
   export let data;
   export let form;
 
@@ -104,11 +101,19 @@
   let isLoaded = false;
   let isFullWidth = false;
   let isDataLoading = false;
-  let pendingDownload = false;
-  let syncWorker: Worker | undefined;
-  let downloadWorker: Worker | undefined;
-  let searchWorker: Worker | undefined;
   let removeList = false;
+
+  let displayedData = data?.getScreenerFeed?.items ?? [];
+  let totalItems = data?.getScreenerFeed?.total ?? 0;
+  let totalContracts = data?.getScreenerFeed?.totalContracts ?? 0;
+  let currentPage = data?.getScreenerFeed?.page ?? 1;
+  let rowsPerPage = data?.getScreenerFeed?.pageSize ?? 20;
+  let totalPages = data?.getScreenerFeed?.totalPages ?? 1;
+  let activeSortKey = data?.getScreenerFeed?.sort?.key ?? 'annualizedReturn';
+  let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? 'desc';
+  let isFetchingPage = false;
+  let currentAbortController: AbortController | null = null;
+  let requestId = 0;
 
   let isChartModalOpen = false;
   let modalItem: any = null;
@@ -175,9 +180,6 @@
   }
 
   let displayTableTab = "general";
-
-  let stockScreenerData = data?.getScreenerData?.data;
-  let totalContracts = data?.getScreenerData?.totalContracts ?? 0;
 
   // Define all possible rules and their properties
   const allRules = {
@@ -480,52 +482,7 @@
     },
   };
 
-  let filteredData = [];
-  let originalFilteredData = [];
-  let currentUnsortedData = [];
-  let displayResults = [];
-  let isSearchPending = false;
-
-  // Track which column names are currently available in stockScreenerData
-  // Initialize from SSR data so the first value-change skips the downloadWorker
-  let lastFetchedRuleSet = new Set(
-    stockScreenerData?.length > 0 ? Object.keys(stockScreenerData[0]) : [],
-  );
-
-  // Column names needed per tab beyond what the backend always includes.
-  // General tab columns are already in the backend's always_include set,
-  // so "general" needs nothing extra. Only non-general tabs list extras.
-  const tabExtraRules = {
-    general: [],
-    income: [
-      "bid",
-      "annualizedReturn",
-      "returnVal",
-      "breakeven",
-      "pctBeBid",
-      "discount",
-      "downsideProtection",
-    ],
-    greeks: ["delta", "gamma", "theta", "vega", "iv", "ivRank"],
-    filters: [],
-  };
-
-  // Compute the set of column names needed for the current state
-  function getNeededColumns() {
-    const extraRules = tabExtraRules[displayTableTab] || [];
-    return new Set([...ruleOfList.map((r) => r.name), ...extraRules]);
-  }
-
-  // Update pagination when filteredData changes
-  $: if (filteredData && filteredData.length >= 0 && !isSearchPending) {
-    updatePaginatedData();
-  }
-
-  // Pagination state
-  let currentPage = 1;
-  let rowsPerPage = 20;
   let rowsPerPageOptions = [20, 50, 100];
-  let totalPages = 1;
 
   // Generate allRows from allRules
   $: allRows = Object?.entries(allRules)
@@ -671,9 +628,8 @@
       });
 
       if (ruleOfList.length === 0) {
-        filteredData = [];
-        currentUnsortedData = [];
-        displayResults = [];
+        displayedData = [];
+        totalItems = 0;
         currentPage = 1;
         totalPages = 1;
       }
@@ -790,10 +746,7 @@
 
   async function switchStrategy(item) {
     isDataLoading = true;
-    pendingDownload = true;
-    originalFilteredData = [];
-    filteredData = [];
-    displayResults = [];
+    displayedData = [];
     displayTableTab = "general";
     ruleName = "";
     selectedPopularStrategy = "";
@@ -808,7 +761,7 @@
       valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
     });
 
-    await updateStockScreenerData();
+    await fetchTableData({ page: 1 });
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules.includes(rule.name))
@@ -818,10 +771,7 @@
 
   async function popularStrategy(state: string) {
     isDataLoading = true;
-    pendingDownload = true;
-    originalFilteredData = [];
-    filteredData = [];
-    displayResults = [];
+    displayedData = [];
     resetTableSearch();
     const strategies = {
       highYield: {
@@ -871,7 +821,6 @@
     if (strategy) {
       if (selectedPopularStrategy === state) {
         isDataLoading = false;
-        pendingDownload = false;
         return;
       }
 
@@ -901,10 +850,9 @@
         varType: allRules[row.name]?.varType,
       }));
 
-      await updateStockScreenerData();
+      await fetchTableData({ page: 1 });
     } else {
       isDataLoading = false;
-      pendingDownload = false;
     }
   }
 
@@ -914,116 +862,92 @@
     handleAddRule();
   }
 
-  const handleMessage = (event) => {
-    displayRules = allRows?.filter((row) =>
-      ruleOfList?.some((rule) => rule.name === row.rule),
-    );
-
-    // Skip stale sync results while waiting for a fresh download
-    if (pendingDownload) return;
-
-    filteredData = event.data?.filteredData ?? [];
-    originalFilteredData = [...filteredData];
-    currentUnsortedData = [...filteredData];
-    currentPage = 1;
-    isDataLoading = false;
-    if (inputValue?.length > 0) {
-      isSearchPending = true;
-      search();
-    } else {
-      isSearchPending = false;
-      updatePaginatedData();
-    }
-  };
-
-  const loadWorker = async () => {
-    syncWorker.postMessage({
-      stockScreenerData,
-      ruleOfList,
-    });
-  };
-
-  const handleScreenerMessage = (event) => {
-    if (event.data?.message === "success") {
-      stockScreenerData = event.data?.stockScreenerData ?? [];
-      totalContracts = event.data?.totalContracts ?? 0;
-      if (stockScreenerData.length > 0) {
-        lastFetchedRuleSet = new Set(Object.keys(stockScreenerData[0]));
-      }
-      pendingDownload = false;
-      shouldLoadWorker.set(true);
-    }
-  };
-
-  let _updateDebounce: ReturnType<typeof setTimeout> | null = null;
-
-  const updateStockScreenerData = async () => {
-    if (!downloadWorker) return;
-
-    if (_updateDebounce) clearTimeout(_updateDebounce);
-    _updateDebounce = setTimeout(() => {
-      _updateDebounce = null;
-      const neededColumns = getNeededColumns();
-      const allRuleNames = [...neededColumns];
-
-      downloadWorker.postMessage({
-        ruleOfList: allRuleNames.map((name) => ({ name })),
+  // Build rules array from current state for the server
+  function buildActiveRules() {
+    return ruleOfList
+      .map((rule) => {
+        const name = rule.name;
+        const condition = ruleCondition[name] ?? allRules[name]?.defaultCondition ?? '';
+        let value;
+        if (checkedItems?.has(name)) {
+          value = [...checkedItems.get(name)];
+        } else {
+          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? 'any';
+        }
+        return { name, condition, value };
+      })
+      .filter((r) => {
+        if (r.value === 'any') return false;
+        if (Array.isArray(r.value) && r.value.length === 1 && r.value[0] === 'any') return false;
+        if (Array.isArray(r.value) && r.value.includes('any')) return false;
+        return true;
       });
-    }, 50);
-  };
+  }
+
+  async function fetchTableData({
+    page = currentPage,
+    pageSize = rowsPerPage,
+    sortKey = activeSortKey,
+    sortOrder = activeSortOrder,
+  } = {}) {
+    if (currentAbortController) currentAbortController.abort();
+    currentAbortController = new AbortController();
+    const signal = currentAbortController.signal;
+    const invocationId = ++requestId;
+
+    const activeRules = buildActiveRules();
+
+    isFetchingPage = true;
+    isDataLoading = true;
+    try {
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: String(pageSize),
+        sortKey,
+        sortOrder,
+        tab: displayTableTab,
+      });
+      if (inputValue) params.set('search', inputValue);
+      if (activeRules.length > 0) params.set('rules', JSON.stringify(activeRules));
+
+      const response = await fetch(`/api/cash-secured-put-screener-feed?${params}`, { signal });
+      if (signal.aborted) return;
+      const result = await response.json();
+      if (invocationId !== requestId) return;
+
+      displayedData = result.items ?? [];
+      totalItems = result.total ?? 0;
+      currentPage = result.page ?? page;
+      rowsPerPage = result.pageSize ?? pageSize;
+      totalPages = result.totalPages ?? 1;
+      totalContracts = result.totalContracts ?? totalContracts;
+      activeSortKey = sortKey;
+      activeSortOrder = sortOrder;
+    } catch (e) {
+      if (e?.name === 'AbortError') return;
+    } finally {
+      if (invocationId === requestId) {
+        isFetchingPage = false;
+        isDataLoading = false;
+        isLoaded = true;
+      }
+    }
+  }
+
+  let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
+  function debouncedRuleFetch() {
+    if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
+    _ruleFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
+  }
 
   async function resetTableSearch() {
     inputValue = "";
-    filteredData = [...originalFilteredData];
-    currentUnsortedData = [...originalFilteredData];
-    currentPage = 1;
-    isSearchPending = false;
-    updatePaginatedData();
+    fetchTableData({ page: 1 });
   }
 
   async function search() {
-    inputValue = inputValue?.toLowerCase();
-
-    setTimeout(async () => {
-      if (inputValue?.length > 0) {
-        isSearchPending = true;
-        await loadSearchWorker();
-      } else {
-        filteredData = [...originalFilteredData];
-        currentUnsortedData = [...originalFilteredData];
-        currentPage = 1;
-        isSearchPending = false;
-        updatePaginatedData();
-      }
-    }, 100);
+    fetchTableData({ page: 1 });
   }
-
-  const loadSearchWorker = async () => {
-    if (searchWorker && originalFilteredData?.length > 0) {
-      searchWorker.postMessage({
-        rawData: originalFilteredData,
-        inputValue: inputValue,
-      });
-      return;
-    }
-    if (inputValue?.length > 0) {
-      filteredData = [];
-      currentUnsortedData = [];
-      currentPage = 1;
-      isSearchPending = false;
-      updatePaginatedData();
-    }
-  };
-
-  const handleSearchMessage = (event) => {
-    if (event.data?.message === "success") {
-      isSearchPending = false;
-      filteredData = event.data?.output ?? [];
-      currentUnsortedData = [...filteredData];
-      currentPage = 1;
-      updatePaginatedData();
-    }
-  };
 
   function handleAddRule() {
     if (ruleName === "") {
@@ -1089,13 +1013,10 @@
       valueMappings[ruleName] = allRules[ruleName].defaultValue;
     });
     ruleName = "";
-    filteredData = [];
-    originalFilteredData = [];
-    currentUnsortedData = [];
-    displayResults = [];
+    displayedData = [];
+    totalItems = 0;
     currentPage = 1;
     totalPages = 1;
-    isSearchPending = false;
     checkedItems = new Map();
   }
 
@@ -1141,9 +1062,8 @@
 
         if (ruleOfList?.length === 0) {
           ruleName = "";
-          filteredData = [];
-          currentUnsortedData = [];
-          displayResults = [];
+          displayedData = [];
+          totalItems = 0;
           currentPage = 1;
           totalPages = 1;
         } else if (state === ruleName) {
@@ -1153,34 +1073,16 @@
     }
   }
 
-  // Pagination functions
-  function updatePaginatedData() {
-    /*
-    if (data?.user?.tier !== "Pro") {
-      displayResults = filteredData?.slice(0, 6) || [];
-      totalPages = 1;
-      return;
-    }
-      */
-
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    displayResults = filteredData?.slice(startIndex, endIndex) || [];
-    totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
-  }
-
   function goToPage(page) {
-    if (page >= 1 && page <= totalPages) {
-      currentPage = page;
-      updatePaginatedData();
+    if (page >= 1 && page <= totalPages && !isFetchingPage) {
+      fetchTableData({ page });
     }
   }
 
   function changeRowsPerPage(newRowsPerPage) {
     rowsPerPage = newRowsPerPage;
-    currentPage = 1;
-    updatePaginatedData();
     saveRowsPerPage();
+    fetchTableData({ page: 1, pageSize: newRowsPerPage });
   }
 
   function scrollToTop() {
@@ -1321,47 +1223,17 @@
       isFullWidth = savedFullWidth === "true";
     }
 
-    if (!syncWorker) {
-      const SyncWorker = await import("./workers/filterWorker?worker");
-      syncWorker = new SyncWorker.default();
-      syncWorker.onmessage = handleMessage;
-    }
-
-    if (!downloadWorker) {
-      const DownloadWorker = await import("./workers/downloadWorker?worker");
-      downloadWorker = new DownloadWorker.default();
-      downloadWorker.onmessage = handleScreenerMessage;
-    }
-
-    if (!searchWorker) {
-      const SearchWorker =
-        await import("$lib/workers/tableSearchWorker?worker");
-      searchWorker = new SearchWorker.default();
-      searchWorker.onmessage = handleSearchMessage;
-    }
-
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
 
-    shouldLoadWorker.subscribe(async (value) => {
-      if (value) {
-        await loadWorker();
-        shouldLoadWorker.set(false);
-        isLoaded = true;
-      }
-    });
-
     groupedRules = groupScreenerRules(allRows);
+    isLoaded = true;
   });
 
   onDestroy(() => {
-    syncWorker?.terminate();
-    syncWorker = undefined;
-    downloadWorker?.terminate();
-    downloadWorker = undefined;
-    searchWorker?.terminate();
-    searchWorker = undefined;
+    if (currentAbortController) currentAbortController.abort();
+    if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
     clearCache();
   });
 
@@ -1427,34 +1299,15 @@
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
 
-      // Check if all needed columns are already in memory
-      const neededColumns = getNeededColumns();
-      const hasAllColumns = [...neededColumns].every((r) =>
-        lastFetchedRuleSet.has(r),
-      );
-
-      if (hasAllColumns && stockScreenerData?.length > 0) {
-        // All columns available — re-filter instantly, no network round-trip
-        shouldLoadWorker.set(true);
-      } else {
-        // Need new columns from server
-        updateStockScreenerData();
+      if (isLoaded) {
+        debouncedRuleFetch();
       }
     }
   }
 
-  // When the display tab changes, check if we need new columns or can re-filter instantly
-  $: if (displayTableTab && downloadWorker) {
-    const neededColumns = getNeededColumns();
-    const hasAllColumns = [...neededColumns].every((r) =>
-      lastFetchedRuleSet.has(r),
-    );
-
-    if (hasAllColumns && stockScreenerData?.length > 0) {
-      shouldLoadWorker.set(true);
-    } else {
-      updateStockScreenerData();
-    }
+  // When the display tab changes, re-fetch from server with the new tab
+  $: if (displayTableTab && isLoaded) {
+    fetchTableData({ page: 1 });
   }
 
   $: {
@@ -1587,7 +1440,7 @@
         valueMappings[ruleName] = "any";
       }
 
-      // Trigger Svelte reactivity so the $: block syncs into ruleOfList and fires the worker
+      // Trigger Svelte reactivity so the $: block syncs into ruleOfList and fires the server fetch
       valueMappings = valueMappings;
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
@@ -1600,7 +1453,7 @@
     }
 
     if (ruleCondition[ruleName] === "between" && value.some((v) => v !== "")) {
-      shouldLoadWorker.set(true);
+      debouncedRuleFetch();
     }
   }
 
@@ -1656,58 +1509,26 @@
   }
 
   const sortData = (key) => {
-    for (const k in sortOrders) {
-      if (k !== key) {
-        sortOrders[k].order = "none";
-      }
+    // Cycle: none -> desc -> asc -> none
+    const newOrder = activeSortKey === key
+      ? (activeSortOrder === 'desc' ? 'asc' : activeSortOrder === 'asc' ? 'none' : 'desc')
+      : 'desc';
+
+    // Update local sortOrders state for TableHeader visual indicators
+    Object.keys(sortOrders).forEach((k) => {
+      if (k !== key) sortOrders[k].order = 'none';
+    });
+    if (sortOrders[key]) sortOrders[key].order = newOrder;
+
+    if (newOrder === 'none') {
+      activeSortKey = 'annualizedReturn';
+      activeSortOrder = 'desc';
+      fetchTableData({ page: 1, sortKey: 'annualizedReturn', sortOrder: 'desc' });
+    } else {
+      activeSortKey = key;
+      activeSortOrder = newOrder;
+      fetchTableData({ page: 1, sortKey: key, sortOrder: newOrder });
     }
-
-    const orderCycle = ["none", "asc", "desc"];
-
-    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
-    sortOrders[key].order =
-      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
-    const sortOrder = sortOrders[key].order;
-
-    if (sortOrder === "none") {
-      filteredData = [...currentUnsortedData];
-      currentPage = 1;
-      updatePaginatedData();
-      return;
-    }
-
-    const compareValues = (a, b) => {
-      const { type } = sortOrders[key];
-      let valueA, valueB;
-
-      switch (type) {
-        case "date":
-          valueA = new Date(a[key]);
-          valueB = new Date(b[key]);
-          break;
-        case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
-          return sortOrder === "asc"
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        case "number":
-        default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
-          break;
-      }
-
-      if (sortOrder === "asc") {
-        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
-      } else {
-        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
-      }
-    };
-
-    filteredData = [...currentUnsortedData].sort(compareValues);
-    currentPage = 1;
-    updatePaginatedData();
   };
 
   let columns;
@@ -2743,14 +2564,14 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {#if isDataLoading && filteredData?.length === 0}
+      {#if isDataLoading && displayedData?.length === 0}
         <span
           class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
         ></span>
       {:else}
         {cash_secured_put_screener_contracts_count({
           count: (data?.user?.tier === "Pro"
-            ? filteredData?.length
+            ? totalItems
             : totalContracts
           )?.toLocaleString("en-US"),
         })}
@@ -2793,7 +2614,7 @@
         <div class=" ml-2">
           <DownloadData
             {data}
-            rawData={filteredData}
+            rawData={displayedData}
             title={"cash_secured_put_screener_data"}
           />
         </div>
@@ -2937,7 +2758,7 @@
 
   <!--Start Matching Preview-->
   {#if isLoaded}
-    {#if filteredData?.length !== 0 || isDataLoading}
+    {#if displayedData?.length !== 0 || isDataLoading}
       <div
         class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
       >
@@ -2953,7 +2774,7 @@
             />
           </thead>
           <tbody>
-            {#if isDataLoading && displayResults?.length === 0}
+            {#if isDataLoading && displayedData?.length === 0}
               {#each Array(10) as _}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -2975,10 +2796,10 @@
                 </tr>
               {/each}
             {/if}
-            {#each displayResults as item, i}
+            {#each displayedData as item, i}
               <tr
                 class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
-                class:opacity-30={i + 1 === displayResults?.length &&
+                class:opacity-30={i + 1 === displayedData?.length &&
                   data?.user?.tier !== "Pro"}
               >
                 {#each columns as column}
@@ -3138,7 +2959,7 @@
         <UpgradeToPro {data} display={true} />
       </div>
 
-      {#if displayResults?.length > 0 && data?.user?.tier === "Pro"}
+      {#if displayedData?.length > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <div class="flex items-center gap-2">
             <Button
