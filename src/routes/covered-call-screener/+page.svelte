@@ -375,6 +375,14 @@
       varType: "percent",
       category: "Statistics",
     },
+    debit: {
+      label: "Debit (Cost)",
+      step: ["50K", "30K", "20K", "10K", "5K", "3K", "1K"],
+      defaultCondition: "under",
+      defaultValue: "any",
+      varType: "dollar",
+      category: "Statistics",
+    },
     earningsTime: {
       label: "Earnings Time",
       step: ["Before Market Open", "After Market Close"],
@@ -3133,6 +3141,8 @@
                         {abbreviateNumber(item[column.key])}%
                       {:else if rule?.varType === "decimal"}
                         {item[column.key]?.toLocaleString("en-US")}
+                      {:else if rule?.varType === "dollar"}
+                        ${abbreviateNumber(item[column.key])}
                       {:else}
                         {abbreviateNumber(item[column.key])}
                       {/if}
