@@ -974,15 +974,21 @@
     }
   };
 
+  let _updateDebounce: ReturnType<typeof setTimeout> | null = null;
+
   const updateStockScreenerData = async () => {
     if (!downloadWorker) return;
 
-    const neededColumns = getNeededColumns();
-    const allRuleNames = [...neededColumns];
+    if (_updateDebounce) clearTimeout(_updateDebounce);
+    _updateDebounce = setTimeout(() => {
+      _updateDebounce = null;
+      const neededColumns = getNeededColumns();
+      const allRuleNames = [...neededColumns];
 
-    downloadWorker.postMessage({
-      ruleOfList: allRuleNames.map((name) => ({ name })),
-    });
+      downloadWorker.postMessage({
+        ruleOfList: allRuleNames.map((name) => ({ name })),
+      });
+    }, 50);
   };
 
   async function resetTableSearch() {
