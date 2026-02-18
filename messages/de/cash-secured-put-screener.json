@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Home",
+  "cash_secured_put_screener_breadcrumb_title": "Cash Secured Put Screener",
+
+  "cash_secured_put_screener_seo_title": "Cash Secured Put Screener - Find the Best CSP Opportunities",
+  "cash_secured_put_screener_seo_description": "Screen thousands of options for cash secured put opportunities. Filter by premium yield, annualized return, strike, expiration, and more.",
+  "cash_secured_put_screener_seo_keywords": "cash secured put screener, options screener, cash secured puts, premium yield, income strategy",
+  "cash_secured_put_screener_structured_name": "Cash Secured Put Screener",
+  "cash_secured_put_screener_structured_description": "Screen options for cash secured put opportunities",
+
+  "cash_secured_put_screener_main_title": "Cash Secured Put Screener",
+  "cash_secured_put_screener_contracts_count": "{count} Contracts",
+
+  "cash_secured_put_screener_popular_screens": "Popular Screens",
+  "cash_secured_put_screener_popular_strategies": "Popular Strategies",
+  "cash_secured_put_screener_select_popular": "Select Popular",
+  "cash_secured_put_screener_saved_screens": "Saved Screens",
+  "cash_secured_put_screener_select_screen": "Select Screen",
+  "cash_secured_put_screener_new_screen": "New Screen",
+
+  "cash_secured_put_screener_strategy_high_yield": "High Yield",
+  "cash_secured_put_screener_strategy_conservative": "Conservative",
+  "cash_secured_put_screener_strategy_weekly_income": "Weekly Income",
+  "cash_secured_put_screener_strategy_high_protection": "High Protection",
+  "cash_secured_put_screener_strategy_bluechip_csp": "Blue-Chip CSPs",
+
+  "cash_secured_put_screener_filters_count": "Filters ({count})",
+  "cash_secured_put_screener_add_filters": "Add Filters",
+  "cash_secured_put_screener_search_filters": "Search {count} filters...",
+  "cash_secured_put_screener_select_filters_title": "Select Filters ({count})",
+  "cash_secured_put_screener_nothing_found": "Nothing found.",
+
+  "cash_secured_put_screener_save": "Save",
+  "cash_secured_put_screener_save_as_new": "Save as New",
+  "cash_secured_put_screener_reset_all": "Reset All",
+
+  "cash_secured_put_screener_condition_over": "Over",
+  "cash_secured_put_screener_condition_under": "Under",
+  "cash_secured_put_screener_condition_between": "Between",
+  "cash_secured_put_screener_condition_exactly": "Exactly",
+  "cash_secured_put_screener_condition_any": "Any",
+
+  "cash_secured_put_screener_input_min": "Min",
+  "cash_secured_put_screener_input_max": "Max",
+  "cash_secured_put_screener_input_value": "Value",
+
+  "cash_secured_put_screener_search_placeholder": "Search...",
+  "cash_secured_put_screener_search_modal_placeholder": "Search...",
+
+  "cash_secured_put_screener_normal_width": "Normal Width",
+  "cash_secured_put_screener_full_width": "Full Width",
+
+  "cash_secured_put_screener_tab_general": "General",
+  "cash_secured_put_screener_tab_income": "Income",
+  "cash_secured_put_screener_tab_filters": "Filters",
+  "cash_secured_put_screener_tab_greeks": "Greeks",
+
+  "cash_secured_put_screener_pagination_previous": "Previous",
+  "cash_secured_put_screener_pagination_next": "Next",
+  "cash_secured_put_screener_pagination_page_of": "Page {current} of {total}",
+  "cash_secured_put_screener_rows_label": "{rows} rows",
+  "cash_secured_put_screener_back_to_top": "Back to top",
+
+  "cash_secured_put_screener_no_results_query": "No results found for \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "No contracts match your criteria.",
+
+  "cash_secured_put_screener_modal_new_title": "New Screen",
+  "cash_secured_put_screener_modal_new_name_label": "Screen name",
+  "cash_secured_put_screener_modal_new_create": "Create",
+
+  "cash_secured_put_screener_modal_delete_title": "Delete Screener",
+  "cash_secured_put_screener_modal_delete_message": "Are you sure you want to delete this screener? This action cannot be undone.",
+  "cash_secured_put_screener_modal_delete_cancel": "Cancel",
+  "cash_secured_put_screener_modal_delete_confirm": "Delete",
+
+  "cash_secured_put_screener_toast_deleting": "Deleting screener...",
+  "cash_secured_put_screener_toast_deleted": "Screener deleted successfully!",
+  "cash_secured_put_screener_toast_delete_failed": "Delete failed. Please try again.",
+  "cash_secured_put_screener_toast_title_too_long": "Title is too long. Please keep it under 100 characters.",
+  "cash_secured_put_screener_toast_created": "Screener created successfully!",
+  "cash_secured_put_screener_toast_creating": "Creating screener...",
+  "cash_secured_put_screener_toast_create_failed": "Something went wrong. Please try again later!",
+  "cash_secured_put_screener_toast_select_rule": "Please select a rule",
+  "cash_secured_put_screener_toast_saving": "Saving screener...",
+  "cash_secured_put_screener_toast_saved": "Screener saved!",
+  "cash_secured_put_screener_toast_save_failed": "Save failed. Please try again.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Price at Expiration ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Last Price: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Breakeven: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Profit/Loss ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Underlying Price:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Profit or Loss:",
+  "cash_secured_put_screener_chart_modal_title": "Cash Secured Put - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Trade Setup",
+  "cash_secured_put_screener_chart_sell_put": "Sell {strike}P @",
+  "cash_secured_put_screener_chart_cash_secured": "Cash Secured",
+  "cash_secured_put_screener_chart_net_credit": "Net Credit",
+  "cash_secured_put_screener_chart_breakeven": "Breakeven",
+  "cash_secured_put_screener_chart_below": "Below",
+  "cash_secured_put_screener_chart_last_price": "Last Price",
+  "cash_secured_put_screener_chart_moneyness": "Moneyness",
+  "cash_secured_put_screener_chart_return_if_flat": "Return if Flat",
+  "cash_secured_put_screener_chart_return_if_assigned": "Return if Assigned",
+  "cash_secured_put_screener_chart_probability_of_profit": "Probability of Profit",
+  "cash_secured_put_screener_chart_annualized_abbr": "ann.",
+  "cash_secured_put_screener_chart_discount": "Discount if Assigned"
+}
