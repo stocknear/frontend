@@ -666,7 +666,7 @@
                   previousClose={data?.getStockQuote?.previousClose}
                   isNegative={chartIsNegative}
                   isLoading={isLoadingChart}
-                  showVolume={false}
+
                 />
               {:else if !isLoadingChart}
                 <div
@@ -683,7 +683,7 @@
                   previousClose={null}
                   isNegative={false}
                   isLoading={true}
-                  showVolume={false}
+
                 />
               {/if}
             </div>

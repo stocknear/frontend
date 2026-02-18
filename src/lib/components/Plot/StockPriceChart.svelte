@@ -56,7 +56,6 @@
   export let previousClose: number | null = null;
   export let isNegative: boolean = false;
   export let isLoading: boolean = false;
-  export let showVolume: boolean = true;
 
   // ============================================================================
   // STATE
@@ -238,7 +237,7 @@
         open: toNumber(item?.open) ?? close,
         high: toNumber(item?.high) ?? close,
         low: toNumber(item?.low) ?? close,
-        volume: toNumber(item?.volume) ?? 0,
+        volume: 0,
       });
     }
 
@@ -309,7 +308,6 @@
     const gridColor = isLight
       ? "rgba(148, 163, 184, 0.35)"
       : "rgba(148, 163, 184, 0.25)";
-    const separatorColor = isLight ? "#e5e7eb" : "#1e293b";
     const axisText = isLight ? "#6b7280" : "#9ca3af";
     const crosshairLine = isLight ? "#374151" : "#d1d5db";
     const crosshairBg = isLight ? "#111827" : "#f9fafb";
@@ -424,18 +422,7 @@
         },
         tooltip: { showRule: "none" },
       },
-      indicator: {
-        bars: [{
-          style: "fill", borderStyle: "solid", borderSize: 0, borderDashedValue: [2, 2],
-          upColor: isLight ? "rgba(22, 163, 74, 0.35)" : "rgba(34, 197, 94, 0.35)",
-          downColor: isLight ? "rgba(239, 68, 68, 0.35)" : "rgba(248, 113, 113, 0.35)",
-          noChangeColor: "rgba(148, 163, 184, 0.35)",
-        }],
-        lines: [{ show: false }, { show: false }, { show: false }, { show: false }, { show: false }],
-        tooltip: { showRule: "none" },
-        lastValueMark: { show: false },
-      },
-      separator: { size: 1, color: separatorColor, fill: false, activeBackgroundColor: "transparent" },
+      separator: { size: 0, color: "transparent", fill: false, activeBackgroundColor: "transparent" },
     });
 
     lastAppliedMode = isLight ? "light" : "dark";
@@ -644,43 +631,6 @@
     chart.setLeftMinVisibleBarCount(0);
     chart.setRightMinVisibleBarCount(0);
     chart.setSymbol({ ticker: "STOCK", pricePrecision: 2, volumePrecision: 0 });
-
-    if (showVolume) {
-      chart.createIndicator({ name: "VOL", calcParams: [] }, false, {
-        id: "volume_pane",
-        height: 80,
-        dragEnabled: false,
-        gap: { top: 0.02, bottom: 0 },
-        axis: {
-          show: false,
-          scrollZoomEnabled: false,
-          createRange: ({ chart: c, defaultRange }) => {
-            const visibleRange = c.getVisibleRange();
-            const dataList = c.getDataList();
-            if (!dataList?.length) return defaultRange;
-
-            const volumes: number[] = [];
-            for (let i = visibleRange.from; i < visibleRange.to; i++) {
-              const v = dataList[i]?.volume;
-              if (typeof v === "number" && v > 0) volumes.push(v);
-            }
-            if (!volumes.length) return defaultRange;
-
-            volumes.sort((a, b) => a - b);
-            const p95 = volumes[Math.min(Math.floor(volumes.length * 0.95), volumes.length - 1)];
-            const actualMax = volumes[volumes.length - 1];
-            const max = actualMax > p95 * 3 ? p95 * 1.5 : actualMax * 1.05;
-
-            return { from: 0, to: max, range: max, realFrom: 0, realTo: max, realRange: max, displayFrom: 0, displayTo: max, displayRange: max };
-          },
-        },
-        styles: {
-          grid: {
-            show: false,
-          },
-        },
-      });
-    }
 
     chart.setPaneOptions({ id: "candle_pane", gap: { top: 0.02, bottom: 0.02 }, axis: { scrollZoomEnabled: false } });
 
