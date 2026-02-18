@@ -1109,16 +1109,16 @@
                       <!-- Media display -->
                       {#if item?.media && item.media.length > 0}
                         <div
-                          class="mt-3 grid gap-2 {item.media.length === 1
-                            ? 'grid-cols-1'
-                            : 'grid-cols-2'}"
+                          class="mt-3 {item.media.length === 1
+                            ? ''
+                            : 'grid grid-cols-2 gap-2'}"
                         >
                           {#each item.media as mediaUrl, mediaIndex}
                             {#if mediaUrl.includes(".mp4") || mediaUrl.includes(".webm")}
                               <video
                                 src={mediaUrl}
                                 controls
-                                class="w-full rounded-lg border border-gray-300 dark:border-zinc-700"
+                                class="max-w-md w-full rounded-lg border border-gray-300 dark:border-zinc-700"
                                 preload="metadata"
                               >
                                 <track kind="captions" />
@@ -1128,11 +1128,16 @@
                                 href={mediaUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                class={item.media.length === 1
+                                  ? "inline-block"
+                                  : ""}
                               >
                                 <img
                                   src={mediaUrl}
                                   alt="Post media {mediaIndex + 1}"
-                                  class="w-full h-auto max-h-80 object-cover rounded-lg border border-gray-300 dark:border-zinc-700 hover:opacity-90 transition"
+                                  class="{item.media.length === 1
+                                    ? 'max-w-md w-full max-h-96 object-contain '
+                                    : 'w-full h-48 sm:h-56 object-cover'} rounded-2xl border border-gray-300 dark:border-zinc-700 hover:opacity-90 transition"
                                   loading="lazy"
                                 />
                               </a>
@@ -1473,26 +1478,31 @@
     <!-- Media display in modal -->
     {#if postMedia && postMedia.length > 0}
       <div
-        class="mb-4 grid gap-2 {postMedia.length === 1
-          ? 'grid-cols-1'
-          : 'grid-cols-2'}"
+        class="mb-4 {postMedia.length === 1 ? '' : 'grid grid-cols-2 gap-2'}"
       >
         {#each postMedia as mediaUrl, mediaIndex}
           {#if mediaUrl.includes(".mp4") || mediaUrl.includes(".webm")}
             <video
               src={mediaUrl}
               controls
-              class="w-full rounded-lg border border-gray-300 dark:border-zinc-700"
+              class="max-w-md w-full rounded-lg border border-gray-300 dark:border-zinc-700"
               preload="metadata"
             >
               <track kind="captions" />
             </video>
           {:else}
-            <a href={mediaUrl} target="_blank" rel="noopener noreferrer">
+            <a
+              href={mediaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={postMedia.length === 1 ? "inline-block" : ""}
+            >
               <img
                 src={mediaUrl}
                 alt="Post media {mediaIndex + 1}"
-                class="w-full h-auto max-h-96 object-cover rounded-lg border border-gray-300 dark:border-zinc-700 hover:opacity-90 transition"
+                class="{postMedia.length === 1
+                  ? 'max-w-md w-full max-h-96 object-contain'
+                  : 'w-full h-48 sm:h-56 object-cover'} rounded-lg border border-gray-300 dark:border-zinc-700 hover:opacity-90 transition"
                 loading="lazy"
               />
             </a>
