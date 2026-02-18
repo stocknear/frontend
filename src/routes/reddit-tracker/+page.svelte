@@ -566,282 +566,513 @@
           <!-- Custom Table with Expandable Rows -->
           <div class="w-full m-auto mt-5">
             {#if stockList?.length > 0}
-              <div
-                class="w-full m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
-              >
-                <table
-                  class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
-                >
-                  <thead>
-                    <TableHeader
-                      {columns}
-                      {sortOrders}
-                      {sortData}
-                      onColumnReorder={handleColumnReorder}
-                    />
-                  </thead>
-                  <tbody
-                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-                  >
-                    {#each stockList as item, index}
-                      <tr
-                        class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 cursor-pointer"
-                        on:click={() => openGraph(item?.symbol)}
+              <!-- Mobile Card View -->
+              {#if $screenWidth > 0 && $screenWidth < 640}
+                <div class="mb-4 space-y-3">
+                  {#each stockList as item, index}
+                    <div
+                      class="rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-hidden"
+                    >
+                      <!-- Header -->
+                      <div
+                        class="flex items-start justify-between px-4 pt-4 pb-3"
                       >
-                        {#each columns as column}
-                          {#if column.key === "chart"}
-                            <td class="hidden lg:table-cell">
-                              <button
-                                class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
-                              >
-                                <svg
-                                  class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
-                                  item?.symbol
-                                    ? 'rotate-180'
-                                    : ''}"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                  style="max-width:40px"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"
-                                  ></path>
-                                </svg>
-                              </button>
-                            </td>
-                          {:else if column.key === "symbol"}
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
-                              on:click|stopPropagation
-                            >
-                              <HoverStockChart symbol={item?.symbol} />
-                            </td>
-                          {:else if column.key === "mentions"}
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
-                            >
-                              {item?.mentions?.toLocaleString("en-US") || "0"}
-                            </td>
-                          {:else if column.key === "marketCap"}
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
-                            >
-                              {abbreviateNumber(item?.marketCap)}
-                            </td>
-                          {:else if column.key === "price"}
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
-                            >
-                              {item?.price !== undefined && item?.price !== null
-                                ? "$" + item.price.toFixed(2)
-                                : "-"}
-                            </td>
-                          {:else if column.key === "changesPercentage"}
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
-                            >
-                              {#if item?.changesPercentage !== undefined && item?.changesPercentage !== null}
-                                <span
-                                  class={item.changesPercentage >= 0
-                                    ? "text-emerald-800 dark:text-emerald-400"
-                                    : "text-rose-800 dark:text-rose-400"}
-                                >
-                                  {item.changesPercentage >= 0
-                                    ? "+"
-                                    : ""}{item.changesPercentage.toFixed(2)}%
-                                </span>
-                              {:else}
-                                -
-                              {/if}
-                            </td>
-                          {:else if column.key === "sentiment"}
-                            <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
-                            >
-                              <span
-                                class={[
-                                  "Bullish",
-                                  "Buy",
-                                  "Strong Buy",
-                                ]?.includes(item?.sentiment)
-                                  ? "text-emerald-800 dark:text-emerald-400"
-                                  : ["Neutral", "Hold"]?.includes(
-                                        item?.sentiment,
-                                      )
-                                    ? "text-[#E57C34] dark:text-yellow-500"
-                                    : [
-                                          "Bearish",
-                                          "Sell",
-                                          "Strong Sell",
-                                        ]?.includes(item?.sentiment)
-                                      ? "text-rose-800 dark:text-rose-400"
-                                      : ""}
-                              >
-                                {item?.sentiment || "-"}
-                              </span>
-                            </td>
-                          {/if}
-                        {/each}
-                      </tr>
-
-                      <!-- Expanded Row: Reddit Posts -->
-                      {#if checkedSymbol === item?.symbol}
-                        <tr class="bg-white/80 dark:bg-zinc-950/60">
-                          <td colspan={columns.length} class="px-0">
-                            <div class="p-4 sm:p-5">
-                              <!-- Header -->
-                              <div
-                                class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4"
-                              >
-                                <span
-                                  class="text-lg font-semibold text-gray-900 dark:text-white"
-                                  >{item?.symbol}</span
-                                >
-                                <span
-                                  class="px-2 py-0.5 rounded-full text-xs font-medium {[
-                                    'Bullish',
-                                    'Buy',
-                                    'Strong Buy',
+                        <div class="min-w-0 flex-1">
+                          <HoverStockChart symbol={item?.symbol} />
+                          <p
+                            class="mt-0.5 text-[13px] text-gray-800 dark:text-zinc-300 truncate"
+                          >
+                            {item?.name?.length > 28
+                              ? item?.name?.slice(0, 28) + "..."
+                              : item?.name}
+                          </p>
+                        </div>
+                        <span
+                          class="ml-3 px-2 py-0.5 rounded-full text-xs font-medium {[
+                            'Bullish',
+                            'Buy',
+                            'Strong Buy',
+                          ]?.includes(item?.sentiment)
+                            ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400'
+                            : ['Neutral', 'Hold']?.includes(item?.sentiment)
+                              ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-yellow-500'
+                              : [
+                                    'Bearish',
+                                    'Sell',
+                                    'Strong Sell',
                                   ]?.includes(item?.sentiment)
-                                    ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400'
-                                    : ['Neutral', 'Hold']?.includes(
+                                ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-400'
+                                : 'bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300'}"
+                        >
+                          {item?.sentiment || "-"}
+                        </span>
+                      </div>
+
+                      <!-- Details -->
+                      <div class="flex items-end justify-between px-4 pb-4">
+                        <div class="space-y-1">
+                          <div class="flex items-center gap-1.5 text-[13px]">
+                            <span class="text-gray-600 dark:text-zinc-400"
+                              >Mentions:</span
+                            >
+                            <span
+                              class="font-medium text-gray-800 dark:text-zinc-200 tabular-nums"
+                              >{item?.mentions?.toLocaleString("en-US") ||
+                                "0"}</span
+                            >
+                          </div>
+                          <div class="flex items-center gap-1.5 text-[13px]">
+                            <span
+                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400"
+                              >Mkt Cap</span
+                            >
+                            <span
+                              class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              >{abbreviateNumber(item?.marketCap)}</span
+                            >
+                          </div>
+                        </div>
+                        <div class="text-right">
+                          <p
+                            class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5"
+                          >
+                            <span
+                              class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              >{item?.price !== undefined &&
+                              item?.price !== null
+                                ? "$" + item.price.toFixed(2)
+                                : "-"}</span
+                            >
+                          </p>
+                          <p class="text-[13px]">
+                            <span
+                              class="font-medium tabular-nums {item?.changesPercentage >=
+                                0 && item?.changesPercentage !== null
+                                ? 'text-emerald-800 dark:text-emerald-400'
+                                : item?.changesPercentage < 0 &&
+                                    item?.changesPercentage !== null
+                                  ? 'text-rose-800 dark:text-rose-400'
+                                  : 'text-gray-500 dark:text-zinc-400'}"
+                            >
+                              {item?.changesPercentage !== undefined &&
+                              item?.changesPercentage !== null
+                                ? (item.changesPercentage >= 0 ? "+" : "") +
+                                  item.changesPercentage.toFixed(2) +
+                                  "%"
+                                : "-"}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Expand Button -->
+                      <button
+                        on:click={() => openGraph(item?.symbol)}
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                      >
+                        <span>View Reddit Posts</span>
+                        <svg
+                          class="h-4 w-4 transition-transform {checkedSymbol ===
+                          item?.symbol
+                            ? 'rotate-180'
+                            : ''}"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+
+                      <!-- Expanded: Reddit Posts -->
+                      {#if checkedSymbol === item?.symbol}
+                        <div
+                          class="border-t border-gray-300 dark:border-zinc-700 p-4"
+                        >
+                          {#if loadingPosts}
+                            <div
+                              class="flex justify-center items-center h-40"
+                            >
+                              <div class="relative">
+                                <label
+                                  class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                >
+                                  <span
+                                    class="loading loading-spinner loading-md text-white dark:text-white"
+                                  ></span>
+                                </label>
+                              </div>
+                            </div>
+                          {:else if expandedPosts?.length === 0}
+                            <p
+                              class="text-center py-8 text-gray-500 dark:text-zinc-400 text-sm"
+                            >
+                              {reddit_tracker_posts_empty({
+                                ticker: item?.symbol,
+                              })}
+                            </p>
+                          {:else}
+                            <div
+                              class="space-y-3 max-h-[400px] overflow-y-auto scroller pr-1"
+                            >
+                              {#each expandedPosts as post}
+                                <a
+                                  href="https://reddit.com{post.permalink}"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  class="block rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-3 transition"
+                                >
+                                  <div
+                                    class="flex flex-wrap items-center gap-1.5 mb-1.5 text-xs text-gray-500 dark:text-zinc-400"
+                                  >
+                                    {#if post.link_flair_text}
+                                      <span
+                                        class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 text-[11px] font-medium"
+                                      >
+                                        {post.link_flair_text}
+                                      </span>
+                                    {/if}
+                                    <span>u/{post.author}</span>
+                                    <span>&middot;</span>
+                                    <span>
+                                      {formatPostDate(post.created_utc)}
+                                    </span>
+                                  </div>
+                                  <h3
+                                    class="text-sm font-medium text-gray-900 dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
+                                  >
+                                    {post.title}
+                                  </h3>
+                                  {#if post.selftext}
+                                    <p
+                                      class="text-xs text-gray-600 dark:text-zinc-400 line-clamp-2 mb-2 whitespace-normal"
+                                    >
+                                      {post.selftext}
+                                    </p>
+                                  {/if}
+                                  <div
+                                    class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-zinc-400"
+                                  >
+                                    <span
+                                      >{reddit_tracker_posts_upvote({
+                                        ratio: String(
+                                          Math.round(post.upvote_ratio),
+                                        ),
+                                      })}</span
+                                    >
+                                    <span>&middot;</span>
+                                    <span
+                                      >{reddit_tracker_posts_comments({
+                                        count: String(
+                                          post.num_comments?.toLocaleString(
+                                            "en-US",
+                                          ),
+                                        ),
+                                      })}</span
+                                    >
+                                    {#if post.ticker_count > 1}
+                                      <span>&middot;</span>
+                                      <span
+                                        >{reddit_tracker_posts_mentioned({
+                                          count: String(post.ticker_count),
+                                        })}</span
+                                      >
+                                    {/if}
+                                  </div>
+                                </a>
+                              {/each}
+                            </div>
+                          {/if}
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              {:else}
+                <!-- Desktop Table View -->
+                <div
+                  class="w-full m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
+                >
+                  <table
+                    class="table table-sm table-compact w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                  >
+                    <thead>
+                      <TableHeader
+                        {columns}
+                        {sortOrders}
+                        {sortData}
+                        onColumnReorder={handleColumnReorder}
+                      />
+                    </thead>
+                    <tbody
+                      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+                    >
+                      {#each stockList as item, index}
+                        <tr
+                          class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 cursor-pointer"
+                          on:click={() => openGraph(item?.symbol)}
+                        >
+                          {#each columns as column}
+                            {#if column.key === "chart"}
+                              <td class="hidden lg:table-cell">
+                                <button
+                                  class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
+                                >
+                                  <svg
+                                    class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                    item?.symbol
+                                      ? 'rotate-180'
+                                      : ''}"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    style="max-width:40px"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"
+                                    ></path>
+                                  </svg>
+                                </button>
+                              </td>
+                            {:else if column.key === "symbol"}
+                              <!-- svelte-ignore a11y-click-events-have-key-events -->
+                              <td
+                                class="text-[0.85rem] sm:text-sm text-start text-gray-700 dark:text-zinc-200"
+                                on:click|stopPropagation
+                              >
+                                <HoverStockChart symbol={item?.symbol} />
+                              </td>
+                            {:else if column.key === "mentions"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                              >
+                                {item?.mentions?.toLocaleString("en-US") || "0"}
+                              </td>
+                            {:else if column.key === "marketCap"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                              >
+                                {abbreviateNumber(item?.marketCap)}
+                              </td>
+                            {:else if column.key === "price"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200 tabular-nums"
+                              >
+                                {item?.price !== undefined &&
+                                item?.price !== null
+                                  ? "$" + item.price.toFixed(2)
+                                  : "-"}
+                              </td>
+                            {:else if column.key === "changesPercentage"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                              >
+                                {#if item?.changesPercentage !== undefined && item?.changesPercentage !== null}
+                                  <span
+                                    class={item.changesPercentage >= 0
+                                      ? "text-emerald-800 dark:text-emerald-400"
+                                      : "text-rose-800 dark:text-rose-400"}
+                                  >
+                                    {item.changesPercentage >= 0
+                                      ? "+"
+                                      : ""}{item.changesPercentage.toFixed(2)}%
+                                  </span>
+                                {:else}
+                                  -
+                                {/if}
+                              </td>
+                            {:else if column.key === "sentiment"}
+                              <td
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                              >
+                                <span
+                                  class={[
+                                    "Bullish",
+                                    "Buy",
+                                    "Strong Buy",
+                                  ]?.includes(item?.sentiment)
+                                    ? "text-emerald-800 dark:text-emerald-400"
+                                    : ["Neutral", "Hold"]?.includes(
                                           item?.sentiment,
                                         )
-                                      ? 'bg-amber-100 dark:bg-amber-900/40 text-[#E57C34] dark:text-yellow-500'
+                                      ? "text-amber-700 dark:text-yellow-500"
                                       : [
-                                            'Bearish',
-                                            'Sell',
-                                            'Strong Sell',
+                                            "Bearish",
+                                            "Sell",
+                                            "Strong Sell",
                                           ]?.includes(item?.sentiment)
-                                        ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-400'
-                                        : 'bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300'}"
+                                        ? "text-rose-800 dark:text-rose-400"
+                                        : ""}
                                 >
-                                  {item?.sentiment || "N/A"}
+                                  {item?.sentiment || "-"}
                                 </span>
-                                <span
-                                  class="text-sm text-gray-500 dark:text-zinc-400"
-                                >
-                                  {item?.mentions?.toLocaleString("en-US") ||
-                                    "0"} mentions
-                                </span>
-                              </div>
+                              </td>
+                            {/if}
+                          {/each}
+                        </tr>
 
-                              <!-- Loading state -->
-                              {#if loadingPosts}
+                        <!-- Expanded Row: Reddit Posts -->
+                        {#if checkedSymbol === item?.symbol}
+                          <tr class="bg-white/80 dark:bg-zinc-950/60">
+                            <td colspan={columns.length} class="px-0">
+                              <div class="p-4 sm:p-5">
+                                <!-- Header -->
                                 <div
-                                  class="flex justify-center items-center h-80"
+                                  class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4"
                                 >
-                                  <div class="relative">
-                                    <label
-                                      class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                                    >
-                                      <span
-                                        class="loading loading-spinner loading-md text-white dark:text-white"
-                                      ></span>
-                                    </label>
-                                  </div>
+                                  <span
+                                    class="text-lg font-semibold text-gray-900 dark:text-white"
+                                    >{item?.symbol}</span
+                                  >
+                                  <span
+                                    class="px-2 py-0.5 rounded-full text-xs font-medium {[
+                                      'Bullish',
+                                      'Buy',
+                                      'Strong Buy',
+                                    ]?.includes(item?.sentiment)
+                                      ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400'
+                                      : ['Neutral', 'Hold']?.includes(
+                                            item?.sentiment,
+                                          )
+                                        ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-yellow-500'
+                                        : [
+                                              'Bearish',
+                                              'Sell',
+                                              'Strong Sell',
+                                            ]?.includes(item?.sentiment)
+                                          ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-400'
+                                          : 'bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300'}"
+                                  >
+                                    {item?.sentiment || "N/A"}
+                                  </span>
+                                  <span
+                                    class="text-sm text-gray-500 dark:text-zinc-400"
+                                  >
+                                    {item?.mentions?.toLocaleString("en-US") ||
+                                      "0"} mentions
+                                  </span>
                                 </div>
 
-                                <!-- Empty state -->
-                              {:else if expandedPosts?.length === 0}
-                                <p
-                                  class="text-center py-8 text-gray-500 dark:text-zinc-400 text-sm"
-                                >
-                                  {reddit_tracker_posts_empty({
-                                    ticker: item?.symbol,
-                                  })}
-                                </p>
+                                <!-- Loading state -->
+                                {#if loadingPosts}
+                                  <div
+                                    class="flex justify-center items-center h-80"
+                                  >
+                                    <div class="relative">
+                                      <label
+                                        class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                      >
+                                        <span
+                                          class="loading loading-spinner loading-md text-white dark:text-white"
+                                        ></span>
+                                      </label>
+                                    </div>
+                                  </div>
 
-                                <!-- Post feed -->
-                              {:else}
-                                <div
-                                  class="space-y-3 max-h-[500px] overflow-y-auto scroller pr-1"
-                                >
-                                  {#each expandedPosts as post}
-                                    <a
-                                      href="https://reddit.com{post.permalink}"
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      class="block rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-zinc-900/60 transition"
-                                    >
-                                      <!-- Flair + author + date -->
-                                      <div
-                                        class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 text-xs text-gray-500 dark:text-zinc-400"
+                                  <!-- Empty state -->
+                                {:else if expandedPosts?.length === 0}
+                                  <p
+                                    class="text-center py-8 text-gray-500 dark:text-zinc-400 text-sm"
+                                  >
+                                    {reddit_tracker_posts_empty({
+                                      ticker: item?.symbol,
+                                    })}
+                                  </p>
+
+                                  <!-- Post feed -->
+                                {:else}
+                                  <div
+                                    class="space-y-3 max-h-[500px] overflow-y-auto scroller pr-1"
+                                  >
+                                    {#each expandedPosts as post}
+                                      <a
+                                        href="https://reddit.com{post.permalink}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="block rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-zinc-900/60 transition"
                                       >
-                                        {#if post.link_flair_text}
-                                          <span
-                                            class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 text-[11px] font-medium"
-                                          >
-                                            {post.link_flair_text}
+                                        <!-- Flair + author + date -->
+                                        <div
+                                          class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 text-xs text-gray-500 dark:text-zinc-400"
+                                        >
+                                          {#if post.link_flair_text}
+                                            <span
+                                              class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 text-[11px] font-medium"
+                                            >
+                                              {post.link_flair_text}
+                                            </span>
+                                          {/if}
+                                          <span>u/{post.author}</span>
+                                          <span class="hidden sm:inline">
+                                            &middot;
                                           </span>
+                                          <span>
+                                            {formatPostDate(post.created_utc)}
+                                          </span>
+                                        </div>
+                                        <!-- Title -->
+                                        <h3
+                                          class="text-sm font-medium text-gray-900 dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
+                                        >
+                                          {post.title}
+                                        </h3>
+                                        <!-- Selftext snippet -->
+                                        {#if post.selftext}
+                                          <p
+                                            class="text-xs text-gray-600 dark:text-zinc-400 line-clamp-2 mb-2 whitespace-normal"
+                                          >
+                                            {post.selftext}
+                                          </p>
                                         {/if}
-                                        <span>u/{post.author}</span>
-                                        <span class="hidden sm:inline">
-                                          &middot;
-                                        </span>
-                                        <span>
-                                          {formatPostDate(post.created_utc)}
-                                        </span>
-                                      </div>
-                                      <!-- Title -->
-                                      <h3
-                                        class="text-sm font-medium text-gray-900 dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
-                                      >
-                                        {post.title}
-                                      </h3>
-                                      <!-- Selftext snippet -->
-                                      {#if post.selftext}
-                                        <p
-                                          class="text-xs text-gray-600 dark:text-zinc-400 line-clamp-2 mb-2 whitespace-normal"
+                                        <!-- Stats row -->
+                                        <div
+                                          class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-gray-500 dark:text-zinc-400"
                                         >
-                                          {post.selftext}
-                                        </p>
-                                      {/if}
-                                      <!-- Stats row -->
-                                      <div
-                                        class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-gray-500 dark:text-zinc-400"
-                                      >
-                                        <span
-                                          >{reddit_tracker_posts_upvote({
-                                            ratio: String(
-                                              Math.round(post.upvote_ratio),
-                                            ),
-                                          })}</span
-                                        >
-                                        <span>&middot;</span>
-                                        <span
-                                          >{reddit_tracker_posts_comments({
-                                            count: String(
-                                              post.num_comments?.toLocaleString(
-                                                "en-US",
-                                              ),
-                                            ),
-                                          })}</span
-                                        >
-                                        {#if post.ticker_count > 1}
-                                          <span>&middot;</span>
                                           <span
-                                            >{reddit_tracker_posts_mentioned({
-                                              count: String(post.ticker_count),
+                                            >{reddit_tracker_posts_upvote({
+                                              ratio: String(
+                                                Math.round(post.upvote_ratio),
+                                              ),
                                             })}</span
                                           >
-                                        {/if}
-                                      </div>
-                                    </a>
-                                  {/each}
-                                </div>
-                              {/if}
-                            </div>
-                          </td>
-                        </tr>
-                      {/if}
-                    {/each}
-                  </tbody>
-                </table>
-              </div>
+                                          <span>&middot;</span>
+                                          <span
+                                            >{reddit_tracker_posts_comments({
+                                              count: String(
+                                                post.num_comments?.toLocaleString(
+                                                  "en-US",
+                                                ),
+                                              ),
+                                            })}</span
+                                          >
+                                          {#if post.ticker_count > 1}
+                                            <span>&middot;</span>
+                                            <span
+                                              >{reddit_tracker_posts_mentioned({
+                                                count: String(
+                                                  post.ticker_count,
+                                                ),
+                                              })}</span
+                                            >
+                                          {/if}
+                                        </div>
+                                      </a>
+                                    {/each}
+                                  </div>
+                                {/if}
+                              </div>
+                            </td>
+                          </tr>
+                        {/if}
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {/if}
 
               <!-- Pagination controls -->
               {#if totalPages > 1}
