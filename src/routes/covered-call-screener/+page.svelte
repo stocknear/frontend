@@ -917,6 +917,9 @@
       });
       if (inputValue) params.set('search', inputValue);
       if (activeRules.length > 0) params.set('rules', JSON.stringify(activeRules));
+      // Send all rule column names so backend projects them even if filter value is "any"
+      const allRuleNames = ruleOfList?.map((r) => r.name).filter(Boolean).join(',');
+      if (allRuleNames) params.set('displayColumns', allRuleNames);
 
       const response = await fetch(`/api/covered-call-screener-feed?${params}`, { signal });
       if (signal.aborted) return;
@@ -953,6 +956,8 @@
     });
     if (inputValue) params.set('search', inputValue);
     if (activeRules.length > 0) params.set('rules', JSON.stringify(activeRules));
+    const allRuleNames = ruleOfList?.map((r) => r.name).filter(Boolean).join(',');
+    if (allRuleNames) params.set('displayColumns', allRuleNames);
     const response = await fetch(`/api/covered-call-screener-feed?${params}`);
     const result = await response.json();
     return result?.items ?? [];

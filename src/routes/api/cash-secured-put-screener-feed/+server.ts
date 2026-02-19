@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./$types";
 
 const allowedParams = [
-  "page", "pageSize", "sortKey", "sortOrder", "search", "rules", "tab", "optionContracts",
+  "page", "pageSize", "sortKey", "sortOrder", "search", "rules", "tab", "optionContracts", "displayColumns",
 ] as const;
 
 export const GET: RequestHandler = async ({ url, locals }) => {
