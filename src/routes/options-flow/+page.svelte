@@ -465,6 +465,21 @@
           }
         }
       }
+
+      // --- Exclude tickers (blacklist) ---
+      if (
+        rule.name === "excludeTickers" &&
+        typeof rule.value === "string" &&
+        rule.value !== "any"
+      ) {
+        const excluded = rule.value
+          .split(",")
+          .map((t) => t.trim().toUpperCase())
+          .filter(Boolean);
+        if (excluded.length > 0) {
+          filters.exclude_tickers = excluded;
+        }
+      }
     }
     return filters;
   }
@@ -672,7 +687,14 @@
       step: ["Single-Leg", "Multi-Leg"],
       defaultValue: "any",
     },
+    excludeTickers: {
+      label: "Exclude Tickers",
+      step: [],
+      defaultValue: "any",
+    },
   };
+
+  const textInputRules = ["excludeTickers"];
 
   const categoricalRules = [
     "moneyness",
@@ -1399,6 +1421,12 @@
             ? valueMappings[ruleName]
             : [valueMappings[ruleName]],
         }; // Ensure value is an array
+        break;
+      case "excludeTickers":
+        newRule = {
+          name: ruleName,
+          value: valueMappings[ruleName],
+        };
         break;
       default:
         newRule = {
@@ -2758,7 +2786,7 @@
                               class="h-[40px] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <span class="truncate ml-2 text-sm">
-                                {#if valueMappings[row?.rule] === "any"}
+                                {#if valueMappings[row?.rule] === "any" || (Array.isArray(valueMappings[row?.rule]) && valueMappings[row?.rule].length === 1 && valueMappings[row?.rule][0] === "any")}
                                   Any
                                 {:else if ruleCondition[row?.rule] === "between"}
                                   {Array.isArray(valueMappings[row?.rule])
@@ -2794,7 +2822,7 @@
                             alignOffset={0}
                             class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                           >
-                            {#if !categoricalRules?.includes(row?.rule)}
+                            {#if !categoricalRules?.includes(row?.rule) && !textInputRules?.includes(row?.rule)}
                               <DropdownMenu.Label
                                 class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                               >
@@ -3031,6 +3059,32 @@
                                     </div>
                                   </DropdownMenu.Item>
                                 {/each}
+                              {:else if textInputRules?.includes(row?.rule)}
+                                <div class="px-3 py-2">
+                                  <input
+                                    type="text"
+                                    placeholder="e.g. AAPL, TSLA, SPY"
+                                    value={valueMappings[row?.rule] === "any" ? "" : valueMappings[row?.rule]}
+                                    on:input={(e) => {
+                                      const val = e.target.value.trim();
+                                      ruleName = row?.rule;
+                                      valueMappings[row?.rule] = val || "any";
+                                      const ruleToUpdate = ruleOfList?.find((r) => r.name === row?.rule);
+                                      if (ruleToUpdate) {
+                                        ruleToUpdate.value = val || "any";
+                                        ruleOfList = [...ruleOfList];
+                                      }
+                                      debouncedFilterFetch();
+                                    }}
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-zinc-700 rounded-lg
+                                           bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200
+                                           placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none
+                                           focus:border-violet-500 dark:focus:border-violet-400"
+                                  />
+                                  <p class="text-xs text-gray-400 dark:text-zinc-500 mt-1">
+                                    Comma-separated tickers to exclude
+                                  </p>
+                                </div>
                               {/if}
                             </DropdownMenu.Group>
                           </DropdownMenu.Content>
