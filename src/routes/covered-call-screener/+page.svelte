@@ -526,8 +526,9 @@
   // Update ruleCondition and valueMappings based on existing rules
   ruleOfList?.forEach((rule) => {
     ruleCondition[rule.name] =
-      rule.condition || allRules[rule.name].defaultCondition;
-    valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+      rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
+    valueMappings[rule.name] =
+      rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
   });
 
   const formatDate = (dateString: string): string => {
@@ -631,9 +632,9 @@
 
       ruleOfList.forEach((rule) => {
         ruleCondition[rule.name] =
-          rule.condition || allRules[rule.name].defaultCondition;
+          rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
         valueMappings[rule.name] =
-          rule.value || allRules[rule.name].defaultValue;
+          rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
       });
 
       if (ruleOfList.length === 0) {
@@ -766,8 +767,9 @@
 
     ruleOfList.forEach((rule) => {
       ruleCondition[rule.name] =
-        rule.condition || allRules[rule.name].defaultCondition;
-      valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+        rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
+      valueMappings[rule.name] =
+        rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
     });
 
     await fetchTableData({ page: 1 });
@@ -844,9 +846,9 @@
       ruleOfList = strategy?.rules;
       ruleOfList?.forEach((row) => {
         ruleCondition[row.name] =
-          row.condition || allRules[row.name]?.defaultCondition || "";
+          row.condition ?? allRules[row.name]?.defaultCondition ?? "";
         valueMappings[row.name] =
-          row.value || allRules[row.name]?.defaultValue || "any";
+          row.value ?? allRules[row.name]?.defaultValue ?? "any";
 
         if (checkedRules.includes(row.name)) {
           checkedItems.set(row.name, new Set(Array.isArray(row.value) ? row.value : [row.value]));
@@ -1292,13 +1294,30 @@
     }
 
     if (strategyList?.length > 0) {
+      // Build a fresh rules array from the authoritative UI state
+      // so saved data always matches what buildActiveRules/fetchTableData use
+      const currentRules = ruleOfList.map((rule) => {
+        const name = rule.name;
+        const condition =
+          ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
+        let value;
+        if (checkedRules.includes(name) && checkedItems?.has(name)) {
+          const items = [...checkedItems.get(name)];
+          value = items.length > 0 ? items : "any";
+        } else {
+          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
+        }
+        return { name, condition, value };
+      });
+
+      ruleOfList = currentRules;
       strategyList.find((item) => item.id === selectedStrategy).rules =
-        ruleOfList;
+        currentRules;
       strategyList = strategyList;
 
       const postData = {
         strategyId: selectedStrategy,
-        rules: ruleOfList,
+        rules: currentRules,
         type: "coveredCallScreener",
       };
 

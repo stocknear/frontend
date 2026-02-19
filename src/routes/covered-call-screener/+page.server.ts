@@ -29,10 +29,13 @@ export const load = async ({ locals }) => {
   const strategy = strategyList?.at(0);
   const subscriber = user?.tier ?? 'Free';
 
-  // Build active rules from saved strategy (skip "any" values)
-  const rules = (strategy?.rules || []).filter((r: any) =>
-    r.value !== 'any' && !(Array.isArray(r.value) && r.value.includes('any'))
-  );
+  // Build active rules from saved strategy (skip "any" / null / undefined values)
+  const rules = (strategy?.rules ?? []).filter((r: any) => {
+    const v = r.value;
+    if (v == null || v === 'any') return false;
+    if (Array.isArray(v) && (v.length === 0 || v.includes('any'))) return false;
+    return true;
+  });
 
   const params = new URLSearchParams({
     page: '1',
