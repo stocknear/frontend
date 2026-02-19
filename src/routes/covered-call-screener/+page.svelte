@@ -645,8 +645,8 @@
 
       checkedItems = new Map(
         ruleOfList
-          ?.filter((rule) => ["assetType"].includes(rule.name))
-          ?.map((rule) => [rule.name, new Set(rule.value)]),
+          ?.filter((rule) => checkedRules.includes(rule.name))
+          ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
       );
 
       return true;
@@ -774,7 +774,7 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(rule.value)]),
+        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
     );
   }
 
@@ -848,8 +848,8 @@
         valueMappings[row.name] =
           row.value || allRules[row.name]?.defaultValue || "any";
 
-        if (checkedRules.includes(row.name) && Array.isArray(row.value)) {
-          checkedItems.set(row.name, new Set(row.value));
+        if (checkedRules.includes(row.name)) {
+          checkedItems.set(row.name, new Set(Array.isArray(row.value) ? row.value : [row.value]));
         }
       });
 
@@ -1388,7 +1388,7 @@
   let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => checkedRules?.includes(rule.name))
-      ?.map((rule) => [rule.name, new Set(rule.value)]),
+      ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
   );
 
   function isChecked(item, ruleName) {

@@ -638,7 +638,10 @@
       checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => checkedRules.includes(rule.name))
-          ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+          ?.map((rule) => [
+            rule.name,
+            new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+          ]),
       );
 
       return true;
@@ -766,7 +769,10 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+        ?.map((rule) => [
+          rule.name,
+          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+        ]),
     );
   }
 
@@ -840,8 +846,11 @@
         valueMappings[row.name] =
           row.value || allRules[row.name]?.defaultValue || "any";
 
-        if (checkedRules.includes(row.name) && Array.isArray(row.value)) {
-          checkedItems.set(row.name, new Set(row.value));
+        if (checkedRules.includes(row.name)) {
+          checkedItems.set(
+            row.name,
+            new Set(Array.isArray(row.value) ? row.value : [row.value]),
+          );
         }
       });
 
@@ -1382,7 +1391,10 @@
   let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => checkedRules?.includes(rule.name))
-      ?.map((rule) => [rule.name, new Set(rule.value)]),
+      ?.map((rule) => [
+        rule.name,
+        new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+      ]),
   );
 
   function isChecked(item, ruleName) {
@@ -1923,9 +1935,9 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="min-w-[110px] w-full  transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <span class="truncate max-w-48"
+                  <span class="truncate w-full"
                     >{selectedStrategy?.length !== 0
                       ? strategyList?.find(
                           (item) => item.id === selectedStrategy,
@@ -1948,7 +1960,7 @@
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content
-                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-fit  max-w-52 h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
