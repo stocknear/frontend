@@ -5,6 +5,9 @@ import {
   CHAT_ID_REGEX,
   normalizeChatMessagesForModel,
   validateStoredChatMessages,
+  recoverChatMessages,
+  sanitizeSourcesLenient,
+  trimToMaxMessages,
   type ChatMessage,
 } from "$lib/server/chatValidation";
 import {
@@ -220,7 +223,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const storedMessagesValidation = validateStoredChatMessages(chat?.messages);
   const initialStoredMessages = storedMessagesValidation.ok
     ? storedMessagesValidation.messages
-    : [];
+    : recoverChatMessages(chat?.messages);
 
   const creditReservation = await reserveCredits(pb, userId, costOfCredit);
   if (!creditReservation.ok) {
@@ -274,6 +277,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                   const latestValidation = validateStoredChatMessages(latestChat.messages);
                   if (latestValidation.ok) {
                     latestMessages = latestValidation.messages;
+                  } else {
+                    // Strict validation failed (e.g. invalid sources from a previous save).
+                    // Recover role+content so we don't lose chat history.
+                    const recovered = recoverChatMessages(latestChat.messages);
+                    if (recovered.length > 0) {
+                      latestMessages = recovered;
+                    }
                   }
                 }
               } catch (latestChatError) {
@@ -285,8 +295,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                 role: "system",
               };
 
-              if (streamState.collectedSources.length > 0) {
-                systemMessage.sources = streamState.collectedSources as ChatMessage["sources"];
+              // Sanitize sources leniently — convert non-string values instead of failing
+              const sanitizedSources = sanitizeSourcesLenient(streamState.collectedSources);
+              if (sanitizedSources) {
+                systemMessage.sources = sanitizedSources;
               }
 
               const updatedMessages = applyGeneratedSystemMessage(
@@ -295,8 +307,15 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                 systemMessage,
               );
 
+              // Trim to max stored messages, then validate before writing
+              const trimmedMessages = trimToMaxMessages(updatedMessages);
+              const finalValidation = validateStoredChatMessages(trimmedMessages);
+              const messagesToSave = finalValidation.ok
+                ? finalValidation.messages
+                : recoverChatMessages(trimmedMessages);
+
               await pb.collection("chat").update(chatId, {
-                messages: JSON.stringify(updatedMessages),
+                messages: JSON.stringify(messagesToSave),
               });
 
               markChatGenerationCompleted(chatId, userId);

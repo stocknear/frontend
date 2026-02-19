@@ -24,17 +24,17 @@ export interface ChatModelMessage {
 
 export const CHAT_ID_REGEX = /^[a-z0-9]{15}$/;
 
-const STORED_MAX_MESSAGES = 150;
+const STORED_MAX_MESSAGES = 30;
 const STORED_MAX_CONTENT_CHARS = 20_000;
 const STORED_MAX_TOTAL_CHARS = 350_000;
 const STORED_MAX_SOURCES_PER_MESSAGE = 40;
 const STORED_MAX_RELATED_QUESTIONS = 12;
 const STORED_MAX_RELATED_QUESTION_CHARS = 300;
 
-const MODEL_MAX_MESSAGES = 20;
+const MODEL_MAX_MESSAGES = 5;
 const MODEL_MAX_TOTAL_CHARS = 50_000;
 const MODEL_MAX_CONTENT_CHARS = 8_000;
-const MODEL_SCAN_TAIL_MESSAGES = 200;
+const MODEL_SCAN_TAIL_MESSAGES = 30;
 
 const SOURCE_FIELD_LIMITS = {
   name: 200,
@@ -224,6 +224,78 @@ export function validateStoredChatMessages(raw: unknown): ValidateResult {
   }
 
   return { ok: true, messages };
+}
+
+/**
+ * Trim messages to the latest STORED_MAX_MESSAGES, keeping the most recent.
+ * Accepts any array type so it can be used before or after validation.
+ */
+export function trimToMaxMessages<T>(messages: T[]): T[] {
+  if (messages.length <= STORED_MAX_MESSAGES) return messages;
+  return messages.slice(-STORED_MAX_MESSAGES);
+}
+
+/**
+ * Lenient source sanitizer: strips invalid fields instead of failing.
+ * Converts non-string values to strings and truncates overlong fields.
+ */
+export function sanitizeSourcesLenient(rawSources: unknown): ChatSource[] | undefined {
+  if (!Array.isArray(rawSources) || rawSources.length === 0) return undefined;
+
+  const sources: ChatSource[] = [];
+
+  for (const source of rawSources.slice(0, STORED_MAX_SOURCES_PER_MESSAGE)) {
+    if (!isRecord(source)) continue;
+
+    const sanitized: ChatSource = {};
+
+    for (const [field, maxLength] of Object.entries(SOURCE_FIELD_LIMITS)) {
+      const value = source[field];
+      if (value === undefined || value === null) continue;
+
+      const str = typeof value === "string" ? value : String(value);
+      if (str.length > 0) {
+        sanitized[field as keyof ChatSource] = str.slice(0, maxLength);
+      }
+    }
+
+    if (Object.keys(sanitized).length > 0) {
+      sources.push(sanitized);
+    }
+  }
+
+  return sources.length > 0 ? sources : undefined;
+}
+
+/**
+ * Permissively recover chat messages from raw data.
+ * Unlike validateStoredChatMessages, this strips invalid metadata (sources,
+ * relatedQuestions) instead of failing, preserving the role + content of
+ * each message. Used as a fallback when strict validation fails.
+ */
+export function recoverChatMessages(raw: unknown): ChatMessage[] {
+  const rawMessages = coerceRawMessages(raw);
+  if (!rawMessages) return [];
+
+  const messages: ChatMessage[] = [];
+
+  for (const rawMessage of rawMessages) {
+    if (!isRecord(rawMessage)) continue;
+
+    const { role, content } = rawMessage;
+    if (role !== "user" && role !== "system") continue;
+    if (typeof content !== "string") continue;
+
+    const truncated = content.length > STORED_MAX_CONTENT_CHARS
+      ? content.slice(0, STORED_MAX_CONTENT_CHARS)
+      : content;
+
+    if (role === "user" && truncated.length === 0) continue;
+
+    messages.push({ role, content: truncated });
+  }
+
+  return messages;
 }
 
 export function normalizeChatMessagesForModel(raw: unknown): ChatModelMessage[] {

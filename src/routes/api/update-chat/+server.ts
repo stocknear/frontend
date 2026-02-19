@@ -3,6 +3,8 @@ import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import {
   CHAT_ID_REGEX,
   validateStoredChatMessages,
+  recoverChatMessages,
+  trimToMaxMessages,
 } from "$lib/server/chatValidation";
 
 export const POST = (async ({ request, locals }) => {
@@ -44,9 +46,22 @@ export const POST = (async ({ request, locals }) => {
     return new Response(JSON.stringify({ error: "Invalid chat ID" }), { status: 400 });
   }
 
-  const messagesValidation = validateStoredChatMessages(data.messages);
-  if (!messagesValidation.ok) {
-    return new Response(JSON.stringify({ error: messagesValidation.error }), { status: 400 });
+  // Trim to max stored messages before validation (keeps latest)
+  const rawMessages = Array.isArray(data.messages) ? data.messages : [];
+  const trimmedInput = trimToMaxMessages(rawMessages);
+
+  const messagesValidation = validateStoredChatMessages(trimmedInput);
+  let messagesToSave;
+  if (messagesValidation.ok) {
+    messagesToSave = messagesValidation.messages;
+  } else {
+    // Strict validation failed (e.g. raw sources from stream).
+    // Recover role+content instead of rejecting the save entirely.
+    const recovered = recoverChatMessages(trimmedInput);
+    if (recovered.length === 0) {
+      return new Response(JSON.stringify({ error: messagesValidation.error }), { status: 400 });
+    }
+    messagesToSave = recovered;
   }
 
   try {
@@ -57,7 +72,7 @@ export const POST = (async ({ request, locals }) => {
     }
 
     output = await pb.collection("chat").update(data.chatId, {
-      'messages': JSON.stringify(messagesValidation.messages)
+      'messages': JSON.stringify(messagesToSave)
     });
   } catch(e) {
     console.error("Database update error:", e);
