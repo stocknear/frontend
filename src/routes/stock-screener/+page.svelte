@@ -106,6 +106,7 @@
   let infoText = {};
   let tooltipTitle;
   let removeList = false;
+  let deleteTargetId = "";
 
   $: testList = [];
 
@@ -1791,8 +1792,9 @@
   // Update ruleCondition and valueMappings based on existing rules
   ruleOfList?.forEach((rule) => {
     ruleCondition[rule.name] =
-      rule.condition || allRules[rule.name].defaultCondition;
-    valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+      rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
+    valueMappings[rule.name] =
+      rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
   });
 
   async function handleCreateStrategy() {
@@ -1805,8 +1807,11 @@
   }
 
   async function handleDeleteStrategy() {
+    const idToDelete = deleteTargetId || selectedStrategy;
+    deleteTargetId = "";
+
     const deletePromise = (async () => {
-      const postData = { strategyId: selectedStrategy, type: "stocksScreener" };
+      const postData = { strategyId: idToDelete, type: "stocksScreener" };
 
       const response = await fetch("/api/delete-strategy", {
         method: "POST",
@@ -1823,34 +1828,41 @@
         throw new Error("Server returned failure");
       }
 
-      // ——— SUCCESS: run your state‐update logic ———
       strategyList =
-        strategyList?.filter((item) => item.id !== selectedStrategy) ?? [];
-      selectedStrategy = strategyList?.at(0)?.id ?? "";
-      ruleOfList =
-        strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+        strategyList?.filter((item) => item.id !== idToDelete) ?? [];
 
-      ruleOfList.forEach((rule) => {
-        ruleCondition[rule.name] =
-          rule.condition || allRules[rule.name].defaultCondition;
-        valueMappings[rule.name] =
-          rule.value || allRules[rule.name].defaultValue;
-      });
+      if (selectedStrategy === idToDelete) {
+        selectedStrategy = strategyList?.at(0)?.id ?? "";
+        ruleOfList =
+          strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
 
-      if (ruleOfList.length === 0) {
-        filteredData = [];
-        displayResults = [];
-        currentPage = 1;
-        totalPages = 1;
+        // Reset all mappings to defaults, then apply new strategy's rules
+        for (const key of Object.keys(valueMappings)) {
+          valueMappings[key] = allRules[key]?.defaultValue ?? "any";
+          ruleCondition[key] = allRules[key]?.defaultCondition ?? "";
+        }
+        ruleOfList.forEach((rule) => {
+          ruleCondition[rule.name] =
+            rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
+          valueMappings[rule.name] =
+            rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
+        });
+
+        checkedItems = new Map(
+          ruleOfList
+            ?.filter((rule) => checkedRules.includes(rule.name))
+            ?.map((rule) => [rule.name, new Set(rule.value)]),
+        );
+
+        if (ruleOfList.length === 0) {
+          filteredData = [];
+          displayResults = [];
+          currentPage = 1;
+          totalPages = 1;
+        }
+
+        await updateStockScreenerData();
       }
-
-      await updateStockScreenerData();
-
-      checkedItems = new Map(
-        ruleOfList
-          ?.filter((rule) => checkedRules.includes(rule.name))
-          ?.map((rule) => [rule.name, new Set(rule.value)]),
-      );
     })();
 
     return toast?.promise(deletePromise, {
@@ -1931,7 +1943,7 @@
       closePopup?.dispatchEvent(new MouseEvent("click"));
 
       selectedStrategy = output.id;
-      strategyList?.unshift(output);
+      strategyList = [output, ...strategyList];
       selectedPopularStrategy = "";
 
       if (removeList) {
@@ -1984,18 +1996,26 @@
     ruleOfList =
       strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
 
+    // Reset all mappings to defaults first, then apply new strategy's rules
+    for (const key of Object.keys(valueMappings)) {
+      valueMappings[key] = allRules[key]?.defaultValue ?? "any";
+      ruleCondition[key] = allRules[key]?.defaultCondition ?? "";
+    }
     ruleOfList.forEach((rule) => {
       ruleCondition[rule.name] =
-        rule.condition || allRules[rule.name].defaultCondition;
-      valueMappings[rule.name] = rule.value || allRules[rule.name].defaultValue;
+        rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
+      valueMappings[rule.name] =
+        rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
     });
 
-    await updateStockScreenerData();
+    // Rebuild checkedItems BEFORE fetching so buildActiveRules uses correct state
     checkedItems = new Map(
       ruleOfList
-        ?.filter((rule) => checkedRules.includes(rule.name)) // Only include specific rules
-        ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
+        ?.filter((rule) => checkedRules.includes(rule.name))
+        ?.map((rule) => [rule.name, new Set(rule.value)]),
     );
+
+    await updateStockScreenerData();
   }
 
   function changeRule(state: string) {
@@ -2572,8 +2592,10 @@
 
     if (strategyList?.length > 0) {
       // update local strategyList
-      strategyList.find((item) => item.id === selectedStrategy).rules =
-        ruleOfList;
+      const matchedStrategy = strategyList.find((item) => item.id === selectedStrategy);
+      if (matchedStrategy) {
+        matchedStrategy.rules = ruleOfList;
+      }
       strategyList = strategyList;
 
       const postData = {
@@ -3642,8 +3664,10 @@
                         ? ruleOfList?.length
                         : item?.rules?.length})
 
+                      <!-- svelte-ignore a11y-click-events-have-key-events -->
                       <label
                         for="deleteStrategy"
+                        on:click|stopPropagation={() => { deleteTargetId = item?.id; }}
                         class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
                       >
                         <svg
@@ -5515,13 +5539,16 @@
 <input type="checkbox" id="addStrategy" class="modal-toggle" />
 
 <dialog id="addStrategy" class="modal modal-bottom sm:modal-middle">
-  <label for="addStrategy" class="cursor-pointer modal-backdrop"></label>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <label for="addStrategy" on:click={() => { removeList = false; }} class="cursor-pointer modal-backdrop"></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="addStrategy"
+      on:click={() => { removeList = false; }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -5570,13 +5597,16 @@
 <input type="checkbox" id="deleteStrategy" class="modal-toggle" />
 
 <dialog id="deleteStrategy" class="modal modal-bottom sm:modal-middle">
-  <label for="deleteStrategy" class="cursor-pointer modal-backdrop"></label>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <label for="deleteStrategy" on:click={() => { deleteTargetId = ""; }} class="cursor-pointer modal-backdrop"></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="deleteStrategy"
+      on:click={() => { deleteTargetId = ""; }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -5597,8 +5627,10 @@
       {stock_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <label
         for="deleteStrategy"
+        on:click={() => { deleteTargetId = ""; }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
             transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{stock_screener_modal_delete_cancel()}</label
