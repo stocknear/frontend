@@ -569,6 +569,80 @@
   let showQuickSearchDropdown = false;
   let selectedQuickSearchIndex = -1;
 
+  // Exclude tickers search state
+  let excludeTickerInput = "";
+  let excludeTickerResults = [];
+  let excludeTickerTimeout: ReturnType<typeof setTimeout> | null = null;
+  let showExcludeDropdown = false;
+
+  $: excludeTickerList = (() => {
+    const val = valueMappings["excludeTickers"];
+    if (!val || val === "any") return [];
+    if (typeof val === "string") return val.split(",").map((t) => t.trim().toUpperCase()).filter(Boolean);
+    return [];
+  })();
+
+  async function searchExcludeTicker() {
+    if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
+    if (!excludeTickerInput.trim()) {
+      excludeTickerResults = [];
+      showExcludeDropdown = false;
+      return;
+    }
+    excludeTickerTimeout = setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `/api/searchbar?query=${encodeURIComponent(excludeTickerInput)}&limit=8`,
+        );
+        if (response.ok) {
+          excludeTickerResults = await response.json();
+          showExcludeDropdown = excludeTickerResults.length > 0;
+        }
+      } catch {
+        excludeTickerResults = [];
+        showExcludeDropdown = false;
+      }
+    }, 100);
+  }
+
+  function addExcludeTicker(symbol: string) {
+    const ticker = symbol.trim().toUpperCase();
+    if (!ticker) return;
+    const current = [...excludeTickerList];
+    if (current.includes(ticker)) {
+      toast.error(`${ticker} already excluded`, {
+        style: `border-radius: 5px; background: #fff; color: #000; font-size: 14px;`,
+      });
+      return;
+    }
+    current.push(ticker);
+    const newVal = current.length > 0 ? current.join(", ") : "any";
+    valueMappings["excludeTickers"] = newVal;
+    valueMappings = valueMappings;
+    const ruleToUpdate = ruleOfList?.find((r) => r.name === "excludeTickers");
+    if (ruleToUpdate) {
+      ruleToUpdate.value = newVal;
+      ruleOfList = [...ruleOfList];
+    }
+    excludeTickerInput = "";
+    excludeTickerResults = [];
+    showExcludeDropdown = false;
+    debouncedFilterFetch();
+  }
+
+  function removeExcludeTicker(ticker: string) {
+    const current = excludeTickerList.filter((t) => t !== ticker.toUpperCase());
+    const newVal = current.length > 0 ? current.join(", ") : "any";
+    valueMappings["excludeTickers"] = newVal;
+    valueMappings = valueMappings;
+    const ruleToUpdate = ruleOfList?.find((r) => r.name === "excludeTickers");
+    if (ruleToUpdate) {
+      ruleToUpdate.value = newVal;
+      ruleOfList = [...ruleOfList];
+    }
+    debouncedFilterFetch();
+  }
+
   // WebSocket connection
   let socket = null;
   let reconnectInterval = null;
@@ -2734,6 +2808,160 @@
             >
               {#each displayRules as row (row?.rule)}
                 <!--Start Added Rules-->
+                {#if textInputRules?.includes(row?.rule)}
+                  <div
+                    class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
+                    in:scale={{
+                      start: 0.98,
+                      duration: 160,
+                      delay: 50,
+                      easing: cubicOut,
+                    }}
+                    out:fade={{ duration: 100 }}
+                  >
+                    <div class="flex flex-row items-start sm:items-end">
+                      {row?.label?.length > 20
+                        ? row?.label?.slice(0, 20)?.replace("[%]", "") + "..."
+                        : row?.label?.replace("[%]", "")}
+                      <InfoModal
+                        id={row?.rule}
+                        title={row?.label?.replace("[%]", "")}
+                        callAPI={true}
+                        parameter={row?.rule}
+                      />
+                    </div>
+
+                    <div class="flex items-center">
+                      <button
+                        on:click={() => handleDeleteRule(row?.rule)}
+                        class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
+                        title="Remove filter"
+                      >
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                      </button>
+                      <div class="relative inline-block text-left">
+                        <div on:click={() => (ruleName = row?.rule)}>
+                          <DropdownMenu.Root>
+                            <DropdownMenu.Trigger asChild let:builder>
+                              <Button
+                                builders={[builder]}
+                                class="h-[40px] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              >
+                                <span class="truncate ml-2 text-sm">
+                                  {#if excludeTickerList.length === 0}
+                                    Any
+                                  {:else}
+                                    {excludeTickerList.join(",")}
+                                  {/if}
+                                </span>
+                                <svg
+                                  class="ml-1 h-6 w-6 xs:ml-2 inline-block"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  style="max-width:40px"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                  ></path>
+                                </svg>
+                              </Button>
+                            </DropdownMenu.Trigger>
+                            <DropdownMenu.Content
+                              side="bottom"
+                              align="end"
+                              sideOffset={10}
+                              alignOffset={0}
+                              class="w-64 h-fit max-h-80 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                            >
+                              <DropdownMenu.Label class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5">
+                                <div class="relative">
+                                  <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
+                                    <svg class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                  </div>
+                                  <input
+                                    type="text"
+                                    bind:value={excludeTickerInput}
+                                    on:input={searchExcludeTicker}
+                                    on:keydown={(e) => {
+                                      if (e.key === "Enter" && excludeTickerInput.trim()) {
+                                        addExcludeTicker(excludeTickerInput);
+                                      }
+                                      e.stopPropagation();
+                                    }}
+                                    on:click|stopPropagation
+                                    placeholder="Search ticker..."
+                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-lg text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                  />
+                                </div>
+                              </DropdownMenu.Label>
+                              <DropdownMenu.Group class="min-h-10 mt-1">
+                                {#if excludeTickerInput.trim().length > 0 && excludeTickerResults.length > 0}
+                                  {#each excludeTickerResults as result}
+                                    <DropdownMenu.Item
+                                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                    >
+                                      <div
+                                        class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
+                                        on:click|capture={(event) => {
+                                          event.preventDefault();
+                                          addExcludeTicker(result?.symbol);
+                                        }}
+                                      >
+                                        <span class="font-medium">{result?.symbol}</span>
+                                        <span class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate">{result?.name}</span>
+                                      </div>
+                                    </DropdownMenu.Item>
+                                  {/each}
+                                {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
+                                  <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">
+                                    No results
+                                  </div>
+                                {/if}
+                                {#if excludeTickerList.length > 0}
+                                  {#if excludeTickerInput.trim().length > 0}
+                                    <div class="border-t border-gray-200 dark:border-zinc-700 my-1.5"></div>
+                                  {/if}
+                                  <div class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500">
+                                    Excluded
+                                  </div>
+                                  {#each excludeTickerList as ticker}
+                                    <DropdownMenu.Item
+                                      class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400"
+                                    >
+                                      <div
+                                        class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
+                                        on:click|capture={(event) => {
+                                          event.preventDefault();
+                                          removeExcludeTicker(ticker);
+                                        }}
+                                      >
+                                        <span class="font-medium">{ticker}</span>
+                                        <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                      </div>
+                                    </DropdownMenu.Item>
+                                  {/each}
+                                {:else if excludeTickerInput.trim().length === 0}
+                                  <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">
+                                    Search and add tickers to exclude
+                                  </div>
+                                {/if}
+                              </DropdownMenu.Group>
+                            </DropdownMenu.Content>
+                          </DropdownMenu.Root>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {:else}
                 <div
                   class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
                   in:scale={{
@@ -3059,32 +3287,6 @@
                                     </div>
                                   </DropdownMenu.Item>
                                 {/each}
-                              {:else if textInputRules?.includes(row?.rule)}
-                                <div class="px-3 py-2">
-                                  <input
-                                    type="text"
-                                    placeholder="e.g. AAPL, TSLA, SPY"
-                                    value={valueMappings[row?.rule] === "any" ? "" : valueMappings[row?.rule]}
-                                    on:input={(e) => {
-                                      const val = e.target.value.trim();
-                                      ruleName = row?.rule;
-                                      valueMappings[row?.rule] = val || "any";
-                                      const ruleToUpdate = ruleOfList?.find((r) => r.name === row?.rule);
-                                      if (ruleToUpdate) {
-                                        ruleToUpdate.value = val || "any";
-                                        ruleOfList = [...ruleOfList];
-                                      }
-                                      debouncedFilterFetch();
-                                    }}
-                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-zinc-700 rounded-lg
-                                           bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200
-                                           placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none
-                                           focus:border-violet-500 dark:focus:border-violet-400"
-                                  />
-                                  <p class="text-xs text-gray-400 dark:text-zinc-500 mt-1">
-                                    Comma-separated tickers to exclude
-                                  </p>
-                                </div>
                               {/if}
                             </DropdownMenu.Group>
                           </DropdownMenu.Content>
@@ -3093,6 +3295,7 @@
                     </div>
                   </div>
                 </div>
+                {/if}
                 <!--End Added Rules-->
               {/each}
             </div>
