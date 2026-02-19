@@ -6,7 +6,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { toast } from "svelte-sonner";
-  import Discount from "$lib/components/Discount.svelte";
+  //import Discount from "$lib/components/Discount.svelte";
 
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
@@ -230,9 +230,13 @@
 
     // Store purchase value for Google Ads conversion tracking via GTM on /welcome
     const purchaseValue = isPro
-      ? (isAnnual ? PURCHASE_VALUES.pro_annual : PURCHASE_VALUES.pro_monthly)
+      ? isAnnual
+        ? PURCHASE_VALUES.pro_annual
+        : PURCHASE_VALUES.pro_monthly
       : isPlus
-        ? (isAnnual ? PURCHASE_VALUES.plus_annual : PURCHASE_VALUES.plus_monthly)
+        ? isAnnual
+          ? PURCHASE_VALUES.plus_annual
+          : PURCHASE_VALUES.plus_monthly
         : 0;
     if (purchaseValue > 0) {
       document.cookie = `${PURCHASE_COOKIE}=${purchaseValue}; path=/; max-age=3600; SameSite=Lax`;
@@ -482,7 +486,7 @@
           </span>
         </div>
 
-        <Discount />
+        <!--<Discount />-->
 
         <!-- Plan cards -->
         <div class="grid gap-6 sm:grid-cols-2">
@@ -504,12 +508,8 @@
             <div class="mt-4 flex items-baseline gap-2">
               {#if pricingAnnual}
                 <span
-                  class="text-lg text-gray-400 dark:text-zinc-500 line-through"
-                  >$10</span
-                >
-                <span
                   class="text-3xl font-semibold text-gray-900 dark:text-white"
-                  >$5</span
+                  >$10</span
                 >
               {:else}
                 <span
@@ -522,10 +522,8 @@
               >
             </div>
             {#if pricingAnnual}
-              <p class="mt-1 text-sm text-gray-500 dark:text-zinc-500">
-                {register_step2_billed_annually()} (<span class="line-through"
-                  >$120</span
-                > $60)
+              <p class="mt-1 text-sm text-muted dark:text-gray-300">
+                {register_step2_billed_annually()} $120
               </p>
             {/if}
             <ul class="mt-5 mb-5 space-y-2 text-sm flex-1">
@@ -585,12 +583,8 @@
             <div class="mt-4 flex items-baseline gap-2">
               {#if pricingAnnual}
                 <span
-                  class="text-lg text-gray-400 dark:text-zinc-500 line-through"
-                  >$30</span
-                >
-                <span
                   class="text-3xl font-semibold text-gray-900 dark:text-white"
-                  >$15</span
+                  >$30</span
                 >
               {:else}
                 <span
@@ -603,10 +597,8 @@
               >
             </div>
             {#if pricingAnnual}
-              <p class="mt-1 text-sm text-gray-500 dark:text-zinc-500">
-                {register_step2_billed_annually()} (<span class="line-through"
-                  >$360</span
-                > $180)
+              <p class="mt-1 text-sm text-muted dark:text-gray-300">
+                {register_step2_billed_annually()} $360
               </p>
             {/if}
             <ul class="mt-5 mb-5 space-y-2 text-sm flex-1">
