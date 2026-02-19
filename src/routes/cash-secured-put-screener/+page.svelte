@@ -637,8 +637,8 @@
 
       checkedItems = new Map(
         ruleOfList
-          ?.filter((rule) => ["assetType"].includes(rule.name))
-          ?.map((rule) => [rule.name, new Set(rule.value)]),
+          ?.filter((rule) => checkedRules.includes(rule.name))
+          ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
       );
 
       return true;
@@ -766,7 +766,7 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(rule.value)]),
+        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
     );
   }
 
@@ -1889,7 +1889,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-fit h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"

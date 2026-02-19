@@ -22,7 +22,6 @@
   import CalendarIcon from "lucide-svelte/icons/calendar";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import Infobox from "$lib/components/Infobox.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import Input from "$lib/components/Input.svelte";
   import Copy from "lucide-svelte/icons/copy";
@@ -342,10 +341,7 @@
   }
 
   function parseWsNumeric(raw: any): number {
-    const cleaned = String(raw)
-      .replace(/[%$,]/g, "")
-      .trim()
-      .toUpperCase();
+    const cleaned = String(raw).replace(/[%$,]/g, "").trim().toUpperCase();
     const multipliers: Record<string, number> = {
       K: 1_000,
       M: 1_000_000,
@@ -393,21 +389,27 @@
       // --- Numeric filters (cost_basis, size, volume, open_interest) ---
       // Supports all conditions: over, under, between, exactly
       if (
-        ["cost_basis", "size", "volume", "open_interest"].includes(
-          rule.name,
-        ) &&
+        ["cost_basis", "size", "volume", "open_interest"].includes(rule.name) &&
         rule.condition &&
         rule.value
       ) {
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo = rule.value[0] != null ? parseWsNumeric(rule.value[0]) : null;
-          const hi = rule.value[1] != null ? parseWsNumeric(rule.value[1]) : null;
+          const lo =
+            rule.value[0] != null ? parseWsNumeric(rule.value[0]) : null;
+          const hi =
+            rule.value[1] != null ? parseWsNumeric(rule.value[1]) : null;
           if (lo != null || hi != null) {
-            filters[`${rule.name}_filter`] = { condition: "between", value: [lo, hi] };
+            filters[`${rule.name}_filter`] = {
+              condition: "between",
+              value: [lo, hi],
+            };
           }
         } else {
           const v = parseWsNumeric(rule.value);
-          filters[`${rule.name}_filter`] = { condition: rule.condition, value: v };
+          filters[`${rule.name}_filter`] = {
+            condition: rule.condition,
+            value: v,
+          };
         }
       }
 
@@ -423,8 +425,14 @@
             ? "volume_oi_ratio_filter"
             : "size_oi_ratio_filter";
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo = rule.value[0] != null ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, "")) : null;
-          const hi = rule.value[1] != null ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, "")) : null;
+          const lo =
+            rule.value[0] != null
+              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
+              : null;
+          const hi =
+            rule.value[1] != null
+              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
+              : null;
           if (lo != null || hi != null) {
             filters[key] = { condition: "between", value: [lo, hi] };
           }
@@ -437,8 +445,14 @@
       // --- DTE (Days To Expiration) filter ---
       if (rule.name === "date_expiration" && rule.condition && rule.value) {
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo = rule.value[0] != null ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, "")) : null;
-          const hi = rule.value[1] != null ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, "")) : null;
+          const lo =
+            rule.value[0] != null
+              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
+              : null;
+          const hi =
+            rule.value[1] != null
+              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
+              : null;
           if (lo != null || hi != null) {
             filters.dte_condition = "between";
             filters.dte_value = [lo, hi];
@@ -462,9 +476,7 @@
       // so only genuinely new items arriving after this point should be
       // delivered — preventing a large backfill batch that triggers a
       // second table reload.
-      socket.send(
-        JSON.stringify({ type: "init", filters: buildWsFilters() }),
-      );
+      socket.send(JSON.stringify({ type: "init", filters: buildWsFilters() }));
     }
   }
 
@@ -821,8 +833,10 @@
       const vol = parseFloat(item?.volume) || 0;
       const size = parseFloat(item?.size) || 0;
       const oi = parseFloat(item?.open_interest) || 0;
-      item.volOiRatio = oi > 0 ? Math.ceil((vol / oi) * 100) : vol > 0 ? Infinity : 0;
-      item.sizeOiRatio = oi > 0 ? Math.ceil((size / oi) * 100) : size > 0 ? Infinity : 0;
+      item.volOiRatio =
+        oi > 0 ? Math.ceil((vol / oi) * 100) : vol > 0 ? Infinity : 0;
+      item.sizeOiRatio =
+        oi > 0 ? Math.ceil((size / oi) * 100) : size > 0 ? Infinity : 0;
     });
     return entries;
   };
@@ -2150,7 +2164,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
                       class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -2230,7 +2244,7 @@
                     </Button>
                   </DropdownMenu.Trigger>
                   <DropdownMenu.Content
-                    class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
                       class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -2778,7 +2792,7 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                           >
                             {#if !categoricalRules?.includes(row?.rule)}
                               <DropdownMenu.Label
@@ -2820,7 +2834,9 @@
                                           >
                                         </Button>
                                       </DropdownMenu.Trigger>
-                                      <DropdownMenu.Content>
+                                      <DropdownMenu.Content
+                                        class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
+                                      >
                                         <DropdownMenu.Group>
                                           {#each ["Over", "Under", "Between", "Exactly"] as item}
                                             <DropdownMenu.Item
@@ -2829,7 +2845,7 @@
                                                   row?.rule,
                                                   item,
                                                 )}
-                                              class="cursor-pointer text-[1rem] font-normal"
+                                              class="cursor-pointer text-sm font-normal"
                                               >{item}</DropdownMenu.Item
                                             >
                                           {/each}
