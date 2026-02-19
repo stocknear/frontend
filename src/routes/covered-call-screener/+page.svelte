@@ -877,7 +877,7 @@
         const name = rule.name;
         const condition = ruleCondition[name] ?? allRules[name]?.defaultCondition ?? '';
         let value;
-        if (checkedItems?.has(name)) {
+        if (checkedRules.includes(name) && checkedItems?.has(name)) {
           value = [...checkedItems.get(name)];
         } else {
           value = valueMappings[name] ?? allRules[name]?.defaultValue ?? 'any';
