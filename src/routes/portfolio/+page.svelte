@@ -78,6 +78,7 @@
   let saveTimeoutId; // Timeout for debounced save
   let searchBarData = [];
   let switchPortfolio = false;
+  let deleteTargetPortfolio = null;
   let editMode = false;
   let numberOfChecked = 0;
   let activeIdx = 0;
@@ -164,15 +165,27 @@
         (item) => item?.rule,
       ),
     };
-    const response = await fetch("/api/get-portfolio", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
 
-    const output = await response?.json();
+    let output;
+    try {
+      const response = await fetch("/api/get-portfolio", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to fetch portfolio data:", response.status);
+        return;
+      }
+
+      output = await response.json();
+    } catch (error) {
+      console.error("Error fetching portfolio data:", error);
+      return;
+    }
 
     // Merge API data with PocketBase ticker data (shares, avgPrice)
     const tickerMap = new Map();
@@ -322,8 +335,11 @@
   async function deletePortfolio(event) {
     event.preventDefault(); // prevent the default form submission behavior
 
+    const idToDelete = deleteTargetPortfolio?.id;
+    if (!idToDelete) return;
+
     const postData = {
-      portfolioId: displayPortfolio?.id,
+      portfolioId: idToDelete,
     };
 
     try {
@@ -342,32 +358,47 @@
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
-        allList = allList?.filter((item) => item?.id !== displayPortfolio?.id);
+        allList = allList?.filter((item) => item?.id !== idToDelete);
         allList = [...allList];
 
-        displayPortfolio = allList[0];
+        // Only switch display if we deleted the currently displayed portfolio
+        if (displayPortfolio?.id === idToDelete) {
+          if (allList.length > 0) {
+            displayPortfolio = allList[0];
 
-        // Update localStorage and URL with new active portfolio
-        if (displayPortfolio?.id) {
-          try {
-            localStorage.setItem(
-              "last-portfolio-id",
-              JSON.stringify(displayPortfolio.id),
-            );
-            await goto(`/portfolio?id=${displayPortfolio.id}`, {
-              replaceState: true,
-              noScroll: true,
-            });
-          } catch (e) {
-            console.log("Failed updating portfolio id: ", e);
+            // Update localStorage and URL with new active portfolio
+            try {
+              localStorage.setItem(
+                "last-portfolio-id",
+                JSON.stringify(displayPortfolio.id),
+              );
+              await goto(`/portfolio?id=${displayPortfolio.id}`, {
+                replaceState: true,
+                noScroll: true,
+              });
+            } catch (e) {
+              console.log("Failed updating portfolio id: ", e);
+            }
+          } else {
+            displayPortfolio = {};
+            portfolio = [];
+            originalData = [];
+            news = [];
+            earnings = [];
+            groupedNews = [];
+            groupedEarnings = [];
           }
         }
+
+        deleteTargetPortfolio = null;
 
         // Force reload ALL load functions to get fresh data from server
         await invalidateAll();
 
-        // Trigger portfolio data reload
-        switchPortfolio = true;
+        // Trigger portfolio data reload only if there's still a portfolio to display
+        if (allList.length > 0 && displayPortfolio?.id === allList[0]?.id) {
+          switchPortfolio = true;
+        }
 
         const clicked = document.getElementById("deletePortfolio");
         clicked.dispatchEvent(new MouseEvent("click"));
@@ -440,13 +471,21 @@
         mode: "delete",
       };
 
-      const response = await fetch("/api/update-portfolio", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      try {
+        const response = await fetch("/api/update-portfolio", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+
+        if (!response.ok) {
+          console.error("Failed to delete tickers:", response.status);
+        }
+      } catch (error) {
+        console.error("Error deleting tickers:", error);
+      }
 
       deleteTickerList = [];
       numberOfChecked = 0;
@@ -777,6 +816,7 @@
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("scroll", handleScrollStocks);
+      clearTimeout(saveTimeoutId);
     };
   });
 
@@ -799,10 +839,11 @@
 
   $: {
     if (switchPortfolio && typeof window !== "undefined") {
-      isLoaded = false;
-      getPortfolioData();
-      isLoaded = true;
       switchPortfolio = false;
+      isLoaded = false;
+      getPortfolioData().then(() => {
+        isLoaded = true;
+      });
     }
   }
 
@@ -997,7 +1038,7 @@
                           <label
                             for="deletePortfolio"
                             class="ml-auto inline-block cursor-pointer hover:text-rose-800 dark:hover:text-rose-400 transition"
-                            on:click|capture={handleDeleteModal}
+                            on:click|capture={(e) => { deleteTargetPortfolio = item; handleDeleteModal(e); }}
                           >
                             <svg
                               class="size-5"
@@ -1516,7 +1557,7 @@
 <input type="checkbox" id="deletePortfolio" class="modal-toggle" />
 
 <dialog id="deletePortfolio" class="modal modal-middle p-3 sm:p-0">
-  <label for="deletePortfolio" class="cursor-pointer modal-backdrop"></label>
+  <label for="deletePortfolio" class="cursor-pointer modal-backdrop" on:click={() => { deleteTargetPortfolio = null; }}></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -1525,6 +1566,7 @@
       for="deletePortfolio"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
+      on:click={() => { deleteTargetPortfolio = null; }}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -1543,6 +1585,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deletePortfolio"
+        on:click={() => { deleteTargetPortfolio = null; }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{portfolio_cancel()}</label
       ><label

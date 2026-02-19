@@ -198,6 +198,7 @@
   let timeoutId;
   let searchBarData = [];
   let switchWatchlist = false;
+  let deleteTargetWatchlist = null;
   let editMode = false;
   let numberOfChecked = 0;
   let activeIdx = 0;
@@ -315,15 +316,27 @@
         { rule: "addedPrice" },
       ]?.map((item) => item?.rule),
     };
-    const response = await fetch("/api/get-watchlist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
 
-    const output = await response?.json();
+    let output;
+    try {
+      const response = await fetch("/api/get-watchlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to fetch watchlist data:", response.status);
+        return;
+      }
+
+      output = await response.json();
+    } catch (error) {
+      console.error("Error fetching watchlist data:", error);
+      return;
+    }
 
     // Parse ticker data - handle both string (JSON) and array formats
     let tickerData = displayWatchList?.ticker || [];
@@ -479,8 +492,11 @@
   async function deleteWatchlist(event) {
     event.preventDefault(); // prevent the default form submission behavior
 
+    const idToDelete = deleteTargetWatchlist?.id;
+    if (!idToDelete) return;
+
     const postData = {
-      watchListId: displayWatchList?.id,
+      watchListId: idToDelete,
     };
 
     try {
@@ -499,11 +515,26 @@
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
 
-        allList = allList?.filter((item) => item?.id !== displayWatchList?.id);
+        allList = allList?.filter((item) => item?.id !== idToDelete);
         allList = [...allList];
 
-        displayWatchList = allList[0];
-        changeWatchList(displayWatchList);
+        // Only switch display if we deleted the currently displayed watchlist
+        if (displayWatchList?.id === idToDelete) {
+          if (allList.length > 0) {
+            displayWatchList = allList[0];
+            changeWatchList(displayWatchList);
+          } else {
+            displayWatchList = {};
+            watchList = [];
+            originalData = [];
+            news = [];
+            earnings = [];
+            groupedNews = [];
+            groupedEarnings = [];
+          }
+        }
+
+        deleteTargetWatchlist = null;
 
         const clicked = document.getElementById("deleteWatchlist");
         clicked.dispatchEvent(new MouseEvent("click"));
@@ -568,13 +599,21 @@
         mode: "delete",
       };
 
-      const response = await fetch("/api/update-watchlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
+      try {
+        const response = await fetch("/api/update-watchlist", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+
+        if (!response.ok) {
+          console.error("Failed to delete tickers:", response.status);
+        }
+      } catch (error) {
+        console.error("Error deleting tickers:", error);
+      }
 
       deleteTickerList = [];
       numberOfChecked = 0;
@@ -801,10 +840,11 @@
 
   $: {
     if (switchWatchlist && typeof window !== "undefined") {
-      isLoaded = false;
-      getWatchlistData();
-      isLoaded = true;
       switchWatchlist = false;
+      isLoaded = false;
+      getWatchlistData().then(() => {
+        isLoaded = true;
+      });
     }
   }
 
@@ -960,6 +1000,7 @@
     editingNoteSymbol = "";
     editingNoteText = "";
     originalNoteText = "";
+    isLoadingNote = false;
   }
 </script>
 
@@ -1121,7 +1162,7 @@
                             <label
                               for="deleteWatchlist"
                               class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
-                              on:click|capture={handleDeleteModal}
+                              on:click|capture={(e) => { deleteTargetWatchlist = item; handleDeleteModal(e); }}
                             >
                               <svg
                                 class="size-5"
@@ -1640,7 +1681,7 @@
 <input type="checkbox" id="deleteWatchlist" class="modal-toggle" />
 
 <dialog id="deleteWatchlist" class="modal modal-middle p-3 sm:p-0">
-  <label for="deleteWatchlist" class="cursor-pointer modal-backdrop"></label>
+  <label for="deleteWatchlist" class="cursor-pointer modal-backdrop" on:click={() => { deleteTargetWatchlist = null; }}></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -1649,6 +1690,7 @@
       for="deleteWatchlist"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
+      on:click={() => { deleteTargetWatchlist = null; }}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -1666,6 +1708,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlist"
+        on:click={() => { deleteTargetWatchlist = null; }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0">{watchlist_cancel()}</label
       ><label
