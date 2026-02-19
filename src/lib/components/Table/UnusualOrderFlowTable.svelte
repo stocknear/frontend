@@ -352,15 +352,8 @@
 </script>
 
 <div
-  class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative transition-opacity duration-200"
-  class:opacity-60={isLoading}
+  class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
 >
-  {#if isLoading}
-    <div
-      class="pointer-events-none absolute inset-0 bg-white/70 dark:bg-[#0b1220]/70 backdrop-blur-sm"
-      aria-hidden="true"
-    ></div>
-  {/if}
   <table
     class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
     aria-busy={isLoading}
@@ -406,8 +399,7 @@
       </tr>
     </thead>
     <tbody
-      class="transition-opacity duration-100 divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-      class:opacity-70={isLoading}
+      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
     >
       {#if !sortedDisplayData?.length}
         <tr>
