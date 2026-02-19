@@ -40,11 +40,24 @@
     // Purchase conversion (server-validated in +page.server.ts)
     if (data.purchaseConversion) {
       window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ ecommerce: null });
       window.dataLayer.push({
         event: GTM_EVENT_PURCHASE,
         conversionValue: data.purchaseConversion.value,
         conversionCurrency: "USD",
         transactionId: data.purchaseConversion.transactionId,
+        ecommerce: {
+          value: data.purchaseConversion.value,
+          currency: "USD",
+          transaction_id: data.purchaseConversion.transactionId,
+          items: [{
+            item_id: data.purchaseConversion.tier,
+            item_name: data.purchaseConversion.tier + " Subscription",
+            item_category: "Subscription",
+            price: data.purchaseConversion.value,
+            quantity: 1,
+          }],
+        },
       });
     }
 
