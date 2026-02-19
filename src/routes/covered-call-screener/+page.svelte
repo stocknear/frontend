@@ -116,6 +116,7 @@
   let requestId = 0;
 
   let isChartModalOpen = false;
+  let isChartLoading = false;
   let modalItem: any = null;
 
   let chartDataCache = new Map<string, any>();
@@ -543,6 +544,7 @@
     // If item already has chart fields (e.g. income tab), use directly
     if (item.bid != null && item.breakeven != null) {
       modalItem = item;
+      isChartLoading = false;
       isChartModalOpen = true;
       return;
     }
@@ -551,11 +553,17 @@
     const key = item.optionSymbol;
     if (chartDataCache.has(key)) {
       modalItem = { ...item, ...chartDataCache.get(key) };
+      isChartLoading = false;
       isChartModalOpen = true;
       return;
     }
 
-    // Fetch only this contract's chart fields from the feed API
+    // Show modal immediately with loading state
+    modalItem = item;
+    isChartLoading = true;
+    isChartModalOpen = true;
+
+    // Fetch contract's chart fields from the feed API
     try {
       const params = new URLSearchParams({
         page: '1', pageSize: '1',
@@ -568,16 +576,12 @@
       if (contract) {
         chartDataCache.set(key, contract);
         modalItem = { ...item, ...contract };
-        isChartModalOpen = true;
-        return;
       }
     } catch {
-      // Fall through to show modal with available data
+      // Keep modal with available data
+    } finally {
+      isChartLoading = false;
     }
-
-    // Fallback: show modal with what we have
-    modalItem = item;
-    isChartModalOpen = true;
   }
 
   function closeChartModal() {
@@ -3423,6 +3427,7 @@
 <ChartModal
   item={modalItem}
   isOpen={isChartModalOpen}
+  isLoading={isChartLoading}
   onClose={closeChartModal}
 />
 

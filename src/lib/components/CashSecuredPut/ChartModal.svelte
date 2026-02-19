@@ -29,6 +29,7 @@
 
   export let item: any = null;
   export let isOpen = false;
+  export let isLoading = false;
   export let onClose: () => void = () => {};
 
   let chartConfig: any = null;
@@ -173,9 +174,9 @@
     };
   }
 
-  $: if (isOpen && item) {
+  $: if (isOpen && item && !isLoading && item.bid != null && item.breakeven != null) {
     chartConfig = buildChartConfig(item);
-  } else {
+  } else if (!isOpen) {
     chartConfig = null;
   }
 
@@ -186,7 +187,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-{#if isOpen && item && chartConfig}
+{#if isOpen && item}
   <div
     class="fixed inset-0 z-60 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm"
     on:click|self={onClose}
@@ -231,6 +232,22 @@
         </button>
       </div>
 
+      {#if isLoading || !chartConfig}
+        <!-- Loading skeleton -->
+        <div class="px-4 sm:px-6 py-4">
+          <div class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse" style="height: {$screenWidth < 640 ? 240 : 360}px"></div>
+        </div>
+        <div class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
+            {#each Array(6) as _}
+              <div class="space-y-2">
+                <div class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"></div>
+                <div class="h-4 w-16 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"></div>
+              </div>
+            {/each}
+          </div>
+        </div>
+      {:else}
       <!-- Chart -->
       <div class="px-4 sm:px-6 py-4">
         <div
@@ -330,6 +347,7 @@
           </div>
         </div>
       </div>
+      {/if}
     </div>
   </div>
 {/if}
