@@ -922,6 +922,22 @@
     }
   }
 
+  async function fetchAllFilteredData() {
+    const activeRules = buildActiveRules();
+    const params = new URLSearchParams({
+      page: '1',
+      pageSize: '50000',
+      sortKey: activeSortKey,
+      sortOrder: activeSortOrder,
+      tab: displayTableTab,
+    });
+    if (inputValue) params.set('search', inputValue);
+    if (activeRules.length > 0) params.set('rules', JSON.stringify(activeRules));
+    const response = await fetch(`/api/cash-secured-put-screener-feed?${params}`);
+    const result = await response.json();
+    return result?.items ?? [];
+  }
+
   let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
   function debouncedRuleFetch() {
     if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
@@ -2603,6 +2619,7 @@
           <DownloadData
             {data}
             rawData={displayedData}
+            fetchRawData={fetchAllFilteredData}
             title={"cash_secured_put_screener_data"}
           />
         </div>
