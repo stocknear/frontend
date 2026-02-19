@@ -1137,12 +1137,18 @@
           const lo = rule.value[0] != null ? parseValue(rule.value[0]) : null;
           const hi = rule.value[1] != null ? parseValue(rule.value[1]) : null;
           if (lo != null || hi != null) {
-            filters[`${rule.name}_filter`] = { condition: "between", value: [lo, hi] };
+            filters[`${rule.name}_filter`] = {
+              condition: "between",
+              value: [lo, hi],
+            };
           }
         } else {
           const parsed = parseValue(rule.value);
           if (!isNaN(parsed)) {
-            filters[`${rule.name}_filter`] = { condition: rule.condition, value: parsed };
+            filters[`${rule.name}_filter`] = {
+              condition: rule.condition,
+              value: parsed,
+            };
           }
         }
       }
@@ -1154,14 +1160,26 @@
         rule.value
       ) {
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo = rule.value[0] != null ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, "")) : null;
-          const hi = rule.value[1] != null ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, "")) : null;
+          const lo =
+            rule.value[0] != null
+              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
+              : null;
+          const hi =
+            rule.value[1] != null
+              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
+              : null;
           if (lo != null || hi != null) {
-            filters[`${rule.name}_filter`] = { condition: "between", value: [lo, hi] };
+            filters[`${rule.name}_filter`] = {
+              condition: "between",
+              value: [lo, hi],
+            };
           }
         } else {
           const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
-          filters[`${rule.name}_filter`] = { condition: rule.condition, value: v };
+          filters[`${rule.name}_filter`] = {
+            condition: rule.condition,
+            value: v,
+          };
         }
       }
     }
@@ -1641,7 +1659,6 @@
       );
     }
   }
-
 </script>
 
 <SEO
@@ -1743,7 +1760,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Label
                     class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -1823,7 +1840,7 @@
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
-                  class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Label
                     class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -2370,7 +2387,7 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                          class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                         >
                           {#if !categoricalRules?.includes(row?.rule)}
                             <DropdownMenu.Label
@@ -2412,7 +2429,9 @@
                                         >
                                       </Button>
                                     </DropdownMenu.Trigger>
-                                    <DropdownMenu.Content>
+                                    <DropdownMenu.Content
+                                      class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
+                                    >
                                       <DropdownMenu.Group>
                                         {#each ["Over", "Under", "Between", "Exactly"] as item}
                                           <DropdownMenu.Item
@@ -2421,7 +2440,7 @@
                                                 row?.rule,
                                                 item,
                                               )}
-                                            class="cursor-pointer text-[1rem] font-normal"
+                                            class="cursor-pointer text-sm font-normal"
                                             >{item}</DropdownMenu.Item
                                           >
                                         {/each}
