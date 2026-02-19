@@ -109,8 +109,8 @@
   let currentPage = data?.getScreenerFeed?.page ?? 1;
   let rowsPerPage = data?.getScreenerFeed?.pageSize ?? 20;
   let totalPages = data?.getScreenerFeed?.totalPages ?? 1;
-  let activeSortKey = data?.getScreenerFeed?.sort?.key ?? 'annualizedReturn';
-  let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? 'desc';
+  let activeSortKey = data?.getScreenerFeed?.sort?.key ?? "annualizedReturn";
+  let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? "desc";
   let isFetchingPage = false;
   let currentAbortController: AbortController | null = null;
   let requestId = 0;
@@ -139,7 +139,10 @@
 
   let selectedPopularStrategy = "";
   const popularStrategyList = [
-    { key: "highYield", label: cash_secured_put_screener_strategy_high_yield() },
+    {
+      key: "highYield",
+      label: cash_secured_put_screener_strategy_high_yield(),
+    },
     {
       key: "conservative",
       label: cash_secured_put_screener_strategy_conservative(),
@@ -152,7 +155,10 @@
       key: "highProtection",
       label: cash_secured_put_screener_strategy_high_protection(),
     },
-    { key: "bluechipCSP", label: cash_secured_put_screener_strategy_bluechip_csp() },
+    {
+      key: "bluechipCSP",
+      label: cash_secured_put_screener_strategy_bluechip_csp(),
+    },
   ];
 
   function conditionLabel(condition) {
@@ -550,11 +556,14 @@
     // Fetch contract's chart fields from the feed API
     try {
       const params = new URLSearchParams({
-        page: '1', pageSize: '1',
-        tab: 'income',
+        page: "1",
+        pageSize: "1",
+        tab: "income",
         optionContracts: item.optionSymbol,
       });
-      const response = await fetch(`/api/cash-secured-put-screener-feed?${params}`);
+      const response = await fetch(
+        `/api/cash-secured-put-screener-feed?${params}`,
+      );
       const output = await response.json();
       const contract = output?.items?.[0];
       if (contract) {
@@ -859,19 +868,25 @@
     return ruleOfList
       .map((rule) => {
         const name = rule.name;
-        const condition = ruleCondition[name] ?? allRules[name]?.defaultCondition ?? '';
+        const condition =
+          ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
         let value;
         if (checkedRules.includes(name) && checkedItems?.has(name)) {
           value = [...checkedItems.get(name)];
         } else {
-          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? 'any';
+          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
         }
         return { name, condition, value };
       })
       .filter((r) => {
-        if (r.value === 'any') return false;
-        if (Array.isArray(r.value) && r.value.length === 1 && r.value[0] === 'any') return false;
-        if (Array.isArray(r.value) && r.value.includes('any')) return false;
+        if (r.value === "any") return false;
+        if (
+          Array.isArray(r.value) &&
+          r.value.length === 1 &&
+          r.value[0] === "any"
+        )
+          return false;
+        if (Array.isArray(r.value) && r.value.includes("any")) return false;
         return true;
       });
   }
@@ -899,13 +914,20 @@
         sortOrder,
         tab: displayTableTab,
       });
-      if (inputValue) params.set('search', inputValue);
-      if (activeRules.length > 0) params.set('rules', JSON.stringify(activeRules));
+      if (inputValue) params.set("search", inputValue);
+      if (activeRules.length > 0)
+        params.set("rules", JSON.stringify(activeRules));
       // Send all rule column names so backend projects them even if filter value is "any"
-      const allRuleNames = ruleOfList?.map((r) => r.name).filter(Boolean).join(',');
-      if (allRuleNames) params.set('displayColumns', allRuleNames);
+      const allRuleNames = ruleOfList
+        ?.map((r) => r.name)
+        .filter(Boolean)
+        .join(",");
+      if (allRuleNames) params.set("displayColumns", allRuleNames);
 
-      const response = await fetch(`/api/cash-secured-put-screener-feed?${params}`, { signal });
+      const response = await fetch(
+        `/api/cash-secured-put-screener-feed?${params}`,
+        { signal },
+      );
       if (signal.aborted) return;
       const result = await response.json();
       if (invocationId !== requestId) return;
@@ -919,7 +941,7 @@
       activeSortKey = sortKey;
       activeSortOrder = sortOrder;
     } catch (e) {
-      if (e?.name === 'AbortError') return;
+      if (e?.name === "AbortError") return;
     } finally {
       if (invocationId === requestId) {
         isFetchingPage = false;
@@ -932,17 +954,23 @@
   async function fetchAllFilteredData() {
     const activeRules = buildActiveRules();
     const params = new URLSearchParams({
-      page: '1',
-      pageSize: '50000',
+      page: "1",
+      pageSize: "50000",
       sortKey: activeSortKey,
       sortOrder: activeSortOrder,
       tab: displayTableTab,
     });
-    if (inputValue) params.set('search', inputValue);
-    if (activeRules.length > 0) params.set('rules', JSON.stringify(activeRules));
-    const allRuleNames = ruleOfList?.map((r) => r.name).filter(Boolean).join(',');
-    if (allRuleNames) params.set('displayColumns', allRuleNames);
-    const response = await fetch(`/api/cash-secured-put-screener-feed?${params}`);
+    if (inputValue) params.set("search", inputValue);
+    if (activeRules.length > 0)
+      params.set("rules", JSON.stringify(activeRules));
+    const allRuleNames = ruleOfList
+      ?.map((r) => r.name)
+      .filter(Boolean)
+      .join(",");
+    if (allRuleNames) params.set("displayColumns", allRuleNames);
+    const response = await fetch(
+      `/api/cash-secured-put-screener-feed?${params}`,
+    );
     const result = await response.json();
     return result?.items ?? [];
   }
@@ -1523,20 +1551,29 @@
 
   const sortData = (key) => {
     // Cycle: none -> desc -> asc -> none
-    const newOrder = activeSortKey === key
-      ? (activeSortOrder === 'desc' ? 'asc' : activeSortOrder === 'asc' ? 'none' : 'desc')
-      : 'desc';
+    const newOrder =
+      activeSortKey === key
+        ? activeSortOrder === "desc"
+          ? "asc"
+          : activeSortOrder === "asc"
+            ? "none"
+            : "desc"
+        : "desc";
 
     // Update local sortOrders state for TableHeader visual indicators
     Object.keys(sortOrders).forEach((k) => {
-      if (k !== key) sortOrders[k].order = 'none';
+      if (k !== key) sortOrders[k].order = "none";
     });
     if (sortOrders[key]) sortOrders[key].order = newOrder;
 
-    if (newOrder === 'none') {
-      activeSortKey = 'annualizedReturn';
-      activeSortOrder = 'desc';
-      fetchTableData({ page: 1, sortKey: 'annualizedReturn', sortOrder: 'desc' });
+    if (newOrder === "none") {
+      activeSortKey = "annualizedReturn";
+      activeSortOrder = "desc";
+      fetchTableData({
+        page: 1,
+        sortKey: "annualizedReturn",
+        sortOrder: "desc",
+      });
     } else {
       activeSortKey = key;
       activeSortOrder = newOrder;
@@ -1911,7 +1948,7 @@
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content
-                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -2014,7 +2051,9 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {cash_secured_put_screener_filters_count({ count: ruleOfList?.length })}
+            {cash_secured_put_screener_filters_count({
+              count: ruleOfList?.length,
+            })}
           </button>
         </div>
       </div>
@@ -2337,7 +2376,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-64 min-h-auto max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         {#if !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
@@ -2375,7 +2414,9 @@
                                       >
                                     </Button>
                                   </DropdownMenu.Trigger>
-                                  <DropdownMenu.Content>
+                                  <DropdownMenu.Content
+                                    class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
+                                  >
                                     <DropdownMenu.Group>
                                       {#each [{ value: "Over", label: cash_secured_put_screener_condition_over() }, { value: "Under", label: cash_secured_put_screener_condition_under() }, { value: "Between", label: cash_secured_put_screener_condition_between() }, { value: "Exactly", label: cash_secured_put_screener_condition_exactly() }] as item}
                                         <DropdownMenu.Item
