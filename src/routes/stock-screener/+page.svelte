@@ -3529,7 +3529,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -3592,7 +3592,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-full max-w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
@@ -4023,7 +4023,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-fit min-h-auto max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                       >
                         {#if !checkedRules.includes(row?.rule)}
                           <DropdownMenu.Label
@@ -4063,7 +4063,9 @@
                                       >
                                     </Button>
                                   </DropdownMenu.Trigger>
-                                  <DropdownMenu.Content>
+                                  <DropdownMenu.Content
+                                    class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
+                                  >
                                     <DropdownMenu.Group>
                                       {#each ["Over", "Under", "Between", "Exactly"] as item}
                                         <DropdownMenu.Item
