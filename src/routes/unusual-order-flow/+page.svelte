@@ -171,6 +171,12 @@
   function addExcludeTicker(symbol: string) {
     const ticker = symbol.trim().toUpperCase();
     if (!ticker) return;
+    if (ticker.length >= 10) {
+      toast.error("Ticker symbol is too long", {
+        style: `border-radius: 5px; background: #fff; color: #000; font-size: 14px;`,
+      });
+      return;
+    }
     const current = [...excludeTickerList];
     if (current.includes(ticker)) {
       toast.error(`${ticker} already excluded`, {
