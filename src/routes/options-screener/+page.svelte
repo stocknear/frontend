@@ -69,6 +69,7 @@
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   export let data;
@@ -269,6 +270,51 @@
     return `${mm}/${dd}/${yy}`;
   };
 
+  const getDteFromExpiration = (dateString: string): number | null => {
+    if (!dateString) return null;
+    const expiration = new Date(dateString + "T00:00:00Z");
+    if (isNaN(expiration.getTime())) return null;
+
+    const now = new Date();
+    const todayUtc = Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+    );
+    const expirationUtc = Date.UTC(
+      expiration.getUTCFullYear(),
+      expiration.getUTCMonth(),
+      expiration.getUTCDate(),
+    );
+
+    return Math.round((expirationUtc - todayUtc) / (1000 * 60 * 60 * 24));
+  };
+
+  const formatExpirationWithDte = (
+    expiration: string,
+    dte: number | string | null | undefined,
+  ): string => {
+    const formattedDate = formatDate(expiration);
+
+    let normalizedDte: number | null = null;
+    if (typeof dte === "number" && Number.isFinite(dte)) {
+      normalizedDte = Math.round(dte);
+    } else if (typeof dte === "string" && dte.trim().length > 0) {
+      const parsed = Number(dte);
+      if (Number.isFinite(parsed)) {
+        normalizedDte = Math.round(parsed);
+      }
+    }
+
+    if (normalizedDte == null) {
+      normalizedDte = getDteFromExpiration(expiration);
+    }
+
+    return normalizedDte == null
+      ? formattedDate
+      : `${formattedDate} (${normalizedDte})`;
+  };
+
   function buildActiveRules() {
     return ruleOfList
       .map((rule) => {
@@ -327,7 +373,9 @@
         .join(",");
       if (allRuleNames) params.set("displayColumns", allRuleNames);
 
-      const response = await fetch(`/api/options-screener-feed?${params}`, { signal });
+      const response = await fetch(`/api/options-screener-feed?${params}`, {
+        signal,
+      });
       if (signal.aborted) return;
 
       const result = await response.json();
@@ -363,9 +411,13 @@
     });
 
     if (inputValue) params.set("search", inputValue);
-    if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+    if (activeRules.length > 0)
+      params.set("rules", JSON.stringify(activeRules));
 
-    const allRuleNames = ruleOfList?.map((r) => r.name).filter(Boolean).join(",");
+    const allRuleNames = ruleOfList
+      ?.map((r) => r.name)
+      .filter(Boolean)
+      .join(",");
     if (allRuleNames) params.set("displayColumns", allRuleNames);
 
     const response = await fetch(`/api/options-screener-feed?${params}`);
@@ -415,12 +467,14 @@
         throw new Error("Server returned failure");
       }
 
-      strategyList = strategyList?.filter((item) => item.id !== idToDelete) ?? [];
+      strategyList =
+        strategyList?.filter((item) => item.id !== idToDelete) ?? [];
 
       if (selectedStrategy === idToDelete) {
         selectedStrategy = strategyList?.at(0)?.id ?? "";
         ruleOfList =
-          strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+          strategyList?.find((item) => item.id === selectedStrategy)?.rules ??
+          [];
 
         for (const key of Object.keys(valueMappings)) {
           valueMappings[key] = allRules[key]?.defaultValue ?? "any";
@@ -764,7 +818,8 @@
       const isAtDefaultValues =
         ruleCondition[state] === defaultCondition &&
         (Array.isArray(valueMappings[state]) && Array.isArray(defaultValue)
-          ? JSON.stringify(valueMappings[state]) === JSON.stringify(defaultValue)
+          ? JSON.stringify(valueMappings[state]) ===
+            JSON.stringify(defaultValue)
           : valueMappings[state] === defaultValue);
 
       if (!isAtDefaultValues) {
@@ -990,7 +1045,9 @@
       });
 
       ruleOfList = currentRules;
-      const matchedStrategy = strategyList.find((item) => item.id === selectedStrategy);
+      const matchedStrategy = strategyList.find(
+        (item) => item.id === selectedStrategy,
+      );
       if (matchedStrategy) {
         matchedStrategy.rules = currentRules;
       }
@@ -1094,7 +1151,9 @@
   );
 
   function isChecked(item, rowRuleName) {
-    return checkedItems?.has(rowRuleName) && checkedItems?.get(rowRuleName).has(item);
+    return (
+      checkedItems?.has(rowRuleName) && checkedItems?.get(rowRuleName).has(item)
+    );
   }
 
   function parseValue(val) {
@@ -1140,8 +1199,11 @@
 
     if (checkedItems.has(ruleName)) {
       const itemsSet = checkedItems.get(ruleName);
-      const sortedValue = shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
-      const valueKey = Array.isArray(sortedValue) ? sortedValue.join("-") : sortedValue;
+      const sortedValue =
+        shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
+      const valueKey = Array.isArray(sortedValue)
+        ? sortedValue.join("-")
+        : sortedValue;
 
       if (itemsSet?.has(valueKey)) {
         itemsSet?.delete(valueKey);
@@ -1149,8 +1211,11 @@
         itemsSet?.add(valueKey);
       }
     } else {
-      const sortedValue = shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
-      const valueKey = Array.isArray(sortedValue) ? sortedValue.join("-") : sortedValue;
+      const sortedValue =
+        shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
+      const valueKey = Array.isArray(sortedValue)
+        ? sortedValue.join("-")
+        : sortedValue;
       checkedItems?.set(ruleName, new Set([valueKey]));
     }
 
@@ -1159,8 +1224,11 @@
         valueMappings[ruleName] = [];
       }
 
-      const sortedValue = shouldSort && Array?.isArray(value) ? value?.sort(customSort) : value;
-      const valueKey = Array?.isArray(sortedValue) ? sortedValue.join("-") : sortedValue;
+      const sortedValue =
+        shouldSort && Array?.isArray(value) ? value?.sort(customSort) : value;
+      const valueKey = Array?.isArray(sortedValue)
+        ? sortedValue.join("-")
+        : sortedValue;
 
       const index = valueMappings[ruleName].indexOf(valueKey);
       if (index === -1) {
@@ -1227,7 +1295,9 @@
       currentIndex = null;
     } else {
       if (newValue?.length === 0) {
-        const ruleIndex = ruleOfList?.findIndex((rule) => rule.name === rowRuleName);
+        const ruleIndex = ruleOfList?.findIndex(
+          (rule) => rule.name === rowRuleName,
+        );
         if (ruleIndex !== -1) {
           ruleOfList[ruleIndex].value = "any";
         }
@@ -1355,8 +1425,6 @@
     },
     { key: "volume", label: "Volume", align: "right" },
     { key: "oi", label: "OI", align: "right" },
-    { key: "changesPercentageOI", label: "% Change OI", align: "right" },
-    { key: "totalPrem", label: "Total Prem", align: "right" },
   ];
 
   const generalSortOrders = {
@@ -1376,7 +1444,8 @@
   };
 
   const stringTypeRules = ["optionType", "expiration"];
-  const getType = (key) => (stringTypeRules.includes(key) ? "string" : "number");
+  const getType = (key) =>
+    stringTypeRules.includes(key) ? "string" : "number";
 
   $: {
     if (displayTableTab) {
@@ -1676,7 +1745,9 @@
                       <!-- svelte-ignore a11y-click-events-have-key-events -->
                       <label
                         for="deleteStrategy"
-                        on:click|stopPropagation={() => { deleteTargetId = item?.id; }}
+                        on:click|stopPropagation={() => {
+                          deleteTargetId = item?.id;
+                        }}
                         class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
                       >
                         <svg
@@ -2513,9 +2584,11 @@
               />
             </thead>
             <tbody>
-              {#each displayResults as item}
+              {#each displayResults as item, i}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class:opacity-30={i + 1 === displayResults?.length &&
+                    data?.user?.tier !== "Pro"}
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
@@ -2531,7 +2604,7 @@
                         >
                       </td>
                     {:else if column.key === "name"}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem]">
+                      <td class="whitespace-nowrap text-sm">
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
                           : item?.name}
@@ -2550,8 +2623,8 @@
                         {item?.optionType}
                       </td>
                     {:else if column.key === "expiration"}
-                      <td class=" text-sm sm:text-[0.95rem] text-end">
-                        {formatDate(item?.expiration)}
+                      <td class="whitespace-nowrap text-sm text-end">
+                        {formatExpirationWithDte(item?.expiration, item?.dte)}
                       </td>
                     {:else if column.key === "iv"}
                       <td class=" text-sm sm:text-[0.95rem] text-end">
@@ -2642,9 +2715,11 @@
               />
             </thead>
             <tbody>
-              {#each displayResults as item}
+              {#each displayResults as item, i}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class:opacity-30={i + 1 === displayResults?.length &&
+                    data?.user?.tier !== "Pro"}
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
@@ -2660,15 +2735,13 @@
                         >
                       </td>
                     {:else if column.key === "name"}
-                      <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
+                      <td class=" whitespace-nowrap text-sm">
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
                           : item?.name}
                       </td>
                     {:else if column.key === "strike"}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {item?.strike}
                       </td>
                     {:else if column.key === "optionType"}
@@ -2681,16 +2754,14 @@
                         {item?.optionType}
                       </td>
                     {:else if column.key === "expiration"}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
-                        {formatDate(item?.expiration)}
+                      <td class="whitespace-nowrap text-sm text-end">
+                        {formatExpirationWithDte(item?.expiration, item?.dte)}
                       </td>
                     {:else}
                       {@const rule = displayRules?.find(
                         (r) => r.rule === column.key,
                       )}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {#if rule?.varType === "percentSign"}
                           <span
                             class={item[column.key] > 0
@@ -2736,9 +2807,11 @@
               />
             </thead>
             <tbody>
-              {#each displayResults as item}
+              {#each displayResults as item, i}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class:opacity-30={i + 1 === displayResults?.length &&
+                    data?.user?.tier !== "Pro"}
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
@@ -2754,15 +2827,13 @@
                         >
                       </td>
                     {:else if column.key === "name"}
-                      <td class=" whitespace-nowrap text-sm sm:text-[0.95rem]">
+                      <td class=" whitespace-nowrap text-sm">
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
                           : item?.name}
                       </td>
                     {:else if column.key === "strike"}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {item?.strike}
                       </td>
                     {:else if column.key === "optionType"}
@@ -2775,31 +2846,23 @@
                         {item?.optionType}
                       </td>
                     {:else if column.key === "expiration"}
-                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
-                        {formatDate(item?.expiration)}
+                      <td class="whitespace-nowrap text-sm text-end">
+                        {formatExpirationWithDte(item?.expiration, item?.dte)}
                       </td>
                     {:else if column.key === "delta"}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {item?.delta}
                       </td>
                     {:else if column.key === "gamma"}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {item?.gamma}
                       </td>
                     {:else if column.key === "theta"}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {item?.theta}
                       </td>
                     {:else if column.key === "vega"}
-                      <td
-                        class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
-                      >
+                      <td class="whitespace-nowrap text-sm text-end">
                         {item?.vega}
                       </td>
                     {/if}
@@ -2811,7 +2874,11 @@
         </div>
       {/if}
 
-      {#if displayResults?.length > 0}
+      <div class="-mt-3">
+        <UpgradeToPro {data} display={true} />
+      </div>
+
+      {#if displayResults?.length > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <div class="flex items-center gap-2">
             <Button
@@ -3142,7 +3209,13 @@
 
 <dialog id="addStrategy" class="modal modal-bottom sm:modal-middle">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <label for="addStrategy" on:click={() => { removeList = false; }} class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="addStrategy"
+    on:click={() => {
+      removeList = false;
+    }}
+    class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -3150,7 +3223,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="addStrategy"
-      on:click={() => { removeList = false; }}
+      on:click={() => {
+        removeList = false;
+      }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -3200,7 +3275,13 @@
 
 <dialog id="deleteStrategy" class="modal modal-bottom sm:modal-middle">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <label for="deleteStrategy" on:click={() => { deleteTargetId = ""; }} class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="deleteStrategy"
+    on:click={() => {
+      deleteTargetId = "";
+    }}
+    class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -3208,7 +3289,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="deleteStrategy"
-      on:click={() => { deleteTargetId = ""; }}
+      on:click={() => {
+        deleteTargetId = "";
+      }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -3232,7 +3315,9 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <label
         for="deleteStrategy"
-        on:click={() => { deleteTargetId = ""; }}
+        on:click={() => {
+          deleteTargetId = "";
+        }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{options_screener_modal_delete_cancel()}</label
