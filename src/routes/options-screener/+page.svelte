@@ -212,6 +212,13 @@
       varType: "date",
       category: "Earnings Report",
     },
+    earningsGap: {
+      label: "Earnings Gap (Days)",
+      step: [60, 30, 14, 7, 3, 0, -7, -14, -30],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Earnings Report",
+    },
     ivRank: {
       label: "IV Rank",
       step: ["90%", "80%", "50%", "30%", "10%"],
@@ -376,6 +383,23 @@
       : `${formattedDate} (${normalizedDte})`;
   };
 
+  function normalizeCheckedRuleValues(value) {
+    return (Array.isArray(value) ? value : [value]).filter(
+      (entry) => entry != null && entry !== "" && entry !== "any",
+    );
+  }
+
+  function buildCheckedItemsMap(rules) {
+    return new Map(
+      (rules ?? [])
+        ?.filter((rule) => checkedRules?.includes(rule.name))
+        ?.map((rule) => [
+          rule.name,
+          new Set(normalizeCheckedRuleValues(rule.value)),
+        ]),
+    );
+  }
+
   function buildActiveRules() {
     return ruleOfList
       .map((rule) => {
@@ -385,7 +409,8 @@
         let value;
 
         if (checkedRules.includes(name) && checkedItems?.has(name)) {
-          value = [...checkedItems.get(name)];
+          const items = normalizeCheckedRuleValues([...checkedItems.get(name)]);
+          value = items.length > 0 ? items : "any";
         } else {
           value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
         }
@@ -481,9 +506,15 @@
   }
 
   let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
-  function debouncedRuleFetch() {
+  let _pendingRuleFetchForce = false;
+  function debouncedRuleFetch({ force = false }: { force?: boolean } = {}) {
+    if (force) _pendingRuleFetchForce = true;
     if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
-    _ruleFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
+    _ruleFetchTimeout = setTimeout(() => {
+      const forceReload = _pendingRuleFetchForce;
+      _pendingRuleFetchForce = false;
+      fetchTableData({ page: 1 }, { force: forceReload });
+    }, 200);
   }
 
   let _searchFetchTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -548,14 +579,7 @@
             rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
         });
 
-        checkedItems = new Map(
-          ruleOfList
-            ?.filter((rule) => checkedRules?.includes(rule.name))
-            ?.map((rule) => [
-              rule.name,
-              new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
-            ]),
-        );
+        checkedItems = buildCheckedItemsMap(ruleOfList);
 
         await fetchTableData({ page: 1 });
       }
@@ -684,14 +708,7 @@
         rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
     });
 
-    checkedItems = new Map(
-      ruleOfList
-        ?.filter((rule) => checkedRules?.includes(rule.name))
-        ?.map((rule) => [
-          rule.name,
-          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
-        ]),
-    );
+    checkedItems = buildCheckedItemsMap(ruleOfList);
 
     await fetchTableData({ page: 1 });
   }
@@ -770,7 +787,7 @@
         row.value ?? allRules[row.name]?.defaultValue ?? "any";
 
       if (checkedRules.includes(row.name) && Array.isArray(row.value)) {
-        checkedItems.set(row.name, new Set(row.value));
+        checkedItems.set(row.name, new Set(normalizeCheckedRuleValues(row.value)));
       }
     });
 
@@ -852,6 +869,10 @@
     } else {
       ruleOfList = [...ruleOfList, newRule];
     }
+
+    if (isLoaded && displayTableTab === "filters") {
+      debouncedRuleFetch({ force: true });
+    }
   }
 
   async function handleResetAll() {
@@ -899,14 +920,7 @@
         ruleOfList = [...ruleOfList];
 
         if (checkedRules.includes(state)) {
-          checkedItems = new Map(
-            ruleOfList
-              ?.filter((row) => checkedRules.includes(row.name))
-              ?.map((row) => [
-                row.name,
-                new Set(Array.isArray(row.value) ? row.value : [row.value]),
-              ]),
-          );
+          checkedItems = buildCheckedItemsMap(ruleOfList);
         }
       } else {
         ruleOfList.splice(index, 1);
@@ -914,6 +928,7 @@
 
         if (checkedItems?.has(state)) {
           checkedItems?.delete(state);
+          checkedItems = checkedItems;
         }
 
         if (state === ruleName) {
@@ -1121,7 +1136,7 @@
         let value;
 
         if (checkedRules.includes(name) && checkedItems?.has(name)) {
-          const items = [...checkedItems.get(name)];
+          const items = normalizeCheckedRuleValues([...checkedItems.get(name)]);
           value = items.length > 0 ? items : "any";
         } else {
           value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
@@ -1228,14 +1243,7 @@
     ruleCondition[ruleName] = newState;
   }
 
-  let checkedItems = new Map(
-    ruleOfList
-      ?.filter((rule) => checkedRules?.includes(rule.name))
-      ?.map((rule) => [
-        rule.name,
-        new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
-      ]),
-  );
+  let checkedItems = buildCheckedItemsMap(ruleOfList);
 
   function isChecked(item, rowRuleName) {
     return (
@@ -1286,6 +1294,7 @@
 
     if (checkedItems.has(ruleName)) {
       const itemsSet = checkedItems.get(ruleName);
+      itemsSet?.delete("any");
       const sortedValue =
         shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
       const valueKey = Array.isArray(sortedValue)
@@ -1309,6 +1318,10 @@
     if (checkedRules?.includes(ruleName)) {
       if (!Array.isArray(valueMappings[ruleName])) {
         valueMappings[ruleName] = [];
+      } else {
+        valueMappings[ruleName] = valueMappings[ruleName].filter(
+          (entry) => entry !== "any",
+        );
       }
 
       const sortedValue =
@@ -1328,6 +1341,8 @@
         valueMappings[ruleName] = "any";
       }
 
+      checkedItems = checkedItems;
+      valueMappings = valueMappings;
       debouncedRuleFetch();
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
@@ -2882,6 +2897,10 @@
                           {:else}
                             n/a
                           {/if}
+                        {:else if column.key === "marketCap"}
+                          {item[column.key] != null
+                            ? abbreviateNumber(item[column.key], true)
+                            : ""}
                         {:else if rule?.varType === "percentSign"}
                           <span
                             class={item[column.key] > 0
