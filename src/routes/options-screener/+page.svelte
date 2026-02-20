@@ -105,7 +105,14 @@
   let displayRules = [];
   let inputValue = "";
 
-  const checkedRules = ["optionType", "assetType", "indexMembership"];
+  const checkedRules = [
+    "optionType",
+    "assetType",
+    "indexMembership",
+    "marketCapGroup",
+    "earningsTime",
+    "earningsDate",
+  ];
 
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
@@ -155,12 +162,55 @@
       defaultCondition: "",
       defaultValue: "any",
     },
+    marketCap: {
+      label: "Market Cap",
+      step: ["100B", "50B", "10B", "1B", "300M", "100M", "10M"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      category: "Company Info",
+    },
+    marketCapGroup: {
+      label: "Market Cap Group",
+      step: [
+        "Mega-Cap (200B+)",
+        "Large-Cap (10-200B)",
+        "Mid-Cap (2-10B)",
+        "Small-Cap (300M-2B)",
+        "Micro-Cap (Under 300M)",
+        "Nano-Cap (Under 50M)",
+      ],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Company Info",
+    },
     indexMembership: {
       label: "Index Membership",
       step: ["S&P100", "S&P500"],
       defaultCondition: "",
       category: "Stock Data",
       defaultValue: "any",
+    },
+    earningsTime: {
+      label: "Earnings Time",
+      step: ["Before Market Open", "After Market Close"],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Earnings Report",
+    },
+    earningsDate: {
+      label: "Earnings Date",
+      step: [
+        "Today",
+        "Tomorrow",
+        "Next 7D",
+        "Next 30D",
+        "This Month",
+        "Next Month",
+      ],
+      defaultCondition: "",
+      defaultValue: "any",
+      varType: "date",
+      category: "Earnings Report",
     },
     ivRank: {
       label: "IV Rank",
@@ -763,6 +813,9 @@
       case "optionType":
       case "assetType":
       case "indexMembership":
+      case "marketCapGroup":
+      case "earningsTime":
+      case "earningsDate":
         newRule = {
           name: ruleName,
           value: Array.isArray(valueMappings[ruleName])
@@ -1477,9 +1530,20 @@
     totalPrem: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = ["optionType", "expiration"];
+  const stringTypeRules = [
+    "optionType",
+    "assetType",
+    "indexMembership",
+    "marketCapGroup",
+    "earningsTime",
+  ];
+  const dateTypeRules = ["expiration", "earningsDate"];
   const getType = (key) =>
-    stringTypeRules.includes(key) ? "string" : "number";
+    dateTypeRules.includes(key)
+      ? "date"
+      : stringTypeRules.includes(key)
+        ? "string"
+        : "number";
 
   $: {
     if (displayTableTab) {
@@ -2795,7 +2859,30 @@
                         (r) => r.rule === column.key,
                       )}
                       <td class="whitespace-nowrap text-sm text-end">
-                        {#if rule?.varType === "percentSign"}
+                        {#if ["assetType", "marketCapGroup", "earningsTime"]?.includes(column.key)}
+                          {#if item[column.key]}
+                            {item[column.key]
+                              ?.replace("After Market Close", "After Close")
+                              ?.replace("Before Market Open", "Before Open")
+                              ?.replace(/\s*\(.*?\)/, "")}
+                          {:else}
+                            n/a
+                          {/if}
+                        {:else if rule?.varType === "date"}
+                          {#if item[column.key]}
+                            {new Date(item[column.key]).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                timeZone: "UTC",
+                              },
+                            )}
+                          {:else}
+                            n/a
+                          {/if}
+                        {:else if rule?.varType === "percentSign"}
                           <span
                             class={item[column.key] > 0
                               ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
