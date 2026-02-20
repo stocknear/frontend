@@ -153,6 +153,62 @@
       <li>
         <a
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/high-free-cash-flow-yield-stocks"
+          >High Free Cash Flow Yield Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/undervalued-growth-stocks"
+          >Undervalued Growth Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/low-pe-high-roe-stocks"
+          >Low PE High ROE Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/strong-balance-sheet-stocks"
+          >Strong Balance Sheet Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/piotroski-8-9-stocks"
+          >Piotroski 8-9 Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/net-cash-stocks"
+          >Net Cash Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/earnings-growth-stocks-this-month"
+          >Earnings Growth Stocks This Month</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/high-analyst-upside-stocks"
+          >High Analyst Upside Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/highest-revenue">{list_index_us_companies_most_revenue()}</a
         >
       </li>
@@ -254,6 +310,13 @@
           class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           href="/list/dividend-growth-stocks"
           >Dividend Growth Stocks</a
+        >
+      </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/safe-dividend-stocks"
+          >Safe Dividend Stocks</a
         >
       </li>
 

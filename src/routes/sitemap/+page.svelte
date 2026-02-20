@@ -142,6 +142,42 @@
       link: "/list/dividend-growth-stocks",
     },
     {
+      title: "Safe Dividend Stocks",
+      link: "/list/safe-dividend-stocks",
+    },
+    {
+      title: "High Free Cash Flow Yield Stocks",
+      link: "/list/high-free-cash-flow-yield-stocks",
+    },
+    {
+      title: "Undervalued Growth Stocks",
+      link: "/list/undervalued-growth-stocks",
+    },
+    {
+      title: "Low PE High ROE Stocks",
+      link: "/list/low-pe-high-roe-stocks",
+    },
+    {
+      title: "Strong Balance Sheet Stocks",
+      link: "/list/strong-balance-sheet-stocks",
+    },
+    {
+      title: "Piotroski 8-9 Stocks",
+      link: "/list/piotroski-8-9-stocks",
+    },
+    {
+      title: "Net Cash Stocks",
+      link: "/list/net-cash-stocks",
+    },
+    {
+      title: "Earnings Growth Stocks This Month",
+      link: "/list/earnings-growth-stocks-this-month",
+    },
+    {
+      title: "High Analyst Upside Stocks",
+      link: "/list/high-analyst-upside-stocks",
+    },
+    {
       title: sitemap_tab_insider_tracker(),
       link: "/insider-tracker",
     },
