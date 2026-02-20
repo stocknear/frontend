@@ -2,16 +2,11 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
   import DownloadIcon from "lucide-svelte/icons/download";
-  import {
-    OPTIONS_SCREENER_EXPORT_CREDIT_MIN,
-    OPTIONS_SCREENER_EXPORT_CREDIT_MAX,
-    calculateOptionsScreenerExportCredits,
-  } from "$lib/utils";
+
+  const CREDIT_COST = 10;
 
   export let data: any;
-  export let totalItems: number = 0;
-  export let fetchAllData: () => Promise<any[]> = async () => [];
-  export let getExportPayload: () => Record<string, unknown> = () => ({});
+  export let displayedData: any[] = [];
   export let endpoint = "/api/options-screener-export";
   export let title = "options_screener_data";
 
@@ -22,8 +17,8 @@
 
   $: availableCredits = data?.user?.credits ?? 0;
   $: isEligible = data?.user && data?.user?.tier === "Pro";
-  $: estimatedCreditCost = calculateOptionsScreenerExportCredits(totalItems);
-  $: hasEnoughCredits = availableCredits >= estimatedCreditCost;
+  $: displayedCount = displayedData?.length ?? 0;
+  $: hasEnoughCredits = availableCredits >= CREDIT_COST;
 
   const openModal = () => {
     if (!data?.user) {
@@ -92,11 +87,11 @@
     }
 
     if (!hasEnoughCredits) {
-      errorMessage = `Insufficient credits. This export is estimated at ${estimatedCreditCost} credits, but your balance is ${availableCredits}.`;
+      errorMessage = `Insufficient credits. This export costs ${CREDIT_COST} credits, but your balance is ${availableCredits}.`;
       return;
     }
 
-    if (totalItems === 0) {
+    if (displayedCount === 0) {
       errorMessage = "No data available to export.";
       return;
     }
@@ -109,7 +104,6 @@
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(getExportPayload?.() ?? {}),
       });
 
       let responseData: any = {};
@@ -128,13 +122,7 @@
       }
 
       statusMessage = "Preparing export...";
-      const allData = await fetchAllData();
-
-      if (!allData || allData.length === 0) {
-        throw new Error("No data returned from server.");
-      }
-
-      const csvContent = generateCSVContent(allData);
+      const csvContent = generateCSVContent(displayedData ?? []);
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const filename = getExportFilename();
 
@@ -162,7 +150,7 @@
         }
       }
 
-      statusMessage = `Exported ${allData.length.toLocaleString("en-US")} contracts successfully.`;
+      statusMessage = `Exported ${displayedCount.toLocaleString("en-US")} contracts successfully.`;
 
       setTimeout(() => {
         closeModal();
@@ -213,7 +201,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
 
     <h3
@@ -222,17 +211,13 @@
       Export options screener data
     </h3>
     <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
-      Export all {totalItems.toLocaleString("en-US")} matching contracts as a
-      CSV file.
+      Export {displayedCount.toLocaleString("en-US")} currently displayed contracts
+      as a CSV file.
     </p>
 
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
       <div>
-        Estimated export cost: {estimatedCreditCost} credits.
-      </div>
-      <div>
-        Cost range: {OPTIONS_SCREENER_EXPORT_CREDIT_MIN} - {OPTIONS_SCREENER_EXPORT_CREDIT_MAX}
-        credits.
+        Export cost: {CREDIT_COST} credits.
       </div>
       {#if data?.user}
         <div>

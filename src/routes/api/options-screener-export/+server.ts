@@ -1,13 +1,7 @@
 import type { RequestHandler } from "./$types";
-import {
-  OPTIONS_SCREENER_EXPORT_CREDIT_MAX,
-  OPTIONS_SCREENER_EXPORT_CREDIT_MIN,
-  calculateOptionsScreenerExportCredits,
-} from "$lib/utils";
 
 const MAX_DOWNLOAD_CREDITS = 500;
-const DEFAULT_SORT_KEY = "totalPrem";
-const ALLOWED_TABS = new Set(["general", "filters", "greeks"]);
+const CREDIT_COST = 10;
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -16,43 +10,8 @@ function json(data: unknown, status = 200) {
   });
 }
 
-function sanitizeRules(value: unknown) {
-  if (!Array.isArray(value)) return [];
-
-  return value
-    .filter(
-      (rule) =>
-        rule &&
-        typeof rule === "object" &&
-        typeof (rule as { name?: unknown })?.name === "string",
-    )
-    .map((rule) => {
-      const typedRule = rule as {
-        name: string;
-        condition?: unknown;
-        value?: unknown;
-      };
-      return {
-        name: typedRule.name,
-        condition:
-          typeof typedRule.condition === "string" ? typedRule.condition : "",
-        value: typedRule.value,
-      };
-    })
-    .slice(0, 100);
-}
-
-function sanitizeDisplayColumns(value: unknown) {
-  if (!Array.isArray(value)) return [];
-
-  return value
-    .filter((item) => typeof item === "string" && item.trim().length > 0)
-    .map((item) => item.trim())
-    .slice(0, 100);
-}
-
-export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb, clientIp } = locals;
+export const POST: RequestHandler = async ({ locals }) => {
+  const { user, pb, clientIp } = locals;
 
   if (!user) {
     return json({ error: "Authentication required." }, 401);
@@ -75,91 +34,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  let payload: Record<string, unknown> = {};
-  try {
-    payload = (await request.json()) as Record<string, unknown>;
-  } catch {
-    payload = {};
-  }
-
-  const sortKey =
-    typeof payload?.sortKey === "string" && payload?.sortKey.trim().length > 0
-      ? payload.sortKey.trim()
-      : DEFAULT_SORT_KEY;
-  const sortOrder = payload?.sortOrder === "asc" ? "asc" : "desc";
-  const tab =
-    typeof payload?.tab === "string" && ALLOWED_TABS.has(payload.tab)
-      ? payload.tab
-      : "general";
-  const search =
-    typeof payload?.search === "string" ? payload.search.trim() : "";
-  const rules = sanitizeRules(payload?.rules);
-  const displayColumns = sanitizeDisplayColumns(payload?.displayColumns);
-
-  const params = new URLSearchParams({
-    page: "1",
-    pageSize: "20",
-    sortKey,
-    sortOrder,
-    tab,
-    subscriber: "Pro",
-  });
-
-  if (search.length > 0) {
-    params.set("search", search);
-  }
-
-  if (rules.length > 0) {
-    params.set("rules", JSON.stringify(rules));
-  }
-
-  if (displayColumns.length > 0) {
-    params.set("displayColumns", displayColumns.join(","));
-  }
-
-  const feedResponse = await fetch(
-    `${apiURL}/options-screener-feed?${params.toString()}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-KEY": apiKey,
-      },
-    },
-  );
-
-  if (!feedResponse.ok) {
-    const errorText = await feedResponse.text();
-    return json(
-      {
-        error:
-          errorText?.trim()?.length > 0
-            ? errorText
-            : "Failed to validate options screener export.",
-      },
-      500,
-    );
-  }
-
-  let feedData: any = {};
-  try {
-    feedData = await feedResponse.json();
-  } catch {
-    return json({ error: "Invalid response while validating export." }, 500);
-  }
-  const totalItems = Number(feedData?.total ?? 0);
-
-  if (!Number.isFinite(totalItems) || totalItems <= 0) {
-    return json({ error: "No data available to export." }, 400);
-  }
-
-  const creditCost = calculateOptionsScreenerExportCredits(totalItems);
   const currentCredits = Number(user?.credits ?? 0);
-
-  if (!Number.isFinite(currentCredits) || currentCredits < creditCost) {
+  if (!Number.isFinite(currentCredits) || currentCredits < CREDIT_COST) {
     return json(
       {
-        error: `Insufficient credits. Your current balance is ${Number.isFinite(currentCredits) ? currentCredits : 0}. This export costs ${creditCost} credits.`,
+        error: `Insufficient credits. Your current balance is ${Number.isFinite(currentCredits) ? currentCredits : 0}. This export costs ${CREDIT_COST} credits.`,
       },
       400,
     );
@@ -168,7 +47,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   let updatedUser;
   try {
     updatedUser = await pb.collection("users").update(user.id, {
-      "credits-": creditCost,
+      "credits-": CREDIT_COST,
     });
   } catch (error) {
     const statusCode = (error as { status?: number })?.status;
@@ -186,7 +65,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     ) {
       return json(
         {
-          error: `Insufficient credits. Your current balance is ${currentCredits}. This export costs ${creditCost} credits.`,
+          error: `Insufficient credits. Your current balance is ${currentCredits}. This export costs ${CREDIT_COST} credits.`,
         },
         400,
       );
@@ -221,7 +100,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   if ((updatedUser?.credits ?? 0) < 0) {
     try {
       await pb.collection("users").update(user.id, {
-        "credits+": creditCost,
+        "credits+": CREDIT_COST,
       });
     } catch (rollbackError) {
       console.error(
@@ -232,7 +111,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     return json(
       {
-        error: `Insufficient credits. You need ${creditCost} credits.`,
+        error: `Insufficient credits. You need ${CREDIT_COST} credits.`,
       },
       400,
     );
@@ -294,11 +173,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   return json({
     success: true,
-    creditsDeducted: creditCost,
+    creditsDeducted: CREDIT_COST,
     remainingCredits: updatedUser?.credits ?? user?.credits,
     downloadCredits: updatedUser?.downloadCredits ?? user?.downloadCredits,
-    totalItems,
-    minCredits: OPTIONS_SCREENER_EXPORT_CREDIT_MIN,
-    maxCredits: OPTIONS_SCREENER_EXPORT_CREDIT_MAX,
   });
 };

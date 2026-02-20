@@ -64,7 +64,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import OptionsScreenerExport from "$lib/components/OptionsScreenerExport.svelte";
+  import OptionsScreenerExport from "$lib/components/Options/OptionsScreenerExport.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -368,19 +368,6 @@
     return params;
   }
 
-  function getOptionsScreenerExportPayload() {
-    return {
-      sortKey: activeSortKey,
-      sortOrder: activeSortOrder,
-      tab: displayTableTab,
-      search: inputValue,
-      rules: buildActiveRules(),
-      displayColumns: ruleOfList
-        ?.map((rule) => rule?.name)
-        .filter((name) => typeof name === "string" && name.length > 0),
-    };
-  }
-
   async function fetchTableData({
     page = currentPage,
     pageSize = rowsPerPage,
@@ -426,35 +413,6 @@
         isLoaded = true;
       }
     }
-  }
-
-  async function fetchAllFilteredData() {
-    const PAGE_SIZE = 500;
-    const allItems: any[] = [];
-    let page = 1;
-    let total = Infinity;
-
-    while (allItems.length < total) {
-      const params = buildFeedParams({
-        page,
-        pageSize: PAGE_SIZE,
-      });
-
-      const response = await fetch(`/api/options-screener-feed?${params}`);
-      if (!response.ok) break;
-
-      const result = await response.json();
-      const items = result?.items ?? [];
-      total = Number(result?.total ?? 0);
-      allItems.push(...items);
-
-      if (items.length < PAGE_SIZE) {
-        break;
-      }
-      page += 1;
-    }
-
-    return allItems;
   }
 
   let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -2475,10 +2433,8 @@
         <div class=" ml-2">
           <OptionsScreenerExport
             {data}
-            {totalItems}
-            fetchAllData={fetchAllFilteredData}
+            displayedData={displayResults}
             title={"options_screener_data"}
-            getExportPayload={getOptionsScreenerExportPayload}
           />
         </div>
 
