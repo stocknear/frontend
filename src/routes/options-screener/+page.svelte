@@ -9,7 +9,6 @@
     options_screener_breadcrumb_home,
     options_screener_breadcrumb_options_screener,
     options_screener_contracts_count,
-    options_screener_expire_on,
     options_screener_filters_count,
     options_screener_full_width,
     options_screener_main_title,
@@ -72,26 +71,28 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
-  //const userConfirmation = confirm('Unsaved changes detected. Leaving now will discard your strategy. Continue?');
-
-  import { writable } from "svelte/store";
-
-  let shouldLoadWorker = writable(false);
   export let data;
   export let form;
 
   let showFilters = true;
   let isLoaded = false;
   let isFullWidth = false;
-  let syncWorker: Worker | undefined;
-  let downloadWorker: Worker | undefined;
-  let searchWorker: Worker | undefined;
-  let expirationList = data?.getScreenerData?.expirationList;
-  let selectedDate = expirationList?.at(0)?.date;
-
-  let indexDict = data?.getIndexDict ?? {};
+  let isDataLoading = false;
   let removeList = false;
   let deleteTargetId = "";
+
+  let filteredData = data?.getScreenerFeed?.items ?? [];
+  let displayResults = filteredData;
+  let totalItems = data?.getScreenerFeed?.total ?? 0;
+  let totalContracts = data?.getScreenerFeed?.totalContracts ?? 0;
+  let currentPage = data?.getScreenerFeed?.page ?? 1;
+  let rowsPerPage = data?.getScreenerFeed?.pageSize ?? 20;
+  let rowsPerPageOptions = [20, 50, 100];
+  let totalPages = data?.getScreenerFeed?.totalPages ?? 1;
+  let activeSortKey = data?.getScreenerFeed?.sort?.key ?? "totalPrem";
+  let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? "desc";
+  let currentAbortController: AbortController | null = null;
+  let requestId = 0;
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -116,9 +117,6 @@
 
   let displayTableTab = "general";
 
-  let stockScreenerData = data?.getScreenerData?.data;
-
-  // Define all possible rules and their properties
   const allRules = {
     moneynessPercentage: {
       label: "% Moneyness",
@@ -127,7 +125,6 @@
       defaultValue: "any",
       varType: "percentSign",
     },
-
     totalPrem: {
       label: "Total Premium",
       step: ["20M", "10M", "1M", "500K", "100K", "10K"],
@@ -227,26 +224,8 @@
     },
   };
 
-  let filteredData = [];
-  let originalFilteredData = [];
-  let currentUnsortedData = [];
-  let displayResults = [];
-  let isSearchPending = false;
-
-  // Update pagination when filteredData changes
-  $: if (filteredData && filteredData.length >= 0 && !isSearchPending) {
-    updatePaginatedData();
-  }
-
-  // Pagination state
-  let currentPage = 1;
-  let rowsPerPage = 20; // Will be loaded from localStorage
-  let rowsPerPageOptions = [20, 50, 100];
-  let totalPages = 1;
-
-  // Generate allRows from allRules
   $: allRows = Object?.entries(allRules)
-    ?.sort(([, a], [, b]) => a?.label.localeCompare(b.label)) // Sort by label
+    ?.sort(([, a], [, b]) => a?.label.localeCompare(b.label))
     ?.map(([ruleName, ruleProps]) => ({
       rule: ruleName,
       ...ruleProps,
@@ -254,24 +233,18 @@
 
   let filteredGroupedRules;
   let searchTerm = "";
-
   let ruleName = "";
 
-  // Quick Search state variables
   let quickSearchTerm = "";
   let quickSearchResults = [];
   let showQuickSearchDropdown = false;
   let selectedQuickSearchIndex = -1;
-
-  // Define your default values
 
   let ruleCondition = {};
   let valueMappings = {};
 
   Object.keys(allRules).forEach((ruleName) => {
     ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
-
-    // Check if the default condition is "between"
     if (allRules[ruleName].defaultCondition === "between") {
       valueMappings[ruleName] = allRules[ruleName].defaultValue ?? [null, null];
     } else {
@@ -279,7 +252,6 @@
     }
   });
 
-  // Update ruleCondition and valueMappings based on existing rules
   ruleOfList?.forEach((rule) => {
     ruleCondition[rule.name] =
       rule.condition ?? allRules[rule.name]?.defaultCondition ?? "";
@@ -289,16 +261,123 @@
 
   const formatDate = (dateString: string): string => {
     if (!dateString) return "n/a";
-    const date = new Date(dateString);
-    return isNaN(date.getTime())
-      ? "n/a"
-      : date.toLocaleDateString("en-US", {
-          month: "short",
-          day: "2-digit",
-          year: "numeric",
-          timeZone: "UTC",
-        });
+    const date = new Date(dateString + "T00:00:00Z");
+    if (isNaN(date.getTime())) return "n/a";
+    const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const dd = String(date.getUTCDate()).padStart(2, "0");
+    const yy = String(date.getUTCFullYear()).slice(-2);
+    return `${mm}/${dd}/${yy}`;
   };
+
+  function buildActiveRules() {
+    return ruleOfList
+      .map((rule) => {
+        const name = rule.name;
+        const condition =
+          ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
+        let value;
+
+        if (checkedRules.includes(name) && checkedItems?.has(name)) {
+          value = [...checkedItems.get(name)];
+        } else {
+          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
+        }
+
+        return { name, condition, value };
+      })
+      .filter((r) => {
+        if (r.value === "any") return false;
+        if (Array.isArray(r.value) && r.value.length === 0) return false;
+        if (Array.isArray(r.value) && r.value.includes("any")) return false;
+        return true;
+      });
+  }
+
+  async function fetchTableData({
+    page = currentPage,
+    pageSize = rowsPerPage,
+    sortKey = activeSortKey,
+    sortOrder = activeSortOrder,
+  } = {}) {
+    if (currentAbortController) currentAbortController.abort();
+    currentAbortController = new AbortController();
+    const signal = currentAbortController.signal;
+    const invocationId = ++requestId;
+
+    const activeRules = buildActiveRules();
+
+    isDataLoading = true;
+    try {
+      const params = new URLSearchParams({
+        page: String(page),
+        pageSize: String(pageSize),
+        sortKey,
+        sortOrder,
+        tab: displayTableTab,
+      });
+
+      if (inputValue) params.set("search", inputValue);
+      if (activeRules.length > 0) {
+        params.set("rules", JSON.stringify(activeRules));
+      }
+
+      const allRuleNames = ruleOfList
+        ?.map((r) => r.name)
+        .filter(Boolean)
+        .join(",");
+      if (allRuleNames) params.set("displayColumns", allRuleNames);
+
+      const response = await fetch(`/api/options-screener-feed?${params}`, { signal });
+      if (signal.aborted) return;
+
+      const result = await response.json();
+      if (invocationId !== requestId) return;
+
+      filteredData = result?.items ?? [];
+      displayResults = filteredData;
+      totalItems = result?.total ?? 0;
+      currentPage = result?.page ?? page;
+      rowsPerPage = result?.pageSize ?? pageSize;
+      totalPages = result?.totalPages ?? 1;
+      totalContracts = result?.totalContracts ?? totalContracts;
+      activeSortKey = sortKey;
+      activeSortOrder = sortOrder;
+    } catch (e) {
+      if (e?.name === "AbortError") return;
+    } finally {
+      if (invocationId === requestId) {
+        isDataLoading = false;
+        isLoaded = true;
+      }
+    }
+  }
+
+  async function fetchAllFilteredData() {
+    const activeRules = buildActiveRules();
+    const params = new URLSearchParams({
+      page: "1",
+      pageSize: "50000",
+      sortKey: activeSortKey,
+      sortOrder: activeSortOrder,
+      tab: displayTableTab,
+    });
+
+    if (inputValue) params.set("search", inputValue);
+    if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+
+    const allRuleNames = ruleOfList?.map((r) => r.name).filter(Boolean).join(",");
+    if (allRuleNames) params.set("displayColumns", allRuleNames);
+
+    const response = await fetch(`/api/options-screener-feed?${params}`);
+    const result = await response.json();
+    return result?.items ?? [];
+  }
+
+  let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
+  function debouncedRuleFetch() {
+    if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
+    _ruleFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
+  }
 
   async function handleCreateStrategy() {
     if (["Pro"]?.includes(data?.user?.tier)) {
@@ -336,15 +415,13 @@
         throw new Error("Server returned failure");
       }
 
-      strategyList =
-        strategyList?.filter((item) => item.id !== idToDelete) ?? [];
+      strategyList = strategyList?.filter((item) => item.id !== idToDelete) ?? [];
 
       if (selectedStrategy === idToDelete) {
         selectedStrategy = strategyList?.at(0)?.id ?? "";
         ruleOfList =
           strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
 
-        // Reset all mappings to defaults, then apply new strategy's rules
         for (const key of Object.keys(valueMappings)) {
           valueMappings[key] = allRules[key]?.defaultValue ?? "any";
           ruleCondition[key] = allRules[key]?.defaultCondition ?? "";
@@ -359,16 +436,13 @@
         checkedItems = new Map(
           ruleOfList
             ?.filter((rule) => checkedRules?.includes(rule.name))
-            ?.map((rule) => [rule.name, new Set(rule.value)]),
+            ?.map((rule) => [
+              rule.name,
+              new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+            ]),
         );
 
-        if (ruleOfList.length === 0) {
-          filteredData = [];
-          currentUnsortedData = [];
-          displayResults = [];
-          currentPage = 1;
-          totalPages = 1;
-        }
+        await fetchTableData({ page: 1 });
       }
 
       return true;
@@ -413,13 +487,11 @@
       return;
     }
 
-    // build postData object
     const postData = { type: "optionsScreener" };
     for (const [key, value] of formData.entries()) {
       postData[key] = value;
     }
 
-    // wrap the fetch + response check + state updates in a promise
     const createPromise = (async () => {
       const response = await fetch("/api/create-strategy", {
         method: "POST",
@@ -446,7 +518,6 @@
         `,
       });
 
-      // close modal
       const closePopup = document.getElementById("addStrategy");
       closePopup?.dispatchEvent(new MouseEvent("click"));
 
@@ -459,16 +530,13 @@
         ruleOfList = [];
       }
 
-      // trigger a save without toasting again
       await handleSave(false);
-
       return output;
     })();
 
-    // show loading / success / error around the whole operation
     return toast.promise(createPromise, {
       loading: "Creating screener…",
-      success: () => "", // we already show success inside the promise
+      success: () => "",
       error: "Something went wrong. Please try again later!",
       style: `
           border-radius: 5px;
@@ -481,15 +549,15 @@
   }
 
   async function switchStrategy(item) {
+    isDataLoading = true;
     displayTableTab = "general";
     ruleName = "";
     selectedPopularStrategy = "";
     selectedStrategy = item?.id ?? "";
 
     ruleOfList =
-      strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+      strategyList?.find((row) => row.id === selectedStrategy)?.rules ?? [];
 
-    // Reset all mappings to defaults first, then apply new strategy's rules
     for (const key of Object.keys(valueMappings)) {
       valueMappings[key] = allRules[key]?.defaultValue ?? "any";
       ruleCondition[key] = allRules[key]?.defaultCondition ?? "";
@@ -501,24 +569,22 @@
         rule.value ?? allRules[rule.name]?.defaultValue ?? "any";
     });
 
-    // Rebuild checkedItems from new strategy
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules?.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(rule.value)]),
+        ?.map((rule) => [
+          rule.name,
+          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+        ]),
     );
 
-    if (ruleOfList?.length === 0) {
-      filteredData = [];
-      currentUnsortedData = [];
-      displayResults = [];
-      currentPage = 1;
-      totalPages = 1;
-    }
+    await fetchTableData({ page: 1 });
   }
 
   async function popularStrategy(state: string) {
-    resetTableSearch();
+    isDataLoading = true;
+    await resetTableSearch();
+
     const strategies = {
       highIVRank: {
         name: "High IV Rank",
@@ -563,43 +629,43 @@
     };
 
     const strategy = strategies[state];
-    if (strategy) {
-      // If clicking the same strategy again, don't clear the rules
-      if (selectedPopularStrategy === strategy.name) {
-        return;
-      }
-
-      selectedPopularStrategy = strategy.name;
-      ruleOfList = [];
-
-      // Clear all previous checked items and value mappings
-      checkedItems.clear();
-      Object.keys(valueMappings).forEach((key) => {
-        valueMappings[key] = "any";
-      });
-
-      ruleOfList = strategy?.rules;
-      ruleOfList?.forEach((row) => {
-        ruleCondition[row.name] =
-          row.condition ?? allRules[row.name]?.defaultCondition ?? "";
-        valueMappings[row.name] =
-          row.value ?? allRules[row.name]?.defaultValue ?? "any";
-
-        // Handle checked rules (like optionType)
-        if (checkedRules.includes(row.name) && Array.isArray(row.value)) {
-          checkedItems.set(row.name, new Set(row.value));
-        }
-      });
-
-      displayRules = ruleOfList?.map((row) => ({
-        rule: row.name,
-        label: allRules[row.name]?.label,
-        varType: allRules[row.name]?.varType,
-      }));
-
-      // Trigger data filtering with the new rules
-      await updateStockScreenerData();
+    if (!strategy) {
+      isDataLoading = false;
+      return;
     }
+
+    if (selectedPopularStrategy === strategy.name) {
+      isDataLoading = false;
+      return;
+    }
+
+    selectedPopularStrategy = strategy.name;
+    ruleOfList = [];
+
+    checkedItems.clear();
+    Object.keys(valueMappings).forEach((key) => {
+      valueMappings[key] = "any";
+    });
+
+    ruleOfList = strategy?.rules;
+    ruleOfList?.forEach((row) => {
+      ruleCondition[row.name] =
+        row.condition ?? allRules[row.name]?.defaultCondition ?? "";
+      valueMappings[row.name] =
+        row.value ?? allRules[row.name]?.defaultValue ?? "any";
+
+      if (checkedRules.includes(row.name) && Array.isArray(row.value)) {
+        checkedItems.set(row.name, new Set(row.value));
+      }
+    });
+
+    displayRules = ruleOfList?.map((row) => ({
+      rule: row.name,
+      label: allRules[row.name]?.label,
+      varType: allRules[row.name]?.varType,
+    }));
+
+    await fetchTableData({ page: 1 });
   }
 
   function changeRule(state: string) {
@@ -608,95 +674,14 @@
     handleAddRule();
   }
 
-  const handleMessage = (event) => {
-    displayRules = allRows?.filter((row) =>
-      ruleOfList?.some((rule) => rule.name === row.rule),
-    );
-
-    filteredData = event.data?.filteredData ?? [];
-    originalFilteredData = [...filteredData];
-    currentUnsortedData = [...filteredData];
-    currentPage = 1;
-    if (inputValue?.length > 0) {
-      isSearchPending = true;
-      search();
-    } else {
-      isSearchPending = false;
-      updatePaginatedData();
-    }
-  };
-
-  const handleScreenerMessage = (event) => {
-    stockScreenerData = event?.data?.stockScreenerData;
-    shouldLoadWorker.set(true);
-  };
-
-  const loadWorker = async () => {
-    syncWorker.postMessage({
-      stockScreenerData,
-      ruleOfList,
-      indexDict,
-    });
-  };
-
-  const updateStockScreenerData = async () => {
-    isLoaded = false;
-
-    downloadWorker.postMessage({ selectedDate: selectedDate });
-  };
-
   async function resetTableSearch() {
     inputValue = "";
-    filteredData = [...originalFilteredData];
-    currentUnsortedData = [...originalFilteredData];
-    currentPage = 1; // Reset to first page
-    isSearchPending = false;
-    updatePaginatedData();
+    await fetchTableData({ page: 1 });
   }
 
   async function search() {
-    inputValue = inputValue?.toLowerCase();
-
-    setTimeout(async () => {
-      if (inputValue?.length > 0) {
-        isSearchPending = true;
-        await loadSearchWorker();
-      } else {
-        filteredData = [...originalFilteredData];
-        currentUnsortedData = [...originalFilteredData];
-        currentPage = 1;
-        isSearchPending = false;
-        updatePaginatedData();
-      }
-    }, 100);
+    await fetchTableData({ page: 1 });
   }
-
-  const loadSearchWorker = async () => {
-    if (searchWorker && originalFilteredData?.length > 0) {
-      searchWorker.postMessage({
-        rawData: originalFilteredData,
-        inputValue: inputValue,
-      });
-      return;
-    }
-    if (inputValue?.length > 0) {
-      filteredData = [];
-      currentUnsortedData = [];
-      currentPage = 1;
-      isSearchPending = false;
-      updatePaginatedData();
-    }
-  };
-
-  const handleSearchMessage = (event) => {
-    if (event.data?.message === "success") {
-      isSearchPending = false;
-      filteredData = event.data?.output ?? [];
-      currentUnsortedData = [...filteredData];
-      currentPage = 1;
-      updatePaginatedData();
-    }
-  };
 
   function handleAddRule() {
     if (ruleName === "") {
@@ -717,7 +702,7 @@
           value: Array.isArray(valueMappings[ruleName])
             ? valueMappings[ruleName]
             : [valueMappings[ruleName]],
-        }; // Ensure value is an array
+        };
         break;
       default:
         newRule = {
@@ -727,6 +712,7 @@
         };
         break;
     }
+
     handleRule(newRule);
   }
 
@@ -738,17 +724,14 @@
     if (existingRuleIndex !== -1) {
       const existingRule = ruleOfList[existingRuleIndex];
       if (existingRule.name === newRule.name) {
-        // Remove the rule instead of showing an error
         ruleOfList.splice(existingRuleIndex, 1);
-        ruleOfList = [...ruleOfList]; // Trigger reactivity
+        ruleOfList = [...ruleOfList];
       } else {
         ruleOfList[existingRuleIndex] = newRule;
-        ruleOfList = [...ruleOfList]; // Trigger reactivity
+        ruleOfList = [...ruleOfList];
       }
     } else {
       ruleOfList = [...ruleOfList, newRule];
-
-      //await updateStockScreenerData();
     }
   }
 
@@ -757,111 +740,81 @@
     displayTableTab = "general";
     inputValue = "";
     ruleOfList = [];
-    Object?.keys(allRules)?.forEach((ruleName) => {
-      ruleCondition[ruleName] = allRules[ruleName].defaultCondition;
-      valueMappings[ruleName] = allRules[ruleName].defaultValue;
+
+    Object?.keys(allRules)?.forEach((rowRuleName) => {
+      ruleCondition[rowRuleName] = allRules[rowRuleName].defaultCondition;
+      valueMappings[rowRuleName] = allRules[rowRuleName].defaultValue;
     });
-    ruleName = "";
-    filteredData = [];
-    originalFilteredData = [];
-    currentUnsortedData = [];
-    displayResults = [];
-    currentPage = 1;
-    totalPages = 1;
-    isSearchPending = false;
+
     checkedItems = new Map();
-    ruleOfList = [...ruleOfList];
-    //await updateStockScreenerData();
-    //await handleSave(false);
+    ruleName = "";
+
+    await fetchTableData({ page: 1, sortKey: "totalPrem", sortOrder: "desc" });
   }
 
   async function handleDeleteRule(state) {
     selectedPopularStrategy = "";
 
-    // Find the index of the rule to be deleted or updated
     const index = ruleOfList?.findIndex((rule) => rule.name === state);
     if (index !== -1) {
-      // Get the rule and its default values
       const rule = ruleOfList[index];
       const defaultCondition = allRules[state].defaultCondition;
       const defaultValue = allRules[state].defaultValue;
 
-      // Check if current values differ from defaults
       const isAtDefaultValues =
         ruleCondition[state] === defaultCondition &&
         (Array.isArray(valueMappings[state]) && Array.isArray(defaultValue)
-          ? JSON.stringify(valueMappings[state]) ===
-            JSON.stringify(defaultValue)
+          ? JSON.stringify(valueMappings[state]) === JSON.stringify(defaultValue)
           : valueMappings[state] === defaultValue);
 
       if (!isAtDefaultValues) {
-        // If not at defaults, reset to defaults
         ruleCondition[state] = defaultCondition;
         valueMappings[state] = defaultValue;
 
-        // Update the rule in ruleOfList
         ruleOfList[index] = {
           ...rule,
           condition: defaultCondition,
           value: defaultValue,
         };
-        ruleOfList = [...ruleOfList]; // Trigger reactivity
+        ruleOfList = [...ruleOfList];
 
-        // Update checkedItems for multi-select rules when resetting to defaults
         if (checkedRules.includes(state)) {
           checkedItems = new Map(
             ruleOfList
-              ?.filter((rule) => checkedRules.includes(rule.name))
-              ?.map((rule) => [rule.name, new Set(rule.value)]),
+              ?.filter((row) => checkedRules.includes(row.name))
+              ?.map((row) => [
+                row.name,
+                new Set(Array.isArray(row.value) ? row.value : [row.value]),
+              ]),
           );
         }
       } else {
-        // If already at defaults, remove the rule
         ruleOfList.splice(index, 1);
         ruleOfList = [...ruleOfList];
 
-        // Reset checkedItems for multi-select rules
         if (checkedItems?.has(state)) {
           checkedItems?.delete(state);
         }
 
-        // Handle cases when the list is empty or matches the current rule name
-        if (ruleOfList?.length === 0) {
-          ruleName = "";
-          filteredData = [];
-          currentUnsortedData = [];
-          displayResults = [];
-          currentPage = 1;
-          totalPages = 1;
-        } else if (state === ruleName) {
+        if (state === ruleName) {
           ruleName = "";
         }
       }
 
-      await updateStockScreenerData();
+      await fetchTableData({ page: 1 });
     }
-  }
-
-  // Pagination functions
-  function updatePaginatedData() {
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    displayResults = filteredData?.slice(startIndex, endIndex) || [];
-    totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
   }
 
   function goToPage(page) {
     if (page >= 1 && page <= totalPages) {
-      currentPage = page;
-      updatePaginatedData();
+      fetchTableData({ page });
     }
   }
 
   function changeRowsPerPage(newRowsPerPage) {
     rowsPerPage = newRowsPerPage;
-    currentPage = 1;
-    updatePaginatedData();
     saveRowsPerPage();
+    fetchTableData({ page: 1, pageSize: newRowsPerPage });
   }
 
   function scrollToTop() {
@@ -900,7 +853,6 @@
     }
   }
 
-  // Quick Search functions
   function updateQuickSearchResults(term) {
     if (!term.trim()) {
       quickSearchResults = [];
@@ -964,34 +916,20 @@
     ruleName = rule.rule;
     handleAddRule();
 
-    // Clear search state
-    //quickSearchTerm = "";
     quickSearchResults = [];
     showQuickSearchDropdown = false;
     selectedQuickSearchIndex = -1;
   }
 
   function closeQuickSearchDropdown() {
-    // Delay to allow click events to register
     setTimeout(() => {
       showQuickSearchDropdown = false;
       selectedQuickSearchIndex = -1;
     }, 150);
   }
 
-  /*
-  const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === 's') {
-        event.preventDefault(); // prevent the browser's default save action
-        handleSave();
-      }
-    };
-  
-  */
-
   let LoginPopup;
 
-  // Toggle full width mode
   function toggleFullWidth() {
     isFullWidth = !isFullWidth;
     try {
@@ -1004,51 +942,26 @@
   onMount(async () => {
     loadRowsPerPage();
 
-    // Load full width preference
     const savedFullWidth = localStorage.getItem("options-screener-full-width");
     if (savedFullWidth !== null) {
       isFullWidth = savedFullWidth === "true";
-    }
-
-    if (!syncWorker) {
-      const SyncWorker = await import("./workers/filterWorker?worker");
-      syncWorker = new SyncWorker.default();
-      syncWorker.onmessage = handleMessage;
-    }
-
-    if (!downloadWorker) {
-      const DownloadWorker = await import("./workers/downloadWorker?worker");
-      downloadWorker = new DownloadWorker.default();
-      downloadWorker.onmessage = handleScreenerMessage;
-    }
-
-    if (!searchWorker) {
-      const SearchWorker =
-        await import("$lib/workers/tableSearchWorker?worker");
-      searchWorker = new SearchWorker.default();
-      searchWorker.onmessage = handleSearchMessage;
     }
 
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
 
-    shouldLoadWorker.subscribe(async (value) => {
-      if (value) {
-        await loadWorker();
-        shouldLoadWorker.set(false); // Reset after worker is loaded
-        isLoaded = true;
-      }
-    });
-
     groupedRules = groupScreenerRules(allRows);
+    isLoaded = true;
+
+    if (rowsPerPage !== (data?.getScreenerFeed?.pageSize ?? 20)) {
+      await fetchTableData({ page: 1, pageSize: rowsPerPage });
+    }
   });
 
   onDestroy(() => {
-    syncWorker?.terminate();
-    syncWorker = undefined;
-    searchWorker?.terminate();
-    searchWorker = undefined;
+    if (currentAbortController) currentAbortController.abort();
+    if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
     clearCache();
   });
 
@@ -1060,15 +973,31 @@
     }
 
     if (strategyList?.length > 0) {
-      // update local strategyList
+      const currentRules = ruleOfList.map((rule) => {
+        const name = rule.name;
+        const condition =
+          ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
+        let value;
+
+        if (checkedRules.includes(name) && checkedItems?.has(name)) {
+          const items = [...checkedItems.get(name)];
+          value = items.length > 0 ? items : "any";
+        } else {
+          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
+        }
+
+        return { name, condition, value };
+      });
+
+      ruleOfList = currentRules;
       const matchedStrategy = strategyList.find((item) => item.id === selectedStrategy);
       if (matchedStrategy) {
-        matchedStrategy.rules = ruleOfList;
+        matchedStrategy.rules = currentRules;
       }
 
       const postData = {
         strategyId: selectedStrategy,
-        rules: ruleOfList,
+        rules: currentRules,
         type: "optionsScreener",
       };
 
@@ -1097,10 +1026,9 @@
               font-size: 15px;
             `,
         });
-      } else {
-        // just await without toast
-        await savePromise;
       }
+
+      await savePromise;
     }
   }
 
@@ -1112,21 +1040,28 @@
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
       }
-      shouldLoadWorker.set(true);
+
+      displayRules = allRows?.filter((row) =>
+        ruleOfList?.some((rule) => rule.name === row.rule),
+      );
+
+      if (isLoaded) {
+        debouncedRuleFetch();
+      }
     }
+  }
+
+  $: if (displayTableTab && isLoaded) {
+    fetchTableData({ page: 1 });
   }
 
   $: {
     if (searchTerm?.length > 0) {
-      // Filter rows by search term
       const filteredRows = allRows?.filter((row) =>
         row?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
       );
-
-      // Group the filtered rows by category
       filteredGroupedRules = groupScreenerRules(filteredRows);
     } else {
-      // If no search term, return all rows grouped by category
       filteredGroupedRules = groupScreenerRules(allRows);
     }
   }
@@ -1137,7 +1072,6 @@
     ruleName = name;
     const newState = state?.toLowerCase();
 
-    // Initialize array for "between" condition
     if (newState === "between") {
       valueMappings[ruleName] = ["", ""];
     } else if (
@@ -1152,23 +1086,23 @@
 
   let checkedItems = new Map(
     ruleOfList
-      ?.filter((rule) => checkedRules?.includes(rule.name)) // Only include specific rules
-      ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
+      ?.filter((rule) => checkedRules?.includes(rule.name))
+      ?.map((rule) => [
+        rule.name,
+        new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+      ]),
   );
 
-  function isChecked(item, ruleName) {
-    return checkedItems?.has(ruleName) && checkedItems?.get(ruleName).has(item);
+  function isChecked(item, rowRuleName) {
+    return checkedItems?.has(rowRuleName) && checkedItems?.get(rowRuleName).has(item);
   }
 
-  // Utility function to convert values to comparable numbers
   function parseValue(val) {
     if (typeof val === "string") {
-      // Handle percentage values
       if (val.endsWith("%")) {
         return parseFloat(val);
       }
 
-      // Handle values with suffixes like K (thousand), M (million), B (billion)
       const suffixMap = {
         K: 1e3,
         M: 1e6,
@@ -1186,39 +1120,28 @@
     return parseFloat(val);
   }
 
-  // Custom sorting function
   function customSort(a, b) {
     return parseValue(a) - parseValue(b);
   }
 
   async function handleChangeValue(value, { shouldSort = true } = {}) {
-    // Add this check at the beginning of the function
     if (ruleCondition[ruleName] === "between") {
-      // Ensure valueMappings[ruleName] is always an array for "between" condition
       if (!Array.isArray(valueMappings[ruleName])) {
         valueMappings[ruleName] = ["", ""];
       }
 
-      // If value is a single value (from input), update only the specified index
       if (!Array.isArray(value) && typeof currentIndex === "number") {
         valueMappings[ruleName][currentIndex] = value;
         value = valueMappings[ruleName];
       } else if (Array.isArray(value)) {
-        // Only for preset ranges from dropdown
         valueMappings[ruleName] = value;
       }
     }
 
     if (checkedItems.has(ruleName)) {
       const itemsSet = checkedItems.get(ruleName);
-
-      // Apply sorting only if shouldSort is true
-      const sortedValue =
-        shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
-
-      const valueKey = Array.isArray(sortedValue)
-        ? sortedValue.join("-")
-        : sortedValue;
+      const sortedValue = shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
+      const valueKey = Array.isArray(sortedValue) ? sortedValue.join("-") : sortedValue;
 
       if (itemsSet?.has(valueKey)) {
         itemsSet?.delete(valueKey);
@@ -1226,14 +1149,8 @@
         itemsSet?.add(valueKey);
       }
     } else {
-      // Apply sorting only if shouldSort is true
-      const sortedValue =
-        shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
-
-      const valueKey = Array.isArray(sortedValue)
-        ? sortedValue.join("-")
-        : sortedValue;
-
+      const sortedValue = shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
+      const valueKey = Array.isArray(sortedValue) ? sortedValue.join("-") : sortedValue;
       checkedItems?.set(ruleName, new Set([valueKey]));
     }
 
@@ -1242,13 +1159,8 @@
         valueMappings[ruleName] = [];
       }
 
-      // Apply sorting only if shouldSort is true
-      const sortedValue =
-        shouldSort && Array?.isArray(value) ? value?.sort(customSort) : value;
-
-      const valueKey = Array?.isArray(sortedValue)
-        ? sortedValue.join("-")
-        : sortedValue;
+      const sortedValue = shouldSort && Array?.isArray(value) ? value?.sort(customSort) : value;
+      const valueKey = Array?.isArray(sortedValue) ? sortedValue.join("-") : sortedValue;
 
       const index = valueMappings[ruleName].indexOf(valueKey);
       if (index === -1) {
@@ -1261,10 +1173,9 @@
         valueMappings[ruleName] = "any";
       }
 
-      await updateStockScreenerData();
+      debouncedRuleFetch();
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
-        // Apply sorting only if shouldSort is true
         valueMappings[ruleName] = shouldSort ? value?.sort(customSort) : value;
       } else {
         valueMappings[ruleName] = value;
@@ -1273,9 +1184,8 @@
       console.warn(`Unhandled rule: ${ruleName}`);
     }
 
-    // Add this at the end of the function to ensure the filter is applied
     if (ruleCondition[ruleName] === "between" && value.some((v) => v !== "")) {
-      await updateStockScreenerData();
+      debouncedRuleFetch();
     }
   }
 
@@ -1290,42 +1200,34 @@
     number = parseFloat(number);
 
     let step = 1;
-
     number += condition === "add" ? step : -step;
-
-    // Round to 2 decimal places for consistency
     number = parseFloat(number?.toFixed(2));
+
     const newValue = suffix ? `${number}${suffix}` : Math?.round(number);
     await handleChangeValue(newValue);
   }
 
   let currentIndex = null;
 
-  async function handleValueInput(event, ruleName, index = null) {
+  async function handleValueInput(event, rowRuleName, index = null) {
     const newValue = event.target.value;
 
-    if (ruleCondition[ruleName] === "between") {
-      // Ensure valueMappings[ruleName] is initialized as an array
-      if (!Array.isArray(valueMappings[ruleName])) {
-        valueMappings[ruleName] = ["", ""];
+    if (ruleCondition[rowRuleName] === "between") {
+      if (!Array.isArray(valueMappings[rowRuleName])) {
+        valueMappings[rowRuleName] = ["", ""];
       }
 
-      // Store the current index being modified
       currentIndex = index;
 
       if (newValue?.length === 0) {
-        valueMappings[ruleName][index] = "";
+        valueMappings[rowRuleName][index] = "";
       }
 
       await handleChangeValue(newValue, { shouldSort: false });
-
-      // Reset currentIndex after handling the value
       currentIndex = null;
     } else {
       if (newValue?.length === 0) {
-        const ruleIndex = ruleOfList?.findIndex(
-          (rule) => rule.name === ruleName,
-        );
+        const ruleIndex = ruleOfList?.findIndex((rule) => rule.name === rowRuleName);
         if (ruleIndex !== -1) {
           ruleOfList[ruleIndex].value = "any";
         }
@@ -1335,69 +1237,35 @@
   }
 
   const sortData = (key) => {
-    // Reset all other keys to 'none' except the current key
-    for (const k in sortOrders) {
-      if (k !== key) {
-        sortOrders[k].order = "none";
-      }
-    }
+    const newOrder =
+      activeSortKey === key
+        ? activeSortOrder === "desc"
+          ? "asc"
+          : activeSortOrder === "asc"
+            ? "none"
+            : "desc"
+        : "desc";
 
-    // Cycle through 'none', 'asc', 'desc' for the clicked key
-    const orderCycle = ["none", "asc", "desc"];
+    Object.keys(sortOrders).forEach((k) => {
+      if (k !== key) sortOrders[k].order = "none";
+    });
+    if (sortOrders[key]) sortOrders[key].order = newOrder;
 
-    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
-    sortOrders[key].order =
-      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
-    const sortOrder = sortOrders[key].order;
-
-    // Reset to original data when 'none' and stop further sorting
-    if (sortOrder === "none") {
-      filteredData = [...currentUnsortedData];
-      currentPage = 1;
-      updatePaginatedData();
+    if (newOrder === "none") {
+      activeSortKey = "totalPrem";
+      activeSortOrder = "desc";
+      fetchTableData({ page: 1, sortKey: "totalPrem", sortOrder: "desc" });
       return;
     }
 
-    // Define a generic comparison function
-    const compareValues = (a, b) => {
-      const { type } = sortOrders[key];
-      let valueA, valueB;
-
-      switch (type) {
-        case "date":
-          valueA = new Date(a[key]);
-          valueB = new Date(b[key]);
-          break;
-        case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
-          return sortOrder === "asc"
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        case "number":
-        default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
-          break;
-      }
-
-      if (sortOrder === "asc") {
-        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
-      } else {
-        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
-      }
-    };
-
-    // Sort using the generic comparison function and update filteredData
-    filteredData = [...currentUnsortedData].sort(compareValues);
-    currentPage = 1;
-    updatePaginatedData();
+    activeSortKey = key;
+    activeSortOrder = newOrder;
+    fetchTableData({ page: 1, sortKey: key, sortOrder: newOrder });
   };
 
   let columns;
   let sortOrders;
 
-  // Column reordering state
   let customColumnOrder: string[] = [];
   let lastAppliedColumnKeys: string = "";
 
@@ -1428,8 +1296,10 @@
     currentColumns: { key: string; label: string; align: string }[],
   ): { key: string; label: string; align: string }[] {
     if (customColumnOrder.length === 0) return currentColumns;
+
     const columnMap = new Map(currentColumns.map((col) => [col.key, col]));
     const orderedColumns: { key: string; label: string; align: string }[] = [];
+
     for (const key of customColumnOrder) {
       const col = columnMap.get(key);
       if (col) {
@@ -1437,10 +1307,11 @@
         columnMap.delete(key);
       }
     }
-    // Add any remaining columns that weren't in the saved order
+
     for (const col of columnMap.values()) {
       orderedColumns.push(col);
     }
+
     return orderedColumns;
   }
 
@@ -1465,16 +1336,15 @@
         // Ignore storage errors
       }
     }
-    // Trigger reactive block to regenerate columns
     displayTableTab = displayTableTab;
   }
 
-  // Initial columns and sort orders for the "general" tab
   const generalColumns = [
     { key: "symbol", label: "Symbol", align: "left" },
     { key: "name", label: "Name", align: "left" },
     { key: "strike", label: "Strike", align: "right" },
     { key: "optionType", label: "P/C", align: "right" },
+    { key: "expiration", label: "Exp Date", align: "right" },
     { key: "iv", label: "IV", align: "right" },
     { key: "ivRank", label: "IV Rank", align: "right" },
     { key: "close", label: "Close Price", align: "right" },
@@ -1493,6 +1363,7 @@
     symbol: { order: "none", type: "string" },
     name: { order: "none", type: "string" },
     optionType: { order: "none", type: "string" },
+    expiration: { order: "none", type: "date" },
     strike: { order: "none", type: "number" },
     iv: { order: "none", type: "number" },
     ivRank: { order: "none", type: "number" },
@@ -1504,11 +1375,8 @@
     totalPrem: { order: "none", type: "number" },
   };
 
-  const stringTypeRules = ["optionType"];
-
-  // Helper to determine the type based on stringTypeRules
-  const getType = (key) =>
-    stringTypeRules.includes(key) ? "string" : "number";
+  const stringTypeRules = ["optionType", "expiration"];
+  const getType = (key) => (stringTypeRules.includes(key) ? "string" : "number");
 
   $: {
     if (displayTableTab) {
@@ -1518,12 +1386,14 @@
           { key: "name", label: "Name", align: "left" },
           { key: "strike", label: "Strike", align: "right" },
           { key: "optionType", label: "P/C", align: "right" },
+          { key: "expiration", label: "Exp Date", align: "right" },
         ],
         greeks: [
           { key: "symbol", label: "Symbol", align: "left" },
           { key: "name", label: "Name", align: "left" },
           { key: "strike", label: "Strike", align: "right" },
           { key: "optionType", label: "P/C", align: "right" },
+          { key: "expiration", label: "Exp Date", align: "right" },
           { key: "delta", label: "Delta", align: "right" },
           { key: "gamma", label: "Gamma", align: "right" },
           { key: "theta", label: "Theta", align: "right" },
@@ -1537,12 +1407,14 @@
           name: { order: "none", type: "string" },
           strike: { order: "none", type: "number" },
           optionType: { order: "none", type: "string" },
+          expiration: { order: "none", type: "date" },
         },
         greeks: {
           symbol: { order: "none", type: "string" },
           name: { order: "none", type: "string" },
           strike: { order: "none", type: "number" },
           optionType: { order: "none", type: "string" },
+          expiration: { order: "none", type: "date" },
           delta: { order: "none", type: "number" },
           gamma: { order: "none", type: "number" },
           theta: { order: "none", type: "number" },
@@ -1559,10 +1431,9 @@
         sortOrders = { ...(baseSortOrdersMap[displayTableTab] || {}) };
 
         const rulesList = displayTableTab === "greeks" ? [] : displayRules;
-        console.log(rulesList);
 
         rulesList?.forEach((rule) => {
-          if (!["optionType", "strike"]?.includes(rule.rule)) {
+          if (!["optionType", "strike", "expiration"]?.includes(rule.rule)) {
             newColumns.push({
               key: rule.rule,
               label: rule.label,
@@ -1573,7 +1444,6 @@
         });
       }
 
-      // Load saved column order and apply if columns changed
       const newColumnKeys = newColumns.map((col) => col.key).join("|");
       if (newColumnKeys !== lastAppliedColumnKeys) {
         customColumnOrder = loadColumnOrder();
@@ -1581,6 +1451,10 @@
         lastAppliedColumnKeys = newColumns.map((col) => col.key).join("|");
       }
       columns = newColumns;
+
+      Object.keys(sortOrders || {}).forEach((k) => {
+        sortOrders[k].order = k === activeSortKey ? activeSortOrder : "none";
+      });
     }
   }
 </script>
@@ -1998,85 +1872,6 @@
                 </div>
               {/if}
             </div>
-
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild let:builder>
-                <Button
-                  builders={[builder]}
-                  class="h-10 w-full sm:w-fit text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400"
-                >
-                  <span class="truncate text-sm"
-                    >{formatDate(selectedDate)}</span
-                  >
-                  <svg
-                    class="-mr-1 ml-2 h-5 w-5 inline-block rotate-270 sm:rotate-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    style="max-width:40px"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </Button>
-              </DropdownMenu.Trigger>
-
-              <DropdownMenu.Content
-                side="bottom"
-                align="end"
-                sideOffset={10}
-                alignOffset={0}
-                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
-              >
-                <!-- Dropdown items -->
-                <DropdownMenu.Group class="pb-2"
-                  >{#each expirationList as item, index}
-                    {#if data?.user?.tier === "Pro" || index == 0}
-                      <DropdownMenu.Item
-                        on:click={() => {
-                          selectedDate = item?.date;
-                          updateStockScreenerData();
-                        }}
-                        class="{selectedDate === item?.date
-                          ? 'text-violet-600 dark:text-violet-400'
-                          : ''} sm:hover:text-violet-800 dark:sm:hover:text-violet-400 cursor-pointer"
-                      >
-                        {formatDate(item?.date)}
-                        ({item?.contractLength?.toLocaleString("en-US")})
-                      </DropdownMenu.Item>
-                    {:else}
-                      <DropdownMenu.Item
-                        on:click={() => goto("/pricing")}
-                        class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                      >
-                        <div class="flex flex-row items-center gap-x-2">
-                          <span>
-                            {formatDate(item?.date)}
-                            ({item?.contractLength?.toLocaleString("en-US")})
-                          </span>
-                          <svg
-                            class="size-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            style="max-width: 40px;"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                              clip-rule="evenodd"
-                            >
-                            </path>
-                          </svg>
-                        </div>
-                      </DropdownMenu.Item>
-                    {/if}
-                  {/each}</DropdownMenu.Group
-                >
-              </DropdownMenu.Content>
-            </DropdownMenu.Root>
 
             {#if data?.user}
               <label
@@ -2534,7 +2329,10 @@
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
       {options_screener_contracts_count({
-        count: filteredData?.length?.toLocaleString("en-US"),
+        count: (data?.user?.tier === "Pro"
+          ? totalItems
+          : totalContracts
+        )?.toLocaleString("en-US"),
       })}
     </h2>
     <div
@@ -2574,7 +2372,8 @@
         <div class=" ml-2">
           <DownloadData
             {data}
-            rawData={filteredData}
+            rawData={displayResults}
+            fetchRawData={fetchAllFilteredData}
             title={"options_screener_data"}
           />
         </div>
@@ -2695,12 +2494,6 @@
     </div>
   </div>
 
-  <h3
-    class="text-[0.95rem] font-semibold mb-2 whitespace-nowrap text-gray-500 dark:text-zinc-400"
-  >
-    {options_screener_expire_on({ date: formatDate(selectedDate) })}
-  </h3>
-
   <!--Start Matching Preview-->
   {#if isLoaded}
     {#if filteredData?.length !== 0}
@@ -2755,6 +2548,10 @@
                           : 'text-rose-800 dark:text-rose-400'} "
                       >
                         {item?.optionType}
+                      </td>
+                    {:else if column.key === "expiration"}
+                      <td class=" text-sm sm:text-[0.95rem] text-end">
+                        {formatDate(item?.expiration)}
                       </td>
                     {:else if column.key === "iv"}
                       <td class=" text-sm sm:text-[0.95rem] text-end">
@@ -2883,6 +2680,10 @@
                       >
                         {item?.optionType}
                       </td>
+                    {:else if column.key === "expiration"}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
+                        {formatDate(item?.expiration)}
+                      </td>
                     {:else}
                       {@const rule = displayRules?.find(
                         (r) => r.rule === column.key,
@@ -2972,6 +2773,10 @@
                           : 'text-rose-800 dark:text-rose-400'} "
                       >
                         {item?.optionType}
+                      </td>
+                    {:else if column.key === "expiration"}
+                      <td class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end">
+                        {formatDate(item?.expiration)}
                       </td>
                     {:else if column.key === "delta"}
                       <td
