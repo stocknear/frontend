@@ -1,4 +1,4 @@
-import { PURCHASE_COOKIE } from "$lib/constants/tracking";
+import { PURCHASE_COOKIE, PURCHASE_VALUES } from "$lib/constants/tracking";
 
 export function load({ locals, cookies, url }) {
   const tier = url.searchParams.get("tier") || "";
@@ -14,7 +14,7 @@ export function load({ locals, cookies, url }) {
   const cookieValue = cookies.get(PURCHASE_COOKIE);
 
   if (cookieValue) {
-    purchaseValue = parseInt(cookieValue, 10) || null;
+    purchaseValue = parseFloat(cookieValue) || null;
     cookies.delete(PURCHASE_COOKIE, { path: "/" });
   } else {
     const urlValue = url.searchParams.get("value");
@@ -23,9 +23,19 @@ export function load({ locals, cookies, url }) {
     }
   }
 
-  // Fallback to tier-based minimum (monthly price)
+  // Fallback to tier + billing-cycle mapping when no explicit value exists.
+  const billingCycle = (url.searchParams.get("billing") || "").toLowerCase();
+  const isAnnual = billingCycle === "annual";
   if (!purchaseValue) {
-    purchaseValue = userTier === "Pro" ? 45 : 15;
+    if (userTier === "Pro") {
+      purchaseValue = isAnnual
+        ? PURCHASE_VALUES.pro_annual
+        : PURCHASE_VALUES.pro_monthly;
+    } else {
+      purchaseValue = isAnnual
+        ? PURCHASE_VALUES.plus_annual
+        : PURCHASE_VALUES.plus_monthly;
+    }
   }
 
   return {
