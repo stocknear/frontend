@@ -2260,6 +2260,24 @@ export const agentOptions = [
 
 export const agentCategory = ["Stocks", "Options", "Investors", "Others"];
 
+export const OPTIONS_SCREENER_EXPORT_CREDIT_MIN = 20;
+export const OPTIONS_SCREENER_EXPORT_CREDIT_MAX = 200;
+const OPTIONS_SCREENER_EXPORT_ROWS_PER_CREDIT = 250;
+
+export function calculateOptionsScreenerExportCredits(totalItems: number) {
+  const normalizedTotal = Number.isFinite(totalItems)
+    ? Math.max(0, Math.floor(totalItems))
+    : 0;
+  const rawCost = Math.ceil(
+    normalizedTotal / OPTIONS_SCREENER_EXPORT_ROWS_PER_CREDIT,
+  );
+
+  return Math.min(
+    OPTIONS_SCREENER_EXPORT_CREDIT_MAX,
+    Math.max(OPTIONS_SCREENER_EXPORT_CREDIT_MIN, rawCost),
+  );
+}
+
 export function getIntradayExportBounds(interval = "15min") {
   const bounds: Record<string, { min: number; max: number }> = {
     "1hour": { min: 4, max: 30 },

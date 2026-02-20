@@ -64,7 +64,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import DownloadData from "$lib/components/DownloadData.svelte";
+  import OptionsScreenerExport from "$lib/components/OptionsScreenerExport.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -339,6 +339,48 @@
       });
   }
 
+  function buildFeedParams({
+    page = currentPage,
+    pageSize = rowsPerPage,
+    sortKey = activeSortKey,
+    sortOrder = activeSortOrder,
+  } = {}) {
+    const activeRules = buildActiveRules();
+    const params = new URLSearchParams({
+      page: String(page),
+      pageSize: String(pageSize),
+      sortKey,
+      sortOrder,
+      tab: displayTableTab,
+    });
+
+    if (inputValue) params.set("search", inputValue);
+    if (activeRules.length > 0) {
+      params.set("rules", JSON.stringify(activeRules));
+    }
+
+    const allRuleNames = ruleOfList
+      ?.map((r) => r.name)
+      .filter(Boolean)
+      .join(",");
+    if (allRuleNames) params.set("displayColumns", allRuleNames);
+
+    return params;
+  }
+
+  function getOptionsScreenerExportPayload() {
+    return {
+      sortKey: activeSortKey,
+      sortOrder: activeSortOrder,
+      tab: displayTableTab,
+      search: inputValue,
+      rules: buildActiveRules(),
+      displayColumns: ruleOfList
+        ?.map((rule) => rule?.name)
+        .filter((name) => typeof name === "string" && name.length > 0),
+    };
+  }
+
   async function fetchTableData({
     page = currentPage,
     pageSize = rowsPerPage,
@@ -350,28 +392,14 @@
     const signal = currentAbortController.signal;
     const invocationId = ++requestId;
 
-    const activeRules = buildActiveRules();
-
     isDataLoading = true;
     try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(pageSize),
+      const params = buildFeedParams({
+        page,
+        pageSize,
         sortKey,
         sortOrder,
-        tab: displayTableTab,
       });
-
-      if (inputValue) params.set("search", inputValue);
-      if (activeRules.length > 0) {
-        params.set("rules", JSON.stringify(activeRules));
-      }
-
-      const allRuleNames = ruleOfList
-        ?.map((r) => r.name)
-        .filter(Boolean)
-        .join(",");
-      if (allRuleNames) params.set("displayColumns", allRuleNames);
 
       const response = await fetch(`/api/options-screener-feed?${params}`, {
         signal,
@@ -401,28 +429,32 @@
   }
 
   async function fetchAllFilteredData() {
-    const activeRules = buildActiveRules();
-    const params = new URLSearchParams({
-      page: "1",
-      pageSize: "50000",
-      sortKey: activeSortKey,
-      sortOrder: activeSortOrder,
-      tab: displayTableTab,
-    });
+    const PAGE_SIZE = 500;
+    const allItems: any[] = [];
+    let page = 1;
+    let total = Infinity;
 
-    if (inputValue) params.set("search", inputValue);
-    if (activeRules.length > 0)
-      params.set("rules", JSON.stringify(activeRules));
+    while (allItems.length < total) {
+      const params = buildFeedParams({
+        page,
+        pageSize: PAGE_SIZE,
+      });
 
-    const allRuleNames = ruleOfList
-      ?.map((r) => r.name)
-      .filter(Boolean)
-      .join(",");
-    if (allRuleNames) params.set("displayColumns", allRuleNames);
+      const response = await fetch(`/api/options-screener-feed?${params}`);
+      if (!response.ok) break;
 
-    const response = await fetch(`/api/options-screener-feed?${params}`);
-    const result = await response.json();
-    return result?.items ?? [];
+      const result = await response.json();
+      const items = result?.items ?? [];
+      total = Number(result?.total ?? 0);
+      allItems.push(...items);
+
+      if (items.length < PAGE_SIZE) {
+        break;
+      }
+      page += 1;
+    }
+
+    return allItems;
   }
 
   let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -2441,11 +2473,12 @@
         </div>
 
         <div class=" ml-2">
-          <DownloadData
+          <OptionsScreenerExport
             {data}
-            rawData={displayResults}
-            fetchRawData={fetchAllFilteredData}
+            {totalItems}
+            fetchAllData={fetchAllFilteredData}
             title={"options_screener_data"}
+            getExportPayload={getOptionsScreenerExportPayload}
           />
         </div>
 
