@@ -1,5 +1,16 @@
 import { PURCHASE_COOKIE, PURCHASE_VALUES } from "$lib/constants/tracking";
 
+function parsePositiveConversionValue(
+  raw: string | null | undefined,
+): number | null {
+  if (!raw) return null;
+
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed <= 0) return null;
+
+  return parsed;
+}
+
 export function load({ locals, cookies, url }) {
   const tier = url.searchParams.get("tier") || "";
   const userTier = locals.user?.tier;
@@ -9,24 +20,26 @@ export function load({ locals, cookies, url }) {
     return {};
   }
 
-  // Read purchase value: cookie (exact) > URL param > tier fallback
+  // Read purchase value: URL param (LemonSqueezy redirect) > cookie > tier fallback
   let purchaseValue: number | null = null;
-  const cookieValue = cookies.get(PURCHASE_COOKIE);
+  const rawCookieValue = cookies.get(PURCHASE_COOKIE);
+  const urlValue = parsePositiveConversionValue(url.searchParams.get("value"));
+  const cookieValue = parsePositiveConversionValue(rawCookieValue);
 
-  if (cookieValue) {
-    purchaseValue = parseFloat(cookieValue) || null;
+  if (rawCookieValue) {
     cookies.delete(PURCHASE_COOKIE, { path: "/" });
-  } else {
-    const urlValue = url.searchParams.get("value");
-    if (urlValue) {
-      purchaseValue = parseFloat(urlValue) || null;
-    }
+  }
+
+  if (urlValue !== null) {
+    purchaseValue = urlValue;
+  } else if (cookieValue !== null) {
+    purchaseValue = cookieValue;
   }
 
   // Fallback to tier + billing-cycle mapping when no explicit value exists.
   const billingCycle = (url.searchParams.get("billing") || "").toLowerCase();
   const isAnnual = billingCycle === "annual";
-  if (!purchaseValue) {
+  if (purchaseValue === null) {
     if (userTier === "Pro") {
       purchaseValue = isAnnual
         ? PURCHASE_VALUES.pro_annual
