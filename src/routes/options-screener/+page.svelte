@@ -89,6 +89,7 @@
   let currentPage = data?.getScreenerFeed?.page ?? 1;
   let rowsPerPage = data?.getScreenerFeed?.pageSize ?? 20;
   let rowsPerPageOptions = [20, 50, 100];
+  const ROWS_COOKIE_NAME = "options_screener_rows";
   let totalPages = data?.getScreenerFeed?.totalPages ?? 1;
   let activeSortKey = data?.getScreenerFeed?.sort?.key ?? "totalPrem";
   let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? "desc";
@@ -127,6 +128,14 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
+    },
+    dte: {
+      label: "Days to Expiration",
+      step: ["90", "60", "45", "30", "14", "7"],
+      defaultCondition: "over",
+      defaultValue: "any",
+      varType: "decimal",
+      category: "Options Activity",
     },
     totalPrem: {
       label: "Total Premium",
@@ -885,9 +894,15 @@
     try {
       const paginationKey = `/options-screener_rowsPerPage`;
       localStorage.setItem(paginationKey, String(rowsPerPage));
+      syncRowsPerPageCookie();
     } catch (e) {
       console.warn("Failed to save rows per page preference:", e);
     }
+  }
+
+  function syncRowsPerPageCookie() {
+    if (typeof document === "undefined") return;
+    document.cookie = `${ROWS_COOKIE_NAME}=${rowsPerPage}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`;
   }
 
   function loadRowsPerPage() {
@@ -909,6 +924,8 @@
       console.warn("Failed to load rows per page preference:", e);
       rowsPerPage = 20;
     }
+
+    syncRowsPerPageCookie();
   }
 
   function updateQuickSearchResults(term) {
@@ -1011,15 +1028,20 @@
 
     groupedRules = groupScreenerRules(allRows);
     lastFetchedTab = displayTableTab;
-    lastRequestedFeedQuery = buildFeedParams({
-      page: currentPage,
-      pageSize: rowsPerPage,
-      sortKey: activeSortKey,
-      sortOrder: activeSortOrder,
-    }).toString();
+    const hasInitialFeed = Array.isArray(data?.getScreenerFeed?.items);
+    if (hasInitialFeed) {
+      lastRequestedFeedQuery = buildFeedParams({
+        page: currentPage,
+        pageSize: rowsPerPage,
+        sortKey: activeSortKey,
+        sortOrder: activeSortOrder,
+      }).toString();
+    } else {
+      lastRequestedFeedQuery = "";
+    }
     isLoaded = true;
 
-    if (rowsPerPage !== (data?.getScreenerFeed?.pageSize ?? 20)) {
+    if (!hasInitialFeed || rowsPerPage !== (data?.getScreenerFeed?.pageSize ?? 20)) {
       await fetchTableData({ page: 1, pageSize: rowsPerPage }, { force: true });
     }
   });

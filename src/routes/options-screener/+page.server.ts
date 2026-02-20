@@ -1,7 +1,10 @@
 import { getAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 
-export const load = async ({ locals }) => {
+const ROWS_COOKIE_NAME = "options_screener_rows";
+const ALLOWED_PAGE_SIZES = new Set(["20", "50", "100"]);
+
+export const load = async ({ locals, cookies }) => {
   const { pb, user } = locals;
 
   const getAllStrategies = async () => {
@@ -34,20 +37,33 @@ export const load = async ({ locals }) => {
     return true;
   });
 
-  const params = new URLSearchParams({
-    page: "1",
-    pageSize: "20",
-    sortKey: "totalPrem",
-    sortOrder: "desc",
-    tab: "general",
-    subscriber,
-  });
-  if (rules.length > 0) {
-    params.set("rules", JSON.stringify(rules));
+  const savedRows = cookies.get(ROWS_COOKIE_NAME);
+  const pageSize =
+    savedRows && ALLOWED_PAGE_SIZES.has(savedRows) ? savedRows : null;
+
+  let initialFeed = null;
+  if (pageSize) {
+    const params = new URLSearchParams({
+      page: "1",
+      pageSize,
+      sortKey: "totalPrem",
+      sortOrder: "desc",
+      tab: "general",
+      subscriber,
+    });
+    if (rules.length > 0) {
+      params.set("rules", JSON.stringify(rules));
+    }
+
+    try {
+      initialFeed = await getAPI(locals, `/options-screener-feed?${params}`);
+    } catch {
+      initialFeed = null;
+    }
   }
 
   return {
-    getScreenerFeed: await getAPI(locals, `/options-screener-feed?${params}`),
+    getScreenerFeed: initialFeed,
     getAllStrategies: strategyList,
   };
 };
