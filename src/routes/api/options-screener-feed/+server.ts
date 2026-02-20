@@ -35,6 +35,11 @@ const allowedDisplayColumns = new Set([
   "optionSymbol",
   "dte",
   "indexMembership",
+  "marketCap",
+  "marketCapGroup",
+  "earningsDate",
+  "earningsTime",
+  "earningsGap",
 ]);
 
 export const GET: RequestHandler = async ({ url, locals }) => {

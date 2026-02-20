@@ -2894,9 +2894,15 @@
                                 timeZone: "UTC",
                               },
                             )}
+                          {:else if column.key === "earningsDate"}
+                            {""}
                           {:else}
                             n/a
                           {/if}
+                        {:else if column.key === "earningsGap"}
+                          {item[column.key] != null
+                            ? item[column.key]?.toLocaleString("en-US")
+                            : ""}
                         {:else if column.key === "marketCap"}
                           {item[column.key] != null
                             ? abbreviateNumber(item[column.key], true)
