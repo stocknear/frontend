@@ -249,6 +249,13 @@
           >{list_category_stocks_pay_monthly_dividends()}</a
         >
       </li>
+      <li>
+        <a
+          class="text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          href="/list/dividend-growth-stocks"
+          >Dividend Growth Stocks</a
+        >
+      </li>
 
       <li>
         <a

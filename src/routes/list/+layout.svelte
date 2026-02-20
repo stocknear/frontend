@@ -273,6 +273,10 @@
       link: "/list/top-rated-dividend-stocks",
     },
     {
+      title: "Dividend Growth Stocks",
+      link: "/list/dividend-growth-stocks",
+    },
+    {
       title: list_category_biggest_us_revenue(),
       link: "/list/highest-revenue",
     },

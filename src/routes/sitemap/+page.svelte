@@ -138,6 +138,10 @@
       link: "/list/highest-option-premium",
     },
     {
+      title: "Dividend Growth Stocks",
+      link: "/list/dividend-growth-stocks",
+    },
+    {
       title: sitemap_tab_insider_tracker(),
       link: "/insider-tracker",
     },

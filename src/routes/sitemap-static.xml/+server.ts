@@ -61,6 +61,7 @@ const pages = [
   { path: "/list/oversold-stocks", priority: 0.65, changefreq: "daily" },
   { path: "/list/most-buybacks", priority: 0.6, changefreq: "weekly" },
   { path: "/list/monthly-dividend-stocks", priority: 0.6, changefreq: "monthly" },
+  { path: "/list/dividend-growth-stocks", priority: 0.65, changefreq: "daily" },
   { path: "/list/dividend/dividend-kings", priority: 0.7, changefreq: "monthly" },
   { path: "/list/dividend/dividend-aristocrats", priority: 0.7, changefreq: "monthly" },
   { path: "/list/market-cap/mega-cap-stocks", priority: 0.65, changefreq: "weekly" },
