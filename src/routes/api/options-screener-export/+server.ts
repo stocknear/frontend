@@ -17,14 +17,25 @@ export const POST: RequestHandler = async ({ locals }) => {
     return json({ error: "Authentication required." }, 401);
   }
 
-  if (user?.tier !== "Pro") {
+  let latestUser = user;
+  try {
+    latestUser = await pb.collection("users").getOne(user.id);
+  } catch (error) {
+    console.error("Failed to refresh user before options screener export:", error);
+  }
+
+  if (latestUser?.tier !== "Pro") {
     return json(
       { error: "This feature is available for Pro members only." },
       403,
     );
   }
 
-  if ((user?.downloadCredits ?? 0) > MAX_DOWNLOAD_CREDITS) {
+  const latestDownloadCredits = Number(latestUser?.downloadCredits ?? 0);
+  if (
+    Number.isFinite(latestDownloadCredits) &&
+    latestDownloadCredits > MAX_DOWNLOAD_CREDITS
+  ) {
     return json(
       {
         error:
@@ -34,7 +45,7 @@ export const POST: RequestHandler = async ({ locals }) => {
     );
   }
 
-  const currentCredits = Number(user?.credits ?? 0);
+  const currentCredits = Number(latestUser?.credits ?? 0);
   if (!Number.isFinite(currentCredits) || currentCredits < CREDIT_COST) {
     return json(
       {
@@ -44,9 +55,9 @@ export const POST: RequestHandler = async ({ locals }) => {
     );
   }
 
-  let updatedUser;
+  let updatedCreditsUser;
   try {
-    updatedUser = await pb.collection("users").update(user.id, {
+    updatedCreditsUser = await pb.collection("users").update(user.id, {
       "credits-": CREDIT_COST,
     });
   } catch (error) {
@@ -97,7 +108,7 @@ export const POST: RequestHandler = async ({ locals }) => {
     );
   }
 
-  if ((updatedUser?.credits ?? 0) < 0) {
+  if ((updatedCreditsUser?.credits ?? 0) < 0) {
     try {
       await pb.collection("users").update(user.id, {
         "credits+": CREDIT_COST,
@@ -117,18 +128,33 @@ export const POST: RequestHandler = async ({ locals }) => {
     );
   }
 
-  let currentDownloadCredits = Number(
-    updatedUser?.downloadCredits ?? user?.downloadCredits ?? 0,
-  );
-  if (!Number.isFinite(currentDownloadCredits)) {
-    currentDownloadCredits = Number(user?.downloadCredits ?? 0);
-  }
-  currentDownloadCredits = Math.max(0, currentDownloadCredits) + 1;
-
+  let updatedUser = updatedCreditsUser;
   try {
     updatedUser = await pb.collection("users").update(user.id, {
-      downloadCredits: currentDownloadCredits,
+      "downloadCredits+": 1,
     });
+
+    if ((updatedUser?.downloadCredits ?? 0) > MAX_DOWNLOAD_CREDITS) {
+      try {
+        await pb.collection("users").update(user.id, {
+          "credits+": CREDIT_COST,
+          "downloadCredits-": 1,
+        });
+      } catch (rollbackError) {
+        console.error(
+          "Failed to rollback options screener export after downloadCredits limit:",
+          rollbackError,
+        );
+      }
+
+      return json(
+        {
+          error:
+            "Abusive usage detected. Please read our Terms of Service to understand more.",
+        },
+        400,
+      );
+    }
   } catch (downloadCreditError) {
     console.error(
       "Failed to update options screener downloadCredits:",

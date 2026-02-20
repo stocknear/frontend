@@ -94,6 +94,8 @@
   let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? "desc";
   let currentAbortController: AbortController | null = null;
   let requestId = 0;
+  let lastRequestedFeedQuery = "";
+  let lastFetchedTab = "general";
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -373,7 +375,17 @@
     pageSize = rowsPerPage,
     sortKey = activeSortKey,
     sortOrder = activeSortOrder,
-  } = {}) {
+  } = {}, { force = false }: { force?: boolean } = {}) {
+    const params = buildFeedParams({
+      page,
+      pageSize,
+      sortKey,
+      sortOrder,
+    });
+    const query = params.toString();
+    if (!force && query === lastRequestedFeedQuery) return;
+    lastRequestedFeedQuery = query;
+
     if (currentAbortController) currentAbortController.abort();
     currentAbortController = new AbortController();
     const signal = currentAbortController.signal;
@@ -381,13 +393,6 @@
 
     isDataLoading = true;
     try {
-      const params = buildFeedParams({
-        page,
-        pageSize,
-        sortKey,
-        sortOrder,
-      });
-
       const response = await fetch(`/api/options-screener-feed?${params}`, {
         signal,
       });
@@ -407,6 +412,7 @@
       activeSortOrder = sortOrder;
     } catch (e) {
       if (e?.name === "AbortError") return;
+      lastRequestedFeedQuery = "";
     } finally {
       if (invocationId === requestId) {
         isDataLoading = false;
@@ -419,6 +425,12 @@
   function debouncedRuleFetch() {
     if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
     _ruleFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
+  }
+
+  let _searchFetchTimeout: ReturnType<typeof setTimeout> | null = null;
+  function debouncedSearchFetch() {
+    if (_searchFetchTimeout) clearTimeout(_searchFetchTimeout);
+    _searchFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 300);
   }
 
   async function handleCreateStrategy() {
@@ -719,12 +731,13 @@
   }
 
   async function resetTableSearch() {
+    if (_searchFetchTimeout) clearTimeout(_searchFetchTimeout);
     inputValue = "";
     await fetchTableData({ page: 1 });
   }
 
-  async function search() {
-    await fetchTableData({ page: 1 });
+  function search() {
+    debouncedSearchFetch();
   }
 
   function handleAddRule() {
@@ -997,16 +1010,24 @@
     }
 
     groupedRules = groupScreenerRules(allRows);
+    lastFetchedTab = displayTableTab;
+    lastRequestedFeedQuery = buildFeedParams({
+      page: currentPage,
+      pageSize: rowsPerPage,
+      sortKey: activeSortKey,
+      sortOrder: activeSortOrder,
+    }).toString();
     isLoaded = true;
 
     if (rowsPerPage !== (data?.getScreenerFeed?.pageSize ?? 20)) {
-      await fetchTableData({ page: 1, pageSize: rowsPerPage });
+      await fetchTableData({ page: 1, pageSize: rowsPerPage }, { force: true });
     }
   });
 
   onDestroy(() => {
     if (currentAbortController) currentAbortController.abort();
     if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
+    if (_searchFetchTimeout) clearTimeout(_searchFetchTimeout);
     clearCache();
   });
 
@@ -1098,7 +1119,8 @@
     }
   }
 
-  $: if (displayTableTab && isLoaded) {
+  $: if (displayTableTab && isLoaded && displayTableTab !== lastFetchedTab) {
+    lastFetchedTab = displayTableTab;
     fetchTableData({ page: 1 });
   }
 

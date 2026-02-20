@@ -11,6 +11,32 @@ const allowedParams = [
   "displayColumns",
 ] as const;
 
+const MAX_PAGE_SIZE = 500;
+const MIN_PAGE_SIZE = 1;
+const allowedDisplayColumns = new Set([
+  "symbol",
+  "name",
+  "expiration",
+  "strike",
+  "optionType",
+  "iv",
+  "ivRank",
+  "close",
+  "moneynessPercentage",
+  "volume",
+  "oi",
+  "delta",
+  "gamma",
+  "theta",
+  "vega",
+  "totalPrem",
+  "changesPercentageOI",
+  "assetType",
+  "optionSymbol",
+  "dte",
+  "indexMembership",
+]);
+
 export const GET: RequestHandler = async ({ url, locals }) => {
   const { apiURL, apiKey, user } = locals;
   const params = new URLSearchParams();
@@ -19,6 +45,28 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     if (param === "rules" && user?.tier !== "Pro") continue;
     const value = url.searchParams.get(param);
     if (value && value.trim().length > 0) {
+      if (param === "pageSize") {
+        const parsedPageSize = Number.parseInt(value, 10);
+        const normalizedPageSize = Number.isFinite(parsedPageSize)
+          ? Math.max(MIN_PAGE_SIZE, Math.min(parsedPageSize, MAX_PAGE_SIZE))
+          : 20;
+        params.set(param, String(normalizedPageSize));
+        continue;
+      }
+
+      if (param === "displayColumns") {
+        const safeColumns = value
+          .split(",")
+          .map((column) => column.trim())
+          .filter((column) => allowedDisplayColumns.has(column))
+          .slice(0, 50);
+
+        if (safeColumns.length > 0) {
+          params.set(param, safeColumns.join(","));
+        }
+        continue;
+      }
+
       params.set(param, value);
     }
   }
