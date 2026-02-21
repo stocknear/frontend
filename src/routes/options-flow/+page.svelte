@@ -1906,9 +1906,11 @@
             // the race where the WS poll delivers the same trades that
             // the REST fetch already loaded (e.g. after filter change
             // or server cold-start when sentIds is empty).
-            const existingKeys = new Set(displayedData.map(buildFlowKey));
+            const existingIds = new Set(
+              displayedData.map((item) => item?.id).filter(Boolean),
+            );
             const trulyNew = prepared.filter(
-              (item) => !existingKeys.has(buildFlowKey(item)),
+              (item) => !existingIds.has(item?.id),
             );
 
             if (trulyNew.length === 0) return;
