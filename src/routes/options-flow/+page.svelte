@@ -1902,8 +1902,19 @@
 
             const prepared = prepareInitialFlowData(newData);
 
+            // Deduplicate against items already on screen to prevent
+            // the race where the WS poll delivers the same trades that
+            // the REST fetch already loaded (e.g. after filter change
+            // or server cold-start when sentIds is empty).
+            const existingKeys = new Set(displayedData.map(buildFlowKey));
+            const trulyNew = prepared.filter(
+              (item) => !existingKeys.has(buildFlowKey(item)),
+            );
+
+            if (trulyNew.length === 0) return;
+
             // Update pagination metadata so controls stay accurate
-            totalItems = (totalItems || 0) + prepared.length;
+            totalItems = (totalItems || 0) + trulyNew.length;
             totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
 
             // Only update visible rows when on page 1 AND using the default
@@ -1916,7 +1927,7 @@
               activeSortKey === "time" && activeSortOrder === "desc";
 
             if (currentPage === 1 && isDefaultSort) {
-              displayedData = [...prepared, ...displayedData].slice(
+              displayedData = [...trulyNew, ...displayedData].slice(
                 0,
                 rowsPerPage,
               );
@@ -1973,13 +1984,10 @@
   }
 
   // --- Reactive statement handles WebSocket connection based on market status and mode ---
-  // For Pro users: connect to get historical data, stay connected if market is open
-  $: if (data?.user?.tier === "Pro" && modeStatus) {
+  // Only connect when market is open — no live trades arrive when market is closed
+  $: if (data?.user?.tier === "Pro" && modeStatus && $isOpen) {
     connectWebSocket();
-  } else if (data?.user?.tier !== "Pro" || !modeStatus) {
-    console.log(
-      "WebSocket disconnected: non-Pro user or historical mode selected.",
-    );
+  } else if (data?.user?.tier !== "Pro" || !modeStatus || !$isOpen) {
     disconnectWebSocket();
   }
 
