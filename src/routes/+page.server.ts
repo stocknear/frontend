@@ -42,10 +42,7 @@ const dashboardCache = new LRUCache();
 export async function load({ locals }) {
   const { pb, locale } = locals;
 
-  if (!pb.authStore.isValid) {
-    // Anonymous user — render landing page
-    return { getDashboard: null };
-  }
+  
 
   // Logged-in user — fetch dashboard data inline (no redirect)
   const cacheKey = `dashboard:${locale}`;
