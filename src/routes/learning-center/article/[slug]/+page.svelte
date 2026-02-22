@@ -2,6 +2,8 @@
   import { getImageURL, convertToSlug } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import showdown from "showdown";
+  import katex from "katex";
+  import "katex/dist/katex.min.css";
   import ArrowLeft from "lucide-svelte/icons/arrow-left";
   import Calendar from "lucide-svelte/icons/calendar";
   import Link2 from "lucide-svelte/icons/link-2";
@@ -74,6 +76,141 @@
     headerLevelStart: 2,
   });
 
+  const mathDelimitersRegex =
+    /\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)/;
+  const skipMathTags = new Set(["script", "style", "code", "pre", "textarea"]);
+
+  function normalizeMathEscapes(text) {
+    const value = text || "";
+    // Convert doubly-escaped delimiters/control sequences to single escapes.
+    return value
+      .replace(/\\{2,}(?=[\[\]\(\)])/g, "\\")
+      .replace(/\\{2,}(?=[A-Za-z])/g, "\\");
+  }
+
+  function renderLatexInHtml(html) {
+    if (!html || typeof katex?.renderToString !== "function") return html;
+
+    const renderExpr = (expr, displayMode, rawMatch) => {
+      try {
+        const normalizedExpr = normalizeMathEscapes(expr || "");
+        return `<span class="${displayMode ? "katex-display-wrap" : "katex-inline-wrap"}">${katex.renderToString(
+          normalizedExpr,
+          {
+            displayMode,
+            throwOnError: false,
+            strict: "ignore",
+          },
+        )}</span>`;
+      } catch {
+        return rawMatch;
+      }
+    };
+
+    let out = html;
+    // Block: \[ ... \] and \\[ ... \\]
+    out = out.replace(/\\{1,2}\[([\s\S]+?)\\{1,2}\]/g, (m, expr) =>
+      renderExpr(expr, true, m),
+    );
+    // Block: $$ ... $$
+    out = out.replace(/\$\$([\s\S]+?)\$\$/g, (m, expr) =>
+      renderExpr(expr, true, m),
+    );
+    // Inline: \( ... \) and \\( ... \\)
+    out = out.replace(/\\{1,2}\(([\s\S]+?)\\{1,2}\)/g, (m, expr) =>
+      renderExpr(expr, false, m),
+    );
+    return out;
+  }
+
+  function parseMathSegments(text) {
+    const normalizedText = normalizeMathEscapes(text);
+    const mathTokenRegex =
+      /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)/g;
+    const segments = [];
+    let cursor = 0;
+    let match;
+    while ((match = mathTokenRegex.exec(normalizedText)) !== null) {
+      if (match.index > cursor) {
+        segments.push({
+          type: "text",
+          value: normalizedText.slice(cursor, match.index),
+        });
+      }
+      const expr = (match[1] ?? match[2] ?? match[3] ?? "").trim();
+      const displayMode = match[1] != null || match[2] != null;
+      segments.push({
+        type: "math",
+        value: expr,
+        raw: match[0],
+        displayMode,
+      });
+      cursor = mathTokenRegex.lastIndex;
+    }
+    if (cursor < normalizedText.length) {
+      segments.push({ type: "text", value: normalizedText.slice(cursor) });
+    }
+    return segments;
+  }
+
+  function renderMathInDocument(doc) {
+    if (
+      typeof window === "undefined" ||
+      typeof NodeFilter === "undefined" ||
+      !doc?.body
+    ) {
+      return;
+    }
+
+    const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    let currentNode = walker.nextNode();
+    while (currentNode) {
+      const value = currentNode.nodeValue || "";
+      const normalizedValue = normalizeMathEscapes(value);
+      const parentTag = currentNode.parentElement?.tagName?.toLowerCase() || "";
+      if (
+        normalizedValue &&
+        mathDelimitersRegex.test(normalizedValue) &&
+        !skipMathTags.has(parentTag)
+      ) {
+        textNodes.push(currentNode);
+      }
+      currentNode = walker.nextNode();
+    }
+
+    for (const textNode of textNodes) {
+      const textValue = textNode.nodeValue || "";
+      const segments = parseMathSegments(textValue);
+      if (!segments.some((s) => s.type === "math")) continue;
+
+      const fragment = doc.createDocumentFragment();
+      for (const segment of segments) {
+        if (segment.type === "text") {
+          fragment.appendChild(doc.createTextNode(segment.value));
+          continue;
+        }
+
+        const wrapper = doc.createElement("span");
+        wrapper.className = segment.displayMode
+          ? "katex-display-wrap"
+          : "katex-inline-wrap";
+        try {
+          wrapper.innerHTML = katex.renderToString(segment.value, {
+            displayMode: segment.displayMode,
+            throwOnError: false,
+            strict: "ignore",
+          });
+        } catch {
+          wrapper.textContent = segment.raw;
+        }
+        fragment.appendChild(wrapper);
+      }
+
+      textNode.parentNode?.replaceChild(fragment, textNode);
+    }
+  }
+
   // Transform PocketBase image URLs to use getImageURL for proper environment handling
   function transformPocketBaseUrls(html) {
     // Match PocketBase URLs: http://localhost:8090/api/files/collectionId/recordId/fileName
@@ -122,11 +259,14 @@
 
     // Transform all PocketBase URLs to use proper environment URL
     html = transformPocketBaseUrls(html);
+    // Render LaTeX math blocks/inline before DOM parsing.
+    html = renderLatexInHtml(html);
 
     // Process images to apply saved widths from title attribute
     // Title format: "width:XXX|original title"
     if (typeof window !== "undefined" && typeof DOMParser !== "undefined") {
       const doc = new DOMParser().parseFromString(html, "text/html");
+      renderMathInDocument(doc);
       doc.querySelectorAll("img").forEach((img) => {
         const title = img.getAttribute("title") || "";
         const widthMatch = title.match(/^width:(\d+)\|?/);
@@ -1110,6 +1250,7 @@
     font-size: 1.125rem;
     line-height: 1.8;
     color: #374151;
+    counter-reset: equation;
   }
 
   :global(.dark) .article-content {
@@ -1320,6 +1461,36 @@
     width: 100%;
     border-collapse: collapse;
     margin: 1.5rem 0;
+  }
+
+  .article-content :global(.katex-display-wrap) {
+    display: block;
+    margin: 1rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    padding-right: 2.75rem;
+    counter-increment: equation;
+  }
+
+  .article-content :global(.katex-inline-wrap) {
+    display: inline;
+  }
+
+  .article-content :global(.katex-display-wrap)::after {
+    content: "(" counter(equation) ")";
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+  }
+
+  :global(.dark) .article-content :global(.katex-display-wrap)::after {
+    color: #a1a1aa;
   }
 
   .article-content :global(th),
