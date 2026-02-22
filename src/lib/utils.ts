@@ -179,11 +179,16 @@ export function buildOptionSymbol(ticker, dateExpiration, optionType, strikePric
 
 
 export function convertToSlug(title) {
-    // Remove punctuation, hyphens, and special characters
-    const cleanedTitle = title
+    // Replace path separators first to keep URL segments stable.
+    const cleanedTitle = (title ?? "")
+        .replace(/[\\/]/g, " ")
         .replace(/[-.,?!:"]/g, "") // Remove punctuation and hyphens
         .replace(/\s+/g, " ") // Replace multiple spaces with a single space
         .trim(); // Remove leading and trailing spaces
+
+    if (!cleanedTitle) {
+      return "";
+    }
 
     // Convert to lowercase, split by spaces, and join with hyphens
     const words = cleanedTitle.toLowerCase().split(" ");
