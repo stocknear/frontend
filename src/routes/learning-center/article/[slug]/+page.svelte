@@ -1247,10 +1247,16 @@
 <style>
   /* Article Content Styles */
   .article-content {
-    font-size: 1.125rem;
+    font-size: 0.875rem;
     line-height: 1.8;
     color: #374151;
     counter-reset: equation;
+  }
+
+  @media (min-width: 640px) {
+    .article-content {
+      font-size: 1.125rem;
+    }
   }
 
   :global(.dark) .article-content {
@@ -1469,8 +1475,14 @@
     overflow-x: auto;
     overflow-y: hidden;
     position: relative;
-    padding-right: 2.75rem;
+    padding-right: 0;
     counter-increment: equation;
+  }
+
+  @media (min-width: 640px) {
+    .article-content :global(.katex-display-wrap) {
+      padding-right: 2.75rem;
+    }
   }
 
   .article-content :global(.katex-inline-wrap) {
@@ -1487,6 +1499,13 @@
     color: #6b7280;
     font-variant-numeric: tabular-nums;
     pointer-events: none;
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .article-content :global(.katex-display-wrap)::after {
+      display: block;
+    }
   }
 
   :global(.dark) .article-content :global(.katex-display-wrap)::after {
