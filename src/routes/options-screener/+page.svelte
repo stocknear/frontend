@@ -197,6 +197,13 @@
       category: "Stock Data",
       defaultValue: "any",
     },
+    includeTickers: {
+      label: "Include Tickers",
+      step: [],
+      defaultCondition: "",
+      category: "Stock Data",
+      defaultValue: "any",
+    },
     earningsTime: {
       label: "Earnings Time",
       step: ["Before Market Open", "After Market Close"],
@@ -321,6 +328,11 @@
   let excludeTickerTimeout: ReturnType<typeof setTimeout> | null = null;
   let excludeTickerList = [];
 
+  let includeTickerInput = "";
+  let includeTickerResults = [];
+  let includeTickerTimeout: ReturnType<typeof setTimeout> | null = null;
+  let includeTickerList = [];
+
   let ruleCondition = {};
   let valueMappings = {};
 
@@ -424,6 +436,18 @@
     return [];
   })();
 
+  $: includeTickerList = (() => {
+    const value = valueMappings["includeTickers"];
+    if (!value || value === "any") return [];
+    if (typeof value === "string") {
+      return value
+        .split(",")
+        .map((ticker) => ticker.trim().toUpperCase())
+        .filter(Boolean);
+    }
+    return [];
+  })();
+
   async function searchExcludeTicker() {
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
     if (!excludeTickerInput.trim()) {
@@ -496,6 +520,78 @@
     debouncedRuleFetch({ force: displayTableTab === "filters" });
   }
 
+  async function searchIncludeTicker() {
+    if (includeTickerTimeout) clearTimeout(includeTickerTimeout);
+    if (!includeTickerInput.trim()) {
+      includeTickerResults = [];
+      return;
+    }
+
+    includeTickerTimeout = setTimeout(async () => {
+      try {
+        const response = await fetch(
+          `/api/searchbar?query=${encodeURIComponent(includeTickerInput)}&limit=8`,
+        );
+        if (response.ok) {
+          includeTickerResults = await response.json();
+        } else {
+          includeTickerResults = [];
+        }
+      } catch {
+        includeTickerResults = [];
+      }
+    }, 100);
+  }
+
+  function addIncludeTicker(symbol: string) {
+    const ticker = symbol.trim().toUpperCase();
+    if (!ticker) return;
+    if (ticker.length >= 10) {
+      toast.error("Ticker symbol is too long", {
+        style: `border-radius: 5px; background: #fff; color: #000; font-size: 14px;`,
+      });
+      return;
+    }
+
+    const current = [...includeTickerList];
+    if (current.includes(ticker)) {
+      toast.error(`${ticker} already included`, {
+        style: `border-radius: 5px; background: #fff; color: #000; font-size: 14px;`,
+      });
+      return;
+    }
+
+    current.push(ticker);
+    const newValue = current.length > 0 ? current.join(", ") : "any";
+    valueMappings["includeTickers"] = newValue;
+    valueMappings = valueMappings;
+
+    const ruleToUpdate = ruleOfList?.find((rule) => rule.name === "includeTickers");
+    if (ruleToUpdate) {
+      ruleToUpdate.value = newValue;
+      ruleOfList = [...ruleOfList];
+    }
+
+    includeTickerInput = "";
+    includeTickerResults = [];
+    debouncedRuleFetch({ force: displayTableTab === "filters" });
+  }
+
+  function removeIncludeTicker(ticker: string) {
+    const current = includeTickerList.filter((item) => item !== ticker.toUpperCase());
+    const newValue = current.length > 0 ? current.join(", ") : "any";
+    valueMappings["includeTickers"] = newValue;
+    valueMappings = valueMappings;
+
+    const ruleToUpdate = ruleOfList?.find((rule) => rule.name === "includeTickers");
+    if (ruleToUpdate) {
+      ruleToUpdate.value = newValue;
+      ruleOfList = [...ruleOfList];
+    }
+
+    debouncedRuleFetch({ force: displayTableTab === "filters" });
+  }
+
   function buildActiveRules() {
     return ruleOfList
       .map((rule) => {
@@ -544,7 +640,7 @@
     const allRuleNames = ruleOfList
       ?.map((r) => r.name)
       .filter(Boolean)
-      .filter((name) => name !== "excludeTickers")
+      .filter((name) => name !== "excludeTickers" && name !== "includeTickers")
       .join(",");
     if (allRuleNames) params.set("displayColumns", allRuleNames);
 
@@ -943,6 +1039,12 @@
           value: valueMappings[ruleName],
         };
         break;
+      case "includeTickers":
+        newRule = {
+          name: ruleName,
+          value: valueMappings[ruleName],
+        };
+        break;
       default:
         newRule = {
           name: ruleName,
@@ -1222,6 +1324,7 @@
     if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
     if (_searchFetchTimeout) clearTimeout(_searchFetchTimeout);
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
+    if (includeTickerTimeout) clearTimeout(includeTickerTimeout);
     clearCache();
   });
 
@@ -1720,7 +1823,7 @@
 
         rulesList?.forEach((rule) => {
           if (
-            !["optionType", "strike", "expiration", "excludeTickers"]?.includes(
+            !["optionType", "strike", "expiration", "excludeTickers", "includeTickers"]?.includes(
               rule.rule,
             )
           ) {
@@ -2337,11 +2440,9 @@
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if row?.rule === "excludeTickers"}
-                              {#if excludeTickerList.length === 0}
-                                Any
-                              {:else}
-                                {excludeTickerList.join(",")}
-                              {/if}
+                              {excludeTickerList.length === 0 ? "Any" : excludeTickerList.join(",")}
+                            {:else if row?.rule === "includeTickers"}
+                              {includeTickerList.length === 0 ? "Any" : includeTickerList.join(",")}
                             {:else if valueMappings[row?.rule] === "any"}
                               Any
                             {:else if ruleCondition[row?.rule] === "between"}
@@ -2376,7 +2477,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none {row?.rule === 'excludeTickers'
+                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none {row?.rule === 'excludeTickers' || row?.rule === 'includeTickers'
                           ? 'w-64 max-w-64'
                           : 'w-56 max-w-56'}"
                       >
@@ -2422,8 +2523,50 @@
                               />
                             </div>
                           </DropdownMenu.Label>
+                        {:else if row?.rule === "includeTickers"}
+                          <DropdownMenu.Label
+                            class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                          >
+                            <div class="relative">
+                              <div
+                                class="absolute inset-y-0 left-0 flex items-center pl-2.5"
+                              >
+                                <svg
+                                  class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2.5"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                  ></path>
+                                </svg>
+                              </div>
+                              <input
+                                type="text"
+                                bind:value={includeTickerInput}
+                                on:input={searchIncludeTicker}
+                                on:keydown={(e) => {
+                                  if (
+                                    e.key === "Enter" &&
+                                    includeTickerInput.trim()
+                                  ) {
+                                    addIncludeTicker(includeTickerInput);
+                                  }
+                                  e.stopPropagation();
+                                }}
+                                on:click|stopPropagation
+                                placeholder="Search ticker..."
+                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                              />
+                            </div>
+                          </DropdownMenu.Label>
                         {/if}
-                        {#if row?.rule !== "excludeTickers" && !checkedRules?.includes(row?.rule)}
+                        {#if row?.rule !== "excludeTickers" && row?.rule !== "includeTickers" && !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
                             class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                           >
@@ -2650,6 +2793,83 @@
                                 class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
                               >
                                 Search and add tickers to exclude
+                              </div>
+                            {/if}
+                          {:else if row?.rule === "includeTickers"}
+                            {#if includeTickerInput.trim().length > 0 && includeTickerResults.length > 0}
+                              {#each includeTickerResults as result}
+                                <DropdownMenu.Item
+                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                >
+                                  <div
+                                    class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
+                                    on:click|capture={(event) => {
+                                      event.preventDefault();
+                                      addIncludeTicker(result?.symbol);
+                                    }}
+                                  >
+                                    <span class="font-medium">
+                                      {result?.symbol}
+                                    </span>
+                                    <span
+                                      class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                    >
+                                      {result?.name}
+                                    </span>
+                                  </div>
+                                </DropdownMenu.Item>
+                              {/each}
+                            {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
+                              <div
+                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                              >
+                                No results
+                              </div>
+                            {/if}
+                            {#if includeTickerList.length > 0}
+                              {#if includeTickerInput.trim().length > 0}
+                                <div
+                                  class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                ></div>
+                              {/if}
+                              <div
+                                class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                              >
+                                Included
+                              </div>
+                              {#each includeTickerList as ticker}
+                                <DropdownMenu.Item
+                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                >
+                                  <div
+                                    class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
+                                    on:click|capture={(event) => {
+                                      event.preventDefault();
+                                      removeIncludeTicker(ticker);
+                                    }}
+                                  >
+                                    <span class="font-medium">{ticker}</span>
+                                    <svg
+                                      class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                      />
+                                    </svg>
+                                  </div>
+                                </DropdownMenu.Item>
+                              {/each}
+                            {:else if includeTickerInput.trim().length === 0}
+                              <div
+                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                              >
+                                Search and add tickers to include
                               </div>
                             {/if}
                           {:else if !checkedRules?.includes(row?.rule)}
