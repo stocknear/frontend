@@ -3408,7 +3408,7 @@
                     {displayedData}
                     screener="unusual-order-flow"
                     title="unusual_order_flow_data"
-                    creditCost={5}
+                    creditCost={3}
                     modalTitle="Export unusual order flow data"
                     itemLabel="trades"
                   />

@@ -2999,7 +2999,7 @@
             {displayedData}
             screener="cash-secured-put"
             title="cash_secured_put_screener_data"
-            creditCost={5}
+            creditCost={3}
             modalTitle="Export cash secured put screener data"
             itemLabel="options"
           />

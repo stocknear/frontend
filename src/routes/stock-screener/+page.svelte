@@ -1855,7 +1855,8 @@
       if (selectedStrategy === idToDelete) {
         selectedStrategy = strategyList?.at(0)?.id ?? "";
         ruleOfList =
-          strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+          strategyList?.find((item) => item.id === selectedStrategy)?.rules ??
+          [];
 
         // Reset all mappings to defaults, then apply new strategy's rules
         for (const key of Object.keys(valueMappings)) {
@@ -1872,7 +1873,10 @@
         checkedItems = new Map(
           ruleOfList
             ?.filter((rule) => checkedRules.includes(rule.name))
-            ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+            ?.map((rule) => [
+              rule.name,
+              new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+            ]),
         );
 
         await fetchTableData({ page: 1 });
@@ -2017,7 +2021,10 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+        ?.map((rule) => [
+          rule.name,
+          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+        ]),
     );
 
     fetchTableData({ page: 1 });
@@ -2038,26 +2045,39 @@
 
   // Build active rules from current UI state for API requests
   function buildActiveRules() {
-    return ruleOfList.map(rule => {
-      const name = rule.name;
-      const condition = ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
-      let value;
-      if (checkedRules.includes(name) && checkedItems?.has(name)) {
-        value = [...checkedItems.get(name)];
-      } else {
-        value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
-      }
-      return { name, condition, value };
-    }).filter(r => {
-      if (r.value === "any") return false;
-      if (Array.isArray(r.value) && r.value.length === 1 && r.value[0] === "any") return false;
-      if (Array.isArray(r.value) && r.value.includes("any")) return false;
-      return true;
-    });
+    return ruleOfList
+      .map((rule) => {
+        const name = rule.name;
+        const condition =
+          ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
+        let value;
+        if (checkedRules.includes(name) && checkedItems?.has(name)) {
+          value = [...checkedItems.get(name)];
+        } else {
+          value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
+        }
+        return { name, condition, value };
+      })
+      .filter((r) => {
+        if (r.value === "any") return false;
+        if (
+          Array.isArray(r.value) &&
+          r.value.length === 1 &&
+          r.value[0] === "any"
+        )
+          return false;
+        if (Array.isArray(r.value) && r.value.includes("any")) return false;
+        return true;
+      });
   }
 
   // Core server-side fetch for paginated data
-  async function fetchTableData({ page = undefined, pageSize = undefined, sortKey = undefined, sortOrder = undefined } = {}) {
+  async function fetchTableData({
+    page = undefined,
+    pageSize = undefined,
+    sortKey = undefined,
+    sortOrder = undefined,
+  } = {}) {
     if (currentAbortController) currentAbortController.abort();
     currentAbortController = new AbortController();
     const signal = currentAbortController.signal;
@@ -2081,23 +2101,29 @@
         tab: displayTableTab,
       });
       if (inputValue) params.set("search", inputValue);
-      if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+      if (activeRules.length > 0)
+        params.set("rules", JSON.stringify(activeRules));
 
       const allRuleNames = ruleOfList
-        ?.map(r => r.name)
-        .filter(name => name && name !== "excludeTickers" && name !== "includeTickers")
+        ?.map((r) => r.name)
+        .filter(
+          (name) =>
+            name && name !== "excludeTickers" && name !== "includeTickers",
+        )
         .join(",");
       if (allRuleNames) params.set("displayColumns", allRuleNames);
 
-      const response = await fetch(`/api/stock-screener-feed?${params}`, { signal });
+      const response = await fetch(`/api/stock-screener-feed?${params}`, {
+        signal,
+      });
       if (signal.aborted) return;
       const result = await response.json();
       if (invocationId !== requestId) return;
 
       displayedData = result.items ?? [];
       totalItems = result.total ?? 0;
-      currentPage = result.page ?? (page ?? currentPage);
-      rowsPerPage = result.pageSize ?? (pageSize ?? rowsPerPage);
+      currentPage = result.page ?? page ?? currentPage;
+      rowsPerPage = result.pageSize ?? pageSize ?? rowsPerPage;
       totalPages = result.totalPages ?? 1;
       activeSortKey = sortKey ?? activeSortKey;
       activeSortOrder = sortOrder ?? activeSortOrder;
@@ -2130,8 +2156,12 @@
         tab: displayTableTab,
       });
       if (inputValue) params.set("search", inputValue);
-      if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
-      const allRuleNames = ruleOfList?.map(r => r.name).filter(Boolean).join(",");
+      if (activeRules.length > 0)
+        params.set("rules", JSON.stringify(activeRules));
+      const allRuleNames = ruleOfList
+        ?.map((r) => r.name)
+        .filter(Boolean)
+        .join(",");
       if (allRuleNames) params.set("displayColumns", allRuleNames);
       const response = await fetch(`/api/stock-screener-feed?${params}`);
       const result = await response.json();
@@ -2180,7 +2210,9 @@
     const newValue = current.length > 0 ? current.join(", ") : "any";
     valueMappings["excludeTickers"] = newValue;
     valueMappings = valueMappings;
-    const ruleToUpdate = ruleOfList?.find((rule) => rule.name === "excludeTickers");
+    const ruleToUpdate = ruleOfList?.find(
+      (rule) => rule.name === "excludeTickers",
+    );
     if (ruleToUpdate) {
       ruleToUpdate.value = newValue;
       ruleOfList = [...ruleOfList];
@@ -2191,11 +2223,15 @@
   }
 
   function removeExcludeTicker(ticker: string) {
-    const current = excludeTickerList.filter((item) => item !== ticker.toUpperCase());
+    const current = excludeTickerList.filter(
+      (item) => item !== ticker.toUpperCase(),
+    );
     const newValue = current.length > 0 ? current.join(", ") : "any";
     valueMappings["excludeTickers"] = newValue;
     valueMappings = valueMappings;
-    const ruleToUpdate = ruleOfList?.find((rule) => rule.name === "excludeTickers");
+    const ruleToUpdate = ruleOfList?.find(
+      (rule) => rule.name === "excludeTickers",
+    );
     if (ruleToUpdate) {
       ruleToUpdate.value = newValue;
       ruleOfList = [...ruleOfList];
@@ -2234,7 +2270,9 @@
     const newValue = current.length > 0 ? current.join(", ") : "any";
     valueMappings["includeTickers"] = newValue;
     valueMappings = valueMappings;
-    const ruleToUpdate = ruleOfList?.find((rule) => rule.name === "includeTickers");
+    const ruleToUpdate = ruleOfList?.find(
+      (rule) => rule.name === "includeTickers",
+    );
     if (ruleToUpdate) {
       ruleToUpdate.value = newValue;
       ruleOfList = [...ruleOfList];
@@ -2245,11 +2283,15 @@
   }
 
   function removeIncludeTicker(ticker: string) {
-    const current = includeTickerList.filter((item) => item !== ticker.toUpperCase());
+    const current = includeTickerList.filter(
+      (item) => item !== ticker.toUpperCase(),
+    );
     const newValue = current.length > 0 ? current.join(", ") : "any";
     valueMappings["includeTickers"] = newValue;
     valueMappings = valueMappings;
-    const ruleToUpdate = ruleOfList?.find((rule) => rule.name === "includeTickers");
+    const ruleToUpdate = ruleOfList?.find(
+      (rule) => rule.name === "includeTickers",
+    );
     if (ruleToUpdate) {
       ruleToUpdate.value = newValue;
       ruleOfList = [...ruleOfList];
@@ -2579,7 +2621,9 @@
 
     if (strategyList?.length > 0) {
       // update local strategyList
-      const matchedStrategy = strategyList.find((item) => item.id === selectedStrategy);
+      const matchedStrategy = strategyList.find(
+        (item) => item.id === selectedStrategy,
+      );
       if (matchedStrategy) {
         matchedStrategy.rules = ruleOfList;
       }
@@ -2674,7 +2718,10 @@
   let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => checkedRules.includes(rule.name)) // Only include specific rules
-      ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+      ?.map((rule) => [
+        rule.name,
+        new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+      ]),
   );
 
   function isChecked(item, ruleName) {
@@ -3573,7 +3620,9 @@
                       <!-- svelte-ignore a11y-click-events-have-key-events -->
                       <label
                         for="deleteStrategy"
-                        on:click|stopPropagation={() => { deleteTargetId = item?.id; }}
+                        on:click|stopPropagation={() => {
+                          deleteTargetId = item?.id;
+                        }}
                         class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
                       >
                         <svg
@@ -3911,9 +3960,13 @@
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if row?.rule === "excludeTickers"}
-                              {excludeTickerList.length === 0 ? "Any" : excludeTickerList.join(",")}
+                              {excludeTickerList.length === 0
+                                ? "Any"
+                                : excludeTickerList.join(",")}
                             {:else if row?.rule === "includeTickers"}
-                              {includeTickerList.length === 0 ? "Any" : includeTickerList.join(",")}
+                              {includeTickerList.length === 0
+                                ? "Any"
+                                : includeTickerList.join(",")}
                             {:else if valueMappings[row?.rule] === "any"}
                               Any
                             {:else if ruleCondition[row?.rule] === "between"}
@@ -3957,21 +4010,47 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none {row?.rule === 'excludeTickers' || row?.rule === 'includeTickers' ? 'w-64 max-w-64' : 'w-fit'}"
+                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none {row?.rule ===
+                          'excludeTickers' || row?.rule === 'includeTickers'
+                          ? 'w-64 max-w-64'
+                          : 'w-fit'}"
                       >
                         {#if row?.rule === "excludeTickers"}
-                          <DropdownMenu.Label class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5">
+                          <DropdownMenu.Label
+                            class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                          >
                             <div class="relative">
-                              <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
-                                <svg class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                              <div
+                                class="absolute inset-y-0 left-0 flex items-center pl-2.5"
+                              >
+                                <svg
+                                  class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2.5"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                  ></path>
                                 </svg>
                               </div>
                               <input
                                 type="text"
                                 bind:value={excludeTickerInput}
                                 on:input={searchExcludeTicker}
-                                on:keydown={(e) => { if (e.key === "Enter" && excludeTickerInput.trim()) { addExcludeTicker(excludeTickerInput); } e.stopPropagation(); }}
+                                on:keydown={(e) => {
+                                  if (
+                                    e.key === "Enter" &&
+                                    excludeTickerInput.trim()
+                                  ) {
+                                    addExcludeTicker(excludeTickerInput);
+                                  }
+                                  e.stopPropagation();
+                                }}
                                 on:click|stopPropagation
                                 placeholder="Search ticker..."
                                 class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
@@ -3979,18 +4058,41 @@
                             </div>
                           </DropdownMenu.Label>
                         {:else if row?.rule === "includeTickers"}
-                          <DropdownMenu.Label class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5">
+                          <DropdownMenu.Label
+                            class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                          >
                             <div class="relative">
-                              <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
-                                <svg class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                              <div
+                                class="absolute inset-y-0 left-0 flex items-center pl-2.5"
+                              >
+                                <svg
+                                  class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2.5"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                  ></path>
                                 </svg>
                               </div>
                               <input
                                 type="text"
                                 bind:value={includeTickerInput}
                                 on:input={searchIncludeTicker}
-                                on:keydown={(e) => { if (e.key === "Enter" && includeTickerInput.trim()) { addIncludeTicker(includeTickerInput); } e.stopPropagation(); }}
+                                on:keydown={(e) => {
+                                  if (
+                                    e.key === "Enter" &&
+                                    includeTickerInput.trim()
+                                  ) {
+                                    addIncludeTicker(includeTickerInput);
+                                  }
+                                  e.stopPropagation();
+                                }}
                                 on:click|stopPropagation
                                 placeholder="Search ticker..."
                                 class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
@@ -4178,60 +4280,152 @@
                           {#if row?.rule === "excludeTickers"}
                             {#if excludeTickerInput.trim().length > 0 && excludeTickerResults.length > 0}
                               {#each excludeTickerResults as result}
-                                <DropdownMenu.Item class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400">
-                                  <div class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer" on:click|capture={(event) => { event.preventDefault(); addExcludeTicker(result?.symbol); }}>
-                                    <span class="font-medium">{result?.symbol}</span>
-                                    <span class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate">{result?.name}</span>
+                                <DropdownMenu.Item
+                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                >
+                                  <div
+                                    class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
+                                    on:click|capture={(event) => {
+                                      event.preventDefault();
+                                      addExcludeTicker(result?.symbol);
+                                    }}
+                                  >
+                                    <span class="font-medium"
+                                      >{result?.symbol}</span
+                                    >
+                                    <span
+                                      class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                      >{result?.name}</span
+                                    >
                                   </div>
                                 </DropdownMenu.Item>
                               {/each}
                             {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
-                              <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">No results</div>
+                              <div
+                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                              >
+                                No results
+                              </div>
                             {/if}
                             {#if excludeTickerList.length > 0}
                               {#if excludeTickerInput.trim().length > 0}
-                                <div class="border-t border-gray-200 dark:border-zinc-700 my-1.5"></div>
+                                <div
+                                  class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                ></div>
                               {/if}
-                              <div class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-gray-500 dark:text-zinc-400 uppercase">Excluded Tickers</div>
+                              <div
+                                class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-gray-500 dark:text-zinc-400 uppercase"
+                              >
+                                Excluded Tickers
+                              </div>
                               {#each excludeTickerList as ticker}
-                                <DropdownMenu.Item class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400">
-                                  <div class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer" on:click|capture={(event) => { event.preventDefault(); removeExcludeTicker(ticker); }}>
+                                <DropdownMenu.Item
+                                  class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400"
+                                >
+                                  <div
+                                    class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
+                                    on:click|capture={(event) => {
+                                      event.preventDefault();
+                                      removeExcludeTicker(ticker);
+                                    }}
+                                  >
                                     <span class="font-medium">{ticker}</span>
-                                    <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    <svg
+                                      class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                      ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"
+                                      /></svg
+                                    >
                                   </div>
                                 </DropdownMenu.Item>
                               {/each}
                             {:else if excludeTickerInput.trim().length === 0}
-                              <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">Search and add tickers to exclude</div>
+                              <div
+                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                              >
+                                Search and add tickers to exclude
+                              </div>
                             {/if}
                           {:else if row?.rule === "includeTickers"}
                             {#if includeTickerInput.trim().length > 0 && includeTickerResults.length > 0}
                               {#each includeTickerResults as result}
-                                <DropdownMenu.Item class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400">
-                                  <div class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer" on:click|capture={(event) => { event.preventDefault(); addIncludeTicker(result?.symbol); }}>
-                                    <span class="font-medium">{result?.symbol}</span>
-                                    <span class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate">{result?.name}</span>
+                                <DropdownMenu.Item
+                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                >
+                                  <div
+                                    class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
+                                    on:click|capture={(event) => {
+                                      event.preventDefault();
+                                      addIncludeTicker(result?.symbol);
+                                    }}
+                                  >
+                                    <span class="font-medium"
+                                      >{result?.symbol}</span
+                                    >
+                                    <span
+                                      class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                      >{result?.name}</span
+                                    >
                                   </div>
                                 </DropdownMenu.Item>
                               {/each}
                             {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
-                              <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">No results</div>
+                              <div
+                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                              >
+                                No results
+                              </div>
                             {/if}
                             {#if includeTickerList.length > 0}
                               {#if includeTickerInput.trim().length > 0}
-                                <div class="border-t border-gray-200 dark:border-zinc-700 my-1.5"></div>
+                                <div
+                                  class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                ></div>
                               {/if}
-                              <div class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-gray-500 dark:text-zinc-400 uppercase">Included Tickers</div>
+                              <div
+                                class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-gray-500 dark:text-zinc-400 uppercase"
+                              >
+                                Included Tickers
+                              </div>
                               {#each includeTickerList as ticker}
-                                <DropdownMenu.Item class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400">
-                                  <div class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer" on:click|capture={(event) => { event.preventDefault(); removeIncludeTicker(ticker); }}>
+                                <DropdownMenu.Item
+                                  class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400"
+                                >
+                                  <div
+                                    class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
+                                    on:click|capture={(event) => {
+                                      event.preventDefault();
+                                      removeIncludeTicker(ticker);
+                                    }}
+                                  >
                                     <span class="font-medium">{ticker}</span>
-                                    <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    <svg
+                                      class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                      ><path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"
+                                      /></svg
+                                    >
                                   </div>
                                 </DropdownMenu.Item>
                               {/each}
                             {:else if includeTickerInput.trim().length === 0}
-                              <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">Search and add tickers to include</div>
+                              <div
+                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                              >
+                                Search and add tickers to include
+                              </div>
                             {/if}
                           {:else if !checkedRules.includes(row?.rule)}
                             {#each row?.step as newValue, index}
@@ -4407,7 +4601,7 @@
             fetchAllData={fetchAllFilteredData}
             screener="stock"
             title="stock_screener_data"
-            creditCost={5}
+            creditCost={0}
             modalTitle="Export stock screener data"
             itemLabel="stocks"
             allowedTiers={["Pro", "Plus"]}
@@ -4519,7 +4713,6 @@
           <li>
             <button
               on:click={() => changeTab("performance")}
-
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'performance'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4531,7 +4724,6 @@
           <li>
             <button
               on:click={() => changeTab("analysts")}
-
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'analysts'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4543,7 +4735,6 @@
           <li>
             <button
               on:click={() => changeTab("dividends")}
-
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'dividends'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4555,7 +4746,6 @@
           <li>
             <button
               on:click={() => changeTab("financials")}
-
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'financials'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -5548,7 +5738,13 @@
 
 <dialog id="addStrategy" class="modal modal-bottom sm:modal-middle">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <label for="addStrategy" on:click={() => { removeList = false; }} class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="addStrategy"
+    on:click={() => {
+      removeList = false;
+    }}
+    class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -5556,7 +5752,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="addStrategy"
-      on:click={() => { removeList = false; }}
+      on:click={() => {
+        removeList = false;
+      }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -5606,7 +5804,13 @@
 
 <dialog id="deleteStrategy" class="modal modal-bottom sm:modal-middle">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <label for="deleteStrategy" on:click={() => { deleteTargetId = ""; }} class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="deleteStrategy"
+    on:click={() => {
+      deleteTargetId = "";
+    }}
+    class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -5614,7 +5818,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="deleteStrategy"
-      on:click={() => { deleteTargetId = ""; }}
+      on:click={() => {
+        deleteTargetId = "";
+      }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -5638,7 +5844,9 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <label
         for="deleteStrategy"
-        on:click={() => { deleteTargetId = ""; }}
+        on:click={() => {
+          deleteTargetId = "";
+        }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
             transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{stock_screener_modal_delete_cancel()}</label

@@ -3021,7 +3021,7 @@
             displayedData={displayResults}
             screener="options"
             title="options_screener_data"
-            creditCost={5}
+            creditCost={3}
             modalTitle="Export options screener data"
             itemLabel="contracts"
           />

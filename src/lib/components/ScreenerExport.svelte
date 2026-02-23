@@ -7,7 +7,7 @@
   export let displayedData: any[] = [];
   export let screener: string;
   export let title = "screener_data";
-  export let creditCost = 5;
+  export let creditCost = 3;
   export let fetchAllData: (() => Promise<any[]>) | undefined = undefined;
   export let modalTitle = "Export screener data";
   export let itemLabel = "rows";

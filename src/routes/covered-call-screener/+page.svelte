@@ -3177,7 +3177,7 @@
             {displayedData}
             screener="covered-call"
             title="covered_call_screener_data"
-            creditCost={5}
+            creditCost={3}
             modalTitle="Export covered call screener data"
             itemLabel="options"
           />

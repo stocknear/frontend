@@ -3997,7 +3997,7 @@
                   {displayedData}
                   screener="options-flow"
                   title="options_flow_data"
-                  creditCost={5}
+                  creditCost={3}
                   modalTitle="Export options flow data"
                   itemLabel="trades"
                 />

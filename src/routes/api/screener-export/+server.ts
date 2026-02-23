@@ -1,15 +1,14 @@
 import type { RequestHandler } from "./$types";
 
 const MAX_DOWNLOAD_CREDITS = 500;
-const CREDIT_COST = 5;
 
-const SCREENER_TIERS: Record<string, string[]> = {
-  "stock": ["Pro", "Plus"],
-  "options": ["Pro"],
-  "covered-call": ["Pro"],
-  "cash-secured-put": ["Pro"],
-  "options-flow": ["Pro"],
-  "unusual-order-flow": ["Pro"],
+const SCREENER_CONFIG: Record<string, { tiers: string[]; creditCost: number }> = {
+  "stock": { tiers: ["Pro", "Plus"], creditCost: 0 },
+  "options": { tiers: ["Pro"], creditCost: 3 },
+  "covered-call": { tiers: ["Pro"], creditCost: 3 },
+  "cash-secured-put": { tiers: ["Pro"], creditCost: 3 },
+  "options-flow": { tiers: ["Pro"], creditCost: 3 },
+  "unusual-order-flow": { tiers: ["Pro"], creditCost: 3 },
 };
 
 function json(data: unknown, status = 200) {
@@ -30,10 +29,12 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   }
 
   const screener = body?.screener;
-  const allowedTiers = screener ? SCREENER_TIERS[screener] : undefined;
-  if (!screener || !allowedTiers) {
+  const config = screener ? SCREENER_CONFIG[screener] : undefined;
+  if (!screener || !config) {
     return json({ error: "Invalid screener type." }, 400);
   }
+
+  const { tiers: allowedTiers, creditCost } = config;
 
   if (!user) {
     return json({ error: "Authentication required." }, 401);
@@ -61,93 +62,98 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     );
   }
 
-  const currentCredits = Number(user?.credits ?? 0);
-  if (!Number.isFinite(currentCredits) || currentCredits < CREDIT_COST) {
-    return json(
-      {
-        error: `Insufficient credits. Your current balance is ${Number.isFinite(currentCredits) ? currentCredits : 0}. This export costs ${CREDIT_COST} credits.`,
-      },
-      400,
-    );
-  }
+  let updatedUser: Record<string, any> | undefined;
 
-  let updatedCreditsUser;
-  try {
-    updatedCreditsUser = await pb.collection("users").update(user.id, {
-      "credits-": CREDIT_COST,
-    });
-  } catch (error) {
-    const statusCode = (error as { status?: number })?.status;
-    const originalMessage = (error as { message?: string })?.message ?? "";
-    const rawMessage = originalMessage.toLowerCase();
-    const validationData = (error as { data?: Record<string, unknown> })?.data;
-    const hasCreditsValidationError =
-      typeof validationData === "object" &&
-      validationData !== null &&
-      "credits" in validationData;
-
-    if (
-      statusCode === 400 &&
-      (hasCreditsValidationError || rawMessage.includes("credit"))
-    ) {
+  if (creditCost > 0) {
+    const currentCredits = Number(user?.credits ?? 0);
+    if (!Number.isFinite(currentCredits) || currentCredits < creditCost) {
       return json(
         {
-          error: `Insufficient credits. Your current balance is ${currentCredits}. This export costs ${CREDIT_COST} credits.`,
+          error: `Insufficient credits. Your current balance is ${Number.isFinite(currentCredits) ? currentCredits : 0}. This export costs ${creditCost} credits.`,
         },
         400,
       );
     }
 
-    if (statusCode === 403) {
+    let updatedCreditsUser;
+    try {
+      updatedCreditsUser = await pb.collection("users").update(user.id, {
+        "credits-": creditCost,
+      });
+    } catch (error) {
+      const statusCode = (error as { status?: number })?.status;
+      const originalMessage = (error as { message?: string })?.message ?? "";
+      const rawMessage = originalMessage.toLowerCase();
+      const validationData = (error as { data?: Record<string, unknown> })?.data;
+      const hasCreditsValidationError =
+        typeof validationData === "object" &&
+        validationData !== null &&
+        "credits" in validationData;
+
+      if (
+        statusCode === 400 &&
+        (hasCreditsValidationError || rawMessage.includes("credit"))
+      ) {
+        return json(
+          {
+            error: `Insufficient credits. Your current balance is ${currentCredits}. This export costs ${creditCost} credits.`,
+          },
+          400,
+        );
+      }
+
+      if (statusCode === 403) {
+        return json(
+          {
+            error:
+              "Permission denied while updating credits. Please sign in again and retry.",
+          },
+          403,
+        );
+      }
+
+      if (statusCode === 400 && originalMessage.trim().length > 0) {
+        return json({ error: originalMessage }, 400);
+      }
+
+      console.error(
+        `Failed to deduct ${screener} screener export credits:`,
+        error,
+      );
       return json(
         {
           error:
-            "Permission denied while updating credits. Please sign in again and retry.",
+            originalMessage.trim().length > 0
+              ? originalMessage
+              : "Failed to process export. Please try again.",
         },
-        403,
+        500,
       );
     }
 
-    if (statusCode === 400 && originalMessage.trim().length > 0) {
-      return json({ error: originalMessage }, 400);
-    }
+    if ((updatedCreditsUser?.credits ?? 0) < 0) {
+      try {
+        await pb.collection("users").update(user.id, {
+          "credits+": creditCost,
+        });
+      } catch (rollbackError) {
+        console.error(
+          `Failed to rollback ${screener} screener export credits:`,
+          rollbackError,
+        );
+      }
 
-    console.error(
-      `Failed to deduct ${screener} screener export credits:`,
-      error,
-    );
-    return json(
-      {
-        error:
-          originalMessage.trim().length > 0
-            ? originalMessage
-            : "Failed to process export. Please try again.",
-      },
-      500,
-    );
-  }
-
-  if ((updatedCreditsUser?.credits ?? 0) < 0) {
-    try {
-      await pb.collection("users").update(user.id, {
-        "credits+": CREDIT_COST,
-      });
-    } catch (rollbackError) {
-      console.error(
-        `Failed to rollback ${screener} screener export credits:`,
-        rollbackError,
+      return json(
+        {
+          error: `Insufficient credits. You need ${creditCost} credits.`,
+        },
+        400,
       );
     }
 
-    return json(
-      {
-        error: `Insufficient credits. You need ${CREDIT_COST} credits.`,
-      },
-      400,
-    );
+    updatedUser = updatedCreditsUser;
   }
 
-  let updatedUser = updatedCreditsUser;
   try {
     updatedUser = await pb.collection("users").update(user.id, {
       "downloadCredits+": 1,
@@ -155,10 +161,11 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
     if ((updatedUser?.downloadCredits ?? 0) > MAX_DOWNLOAD_CREDITS) {
       try {
-        await pb.collection("users").update(user.id, {
-          "credits+": CREDIT_COST,
-          "downloadCredits-": 1,
-        });
+        const rollbackFields: Record<string, number> = { "downloadCredits-": 1 };
+        if (creditCost > 0) {
+          rollbackFields["credits+"] = creditCost;
+        }
+        await pb.collection("users").update(user.id, rollbackFields);
       } catch (rollbackError) {
         console.error(
           `Failed to rollback ${screener} screener export after downloadCredits limit:`,
@@ -218,7 +225,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
   return json({
     success: true,
-    creditsDeducted: CREDIT_COST,
+    creditsDeducted: creditCost,
     remainingCredits: updatedUser?.credits ?? user?.credits,
     downloadCredits: updatedUser?.downloadCredits ?? user?.downloadCredits,
   });
