@@ -8,6 +8,8 @@ const VALID_SCREENERS = new Set([
   "options",
   "covered-call",
   "cash-secured-put",
+  "options-flow",
+  "unusual-order-flow",
 ]);
 
 function json(data: unknown, status = 200) {

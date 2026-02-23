@@ -85,7 +85,7 @@
   } from "$lib/paraglide/messages";
 
   import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
-  import UnusualOrderFlowExport from "$lib/components/UnusualOrderFlowExport.svelte";
+  import ScreenerExport from "$lib/components/ScreenerExport.svelte";
   export let data;
 
   let isComponentDestroyed = false;
@@ -3403,11 +3403,14 @@
 
                 <!-- Download + Reset Column Order -->
                 <div class="ml-2 w-fit flex items-center justify-end gap-2">
-                  <UnusualOrderFlowExport
+                  <ScreenerExport
                     {data}
-                    {totalItems}
-                    {selectedDate}
-                    fetchAllData={fetchAllFlowData}
+                    {displayedData}
+                    screener="unusual-order-flow"
+                    title="unusual_order_flow_data"
+                    creditCost={5}
+                    modalTitle="Export unusual order flow data"
+                    itemLabel="trades"
                   />
 
                   <button

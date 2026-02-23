@@ -78,7 +78,6 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const params = new URLSearchParams();
 
   for (const param of allowedParams) {
-    if (param === "rules" && !['Plus','Pro'].includes(user?.tier)) continue;
     const value = url.searchParams.get(param);
     if (value && value.trim().length > 0) {
       if (param === "pageSize") {
@@ -107,7 +106,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     }
   }
 
-  params.set("subscriber", ['Plus','Pro'].includes(user?.tier) ? "Pro" : "Free");
+  params.set("subscriber", "Pro");
 
   const endpoint = `${apiURL}/stock-screener-feed${params.size ? `?${params.toString()}` : ""}`;
 

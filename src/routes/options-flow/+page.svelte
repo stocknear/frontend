@@ -86,7 +86,7 @@
   import { browser } from "$app/environment";
 
   import OptionsFlowTable from "$lib/components/Table/OptionsFlowTable.svelte";
-  import OptionsFlowExport from "$lib/components/OptionsFlowExport.svelte";
+  import ScreenerExport from "$lib/components/ScreenerExport.svelte";
 
   // Server-side pagination state (initialized after `export let data`)
   let currentPage;
@@ -3992,11 +3992,14 @@
               <!-- Download + Reset Column Order -->
 
               <div class="ml-2 w-fit flex items-center justify-end gap-2">
-                <OptionsFlowExport
+                <ScreenerExport
                   {data}
-                  {totalItems}
-                  {selectedDate}
-                  fetchAllData={fetchAllFlowData}
+                  {displayedData}
+                  screener="options-flow"
+                  title="options_flow_data"
+                  creditCost={5}
+                  modalTitle="Export options flow data"
+                  itemLabel="trades"
                 />
 
                 <button
