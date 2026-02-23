@@ -3,14 +3,14 @@ import type { RequestHandler } from "./$types";
 const MAX_DOWNLOAD_CREDITS = 500;
 const CREDIT_COST = 5;
 
-const VALID_SCREENERS = new Set([
-  "stock",
-  "options",
-  "covered-call",
-  "cash-secured-put",
-  "options-flow",
-  "unusual-order-flow",
-]);
+const SCREENER_TIERS: Record<string, string[]> = {
+  "stock": ["Pro", "Plus"],
+  "options": ["Pro"],
+  "covered-call": ["Pro"],
+  "cash-secured-put": ["Pro"],
+  "options-flow": ["Pro"],
+  "unusual-order-flow": ["Pro"],
+};
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -30,7 +30,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   }
 
   const screener = body?.screener;
-  if (!screener || !VALID_SCREENERS.has(screener)) {
+  const allowedTiers = screener ? SCREENER_TIERS[screener] : undefined;
+  if (!screener || !allowedTiers) {
     return json({ error: "Invalid screener type." }, 400);
   }
 
@@ -38,11 +39,10 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     return json({ error: "Authentication required." }, 401);
   }
 
-  
-
-  if (user?.tier !== "Pro") {
+  if (!allowedTiers.includes(user?.tier)) {
+    const tierLabel = allowedTiers.length === 1 ? allowedTiers[0] : allowedTiers.join(" or ");
     return json(
-      { error: "This feature is available for Pro members only." },
+      { error: `This feature is available for ${tierLabel} members only.` },
       403,
     );
   }

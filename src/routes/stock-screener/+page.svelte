@@ -4410,6 +4410,7 @@
             creditCost={5}
             modalTitle="Export stock screener data"
             itemLabel="stocks"
+            allowedTiers={["Pro", "Plus"]}
           />
         </div>
 

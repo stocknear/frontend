@@ -11,6 +11,7 @@
   export let fetchAllData: (() => Promise<any[]>) | undefined = undefined;
   export let modalTitle = "Export screener data";
   export let itemLabel = "rows";
+  export let allowedTiers: string[] = ["Pro"];
 
   let exportModalOpen = false;
   let isExporting = false;
@@ -19,7 +20,7 @@
   let fetchedData: any[] | null = null;
 
   $: availableCredits = data?.user?.credits ?? 0;
-  $: isEligible = data?.user && data?.user?.tier === "Pro";
+  $: isEligible = data?.user && allowedTiers.includes(data?.user?.tier);
   $: displayedCount = fetchedData
     ? fetchedData.length
     : (displayedData?.length ?? 0);
@@ -250,12 +251,12 @@
         </div>
         {#if !isEligible}
           <div class="text-rose-800 dark:text-rose-400">
-            Available for Pro only.
+            Available for {allowedTiers.join(" and ")} only.
           </div>
         {/if}
       {:else}
         <div class="text-rose-800 dark:text-rose-400">
-          Available for Pro only.
+          Available for {allowedTiers.join(" and ")} only.
         </div>
         <div>
           <a
