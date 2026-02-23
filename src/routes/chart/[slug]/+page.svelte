@@ -6546,10 +6546,23 @@
     }
 
     if (activeRange === "1D") {
-      const displayBars = transformBarsForType(intradayBars, chartType);
+      // Keep 1D on daily bars so overlay index math (visibleRange -> currentBars)
+      // stays aligned with chart data after websocket ticks.
+      const dayTimestamp = DateTime.fromMillis(timestampMs, {
+        zone,
+      })
+        .startOf("day")
+        .toMillis();
+      const dailyIndex = upsertMinuteBar(
+        dailyBars,
+        dayTimestamp,
+        price,
+        volume,
+      );
+      const displayBars = transformBarsForType(dailyBars, chartType);
       currentBars = displayBars;
-      if (intradayIndex === displayBars.length - 1) {
-        const latestBar = displayBars[intradayIndex];
+      if (dailyIndex === displayBars.length - 1) {
+        const latestBar = displayBars[dailyIndex];
         if (latestBar && realtimeBarCallback) {
           realtimeBarCallback(latestBar);
         }
