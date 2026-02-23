@@ -1872,7 +1872,7 @@
         checkedItems = new Map(
           ruleOfList
             ?.filter((rule) => checkedRules.includes(rule.name))
-            ?.map((rule) => [rule.name, new Set(rule.value)]),
+            ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
         );
 
         await fetchTableData({ page: 1 });
@@ -2017,7 +2017,7 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => checkedRules.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(rule.value)]),
+        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
     );
 
     fetchTableData({ page: 1 });
@@ -2674,7 +2674,7 @@
   let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => checkedRules.includes(rule.name)) // Only include specific rules
-      ?.map((rule) => [rule.name, new Set(rule.value)]), // Create Map from filtered rules
+      ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
   );
 
   function isChecked(item, ruleName) {
@@ -2920,7 +2920,7 @@
       monthlyDividends: {
         name: "Monthly Dividends",
         rules: [
-          { condition: "", name: "payoutFrequency", value: "Monthly" },
+          { condition: "", name: "payoutFrequency", value: ["Monthly"] },
           { condition: "over", name: "dividendYield", value: "0%" },
         ],
       },

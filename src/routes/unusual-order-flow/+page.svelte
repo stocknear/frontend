@@ -594,7 +594,7 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => categoricalRules?.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(rule.value)]),
+        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
     );
 
     // Trigger the filter system
@@ -661,7 +661,7 @@
         checkedItems = new Map(
           ruleOfList
             ?.filter((rule) => categoricalRules?.includes(rule.name))
-            ?.map((rule) => [rule.name, new Set(rule.value)]),
+            ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
         );
 
         if (ruleOfList.length === 0) {
@@ -796,7 +796,7 @@
       checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => categoricalRules?.includes(rule.name))
-          ?.map((rule) => [rule.name, new Set(rule.value)]),
+          ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
       );
 
       // Trigger the filter system
@@ -1049,7 +1049,7 @@
   let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => categoricalRules?.includes(rule.name))
-      ?.map((rule) => [rule.name, new Set(rule.value)]),
+      ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
   );
 
   function isChecked(item, ruleKey = ruleName) {
