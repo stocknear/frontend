@@ -70,7 +70,7 @@
 
 <tr class="border-b border-gray-300 dark:border-zinc-700 last:border-b-0">
   <td
-    class="px-2.5 py-2 text-xs sm:text-sm text-gray-700 dark:text-zinc-200 relative flex flex-row items-center"
+    class="px-2.5 py-2 text-sm text-gray-700 dark:text-zinc-200 relative flex flex-row items-center"
   >
     <label bind:this={labelEl} for="" class="cursor-text">
       {label}
