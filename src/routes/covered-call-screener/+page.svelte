@@ -1020,6 +1020,12 @@
       activeSortOrder = sortOrder;
     } catch (e) {
       if (e?.name === "AbortError") return;
+      console.error("fetchTableData failed:", e);
+      if (invocationId === requestId) {
+        displayedData = [];
+        totalItems = 0;
+        totalPages = 1;
+      }
     } finally {
       if (invocationId === requestId) {
         isFetchingPage = false;
@@ -1030,25 +1036,30 @@
   }
 
   async function fetchAllFilteredData() {
-    const activeRules = buildActiveRules();
-    const params = new URLSearchParams({
-      page: "1",
-      pageSize: "50000",
-      sortKey: activeSortKey,
-      sortOrder: activeSortOrder,
-      tab: displayTableTab,
-    });
-    if (inputValue) params.set("search", inputValue);
-    if (activeRules.length > 0)
-      params.set("rules", JSON.stringify(activeRules));
-    const allRuleNames = ruleOfList
-      ?.map((r) => r.name)
-      .filter(Boolean)
-      .join(",");
-    if (allRuleNames) params.set("displayColumns", allRuleNames);
-    const response = await fetch(`/api/covered-call-screener-feed?${params}`);
-    const result = await response.json();
-    return result?.items ?? [];
+    try {
+      const activeRules = buildActiveRules();
+      const params = new URLSearchParams({
+        page: "1",
+        pageSize: "50000",
+        sortKey: activeSortKey,
+        sortOrder: activeSortOrder,
+        tab: displayTableTab,
+      });
+      if (inputValue) params.set("search", inputValue);
+      if (activeRules.length > 0)
+        params.set("rules", JSON.stringify(activeRules));
+      const allRuleNames = ruleOfList
+        ?.map((r) => r.name)
+        .filter(Boolean)
+        .join(",");
+      if (allRuleNames) params.set("displayColumns", allRuleNames);
+      const response = await fetch(`/api/covered-call-screener-feed?${params}`);
+      const result = await response.json();
+      return result?.items ?? [];
+    } catch (e) {
+      console.error("fetchAllFilteredData failed:", e);
+      return [];
+    }
   }
 
   let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -3331,7 +3342,7 @@
         <UpgradeToPro {data} display={true} />
       </div>
 
-      {#if displayedData?.length > 0 && data?.user?.tier === "Pro"}
+      {#if totalItems > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <div class="flex items-center gap-2">
             <Button

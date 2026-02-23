@@ -2,6 +2,9 @@ import type { RequestHandler } from "./$types";
 
 const allowedParams = ["page", "pageSize", "search", "sortKey", "sortOrder", "rules"] as const;
 
+const MAX_PAGE_SIZE = 500;
+const MIN_PAGE_SIZE = 1;
+
 export const GET: RequestHandler = async ({ url, locals }) => {
   const { apiURL, apiKey, user } = locals;
 
@@ -11,6 +14,15 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     if (param === "rules" && user?.tier !== "Pro") continue;
     const value = url.searchParams.get(param);
     if (value && value.trim().length > 0) {
+      if (param === "pageSize") {
+        const parsedPageSize = Number.parseInt(value, 10);
+        const normalizedPageSize = Number.isFinite(parsedPageSize)
+          ? Math.max(MIN_PAGE_SIZE, Math.min(parsedPageSize, MAX_PAGE_SIZE))
+          : 50;
+        params.set(param, String(normalizedPageSize));
+        continue;
+      }
+
       params.set(param, value);
     }
   }

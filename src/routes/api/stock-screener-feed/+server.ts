@@ -92,10 +92,10 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
       if (param === "displayColumns") {
         const safeColumns = value
-          .split(",")
-          .map((column) => column.trim())
-          .filter((column) => allowedDisplayColumns.has(column))
-          .slice(0, 50);
+          ?.split(",")
+          ?.map((column) => column.trim())
+          ?.filter((column) => allowedDisplayColumns.has(column))
+          ?.slice(0, 50);
 
         if (safeColumns.length > 0) {
           params.set(param, safeColumns.join(","));

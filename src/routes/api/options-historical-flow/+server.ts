@@ -1,5 +1,8 @@
 import type { RequestHandler } from "./$types";
 
+const MAX_PAGE_SIZE = 500;
+const MIN_PAGE_SIZE = 1;
+
 export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const selectedDate = data?.selectedDate;
@@ -7,12 +10,15 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   if (user?.tier === "Pro") {
     try {
+      const rawPageSize = Number(data?.pageSize) || 50;
+      const safePageSize = Math.max(MIN_PAGE_SIZE, Math.min(rawPageSize, MAX_PAGE_SIZE));
+
       const postData = {
         date: selectedDate,
         rules: data?.rules || [],
         tickers: data?.tickers || "",
         page: data?.page || 1,
-        pageSize: data?.pageSize || 50,
+        pageSize: safePageSize,
         sortKey: data?.sortKey || "time",
         sortOrder: data?.sortOrder || "desc",
         subscriber: user?.tier === "Pro" ? "Pro" : "Free",

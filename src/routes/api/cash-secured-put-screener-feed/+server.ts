@@ -4,6 +4,24 @@ const allowedParams = [
   "page", "pageSize", "sortKey", "sortOrder", "search", "rules", "tab", "optionContracts", "displayColumns",
 ] as const;
 
+const MAX_PAGE_SIZE = 50000;
+const MIN_PAGE_SIZE = 1;
+
+const allowedDisplayColumns = new Set([
+  "symbol", "stockPrice", "changesPercentage", "strike", "expiration",
+  "optionSymbol", "assetType", "dte", "profitProb", "volume", "oi",
+  "bid", "annualizedReturn", "returnVal", "breakeven", "pctBeBid",
+  "ptnlRtn", "discount", "downsideProtection", "moneynessPercent",
+  "delta", "gamma", "theta", "vega", "iv", "ivRank",
+  "debit", "marketCap",
+  "earningsRevenueEst", "earningsEPSEst",
+  "earningsRevenueGrowthEst", "earningsEPSGrowthEst",
+  "earningsGap", "payoutRatio", "dividendYield",
+  "annualDividend", "dividendGrowth",
+  "marketCapGroup", "earningsTime", "payoutFrequency",
+  "earningsDate", "exDividendDate",
+]);
+
 export const GET: RequestHandler = async ({ url, locals }) => {
   const { apiURL, apiKey, user } = locals;
 
@@ -13,6 +31,28 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     if (param === "rules" && user?.tier !== "Pro") continue;
     const value = url.searchParams.get(param);
     if (value && value.trim().length > 0) {
+      if (param === "pageSize") {
+        const parsedPageSize = Number.parseInt(value, 10);
+        const normalizedPageSize = Number.isFinite(parsedPageSize)
+          ? Math.max(MIN_PAGE_SIZE, Math.min(parsedPageSize, MAX_PAGE_SIZE))
+          : 20;
+        params.set(param, String(normalizedPageSize));
+        continue;
+      }
+
+      if (param === "displayColumns") {
+        const safeColumns = value
+          .split(",")
+          .map((column) => column.trim())
+          .filter((column) => allowedDisplayColumns.has(column))
+          .slice(0, 50);
+
+        if (safeColumns.length > 0) {
+          params.set(param, safeColumns.join(","));
+        }
+        continue;
+      }
+
       params.set(param, value);
     }
   }

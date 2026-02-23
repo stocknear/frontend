@@ -223,8 +223,13 @@
       activeSortOrder = sortOrder;
       if (result.stats) applyServerStats(result.stats);
     } catch (e) {
-      if (e?.name === "AbortError") return; // Expected cancellation
+      if (e?.name === "AbortError") return;
       console.error("fetchTableData error:", e);
+      if (invocationId === requestId) {
+        displayedData = [];
+        totalItems = 0;
+        totalPages = 1;
+      }
     } finally {
       if (invocationId === requestId) isFetchingPage = false;
     }
@@ -232,53 +237,58 @@
   }
 
   async function fetchAllFlowData(): Promise<any[]> {
-    const PAGE_SIZE = 500;
-    const activeRules = buildActiveRules();
-    const formattedDate = getFormattedSelectedDate();
-    const allItems: any[] = [];
-    let page = 1;
-    let total = Infinity;
+    try {
+      const PAGE_SIZE = 500;
+      const activeRules = buildActiveRules();
+      const formattedDate = getFormattedSelectedDate();
+      const allItems: any[] = [];
+      let page = 1;
+      let total = Infinity;
 
-    while (allItems.length < total) {
-      let response;
+      while (allItems.length < total) {
+        let response;
 
-      if (formattedDate) {
-        response = await fetch("/api/options-historical-flow", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            selectedDate: formattedDate,
-            rules: activeRules,
-            tickers: filterQuery || "",
-            page,
-            pageSize: PAGE_SIZE,
+        if (formattedDate) {
+          response = await fetch("/api/options-historical-flow", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              selectedDate: formattedDate,
+              rules: activeRules,
+              tickers: filterQuery || "",
+              page,
+              pageSize: PAGE_SIZE,
+              sortKey: activeSortKey,
+              sortOrder: activeSortOrder,
+            }),
+          });
+        } else {
+          const params = new URLSearchParams({
+            page: String(page),
+            pageSize: String(PAGE_SIZE),
             sortKey: activeSortKey,
             sortOrder: activeSortOrder,
-          }),
-        });
-      } else {
-        const params = new URLSearchParams({
-          page: String(page),
-          pageSize: String(PAGE_SIZE),
-          sortKey: activeSortKey,
-          sortOrder: activeSortOrder,
-        });
-        if (filterQuery) params.set("search", filterQuery);
-        if (activeRules.length > 0)
-          params.set("rules", JSON.stringify(activeRules));
-        response = await fetch(`/api/options-flow-feed?${params}`);
+          });
+          if (filterQuery) params.set("search", filterQuery);
+          if (activeRules.length > 0)
+            params.set("rules", JSON.stringify(activeRules));
+          response = await fetch(`/api/options-flow-feed?${params}`);
+        }
+
+        if (!response.ok) break;
+        const result = await response.json();
+        const items = result.items || [];
+        total = result.total ?? 0;
+        allItems.push(...items);
+        if (items.length < PAGE_SIZE) break;
+        page++;
       }
 
-      if (!response.ok) break;
-      const result = await response.json();
-      const items = result.items || [];
-      total = result.total ?? 0;
-      allItems.push(...items);
-      if (items.length < PAGE_SIZE) break;
-      page++;
+      return prepareInitialFlowData(allItems);
+    } catch (e) {
+      console.error("fetchAllFlowData failed:", e);
+      return [];
     }
-
-    return prepareInitialFlowData(allItems);
   }
 
   // Debounced wrapper for filter changes — batches rapid clicks into one fetch

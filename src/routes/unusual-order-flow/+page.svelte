@@ -1467,8 +1467,13 @@
       // Update stats from server
       if (result.stats) updateStatsFromResponse(result.stats);
     } catch (e) {
-      if (e?.name === "AbortError") return; // Expected cancellation
+      if (e?.name === "AbortError") return;
       console.error("fetchTableData error:", e);
+      if (invocationId === requestId) {
+        displayedData = [];
+        totalItems = 0;
+        totalPages = 1;
+      }
     } finally {
       if (invocationId === requestId) isFetchingPage = false;
     }
@@ -1524,39 +1529,44 @@
   }
 
   async function fetchAllFlowData(): Promise<any[]> {
-    const PAGE_SIZE = 500;
-    const activeRules = buildActiveRules();
-    const allItems: any[] = [];
-    let page = 1;
-    let total = Infinity;
+    try {
+      const PAGE_SIZE = 500;
+      const activeRules = buildActiveRules();
+      const allItems: any[] = [];
+      let page = 1;
+      let total = Infinity;
 
-    while (allItems.length < total) {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(PAGE_SIZE),
-        sortKey: activeSortKey,
-        sortOrder: activeSortOrder,
-      });
+      while (allItems.length < total) {
+        const params = new URLSearchParams({
+          page: String(page),
+          pageSize: String(PAGE_SIZE),
+          sortKey: activeSortKey,
+          sortOrder: activeSortOrder,
+        });
 
-      if (filterQuery) {
-        params.set("search", filterQuery);
+        if (filterQuery) {
+          params.set("search", filterQuery);
+        }
+        if (activeRules.length > 0) {
+          params.set("rules", JSON.stringify(activeRules));
+        }
+
+        const response = await fetch(`/api/unusual-order-feed?${params}`);
+        if (!response.ok) break;
+
+        const result = await response.json();
+        const items = result.items || [];
+        total = result.total ?? 0;
+        allItems.push(...items);
+        if (items.length < PAGE_SIZE) break;
+        page++;
       }
-      if (activeRules.length > 0) {
-        params.set("rules", JSON.stringify(activeRules));
-      }
 
-      const response = await fetch(`/api/unusual-order-feed?${params}`);
-      if (!response.ok) break;
-
-      const result = await response.json();
-      const items = result.items || [];
-      total = result.total ?? 0;
-      allItems.push(...items);
-      if (items.length < PAGE_SIZE) break;
-      page++;
+      return allItems;
+    } catch (e) {
+      console.error("fetchAllFlowData failed:", e);
+      return [];
     }
-
-    return allItems;
   }
 
   let isLoaded = false;

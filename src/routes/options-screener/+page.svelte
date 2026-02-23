@@ -689,7 +689,13 @@
       activeSortOrder = sortOrder;
     } catch (e) {
       if (e?.name === "AbortError") return;
+      console.error("fetchTableData failed:", e);
       lastRequestedFeedQuery = "";
+      if (invocationId === requestId) {
+        displayResults = [];
+        totalItems = 0;
+        totalPages = 1;
+      }
     } finally {
       if (invocationId === requestId) {
         isDataLoading = false;
@@ -3479,7 +3485,7 @@
         <UpgradeToPro {data} display={true} />
       </div>
 
-      {#if displayResults?.length > 0 && data?.user?.tier === "Pro"}
+      {#if totalItems > 0 && data?.user?.tier === "Pro"}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <div class="flex items-center gap-2">
             <Button
