@@ -1,30 +1,5 @@
-import { postAPI } from "$lib/server/api";
+import { getAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
-
-// Define the EMA parameters to check
-const emaParameters = [
-  "sma20",
-  "sma50",
-  "sma100",
-  "sma200",
-  "ema20",
-  "ema50",
-  "ema100",
-  "ema200",
-];
-// Function to check and add missing EMA parameters
-const ensureAllEmaParameters = (params) => {
-  const includedEmaParameters = params.filter((param) =>
-    emaParameters.includes(param)
-  );
-  if (includedEmaParameters.length > 0) {
-    emaParameters.forEach((param) => {
-      if (!params.includes(param)) {
-        params.push(param);
-      }
-    });
-  }
-};
 
 export const load = async ({ locals }) => {
   const { user, pb } = locals;
@@ -48,15 +23,32 @@ export const load = async ({ locals }) => {
     return output;
   };
 
-  // Fetch strategies once, then use result for screener data
   const strategyList = await getAllStrategies();
-
   const strategy = strategyList?.at(0);
-  let getRuleOfList = strategy?.rules?.map((item) => item?.name) || [];
-  ensureAllEmaParameters(getRuleOfList);
+  const subscriber = ['Plus','Pro'].includes(user?.tier) ? 'Pro' : 'Free';
+
+  // Build active rules from saved strategy (skip "any" / null / undefined values)
+  const rules = (strategy?.rules ?? []).filter((r: any) => {
+    const v = r.value;
+    if (v == null || v === 'any') return false;
+    if (Array.isArray(v) && (v.length === 0 || v.includes('any'))) return false;
+    return true;
+  });
+
+  const params = new URLSearchParams({
+    page: '1',
+    pageSize: '20',
+    sortKey: 'marketCap',
+    sortOrder: 'desc',
+    tab: 'general',
+    subscriber,
+  });
+  if (rules.length > 0) {
+    params.set('rules', JSON.stringify(rules));
+  }
 
   return {
-    getStockScreenerData: await postAPI(locals, "/stock-screener-data", { ruleOfList: getRuleOfList }),
+    getScreenerFeed: await getAPI(locals, `/stock-screener-feed?${params}`),
     getAllStrategies: strategyList,
   };
 };

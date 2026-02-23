@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { goto } from "$app/navigation";
-  import { clearCache, screenWidth } from "$lib/store";
+  import { screenWidth } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -85,35 +85,34 @@
     stock_screener_structured_name,
   } from "$lib/paraglide/messages";
 
-  import { writable } from "svelte/store";
-
-  let shouldLoadWorker = writable(false);
   export let data;
   export let form;
   let showFilters = true;
   let isLoaded = false;
   let isFullWidth = false;
-  let syncWorker: Worker | undefined;
-  let downloadWorker: Worker | undefined;
-  let searchWorker: Worker | undefined;
   let searchQuery = "";
   let inputValue = "";
-  let isSearchPending = false;
   let isDataLoading = false;
-  let pendingDownload = false;
-  let originalFilteredData = [];
-  let currentUnsortedData = []; // Current unsorted data (could be search results or screener results)
   let infoText = {};
   let tooltipTitle;
   let removeList = false;
   let deleteTargetId = "";
 
-  $: testList = [];
+  // SSR-hydrated state
+  let displayedData = data?.getScreenerFeed?.items ?? [];
+  let totalItems = data?.getScreenerFeed?.total ?? 0;
+  let currentPage = data?.getScreenerFeed?.page ?? 1;
+  let rowsPerPage = data?.getScreenerFeed?.pageSize ?? 20;
+  let totalPages = data?.getScreenerFeed?.totalPages ?? 1;
+  let activeSortKey = data?.getScreenerFeed?.sort?.key ?? "marketCap";
+  let activeSortOrder = data?.getScreenerFeed?.sort?.order ?? "desc";
 
-  // Update pagination when filteredData changes
-  $: if (filteredData && filteredData.length >= 0 && !isSearchPending) {
-    updatePaginatedData();
-  }
+  // Fetch control
+  let currentAbortController: AbortController | null = null;
+  let requestId = 0;
+  let isFetchingPage = false;
+
+  $: testList = [];
 
   let strategyList = data?.getAllStrategies;
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -198,24 +197,6 @@
   ];
 
   let displayTableTab = "general";
-  let otherTabRules = [];
-
-  // Preloading system for tab data
-  let preloadedData = new Map(); // Cache for preloaded tab data
-  let preloadingTabs = new Set(); // Track which tabs are currently preloading
-  let hoverTimeout = null; // Debounce hover events
-
-  let stockScreenerData = data?.getStockScreenerData?.filter((item) =>
-    Object.values(item)?.every(
-      (value) =>
-        value !== null &&
-        value !== undefined &&
-        (typeof value !== "object" ||
-          Object.values(value)?.every(
-            (subValue) => subValue !== null && subValue !== undefined,
-          )),
-    ),
-  );
 
   // Define all possible rules and their properties
   const allRules = {
@@ -1759,14 +1740,7 @@
     },
   };
 
-  let filteredData = [];
-  let displayResults = [];
-
-  // Pagination state
-  let currentPage = 1;
-  let rowsPerPage = 20; // Will be loaded from localStorage
   let rowsPerPageOptions = [20, 50, 100];
-  let totalPages = 1;
 
   // Generate allRows from allRules
   $: allRows = Object.entries(allRules)
@@ -1901,14 +1875,7 @@
             ?.map((rule) => [rule.name, new Set(rule.value)]),
         );
 
-        if (ruleOfList.length === 0) {
-          filteredData = [];
-          displayResults = [];
-          currentPage = 1;
-          totalPages = 1;
-        }
-
-        await updateStockScreenerData();
+        await fetchTableData({ page: 1 });
       }
     })();
 
@@ -2021,19 +1988,10 @@
 
   function resetTableSearch() {
     inputValue = "";
-    filteredData = [...originalFilteredData];
-    currentUnsortedData = [...originalFilteredData];
-    currentPage = 1; // Reset to first page
-    isSearchPending = false;
-    updatePaginatedData();
+    fetchTableData({ page: 1 });
   }
 
   async function switchStrategy(item) {
-    isDataLoading = true;
-    pendingDownload = true;
-    originalFilteredData = [];
-    filteredData = [];
-    displayResults = [];
     displayTableTab = "general";
 
     ruleName = "";
@@ -2062,7 +2020,7 @@
         ?.map((rule) => [rule.name, new Set(rule.value)]),
     );
 
-    await updateStockScreenerData();
+    fetchTableData({ page: 1 });
   }
 
   function changeRule(state: string) {
@@ -2078,47 +2036,107 @@
     }
   }
 
-  const handleMessage = (event) => {
-    // Always update display rules so the UI shows the active filters
+  // Build active rules from current UI state for API requests
+  function buildActiveRules() {
+    return ruleOfList.map(rule => {
+      const name = rule.name;
+      const condition = ruleCondition[name] ?? allRules[name]?.defaultCondition ?? "";
+      let value;
+      if (checkedRules.includes(name) && checkedItems?.has(name)) {
+        value = [...checkedItems.get(name)];
+      } else {
+        value = valueMappings[name] ?? allRules[name]?.defaultValue ?? "any";
+      }
+      return { name, condition, value };
+    }).filter(r => {
+      if (r.value === "any") return false;
+      if (Array.isArray(r.value) && r.value.length === 1 && r.value[0] === "any") return false;
+      if (Array.isArray(r.value) && r.value.includes("any")) return false;
+      return true;
+    });
+  }
+
+  // Core server-side fetch for paginated data
+  async function fetchTableData({ page = undefined, pageSize = undefined, sortKey = undefined, sortOrder = undefined } = {}) {
+    if (currentAbortController) currentAbortController.abort();
+    currentAbortController = new AbortController();
+    const signal = currentAbortController.signal;
+    const invocationId = ++requestId;
+
+    // Update display rules so the UI shows the active filters
     displayRules = allRows?.filter((row) =>
       ruleOfList?.some((rule) => rule.name === row.rule),
     );
 
-    // Skip stale sync results while waiting for a fresh download
-    if (pendingDownload) return;
+    const activeRules = buildActiveRules();
+    isFetchingPage = true;
+    isDataLoading = true;
 
-    filteredData = event.data?.filteredData ?? [];
-    originalFilteredData = [...filteredData]; // Store original filtered data for search
-    currentUnsortedData = [...filteredData]; // Store current unsorted data
-    currentPage = 1; // Reset to first page
-    isDataLoading = false;
-    if (inputValue?.length > 0) {
-      isSearchPending = true;
-      search();
-    } else {
-      isSearchPending = false;
-      updatePaginatedData();
+    try {
+      const params = new URLSearchParams({
+        page: String(page ?? currentPage),
+        pageSize: String(pageSize ?? rowsPerPage),
+        sortKey: sortKey ?? activeSortKey,
+        sortOrder: sortOrder ?? activeSortOrder,
+        tab: displayTableTab,
+      });
+      if (inputValue) params.set("search", inputValue);
+      if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+
+      const allRuleNames = ruleOfList
+        ?.map(r => r.name)
+        .filter(name => name && name !== "excludeTickers" && name !== "includeTickers")
+        .join(",");
+      if (allRuleNames) params.set("displayColumns", allRuleNames);
+
+      const response = await fetch(`/api/stock-screener-feed?${params}`, { signal });
+      if (signal.aborted) return;
+      const result = await response.json();
+      if (invocationId !== requestId) return;
+
+      displayedData = result.items ?? [];
+      totalItems = result.total ?? 0;
+      currentPage = result.page ?? (page ?? currentPage);
+      rowsPerPage = result.pageSize ?? (pageSize ?? rowsPerPage);
+      totalPages = result.totalPages ?? 1;
+      activeSortKey = sortKey ?? activeSortKey;
+      activeSortOrder = sortOrder ?? activeSortOrder;
+    } catch (e) {
+      if (e?.name === "AbortError") return;
+    } finally {
+      if (invocationId === requestId) {
+        isFetchingPage = false;
+        isDataLoading = false;
+        isLoaded = true;
+      }
     }
-  };
+  }
 
-  const handleScreenerMessage = (event) => {
-    stockScreenerData = event?.data?.stockScreenerData;
-    pendingDownload = false;
-    shouldLoadWorker.set(true);
-  };
-
-  const loadWorker = async () => {
-    syncWorker.postMessage({
-      stockScreenerData,
-      ruleOfList: [...ruleOfList, ...otherTabRules],
+  // Fetch all filtered data for export/download
+  async function fetchAllFilteredData() {
+    const activeRules = buildActiveRules();
+    const params = new URLSearchParams({
+      page: "1",
+      pageSize: "50000",
+      sortKey: activeSortKey,
+      sortOrder: activeSortOrder,
+      tab: displayTableTab,
     });
-  };
+    if (inputValue) params.set("search", inputValue);
+    if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+    const allRuleNames = ruleOfList?.map(r => r.name).filter(Boolean).join(",");
+    if (allRuleNames) params.set("displayColumns", allRuleNames);
+    const response = await fetch(`/api/stock-screener-feed?${params}`);
+    const result = await response.json();
+    return result?.items ?? [];
+  }
 
-  const updateStockScreenerData = async () => {
-    downloadWorker.postMessage({
-      ruleOfList: [...ruleOfList, ...otherTabRules],
-    });
-  };
+  // Debounced rule fetch
+  let _ruleFetchTimeout: ReturnType<typeof setTimeout> | null = null;
+  function debouncedRuleFetch() {
+    if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
+    _ruleFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
+  }
 
   async function searchExcludeTicker() {
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
@@ -2158,7 +2176,7 @@
     }
     excludeTickerInput = "";
     excludeTickerResults = [];
-    loadWorker();
+    debouncedRuleFetch();
   }
 
   function removeExcludeTicker(ticker: string) {
@@ -2171,7 +2189,7 @@
       ruleToUpdate.value = newValue;
       ruleOfList = [...ruleOfList];
     }
-    loadWorker();
+    debouncedRuleFetch();
   }
 
   async function searchIncludeTicker() {
@@ -2212,7 +2230,7 @@
     }
     includeTickerInput = "";
     includeTickerResults = [];
-    loadWorker();
+    debouncedRuleFetch();
   }
 
   function removeIncludeTicker(ticker: string) {
@@ -2225,164 +2243,15 @@
       ruleToUpdate.value = newValue;
       ruleOfList = [...ruleOfList];
     }
-    loadWorker();
+    debouncedRuleFetch();
   }
 
-  // Search functionality similar to Table.svelte
+  // Search functionality — server-side via fetchTableData (debounced)
+  let _searchTimeout: ReturnType<typeof setTimeout> | null = null;
   async function search() {
-    inputValue = inputValue?.toLowerCase();
-
-    setTimeout(async () => {
-      if (inputValue?.length > 0) {
-        isSearchPending = true;
-        await loadSearchWorker();
-      } else {
-        // Reset to original data if filter is empty
-        filteredData = [...originalFilteredData];
-        currentUnsortedData = [...originalFilteredData];
-        currentPage = 1; // Reset to first page
-        isSearchPending = false;
-        updatePaginatedData();
-      }
-    }, 100);
+    if (_searchTimeout) clearTimeout(_searchTimeout);
+    _searchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
   }
-
-  const loadSearchWorker = async () => {
-    if (searchWorker && originalFilteredData?.length > 0) {
-      searchWorker.postMessage({
-        rawData: originalFilteredData,
-        inputValue: inputValue,
-      });
-      return;
-    }
-    if (inputValue?.length > 0) {
-      filteredData = [];
-      currentUnsortedData = [];
-      currentPage = 1;
-      isSearchPending = false;
-      updatePaginatedData();
-    }
-  };
-
-  const handleSearchMessage = (event) => {
-    if (event.data?.message === "success") {
-      isSearchPending = false;
-      filteredData = event.data?.output ?? [];
-      currentUnsortedData = [...filteredData]; // Store unsorted search results
-      currentPage = 1; // Reset to first page after search
-      updatePaginatedData();
-    }
-  };
-
-  // Preloading function for tab data using downloadWorker
-  const preloadTabData = async (tabName) => {
-    // Prevent multiple preloads of the same tab
-    if (
-      preloadingTabs.has(tabName) ||
-      preloadedData.has(tabName) ||
-      tabName === displayTableTab
-    ) {
-      return;
-    }
-
-    preloadingTabs.add(tabName);
-
-    try {
-      // Get rules for the specific tab
-      let tabRules = [];
-      switch (tabName) {
-        case "performance":
-          tabRules = [
-            { name: "marketCap", value: "any" },
-            { name: "change1W", value: "any" },
-            { name: "change1M", value: "any" },
-            { name: "change3M", value: "any" },
-            { name: "change1Y", value: "any" },
-          ];
-          break;
-        case "analysts":
-          tabRules = [
-            { name: "marketCap", value: "any" },
-            { name: "analystRating", value: "any" },
-            { name: "analystCounter", value: "any" },
-            { name: "priceTarget", value: "any" },
-            { name: "upside", value: "any" },
-          ];
-          break;
-        case "dividends":
-          tabRules = [
-            { name: "marketCap", value: "any" },
-            { name: "annualDividend", value: "any" },
-            { name: "dividendYield", value: "any" },
-            { name: "payoutRatio", value: "any" },
-            { name: "dividendGrowth", value: "any" },
-          ];
-          break;
-        case "financials":
-          tabRules = [
-            { name: "marketCap", value: "any" },
-            { name: "revenue", value: "any" },
-            { name: "operatingIncome", value: "any" },
-            { name: "netIncome", value: "any" },
-            { name: "freeCashFlow", value: "any" },
-            { name: "eps", value: "any" },
-          ];
-          break;
-      }
-
-      if (tabRules.length > 0) {
-        // Create a temporary worker for preloading
-        const PreloadWorker = await import("./workers/downloadWorker?worker");
-        const preloadWorker = new PreloadWorker.default();
-
-        // Set up message handler for preloading
-        preloadWorker.onmessage = (event) => {
-          if (event.data.message === "success") {
-            // Cache the preloaded data
-            preloadedData.set(tabName, {
-              data: event.data.stockScreenerData,
-              rules: tabRules,
-              timestamp: Date.now(),
-            });
-          }
-          // Clean up the worker
-          preloadWorker.terminate();
-          preloadingTabs.delete(tabName);
-        };
-
-        // Send preload request to worker
-        preloadWorker.postMessage({
-          ruleOfList: [...ruleOfList, ...tabRules],
-        });
-      } else {
-        preloadingTabs.delete(tabName);
-      }
-    } catch (error) {
-      console.error(`Failed to preload data for ${tabName}:`, error);
-      preloadingTabs.delete(tabName);
-    }
-  };
-
-  // Debounced hover handler
-  const handleTabHover = (tabName) => {
-    // Clear existing timeout
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
-
-    // Set new timeout for debouncing
-    hoverTimeout = setTimeout(() => {
-      preloadTabData(tabName);
-    }, 50);
-  };
-
-  // Clear hover timeout
-  const handleTabHoverLeave = () => {
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-      hoverTimeout = null;
-    }
-  };
 
   // Quick search functions
   const updateQuickSearchResults = (searchQuery) => {
@@ -2471,9 +2340,6 @@
       return;
     }
 
-    // Clear preloaded data when rules change
-    preloadedData.clear();
-
     let newRule;
 
     switch (ruleName) {
@@ -2529,13 +2395,13 @@
       ruleOfList = [...ruleOfList];
     } else {
       ruleOfList = [...ruleOfList, newRule];
-      await updateStockScreenerData();
+      debouncedRuleFetch();
     }
   }
 
   async function handleResetAll() {
     selectedPopularStrategy = "";
-    resetTableSearch();
+    inputValue = "";
     displayTableTab = "general";
     ruleOfList = [];
     Object.keys(allRules).forEach((ruleName) => {
@@ -2543,10 +2409,8 @@
       valueMappings[ruleName] = allRules[ruleName].defaultValue;
     });
     ruleName = "";
-    filteredData = [];
-    displayResults = [];
     checkedItems = new Map();
-    await updateStockScreenerData();
+    fetchTableData({ page: 1 });
   }
 
   async function handleDeleteRule(state) {
@@ -2599,39 +2463,26 @@
         // Handle cases when the list is empty or matches the current rule name
         if (ruleOfList?.length === 0) {
           ruleName = "";
-          filteredData = [];
-          displayResults = [];
-          currentPage = 1;
-          totalPages = 1;
         } else if (state === ruleName) {
           ruleName = "";
         }
       }
 
-      await updateStockScreenerData();
+      debouncedRuleFetch();
     }
   }
 
   // Pagination functions
-  function updatePaginatedData() {
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    displayResults = filteredData?.slice(startIndex, endIndex) || [];
-    totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
-  }
-
   function goToPage(page) {
-    if (page >= 1 && page <= totalPages) {
-      currentPage = page;
-      updatePaginatedData();
+    if (page >= 1 && page <= totalPages && !isFetchingPage) {
+      fetchTableData({ page });
     }
   }
 
   function changeRowsPerPage(newRowsPerPage) {
     rowsPerPage = newRowsPerPage;
-    currentPage = 1; // Reset to first page when changing rows per page
-    updatePaginatedData();
-    saveRowsPerPage(); // Save to localStorage
+    saveRowsPerPage();
+    fetchTableData({ page: 1, pageSize: newRowsPerPage });
   }
 
   function scrollToTop() {
@@ -2685,61 +2536,25 @@
   let LoginPopup;
 
   onMount(async () => {
-    // Load pagination preference
     loadRowsPerPage();
 
-    // Load full width preference
     const savedFullWidth = localStorage.getItem("stock-screener-full-width");
     if (savedFullWidth !== null) {
       isFullWidth = savedFullWidth === "true";
-    }
-
-    if (!syncWorker) {
-      const SyncWorker = await import("./workers/filterWorker?worker");
-      syncWorker = new SyncWorker.default();
-      syncWorker.onmessage = handleMessage;
-    }
-
-    if (!downloadWorker) {
-      const DownloadWorker = await import("./workers/downloadWorker?worker");
-      downloadWorker = new DownloadWorker.default();
-      downloadWorker.onmessage = handleScreenerMessage;
-    }
-
-    if (!searchWorker) {
-      const SearchWorker =
-        await import("$lib/workers/tableSearchWorker?worker");
-      searchWorker = new SearchWorker.default();
-      searchWorker.onmessage = handleSearchMessage;
     }
 
     if (!data?.user) {
       LoginPopup = (await import("$lib/components/LoginPopup.svelte")).default;
     }
 
-    shouldLoadWorker.subscribe(async (value) => {
-      if (value) {
-        await loadWorker();
-        shouldLoadWorker.set(false); // Reset after worker is loaded
-        isLoaded = true;
-      }
-    });
-
+    isLoaded = true;
     groupedRules = groupScreenerRules(allRows);
   });
 
   onDestroy(() => {
-    syncWorker?.terminate();
-    syncWorker = undefined;
-    searchWorker?.terminate();
-    searchWorker = undefined;
-    clearCache();
-
-    // Clean up hover timeout
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-      hoverTimeout = null;
-    }
+    if (currentAbortController) currentAbortController.abort();
+    if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
+    if (_searchTimeout) clearTimeout(_searchTimeout);
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
     if (includeTickerTimeout) clearTimeout(includeTickerTimeout);
   });
@@ -2805,7 +2620,9 @@
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
       }
-      shouldLoadWorker.set(true);
+      if (isLoaded) {
+        debouncedRuleFetch();
+      }
     }
   }
 
@@ -2958,7 +2775,7 @@
         valueMappings[ruleName] = "any";
       }
 
-      if (!skipFetch) await updateStockScreenerData();
+      if (!skipFetch) debouncedRuleFetch();
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array.isArray(value)) {
         // Apply sorting only if shouldSort is true
@@ -2970,13 +2787,13 @@
       console.warn(`Unhandled rule: ${ruleName}`);
     }
 
-    // Add this at the end of the function to ensure the filter is applied
+    // Ensure the filter is applied for "between" conditions
     if (
       !skipFetch &&
       ruleCondition[ruleName] === "between" &&
       value.some((v) => v !== "")
     ) {
-      await updateStockScreenerData();
+      debouncedRuleFetch();
     }
   }
 
@@ -3037,11 +2854,7 @@
 
   async function popularStrategy(state: string) {
     isDataLoading = true;
-    pendingDownload = true;
-    originalFilteredData = [];
-    filteredData = [];
-    displayResults = [];
-    resetTableSearch();
+    inputValue = "";
     const strategies = {
       earningsVolatility: {
         name: "Earnings Volatility",
@@ -3157,7 +2970,6 @@
       // If clicking the same strategy again, don't clear the rules
       if (selectedPopularStrategy === strategy.name) {
         isDataLoading = false;
-        pendingDownload = false;
         return;
       }
 
@@ -3177,10 +2989,9 @@
         handleChangeValue(row?.value, { skipFetch: true });
       });
 
-      await updateStockScreenerData();
+      await fetchTableData({ page: 1 });
     } else {
       isDataLoading = false;
-      pendingDownload = false;
     }
   }
 
@@ -3223,54 +3034,20 @@
 
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
-
     const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
     sortOrders[key].order =
       orderCycle[(currentOrderIndex + 1) % orderCycle.length];
     const sortOrder = sortOrders[key].order;
 
-    // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      filteredData = [...currentUnsortedData]; // Reset to current unsorted data
-      currentPage = 1; // Reset to first page
-      updatePaginatedData();
-      return;
+      activeSortKey = "marketCap";
+      activeSortOrder = "desc";
+      fetchTableData({ page: 1, sortKey: "marketCap", sortOrder: "desc" });
+    } else {
+      activeSortKey = key;
+      activeSortOrder = sortOrder;
+      fetchTableData({ page: 1, sortKey: key, sortOrder });
     }
-
-    // Define a generic comparison function
-    const compareValues = (a, b) => {
-      const { type } = sortOrders[key];
-      let valueA, valueB;
-
-      switch (type) {
-        case "date":
-          valueA = new Date(a[key]);
-          valueB = new Date(b[key]);
-          break;
-        case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
-          return sortOrder === "asc"
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        case "number":
-        default:
-          valueA = parseFloat(a[key]);
-          valueB = parseFloat(b[key]);
-          break;
-      }
-
-      if (sortOrder === "asc") {
-        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
-      } else {
-        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
-      }
-    };
-
-    // Sort using the generic comparison function and update filteredData
-    filteredData = [...currentUnsortedData].sort(compareValues);
-    currentPage = 1; // Reset to first page after sorting
-    updatePaginatedData();
   };
 
   let columns;
@@ -3508,93 +3285,49 @@
 
   let tabRuleList = [];
 
+  const tabRuleMap = {
+    performance: [
+      { name: "marketCap", value: "any" },
+      { name: "change1W", value: "any" },
+      { name: "change1M", value: "any" },
+      { name: "change3M", value: "any" },
+      { name: "change1Y", value: "any" },
+    ],
+    analysts: [
+      { name: "marketCap", value: "any" },
+      { name: "analystRating", value: "any" },
+      { name: "analystCounter", value: "any" },
+      { name: "priceTarget", value: "any" },
+      { name: "upside", value: "any" },
+    ],
+    dividends: [
+      { name: "marketCap", value: "any" },
+      { name: "annualDividend", value: "any" },
+      { name: "dividendYield", value: "any" },
+      { name: "payoutRatio", value: "any" },
+      { name: "dividendGrowth", value: "any" },
+    ],
+    financials: [
+      { name: "marketCap", value: "any" },
+      { name: "revenue", value: "any" },
+      { name: "operatingIncome", value: "any" },
+      { name: "netIncome", value: "any" },
+      { name: "freeCashFlow", value: "any" },
+      { name: "eps", value: "any" },
+    ],
+  };
+
   async function changeTab(state) {
     displayTableTab = state;
 
-    // Clear hover timeout when actually switching tabs
-    handleTabHoverLeave();
-
-    // Check if we have preloaded data for this tab
-    const preloaded = preloadedData.get(state);
-
-    if (displayTableTab === "performance") {
-      otherTabRules = [
-        { name: "marketCap", value: "any" },
-        { name: "change1W", value: "any" },
-        { name: "change1M", value: "any" },
-        { name: "change3M", value: "any" },
-        { name: "change1Y", value: "any" },
-      ];
-      tabRuleList = otherTabRules
-        ?.map((rule) => allRows.find((row) => row.rule === rule.name))
-        ?.filter(Boolean);
-
-      // Use preloaded data if available and fresh (within 5 minutes)
-      if (preloaded && Date.now() - preloaded.timestamp < 300000) {
-        handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
-        return;
-      }
-      isDataLoading = true;
-      await updateStockScreenerData();
-    } else if (displayTableTab === "analysts") {
-      otherTabRules = [
-        { name: "marketCap", value: "any" },
-        { name: "analystRating", value: "any" },
-        { name: "analystCounter", value: "any" },
-        { name: "priceTarget", value: "any" },
-        { name: "upside", value: "any" },
-      ];
-      tabRuleList = otherTabRules
+    const rules = tabRuleMap[state];
+    if (rules) {
+      tabRuleList = rules
         ?.map((rule) => allRows?.find((row) => row?.rule === rule?.name))
         ?.filter(Boolean);
-
-      // Use preloaded data if available and fresh
-      if (preloaded && Date.now() - preloaded.timestamp < 300000) {
-        handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
-        return;
-      }
-      isDataLoading = true;
-      await updateStockScreenerData();
-    } else if (displayTableTab === "dividends") {
-      otherTabRules = [
-        { name: "marketCap", value: "any" },
-        { name: "annualDividend", value: "any" },
-        { name: "dividendYield", value: "any" },
-        { name: "payoutRatio", value: "any" },
-        { name: "dividendGrowth", value: "any" },
-      ];
-      tabRuleList = otherTabRules
-        ?.map((rule) => allRows?.find((row) => row?.rule === rule?.name))
-        ?.filter(Boolean);
-
-      // Use preloaded data if available and fresh
-      if (preloaded && Date.now() - preloaded.timestamp < 300000) {
-        handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
-        return;
-      }
-      isDataLoading = true;
-      await updateStockScreenerData();
-    } else if (displayTableTab === "financials") {
-      otherTabRules = [
-        { name: "marketCap", value: "any" },
-        { name: "revenue", value: "any" },
-        { name: "operatingIncome", value: "any" },
-        { name: "netIncome", value: "any" },
-        { name: "freeCashFlow", value: "any" },
-        { name: "eps", value: "any" },
-      ];
-      tabRuleList = otherTabRules
-        ?.map((rule) => allRows?.find((row) => row?.rule === rule?.name))
-        ?.filter(Boolean);
-
-      // Use preloaded data if available and fresh
-      if (preloaded && Date.now() - preloaded.timestamp < 300000) {
-        handleScreenerMessage({ data: { stockScreenerData: preloaded.data } });
-        return;
-      }
-      isDataLoading = true;
-      await updateStockScreenerData();
     }
+
+    fetchTableData({ page: 1 });
   }
 </script>
 
@@ -3668,7 +3401,7 @@
           class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
         >
           {stock_screener_matches_found({
-            count: filteredData?.length?.toLocaleString("en-US"),
+            count: totalItems?.toLocaleString("en-US"),
           })}
         </span>
       </div>
@@ -4611,13 +4344,13 @@
     <h2
       class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
     >
-      {#if isDataLoading && filteredData?.length === 0}
+      {#if isDataLoading && totalItems === 0}
         <span
           class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
         ></span>
       {:else}
         {stock_screener_stocks_count({
-          count: filteredData?.length?.toLocaleString("en-US"),
+          count: totalItems?.toLocaleString("en-US"),
         })}
       {/if}
     </h2>
@@ -4658,7 +4391,8 @@
         <div class=" ml-2">
           <DownloadData
             {data}
-            rawData={filteredData}
+            rawData={displayedData}
+            fetchRawData={fetchAllFilteredData}
             title={"stock_screener_data"}
           />
         </div>
@@ -4768,8 +4502,7 @@
           <li>
             <button
               on:click={() => changeTab("performance")}
-              on:mouseenter={() => handleTabHover("performance")}
-              on:mouseleave={handleTabHoverLeave}
+
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'performance'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4781,8 +4514,7 @@
           <li>
             <button
               on:click={() => changeTab("analysts")}
-              on:mouseenter={() => handleTabHover("analysts")}
-              on:mouseleave={handleTabHoverLeave}
+
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'analysts'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4794,8 +4526,7 @@
           <li>
             <button
               on:click={() => changeTab("dividends")}
-              on:mouseenter={() => handleTabHover("dividends")}
-              on:mouseleave={handleTabHoverLeave}
+
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'dividends'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4807,8 +4538,7 @@
           <li>
             <button
               on:click={() => changeTab("financials")}
-              on:mouseenter={() => handleTabHover("financials")}
-              on:mouseleave={handleTabHoverLeave}
+
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'financials'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -4824,7 +4554,7 @@
 
   <!--Start Matching Preview-->
   {#if isLoaded}
-    {#if filteredData?.length !== 0 || isDataLoading}
+    {#if totalItems !== 0 || isDataLoading}
       {#if displayTableTab === "general"}
         <div
           class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
@@ -4841,7 +4571,7 @@
               />
             </thead>
             <tbody>
-              {#if isDataLoading && displayResults?.length === 0}
+              {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -4865,7 +4595,7 @@
                   </tr>
                 {/each}
               {/if}
-              {#each displayResults as item}
+              {#each displayedData as item}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
@@ -4959,7 +4689,7 @@
               />
             </thead>
             <tbody>
-              {#if isDataLoading && displayResults?.length === 0}
+              {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -4983,7 +4713,7 @@
                   </tr>
                 {/each}
               {/if}
-              {#each displayResults as item (item?.symbol)}
+              {#each displayedData as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
@@ -5120,7 +4850,7 @@
               />
             </thead>
             <tbody>
-              {#if isDataLoading && displayResults?.length === 0}
+              {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -5144,7 +4874,7 @@
                   </tr>
                 {/each}
               {/if}
-              {#each displayResults as item (item?.symbol)}
+              {#each displayedData as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
@@ -5216,7 +4946,7 @@
               />
             </thead>
             <tbody>
-              {#if isDataLoading && displayResults?.length === 0}
+              {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -5240,7 +4970,7 @@
                   </tr>
                 {/each}
               {/if}
-              {#each displayResults as item (item?.symbol)}
+              {#each displayedData as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
@@ -5358,7 +5088,7 @@
               />
             </thead>
             <tbody>
-              {#if isDataLoading && displayResults?.length === 0}
+              {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
                     class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
@@ -5382,7 +5112,7 @@
                   </tr>
                 {/each}
               {/if}
-              {#each displayResults as item (item?.symbol)}
+              {#each displayedData as item (item?.symbol)}
                 <tr
                   class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
                 >
@@ -5444,7 +5174,7 @@
       {/if}
 
       <!-- Pagination controls -->
-      {#if displayResults?.length > 0}
+      {#if displayedData?.length > 0}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <!-- Previous and Next buttons -->
           <div class="flex items-center gap-2">
