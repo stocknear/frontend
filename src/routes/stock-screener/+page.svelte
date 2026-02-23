@@ -20,7 +20,7 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import DownloadData from "$lib/components/DownloadData.svelte";
+  import ScreenerExport from "$lib/components/ScreenerExport.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -4401,11 +4401,15 @@
         </div>
 
         <div class=" ml-2">
-          <DownloadData
+          <ScreenerExport
             {data}
-            rawData={displayedData}
-            fetchRawData={fetchAllFilteredData}
-            title={"stock_screener_data"}
+            {displayedData}
+            fetchAllData={fetchAllFilteredData}
+            screener="stock"
+            title="stock_screener_data"
+            creditCost={5}
+            modalTitle="Export stock screener data"
+            itemLabel="stocks"
           />
         </div>
 

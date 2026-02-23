@@ -3,22 +3,27 @@
   import { goto } from "$app/navigation";
   import DownloadIcon from "lucide-svelte/icons/download";
 
-  const CREDIT_COST = 10;
-
   export let data: any;
   export let displayedData: any[] = [];
-  export let endpoint = "/api/options-screener-export";
-  export let title = "options_screener_data";
+  export let screener: string;
+  export let title = "screener_data";
+  export let creditCost = 5;
+  export let fetchAllData: (() => Promise<any[]>) | undefined = undefined;
+  export let modalTitle = "Export screener data";
+  export let itemLabel = "rows";
 
   let exportModalOpen = false;
   let isExporting = false;
   let errorMessage = "";
   let statusMessage = "";
+  let fetchedData: any[] | null = null;
 
   $: availableCredits = data?.user?.credits ?? 0;
   $: isEligible = data?.user && data?.user?.tier === "Pro";
-  $: displayedCount = displayedData?.length ?? 0;
-  $: hasEnoughCredits = availableCredits >= CREDIT_COST;
+  $: displayedCount = fetchedData
+    ? fetchedData.length
+    : (displayedData?.length ?? 0);
+  $: hasEnoughCredits = availableCredits >= creditCost;
 
   const openModal = () => {
     if (!data?.user) {
@@ -28,10 +33,12 @@
     exportModalOpen = true;
     errorMessage = "";
     statusMessage = "";
+    fetchedData = null;
   };
 
   const closeModal = () => {
     exportModalOpen = false;
+    fetchedData = null;
   };
 
   const generateCSVContent = (dataset: any[]) => {
@@ -77,22 +84,17 @@
 
   const startExport = async () => {
     if (!data?.user) {
-      errorMessage = "Sign in to export options screener data.";
+      errorMessage = "Sign in to export data.";
       return;
     }
 
     if (!isEligible) {
-      errorMessage = "Upgrade to Pro to export options screener data.";
+      errorMessage = "Upgrade to Pro to export data.";
       return;
     }
 
     if (!hasEnoughCredits) {
-      errorMessage = `Insufficient credits. This export costs ${CREDIT_COST} credits, but your balance is ${availableCredits}.`;
-      return;
-    }
-
-    if (displayedCount === 0) {
-      errorMessage = "No data available to export.";
+      errorMessage = `Insufficient credits. This export costs ${creditCost} credits, but your balance is ${availableCredits}.`;
       return;
     }
 
@@ -101,9 +103,10 @@
     statusMessage = "Validating export...";
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch("/api/screener-export", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ screener }),
       });
 
       let responseData: any = {};
@@ -122,7 +125,24 @@
       }
 
       statusMessage = "Preparing export...";
-      const csvContent = generateCSVContent(displayedData ?? []);
+
+      let exportData: any[];
+      if (fetchAllData) {
+        statusMessage = "Fetching all filtered data...";
+        exportData = await fetchAllData();
+      } else {
+        exportData = displayedData ?? [];
+      }
+
+      if (!exportData || exportData.length === 0) {
+        errorMessage = "No data available to export.";
+        statusMessage = "";
+        return;
+      }
+
+      fetchedData = exportData;
+
+      const csvContent = generateCSVContent(exportData);
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const filename = getExportFilename();
 
@@ -150,7 +170,7 @@
         }
       }
 
-      statusMessage = `Exported ${displayedCount.toLocaleString("en-US")} contracts successfully.`;
+      statusMessage = `Exported ${exportData.length.toLocaleString("en-US")} ${itemLabel} successfully.`;
 
       setTimeout(() => {
         closeModal();
@@ -167,21 +187,21 @@
 <Button
   on:click={openModal}
   class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-  title="Download options screener data"
+  title="Download screener data"
 >
   <DownloadIcon class="w-4 h-4" />
 </Button>
 
 <input
   type="checkbox"
-  id="options-screener-export-modal"
+  id="screener-export-modal-{screener}"
   class="modal-toggle"
   bind:checked={exportModalOpen}
 />
 
-<dialog id="options-screener-export-modal" class="modal p-3 sm:p-0">
+<dialog id="screener-export-modal-{screener}" class="modal p-3 sm:p-0">
   <label
-    for="options-screener-export-modal"
+    for="screener-export-modal-{screener}"
     class="cursor-pointer modal-backdrop bg-black/30"
     on:click={closeModal}
   ></label>
@@ -190,7 +210,7 @@
     class="modal-box w-full max-w-lg relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
-      for="options-screener-export-modal"
+      for="screener-export-modal-{screener}"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -208,16 +228,20 @@
     <h3
       class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-zinc-100"
     >
-      Export options screener data
+      {modalTitle}
     </h3>
     <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
-      Export {displayedCount.toLocaleString("en-US")} currently displayed contracts
-      as a CSV file.
+      {#if fetchAllData}
+        Export all filtered {itemLabel} as a CSV file.
+      {:else}
+        Export {displayedCount.toLocaleString("en-US")} currently displayed {itemLabel}
+        as a CSV file.
+      {/if}
     </p>
 
     <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
       <div>
-        Export cost: {CREDIT_COST} credits.
+        Export cost: {creditCost} credits.
       </div>
       {#if data?.user}
         <div>

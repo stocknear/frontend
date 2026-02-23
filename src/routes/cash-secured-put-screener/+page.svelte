@@ -13,7 +13,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import DownloadData from "$lib/components/DownloadData.svelte";
+  import ScreenerExport from "$lib/components/ScreenerExport.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -2994,11 +2994,14 @@
         </div>
 
         <div class=" ml-2">
-          <DownloadData
+          <ScreenerExport
             {data}
-            rawData={displayedData}
-            fetchRawData={fetchAllFilteredData}
-            title={"cash_secured_put_screener_data"}
+            {displayedData}
+            screener="cash-secured-put"
+            title="cash_secured_put_screener_data"
+            creditCost={5}
+            modalTitle="Export cash secured put screener data"
+            itemLabel="options"
           />
         </div>
 

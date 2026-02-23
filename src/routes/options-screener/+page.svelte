@@ -64,7 +64,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import OptionsScreenerExport from "$lib/components/Options/OptionsScreenerExport.svelte";
+  import ScreenerExport from "$lib/components/ScreenerExport.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -3016,10 +3016,14 @@
         </div>
 
         <div class=" ml-2">
-          <OptionsScreenerExport
+          <ScreenerExport
             {data}
             displayedData={displayResults}
-            title={"options_screener_data"}
+            screener="options"
+            title="options_screener_data"
+            creditCost={5}
+            modalTitle="Export options screener data"
+            itemLabel="contracts"
           />
         </div>
 

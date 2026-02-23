@@ -1,7 +1,14 @@
 import type { RequestHandler } from "./$types";
 
 const MAX_DOWNLOAD_CREDITS = 500;
-const CREDIT_COST = 10;
+const CREDIT_COST = 5;
+
+const VALID_SCREENERS = new Set([
+  "stock",
+  "options",
+  "covered-call",
+  "cash-secured-put",
+]);
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -10,28 +17,35 @@ function json(data: unknown, status = 200) {
   });
 }
 
-export const POST: RequestHandler = async ({ locals }) => {
+export const POST: RequestHandler = async ({ locals, request }) => {
   const { user, pb, clientIp } = locals;
+
+  let body: { screener?: string } = {};
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "Invalid request body." }, 400);
+  }
+
+  const screener = body?.screener;
+  if (!screener || !VALID_SCREENERS.has(screener)) {
+    return json({ error: "Invalid screener type." }, 400);
+  }
 
   if (!user) {
     return json({ error: "Authentication required." }, 401);
   }
 
-  let latestUser = user;
-  try {
-    latestUser = await pb.collection("users").getOne(user.id);
-  } catch (error) {
-    console.error("Failed to refresh user before options screener export:", error);
-  }
+  
 
-  if (latestUser?.tier !== "Pro") {
+  if (user?.tier !== "Pro") {
     return json(
       { error: "This feature is available for Pro members only." },
       403,
     );
   }
 
-  const latestDownloadCredits = Number(latestUser?.downloadCredits ?? 0);
+  const latestDownloadCredits = Number(user?.downloadCredits ?? 0);
   if (
     Number.isFinite(latestDownloadCredits) &&
     latestDownloadCredits > MAX_DOWNLOAD_CREDITS
@@ -45,7 +59,7 @@ export const POST: RequestHandler = async ({ locals }) => {
     );
   }
 
-  const currentCredits = Number(latestUser?.credits ?? 0);
+  const currentCredits = Number(user?.credits ?? 0);
   if (!Number.isFinite(currentCredits) || currentCredits < CREDIT_COST) {
     return json(
       {
@@ -96,7 +110,10 @@ export const POST: RequestHandler = async ({ locals }) => {
       return json({ error: originalMessage }, 400);
     }
 
-    console.error("Failed to deduct options screener export credits:", error);
+    console.error(
+      `Failed to deduct ${screener} screener export credits:`,
+      error,
+    );
     return json(
       {
         error:
@@ -115,7 +132,7 @@ export const POST: RequestHandler = async ({ locals }) => {
       });
     } catch (rollbackError) {
       console.error(
-        "Failed to rollback options screener export credits:",
+        `Failed to rollback ${screener} screener export credits:`,
         rollbackError,
       );
     }
@@ -142,7 +159,7 @@ export const POST: RequestHandler = async ({ locals }) => {
         });
       } catch (rollbackError) {
         console.error(
-          "Failed to rollback options screener export after downloadCredits limit:",
+          `Failed to rollback ${screener} screener export after downloadCredits limit:`,
           rollbackError,
         );
       }
@@ -157,7 +174,7 @@ export const POST: RequestHandler = async ({ locals }) => {
     }
   } catch (downloadCreditError) {
     console.error(
-      "Failed to update options screener downloadCredits:",
+      `Failed to update ${screener} screener downloadCredits:`,
       downloadCreditError,
     );
   }
@@ -191,7 +208,7 @@ export const POST: RequestHandler = async ({ locals }) => {
       }
     } catch (error) {
       console.error(
-        "Failed to update user info for options screener export:",
+        `Failed to update user info for ${screener} screener export:`,
         error,
       );
     }
