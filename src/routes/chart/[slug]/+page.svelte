@@ -5727,6 +5727,18 @@
     if (!chart) return;
 
     // Check each indicator that requires external data and fetch if enabled but no data loaded
+    if (indicatorState.gex && gexStrikeData.length === 0) {
+      fetchGexDexData("gex");
+    }
+    if (indicatorState.dex && dexStrikeData.length === 0) {
+      fetchGexDexData("dex");
+    }
+    if (indicatorState.oi && oiStrikeData.length === 0) {
+      fetchOiData();
+    }
+    if (indicatorState.hottest && hottestContractsData.length === 0) {
+      fetchHottestContractsData();
+    }
     if (indicatorState.revenue && revenueData.length === 0) {
       fetchRevenueDataIndicator();
     }
@@ -6796,6 +6808,7 @@
     indicatorState = nextState;
     if (chart) {
       syncIndicators();
+      fetchDataForEnabledIndicators();
     }
     ruleOfList = buildRuleList();
   };
