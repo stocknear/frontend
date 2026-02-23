@@ -121,6 +121,25 @@ function createRuleCheck(rule, ruleName, ruleValue) {
   // Handle 'any' condition quickly
   if (rule.value === 'any') return () => true;
 
+  // Ticker exclusion filter
+  if (rule.name === 'excludeTickers') {
+    const raw = typeof ruleValue === 'string'
+      ? ruleValue.split(',').map(t => t.trim().toUpperCase()).filter(Boolean)
+      : Array.isArray(ruleValue) ? ruleValue.map(t => String(t).trim().toUpperCase()).filter(Boolean) : [];
+    if (raw.length === 0) return () => true;
+    const excludeSet = new Set(raw);
+    return (item) => !excludeSet.has((item.symbol || '').toUpperCase());
+  }
+
+  // Ticker inclusion filter
+  if (rule.name === 'includeTickers') {
+    const raw = typeof ruleValue === 'string'
+      ? ruleValue.split(',').map(t => t.trim().toUpperCase()).filter(Boolean)
+      : Array.isArray(ruleValue) ? ruleValue.map(t => String(t).trim().toUpperCase()).filter(Boolean) : [];
+    if (raw.length === 0) return () => true;
+    const includeSet = new Set(raw);
+    return (item) => includeSet.has((item.symbol || '').toUpperCase());
+  }
 
 if (['earningsDate', 'exDividendDate'].includes(rule.name)) {
   // If rule.value explicitly says 'any' or is empty -> always match

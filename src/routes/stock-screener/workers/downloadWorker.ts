@@ -20,8 +20,9 @@ const getStockScreenerData = async (rules) => {
     if (cache.has(emptyKey)) return cache.get(emptyKey);
   }
   
-  // Extract rule names with single pass
-  const getRuleOfList = rules?.map(rule => rule.name) || [];
+  // Extract rule names with single pass (exclude ticker filters — they're not data fields)
+  const tickerFilterNames = new Set(['excludeTickers', 'includeTickers']);
+  const getRuleOfList = rules?.map(rule => rule.name).filter(name => !tickerFilterNames.has(name)) || [];
   
   // Fast path: check if we can reuse the last computed rule key
   if (lastRules === rules) {
