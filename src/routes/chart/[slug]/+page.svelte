@@ -4171,9 +4171,18 @@
     }
   };
 
+  const getChartDataBars = (): KLineData[] => {
+    if (!chart) return currentBars;
+    const dataList = chart.getDataList();
+    return Array.isArray(dataList) && dataList.length
+      ? (dataList as KLineData[])
+      : currentBars;
+  };
+
   const getSpotPrice = (): number | null => {
     if (typeof lastClose === "number") return lastClose;
-    const lastBar = currentBars[currentBars.length - 1];
+    const bars = getChartDataBars();
+    const lastBar = bars[bars.length - 1];
     return typeof lastBar?.close === "number" ? lastBar.close : null;
   };
 
@@ -4184,10 +4193,11 @@
     putKey: "put_gex" | "put_dex",
     visibleRange: { from: number; to: number },
   ): GexDexLevel[] => {
+    const bars = getChartDataBars();
     let minPrice = Infinity;
     let maxPrice = -Infinity;
     for (let i = visibleRange.from; i < visibleRange.to; i++) {
-      const bar = currentBars[i];
+      const bar = bars[i];
       if (bar) {
         minPrice = Math.min(minPrice, bar.low);
         maxPrice = Math.max(maxPrice, bar.high);
@@ -4531,10 +4541,11 @@
     if (nextKey === oiLevelCacheKey) return;
     oiLevelCacheKey = nextKey;
 
+    const bars = getChartDataBars();
     let minPrice = Infinity;
     let maxPrice = -Infinity;
     for (let i = visibleRange.from; i < visibleRange.to; i++) {
-      const bar = currentBars[i];
+      const bar = bars[i];
       if (bar) {
         minPrice = Math.min(minPrice, bar.low);
         maxPrice = Math.max(maxPrice, bar.high);
@@ -5783,10 +5794,11 @@
     if (nextKey === hottestLevelCacheKey) return;
     hottestLevelCacheKey = nextKey;
 
+    const bars = getChartDataBars();
     let minPrice = Infinity;
     let maxPrice = -Infinity;
     for (let i = visibleRange.from; i < visibleRange.to; i++) {
-      const bar = currentBars[i];
+      const bar = bars[i];
       if (bar) {
         minPrice = Math.min(minPrice, bar.low);
         maxPrice = Math.max(maxPrice, bar.high);
@@ -6546,23 +6558,10 @@
     }
 
     if (activeRange === "1D") {
-      // Keep 1D on daily bars so overlay index math (visibleRange -> currentBars)
-      // stays aligned with chart data after websocket ticks.
-      const dayTimestamp = DateTime.fromMillis(timestampMs, {
-        zone,
-      })
-        .startOf("day")
-        .toMillis();
-      const dailyIndex = upsertMinuteBar(
-        dailyBars,
-        dayTimestamp,
-        price,
-        volume,
-      );
-      const displayBars = transformBarsForType(dailyBars, chartType);
+      const displayBars = transformBarsForType(intradayBars, chartType);
       currentBars = displayBars;
-      if (dailyIndex === displayBars.length - 1) {
-        const latestBar = displayBars[dailyIndex];
+      if (intradayIndex === displayBars.length - 1) {
+        const latestBar = displayBars[intradayIndex];
         if (latestBar && realtimeBarCallback) {
           realtimeBarCallback(latestBar);
         }
