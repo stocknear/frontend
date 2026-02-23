@@ -2103,6 +2103,12 @@
       activeSortOrder = sortOrder ?? activeSortOrder;
     } catch (e) {
       if (e?.name === "AbortError") return;
+      console.error("fetchTableData failed:", e);
+      if (invocationId === requestId) {
+        displayedData = [];
+        totalItems = 0;
+        totalPages = 1;
+      }
     } finally {
       if (invocationId === requestId) {
         isFetchingPage = false;
@@ -2114,21 +2120,26 @@
 
   // Fetch all filtered data for export/download
   async function fetchAllFilteredData() {
-    const activeRules = buildActiveRules();
-    const params = new URLSearchParams({
-      page: "1",
-      pageSize: "50000",
-      sortKey: activeSortKey,
-      sortOrder: activeSortOrder,
-      tab: displayTableTab,
-    });
-    if (inputValue) params.set("search", inputValue);
-    if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
-    const allRuleNames = ruleOfList?.map(r => r.name).filter(Boolean).join(",");
-    if (allRuleNames) params.set("displayColumns", allRuleNames);
-    const response = await fetch(`/api/stock-screener-feed?${params}`);
-    const result = await response.json();
-    return result?.items ?? [];
+    try {
+      const activeRules = buildActiveRules();
+      const params = new URLSearchParams({
+        page: "1",
+        pageSize: "50000",
+        sortKey: activeSortKey,
+        sortOrder: activeSortOrder,
+        tab: displayTableTab,
+      });
+      if (inputValue) params.set("search", inputValue);
+      if (activeRules.length > 0) params.set("rules", JSON.stringify(activeRules));
+      const allRuleNames = ruleOfList?.map(r => r.name).filter(Boolean).join(",");
+      if (allRuleNames) params.set("displayColumns", allRuleNames);
+      const response = await fetch(`/api/stock-screener-feed?${params}`);
+      const result = await response.json();
+      return result?.items ?? [];
+    } catch (e) {
+      console.error("fetchAllFilteredData failed:", e);
+      return [];
+    }
   }
 
   // Debounced rule fetch
@@ -3319,6 +3330,7 @@
 
   async function changeTab(state) {
     displayTableTab = state;
+    isDataLoading = true;
 
     const rules = tabRuleMap[state];
     if (rules) {
@@ -3327,7 +3339,7 @@
         ?.filter(Boolean);
     }
 
-    fetchTableData({ page: 1 });
+    await fetchTableData({ page: 1 });
   }
 </script>
 
@@ -5174,7 +5186,7 @@
       {/if}
 
       <!-- Pagination controls -->
-      {#if displayedData?.length > 0}
+      {#if totalItems > 0}
         <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
           <!-- Previous and Next buttons -->
           <div class="flex items-center gap-2">
