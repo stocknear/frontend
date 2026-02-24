@@ -4,6 +4,7 @@ const MAX_DOWNLOAD_CREDITS = 500;
 
 const SCREENER_CONFIG: Record<string, { tiers: string[]; creditCost: number }> = {
   "stock": { tiers: ["Pro", "Plus"], creditCost: 0 },
+  "etf": { tiers: ["Pro", "Plus"], creditCost: 0 },
   "options": { tiers: ["Pro"], creditCost: 3 },
   "covered-call": { tiers: ["Pro"], creditCost: 3 },
   "cash-secured-put": { tiers: ["Pro"], creditCost: 3 },
