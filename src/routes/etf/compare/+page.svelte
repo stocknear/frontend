@@ -106,6 +106,22 @@
   let touchedInput = false;
   let rawGraphData = {};
   let rawTableData = [];
+  type TopHolding = {
+    rank: number;
+    symbol: string;
+    name: string;
+    weightPercentage: number | null;
+    sharesNumber: number | null;
+    price: number | null;
+    changesPercentage: number | null;
+  };
+
+  type TopHoldingsPayload = {
+    lastUpdate?: string | null;
+    holdings?: Array<Record<string, unknown>>;
+  };
+
+  const MAX_COMPARE_HOLDINGS = 10;
   const RETURN_PERIOD_LABELS = ["1 Month", "YTD", "1 Year", "5 Years", "10 Years"];
   const RETURN_ONE_YEAR_INDEX = 2;
   const RETURN_TEN_YEAR_INDEX = 4;
@@ -113,6 +129,15 @@
     "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
   let averageReturnInfoText = "";
   let showAverageReturnInfo = false;
+  let topHoldingsByTicker: Record<string, TopHolding[]> = {};
+  let holdingsLastUpdateByTicker: Record<string, string | null> = {};
+  let isTopHoldingsLoading = false;
+  let holdingsRequestVersion = 0;
+  const TOP_HOLDINGS_CACHE_TTL_MS = 10 * 60 * 1000;
+  const topHoldingsCache = new Map<
+    string,
+    { holdings: TopHolding[]; lastUpdate: string | null; fetchedAt: number }
+  >();
 
   const isEtfSearchbarItem = (item) => {
     const rawType = String(item?.type ?? item?.assetType ?? "")
@@ -130,6 +155,169 @@
     const numeric = toFiniteNumber(value);
     return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
   };
+
+  const formatHoldingsPrice = (value) => {
+    const numeric = toFiniteNumber(value);
+    return numeric == null
+      ? "-"
+      : `$${numeric.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`;
+  };
+
+  const formatHoldingsLastUpdate = (value) => {
+    if (!value) return "-";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "-";
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    });
+  };
+
+  const formatHoldingsChange = (value) => {
+    const numeric = toFiniteNumber(value);
+    if (numeric == null) return "-";
+    return `${numeric > 0 ? "+" : ""}${numeric.toFixed(2)}%`;
+  };
+
+  const getHoldingsChangeClass = (value) => {
+    const numeric = toFiniteNumber(value);
+    if (numeric == null) return "text-gray-500 dark:text-zinc-400";
+    return numeric >= 0
+      ? "text-emerald-600 dark:text-emerald-400"
+      : "text-rose-600 dark:text-rose-400";
+  };
+
+  const normalizeTopHoldings = (payload: TopHoldingsPayload | null | undefined) => {
+    const rawHoldings = Array.isArray(payload?.holdings) ? payload?.holdings : [];
+    const normalized = rawHoldings
+      ?.map((item, index) => {
+        const row = (item ?? {}) as Record<string, unknown>;
+        const symbol = String(row?.symbol ?? "")
+          .trim()
+          .toUpperCase();
+        const rank = toFiniteNumber(row?.rank);
+        return {
+          rank: rank == null ? index + 1 : rank,
+          symbol,
+          name: String(row?.name ?? "").trim(),
+          weightPercentage: toFiniteNumber(row?.weightPercentage),
+          sharesNumber: toFiniteNumber(row?.sharesNumber),
+          price: toFiniteNumber(row?.price),
+          changesPercentage: toFiniteNumber(row?.changesPercentage),
+        };
+      })
+      ?.filter((item): item is TopHolding => Boolean(item?.symbol));
+
+    const topHoldings = normalized
+      ?.sort((a, b) => {
+        const rankA = toFiniteNumber(a?.rank) ?? Number.POSITIVE_INFINITY;
+        const rankB = toFiniteNumber(b?.rank) ?? Number.POSITIVE_INFINITY;
+        return rankA - rankB;
+      })
+      ?.slice(0, MAX_COMPARE_HOLDINGS);
+
+    return {
+      lastUpdate:
+        typeof payload?.lastUpdate === "string" && payload?.lastUpdate
+          ? payload?.lastUpdate
+          : null,
+      holdings: topHoldings,
+    };
+  };
+
+  async function fetchTopHoldings(ticker: string) {
+    const cached = topHoldingsCache?.get(ticker);
+    if (cached && Date.now() - cached.fetchedAt < TOP_HOLDINGS_CACHE_TTL_MS) {
+      return cached;
+    }
+
+    const response = await fetch("/api/etf-holdings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ticker }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ETF holdings for ${ticker}`);
+    }
+
+    const output = await response.json();
+    const normalized = normalizeTopHoldings(output);
+    const cacheEntry = {
+      ...normalized,
+      fetchedAt: Date.now(),
+    };
+    topHoldingsCache?.set(ticker, cacheEntry);
+    return cacheEntry;
+  }
+
+  async function refreshTopHoldings(selectedTickers: string[]) {
+    const requestVersion = ++holdingsRequestVersion;
+    const uniqueTickers = [
+      ...new Set(
+        (Array.isArray(selectedTickers) ? selectedTickers : [])
+          ?.map((item) => String(item ?? "").trim().toUpperCase())
+          ?.filter(Boolean),
+      ),
+    ];
+
+    if (uniqueTickers?.length <= 1) {
+      topHoldingsByTicker = {};
+      holdingsLastUpdateByTicker = {};
+      isTopHoldingsLoading = false;
+      return;
+    }
+
+    isTopHoldingsLoading = true;
+
+    try {
+      const entries = await Promise.all(
+        uniqueTickers.map(async (ticker) => {
+          try {
+            const data = await fetchTopHoldings(ticker);
+            return [ticker, data] as const;
+          } catch (error) {
+            console.error(`Unable to load ETF holdings for ${ticker}:`, error);
+            return [
+              ticker,
+              {
+                holdings: [],
+                lastUpdate: null,
+              },
+            ] as const;
+          }
+        }),
+      );
+
+      if (requestVersion !== holdingsRequestVersion) {
+        return;
+      }
+
+      const nextTopHoldings: Record<string, TopHolding[]> = {};
+      const nextLastUpdates: Record<string, string | null> = {};
+
+      for (const [ticker, data] of entries) {
+        nextTopHoldings[ticker] = Array.isArray(data?.holdings)
+          ? data?.holdings?.slice(0, MAX_COMPARE_HOLDINGS)
+          : [];
+        nextLastUpdates[ticker] = data?.lastUpdate ?? null;
+      }
+
+      topHoldingsByTicker = nextTopHoldings;
+      holdingsLastUpdateByTicker = nextLastUpdates;
+    } finally {
+      if (requestVersion === holdingsRequestVersion) {
+        isTopHoldingsLoading = false;
+      }
+    }
+  }
 
   const getRelativeComparisonText = (difference) => {
     const absDiff = Math.abs(difference);
@@ -184,6 +372,10 @@
     const infoText = buildAverageReturnInfoText();
     averageReturnInfoText = infoText ?? "";
     showAverageReturnInfo = Boolean(infoText);
+  }
+
+  $: if (typeof window !== "undefined") {
+    void refreshTopHoldings(tickerList);
   }
 
   const handleDownloadMessage = async (event) => {
@@ -1173,6 +1365,113 @@
                       {/each}
                     </tbody>
                   </table>
+                </div>
+              </div>
+            {/if}
+
+            {#if tickerList?.length > 1}
+              <div class="mt-8">
+                <div class="flex items-center">
+                  <h2
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  >
+                    Top 10 Holdings
+                  </h2>
+                </div>
+
+                <div class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
+                  {#each tickerList as ticker, idx}
+                    <div
+                      class="rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                    >
+                      <div
+                        class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-gray-300 px-3 py-2 dark:border-zinc-700 sm:px-4"
+                      >
+                        <div class="flex items-center gap-x-2">
+                          <div
+                            class="size-3 rounded-sm"
+                            style="background-color: {$mode === 'light'
+                              ? colorPairs[idx % colorPairs?.length].light
+                              : colorPairs[idx % colorPairs?.length].dark}"
+                          ></div>
+                          <a
+                            href={`/etf/${ticker}/`}
+                            class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                          >
+                            {ticker}
+                          </a>
+                        </div>
+                        <div class="text-xs text-gray-500 dark:text-zinc-400">
+                          As of {formatHoldingsLastUpdate(holdingsLastUpdateByTicker?.[ticker])}
+                        </div>
+                      </div>
+
+                      {#if Array.isArray(topHoldingsByTicker?.[ticker]) && topHoldingsByTicker?.[ticker]?.length > 0}
+                        <div class="overflow-x-auto">
+                          <table class="table table-sm table-compact w-full">
+                            <thead
+                              class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                            >
+                              <tr class="border-b border-gray-300 dark:border-zinc-700">
+                                <th class="pl-4">#</th>
+                                <th>Symbol</th>
+                                <th>Name</th>
+                                <th class="text-right">Weight</th>
+                                <th class="text-right">Price</th>
+                                <th class="pr-4 text-right">% Change</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {#each topHoldingsByTicker?.[ticker] as holding}
+                                <tr
+                                  class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 last:border-0"
+                                >
+                                  <td class="pl-4 text-xs text-gray-500 dark:text-zinc-400">
+                                    {holding?.rank}
+                                  </td>
+                                  <td>
+                                    <a
+                                      href={`/stocks/${holding?.symbol}/`}
+                                      class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                                    >
+                                      {holding?.symbol}
+                                    </a>
+                                  </td>
+                                  <td
+                                    class="max-w-[180px] truncate text-gray-700 dark:text-zinc-200"
+                                    title={holding?.name}
+                                  >
+                                    {holding?.name || "-"}
+                                  </td>
+                                  <td class="text-right">
+                                    {formatPercentValue(holding?.weightPercentage)}
+                                  </td>
+                                  <td class="text-right">
+                                    {formatHoldingsPrice(holding?.price)}
+                                  </td>
+                                  <td
+                                    class={`pr-4 text-right font-medium ${getHoldingsChangeClass(
+                                      holding?.changesPercentage,
+                                    )}`}
+                                  >
+                                    {formatHoldingsChange(holding?.changesPercentage)}
+                                  </td>
+                                </tr>
+                              {/each}
+                            </tbody>
+                          </table>
+                        </div>
+                      {:else if isTopHoldingsLoading}
+                        <div class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400">
+                          Loading holdings...
+                        </div>
+                      {:else}
+                        <div class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400">
+                          No holdings data available.
+                        </div>
+                      {/if}
+                    </div>
+                  {/each}
                 </div>
               </div>
             {/if}

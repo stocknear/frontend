@@ -89,7 +89,11 @@
       type: "total-return-pct",
     },
     { name: "Dividends (TTM)", value: "dividendTTM", type: "dividend-ttm" },
-    { name: "Dividend Growth", value: "dividendGrowth", type: "dividend-growth" },
+    {
+      name: "Dividend Growth",
+      value: "dividendGrowth",
+      type: "dividend-growth",
+    },
     {
       name: "Dividend Growth (YoY)",
       value: "dividendGrowthYoY",
@@ -228,6 +232,9 @@
   let touchedInput = false;
   let rawGraphData = {};
   let rawTableData = [];
+  const MS_PER_DAY = 24 * 60 * 60 * 1000;
+  const ONE_YEAR_DAYS = 365;
+  const TEN_YEAR_DAYS = 3652;
   const RETURN_PERIOD_LABELS = ["1 Month", "YTD", "1 Year", "5 Years", "Max"];
   const RETURN_ONE_YEAR_INDEX = 2;
   const RETURN_LONG_TERM_INDEX = 4;
@@ -254,7 +261,8 @@
     }
 
     const matched = categoryList.find(
-      (item) => item?.type === category?.type && item?.value === category?.value,
+      (item) =>
+        item?.type === category?.type && item?.value === category?.value,
     );
     return matched ? { ...matched } : { ...DEFAULT_STOCK_COMPARE_CATEGORY };
   };
@@ -272,8 +280,142 @@
   const getRelativeComparisonText = (difference) => {
     const absDiff = Math.abs(difference);
     if (absDiff < 0.05) return "about the same as";
-    if (absDiff < 1) return difference > 0 ? "slightly higher than" : "slightly lower than";
+    if (absDiff < 1)
+      return difference > 0 ? "slightly higher than" : "slightly lower than";
+    if (absDiff >= 10) {
+      return difference > 0
+        ? "significantly higher than"
+        : "significantly lower than";
+    }
     return difference > 0 ? "higher than" : "lower than";
+  };
+
+  const getPointAtOrBefore = (history, targetMs) => {
+    for (let idx = history.length - 1; idx >= 0; idx -= 1) {
+      const point = history[idx];
+      const pointDateMs = Date.parse(point?.date);
+      const pointValue = toFiniteNumber(point?.value);
+      if (!Number.isFinite(pointDateMs) || pointValue == null) {
+        continue;
+      }
+      if (pointDateMs <= targetMs) {
+        return { dateMs: pointDateMs, value: pointValue };
+      }
+    }
+    return null;
+  };
+
+  const getGrowthFactor = (value, categoryType) => {
+    const numericValue = toFiniteNumber(value);
+    if (numericValue == null) {
+      return null;
+    }
+    if (categoryType === "total-return-pct") {
+      return 1 + numericValue / 100;
+    }
+    if (categoryType === "total-return") {
+      return numericValue / 100;
+    }
+    return null;
+  };
+
+  const getTickerAverageReturnMetrics = (ticker) => {
+    const categoryType = selectedPlotCategory?.type;
+    const history = rawGraphData?.[ticker]?.history;
+
+    if (
+      ["total-return", "total-return-pct"]?.includes(categoryType) &&
+      Array.isArray(history) &&
+      history.length > 1
+    ) {
+      const latestPoint = history[history.length - 1];
+      const latestDateMs = Date.parse(latestPoint?.date);
+      const latestFactor = getGrowthFactor(latestPoint?.value, categoryType);
+      if (
+        Number.isFinite(latestDateMs) &&
+        latestFactor != null &&
+        latestFactor > 0
+      ) {
+        const oneYearBase = getPointAtOrBefore(
+          history,
+          latestDateMs - ONE_YEAR_DAYS * MS_PER_DAY,
+        );
+        const tenYearBase = getPointAtOrBefore(
+          history,
+          latestDateMs - TEN_YEAR_DAYS * MS_PER_DAY,
+        );
+
+        if (oneYearBase && tenYearBase) {
+          const oneYearBaseFactor = getGrowthFactor(
+            oneYearBase?.value,
+            categoryType,
+          );
+          const tenYearBaseFactor = getGrowthFactor(
+            tenYearBase?.value,
+            categoryType,
+          );
+          if (
+            oneYearBaseFactor != null &&
+            tenYearBaseFactor != null &&
+            oneYearBaseFactor > 0 &&
+            tenYearBaseFactor > 0
+          ) {
+            const oneYearTotal = (latestFactor / oneYearBaseFactor - 1) * 100;
+            const yearsSpan =
+              (latestDateMs - tenYearBase.dateMs) / (365.2425 * MS_PER_DAY);
+            const tenYearAnnualized =
+              yearsSpan > 0
+                ? ((latestFactor / tenYearBaseFactor) ** (1 / yearsSpan) - 1) *
+                  100
+                : null;
+
+            if (
+              Number.isFinite(oneYearTotal) &&
+              tenYearAnnualized != null &&
+              Number.isFinite(tenYearAnnualized)
+            ) {
+              return {
+                oneYearTotal,
+                longTermAnnualized: tenYearAnnualized,
+                longTermPhrase: "the past 10 years",
+              };
+            }
+          }
+        }
+      }
+    }
+
+    const returns = rawGraphData?.[ticker]?.changesPercentage;
+    if (!Array.isArray(returns)) {
+      return null;
+    }
+
+    const oneYearTotal = toFiniteNumber(returns?.[RETURN_ONE_YEAR_INDEX]);
+    let longTermAnnualized = toFiniteNumber(returns?.[RETURN_LONG_TERM_INDEX]);
+    let longTermPhrase =
+      RETURN_PERIOD_LABELS?.[RETURN_LONG_TERM_INDEX] === "Max"
+        ? "the maximum available period"
+        : `the past ${RETURN_PERIOD_LABELS?.[
+            RETURN_LONG_TERM_INDEX
+          ]?.toLowerCase()}`;
+
+    if (longTermAnnualized == null) {
+      const fiveYearValue = toFiniteNumber(returns?.[3]);
+      if (fiveYearValue != null) {
+        longTermAnnualized = fiveYearValue;
+        longTermPhrase = "the past 5 years";
+      }
+    }
+
+    if (oneYearTotal == null || longTermAnnualized == null) {
+      return null;
+    }
+
+    return {
+      oneYearTotal,
+      longTermAnnualized,
+      longTermPhrase,
+    };
   };
 
   const buildAverageReturnInfoText = () => {
@@ -287,37 +429,21 @@
       return null;
     }
 
-    const primaryReturns = rawGraphData?.[primaryTicker]?.changesPercentage;
-    const secondaryReturns = rawGraphData?.[secondaryTicker]?.changesPercentage;
-    if (!Array.isArray(primaryReturns) || !Array.isArray(secondaryReturns)) {
-      return null;
-    }
-
-    const primaryOneYear = toFiniteNumber(primaryReturns?.[RETURN_ONE_YEAR_INDEX]);
-    const primaryLongTerm = toFiniteNumber(primaryReturns?.[RETURN_LONG_TERM_INDEX]);
-    const secondaryOneYear = toFiniteNumber(secondaryReturns?.[RETURN_ONE_YEAR_INDEX]);
-    const secondaryLongTerm = toFiniteNumber(secondaryReturns?.[RETURN_LONG_TERM_INDEX]);
-
-    if (
-      primaryOneYear == null ||
-      primaryLongTerm == null ||
-      secondaryOneYear == null ||
-      secondaryLongTerm == null
-    ) {
+    const primaryMetrics = getTickerAverageReturnMetrics(primaryTicker);
+    const secondaryMetrics = getTickerAverageReturnMetrics(secondaryTicker);
+    if (!primaryMetrics || !secondaryMetrics) {
       return null;
     }
 
     const oneYearComparison = getRelativeComparisonText(
-      primaryOneYear - secondaryOneYear,
+      primaryMetrics.oneYearTotal - secondaryMetrics.oneYearTotal,
     );
     const longTermPhrase =
-      RETURN_PERIOD_LABELS?.[RETURN_LONG_TERM_INDEX] === "Max"
-        ? "the maximum available period"
-        : `the past ${RETURN_PERIOD_LABELS?.[
-            RETURN_LONG_TERM_INDEX
-          ]?.toLowerCase()}`;
+      primaryMetrics?.longTermPhrase === secondaryMetrics?.longTermPhrase
+        ? primaryMetrics.longTermPhrase
+        : "the longer-term period";
 
-    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over ${longTermPhrase}, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryLongTerm)}, compared to ${formatPercentValue(secondaryLongTerm)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
+    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryMetrics.oneYearTotal)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryMetrics.oneYearTotal)} return. Over ${longTermPhrase}, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryMetrics.longTermAnnualized)}, compared to ${formatPercentValue(secondaryMetrics.longTermAnnualized)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
   };
 
   $: {
@@ -583,28 +709,28 @@
     });
 
     // Check if the selected category is percentage-based
-    const isPercentageCategory = [
-      "price-change",
-      "total-return-pct",
-      "dividend-growth-yoy",
-    ]?.includes(selectedPlotCategory?.type) || [
-      "dividendPayoutRatio",
-      "yield",
-      "netProfitMargin",
-      "ebitdaMargin",
-      "freeCashFlowMargin",
-      "operatingProfitMargin",
-      "growthRevenue",
-      "growthEPSDiluted",
-      "growthOperatingIncome",
-      "growthNetIncome",
-      "shortPercentOfFloat",
-      "returnOnEquity",
-      "returnOnAssets",
-      "returnOnInvestedCapital",
-      "grossProfitMargin",
-      "effectiveTaxRate",
-    ].includes(selectedPlotCategory?.value);
+    const isPercentageCategory =
+      ["price-change", "total-return-pct", "dividend-growth-yoy"]?.includes(
+        selectedPlotCategory?.type,
+      ) ||
+      [
+        "dividendPayoutRatio",
+        "yield",
+        "netProfitMargin",
+        "ebitdaMargin",
+        "freeCashFlowMargin",
+        "operatingProfitMargin",
+        "growthRevenue",
+        "growthEPSDiluted",
+        "growthOperatingIncome",
+        "growthNetIncome",
+        "shortPercentOfFloat",
+        "returnOnEquity",
+        "returnOnAssets",
+        "returnOnInvestedCapital",
+        "grossProfitMargin",
+        "effectiveTaxRate",
+      ].includes(selectedPlotCategory?.value);
 
     return {
       chart: {
@@ -1260,9 +1386,7 @@
                   content={AVERAGE_RETURN_INFO_MODAL_TEXT}
                 />
               </div>
-              {#if showAverageReturnInfo}
-                <Infobox text={averageReturnInfoText} />
-              {/if}
+              <Infobox text={averageReturnInfoText} />
 
               <div
                 class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
