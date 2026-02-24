@@ -674,7 +674,7 @@ export const groupScreenerRules = (allRows) => {
     "Fund Info",
     "Statistics", "Options Activity", "Greeks", "Company Info", "Earnings Report",
     "Price & Volume", "Fair Value", "Valuation & Ratios", "Valuation & Price Targets", "Margins",
-    "Performance",
+    "Performance", "Total Return", "Return CAGR",
     "Technicals", "Technical Analysis",
     "Forecasts, Analysts & Price Targets",
     "Valuation", "Dividends", "52-Week",
