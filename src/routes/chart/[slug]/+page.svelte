@@ -3580,6 +3580,54 @@
   const getTodayStartTimestamp = () =>
     DateTime.now().setZone(zone).startOf("day").toMillis();
 
+  const getTodayMinuteSourceBars = () => {
+    const sourceBars = minuteBars.length ? minuteBars : intradayBars;
+    if (!sourceBars.length) return [];
+    const todayStart = getTodayStartTimestamp();
+    return sourceBars.filter((bar) => bar.timestamp >= todayStart);
+  };
+
+  const buildTodayDailyBarFromMinuteBars = (): KLineData | null => {
+    const todayMinuteBars = getTodayMinuteSourceBars();
+    if (!todayMinuteBars.length) return null;
+
+    const firstBar = todayMinuteBars[0];
+    const lastBar = todayMinuteBars[todayMinuteBars.length - 1];
+
+    let high = firstBar.high;
+    let low = firstBar.low;
+    let volume = 0;
+
+    for (const bar of todayMinuteBars) {
+      high = Math.max(high, bar.high);
+      low = Math.min(low, bar.low);
+      volume += bar.volume ?? 0;
+    }
+
+    const dayTimestamp = DateTime.fromMillis(firstBar.timestamp, { zone })
+      .startOf("day")
+      .toMillis();
+
+    return {
+      timestamp: dayTimestamp,
+      open: firstBar.open,
+      high,
+      low,
+      close: lastBar.close,
+      volume,
+    };
+  };
+
+  const getDailyBarsWithLiveToday = () => {
+    const todayBar = buildTodayDailyBarFromMinuteBars();
+    if (!todayBar) return dailyBars;
+
+    const historicalBars = dailyBars.filter(
+      (bar) => bar.timestamp < todayBar.timestamp,
+    );
+    return [...historicalBars, todayBar];
+  };
+
   const aggregateMinuteBarsForSpan = (span: number) => {
     if (span <= 1 || !minuteBars.length) return [];
 
@@ -6365,7 +6413,7 @@
 
     if (range === "1D") {
       // Daily interval - show all historical data
-      return { bars: dailyBars, period: { type: "day", span: 1 } };
+      return { bars: getDailyBarsWithLiveToday(), period: { type: "day", span: 1 } };
     }
 
     if (range === "1W") {
@@ -6633,13 +6681,14 @@
       activeRange as IntradayInterval,
     );
     if (activeRange === "1D") {
-      const displayBars = transformBarsForType(intradayBars, chartType);
+      const displayBars = transformBarsForType(
+        getDailyBarsWithLiveToday(),
+        chartType,
+      );
       currentBars = displayBars;
-      if (intradayIndex === displayBars.length - 1) {
-        const latestBar = displayBars[intradayIndex];
-        if (latestBar && realtimeBarCallback) {
-          realtimeBarCallback(latestBar);
-        }
+      const latestBar = displayBars[displayBars.length - 1];
+      if (latestBar && realtimeBarCallback) {
+        realtimeBarCallback(latestBar);
       }
     }
 
