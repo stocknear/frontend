@@ -3,7 +3,7 @@ const cache = new Map<string, any>();
 
 
 
-const fetchData = async (tickerList, category) => {
+const fetchData = async (tickerList, category, assetType = "stocks") => {
   console.log("Checking cache and fetching new data if needed");
 
   // 1) Sort tickers alphabetically
@@ -13,6 +13,7 @@ const fetchData = async (tickerList, category) => {
   const cacheKey = JSON.stringify({
     tickers: tickerList,
     category,
+    assetType,
   });
 
   // 3) Return cached result if present
@@ -22,7 +23,7 @@ const fetchData = async (tickerList, category) => {
   }
 
   // 4) Fetch fresh data
-  const postData = { tickerList, category };
+  const postData = { tickerList, category, assetType };
   const response = await fetch("/api/compare-data", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -37,9 +38,9 @@ const fetchData = async (tickerList, category) => {
 };
 
 onmessage = async (event) => {
-  const { tickerList, category } = event?.data || {};
+  const { tickerList, category, assetType = "stocks" } = event?.data || {};
   
-  const output = await fetchData(tickerList, category);
+  const output = await fetchData(tickerList, category, assetType);
   postMessage({ message: "success", output });
 };
 
