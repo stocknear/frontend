@@ -118,7 +118,9 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let groupedRules = {};
-  let displayRules = [];
+  $: displayRules = allRows?.filter((row) =>
+    ruleOfList?.some((rule) => rule.name === row.rule),
+  ) ?? [];
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
     {
@@ -2082,11 +2084,6 @@
     currentAbortController = new AbortController();
     const signal = currentAbortController.signal;
     const invocationId = ++requestId;
-
-    // Update display rules so the UI shows the active filters
-    displayRules = allRows?.filter((row) =>
-      ruleOfList?.some((rule) => rule.name === row.rule),
-    );
 
     const activeRules = buildActiveRules();
     isFetchingPage = true;

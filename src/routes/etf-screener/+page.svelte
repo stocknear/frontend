@@ -51,7 +51,9 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let groupedRules = {};
-  let displayRules = [];
+  $: displayRules = allRows?.filter((row) =>
+    ruleOfList?.some((rule) => rule.name === row.rule),
+  ) ?? [];
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
     { key: "lowCostIndex", label: "Low-Cost Index ETFs" },
@@ -947,11 +949,6 @@
     currentAbortController = new AbortController();
     const signal = currentAbortController.signal;
     const invocationId = ++requestId;
-
-    // Update display rules so the UI shows the active filters
-    displayRules = allRows?.filter((row) =>
-      ruleOfList?.some((rule) => rule.name === row.rule),
-    );
 
     const activeRules = buildActiveRules();
     isFetchingPage = true;
@@ -1869,9 +1866,9 @@
     const sortOrder = sortOrders[key].order;
 
     if (sortOrder === "none") {
-      activeSortKey = "marketCap";
+      activeSortKey = "totalAssets";
       activeSortOrder = "desc";
-      fetchTableData({ page: 1, sortKey: "marketCap", sortOrder: "desc" });
+      fetchTableData({ page: 1, sortKey: "totalAssets", sortOrder: "desc" });
     } else {
       activeSortKey = key;
       activeSortOrder = sortOrder;
