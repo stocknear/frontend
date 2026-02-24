@@ -1052,7 +1052,7 @@
               </li>
               <li>
                 <a
-                  href="/stock-screener"
+                  href="/stocks/screener"
                   class="block text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                 >
                   {learning_center_sidebar_stock_screener()}

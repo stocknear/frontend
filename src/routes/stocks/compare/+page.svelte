@@ -856,7 +856,7 @@
     name: "Stock Comparison Tool",
     description:
       "Interactive tool for comparing multiple stocks side by side with charts and financial analysis",
-    url: "https://stocknear.com/compare",
+    url: "https://stocknear.com/stocks/compare",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     offers: {

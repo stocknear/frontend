@@ -6,7 +6,7 @@ const pages = [
   { path: "/", priority: 1.0, changefreq: "daily" },
   { path: "/stocks", priority: 0.95, changefreq: "daily" },
   { path: "/etf", priority: 0.95, changefreq: "daily" },
-  { path: "/stock-screener", priority: 0.9, changefreq: "daily" },
+  { path: "/stocks/screener", priority: 0.9, changefreq: "daily" },
   { path: "/options-screener", priority: 0.9, changefreq: "daily" },
 
   // Real-time data pages
@@ -16,10 +16,10 @@ const pages = [
   { path: "/options-flow", priority: 0.85, changefreq: "hourly" },
   { path: "/unusual-order-flow", priority: 0.85, changefreq: "hourly" },
   { path: "/market-flow", priority: 0.85, changefreq: "hourly" },
-  { path: "/heatmap", priority: 0.8, changefreq: "hourly" },
+  { path: "/stocks/heatmap", priority: 0.8, changefreq: "hourly" },
 
   // Analysis and research tools
-  { path: "/compare", priority: 0.8, changefreq: "weekly" },
+  { path: "/stocks/compare", priority: 0.8, changefreq: "weekly" },
   { path: "/backtesting", priority: 0.85, changefreq: "weekly" },
 
   // Financial calendars
