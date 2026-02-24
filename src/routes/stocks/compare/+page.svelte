@@ -1480,7 +1480,9 @@
                   content={AVERAGE_RETURN_INFO_MODAL_TEXT}
                 />
               </div>
-              <Infobox text={averageReturnInfoText} />
+              {#if showAverageReturnInfo}
+                <Infobox text={averageReturnInfoText} />
+              {/if}
 
               <div
                 class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"

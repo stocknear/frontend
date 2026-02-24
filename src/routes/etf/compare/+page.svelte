@@ -145,6 +145,11 @@
   ];
   const RETURN_ONE_YEAR_INDEX = 2;
   const RETURN_TEN_YEAR_INDEX = 4;
+  const RETURN_FIVE_YEAR_INDEX = 3;
+  const RETURN_LONG_TERM_INDEX_PREFERENCE = [
+    RETURN_TEN_YEAR_INDEX,
+    RETURN_FIVE_YEAR_INDEX,
+  ];
   const AVERAGE_RETURN_INFO_MODAL_TEXT =
     "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
   let averageReturnInfoText = "";
@@ -397,6 +402,42 @@
     return difference > 0 ? "higher than" : "lower than";
   };
 
+  const getReturnPeriodPhrase = (index) => {
+    const label = RETURN_PERIOD_LABELS?.[index];
+    if (!label) {
+      return "the longer-term period";
+    }
+    if (label === "1 Year") {
+      return "the past year";
+    }
+    return `the past ${String(label).toLowerCase()}`;
+  };
+
+  const getTickerAverageReturnMetrics = (ticker) => {
+    const returns = rawGraphData?.[ticker]?.changesPercentage;
+    if (!Array.isArray(returns)) {
+      return null;
+    }
+
+    const oneYearTotal = toFiniteNumber(returns?.[RETURN_ONE_YEAR_INDEX]);
+    if (oneYearTotal == null) {
+      return null;
+    }
+
+    for (const index of RETURN_LONG_TERM_INDEX_PREFERENCE) {
+      const longTermAnnualized = toFiniteNumber(returns?.[index]);
+      if (longTermAnnualized != null) {
+        return {
+          oneYearTotal,
+          longTermAnnualized,
+          longTermPhrase: getReturnPeriodPhrase(index),
+        };
+      }
+    }
+
+    return null;
+  };
+
   const buildAverageReturnInfoText = () => {
     if (tickerList?.length !== 2) {
       return null;
@@ -408,39 +449,21 @@
       return null;
     }
 
-    const primaryReturns = rawGraphData?.[primaryTicker]?.changesPercentage;
-    if (!Array.isArray(primaryReturns)) {
-      return null;
-    }
-
-    const primaryOneYear = toFiniteNumber(
-      primaryReturns?.[RETURN_ONE_YEAR_INDEX],
-    );
-    const primaryTenYear = toFiniteNumber(
-      primaryReturns?.[RETURN_TEN_YEAR_INDEX],
-    );
-    if (primaryOneYear == null || primaryTenYear == null) {
-      return null;
-    }
-
-    const secondaryReturns = secondaryTicker
-      ? rawGraphData?.[secondaryTicker]?.changesPercentage
-      : null;
-    const secondaryOneYear = Array.isArray(secondaryReturns)
-      ? toFiniteNumber(secondaryReturns?.[RETURN_ONE_YEAR_INDEX])
-      : null;
-    const secondaryTenYear = Array.isArray(secondaryReturns)
-      ? toFiniteNumber(secondaryReturns?.[RETURN_TEN_YEAR_INDEX])
-      : null;
-
-    if (secondaryOneYear == null || secondaryTenYear == null) {
+    const primaryMetrics = getTickerAverageReturnMetrics(primaryTicker);
+    const secondaryMetrics = getTickerAverageReturnMetrics(secondaryTicker);
+    if (!primaryMetrics || !secondaryMetrics) {
       return null;
     }
 
     const oneYearComparison = getRelativeComparisonText(
-      primaryOneYear - secondaryOneYear,
+      primaryMetrics.oneYearTotal - secondaryMetrics.oneYearTotal,
     );
-    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}, compared to ${formatPercentValue(secondaryTenYear)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
+    const longTermPhrase =
+      primaryMetrics?.longTermPhrase === secondaryMetrics?.longTermPhrase
+        ? primaryMetrics.longTermPhrase
+        : "the longer-term period";
+
+    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryMetrics.oneYearTotal)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryMetrics.oneYearTotal)} return. Over ${longTermPhrase}, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryMetrics.longTermAnnualized)}, compared to ${formatPercentValue(secondaryMetrics.longTermAnnualized)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
   };
 
   const buildTopHoldingsOverlapInfoText = (
