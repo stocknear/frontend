@@ -1801,69 +1801,83 @@
 
                 {#if isTopHoldingsLoading || overlapRows?.length > 0}
                   <div
-                    class="mt-1 w-full flex flex-row items-center ml-auto pb-2 pt-2"
+                    class="items-center lg:overflow-visible px-1 py-1 mt-2 mb-2"
                   >
-                    <div class="relative lg:ml-auto w-full lg:w-fit">
-                      <div
-                        class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                    <div
+                      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                    >
+                      <h2
+                        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                       >
-                        {#if overlapSearchValue?.length > 0}
-                          <label
-                            class="cursor-pointer"
-                            on:click={() => resetOverlapSearch()}
+                        {overlapFilteredRows?.length?.toLocaleString("en-US")}
+                        Stocks
+                      </h2>
+                      <div
+                        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                      >
+                        <div class="relative lg:ml-auto w-full lg:w-fit">
+                          <div
+                            class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                          >
+                            {#if overlapSearchValue?.length > 0}
+                              <label
+                                class="cursor-pointer"
+                                on:click={() => resetOverlapSearch()}
+                              >
+                                <svg
+                                  class="w-5 h-5"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    fill="currentColor"
+                                    d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                                  />
+                                </svg>
+                              </label>
+                            {/if}
+                          </div>
+
+                          <input
+                            bind:value={overlapSearchValue}
+                            on:input={overlapSearch}
+                            type="text"
+                            placeholder="Find..."
+                            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                          />
+                        </div>
+
+                        <div class="ml-2">
+                          <DownloadData
+                            {data}
+                            rawData={overlapDownloadData}
+                            title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
+                          />
+                        </div>
+
+                        {#if overlapCustomColumnOrder?.length > 0}
+                          <button
+                            on:click={resetOverlapColumnOrder}
+                            title="Reset column order"
+                            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                           >
                             <svg
-                              class="w-5 h-5"
-                              xmlns="http://www.w3.org/2000/svg"
+                              class="w-4 h-4"
                               viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
                             >
                               <path
-                                fill="currentColor"
-                                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
                               />
                             </svg>
-                          </label>
+                          </button>
                         {/if}
                       </div>
-
-                      <input
-                        bind:value={overlapSearchValue}
-                        on:input={overlapSearch}
-                        type="text"
-                        placeholder="Find..."
-                        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-                      />
                     </div>
-
-                    <div class="ml-2">
-                      <DownloadData
-                        {data}
-                        rawData={overlapDownloadData}
-                        title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
-                      />
-                    </div>
-
-                    {#if overlapCustomColumnOrder?.length > 0}
-                      <button
-                        on:click={resetOverlapColumnOrder}
-                        title="Reset column order"
-                        class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
-                      >
-                        <svg
-                          class="w-4 h-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                        >
-                          <path
-                            d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                      </button>
-                    {/if}
                   </div>
 
                   <div
