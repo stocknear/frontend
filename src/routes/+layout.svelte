@@ -100,7 +100,6 @@
     layout_etf_screener,
     layout_portfolio,
     layout_price_alert,
-    layout_pricing_plan,
     layout_potus_tracker,
     layout_reddit_tracker,
     layout_screener,
@@ -118,10 +117,7 @@
     layout_income_strategy,
     layout_covered_call_screener,
     layout_cash_secured_put_screener,
-    layout_backtesting_strategy,
   } from "$lib/paraglide/messages.js";
-  //import Simulation from "lucide-svelte/icons/radical";
-  //import Backtesting from "lucide-svelte/icons/blocks";
 
   export let data;
   let isChartRoute = false;
@@ -1043,9 +1039,9 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
-                              href="/options-screener"
+                              href="/etf-screener"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_options_screener()}</a
+                              >{layout_etf_screener()}</a
                             >
                           </Button>
                         </div>
@@ -1058,9 +1054,9 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
-                              href="/etf-screener"
+                              href="/options-screener"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_etf_screener()}</a
+                              >{layout_options_screener()}</a
                             >
                           </Button>
                         </div>
@@ -1106,57 +1102,6 @@
                   </Accordion.Item>
                 </Accordion.Root>
               </div>
-
-              <!--
-              <div class="flex flex-row items-center w-full">
-                <Accordion.Root class="w-full">
-                  <Accordion.Item value="item-1">
-                    <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition">
-                      <Simulation
-                        class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
-                      />
-                      <span class="ml-1 mr-auto"
-                        >Simulation</span
-                      >
-                    </Accordion.Trigger>
-                    <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
-                    >
-                      <Sheet.Close asChild let:builder>
-                        <div class="flex flex-col items-start">
-                          <Button
-                            builders={[builder]}
-                            type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
-                          >
-                            <a
-                              href="/backtesting"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_backtesting_strategy()}</a
-                            >
-                          </Button>
-                        </div>
-                      </Sheet.Close>
-                      <Sheet.Close asChild let:builder>
-                        <div class="flex flex-col items-start">
-                          <Button
-                            builders={[builder]}
-                            type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
-                          >
-                            <a
-                              href="/options-calculator"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_options_calculator()}</a
-                            >
-                          </Button>
-                        </div>
-                      </Sheet.Close>
-                    </Accordion.Content>
-                  </Accordion.Item>
-                </Accordion.Root>
-              </div>
-            -->
 
               <div class="flex flex-row items-center w-full">
                 <Accordion.Root class="w-full">
@@ -1310,34 +1255,6 @@
                 </Button>
               </Sheet.Close>
 
-              <!--
-              <Sheet.Close asChild let:builder>
-                <Button
-                  builders={[builder]}
-                  type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent transition"
-                >
-                  <a
-                    href="/backtesting"
-                    class="group flex flex-row items-center w-full -mt-2"
-                  >
-                    <div class="flex flex-row items-center mr-auto">
-                      <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-gray-500 dark:text-zinc-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
-                      >
-                        <Backtesting
-                          class="h-5.5 w-5.5 mr-3 text-gray-500 dark:text-zinc-400 group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
-                        />
-                      </div>
-                      <span
-                        class="ml-1 mr-auot text-gray-800 dark:text-zinc-300 text-[0.95rem] group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
-                        >Backtesting</span
-                      >
-                    </div>
-                  </a>
-                </Button>
-              </Sheet.Close>
--->
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
@@ -1855,15 +1772,15 @@
                             >
 
                             <a
-                              href="/options-screener"
-                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_options_screener()}</a
-                            >
-
-                            <a
                               href="/etf-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
+                            >
+
+                            <a
+                              href="/options-screener"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_options_screener()}</a
                             >
 
                             <span
@@ -1886,40 +1803,6 @@
                       </Accordion.Item>
                     </Accordion.Root>
                   </div>
-
-                  <!--
-                <div class="flex flex-row items-center ml-9 w-full mt-3">
-                  <Accordion.Root class="w-full">
-                    <Accordion.Item value="item-1">
-                      <Accordion.Trigger class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition">
-                        <Simulation
-                          class="h-5.5 w-5.5 mr-3 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 p-1 text-gray-700 dark:text-zinc-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition ml-1"
-                        />
-                        <span class="ml-1 mr-auto"
-                          >Simulation</span
-                        >
-                      </Accordion.Trigger>
-                      <Accordion.Content
-                        class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
-                      >
-                        <div class="flex flex-col items-start">
-                          <a
-                            href="/backtesting"
-                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                            >Backtesting Strategy</a
-                          >
-
-                          <a
-                            href="/options-calculator"
-                            class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                            >{layout_options_calculator()}</a
-                          >
-                        </div>
-                      </Accordion.Content>
-                    </Accordion.Item>
-                  </Accordion.Root>
-                </div>
-                -->
 
                   <div class="flex flex-row items-center ml-9 w-full mt-3">
                     <Accordion.Root class="w-full">
