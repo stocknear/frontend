@@ -3073,8 +3073,7 @@
         testList =
           rawList?.filter((item) => {
             const index = item?.toLowerCase();
-            // Check if country starts with searchQuery
-            return index?.startsWith(searchQuery);
+            return index?.includes(searchQuery);
           }) || [];
       }
     }, 50);
@@ -4471,7 +4470,7 @@
                               {/if}
                             {/each}
                           {:else if checkedRules.includes(row?.rule)}
-                            {#each row?.step as item}
+                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (row?.step ?? []) as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >

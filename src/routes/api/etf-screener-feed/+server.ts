@@ -11,7 +11,7 @@ const allowedDisplayColumns = new Set([
   "symbol", "name", "totalAssets", "price", "changesPercentage", "volume",
   "avgVolume", "relativeVolume", "expenseRatio", "numberOfHoldings",
   "beta", "pe", "nav", "marketCap",
-  "etfProvider", "assetClass", "topSector", "exchange", "aumGroup", "country",
+  "etfProvider", "assetClass", "topSector", "aumGroup", "country",
   "change1W", "change1M", "change3M", "change6M", "change1Y", "change3Y",
   "totalReturn1M", "totalReturn3M", "totalReturn6M", "totalReturnYTD",
   "totalReturn1Y", "totalReturn3Y", "totalReturn5Y", "totalReturn10Y",

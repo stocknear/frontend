@@ -269,7 +269,9 @@
           { signal: controller.signal },
         );
         if (!response.ok) {
-          throw new Error(`Search request failed with status ${response.status}`);
+          throw new Error(
+            `Search request failed with status ${response.status}`,
+          );
         }
 
         const payload = await response.json();
@@ -393,10 +395,7 @@
   }
 
   $: {
-    if (
-      searchBarModalChecked === false &&
-      updatedSearchHistory?.length > 0
-    ) {
+    if (searchBarModalChecked === false && updatedSearchHistory?.length > 0) {
       clearTimeout(historyCommitTimeoutId);
       historyCommitTimeoutId = setTimeout(() => {
         // Keep a short delay so list updates don't race against navigation.
@@ -429,7 +428,7 @@
   >
     <div class="relative">
       <label
-        class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-14 w-14 flex justify-center items-center"
+        class=" rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-14 w-14 flex justify-center items-center"
       >
         <span
           class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
@@ -494,8 +493,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg>
-
+                  /></svg
+                >
               </label>
             {:else}
               <div

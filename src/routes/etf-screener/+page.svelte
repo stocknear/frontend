@@ -77,7 +77,6 @@
     "assetClass",
     "etfProvider",
     "topSector",
-    "exchange",
     "aumGroup",
     "country",
   ];
@@ -121,7 +120,7 @@
       step: [2, 1.5, 1.25, 1, 0.75, 0.5, 0.25],
       defaultCondition: "under",
       defaultValue: "any",
-      category: ["Most Popular", "Technicals"],
+      category: ["Most Popular", "Performance"],
     },
     assetClass: {
       label: "Asset Class",
@@ -662,14 +661,14 @@
       step: [500, 200, 100, 50, 25, 10],
       defaultCondition: "under",
       defaultValue: "any",
-      category: "52-Week",
+      category: "Performance",
     },
     yearLow: {
       label: "52W Low",
       step: [100, 50, 25, 10, 5],
       defaultCondition: "over",
       defaultValue: "any",
-      category: "52-Week",
+      category: "Performance",
     },
     fromHigh52W: {
       label: "From 52W High (%)",
@@ -677,7 +676,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
-      category: "52-Week",
+      category: "Performance",
     },
     fromLow52W: {
       label: "From 52W Low (%)",
@@ -685,7 +684,7 @@
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
-      category: "52-Week",
+      category: "Performance",
     },
     pe: {
       label: "PE Ratio",
@@ -723,13 +722,6 @@
         "Basic Materials",
         "Utilities",
       ],
-      defaultCondition: "",
-      defaultValue: "any",
-      category: "Fund Info",
-    },
-    exchange: {
-      label: "Exchange",
-      step: ["AMEX", "NASDAQ", "NYSE"],
       defaultCondition: "",
       defaultValue: "any",
       category: "Fund Info",
@@ -1439,7 +1431,6 @@
       case "assetClass":
       case "etfProvider":
       case "topSector":
-      case "exchange":
       case "aumGroup":
       case "country":
       case "ema20":
@@ -2021,8 +2012,7 @@
         testList =
           rawList?.filter((item) => {
             const index = item?.toLowerCase();
-            // Check if country starts with searchQuery
-            return index?.startsWith(searchQuery);
+            return index?.includes(searchQuery);
           }) || [];
       }
     }, 50);
@@ -2180,7 +2170,6 @@
     "etfProvider",
     "assetClass",
     "topSector",
-    "exchange",
     "aumGroup",
     "payoutFrequency",
     "inceptionDate",
@@ -3387,7 +3376,7 @@
                               {/if}
                             {/each}
                           {:else if checkedRules.includes(row?.rule)}
-                            {#each row?.step as item}
+                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (row?.step ?? []) as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
@@ -3843,7 +3832,7 @@
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {#if ["etfProvider", "assetClass", "topSector", "exchange", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
+                        {#if ["etfProvider", "assetClass", "topSector", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
                           {#if item[column.key]}
                             {column.key === "etfProvider" ? formatETFName(item[column.key]) : item[column.key]}
                           {:else if !(column.key in item)}
@@ -4076,7 +4065,17 @@
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {#if row?.varType && row?.varType === "percent"}
+                        {#if ["etfProvider", "assetClass", "topSector", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
+                          {#if item[column.key]}
+                            {column.key === "etfProvider" ? formatETFName(item[column.key]) : item[column.key]}
+                          {:else if !(column.key in item)}
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
+                          {:else}
+                            n/a
+                          {/if}
+                        {:else if row?.varType && row?.varType === "percent"}
                           {#if item[column.key]}
                             {abbreviateNumber(item[column.key]) + "%"}
                           {:else if !(column.key in item)}
