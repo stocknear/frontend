@@ -8,6 +8,8 @@
   import { toast } from "svelte-sonner";
   import Table from "$lib/components/Table/Table.svelte";
   import Pagination from "$lib/components/Table/Pagination.svelte";
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
 
@@ -170,6 +172,11 @@
   let overlapRowsPerPage = 20;
   const overlapRowsPerPageOptions = [10, 20, 50, 100];
   let overlapTickerColumns: string[] = [];
+  let overlapDefaultColumns: { key: string; label: string; align: string }[] =
+    [];
+  let overlapColumns: { key: string; label: string; align: string }[] = [];
+  let overlapCustomColumnOrder: string[] = [];
+  let overlapSortOrders: Record<string, { order: string; type: string }> = {};
   const topHoldingsCache = new Map<
     string,
     { allHoldings: TopHolding[]; fetchedAt: number }
@@ -397,6 +404,159 @@
     overlapCurrentPage = 1;
   }
 
+  // --- Overlap table: column reorder with localStorage persistence ---
+  const OVERLAP_STORAGE_KEY = "etf-compare-overlap_columnOrder";
+
+  function overlapLoadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(OVERLAP_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function overlapSaveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(OVERLAP_STORAGE_KEY, JSON.stringify(order));
+    } catch {}
+  }
+
+  function overlapApplyColumnOrder(
+    cols: typeof overlapDefaultColumns,
+    order: string[],
+  ): typeof overlapDefaultColumns {
+    if (!order.length) return cols;
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: typeof overlapDefaultColumns = [];
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+    return ordered;
+  }
+
+  function handleOverlapColumnReorder(fromIndex: number, toIndex: number) {
+    // Protect "No." column at position 0
+    if (fromIndex === 0 || toIndex === 0) return;
+    const reordered = [...overlapColumns];
+    const [removed] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, removed);
+    const reorderableColumns = reordered.filter((c) => c.key !== "index");
+    overlapCustomColumnOrder = reorderableColumns.map((c) => c.key);
+    overlapSaveColumnOrder(overlapCustomColumnOrder);
+    overlapColumns = reordered;
+  }
+
+  function resetOverlapColumnOrder() {
+    overlapCustomColumnOrder = [];
+    overlapColumns = [...overlapDefaultColumns];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(OVERLAP_STORAGE_KEY);
+      } catch {}
+    }
+  }
+
+  // --- Overlap table: sorting ---
+  const overlapCompare = (key: string, sortOrder: string) => {
+    return (a: OverlapHoldingRow, b: OverlapHoldingRow) => {
+      let valA: any, valB: any;
+      if (key === "symbol" || key === "name") {
+        valA = (a[key] ?? "").toUpperCase();
+        valB = (b[key] ?? "").toUpperCase();
+        return sortOrder === "asc"
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      }
+      if (key === "overlapWeight") {
+        valA = a.overlapWeight ?? 0;
+        valB = b.overlapWeight ?? 0;
+      } else if (key.startsWith("weight_")) {
+        const ticker = key.slice(7);
+        valA = a.tickerWeights?.[ticker] ?? 0;
+        valB = b.tickerWeights?.[ticker] ?? 0;
+      } else {
+        return 0;
+      }
+      return sortOrder === "asc" ? valA - valB : valB - valA;
+    };
+  };
+
+  const overlapSortData = (key: string) => {
+    if (key === "index") return;
+
+    for (const k in overlapSortOrders) {
+      if (k !== key) overlapSortOrders[k].order = "none";
+    }
+
+    const cycle = ["none", "asc", "desc"];
+    const idx = cycle.indexOf(overlapSortOrders[key]?.order ?? "none");
+    overlapSortOrders[key].order = cycle[(idx + 1) % cycle.length];
+    overlapSortOrders = overlapSortOrders; // trigger reactivity
+
+    if (overlapSortOrders[key].order === "none") {
+      overlapRows = buildOverlapRows(overlapTickerColumns, allHoldingsByTicker);
+    } else {
+      const compareFn = overlapCompare(key, overlapSortOrders[key].order);
+      overlapRows = [...overlapRows].sort(compareFn);
+    }
+
+    // Re-apply search filter after sorting
+    overlapSearch();
+  };
+
+  // --- Overlap table: search/filter ---
+  let overlapSearchValue = "";
+  let overlapFilteredRows: OverlapHoldingRow[] = [];
+
+  function overlapSearch() {
+    const query = overlapSearchValue?.trim()?.toLowerCase();
+    if (!query) {
+      overlapFilteredRows = overlapRows;
+    } else {
+      overlapFilteredRows = overlapRows.filter(
+        (row) =>
+          row.symbol?.toLowerCase()?.includes(query) ||
+          row.name?.toLowerCase()?.includes(query),
+      );
+    }
+    overlapCurrentPage = 1;
+  }
+
+  function resetOverlapSearch() {
+    overlapSearchValue = "";
+    overlapFilteredRows = overlapRows;
+    overlapCurrentPage = 1;
+  }
+
+  // Flatten overlap rows for CSV/Excel download
+  function getOverlapDownloadData(): Record<string, any>[] {
+    const source =
+      overlapFilteredRows?.length > 0 || overlapSearchValue
+        ? overlapFilteredRows
+        : overlapRows;
+    return source.map((row) => {
+      const flat: Record<string, any> = {
+        Symbol: row.symbol,
+        Name: row.name,
+      };
+      for (const ticker of overlapTickerColumns) {
+        flat[`Weight in ${ticker}`] = row.tickerWeights?.[ticker] ?? 0;
+      }
+      flat["Overlap Weight"] = row.overlapWeight;
+      return flat;
+    });
+  }
+
   const buildTopHoldingsOverlapInfoText = (
     selectedTickerList: string[],
     holdingsByTicker: Record<string, TopHolding[]>,
@@ -479,19 +639,63 @@
     showTopHoldingsOverlapInfo = selectedTickerList.length > 1;
   }
 
+  // Rebuild overlap data + columns when ticker selection or holdings data changes
   $: {
     overlapTickerColumns = normalizeTickerList(tickerList);
     overlapRows = buildOverlapRows(overlapTickerColumns, allHoldingsByTicker);
+
+    // Reset sort state when underlying data changes
+    const newSortOrders: Record<string, { order: string; type: string }> = {
+      index: { order: "none", type: "number" },
+      symbol: { order: "none", type: "string" },
+      name: { order: "none", type: "string" },
+      overlapWeight: { order: "none", type: "number" },
+    };
+    for (const t of overlapTickerColumns) {
+      newSortOrders[`weight_${t}`] = { order: "none", type: "number" };
+    }
+    overlapSortOrders = newSortOrders;
+
+    // Rebuild column definitions (dynamic ticker columns)
+    const staticCols = [
+      { key: "index", label: "No.", align: "left" },
+      { key: "symbol", label: "Symbol", align: "left" },
+      { key: "name", label: "Name", align: "left" },
+    ];
+    const tickerCols = overlapTickerColumns.map((t) => ({
+      key: `weight_${t}`,
+      label: `Weight in ${t}`,
+      align: "right",
+    }));
+    const endCols = [
+      { key: "overlapWeight", label: "Overlap Weight", align: "right" },
+    ];
+    overlapDefaultColumns = [...staticCols, ...tickerCols, ...endCols];
+    overlapColumns = overlapApplyColumnOrder(
+      overlapDefaultColumns,
+      overlapCustomColumnOrder,
+    );
+
+    // Reset search and sync filtered rows
+    overlapSearchValue = "";
+    overlapFilteredRows = overlapRows;
+    overlapCurrentPage = 1;
+  }
+
+  // Paginate overlap filtered rows
+  $: {
     overlapTotalPages = Math.max(
       1,
-      Math.ceil((overlapRows?.length || 0) / overlapRowsPerPage),
+      Math.ceil((overlapFilteredRows?.length || 0) / overlapRowsPerPage),
     );
     if (overlapCurrentPage > overlapTotalPages) {
       overlapCurrentPage = overlapTotalPages;
     }
     const startIndex = (overlapCurrentPage - 1) * overlapRowsPerPage;
-    const endIndex = startIndex + overlapRowsPerPage;
-    overlapPaginatedRows = overlapRows.slice(startIndex, endIndex);
+    overlapPaginatedRows = overlapFilteredRows.slice(
+      startIndex,
+      startIndex + overlapRowsPerPage,
+    );
   }
 
   const handleDownloadMessage = async (event) => {
@@ -1169,6 +1373,8 @@
   }
 
   onMount(async () => {
+    overlapCustomColumnOrder = overlapLoadColumnOrder();
+
     try {
       const savedData = localStorage?.getItem("compare-etf");
 
@@ -1178,7 +1384,13 @@
         tickerList = Array.isArray(rawList)
           ? rawList
               .filter((t): t is string => typeof t === "string")
-              .map((t) => t.trim().toUpperCase().replace(/[^A-Z0-9.\-^]/g, "").slice(0, 20))
+              .map((t) =>
+                t
+                  .trim()
+                  .toUpperCase()
+                  .replace(/[^A-Z0-9.\-^]/g, "")
+                  .slice(0, 20),
+              )
               .filter(Boolean)
               .slice(0, 10)
           : [];
@@ -1593,76 +1805,145 @@
 
                 {#if isTopHoldingsLoading || overlapRows?.length > 0}
                   <div
-                    class="mt-4 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                    class="mt-1 w-full flex flex-row items-center ml-auto pb-2 pt-2"
+                  >
+                    <div class="relative lg:ml-auto w-full lg:w-fit">
+                      <div
+                        class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                      >
+                        {#if overlapSearchValue?.length > 0}
+                          <label
+                            class="cursor-pointer"
+                            on:click={() => resetOverlapSearch()}
+                          >
+                            <svg
+                              class="w-5 h-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                              />
+                            </svg>
+                          </label>
+                        {/if}
+                      </div>
+
+                      <input
+                        bind:value={overlapSearchValue}
+                        on:input={overlapSearch}
+                        type="text"
+                        placeholder="Find..."
+                        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      />
+                    </div>
+
+                    <div class="ml-2">
+                      <DownloadData
+                        {data}
+                        rawData={getOverlapDownloadData()}
+                        title="etf_compare_overlap"
+                      />
+                    </div>
+
+                    {#if overlapCustomColumnOrder?.length > 0}
+                      <button
+                        on:click={resetOverlapColumnOrder}
+                        title="Reset column order"
+                        class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    {/if}
+                  </div>
+
+                  <div
+                    class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
                   >
                     <div class="overflow-x-auto">
                       <table
                         class="table table-sm table-compact w-full min-w-[920px]"
                       >
-                        <thead
-                          class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
-                        >
-                          <tr
-                            class="border-b border-gray-300 dark:border-zinc-700"
-                          >
-                            <th class="pl-4">No.</th>
-                            <th>Symbol</th>
-                            <th>Name</th>
-                            {#each overlapTickerColumns as ticker}
-                              <th class="text-right">Weight in {ticker}</th>
-                            {/each}
-                            <th class="pr-4 text-right">Overlap Weight</th>
-                          </tr>
+                        <thead class="sticky top-0 z-10">
+                          <TableHeader
+                            columns={overlapColumns}
+                            sortOrders={overlapSortOrders}
+                            sortData={overlapSortData}
+                            onColumnReorder={handleOverlapColumnReorder}
+                          />
                         </thead>
                         <tbody>
                           {#if overlapPaginatedRows.length > 0}
-                            {#each overlapPaginatedRows as row, index}
+                            {#each overlapPaginatedRows as row, rowIndex}
                               <tr
                                 class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                               >
-                                <td
-                                  class="pl-4 text-gray-700 dark:text-zinc-200"
-                                >
-                                  {(overlapCurrentPage - 1) *
-                                    overlapRowsPerPage +
-                                    index +
-                                    1}
-                                </td>
-                                <td>
-                                  <a
-                                    href={`/stocks/${row?.symbol}/`}
-                                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                  >
-                                    {row?.symbol}
-                                  </a>
-                                </td>
-                                <td
-                                  class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
-                                  title={row?.name}
-                                >
-                                  {row?.name || "-"}
-                                </td>
-                                {#each overlapTickerColumns as ticker}
-                                  <td class="text-right tabular-nums">
-                                    {formatPercentValue(
-                                      row?.tickerWeights?.[ticker],
-                                    )}
-                                  </td>
+                                {#each overlapColumns as column}
+                                  {#if column.key === "index"}
+                                    <td
+                                      class="pl-4 text-gray-700 dark:text-zinc-200"
+                                    >
+                                      {(overlapCurrentPage - 1) *
+                                        overlapRowsPerPage +
+                                        rowIndex +
+                                        1}
+                                    </td>
+                                  {:else if column.key === "symbol"}
+                                    <td>
+                                      <a
+                                        href={`/stocks/${row?.symbol}/`}
+                                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                      >
+                                        {row?.symbol}
+                                      </a>
+                                    </td>
+                                  {:else if column.key === "name"}
+                                    <td
+                                      class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
+                                      title={row?.name}
+                                    >
+                                      {row?.name || "-"}
+                                    </td>
+                                  {:else if column.key === "overlapWeight"}
+                                    <td
+                                      class="pr-4 text-right font-semibold tabular-nums"
+                                    >
+                                      {formatPercentValue(row?.overlapWeight)}
+                                    </td>
+                                  {:else if column.key.startsWith("weight_")}
+                                    <td class="text-right tabular-nums">
+                                      {formatPercentValue(
+                                        row?.tickerWeights?.[
+                                          column.key.slice(7)
+                                        ],
+                                      )}
+                                    </td>
+                                  {/if}
                                 {/each}
-                                <td
-                                  class="pr-4 text-right font-semibold tabular-nums"
-                                >
-                                  {formatPercentValue(row?.overlapWeight)}
-                                </td>
                               </tr>
                             {/each}
                           {:else}
                             <tr>
                               <td
-                                colspan={4 + overlapTickerColumns.length}
+                                colspan={overlapColumns.length}
                                 class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
                               >
-                                Loading overlapping holdings...
+                                {overlapSearchValue?.length > 0
+                                  ? "No results found."
+                                  : "Loading overlapping holdings..."}
                               </td>
                             </tr>
                           {/if}
@@ -1672,7 +1953,7 @@
                   </div>
                 {/if}
 
-                {#if overlapRows?.length > 0}
+                {#if overlapFilteredRows?.length > 0}
                   <Pagination
                     currentPage={overlapCurrentPage}
                     totalPages={overlapTotalPages}
