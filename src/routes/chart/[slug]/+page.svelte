@@ -3577,6 +3577,78 @@
     return Array.from(map.values()).sort((a, b) => a.timestamp - b.timestamp);
   };
 
+  const getTodayStartTimestamp = () =>
+    DateTime.now().setZone(zone).startOf("day").toMillis();
+
+  const aggregateMinuteBarsForSpan = (span: number) => {
+    if (span <= 1 || !minuteBars.length) return [];
+
+    const todayStart = getTodayStartTimestamp();
+    const todayBars = minuteBars.filter((bar) => bar.timestamp >= todayStart);
+    if (!todayBars.length) return [];
+
+    const firstBarDt = DateTime.fromMillis(todayBars[0].timestamp, { zone });
+    const anchorMinutes = firstBarDt.hour * 60 + firstBarDt.minute;
+    const buckets = new Map<number, KLineData>();
+    for (const bar of todayBars) {
+      const dt = DateTime.fromMillis(bar.timestamp, { zone });
+      const totalMinutes = dt.hour * 60 + dt.minute;
+      // Anchor buckets to the first intraday bar (typically 09:30),
+      // matching the backend interval timestamps.
+      const elapsedMinutes = Math.max(0, totalMinutes - anchorMinutes);
+      const bucketMinutes =
+        anchorMinutes + Math.floor(elapsedMinutes / span) * span;
+      const bucketHour = Math.floor(bucketMinutes / 60);
+      const bucketMinute = bucketMinutes % 60;
+      const bucketTimestamp = dt
+        .set({
+          hour: bucketHour,
+          minute: bucketMinute,
+          second: 0,
+          millisecond: 0,
+        })
+        .toMillis();
+
+      const existing = buckets.get(bucketTimestamp);
+      if (existing) {
+        existing.high = Math.max(existing.high, bar.high);
+        existing.low = Math.min(existing.low, bar.low);
+        existing.close = bar.close;
+        existing.volume = (existing.volume ?? 0) + (bar.volume ?? 0);
+      } else {
+        buckets.set(bucketTimestamp, {
+          timestamp: bucketTimestamp,
+          open: bar.open,
+          high: bar.high,
+          low: bar.low,
+          close: bar.close,
+          volume: bar.volume ?? 0,
+        });
+      }
+    }
+
+    return Array.from(buckets.values()).sort((a, b) => a.timestamp - b.timestamp);
+  };
+
+  const getIntradayBarsWithLiveAggregation = (
+    interval: IntradayInterval,
+  ) => {
+    const history = intradayHistory[interval]?.bars ?? [];
+    if (!history.length || interval === "1min") {
+      return history;
+    }
+
+    const span = intradaySpanMap[interval];
+    const todayStart = getTodayStartTimestamp();
+    const aggregatedToday = aggregateMinuteBarsForSpan(span);
+    if (!aggregatedToday.length) {
+      return history;
+    }
+
+    const historicOnly = history.filter((bar) => bar.timestamp < todayStart);
+    return [...historicOnly, ...aggregatedToday];
+  };
+
   const requestIntradayHistory = async (
     interval: IntradayInterval,
     endDate: string,
@@ -6275,14 +6347,14 @@
       return { bars, period: { type: "minute", span: 1 } };
     }
 
-    // Handle other intraday intervals (5min, 15min, 30min, 1hour)
+    // Handle other intraday intervals (5min, 15min, 30min, 1hour, 4hour)
     if (
       intradayIntervals.includes(range as IntradayInterval) &&
       range !== "1min"
     ) {
       const interval = range as IntradayInterval;
       const span = intradaySpanMap[interval];
-      const bars = intradayHistory[interval].bars;
+      const bars = getIntradayBarsWithLiveAggregation(interval);
       return { bars, period: { type: "minute", span } };
     }
 
@@ -6557,6 +6629,9 @@
       }
     }
 
+    const isIntradayRange = intradayIntervals.includes(
+      activeRange as IntradayInterval,
+    );
     if (activeRange === "1D") {
       const displayBars = transformBarsForType(intradayBars, chartType);
       currentBars = displayBars;
@@ -6579,6 +6654,19 @@
         if (latestBar && realtimeBarCallback) {
           realtimeBarCallback(latestBar);
         }
+      }
+    }
+
+    if (isIntradayRange && activeRange !== "1min") {
+      const interval = activeRange as IntradayInterval;
+      const displayBars = transformBarsForType(
+        getIntradayBarsWithLiveAggregation(interval),
+        chartType,
+      );
+      currentBars = displayBars;
+      const latestBar = displayBars[displayBars.length - 1];
+      if (latestBar && realtimeBarCallback) {
+        realtimeBarCallback(latestBar);
       }
     }
 
