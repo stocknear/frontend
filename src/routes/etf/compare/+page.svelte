@@ -445,12 +445,10 @@
   }
 
   function handleOverlapColumnReorder(fromIndex: number, toIndex: number) {
-    // Protect "No." column at position 0
-    if (fromIndex === 0 || toIndex === 0) return;
     const reordered = [...overlapColumns];
     const [removed] = reordered.splice(fromIndex, 1);
     reordered.splice(toIndex, 0, removed);
-    const reorderableColumns = reordered.filter((c) => c.key !== "index");
+    const reorderableColumns = reordered;
     overlapCustomColumnOrder = reorderableColumns.map((c) => c.key);
     overlapSaveColumnOrder(overlapCustomColumnOrder);
     overlapColumns = reordered;
@@ -492,8 +490,6 @@
   };
 
   const overlapSortData = (key: string) => {
-    if (key === "index") return;
-
     for (const k in overlapSortOrders) {
       if (k !== key) overlapSortOrders[k].order = "none";
     }
@@ -538,24 +534,19 @@
     overlapCurrentPage = 1;
   }
 
-  // Flatten overlap rows for CSV/Excel download
-  function getOverlapDownloadData(): Record<string, any>[] {
-    const source =
-      overlapFilteredRows?.length > 0 || overlapSearchValue
-        ? overlapFilteredRows
-        : overlapRows;
-    return source.map((row) => {
-      const flat: Record<string, any> = {
-        Symbol: row.symbol,
-        Name: row.name,
-      };
-      for (const ticker of overlapTickerColumns) {
-        flat[`Weight in ${ticker}`] = row.tickerWeights?.[ticker] ?? 0;
-      }
-      flat["Overlap Weight"] = row.overlapWeight;
-      return flat;
-    });
-  }
+  // Flatten overlap rows for CSV/Excel download (reactive so Svelte tracks deps)
+  let overlapDownloadData: Record<string, any>[] = [];
+  $: overlapDownloadData = overlapFilteredRows.map((row) => {
+    const flat: Record<string, any> = {
+      Symbol: row.symbol,
+      Name: row.name,
+    };
+    for (const ticker of overlapTickerColumns) {
+      flat[`Weight in ${ticker}`] = row.tickerWeights?.[ticker] ?? 0;
+    }
+    flat["Overlap Weight"] = row.overlapWeight;
+    return flat;
+  });
 
   const buildTopHoldingsOverlapInfoText = (
     selectedTickerList: string[],
@@ -640,13 +631,19 @@
   }
 
   // Rebuild overlap data + columns when ticker selection or holdings data changes
+  // IMPORTANT: Use a local variable for the built rows to avoid reading `overlapRows`
+  // in the same $: block that writes it — otherwise Svelte treats it as a dependency
+  // and any external mutation (sorting) re-triggers this block, wiping the sort.
   $: {
     overlapTickerColumns = normalizeTickerList(tickerList);
-    overlapRows = buildOverlapRows(overlapTickerColumns, allHoldingsByTicker);
+    const builtRows = buildOverlapRows(
+      overlapTickerColumns,
+      allHoldingsByTicker,
+    );
+    overlapRows = builtRows;
 
     // Reset sort state when underlying data changes
     const newSortOrders: Record<string, { order: string; type: string }> = {
-      index: { order: "none", type: "number" },
       symbol: { order: "none", type: "string" },
       name: { order: "none", type: "string" },
       overlapWeight: { order: "none", type: "number" },
@@ -658,7 +655,6 @@
 
     // Rebuild column definitions (dynamic ticker columns)
     const staticCols = [
-      { key: "index", label: "No.", align: "left" },
       { key: "symbol", label: "Symbol", align: "left" },
       { key: "name", label: "Name", align: "left" },
     ];
@@ -676,9 +672,9 @@
       overlapCustomColumnOrder,
     );
 
-    // Reset search and sync filtered rows
+    // Reset search and sync filtered rows (use local var, not overlapRows)
     overlapSearchValue = "";
-    overlapFilteredRows = overlapRows;
+    overlapFilteredRows = builtRows;
     overlapCurrentPage = 1;
   }
 
@@ -1842,8 +1838,8 @@
                     <div class="ml-2">
                       <DownloadData
                         {data}
-                        rawData={getOverlapDownloadData()}
-                        title="etf_compare_overlap"
+                        rawData={overlapDownloadData}
+                        title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
                       />
                     </div>
 
@@ -1892,16 +1888,7 @@
                                 class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                               >
                                 {#each overlapColumns as column}
-                                  {#if column.key === "index"}
-                                    <td
-                                      class="pl-4 text-gray-700 dark:text-zinc-200"
-                                    >
-                                      {(overlapCurrentPage - 1) *
-                                        overlapRowsPerPage +
-                                        rowIndex +
-                                        1}
-                                    </td>
-                                  {:else if column.key === "symbol"}
+                                  {#if column.key === "symbol"}
                                     <td>
                                       <a
                                         href={`/stocks/${row?.symbol}/`}
