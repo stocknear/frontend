@@ -620,22 +620,25 @@
       tooltip: {
         shared: true,
         useHTML: true,
-        backgroundColor: $mode === "light" ? "#fff" : "#18181B",
-        borderColor: $mode === "light" ? "#D1D5DB" : "#3F3F46",
-        style: { color: $mode === "light" ? "#1F2937" : "#E4E4E7" },
+        animation: false,
+        backgroundColor: "rgba(0, 0, 0, 1)",
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderWidth: 1,
+        borderRadius: 4,
+        style: { color: "#fff", fontSize: "16px", padding: "10px" },
         formatter: function () {
           const idx = this.points?.[0]?.point?.index;
           const row = idx !== undefined ? chartRows[idx] : null;
-          let html = `<b>${row?.symbol ?? this.x}</b>`;
+          let content = `<span class="text-white text-xs font-[501]">${row?.symbol ?? this.x}</span>`;
           if (row?.name)
-            html += `<br/><span style="font-size:11px;color:#9CA3AF">${row.name}</span>`;
+            content += `<br/><span class="text-zinc-400 font-normal text-xs">${row.name}</span>`;
           for (const point of this.points) {
             if (!point.y || point.y === 0) continue;
-            html += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${point.y?.toFixed(2)}%</b>`;
+            content += `<br/><span style="color:${point.color}">\u25CF</span> <span class="text-white text-xs">${point.series.name}:</span> <span class="text-white font-normal text-xs">${point.y?.toFixed(2)}%</span>`;
           }
           if (row?.overlapWeight)
-            html += `<br/><br/>Overlap Weight: <b>${row.overlapWeight?.toFixed(2)}%</b>`;
-          return html;
+            content += `<br/><span class="text-white text-xs">Overlap Weight:</span> <span class="text-white font-normal text-xs">${row.overlapWeight?.toFixed(2)}%</span>`;
+          return content;
         },
       },
       plotOptions: {
@@ -1918,9 +1921,9 @@
                         Stocks
                       </h2>
                       <div
-                        class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                        class="mt-1 w-full flex flex-col sm:flex-row items-start sm:items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
                       >
-                        <div class="relative lg:ml-auto w-full lg:w-fit">
+                        <div class="relative w-full sm:ml-auto sm:w-fit">
                           <div
                             class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                           >
@@ -1952,53 +1955,55 @@
                           />
                         </div>
 
-                        <div class="ml-2">
-                          <DownloadData
-                            {data}
-                            rawData={overlapDownloadData}
-                            title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
-                          />
-                        </div>
+                        <div class="flex flex-row items-center mt-1.5 sm:mt-0">
+                          <div class="sm:ml-2">
+                            <DownloadData
+                              {data}
+                              rawData={overlapDownloadData}
+                              title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
+                            />
+                          </div>
 
-                        <button
-                          on:click={() => {
-                            overlapViewMode =
-                              overlapViewMode === "table" ? "chart" : "table";
-                            if (overlapViewMode === "chart")
-                              overlapChartConfig = buildOverlapChartConfig();
-                          }}
-                          class="ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
-                        >
-                          {#if overlapViewMode === "chart"}
-                            <TableIcon class="w-4 h-4" />
-                            <span class="ml-1.5 text-sm">Table Mode</span>
-                          {:else}
-                            <LayoutGrid class="w-4 h-4" />
-                            <span class="ml-1.5 text-sm">Chart Mode</span>
-                          {/if}
-                        </button>
-
-                        {#if overlapViewMode === "table" && overlapCustomColumnOrder?.length > 0}
                           <button
-                            on:click={resetOverlapColumnOrder}
-                            title="Reset column order"
-                            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                            on:click={() => {
+                              overlapViewMode =
+                                overlapViewMode === "table" ? "chart" : "table";
+                              if (overlapViewMode === "chart")
+                                overlapChartConfig = buildOverlapChartConfig();
+                            }}
+                            class="ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                           >
-                            <svg
-                              class="w-4 h-4"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              />
-                            </svg>
+                            {#if overlapViewMode === "chart"}
+                              <TableIcon class="w-4 h-4" />
+                              <span class="ml-1.5 text-sm">Table Mode</span>
+                            {:else}
+                              <LayoutGrid class="w-4 h-4" />
+                              <span class="ml-1.5 text-sm">Chart Mode</span>
+                            {/if}
                           </button>
-                        {/if}
+
+                          {#if overlapViewMode === "table" && overlapCustomColumnOrder?.length > 0}
+                            <button
+                              on:click={resetOverlapColumnOrder}
+                              title="Reset column order"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                            >
+                              <svg
+                                class="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                            </button>
+                          {/if}
+                        </div>
                       </div>
                     </div>
                   </div>
