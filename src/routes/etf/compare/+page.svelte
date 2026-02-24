@@ -462,11 +462,13 @@
     }
 
     const symbolFrequency = new Map<string, number>();
+    const holdingsCountByTicker: Record<string, number> = {};
 
     for (const ticker of selectedTickers) {
       const holdings = Array.isArray(holdingsByTicker?.[ticker])
         ? holdingsByTicker[ticker]
         : [];
+      holdingsCountByTicker[ticker] = holdings.length;
 
       const symbolsForTicker = new Set(
         holdings
@@ -495,8 +497,14 @@
     const commonAcrossAllCount = [...symbolFrequency.values()]?.filter(
       (count) => count === selectedTickers.length,
     )?.length;
+    const holdingsCountText = selectedTickers
+      ?.map(
+        (ticker) =>
+          `<strong>${ticker}</strong>: ${(holdingsCountByTicker?.[ticker] ?? 0).toLocaleString("en-US")}`,
+      )
+      ?.join(", ");
 
-    return `Across <strong>${selectedTickers.length}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs.`;
+    return `Across <strong>${selectedTickers.length}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs. Total holdings by ETF: ${holdingsCountText}.`;
   };
 
   $: {
