@@ -16,6 +16,8 @@
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import LayoutGrid from "lucide-svelte/icons/layout-grid";
+  import TableIcon from "lucide-svelte/icons/table";
 
   import SEO from "$lib/components/SEO.svelte";
   import {
@@ -177,6 +179,8 @@
   let overlapColumns: { key: string; label: string; align: string }[] = [];
   let overlapCustomColumnOrder: string[] = [];
   let overlapSortOrders: Record<string, { order: string; type: string }> = {};
+  let overlapViewMode: "table" | "chart" = "table";
+  let overlapChartConfig = null;
   const topHoldingsCache = new Map<
     string,
     { allHoldings: TopHolding[]; fetchedAt: number }
@@ -547,6 +551,104 @@
     flat["Overlap Weight"] = row.overlapWeight;
     return flat;
   });
+
+  $: if (overlapViewMode === "chart" && overlapFilteredRows?.length > 0) {
+    overlapChartConfig = buildOverlapChartConfig();
+  }
+
+  function buildOverlapChartConfig() {
+    const chartRows = [...overlapFilteredRows]
+      .sort((a, b) => (b.overlapWeight ?? 0) - (a.overlapWeight ?? 0))
+      .slice(0, 20);
+
+    if (chartRows.length === 0) return null;
+
+    const categories = chartRows.map((r) => r.symbol);
+
+    const series = overlapTickerColumns.map((ticker, idx) => {
+      const pair = colorPairs[idx % colorPairs.length];
+      return {
+        name: ticker,
+        data: chartRows.map(
+          (r) => +(r.tickerWeights?.[ticker] ?? 0).toFixed(2),
+        ),
+        color: $mode === "light" ? pair.light : pair.dark,
+      };
+    });
+
+    return {
+      chart: {
+        type: "column",
+        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        animation: false,
+        height: 500,
+      },
+      title: { text: null },
+      xAxis: {
+        categories,
+        crosshair: true,
+        labels: {
+          style: {
+            color: $mode === "light" ? "#6B7280" : "#A1A1AA",
+            fontSize: "11px",
+          },
+          rotation: -45,
+        },
+        lineColor: $mode === "light" ? "#D1D5DB" : "#3F3F46",
+        tickColor: $mode === "light" ? "#D1D5DB" : "#3F3F46",
+      },
+      yAxis: {
+        title: {
+          text: "Weight (%)",
+          style: { color: $mode === "light" ? "#6B7280" : "#A1A1AA" },
+        },
+        labels: {
+          format: "{value}%",
+          style: { color: $mode === "light" ? "#6B7280" : "#A1A1AA" },
+        },
+        gridLineColor: $mode === "light" ? "#E5E7EB" : "#27272A",
+      },
+      legend: {
+        enabled: true,
+        itemStyle: { color: $mode === "light" ? "#1F2937" : "#E4E4E7" },
+        itemHoverStyle: {
+          color: $mode === "light" ? "#7C3AED" : "#A78BFA",
+        },
+      },
+      tooltip: {
+        shared: true,
+        useHTML: true,
+        backgroundColor: $mode === "light" ? "#fff" : "#18181B",
+        borderColor: $mode === "light" ? "#D1D5DB" : "#3F3F46",
+        style: { color: $mode === "light" ? "#1F2937" : "#E4E4E7" },
+        formatter: function () {
+          const symbol = this.x;
+          const row = chartRows.find((r) => r.symbol === symbol);
+          let html = `<b>${symbol}</b>`;
+          if (row?.name)
+            html += `<br/><span style="font-size:11px;color:#9CA3AF">${row.name}</span>`;
+          html += "<br/>";
+          for (const point of this.points) {
+            html += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${point.y?.toFixed(2)}%</b>`;
+          }
+          if (row)
+            html += `<br/><br/>Overlap Weight: <b>${row.overlapWeight?.toFixed(2)}%</b>`;
+          return html;
+        },
+      },
+      plotOptions: {
+        column: {
+          grouping: true,
+          borderWidth: 0,
+          borderRadius: 3,
+          pointPadding: 0.05,
+          groupPadding: 0.15,
+        },
+      },
+      series,
+      credits: { enabled: false },
+    };
+  }
 
   const buildTopHoldingsOverlapInfoText = (
     selectedTickerList: string[],
@@ -1815,6 +1917,24 @@
                       <div
                         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                       >
+                        <button
+                          on:click={() => {
+                            overlapViewMode =
+                              overlapViewMode === "table" ? "chart" : "table";
+                            if (overlapViewMode === "chart")
+                              overlapChartConfig = buildOverlapChartConfig();
+                          }}
+                          class="mr-2 shrink-0 cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                        >
+                          {#if overlapViewMode === "chart"}
+                            <TableIcon class="w-4 h-4" />
+                            <span class="ml-1.5 text-sm">Table Mode</span>
+                          {:else}
+                            <LayoutGrid class="w-4 h-4" />
+                            <span class="ml-1.5 text-sm">Chart Mode</span>
+                          {/if}
+                        </button>
+
                         <div class="relative lg:ml-auto w-full lg:w-fit">
                           <div
                             class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -1855,7 +1975,7 @@
                           />
                         </div>
 
-                        {#if overlapCustomColumnOrder?.length > 0}
+                        {#if overlapViewMode === "table" && overlapCustomColumnOrder?.length > 0}
                           <button
                             on:click={resetOverlapColumnOrder}
                             title="Reset column order"
@@ -1880,90 +2000,99 @@
                     </div>
                   </div>
 
-                  <div
-                    class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
-                  >
-                    <div class="overflow-x-auto">
-                      <table
-                        class="table table-sm table-compact w-full min-w-[920px]"
-                      >
-                        <thead class="sticky top-0 z-10">
-                          <TableHeader
-                            columns={overlapColumns}
-                            sortOrders={overlapSortOrders}
-                            sortData={overlapSortData}
-                            onColumnReorder={handleOverlapColumnReorder}
-                          />
-                        </thead>
-                        <tbody>
-                          {#if overlapPaginatedRows.length > 0}
-                            {#each overlapPaginatedRows as row, rowIndex}
-                              <tr
-                                class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
-                              >
-                                {#each overlapColumns as column}
-                                  {#if column.key === "symbol"}
-                                    <td>
-                                      <a
-                                        href={`/stocks/${row?.symbol}/`}
-                                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                  {#if overlapViewMode === "chart"}
+                    {#if overlapChartConfig}
+                      <div
+                        class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 w-full"
+                        use:highcharts={overlapChartConfig}
+                      ></div>
+                    {/if}
+                  {:else}
+                    <div
+                      class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                    >
+                      <div class="overflow-x-auto">
+                        <table
+                          class="table table-sm table-compact w-full min-w-[920px]"
+                        >
+                          <thead class="sticky top-0 z-10">
+                            <TableHeader
+                              columns={overlapColumns}
+                              sortOrders={overlapSortOrders}
+                              sortData={overlapSortData}
+                              onColumnReorder={handleOverlapColumnReorder}
+                            />
+                          </thead>
+                          <tbody>
+                            {#if overlapPaginatedRows.length > 0}
+                              {#each overlapPaginatedRows as row, rowIndex}
+                                <tr
+                                  class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+                                >
+                                  {#each overlapColumns as column}
+                                    {#if column.key === "symbol"}
+                                      <td>
+                                        <a
+                                          href={`/stocks/${row?.symbol}/`}
+                                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                        >
+                                          {row?.symbol}
+                                        </a>
+                                      </td>
+                                    {:else if column.key === "name"}
+                                      <td
+                                        class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
+                                        title={row?.name}
                                       >
-                                        {row?.symbol}
-                                      </a>
-                                    </td>
-                                  {:else if column.key === "name"}
-                                    <td
-                                      class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
-                                      title={row?.name}
-                                    >
-                                      {row?.name || "-"}
-                                    </td>
-                                  {:else if column.key === "overlapWeight"}
-                                    <td
-                                      class="pr-4 text-right font-semibold tabular-nums"
-                                    >
-                                      {formatPercentValue(row?.overlapWeight)}
-                                    </td>
-                                  {:else if column.key.startsWith("weight_")}
-                                    <td class="text-right tabular-nums">
-                                      {formatPercentValue(
-                                        row?.tickerWeights?.[
-                                          column.key.slice(7)
-                                        ],
-                                      )}
-                                    </td>
-                                  {/if}
-                                {/each}
+                                        {row?.name || "-"}
+                                      </td>
+                                    {:else if column.key === "overlapWeight"}
+                                      <td
+                                        class="pr-4 text-right font-semibold tabular-nums"
+                                      >
+                                        {formatPercentValue(row?.overlapWeight)}
+                                      </td>
+                                    {:else if column.key.startsWith("weight_")}
+                                      <td class="text-right tabular-nums">
+                                        {formatPercentValue(
+                                          row?.tickerWeights?.[
+                                            column.key.slice(7)
+                                          ],
+                                        )}
+                                      </td>
+                                    {/if}
+                                  {/each}
+                                </tr>
+                              {/each}
+                            {:else}
+                              <tr>
+                                <td
+                                  colspan={overlapColumns.length}
+                                  class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
+                                >
+                                  {overlapSearchValue?.length > 0
+                                    ? "No results found."
+                                    : "Loading overlapping holdings..."}
+                                </td>
                               </tr>
-                            {/each}
-                          {:else}
-                            <tr>
-                              <td
-                                colspan={overlapColumns.length}
-                                class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
-                              >
-                                {overlapSearchValue?.length > 0
-                                  ? "No results found."
-                                  : "Loading overlapping holdings..."}
-                              </td>
-                            </tr>
-                          {/if}
-                        </tbody>
-                      </table>
+                            {/if}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                {/if}
 
-                {#if overlapFilteredRows?.length > 0}
-                  <Pagination
-                    currentPage={overlapCurrentPage}
-                    totalPages={overlapTotalPages}
-                    rowsPerPage={overlapRowsPerPage}
-                    rowsPerPageOptions={overlapRowsPerPageOptions}
-                    showBackToTop={false}
-                    on:pageChange={handleOverlapPageChange}
-                    on:rowsPerPageChange={handleOverlapRowsPerPageChange}
-                  />
+                    {#if overlapFilteredRows?.length > 0}
+                      <Pagination
+                        currentPage={overlapCurrentPage}
+                        totalPages={overlapTotalPages}
+                        rowsPerPage={overlapRowsPerPage}
+                        rowsPerPageOptions={overlapRowsPerPageOptions}
+                        showBackToTop={false}
+                        on:pageChange={handleOverlapPageChange}
+                        on:rowsPerPageChange={handleOverlapRowsPerPageChange}
+                      />
+                    {/if}
+                  {/if}
                 {/if}
               </div>
             {/if}
