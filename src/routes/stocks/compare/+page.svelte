@@ -71,15 +71,30 @@
 
   let selectedPlotPeriod = "3Y";
 
-  let selectedPlotCategory = {
+  const DEFAULT_STOCK_COMPARE_CATEGORY = {
     name: "Total Return (%)",
-    value: "totalReturn",
-    type: "price",
+    value: "totalReturnPct",
+    type: "total-return-pct",
   };
+
+  let selectedPlotCategory = { ...DEFAULT_STOCK_COMPARE_CATEGORY };
 
   let categoryList = [
     { name: "Stock Price", value: "close", type: "price" },
-    { name: "Total Return (%)", value: "totalReturn", type: "price" },
+    { name: "Price Change (%)", value: "close", type: "price-change" },
+    { name: "Total Return", value: "totalReturn", type: "total-return" },
+    {
+      name: "Total Return (%)",
+      value: "totalReturnPct",
+      type: "total-return-pct",
+    },
+    { name: "Dividends (TTM)", value: "dividendTTM", type: "dividend-ttm" },
+    { name: "Dividend Growth", value: "dividendGrowth", type: "dividend-growth" },
+    {
+      name: "Dividend Growth (YoY)",
+      value: "dividendGrowthYoY",
+      type: "dividend-growth-yoy",
+    },
     { name: "Market Cap", value: "marketCap", type: "marketCap" },
     { name: "Dividend Yield", value: "yield", type: "dividend" },
     { name: "Dividends", value: "adjDividend", type: "dividend" },
@@ -228,6 +243,22 @@
     return rawType === "stock" || rawType === "stocks";
   };
 
+  const normalizeStockCompareCategory = (category) => {
+    if (!category || typeof category !== "object") {
+      return { ...DEFAULT_STOCK_COMPARE_CATEGORY };
+    }
+
+    // Backward compatibility for previously persisted legacy "Total Return (%)".
+    if (category?.type === "price" && category?.value === "totalReturn") {
+      return { ...DEFAULT_STOCK_COMPARE_CATEGORY };
+    }
+
+    const matched = categoryList.find(
+      (item) => item?.type === category?.type && item?.value === category?.value,
+    );
+    return matched ? { ...matched } : { ...DEFAULT_STOCK_COMPARE_CATEGORY };
+  };
+
   const toFiniteNumber = (value) => {
     const num = Number(value);
     return Number.isFinite(num) ? num : null;
@@ -310,9 +341,7 @@
 
   // Helper function to get the correct category for API calls
   function getCategoryForAPI(category) {
-    return category?.value === "totalReturn"
-      ? { name: "Stock Price", value: "close", type: "price" }
-      : category;
+    return normalizeStockCompareCategory(category);
   }
 
   async function changeCategory(category) {
@@ -349,11 +378,7 @@
   function presetStrategy(defaultTickers) {
     isLoaded = false;
     tickerList = [];
-    selectedPlotCategory = {
-      name: "Total Return [%]",
-      value: "totalReturn",
-      type: "price",
-    };
+    selectedPlotCategory = { ...DEFAULT_STOCK_COMPARE_CATEGORY };
 
     if (!Array.isArray(defaultTickers)) {
       toast?.error(compare_toast_invalid_list());
@@ -510,46 +535,26 @@
       const series = Array?.isArray(data?.history) ? data?.history : [];
       const filteredSeries = filterDataByTimePeriod(series);
 
-      if (
-        selectedPlotCategory?.value === "totalReturn" &&
-        filteredSeries?.length > 0
-      ) {
-        // Calculate total return percentage from first price to each subsequent price
-        const firstPrice = filteredSeries[0]?.value;
-
-        parsedData[symbol] = filteredSeries?.map((item) => {
-          const d = new Date(item?.date);
-          const totalReturnPct = firstPrice
-            ? ((item?.value - firstPrice) / firstPrice) * 100
-            : 0;
-          return [
-            Date.UTC(
-              d.getUTCFullYear(),
-              d.getUTCMonth(),
-              d.getUTCDate(),
-              d.getUTCHours(),
-              d.getUTCMinutes(),
-            ),
-            totalReturnPct,
-          ];
-        });
-      } else {
-        // Filter by the desired time period and map to [timestamp, value] pairs
-        parsedData[symbol] = filteredSeries?.map((item) => {
-          const d = new Date(item?.date);
-          return [
-            Date.UTC(
-              d.getUTCFullYear(),
-              d.getUTCMonth(),
-              d.getUTCDate(),
-              d.getUTCHours(),
-              d.getUTCMinutes(),
-            ),
-            item?.value,
-          ];
-        });
-      }
+      // Filter by the desired time period and map to [timestamp, value] pairs
+      parsedData[symbol] = filteredSeries?.map((item) => {
+        const d = new Date(item?.date);
+        return [
+          Date.UTC(
+            d.getUTCFullYear(),
+            d.getUTCMonth(),
+            d.getUTCDate(),
+            d.getUTCHours(),
+            d.getUTCMinutes(),
+          ),
+          item?.value,
+        ];
+      });
     }
+
+    const isLineSeriesCategory = [
+      "dividend-ttm",
+      "dividend-growth-yoy",
+    ]?.includes(selectedPlotCategory?.type);
 
     // 3) build series entries
     const series = Object?.entries(parsedData)?.map(([symbol, data], index) => {
@@ -558,7 +563,7 @@
 
       return {
         name: symbol,
-        type: "spline", // or "area" if you still want fill
+        type: isLineSeriesCategory ? "line" : "spline",
         data,
         color: $mode === "light" ? pair?.light : pair?.dark,
         lineWidth: 1.5,
@@ -568,7 +573,10 @@
 
     // Check if the selected category is percentage-based
     const isPercentageCategory = [
-      "totalReturn",
+      "price-change",
+      "total-return-pct",
+      "dividend-growth-yoy",
+    ]?.includes(selectedPlotCategory?.type) || [
       "dividendPayoutRatio",
       "yield",
       "netProfitMargin",
@@ -650,7 +658,13 @@
         style: { color: $mode === "light" ? "black" : "white" },
       },
       tooltip: {
-        shared: ["price", "marketCap"]?.includes(selectedPlotCategory?.value),
+        shared: [
+          "price",
+          "price-change",
+          "total-return",
+          "total-return-pct",
+          "marketCap",
+        ]?.includes(selectedPlotCategory?.type),
         useHTML: true,
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
@@ -898,8 +912,10 @@
 
       if (savedData) {
         const parsedData = JSON.parse(savedData);
-        tickerList = parsedData?.tickerList;
-        selectedPlotCategory = parsedData?.selectedPlotCategory;
+        tickerList = parsedData?.tickerList ?? [];
+        selectedPlotCategory = normalizeStockCompareCategory(
+          parsedData?.selectedPlotCategory,
+        );
       }
     } catch (e) {
       console.log(e);
