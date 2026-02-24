@@ -670,8 +670,16 @@ export const computeGrowthSingleList = (data, actualList) => {
 
 export const groupScreenerRules = (allRows) => {
   const categoryOrder = [
-    "Most Popular", "Statistics", "Options Activity", "Greeks", "Company Info", "Earnings Report", "Price & Volume", "Fair Value", "Valuation & Ratios", "Valuation & Price Targets", "Margins",
-    "Performance", "Technical Analysis", "Forecasts, Analysts & Price Targets", "Dividends", "Revenue / Sales", "Net Income", "Financial Performance", "Other Profits", "Cash Flow", "Expenses", "Debt", "Assets & Liabilities", "Shares Statistics", "Short Selling Statistics", "Taxes", "Others"
+    "Most Popular",
+    "Fund Info",
+    "Statistics", "Options Activity", "Greeks", "Company Info", "Earnings Report",
+    "Price & Volume", "Fair Value", "Valuation & Ratios", "Valuation & Price Targets", "Margins",
+    "Performance",
+    "Technicals", "Technical Analysis",
+    "Forecasts, Analysts & Price Targets",
+    "Valuation", "Dividends", "52-Week",
+    "Revenue / Sales", "Net Income", "Financial Performance", "Other Profits", "Cash Flow", "Expenses", "Debt", "Assets & Liabilities", "Shares Statistics", "Short Selling Statistics", "Taxes",
+    "Ticker Filters", "Others",
   ];
 
   // Group rows by category
@@ -689,10 +697,15 @@ export const groupScreenerRules = (allRows) => {
     return acc;
   }, {});
 
-  // Sort categories based on the defined order
+  // Sort categories based on the defined order (unknowns go to the end)
+  const maxIdx = categoryOrder.length;
   const orderedGroupedRules = Object.fromEntries(
     Object.entries(grouped).sort(
-      ([keyA], [keyB]) => categoryOrder.indexOf(keyA) - categoryOrder.indexOf(keyB)
+      ([keyA], [keyB]) => {
+        const idxA = categoryOrder.indexOf(keyA);
+        const idxB = categoryOrder.indexOf(keyB);
+        return (idxA === -1 ? maxIdx : idxA) - (idxB === -1 ? maxIdx : idxB);
+      }
     )
   );
 
