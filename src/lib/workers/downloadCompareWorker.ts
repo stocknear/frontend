@@ -1,4 +1,5 @@
-// Cache to store previous requests
+// Cache to store previous requests (capped to prevent unbounded memory growth)
+const MAX_CACHE_SIZE = 50;
 const cache = new Map<string, any>();
 
 
@@ -32,7 +33,11 @@ const fetchData = async (tickerList, category, assetType = "stocks") => {
 
   const output = await response.json();
 
-  // 5) Cache & return
+  // 5) Cache & return (evict oldest if at capacity)
+  if (cache.size >= MAX_CACHE_SIZE) {
+    const oldest = cache.keys().next().value;
+    if (oldest !== undefined) cache.delete(oldest);
+  }
   cache?.set(cacheKey, output);
   return output;
 };

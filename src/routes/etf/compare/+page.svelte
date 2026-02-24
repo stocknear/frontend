@@ -42,6 +42,15 @@
   } from "$lib/paraglide/messages";
 
   export let data;
+
+  /** Escape HTML special characters to prevent XSS in {@html} contexts */
+  const escapeHtml = (s: string) =>
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
   const defaultList = [...ETF_COMPARE_DEFAULT_LIST];
   const excludedRules = new Set(defaultList.map((item) => item.rule));
 
@@ -448,7 +457,7 @@
     const holdingsCountText = selectedTickers
       ?.map(
         (ticker) =>
-          `<strong>${ticker}</strong>: ${(holdingsCountByTicker?.[ticker] ?? 0).toLocaleString("en-US")}`,
+          `<strong>${escapeHtml(ticker)}</strong>: ${(holdingsCountByTicker?.[ticker] ?? 0).toLocaleString("en-US")}`,
       )
       ?.join(", ");
 
@@ -1165,7 +1174,14 @@
 
       if (savedData) {
         const parsedData = JSON.parse(savedData);
-        tickerList = parsedData?.tickerList;
+        const rawList = parsedData?.tickerList;
+        tickerList = Array.isArray(rawList)
+          ? rawList
+              .filter((t): t is string => typeof t === "string")
+              .map((t) => t.trim().toUpperCase().replace(/[^A-Z0-9.\-^]/g, "").slice(0, 20))
+              .filter(Boolean)
+              .slice(0, 10)
+          : [];
         const savedCategory = parsedData?.selectedPlotCategory;
         selectedPlotCategory =
           savedCategory?.type === "price-change"

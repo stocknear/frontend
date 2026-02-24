@@ -7,7 +7,6 @@
   import { Combobox } from "bits-ui";
   import { toast } from "svelte-sonner";
   import Table from "$lib/components/Table/Table.svelte";
-  import Infobox from "$lib/components/Infobox.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { mode } from "mode-watcher";
@@ -958,7 +957,14 @@
 
       if (savedData) {
         const parsedData = JSON.parse(savedData);
-        tickerList = parsedData?.tickerList ?? [];
+        const rawList = parsedData?.tickerList;
+        tickerList = Array.isArray(rawList)
+          ? rawList
+              .filter((t): t is string => typeof t === "string")
+              .map((t) => t.trim().toUpperCase().replace(/[^A-Z0-9.\-^]/g, "").slice(0, 20))
+              .filter(Boolean)
+              .slice(0, 10)
+          : [];
         selectedPlotCategory = normalizeStockCompareCategory(
           parsedData?.selectedPlotCategory,
         );

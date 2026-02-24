@@ -149,4 +149,14 @@ export const RATE_LIMITS = {
     maxRequests: 120,
     windowMs: 60 * 1000,
   },
+  // Compare data: 30 per minute
+  compareData: {
+    maxRequests: 30,
+    windowMs: 60 * 1000,
+  },
+  // ETF holdings: 30 per minute
+  etfHoldings: {
+    maxRequests: 30,
+    windowMs: 60 * 1000,
+  },
 } as const;
