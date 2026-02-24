@@ -713,17 +713,6 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
-                              href="/etf/new-launches"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
-                              >{layout_new_launches()}</a
-                            >
-                          </Button>
-                          <Button
-                            builders={[builder]}
-                            type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
-                          >
-                            <a
                               href="/etf/etf-providers"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
@@ -749,6 +738,17 @@
                               href="/etf/compare"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_comparison_tool()}</a
+                            >
+                          </Button>
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
+                              href="/etf/new-launches"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              >{layout_new_launches()}</a
                             >
                           </Button>
                         </div>
@@ -1576,11 +1576,6 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/etf/new-launches"
-                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_new_launches()}</a
-                            >
-                            <a
                               href="/etf/etf-providers"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
@@ -1594,6 +1589,11 @@
                               href="/etf/compare"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
+                            >
+                            <a
+                              href="/etf/new-launches"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_new_launches()}</a
                             >
                           </div>
                         </Accordion.Content>
