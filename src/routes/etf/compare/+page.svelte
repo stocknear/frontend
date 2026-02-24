@@ -1956,14 +1956,6 @@
                         </div>
 
                         <div class="flex flex-row items-center mt-1.5 sm:mt-0">
-                          <div class="sm:ml-2">
-                            <DownloadData
-                              {data}
-                              rawData={overlapDownloadData}
-                              title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
-                            />
-                          </div>
-
                           <button
                             on:click={() => {
                               overlapViewMode =
@@ -1971,7 +1963,7 @@
                               if (overlapViewMode === "chart")
                                 overlapChartConfig = buildOverlapChartConfig();
                             }}
-                            class="ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                            class="sm:ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                           >
                             {#if overlapViewMode === "chart"}
                               <TableIcon class="w-4 h-4" />
@@ -1981,6 +1973,14 @@
                               <span class="ml-1.5 text-sm">Chart Mode</span>
                             {/if}
                           </button>
+
+                          <div class="ml-2">
+                            <DownloadData
+                              {data}
+                              rawData={overlapDownloadData}
+                              title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
+                            />
+                          </div>
 
                           {#if overlapViewMode === "table" && overlapCustomColumnOrder?.length > 0}
                             <button
