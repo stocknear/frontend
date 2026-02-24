@@ -126,7 +126,6 @@
   };
 
   type TopHoldingsPayload = {
-    lastUpdate?: string | null;
     holdings?: Array<Record<string, unknown>>;
   };
 
@@ -145,12 +144,15 @@
   let averageReturnInfoText = "";
   let showAverageReturnInfo = false;
   let topHoldingsByTicker: Record<string, TopHolding[]> = {};
+  let allHoldingsByTicker: Record<string, TopHolding[]> = {};
   let isTopHoldingsLoading = false;
   let holdingsRequestVersion = 0;
   const TOP_HOLDINGS_CACHE_TTL_MS = 10 * 60 * 1000;
+  let topHoldingsOverlapInfoText = "";
+  let showTopHoldingsOverlapInfo = false;
   const topHoldingsCache = new Map<
     string,
-    { holdings: TopHolding[]; lastUpdate: string | null; fetchedAt: number }
+    { allHoldings: TopHolding[]; fetchedAt: number }
   >();
 
   const isEtfSearchbarItem = (item) => {
@@ -170,7 +172,7 @@
     return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
   };
 
-  const normalizeTopHoldings = (
+  const normalizeAllHoldings = (
     payload: TopHoldingsPayload | null | undefined,
   ) => {
     const rawHoldings = Array.isArray(payload?.holdings)
@@ -192,24 +194,14 @@
       })
       ?.filter((item): item is TopHolding => Boolean(item?.symbol));
 
-    const topHoldings = normalized
-      ?.sort((a, b) => {
-        const rankA = toFiniteNumber(a?.rank) ?? Number.POSITIVE_INFINITY;
-        const rankB = toFiniteNumber(b?.rank) ?? Number.POSITIVE_INFINITY;
-        return rankA - rankB;
-      })
-      ?.slice(0, MAX_COMPARE_HOLDINGS);
-
-    return {
-      lastUpdate:
-        typeof payload?.lastUpdate === "string" && payload?.lastUpdate
-          ? payload?.lastUpdate
-          : null,
-      holdings: topHoldings,
-    };
+    return normalized?.sort((a, b) => {
+      const rankA = toFiniteNumber(a?.rank) ?? Number.POSITIVE_INFINITY;
+      const rankB = toFiniteNumber(b?.rank) ?? Number.POSITIVE_INFINITY;
+      return rankA - rankB;
+    });
   };
 
-  async function fetchTopHoldings(ticker: string) {
+  async function fetchHoldingsData(ticker: string) {
     const cached = topHoldingsCache?.get(ticker);
     if (cached && Date.now() - cached.fetchedAt < TOP_HOLDINGS_CACHE_TTL_MS) {
       return cached;
@@ -228,9 +220,9 @@
     }
 
     const output = await response.json();
-    const normalized = normalizeTopHoldings(output);
+    const allHoldings = normalizeAllHoldings(output);
     const cacheEntry = {
-      ...normalized,
+      allHoldings,
       fetchedAt: Date.now(),
     };
     topHoldingsCache?.set(ticker, cacheEntry);
@@ -253,6 +245,7 @@
 
     if (uniqueTickers?.length <= 1) {
       topHoldingsByTicker = {};
+      allHoldingsByTicker = {};
       isTopHoldingsLoading = false;
       return;
     }
@@ -263,15 +256,15 @@
       const entries = await Promise.all(
         uniqueTickers.map(async (ticker) => {
           try {
-            const data = await fetchTopHoldings(ticker);
+            const data = await fetchHoldingsData(ticker);
             return [ticker, data] as const;
           } catch (error) {
             console.error(`Unable to load ETF holdings for ${ticker}:`, error);
             return [
               ticker,
               {
-                holdings: [],
-                lastUpdate: null,
+                allHoldings: [],
+                fetchedAt: Date.now(),
               },
             ] as const;
           }
@@ -283,13 +276,17 @@
       }
 
       const nextTopHoldings: Record<string, TopHolding[]> = {};
+      const nextAllHoldings: Record<string, TopHolding[]> = {};
 
       for (const [ticker, data] of entries) {
-        nextTopHoldings[ticker] = Array.isArray(data?.holdings)
-          ? data?.holdings?.slice(0, MAX_COMPARE_HOLDINGS)
+        const allHoldings = Array.isArray(data?.allHoldings)
+          ? data?.allHoldings
           : [];
+        nextAllHoldings[ticker] = allHoldings;
+        nextTopHoldings[ticker] = allHoldings.slice(0, MAX_COMPARE_HOLDINGS);
       }
 
+      allHoldingsByTicker = nextAllHoldings;
       topHoldingsByTicker = nextTopHoldings;
     } finally {
       if (requestVersion === holdingsRequestVersion) {
@@ -352,6 +349,69 @@
     return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}, compared to ${formatPercentValue(secondaryTenYear)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
   };
 
+  const buildTopHoldingsOverlapInfoText = () => {
+    if (!Array.isArray(tickerList) || tickerList.length <= 1) {
+      return null;
+    }
+
+    const selectedTickers = [
+      ...new Set(
+        tickerList
+          ?.map((ticker) =>
+            String(ticker ?? "")
+              .trim()
+              .toUpperCase(),
+          )
+          ?.filter(Boolean),
+      ),
+    ];
+    if (selectedTickers.length <= 1) {
+      return null;
+    }
+
+    const symbolFrequency = new Map<string, number>();
+    let tickerWithDataCount = 0;
+
+    for (const ticker of selectedTickers) {
+      const holdings = Array.isArray(allHoldingsByTicker?.[ticker])
+        ? allHoldingsByTicker[ticker]
+        : [];
+      if (holdings.length === 0) {
+        continue;
+      }
+      tickerWithDataCount += 1;
+
+      const symbolsForTicker = new Set(
+        holdings
+          ?.map((holding) =>
+            String(holding?.symbol ?? "")
+              .trim()
+              .toUpperCase(),
+          )
+          ?.filter(Boolean),
+      );
+
+      for (const symbol of symbolsForTicker) {
+        symbolFrequency.set(symbol, (symbolFrequency.get(symbol) ?? 0) + 1);
+      }
+    }
+
+    const totalUniqueHoldings = symbolFrequency.size;
+    if (totalUniqueHoldings === 0 || tickerWithDataCount <= 1) {
+      return null;
+    }
+
+    const overlapCount = [...symbolFrequency.values()]?.filter(
+      (count) => count >= 2,
+    )?.length;
+    const overlapPct = (overlapCount / totalUniqueHoldings) * 100;
+    const commonAcrossAllCount = [...symbolFrequency.values()]?.filter(
+      (count) => count === tickerWithDataCount,
+    )?.length;
+
+    return `Across <strong>${tickerWithDataCount}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs.`;
+  };
+
   $: {
     const infoText = buildAverageReturnInfoText();
     averageReturnInfoText = infoText ?? "";
@@ -360,6 +420,12 @@
 
   $: if (typeof window !== "undefined") {
     void refreshTopHoldings(tickerList);
+  }
+
+  $: {
+    const infoText = buildTopHoldingsOverlapInfoText();
+    topHoldingsOverlapInfoText = infoText ?? "";
+    showTopHoldingsOverlapInfo = Boolean(infoText);
   }
 
   const handleDownloadMessage = async (event) => {
@@ -1103,7 +1169,7 @@
                     {#if inputValue?.length !== 0}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => addTicker(searchItem)}
@@ -1129,7 +1195,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class="text-sm text-gray-500 dark:text-zinc-400">
                           {inputValue?.length > 0
@@ -1181,7 +1247,7 @@
                             on:click={() => changeCategory(item)}
                             class="{selectedPlotCategory?.name === item?.name
                               ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-gray-900 dark:text-white'
-                              : ''} cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              : ''} cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
                           >
                             {item?.name}
                           </DropdownMenu.Item>
@@ -1249,12 +1315,12 @@
                 </div>
               </div>
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
                 use:highcharts={configGraph}
               ></div>
             {:else}
               <div
-                class="mt-2 flex justify-center items-center h-96 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+                class="mt-2 flex justify-center items-center h-96 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
               >
                 <div class="relative">
                   <label
@@ -1304,7 +1370,7 @@
               {/if}
 
               <div
-                class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
               >
                 <div use:highcharts={configReturn}></div>
 
@@ -1363,6 +1429,9 @@
                     Top 10 Holdings
                   </h2>
                 </div>
+                {#if showTopHoldingsOverlapInfo}
+                  <Infobox text={topHoldingsOverlapInfoText} />
+                {/if}
 
                 <div
                   class="mt-4 overflow-hidden bg-white/40 dark:bg-zinc-950/25"
@@ -1371,7 +1440,7 @@
                     <div class="flex min-w-max items-start gap-4">
                       {#each tickerList as ticker, idx}
                         <div
-                          class="w-[340px] sm:w-[380px] shrink-0 rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                          class="w-[340px] sm:w-[380px] shrink-0 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
                         >
                           <div
                             class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-gray-300 px-3 py-2 dark:border-zinc-700 sm:px-4"
@@ -1492,7 +1561,7 @@
             </div>
           {:else}
             <div
-              class="mt-3 rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 xs:mt-4 md:mt-6"
+              class="mt-3 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 xs:mt-4 md:mt-6"
             >
               <div
                 class="flex h-[300px] w-full items-center justify-center overflow-y-hidden rounded px-8 bp:h-[350px] md:h-[400px] lg:h-[500px]"
