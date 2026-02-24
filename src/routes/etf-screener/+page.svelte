@@ -81,6 +81,7 @@
     "topSector",
     "exchange",
     "aumGroup",
+    "country",
   ];
 
   let displayTableTab = "general";
@@ -388,6 +389,13 @@
     aumGroup: {
       label: "AUM Group",
       step: ["Mega (100B+)", "Large (10-100B)", "Mid (1-10B)", "Small (100M-1B)", "Micro (<100M)"],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Fund Info",
+    },
+    country: {
+      label: "Country",
+      step: ["United States", "Ireland", "Canada", "Luxembourg", "Sweden", "Germany", "United Kingdom", "Switzerland", "Netherlands", "Japan", "Hong Kong", "Bermuda", "Taiwan, Province of China"],
       defaultCondition: "",
       defaultValue: "any",
       category: "Fund Info",
@@ -1072,6 +1080,7 @@
       case "topSector":
       case "exchange":
       case "aumGroup":
+      case "country":
       case "ema20":
       case "ema50":
       case "ema100":
@@ -1821,6 +1830,7 @@
     "aumGroup",
     "payoutFrequency",
     "inceptionDate",
+    "country",
   ];
 
   // Helper to determine the type based on stringTypeRules
@@ -2817,6 +2827,7 @@
                                 'etfProvider',
                                 'topSector',
                                 'assetClass',
+                                'country',
                               ].includes(row?.rule)
                                 ? 'hidden'
                                 : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
@@ -3480,7 +3491,7 @@
                       <td
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
-                        {#if ["etfProvider", "assetClass", "topSector", "exchange", "aumGroup", "payoutFrequency"].includes(column.key)}
+                        {#if ["etfProvider", "assetClass", "topSector", "exchange", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
                           {#if item[column.key]}
                             {item[column.key]}
                           {:else if !(column.key in item)}
