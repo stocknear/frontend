@@ -349,14 +349,18 @@
     return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}, compared to ${formatPercentValue(secondaryTenYear)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
   };
 
-  const buildTopHoldingsOverlapInfoText = () => {
-    if (!Array.isArray(tickerList) || tickerList.length <= 1) {
+  const buildTopHoldingsOverlapInfoText = (
+    selectedTickerList: string[],
+    holdingsByTicker: Record<string, TopHolding[]>,
+    isLoading: boolean,
+  ) => {
+    if (!Array.isArray(selectedTickerList) || selectedTickerList.length <= 1) {
       return null;
     }
 
     const selectedTickers = [
       ...new Set(
-        tickerList
+        selectedTickerList
           ?.map((ticker) =>
             String(ticker ?? "")
               .trim()
@@ -369,17 +373,16 @@
       return null;
     }
 
+    if (isLoading && Object.keys(holdingsByTicker ?? {}).length === 0) {
+      return "Calculating holdings overlap across selected ETFs...";
+    }
+
     const symbolFrequency = new Map<string, number>();
-    let tickerWithDataCount = 0;
 
     for (const ticker of selectedTickers) {
-      const holdings = Array.isArray(allHoldingsByTicker?.[ticker])
-        ? allHoldingsByTicker[ticker]
+      const holdings = Array.isArray(holdingsByTicker?.[ticker])
+        ? holdingsByTicker[ticker]
         : [];
-      if (holdings.length === 0) {
-        continue;
-      }
-      tickerWithDataCount += 1;
 
       const symbolsForTicker = new Set(
         holdings
@@ -397,8 +400,8 @@
     }
 
     const totalUniqueHoldings = symbolFrequency.size;
-    if (totalUniqueHoldings === 0 || tickerWithDataCount <= 1) {
-      return null;
+    if (totalUniqueHoldings === 0) {
+      return "We don't have enough holdings data yet to calculate overlap across the selected ETFs.";
     }
 
     const overlapCount = [...symbolFrequency.values()]?.filter(
@@ -406,10 +409,10 @@
     )?.length;
     const overlapPct = (overlapCount / totalUniqueHoldings) * 100;
     const commonAcrossAllCount = [...symbolFrequency.values()]?.filter(
-      (count) => count === tickerWithDataCount,
+      (count) => count === selectedTickers.length,
     )?.length;
 
-    return `Across <strong>${tickerWithDataCount}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs.`;
+    return `Across <strong>${selectedTickers.length}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs.`;
   };
 
   $: {
@@ -423,9 +426,14 @@
   }
 
   $: {
-    const infoText = buildTopHoldingsOverlapInfoText();
+    const selectedTickerList = Array.isArray(tickerList) ? tickerList : [];
+    const infoText = buildTopHoldingsOverlapInfoText(
+      selectedTickerList,
+      allHoldingsByTicker,
+      isTopHoldingsLoading,
+    );
     topHoldingsOverlapInfoText = infoText ?? "";
-    showTopHoldingsOverlapInfo = Boolean(infoText);
+    showTopHoldingsOverlapInfo = selectedTickerList.length > 1;
   }
 
   const handleDownloadMessage = async (event) => {
