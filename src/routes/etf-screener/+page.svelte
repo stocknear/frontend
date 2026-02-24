@@ -9,7 +9,7 @@
   import { scale, fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
 
-  import { abbreviateNumber, groupScreenerRules } from "$lib/utils";
+  import { abbreviateNumber, formatETFName, groupScreenerRules } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -142,22 +142,69 @@
     etfProvider: {
       label: "ETF Provider",
       step: [
-        "state-street",
         "blackrock",
         "vanguard",
+        "state-street",
         "invesco",
         "charles-schwab",
+        "fidelity",
         "jpmorgan-chase",
+        "first-trust",
         "proshares",
         "vaneck",
-        "first-trust",
         "wisdom-tree",
+        "goldman-sachs",
+        "dimensional",
+        "franklin-templeton",
+        "pimco",
         "ark",
         "global-x",
-        "fidelity",
-        "goldman-sachs",
+        "capital-group",
         "simplify",
         "direxion",
+        "nuveen",
+        "columbia-threadneedle",
+        "harbor",
+        "john-hancock",
+        "principal",
+        "defiance",
+        "innovator",
+        "cambria",
+        "amplify-investments",
+        "krane-shares",
+        "graniteshares",
+        "sprott",
+        "janus-henderson",
+        "morgan-stanley",
+        "flexshares",
+        "pgim",
+        "bny-mellon",
+        "putnam",
+        "victory-shares",
+        "the-hartford",
+        "virtus-investment-partners",
+        "xtrackers",
+        "abrdn",
+        "allianz",
+        "alpha-architect",
+        "american-century-investments",
+        "advisorshares",
+        "aptus-capital-advisors",
+        "bondbloxx",
+        "etf-mg",
+        "exchange-traded-concepts",
+        "fm-investments",
+        "index-iq",
+        "inspire",
+        "main-management",
+        "marygold",
+        "redwood",
+        "ssc",
+        "strategy-shares",
+        "the-motley-fool",
+        "tidal",
+        "us-global-investors",
+        "yieldmax",
         "other",
       ],
       defaultCondition: "",
@@ -2718,6 +2765,10 @@
                                     /\s*\(.*?\)/,
                                     "",
                                   )}
+                            {:else if row?.rule === "etfProvider"}
+                              {Array.isArray(valueMappings[row?.rule])
+                                ? valueMappings[row?.rule]?.map((v) => formatETFName(v))?.join(", ")
+                                : formatETFName(String(valueMappings[row?.rule]))}
                             {:else}
                               {ruleCondition[row?.rule]
                                 ?.replace("under", "Under")
@@ -3227,7 +3278,7 @@
                                       class="rounded"
                                       checked={isChecked(item, row?.rule)}
                                     />
-                                    <span class="ml-2">{item}</span>
+                                    <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
                                   </label>
                                 </div>
                               </DropdownMenu.Item>
@@ -3254,7 +3305,7 @@
                                       class="rounded"
                                       checked={isChecked(item, row?.rule)}
                                     />
-                                    <span class="ml-2">{item}</span>
+                                    <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
                                   </label>
                                 </div>
                               </DropdownMenu.Item>
@@ -3664,7 +3715,7 @@
                       >
                         {#if ["etfProvider", "assetClass", "topSector", "exchange", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
                           {#if item[column.key]}
-                            {item[column.key]}
+                            {column.key === "etfProvider" ? formatETFName(item[column.key]) : item[column.key]}
                           {:else if !(column.key in item)}
                             <span
                               class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
