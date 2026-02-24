@@ -145,7 +145,6 @@
   let averageReturnInfoText = "";
   let showAverageReturnInfo = false;
   let topHoldingsByTicker: Record<string, TopHolding[]> = {};
-  let holdingsLastUpdateByTicker: Record<string, string | null> = {};
   let isTopHoldingsLoading = false;
   let holdingsRequestVersion = 0;
   const TOP_HOLDINGS_CACHE_TTL_MS = 10 * 60 * 1000;
@@ -169,18 +168,6 @@
   const formatPercentValue = (value) => {
     const numeric = toFiniteNumber(value);
     return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
-  };
-
-  const formatHoldingsLastUpdate = (value) => {
-    if (!value) return "-";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return "-";
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      timeZone: "UTC",
-    });
   };
 
   const normalizeTopHoldings = (
@@ -266,7 +253,6 @@
 
     if (uniqueTickers?.length <= 1) {
       topHoldingsByTicker = {};
-      holdingsLastUpdateByTicker = {};
       isTopHoldingsLoading = false;
       return;
     }
@@ -297,17 +283,14 @@
       }
 
       const nextTopHoldings: Record<string, TopHolding[]> = {};
-      const nextLastUpdates: Record<string, string | null> = {};
 
       for (const [ticker, data] of entries) {
         nextTopHoldings[ticker] = Array.isArray(data?.holdings)
           ? data?.holdings?.slice(0, MAX_COMPARE_HOLDINGS)
           : [];
-        nextLastUpdates[ticker] = data?.lastUpdate ?? null;
       }
 
       topHoldingsByTicker = nextTopHoldings;
-      holdingsLastUpdateByTicker = nextLastUpdates;
     } finally {
       if (requestVersion === holdingsRequestVersion) {
         isTopHoldingsLoading = false;
@@ -1410,56 +1393,64 @@
                           </div>
 
                           {#if Array.isArray(topHoldingsByTicker?.[ticker]) && topHoldingsByTicker?.[ticker]?.length > 0}
-                            <div class="overflow-x-auto">
-                              <table
-                                class="table table-sm table-compact w-full"
+                            <table class="table table-sm table-compact w-full">
+                              <thead
+                                class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                               >
-                                <thead
-                                  class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                                <tr
+                                  class="border-b border-gray-300 dark:border-zinc-700"
                                 >
+                                  <th class="pl-4">No.</th>
+                                  <th>Symbol</th>
+                                  <th>Name</th>
+                                  <th class="text-right">Weight</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {#each topHoldingsByTicker?.[ticker] as holding}
                                   <tr
-                                    class="border-b border-gray-300 dark:border-zinc-700"
+                                    class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                                   >
-                                    <th class="pl-4">No.</th>
-                                    <th>Symbol</th>
-                                    <th>Name</th>
-                                    <th class="text-right">Weight</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {#each topHoldingsByTicker?.[ticker] as holding}
-                                    <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 last:border-0"
+                                    <td
+                                      class="pl-4 text-xs text-gray-500 dark:text-zinc-400"
                                     >
-                                      <td
-                                        class="pl-4 text-xs text-gray-500 dark:text-zinc-400"
+                                      {holding?.rank}
+                                    </td>
+                                    <td>
+                                      <a
+                                        href={`/stocks/${holding?.symbol}/`}
+                                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                                       >
-                                        {holding?.rank}
-                                      </td>
-                                      <td>
-                                        <a
-                                          href={`/stocks/${holding?.symbol}/`}
-                                          class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
-                                        >
-                                          {holding?.symbol}
-                                        </a>
-                                      </td>
-                                      <td
-                                        class="max-w-[180px] truncate text-gray-700 dark:text-zinc-200"
-                                        title={holding?.name}
-                                      >
-                                        {holding?.name || "-"}
-                                      </td>
-                                      <td class="text-right">
-                                        {formatPercentValue(
-                                          holding?.weightPercentage,
-                                        )}
-                                      </td>
-                                    </tr>
-                                  {/each}
-                                </tbody>
-                              </table>
-                            </div>
+                                        {holding?.symbol}
+                                      </a>
+                                    </td>
+                                    <td
+                                      class="max-w-[180px] truncate text-gray-700 dark:text-zinc-200"
+                                      title={holding?.name}
+                                    >
+                                      {holding?.name || "-"}
+                                    </td>
+                                    <td class="text-right">
+                                      {formatPercentValue(
+                                        holding?.weightPercentage,
+                                      )}
+                                    </td>
+                                  </tr>
+                                {/each}
+                                <tr
+                                  class="border border-t border-gray-300 dark:border-zinc-700"
+                                >
+                                  <td colspan="4" class="p-2 text-center">
+                                    <a
+                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                      href={`/etf/${ticker}/holdings/`}
+                                    >
+                                      View {ticker} holdings
+                                    </a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
                           {:else if isTopHoldingsLoading}
                             <div
                               class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400"
