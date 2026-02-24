@@ -106,6 +106,10 @@
   let touchedInput = false;
   let rawGraphData = {};
   let rawTableData = [];
+  const RETURN_PERIOD_LABELS = ["1 Month", "YTD", "1 Year", "5 Years", "10 Years"];
+  const RETURN_ONE_YEAR_INDEX = 2;
+  const RETURN_TEN_YEAR_INDEX = 4;
+  let averageReturnInfoText = compare_average_return_info();
 
   const isEtfSearchbarItem = (item) => {
     const rawType = String(item?.type ?? item?.assetType ?? "")
@@ -113,6 +117,63 @@
       .toLowerCase();
     return rawType === "etf" || rawType === "etfs";
   };
+
+  const toFiniteNumber = (value) => {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  };
+
+  const formatPercentValue = (value) => {
+    const numeric = toFiniteNumber(value);
+    return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
+  };
+
+  const getRelativeComparisonText = (difference) => {
+    const absDiff = Math.abs(difference);
+    if (absDiff < 0.05) return "about the same as";
+    if (absDiff < 1) return difference > 0 ? "slightly higher than" : "slightly lower than";
+    return difference > 0 ? "higher than" : "lower than";
+  };
+
+  const buildAverageReturnInfoText = () => {
+    const primaryTicker = tickerList?.[0];
+    if (!primaryTicker) {
+      return compare_average_return_info();
+    }
+
+    const primaryReturns = rawGraphData?.[primaryTicker]?.changesPercentage;
+    if (!Array.isArray(primaryReturns)) {
+      return compare_average_return_info();
+    }
+
+    const primaryOneYear = toFiniteNumber(primaryReturns?.[RETURN_ONE_YEAR_INDEX]);
+    const primaryTenYear = toFiniteNumber(primaryReturns?.[RETURN_TEN_YEAR_INDEX]);
+    if (primaryOneYear == null || primaryTenYear == null) {
+      return compare_average_return_info();
+    }
+
+    const secondaryTicker = tickerList?.[1];
+    const secondaryReturns = secondaryTicker
+      ? rawGraphData?.[secondaryTicker]?.changesPercentage
+      : null;
+    const secondaryOneYear = Array.isArray(secondaryReturns)
+      ? toFiniteNumber(secondaryReturns?.[RETURN_ONE_YEAR_INDEX])
+      : null;
+    const secondaryTenYear = Array.isArray(secondaryReturns)
+      ? toFiniteNumber(secondaryReturns?.[RETURN_TEN_YEAR_INDEX])
+      : null;
+
+    if (secondaryTicker && secondaryOneYear != null && secondaryTenYear != null) {
+      const oneYearComparison = getRelativeComparisonText(
+        primaryOneYear - secondaryOneYear,
+      );
+      return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}, compared to ${formatPercentValue(secondaryTenYear)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
+    }
+
+    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}. These numbers are adjusted for stock splits and include dividends.`;
+  };
+
+  $: averageReturnInfoText = buildAverageReturnInfoText();
 
   const handleDownloadMessage = async (event) => {
     isLoaded = false;
@@ -209,6 +270,7 @@
   }
 
   function removeTicker(symbol) {
+    isLoaded = false;
     const ticker = symbol?.trim()?.toUpperCase();
 
     // Guard clause: ensure the ticker exists
@@ -222,6 +284,16 @@
 
     // Persist the change
     handleSave();
+
+    if (tickerList.length === 0) {
+      rawGraphData = {};
+      rawTableData = [];
+      configGraph = null;
+      configReturn = null;
+      isLoaded = true;
+      return;
+    }
+
     downloadWorker?.postMessage({
       tickerList: tickerList,
       category: getCategoryForAPI(selectedPlotCategory),
@@ -591,28 +663,33 @@
       tooltip: {
         useHTML: true,
         shared: false,
-        backgroundColor: "rgba(0, 0, 0, 1)",
-        borderColor: "rgba(255, 255, 255, 0.2)",
+        backgroundColor: $mode === "light" ? "#ffffff" : "#09090B",
+        borderColor: $mode === "light" ? "#D1D5DB" : "#374151",
         borderWidth: 1,
         borderRadius: 4,
         style: {
-          color: $mode === "light" ? "black" : "white",
+          color: $mode === "light" ? "#111827" : "#F9FAFB",
           fontSize: "16px",
           padding: "10px",
         },
         formatter() {
+          const pointColor = this?.point?.color ?? this?.series?.color;
+          const value = toFiniteNumber(this?.y);
+          const periodLabel =
+            this?.point?.category ??
+            RETURN_PERIOD_LABELS?.[this?.point?.x] ??
+            this?.x;
           return `
-          <span class="text-white text-[1rem] font-[501]">
-            ${this.series.name}: ${this.y}%
-          </span><br>
-          <span class="text-white text-sm font-normal">
-           ${this.x}
-          </span>
-        `;
+          <span class="text-[1rem] font-[501]">${periodLabel}</span><br>
+          <div class="mt-1">
+            <span style="display:inline-block; width:10px; height:10px; background-color:${pointColor}; border-radius:2px; margin-right:6px;"></span>
+            <span class="text-sm font-semibold">${this?.series?.name}</span>
+            <span class="text-sm font-normal ml-1">${value == null ? "-" : `${value.toFixed(2)}%`}</span>
+          </div>`;
         },
       },
       xAxis: {
-        categories: ["1 Month", "YTD", "1 Year", "5 Years", "10 Years"],
+        categories: RETURN_PERIOD_LABELS,
         title: null,
         labels: {
           style: { color: $mode === "light" ? "black" : "white" },
@@ -641,6 +718,18 @@
           borderWidth: 0,
           groupPadding: 0.1,
           pointWidth: 50,
+          dataLabels: {
+            enabled: true,
+            formatter() {
+              const value = Number(this?.y);
+              return Number.isFinite(value) ? `${value.toFixed(2)}%` : "";
+            },
+            style: {
+              fontSize: "12px",
+              fontWeight: "600",
+              textOutline: "none",
+            },
+          },
         },
         legendSymbol: "rectangle",
         series: {
@@ -1011,7 +1100,7 @@
                 {compare_average_return()}
               </h2>
               <Infobox
-                text={compare_average_return_info()}
+                text={averageReturnInfoText}
               />
 
               <div
@@ -1052,7 +1141,7 @@
 
                           {#if Array.isArray(tickerList) && tickerList.length > 0 && tickerList.every((tkr) => Array.isArray(rawGraphData[tkr]?.changesPercentage) && rawGraphData[tkr].changesPercentage.length > 0)}
                             {#each rawGraphData[ticker]?.changesPercentage as pct}
-                              <td>{pct != null ? `${pct}%` : "-"}</td>
+                              <td>{formatPercentValue(pct)}</td>
                             {/each}
                           {/if}
                         </tr>
