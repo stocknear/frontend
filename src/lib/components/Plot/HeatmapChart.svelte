@@ -159,9 +159,11 @@
             const url = finalCanvas.toDataURL("image/png");
             const link = document.createElement("a");
             link.href = url;
-            const now = new Date();
-            const ts = now.toISOString().slice(0, 10);
-            link.download = `stocknear_heatmap_${ts}.png`;
+            const ts = new Date().toISOString().slice(0, 10);
+            const label = isETF
+                ? `etf_heatmap_${data?.timePeriod || "1D"}`
+                : `${(data?.etfName || "market").replace(/[^a-zA-Z0-9]/g, "_")}_heatmap_${data?.timePeriod || "1D"}`;
+            link.download = `${label}_${ts}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
