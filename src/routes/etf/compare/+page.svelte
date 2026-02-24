@@ -563,7 +563,9 @@
 
     if (chartRows.length === 0) return null;
 
-    const categories = chartRows.map((r) => r.symbol);
+    const categories = chartRows.map(
+      (r) => `${r.symbol} (${r.overlapWeight?.toFixed(2)}%)`,
+    );
 
     const series = overlapTickerColumns.map((ticker, idx) => {
       const pair = colorPairs[idx % colorPairs.length];
@@ -622,16 +624,16 @@
         borderColor: $mode === "light" ? "#D1D5DB" : "#3F3F46",
         style: { color: $mode === "light" ? "#1F2937" : "#E4E4E7" },
         formatter: function () {
-          const symbol = this.x;
-          const row = chartRows.find((r) => r.symbol === symbol);
-          let html = `<b>${symbol}</b>`;
+          const idx = this.points?.[0]?.point?.index;
+          const row = idx !== undefined ? chartRows[idx] : null;
+          let html = `<b>${row?.symbol ?? this.x}</b>`;
           if (row?.name)
             html += `<br/><span style="font-size:11px;color:#9CA3AF">${row.name}</span>`;
-          html += "<br/>";
           for (const point of this.points) {
+            if (!point.y || point.y === 0) continue;
             html += `<br/><span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${point.y?.toFixed(2)}%</b>`;
           }
-          if (row)
+          if (row?.overlapWeight)
             html += `<br/><br/>Overlap Weight: <b>${row.overlapWeight?.toFixed(2)}%</b>`;
           return html;
         },
@@ -643,6 +645,7 @@
           borderRadius: 3,
           pointPadding: 0.05,
           groupPadding: 0.15,
+          animation: false,
         },
       },
       series,
@@ -1917,24 +1920,6 @@
                       <div
                         class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                       >
-                        <button
-                          on:click={() => {
-                            overlapViewMode =
-                              overlapViewMode === "table" ? "chart" : "table";
-                            if (overlapViewMode === "chart")
-                              overlapChartConfig = buildOverlapChartConfig();
-                          }}
-                          class="mr-2 shrink-0 cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
-                        >
-                          {#if overlapViewMode === "chart"}
-                            <TableIcon class="w-4 h-4" />
-                            <span class="ml-1.5 text-sm">Table Mode</span>
-                          {:else}
-                            <LayoutGrid class="w-4 h-4" />
-                            <span class="ml-1.5 text-sm">Chart Mode</span>
-                          {/if}
-                        </button>
-
                         <div class="relative lg:ml-auto w-full lg:w-fit">
                           <div
                             class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -1974,6 +1959,24 @@
                             title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
                           />
                         </div>
+
+                        <button
+                          on:click={() => {
+                            overlapViewMode =
+                              overlapViewMode === "table" ? "chart" : "table";
+                            if (overlapViewMode === "chart")
+                              overlapChartConfig = buildOverlapChartConfig();
+                          }}
+                          class="ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                        >
+                          {#if overlapViewMode === "chart"}
+                            <TableIcon class="w-4 h-4" />
+                            <span class="ml-1.5 text-sm">Table Mode</span>
+                          {:else}
+                            <LayoutGrid class="w-4 h-4" />
+                            <span class="ml-1.5 text-sm">Chart Mode</span>
+                          {/if}
+                        </button>
 
                         {#if overlapViewMode === "table" && overlapCustomColumnOrder?.length > 0}
                           <button
