@@ -6389,6 +6389,8 @@
   }
 
   function getRangeBars(range: string) {
+    const dailyWithLiveToday = getDailyBarsWithLiveToday();
+
     // Intraday intervals - use intraday data from API
     if (range === "1min") {
       const bars = minuteBars.length ? minuteBars : intradayBars;
@@ -6407,29 +6409,29 @@
     }
 
     // Daily/Weekly/Monthly ranges - use historical adjusted price data
-    if (!dailyBars.length) {
+    if (!dailyWithLiveToday.length) {
       return { bars: [], period: { type: "day", span: 1 } };
     }
 
     if (range === "1D") {
       // Daily interval - show all historical data
-      return { bars: getDailyBarsWithLiveToday(), period: { type: "day", span: 1 } };
+      return { bars: dailyWithLiveToday, period: { type: "day", span: 1 } };
     }
 
     if (range === "1W") {
       // Weekly interval - aggregate daily bars to weekly
-      const weeklyBars = aggregateToWeekly(dailyBars);
+      const weeklyBars = aggregateToWeekly(dailyWithLiveToday);
       return { bars: weeklyBars, period: { type: "week", span: 1 } };
     }
 
     if (range === "1M") {
       // Monthly interval - aggregate daily bars to monthly
-      const monthlyBars = aggregateToMonthly(dailyBars);
+      const monthlyBars = aggregateToMonthly(dailyWithLiveToday);
       return { bars: monthlyBars, period: { type: "month", span: 1 } };
     }
 
     // Default fallback
-    return { bars: dailyBars, period: { type: "day", span: 1 } };
+    return { bars: dailyWithLiveToday, period: { type: "day", span: 1 } };
   }
 
   // Aggregate daily bars into weekly bars
@@ -6683,6 +6685,30 @@
     if (activeRange === "1D") {
       const displayBars = transformBarsForType(
         getDailyBarsWithLiveToday(),
+        chartType,
+      );
+      currentBars = displayBars;
+      const latestBar = displayBars[displayBars.length - 1];
+      if (latestBar && realtimeBarCallback) {
+        realtimeBarCallback(latestBar);
+      }
+    }
+
+    if (activeRange === "1W") {
+      const displayBars = transformBarsForType(
+        aggregateToWeekly(getDailyBarsWithLiveToday()),
+        chartType,
+      );
+      currentBars = displayBars;
+      const latestBar = displayBars[displayBars.length - 1];
+      if (latestBar && realtimeBarCallback) {
+        realtimeBarCallback(latestBar);
+      }
+    }
+
+    if (activeRange === "1M") {
+      const displayBars = transformBarsForType(
+        aggregateToMonthly(getDailyBarsWithLiveToday()),
         chartType,
       );
       currentBars = displayBars;
