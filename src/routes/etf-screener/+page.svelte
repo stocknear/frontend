@@ -788,13 +788,11 @@
 
   let rowsPerPageOptions = [20, 50, 100];
 
-  // Generate allRows from allRules
-  $: allRows = Object.entries(allRules)
-    ?.sort(([, a], [, b]) => a.label.localeCompare(b.label)) // Sort by label
-    ?.map(([ruleName, ruleProps]) => ({
-      rule: ruleName,
-      ...ruleProps,
-    }));
+  // Generate allRows from allRules (preserves insertion order from allRules)
+  $: allRows = Object.entries(allRules)?.map(([ruleName, ruleProps]) => ({
+    rule: ruleName,
+    ...ruleProps,
+  }));
 
   $: excludeTickerList = (() => {
     const value = valueMappings["excludeTickers"];
