@@ -493,6 +493,9 @@
     const overlapCount = [...symbolFrequency.values()]?.filter(
       (count) => count >= 2,
     )?.length;
+    if (overlapCount === 0) {
+      return "No overlapping holdings found across the selected ETFs.";
+    }
     const overlapPct = (overlapCount / totalUniqueHoldings) * 100;
     const commonAcrossAllCount = [...symbolFrequency.values()]?.filter(
       (count) => count === selectedTickers.length,
@@ -1631,91 +1634,84 @@
                   <Infobox text={topHoldingsOverlapInfoText} />
                 {/if}
 
-                <div
-                  class="mt-4 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
-                >
-                  <div class="overflow-x-auto">
-                    <table
-                      class="table table-sm table-compact w-full min-w-[920px]"
-                    >
-                      <thead
-                        class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                {#if isTopHoldingsLoading || overlapRows?.length > 0}
+                  <div
+                    class="mt-4 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                  >
+                    <div class="overflow-x-auto">
+                      <table
+                        class="table table-sm table-compact w-full min-w-[920px]"
                       >
-                        <tr
-                          class="border-b border-gray-300 dark:border-zinc-700"
+                        <thead
+                          class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                         >
-                          <th class="pl-4">No.</th>
-                          <th>Symbol</th>
-                          <th>Name</th>
-                          {#each overlapTickerColumns as ticker}
-                            <th class="text-right">Weight in {ticker}</th>
-                          {/each}
-                          <th class="pr-4 text-right">Overlap Weight</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {#if overlapPaginatedRows.length > 0}
-                          {#each overlapPaginatedRows as row, index}
-                            <tr
-                              class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
-                            >
-                              <td class="pl-4 text-gray-700 dark:text-zinc-200">
-                                {(overlapCurrentPage - 1) * overlapRowsPerPage +
-                                  index +
-                                  1}
-                              </td>
-                              <td>
-                                <a
-                                  href={`/stocks/${row?.symbol}/`}
-                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                >
-                                  {row?.symbol}
-                                </a>
-                              </td>
-                              <td
-                                class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
-                                title={row?.name}
+                          <tr
+                            class="border-b border-gray-300 dark:border-zinc-700"
+                          >
+                            <th class="pl-4">No.</th>
+                            <th>Symbol</th>
+                            <th>Name</th>
+                            {#each overlapTickerColumns as ticker}
+                              <th class="text-right">Weight in {ticker}</th>
+                            {/each}
+                            <th class="pr-4 text-right">Overlap Weight</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {#if overlapPaginatedRows.length > 0}
+                            {#each overlapPaginatedRows as row, index}
+                              <tr
+                                class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                               >
-                                {row?.name || "-"}
-                              </td>
-                              {#each overlapTickerColumns as ticker}
-                                <td class="text-right tabular-nums">
-                                  {formatPercentValue(
-                                    row?.tickerWeights?.[ticker],
-                                  )}
+                                <td class="pl-4 text-gray-700 dark:text-zinc-200">
+                                  {(overlapCurrentPage - 1) *
+                                    overlapRowsPerPage +
+                                    index +
+                                    1}
                                 </td>
-                              {/each}
+                                <td>
+                                  <a
+                                    href={`/stocks/${row?.symbol}/`}
+                                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                  >
+                                    {row?.symbol}
+                                  </a>
+                                </td>
+                                <td
+                                  class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
+                                  title={row?.name}
+                                >
+                                  {row?.name || "-"}
+                                </td>
+                                {#each overlapTickerColumns as ticker}
+                                  <td class="text-right tabular-nums">
+                                    {formatPercentValue(
+                                      row?.tickerWeights?.[ticker],
+                                    )}
+                                  </td>
+                                {/each}
+                                <td
+                                  class="pr-4 text-right font-semibold tabular-nums"
+                                >
+                                  {formatPercentValue(row?.overlapWeight)}
+                                </td>
+                              </tr>
+                            {/each}
+                          {:else}
+                            <tr>
                               <td
-                                class="pr-4 text-right font-semibold tabular-nums"
+                                colspan={4 + overlapTickerColumns.length}
+                                class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
                               >
-                                {formatPercentValue(row?.overlapWeight)}
+                                Loading overlapping holdings...
                               </td>
                             </tr>
-                          {/each}
-                        {:else if isTopHoldingsLoading}
-                          <tr>
-                            <td
-                              colspan={4 + overlapTickerColumns.length}
-                              class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
-                            >
-                              Loading overlapping holdings...
-                            </td>
-                          </tr>
-                        {:else}
-                          <tr>
-                            <td
-                              colspan={4 + overlapTickerColumns.length}
-                              class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
-                            >
-                              No overlapping holdings found across the selected
-                              ETFs.
-                            </td>
-                          </tr>
-                        {/if}
-                      </tbody>
-                    </table>
+                          {/if}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
+                {/if}
 
                 {#if overlapRows?.length > 0}
                   <Pagination
