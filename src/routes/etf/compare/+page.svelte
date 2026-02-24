@@ -418,7 +418,10 @@
       });
     }
 
-    const isStepSeriesCategory = selectedPlotCategory?.type === "dividend-ttm";
+    const isLineSeriesCategory = [
+      "dividend-ttm",
+      "dividend-growth-yoy",
+    ]?.includes(selectedPlotCategory?.type);
 
     // 3) build series entries
     const series = Object?.entries(parsedData)?.map(([symbol, data], index) => {
@@ -427,8 +430,7 @@
 
       return {
         name: symbol,
-        type: isStepSeriesCategory ? "line" : "spline",
-        step: isStepSeriesCategory ? "left" : undefined,
+        type: isLineSeriesCategory ? "line" : "spline",
         data,
         color: $mode === "light" ? pair?.light : pair?.dark,
         lineWidth: 1.5,
