@@ -23,22 +23,22 @@
     ETF_COMPARE_TABS,
   } from "$lib/config/etfCompareTable";
   import {
-  compare_average_return,
-  compare_breadcrumb_home,
-  compare_no_results,
-  compare_popular_comparisons,
-  compare_search_placeholder,
-  compare_seo_keywords,
-  compare_start_searching,
-  compare_table_1month,
-  compare_table_1year,
-  compare_table_5years,
-  compare_table_symbol,
-  compare_table_ytd,
-  compare_toast_invalid_list,
-  compare_toast_ticker_included,
-  compare_toast_ticker_not_found,
-} from "$lib/paraglide/messages";
+    compare_average_return,
+    compare_breadcrumb_home,
+    compare_no_results,
+    compare_popular_comparisons,
+    compare_search_placeholder,
+    compare_seo_keywords,
+    compare_start_searching,
+    compare_table_1month,
+    compare_table_1year,
+    compare_table_5years,
+    compare_table_symbol,
+    compare_table_ytd,
+    compare_toast_invalid_list,
+    compare_toast_ticker_included,
+    compare_toast_ticker_not_found,
+  } from "$lib/paraglide/messages";
 
   export let data;
   const defaultList = [...ETF_COMPARE_DEFAULT_LIST];
@@ -61,10 +61,22 @@
     { name: "Stock Price", value: "close", type: "price" },
     { name: "Price Change (%)", value: "close", type: "price-change" },
     { name: "Total Return", value: "totalReturn", type: "total-return" },
-    { name: "Total Return (%)", value: "totalReturnPct", type: "total-return-pct" },
+    {
+      name: "Total Return (%)",
+      value: "totalReturnPct",
+      type: "total-return-pct",
+    },
     { name: "Dividends (TTM)", value: "dividendTTM", type: "dividend-ttm" },
-    { name: "Dividend Growth", value: "dividendGrowth", type: "dividend-growth" },
-    { name: "Dividend Growth (YoY)", value: "dividendGrowthYoY", type: "dividend-growth-yoy" },
+    {
+      name: "Dividend Growth",
+      value: "dividendGrowth",
+      type: "dividend-growth",
+    },
+    {
+      name: "Dividend Growth (YoY)",
+      value: "dividendGrowthYoY",
+      type: "dividend-growth-yoy",
+    },
   ];
   const popularComparisons = [
     ["QQQ", "SPY"],
@@ -111,9 +123,6 @@
     symbol: string;
     name: string;
     weightPercentage: number | null;
-    sharesNumber: number | null;
-    price: number | null;
-    changesPercentage: number | null;
   };
 
   type TopHoldingsPayload = {
@@ -122,7 +131,13 @@
   };
 
   const MAX_COMPARE_HOLDINGS = 10;
-  const RETURN_PERIOD_LABELS = ["1 Month", "YTD", "1 Year", "5 Years", "10 Years"];
+  const RETURN_PERIOD_LABELS = [
+    "1 Month",
+    "YTD",
+    "1 Year",
+    "5 Years",
+    "10 Years",
+  ];
   const RETURN_ONE_YEAR_INDEX = 2;
   const RETURN_TEN_YEAR_INDEX = 4;
   const AVERAGE_RETURN_INFO_MODAL_TEXT =
@@ -156,16 +171,6 @@
     return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
   };
 
-  const formatHoldingsPrice = (value) => {
-    const numeric = toFiniteNumber(value);
-    return numeric == null
-      ? "-"
-      : `$${numeric.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`;
-  };
-
   const formatHoldingsLastUpdate = (value) => {
     if (!value) return "-";
     const date = new Date(value);
@@ -178,22 +183,12 @@
     });
   };
 
-  const formatHoldingsChange = (value) => {
-    const numeric = toFiniteNumber(value);
-    if (numeric == null) return "-";
-    return `${numeric > 0 ? "+" : ""}${numeric.toFixed(2)}%`;
-  };
-
-  const getHoldingsChangeClass = (value) => {
-    const numeric = toFiniteNumber(value);
-    if (numeric == null) return "text-gray-500 dark:text-zinc-400";
-    return numeric >= 0
-      ? "text-emerald-600 dark:text-emerald-400"
-      : "text-rose-600 dark:text-rose-400";
-  };
-
-  const normalizeTopHoldings = (payload: TopHoldingsPayload | null | undefined) => {
-    const rawHoldings = Array.isArray(payload?.holdings) ? payload?.holdings : [];
+  const normalizeTopHoldings = (
+    payload: TopHoldingsPayload | null | undefined,
+  ) => {
+    const rawHoldings = Array.isArray(payload?.holdings)
+      ? payload?.holdings
+      : [];
     const normalized = rawHoldings
       ?.map((item, index) => {
         const row = (item ?? {}) as Record<string, unknown>;
@@ -206,9 +201,6 @@
           symbol,
           name: String(row?.name ?? "").trim(),
           weightPercentage: toFiniteNumber(row?.weightPercentage),
-          sharesNumber: toFiniteNumber(row?.sharesNumber),
-          price: toFiniteNumber(row?.price),
-          changesPercentage: toFiniteNumber(row?.changesPercentage),
         };
       })
       ?.filter((item): item is TopHolding => Boolean(item?.symbol));
@@ -263,7 +255,11 @@
     const uniqueTickers = [
       ...new Set(
         (Array.isArray(selectedTickers) ? selectedTickers : [])
-          ?.map((item) => String(item ?? "").trim().toUpperCase())
+          ?.map((item) =>
+            String(item ?? "")
+              .trim()
+              .toUpperCase(),
+          )
           ?.filter(Boolean),
       ),
     ];
@@ -322,7 +318,8 @@
   const getRelativeComparisonText = (difference) => {
     const absDiff = Math.abs(difference);
     if (absDiff < 0.05) return "about the same as";
-    if (absDiff < 1) return difference > 0 ? "slightly higher than" : "slightly lower than";
+    if (absDiff < 1)
+      return difference > 0 ? "slightly higher than" : "slightly lower than";
     return difference > 0 ? "higher than" : "lower than";
   };
 
@@ -342,8 +339,12 @@
       return null;
     }
 
-    const primaryOneYear = toFiniteNumber(primaryReturns?.[RETURN_ONE_YEAR_INDEX]);
-    const primaryTenYear = toFiniteNumber(primaryReturns?.[RETURN_TEN_YEAR_INDEX]);
+    const primaryOneYear = toFiniteNumber(
+      primaryReturns?.[RETURN_ONE_YEAR_INDEX],
+    );
+    const primaryTenYear = toFiniteNumber(
+      primaryReturns?.[RETURN_TEN_YEAR_INDEX],
+    );
     if (primaryOneYear == null || primaryTenYear == null) {
       return null;
     }
@@ -987,9 +988,8 @@
     }
 
     if (!downloadWorker) {
-      const DownloadWorker = await import(
-        "$lib/workers/downloadCompareWorker?worker"
-      );
+      const DownloadWorker =
+        await import("$lib/workers/downloadCompareWorker?worker");
       downloadWorker = new DownloadWorker.default();
       downloadWorker.onmessage = handleDownloadMessage;
     }
@@ -1003,7 +1003,9 @@
 </script>
 
 <SEO
-  title={tickerList?.length === 0 ? "Compare ETFs" : `Compare ${tickerList.join(" vs ")}`}
+  title={tickerList?.length === 0
+    ? "Compare ETFs"
+    : `Compare ${tickerList.join(" vs ")}`}
   description="Compare ETFs side by side with historical charts, total return, dividend trends, and key fund metrics."
   keywords={compare_seo_keywords()}
   structuredData={{
@@ -1235,8 +1237,8 @@
                             d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
                             fill="currentColor"
                           ></path>
-                        </g></svg>
-
+                        </g></svg
+                      >
                     </button>
                   </span>
                 {/each}
@@ -1315,9 +1317,7 @@
                 />
               </div>
               {#if showAverageReturnInfo}
-                <Infobox
-                  text={averageReturnInfoText}
-                />
+                <Infobox text={averageReturnInfoText} />
               {/if}
 
               <div
@@ -1330,9 +1330,11 @@
                     <thead
                       ><tr
                         class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
-                        ><th class="text-left">{compare_table_symbol()}</th> <th>{compare_table_1month()}</th>
+                        ><th class="text-left">{compare_table_symbol()}</th>
+                        <th>{compare_table_1month()}</th>
                         <th>{compare_table_ytd()}</th>
-                        <th>{compare_table_1year()}</th> <th>{compare_table_5years()}</th>
+                        <th>{compare_table_1year()}</th>
+                        <th>{compare_table_5years()}</th>
                         <th>10 Years</th></tr
                       ></thead
                     >
@@ -1379,99 +1381,102 @@
                   </h2>
                 </div>
 
-                <div class="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-2">
-                  {#each tickerList as ticker, idx}
-                    <div
-                      class="rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
-                    >
-                      <div
-                        class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-gray-300 px-3 py-2 dark:border-zinc-700 sm:px-4"
-                      >
-                        <div class="flex items-center gap-x-2">
+                <div
+                  class="mt-4 overflow-hidden bg-white/40 dark:bg-zinc-950/25"
+                >
+                  <div class="overflow-x-auto">
+                    <div class="flex min-w-max items-start gap-4">
+                      {#each tickerList as ticker, idx}
+                        <div
+                          class="w-[340px] sm:w-[380px] shrink-0 rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                        >
                           <div
-                            class="size-3 rounded-sm"
-                            style="background-color: {$mode === 'light'
-                              ? colorPairs[idx % colorPairs?.length].light
-                              : colorPairs[idx % colorPairs?.length].dark}"
-                          ></div>
-                          <a
-                            href={`/etf/${ticker}/`}
-                            class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                            class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-gray-300 px-3 py-2 dark:border-zinc-700 sm:px-4"
                           >
-                            {ticker}
-                          </a>
-                        </div>
-                        <div class="text-xs text-gray-500 dark:text-zinc-400">
-                          As of {formatHoldingsLastUpdate(holdingsLastUpdateByTicker?.[ticker])}
-                        </div>
-                      </div>
+                            <div class="flex items-center gap-x-2">
+                              <div
+                                class="size-3 rounded-sm"
+                                style="background-color: {$mode === 'light'
+                                  ? colorPairs[idx % colorPairs?.length].light
+                                  : colorPairs[idx % colorPairs?.length].dark}"
+                              ></div>
+                              <a
+                                href={`/etf/${ticker}/`}
+                                class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                              >
+                                {ticker}
+                              </a>
+                            </div>
+                          </div>
 
-                      {#if Array.isArray(topHoldingsByTicker?.[ticker]) && topHoldingsByTicker?.[ticker]?.length > 0}
-                        <div class="overflow-x-auto">
-                          <table class="table table-sm table-compact w-full">
-                            <thead
-                              class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
-                            >
-                              <tr class="border-b border-gray-300 dark:border-zinc-700">
-                                <th class="pl-4">#</th>
-                                <th>Symbol</th>
-                                <th>Name</th>
-                                <th class="text-right">Weight</th>
-                                <th class="text-right">Price</th>
-                                <th class="pr-4 text-right">% Change</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {#each topHoldingsByTicker?.[ticker] as holding}
-                                <tr
-                                  class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 last:border-0"
+                          {#if Array.isArray(topHoldingsByTicker?.[ticker]) && topHoldingsByTicker?.[ticker]?.length > 0}
+                            <div class="overflow-x-auto">
+                              <table
+                                class="table table-sm table-compact w-full"
+                              >
+                                <thead
+                                  class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
                                 >
-                                  <td class="pl-4 text-xs text-gray-500 dark:text-zinc-400">
-                                    {holding?.rank}
-                                  </td>
-                                  <td>
-                                    <a
-                                      href={`/stocks/${holding?.symbol}/`}
-                                      class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                                  <tr
+                                    class="border-b border-gray-300 dark:border-zinc-700"
+                                  >
+                                    <th class="pl-4">No.</th>
+                                    <th>Symbol</th>
+                                    <th>Name</th>
+                                    <th class="text-right">Weight</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {#each topHoldingsByTicker?.[ticker] as holding}
+                                    <tr
+                                      class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 last:border-0"
                                     >
-                                      {holding?.symbol}
-                                    </a>
-                                  </td>
-                                  <td
-                                    class="max-w-[180px] truncate text-gray-700 dark:text-zinc-200"
-                                    title={holding?.name}
-                                  >
-                                    {holding?.name || "-"}
-                                  </td>
-                                  <td class="text-right">
-                                    {formatPercentValue(holding?.weightPercentage)}
-                                  </td>
-                                  <td class="text-right">
-                                    {formatHoldingsPrice(holding?.price)}
-                                  </td>
-                                  <td
-                                    class={`pr-4 text-right font-medium ${getHoldingsChangeClass(
-                                      holding?.changesPercentage,
-                                    )}`}
-                                  >
-                                    {formatHoldingsChange(holding?.changesPercentage)}
-                                  </td>
-                                </tr>
-                              {/each}
-                            </tbody>
-                          </table>
+                                      <td
+                                        class="pl-4 text-xs text-gray-500 dark:text-zinc-400"
+                                      >
+                                        {holding?.rank}
+                                      </td>
+                                      <td>
+                                        <a
+                                          href={`/stocks/${holding?.symbol}/`}
+                                          class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                                        >
+                                          {holding?.symbol}
+                                        </a>
+                                      </td>
+                                      <td
+                                        class="max-w-[180px] truncate text-gray-700 dark:text-zinc-200"
+                                        title={holding?.name}
+                                      >
+                                        {holding?.name || "-"}
+                                      </td>
+                                      <td class="text-right">
+                                        {formatPercentValue(
+                                          holding?.weightPercentage,
+                                        )}
+                                      </td>
+                                    </tr>
+                                  {/each}
+                                </tbody>
+                              </table>
+                            </div>
+                          {:else if isTopHoldingsLoading}
+                            <div
+                              class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400"
+                            >
+                              Loading holdings...
+                            </div>
+                          {:else}
+                            <div
+                              class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400"
+                            >
+                              No holdings data available.
+                            </div>
+                          {/if}
                         </div>
-                      {:else if isTopHoldingsLoading}
-                        <div class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400">
-                          Loading holdings...
-                        </div>
-                      {:else}
-                        <div class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400">
-                          No holdings data available.
-                        </div>
-                      {/if}
+                      {/each}
                     </div>
-                  {/each}
+                  </div>
                 </div>
               </div>
             {/if}
