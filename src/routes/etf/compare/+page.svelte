@@ -7,6 +7,7 @@
   import { Combobox } from "bits-ui";
   import { toast } from "svelte-sonner";
   import Table from "$lib/components/Table/Table.svelte";
+  import Pagination from "$lib/components/Table/Pagination.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import InfoModal from "$lib/components/InfoModal.svelte";
 
@@ -128,8 +129,13 @@
   type TopHoldingsPayload = {
     holdings?: Array<Record<string, unknown>>;
   };
+  type OverlapHoldingRow = {
+    symbol: string;
+    name: string;
+    overlapWeight: number;
+    tickerWeights: Record<string, number>;
+  };
 
-  const MAX_COMPARE_HOLDINGS = 10;
   const RETURN_PERIOD_LABELS = [
     "1 Month",
     "YTD",
@@ -143,13 +149,19 @@
     "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
   let averageReturnInfoText = "";
   let showAverageReturnInfo = false;
-  let topHoldingsByTicker: Record<string, TopHolding[]> = {};
   let allHoldingsByTicker: Record<string, TopHolding[]> = {};
   let isTopHoldingsLoading = false;
   let holdingsRequestVersion = 0;
   const TOP_HOLDINGS_CACHE_TTL_MS = 10 * 60 * 1000;
   let topHoldingsOverlapInfoText = "";
   let showTopHoldingsOverlapInfo = false;
+  let overlapRows: OverlapHoldingRow[] = [];
+  let overlapPaginatedRows: OverlapHoldingRow[] = [];
+  let overlapCurrentPage = 1;
+  let overlapTotalPages = 1;
+  let overlapRowsPerPage = 20;
+  const overlapRowsPerPageOptions = [10, 20, 50, 100];
+  let overlapTickerColumns: string[] = [];
   const topHoldingsCache = new Map<
     string,
     { allHoldings: TopHolding[]; fetchedAt: number }
@@ -171,6 +183,18 @@
     const numeric = toFiniteNumber(value);
     return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
   };
+
+  const normalizeTickerList = (selectedTickerList: string[]) => [
+    ...new Set(
+      (Array.isArray(selectedTickerList) ? selectedTickerList : [])
+        ?.map((ticker) =>
+          String(ticker ?? "")
+            .trim()
+            .toUpperCase(),
+        )
+        ?.filter(Boolean),
+    ),
+  ];
 
   const normalizeAllHoldings = (
     payload: TopHoldingsPayload | null | undefined,
@@ -231,20 +255,9 @@
 
   async function refreshTopHoldings(selectedTickers: string[]) {
     const requestVersion = ++holdingsRequestVersion;
-    const uniqueTickers = [
-      ...new Set(
-        (Array.isArray(selectedTickers) ? selectedTickers : [])
-          ?.map((item) =>
-            String(item ?? "")
-              .trim()
-              .toUpperCase(),
-          )
-          ?.filter(Boolean),
-      ),
-    ];
+    const uniqueTickers = normalizeTickerList(selectedTickers);
 
     if (uniqueTickers?.length <= 1) {
-      topHoldingsByTicker = {};
       allHoldingsByTicker = {};
       isTopHoldingsLoading = false;
       return;
@@ -275,7 +288,6 @@
         return;
       }
 
-      const nextTopHoldings: Record<string, TopHolding[]> = {};
       const nextAllHoldings: Record<string, TopHolding[]> = {};
 
       for (const [ticker, data] of entries) {
@@ -283,16 +295,98 @@
           ? data?.allHoldings
           : [];
         nextAllHoldings[ticker] = allHoldings;
-        nextTopHoldings[ticker] = allHoldings.slice(0, MAX_COMPARE_HOLDINGS);
       }
 
       allHoldingsByTicker = nextAllHoldings;
-      topHoldingsByTicker = nextTopHoldings;
     } finally {
       if (requestVersion === holdingsRequestVersion) {
         isTopHoldingsLoading = false;
       }
     }
+  }
+
+  const buildOverlapRows = (
+    selectedTickerList: string[],
+    holdingsByTicker: Record<string, TopHolding[]>,
+  ): OverlapHoldingRow[] => {
+    const selectedTickers = normalizeTickerList(selectedTickerList);
+    if (selectedTickers.length <= 1) {
+      return [];
+    }
+
+    const holdingsMapsByTicker: Record<string, Map<string, TopHolding>> = {};
+    for (const ticker of selectedTickers) {
+      const holdings = Array.isArray(holdingsByTicker?.[ticker])
+        ? holdingsByTicker[ticker]
+        : [];
+      holdingsMapsByTicker[ticker] = new Map(
+        holdings
+          ?.filter((holding) => holding?.symbol)
+          ?.map((holding) => [holding.symbol, holding]),
+      );
+    }
+
+    const symbolFrequency = new Map<string, number>();
+    for (const ticker of selectedTickers) {
+      for (const symbol of holdingsMapsByTicker[ticker]?.keys() ?? []) {
+        symbolFrequency.set(symbol, (symbolFrequency.get(symbol) ?? 0) + 1);
+      }
+    }
+
+    const overlappingSymbols = [...symbolFrequency.entries()]
+      ?.filter(([, count]) => count >= 2)
+      ?.map(([symbol]) => symbol);
+
+    if (!overlappingSymbols?.length) {
+      return [];
+    }
+
+    const rows: OverlapHoldingRow[] = overlappingSymbols
+      ?.map((symbol) => {
+        const tickerWeights: Record<string, number> = {};
+        const nonZeroWeights: number[] = [];
+        let symbolName = "";
+
+        for (const ticker of selectedTickers) {
+          const holding = holdingsMapsByTicker[ticker]?.get(symbol);
+          const weight = toFiniteNumber(holding?.weightPercentage) ?? 0;
+          tickerWeights[ticker] = weight;
+          if (weight > 0) {
+            nonZeroWeights.push(weight);
+          }
+          if (!symbolName && holding?.name) {
+            symbolName = holding.name;
+          }
+        }
+
+        const overlapWeight = nonZeroWeights.length
+          ? Math.min(...nonZeroWeights)
+          : 0;
+
+        return {
+          symbol,
+          name: symbolName,
+          overlapWeight,
+          tickerWeights,
+        };
+      })
+      ?.filter((row) => row.overlapWeight > 0);
+
+    return rows.sort((a, b) => {
+      if (b.overlapWeight !== a.overlapWeight) {
+        return b.overlapWeight - a.overlapWeight;
+      }
+      return a.symbol.localeCompare(b.symbol);
+    });
+  };
+
+  function handleOverlapPageChange(event) {
+    overlapCurrentPage = event.detail.page;
+  }
+
+  function handleOverlapRowsPerPageChange(event) {
+    overlapRowsPerPage = event.detail.rowsPerPage;
+    overlapCurrentPage = 1;
   }
 
   const getRelativeComparisonText = (difference) => {
@@ -358,17 +452,7 @@
       return null;
     }
 
-    const selectedTickers = [
-      ...new Set(
-        selectedTickerList
-          ?.map((ticker) =>
-            String(ticker ?? "")
-              .trim()
-              .toUpperCase(),
-          )
-          ?.filter(Boolean),
-      ),
-    ];
+    const selectedTickers = normalizeTickerList(selectedTickerList);
     if (selectedTickers.length <= 1) {
       return null;
     }
@@ -434,6 +518,21 @@
     );
     topHoldingsOverlapInfoText = infoText ?? "";
     showTopHoldingsOverlapInfo = selectedTickerList.length > 1;
+  }
+
+  $: {
+    overlapTickerColumns = normalizeTickerList(tickerList);
+    overlapRows = buildOverlapRows(overlapTickerColumns, allHoldingsByTicker);
+    overlapTotalPages = Math.max(
+      1,
+      Math.ceil((overlapRows?.length || 0) / overlapRowsPerPage),
+    );
+    if (overlapCurrentPage > overlapTotalPages) {
+      overlapCurrentPage = overlapTotalPages;
+    }
+    const startIndex = (overlapCurrentPage - 1) * overlapRowsPerPage;
+    const endIndex = startIndex + overlapRowsPerPage;
+    overlapPaginatedRows = overlapRows.slice(startIndex, endIndex);
   }
 
   const handleDownloadMessage = async (event) => {
@@ -1434,7 +1533,7 @@
                   <h2
                     class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                   >
-                    Top 10 Holdings
+                    Overlapping Holdings
                   </h2>
                 </div>
                 {#if showTopHoldingsOverlapInfo}
@@ -1442,110 +1541,102 @@
                 {/if}
 
                 <div
-                  class="mt-4 overflow-hidden bg-white/40 dark:bg-zinc-950/25"
+                  class="mt-4 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
                 >
                   <div class="overflow-x-auto">
-                    <div class="flex min-w-max items-start gap-4">
-                      {#each tickerList as ticker, idx}
-                        <div
-                          class="w-[340px] sm:w-[380px] shrink-0 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                    <table
+                      class="table table-sm table-compact w-full min-w-[920px]"
+                    >
+                      <thead
+                        class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                      >
+                        <tr
+                          class="border-b border-gray-300 dark:border-zinc-700"
                         >
-                          <div
-                            class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-gray-300 px-3 py-2 dark:border-zinc-700 sm:px-4"
-                          >
-                            <div class="flex items-center gap-x-2">
-                              <div
-                                class="size-3 rounded-sm"
-                                style="background-color: {$mode === 'light'
-                                  ? colorPairs[idx % colorPairs?.length].light
-                                  : colorPairs[idx % colorPairs?.length].dark}"
-                              ></div>
-                              <a
-                                href={`/etf/${ticker}/`}
-                                class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
-                              >
-                                {ticker}
-                              </a>
-                            </div>
-                          </div>
-
-                          {#if Array.isArray(topHoldingsByTicker?.[ticker]) && topHoldingsByTicker?.[ticker]?.length > 0}
-                            <table class="table table-sm table-compact w-full">
-                              <thead
-                                class="*:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
-                              >
-                                <tr
-                                  class="border-b border-gray-300 dark:border-zinc-700"
-                                >
-                                  <th class="pl-4">No.</th>
-                                  <th>Symbol</th>
-                                  <th>Name</th>
-                                  <th class="text-right">Weight</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {#each topHoldingsByTicker?.[ticker] as holding}
-                                  <tr
-                                    class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
-                                  >
-                                    <td
-                                      class="pl-4 text-xs text-gray-500 dark:text-zinc-400"
-                                    >
-                                      {holding?.rank}
-                                    </td>
-                                    <td>
-                                      <a
-                                        href={`/stocks/${holding?.symbol}/`}
-                                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                      >
-                                        {holding?.symbol}
-                                      </a>
-                                    </td>
-                                    <td
-                                      class="max-w-[180px] truncate text-gray-700 dark:text-zinc-200"
-                                      title={holding?.name}
-                                    >
-                                      {holding?.name || "-"}
-                                    </td>
-                                    <td class="text-right">
-                                      {formatPercentValue(
-                                        holding?.weightPercentage,
-                                      )}
-                                    </td>
-                                  </tr>
-                                {/each}
-                                <tr
-                                  class="border border-t border-gray-300 dark:border-zinc-700"
-                                >
-                                  <td colspan="4" class="p-2 text-center">
-                                    <a
-                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                      href={`/etf/${ticker}/holdings/`}
-                                    >
-                                      View {ticker} holdings
-                                    </a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          {:else if isTopHoldingsLoading}
-                            <div
-                              class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400"
+                          <th class="pl-4">No.</th>
+                          <th>Symbol</th>
+                          <th>Name</th>
+                          {#each overlapTickerColumns as ticker}
+                            <th class="text-right">Weight in {ticker}</th>
+                          {/each}
+                          <th class="pr-4 text-right">Overlap Weight</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {#if overlapPaginatedRows.length > 0}
+                          {#each overlapPaginatedRows as row, index}
+                            <tr
+                              class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                             >
-                              Loading holdings...
-                            </div>
-                          {:else}
-                            <div
-                              class="px-4 py-5 text-sm text-gray-500 dark:text-zinc-400"
+                              <td class="pl-4 text-gray-700 dark:text-zinc-200">
+                                {(overlapCurrentPage - 1) * overlapRowsPerPage +
+                                  index +
+                                  1}
+                              </td>
+                              <td>
+                                <a
+                                  href={`/stocks/${row?.symbol}/`}
+                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                >
+                                  {row?.symbol}
+                                </a>
+                              </td>
+                              <td
+                                class="max-w-[250px] truncate text-gray-700 dark:text-zinc-200"
+                                title={row?.name}
+                              >
+                                {row?.name || "-"}
+                              </td>
+                              {#each overlapTickerColumns as ticker}
+                                <td class="text-right tabular-nums">
+                                  {formatPercentValue(
+                                    row?.tickerWeights?.[ticker],
+                                  )}
+                                </td>
+                              {/each}
+                              <td
+                                class="pr-4 text-right font-semibold tabular-nums"
+                              >
+                                {formatPercentValue(row?.overlapWeight)}
+                              </td>
+                            </tr>
+                          {/each}
+                        {:else if isTopHoldingsLoading}
+                          <tr>
+                            <td
+                              colspan={4 + overlapTickerColumns.length}
+                              class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
                             >
-                              No holdings data available.
-                            </div>
-                          {/if}
-                        </div>
-                      {/each}
-                    </div>
+                              Loading overlapping holdings...
+                            </td>
+                          </tr>
+                        {:else}
+                          <tr>
+                            <td
+                              colspan={4 + overlapTickerColumns.length}
+                              class="px-4 py-5 text-sm text-center text-gray-500 dark:text-zinc-400"
+                            >
+                              No overlapping holdings found across the selected
+                              ETFs.
+                            </td>
+                          </tr>
+                        {/if}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
+
+                {#if overlapRows?.length > 0}
+                  <Pagination
+                    currentPage={overlapCurrentPage}
+                    totalPages={overlapTotalPages}
+                    rowsPerPage={overlapRowsPerPage}
+                    rowsPerPageOptions={overlapRowsPerPageOptions}
+                    showBackToTop={false}
+                    on:pageChange={handleOverlapPageChange}
+                    on:rowsPerPageChange={handleOverlapRowsPerPageChange}
+                  />
+                {/if}
               </div>
             {/if}
 
