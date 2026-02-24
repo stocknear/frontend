@@ -25,11 +25,6 @@ const ETF_FLOAT_RULES = new Set([
   "price",
   "expenseRatio",
   "beta",
-  "rsi",
-  "stochRSI",
-  "mfi",
-  "cci",
-  "atr",
   "pe",
   "nav",
 ]);
@@ -200,71 +195,6 @@ const ETF_COMPARE_RULE_META: Array<{ rule: string; label: string; varType: strin
     "varType": "percentSign"
   },
   {
-    "rule": "rsi",
-    "label": "Relative Strength Index",
-    "varType": null
-  },
-  {
-    "rule": "stochRSI",
-    "label": "Stochastic RSI Fast",
-    "varType": null
-  },
-  {
-    "rule": "mfi",
-    "label": "Money Flow Index",
-    "varType": null
-  },
-  {
-    "rule": "cci",
-    "label": "Commodity Channel Index",
-    "varType": null
-  },
-  {
-    "rule": "atr",
-    "label": "Average True Range",
-    "varType": null
-  },
-  {
-    "rule": "sma20",
-    "label": "20-Day Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "sma50",
-    "label": "50-Day Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "sma100",
-    "label": "100-Day Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "sma200",
-    "label": "200-Day Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "ema20",
-    "label": "20-Day Exp. Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "ema50",
-    "label": "50-Day Exp. Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "ema100",
-    "label": "100-Day Exp. Moving Average",
-    "varType": null
-  },
-  {
-    "rule": "ema200",
-    "label": "200-Day Exp. Moving Average",
-    "varType": null
-  },
-  {
     "rule": "annualDividend",
     "label": "Annual Dividend",
     "varType": null
@@ -337,7 +267,6 @@ export const ETF_COMPARE_DEFAULT_LIST: CompareColumnRule[] = [
 export const ETF_COMPARE_TABS: CompareTab[] = [
   { key: "general", label: "General" },
   { key: "performance", label: "Performance" },
-  { key: "technicals", label: "Technicals" },
   { key: "dividends", label: "Dividends" },
   { key: "indicators", label: "Indicators" },
 ];
@@ -349,13 +278,6 @@ export const ETF_COMPARE_TAB_RULE_SETS: Record<string, CompareColumnRule[]> = {
     { name: "Price Change 1M", rule: "change1M", type: "percentSign" },
     { name: "Price Change 3M", rule: "change3M", type: "percentSign" },
     { name: "Price Change 1Y", rule: "change1Y", type: "percentSign" },
-  ],
-  technicals: [
-    { name: "AUM", rule: "totalAssets", type: "int" },
-    { name: "Relative Strength Index", rule: "rsi", type: "float" },
-    { name: "50-Day Moving Average", rule: "sma50", type: "decimal" },
-    { name: "200-Day Moving Average", rule: "sma200", type: "decimal" },
-    { name: "Beta", rule: "beta", type: "float" },
   ],
   dividends: [
     { name: "AUM", rule: "totalAssets", type: "int" },
