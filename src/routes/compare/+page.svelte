@@ -214,6 +214,13 @@
   let rawGraphData = {};
   let rawTableData = [];
 
+  const isStockSearchbarItem = (item) => {
+    const rawType = String(item?.type ?? item?.assetType ?? "")
+      .trim()
+      .toLowerCase();
+    return rawType === "stock" || rawType === "stocks";
+  };
+
   const handleDownloadMessage = async (event) => {
     isLoaded = false;
     const output = event?.data?.output;
@@ -340,14 +347,17 @@
     timeoutId = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=10`,
+          `/api/searchbar?query=${encodeURIComponent(inputValue)}&limit=10&assetType=stocks`,
         );
 
         if (!response.ok) {
           throw new Error(`Search failed: ${response.statusText}`);
         }
 
-        searchBarData = await response.json();
+        const searchOutput = await response.json();
+        searchBarData = Array.isArray(searchOutput)
+          ? searchOutput.filter(isStockSearchbarItem)
+          : [];
       } catch (error) {
         console.error("Error during search:", error);
         searchBarData = [];
