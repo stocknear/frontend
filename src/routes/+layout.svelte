@@ -723,7 +723,7 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
-                              href="/etf-heatmap"
+                              href="/etf/heatmap"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
@@ -1039,7 +1039,7 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
-                              href="/etf-screener"
+                              href="/etf/screener"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >
@@ -1557,7 +1557,7 @@
                               >{layout_etf_providers()}</a
                             >
                             <a
-                              href="/etf-heatmap"
+                              href="/etf/heatmap"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
@@ -1772,7 +1772,7 @@
                             >
 
                             <a
-                              href="/etf-screener"
+                              href="/etf/screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >

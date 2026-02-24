@@ -87,6 +87,10 @@
   let tooltipTitle;
   let removeList = false;
   let deleteTargetId = "";
+  const ETFScreenerRowsPerPageKey = "/etf/screener_rowsPerPage";
+  const ETFScreenerRowsPerPageLegacyKey = "/etf-screener_rowsPerPage";
+  const ETFScreenerFullWidthKey = "etf-screener-full-width-v2";
+  const ETFScreenerFullWidthLegacyKey = "etf-screener-full-width";
 
   // SSR-hydrated state
   let displayedData = data?.getScreenerFeed?.items ?? [];
@@ -1642,8 +1646,7 @@
     if (typeof localStorage === "undefined") return;
 
     try {
-      const paginationKey = `/etf-screener_rowsPerPage`;
-      localStorage.setItem(paginationKey, String(rowsPerPage));
+      localStorage.setItem(ETFScreenerRowsPerPageKey, String(rowsPerPage));
     } catch (e) {
       console.warn("Failed to save rows per page preference:", e);
     }
@@ -1657,8 +1660,9 @@
     }
 
     try {
-      const paginationKey = `/etf-screener_rowsPerPage`;
-      const savedRows = localStorage.getItem(paginationKey);
+      const savedRows =
+        localStorage.getItem(ETFScreenerRowsPerPageKey) ??
+        localStorage.getItem(ETFScreenerRowsPerPageLegacyKey);
 
       if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
         rowsPerPage = Number(savedRows);
@@ -1675,7 +1679,7 @@
   function toggleFullWidth() {
     isFullWidth = !isFullWidth;
     try {
-      localStorage.setItem("etf-screener-full-width", String(isFullWidth));
+      localStorage.setItem(ETFScreenerFullWidthKey, String(isFullWidth));
     } catch (e) {
       console.warn("Failed to save full width preference:", e);
     }
@@ -1686,7 +1690,9 @@
   onMount(async () => {
     loadRowsPerPage();
 
-    const savedFullWidth = localStorage.getItem("etf-screener-full-width");
+    const savedFullWidth =
+      localStorage.getItem(ETFScreenerFullWidthKey) ??
+      localStorage.getItem(ETFScreenerFullWidthLegacyKey);
     if (savedFullWidth !== null) {
       isFullWidth = savedFullWidth === "true";
     }
@@ -2116,8 +2122,13 @@
 
   function getColumnOrderStorageKey(): string {
     // Include the current tab in the storage key for tab-specific column orders
-    const basePath = "/etf-screener";
+    const basePath = "/etf/screener";
     return `${basePath}_${displayTableTab}_columnOrder`;
+  }
+
+  function getLegacyColumnOrderStorageKey(): string {
+    const legacyBasePath = "/etf-screener";
+    return `${legacyBasePath}_${displayTableTab}_columnOrder`;
   }
 
   function loadColumnOrder(forceReapply: boolean = false): void {
@@ -2128,7 +2139,9 @@
     }
 
     try {
-      const saved = localStorage.getItem(storageKey);
+      const saved =
+        localStorage.getItem(storageKey) ??
+        localStorage.getItem(getLegacyColumnOrderStorageKey());
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -2197,8 +2210,10 @@
 
   function resetColumnOrder(): void {
     const storageKey = getColumnOrderStorageKey();
+    const legacyStorageKey = getLegacyColumnOrderStorageKey();
     if (storageKey && typeof localStorage !== "undefined") {
       localStorage.removeItem(storageKey);
+      localStorage.removeItem(legacyStorageKey);
     }
     customColumnOrder = [];
     lastAppliedColumnKeys = "";
@@ -2372,7 +2387,7 @@
     "@type": "SoftwareApplication",
     name: etf_screener_structured_name(),
     description: etf_screener_structured_description(),
-    url: "https://stocknear.com/etf-screener",
+    url: "https://stocknear.com/etf/screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     offers: {
