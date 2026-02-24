@@ -1267,6 +1267,13 @@
     _ruleFetchTimeout = setTimeout(() => fetchTableData({ page: 1 }), 200);
   }
 
+  const isEtfSearchbarItem = (item) => {
+    const rawType = String(item?.type ?? item?.assetType ?? "")
+      .trim()
+      .toLowerCase();
+    return rawType === "etf" || rawType === "etfs";
+  };
+
   async function searchExcludeTicker() {
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
     if (!excludeTickerInput.trim()) {
@@ -1276,10 +1283,13 @@
     excludeTickerTimeout = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/searchbar?query=${encodeURIComponent(excludeTickerInput)}&limit=8`,
+          `/api/searchbar?query=${encodeURIComponent(excludeTickerInput)}&limit=8&assetType=etf`,
         );
         if (response.ok) {
-          excludeTickerResults = await response.json();
+          const searchOutput = await response.json();
+          excludeTickerResults = Array.isArray(searchOutput)
+            ? searchOutput.filter(isEtfSearchbarItem)
+            : [];
         } else {
           excludeTickerResults = [];
         }
@@ -1336,10 +1346,13 @@
     includeTickerTimeout = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/searchbar?query=${encodeURIComponent(includeTickerInput)}&limit=8`,
+          `/api/searchbar?query=${encodeURIComponent(includeTickerInput)}&limit=8&assetType=etf`,
         );
         if (response.ok) {
-          includeTickerResults = await response.json();
+          const searchOutput = await response.json();
+          includeTickerResults = Array.isArray(searchOutput)
+            ? searchOutput.filter(isEtfSearchbarItem)
+            : [];
         } else {
           includeTickerResults = [];
         }
