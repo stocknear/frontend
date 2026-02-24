@@ -18,5 +18,19 @@
   "heatmap_heading": "{index} - {period}-Performance",
   "heatmap_time_period_label": "Zeitraum",
   "heatmap_error_load": "Heatmap konnte nicht geladen werden. Bitte versuche es erneut.",
-  "heatmap_no_data": "Keine Daten verfügbar"
+  "heatmap_no_data": "Keine Daten verfügbar",
+  "etf_heatmap_seo_title": "ETF-Heatmap – Echtzeit-ETF-Performance-Visualisierung",
+  "etf_heatmap_seo_description": "Interaktive ETF-Heatmap mit Echtzeit-Performance-Daten für US-Aktien-, Sektor-, internationale, Anleihe-, Rohstoff- und thematische ETFs. Verfolge die ETF-Performance nach verwaltetem Vermögen mit farbcodierten Renditen über mehrere Zeiträume.",
+  "etf_heatmap_seo_keywords": "ETF-Heatmap, ETF-Performance, ETF-Visualisierung, Sektor-ETFs, Anleihe-ETFs, Rohstoff-ETFs, ETF-Tracker, ETF-Marktübersicht, ETF-Analyse-Tool, ETF-Vergleich, Echtzeit-ETF-Daten",
+  "etf_heatmap_structured_name": "ETF-Markt-Heatmap",
+  "etf_heatmap_structured_description": "Interaktive ETF-Heatmap für die Echtzeit-Visualisierung der ETF-Performance über Anlageklassen, Sektoren und Kategorien",
+  "etf_heatmap_structured_breadcrumb_label": "ETF-Heatmap",
+  "etf_heatmap_breadcrumb_label": "ETF-Heatmap",
+  "etf_heatmap_heading": "ETF-Heatmap – {period}-Performance",
+  "etf_heatmap_error_load": "ETF-Heatmap konnte nicht geladen werden. Bitte versuche es erneut.",
+  "etf_heatmap_no_data": "Keine ETF-Daten verfügbar",
+  "etf_heatmap_feature_real_time": "Echtzeit-Visualisierung der ETF-Performance",
+  "etf_heatmap_feature_categories": "ETF-Kategorisierung nach Anlageklasse und Sektor",
+  "etf_heatmap_feature_aum": "ETF-Größendarstellung nach verwaltetem Vermögen (AUM)",
+  "etf_heatmap_feature_timeframes": "Mehrere Zeitrahmen (1D, 1W, 1M, 3M, 6M, 1Y, 3Y)"
 }

@@ -7,6 +7,7 @@
     import { abbreviateNumber } from "$lib/utils";
 
     export let data: any = null;
+    export let isETF = false;
 
     let container: HTMLDivElement;
     let chart: any = null;
@@ -183,7 +184,7 @@
 
         if (isInitializing) return;
 
-        const dataId = `${data.etfName}_${data.timePeriod}_${$mode}`;
+        const dataId = `${data.etfName || "etf"}_${data.timePeriod}_${$mode}_${isETF}`;
         if (dataId === currentDataId && chart) return;
 
         isInitializing = true;
@@ -255,7 +256,8 @@
                     const value = point.value || 0;
 
                     let s = `<span class="text-white font-[501]">${point.name}</span><br>`;
-                    s += `<span class="text-white font-semibold text-sm">Market Cap:</span> `;
+                    const valueLabel = point.custom.aum !== undefined ? "AUM:" : "Market Cap:";
+                    s += `<span class="text-white font-semibold text-sm">${valueLabel}</span> `;
                     s += `<span class="text-white font-normal text-sm">${abbreviateNumber(value)}</span><br>`;
                     if (perf) {
                         s += `<span class="text-white font-semibold text-sm">Change:</span> `;
@@ -392,7 +394,7 @@
                                     point.custom &&
                                     !e.point?.drillId
                                 ) {
-                                    goto(`/stocks/${point.name}`);
+                                    goto(isETF ? `/etf/${point.name}` : `/stocks/${point.name}`);
                                 }
                             },
                         },

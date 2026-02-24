@@ -74,6 +74,7 @@
     layout_dividends_calendar,
     layout_economic_calendar,
     layout_earnings_calendar,
+    layout_etf_heatmap,
     layout_etf_providers,
     layout_etfs,
     layout_flow_feed,
@@ -717,6 +718,17 @@
                               href="/etf/etf-providers"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
+                            >
+                          </Button>
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
+                              href="/etf-heatmap"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_etf_heatmap()}</a
                             >
                           </Button>
                         </div>
@@ -1610,6 +1622,11 @@
                               href="/etf/etf-providers"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
+                            >
+                            <a
+                              href="/etf-heatmap"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_etf_heatmap()}</a
                             >
                           </div>
                         </Accordion.Content>

@@ -18,5 +18,19 @@
   "heatmap_heading": "{index} - {period} Performance",
   "heatmap_time_period_label": "Time Period",
   "heatmap_error_load": "Failed to load heatmap. Please try again.",
-  "heatmap_no_data": "No data available"
+  "heatmap_no_data": "No data available",
+  "etf_heatmap_seo_title": "ETF Heatmap - Real-Time ETF Performance Visualization",
+  "etf_heatmap_seo_description": "Interactive ETF heatmap with real-time performance data across US equity, sector, international, fixed income, commodity, and thematic ETFs. Track ETF performance by AUM with color-coded returns across multiple timeframes.",
+  "etf_heatmap_seo_keywords": "ETF heatmap, ETF performance, ETF visualization, sector ETFs, bond ETFs, commodity ETFs, ETF tracker, ETF market map, ETF analysis tool, ETF comparison, real-time ETF data",
+  "etf_heatmap_structured_name": "ETF Market Heatmap",
+  "etf_heatmap_structured_description": "Interactive ETF heatmap for real-time visualization of ETF performance across asset classes, sectors, and categories",
+  "etf_heatmap_structured_breadcrumb_label": "ETF Heatmap",
+  "etf_heatmap_breadcrumb_label": "ETF Heatmap",
+  "etf_heatmap_heading": "ETF Heatmap - {period} Performance",
+  "etf_heatmap_error_load": "Failed to load ETF heatmap. Please try again.",
+  "etf_heatmap_no_data": "No ETF data available",
+  "etf_heatmap_feature_real_time": "Real-time ETF performance visualization",
+  "etf_heatmap_feature_categories": "ETF categorization by asset class and sector",
+  "etf_heatmap_feature_aum": "ETF sizing by assets under management (AUM)",
+  "etf_heatmap_feature_timeframes": "Multiple timeframe analysis (1D, 1W, 1M, 3M, 6M, 1Y, 3Y)"
 }
