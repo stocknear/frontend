@@ -97,6 +97,7 @@
     layout_options_calculator,
     layout_options_flow,
     layout_options_screener,
+    layout_etf_screener,
     layout_portfolio,
     layout_price_alert,
     layout_pricing_plan,
@@ -1049,6 +1050,21 @@
                           </Button>
                         </div>
                       </Sheet.Close>
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
+                              href="/etf-screener"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_etf_screener()}</a
+                            >
+                          </Button>
+                        </div>
+                      </Sheet.Close>
 
                       <div class="ml-4 mt-5">
                         <span
@@ -1842,6 +1858,12 @@
                               href="/options-screener"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_screener()}</a
+                            >
+
+                            <a
+                              href="/etf-screener"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_etf_screener()}</a
                             >
 
                             <span
