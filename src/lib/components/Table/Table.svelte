@@ -61,8 +61,62 @@
     sessionOnly?: boolean;
   };
 
-  const INDICATOR_DEFAULTS: ColumnRule[] = [];
+  type TableTab = {
+    key: string;
+    label: string;
+    showCount?: boolean;
+  };
 
+  const DEFAULT_INDICATOR_ROWS: ColumnRule[] = [];
+  const DEFAULT_TAB_RULE_SETS: Record<string, ColumnRule[]> = {
+    performance: [
+      { name: "Price Change 1W", rule: "change1W", type: "percentSign" },
+      { name: "Price Change 1M", rule: "change1M", type: "percentSign" },
+      { name: "Price Change 3M", rule: "change3M", type: "percentSign" },
+      { name: "Price Change 6M", rule: "change6M", type: "percentSign" },
+      { name: "Price Change 1Y", rule: "change1Y", type: "percentSign" },
+    ],
+    financials: [
+      { name: "Revenue", rule: "revenue", type: "int" },
+      { name: "EBITDA", rule: "ebitda", type: "int" },
+      { name: "Net Income", rule: "netIncome", type: "int" },
+      { name: "FCF", rule: "freeCashFlow", type: "int" },
+      { name: "EPS", rule: "eps", type: "float" },
+      { name: "PE Ratio", rule: "priceToEarningsRatio", type: "float" },
+      { name: "PB Ratio", rule: "priceToBookRatio", type: "float" },
+    ],
+    analysts: [
+      { name: "Price", rule: "price", type: "float" },
+      { name: "Analyst Rating", rule: "analystRating", type: "rating" },
+      { name: "Analyst Count", rule: "analystCounter", type: "int" },
+      { name: "Price Target", rule: "priceTarget", type: "float" },
+      { name: "Upside", rule: "upside", type: "percentSign" },
+    ],
+    dividends: [
+      { name: "Dividend Yield", rule: "dividendYield", type: "percent" },
+      { name: "Dividend Growth", rule: "dividendGrowth", type: "percentSign" },
+      { name: "Payout Ratio", rule: "payoutRatio", type: "percent" },
+      { name: "Payout Frequency", rule: "payoutFrequency", type: "str" },
+    ],
+  };
+
+  let defaultTableTabs: TableTab[] = [
+    { key: "general", label: common_tab_general() },
+    { key: "performance", label: common_tab_performance() },
+    { key: "financials", label: common_tab_financials() },
+    { key: "analysts", label: common_tab_analysts() },
+    { key: "dividends", label: common_tab_dividends() },
+    {
+      key: "indicators",
+      label: common_tab_indicators(),
+      showCount: true,
+    },
+  ];
+
+  export let tableTabs: TableTab[] = [];
+  export let tabRuleSets: Record<string, ColumnRule[]> = DEFAULT_TAB_RULE_SETS;
+  export let indicatorRowsOverride: ColumnRule[] = [];
+  export let indicatorDefaultRows: ColumnRule[] = DEFAULT_INDICATOR_ROWS;
   export let specificRows: ColumnRule[] = [];
 
   const SESSION_ONLY_RULES = new Set([
@@ -122,49 +176,41 @@
   const defaultRules =
     defaultList?.map((item) => item?.rule)?.filter(isNonEmptyRule) ?? [];
   let tableDefaultRuleSet: Set<string> = new Set(defaultRules);
-  const indicatorDefaultRuleSet = new Set(
-    INDICATOR_DEFAULTS.map((item) => item.rule),
+  let activeIndicatorDefaultRows: ColumnRule[] = [...DEFAULT_INDICATOR_ROWS];
+  $: activeIndicatorDefaultRows =
+    indicatorDefaultRows?.length > 0
+      ? indicatorDefaultRows.filter((item) => item?.rule)
+      : [...DEFAULT_INDICATOR_ROWS];
+  let indicatorDefaultRuleSet = new Set(
+    activeIndicatorDefaultRows.map((item) => item.rule),
+  );
+  $: indicatorDefaultRuleSet = new Set(
+    activeIndicatorDefaultRows.map((item) => item.rule),
   );
 
   // Navigation tabs and predefined rule sets
   let displayTableTab = "general";
-
-  const tabRuleSets = {
-    general: [
-      { name: "Market Cap", rule: "marketCap", type: "int" },
-      { name: "Price", rule: "price", type: "float" },
-      { name: "% Change", rule: "changesPercentage", type: "percentSign" },
-    ],
-    performance: [
-      { name: "Price Change 1W", rule: "change1W", type: "percentSign" },
-      { name: "Price Change 1M", rule: "change1M", type: "percentSign" },
-      { name: "Price Change 3M", rule: "change3M", type: "percentSign" },
-      { name: "Price Change 6M", rule: "change6M", type: "percentSign" },
-      { name: "Price Change 1Y", rule: "change1Y", type: "percentSign" },
-    ],
-    financials: [
-      { name: "Revenue", rule: "revenue", type: "int" },
-      { name: "EBITDA", rule: "ebitda", type: "int" },
-      { name: "Net Income", rule: "netIncome", type: "int" },
-      { name: "FCF", rule: "freeCashFlow", type: "int" },
-      { name: "EPS", rule: "eps", type: "float" },
-      { name: "PE Ratio", rule: "priceToEarningsRatio", type: "float" },
-      { name: "PB Ratio", rule: "priceToBookRatio", type: "float" },
-    ],
-    analysts: [
-      { name: "Price", rule: "price", type: "float" },
-      { name: "Analyst Rating", rule: "analystRating", type: "rating" },
-      { name: "Analyst Count", rule: "analystCounter", type: "int" },
-      { name: "Price Target", rule: "priceTarget", type: "float" },
-      { name: "Upside", rule: "upside", type: "percentSign" },
-    ],
-    dividends: [
-      { name: "Dividend Yield", rule: "dividendYield", type: "percent" },
-      { name: "Dividend Growth", rule: "dividendGrowth", type: "percentSign" },
-      { name: "Payout Ratio", rule: "payoutRatio", type: "percent" },
-      { name: "Payout Frequency", rule: "payoutFrequency", type: "str" },
-    ],
-  };
+  let resolvedTableTabs: TableTab[] = [...defaultTableTabs];
+  $: defaultTableTabs = [
+    { key: "general", label: common_tab_general() },
+    { key: "performance", label: common_tab_performance() },
+    { key: "financials", label: common_tab_financials() },
+    { key: "analysts", label: common_tab_analysts() },
+    { key: "dividends", label: common_tab_dividends() },
+    {
+      key: "indicators",
+      label: common_tab_indicators(),
+      showCount: true,
+    },
+  ];
+  $: resolvedTableTabs =
+    tableTabs?.length > 0 ? tableTabs : [...defaultTableTabs];
+  $: {
+    const fallbackTab = resolvedTableTabs?.[0]?.key ?? "general";
+    if (!resolvedTableTabs?.some((tab) => tab?.key === displayTableTab)) {
+      displayTableTab = fallbackTab;
+    }
+  }
 
   $: if (displayTableTab !== "indicators") {
     const baseRules =
@@ -760,8 +806,7 @@
   let lastPrePostSubscriptionKey: string | null = null;
   const PRE_POST_RECONNECT_DELAY = 5000;
 
-  let allRows: ColumnRule[] = [
-    ...INDICATOR_DEFAULTS,
+  const STOCK_INDICATOR_ROWS: ColumnRule[] = [
     { name: "Volume", rule: "volume", type: "decimal" },
     { name: "Relative Volume", rule: "relativeVolume", type: "percent" },
     { name: "Call Volume", rule: "callVolume", type: "int" },
@@ -896,7 +941,23 @@
     { name: "Total Prem", rule: "totalPrem", type: "decimal" },
   ];
 
-  allRows = [...allRows, ...specificRows];
+  let allRows: ColumnRule[] = [];
+  $: {
+    const baseRows =
+      indicatorRowsOverride?.length > 0
+        ? indicatorRowsOverride
+        : STOCK_INDICATOR_ROWS;
+    const mergedRows = new Map<string, ColumnRule>();
+    for (const row of [
+      ...activeIndicatorDefaultRows,
+      ...baseRows,
+      ...(specificRows ?? []),
+    ]) {
+      if (!row?.rule) continue;
+      mergedRows.set(row.rule, row);
+    }
+    allRows = Array.from(mergedRows.values());
+  }
 
   let indicatorRows: ColumnRule[] = [];
   let proOnlyItems = new Set<string>();
@@ -933,7 +994,7 @@
 
   function sanitizeIndicatorRules(rules: ColumnRule[] = []): ColumnRule[] {
     const merged = new Map<string, ColumnRule>();
-    for (const item of INDICATOR_DEFAULTS) {
+    for (const item of activeIndicatorDefaultRows) {
       merged.set(item.rule, item);
     }
     for (const item of rules ?? []) {
@@ -950,9 +1011,9 @@
     const currentPath = pagePathName || $page?.url?.pathname;
 
     if (!currentPath || typeof localStorage === "undefined") {
-      indicatorsTabRules = [...INDICATOR_DEFAULTS];
+      indicatorsTabRules = [...activeIndicatorDefaultRows];
       indicatorsTabCheckedItems = new Set(
-        INDICATOR_DEFAULTS.map((item) => item.name),
+        activeIndicatorDefaultRows.map((item) => item.name),
       );
       return;
     }
@@ -981,9 +1042,9 @@
     }
 
     // If no saved rules or parsing failed, use defaultList
-    indicatorsTabRules = [...INDICATOR_DEFAULTS];
+    indicatorsTabRules = [...activeIndicatorDefaultRows];
     indicatorsTabCheckedItems = new Set(
-      INDICATOR_DEFAULTS.map((item) => item.name),
+      activeIndicatorDefaultRows.map((item) => item.name),
     );
   }
 
@@ -1105,10 +1166,62 @@
     sortOrders = generateSortOrders(rawData);
   };
 
+  function collectIndicatorTickers(): string[] {
+    const source =
+      Array.isArray(rawData) && rawData.length > 0
+        ? rawData
+        : Array.isArray(originalData)
+          ? originalData
+          : [];
+    const symbols = new Set<string>();
+    for (const item of source) {
+      const symbol = item?.symbol ?? item?.ticker ?? item?.code;
+      if (typeof symbol === "string" && symbol.length > 0) {
+        symbols.add(symbol.toUpperCase());
+      }
+    }
+    return Array.from(symbols.values());
+  }
+
+  function datasetHasAllRules(
+    dataset: DataRow[] | undefined,
+    rules: string[],
+  ): boolean {
+    if (!Array.isArray(dataset) || dataset.length === 0 || rules.length === 0) {
+      return false;
+    }
+    return dataset.every((row) =>
+      rules.every((rule) =>
+        Object.prototype.hasOwnProperty.call(row ?? {}, rule),
+      ),
+    );
+  }
+
   const updateStockScreenerData = async () => {
+    if (!downloadWorker) return;
+
+    const requiredRules = Array.from(
+      new Set(
+        (ruleOfList ?? [])
+          .map((item) => item?.rule)
+          .filter(isNonEmptyRule),
+      ),
+    );
+
+    if (
+      requiredRules.length > 0 &&
+      (datasetHasAllRules(rawData, requiredRules) ||
+        datasetHasAllRules(originalData, requiredRules))
+    ) {
+      return;
+    }
+
+    const tickerList = collectIndicatorTickers();
+    if (tickerList.length === 0) return;
+
     downloadWorker.postMessage({
-      ruleOfList: ruleOfList,
-      tickerList: rawData?.map((item) => item?.symbol),
+      ruleOfList,
+      tickerList,
     });
   };
 
@@ -1440,15 +1553,15 @@
     searchQuery = "";
 
     // Reset indicators tab rules to defaults (keep default indicators checked)
-    indicatorsTabRules = [...INDICATOR_DEFAULTS];
+    indicatorsTabRules = [...activeIndicatorDefaultRows];
     indicatorsTabCheckedItems = new Set(
-      INDICATOR_DEFAULTS.map((item) => item.name),
+      activeIndicatorDefaultRows.map((item) => item.name),
     );
 
     // If we're currently on indicators tab, update display to show defaults
     if (displayTableTab === "indicators") {
-      ruleOfList = [...INDICATOR_DEFAULTS];
-      checkedItems = new Set(INDICATOR_DEFAULTS.map((item) => item.name));
+      ruleOfList = [...activeIndicatorDefaultRows];
+      checkedItems = new Set(activeIndicatorDefaultRows.map((item) => item.name));
       columns = generateColumns(rawData);
       if (customColumnOrder && customColumnOrder.length > 0) {
         columns = applyColumnOrder(columns);
@@ -1463,7 +1576,7 @@
       const indicatorsTabKey = `${pagePathName}_indicators`;
       localStorage.setItem(
         indicatorsTabKey,
-        JSON.stringify(INDICATOR_DEFAULTS),
+        JSON.stringify(activeIndicatorDefaultRows),
       );
     }
 
@@ -1595,14 +1708,14 @@
       const normalizedRules =
         indicatorsTabRules?.length > 0
           ? indicatorsTabRules
-          : INDICATOR_DEFAULTS;
+          : activeIndicatorDefaultRows;
 
       ruleOfList = mergeSessionColumns(normalizedRules);
 
       checkedItems =
         indicatorsTabRules?.length > 0
           ? new Set([...indicatorsTabCheckedItems])
-          : new Set(INDICATOR_DEFAULTS.map((item) => item.name));
+          : new Set(activeIndicatorDefaultRows.map((item) => item.name));
     } else {
       // For all other tabs, always use their hardcoded predefined rules
       if (tabRuleSets[tabName]) {
@@ -2689,79 +2802,28 @@
   <ul
     class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
   >
-    <li>
-      <button
-        on:click={() => changeTab("general")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
-        'general'
-          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-      >
-        {common_tab_general()}
-      </button>
-    </li>
-    <li>
-      <button
-        on:click={() => changeTab("performance")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
-        'performance'
-          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-      >
-        {common_tab_performance()}
-      </button>
-    </li>
-    <li>
-      <button
-        on:click={() => changeTab("financials")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
-        'financials'
-          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-      >
-        {common_tab_financials()}
-      </button>
-    </li>
-    <li>
-      <button
-        on:click={() => changeTab("analysts")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
-        'analysts'
-          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-      >
-        {common_tab_analysts()}
-      </button>
-    </li>
-    <li>
-      <button
-        on:click={() => changeTab("dividends")}
-        class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
-        'dividends'
-          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-      >
-        {common_tab_dividends()}
-      </button>
-    </li>
-    <li>
-      <button
-        on:click={() => changeTab("indicators")}
-        class="cursor-pointer flex flex-row items-center text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
-        'indicators'
-          ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-          : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
-      >
-        {common_tab_indicators()}
-        {#if indicatorsTabRules && indicatorsTabRules.length > INDICATOR_DEFAULTS.length}
-          <div
-            class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
-          >
-            {indicatorsTabRules.length - INDICATOR_DEFAULTS.length}
-          </div>
-        {/if}
-      </button>
-    </li>
+    {#each resolvedTableTabs as tab (tab?.key)}
+      <li>
+        <button
+          on:click={() => changeTab(tab?.key)}
+          class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full px-3 py-1 border font-medium transition {displayTableTab ===
+          tab?.key
+            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
+            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+        >
+          <span>{tab?.label}</span>
+          {#if (tab?.showCount || tab?.key === "indicators") &&
+          tab?.key === "indicators" &&
+          indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
+            <div
+              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
+            >
+              {indicatorsTabRules.length - activeIndicatorDefaultRows.length}
+            </div>
+          {/if}
+        </button>
+      </li>
+    {/each}
   </ul>
 </nav>
 

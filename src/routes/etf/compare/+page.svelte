@@ -15,6 +15,13 @@
 
   import SEO from "$lib/components/SEO.svelte";
   import {
+    ETF_COMPARE_DEFAULT_LIST,
+    ETF_COMPARE_INDICATOR_DEFAULT_ROWS,
+    ETF_COMPARE_INDICATOR_ROWS,
+    ETF_COMPARE_TAB_RULE_SETS,
+    ETF_COMPARE_TABS,
+  } from "$lib/config/etfCompareTable";
+  import {
   compare_average_return,
   compare_average_return_info,
   compare_breadcrumb_home,
@@ -34,24 +41,8 @@
 } from "$lib/paraglide/messages";
 
   export let data;
-  const defaultList = [
-    { name: "Total Assets", rule: "totalAssets" },
-    { name: "Price", rule: "price" },
-    { name: "% Change", rule: "changesPercentage" },
-    { name: "Volume", rule: "volume" },
-    { name: "Expense Ratio", rule: "expenseRatio" },
-    { name: "Dividend Yield", rule: "dividendYield" },
-    { name: "Holdings", rule: "numberOfHoldings" },
-  ];
-  const excludedRules = new Set([
-    "totalAssets",
-    "volume",
-    "price",
-    "changesPercentage",
-    "expenseRatio",
-    "dividendYield",
-    "numberOfHoldings",
-  ]);
+  const defaultList = [...ETF_COMPARE_DEFAULT_LIST];
+  const excludedRules = new Set(defaultList.map((item) => item.rule));
 
   let isLoaded = false;
   let configGraph = null;
@@ -1005,6 +996,10 @@
                   rawData={rawTableData}
                   {defaultList}
                   {excludedRules}
+                  tableTabs={ETF_COMPARE_TABS}
+                  tabRuleSets={ETF_COMPARE_TAB_RULE_SETS}
+                  indicatorRowsOverride={ETF_COMPARE_INDICATOR_ROWS}
+                  indicatorDefaultRows={ETF_COMPARE_INDICATOR_DEFAULT_ROWS}
                 />
               {/key}
             {/if}
