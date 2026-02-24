@@ -96,7 +96,7 @@
       step: ["2", "1.5", "1", "0.5", "0.2", "0.1", "0.05", "0.03"],
       defaultCondition: "under",
       defaultValue: "any",
-      varType: "percentSign",
+      varType: "percent",
       category: ["Most Popular", "Fund Info"],
     },
     numberOfHoldings: {
@@ -1802,7 +1802,7 @@
           { condition: "under", name: "rsi", value: 30 },
           { condition: "over", name: "totalAssets", value: "1B" },
         ],
-      }
+      },
     };
 
     const strategy = strategies[state];
