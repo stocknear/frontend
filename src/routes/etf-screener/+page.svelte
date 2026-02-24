@@ -1806,32 +1806,25 @@
       }
     }
 
-    if (checkedItems.has(ruleName)) {
-      const itemsSet = checkedItems.get(ruleName);
-
-      // Apply sorting only if shouldSort is true
+    {
       const sortedValue =
         shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
-
       const valueKey = Array.isArray(sortedValue)
         ? sortedValue.join("-")
         : sortedValue;
 
-      if (itemsSet?.has(valueKey)) {
-        itemsSet?.delete(valueKey);
+      if (checkedItems.has(ruleName)) {
+        const itemsSet = checkedItems.get(ruleName);
+        if (itemsSet?.has(valueKey)) {
+          itemsSet.delete(valueKey);
+        } else {
+          itemsSet.add(valueKey);
+        }
       } else {
-        itemsSet?.add(valueKey);
+        checkedItems.set(ruleName, new Set([valueKey]));
       }
-    } else {
-      // Apply sorting only if shouldSort is true
-      const sortedValue =
-        shouldSort && Array.isArray(value) ? value.sort(customSort) : value;
-
-      const valueKey = Array.isArray(sortedValue)
-        ? sortedValue.join("-")
-        : sortedValue;
-
-      checkedItems?.set(ruleName, new Set([valueKey]));
+      // Reassign to trigger Svelte reactivity (Map/Set mutations are not reactive)
+      checkedItems = checkedItems;
     }
 
     if (checkedRules.includes(ruleName)) {
@@ -1840,24 +1833,24 @@
         valueMappings[ruleName] = [];
       }
 
-      // Apply sorting only if shouldSort is true
       const sortedValue =
         shouldSort && Array.isArray(value) ? value?.sort(customSort) : value;
-
       const valueKey = Array.isArray(sortedValue)
         ? sortedValue.join("-")
         : sortedValue;
 
       const index = valueMappings[ruleName].indexOf(valueKey);
       if (index === -1) {
-        valueMappings[ruleName].push(valueKey);
+        valueMappings[ruleName] = [...valueMappings[ruleName], valueKey];
       } else {
-        valueMappings[ruleName].splice(index, 1);
+        valueMappings[ruleName] = valueMappings[ruleName].filter((_, i) => i !== index);
       }
 
       if (valueMappings[ruleName].length === 0) {
         valueMappings[ruleName] = "any";
       }
+
+      valueMappings = valueMappings;
 
       if (!skipFetch) debouncedRuleFetch();
     } else if (ruleName in valueMappings) {
