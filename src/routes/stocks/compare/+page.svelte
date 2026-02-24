@@ -8,6 +8,7 @@
   import { toast } from "svelte-sonner";
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -15,32 +16,31 @@
 
   import SEO from "$lib/components/SEO.svelte";
   import {
-  compare_add_symbol,
-  compare_average_return,
-  compare_average_return_info,
-  compare_breadcrumb_current,
-  compare_breadcrumb_home,
-  compare_no_results,
-  compare_popular_comparisons,
-  compare_search_placeholder,
-  compare_seo_description,
-  compare_seo_keywords,
-  compare_seo_title,
-  compare_start_searching,
-  compare_stocks_plural,
-  compare_stocks_singular,
-  compare_table_1month,
-  compare_table_1year,
-  compare_table_5years,
-  compare_table_max,
-  compare_table_symbol,
-  compare_table_ytd,
-  compare_title,
-  compare_title_vs,
-  compare_toast_invalid_list,
-  compare_toast_ticker_included,
-  compare_toast_ticker_not_found,
-} from "$lib/paraglide/messages";
+    compare_add_symbol,
+    compare_average_return,
+    compare_breadcrumb_current,
+    compare_breadcrumb_home,
+    compare_no_results,
+    compare_popular_comparisons,
+    compare_search_placeholder,
+    compare_seo_description,
+    compare_seo_keywords,
+    compare_seo_title,
+    compare_start_searching,
+    compare_stocks_plural,
+    compare_stocks_singular,
+    compare_table_1month,
+    compare_table_1year,
+    compare_table_5years,
+    compare_table_max,
+    compare_table_symbol,
+    compare_table_ytd,
+    compare_title,
+    compare_title_vs,
+    compare_toast_invalid_list,
+    compare_toast_ticker_included,
+    compare_toast_ticker_not_found,
+  } from "$lib/paraglide/messages";
 
   export let data;
   const defaultList = [
@@ -72,14 +72,14 @@
   let selectedPlotPeriod = "3Y";
 
   let selectedPlotCategory = {
-    name: "Total Return [%]",
+    name: "Total Return (%)",
     value: "totalReturn",
     type: "price",
   };
 
   let categoryList = [
     { name: "Stock Price", value: "close", type: "price" },
-    { name: "Total Return [%]", value: "totalReturn", type: "price" },
+    { name: "Total Return (%)", value: "totalReturn", type: "price" },
     { name: "Market Cap", value: "marketCap", type: "marketCap" },
     { name: "Dividend Yield", value: "yield", type: "dividend" },
     { name: "Dividends", value: "adjDividend", type: "dividend" },
@@ -213,6 +213,13 @@
   let touchedInput = false;
   let rawGraphData = {};
   let rawTableData = [];
+  const RETURN_PERIOD_LABELS = ["1 Month", "YTD", "1 Year", "5 Years", "Max"];
+  const RETURN_ONE_YEAR_INDEX = 2;
+  const RETURN_LONG_TERM_INDEX = 4;
+  const AVERAGE_RETURN_INFO_MODAL_TEXT =
+    "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
+  let averageReturnInfoText = "";
+  let showAverageReturnInfo = false;
 
   const isStockSearchbarItem = (item) => {
     const rawType = String(item?.type ?? item?.assetType ?? "")
@@ -220,6 +227,73 @@
       .toLowerCase();
     return rawType === "stock" || rawType === "stocks";
   };
+
+  const toFiniteNumber = (value) => {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  };
+
+  const formatPercentValue = (value) => {
+    const numeric = toFiniteNumber(value);
+    return numeric == null ? "-" : `${numeric.toFixed(2)}%`;
+  };
+
+  const getRelativeComparisonText = (difference) => {
+    const absDiff = Math.abs(difference);
+    if (absDiff < 0.05) return "about the same as";
+    if (absDiff < 1) return difference > 0 ? "slightly higher than" : "slightly lower than";
+    return difference > 0 ? "higher than" : "lower than";
+  };
+
+  const buildAverageReturnInfoText = () => {
+    if (tickerList?.length !== 2) {
+      return null;
+    }
+
+    const primaryTicker = tickerList?.[0];
+    const secondaryTicker = tickerList?.[1];
+    if (!primaryTicker || !secondaryTicker) {
+      return null;
+    }
+
+    const primaryReturns = rawGraphData?.[primaryTicker]?.changesPercentage;
+    const secondaryReturns = rawGraphData?.[secondaryTicker]?.changesPercentage;
+    if (!Array.isArray(primaryReturns) || !Array.isArray(secondaryReturns)) {
+      return null;
+    }
+
+    const primaryOneYear = toFiniteNumber(primaryReturns?.[RETURN_ONE_YEAR_INDEX]);
+    const primaryLongTerm = toFiniteNumber(primaryReturns?.[RETURN_LONG_TERM_INDEX]);
+    const secondaryOneYear = toFiniteNumber(secondaryReturns?.[RETURN_ONE_YEAR_INDEX]);
+    const secondaryLongTerm = toFiniteNumber(secondaryReturns?.[RETURN_LONG_TERM_INDEX]);
+
+    if (
+      primaryOneYear == null ||
+      primaryLongTerm == null ||
+      secondaryOneYear == null ||
+      secondaryLongTerm == null
+    ) {
+      return null;
+    }
+
+    const oneYearComparison = getRelativeComparisonText(
+      primaryOneYear - secondaryOneYear,
+    );
+    const longTermPhrase =
+      RETURN_PERIOD_LABELS?.[RETURN_LONG_TERM_INDEX] === "Max"
+        ? "the maximum available period"
+        : `the past ${RETURN_PERIOD_LABELS?.[
+            RETURN_LONG_TERM_INDEX
+          ]?.toLowerCase()}`;
+
+    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over ${longTermPhrase}, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryLongTerm)}, compared to ${formatPercentValue(secondaryLongTerm)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
+  };
+
+  $: {
+    const infoText = buildAverageReturnInfoText();
+    averageReturnInfoText = infoText ?? "";
+    showAverageReturnInfo = Boolean(infoText);
+  }
 
   const handleDownloadMessage = async (event) => {
     isLoaded = false;
@@ -758,7 +832,7 @@
         },
       },
       xAxis: {
-        categories: ["1 Month", "YTD", "1 Year", "5 Years", "Max"],
+        categories: RETURN_PERIOD_LABELS,
         title: null,
         labels: {
           style: { color: $mode === "light" ? "black" : "white" },
@@ -832,9 +906,8 @@
     }
 
     if (!downloadWorker) {
-      const DownloadWorker = await import(
-        "$lib/workers/downloadCompareWorker?worker"
-      );
+      const DownloadWorker =
+        await import("$lib/workers/downloadCompareWorker?worker");
       downloadWorker = new DownloadWorker.default();
       downloadWorker.onmessage = handleDownloadMessage;
     }
@@ -847,7 +920,9 @@
 </script>
 
 <SEO
-  title={tickerList?.length === 0 ? compare_seo_title() : compare_title_vs({ tickers: tickerList.join(" vs ") })}
+  title={tickerList?.length === 0
+    ? compare_seo_title()
+    : compare_title_vs({ tickers: tickerList.join(" vs ") })}
   description={compare_seo_description()}
   keywords={compare_seo_keywords()}
   structuredData={{
@@ -891,7 +966,9 @@
         >{compare_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">{compare_breadcrumb_current()}</li>
+    <li class="text-gray-500 dark:text-zinc-400">
+      {compare_breadcrumb_current()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -1079,8 +1156,8 @@
                             d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
                             fill="currentColor"
                           ></path>
-                        </g></svg>
-
+                        </g></svg
+                      >
                     </button>
                   </span>
                 {/each}
@@ -1131,7 +1208,9 @@
               {#key rawTableData}
                 <Table
                   title={`${rawTableData?.length} ${
-                    rawTableData?.length > 1 ? compare_stocks_plural() : compare_stocks_singular()
+                    rawTableData?.length > 1
+                      ? compare_stocks_plural()
+                      : compare_stocks_singular()
                   }`}
                   {data}
                   rawData={rawTableData}
@@ -1142,14 +1221,21 @@
             {/if}
 
             {#if configReturn && isLoaded && tickerList?.length > 0}
-              <h2
-                class="mt-8 text-xl -mb-2 sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-              >
-                {compare_average_return()}
-              </h2>
-              <Infobox
-                text={compare_average_return_info()}
-              />
+              <div class="mt-8 -mb-2 flex items-center gap-x-1">
+                <h2
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                >
+                  {compare_average_return()}
+                </h2>
+                <InfoModal
+                  id="stocks-compare-average-return-info"
+                  title={compare_average_return()}
+                  content={AVERAGE_RETURN_INFO_MODAL_TEXT}
+                />
+              </div>
+              {#if showAverageReturnInfo}
+                <Infobox text={averageReturnInfoText} />
+              {/if}
 
               <div
                 class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
@@ -1161,9 +1247,11 @@
                     <thead
                       ><tr
                         class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
-                        ><th class="text-left">{compare_table_symbol()}</th> <th>{compare_table_1month()}</th>
+                        ><th class="text-left">{compare_table_symbol()}</th>
+                        <th>{compare_table_1month()}</th>
                         <th>{compare_table_ytd()}</th>
-                        <th>{compare_table_1year()}</th> <th>{compare_table_5years()}</th>
+                        <th>{compare_table_1year()}</th>
+                        <th>{compare_table_5years()}</th>
                         <th>{compare_table_max()}</th></tr
                       ></thead
                     >

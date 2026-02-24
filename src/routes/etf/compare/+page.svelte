@@ -8,6 +8,7 @@
   import { toast } from "svelte-sonner";
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -23,7 +24,6 @@
   } from "$lib/config/etfCompareTable";
   import {
   compare_average_return,
-  compare_average_return_info,
   compare_breadcrumb_home,
   compare_no_results,
   compare_popular_comparisons,
@@ -109,7 +109,10 @@
   const RETURN_PERIOD_LABELS = ["1 Month", "YTD", "1 Year", "5 Years", "10 Years"];
   const RETURN_ONE_YEAR_INDEX = 2;
   const RETURN_TEN_YEAR_INDEX = 4;
-  let averageReturnInfoText = compare_average_return_info();
+  const AVERAGE_RETURN_INFO_MODAL_TEXT =
+    "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
+  let averageReturnInfoText = "";
+  let showAverageReturnInfo = false;
 
   const isEtfSearchbarItem = (item) => {
     const rawType = String(item?.type ?? item?.assetType ?? "")
@@ -136,23 +139,27 @@
   };
 
   const buildAverageReturnInfoText = () => {
+    if (tickerList?.length !== 2) {
+      return null;
+    }
+
     const primaryTicker = tickerList?.[0];
-    if (!primaryTicker) {
-      return compare_average_return_info();
+    const secondaryTicker = tickerList?.[1];
+    if (!primaryTicker || !secondaryTicker) {
+      return null;
     }
 
     const primaryReturns = rawGraphData?.[primaryTicker]?.changesPercentage;
     if (!Array.isArray(primaryReturns)) {
-      return compare_average_return_info();
+      return null;
     }
 
     const primaryOneYear = toFiniteNumber(primaryReturns?.[RETURN_ONE_YEAR_INDEX]);
     const primaryTenYear = toFiniteNumber(primaryReturns?.[RETURN_TEN_YEAR_INDEX]);
     if (primaryOneYear == null || primaryTenYear == null) {
-      return compare_average_return_info();
+      return null;
     }
 
-    const secondaryTicker = tickerList?.[1];
     const secondaryReturns = secondaryTicker
       ? rawGraphData?.[secondaryTicker]?.changesPercentage
       : null;
@@ -163,17 +170,21 @@
       ? toFiniteNumber(secondaryReturns?.[RETURN_TEN_YEAR_INDEX])
       : null;
 
-    if (secondaryTicker && secondaryOneYear != null && secondaryTenYear != null) {
-      const oneYearComparison = getRelativeComparisonText(
-        primaryOneYear - secondaryOneYear,
-      );
-      return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}, compared to ${formatPercentValue(secondaryTenYear)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
+    if (secondaryOneYear == null || secondaryTenYear == null) {
+      return null;
     }
 
-    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}. These numbers are adjusted for stock splits and include dividends.`;
+    const oneYearComparison = getRelativeComparisonText(
+      primaryOneYear - secondaryOneYear,
+    );
+    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryOneYear)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryOneYear)} return. Over the past 10 years, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryTenYear)}, compared to ${formatPercentValue(secondaryTenYear)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
   };
 
-  $: averageReturnInfoText = buildAverageReturnInfoText();
+  $: {
+    const infoText = buildAverageReturnInfoText();
+    averageReturnInfoText = infoText ?? "";
+    showAverageReturnInfo = Boolean(infoText);
+  }
 
   const handleDownloadMessage = async (event) => {
     isLoaded = false;
@@ -1099,14 +1110,23 @@
             {/if}
 
             {#if configReturn && isLoaded && tickerList?.length > 0}
-              <h2
-                class="mt-8 text-xl -mb-2 sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-              >
-                {compare_average_return()}
-              </h2>
-              <Infobox
-                text={averageReturnInfoText}
-              />
+              <div class="mt-8 -mb-2 flex items-center gap-x-1">
+                <h2
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                >
+                  {compare_average_return()}
+                </h2>
+                <InfoModal
+                  id="etf-compare-average-return-info"
+                  title={compare_average_return()}
+                  content={AVERAGE_RETURN_INFO_MODAL_TEXT}
+                />
+              </div>
+              {#if showAverageReturnInfo}
+                <Infobox
+                  text={averageReturnInfoText}
+                />
+              {/if}
 
               <div
                 class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40 w-full"
