@@ -9,10 +9,7 @@
   import { scale, fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
 
-  import {
-    abbreviateNumber,
-    groupScreenerRules,
-  } from "$lib/utils";
+  import { abbreviateNumber, groupScreenerRules } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -61,7 +58,6 @@
     { key: "highDividend", label: "High Dividend ETFs" },
     { key: "topPerformers1Y", label: "Top Performers 1Y" },
     { key: "oversoldETFs", label: "Oversold ETFs" },
-    { key: "bondETFs", label: "Bond ETFs" },
   ];
 
   const onlySubscriberRules = [];
@@ -127,14 +123,41 @@
     },
     assetClass: {
       label: "Asset Class",
-      step: ["Equity", "Bond", "Commodity", "Currency", "Multi-Asset", "Alternative", "Preferred Stock", "Money Market"],
+      step: [
+        "Equity",
+        "Bond",
+        "Commodity",
+        "Currency",
+        "Multi-Asset",
+        "Alternative",
+        "Preferred Stock",
+        "Money Market",
+      ],
       defaultCondition: "",
       defaultValue: "any",
       category: ["Most Popular", "Fund Info"],
     },
     etfProvider: {
       label: "ETF Provider",
-      step: ["state-street", "blackrock", "vanguard", "invesco", "charles-schwab", "jpmorgan-chase", "proshares", "vaneck", "first-trust", "wisdom-tree", "ark", "global-x", "fidelity", "goldman-sachs", "simplify", "direxion", "other"],
+      step: [
+        "state-street",
+        "blackrock",
+        "vanguard",
+        "invesco",
+        "charles-schwab",
+        "jpmorgan-chase",
+        "proshares",
+        "vaneck",
+        "first-trust",
+        "wisdom-tree",
+        "ark",
+        "global-x",
+        "fidelity",
+        "goldman-sachs",
+        "simplify",
+        "direxion",
+        "other",
+      ],
       defaultCondition: "",
       defaultValue: "any",
       category: ["Most Popular", "Fund Info"],
@@ -186,7 +209,19 @@
     },
     change1M: {
       label: "Price Change 1M",
-      step: ["100%", "50%", "20%", "10%", "5%", "1%", "-1%", "-5%", "-10%", "-20%", "-50%"],
+      step: [
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
+      ],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -194,7 +229,19 @@
     },
     change3M: {
       label: "Price Change 3M",
-      step: ["100%", "50%", "20%", "10%", "5%", "1%", "-1%", "-5%", "-10%", "-20%", "-50%"],
+      step: [
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
+      ],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -202,7 +249,19 @@
     },
     change6M: {
       label: "Price Change 6M",
-      step: ["100%", "50%", "20%", "10%", "5%", "1%", "-1%", "-5%", "-10%", "-20%", "-50%"],
+      step: [
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
+      ],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -210,7 +269,19 @@
     },
     change1Y: {
       label: "Price Change 1Y",
-      step: ["100%", "50%", "20%", "10%", "5%", "1%", "-1%", "-5%", "-10%", "-20%", "-50%"],
+      step: [
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
+      ],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -218,7 +289,19 @@
     },
     change3Y: {
       label: "Price Change 3Y",
-      step: ["100%", "50%", "20%", "10%", "5%", "1%", "-1%", "-5%", "-10%", "-20%", "-50%"],
+      step: [
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
+      ],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -261,49 +344,121 @@
     },
     sma20: {
       label: "20-Day Moving Average",
-      step: ["Price above SMA20", "SMA20 above SMA50", "SMA20 above SMA100", "SMA20 above SMA200", "Price below SMA20", "SMA20 below SMA50", "SMA20 below SMA100", "SMA20 below SMA200"],
+      step: [
+        "Price above SMA20",
+        "SMA20 above SMA50",
+        "SMA20 above SMA100",
+        "SMA20 above SMA200",
+        "Price below SMA20",
+        "SMA20 below SMA50",
+        "SMA20 below SMA100",
+        "SMA20 below SMA200",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     sma50: {
       label: "50-Day Moving Average",
-      step: ["Price above SMA50", "SMA50 above SMA20", "SMA50 above SMA100", "SMA50 above SMA200", "Price below SMA50", "SMA50 below SMA20", "SMA50 below SMA100", "SMA50 below SMA200"],
+      step: [
+        "Price above SMA50",
+        "SMA50 above SMA20",
+        "SMA50 above SMA100",
+        "SMA50 above SMA200",
+        "Price below SMA50",
+        "SMA50 below SMA20",
+        "SMA50 below SMA100",
+        "SMA50 below SMA200",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     sma100: {
       label: "100-Day Moving Average",
-      step: ["Price above SMA100", "SMA100 above SMA20", "SMA100 above SMA50", "SMA100 above SMA200", "Price below SMA100", "SMA100 below SMA20", "SMA100 below SMA50", "SMA100 below SMA200"],
+      step: [
+        "Price above SMA100",
+        "SMA100 above SMA20",
+        "SMA100 above SMA50",
+        "SMA100 above SMA200",
+        "Price below SMA100",
+        "SMA100 below SMA20",
+        "SMA100 below SMA50",
+        "SMA100 below SMA200",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     sma200: {
       label: "200-Day Moving Average",
-      step: ["Price above SMA200", "SMA200 above SMA20", "SMA200 above SMA50", "SMA200 above SMA100", "Price below SMA200", "SMA200 below SMA20", "SMA200 below SMA50", "SMA200 below SMA100"],
+      step: [
+        "Price above SMA200",
+        "SMA200 above SMA20",
+        "SMA200 above SMA50",
+        "SMA200 above SMA100",
+        "Price below SMA200",
+        "SMA200 below SMA20",
+        "SMA200 below SMA50",
+        "SMA200 below SMA100",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     ema20: {
       label: "20-Day Exp. Moving Average",
-      step: ["Price above EMA20", "EMA20 above EMA50", "EMA20 above EMA100", "EMA20 above EMA200", "Price below EMA20", "EMA20 below EMA50", "EMA20 below EMA100", "EMA20 below EMA200"],
+      step: [
+        "Price above EMA20",
+        "EMA20 above EMA50",
+        "EMA20 above EMA100",
+        "EMA20 above EMA200",
+        "Price below EMA20",
+        "EMA20 below EMA50",
+        "EMA20 below EMA100",
+        "EMA20 below EMA200",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     ema50: {
       label: "50-Day Exp. Moving Average",
-      step: ["Price above EMA50", "EMA50 above EMA20", "EMA50 above EMA100", "EMA50 above EMA200", "Price below EMA50", "EMA50 below EMA20", "EMA50 below EMA100", "EMA50 below EMA200"],
+      step: [
+        "Price above EMA50",
+        "EMA50 above EMA20",
+        "EMA50 above EMA100",
+        "EMA50 above EMA200",
+        "Price below EMA50",
+        "EMA50 below EMA20",
+        "EMA50 below EMA100",
+        "EMA50 below EMA200",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     ema100: {
       label: "100-Day Exp. Moving Average",
-      step: ["Price above EMA100", "EMA100 above EMA20", "EMA100 above EMA50", "EMA100 above EMA200", "Price below EMA100", "EMA100 below EMA20", "EMA100 below EMA50", "EMA100 below EMA200"],
+      step: [
+        "Price above EMA100",
+        "EMA100 above EMA20",
+        "EMA100 above EMA50",
+        "EMA100 above EMA200",
+        "Price below EMA100",
+        "EMA100 below EMA20",
+        "EMA100 below EMA50",
+        "EMA100 below EMA200",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
     ema200: {
       label: "200-Day Exp. Moving Average",
-      step: ["Price above EMA200", "EMA200 above EMA20", "EMA200 above EMA50", "EMA200 above EMA100", "Price below EMA200", "EMA200 below EMA20", "EMA200 below EMA50", "EMA200 below EMA100"],
+      step: [
+        "Price above EMA200",
+        "EMA200 above EMA20",
+        "EMA200 above EMA50",
+        "EMA200 above EMA100",
+        "Price below EMA200",
+        "EMA200 below EMA20",
+        "EMA200 below EMA50",
+        "EMA200 below EMA100",
+      ],
       category: "Technicals",
       defaultValue: "any",
     },
@@ -374,7 +529,19 @@
     },
     topSector: {
       label: "Top Sector",
-      step: ["Technology", "Healthcare", "Financial Services", "Energy", "Industrials", "Consumer Cyclical", "Consumer Defensive", "Real Estate", "Communication Services", "Basic Materials", "Utilities"],
+      step: [
+        "Technology",
+        "Healthcare",
+        "Financial Services",
+        "Energy",
+        "Industrials",
+        "Consumer Cyclical",
+        "Consumer Defensive",
+        "Real Estate",
+        "Communication Services",
+        "Basic Materials",
+        "Utilities",
+      ],
       defaultCondition: "",
       defaultValue: "any",
       category: "Fund Info",
@@ -388,14 +555,34 @@
     },
     aumGroup: {
       label: "AUM Group",
-      step: ["Mega (100B+)", "Large (10-100B)", "Mid (1-10B)", "Small (100M-1B)", "Micro (<100M)"],
+      step: [
+        "Mega (100B+)",
+        "Large (10-100B)",
+        "Mid (1-10B)",
+        "Small (100M-1B)",
+        "Micro (<100M)",
+      ],
       defaultCondition: "",
       defaultValue: "any",
       category: "Fund Info",
     },
     country: {
       label: "Country",
-      step: ["United States", "Ireland", "Canada", "Luxembourg", "Sweden", "Germany", "United Kingdom", "Switzerland", "Netherlands", "Japan", "Hong Kong", "Bermuda", "Taiwan, Province of China"],
+      step: [
+        "United States",
+        "Ireland",
+        "Canada",
+        "Luxembourg",
+        "Sweden",
+        "Germany",
+        "United Kingdom",
+        "Switzerland",
+        "Netherlands",
+        "Japan",
+        "Hong Kong",
+        "Bermuda",
+        "Taiwan, Province of China",
+      ],
       defaultCondition: "",
       defaultValue: "any",
       category: "Fund Info",
@@ -1615,15 +1802,7 @@
           { condition: "under", name: "rsi", value: 30 },
           { condition: "over", name: "totalAssets", value: "1B" },
         ],
-      },
-      bondETFs: {
-        name: "Bond ETFs",
-        rules: [
-          { condition: "", name: "assetClass", value: ["Bond"] },
-          { condition: "over", name: "totalAssets", value: "5B" },
-          { condition: "under", name: "expenseRatio", value: "0.2" },
-        ],
-      },
+      }
     };
 
     const strategy = strategies[state];
@@ -1892,11 +2071,9 @@
         columns = [...(baseColumnsMap[displayTableTab] || [])];
         sortOrders = { ...(baseSortOrdersMap[displayTableTab] || {}) };
 
-        const rulesList = [
-          "performance",
-          "technicals",
-          "dividends",
-        ].includes(displayTableTab)
+        const rulesList = ["performance", "technicals", "dividends"].includes(
+          displayTableTab,
+        )
           ? tabRuleList
           : displayRules;
         rulesList?.forEach((rule) => {
@@ -1960,14 +2137,16 @@
 </script>
 
 <SEO
-  title="ETF Screener - Filter & Find ETFs | stocknear"
-  description="Screen and filter {allRows?.length || 'thousands of'} ETFs by AUM, expense ratio, dividends, performance, technicals and more. Free ETF screener with advanced filters."
+  title="Free ETF Screener - Filter & Find ETFs"
+  description="Screen and filter {allRows?.length ||
+    'thousands of'} ETFs by AUM, expense ratio, dividends, performance, technicals and more. Free ETF screener with advanced filters."
   keywords="etf screener, etf filter, etf search, find etfs, etf screening tool, expense ratio filter, aum filter, dividend etf screener"
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "stocknear ETF Screener",
-    description: "Advanced ETF screening tool with filters for AUM, expense ratio, performance, technicals, dividends and more.",
+    description:
+      "Advanced ETF screening tool with filters for AUM, expense ratio, performance, technicals, dividends and more.",
     url: "https://stocknear.com/etf-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -2008,9 +2187,7 @@
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400"
-        >ETF Screener</span
-      >
+      <span class="text-gray-500 dark:text-zinc-400">ETF Screener</span>
     </li>
   </BreadCrumb>
 
@@ -2159,9 +2336,7 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">
-                        New Screen
-                      </div>
+                      <div class="text-sm text-start">New Screen</div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -3205,9 +3380,7 @@
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth
-              ? "Normal Width"
-              : "Full Width"}</span
+            >{isFullWidth ? "Normal Width" : "Full Width"}</span
           >
         </button>
 
@@ -3776,9 +3949,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline"
-                >Previous</span
-              ></Button
+              <span class="hidden sm:inline">Previous</span></Button
             >
           </div>
 
@@ -3830,9 +4001,7 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm"
-                          >{item} rows</span
-                        >
+                        <span class="text-sm">{item} rows</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -3848,9 +4017,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline"
-                >Next</span
-              >
+              <span class="hidden sm:inline">Next</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
