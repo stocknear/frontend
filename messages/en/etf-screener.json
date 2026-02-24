@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Home",
+  "etf_screener_breadcrumb_etf_screener": "ETF Screener",
+
+  "etf_screener_seo_title": "Free ETF Screener - Filter & Find ETFs",
+  "etf_screener_seo_description": "Screen and filter {count} ETFs by AUM, expense ratio, dividends, performance, technicals and more. Free ETF screener with advanced filters.",
+  "etf_screener_seo_keywords": "etf screener, etf filter, etf search, find etfs, etf screening tool, expense ratio filter, aum filter, dividend etf screener",
+  "etf_screener_structured_name": "stocknear ETF Screener",
+  "etf_screener_structured_description": "Advanced ETF screening tool with filters for AUM, expense ratio, performance, technicals, dividends and more.",
+
+  "etf_screener_main_title": "ETF Screener",
+  "etf_screener_matches_found": "{count} Matches Found",
+  "etf_screener_etfs_count": "{count} ETFs",
+
+  "etf_screener_popular_screens": "Popular Screens",
+  "etf_screener_popular_strategies": "Popular Strategies",
+  "etf_screener_select_popular": "Select popular",
+  "etf_screener_saved_screens": "Saved Screens",
+  "etf_screener_select_screen": "Select screen",
+  "etf_screener_new_screen": "New Screen",
+
+  "etf_screener_filters_count": "{count} Filters",
+  "etf_screener_add_filters": "Add Filters",
+  "etf_screener_search_filters": "Search {count} filters...",
+  "etf_screener_select_filters_title": "Select Filters ({count})",
+  "etf_screener_nothing_found": "Nothing found",
+
+  "etf_screener_search_placeholder": "Search ETFs...",
+  "etf_screener_search_input_placeholder": "Search...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Max",
+  "etf_screener_input_value": "Value",
+
+  "etf_screener_normal_width": "Normal Width",
+  "etf_screener_full_width": "Full Width",
+
+  "etf_screener_save": "Save",
+  "etf_screener_save_as_new": "Save as New",
+  "etf_screener_reset_all": "Reset All",
+
+  "etf_screener_pagination_previous": "Previous",
+  "etf_screener_pagination_next": "Next",
+  "etf_screener_pagination_page_of": "Page {current} of {total}",
+  "etf_screener_rows_label": "{rows} Rows",
+  "etf_screener_back_to_top": "Back to Top",
+
+  "etf_screener_no_etfs_query": "No ETFs found for \"{query}\"",
+  "etf_screener_no_etfs": "No ETFs found.",
+
+  "etf_screener_modal_new_title": "New Screen",
+  "etf_screener_modal_new_name_label": "Screen Name",
+  "etf_screener_modal_new_create": "Create",
+
+  "etf_screener_modal_delete_title": "Delete Screen",
+  "etf_screener_modal_delete_message": "Are you sure you want to delete this screen?",
+  "etf_screener_modal_delete_cancel": "Cancel",
+  "etf_screener_modal_delete_confirm": "Delete",
+
+  "etf_screener_strategy_low_cost_index": "Low-Cost Index ETFs",
+  "etf_screener_strategy_high_dividend": "High Dividend ETFs",
+  "etf_screener_strategy_top_performers_1y": "Top Performers 1Y",
+  "etf_screener_strategy_oversold": "Oversold ETFs",
+
+  "etf_screener_tab_filters": "Filters",
+  "etf_screener_tab_technicals": "Technicals",
+
+  "etf_screener_export_title": "Export ETF screener data"
+}

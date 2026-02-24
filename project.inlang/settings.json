@@ -77,7 +77,8 @@
       "./messages/{locale}/chart.json",
       "./messages/{locale}/covered-call-screener.json",
       "./messages/{locale}/cash-secured-put-screener.json",
-      "./messages/{locale}/landing-page.json"
+      "./messages/{locale}/landing-page.json",
+      "./messages/{locale}/etf-screener.json"
     ]
   }
 }

@@ -18,6 +18,63 @@
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import ScreenerExport from "$lib/components/ScreenerExport.svelte";
+  import {
+    common_tab_general,
+    common_tab_performance,
+    common_tab_dividends,
+    etf_screener_add_filters,
+    etf_screener_back_to_top,
+    etf_screener_breadcrumb_home,
+    etf_screener_breadcrumb_etf_screener,
+    etf_screener_etfs_count,
+    etf_screener_export_title,
+    etf_screener_filters_count,
+    etf_screener_full_width,
+    etf_screener_input_max,
+    etf_screener_input_min,
+    etf_screener_input_value,
+    etf_screener_main_title,
+    etf_screener_matches_found,
+    etf_screener_modal_delete_cancel,
+    etf_screener_modal_delete_confirm,
+    etf_screener_modal_delete_message,
+    etf_screener_modal_delete_title,
+    etf_screener_modal_new_create,
+    etf_screener_modal_new_name_label,
+    etf_screener_modal_new_title,
+    etf_screener_new_screen,
+    etf_screener_no_etfs,
+    etf_screener_no_etfs_query,
+    etf_screener_normal_width,
+    etf_screener_nothing_found,
+    etf_screener_pagination_next,
+    etf_screener_pagination_page_of,
+    etf_screener_pagination_previous,
+    etf_screener_popular_screens,
+    etf_screener_popular_strategies,
+    etf_screener_reset_all,
+    etf_screener_rows_label,
+    etf_screener_save,
+    etf_screener_save_as_new,
+    etf_screener_saved_screens,
+    etf_screener_search_filters,
+    etf_screener_search_input_placeholder,
+    etf_screener_search_placeholder,
+    etf_screener_select_filters_title,
+    etf_screener_select_popular,
+    etf_screener_select_screen,
+    etf_screener_seo_description,
+    etf_screener_seo_keywords,
+    etf_screener_seo_title,
+    etf_screener_strategy_high_dividend,
+    etf_screener_strategy_low_cost_index,
+    etf_screener_strategy_oversold,
+    etf_screener_strategy_top_performers_1y,
+    etf_screener_structured_description,
+    etf_screener_structured_name,
+    etf_screener_tab_filters,
+    etf_screener_tab_technicals,
+  } from "$lib/paraglide/messages";
   export let data;
   export let form;
   let showFilters = true;
@@ -56,10 +113,10 @@
   ) ?? [];
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
-    { key: "lowCostIndex", label: "Low-Cost Index ETFs" },
-    { key: "highDividend", label: "High Dividend ETFs" },
-    { key: "topPerformers1Y", label: "Top Performers 1Y" },
-    { key: "oversoldETFs", label: "Oversold ETFs" },
+    { key: "lowCostIndex", label: etf_screener_strategy_low_cost_index() },
+    { key: "highDividend", label: etf_screener_strategy_high_dividend() },
+    { key: "topPerformers1Y", label: etf_screener_strategy_top_performers_1y() },
+    { key: "oversoldETFs", label: etf_screener_strategy_oversold() },
   ];
 
   const onlySubscriberRules = [];
@@ -2294,16 +2351,14 @@
 </script>
 
 <SEO
-  title="Free ETF Screener - Filter & Find ETFs"
-  description="Screen and filter {allRows?.length ||
-    'thousands of'} ETFs by AUM, expense ratio, dividends, performance, technicals and more. Free ETF screener with advanced filters."
-  keywords="etf screener, etf filter, etf search, find etfs, etf screening tool, expense ratio filter, aum filter, dividend etf screener"
+  title={etf_screener_seo_title()}
+  description={etf_screener_seo_description({ count: String(allRows?.length || 'thousands of') })}
+  keywords={etf_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "stocknear ETF Screener",
-    description:
-      "Advanced ETF screening tool with filters for AUM, expense ratio, performance, technicals, dividends and more.",
+    name: etf_screener_structured_name(),
+    description: etf_screener_structured_description(),
     url: "https://stocknear.com/etf-screener",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
@@ -2340,11 +2395,11 @@
       <a
         href="/"
         class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-        >Home</a
+        >{etf_screener_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">ETF Screener</span>
+      <span class="text-gray-500 dark:text-zinc-400">{etf_screener_breadcrumb_etf_screener()}</span>
     </li>
   </BreadCrumb>
 
@@ -2355,12 +2410,12 @@
         <h1
           class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
         >
-          ETF Screener
+          {etf_screener_main_title()}
         </h1>
         <span
           class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
         >
-          {totalItems?.toLocaleString("en-US")} matches found
+          {etf_screener_matches_found({ count: totalItems?.toLocaleString("en-US") })}
         </span>
       </div>
 
@@ -2369,7 +2424,7 @@
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            Popular Screens
+            {etf_screener_popular_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -2381,7 +2436,7 @@
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
                       ? selectedPopularStrategy
-                      : "Select Popular"}</span
+                      : etf_screener_select_popular()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -2408,7 +2463,7 @@
                 <DropdownMenu.Label
                   class="text-gray-500 dark:text-zinc-400 font-normal"
                 >
-                  Popular Strategies
+                  {etf_screener_popular_strategies()}
                 </DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 <DropdownMenu.Group>
@@ -2430,7 +2485,7 @@
           <div
             class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
           >
-            Saved Screens
+            {etf_screener_saved_screens()}
           </div>
           <div class="relative inline-block text-left grow">
             <DropdownMenu.Root>
@@ -2444,7 +2499,7 @@
                       ? strategyList?.find(
                           (item) => item.id === selectedStrategy,
                         )?.title
-                      : "Select Screen"}</span
+                      : etf_screener_select_screen()}</span
                   >
                   <svg
                     class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -2493,7 +2548,7 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">New Screen</div>
+                      <div class="text-sm text-start">{etf_screener_new_screen()}</div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -2570,7 +2625,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            {ruleOfList?.length} Filters
+            {etf_screener_filters_count({ count: String(ruleOfList?.length) })}
           </button>
         </div>
       </div>
@@ -2593,7 +2648,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <div>Add Filters</div>
+            <div>{etf_screener_add_filters()}</div>
           </label>
 
           <!-- Quick Search Input -->
@@ -2620,7 +2675,7 @@
               </div>
               <input
                 type="text"
-                placeholder={`Search ${allRows?.length} filters...`}
+                placeholder={etf_screener_search_filters({ count: String(allRows?.length) })}
                 bind:value={quickSearchTerm}
                 on:input={handleQuickSearchInput}
                 on:keydown={handleQuickSearchKeydown}
@@ -2740,7 +2795,7 @@
                 /></svg
               >
 
-              <div>Save</div>
+              <div>{etf_screener_save()}</div>
             </label>
 
             {#if strategyList?.length > 0}
@@ -2752,7 +2807,7 @@
                 class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
               >
                 <Copy class="w-4 h-4 inline-block mr-2" />
-                <div>Save as New</div>
+                <div>{etf_screener_save_as_new()}</div>
               </label>
             {/if}
           {/if}
@@ -2778,7 +2833,7 @@
                 ></svg
               >
 
-              <div>Reset All</div>
+              <div>{etf_screener_reset_all()}</div>
             </label>
           {/if}
         </div>
@@ -2951,7 +3006,7 @@
                                   e.stopPropagation();
                                 }}
                                 on:click|stopPropagation
-                                placeholder="Search ticker..."
+                                placeholder={etf_screener_search_input_placeholder()}
                                 class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
@@ -2993,7 +3048,7 @@
                                   e.stopPropagation();
                                 }}
                                 on:click|stopPropagation
-                                placeholder="Search ticker..."
+                                placeholder={etf_screener_search_input_placeholder()}
                                 class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
@@ -3060,7 +3115,7 @@
                                 <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
                                   <input
                                     type="text"
-                                    placeholder={"Min"}
+                                    placeholder={etf_screener_input_min()}
                                     value={Array.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -3075,7 +3130,7 @@
                                   </span>
                                   <input
                                     type="text"
-                                    placeholder={"Max"}
+                                    placeholder={etf_screener_input_max()}
                                     value={Array.isArray(
                                       valueMappings[row?.rule],
                                     )
@@ -3089,7 +3144,7 @@
                               {:else}
                                 <input
                                   type="text"
-                                  placeholder={"Value"}
+                                  placeholder={etf_screener_input_value()}
                                   value={valueMappings[row?.rule] !== "any"
                                     ? valueMappings[row?.rule]
                                     : ""}
@@ -3168,7 +3223,7 @@
                                 ? 'hidden'
                                 : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
                                       focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300"
-                              placeholder={"Search..."}
+                              placeholder={etf_screener_search_input_placeholder()}
                             />
                           </div>
                         {/if}
@@ -3451,7 +3506,7 @@
           class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
         ></span>
       {:else}
-        {totalItems?.toLocaleString("en-US")} ETFs
+        {etf_screener_etfs_count({ count: totalItems?.toLocaleString("en-US") })}
       {/if}
     </h2>
     <div
@@ -3483,7 +3538,7 @@
             bind:value={inputValue}
             on:input={search}
             type="text"
-            placeholder={"Search ETFs..."}
+            placeholder={etf_screener_search_placeholder()}
             class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
@@ -3496,7 +3551,7 @@
             screener="etf"
             title="etf_screener_data"
             creditCost={0}
-            modalTitle="Export ETF screener data"
+            modalTitle={etf_screener_export_title()}
             itemLabel="ETFs"
             allowedTiers={["Pro", "Plus"]}
           />
@@ -3541,7 +3596,7 @@
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth ? "Normal Width" : "Full Width"}</span
+            >{isFullWidth ? etf_screener_normal_width() : etf_screener_full_width()}</span
           >
         </button>
 
@@ -3581,7 +3636,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              General
+              {common_tab_general()}
             </button>
           </li>
           <li>
@@ -3592,7 +3647,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              <span>Filters</span>
+              <span>{etf_screener_tab_filters()}</span>
               {#if ruleOfList?.length > 0}
                 <div
                   class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
@@ -3610,7 +3665,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Performance
+              {common_tab_performance()}
             </button>
           </li>
           <li>
@@ -3621,7 +3676,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Technicals
+              {etf_screener_tab_technicals()}
             </button>
           </li>
           <li>
@@ -3632,7 +3687,7 @@
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
                 : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
-              Dividends
+              {common_tab_dividends()}
             </button>
           </li>
         </ul>
@@ -4120,14 +4175,14 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">Previous</span></Button
+              <span class="hidden sm:inline">{etf_screener_pagination_previous()}</span></Button
             >
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
             <span class="text-sm text-gray-600 dark:text-zinc-300">
-              Page {currentPage} of {totalPages}
+              {etf_screener_pagination_page_of({ current: String(currentPage), total: String(totalPages) })}
             </span>
 
             <DropdownMenu.Root>
@@ -4137,7 +4192,7 @@
                   class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{rowsPerPage} rows</span
+                    >{etf_screener_rows_label({ rows: String(rowsPerPage) })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -4172,7 +4227,7 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{item} rows</span>
+                        <span class="text-sm">{etf_screener_rows_label({ rows: String(item) })}</span>
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -4188,7 +4243,7 @@
               disabled={currentPage === totalPages}
               class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">Next</span>
+              <span class="hidden sm:inline">{etf_screener_pagination_next()}</span>
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -4212,7 +4267,7 @@
             on:click={scrollToTop}
             class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            Back to top
+            {etf_screener_back_to_top()}
             <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
@@ -4232,8 +4287,8 @@
     {:else}
       <Infobox
         text={inputValue?.length > 0
-          ? `No ETFs found for "${inputValue}"`
-          : "No ETFs found"}
+          ? etf_screener_no_etfs_query({ query: inputValue })
+          : etf_screener_no_etfs()}
       />
     {/if}
   {:else}
@@ -4290,7 +4345,7 @@
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            Select Filters ({allRows?.length})
+            {etf_screener_select_filters_title({ count: String(allRows?.length) })}
           </h2>
           <label
             for="ruleModal"
@@ -4366,7 +4421,7 @@
               autocomplete="off"
               id="search"
               class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
-              placeholder={"Search..."}
+              placeholder={etf_screener_search_input_placeholder()}
               bind:value={searchTerm}
             />
           </div>
@@ -4431,7 +4486,7 @@
         {/each}
         {#if searchTerm?.length > 0 && Object.entries(filteredGroupedRules)?.length === 0}
           <div class=" mt-5 font-semibold text-[1rem] sm:text-lg">
-            Nothing found
+            {etf_screener_nothing_found()}
           </div>
         {/if}
       </div>
@@ -4479,7 +4534,7 @@
     <h1
       class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
     >
-      New Screen
+      {etf_screener_modal_new_title()}
     </h1>
 
     <form
@@ -4491,7 +4546,7 @@
         id="title"
         type="text"
         errors=""
-        label={"Screen Name"}
+        label={etf_screener_modal_new_name_label()}
         required={true}
       />
 
@@ -4499,7 +4554,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        Create
+        {etf_screener_modal_new_create()}
       </button>
     </form>
   </div>
@@ -4543,10 +4598,10 @@
       >
     </label>
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
-      Delete Screen
+      {etf_screener_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
-      Are you sure you want to delete this screen?
+      {etf_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -4557,7 +4612,7 @@
         }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
             transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{etf_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
         on:click={handleDeleteStrategy}
@@ -4586,7 +4641,7 @@
             y2="17"
           ></line></svg
         >
-        Delete</label
+        {etf_screener_modal_delete_confirm()}</label
       >
     </div>
   </div>
