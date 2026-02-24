@@ -2599,6 +2599,7 @@
 
     isLoaded = true;
     groupedRules = groupScreenerRules(allRows);
+    debouncedRuleFetch();
   });
 
   onDestroy(() => {
@@ -2671,9 +2672,9 @@
         ruleToUpdate.value = valueMappings[ruleToUpdate.name];
         ruleToUpdate.condition = ruleCondition[ruleToUpdate.name];
         ruleOfList = [...ruleOfList];
-      }
-      if (isLoaded) {
-        debouncedRuleFetch();
+        if (isLoaded) {
+          debouncedRuleFetch();
+        }
       }
     }
   }
