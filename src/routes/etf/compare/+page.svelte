@@ -143,21 +143,11 @@
     "5 Years",
     "10 Years",
   ];
-  const RETURN_ONE_YEAR_INDEX = 2;
-  const RETURN_TEN_YEAR_INDEX = 4;
-  const RETURN_FIVE_YEAR_INDEX = 3;
-  const RETURN_LONG_TERM_INDEX_PREFERENCE = [
-    RETURN_TEN_YEAR_INDEX,
-    RETURN_FIVE_YEAR_INDEX,
-  ];
-  const AVERAGE_RETURN_INFO_MODAL_TEXT =
-    "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
-  const AVERAGE_RETURN_INFO_FALLBACK_TEXT =
-    "Average return comparison data is not available yet for one or both selected tickers.";
+
   const OVERLAPPING_HOLDINGS_INFO_MODAL_TEXT =
     "Overlapping holdings compares constituents across the selected ETFs. Overlap Weight is the minimum non-zero holding weight shared by the selected ETFs for each overlapping stock.";
-  let averageReturnInfoText = "";
-  let showAverageReturnInfo = false;
+  const AVERAGE_RETURN_INFO_MODAL_TEXT =
+    "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
   let allHoldingsByTicker: Record<string, TopHolding[]> = {};
   let isTopHoldingsLoading = false;
   let holdingsRequestVersion = 0;
@@ -398,78 +388,6 @@
     overlapCurrentPage = 1;
   }
 
-  const getRelativeComparisonText = (difference) => {
-    const absDiff = Math.abs(difference);
-    if (absDiff < 0.05) return "about the same as";
-    if (absDiff < 1)
-      return difference > 0 ? "slightly higher than" : "slightly lower than";
-    return difference > 0 ? "higher than" : "lower than";
-  };
-
-  const getReturnPeriodPhrase = (index) => {
-    const label = RETURN_PERIOD_LABELS?.[index];
-    if (!label) {
-      return "the longer-term period";
-    }
-    if (label === "1 Year") {
-      return "the past year";
-    }
-    return `the past ${String(label).toLowerCase()}`;
-  };
-
-  const getTickerAverageReturnMetrics = (ticker) => {
-    const returns = rawGraphData?.[ticker]?.changesPercentage;
-    if (!Array.isArray(returns)) {
-      return null;
-    }
-
-    const oneYearTotal = toFiniteNumber(returns?.[RETURN_ONE_YEAR_INDEX]);
-    if (oneYearTotal == null) {
-      return null;
-    }
-
-    for (const index of RETURN_LONG_TERM_INDEX_PREFERENCE) {
-      const longTermAnnualized = toFiniteNumber(returns?.[index]);
-      if (longTermAnnualized != null) {
-        return {
-          oneYearTotal,
-          longTermAnnualized,
-          longTermPhrase: getReturnPeriodPhrase(index),
-        };
-      }
-    }
-
-    return null;
-  };
-
-  const buildAverageReturnInfoText = () => {
-    if (tickerList?.length !== 2) {
-      return null;
-    }
-
-    const primaryTicker = tickerList?.[0];
-    const secondaryTicker = tickerList?.[1];
-    if (!primaryTicker || !secondaryTicker) {
-      return null;
-    }
-
-    const primaryMetrics = getTickerAverageReturnMetrics(primaryTicker);
-    const secondaryMetrics = getTickerAverageReturnMetrics(secondaryTicker);
-    if (!primaryMetrics || !secondaryMetrics) {
-      return null;
-    }
-
-    const oneYearComparison = getRelativeComparisonText(
-      primaryMetrics.oneYearTotal - secondaryMetrics.oneYearTotal,
-    );
-    const longTermPhrase =
-      primaryMetrics?.longTermPhrase === secondaryMetrics?.longTermPhrase
-        ? primaryMetrics.longTermPhrase
-        : "the longer-term period";
-
-    return `In the past year, ${primaryTicker} returned a total of ${formatPercentValue(primaryMetrics.oneYearTotal)}, which is ${oneYearComparison} ${secondaryTicker}'s ${formatPercentValue(secondaryMetrics.oneYearTotal)} return. Over ${longTermPhrase}, ${primaryTicker} has had annualized average returns of ${formatPercentValue(primaryMetrics.longTermAnnualized)}, compared to ${formatPercentValue(secondaryMetrics.longTermAnnualized)} for ${secondaryTicker}. These numbers are adjusted for stock splits and include dividends.`;
-  };
-
   const buildTopHoldingsOverlapInfoText = (
     selectedTickerList: string[],
     holdingsByTicker: Record<string, TopHolding[]>,
@@ -536,14 +454,6 @@
 
     return `Across <strong>${selectedTickers.length}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs. Total holdings by ETF: ${holdingsCountText}.`;
   };
-
-  $: {
-    const infoText = buildAverageReturnInfoText();
-    const hasExactlyTwoTickers = Array.isArray(tickerList) && tickerList.length === 2;
-    averageReturnInfoText =
-      infoText ?? (hasExactlyTwoTickers ? AVERAGE_RETURN_INFO_FALLBACK_TEXT : "");
-    showAverageReturnInfo = hasExactlyTwoTickers;
-  }
 
   $: if (typeof window !== "undefined") {
     void refreshTopHoldings(tickerList);
@@ -1081,19 +991,19 @@
       columnGroupPadding = 0.2;
       columnPointPadding = 0.02;
     }
-    const columnMaxPointWidth = returnSeriesCount <= 2
-      ? isSmallScreen
-        ? 24
-        : 36
-      : isSmallScreen
-        ? 20
-        : 28;
+    const columnMaxPointWidth =
+      returnSeriesCount <= 2
+        ? isSmallScreen
+          ? 24
+          : 36
+        : isSmallScreen
+          ? 20
+          : 28;
     const shouldUseScrollablePlotArea =
       returnSeriesCount >= 7 || (isSmallScreen && returnSeriesCount >= 4);
-    const scrollableMinWidth =
-      shouldUseScrollablePlotArea
-        ? Math.max(effectiveScreenWidth, 560 + returnSeriesCount * 58)
-        : null;
+    const scrollableMinWidth = shouldUseScrollablePlotArea
+      ? Math.max(effectiveScreenWidth, 560 + returnSeriesCount * 58)
+      : null;
 
     // 3) return Highcharts options
     return {
@@ -1595,9 +1505,6 @@
                   content={AVERAGE_RETURN_INFO_MODAL_TEXT}
                 />
               </div>
-              {#if showAverageReturnInfo}
-                <Infobox text={averageReturnInfoText} />
-              {/if}
 
               <div
                 class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
@@ -1697,7 +1604,9 @@
                               <tr
                                 class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                               >
-                                <td class="pl-4 text-gray-700 dark:text-zinc-200">
+                                <td
+                                  class="pl-4 text-gray-700 dark:text-zinc-200"
+                                >
                                   {(overlapCurrentPage - 1) *
                                     overlapRowsPerPage +
                                     index +
