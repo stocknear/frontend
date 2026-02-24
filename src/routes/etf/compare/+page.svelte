@@ -68,7 +68,7 @@
 
   let categoryList = [
     { name: "Stock Price", value: "close", type: "price" },
-    { name: "Price Change (%)", value: "priceChangePct", type: "price-change" },
+    { name: "Price Change (%)", value: "close", type: "price-change" },
     { name: "Total Return", value: "totalReturn", type: "total-return" },
     { name: "Total Return (%)", value: "totalReturnPct", type: "total-return-pct" },
     { name: "Dividends (TTM)", value: "dividendTTM", type: "dividend-ttm" },
@@ -371,11 +371,10 @@
     });
 
     // Check if the selected category is percentage-based
-    const isPercentageCategory = [
-      "priceChangePct",
-      "totalReturnPct",
-      "dividendGrowthYoY",
-    ].includes(selectedPlotCategory?.value);
+    const isPercentageCategory =
+      selectedPlotCategory?.type === "price-change" ||
+      selectedPlotCategory?.type === "total-return-pct" ||
+      selectedPlotCategory?.type === "dividend-growth-yoy";
 
     return {
       chart: {
@@ -440,7 +439,7 @@
         style: { color: $mode === "light" ? "black" : "white" },
       },
       tooltip: {
-        shared: ["close"]?.includes(selectedPlotCategory?.value),
+        shared: ["price", "price-change"]?.includes(selectedPlotCategory?.type),
         useHTML: true,
         backgroundColor: "rgba(0, 0, 0, 1)",
         borderColor: "rgba(255, 255, 255, 0.2)",
@@ -689,7 +688,11 @@
       if (savedData) {
         const parsedData = JSON.parse(savedData);
         tickerList = parsedData?.tickerList;
-        selectedPlotCategory = parsedData?.selectedPlotCategory;
+        const savedCategory = parsedData?.selectedPlotCategory;
+        selectedPlotCategory =
+          savedCategory?.type === "price-change"
+            ? { ...savedCategory, value: "close" }
+            : savedCategory;
       }
     } catch (e) {
       console.log(e);

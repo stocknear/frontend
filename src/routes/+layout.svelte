@@ -667,6 +667,18 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
+                              href="/stocks/compare"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_comparison_tool()}</a
+                            >
+                          </Button>
+
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
                               href="/list"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
@@ -726,6 +738,17 @@
                               href="/etf/heatmap"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
+                            >
+                          </Button>
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                          >
+                            <a
+                              href="/etf/compare"
+                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              >{layout_comparison_tool()}</a
                             >
                           </Button>
                         </div>
@@ -1517,6 +1540,12 @@
                             >
 
                             <a
+                              href="/stocks/compare"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_comparison_tool()}</a
+                            >
+
+                            <a
                               href="/list"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
@@ -1560,6 +1589,11 @@
                               href="/etf/heatmap"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
+                            >
+                            <a
+                              href="/etf/compare"
+                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_comparison_tool()}</a
                             >
                           </div>
                         </Accordion.Content>
@@ -1823,12 +1857,6 @@
                           class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
-                            <a
-                              href="/stocks/compare"
-                              class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_comparison_tool()}</a
-                            >
-
                             <a
                               href="/options-calculator"
                               class="text-[0.95rem] font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
