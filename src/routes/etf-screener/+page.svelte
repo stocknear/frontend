@@ -3630,7 +3630,7 @@
         >
           <li>
             <button
-              on:click={() => (displayTableTab = "general")}
+              on:click={() => changeTab("general")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
               'general'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
@@ -3641,7 +3641,7 @@
           </li>
           <li>
             <button
-              on:click={() => (displayTableTab = "filters")}
+              on:click={() => changeTab("filters")}
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'filters'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
