@@ -152,6 +152,10 @@
   ];
   const AVERAGE_RETURN_INFO_MODAL_TEXT =
     "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
+  const AVERAGE_RETURN_INFO_FALLBACK_TEXT =
+    "Average return comparison data is not available yet for one or both selected tickers.";
+  const OVERLAPPING_HOLDINGS_INFO_MODAL_TEXT =
+    "Overlapping holdings compares constituents across the selected ETFs. Overlap Weight is the minimum non-zero holding weight shared by the selected ETFs for each overlapping stock.";
   let averageReturnInfoText = "";
   let showAverageReturnInfo = false;
   let allHoldingsByTicker: Record<string, TopHolding[]> = {};
@@ -535,8 +539,10 @@
 
   $: {
     const infoText = buildAverageReturnInfoText();
-    averageReturnInfoText = infoText ?? "";
-    showAverageReturnInfo = Boolean(infoText);
+    const hasExactlyTwoTickers = Array.isArray(tickerList) && tickerList.length === 2;
+    averageReturnInfoText =
+      infoText ?? (hasExactlyTwoTickers ? AVERAGE_RETURN_INFO_FALLBACK_TEXT : "");
+    showAverageReturnInfo = hasExactlyTwoTickers;
   }
 
   $: if (typeof window !== "undefined") {
@@ -1652,6 +1658,11 @@
                   >
                     Overlapping Holdings
                   </h2>
+                  <InfoModal
+                    id="etf-compare-overlapping-holdings-info"
+                    title="Overlapping Holdings"
+                    content={OVERLAPPING_HOLDINGS_INFO_MODAL_TEXT}
+                  />
                 </div>
                 {#if showTopHoldingsOverlapInfo}
                   <Infobox text={topHoldingsOverlapInfoText} />

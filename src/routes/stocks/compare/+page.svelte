@@ -240,6 +240,8 @@
   const RETURN_LONG_TERM_INDEX = 4;
   const AVERAGE_RETURN_INFO_MODAL_TEXT =
     "The average return is based on the stock's total return, using the compounded annual growth rate (CAGR). It accounts for stock splits and includes dividends.";
+  const AVERAGE_RETURN_INFO_FALLBACK_TEXT =
+    "Average return comparison data is not available yet for one or both selected tickers.";
   let averageReturnInfoText = "";
   let showAverageReturnInfo = false;
 
@@ -448,8 +450,10 @@
 
   $: {
     const infoText = buildAverageReturnInfoText();
-    averageReturnInfoText = infoText ?? "";
-    showAverageReturnInfo = Boolean(infoText);
+    const hasExactlyTwoTickers = Array.isArray(tickerList) && tickerList.length === 2;
+    averageReturnInfoText =
+      infoText ?? (hasExactlyTwoTickers ? AVERAGE_RETURN_INFO_FALLBACK_TEXT : "");
+    showAverageReturnInfo = hasExactlyTwoTickers;
   }
 
   const handleDownloadMessage = async (event) => {
