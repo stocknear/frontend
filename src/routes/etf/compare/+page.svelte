@@ -418,6 +418,8 @@
       });
     }
 
+    const isStepSeriesCategory = selectedPlotCategory?.type === "dividend-ttm";
+
     // 3) build series entries
     const series = Object?.entries(parsedData)?.map(([symbol, data], index) => {
       // wrap around if more symbols than colors
@@ -425,7 +427,8 @@
 
       return {
         name: symbol,
-        type: "spline", // or "area" if you still want fill
+        type: isStepSeriesCategory ? "line" : "spline",
+        step: isStepSeriesCategory ? "left" : undefined,
         data,
         color: $mode === "light" ? pair?.light : pair?.dark,
         lineWidth: 1.5,
