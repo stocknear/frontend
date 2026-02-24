@@ -942,16 +942,64 @@
         data,
         color: $mode === "light" ? pair?.light : pair?.dark,
         borderRadius: 3,
-        pointPadding: 0.1,
       };
     });
+
+    const returnSeriesCount = series?.length ?? 0;
+    const effectiveScreenWidth =
+      $screenWidth ||
+      (typeof window !== "undefined" ? window.innerWidth : 1024);
+    const isSmallScreen = effectiveScreenWidth < 640;
+    const showDataLabels = !isSmallScreen && returnSeriesCount <= 5;
+    const chartHeight = isSmallScreen
+      ? returnSeriesCount >= 6
+        ? 430
+        : 390
+      : returnSeriesCount >= 8
+        ? 430
+        : 360;
+    let columnGroupPadding = 0.1;
+    let columnPointPadding = 0.08;
+    if (returnSeriesCount <= 2) {
+      // Keep two-series bars visually grouped without excessive gap.
+      columnGroupPadding = isSmallScreen ? 0.08 : 0.06;
+      columnPointPadding = isSmallScreen ? 0.03 : 0.02;
+    } else if (returnSeriesCount <= 4) {
+      columnGroupPadding = isSmallScreen ? 0.12 : 0.1;
+      columnPointPadding = isSmallScreen ? 0.06 : 0.05;
+    } else if (returnSeriesCount <= 6) {
+      columnGroupPadding = 0.16;
+      columnPointPadding = 0.04;
+    } else {
+      columnGroupPadding = 0.2;
+      columnPointPadding = 0.02;
+    }
+    const columnMaxPointWidth = returnSeriesCount <= 2
+      ? isSmallScreen
+        ? 24
+        : 36
+      : isSmallScreen
+        ? 20
+        : 28;
+    const shouldUseScrollablePlotArea =
+      returnSeriesCount >= 7 || (isSmallScreen && returnSeriesCount >= 4);
+    const scrollableMinWidth =
+      shouldUseScrollablePlotArea
+        ? Math.max(effectiveScreenWidth, 560 + returnSeriesCount * 58)
+        : null;
 
     // 3) return Highcharts options
     return {
       chart: {
         backgroundColor: $mode === "light" ? "#fff" : "#09090B",
         animation: false,
-        height: 360,
+        height: chartHeight,
+        scrollablePlotArea: scrollableMinWidth
+          ? {
+              minWidth: scrollableMinWidth,
+              scrollPositionX: 0,
+            }
+          : undefined,
       },
       credits: { enabled: false },
       title: {
@@ -985,8 +1033,12 @@
       xAxis: {
         categories: RETURN_PERIOD_LABELS,
         title: null,
+        tickLength: 0,
         labels: {
-          style: { color: $mode === "light" ? "black" : "white" },
+          style: {
+            color: $mode === "light" ? "black" : "white",
+            fontSize: isSmallScreen ? "11px" : "12px",
+          },
         },
       },
       yAxis: {
@@ -1010,8 +1062,24 @@
       plotOptions: {
         column: {
           borderWidth: 0,
-          groupPadding: 0.1,
-          pointWidth: 50,
+          grouping: true,
+          groupPadding: columnGroupPadding,
+          pointPadding: columnPointPadding,
+          maxPointWidth: columnMaxPointWidth,
+          minPointLength: 2,
+          dataLabels: {
+            enabled: showDataLabels,
+            allowOverlap: false,
+            formatter() {
+              const value = Number(this?.y);
+              return Number.isFinite(value) ? `${value.toFixed(2)}%` : "";
+            },
+            style: {
+              fontSize: isSmallScreen ? "10px" : "12px",
+              fontWeight: "600",
+              textOutline: "none",
+            },
+          },
         },
         legendSymbol: "rectangle",
         series: {
@@ -1025,10 +1093,12 @@
         align: "center", // left side
         verticalAlign: "bottom", // top edge
         layout: "horizontal",
+        maxHeight: isSmallScreen ? 56 : 84,
+        itemDistance: isSmallScreen ? 8 : 12,
 
         // nudge in by 12px (≈ mt-3 / ml-3)
         x: 0,
-        y: 12,
+        y: isSmallScreen ? 6 : 12,
 
         squareSymbol: false, // use our rectangle shape
         symbolWidth: 20,
@@ -1037,7 +1107,31 @@
 
         itemStyle: {
           color: $mode === "light" ? "black" : "white",
+          fontSize: isSmallScreen ? "11px" : "12px",
         },
+        navigation: {
+          enabled: true,
+          activeColor: $mode === "light" ? "#6d28d9" : "#a78bfa",
+          inactiveColor: $mode === "light" ? "#9ca3af" : "#52525b",
+        },
+      },
+      responsive: {
+        rules: [
+          {
+            condition: {
+              maxWidth: 640,
+            },
+            chartOptions: {
+              plotOptions: {
+                column: {
+                  dataLabels: {
+                    enabled: false,
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
       series,
     };
