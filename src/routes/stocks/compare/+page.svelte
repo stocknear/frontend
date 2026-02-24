@@ -415,6 +415,7 @@
   }
 
   function removeTicker(symbol) {
+    isLoaded = false;
     const ticker = symbol?.trim()?.toUpperCase();
 
     // Guard clause: ensure the ticker exists
@@ -428,6 +429,16 @@
 
     // Persist the change
     handleSave();
+
+    if (tickerList.length === 0) {
+      rawGraphData = {};
+      rawTableData = [];
+      configGraph = null;
+      configReturn = null;
+      isLoaded = true;
+      return;
+    }
+
     downloadWorker?.postMessage({
       tickerList: tickerList,
       category: getCategoryForAPI(selectedPlotCategory),
