@@ -34,11 +34,17 @@ const ETF_FLOAT_RULES = new Set([
   "nav",
 ]);
 
+const ETF_INT_RULES = new Set([
+  "totalAssets",
+  "marketCap",
+]);
+
 const mapRuleType = (rule: string, varType: string | null): string => {
   if (varType === "percent") return "percent";
   if (varType === "percentSign") return "percentSign";
   if (ETF_STRING_RULES.has(rule)) return "str";
   if (ETF_FLOAT_RULES.has(rule)) return "float";
+  if (ETF_INT_RULES.has(rule)) return "int";
   return "decimal";
 };
 
@@ -321,7 +327,7 @@ const ETF_COMPARE_RULE_META: Array<{ rule: string; label: string; varType: strin
 ];
 
 export const ETF_COMPARE_DEFAULT_LIST: CompareColumnRule[] = [
-  { name: "AUM", rule: "totalAssets", type: "decimal" },
+  { name: "AUM", rule: "totalAssets", type: "int" },
   { name: "Price", rule: "price", type: "float" },
   { name: "% Change", rule: "changesPercentage", type: "percentSign" },
   { name: "Expense Ratio", rule: "expenseRatio", type: "percent" },
@@ -338,21 +344,21 @@ export const ETF_COMPARE_TABS: CompareTab[] = [
 
 export const ETF_COMPARE_TAB_RULE_SETS: Record<string, CompareColumnRule[]> = {
   performance: [
-    { name: "AUM", rule: "totalAssets", type: "decimal" },
+    { name: "AUM", rule: "totalAssets", type: "int" },
     { name: "Price Change 1W", rule: "change1W", type: "percentSign" },
     { name: "Price Change 1M", rule: "change1M", type: "percentSign" },
     { name: "Price Change 3M", rule: "change3M", type: "percentSign" },
     { name: "Price Change 1Y", rule: "change1Y", type: "percentSign" },
   ],
   technicals: [
-    { name: "AUM", rule: "totalAssets", type: "decimal" },
+    { name: "AUM", rule: "totalAssets", type: "int" },
     { name: "Relative Strength Index", rule: "rsi", type: "float" },
     { name: "50-Day Moving Average", rule: "sma50", type: "decimal" },
     { name: "200-Day Moving Average", rule: "sma200", type: "decimal" },
     { name: "Beta", rule: "beta", type: "float" },
   ],
   dividends: [
-    { name: "AUM", rule: "totalAssets", type: "decimal" },
+    { name: "AUM", rule: "totalAssets", type: "int" },
     { name: "Annual Dividend", rule: "annualDividend", type: "decimal" },
     { name: "Dividend Yield", rule: "dividendYield", type: "percent" },
     { name: "Dividend Payout Frequency", rule: "payoutFrequency", type: "str" },

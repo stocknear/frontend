@@ -2981,7 +2981,8 @@
                     year: "numeric",
                   })}
                 {:else if column?.type === "int"}
-                  {@html column.key === "marketCap" && item[column.key] === 0
+                  {@html ["marketCap", "totalAssets"]?.includes(column.key) &&
+                  item[column.key] === 0
                     ? "-"
                     : abbreviateNumber(item[column.key], false, true)}
                 {:else if column?.type === "float"}
