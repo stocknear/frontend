@@ -5,6 +5,11 @@
     about_seo_description,
     about_hero_title,
     about_hero_description,
+    about_story_label,
+    about_story_title,
+    about_story_paragraph_1,
+    about_story_paragraph_2,
+    about_story_paragraph_3,
     about_stats_investors,
     about_stats_investors_label,
     about_stats_stocks,
@@ -13,21 +18,6 @@
     about_stats_data_points_label,
     about_stats_trustpilot,
     about_stats_trustpilot_label,
-    about_story_label,
-    about_story_title,
-    about_story_paragraph_1,
-    about_story_paragraph_2,
-    about_story_paragraph_3,
-    about_believe_label,
-    about_believe_title,
-    about_believe_1_title,
-    about_believe_1_description,
-    about_believe_2_title,
-    about_believe_2_description,
-    about_believe_3_title,
-    about_believe_3_description,
-    about_believe_4_title,
-    about_believe_4_description,
     about_cta_badge,
     about_cta_title,
     about_cta_description,
@@ -57,6 +47,35 @@
         >
           {about_hero_description()}
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="border-t border-gray-300 dark:border-zinc-700">
+    <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
+      <div class="lg:grid lg:grid-cols-3 lg:gap-12">
+        <div>
+          <p
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
+          >
+            {about_story_label()}
+          </p>
+          <h2
+            class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+          >
+            {about_story_title()}
+          </h2>
+        </div>
+        <div class="lg:col-span-2 mt-10 lg:mt-0">
+          <div
+            class="text-gray-800 dark:text-zinc-300 space-y-4 text-lg leading-relaxed"
+          >
+            <p>{about_story_paragraph_1()}</p>
+            <p>{about_story_paragraph_2()}</p>
+            <p>{about_story_paragraph_3()}</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -123,87 +142,6 @@
           </dd>
         </div>
       </dl>
-    </div>
-  </section>
-
-  <!-- Our Story -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
-    <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
-      <div class="lg:grid lg:grid-cols-3 lg:gap-12">
-        <div>
-          <p
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
-          >
-            {about_story_label()}
-          </p>
-          <h2
-            class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-          >
-            {about_story_title()}
-          </h2>
-        </div>
-        <div class="lg:col-span-2 mt-10 lg:mt-0">
-          <div
-            class="text-gray-800 dark:text-zinc-300 space-y-4 text-lg leading-relaxed"
-          >
-            <p>{about_story_paragraph_1()}</p>
-            <p>{about_story_paragraph_2()}</p>
-            <p>{about_story_paragraph_3()}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- What We Believe -->
-  <section
-    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
-  >
-    <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
-      <p
-        class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
-      >
-        {about_believe_label()}
-      </p>
-      <h2
-        class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-      >
-        {about_believe_title()}
-      </h2>
-      <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-12">
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {about_believe_1_title()}
-          </h3>
-          <p class="mt-2 text-gray-800 dark:text-zinc-300 leading-relaxed">
-            {about_believe_1_description()}
-          </p>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {about_believe_2_title()}
-          </h3>
-          <p class="mt-2 text-gray-800 dark:text-zinc-300 leading-relaxed">
-            {about_believe_2_description()}
-          </p>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {about_believe_3_title()}
-          </h3>
-          <p class="mt-2 text-gray-800 dark:text-zinc-300 leading-relaxed">
-            {about_believe_3_description()}
-          </p>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {about_believe_4_title()}
-          </h3>
-          <p class="mt-2 text-gray-800 dark:text-zinc-300 leading-relaxed">
-            {about_believe_4_description()}
-          </p>
-        </div>
-      </div>
     </div>
   </section>
 
