@@ -199,7 +199,7 @@
     const isPro = subscriptionType?.toLowerCase() === "pro";
     const isPlus = subscriptionType?.toLowerCase() === "plus";
     const isAnnual = Boolean(pricingAnnual);
-    const isFreeTrial = !data?.user?.freeTrial;
+    //const isFreeTrial = !data?.user?.freeTrial;
 
     let plan = "";
 
@@ -209,9 +209,10 @@
       plan = isAnnual ? "ANNUAL_ID_PLUS" : "MONTHLY_ID_PLUS";
     }
 
-    const prefix = isFreeTrial
-      ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
-      : "VITE_LEMON_SQUEEZY_";
+    //const prefix = isFreeTrial
+    //  ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
+    //  : "VITE_LEMON_SQUEEZY_";
+    const prefix = "VITE_LEMON_SQUEEZY_";
 
     const subId = import.meta.env[`${prefix}${plan}`];
 
@@ -441,9 +442,7 @@
         <p
           class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8"
         >
-          {data?.user?.freeTrial
-            ? register_step2_subtitle_no_trial()
-            : register_step2_subtitle()}
+          {register_step2_subtitle_no_trial()}
         </p>
 
         <!-- Monthly / Annual toggle -->
@@ -577,9 +576,7 @@
               on:click={() => purchasePlan("Plus")}
               class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm cursor-pointer"
             >
-              {data?.user?.freeTrial
-                ? pricing_get_plus()
-                : pricing_start_trial()}
+              {pricing_get_plus()}
               <svg
                 class="w-4 h-4 ml-2"
                 fill="none"
@@ -678,9 +675,7 @@
               on:click={() => purchasePlan("Pro")}
               class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm cursor-pointer"
             >
-              {data?.user?.freeTrial
-                ? pricing_unlock_pro()
-                : pricing_start_trial()}
+              {pricing_unlock_pro()}
               <svg
                 class="w-4 h-4 ml-2"
                 fill="none"
