@@ -2058,7 +2058,7 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.home
-                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
                    : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
                }`}
       >
@@ -2081,7 +2081,7 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.portfolio
-                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
                    : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
                }`}
       >
@@ -2104,7 +2104,7 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.watchlist
-                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
                    : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
                }`}
       >
@@ -2127,7 +2127,7 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.priceAlert
-                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
                    : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
                }`}
       >
@@ -2166,7 +2166,7 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.chat
-                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
                    : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
                }`}
       >
