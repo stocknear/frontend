@@ -413,12 +413,14 @@
           >
         </a>
       </div>
+      <!--
       <div class="text-sm flex flex-row items-center mt-4 sm:mt-0">
         Made with 🧡 in Germany<img
           class="size-5 ml-1"
           src="https://flagsapi.com/DE/flat/16.png"
         />
       </div>
+      -->
     </div>
   </div>
 </footer>

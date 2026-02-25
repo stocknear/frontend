@@ -135,6 +135,17 @@
   let scrollRafId: number | undefined = undefined;
   const scrollThreshold = 10;
   const routePrefixes = ["/chart", "/chat"];
+  const routeStartsWith = (path: string, prefix: string) =>
+    path === prefix || path.startsWith(`${prefix}/`);
+
+  let isLandingPage = false;
+  let bottomNavState = {
+    home: false,
+    portfolio: false,
+    watchlist: false,
+    priceAlert: false,
+    chat: false,
+  };
 
   function handleScroll() {
     if (!browser) return;
@@ -397,6 +408,17 @@
     ($page.url.pathname === "/" && !data?.user) ||
     $page.url.pathname === "/register" ||
     $page.url.pathname === "/login";
+
+  $: {
+    const path = $page.url.pathname;
+    bottomNavState = {
+      home: path === "/",
+      portfolio: routeStartsWith(path, "/portfolio"),
+      watchlist: routeStartsWith(path, "/watchlist"),
+      priceAlert: routeStartsWith(path, "/price-alert"),
+      chat: routeStartsWith(path, "/chat"),
+    };
+  }
 
   $: {
     if ($page.url.pathname) {
@@ -2015,133 +2037,151 @@
 <!-- Bottom Navigation Bar -->
 {#if !isChartRoute && !isLandingPage}
   <nav
-    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-black dark:bg-zinc-900/95 backdrop-blur pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out
-           sm:bottom-5 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:border-0 sm:rounded-2xl sm:shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]
+    aria-label="Primary navigation"
+    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border border-white/10 bg-zinc-950/95 text-white shadow-[0_-6px_24px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
+           supports-[backdrop-filter]:bg-zinc-950/75
+           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-3xl sm:border-white/15 sm:shadow-[0_18px_42px_rgba(0,0,0,0.45)]
            {navbarHidden
-      ? 'translate-y-full sm:translate-y-[calc(100%+2rem)]'
+      ? 'translate-y-[calc(100%+1rem)] sm:translate-y-[calc(100%+2rem)]'
       : 'translate-y-0'}"
   >
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
+    ></span>
     <div
-      class="grid grid-cols-5 h-14 sm:flex sm:h-auto sm:px-2 sm:py-2 sm:gap-1"
+      class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
     >
       <a
         href="/"
-        class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
-               {$page.url.pathname === '/'
-          ? 'text-white dark:text-violet-400'
-          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
+        aria-current={bottomNavState.home ? "page" : undefined}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
+               ${
+                 bottomNavState.home
+                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+               }`}
       >
-        <Home
-          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
-        />
         <span
-          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+            bottomNavState.home
+              ? 'scale-105'
+              : 'group-hover:scale-105'
+          }`}
+        >
+          <Home class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+        </span>
+        <span class={bottomNavState.home ? "opacity-100" : "opacity-90"}
           >{layout_home()}</span
         >
-        {#if $page.url.pathname === "/"}
-          <span
-            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
-          ></span>
-        {/if}
       </a>
       <a
         href="/portfolio"
-        class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
-               {$page.url.pathname.startsWith('/portfolio')
-          ? 'text-white dark:text-violet-400'
-          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
+        aria-current={bottomNavState.portfolio ? "page" : undefined}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
+               ${
+                 bottomNavState.portfolio
+                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+               }`}
       >
-        <PieChart
-          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
-        />
         <span
-          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+            bottomNavState.portfolio
+              ? 'scale-105'
+              : 'group-hover:scale-105'
+          }`}
+        >
+          <PieChart class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+        </span>
+        <span class={bottomNavState.portfolio ? "opacity-100" : "opacity-90"}
           >{layout_portfolio()}</span
         >
-        {#if $page.url.pathname.startsWith("/portfolio")}
-          <span
-            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
-          ></span>
-        {/if}
       </a>
       <a
         href="/watchlist/stocks"
-        class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
-               {$page.url.pathname.startsWith('/watchlist')
-          ? 'text-white dark:text-violet-400'
-          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
+        aria-current={bottomNavState.watchlist ? "page" : undefined}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
+               ${
+                 bottomNavState.watchlist
+                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+               }`}
       >
-        <Star
-          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
-        />
         <span
-          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+            bottomNavState.watchlist
+              ? 'scale-105'
+              : 'group-hover:scale-105'
+          }`}
+        >
+          <Star class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+        </span>
+        <span class={bottomNavState.watchlist ? "opacity-100" : "opacity-90"}
           >{layout_watchlist()}</span
         >
-        {#if $page.url.pathname.startsWith("/watchlist")}
-          <span
-            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
-          ></span>
-        {/if}
       </a>
       <a
         href="/price-alert"
-        class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
-               {$page.url.pathname.startsWith('/price-alert')
-          ? 'text-white dark:text-violet-400'
-          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
+        aria-current={bottomNavState.priceAlert ? "page" : undefined}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
+               ${
+                 bottomNavState.priceAlert
+                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+               }`}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
-          viewBox="0 0 24 24"
-        >
-          <g
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-          >
-            <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
-            <circle cx="12" cy="13" r="8" />
-            <path d="M9.5 13h5M12 10.5v5" />
-          </g>
-        </svg>
         <span
-          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+            bottomNavState.priceAlert
+              ? 'scale-105'
+              : 'group-hover:scale-105'
+          }`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 sm:h-[22px] sm:w-[22px]"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            >
+              <path d="M3 5.231L6.15 3M21 5.231L17.85 3" />
+              <circle cx="12" cy="13" r="8" />
+              <path d="M9.5 13h5M12 10.5v5" />
+            </g>
+          </svg>
+        </span>
+        <span class={bottomNavState.priceAlert ? "opacity-100" : "opacity-90"}
           >{layout_price_alert()}</span
         >
-        {#if $page.url.pathname.startsWith("/price-alert")}
-          <span
-            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
-          ></span>
-        {/if}
       </a>
       <a
         href="/chat"
-        class="group relative flex flex-col items-center justify-center gap-0.5 transition-all
-               sm:flex-col sm:gap-1 sm:px-4 sm:py-2 sm:rounded-xl hover:bg-white/10
-               {$page.url.pathname.startsWith('/chat')
-          ? 'text-white dark:text-violet-400'
-          : 'text-zinc-400 active:text-white dark:active:text-violet-400'}"
+        aria-current={bottomNavState.chat ? "page" : undefined}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
+               ${
+                 bottomNavState.chat
+                   ? 'bg-white/15 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
+                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+               }`}
       >
-        <Sparkles
-          class="h-5 w-5 sm:h-[22px] sm:w-[22px] transition-transform sm:group-hover:scale-110"
-        />
         <span
-          class="text-[10px] font-medium sm:text-[11px] sm:font-normal sm:tracking-tight"
+          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+            bottomNavState.chat
+              ? 'scale-105'
+              : 'group-hover:scale-105'
+          }`}
+        >
+          <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+        </span>
+        <span class={bottomNavState.chat ? "opacity-100" : "opacity-90"}
           >Chat</span
         >
-        {#if $page.url.pathname.startsWith("/chat")}
-          <span
-            class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-white dark:bg-violet-400"
-          ></span>
-        {/if}
       </a>
     </div>
   </nav>
