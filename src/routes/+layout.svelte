@@ -1170,22 +1170,6 @@
                             class="w-full rounded-full bg-transparent transition cursor-pointer"
                           >
                             <a
-                              href="/stocks/compare"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >{layout_comparison_tool()}</a
-                            >
-                          </Button>
-                        </div>
-                      </Sheet.Close>
-
-                      <Sheet.Close asChild let:builder>
-                        <div class="flex flex-col items-start">
-                          <Button
-                            builders={[builder]}
-                            type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
-                          >
-                            <a
                               href="/options-calculator"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_calculator()}</a
@@ -2058,15 +2042,13 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.home
-                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
-                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
-            bottomNavState.home
-              ? 'scale-105'
-              : 'group-hover:scale-105'
+            bottomNavState.home ? "scale-105" : "group-hover:scale-105"
           }`}
         >
           <Home class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
@@ -2081,15 +2063,13 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.portfolio
-                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
-                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
-            bottomNavState.portfolio
-              ? 'scale-105'
-              : 'group-hover:scale-105'
+            bottomNavState.portfolio ? "scale-105" : "group-hover:scale-105"
           }`}
         >
           <PieChart class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
@@ -2104,15 +2084,13 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.watchlist
-                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
-                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
-            bottomNavState.watchlist
-              ? 'scale-105'
-              : 'group-hover:scale-105'
+            bottomNavState.watchlist ? "scale-105" : "group-hover:scale-105"
           }`}
         >
           <Star class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
@@ -2127,15 +2105,13 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.priceAlert
-                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
-                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
-            bottomNavState.priceAlert
-              ? 'scale-105'
-              : 'group-hover:scale-105'
+            bottomNavState.priceAlert ? "scale-105" : "group-hover:scale-105"
           }`}
         >
           <svg
@@ -2166,15 +2142,13 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.chat
-                   ? 'sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]'
-                   : 'text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white'
+                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
-            bottomNavState.chat
-              ? 'scale-105'
-              : 'group-hover:scale-105'
+            bottomNavState.chat ? "scale-105" : "group-hover:scale-105"
           }`}
         >
           <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
