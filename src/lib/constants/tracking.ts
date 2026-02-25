@@ -9,7 +9,7 @@ export const GTM_EVENT_PURCHASE = "purchase_conversion";
 // Pricing values for purchase tracking (USD)
 export const PURCHASE_VALUES = {
   plus_monthly: 15,
-  plus_annual: 10,
+  plus_annual: 60,
   pro_monthly: 45,
-  pro_annual: 360,
+  pro_annual: 180,
 } as const;

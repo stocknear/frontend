@@ -6,7 +6,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { toast } from "svelte-sonner";
-  //import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
 
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
@@ -486,8 +486,9 @@
           </span>
         </div>
 
-        <!--<Discount />-->
-
+        {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+          <Discount />
+        {/if}
         <!-- Plan cards -->
         <div class="grid gap-6 sm:grid-cols-2">
           <!-- Plus (highlighted) -->
@@ -506,6 +507,7 @@
               {register_step2_plus_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
+              <!--
               {#if pricingAnnual}
                 <span
                   class="text-3xl font-semibold text-gray-900 dark:text-white"
@@ -520,12 +522,36 @@
               <span class="text-sm text-gray-500 dark:text-zinc-400"
                 >{register_step2_per_month()}</span
               >
+            -->
+
+              {#if pricingAnnual}
+                <span
+                  class="text-xl text-gray-400 dark:text-zinc-500 line-through"
+                >
+                  $10
+                </span>
+                <span class="text-4xl font-semibold"> $5 </span>
+              {:else}
+                <span
+                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                  >$15</span
+                >
+              {/if}
             </div>
+
+            <!--
             {#if pricingAnnual}
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                {register_step2_billed_annually()} $120
+                Billed Annually $120</span>
               </p>
             {/if}
+            -->
+            {#if pricingAnnual}
+              <p class="mt-1 text-sm text-muted dark:text-gray-300">
+                Billed Annually (<span class="line-through mx-1">$120</span> $60)
+              </p>
+            {/if}
+
             <ul class="mt-5 mb-5 space-y-2 text-sm flex-1">
               {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
                 <li class="flex items-start gap-2">
@@ -581,6 +607,7 @@
               {register_step2_pro_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
+              <!--
               {#if pricingAnnual}
                 <span
                   class="text-3xl font-semibold text-gray-900 dark:text-white"
@@ -592,15 +619,40 @@
                   >$45</span
                 >
               {/if}
+            -->
+
+              {#if pricingAnnual}
+                <span
+                  class="text-xl text-gray-400 dark:text-zinc-500 line-through"
+                >
+                  $30
+                </span>
+                <span class="text-4xl font-semibold"> $15 </span>
+              {:else}
+                <span
+                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                  >$45</span
+                >
+              {/if}
+
               <span class="text-sm text-gray-500 dark:text-zinc-400"
                 >{register_step2_per_month()}</span
               >
             </div>
+            <!--
             {#if pricingAnnual}
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
                 {register_step2_billed_annually()} $360
               </p>
             {/if}
+          -->
+
+            {#if pricingAnnual}
+              <p class="mt-1 text-sm text-muted dark:text-gray-300">
+                Billed Annually (<span class="line-through mx-1">$360</span> $180)
+              </p>
+            {/if}
+
             <ul class="mt-5 mb-5 space-y-2 text-sm flex-1">
               {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
                 <li class="flex items-start gap-2">
