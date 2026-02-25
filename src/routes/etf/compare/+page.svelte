@@ -1897,6 +1897,21 @@
                   </table>
                 </div>
               </div>
+            {:else if !isLoaded && tickerList?.length > 0}
+              <div
+                class="mt-5 flex justify-center items-center border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                style="height:500px"
+              >
+                <div class="relative">
+                  <label
+                    class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  >
+                    <span
+                      class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                    ></span>
+                  </label>
+                </div>
+              </div>
             {/if}
 
             {#if tickerList?.length > 1}
@@ -2025,6 +2040,21 @@
                         class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 w-full"
                         use:highcharts={overlapChartConfig}
                       ></div>
+                    {:else}
+                      <div
+                        class="flex justify-center items-center rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 w-full"
+                        style="height:500px"
+                      >
+                        <div class="relative">
+                          <label
+                            class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                          >
+                            <span
+                              class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                            ></span>
+                          </label>
+                        </div>
+                      </div>
                     {/if}
                   {:else}
                     <div
