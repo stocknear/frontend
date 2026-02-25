@@ -25,7 +25,7 @@ export const load = async ({ locals }) => {
 
   const strategyList = await getAllStrategies();
   const strategy = strategyList?.at(0);
-  const subscriber = ['Plus','Pro'].includes(user?.tier) ? 'Pro' : 'Free';
+  const subscriber = 'Pro'; // load all data
 
   // Build active rules from saved strategy (skip "any" / null / undefined values)
   const rules = (strategy?.rules ?? []).filter((r: any) => {
