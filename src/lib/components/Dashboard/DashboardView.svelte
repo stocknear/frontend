@@ -43,33 +43,35 @@
     let PromoBanner: any = null;
 
     function getClosedPromoBanner() {
-      const item = localStorage.getItem("closePromoBanner");
-      if (!item) return false;
-      try {
-        const { value, expires } = JSON.parse(item);
-        if (new Date() > new Date(expires)) {
-          localStorage.removeItem("closePromoBanner");
-          return false;
+        const item = localStorage.getItem("closePromoBanner");
+        if (!item) return false;
+        try {
+            const { value, expires } = JSON.parse(item);
+            if (new Date() > new Date(expires)) {
+                localStorage.removeItem("closePromoBanner");
+                return false;
+            }
+            return value;
+        } catch {
+            return false;
         }
-        return value;
-      } catch {
-        return false;
-      }
     }
 
     onMount(async () => {
-      const dismissed = getClosedPromoBanner();
-      $closedPromoBanner = dismissed;
-      if (dismissed) return;
+        const dismissed = getClosedPromoBanner();
+        $closedPromoBanner = dismissed;
+        if (dismissed) return;
 
-      const user = data?.user;
-      if (!user || ["Pro", "Plus"].includes(user?.tier)) return;
+        const user = data?.user;
+        if (!user || ["Pro", "Plus"].includes(user?.tier)) return;
 
-      const createdDate = new Date(user?.created);
-      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      if (createdDate < sevenDaysAgo) return;
+        const createdDate = new Date(user?.created);
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        if (createdDate < sevenDaysAgo) return;
 
-      PromoBanner = (await import("$lib/components/Dashboard/PromoBanner.svelte")).default;
+        PromoBanner = (
+            await import("$lib/components/Dashboard/PromoBanner.svelte")
+        ).default;
     });
 </script>
 
@@ -109,7 +111,7 @@
 
 <div class="w-full max-w-8xl overflow-hidden m-auto min-h-screen mb-16">
     {#if PromoBanner && !$closedPromoBanner}
-      <svelte:component this={PromoBanner} />
+        <svelte:component this={PromoBanner} />
     {/if}
     <main id="main">
         <div
