@@ -153,6 +153,13 @@
                 href="/support/">{footer_get_support()}</a
               >
             </li>
+
+            <li>
+              <a
+                class="text-sm text-gray-600 hover:text-gray-900 dark:text-zinc-400 dark:hover:text-white transition"
+                href="/app/">Install the App</a
+              >
+            </li>
             <!--
             <li>
               <a
@@ -413,6 +420,10 @@
           >
         </a>
       </div>
+      <div class="text-sm flex flex-row items-center mt-4 sm:mt-0">
+        © 2026 Stocknear. All rights reserved.
+      </div>
+
       <!--
       <div class="text-sm flex flex-row items-center mt-4 sm:mt-0">
         Made with 🧡 in Germany<img

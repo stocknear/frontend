@@ -1,9 +1,5 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-
     import { screenWidth } from "$lib/store";
-    import { isPWAInstalled } from "$lib/utils";
-    import { closedPWA } from "$lib/store";
     import SEO from "$lib/components/SEO.svelte";
     import MarketMover from "$lib/components/Dashboard/MarketMover.svelte";
     import UpcomingEarnings from "$lib/components/Dashboard/UpcomingEarnings.svelte";
@@ -40,40 +36,6 @@
     let optionsFlowList = data?.getDashboard?.optionsFlow || [];
     let upcomingEarnings = data?.getDashboard?.upcomingEarnings || [];
     let analystReport = data?.getDashboard?.analystReport || {};
-    let pwaInstalled = false;
-    let AppInstalled = null;
-
-    function getClosedPWA() {
-        //if user closed the banner
-        const item = localStorage.getItem("closePWA");
-        if (!item) return null;
-
-        const { value, expires } = JSON.parse(item);
-        if (new Date() > new Date(expires)) {
-            localStorage.removeItem("closePWA"); // Remove expired item
-            return null;
-        }
-        return value;
-    }
-
-    onMount(async () => {
-        pwaInstalled = isPWAInstalled();
-
-        if (!pwaInstalled) {
-            try {
-                $closedPWA = getClosedPWA();
-
-                if (!$closedPWA) {
-                    // Dynamically import the AppInstalled component
-                    AppInstalled = (
-                        await import("$lib/components/AppInstalled.svelte")
-                    ).default;
-                }
-            } catch (e) {
-                console.error("Error loading AppInstalled component:", e);
-            }
-        }
-    });
 
     $: charNumber = $screenWidth < 640 ? 20 : 30;
 </script>
@@ -113,10 +75,6 @@
 />
 
 <div class="w-full max-w-8xl overflow-hidden m-auto min-h-screen mb-16">
-    {#if AppInstalled && !$closedPWA}
-        <svelte:component this={AppInstalled} />
-    {/if}
-
     <main id="main">
         <div
             class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
