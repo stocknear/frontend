@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { abbreviateNumber } from "$lib/utils";
   import { screenWidth } from "$lib/store";
   import { Combobox } from "bits-ui";
@@ -168,6 +168,7 @@
   let topHoldingsOverlapInfoText = "";
   let showTopHoldingsOverlapInfo = false;
   let overlapRows: OverlapHoldingRow[] = [];
+  let overlapRowsOriginal: OverlapHoldingRow[] = [];
   let overlapPaginatedRows: OverlapHoldingRow[] = [];
   let overlapCurrentPage = 1;
   let overlapTotalPages = 1;
@@ -504,7 +505,7 @@
     overlapSortOrders = overlapSortOrders; // trigger reactivity
 
     if (overlapSortOrders[key].order === "none") {
-      overlapRows = buildOverlapRows(overlapTickerColumns, allHoldingsByTicker);
+      overlapRows = [...overlapRowsOriginal];
     } else {
       const compareFn = overlapCompare(key, overlapSortOrders[key].order);
       overlapRows = [...overlapRows].sort(compareFn);
@@ -538,19 +539,20 @@
     overlapCurrentPage = 1;
   }
 
-  // Flatten overlap rows for CSV/Excel download (reactive so Svelte tracks deps)
-  let overlapDownloadData: Record<string, any>[] = [];
-  $: overlapDownloadData = overlapFilteredRows.map((row) => {
-    const flat: Record<string, any> = {
-      Symbol: row.symbol,
-      Name: row.name,
-    };
-    for (const ticker of overlapTickerColumns) {
-      flat[`Weight in ${ticker}`] = row.tickerWeights?.[ticker] ?? 0;
-    }
-    flat["Overlap Weight"] = row.overlapWeight;
-    return flat;
-  });
+  // Flatten overlap rows for CSV/Excel download (computed on demand via fetchRawData, not every keystroke)
+  async function fetchOverlapDownloadData() {
+    return overlapFilteredRows.map((row) => {
+      const flat: Record<string, any> = {
+        Symbol: row.symbol,
+        Name: row.name,
+      };
+      for (const ticker of overlapTickerColumns) {
+        flat[`Weight in ${ticker}`] = row.tickerWeights?.[ticker] ?? 0;
+      }
+      flat["Overlap Weight"] = row.overlapWeight;
+      return flat;
+    });
+  }
 
   $: if (overlapViewMode === "chart" && overlapFilteredRows?.length > 0) {
     overlapChartConfig = buildOverlapChartConfig();
@@ -749,6 +751,7 @@
       allHoldingsByTicker,
     );
     overlapRows = builtRows;
+    overlapRowsOriginal = builtRows;
 
     // Reset sort state when underlying data changes
     const newSortOrders: Record<string, { order: string; type: string }> = {
@@ -955,7 +958,7 @@
         console.error("Error during search:", error);
         searchBarData = [];
       }
-    }, 50); // delay
+    }, 250); // delay
   }
 
   function handleSave() {
@@ -1521,6 +1524,13 @@
       assetType: "etf",
     });
   });
+
+  onDestroy(() => {
+    if (downloadWorker) {
+      downloadWorker.terminate();
+      downloadWorker = undefined;
+    }
+  });
 </script>
 
 <SEO
@@ -1977,7 +1987,8 @@
                           <div class="ml-2">
                             <DownloadData
                               {data}
-                              rawData={overlapDownloadData}
+                              rawData={overlapFilteredRows}
+                              fetchRawData={fetchOverlapDownloadData}
                               title={`etf_compare_overlap_${overlapTickerColumns.map((t) => t.toLowerCase()).join("_")}`}
                             />
                           </div>
