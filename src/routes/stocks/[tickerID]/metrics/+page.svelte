@@ -13,13 +13,12 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BarChart from "lucide-svelte/icons/chart-column-increasing";
   import LineChart from "lucide-svelte/icons/chart-spline";
+  import X from "lucide-svelte/icons/x";
   import {
     stock_detail_metrics_bar_chart,
-    stock_detail_metrics_close,
     stock_detail_metrics_growth,
     stock_detail_metrics_line_chart,
     stock_detail_metrics_no_data,
-    stock_detail_metrics_peaked_at,
     stock_detail_metrics_period_ending,
     stock_detail_metrics_quarterly,
     stock_detail_metrics_seo_description,
@@ -51,12 +50,43 @@
   let config = null;
   let chartMode = "bar";
   let modalLabel = "";
-  let highestValue = null;
-  let highestValueDate = null;
-  let lowestValue = null;
-  let lowestValueDate = null;
   let currentRow = null;
   let currentIsGrowth = false;
+  let isModalOpen = false;
+
+  // Professional axis formatter (matching financials modal)
+  function getCompactFractionDigits(valueAbs: number, stepAbs: number): number {
+    if (valueAbs < 1000) return 0;
+    const unit =
+      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
+      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
+      valueAbs >= 1_000_000 ? 1_000_000 :
+      1_000;
+    const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
+    const stepInUnit = safeStep / unit;
+    if (stepInUnit < 0.05) return 2;
+    if (stepInUnit < 0.5) return 1;
+    return 0;
+  }
+
+  function formatProfessionalAxisLabel(value: number, isPercent = false, tickInterval = 0): string {
+    const safeValue = Number.isFinite(value) ? value : 0;
+    const abs = Math.abs(safeValue);
+    let formatted = "";
+    if (abs >= 1000) {
+      const compactDigits = getCompactFractionDigits(abs, Math.abs(tickInterval));
+      formatted = new Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: compactDigits,
+        minimumFractionDigits: 0,
+      }).format(safeValue);
+    } else if (abs >= 10) {
+      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", { maximumFractionDigits: 1 });
+    } else {
+      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", { maximumFractionDigits: 2 });
+    }
+    return isPercent ? `${formatted}%` : formatted;
+  }
 
   function plotData(row: any, isGrowth: boolean) {
     // Get the current category's table data to access dates
@@ -101,78 +131,57 @@
     const dateList = filteredData.map((item) => item.formattedDate);
     const valueList = filteredData.map((item) => item.value);
 
-    // Calculate highest and lowest value
-    highestValue = null;
-    lowestValue = null;
-    highestValueDate = null;
-    lowestValueDate = null;
-
-    if (valueList?.length > 0) {
-      highestValue = Math.max(...valueList);
-      lowestValue = Math.min(...valueList);
-
-      const highestValueIndex = valueList.indexOf(highestValue);
-      const lowestValueIndex = valueList.indexOf(lowestValue);
-
-      highestValueDate = dateList[highestValueIndex] || null;
-      lowestValueDate = dateList[lowestValueIndex] || null;
-    }
-
     const label = isGrowth
       ? `${row.name} ${stock_detail_metrics_growth()}`
       : row.name;
 
+    const chartColor = $mode === "light" ? "#F59E0B" : "#FBBF24";
+
     const options = {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090b",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090b",
-        height: 360,
+        backgroundColor: $mode === "light" ? "#fff" : "#18181b",
+        height: 400,
         animation: false,
+        spacing: [20, 10, 20, 10],
       },
       credits: { enabled: false },
       legend: { enabled: false },
       plotOptions: {
-        series: {
-          color: "white",
-          animation: false,
-          dataLabels: {
-            enabled: false,
-            color: "white",
-            style: { fontSize: "13px", fontWeight: "bold" },
-            formatter: function () {
-              return abbreviateNumber(this?.y);
-            },
-          },
+        column: {
+          borderRadius: 3,
+          pointPadding: 0.1,
+          groupPadding: 0.15,
         },
+        spline: { lineWidth: 2, marker: { enabled: true, radius: 3 } },
+        series: { animation: false },
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 sm:text-lg">${$stockTicker} ${label}</h3>`,
+        text: `<div class="text-lg font-semibold">${$stockTicker} ${label}</div>`,
         useHTML: true,
-        style: { color: $mode === "light" ? "black" : "white" },
+        style: { color: $mode === "light" ? "#111827" : "#f4f4f5" },
       },
       xAxis: {
         categories: dateList,
-        crosshair: {
-          color: $mode === "light" ? "black" : "white",
-          width: 1,
-          dashStyle: "Solid",
-        },
+        crosshair: { color: $mode === "light" ? "#d1d5db" : "#3f3f46", width: 1 },
         labels: {
-          style: { color: $mode === "light" ? "#545454" : "white" },
+          style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
           rotation: -45,
-          distance: 10,
         },
+        lineColor: $mode === "light" ? "#e5e7eb" : "#27272a",
       },
       yAxis: {
         gridLineWidth: 1,
-        gridLineColor: $mode === "light" ? "#e5e7eb" : "#404657",
+        gridLineColor: $mode === "light" ? "#f3f4f6" : "#27272a",
         labels: {
-          style: { color: $mode === "light" ? "black" : "white" },
+          style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
           formatter: function () {
-            return isGrowth
-              ? this.value.toFixed(2) + "%"
-              : abbreviateNumber(this.value);
+            const tickInterval = Number(this?.axis?.tickInterval);
+            return formatProfessionalAxisLabel(
+              Number(this.value),
+              isGrowth,
+              tickInterval,
+            );
           },
         },
         title: { text: null },
@@ -181,30 +190,35 @@
       tooltip: {
         shared: true,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)",
-        borderColor: "rgba(255, 255, 255, 0.2)",
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        borderColor: "rgba(255, 255, 255, 0.1)",
         borderWidth: 1,
-        style: { color: "#fff", fontSize: "16px", padding: "10px" },
-        borderRadius: 4,
+        style: { color: "#fff", fontSize: "13px" },
+        borderRadius: 8,
         formatter: function () {
-          let tooltipContent = `<span class="text-white text-sm font-[501]">${this.points[0]?.key}</span><br>`;
+          const categoryName = this.points?.[0]?.key ?? this.x;
+          let html = `<div class="px-1 py-1"><div class="font-semibold mb-1">${categoryName}</div>`;
           this.points.forEach((point) => {
-            const formattedValue = isGrowth
-              ? point.y?.toFixed(2) + "%"
-              : abbreviateNumber(point.y?.toFixed(2));
-            tooltipContent += `<span class="text-white font-semibold text-sm">${point.series.name}:</span>
-     <span class="text-white font-normal text-sm">${formattedValue}</span><br>`;
+            const val = point.y;
+            const formatted = val != null
+              ? (isGrowth ? val.toFixed(2) + "%" : (Math.abs(val) < 1000 ? val?.toFixed(2) : abbreviateNumber(val)))
+              : "n/a";
+            html += `<div class="flex items-center gap-2">
+              <span style="color: ${point.series.color}">${point.series.name}:</span>
+              <span class="font-medium">${formatted}</span>
+            </div>`;
           });
-          return tooltipContent;
+          html += `</div>`;
+          return html;
         },
       },
       series: [
         {
           name: label,
           data: valueList,
-          color: $mode === "light" ? "#2C6288" : "white",
-          borderColor: $mode === "light" ? "#2C6288" : "white",
-          borderRadius: "1px",
+          color: chartColor,
+          borderColor: chartColor,
+          borderRadius: 3,
           animation: false,
         },
       ],
@@ -220,6 +234,23 @@
       ? `${row.name} ${stock_detail_metrics_growth()}`
       : row.name;
     config = plotData(row, isGrowth);
+    isModalOpen = true;
+  }
+
+  function handleCloseModal() {
+    isModalOpen = false;
+  }
+
+  function handleBackdropClick(e: MouseEvent) {
+    if (e.target === e.currentTarget) {
+      handleCloseModal();
+    }
+  }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      handleCloseModal();
+    }
   }
 
   function toggleMode() {
@@ -657,8 +688,7 @@
                           class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
                         >
                           {row.name}
-                          <label
-                            for="financialPlotModal"
+                          <button
                             on:click={() => handleChart(row, false)}
                             class="cursor-pointer inline-block border-none"
                           >
@@ -681,7 +711,7 @@
                                 ></path>
                               </g></svg>
 
-                          </label>
+                          </button>
                         </th>
                         {#each row.cells as cell}
                           <td
@@ -719,8 +749,7 @@
                           <span class="ml-2 mr-5 md:mr-0"
                             >{row.name} {stock_detail_metrics_growth()}</span
                           >
-                          <label
-                            for="financialPlotModal"
+                          <button
                             on:click={() => handleChart(row, true)}
                             class="cursor-pointer inline-block border-none"
                           >
@@ -743,7 +772,7 @@
                                 ></path>
                               </g></svg>
 
-                          </label>
+                          </button>
                         </td>
                         {#each row.cells as cell}
                           <td
@@ -801,73 +830,68 @@
   </div>
 </section>
 
-<input type="checkbox" id="financialPlotModal" class="modal-toggle" />
-<dialog id="financialPlotModal" class="modal px-3">
-  <label for="financialPlotModal" class="cursor-pointer modal-backdrop"></label>
+<svelte:window on:keydown={handleKeydown} />
 
+{#if isModalOpen}
   <div
-    class="metrics-modal modal-box w-full max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm"
+    on:click={handleBackdropClick}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="metrics-modal-title"
   >
-    <label
-      for="financialPlotModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
+    <div
+      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200 dark:border-zinc-800"
+      on:click|stopPropagation
     >
-      <svg
-        class="w-6 h-6 sm:w-7 sm:h-7"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        ><path
-          fill="currentColor"
-          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
-    </label>
-    {#if config}
-      <div class="flex justify-end items-center w-full">
-        <Button
-          on:click={toggleMode}
-          class="w-fit transition-all duration-50 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
-        >
-          {#if chartMode === "bar"}
-            <LineChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm">
-              {stock_detail_metrics_line_chart()}
-            </span>
-          {:else}
-            <BarChart class="w-4.5 h-4.5" />
-            <span class="ml-1 mr-auto text-sm">
-              {stock_detail_metrics_bar_chart()}
-            </span>
-          {/if}</Button
-        >
+      <!-- Header -->
+      <div class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4">
+        <div class="flex items-start justify-between">
+          <div>
+            <h2 id="metrics-modal-title" class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+              {modalLabel}
+            </h2>
+            <p class="text-sm text-gray-500 dark:text-zinc-400 mt-0.5">
+              {$stockTicker} - {$selectedTimePeriod === "quarterly" ? "Quarterly" : "TTM"}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="cursor-pointer p-2 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+            on:click={handleCloseModal}
+            aria-label="Close modal"
+          >
+            <X class="w-5 h-5 text-gray-500 dark:text-zinc-400" />
+          </button>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="flex flex-wrap items-center gap-2 mt-4">
+          <Button
+            on:click={toggleMode}
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+          >
+            {#if chartMode === "bar"}
+              <LineChart class="w-4 h-4" />
+              <span>{stock_detail_metrics_line_chart()}</span>
+            {:else}
+              <BarChart class="w-4 h-4" />
+              <span>{stock_detail_metrics_bar_chart()}</span>
+            {/if}
+          </Button>
+        </div>
       </div>
 
-      <div
-        class="mt-2 bg-white dark:bg-zinc-950 p-2"
-        use:highcharts={config}
-      ></div>
-    {/if}
-    <p class="text-sm mb-6 mt-5">
-      {stock_detail_metrics_peaked_at({
-        label: modalLabel,
-        highest: currentIsGrowth
-          ? highestValue?.toFixed(2) + "%"
-          : abbreviateNumber(highestValue?.toFixed(2)),
-        highestDate: highestValueDate,
-        lowest: currentIsGrowth
-          ? lowestValue?.toFixed(2) + "%"
-          : abbreviateNumber(lowestValue?.toFixed(2)),
-        lowestDate: lowestValueDate,
-      })}
-    </p>
-
-    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
-      <label
-        for="financialPlotModal"
-        class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
-      >
-        {stock_detail_metrics_close()}
-      </label>
+      <!-- Chart Area -->
+      <div class="px-4 sm:px-6 py-4">
+        {#if config}
+          <div class="w-full" use:highcharts={config}></div>
+        {:else}
+          <div class="h-[400px] flex items-center justify-center">
+            <span class="loading loading-spinner loading-md text-gray-400"></span>
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
-</dialog>
+{/if}
