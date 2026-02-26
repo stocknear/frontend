@@ -2,6 +2,7 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
   import { abbreviateNumber } from "$lib/utils";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
@@ -618,6 +619,13 @@
               {item}
             </button>
           {/each}
+        </div>
+        <div class="ml-2">
+          <DownloadData
+            {data}
+            rawData={tableList}
+            title={`historical_dark_pool_${$page?.params?.tickerID}`}
+          />
         </div>
       </div>
 
