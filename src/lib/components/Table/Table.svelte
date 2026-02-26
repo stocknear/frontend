@@ -2962,6 +2962,7 @@
                   {#if editMode}
                     <div class="flex flex-row items-center">
                       <input
+                        id={`delete-ticker-${item[column.key]}-${index}`}
                         type="checkbox"
                         checked={deleteTickerList?.includes(item[column.key]) ??
                           false}
@@ -2971,6 +2972,7 @@
                         class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white accent-gray-900 dark:accent-white mr-3"
                       />
                       <label
+                        for={`delete-ticker-${item[column.key]}-${index}`}
                         class="text-gray-800 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer"
                       >
                         {item[column.key]}
