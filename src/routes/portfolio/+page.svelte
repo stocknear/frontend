@@ -88,6 +88,7 @@
   let deleteTickerList = [];
 
   let portfolio: any[] = [];
+  let portfolioTableKey = "portfolio:0:";
 
   let news = [];
   let earnings = [];
@@ -156,6 +157,20 @@
         displayPortfolio = updated;
       }
     }
+  }
+
+  // Re-key table only when membership changes (add/remove/switch portfolio),
+  // not when editable fields like shares/avgPrice change.
+  $: {
+    const symbols =
+      portfolio
+        ?.map((item) => item?.symbol)
+        ?.filter((symbol) => typeof symbol === "string")
+        ?.sort()
+        ?.join("|") || "";
+    const portfolioId = displayPortfolio?.id || "portfolio";
+    const count = portfolio?.length || 0;
+    portfolioTableKey = `${portfolioId}:${count}:${symbols}`;
   }
 
   async function getPortfolioData() {
@@ -1232,69 +1247,71 @@
 
               {#if portfolio?.length > 0}
                 <div class="w-full">
-                  <Table
-                    {data}
-                    rawData={portfolio}
-                    title="{portfolio?.length} Stocks"
-                    excludedRules={new Set([
-                      "volume",
-                      "price",
-                      "changesPercentage",
-                      "marketCap",
-                      "eps",
-                      "weight",
-                    ])}
-                    defaultList={[
-                      { name: "Price", rule: "price" },
-                      {
-                        name: "% Change",
-                        rule: "changesPercentage",
-                      },
-                      { name: "Avg. Price", rule: "avgPrice" },
-                      { name: "Shares", rule: "shares", type: "decimal" },
-                      {
-                        name: "Profit/Loss",
-                        rule: "profitLoss",
-                      },
-                      {
-                        name: "Total P&L",
-                        rule: "totalReturn",
-                      },
-                      {
-                        name: "Today P&L",
-                        rule: "todayReturn",
-                      },
-                      { name: "% Weight", rule: "weight", type: "percent" },
-                    ]}
-                    specificRows={[
-                      { name: "Shares", rule: "shares", type: "decimal" },
-                      { name: "Avg. Price", rule: "avgPrice", type: "float" },
-                      {
-                        name: "Profit / Loss",
-                        rule: "profitLoss",
-                        type: "decimalSign",
-                      },
-                      {
-                        name: "% Total P/L",
-                        rule: "totalReturn",
-                        type: "percentSign",
-                      },
-                      {
-                        name: "Today P&L",
-                        rule: "todayReturn",
-                        type: "decimalSign",
-                      },
-                      {
-                        name: "% Weight",
-                        rule: "weight",
-                        type: "percent",
-                      },
-                    ]}
-                    {editMode}
-                    {deleteTickerList}
-                    onToggleDeleteTicker={handleFilter}
-                    onPortfolioUpdate={savePortfolioData}
-                  />
+                  {#key portfolioTableKey}
+                    <Table
+                      {data}
+                      rawData={portfolio}
+                      title="{portfolio?.length} Stocks"
+                      excludedRules={new Set([
+                        "volume",
+                        "price",
+                        "changesPercentage",
+                        "marketCap",
+                        "eps",
+                        "weight",
+                      ])}
+                      defaultList={[
+                        { name: "Price", rule: "price" },
+                        {
+                          name: "% Change",
+                          rule: "changesPercentage",
+                        },
+                        { name: "Avg. Price", rule: "avgPrice" },
+                        { name: "Shares", rule: "shares", type: "decimal" },
+                        {
+                          name: "Profit/Loss",
+                          rule: "profitLoss",
+                        },
+                        {
+                          name: "Total P&L",
+                          rule: "totalReturn",
+                        },
+                        {
+                          name: "Today P&L",
+                          rule: "todayReturn",
+                        },
+                        { name: "% Weight", rule: "weight", type: "percent" },
+                      ]}
+                      specificRows={[
+                        { name: "Shares", rule: "shares", type: "decimal" },
+                        { name: "Avg. Price", rule: "avgPrice", type: "float" },
+                        {
+                          name: "Profit / Loss",
+                          rule: "profitLoss",
+                          type: "decimalSign",
+                        },
+                        {
+                          name: "% Total P/L",
+                          rule: "totalReturn",
+                          type: "percentSign",
+                        },
+                        {
+                          name: "Today P&L",
+                          rule: "todayReturn",
+                          type: "decimalSign",
+                        },
+                        {
+                          name: "% Weight",
+                          rule: "weight",
+                          type: "percent",
+                        },
+                      ]}
+                      {editMode}
+                      {deleteTickerList}
+                      onToggleDeleteTicker={handleFilter}
+                      onPortfolioUpdate={savePortfolioData}
+                    />
+                  {/key}
 
                   <div
                     class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
