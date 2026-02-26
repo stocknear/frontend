@@ -47,83 +47,114 @@ export default (node: HTMLElement, config: any) => {
   let resizeObserver: ResizeObserver | null = null;
   let currentConfig = config;
   let isCreating = false;
+  let pendingConfig: any = null;
 
   const createChart = async (cfg: any) => {
-    if (!cfg || isCreating) return;
-    isCreating = true;
-
-    const HC = await ensureHighcharts();
-    if (!HC) {
-      isCreating = false;
+    if (!cfg) return;
+    if (isCreating) {
+      pendingConfig = cfg;
       return;
     }
+    isCreating = true;
+    pendingConfig = null;
 
-    // Destroy existing chart if any
-    if (chart) {
-      chart.destroy();
-      chart = null;
-    }
+    try {
+      const HC = await ensureHighcharts();
+      if (!HC) {
+        return;
+      }
 
-    chart = HC.chart(node, {
-      ...cfg,
-      accessibility: { enabled: false },
-      chart: {
-        ...(cfg.chart || {}),
-        style: {
-          fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
-        },
-        events: {
-          ...(cfg.chart?.events || {}),
-          load: function () {
-            const chartInstance = this as any;
-            const marginX = 10;
-            const marginY = 5;
+      const userLoadEvent = cfg.chart?.events?.load;
 
-            if (chartInstance.watermark) {
-              chartInstance.watermark.destroy();
-            }
+      // Destroy existing chart if any
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
 
-            const x = chartInstance.chartWidth - marginX;
-            const y = chartInstance.chartHeight - marginY;
+      chart = HC.chart(node, {
+        ...cfg,
+        accessibility: { enabled: false },
+        chart: {
+          ...(cfg.chart || {}),
+          style: {
+            fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
+          },
+          events: {
+            ...(cfg.chart?.events || {}),
+            load: function (...args: any[]) {
+              if (typeof userLoadEvent === 'function') {
+                userLoadEvent.apply(this, args);
+              }
 
-            chartInstance.watermark = chartInstance.renderer
-              .text('', x, y)
-              .attr({ align: 'right' })
-              .css({
-                fontSize: '12px',
-                color: 'rgba(255, 255, 255, 0.6)',
-                fontWeight: 'medium',
-                pointerEvents: 'none'
-              })
-              .add();
+              const chartInstance = this as any;
+              const marginX = 10;
+              const marginY = 5;
 
-            HC.addEvent(chartInstance, 'redraw', function () {
-              chartInstance.watermark.attr({
-                x: chartInstance.chartWidth - marginX,
-                y: chartInstance.chartHeight - marginY
+              if (chartInstance.watermark) {
+                chartInstance.watermark.destroy();
+              }
+
+              const x = chartInstance.chartWidth - marginX;
+              const y = chartInstance.chartHeight - marginY;
+
+              chartInstance.watermark = chartInstance.renderer
+                .text('', x, y)
+                .attr({ align: 'right' })
+                .css({
+                  fontSize: '12px',
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  fontWeight: 'medium',
+                  pointerEvents: 'none'
+                })
+                .add();
+
+              HC.addEvent(chartInstance, 'redraw', function () {
+                chartInstance.watermark.attr({
+                  x: chartInstance.chartWidth - marginX,
+                  y: chartInstance.chartHeight - marginY
+                });
               });
-            });
+            }
           }
         }
-      }
-    });
-
-    // Setup resize observer after chart is created
-    if (!resizeObserver) {
-      resizeObserver = new ResizeObserver(() => {
-        if (chart && browser) {
-          const newWidth = node.clientWidth;
-          const newHeight = currentConfig?.chart?.height == null
-            ? node.clientHeight
-            : currentConfig?.chart?.height;
-
-          chart?.setSize(newWidth, newHeight, false);
-        }
       });
-      resizeObserver.observe(node);
+
+      // Setup resize observer after chart is created
+      if (!resizeObserver) {
+        resizeObserver = new ResizeObserver(() => {
+          if (chart && browser) {
+            const newWidth = node.clientWidth;
+            const newHeight = currentConfig?.chart?.height == null
+              ? node.clientHeight
+              : currentConfig?.chart?.height;
+
+            chart?.setSize(newWidth, newHeight, false);
+          }
+        });
+        resizeObserver.observe(node);
+      }
+    } finally {
+      isCreating = false;
     }
 
-    isCreating = false;
+    // If config changed while chart creation was in-flight, apply the latest one now.
+    if (pendingConfig) {
+      const queuedConfig = pendingConfig;
+      pendingConfig = null;
+
+      if (chart) {
+        const chartType = queuedConfig?.chart?.type;
+        if (chartType === 'gauge' || chartType === 'solidgauge') {
+          createChart(queuedConfig);
+        } else {
+          chart.update(queuedConfig, false, false);
+          chart.redraw(false);
+        }
+      } else {
+        createChart(queuedConfig);
+      }
+    }
   };
 
   // Create chart if config exists
@@ -135,6 +166,10 @@ export default (node: HTMLElement, config: any) => {
     update(newConfig: any) {
       currentConfig = newConfig;
       if (!newConfig) return;
+      if (isCreating) {
+        pendingConfig = newConfig;
+        return;
+      }
 
       if (chart) {
         const chartType = newConfig?.chart?.type;

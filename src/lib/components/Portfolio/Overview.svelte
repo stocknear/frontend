@@ -446,39 +446,64 @@
                 spacing: [20, 20, 20, 20],
                 animation: false,
                 events: {
-                    load: function () {
-                        const chart = this;
-                        const [cx, cy] = chart.series[0].center;
+                    render: function () {
+                        const chart: any = this;
+                        const center = chart?.series?.[0]?.center;
+                        if (!Array.isArray(center) || center.length < 2) {
+                            return;
+                        }
+                        const [cx, cy] = center;
 
-                        // Add center score value
+                        const seriesValues = chart?.series?.[0]?.yData || [];
+                        const values =
+                            Array.isArray(seriesValues) &&
+                            seriesValues.length > 0
+                                ? seriesValues
+                                : healthScores.values;
                         const avgScore =
-                            healthScores.values.reduce((a, b) => a + b, 0) /
-                            healthScores.values.length;
-                        chart.renderer
-                            .text(Math.round(avgScore).toString(), cx, cy + 5)
-                            .attr({
-                                zIndex: 5,
-                                "text-anchor": "middle",
-                            })
-                            .css({
-                                fontSize: "28px",
-                                fontWeight: "700",
-                                fill: "#c4af25",
-                            })
-                            .add();
+                            values.reduce((a, b) => a + b, 0) / values.length;
 
-                        chart.renderer
-                            .text(portfolio_overview_overall(), cx, cy + 22)
-                            .attr({
-                                zIndex: 5,
-                                "text-anchor": "middle",
-                            })
-                            .css({
-                                fontSize: "11px",
-                                fontWeight: "500",
-                                fill: "#9CA3AF",
-                            })
-                            .add();
+                        if (!chart.centerScoreText) {
+                            chart.centerScoreText = chart.renderer
+                                .text("", cx, cy + 5)
+                                .attr({
+                                    zIndex: 5,
+                                    "text-anchor": "middle",
+                                })
+                                .css({
+                                    fontSize: "28px",
+                                    fontWeight: "700",
+                                    fill: "#c4af25",
+                                })
+                                .add();
+                        }
+
+                        chart.centerScoreText.attr({
+                            x: cx,
+                            y: cy + 5,
+                            text: Math.round(avgScore).toString(),
+                        });
+
+                        if (!chart.centerScoreLabel) {
+                            chart.centerScoreLabel = chart.renderer
+                                .text(portfolio_overview_overall(), cx, cy + 22)
+                                .attr({
+                                    zIndex: 5,
+                                    "text-anchor": "middle",
+                                })
+                                .css({
+                                    fontSize: "11px",
+                                    fontWeight: "500",
+                                    fill: "#9CA3AF",
+                                })
+                                .add();
+                        }
+
+                        chart.centerScoreLabel.attr({
+                            x: cx,
+                            y: cy + 22,
+                            text: portfolio_overview_overall(),
+                        });
                     },
                 },
             },
@@ -563,7 +588,11 @@
                 },
                 useHTML: true,
                 formatter: function () {
-                    const category = this.x;
+                    const categories = this.series?.xAxis?.categories || [];
+                    const category =
+                        this.point?.category ||
+                        categories?.[this.point?.x ?? this.x] ||
+                        String(this.x);
                     const value = this.y;
                     let color = "#10B981"; // green
                     if (value < 40)
@@ -646,7 +675,13 @@
         }
     }
 
-    buildRadar();
+    // Rebuild radar config on client whenever inputs affecting chart rendering change.
+    $: if (typeof window !== "undefined") {
+        healthScores;
+        $screenWidth;
+        $mode;
+        buildRadar();
+    }
 </script>
 
 <!-- Page -->

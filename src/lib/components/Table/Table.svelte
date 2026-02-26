@@ -626,29 +626,53 @@
     if (!row) return;
 
     const incoming = value === null ? null : value;
-    const currentValue = row[key];
+    const targetIdentifier = getRowIdentifier(row, 0);
+    let hasChanges = false;
 
-    if (currentValue === incoming) {
-      return;
+    const syncDataset = (
+      dataset: DataRow[] | undefined,
+    ): DataRow[] | undefined => {
+      if (!Array?.isArray(dataset) || dataset?.length === 0) {
+        return dataset;
+      }
+
+      let datasetChanged = false;
+      const nextDataset = dataset?.map((item, index) => {
+        const isTargetRow =
+          item === row || getRowIdentifier(item, index) === targetIdentifier;
+
+        if (!isTargetRow) return item;
+        if (item?.[key] === incoming) return item;
+
+        datasetChanged = true;
+        return { ...item, [key]: incoming };
+      });
+
+      if (datasetChanged) {
+        hasChanges = true;
+        return nextDataset;
+      }
+
+      return dataset;
+    };
+
+    originalData = syncDataset(originalData);
+    rawData = syncDataset(rawData);
+    stockList = syncDataset(stockList);
+    initialRawData = syncDataset(initialRawData);
+
+    if (!hasChanges && row?.[key] !== incoming) {
+      row[key] = incoming;
+      hasChanges = true;
     }
 
-    row[key] = incoming;
+    if (!hasChanges) {
+      return;
+    }
 
     // Recalculate derived portfolio metrics when avgPrice or shares are edited
     if (key === "avgPrice" || key === "shares") {
       recalculatePortfolioMetrics(row);
-    }
-
-    if (Array.isArray(rawData)) {
-      rawData = [...rawData];
-    }
-
-    if (Array.isArray(originalData)) {
-      originalData = [...originalData];
-    }
-
-    if (Array.isArray(stockList)) {
-      stockList = [...stockList];
     }
   }
 
@@ -1057,40 +1081,54 @@
   // Handle portfolio worker messages
   const handlePortfolioMessage = (event) => {
     if (event.data?.message === "success" && event.data?.data) {
-      const calculatedData = event.data.data;
+      const calculatedData = Array?.isArray(event.data.data)
+        ? event.data.data
+        : [];
 
-      // Update originalData with calculated metrics
-      originalData = calculatedData.map((calcItem) => {
-        const existingItem = originalData.find(
-          (item) => item.symbol === calcItem.symbol,
-        );
-        return existingItem ? { ...existingItem, ...calcItem } : calcItem;
-      });
+      if (calculatedData.length === 0) return;
 
-      // Update rawData if it's in use
-      if (Array.isArray(rawData) && rawData.length > 0) {
+      const calculatedBySymbol = new Map(
+        calculatedData
+          .filter((item) => typeof item?.symbol === "string")
+          .map((item) => [item.symbol, item]),
+      );
+
+      if (Array?.isArray(originalData) && originalData.length > 0) {
+        originalData = originalData.map((item) => {
+          const symbol = item?.symbol;
+          if (typeof symbol !== "string") return item;
+          const calcItem = calculatedBySymbol.get(symbol);
+          return calcItem ? { ...item, ...calcItem } : item;
+        });
+      } else {
+        originalData = [...calculatedData];
+      }
+
+      const originalBySymbol = new Map(
+        (originalData ?? [])
+          .filter((item) => typeof item?.symbol === "string")
+          .map((item) => [item.symbol, item]),
+      );
+
+      if (Array?.isArray(rawData) && rawData.length > 0) {
         rawData = rawData.map((item) => {
-          const calcItem = calculatedData.find(
-            (calc) => calc.symbol === item.symbol,
-          );
-          return calcItem ? { ...item, ...calcItem } : item;
+          const symbol = item?.symbol;
+          if (typeof symbol !== "string") return item;
+          return originalBySymbol.get(symbol) ?? item;
+        });
+      } else {
+        rawData = [...originalData];
+      }
+
+      if (Array?.isArray(initialRawData) && initialRawData.length > 0) {
+        initialRawData = initialRawData.map((item) => {
+          const symbol = item?.symbol;
+          if (typeof symbol !== "string") return item;
+          return originalBySymbol.get(symbol) ?? item;
         });
       }
 
-      // Update stockList for display
-      if (Array.isArray(stockList) && stockList.length > 0) {
-        stockList = stockList.map((item) => {
-          const calcItem = calculatedData.find(
-            (calc) => calc.symbol === item.symbol,
-          );
-          return calcItem ? { ...item, ...calcItem } : item;
-        });
-      }
-
-      // Force reactivity
-      originalData = [...originalData];
-      if (Array.isArray(rawData)) rawData = [...rawData];
-      if (Array.isArray(stockList)) stockList = [...stockList];
+      updatePaginatedData();
     }
   };
 

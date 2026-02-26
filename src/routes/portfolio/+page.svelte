@@ -1227,7 +1227,7 @@
             </div>
           {:else}
             <!--Start Table of Watchlist-->
-            {#key portfolio}
+            {#key displayPortfolio?.id || "portfolio"}
               <Overview {data} portfolioData={portfolio} />
 
               {#if portfolio?.length > 0}
