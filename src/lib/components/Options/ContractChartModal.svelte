@@ -159,17 +159,18 @@
         },
       ];
     } else if (selectGraphType === "Vol/OI") {
+      // Split pane: price top, vol/oi bottom
       series = [
         {
           name: "Option Price",
           type: "spline",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
-            item?.mark,
+            item?.close ?? item?.mark,
           ]),
-          color: "#ff2f1f",
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
-          lineWidth: 1.3,
+          lineWidth: 2,
           animation: false,
           marker: { enabled: false },
         },
@@ -180,7 +181,7 @@
             new Date(item.date).getTime(),
             item.volume,
           ]),
-          color: "#FD8789",
+          color: "rgba(253, 135, 137, 0.6)",
           borderColor: "#FD8789",
           borderRadius: "1px",
           yAxis: 0,
@@ -188,16 +189,16 @@
         },
         {
           name: "OI",
-          type: "column",
+          type: "spline",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
             item.open_interest,
           ]),
           color: "#33ABA0",
-          borderColor: "#33ABA0",
-          borderRadius: "1px",
-          yAxis: 0,
+          yAxis: 1,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
         },
       ];
     } else if (selectGraphType === "IV") {
@@ -231,12 +232,62 @@
     }
 
     const modalBg = $mode === "light" ? "#fff" : "#18181b";
+    const gridColor = $mode === "light" ? "#e5e7eb" : "#111827";
+    const labelColor = $mode === "light" ? "#545454" : "white";
+    const isVolOi = selectGraphType === "Vol/OI";
+
+    const defaultYAxis = [
+      {
+        gridLineWidth: 1,
+        gridLineColor: gridColor,
+        labels: { style: { color: labelColor } },
+        title: { text: null },
+        opposite: true,
+      },
+      { title: { text: null }, gridLineWidth: 0, labels: { enabled: false } },
+      { title: { text: null }, gridLineWidth: 0, labels: { enabled: false } },
+    ];
+
+    const volOiYAxis = [
+      {
+        // yAxis 0 — Volume columns (bottom pane)
+        gridLineWidth: 1,
+        gridLineColor: gridColor,
+        labels: { style: { color: labelColor } },
+        title: { text: null },
+        opposite: true,
+        top: "65%",
+        height: "35%",
+        offset: 0,
+      },
+      {
+        // yAxis 1 — OI line (bottom pane, own scale)
+        gridLineWidth: 0,
+        labels: { enabled: false },
+        title: { text: null },
+        top: "65%",
+        height: "35%",
+        offset: 0,
+      },
+      {
+        // yAxis 2 — Price line (top pane)
+        gridLineWidth: 1,
+        gridLineColor: gridColor,
+        labels: { style: { color: labelColor } },
+        title: { text: null },
+        opposite: true,
+        height: "60%",
+        offset: 0,
+      },
+    ];
+
+    const baseHeight = $screenWidth < 640 ? 240 : 360;
 
     return {
       chart: {
         backgroundColor: modalBg,
         animation: false,
-        height: $screenWidth < 640 ? 240 : 360,
+        height: isVolOi ? baseHeight + 60 : baseHeight,
       },
       credits: { enabled: false },
       title: { text: "" },
@@ -268,7 +319,7 @@
           dashStyle: "Solid",
         },
         labels: {
-          style: { color: $mode === "light" ? "#545454" : "white" },
+          style: { color: labelColor },
           distance: 20,
           formatter: function () {
             return new Date(this.value).toLocaleDateString("en-US", {
@@ -292,27 +343,7 @@
           return positions;
         },
       },
-      yAxis: [
-        {
-          gridLineWidth: 1,
-          gridLineColor: $mode === "light" ? "#e5e7eb" : "#111827",
-          labels: {
-            style: { color: $mode === "light" ? "#545454" : "white" },
-          },
-          title: { text: null },
-          opposite: true,
-        },
-        {
-          title: { text: null },
-          gridLineWidth: 0,
-          labels: { enabled: false },
-        },
-        {
-          title: { text: null },
-          gridLineWidth: 0,
-          labels: { enabled: false },
-        },
-      ],
+      yAxis: isVolOi ? volOiYAxis : defaultYAxis,
       tooltip: {
         shared: true,
         useHTML: true,
