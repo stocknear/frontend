@@ -594,10 +594,12 @@
         <!-- Chart -->
         <div class="px-4 sm:px-6 py-4">
           {#if chartConfig}
-            <div
-              use:highcharts={chartConfig}
-              class="rounded-2xl border border-gray-300 dark:border-zinc-700"
-            ></div>
+            {#key selectGraphType}
+              <div
+                use:highcharts={chartConfig}
+                class="rounded-2xl border border-gray-300 dark:border-zinc-700"
+              ></div>
+            {/key}
           {:else}
             <div
               class="flex items-center justify-center rounded-2xl border border-gray-300 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 text-sm"

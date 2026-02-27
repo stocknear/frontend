@@ -1769,17 +1769,19 @@
                 </div>
               </div>
               {#if config}
-                <div>
-                  <div class="grow pt-3">
-                    <div class="relative">
-                      <!-- Apply the blur class to the chart -->
-                      <div
-                        class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
-                        use:highcharts={config}
-                      ></div>
+                {#key selectGraphType}
+                  <div>
+                    <div class="grow pt-3">
+                      <div class="relative">
+                        <!-- Apply the blur class to the chart -->
+                        <div
+                          class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                          use:highcharts={config}
+                        ></div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                {/key}
               {/if}
             </div>
 
