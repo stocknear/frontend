@@ -23,6 +23,9 @@ export const load = async ({ locals, url }) => {
 
   const getOptionsWatchlist = async () => {
     let output;
+    if (!user?.id || user?.tier !== "Pro") {
+      return { data: [] };
+    }
     try {
       output = (
         await pb?.collection("optionsWatchlist").getFullList({
@@ -30,10 +33,16 @@ export const load = async ({ locals, url }) => {
         })
       )?.at(0);
       if (output === undefined) {
-        output = { optionsId: [] };
+        output = { data: [] };
+      } else {
+        // Ensure data field exists (handle legacy records with optionsId)
+        if (!output.data && output.optionsId) {
+          output.data = output.optionsId.map((id: string) => ({ id }));
+        }
+        output.data = output.data ?? [];
       }
     } catch (e) {
-      output = { optionsId: [] };
+      output = { data: [] };
     }
     return output;
   };

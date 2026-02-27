@@ -21,6 +21,7 @@
     { key: "time", label: "Time", align: "left" },
     { key: "ticker", label: "Symbol", align: "left" },
     { key: "insight", label: "", align: "center" },
+    { key: "bookmark", label: "", align: "center" },
     { key: "expiry", label: "Expiry", align: "right" },
     { key: "dte", label: "DTE", align: "right" },
     { key: "strike", label: "Strike", align: "right" },
@@ -203,8 +204,15 @@
 
   // Internal sorted data that we control
   let sortedDisplayData = [];
-  //  let animationClass = "";
-  //  let animationId = "";
+  let animationClass = "";
+  let animationId = "";
+
+  // Reactive set of bookmarked trade IDs for O(1) lookup
+  $: bookmarkedIds = new Set(
+    (Array.isArray(optionsWatchlist?.data) ? optionsWatchlist.data : []).map(
+      (d) => d?.id,
+    ),
+  );
 
   // Load column order on mount
   onMount(() => {
@@ -241,65 +249,78 @@
       dateString.substring(2, 4)
     );
   }
-  /*
-  async function addToWatchlist(itemId) {
-    if (data?.user?.tier === "Pro") {
-      try {
-        const postData = {
-          itemIdList: [itemId],
-          id: optionsWatchlist?.id,
-        };
-
-        if (optionsWatchlist?.optionsId?.includes(itemId)) {
-          // Remove ticker from the watchlist.
-          optionsWatchlist.optionsId = optionsWatchlist?.optionsId.filter(
-            (item) => item !== itemId,
-          );
-        } else {
-          // Add ticker to the watchlist.
-          animationId = itemId;
-          animationClass = "heartbeat";
-          const removeAnimation = () => {
-            animationId = "";
-            animationClass = "";
-          };
-          optionsWatchlist.optionsId = [...optionsWatchlist?.optionsId, itemId];
-          const heartbeatElement = document.getElementById(itemId);
-          if (heartbeatElement) {
-            // Only add listener if it's not already present
-            if (!heartbeatElement.classList.contains("animation-added")) {
-              heartbeatElement.addEventListener(
-                "animationend",
-                removeAnimation,
-              );
-              heartbeatElement.classList.add("animation-added"); // Prevent re-adding listener
-            }
-          }
-        }
-
-        const response = await fetch("/api/update-options-watchlist", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
-        });
-
-        optionsWatchlist.id = await response.json();
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
-        // Handle the error appropriately (e.g., show an error message to the user)
-      }
-    } else {
+  async function addToWatchlist(item) {
+    if (data?.user?.tier !== "Pro") {
       toast.error("Unlock this feature with Pro Subscription", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
+    if (!item?.id) return;
+
+    const currentData = Array.isArray(optionsWatchlist?.data)
+      ? optionsWatchlist.data
+      : [];
+    const isBookmarked = currentData.some((d) => d?.id === item.id);
+
+    // Optimistic update
+    if (isBookmarked) {
+      optionsWatchlist.data = currentData.filter((d) => d?.id !== item.id);
+    } else {
+      animationId = item.id;
+      animationClass = "heartbeat";
+      const removeAnimation = () => {
+        animationId = "";
+        animationClass = "";
+      };
+      optionsWatchlist.data = [...currentData, { id: item.id }];
+      // Schedule animation cleanup
+      setTimeout(() => {
+        const el = document.getElementById("bookmark-" + item.id);
+        if (el) {
+          el.addEventListener("animationend", removeAnimation, { once: true });
+        } else {
+          removeAnimation();
+        }
+      }, 0);
+    }
+
+    // Trigger Svelte reactivity for bookmarkedIds
+    optionsWatchlist = optionsWatchlist;
+
+    try {
+      const response = await fetch("/api/update-options-watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          item,
+          id: optionsWatchlist?.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update watchlist");
+      }
+
+      const result = await response.json();
+      // Update the watchlist ID (important for first-time creation)
+      if (result?.watchlistId) {
+        optionsWatchlist.id = result.watchlistId;
+      }
+    } catch (error) {
+      // Revert optimistic update on failure
+      if (isBookmarked) {
+        optionsWatchlist.data = currentData;
+      } else {
+        optionsWatchlist.data = currentData;
+      }
+      optionsWatchlist = optionsWatchlist;
+      toast.error("Failed to update watchlist", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }
   }
-    */
 
   async function optionsInsight(optionsData: any) {
     insightError = "";
@@ -975,7 +996,7 @@ ${insightData.traderTakeaway}
             on:dragleave={handleDragLeave}
             on:drop={(e) => handleDrop(e, i)}
             on:dragend={handleDragEnd}
-            on:click={() => column.key !== "insight" && sortData(column.key)}
+            on:click={() => column.key !== "insight" && column.key !== "bookmark" && sortData(column.key)}
             class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
               {dragOverColumnIndex === i && draggedColumnIndex !== i
               ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
@@ -983,7 +1004,7 @@ ${insightData.traderTakeaway}
           >
             <span class="inline-flex items-center gap-1 justify-center">
               {column.label}
-              {#if column.key !== "insight"}
+              {#if column.key !== "insight" && column.key !== "bookmark"}
                 <svg
                   class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
                     ? 'rotate-180 inline-block'
@@ -1049,6 +1070,27 @@ ${insightData.traderTakeaway}
                   <Spark
                     class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   />
+                </td>
+              {:else if column.key === "bookmark"}
+                <td
+                  class="text-center whitespace-nowrap"
+                >
+                  <div
+                    id="bookmark-{item?.id}"
+                    on:click|stopPropagation={() => addToWatchlist(item)}
+                    class="text-center transition hover:text-amber-500 dark:hover:text-amber-400 {bookmarkedIds.has(item?.id)
+                      ? 'text-amber-500 dark:text-amber-400'
+                      : 'text-gray-400 dark:text-zinc-300'}"
+                  >
+                    <svg
+                      class="{animationId === item?.id ? animationClass : ''} w-5 h-5 inline-block cursor-pointer shrink-0"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      ><path
+                        fill="currentColor"
+                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                      /></svg>
+                  </div>
                 </td>
               {:else if column.key === "expiry"}
                 <td class="text-end text-sm whitespace-nowrap">
