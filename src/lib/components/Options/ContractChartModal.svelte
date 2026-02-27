@@ -318,6 +318,27 @@
           width: 1,
           dashStyle: "Solid",
         },
+        plotLines: item?.date
+          ? [
+              {
+                value: new Date(item.date + "T00:00:00Z").getTime(),
+                color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+                width: 1.5,
+                dashStyle: "Dash",
+                zIndex: 5,
+                label: {
+                  text: "Trade",
+                  style: {
+                    color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+                    fontSize: "11px",
+                    fontWeight: "600",
+                  },
+                  rotation: 0,
+                  y: 12,
+                },
+              },
+            ]
+          : [],
         labels: {
           style: { color: labelColor },
           distance: 20,
