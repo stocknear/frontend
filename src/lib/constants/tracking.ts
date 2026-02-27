@@ -12,4 +12,5 @@ export const PURCHASE_VALUES = {
   plus_annual: 60,
   pro_monthly: 45,
   pro_annual: 180,
+  pro_lifetime: 449,
 } as const;

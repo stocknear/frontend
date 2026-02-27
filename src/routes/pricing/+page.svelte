@@ -186,6 +186,8 @@
             ? annual
               ? PURCHASE_VALUES.plus_annual
               : PURCHASE_VALUES.plus_monthly
+            : sub === "lifetime"
+              ? PURCHASE_VALUES.pro_lifetime
             : 0;
       if (purchaseValue > 0) {
         document.cookie = `${PURCHASE_COOKIE}=${purchaseValue}; path=/; max-age=3600; SameSite=Lax`;
@@ -2069,6 +2071,53 @@
                   d="M9 5l7 7-7 7"
                 ></path></svg
               >
+            </label>
+          {/if}
+
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="mt-8 rounded-2xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6"
+    >
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <span
+            class="inline-flex items-center rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-700 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-white shadow-lg shadow-indigo-900/25"
+          >
+            Limited-time Pro Lifetime · Expires Soon
+          </span>
+          <h3 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight">
+            Lock Pro for a one-time payment.
+          </h3>
+          <p class="mt-2 text-sm text-gray-700 dark:text-zinc-300">
+            Everything in Pro, one payment, never charged again.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.82)] p-4 sm:p-5 min-w-[240px]">
+          <div class="flex items-end justify-center gap-2">
+            <span class="text-base text-gray-500 dark:text-zinc-400 line-through">$599</span>
+            <span class="text-3xl font-semibold">$449</span>
+          </div>
+          <p class="mt-1 text-center text-xs uppercase tracking-[0.14em] text-gray-500 dark:text-zinc-400">
+            One-time only
+          </p>
+
+          {#if data?.user?.lifetime}
+            <div
+              class="mt-3 w-full py-2.5 px-4 rounded-full border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.75)] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+            >
+              Lifetime active
+            </div>
+          {:else}
+            <label
+              for={!data?.user ? "userLogin" : ""}
+              on:click={() => data?.user && purchasePlan("lifetime")}
+              class="mt-3 cursor-pointer w-full py-2.5 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white flex items-center justify-center"
+            >
+              Get Lifetime
             </label>
           {/if}
         </div>
