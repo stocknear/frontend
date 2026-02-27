@@ -2104,7 +2104,7 @@
         </div>
       </div>
     </div>
-
+    <!--
     {#if !data?.user?.lifetime}
       <div
         class="mt-8 rounded-2xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6"
@@ -2128,9 +2128,7 @@
             </p>
           </div>
 
-          <div
-            class="rounded-xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.82)] p-4 sm:p-5 min-w-[240px]"
-          >
+          <div class="">
             <div class="flex items-end justify-center gap-2">
               <span
                 class="text-base text-gray-500 dark:text-zinc-400 line-through"
@@ -2149,6 +2147,7 @@
         </div>
       </div>
     {/if}
+    -->
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div
