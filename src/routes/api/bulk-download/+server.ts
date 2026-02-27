@@ -4,8 +4,8 @@ import type { RequestHandler } from "./$types";
 const BULK_DOWNLOAD_CREDIT_COSTS: Record<string, number> = {
   "Stock Price": 1,
   "Dividends": 1,
-  "Options": 3,
-  "Dark Pool": 2,
+  "Options": 1,
+  "Dark Pool": 1,
 };
 
 export const POST: RequestHandler = async ({ request, locals }) => {

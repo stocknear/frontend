@@ -2313,6 +2313,26 @@
   // Generate columns and sortOrders
   let columns = generateColumns(rawData);
   let sortOrders = generateSortOrders(rawData);
+  let exportColumnKeys: string[] = [];
+  let exportViewData: Array<Record<string, unknown>> = [];
+
+  $: exportColumnKeys =
+    columns
+      ?.map((column) => column?.key)
+      ?.filter(
+        (key): key is string =>
+          typeof key === "string" && key.length > 0 && key !== "hasNote",
+      ) ?? [];
+
+  $: exportViewData = Array.isArray(rawData)
+    ? rawData.map((row) => {
+        const exportRow: Record<string, unknown> = {};
+        for (const key of exportColumnKeys) {
+          exportRow[key] = row?.[key];
+        }
+        return exportRow;
+      })
+    : [];
 
   // Column reordering state and functions
   let customColumnOrder: string[] = [];
@@ -2639,7 +2659,7 @@
     >
       <DownloadData
         {data}
-        {rawData}
+        rawData={exportViewData}
         title={data?.getParams ?? "data"}
         {bulkDownload}
       />

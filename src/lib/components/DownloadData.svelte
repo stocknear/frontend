@@ -74,8 +74,6 @@
 
     toast.promise(
       (async () => {
-        data.user.credits = data.user.credits - totalCreditCost;
-
         const response = await fetch("/api/download-checker", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -109,28 +107,34 @@
     );
   };
 
-  const generateCSVContent = (dataset: any[]) => {
-    const csvRows: string[] = [];
+  const normalizeExportRows = (dataset: any[]) => {
+    const normalizedRows = [];
 
-    // Expand symbolList arrays into individual rows
-    const expandedData = [];
+    // Expand symbolList arrays into individual rows and remove UI-only fields.
     for (const row of dataset) {
       if (row.symbolList && Array.isArray(row.symbolList)) {
-        // Create a row for each symbol in symbolList
         for (const symbol of row.symbolList) {
-          const newRow = { ...row };
+          const newRow = { ...row, symbol };
           delete newRow.symbolList;
-          newRow.symbol = symbol;
-          expandedData.push(newRow);
+          delete newRow.hasNote;
+          normalizedRows.push(newRow);
         }
       } else {
-        // Keep row as-is if no symbolList
-        expandedData.push(row);
+        const newRow = { ...row };
+        delete newRow.hasNote;
+        normalizedRows.push(newRow);
       }
     }
 
+    return normalizedRows;
+  };
+
+  const generateCSVContent = (dataset: any[]) => {
+    const csvRows: string[] = [];
+    const normalizedRows = normalizeExportRows(dataset);
+
     // Clean data first
-    const cleanedData = expandedData.map((row) => {
+    const cleanedData = normalizedRows.map((row) => {
       const cleanedRow = { ...row };
       if (cleanedRow["name"]) {
         cleanedRow["name"] = cleanedRow["name"].replace(/,/g, "");
@@ -179,25 +183,8 @@
 
   const exportExcel = async (dataset: any[]) => {
     const { utils, writeFile } = await import("xlsx");
-
-    // Expand symbolList arrays into individual rows
-    const expandedData = [];
-    for (const row of dataset) {
-      if (row.symbolList && Array.isArray(row.symbolList)) {
-        // Create a row for each symbol in symbolList
-        for (const symbol of row.symbolList) {
-          const newRow = { ...row };
-          delete newRow.symbolList;
-          newRow.symbol = symbol;
-          expandedData.push(newRow);
-        }
-      } else {
-        // Keep row as-is if no symbolList
-        expandedData.push(row);
-      }
-    }
-
-    const worksheet = utils.json_to_sheet(expandedData);
+    const normalizedRows = normalizeExportRows(dataset);
+    const worksheet = utils.json_to_sheet(normalizedRows);
     const workbook = utils.book_new();
     utils.book_append_sheet(workbook, worksheet, "Sheet1");
     writeFile(workbook, `${title}.xlsx`);
@@ -217,16 +204,17 @@
     {
       name: "Options",
       selected: true,
-      credit: 3,
+      credit: 1,
     },
     {
       name: "Dark Pool",
       selected: true,
-      credit: 2,
+      credit: 1,
     },
   ];
 
   let totalCreditCost = 0;
+  let showBulkOptions = false;
 
   async function handleBulkDownload() {
     const dataset = await ensureDownloadData();
@@ -289,7 +277,7 @@
   }
 
   $: {
-    if (bulkData) {
+    if (bulkDownload && bulkData) {
       const tickers = rawData?.map((item) => item?.symbol); // example tickers
 
       totalCreditCost =
@@ -297,51 +285,76 @@
         bulkData?.reduce((sum, item) => {
           return item.selected ? sum + item.credit : sum;
         }, 0);
+    } else {
+      totalCreditCost = 0;
     }
   }
 </script>
 
 <div class="flex flex-row items-center space-x-2 w-full">
-  {#if bulkDownload}
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild let:builder>
-        <Button
-          builders={[builder]}
-          class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
-        >
-          <span class="truncate text-[0.85rem] sm:text-sm"
-            >{common_bulk_download()}</span
-          >
-          <svg
-            class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            style="max-width:40px"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </Button>
-      </DropdownMenu.Trigger>
-
-      <DropdownMenu.Content
-        side="bottom"
-        align="end"
-        sideOffset={10}
-        alignOffset={0}
-        class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+  <DropdownMenu.Root>
+    <DropdownMenu.Trigger asChild let:builder>
+      <Button
+        builders={[builder]}
+        on:click={() => (showBulkOptions = false)}
+        class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
       >
+        <span class="truncate text-[0.85rem] sm:text-sm">
+          {common_download()}
+        </span>
+        <svg
+          class="-mr-1 ml-1 h-5 w-5 inline-block"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </Button>
+    </DropdownMenu.Trigger>
+
+    <DropdownMenu.Content
+      side="bottom"
+      align="end"
+      sideOffset={10}
+      alignOffset={0}
+      class="{showBulkOptions && bulkDownload
+        ? 'w-auto min-w-64 max-w-80'
+        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+    >
+      {#if showBulkOptions && bulkDownload}
         <DropdownMenu.Label
           class="text-gray-500 dark:text-zinc-400 font-semibold dark:font-normal text-xs"
         >
           {common_credits_left({ count: data?.user?.credits })}
         </DropdownMenu.Label>
-        <!-- Dropdown items -->
         <DropdownMenu.Group class="pb-2">
+          <div class="w-full p-1 flex items-stretch gap-1">
+            <button
+              type="button"
+              on:click|capture={(event) => {
+                event.preventDefault();
+                showBulkOptions = false;
+              }}
+              class="aspect-square flex items-center cursor-pointer"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="m15 18-6-6 6-6"></path></svg
+              >
+            </button>
+          </div>
+
           {#each bulkData as item}
             <DropdownMenu.Item
               class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
@@ -375,6 +388,7 @@
             </DropdownMenu.Item>
           {/each}
         </DropdownMenu.Group>
+
         <div
           class="sticky -bottom-1 bg-white/90 dark:bg-zinc-950/90 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
         >
@@ -390,40 +404,7 @@
             {common_bulk_download()}
           </button>
         </div>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
-  {:else}
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild let:builder>
-        <Button
-          builders={[builder]}
-          class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
-        >
-          <span class="truncate text-[0.85rem] sm:text-sm">
-            {common_download()}
-          </span>
-          <svg
-            class="-mr-1 ml-1 h-5 w-5 inline-block"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </Button>
-      </DropdownMenu.Trigger>
-
-      <DropdownMenu.Content
-        side="bottom"
-        align="end"
-        sideOffset={10}
-        alignOffset={0}
-        class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
-      >
+      {:else}
         <DropdownMenu.Group>
           <DropdownMenu.Item
             on:click={() => download("csv")}
@@ -468,8 +449,35 @@
               </svg>
             {/if}
           </DropdownMenu.Item>
+
+          {#if bulkDownload}
+            <DropdownMenu.Item
+              on:click={(event) => {
+                event.preventDefault();
+                showBulkOptions = true;
+              }}
+              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+            >
+              <div class="flex flex-row items-center w-full">
+                <span>{common_bulk_download()}</span>
+                <svg
+                  class="ml-auto h-5 w-5 inline-block rotate-270"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  style="max-width:40px"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+            </DropdownMenu.Item>
+          {/if}
         </DropdownMenu.Group>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
-  {/if}
+      {/if}
+    </DropdownMenu.Content>
+  </DropdownMenu.Root>
 </div>
