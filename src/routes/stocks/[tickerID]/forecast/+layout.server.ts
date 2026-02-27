@@ -17,7 +17,7 @@ export const load = async ({ locals, params }) => {
         "/analyst-insight",
         "/top-analyst-summary-rating"
       ],
-      lang: locale ?? 'en'
+      lang: "en" //locale ?? 'en'
     });
 
     // Process analyst ticker history: if user isn't Pro, limit to 6 items
