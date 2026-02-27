@@ -318,47 +318,29 @@
       selectedTimePeriod,
     );
 
-    // Filter out items where OHLC values are <= 0
+    // Filter out items where price values are <= 0
     const filteredData = timeFilteredData.filter((item) => {
-      const open = item?.open ?? item?.mark;
-      const high =
-        item?.high ??
-        Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark);
-      const low =
-        item?.low ??
-        Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark);
       const close = item?.close ?? item?.mark;
-      return open > 0 && high > 0 && low > 0 && close > 0;
+      return close > 0;
     });
 
     let series = [];
 
-    // Candlestick colors based on mode
-    const candlestickColors = {
-      color: $mode === "light" ? "pink" : "#FF2F1F",
-      lineColor: $mode === "light" ? "red" : "#FF2F1F",
-      upColor: $mode === "light" ? "lightgreen" : "#00FC50",
-      upLineColor: $mode === "light" ? "green" : "#00FC50",
-    };
-
     if (selectGraphType == "Price") {
-      // Price only - candlestick
+      // Price only - line chart
       series = [
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 0,
+          lineWidth: 2,
           animation: false,
+          marker: { enabled: false },
         },
       ];
     } else if (selectGraphType == "Vol/OI") {
@@ -405,23 +387,20 @@
         },
       ];
     } else if (selectGraphType === "IV") {
-      // IV with candlestick
+      // IV with price line
       series = [
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
         },
         {
           name: "IV",
@@ -458,19 +437,16 @@
         },
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
           zIndex: 1,
         },
       ];
@@ -527,19 +503,16 @@
         },
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
           zIndex: 1,
         },
       ];
@@ -609,19 +582,16 @@
         },
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
           zIndex: 1,
         },
       ];
@@ -661,19 +631,16 @@
         },
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData?.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
           zIndex: 1,
         },
       ];
@@ -710,15 +677,6 @@
           marker: { enabled: false },
           states: { hover: { enabled: false } },
           legendSymbol: "rectangle",
-        },
-        candlestick: {
-          animation: false,
-          lineWidth: 1,
-          states: { hover: { enabled: false } },
-          color: $mode === "light" ? "pink" : "#FF2F1F",
-          lineColor: $mode === "light" ? "red" : "#FF2F1F",
-          upColor: $mode === "light" ? "lightgreen" : "#00FC50",
-          upLineColor: $mode === "light" ? "green" : "#00FC50",
         },
       },
       xAxis: {
@@ -825,21 +783,14 @@
               return val?.toLocaleString("en-US");
             };
 
-            // Handle candlestick OHLC data
-            if (point.series.type === "candlestick") {
-              tooltipContent += `
-              <span class="font-semibold text-sm text-gray-300">Option Price</span><br>
-              <span class="font-normal text-sm ">Open: ${point.point.open?.toFixed(2)}</span><br>
-              <span class="font-normal text-sm ">High: ${point.point.high?.toFixed(2)}</span><br>
-              <span class="font-normal text-sm ">Low: ${point.point.low?.toFixed(2)}</span><br>
-              <span class="font-normal text-sm ">Close: ${point.point.close?.toFixed(2)}</span><br>`;
-            } else if (point.series.type !== "area") {
+            if (point.series.type !== "area") {
               // Skip area charts in tooltip (cumulative is shown differently)
               const formatted = formatValue(point?.y, point.series.name);
+              const prefix = point.series.name === "Option Price" ? "$" : "";
               tooltipContent += `
               <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
               <span class="font-normal text-sm">${point.series.name}:</span>
-              <span class="font-normal text-sm">${formatted}${suffix}</span><br>`;
+              <span class="font-normal text-sm">${prefix}${formatted}${suffix}</span><br>`;
             }
           });
 

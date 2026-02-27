@@ -18,9 +18,14 @@
   let selectedTimePeriod = "3M";
 
   const chartTypes = ["Price", "Vol/OI", "IV"];
-  const timePeriods = ["1W", "1M", "3M", "6M", "1Y"];
+  const timePeriodLabels: Record<string, string> = {
+    "1W": "1 Week",
+    "1M": "1 Month",
+    "3M": "3 Months",
+    "6M": "6 Months",
+    "1Y": "1 Year",
+  };
 
-  // Derived latest stats from history
   let latestStats: any = null;
 
   $: if (isOpen && item?.option_symbol && item?.ticker) {
@@ -129,45 +134,28 @@
     );
 
     const filteredData = timeFilteredData.filter((item) => {
-      const open = item?.open ?? item?.mark;
-      const high =
-        item?.high ??
-        Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark);
-      const low =
-        item?.low ??
-        Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark);
       const close = item?.close ?? item?.mark;
-      return open > 0 && high > 0 && low > 0 && close > 0;
+      return close > 0;
     });
 
     if (filteredData.length === 0) return null;
 
     let series: any[] = [];
 
-    const candlestickColors = {
-      color: $mode === "light" ? "pink" : "#FF2F1F",
-      lineColor: $mode === "light" ? "red" : "#FF2F1F",
-      upColor: $mode === "light" ? "lightgreen" : "#00FC50",
-      upLineColor: $mode === "light" ? "green" : "#00FC50",
-    };
-
     if (selectGraphType === "Price") {
       series = [
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 0,
+          lineWidth: 2,
           animation: false,
+          marker: { enabled: false },
         },
       ];
     } else if (selectGraphType === "Vol/OI") {
@@ -216,19 +204,16 @@
       series = [
         {
           name: "Option Price",
-          type: "candlestick",
+          type: "spline",
           data: filteredData.map((item) => [
             new Date(item.date).getTime(),
-            item?.open ?? item?.mark,
-            item?.high ??
-              Math.max(item?.open ?? item?.mark, item?.close ?? item?.mark),
-            item?.low ??
-              Math.min(item?.open ?? item?.mark, item?.close ?? item?.mark),
             item?.close ?? item?.mark,
           ]),
-          ...candlestickColors,
+          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
           yAxis: 2,
+          lineWidth: 1.5,
           animation: false,
+          marker: { enabled: false },
         },
         {
           name: "IV",
@@ -245,9 +230,11 @@
       ];
     }
 
+    const modalBg = $mode === "light" ? "#fff" : "#18181b";
+
     return {
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#18181b",
+        backgroundColor: modalBg,
         animation: false,
         height: $screenWidth < 640 ? 240 : 360,
       },
@@ -270,12 +257,6 @@
           marker: { enabled: false },
           states: { hover: { enabled: false } },
           legendSymbol: "rectangle",
-        },
-        candlestick: {
-          animation: false,
-          lineWidth: 1,
-          states: { hover: { enabled: false } },
-          ...candlestickColors,
         },
       },
       xAxis: {
@@ -366,23 +347,15 @@
             const formatValue = (val: number, name: string) => {
               if (val === null || val === undefined) return "N/A";
               if (name === "IV") return val?.toFixed(2);
+              if (name === "Option Price") return "$" + val?.toFixed(2);
               return val?.toLocaleString("en-US");
             };
 
-            if (point.series.type === "candlestick") {
-              tooltipContent += `
-              <span class="font-semibold text-sm text-gray-300">Option Price</span><br>
-              <span class="font-normal text-sm">Open: ${point.point.open?.toFixed(2)}</span><br>
-              <span class="font-normal text-sm">High: ${point.point.high?.toFixed(2)}</span><br>
-              <span class="font-normal text-sm">Low: ${point.point.low?.toFixed(2)}</span><br>
-              <span class="font-normal text-sm">Close: ${point.point.close?.toFixed(2)}</span><br>`;
-            } else {
-              const formatted = formatValue(point?.y, point.series.name);
-              tooltipContent += `
-              <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
-              <span class="font-normal text-sm">${point.series.name}:</span>
-              <span class="font-normal text-sm">${formatted}${suffix}</span><br>`;
-            }
+            const formatted = formatValue(point?.y, point.series.name);
+            tooltipContent += `
+            <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
+            <span class="font-normal text-sm">${point.series.name}:</span>
+            <span class="font-normal text-sm">${formatted}${suffix}</span><br>`;
           });
 
           return tooltipContent;
@@ -509,36 +482,112 @@
       {:else}
         <!-- Chart Controls -->
         <div
-          class="px-4 sm:px-6 pt-4 flex flex-wrap items-center justify-between gap-2"
+          class="px-4 sm:px-6 pt-4 flex flex-row items-center justify-end gap-x-3"
         >
-          <!-- Chart type buttons -->
-          <div class="flex gap-1">
-            {#each chartTypes as type}
-              <button
-                on:click={() => (selectGraphType = type)}
-                class="cursor-pointer px-3 py-1.5 text-xs sm:text-sm rounded-full border transition-colors
-                  {selectGraphType === type
-                  ? 'bg-violet-600 text-white border-violet-600'
-                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-400 dark:hover:border-violet-500'}"
+          <!-- Chart Type Dropdown -->
+          <div class="relative inline-block text-left">
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                >
+                  <span class="truncate text-xs sm:text-sm"
+                    >{selectGraphType}</span
+                  >
+                  <svg
+                    class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
-                {type}
-              </button>
-            {/each}
+                <DropdownMenu.Label
+                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                >
+                  Chart Type
+                </DropdownMenu.Label>
+                <DropdownMenu.Separator />
+                <DropdownMenu.Group>
+                  {#each chartTypes as type}
+                    <DropdownMenu.Item
+                      on:click={() => (selectGraphType = type)}
+                      class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                    >
+                      {type}
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
           </div>
 
-          <!-- Time period buttons -->
-          <div class="flex gap-1">
-            {#each timePeriods as period}
-              <button
-                on:click={() => (selectedTimePeriod = period)}
-                class="cursor-pointer px-2.5 py-1.5 text-xs sm:text-sm rounded-full border transition-colors
-                  {selectedTimePeriod === period
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-black border-gray-900 dark:border-white'
-                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-gray-500 dark:hover:border-zinc-500'}"
+          <!-- Time Period Dropdown -->
+          <div class="relative inline-block text-left">
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button
+                  builders={[builder]}
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                >
+                  <span class="truncate text-xs sm:text-sm"
+                    >{selectedTimePeriod}</span
+                  >
+                  <svg
+                    class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    style="max-width:40px"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content
+                side="bottom"
+                align="end"
+                sideOffset={10}
+                alignOffset={0}
+                class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
-                {period}
-              </button>
-            {/each}
+                <DropdownMenu.Label
+                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                >
+                  Time Period
+                </DropdownMenu.Label>
+                <DropdownMenu.Separator />
+                <DropdownMenu.Group>
+                  {#each Object.entries(timePeriodLabels) as [key, label]}
+                    <DropdownMenu.Item
+                      on:click={() => (selectedTimePeriod = key)}
+                      class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                    >
+                      {label}
+                    </DropdownMenu.Item>
+                  {/each}
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
           </div>
         </div>
 
@@ -547,11 +596,11 @@
           {#if chartConfig}
             <div
               use:highcharts={chartConfig}
-              class="rounded-xl border border-gray-200 dark:border-zinc-700/70 bg-white/70 dark:bg-zinc-950/40"
+              class="rounded-2xl border border-gray-300 dark:border-zinc-700"
             ></div>
           {:else}
             <div
-              class="flex items-center justify-center rounded-xl border border-gray-200 dark:border-zinc-700/70 bg-gray-50 dark:bg-zinc-900/50 text-gray-400 dark:text-zinc-500 text-sm"
+              class="flex items-center justify-center rounded-2xl border border-gray-300 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 text-sm"
               style="height: {$screenWidth < 640 ? 240 : 360}px"
             >
               No data for selected period
@@ -570,7 +619,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Last Price</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   ${(latestStats?.close ?? latestStats?.mark)?.toFixed(2) ??
                     "n/a"}
                 </div>
@@ -580,7 +631,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Volume</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.volume?.toLocaleString("en-US") ?? "n/a"}
                 </div>
               </div>
@@ -589,7 +642,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Open Interest</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.open_interest?.toLocaleString("en-US") ?? "n/a"}
                 </div>
               </div>
@@ -598,7 +653,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >IV</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.implied_volatility != null
                     ? (latestStats.implied_volatility * 100).toFixed(2) + "%"
                     : "n/a"}
@@ -609,7 +666,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Delta</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.delta?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -618,7 +677,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Gamma</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.gamma?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -627,7 +688,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Theta</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.theta?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -636,7 +699,9 @@
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
                   >Vega</span
                 >
-                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
                   {latestStats?.vega?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
