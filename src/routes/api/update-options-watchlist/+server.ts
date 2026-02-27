@@ -1,6 +1,8 @@
 import type { RequestHandler } from "./$types";
 import { serialize } from "object-to-formdata";
 
+const MAX_NOTE_LENGTH = 50000;
+
 const ALLOWED_FIELDS = new Set([
   "id",
   "ticker",
@@ -51,6 +53,26 @@ function parseDataArray(raw: any): any[] {
   return [];
 }
 
+function sanitizeNote(note: any): string {
+  if (typeof note !== "string") return "";
+  return note.slice(0, MAX_NOTE_LENGTH);
+}
+
+/** Strips notes from data items, returning lightweight items with hasNote flag */
+function stripNotes(data: any[]): any[] {
+  return data.map((d) => {
+    const { note, ...rest } = d;
+    return { ...rest, hasNote: Boolean(note && note.trim?.().length > 0) };
+  });
+}
+
+async function getWatchlist(pb: any, user: any) {
+  const records = await pb.collection("optionsWatchlist").getFullList({
+    filter: `user="${user.id}"`,
+  });
+  return records?.at(0);
+}
+
 export const POST: RequestHandler = async ({ request, locals }) => {
   const body = await request.json();
   const { pb, user } = locals;
@@ -63,6 +85,83 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
   }
 
+  const mode = body?.mode;
+
+  // ─── MODE: "delete" ── Bulk remove items by ID array ───
+  if (mode === "delete") {
+    const itemIds: string[] = body?.itemIds;
+    const watchlistId = body?.id;
+
+    if (!Array.isArray(itemIds) || itemIds.length === 0 || !watchlistId) {
+      return new Response(JSON.stringify({ error: "Invalid delete request" }), { status: 400 });
+    }
+
+    try {
+      const watchList = await pb.collection("optionsWatchlist").getOne(watchlistId);
+      if (watchList.user !== user.id) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+      }
+
+      const currentData = parseDataArray(watchList.data);
+      const idsToRemove = new Set(itemIds);
+      const updatedData = currentData.filter((d: any) => !idsToRemove.has(d.id));
+
+      const output = await pb
+        .collection("optionsWatchlist")
+        .update(watchlistId, { data: updatedData });
+
+      return new Response(
+        JSON.stringify({
+          watchlistId: output?.id,
+          data: stripNotes(parseDataArray(output?.data)),
+        }),
+      );
+    } catch (e) {
+      return new Response(JSON.stringify({ error: "Failed to delete items" }), { status: 500 });
+    }
+  }
+
+  // ─── MODE: "note" ── Update note for a specific item ───
+  if (mode === "note") {
+    const itemId = body?.itemId;
+    const note = sanitizeNote(body?.note);
+    const watchlistId = body?.id;
+
+    if (!itemId || !watchlistId) {
+      return new Response(JSON.stringify({ error: "Invalid note request" }), { status: 400 });
+    }
+
+    try {
+      const watchList = await pb.collection("optionsWatchlist").getOne(watchlistId);
+      if (watchList.user !== user.id) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+      }
+
+      const currentData = parseDataArray(watchList.data);
+      const itemIndex = currentData.findIndex((d: any) => d.id === itemId);
+
+      if (itemIndex === -1) {
+        return new Response(JSON.stringify({ error: "Item not found" }), { status: 404 });
+      }
+
+      currentData[itemIndex] = { ...currentData[itemIndex], note };
+
+      const output = await pb
+        .collection("optionsWatchlist")
+        .update(watchlistId, { data: currentData });
+
+      return new Response(
+        JSON.stringify({
+          watchlistId: output?.id,
+          hasNote: Boolean(note && note.trim().length > 0),
+        }),
+      );
+    } catch (e) {
+      return new Response(JSON.stringify({ error: "Failed to update note" }), { status: 500 });
+    }
+  }
+
+  // ─── DEFAULT: Toggle add/remove single item ───
   const item = body?.item;
   const watchlistId = body?.id;
 
@@ -73,10 +172,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   let output;
 
   try {
-    // Try to get existing watchlist record
     const watchList = await pb.collection("optionsWatchlist").getOne(watchlistId);
 
-    // Verify ownership
     if (watchList.user !== user.id) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
     }
@@ -87,10 +184,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     let updatedData: any[];
 
     if (existingIndex !== -1) {
-      // Remove from watchlist
       updatedData = currentData.filter((_: any, i: number) => i !== existingIndex);
     } else {
-      // Add to watchlist
       const sanitized = sanitizeItem(item);
       if (!sanitized) {
         return new Response(JSON.stringify({ error: "Invalid item data" }), { status: 400 });
@@ -102,7 +197,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       .collection("optionsWatchlist")
       .update(watchlistId, { data: updatedData });
   } catch (e) {
-    // Watchlist record doesn't exist — create one
     const sanitized = sanitizeItem(item);
     if (!sanitized) {
       return new Response(JSON.stringify({ error: "Invalid item data" }), { status: 400 });
@@ -116,7 +210,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  // Return lightweight response: record ID + list of bookmarked item IDs
   const responseData = parseDataArray(output?.data);
   const bookmarkedIds = responseData.map((d: any) => d.id).filter(Boolean);
 
