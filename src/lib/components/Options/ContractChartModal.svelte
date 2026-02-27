@@ -515,7 +515,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
@@ -568,7 +568,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-xs font-medium text-gray-500 dark:text-zinc-400"
