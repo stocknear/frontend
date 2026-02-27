@@ -39,7 +39,7 @@
       <div
         class="flex flex-col items-center -mt-2 text-center text-sm text-muted dark:text-white"
       >
-        <div class="uppercase font-semibold">New user special:</div>
+        <div class="uppercase font-semibold">Limited Special</div>
         <div>🔥 {pricing_discount_plans()}</div>
       </div>
 

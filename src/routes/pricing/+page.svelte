@@ -134,12 +134,33 @@
     }
   });
 
+  function buildCheckoutUrl(
+    checkoutTarget: string,
+    params: URLSearchParams,
+  ): string {
+    const target = checkoutTarget?.trim();
+
+    if (!target) {
+      return "";
+    }
+
+    const baseUrl =
+      target.startsWith("http://") || target.startsWith("https://")
+        ? target
+        : `https://stocknear.lemonsqueezy.com/checkout/buy/${target}`;
+
+    const separator = baseUrl.includes("?") ? "&" : "?";
+    return `${baseUrl}${separator}${params.toString()}`;
+  }
+
   async function purchasePlan(subscriptionType: string = "") {
     if (data?.user) {
-      let subId;
+      let subId = "";
 
       if (subscriptionType?.toLowerCase() === "lifetime") {
-        subId = import.meta.env.VITE_LEMON_SQUEEZY_LIFE_TIME_ACCESS_ID;
+        subId = String(
+          import.meta.env.VITE_LEMON_SQUEEZY_LIFE_TIME_ACCESS_ID ?? "",
+        ).trim();
       } else {
         const isPro = subscriptionType?.toLowerCase() === "pro";
         const isPlus = subscriptionType?.toLowerCase() === "plus";
@@ -158,21 +179,28 @@
           ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
           : "VITE_LEMON_SQUEEZY_";
 
-        subId = import.meta.env[`${prefix}${plan}`];
+        subId = String(import.meta.env[`${prefix}${plan}`] ?? "").trim();
+      }
+
+      if (!subId) {
+        return;
       }
 
       const isDarkMode =
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const checkoutUrl =
-        `https://stocknear.lemonsqueezy.com/checkout/buy/${subId}?` +
-        new URLSearchParams({
-          embed: "1",
-          dark: isDarkMode ? "1" : "0",
-          "checkout[email]": data?.user?.email,
-          "checkout[name]": data?.user?.username,
-          "checkout[custom][userId]": data?.user?.id,
-        })?.toString();
+      const checkoutParams = new URLSearchParams({
+        embed: "1",
+        dark: isDarkMode ? "1" : "0",
+        "checkout[email]": data?.user?.email,
+        "checkout[name]": data?.user?.username,
+        "checkout[custom][userId]": data?.user?.id,
+      });
+      const checkoutUrl = buildCheckoutUrl(subId, checkoutParams);
+
+      if (!checkoutUrl) {
+        return;
+      }
 
       // Store purchase value for Google Ads conversion tracking via GTM on /welcome
       const sub = subscriptionType?.toLowerCase();
@@ -188,7 +216,7 @@
               : PURCHASE_VALUES.plus_monthly
             : sub === "lifetime"
               ? PURCHASE_VALUES.pro_lifetime
-            : 0;
+              : 0;
       if (purchaseValue > 0) {
         document.cookie = `${PURCHASE_COOKIE}=${purchaseValue}; path=/; max-age=3600; SameSite=Lax`;
       }
@@ -2073,45 +2101,43 @@
               >
             </label>
           {/if}
-
         </div>
       </div>
     </div>
 
-    <div
-      class="mt-8 rounded-2xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6"
-    >
-      <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <span
-            class="inline-flex items-center rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-700 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider text-white shadow-lg shadow-indigo-900/25"
-          >
-            Limited-time Pro Lifetime · Expires Soon
-          </span>
-          <h3 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight">
-            Lock Pro for a one-time payment.
-          </h3>
-          <p class="mt-2 text-sm text-gray-700 dark:text-zinc-300">
-            Everything in Pro, one payment, never charged again.
-          </p>
-        </div>
-
-        <div class="rounded-xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.82)] p-4 sm:p-5 min-w-[240px]">
-          <div class="flex items-end justify-center gap-2">
-            <span class="text-base text-gray-500 dark:text-zinc-400 line-through">$599</span>
-            <span class="text-3xl font-semibold">$449</span>
-          </div>
-          <p class="mt-1 text-center text-xs uppercase tracking-[0.14em] text-gray-500 dark:text-zinc-400">
-            One-time only
-          </p>
-
-          {#if data?.user?.lifetime}
-            <div
-              class="mt-3 w-full py-2.5 px-4 rounded-full border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.75)] font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+    {#if !data?.user?.lifetime}
+      <div
+        class="mt-8 rounded-2xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6"
+      >
+        <div
+          class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
+        >
+          <div>
+            <span
+              class="inline-flex items-center rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-700 px-4 py-1.5 text-xs sm:text-sm font-bold uppercase text-white shadow-lg shadow-indigo-900/25"
             >
-              Lifetime active
+              Limited-time Pro Lifetime · Expires Soon
+            </span>
+            <h3 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight">
+              Lock Pro Features forever
+            </h3>
+            <p
+              class="mt-2 text-sm sm:text-[1rem] font-medium text-gray-700 dark:text-zinc-300"
+            >
+              Everything in Pro, one payment, never charged again.
+            </p>
+          </div>
+
+          <div
+            class="rounded-xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.82)] p-4 sm:p-5 min-w-[240px]"
+          >
+            <div class="flex items-end justify-center gap-2">
+              <span
+                class="text-base text-gray-500 dark:text-zinc-400 line-through"
+                >$599</span
+              >
+              <span class="text-3xl font-semibold">$449</span>
             </div>
-          {:else}
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => data?.user && purchasePlan("lifetime")}
@@ -2119,10 +2145,10 @@
             >
               Get Lifetime
             </label>
-          {/if}
+          </div>
         </div>
       </div>
-    </div>
+    {/if}
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div
