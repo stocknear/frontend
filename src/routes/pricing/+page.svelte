@@ -144,7 +144,7 @@
         const isPro = subscriptionType?.toLowerCase() === "pro";
         const isPlus = subscriptionType?.toLowerCase() === "plus";
         const isAnnual = Boolean(mode); // true = annual, false = monthly
-        //const isFreeTrial = !data?.user?.freeTrial;
+        const isFreeTrial = !data?.user?.freeTrial;
 
         let plan = "";
 
@@ -154,10 +154,9 @@
           plan = isAnnual ? "ANNUAL_ID_PLUS" : "MONTHLY_ID_PLUS";
         }
 
-        //const prefix = isFreeTrial
-        //  ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
-        //  : "VITE_LEMON_SQUEEZY_";
-        const prefix = "VITE_LEMON_SQUEEZY_";
+        const prefix = isFreeTrial
+          ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
+          : "VITE_LEMON_SQUEEZY_";
 
         subId = import.meta.env[`${prefix}${plan}`];
       }
@@ -321,12 +320,10 @@
       <div
         class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.18em]"
       >
-        <!--
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
           >{pricing_free_trial()}</span
         >
-          -->
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
           >{pricing_cancel_anytime()}</span
@@ -1759,7 +1756,9 @@
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("plus")}
               class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
-              >{pricing_get_plus()}<svg
+              >{data?.user?.freeTrial
+                ? pricing_get_plus()
+                : pricing_start_trial()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -2055,7 +2054,9 @@
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("pro")}
               class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
-              >{pricing_unlock_pro()}<svg
+              >{data?.user?.freeTrial
+                ? pricing_unlock_pro()
+                : pricing_start_trial()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -2182,7 +2183,7 @@
               </details>
             </li>
 
-            <!--
+            <!-- 2. Getting Started -->
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -2201,7 +2202,6 @@
                 </div>
               </details>
             </li>
-            -->
 
             <!-- 3. Payment & Pricing -->
             <li
