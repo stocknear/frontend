@@ -147,7 +147,6 @@
     }
   >(Object.entries(data?.enrichmentData ?? {}));
   let enrichmentDone = Object.keys(data?.enrichmentData ?? {}).length > 0;
-  let includeExpired = false;
 
   // Note modal state
   let isLoadingNote = false;
@@ -396,7 +395,6 @@
     let worstPct = Infinity;
 
     for (const item of filteredWatchList) {
-      if (!includeExpired && item.dte !== null && item.dte < 0) continue;
       const e = enrichmentMap.get(item.id);
       if (e?.status !== "done" || e.pctChange === null) continue;
 
@@ -1040,19 +1038,6 @@
           </div>
         {/if}
 
-        <!-- Include Expired Toggle -->
-        {#if enrichmentDone && watchList.some((i) => i.dte !== null && i.dte < 0)}
-          <label class="flex items-center gap-2 mt-3 cursor-pointer w-fit">
-            <input
-              type="checkbox"
-              bind:checked={includeExpired}
-              class="h-3.5 w-3.5 rounded border cursor-pointer"
-            />
-            <span class="text-xs text-gray-500 dark:text-zinc-400"
-              >Include expired contracts</span
-            >
-          </label>
-        {/if}
 
         <!-- Options Watchlist Table -->
         <div
