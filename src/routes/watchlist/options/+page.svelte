@@ -109,7 +109,6 @@
   let optionsWatchlist = data?.getOptionsWatchlist;
   let watchList: any[] = [];
   let isLoaded = false;
-  let isFullWidth = false;
   let editMode = false;
   let deleteIdList: string[] = [];
   let numberOfChecked = 0;
@@ -257,16 +256,6 @@
       changeTab(0);
     } catch (e) {
       // Silently fail — news/earnings are non-critical
-    }
-  }
-
-  // ── Full Width ──
-  function toggleFullWidth() {
-    isFullWidth = !isFullWidth;
-    try {
-      localStorage.setItem("watchlist-options-full-width", String(isFullWidth));
-    } catch (e) {
-      // ignore
     }
   }
 
@@ -431,13 +420,6 @@
   }
 
   onMount(async () => {
-    const savedFullWidth = localStorage?.getItem(
-      "watchlist-options-full-width",
-    );
-    if (savedFullWidth !== null) {
-      isFullWidth = savedFullWidth === "true";
-    }
-
     loadWatchlistData();
     isLoaded = true;
 
@@ -508,17 +490,8 @@
   }}
 />
 
-<section
-  class="w-full overflow-hidden min-h-screen pb-40 mt-1 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
-    ? 'max-w-full'
-    : 'max-w-3xl sm:max-w-[1400px]'}"
->
-  <div class="w-full overflow-hidden m-auto">
-    <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
-      <div
-        class="relative flex justify-center items-start overflow-hidden w-full"
-      >
-        <main class="w-full">
+<div class="w-full overflow-hidden min-h-screen mt-1 text-gray-700 dark:text-zinc-200">
+  <div class="w-full">
           {#if isLoaded}
             <!-- Toolbar (matching stocks watchlist layout) -->
 
@@ -568,10 +541,10 @@
                   Save trades from the Options Flow page using the star icon.
                 </span>
                 <a
-                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                   href="/options-flow"
+                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                 >
-                  Go to Options Flow
+                  Browse Options Flow
                   <span
                     class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
                   >
@@ -637,10 +610,19 @@
                     />
                   </div>
 
-                  <!-- Row 2 on mobile: Edit Watchlist + Download -->
+                  <!-- Row 2 on mobile: Add Trades + Edit Watchlist + Download -->
                   <div
                     class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
                   >
+                    <!-- Add Trades Button -->
+                    <a
+                      href="/options-flow"
+                      class="border text-sm border-gray-300 dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                    >
+                      <svg class="inline-block w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      <span class="ml-1.5 text-[0.85rem] sm:text-sm font-medium">Add Trades</span>
+                    </a>
+
                     <div
                       class="flex items-center gap-2 {watchList?.length === 0
                         ? 'hidden'
@@ -695,51 +677,6 @@
                         {/if}
                       </label>
 
-                      <!-- Full Width Toggle (3xl+ only) -->
-                      <button
-                        on:click={toggleFullWidth}
-                        title={isFullWidth
-                          ? "Exit Full Width"
-                          : "Expand Full Width"}
-                        class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
-                          ? 'border-violet-400 dark:border-violet-500'
-                          : ''}"
-                      >
-                        {#if isFullWidth}
-                          <svg
-                            class="w-4 h-4 shrink-0"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <polyline points="4 14 10 14 10 20" />
-                            <polyline points="20 10 14 10 14 4" />
-                            <line x1="14" y1="10" x2="21" y2="3" />
-                            <line x1="3" y1="21" x2="10" y2="14" />
-                          </svg>
-                        {:else}
-                          <svg
-                            class="w-4 h-4 shrink-0"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <polyline points="15 3 21 3 21 9" />
-                            <polyline points="9 21 3 21 3 15" />
-                            <line x1="21" y1="3" x2="14" y2="10" />
-                            <line x1="3" y1="21" x2="10" y2="14" />
-                          </svg>
-                        {/if}
-                        <span class="truncate text-[0.85rem] sm:text-sm"
-                          >{isFullWidth ? "Normal Width" : "Full Width"}</span
-                        >
-                      </button>
                     </div>
 
                     <!-- Download -->
@@ -1158,11 +1095,8 @@
               </div>
             </div>
           {/if}
-        </main>
-      </div>
-    </div>
   </div>
-</section>
+</div>
 
 <!-- Note Modal -->
 <input
@@ -1217,3 +1151,4 @@
     />
   {/await}
 {/if}
+
