@@ -13,6 +13,7 @@
   let isLoading = false;
   let hasError = false;
   let rawHistory: any[] = [];
+  let rawStockHistory: any[] = [];
   let chartConfig: any = null;
   let selectGraphType = "Price";
   let selectedTimePeriod = "3M";
@@ -34,6 +35,7 @@
 
   $: if (!isOpen) {
     rawHistory = [];
+    rawStockHistory = [];
     chartConfig = null;
     latestStats = null;
     hasError = false;
@@ -41,7 +43,11 @@
     selectedTimePeriod = "3M";
   }
 
-  $: if (rawHistory.length > 0 && (selectGraphType || selectedTimePeriod)) {
+  $: if (rawHistory.length > 0) {
+    // Reference all deps so Svelte tracks them for re-runs
+    selectGraphType;
+    selectedTimePeriod;
+    rawStockHistory;
     chartConfig = plotData();
   }
 
@@ -56,29 +62,50 @@
     isLoading = true;
     hasError = false;
     rawHistory = [];
+    rawStockHistory = [];
     chartConfig = null;
     latestStats = null;
 
     try {
-      const res = await fetch("/api/options-contract-history", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ticker: item.ticker,
-          contract: item.option_symbol,
+      const [contractRes, stockRes] = await Promise.all([
+        fetch("/api/options-contract-history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ticker: item.ticker,
+            contract: item.option_symbol,
+          }),
         }),
-      });
+        fetch("/api/historical-price", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ticker: item.ticker,
+            timePeriod: "one-year",
+          }),
+        }),
+      ]);
 
-      if (!res.ok) {
+      if (!contractRes.ok) {
         hasError = true;
         return;
       }
 
-      const output = await res.json();
-      rawHistory = output?.history || [];
+      const contractOutput = await contractRes.json();
+      rawHistory = contractOutput?.history || [];
 
       if (rawHistory.length === 0) {
         hasError = true;
+        return;
+      }
+
+      // Stock history is best-effort — don't fail the modal if it errors
+      // Normalize "time" field to "date" so filterDataByTimePeriod works
+      if (stockRes.ok) {
+        const stockOutput = await stockRes.json();
+        rawStockHistory = Array.isArray(stockOutput)
+          ? stockOutput.map((d: any) => ({ ...d, date: d.time ?? d.date }))
+          : [];
       }
     } catch {
       hasError = true;
@@ -140,6 +167,22 @@
 
     if (filteredData.length === 0) return null;
 
+    // Prepare stock price data (time-filtered, sorted)
+    const sortedStockData = [...rawStockHistory].sort(
+      (a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime(),
+    );
+    const filteredStockData = filterDataByTimePeriod(
+      sortedStockData,
+      selectedTimePeriod,
+    ).filter((d) => d?.close > 0);
+
+    const stockColor = $mode === "light" ? "#6b7280" : "#9ca3af";
+    const hasStockData = filteredStockData.length > 0;
+    const stockSeriesData = filteredStockData.map((d) => [
+      new Date(d.date).getTime(),
+      d.close,
+    ]);
+
     let series: any[] = [];
 
     if (selectGraphType === "Price") {
@@ -158,6 +201,20 @@
           marker: { enabled: false },
         },
       ];
+      if (hasStockData) {
+        series.push({
+          name: "Stock Price",
+          type: "spline",
+          data: stockSeriesData,
+          color: stockColor,
+          yAxis: 1,
+          lineWidth: 1.3,
+          dashStyle: "ShortDash",
+          animation: false,
+          marker: { enabled: false },
+          opacity: 0.7,
+        });
+      }
     } else if (selectGraphType === "Vol/OI") {
       // Split pane: price top, vol/oi bottom
       series = [
@@ -201,6 +258,20 @@
           marker: { enabled: false },
         },
       ];
+      if (hasStockData) {
+        series.push({
+          name: "Stock Price",
+          type: "spline",
+          data: stockSeriesData,
+          color: stockColor,
+          yAxis: 3,
+          lineWidth: 1.3,
+          dashStyle: "ShortDash",
+          animation: false,
+          marker: { enabled: false },
+          opacity: 0.7,
+        });
+      }
     } else if (selectGraphType === "IV") {
       series = [
         {
@@ -229,6 +300,20 @@
           marker: { enabled: false },
         },
       ];
+      if (hasStockData) {
+        series.push({
+          name: "Stock Price",
+          type: "spline",
+          data: stockSeriesData,
+          color: stockColor,
+          yAxis: 1,
+          lineWidth: 1.3,
+          dashStyle: "ShortDash",
+          animation: false,
+          marker: { enabled: false },
+          opacity: 0.7,
+        });
+      }
     }
 
     const modalBg = $mode === "light" ? "#fff" : "#18181b";
@@ -270,12 +355,20 @@
         offset: 0,
       },
       {
-        // yAxis 2 — Price line (top pane)
+        // yAxis 2 — Option Price line (top pane)
         gridLineWidth: 1,
         gridLineColor: gridColor,
         labels: { style: { color: labelColor } },
         title: { text: null },
         opposite: true,
+        height: "60%",
+        offset: 0,
+      },
+      {
+        // yAxis 3 — Stock Price (top pane, hidden axis, own scale)
+        gridLineWidth: 0,
+        labels: { enabled: false },
+        title: { text: null },
         height: "60%",
         offset: 0,
       },
@@ -399,7 +492,7 @@
             const formatValue = (val: number, name: string) => {
               if (val === null || val === undefined) return "N/A";
               if (name === "IV") return val?.toFixed(2);
-              if (name === "Option Price") return "$" + val?.toFixed(2);
+              if (name === "Option Price" || name === "Stock Price") return "$" + val?.toFixed(2);
               return val?.toLocaleString("en-US");
             };
 
