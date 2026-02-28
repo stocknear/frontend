@@ -38,7 +38,9 @@
                 >Home</a
             >
         </li>
-        <li class="text-gray-800 dark:text-zinc-300">Watchlist</li>
+        <li class="text-gray-800 dark:text-zinc-300">
+            {activeIdx === 0 ? "Watchlist" : "Options Watchlist"}
+        </li>
     </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
