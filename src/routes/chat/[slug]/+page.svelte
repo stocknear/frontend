@@ -651,8 +651,17 @@
               }
             }
 
-            if (json?.content) {
-              assistantText = json?.content;
+            const resolvedContent = typeof json?.content === "string"
+              ? json.content
+              : (
+                typeof json?.delta === "string" &&
+                  (json?.event === "response_delta" || typeof json?.event === "undefined")
+              )
+              ? assistantText + json.delta
+              : null;
+
+            if (resolvedContent !== null) {
+              assistantText = resolvedContent;
               pendingContent = assistantText;
 
               // Batch updates for smoother rendering

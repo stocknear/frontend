@@ -140,6 +140,11 @@ function extractStreamStateFromLine(
     const parsed = JSON.parse(line);
     if (typeof parsed?.content === "string") {
       state.fullResponse = parsed.content;
+    } else if (
+      typeof parsed?.delta === "string" &&
+      (parsed?.event === "response_delta" || typeof parsed?.event === "undefined")
+    ) {
+      state.fullResponse += parsed.delta;
     }
     if (parsed?.event === "sources" && Array.isArray(parsed?.sources)) {
       state.collectedSources = parsed.sources;

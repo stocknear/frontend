@@ -114,6 +114,18 @@
   let numberOfChecked = 0;
   let searchQuery = "";
 
+  // ── Enrichment State ──
+  let enrichmentMap = new Map<string, {
+    currentPrice: number | null;
+    iv: number | null;
+    delta: number | null;
+    pctChange: number | null;
+    status: 'pending' | 'loading' | 'done' | 'error';
+  }>();
+  let isEnriching = false;
+  let enrichmentDone = false;
+  let includeExpired = false;
+
   // Note modal state
   let isLoadingNote = false;
   let isNoteModalOpen = false;
@@ -212,6 +224,141 @@
     }));
   }
 
+  // ── Enrichment Functions ──
+  async function fetchContractPrice(item: any): Promise<{
+    currentPrice: number | null;
+    iv: number | null;
+    delta: number | null;
+    pctChange: number | null;
+  }> {
+    try {
+      const res = await fetch("/api/options-contract-history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ticker: item.ticker,
+          contract: item.option_symbol,
+        }),
+      });
+
+      if (!res.ok) return { currentPrice: null, iv: null, delta: null, pctChange: null };
+
+      const output = await res.json();
+      const history = output?.history || [];
+      if (history.length === 0) return { currentPrice: null, iv: null, delta: null, pctChange: null };
+
+      const latest = history[history.length - 1];
+      const currentPrice = latest?.close ?? latest?.mark ?? null;
+      const iv = latest?.implied_volatility ?? null;
+      const delta = latest?.delta ?? null;
+      const entryPrice = item?.price;
+      const pctChange = currentPrice !== null && entryPrice > 0
+        ? ((currentPrice - entryPrice) / entryPrice) * 100
+        : null;
+
+      return { currentPrice, iv, delta, pctChange };
+    } catch {
+      return { currentPrice: null, iv: null, delta: null, pctChange: null };
+    }
+  }
+
+  async function enrichWatchlist() {
+    if (watchList.length === 0) return;
+
+    isEnriching = true;
+    enrichmentDone = false;
+
+    const itemsToEnrich = watchList.filter(item =>
+      includeExpired || (item.dte !== null && item.dte >= 0)
+    );
+
+    // Mark items as pending/loading
+    const newMap = new Map(enrichmentMap);
+    for (const item of itemsToEnrich) {
+      if (!newMap.has(item.id)) {
+        newMap.set(item.id, { currentPrice: null, iv: null, delta: null, pctChange: null, status: 'pending' });
+      }
+    }
+    enrichmentMap = newMap;
+
+    // Process in batches of 5
+    const batchSize = 5;
+    for (let i = 0; i < itemsToEnrich.length; i += batchSize) {
+      const batch = itemsToEnrich.slice(i, i + batchSize);
+
+      // Mark batch as loading
+      const loadingMap = new Map(enrichmentMap);
+      for (const item of batch) {
+        const existing = loadingMap.get(item.id);
+        if (existing && existing.status !== 'done') {
+          loadingMap.set(item.id, { ...existing, status: 'loading' });
+        }
+      }
+      enrichmentMap = loadingMap;
+
+      const results = await Promise.allSettled(
+        batch.map(async (item) => {
+          const data = await fetchContractPrice(item);
+          return { id: item.id, data };
+        })
+      );
+
+      // Update map with results
+      const updatedMap = new Map(enrichmentMap);
+      for (const result of results) {
+        if (result.status === 'fulfilled') {
+          const { id, data: enrichData } = result.value;
+          updatedMap.set(id, { ...enrichData, status: 'done' });
+        } else {
+          // Find which item failed — mark as error
+          const batchItem = batch[results.indexOf(result)];
+          if (batchItem) {
+            updatedMap.set(batchItem.id, { currentPrice: null, iv: null, delta: null, pctChange: null, status: 'error' });
+          }
+        }
+      }
+      enrichmentMap = updatedMap;
+    }
+
+    isEnriching = false;
+    enrichmentDone = true;
+  }
+
+  // ── Scorecard Reactive Stats ──
+  $: scorecardItems = watchList.filter(item => {
+    const e = enrichmentMap.get(item.id);
+    return e?.status === 'done' && e.pctChange !== null;
+  });
+
+  $: winCount = scorecardItems.filter(i =>
+    (enrichmentMap.get(i.id)?.pctChange ?? 0) > 0
+  ).length;
+
+  $: winRate = scorecardItems.length > 0
+    ? ((winCount / scorecardItems.length) * 100).toFixed(0)
+    : null;
+
+  $: avgReturn = scorecardItems.length > 0
+    ? (scorecardItems.reduce((sum, i) => sum + (enrichmentMap.get(i.id)?.pctChange ?? 0), 0) / scorecardItems.length).toFixed(1)
+    : null;
+
+  $: bestTrade = scorecardItems.length > 0
+    ? scorecardItems.reduce((best, i) => {
+        const pct = enrichmentMap.get(i.id)?.pctChange ?? -Infinity;
+        return pct > (enrichmentMap.get(best.id)?.pctChange ?? -Infinity) ? i : best;
+      })
+    : null;
+
+  $: worstTrade = scorecardItems.length > 0
+    ? scorecardItems.reduce((worst, i) => {
+        const pct = enrichmentMap.get(i.id)?.pctChange ?? Infinity;
+        return pct < (enrichmentMap.get(worst.id)?.pctChange ?? Infinity) ? i : worst;
+      })
+    : null;
+
+  $: bullCount = scorecardItems.filter(i => i.sentiment === 'Bullish').length;
+  $: bearCount = scorecardItems.filter(i => i.sentiment === 'Bearish').length;
+
   // ── News / Earnings ──
   function changeTab(i: number) {
     activeIdx = i;
@@ -286,6 +433,13 @@
       });
       return;
     }
+
+    // Remove deleted items from enrichmentMap
+    const cleanMap = new Map(enrichmentMap);
+    for (const id of deleteIdList) {
+      cleanMap.delete(id);
+    }
+    enrichmentMap = cleanMap;
 
     watchList = watchList.filter((item) => !deleteIdList.includes(item.id));
     editMode = false;
@@ -423,9 +577,10 @@
     loadWatchlistData();
     isLoaded = true;
 
-    // Fetch news/earnings for unique tickers
+    // Fetch news/earnings for unique tickers + enrich contracts
     if (watchList.length > 0) {
       fetchNewsFeed();
+      enrichWatchlist();
     }
 
     window.addEventListener("scroll", handleScroll);
@@ -690,6 +845,74 @@
                 </div>
               </div>
 
+              <!-- Flow Scorecard -->
+              {#if enrichmentDone && scorecardItems.length > 0}
+                <div class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4">
+                  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                    <div>
+                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Win Rate</div>
+                      <div class="text-sm font-semibold {Number(winRate) >= 50 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}">
+                        {winRate}%
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Avg Return</div>
+                      <div class="text-sm font-semibold {Number(avgReturn) >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}">
+                        {Number(avgReturn) >= 0 ? '+' : ''}{avgReturn}%
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Trades</div>
+                      <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                        {scorecardItems.length}
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Bull / Bear</div>
+                      <div class="text-sm font-semibold">
+                        <span class="text-emerald-800 dark:text-emerald-400">{bullCount}</span>
+                        <span class="text-gray-400 dark:text-zinc-500"> / </span>
+                        <span class="text-rose-800 dark:text-rose-400">{bearCount}</span>
+                      </div>
+                    </div>
+                    {#if bestTrade}
+                      <div>
+                        <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Best</div>
+                        <div class="text-sm font-semibold text-emerald-800 dark:text-emerald-400 truncate">
+                          +{enrichmentMap.get(bestTrade.id)?.pctChange?.toFixed(1)}% {bestTrade.ticker}
+                        </div>
+                      </div>
+                    {/if}
+                    {#if worstTrade}
+                      <div>
+                        <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Worst</div>
+                        <div class="text-sm font-semibold text-rose-800 dark:text-rose-400 truncate">
+                          {enrichmentMap.get(worstTrade.id)?.pctChange?.toFixed(1)}% {worstTrade.ticker}
+                        </div>
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              {:else if isEnriching}
+                <div class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 flex items-center gap-2">
+                  <span class="loading loading-spinner loading-sm text-gray-500 dark:text-zinc-400"></span>
+                  <span class="text-sm text-gray-500 dark:text-zinc-400">Analyzing trades...</span>
+                </div>
+              {/if}
+
+              <!-- Include Expired Toggle -->
+              {#if enrichmentDone && watchList.some(i => i.dte !== null && i.dte < 0)}
+                <label class="flex items-center gap-2 mt-3 cursor-pointer w-fit">
+                  <input
+                    type="checkbox"
+                    bind:checked={includeExpired}
+                    on:change={() => enrichWatchlist()}
+                    class="h-3.5 w-3.5 rounded border cursor-pointer"
+                  />
+                  <span class="text-xs text-gray-500 dark:text-zinc-400">Include expired contracts</span>
+                </label>
+              {/if}
+
               <!-- Options Watchlist Table -->
               <div
                 class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
@@ -715,6 +938,10 @@
                       <th class="p-2 text-right">Sent.</th>
                       <th class="p-2 text-right">Spot</th>
                       <th class="p-2 text-right">Price</th>
+                      <th class="p-2 text-right">Now</th>
+                      <th class="p-2 text-right">% Chg</th>
+                      <th class="p-2 text-right">IV</th>
+                      <th class="p-2 text-right">Delta</th>
                       <th class="p-2 text-right">Prem</th>
                       <th class="p-2 text-right">Type</th>
                       <th class="p-2 text-right">Leg</th>
@@ -728,6 +955,7 @@
                     class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
                   >
                     {#each filteredWatchList as item}
+                      {@const enriched = enrichmentMap.get(item.id)}
                       <tr
                         class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                       >
@@ -842,6 +1070,42 @@
                         </td>
                         <td class="text-end text-sm whitespace-nowrap">
                           {item?.price}
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
+                          {#if enriched?.status === 'loading'}
+                            <span class="loading loading-spinner loading-xs"></span>
+                          {:else if enriched?.status === 'done' && enriched.currentPrice !== null}
+                            ${enriched.currentPrice.toFixed(2)}
+                          {:else}
+                            <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap {enriched?.pctChange != null ? (enriched.pctChange >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400') : ''}">
+                          {#if enriched?.status === 'done' && enriched.pctChange !== null}
+                            {enriched.pctChange >= 0 ? '+' : ''}{enriched.pctChange.toFixed(1)}%
+                          {:else if enriched?.status === 'loading'}
+                            <span class="loading loading-spinner loading-xs"></span>
+                          {:else}
+                            <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
+                          {#if enriched?.status === 'done' && enriched.iv !== null}
+                            {(enriched.iv * 100).toFixed(0)}%
+                          {:else if enriched?.status === 'loading'}
+                            <span class="loading loading-spinner loading-xs"></span>
+                          {:else}
+                            <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          {/if}
+                        </td>
+                        <td class="text-end text-sm whitespace-nowrap">
+                          {#if enriched?.status === 'done' && enriched.delta !== null}
+                            {enriched.delta.toFixed(2)}
+                          {:else if enriched?.status === 'loading'}
+                            <span class="loading loading-spinner loading-xs"></span>
+                          {:else}
+                            <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          {/if}
                         </td>
                         <td class="text-end text-sm whitespace-nowrap">
                           {@html abbreviateNumber(

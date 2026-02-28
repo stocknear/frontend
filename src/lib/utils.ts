@@ -2271,7 +2271,6 @@ export const agentOptions = [
   {"name": "PeterLynch", "group": 'Investors',"credit": 2},
   {"name": "BenjaminGraham", "group": 'Investors',"credit": 2},
   {"name": "CathieWood", "group": 'Investors',"credit": 2},
-  //{"name": "Backtesting", "group": 'Others',"credit": 3},
   //{"name": "Plot", "credit": 1},
   
 ]
