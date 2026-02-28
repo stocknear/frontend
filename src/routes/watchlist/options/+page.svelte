@@ -509,7 +509,7 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen pb-40 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+  class="w-full overflow-hidden min-h-screen pb-40 mt-1 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
     ? 'max-w-full'
     : 'max-w-3xl sm:max-w-[1400px]'}"
 >
@@ -593,7 +593,7 @@
             {:else}
               <!-- Table Header Row (like Table component's header: title + find + download) -->
               <div
-                class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+                class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
               >
                 <div
                   class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -756,7 +756,7 @@
 
               <!-- Options Watchlist Table -->
               <div
-                class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
+                class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
               >
                 <table
                   class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
@@ -806,7 +806,7 @@
                           </td>
                         {/if}
                         <td
-                          class="text-start text-sm whitespace-nowrap text-gray-500 dark:text-zinc-400"
+                          class="text-start text-xs whitespace-nowrap text-gray-500 dark:text-zinc-400"
                         >
                           {formatTradeTime(item?.time)} · {formatDate(
                             item?.date,
