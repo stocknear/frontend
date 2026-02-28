@@ -205,6 +205,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     output = await pb.collection("optionsWatchlist").create(
       serialize({
         user: user.id,
+        title: "Favorite",
         data: JSON.stringify([sanitized]),
       }),
     );

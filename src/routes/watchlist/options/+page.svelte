@@ -264,10 +264,7 @@
   function toggleFullWidth() {
     isFullWidth = !isFullWidth;
     try {
-      localStorage.setItem(
-        "watchlist-options-full-width",
-        String(isFullWidth),
-      );
+      localStorage.setItem("watchlist-options-full-width", String(isFullWidth));
     } catch (e) {
       // ignore
     }
@@ -301,9 +298,7 @@
       return;
     }
 
-    watchList = watchList.filter(
-      (item) => !deleteIdList.includes(item.id),
-    );
+    watchList = watchList.filter((item) => !deleteIdList.includes(item.id));
     editMode = false;
 
     try {
@@ -527,15 +522,8 @@
         Home
       </a>
     </li>
-    <li>
-      <a
-        href="/watchlist/stocks"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
-      >
-        Watchlist
-      </a>
-    </li>
-    <li class="text-gray-500 dark:text-zinc-400">Options</li>
+
+    <li class="text-gray-500 dark:text-zinc-400">Option Watchlist</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -545,7 +533,7 @@
       >
         <main class="w-full">
           <h1
-            class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"
+            class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2"
           >
             Options Watchlist
           </h1>
@@ -557,30 +545,17 @@
                 ? 'hidden'
                 : data?.user?.tier !== 'Pro'
                   ? 'hidden'
-                  : 'md:block'} border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+                  : 'md:block'}  {watchList?.length === 0
+                ? 'hidden'
+                : 'border-t border-b border-gray-300 dark:border-zinc-700 py-2'}"
             >
               <div
-                class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center"
+                class="w-full grid grid-cols-1 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center justify-end"
               >
-                <!-- "Add options..." placeholder search (no backend) -->
-                <div
-                  class="order-2 sm:order-0 w-full {watchList.length === 0
-                    ? 'hidden'
-                    : ''}"
-                >
-                  <div class="relative w-full">
-                    <input
-                      type="text"
-                      disabled
-                      placeholder="Add options..."
-                      class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full opacity-50 cursor-not-allowed"
-                    />
-                  </div>
-                </div>
-
                 <!-- Action Buttons -->
                 <div
-                  class="order-1 sm:order-last w-full sm:w-fit flex justify-end sm:ml-3 {watchList.length === 0
+                  class="order-1 sm:order-last w-full sm:w-fit flex justify-end sm:ml-3 {watchList?.length ===
+                  0
                     ? 'hidden'
                     : ''}"
                 >
@@ -726,9 +701,7 @@
                 <span class="font-bold text-xl sm:text-3xl">
                   No Saved Trades
                 </span>
-                <span
-                  class="text-sm sm:text-lg pt-5 m-auto p-4 text-center"
-                >
+                <span class="text-sm sm:text-lg pt-5 m-auto p-4 text-center">
                   Save trades from the Options Flow page using the star icon.
                 </span>
                 <a
@@ -765,9 +738,7 @@
                   <h2
                     class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
                   >
-                    {watchList.length} Trade{watchList.length !== 1
-                      ? "s"
-                      : ""}
+                    {watchList.length} Trade{watchList.length !== 1 ? "s" : ""}
                   </h2>
                 </div>
                 <div
@@ -781,10 +752,7 @@
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                     >
                       {#if searchQuery?.length > 0}
-                        <label
-                          class="cursor-pointer"
-                          on:click={resetSearch}
-                        >
+                        <label class="cursor-pointer" on:click={resetSearch}>
                           <svg
                             class="w-5 h-5"
                             xmlns="http://www.w3.org/2000/svg"
@@ -919,10 +887,7 @@
                                 `${item?.ticker} ${item?.strike_price} ${item?.put_call}`,
                               )}
                             on:mouseenter={() =>
-                              handleNoteHover(
-                                item.id,
-                                item?.hasNote || false,
-                              )}
+                              handleNoteHover(item.id, item?.hasNote || false)}
                             class="cursor-pointer transition-colors"
                             title={item?.hasNote ? "Edit note" : "Add note"}
                           >
@@ -1015,10 +980,7 @@
                               ? 'text-gray-600 dark:text-[#8F82FE]'
                               : 'text-gray-600 dark:text-[#A98184]'}"
                         >
-                          {item?.execution_estimate?.replace(
-                            "Midpoint",
-                            "Mid",
-                          )}
+                          {item?.execution_estimate?.replace("Midpoint", "Mid")}
                         </td>
                         <td
                           class="text-end text-sm whitespace-nowrap tabular-nums"
@@ -1165,8 +1127,8 @@
                           >
                             <div>
                               {removeCompanyStrings(item?.name)}
-                              (<HoverStockChart symbol={item?.symbol} />)
-                              will report
+                              (<HoverStockChart symbol={item?.symbol} />) will
+                              report
 
                               {#if item?.time}
                                 {#if compareTimes(item?.time, "16:00") >= 0}
