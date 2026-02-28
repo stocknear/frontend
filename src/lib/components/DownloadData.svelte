@@ -5,23 +5,23 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import {
-  common_bulk_download,
-  common_credit_cost_total,
-  common_credits_cost,
-  common_credits_left,
-  common_download,
-  common_download_csv,
-  common_download_excel,
-  common_toast_add_tickers,
-  common_toast_download_abusive,
-  common_toast_download_complete,
-  common_toast_download_failed,
-  common_toast_download_no_data,
-  common_toast_download_preparing,
-  common_toast_downloading,
-  common_toast_not_enough_credits,
-  common_toast_select_bulk,
-} from "$lib/paraglide/messages";
+    common_bulk_download,
+    common_credit_cost_total,
+    common_credits_cost,
+    common_credits_left,
+    common_download,
+    common_download_csv,
+    common_download_excel,
+    common_toast_add_tickers,
+    common_toast_download_abusive,
+    common_toast_download_complete,
+    common_toast_download_failed,
+    common_toast_download_no_data,
+    common_toast_download_preparing,
+    common_toast_downloading,
+    common_toast_not_enough_credits,
+    common_toast_select_bulk,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let rawData;
@@ -291,7 +291,7 @@
   }
 </script>
 
-<div class="flex flex-row items-center space-x-2 w-full">
+<div class="flex flex-row items-center space-x-2 w-fit">
   <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
       <Button
@@ -349,8 +349,7 @@
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
-                stroke-linejoin="round"
-                ><path d="m15 18-6-6 6-6"></path></svg
+                stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
               >
             </button>
           </div>

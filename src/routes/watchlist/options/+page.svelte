@@ -675,39 +675,39 @@
           >
             <!-- Row 1 on mobile: Find filter + Add Trades -->
             <div class="flex flex-row items-center gap-2 w-full sm:w-fit">
-            <div
-              class="relative min-w-24 grow sm:grow-0 sm:w-fit sm:flex-1 lg:flex-none"
-            >
               <div
-                class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                class="relative min-w-24 grow sm:grow-0 sm:w-fit sm:flex-1 lg:flex-none"
               >
-                {#if searchQuery?.length > 0}
-                  <label class="cursor-pointer" on:click={resetSearch}>
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                      />
-                    </svg>
-                  </label>
-                {/if}
+                <div
+                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
+                >
+                  {#if searchQuery?.length > 0}
+                    <label class="cursor-pointer" on:click={resetSearch}>
+                      <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
+                        />
+                      </svg>
+                    </label>
+                  {/if}
+                </div>
+                <input
+                  bind:value={searchQuery}
+                  type="text"
+                  placeholder="Find..."
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                />
               </div>
-              <input
-                bind:value={searchQuery}
-                type="text"
-                placeholder="Find..."
-                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-              />
-            </div>
 
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400 sm:ml-2"
+                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -725,7 +725,7 @@
                     y2="12"
                   /></svg
                 >
-                <span class="ml-1.5 text-[0.85rem] sm:text-sm font-medium"
+                <span class=" text-[0.85rem] sm:text-sm font-medium"
                   >Add Trades</span
                 >
               </a>
