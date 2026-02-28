@@ -2,7 +2,7 @@ import type { RequestHandler } from "./$types";
 import { serialize } from "object-to-formdata";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
-const MAX_NOTE_LENGTH = 50000;
+const MAX_NOTE_LENGTH = 1500;
 const MAX_WATCHLIST_ITEMS = 300;
 
 const ALLOWED_FIELDS = new Set([
