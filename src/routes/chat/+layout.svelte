@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
   import { DateTime } from "luxon";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -20,6 +21,8 @@
   let searchQuery = "";
   let searchTimeout: ReturnType<typeof setTimeout>;
   let currentItem: any = {};
+  const CHAT_SIDEBAR_DESKTOP_PREF_KEY = "chat-sidebar-open-desktop";
+  const DESKTOP_BREAKPOINT = 1024;
 
   $: allChats = data?.allChats || [];
   $: currentSlug = $page.params?.slug || "";
@@ -36,9 +39,7 @@
   }
 
   $: filteredChats = filteredSearch
-    ? allChats.filter((c) =>
-        c.message?.toLowerCase().includes(filteredSearch),
-      )
+    ? allChats.filter((c) => c.message?.toLowerCase().includes(filteredSearch))
     : allChats;
 
   // Date grouping
@@ -94,13 +95,51 @@
     return text.length > max ? text.slice(0, max) + "..." : text;
   }
 
-  function handleChatClick() {
-    $chatSidebarOpen = false;
+  function setChatSidebarOpen(isOpen: boolean) {
+    $chatSidebarOpen = isOpen;
+
+    if (
+      typeof window !== "undefined" &&
+      window.innerWidth >= DESKTOP_BREAKPOINT
+    ) {
+      localStorage.setItem(CHAT_SIDEBAR_DESKTOP_PREF_KEY, isOpen ? "1" : "0");
+    }
   }
+
+  function toggleChatSidebar() {
+    setChatSidebarOpen(!$chatSidebarOpen);
+  }
+
+  function handleChatClick() {
+    if (
+      typeof window !== "undefined" &&
+      window.innerWidth < DESKTOP_BREAKPOINT
+    ) {
+      setChatSidebarOpen(false);
+    }
+  }
+
+  onMount(() => {
+    if (typeof window === "undefined") return;
+
+    const savedDesktopState = localStorage.getItem(
+      CHAT_SIDEBAR_DESKTOP_PREF_KEY,
+    );
+
+    if (window.innerWidth >= DESKTOP_BREAKPOINT) {
+      if (savedDesktopState === "0" || savedDesktopState === "1") {
+        $chatSidebarOpen = savedDesktopState === "1";
+      } else {
+        $chatSidebarOpen = true;
+      }
+    }
+  });
 
   function openDeleteModal(threadId: string) {
     if (!threadId) return;
-    currentItem = allChats.find((item) => item.id === threadId) || { id: threadId };
+    currentItem = allChats.find((item) => item.id === threadId) || {
+      id: threadId,
+    };
     if (typeof document !== "undefined") {
       const modal = document.getElementById("deleteThreadModal");
       modal?.dispatchEvent(new MouseEvent("click"));
@@ -159,11 +198,36 @@
 </script>
 
 <div class="flex w-full min-h-screen bg-white dark:bg-default">
+  {#if data?.user && allChats?.length > 0 && !$chatSidebarOpen}
+    <button
+      on:click={toggleChatSidebar}
+      class="cursor-pointer hidden lg:flex fixed top-20 left-4 z-40 items-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm font-medium text-gray-700 dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
+      aria-label="Open chat history sidebar"
+      title="Open chat history"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M3 12h18" />
+        <path d="M3 6h18" />
+        <path d="M3 18h18" />
+      </svg>
+      History
+    </button>
+  {/if}
+
   <!-- Mobile backdrop -->
   {#if $chatSidebarOpen}
     <button
       class="cursor-pointer lg:hidden fixed inset-0 bg-black/40 z-40"
-      on:click={() => ($chatSidebarOpen = false)}
+      on:click={() => setChatSidebarOpen(false)}
       aria-label="Close sidebar"
     />
   {/if}
@@ -173,7 +237,7 @@
     <aside
       class="fixed top-0 left-0 z-50 lg:z-30 h-screen w-[280px] pt-0 lg:pt-16 border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex flex-col transition-transform duration-200 ease-out {$chatSidebarOpen
         ? 'translate-x-0'
-        : '-translate-x-full lg:translate-x-0'}"
+        : '-translate-x-full'}"
     >
       <!-- Sidebar header -->
       <div class="p-3 flex flex-col gap-2">
@@ -201,9 +265,10 @@
 
           <!-- Close button (mobile only) -->
           <button
-            on:click={() => ($chatSidebarOpen = false)}
-            class="cursor-pointer lg:hidden p-2 ml-auto rounded-lg text-gray-500 dark:text-zinc-400 sm:hover:bg-gray-200 dark:sm:hover:bg-zinc-800 transition"
+            on:click={() => setChatSidebarOpen(false)}
+            class="cursor-pointer p-2 ml-auto rounded-lg text-gray-500 dark:text-zinc-400"
             aria-label="Close sidebar"
+            title="Close chat history"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -331,7 +396,9 @@
 
   <!-- Main content -->
   <div
-    class="flex-1 min-w-0 {data?.user && allChats?.length > 0
+    class="flex-1 min-w-0 {data?.user &&
+    allChats?.length > 0 &&
+    $chatSidebarOpen
       ? 'lg:ml-[280px]'
       : ''}"
   >
