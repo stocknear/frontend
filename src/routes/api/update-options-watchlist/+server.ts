@@ -1,7 +1,9 @@
 import type { RequestHandler } from "./$types";
 import { serialize } from "object-to-formdata";
+import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 const MAX_NOTE_LENGTH = 50000;
+const MAX_WATCHLIST_ITEMS = 300;
 
 const ALLOWED_FIELDS = new Set([
   "id",
@@ -75,7 +77,15 @@ async function getWatchlist(pb: any, user: any) {
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const body = await request.json();
-  const { pb, user } = locals;
+  const { pb, user, clientIp } = locals;
+
+  const rateLimit = checkRateLimit(clientIp, "optionsWatchlist", RATE_LIMITS.optionsWatchlist);
+  if (!rateLimit.allowed) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      { status: 429 },
+    );
+  }
 
   if (user?.tier !== "Pro") {
     return new Response(JSON.stringify({ error: "Pro required" }), { status: 403 });
@@ -186,6 +196,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     if (existingIndex !== -1) {
       updatedData = currentData.filter((_: any, i: number) => i !== existingIndex);
     } else {
+      if (currentData.length >= MAX_WATCHLIST_ITEMS) {
+        return new Response(
+          JSON.stringify({ error: `Watchlist is full (${MAX_WATCHLIST_ITEMS} trades max). Remove some to add new ones.` }),
+          { status: 400 },
+        );
+      }
       const sanitized = sanitizeItem(item);
       if (!sanitized) {
         return new Response(JSON.stringify({ error: "Invalid item data" }), { status: 400 });

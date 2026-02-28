@@ -264,6 +264,13 @@
       : [];
     const isBookmarked = currentData.some((d) => d?.id === item.id);
 
+    if (!isBookmarked && currentData.length >= 300) {
+      toast.error("Watchlist is full (300 trades max). Remove some to add new ones.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
     // Optimistic update
     if (isBookmarked) {
       optionsWatchlist.data = currentData.filter((d) => d?.id !== item.id);
@@ -300,7 +307,8 @@
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update watchlist");
+        const errBody = await response.json().catch(() => ({}));
+        throw new Error(errBody?.error || "Failed to update watchlist");
       }
 
       const result = await response.json();
@@ -316,7 +324,7 @@
         optionsWatchlist.data = currentData;
       }
       optionsWatchlist = optionsWatchlist;
-      toast.error("Failed to update watchlist", {
+      toast.error(error instanceof Error ? error.message : "Failed to update watchlist", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     }

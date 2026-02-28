@@ -17,6 +17,11 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
 
+  const intlCompact = new Intl.NumberFormat("en", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
   // Lazy load MarkdownNoteEditor
   let MarkdownNoteEditor: any = null;
   let isLoadingEditor = false;
@@ -111,20 +116,40 @@
   let isLoaded = false;
   let editMode = false;
   let deleteIdList: string[] = [];
+  $: deleteIdSet = new Set(deleteIdList);
   let numberOfChecked = 0;
   let searchQuery = "";
+  let debouncedSearchQuery = "";
+  let searchDebounceTimer: ReturnType<typeof setTimeout>;
+
+  $: {
+    clearTimeout(searchDebounceTimer);
+    if (searchQuery.length === 0) {
+      debouncedSearchQuery = "";
+    } else {
+      searchDebounceTimer = setTimeout(() => {
+        debouncedSearchQuery = searchQuery;
+      }, 200);
+    }
+  }
 
   // ── Enrichment State ──
-  let enrichmentMap = new Map<string, {
-    currentPrice: number | null;
-    iv: number | null;
-    delta: number | null;
-    pctChange: number | null;
-    status: 'pending' | 'loading' | 'done' | 'error';
-  }>();
+  let enrichmentMap = new Map<
+    string,
+    {
+      currentPrice: number | null;
+      iv: number | null;
+      delta: number | null;
+      pctChange: number | null;
+      status: "pending" | "loading" | "done" | "error";
+    }
+  >();
   let isEnriching = false;
   let enrichmentDone = false;
   let includeExpired = false;
+  let enrichAbortController: AbortController | null = null;
+  let enrichGeneration = 0;
+  const MAX_ENRICHMENT_ITEMS = 50;
 
   // Note modal state
   let isLoadingNote = false;
@@ -157,9 +182,9 @@
 
   // ── Search / Filter ──
   $: filteredWatchList =
-    searchQuery.length > 0
+    debouncedSearchQuery.length > 0
       ? watchList.filter((item) => {
-          const q = searchQuery.toLowerCase();
+          const q = debouncedSearchQuery.toLowerCase();
           return (
             item?.ticker?.toLowerCase().includes(q) ||
             item?.put_call?.toLowerCase().includes(q) ||
@@ -225,12 +250,17 @@
   }
 
   // ── Enrichment Functions ──
-  async function fetchContractPrice(item: any): Promise<{
-    currentPrice: number | null;
-    iv: number | null;
-    delta: number | null;
-    pctChange: number | null;
-  }> {
+  const nullEnrichment = {
+    currentPrice: null,
+    iv: null,
+    delta: null,
+    pctChange: null,
+  };
+
+  async function fetchContractPrice(
+    item: any,
+    signal?: AbortSignal,
+  ): Promise<typeof nullEnrichment> {
     try {
       const res = await fetch("/api/options-contract-history", {
         method: "POST",
@@ -239,81 +269,103 @@
           ticker: item.ticker,
           contract: item.option_symbol,
         }),
+        signal,
       });
 
-      if (!res.ok) return { currentPrice: null, iv: null, delta: null, pctChange: null };
+      if (!res.ok) return nullEnrichment;
 
       const output = await res.json();
       const history = output?.history || [];
-      if (history.length === 0) return { currentPrice: null, iv: null, delta: null, pctChange: null };
+      if (history.length === 0) return nullEnrichment;
 
       const latest = history[history.length - 1];
       const currentPrice = latest?.close ?? latest?.mark ?? null;
       const iv = latest?.implied_volatility ?? null;
       const delta = latest?.delta ?? null;
       const entryPrice = item?.price;
-      const pctChange = currentPrice !== null && entryPrice > 0
-        ? ((currentPrice - entryPrice) / entryPrice) * 100
-        : null;
+      const pctChange =
+        currentPrice !== null && entryPrice > 0
+          ? ((currentPrice - entryPrice) / entryPrice) * 100
+          : null;
 
       return { currentPrice, iv, delta, pctChange };
-    } catch {
-      return { currentPrice: null, iv: null, delta: null, pctChange: null };
+    } catch (e) {
+      if (e instanceof DOMException && e.name === "AbortError") {
+        return nullEnrichment;
+      }
+      return nullEnrichment;
     }
   }
 
   async function enrichWatchlist() {
     if (watchList.length === 0) return;
 
+    // Cancel any in-flight enrichment
+    if (enrichAbortController) enrichAbortController.abort();
+    enrichAbortController = new AbortController();
+    const signal = enrichAbortController.signal;
+    const generation = ++enrichGeneration;
+
     isEnriching = true;
     enrichmentDone = false;
 
-    const itemsToEnrich = watchList.filter(item =>
-      includeExpired || (item.dte !== null && item.dte >= 0)
+    // Filter candidates, skip already-done items, cap at MAX_ENRICHMENT_ITEMS
+    const candidates = watchList.filter(
+      (item) => includeExpired || (item.dte !== null && item.dte >= 0),
     );
+    const itemsToEnrich = candidates
+      .filter((item) => {
+        const existing = enrichmentMap.get(item.id);
+        return !existing || existing.status !== "done";
+      })
+      .slice(0, MAX_ENRICHMENT_ITEMS);
 
-    // Mark items as pending/loading
+    // Mark items as pending
     const newMap = new Map(enrichmentMap);
     for (const item of itemsToEnrich) {
-      if (!newMap.has(item.id)) {
-        newMap.set(item.id, { currentPrice: null, iv: null, delta: null, pctChange: null, status: 'pending' });
-      }
+      newMap.set(item.id, { ...nullEnrichment, status: "pending" });
     }
     enrichmentMap = newMap;
 
     // Process in batches of 5
     const batchSize = 5;
     for (let i = 0; i < itemsToEnrich.length; i += batchSize) {
+      if (signal.aborted || generation !== enrichGeneration) return;
+
       const batch = itemsToEnrich.slice(i, i + batchSize);
 
       // Mark batch as loading
       const loadingMap = new Map(enrichmentMap);
       for (const item of batch) {
         const existing = loadingMap.get(item.id);
-        if (existing && existing.status !== 'done') {
-          loadingMap.set(item.id, { ...existing, status: 'loading' });
+        if (existing && existing.status !== "done") {
+          loadingMap.set(item.id, { ...existing, status: "loading" });
         }
       }
       enrichmentMap = loadingMap;
 
       const results = await Promise.allSettled(
         batch.map(async (item) => {
-          const data = await fetchContractPrice(item);
+          const data = await fetchContractPrice(item, signal);
           return { id: item.id, data };
-        })
+        }),
       );
+
+      if (signal.aborted || generation !== enrichGeneration) return;
 
       // Update map with results
       const updatedMap = new Map(enrichmentMap);
       for (const result of results) {
-        if (result.status === 'fulfilled') {
+        if (result.status === "fulfilled") {
           const { id, data: enrichData } = result.value;
-          updatedMap.set(id, { ...enrichData, status: 'done' });
+          updatedMap.set(id, { ...enrichData, status: "done" });
         } else {
-          // Find which item failed — mark as error
           const batchItem = batch[results.indexOf(result)];
           if (batchItem) {
-            updatedMap.set(batchItem.id, { currentPrice: null, iv: null, delta: null, pctChange: null, status: 'error' });
+            updatedMap.set(batchItem.id, {
+              ...nullEnrichment,
+              status: "error",
+            });
           }
         }
       }
@@ -324,40 +376,60 @@
     enrichmentDone = true;
   }
 
-  // ── Scorecard Reactive Stats ──
-  $: scorecardItems = watchList.filter(item => {
-    const e = enrichmentMap.get(item.id);
-    return e?.status === 'done' && e.pctChange !== null;
-  });
+  // ── Scorecard Reactive Stats (single-pass) ──
+  $: scorecard = (() => {
+    const items: any[] = [];
+    let wins = 0;
+    let totalReturn = 0;
+    let bulls = 0;
+    let bears = 0;
+    let puts = 0;
+    let calls = 0;
+    let best: any = null;
+    let worst: any = null;
+    let bestPct = -Infinity;
+    let worstPct = Infinity;
 
-  $: winCount = scorecardItems.filter(i =>
-    (enrichmentMap.get(i.id)?.pctChange ?? 0) > 0
-  ).length;
+    for (const item of watchList) {
+      const e = enrichmentMap.get(item.id);
+      if (e?.status !== "done" || e.pctChange === null) continue;
 
-  $: winRate = scorecardItems.length > 0
-    ? ((winCount / scorecardItems.length) * 100).toFixed(0)
-    : null;
+      items.push(item);
+      const pct = e.pctChange;
+      totalReturn += pct;
+      if (pct > 0) wins++;
+      if (item.sentiment === "Bullish") bulls++;
+      else if (item.sentiment === "Bearish") bears++;
+      if (item.put_call === "Puts") puts++;
+      else if (item.put_call === "Calls") calls++;
+      if (pct > bestPct) {
+        bestPct = pct;
+        best = item;
+      }
+      if (pct < worstPct) {
+        worstPct = pct;
+        worst = item;
+      }
+    }
 
-  $: avgReturn = scorecardItems.length > 0
-    ? (scorecardItems.reduce((sum, i) => sum + (enrichmentMap.get(i.id)?.pctChange ?? 0), 0) / scorecardItems.length).toFixed(1)
-    : null;
-
-  $: bestTrade = scorecardItems.length > 0
-    ? scorecardItems.reduce((best, i) => {
-        const pct = enrichmentMap.get(i.id)?.pctChange ?? -Infinity;
-        return pct > (enrichmentMap.get(best.id)?.pctChange ?? -Infinity) ? i : best;
-      })
-    : null;
-
-  $: worstTrade = scorecardItems.length > 0
-    ? scorecardItems.reduce((worst, i) => {
-        const pct = enrichmentMap.get(i.id)?.pctChange ?? Infinity;
-        return pct < (enrichmentMap.get(worst.id)?.pctChange ?? Infinity) ? i : worst;
-      })
-    : null;
-
-  $: bullCount = scorecardItems.filter(i => i.sentiment === 'Bullish').length;
-  $: bearCount = scorecardItems.filter(i => i.sentiment === 'Bearish').length;
+    const count = items.length;
+    return {
+      items,
+      count,
+      wins,
+      winRate: count > 0 ? ((wins / count) * 100).toFixed(0) : null,
+      avgReturn: count > 0 ? (totalReturn / count).toFixed(1) : null,
+      best,
+      worst,
+      bestPct: bestPct === -Infinity ? null : bestPct,
+      worstPct: worstPct === Infinity ? null : worstPct,
+      bulls,
+      bears,
+      puts,
+      calls,
+      putCallRatio: calls > 0 ? (puts / calls).toFixed(2) : null,
+    };
+  })();
 
   // ── News / Earnings ──
   function changeTab(i: number) {
@@ -441,7 +513,7 @@
     }
     enrichmentMap = cleanMap;
 
-    watchList = watchList.filter((item) => !deleteIdList.includes(item.id));
+    watchList = watchList.filter((item) => !deleteIdSet.has(item.id));
     editMode = false;
 
     try {
@@ -476,14 +548,20 @@
   }
 
   // ── Scroll handler for lazy-loading more news/earnings ──
+  let scrollTicking = false;
   function handleScroll() {
-    const scrollThreshold = document.body.offsetHeight * 0.8;
-    const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
-    if (isBottom && displayList?.length !== rawTabData?.length) {
-      const nextIndex = displayList?.length;
-      const filteredItem = rawTabData?.slice(nextIndex, nextIndex + 3);
-      displayList = [...displayList, ...filteredItem];
-    }
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+      const scrollThreshold = document.body.offsetHeight * 0.8;
+      const isBottom = window.innerHeight + window.scrollY >= scrollThreshold;
+      if (isBottom && displayList?.length !== rawTabData?.length) {
+        const nextIndex = displayList?.length;
+        const filteredItem = rawTabData?.slice(nextIndex, nextIndex + 3);
+        displayList = [...displayList, ...filteredItem];
+      }
+      scrollTicking = false;
+    });
   }
 
   // ── Notes ──
@@ -560,7 +638,6 @@
       toast.error("Failed to save note. Please try again.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
-      throw error;
     }
   }
 
@@ -645,720 +722,766 @@
   }}
 />
 
-<div class="w-full overflow-hidden min-h-screen mt-1 text-gray-700 dark:text-zinc-200">
+<div
+  class="w-full overflow-hidden min-h-screen mt-1 text-gray-700 dark:text-zinc-200"
+>
   <div class="w-full">
-          {#if isLoaded}
-            <!-- Toolbar (matching stocks watchlist layout) -->
+    {#if isLoaded}
+      <!-- Toolbar (matching stocks watchlist layout) -->
 
-            <!-- Empty States -->
-            {#if !data?.user}
-              <div
-                class="flex flex-col justify-center items-center m-auto z-0 pt-16"
+      <!-- Empty States -->
+      {#if !data?.user}
+        <div class="flex flex-col justify-center items-center m-auto z-0 pt-16">
+          <span class="font-bold text-xl sm:text-3xl">
+            Your Options Watchlist
+          </span>
+          <span class="text-sm sm:text-lg m-auto p-4 text-center">
+            Sign in and save options flow trades to track them here.
+          </span>
+          <a
+            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
+            href="/register"
+          >
+            Get Started
+          </a>
+        </div>
+      {:else if data?.user?.tier !== "Pro"}
+        <div class="flex flex-col justify-center items-center m-auto z-0 pt-16">
+          <span class="font-bold text-xl sm:text-3xl"> Options Watchlist </span>
+          <span class="text-sm sm:text-lg m-auto p-4 text-center">
+            Upgrade to Pro to save and track options flow trades.
+          </span>
+          <a
+            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
+            href="/pricing"
+          >
+            Upgrade to Pro
+          </a>
+        </div>
+      {:else if watchList.length === 0}
+        <div class="flex flex-col justify-center items-center m-auto z-0 pt-16">
+          <span class="font-bold text-xl sm:text-3xl"> No Saved Trades </span>
+          <span class="text-sm sm:text-lg pt-5 m-auto p-4 text-center">
+            Save trades from the Options Flow page using the star icon.
+          </span>
+          <a
+            href="/options-flow"
+            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
+          >
+            Browse Options Flow
+            <span
+              class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
+            >
+              <svg
+                class="ml-1 size-5 text-white dark:text-gray-900"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <span class="font-bold text-xl sm:text-3xl">
-                  Your Options Watchlist
-                </span>
-                <span class="text-sm sm:text-lg m-auto p-4 text-center">
-                  Sign in and save options flow trades to track them here.
-                </span>
-                <a
-                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
-                  href="/register"
-                >
-                  Get Started
-                </a>
-              </div>
-            {:else if data?.user?.tier !== "Pro"}
+                <path
+                  fill-rule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </a>
+        </div>
+      {:else}
+        <!-- Table Header Row (like Table component's header: title + find + download) -->
+        <div
+          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+        >
+          <div
+            class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+          >
+            <h2
+              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            >
+              {watchList.length} Trade{watchList.length !== 1 ? "s" : ""}
+            </h2>
+          </div>
+          <div
+            class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
+          >
+            <!-- Row 1 on mobile: Find filter (full width) -->
+            <div
+              class="relative min-w-24 w-full sm:w-fit sm:flex-1 lg:flex-none"
+            >
               <div
-                class="flex flex-col justify-center items-center m-auto z-0 pt-16"
+                class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
               >
-                <span class="font-bold text-xl sm:text-3xl">
-                  Options Watchlist
-                </span>
-                <span class="text-sm sm:text-lg m-auto p-4 text-center">
-                  Upgrade to Pro to save and track options flow trades.
-                </span>
-                <a
-                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
-                  href="/pricing"
-                >
-                  Upgrade to Pro
-                </a>
-              </div>
-            {:else if watchList.length === 0}
-              <div
-                class="flex flex-col justify-center items-center m-auto z-0 pt-16"
-              >
-                <span class="font-bold text-xl sm:text-3xl">
-                  No Saved Trades
-                </span>
-                <span class="text-sm sm:text-lg pt-5 m-auto p-4 text-center">
-                  Save trades from the Options Flow page using the star icon.
-                </span>
-                <a
-                  href="/options-flow"
-                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
-                >
-                  Browse Options Flow
-                  <span
-                    class="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out"
-                  >
+                {#if searchQuery?.length > 0}
+                  <label class="cursor-pointer" on:click={resetSearch}>
                     <svg
-                      class="ml-1 size-5 text-white dark:text-gray-900"
+                      class="w-5 h-5"
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                      viewBox="0 0 24 24"
                     >
                       <path
-                        fill-rule="evenodd"
-                        d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                        clip-rule="evenodd"
+                        fill="currentColor"
+                        d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
                       />
                     </svg>
-                  </span>
-                </a>
-              </div>
-            {:else}
-              <!-- Table Header Row (like Table component's header: title + find + download) -->
-              <div
-                class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
-              >
-                <div
-                  class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
-                >
-                  <h2
-                    class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
-                  >
-                    {watchList.length} Trade{watchList.length !== 1 ? "s" : ""}
-                  </h2>
-                </div>
-                <div
-                  class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
-                >
-                  <!-- Row 1 on mobile: Find filter (full width) -->
-                  <div
-                    class="relative min-w-24 w-full sm:w-fit sm:flex-1 lg:flex-none"
-                  >
-                    <div
-                      class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
-                    >
-                      {#if searchQuery?.length > 0}
-                        <label class="cursor-pointer" on:click={resetSearch}>
-                          <svg
-                            class="w-5 h-5"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              fill="currentColor"
-                              d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                            />
-                          </svg>
-                        </label>
-                      {/if}
-                    </div>
-                    <input
-                      bind:value={searchQuery}
-                      type="text"
-                      placeholder="Find..."
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-                    />
-                  </div>
-
-                  <!-- Row 2 on mobile: Add Trades + Edit Watchlist + Download -->
-                  <div
-                    class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
-                  >
-                    <!-- Add Trades Button -->
-                    <a
-                      href="/options-flow"
-                      class="border text-sm border-gray-300 dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
-                    >
-                      <svg class="inline-block w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                      <span class="ml-1.5 text-[0.85rem] sm:text-sm font-medium">Add Trades</span>
-                    </a>
-
-                    <div
-                      class="flex items-center gap-2 {watchList?.length === 0
-                        ? 'hidden'
-                        : ''}"
-                    >
-                      <!-- Delete Button (edit mode only) -->
-                      {#if editMode}
-                        <label
-                          on:click={handleDeleteItems}
-                          class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
-                        >
-                          <svg
-                            class="inline-block w-5 h-5"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            ><path
-                              fill="currentColor"
-                              d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
-                            /></svg
-                          >
-                          <span class="ml-1 text-sm">
-                            {numberOfChecked}
-                          </span>
-                        </label>
-                      {/if}
-
-                      <!-- Edit Watchlist Button -->
-                      <label
-                        on:click={handleEditMode}
-                        class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
-                      >
-                        <svg
-                          class="inline-block w-5 h-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 1024 1024"
-                          ><path
-                            fill="currentColor"
-                            d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
-                          /><path
-                            fill="currentColor"
-                            d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-                          /></svg
-                        >
-                        {#if !editMode}
-                          <span class="ml-1 text-[0.85rem] sm:text-sm">
-                            Edit Watchlist
-                          </span>
-                        {:else}
-                          <span class="ml-1 text-[0.85rem] sm:text-sm">
-                            Cancel
-                          </span>
-                        {/if}
-                      </label>
-
-                    </div>
-
-                    <!-- Download -->
-                    <DownloadData
-                      {data}
-                      rawData={filteredWatchList}
-                      title="options-watchlist"
-                      bulkDownload={false}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flow Scorecard -->
-              {#if enrichmentDone && scorecardItems.length > 0}
-                <div class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4">
-                  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-                    <div>
-                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Win Rate</div>
-                      <div class="text-sm font-semibold {Number(winRate) >= 50 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}">
-                        {winRate}%
-                      </div>
-                    </div>
-                    <div>
-                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Avg Return</div>
-                      <div class="text-sm font-semibold {Number(avgReturn) >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}">
-                        {Number(avgReturn) >= 0 ? '+' : ''}{avgReturn}%
-                      </div>
-                    </div>
-                    <div>
-                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Trades</div>
-                      <div class="text-sm font-semibold text-gray-900 dark:text-white">
-                        {scorecardItems.length}
-                      </div>
-                    </div>
-                    <div>
-                      <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Bull / Bear</div>
-                      <div class="text-sm font-semibold">
-                        <span class="text-emerald-800 dark:text-emerald-400">{bullCount}</span>
-                        <span class="text-gray-400 dark:text-zinc-500"> / </span>
-                        <span class="text-rose-800 dark:text-rose-400">{bearCount}</span>
-                      </div>
-                    </div>
-                    {#if bestTrade}
-                      <div>
-                        <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Best</div>
-                        <div class="text-sm font-semibold text-emerald-800 dark:text-emerald-400 truncate">
-                          +{enrichmentMap.get(bestTrade.id)?.pctChange?.toFixed(1)}% {bestTrade.ticker}
-                        </div>
-                      </div>
-                    {/if}
-                    {#if worstTrade}
-                      <div>
-                        <div class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400">Worst</div>
-                        <div class="text-sm font-semibold text-rose-800 dark:text-rose-400 truncate">
-                          {enrichmentMap.get(worstTrade.id)?.pctChange?.toFixed(1)}% {worstTrade.ticker}
-                        </div>
-                      </div>
-                    {/if}
-                  </div>
-                </div>
-              {:else if isEnriching}
-                <div class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 flex items-center gap-2">
-                  <span class="loading loading-spinner loading-sm text-gray-500 dark:text-zinc-400"></span>
-                  <span class="text-sm text-gray-500 dark:text-zinc-400">Analyzing trades...</span>
-                </div>
-              {/if}
-
-              <!-- Include Expired Toggle -->
-              {#if enrichmentDone && watchList.some(i => i.dte !== null && i.dte < 0)}
-                <label class="flex items-center gap-2 mt-3 cursor-pointer w-fit">
-                  <input
-                    type="checkbox"
-                    bind:checked={includeExpired}
-                    on:change={() => enrichWatchlist()}
-                    class="h-3.5 w-3.5 rounded border cursor-pointer"
-                  />
-                  <span class="text-xs text-gray-500 dark:text-zinc-400">Include expired contracts</span>
-                </label>
-              {/if}
-
-              <!-- Options Watchlist Table -->
-              <div
-                class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
-              >
-                <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
-                >
-                  <thead>
-                    <tr
-                      class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
-                    >
-                      {#if editMode}
-                        <th class="p-2 text-center w-8"></th>
-                      {/if}
-                      <th class="p-2 text-left">Time</th>
-                      <th class="p-2 text-center w-8"></th>
-                      <th class="p-2 text-left">Symbol</th>
-                      <th class="p-2 text-center w-8"></th>
-                      <th class="p-2 text-right">C/P</th>
-                      <th class="p-2 text-right">Strike</th>
-                      <th class="p-2 text-right">Expiry</th>
-                      <th class="p-2 text-right">DTE</th>
-                      <th class="p-2 text-right">Sent.</th>
-                      <th class="p-2 text-right">Spot</th>
-                      <th class="p-2 text-right">Price</th>
-                      <th class="p-2 text-right">Now</th>
-                      <th class="p-2 text-right">% Chg</th>
-                      <th class="p-2 text-right">IV</th>
-                      <th class="p-2 text-right">Delta</th>
-                      <th class="p-2 text-right">Prem</th>
-                      <th class="p-2 text-right">Type</th>
-                      <th class="p-2 text-right">Leg</th>
-                      <th class="p-2 text-right">Exec</th>
-                      <th class="p-2 text-right">Size</th>
-                      <th class="p-2 text-right">Vol</th>
-                      <th class="p-2 text-right">OI</th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-                  >
-                    {#each filteredWatchList as item}
-                      {@const enriched = enrichmentMap.get(item.id)}
-                      <tr
-                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
-                      >
-                        {#if editMode}
-                          <td class="text-center">
-                            <input
-                              type="checkbox"
-                              checked={deleteIdList.includes(item.id)}
-                              on:click={() => toggleDeleteItem(item.id)}
-                              class="h-4 w-4 rounded border cursor-pointer"
-                            />
-                          </td>
-                        {/if}
-                        <td
-                          class="text-start text-xs whitespace-nowrap text-gray-500 dark:text-zinc-400"
-                        >
-                          {formatTradeTime(item?.time)} · {formatDate(
-                            item?.date,
-                          )}
-                        </td>
-                        <td class="text-center">
-                          <button
-                            on:click|stopPropagation={() =>
-                              openContractChart(item)}
-                            class="cursor-pointer inline-block"
-                            aria-label="View contract chart"
-                          >
-                            <svg
-                              class="w-4 h-4 text-gray-400 dark:text-zinc-500 hover:text-violet-500 dark:hover:text-violet-400 transition-colors"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              ><g id="SVGRepo_iconCarrier">
-                                <path
-                                  d="M9 12H4.6C4.03995 12 3.75992 12 3.54601 12.109C3.35785 12.2049 3.20487 12.3578 3.10899 12.546C3 12.7599 3 13.0399 3 13.6V19.4C3 19.9601 3 20.2401 3.10899 20.454C3.20487 20.6422 3.35785 20.7951 3.54601 20.891C3.75992 21 4.03995 21 4.6 21H9M9 21H15M9 21L9 8.6C9 8.03995 9 7.75992 9.10899 7.54601C9.20487 7.35785 9.35785 7.20487 9.54601 7.10899C9.75992 7 10.0399 7 10.6 7H13.4C13.9601 7 14.2401 7 14.454 7.10899C14.6422 7.20487 14.7951 7.35785 14.891 7.54601C15 7.75992 15 8.03995 15 8.6V21M15 21H19.4C19.9601 21 20.2401 21 20.454 20.891C20.6422 20.7951 20.7951 20.6422 20.891 20.454C21 20.2401 21 19.9601 21 19.4V4.6C21 4.03995 21 3.75992 20.891 3.54601C20.7951 3.35785 20.6422 3.20487 20.454 3.10899C20.2401 3 19.9601 3 19.4 3H16.6C16.0399 3 15.7599 3 15.546 3.10899C15.3578 3.20487 15.2049 3.35785 15.109 3.54601C15 3.75992 15 4.03995 15 4.6V8"
-                                  stroke="currentColor"
-                                  stroke-width="1.8"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g></svg
-                            >
-                          </button>
-                        </td>
-                        <td
-                          on:click|stopPropagation
-                          class="text-start text-sm whitespace-nowrap"
-                        >
-                          <HoverStockChart
-                            symbol={item?.ticker}
-                            assetType={item?.underlying_type}
-                            optionSymbol={item?.option_symbol}
-                          />
-                        </td>
-                        <td class="text-center whitespace-nowrap">
-                          <button
-                            on:click|stopPropagation={() =>
-                              handleNoteClick(
-                                item.id,
-                                item?.hasNote || false,
-                                `${item?.ticker} ${item?.strike_price} ${item?.put_call}`,
-                              )}
-                            on:mouseenter={() =>
-                              handleNoteHover(item.id, item?.hasNote || false)}
-                            class="cursor-pointer transition-colors"
-                            title={item?.hasNote ? "Edit note" : "Add note"}
-                          >
-                            <Pencil
-                              class="h-3.5 w-3.5 {item?.hasNote
-                                ? 'text-violet-500 dark:text-violet-400'
-                                : 'text-gray-400 dark:text-zinc-500'}"
-                            />
-                          </button>
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap {item?.put_call ===
-                          'Calls'
-                            ? 'text-emerald-800 dark:text-emerald-400'
-                            : 'text-rose-800 dark:text-rose-400'}"
-                        >
-                          {item?.put_call}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {item?.strike_price}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {formatDate(item?.date_expiration)}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {#if item?.dte === null}
-                            -
-                          {:else if item.dte < 0}
-                            <span class="text-gray-400 dark:text-zinc-500"
-                              >expired</span
-                            >
-                          {:else}
-                            {item.dte}d
-                          {/if}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap {item?.sentiment ===
-                          'Bullish'
-                            ? 'text-emerald-800 dark:text-emerald-400'
-                            : item?.sentiment === 'Bearish'
-                              ? 'text-rose-800 dark:text-rose-400'
-                              : 'text-orange-800 dark:text-[#C6A755]'}"
-                        >
-                          {item?.sentiment}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {item?.underlying_price}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {item?.price}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {#if enriched?.status === 'loading'}
-                            <span class="loading loading-spinner loading-xs"></span>
-                          {:else if enriched?.status === 'done' && enriched.currentPrice !== null}
-                            ${enriched.currentPrice.toFixed(2)}
-                          {:else}
-                            <span class="text-gray-400 dark:text-zinc-500">-</span>
-                          {/if}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap {enriched?.pctChange != null ? (enriched.pctChange >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400') : ''}">
-                          {#if enriched?.status === 'done' && enriched.pctChange !== null}
-                            {enriched.pctChange >= 0 ? '+' : ''}{enriched.pctChange.toFixed(1)}%
-                          {:else if enriched?.status === 'loading'}
-                            <span class="loading loading-spinner loading-xs"></span>
-                          {:else}
-                            <span class="text-gray-400 dark:text-zinc-500">-</span>
-                          {/if}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {#if enriched?.status === 'done' && enriched.iv !== null}
-                            {(enriched.iv * 100).toFixed(0)}%
-                          {:else if enriched?.status === 'loading'}
-                            <span class="loading loading-spinner loading-xs"></span>
-                          {:else}
-                            <span class="text-gray-400 dark:text-zinc-500">-</span>
-                          {/if}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {#if enriched?.status === 'done' && enriched.delta !== null}
-                            {enriched.delta.toFixed(2)}
-                          {:else if enriched?.status === 'loading'}
-                            <span class="loading loading-spinner loading-xs"></span>
-                          {:else}
-                            <span class="text-gray-400 dark:text-zinc-500">-</span>
-                          {/if}
-                        </td>
-                        <td class="text-end text-sm whitespace-nowrap">
-                          {@html abbreviateNumber(
-                            item?.cost_basis,
-                            false,
-                            true,
-                          )}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap {item?.option_activity_type ===
-                          'Sweep'
-                            ? 'text-gray-600 dark:text-[#C6A755]'
-                            : item?.option_activity_type === 'Block'
-                              ? 'text-gray-600 dark:text-[#FF6B6B]'
-                              : item?.option_activity_type === 'Large'
-                                ? 'text-gray-600 dark:text-[#4ECDC4]'
-                                : 'text-gray-600 dark:text-[#976DB7]'}"
-                        >
-                          {item?.option_activity_type}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap {item?.trade_leg_type ===
-                          'multi-leg'
-                            ? 'text-gray-600 dark:text-[#FF9500]'
-                            : 'text-gray-600 dark:text-[#7B8794]'}"
-                        >
-                          {item?.trade_leg_type === "multi-leg"
-                            ? "Multi"
-                            : "Single"}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap {[
-                            'At Ask',
-                            'Above Ask',
-                          ].includes(item?.execution_estimate)
-                            ? 'text-gray-600 dark:text-[#C8A32D]'
-                            : ['At Bid', 'Below Bid'].includes(
-                                  item?.execution_estimate,
-                                )
-                              ? 'text-gray-600 dark:text-[#8F82FE]'
-                              : 'text-gray-600 dark:text-[#A98184]'}"
-                        >
-                          {item?.execution_estimate?.replace("Midpoint", "Mid")}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap tabular-nums"
-                        >
-                          {new Intl.NumberFormat("en", {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                          }).format(item?.size)}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap tabular-nums"
-                        >
-                          {new Intl.NumberFormat("en", {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                          }).format(item?.volume)}
-                        </td>
-                        <td
-                          class="text-end text-sm whitespace-nowrap tabular-nums"
-                        >
-                          {new Intl.NumberFormat("en", {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                          }).format(item?.open_interest)}
-                        </td>
-                      </tr>
-                    {/each}
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- Divider -->
-              <div
-                class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
-              ></div>
-
-              <!-- News / Earnings Tabs -->
-              <div>
-                <div
-                  class="inline-flex justify-center w-full rounded sm:w-auto mb-3"
-                >
-                  <div
-                    class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
-                  >
-                    <div>
-                      <div class="inline-flex">
-                        <div
-                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
-                        >
-                          {#each tabs as item, i (item)}
-                            <button
-                              on:click={() => changeTab(i)}
-                              class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
-                              {activeIdx === i
-                                ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                            >
-                              {item}
-                            </button>
-                          {/each}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {#if activeIdx === 0}
-                  {#if groupedNews?.length > 0}
-                    {#each displayList as [date, titleGroups]}
-                      <h3
-                        class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
-                      >
-                        {date}
-                      </h3>
-                      <div
-                        class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
-                      >
-                        {#each titleGroups as { title, items, symbols }, index}
-                          <div
-                            class="flex border-gray-300 {index > 0
-                              ? 'border-t'
-                              : ''} dark:border-zinc-700 text-sm"
-                          >
-                            <div
-                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
-                            >
-                              {formatTimeLocale(items[0].publishedDate)}
-                            </div>
-                            <div class="grow px-3 py-2 lg:py-1">
-                              <h4 class="text-sm lg:text-base">
-                                {title}
-                              </h4>
-                              <div
-                                class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
-                              >
-                                <div class="lg:hidden">
-                                  {formatTimeLocale(items[0].publishedDate)}
-                                </div>
-                                <div class="flex flex-wrap gap-x-2">
-                                  {#each symbols as symbol}
-                                    <a
-                                      href={`/stocks/${symbol}`}
-                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                    >
-                                      {symbol}
-                                    </a>
-                                  {/each}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        {/each}
-                      </div>
-                    {/each}
-                  {:else}
-                    <br />
-                    <div class="mt-3 sm:mt-0">
-                      <Infobox text="No recent news for your saved tickers." />
-                    </div>
-                  {/if}
-                {:else if groupedEarnings?.length > 0}
-                  {#each displayList as [date, titleGroups]}
-                    <h3
-                      class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
-                    >
-                      {date}
-                    </h3>
-                    <div
-                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
-                    >
-                      {#each titleGroups as item, index}
-                        <div
-                          class="flex border-gray-300 dark:border-zinc-700 text-sm"
-                        >
-                          <div
-                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
-                          >
-                            {formatTime(item?.time)}
-                          </div>
-                          <div
-                            class="grow px-3 py-2 lg:py-1 {index > 0
-                              ? 'border-t'
-                              : ''} border-gray-300 dark:border-zinc-700"
-                          >
-                            <div>
-                              {removeCompanyStrings(item?.name)}
-                              (<HoverStockChart symbol={item?.symbol} />) will
-                              report
-
-                              {#if item?.time}
-                                {#if compareTimes(item?.time, "16:00") >= 0}
-                                  after close
-                                {:else if compareTimes(item?.time, "09:30") <= 0}
-                                  before open
-                                {:else}
-                                  during market
-                                {/if}
-                              {/if}
-                              with analysts estimating
-                              {abbreviateNumber(item?.revenueEst)}
-                              in revenue ({(
-                                (item?.revenueEst / item?.revenuePrior - 1) *
-                                100
-                              )?.toFixed(2)}% YoY) and
-                              {item?.epsEst}
-                              in EPS
-                              {#if item?.epsPrior !== 0}
-                                ({(
-                                  (item?.epsEst / item?.epsPrior - 1) *
-                                  100
-                                )?.toFixed(2)}% YoY).
-                              {/if}
-                            </div>
-
-                            <div
-                              class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
-                            >
-                              <div class="lg:hidden">
-                                {formatTime(item?.time)}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      {/each}
-                    </div>
-                  {/each}
-                {:else}
-                  <br />
-                  <div class="mt-3 sm:mt-0">
-                    <Infobox
-                      text="No upcoming earnings for your saved tickers."
-                    />
-                  </div>
+                  </label>
                 {/if}
               </div>
-            {/if}
-          {:else}
-            <!-- Loading State -->
-            <div class="flex justify-center items-center h-80">
-              <div class="relative">
-                <label
-                  class="bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              <input
+                bind:value={searchQuery}
+                type="text"
+                placeholder="Find..."
+                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+              />
+            </div>
+
+            <!-- Row 2 on mobile: Add Trades + Edit Watchlist + Download -->
+            <div
+              class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
+            >
+              <!-- Add Trades Button -->
+              <a
+                href="/options-flow"
+                class="border text-sm border-gray-300 dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+              >
+                <svg
+                  class="inline-block w-4 h-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><line x1="12" y1="5" x2="12" y2="19" /><line
+                    x1="5"
+                    y1="12"
+                    x2="19"
+                    y2="12"
+                  /></svg
                 >
-                  <span
-                    class="loading loading-spinner loading-md text-white dark:text-white"
-                  ></span>
+                <span class="ml-1.5 text-[0.85rem] sm:text-sm font-medium"
+                  >Add Trades</span
+                >
+              </a>
+
+              <div
+                class="flex items-center gap-2 {watchList?.length === 0
+                  ? 'hidden'
+                  : ''}"
+              >
+                <!-- Delete Button (edit mode only) -->
+                {#if editMode}
+                  <label
+                    on:click={handleDeleteItems}
+                    class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                  >
+                    <svg
+                      class="inline-block w-5 h-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
+                      /></svg
+                    >
+                    <span class="ml-1 text-sm">
+                      {numberOfChecked}
+                    </span>
+                  </label>
+                {/if}
+
+                <!-- Edit Watchlist Button -->
+                <label
+                  on:click={handleEditMode}
+                  class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                >
+                  <svg
+                    class="inline-block w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1024 1024"
+                    ><path
+                      fill="currentColor"
+                      d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
+                    /><path
+                      fill="currentColor"
+                      d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
+                    /></svg
+                  >
+                  {#if !editMode}
+                    <span class="ml-1 text-[0.85rem] sm:text-sm">
+                      Edit Watchlist
+                    </span>
+                  {:else}
+                    <span class="ml-1 text-[0.85rem] sm:text-sm"> Cancel </span>
+                  {/if}
                 </label>
               </div>
+
+              <!-- Download -->
+              <DownloadData
+                {data}
+                rawData={filteredWatchList}
+                title="options-watchlist"
+                bulkDownload={false}
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Flow Scorecard -->
+        {#if enrichmentDone && scorecard.count > 0}
+          <div
+            class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4"
+          >
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+            >
+              <div>
+                <div
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  Win Rate
+                </div>
+                <div
+                  class="text-sm font-semibold {Number(scorecard.winRate) >= 50
+                    ? 'text-emerald-800 dark:text-emerald-400'
+                    : 'text-rose-800 dark:text-rose-400'}"
+                >
+                  {scorecard.winRate}%
+                </div>
+              </div>
+              <div>
+                <div
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  Avg Return
+                </div>
+                <div
+                  class="text-sm font-semibold {Number(scorecard.avgReturn) >= 0
+                    ? 'text-emerald-800 dark:text-emerald-400'
+                    : 'text-rose-800 dark:text-rose-400'}"
+                >
+                  {Number(scorecard.avgReturn) >= 0
+                    ? "+"
+                    : ""}{scorecard.avgReturn}%
+                </div>
+              </div>
+              <div>
+                <div
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  Put/Call Ratio
+                </div>
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {scorecard.putCallRatio !== null
+                    ? scorecard.putCallRatio
+                    : "-"}
+                  <span
+                    class="text-[10px] font-normal text-gray-500 dark:text-zinc-400"
+                    >({scorecard.puts}P / {scorecard.calls}C)</span
+                  >
+                </div>
+              </div>
+              <div>
+                <div
+                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                >
+                  Bull / Bear
+                </div>
+                <div class="text-sm font-semibold">
+                  <span class="text-emerald-800 dark:text-emerald-400"
+                    >{scorecard.bulls}</span
+                  >
+                  <span class="text-gray-400 dark:text-zinc-500"> / </span>
+                  <span class="text-rose-800 dark:text-rose-400"
+                    >{scorecard.bears}</span
+                  >
+                </div>
+              </div>
+              {#if scorecard.best}
+                <div>
+                  <div
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >
+                    Best
+                  </div>
+                  <div
+                    class="text-sm font-semibold text-emerald-800 dark:text-emerald-400 truncate"
+                  >
+                    +{scorecard.bestPct?.toFixed(1)}% {scorecard.best.ticker}
+                  </div>
+                </div>
+              {/if}
+              {#if scorecard.worst}
+                <div>
+                  <div
+                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  >
+                    Worst
+                  </div>
+                  <div
+                    class="text-sm font-semibold text-rose-800 dark:text-rose-400 truncate"
+                  >
+                    {scorecard.worstPct?.toFixed(1)}% {scorecard.worst.ticker}
+                  </div>
+                </div>
+              {/if}
+            </div>
+          </div>
+        {:else if isEnriching}
+          <div
+            class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 flex items-center gap-2"
+          >
+            <span
+              class="loading loading-spinner loading-sm text-gray-500 dark:text-zinc-400"
+            ></span>
+            <span class="text-sm text-gray-500 dark:text-zinc-400"
+              >Analyzing trades...</span
+            >
+          </div>
+        {/if}
+
+        <!-- Include Expired Toggle -->
+        {#if enrichmentDone && watchList.some((i) => i.dte !== null && i.dte < 0)}
+          <label class="flex items-center gap-2 mt-3 cursor-pointer w-fit">
+            <input
+              type="checkbox"
+              bind:checked={includeExpired}
+              on:change={() => enrichWatchlist()}
+              class="h-3.5 w-3.5 rounded border cursor-pointer"
+            />
+            <span class="text-xs text-gray-500 dark:text-zinc-400"
+              >Include expired contracts</span
+            >
+          </label>
+        {/if}
+
+        <!-- Options Watchlist Table -->
+        <div
+          class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
+        >
+          <table
+            class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+          >
+            <thead>
+              <tr
+                class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+              >
+                {#if editMode}
+                  <th class="p-2 text-center w-8"></th>
+                {/if}
+                <th class="p-2 text-left">Time</th>
+                <th class="p-2 text-center w-8"></th>
+                <th class="p-2 text-left">Symbol</th>
+                <th class="p-2 text-center w-8"></th>
+                <th class="p-2 text-right">C/P</th>
+                <th class="p-2 text-right">Strike</th>
+                <th class="p-2 text-right">Expiry</th>
+                <th class="p-2 text-right">DTE</th>
+                <th class="p-2 text-right">Sent.</th>
+                <th class="p-2 text-right">Spot</th>
+                <th class="p-2 text-right">Added Price</th>
+                <th class="p-2 text-right">Curr Price</th>
+                <th class="p-2 text-right">% Chg</th>
+                <th class="p-2 text-right">IV</th>
+                <th class="p-2 text-right">Delta</th>
+                <th class="p-2 text-right">Prem</th>
+                <th class="p-2 text-right">Type</th>
+                <th class="p-2 text-right">Leg</th>
+                <th class="p-2 text-right">Exec</th>
+                <th class="p-2 text-right">Size</th>
+                <th class="p-2 text-right">Vol</th>
+                <th class="p-2 text-right">OI</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+              {#each filteredWatchList as item}
+                {@const enriched = enrichmentMap.get(item.id)}
+                <tr
+                  class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                >
+                  {#if editMode}
+                    <td class="text-center">
+                      <input
+                        type="checkbox"
+                        checked={deleteIdSet.has(item.id)}
+                        on:click={() => toggleDeleteItem(item.id)}
+                        class="h-4 w-4 rounded border cursor-pointer"
+                      />
+                    </td>
+                  {/if}
+                  <td
+                    class="text-start text-xs whitespace-nowrap text-gray-500 dark:text-zinc-400"
+                  >
+                    {formatTradeTime(item?.time)} · {formatDate(item?.date)}
+                  </td>
+                  <td class="text-center">
+                    <button
+                      on:click|stopPropagation={() => openContractChart(item)}
+                      class="cursor-pointer inline-block"
+                      aria-label="View contract chart"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-400 dark:text-zinc-500 hover:text-violet-500 dark:hover:text-violet-400 transition-colors"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        ><g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M9 12H4.6C4.03995 12 3.75992 12 3.54601 12.109C3.35785 12.2049 3.20487 12.3578 3.10899 12.546C3 12.7599 3 13.0399 3 13.6V19.4C3 19.9601 3 20.2401 3.10899 20.454C3.20487 20.6422 3.35785 20.7951 3.54601 20.891C3.75992 21 4.03995 21 4.6 21H9M9 21H15M9 21L9 8.6C9 8.03995 9 7.75992 9.10899 7.54601C9.20487 7.35785 9.35785 7.20487 9.54601 7.10899C9.75992 7 10.0399 7 10.6 7H13.4C13.9601 7 14.2401 7 14.454 7.10899C14.6422 7.20487 14.7951 7.35785 14.891 7.54601C15 7.75992 15 8.03995 15 8.6V21M15 21H19.4C19.9601 21 20.2401 21 20.454 20.891C20.6422 20.7951 20.7951 20.6422 20.891 20.454C21 20.2401 21 19.9601 21 19.4V4.6C21 4.03995 21 3.75992 20.891 3.54601C20.7951 3.35785 20.6422 3.20487 20.454 3.10899C20.2401 3 19.9601 3 19.4 3H16.6C16.0399 3 15.7599 3 15.546 3.10899C15.3578 3.20487 15.2049 3.35785 15.109 3.54601C15 3.75992 15 4.03995 15 4.6V8"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </g></svg
+                      >
+                    </button>
+                  </td>
+                  <td
+                    on:click|stopPropagation
+                    class="text-start text-sm whitespace-nowrap"
+                  >
+                    <HoverStockChart
+                      symbol={item?.ticker}
+                      assetType={item?.underlying_type}
+                      optionSymbol={item?.option_symbol}
+                    />
+                  </td>
+                  <td class="text-center whitespace-nowrap">
+                    <button
+                      on:click|stopPropagation={() =>
+                        handleNoteClick(
+                          item.id,
+                          item?.hasNote || false,
+                          `${item?.ticker} ${item?.strike_price} ${item?.put_call}`,
+                        )}
+                      on:mouseenter={() =>
+                        handleNoteHover(item.id, item?.hasNote || false)}
+                      class="cursor-pointer transition-colors"
+                      title={item?.hasNote ? "Edit note" : "Add note"}
+                    >
+                      <Pencil
+                        class="h-3.5 w-3.5 {item?.hasNote
+                          ? 'text-violet-500 dark:text-violet-400'
+                          : 'text-gray-400 dark:text-zinc-500'}"
+                      />
+                    </button>
+                  </td>
+                  <td
+                    class="text-end text-sm whitespace-nowrap {item?.put_call ===
+                    'Calls'
+                      ? 'text-emerald-800 dark:text-emerald-400'
+                      : 'text-rose-800 dark:text-rose-400'}"
+                  >
+                    {item?.put_call}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {item?.strike_price}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {formatDate(item?.date_expiration)}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {#if item?.dte === null}
+                      -
+                    {:else if item.dte < 0}
+                      <span class="text-gray-400 dark:text-zinc-500"
+                        >expired</span
+                      >
+                    {:else}
+                      {item.dte}d
+                    {/if}
+                  </td>
+                  <td
+                    class="text-end text-sm whitespace-nowrap {item?.sentiment ===
+                    'Bullish'
+                      ? 'text-emerald-800 dark:text-emerald-400'
+                      : item?.sentiment === 'Bearish'
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : 'text-orange-800 dark:text-[#C6A755]'}"
+                  >
+                    {item?.sentiment}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {item?.underlying_price}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {item?.price}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {#if enriched?.status === "loading"}
+                      <span class="loading loading-spinner loading-xs"></span>
+                    {:else if enriched?.status === "done" && enriched.currentPrice !== null}
+                      {enriched.currentPrice.toFixed(2)}
+                    {:else}
+                      <span class="text-gray-400 dark:text-zinc-500">-</span>
+                    {/if}
+                  </td>
+                  <td
+                    class="text-end text-sm whitespace-nowrap {enriched?.pctChange !=
+                    null
+                      ? enriched.pctChange >= 0
+                        ? 'text-emerald-800 dark:text-emerald-400'
+                        : 'text-rose-800 dark:text-rose-400'
+                      : ''}"
+                  >
+                    {#if enriched?.status === "done" && enriched.pctChange !== null}
+                      {enriched.pctChange >= 0
+                        ? "+"
+                        : ""}{enriched.pctChange.toFixed(1)}%
+                    {:else if enriched?.status === "loading"}
+                      <span class="loading loading-spinner loading-xs"></span>
+                    {:else}
+                      <span class="text-gray-400 dark:text-zinc-500">-</span>
+                    {/if}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {#if enriched?.status === "done" && enriched.iv !== null}
+                      {(enriched.iv * 100).toFixed(0)}%
+                    {:else if enriched?.status === "loading"}
+                      <span class="loading loading-spinner loading-xs"></span>
+                    {:else}
+                      <span class="text-gray-400 dark:text-zinc-500">-</span>
+                    {/if}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {#if enriched?.status === "done" && enriched.delta !== null}
+                      {enriched.delta.toFixed(2)}
+                    {:else if enriched?.status === "loading"}
+                      <span class="loading loading-spinner loading-xs"></span>
+                    {:else}
+                      <span class="text-gray-400 dark:text-zinc-500">-</span>
+                    {/if}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap">
+                    {abbreviateNumber(item?.cost_basis)}
+                  </td>
+                  <td
+                    class="text-end text-sm whitespace-nowrap {item?.option_activity_type ===
+                    'Sweep'
+                      ? 'text-gray-600 dark:text-[#C6A755]'
+                      : item?.option_activity_type === 'Block'
+                        ? 'text-gray-600 dark:text-[#FF6B6B]'
+                        : item?.option_activity_type === 'Large'
+                          ? 'text-gray-600 dark:text-[#4ECDC4]'
+                          : 'text-gray-600 dark:text-[#976DB7]'}"
+                  >
+                    {item?.option_activity_type}
+                  </td>
+                  <td
+                    class="text-end text-sm whitespace-nowrap {item?.trade_leg_type ===
+                    'multi-leg'
+                      ? 'text-gray-600 dark:text-[#FF9500]'
+                      : 'text-gray-600 dark:text-[#7B8794]'}"
+                  >
+                    {item?.trade_leg_type === "multi-leg" ? "Multi" : "Single"}
+                  </td>
+                  <td
+                    class="text-end text-sm whitespace-nowrap {[
+                      'At Ask',
+                      'Above Ask',
+                    ].includes(item?.execution_estimate)
+                      ? 'text-gray-600 dark:text-[#C8A32D]'
+                      : ['At Bid', 'Below Bid'].includes(
+                            item?.execution_estimate,
+                          )
+                        ? 'text-gray-600 dark:text-[#8F82FE]'
+                        : 'text-gray-600 dark:text-[#A98184]'}"
+                  >
+                    {item?.execution_estimate?.replace("Midpoint", "Mid")}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                    {intlCompact.format(item?.size)}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                    {intlCompact.format(item?.volume)}
+                  </td>
+                  <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                    {intlCompact.format(item?.open_interest)}
+                  </td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Divider -->
+        <div
+          class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
+        ></div>
+
+        <!-- News / Earnings Tabs -->
+        <div>
+          <div class="inline-flex justify-center w-full rounded sm:w-auto mb-3">
+            <div
+              class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
+            >
+              <div>
+                <div class="inline-flex">
+                  <div
+                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                  >
+                    {#each tabs as item, i (item)}
+                      <button
+                        on:click={() => changeTab(i)}
+                        class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
+                              {activeIdx === i
+                          ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                          : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                      >
+                        {item}
+                      </button>
+                    {/each}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {#if activeIdx === 0}
+            {#if groupedNews?.length > 0}
+              {#each displayList as [date, titleGroups]}
+                <h3
+                  class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                >
+                  {date}
+                </h3>
+                <div
+                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                >
+                  {#each titleGroups as { title, items, symbols }, index}
+                    <div
+                      class="flex border-gray-300 {index > 0
+                        ? 'border-t'
+                        : ''} dark:border-zinc-700 text-sm"
+                    >
+                      <div
+                        class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                      >
+                        {formatTimeLocale(items[0].publishedDate)}
+                      </div>
+                      <div class="grow px-3 py-2 lg:py-1">
+                        <h4 class="text-sm lg:text-base">
+                          {title}
+                        </h4>
+                        <div
+                          class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
+                        >
+                          <div class="lg:hidden">
+                            {formatTimeLocale(items[0].publishedDate)}
+                          </div>
+                          <div class="flex flex-wrap gap-x-2">
+                            {#each symbols as symbol}
+                              <a
+                                href={`/stocks/${symbol}`}
+                                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                              >
+                                {symbol}
+                              </a>
+                            {/each}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              {/each}
+            {:else}
+              <br />
+              <div class="mt-3 sm:mt-0">
+                <Infobox text="No recent news for your saved tickers." />
+              </div>
+            {/if}
+          {:else if groupedEarnings?.length > 0}
+            {#each displayList as [date, titleGroups]}
+              <h3
+                class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+              >
+                {date}
+              </h3>
+              <div
+                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+              >
+                {#each titleGroups as item, index}
+                  <div
+                    class="flex border-gray-300 dark:border-zinc-700 text-sm"
+                  >
+                    <div
+                      class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                    >
+                      {formatTime(item?.time)}
+                    </div>
+                    <div
+                      class="grow px-3 py-2 lg:py-1 {index > 0
+                        ? 'border-t'
+                        : ''} border-gray-300 dark:border-zinc-700"
+                    >
+                      <div>
+                        {removeCompanyStrings(item?.name)}
+                        (<HoverStockChart symbol={item?.symbol} />) will report
+
+                        {#if item?.time}
+                          {#if compareTimes(item?.time, "16:00") >= 0}
+                            after close
+                          {:else if compareTimes(item?.time, "09:30") <= 0}
+                            before open
+                          {:else}
+                            during market
+                          {/if}
+                        {/if}
+                        with analysts estimating
+                        {abbreviateNumber(item?.revenueEst)}
+                        in revenue ({(
+                          (item?.revenueEst / item?.revenuePrior - 1) *
+                          100
+                        )?.toFixed(2)}% YoY) and
+                        {item?.epsEst}
+                        in EPS
+                        {#if item?.epsPrior !== 0}
+                          ({(
+                            (item?.epsEst / item?.epsPrior - 1) *
+                            100
+                          )?.toFixed(2)}% YoY).
+                        {/if}
+                      </div>
+
+                      <div
+                        class="flex flex-wrap gap-x-2 pt-2 text-sm lg:pt-0.5"
+                      >
+                        <div class="lg:hidden">
+                          {formatTime(item?.time)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {/each}
+              </div>
+            {/each}
+          {:else}
+            <br />
+            <div class="mt-3 sm:mt-0">
+              <Infobox text="No upcoming earnings for your saved tickers." />
             </div>
           {/if}
+        </div>
+      {/if}
+    {:else}
+      <!-- Loading State -->
+      <div class="flex justify-center items-center h-80">
+        <div class="relative">
+          <label
+            class="bg-gray-900/80 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <span
+              class="loading loading-spinner loading-md text-white dark:text-white"
+            ></span>
+          </label>
+        </div>
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -1415,4 +1538,3 @@
     />
   {/await}
 {/if}
-

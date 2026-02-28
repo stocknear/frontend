@@ -120,6 +120,7 @@ export const load = async ({ locals, url }) => {
     getOptionsFlowFeed: getOptionsFlowFeedData,
     getOptionsWatchlist: getOptionsWatchlistData,
     getAllStrategies: getAllStrategiesData,
+    watchlistFull: (getOptionsWatchlistData?.data?.length ?? 0) >= 300,
     wsURL: wsURL,
     wsToken: wsTokenData,
   };

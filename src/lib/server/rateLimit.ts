@@ -159,4 +159,9 @@ export const RATE_LIMITS = {
     maxRequests: 30,
     windowMs: 60 * 1000,
   },
+  // Options watchlist updates: 60 per minute
+  optionsWatchlist: {
+    maxRequests: 60,
+    windowMs: 60 * 1000,
+  },
 } as const;
