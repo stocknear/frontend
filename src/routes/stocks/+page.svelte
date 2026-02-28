@@ -3,15 +3,15 @@
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  stocks_breadcrumb_current,
-  stocks_breadcrumb_home,
-  stocks_description,
-  stocks_seo_description,
-  stocks_seo_keywords,
-  stocks_seo_title,
-  stocks_table_title,
-  stocks_title,
-} from "$lib/paraglide/messages";
+    stocks_breadcrumb_current,
+    stocks_breadcrumb_home,
+    stocks_description,
+    stocks_seo_description,
+    stocks_seo_keywords,
+    stocks_seo_title,
+    stocks_table_title,
+    stocks_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -90,7 +90,9 @@
         >{stocks_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{stocks_breadcrumb_current()}</li>
+    <li class="text-gray-800 dark:text-zinc-300">
+      {stocks_breadcrumb_current()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -106,7 +108,9 @@
             <p
               class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
             >
-              {stocks_description({ count: rawData?.length })}
+              {stocks_description({
+                count: rawData?.length?.toLocaleString("en-US"),
+              })}
             </p>
           </div>
 
@@ -117,7 +121,9 @@
               {rawData}
               {defaultList}
               {excludedRules}
-              title={rawData?.length?.toLocaleString("en-US") + " " + stocks_table_title()}
+              title={rawData?.length?.toLocaleString("en-US") +
+                " " +
+                stocks_table_title()}
             />
           </div>
         </main>

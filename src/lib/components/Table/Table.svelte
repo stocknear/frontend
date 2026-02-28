@@ -1240,9 +1240,7 @@
 
     const requiredRules = Array.from(
       new Set(
-        (ruleOfList ?? [])
-          .map((item) => item?.rule)
-          .filter(isNonEmptyRule),
+        (ruleOfList ?? []).map((item) => item?.rule).filter(isNonEmptyRule),
       ),
     );
 
@@ -1599,7 +1597,9 @@
     // If we're currently on indicators tab, update display to show defaults
     if (displayTableTab === "indicators") {
       ruleOfList = [...activeIndicatorDefaultRows];
-      checkedItems = new Set(activeIndicatorDefaultRows.map((item) => item.name));
+      checkedItems = new Set(
+        activeIndicatorDefaultRows.map((item) => item.name),
+      );
       columns = generateColumns(rawData);
       if (customColumnOrder && customColumnOrder.length > 0) {
         columns = applyColumnOrder(columns);
@@ -1791,7 +1791,9 @@
 
     if (existingIndex >= 0) {
       // Remove the item (but not if it's a default rule)
-      indicatorsTabRules = indicatorsTabRules.filter((_, i) => i !== existingIndex);
+      indicatorsTabRules = indicatorsTabRules.filter(
+        (_, i) => i !== existingIndex,
+      );
       indicatorsTabCheckedItems.delete(itemName);
     } else {
       // Add the item
@@ -2113,7 +2115,7 @@
     }
   });
 
-  let previousSymbolKey = '';
+  let previousSymbolKey = "";
   let reconnectionTimeout;
 
   async function reconnectForNewSymbols() {
@@ -2136,12 +2138,14 @@
   }
 
   function handleRawDataChange(data) {
-    const symbolKey = (data?.map((item) => item?.symbol) || []).sort().join(',');
+    const symbolKey = (data?.map((item) => item?.symbol) || [])
+      .sort()
+      .join(",");
 
     if (symbolKey === previousSymbolKey) return;
     previousSymbolKey = symbolKey;
 
-    if (typeof socket !== 'undefined') {
+    if (typeof socket !== "undefined") {
       reconnectForNewSymbols();
     }
 
@@ -2619,9 +2623,7 @@
     </div>
   {/if}
   <div
-    class="flex {customColumnOrder?.length > 0
-      ? 'flex-col sm:flex-row sm:items-center'
-      : 'flex-row items-center'}  w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+    class="flex flex-col sm:flex-row sm:items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
   >
     <!-- Row 1 on mobile: Find... (full width) -->
     <div class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none">
@@ -2652,11 +2654,7 @@
     </div>
 
     <!-- Row 2 on mobile: Download + Reset + Indicators -->
-    <div
-      class="{customColumnOrder?.length > 0
-        ? 'mt-2 sm:mt-0 sm:ml-2 w-full sm:w-fit'
-        : ' ml-2 w-fit'}  flex items-center justify-end gap-2"
-    >
+    <div class="flex items-center justify-end w-full sm:w-fit sm:ml-2 gap-2">
       <DownloadData
         {data}
         rawData={exportViewData}
@@ -2671,7 +2669,7 @@
             on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
             class="min-w-fit w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span class="w-fit text-[0.85rem] sm:text-sm"
+            <span class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0"
               >{list_indicators_label()}</span
             >
             <svg
@@ -2870,9 +2868,7 @@
             : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
         >
           <span>{tab?.label}</span>
-          {#if (tab?.showCount || tab?.key === "indicators") &&
-          tab?.key === "indicators" &&
-          indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
+          {#if (tab?.showCount || tab?.key === "indicators") && tab?.key === "indicators" && indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
             <div
               class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
             >
@@ -2974,7 +2970,9 @@
                   {/if}
                 {:else if item[column.key] === null || item[column.key] === undefined}
                   {#if !(column.key in item)}
-                    <span class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"></span>
+                    <span
+                      class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                    ></span>
                   {:else}
                     -
                   {/if}
