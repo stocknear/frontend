@@ -1244,7 +1244,9 @@
       {#if userScrolledUp && isStreaming}
         <button
           on:click={scrollToBottom}
-          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-white dark:bg-zinc-900 text-gray-600 dark:text-zinc-300 rounded-full p-2 shadow-lg border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-white dark:bg-zinc-900 text-gray-600 dark:text-zinc-300 rounded-full p-2 shadow-lg border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors {$chatSidebarOpen
+            ? 'lg:left-[calc(50%+164px)]'
+            : 'lg:left-[calc(50%+24px)]'}"
           aria-label="Scroll to bottom"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1254,7 +1256,9 @@
       {/if}
 
       <div
-        class="bg-white dark:bg-zinc-950 fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden"
+        class="bg-white dark:bg-zinc-950 fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden {$chatSidebarOpen
+          ? 'lg:left-[calc(50%+164px)] lg:max-w-[min(48rem,calc(100vw-360px))]'
+          : 'lg:left-[calc(50%+24px)] lg:max-w-[min(48rem,calc(100vw-80px))]'}"
       >
         <div
           bind:this={editorDiv}

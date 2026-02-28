@@ -95,6 +95,17 @@
     return text.length > max ? text.slice(0, max) + "..." : text;
   }
 
+  // On desktop, reserve left inset for fixed sidebar rail.
+  // Using padding keeps content centered in the remaining viewport area.
+  // - Closed: rail width (w-12 => 48px)
+  // - Open: sidebar + rail (280 + 48 = 328px)
+  $: desktopContentInsetClass =
+    data?.user && allChats?.length > 0
+      ? $chatSidebarOpen
+        ? "lg:pl-[328px]"
+        : "lg:pl-12"
+      : "";
+
   function setChatSidebarOpen(isOpen: boolean) {
     $chatSidebarOpen = isOpen;
 
@@ -448,11 +459,7 @@
 
   <!-- Main content -->
   <div
-    class="flex-1 min-w-0 {data?.user &&
-    allChats?.length > 0 &&
-    $chatSidebarOpen
-      ? 'lg:ml-[280px]'
-      : ''}"
+    class="flex-1 min-w-0 transition-[padding-left] duration-200 {desktopContentInsetClass}"
   >
     <slot />
   </div>
