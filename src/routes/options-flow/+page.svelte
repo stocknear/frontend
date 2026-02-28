@@ -2376,13 +2376,29 @@
       <div class="sm:rounded">
         <div class="flex flex-col md:flex-row items-start md:items-center mb-3">
           <div
-            class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
+            class="w-full flex flex-row items-center sm:mt-4"
           >
             <h1
               class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {options_flow_main_title()}
             </h1>
+            <a
+              href="/watchlist/options"
+              class="ml-2 sm:ml-3 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-xs sm:text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition whitespace-nowrap"
+            >
+              <svg
+                class="w-3.5 h-3.5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+              Watchlist
+            </a>
           </div>
 
           <div class="flex flex-row items-center w-full mt-5">
@@ -3998,6 +4014,22 @@
               <!-- Download + Reset Column Order -->
 
               <div class="ml-2 w-fit flex items-center justify-end gap-2">
+                <a
+                  href="/watchlist/options"
+                  title="Options Watchlist"
+                  class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                </a>
                 <ScreenerExport
                   {data}
                   {displayedData}

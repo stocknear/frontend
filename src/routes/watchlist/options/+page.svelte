@@ -710,7 +710,7 @@
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -742,7 +742,7 @@
                 {#if editMode}
                   <label
                     on:click={handleDeleteItems}
-                    class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -762,7 +762,7 @@
                 <!-- Edit Watchlist Button -->
                 <label
                   on:click={handleEditMode}
-                  class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   <svg
                     class="inline-block w-5 h-5"

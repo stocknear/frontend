@@ -1088,7 +1088,7 @@ ${insightData.traderTakeaway}
                     on:click|stopPropagation={() => addToWatchlist(item)}
                     class="cursor-pointer transition-all duration-200 {bookmarkedIds.has(item?.id)
                       ? 'text-amber-500 dark:text-amber-400 scale-110'
-                      : 'text-gray-300 dark:text-zinc-600 hover:text-amber-400 dark:hover:text-amber-500 hover:scale-110'}"
+                      : 'text-gray-400 dark:text-zinc-600 hover:text-amber-400 dark:hover:text-amber-500 hover:scale-110'}"
                   >
                     {#if bookmarkedIds.has(item?.id)}
                       <svg class="{animationId === item?.id ? animationClass : ''} w-5 h-5 inline-block shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
