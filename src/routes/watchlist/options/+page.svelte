@@ -16,6 +16,7 @@
   import Pencil from "lucide-svelte/icons/pencil";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import Pagination from "$lib/components/Table/Pagination.svelte";
 
   const intlCompact = new Intl.NumberFormat("en", {
     minimumFractionDigits: 0,
@@ -131,6 +132,7 @@
         debouncedSearchQuery = searchQuery;
       }, 200);
     }
+    currentPage = 1;
   }
 
   // ── Enrichment State (populated from SSR) ──
@@ -195,6 +197,140 @@
 
   function resetSearch() {
     searchQuery = "";
+  }
+
+  // ── Sorting ──
+  let sortOrders: Record<string, { order: string; type: string }> = {
+    time: { order: "none", type: "string" },
+    ticker: { order: "none", type: "string" },
+    put_call: { order: "none", type: "string" },
+    strike_price: { order: "none", type: "number" },
+    date_expiration: { order: "none", type: "date" },
+    dte: { order: "none", type: "number" },
+    sentiment: { order: "none", type: "string" },
+    underlying_price: { order: "none", type: "number" },
+    price: { order: "none", type: "number" },
+    currentPrice: { order: "none", type: "number" },
+    pctChange: { order: "none", type: "number" },
+    iv: { order: "none", type: "number" },
+    delta: { order: "none", type: "number" },
+    cost_basis: { order: "none", type: "number" },
+    option_activity_type: { order: "none", type: "string" },
+    trade_leg_type: { order: "none", type: "string" },
+    execution_estimate: { order: "none", type: "string" },
+    size: { order: "none", type: "number" },
+    volume: { order: "none", type: "number" },
+    openInterest: { order: "none", type: "number" },
+  };
+
+  const enrichedSortKeys = new Set([
+    "currentPrice",
+    "pctChange",
+    "iv",
+    "delta",
+    "volume",
+    "openInterest",
+  ]);
+
+  function getSortValue(item: any, key: string) {
+    if (key === "time") return (item.date || "") + "T" + (item.time || "");
+    if (enrichedSortKeys.has(key)) {
+      const enriched = enrichmentMap.get(item.id);
+      if (enriched && enriched[key] != null) return enriched[key];
+      if (key === "volume") return item.volume ?? null;
+      if (key === "openInterest") return item.open_interest ?? null;
+      return null;
+    }
+    return item[key] ?? null;
+  }
+
+  const sortData = (key: string) => {
+    for (const k in sortOrders) {
+      if (k !== key) sortOrders[k].order = "none";
+    }
+    const orderCycle = ["none", "asc", "desc"];
+    const idx = orderCycle.indexOf(sortOrders[key].order);
+    sortOrders[key].order = orderCycle[(idx + 1) % 3];
+    sortOrders = sortOrders;
+    currentPage = 1;
+  };
+
+  const sortIconHtml = (key: string, _orders: typeof sortOrders) => {
+    const order = _orders[key]?.order;
+    if (!order || order === "none") return "";
+    return `<svg class="shrink-0 w-3.5 h-3.5 ${order === "asc" ? "rotate-180" : ""} inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>`;
+  };
+
+  $: sortedList = (() => {
+    const activeKey = Object.keys(sortOrders).find(
+      (k) => sortOrders[k].order !== "none",
+    );
+    if (!activeKey) return filteredWatchList;
+    const dir = sortOrders[activeKey].order;
+
+    return [...filteredWatchList].sort((a, b) => {
+      let va: any = getSortValue(a, activeKey);
+      let vb: any = getSortValue(b, activeKey);
+
+      if (va == null) return 1;
+      if (vb == null) return -1;
+
+      if (sortOrders[activeKey].type === "string") {
+        va = String(va).toUpperCase();
+        vb = String(vb).toUpperCase();
+        return dir === "asc" ? va.localeCompare(vb) : vb.localeCompare(va);
+      }
+      if (sortOrders[activeKey].type === "date") {
+        va = new Date(va).getTime();
+        vb = new Date(vb).getTime();
+      } else {
+        va = parseFloat(va) || 0;
+        vb = parseFloat(vb) || 0;
+      }
+      return dir === "asc" ? va - vb : vb - va;
+    });
+  })();
+
+  // ── Pagination ──
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  const rowsPerPageOptions = [20, 50, 100];
+  let totalPages = 1;
+
+  $: {
+    totalPages = Math.max(1, Math.ceil(sortedList.length / rowsPerPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+  }
+
+  $: paginatedList = sortedList.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage,
+  );
+
+  function goToPage(page: number) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+    }
+  }
+
+  function changeRowsPerPage(newRowsPerPage: number) {
+    rowsPerPage = newRowsPerPage;
+    currentPage = 1;
+    try {
+      localStorage.setItem(
+        "watchlist_options_rowsPerPage",
+        String(rowsPerPage),
+      );
+    } catch {}
+  }
+
+  function loadRowsPerPage() {
+    try {
+      const saved = localStorage.getItem("watchlist_options_rowsPerPage");
+      if (saved && rowsPerPageOptions.includes(Number(saved))) {
+        rowsPerPage = Number(saved);
+      }
+    } catch {}
   }
 
   function computeDTE(expirationDate: string): number {
@@ -521,6 +657,7 @@
   }
 
   onMount(async () => {
+    loadRowsPerPage();
     loadWatchlistData();
     isLoaded = true;
 
@@ -931,32 +1068,72 @@
                 {#if editMode}
                   <th class="p-2 text-center w-8"></th>
                 {/if}
-                <th class="p-2 text-left">Time</th>
+                <th class="p-2 text-left cursor-pointer select-none" on:click={() => sortData("time")}>
+                  <span class="inline-flex items-center gap-0.5">Time {@html sortIconHtml("time", sortOrders)}</span>
+                </th>
                 <th class="p-2 text-center w-8"></th>
-                <th class="p-2 text-left">Symbol</th>
+                <th class="p-2 text-left cursor-pointer select-none" on:click={() => sortData("ticker")}>
+                  <span class="inline-flex items-center gap-0.5">Symbol {@html sortIconHtml("ticker", sortOrders)}</span>
+                </th>
                 <th class="p-2 text-center w-8"></th>
-                <th class="p-2 text-right">C/P</th>
-                <th class="p-2 text-right">Strike</th>
-                <th class="p-2 text-right">Expiry</th>
-                <th class="p-2 text-right">DTE</th>
-                <th class="p-2 text-right">Sent.</th>
-                <th class="p-2 text-right">Spot</th>
-                <th class="p-2 text-right">Added Price</th>
-                <th class="p-2 text-right">Price</th>
-                <th class="p-2 text-right">% Since Added</th>
-                <th class="p-2 text-right">IV</th>
-                <th class="p-2 text-right">Delta</th>
-                <th class="p-2 text-right">Prem</th>
-                <th class="p-2 text-right">Type</th>
-                <th class="p-2 text-right">Leg</th>
-                <th class="p-2 text-right">Exec</th>
-                <th class="p-2 text-right">Size</th>
-                <th class="p-2 text-right">Vol</th>
-                <th class="p-2 text-right">OI</th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("put_call")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">C/P {@html sortIconHtml("put_call", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("strike_price")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Strike {@html sortIconHtml("strike_price", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("date_expiration")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Expiry {@html sortIconHtml("date_expiration", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("dte")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">DTE {@html sortIconHtml("dte", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("sentiment")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Sent. {@html sortIconHtml("sentiment", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("underlying_price")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Spot {@html sortIconHtml("underlying_price", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("price")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Added Price {@html sortIconHtml("price", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("currentPrice")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Price {@html sortIconHtml("currentPrice", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("pctChange")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">% Since Added {@html sortIconHtml("pctChange", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("iv")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">IV {@html sortIconHtml("iv", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("delta")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Delta {@html sortIconHtml("delta", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("cost_basis")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Prem {@html sortIconHtml("cost_basis", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("option_activity_type")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Type {@html sortIconHtml("option_activity_type", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("trade_leg_type")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Leg {@html sortIconHtml("trade_leg_type", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("execution_estimate")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Exec {@html sortIconHtml("execution_estimate", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("size")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Size {@html sortIconHtml("size", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("volume")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">Vol {@html sortIconHtml("volume", sortOrders)}</span>
+                </th>
+                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("openInterest")}>
+                  <span class="inline-flex items-center justify-end gap-0.5">OI {@html sortIconHtml("openInterest", sortOrders)}</span>
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
-              {#each filteredWatchList as item}
+              {#each paginatedList as item}
                 {@const enriched = enrichmentMap.get(item.id)}
                 <tr
                   class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
@@ -1156,16 +1333,28 @@
                     {intlCompact.format(item?.size)}
                   </td>
                   <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                    {intlCompact.format(item?.volume)}
+                    {intlCompact.format(enrichmentMap.get(item.id)?.volume ?? item?.volume)}
                   </td>
                   <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                    {intlCompact.format(item?.open_interest)}
+                    {intlCompact.format(enrichmentMap.get(item.id)?.openInterest ?? item?.open_interest)}
                   </td>
                 </tr>
               {/each}
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination -->
+        {#if sortedList.length > 0}
+          <Pagination
+            {currentPage}
+            {totalPages}
+            {rowsPerPage}
+            {rowsPerPageOptions}
+            on:pageChange={(e) => goToPage(e.detail.page)}
+            on:rowsPerPageChange={(e) => changeRowsPerPage(e.detail.rowsPerPage)}
+          />
+        {/if}
 
         <!-- Divider -->
         <div

@@ -116,6 +116,8 @@ export const load = async ({ locals }) => {
             currentPrice,
             iv: contractData.implied_volatility ?? null,
             delta: contractData.delta ?? null,
+            volume: contractData.volume ?? null,
+            openInterest: contractData.open_interest ?? null,
             pctChange:
               currentPrice != null && entryPrice > 0
                 ? ((currentPrice - entryPrice) / entryPrice) * 100
@@ -127,6 +129,8 @@ export const load = async ({ locals }) => {
             currentPrice: null,
             iv: null,
             delta: null,
+            volume: null,
+            openInterest: null,
             pctChange: null,
             status: "error",
           };
