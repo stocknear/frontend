@@ -198,12 +198,65 @@
 </script>
 
 <div class="flex w-full min-h-screen bg-white dark:bg-default">
+  {#if data?.user && allChats?.length > 0}
+    <div
+      class="hidden lg:block fixed top-14 z-30 h-[calc(100dvh-56px)] w-12 flex-shrink-0 border-r border-gray-300/80 dark:border-zinc-700/30 shadow-[2px_0_12px_rgba(0,0,0,0.06)] dark:shadow-[2px_0_12px_rgba(0,0,0,0.35)] transition-all duration-200 {$chatSidebarOpen
+        ? 'left-[280px]'
+        : 'left-0'}"
+    >
+      <button
+        on:click={toggleChatSidebar}
+        class="cursor-pointer h-full w-full flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur overflow-hidden border-l border-gray-200/80 dark:border-zinc-700/20 border-dashed text-gray-700 dark:text-zinc-300 sm:hover:text-gray-900 dark:sm:hover:text-zinc-100 transition-colors sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 {$chatSidebarOpen
+          ? 'bg-gray-50 dark:bg-zinc-900'
+          : ''}"
+        aria-label={$chatSidebarOpen
+          ? "Close chat history sidebar"
+          : "Open chat history sidebar"}
+        title={$chatSidebarOpen ? "Close My Chats" : "Open My Chats"}
+      >
+        <div
+          class="h-[50px] flex items-center justify-center border-b border-gray-200/60 dark:border-zinc-700/20"
+        >
+          <span class="p-1.5 rounded-md">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              color="currentColor"
+              class="text-gray-800 dark:text-zinc-300"
+              stroke-width="2"
+              stroke="currentColor"
+            >
+              <path
+                d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pb-[55px]">
+          <span
+            class="-rotate-90 text-[13px] font-medium text-gray-700 dark:text-zinc-300 tracking-[0.02em] whitespace-nowrap"
+          >
+            My Chats
+          </span>
+        </div>
+      </button>
+    </div>
+  {/if}
+
   {#if data?.user && allChats?.length > 0 && !$chatSidebarOpen}
     <button
       on:click={toggleChatSidebar}
-      class="cursor-pointer hidden lg:flex fixed top-20 left-4 z-40 items-center gap-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm font-medium text-gray-700 dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
-      aria-label="Open chat history sidebar"
-      title="Open chat history"
+      class="cursor-pointer hidden sm:inline-flex lg:hidden fixed top-20 left-3 z-40 items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
+      aria-label="Open My Chats sidebar"
+      title="Open My Chats"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -215,18 +268,17 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <path d="M3 12h18" />
-        <path d="M3 6h18" />
-        <path d="M3 18h18" />
+        <rect width="18" height="18" x="3" y="3" rx="2" />
+        <path d="M9 3v18" />
       </svg>
-      History
+      My Chats
     </button>
   {/if}
 
   <!-- Mobile backdrop -->
   {#if $chatSidebarOpen}
     <button
-      class="cursor-pointer lg:hidden fixed inset-0 bg-black/40 z-40"
+      class="cursor-pointer hidden sm:block lg:hidden fixed inset-0 bg-black/40 z-40"
       on:click={() => setChatSidebarOpen(false)}
       aria-label="Close sidebar"
     />
@@ -235,7 +287,7 @@
   <!-- Sidebar -->
   {#if data?.user && allChats?.length > 0}
     <aside
-      class="fixed top-0 left-0 z-50 lg:z-30 h-screen w-[280px] pt-0 lg:pt-16 border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex flex-col transition-transform duration-200 ease-out {$chatSidebarOpen
+      class="hidden sm:flex fixed top-0 left-0 z-50 lg:z-30 h-screen w-[280px] pt-0 lg:pt-16 border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex-col transition-transform duration-200 ease-out {$chatSidebarOpen
         ? 'translate-x-0'
         : '-translate-x-full'}"
     >
@@ -266,7 +318,7 @@
           <!-- Close button (mobile only) -->
           <button
             on:click={() => setChatSidebarOpen(false)}
-            class="cursor-pointer p-2 ml-auto rounded-lg text-gray-500 dark:text-zinc-400"
+            class="cursor-pointer lg:hidden p-2 ml-auto rounded-lg text-gray-500 dark:text-zinc-400"
             aria-label="Close sidebar"
             title="Close chat history"
           >
