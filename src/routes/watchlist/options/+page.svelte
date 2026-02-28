@@ -259,7 +259,7 @@
     let bestPct = -Infinity;
     let worstPct = Infinity;
 
-    for (const item of watchList) {
+    for (const item of filteredWatchList) {
       if (!includeExpired && item.dte !== null && item.dte < 0) continue;
       const e = enrichmentMap.get(item.id);
       if (e?.status !== "done" || e.pctChange === null) continue;
@@ -879,9 +879,9 @@
                     Best
                   </div>
                   <div
-                    class="text-sm font-semibold text-emerald-800 dark:text-emerald-400 truncate"
+                    class="text-sm font-semibold truncate {scorecard.bestPct >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}"
                   >
-                    +{scorecard.bestPct?.toFixed(1)}% {scorecard.best.ticker}
+                    {scorecard.bestPct >= 0 ? '+' : ''}{scorecard.bestPct?.toFixed(1)}% {scorecard.best.ticker}
                   </div>
                 </div>
               {/if}
@@ -893,9 +893,9 @@
                     Worst
                   </div>
                   <div
-                    class="text-sm font-semibold text-rose-800 dark:text-rose-400 truncate"
+                    class="text-sm font-semibold truncate {scorecard.worstPct >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}"
                   >
-                    {scorecard.worstPct?.toFixed(1)}% {scorecard.worst.ticker}
+                    {scorecard.worstPct >= 0 ? '+' : ''}{scorecard.worstPct?.toFixed(1)}% {scorecard.worst.ticker}
                   </div>
                 </div>
               {/if}
