@@ -593,7 +593,7 @@
             {:else}
               <!-- Table Header Row (like Table component's header: title + find + download) -->
               <div
-                class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+                class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
               >
                 <div
                   class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -605,11 +605,11 @@
                   </h2>
                 </div>
                 <div
-                  class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+                  class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
                 >
-                  <!-- Find filter -->
+                  <!-- Row 1 on mobile: Find filter (full width) -->
                   <div
-                    class="relative min-w-24 w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+                    class="relative min-w-24 w-full sm:w-fit sm:flex-1 lg:flex-none"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -637,18 +637,20 @@
                     />
                   </div>
 
+                  <!-- Row 2 on mobile: Edit Watchlist + Download -->
                   <div
-                    class="ml-2 w-fit flex items-center justify-end gap-2 {watchList?.length ===
-                    0
-                      ? 'hidden'
-                      : ''}"
+                    class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
                   >
-                    <div class="flex flex-row items-center justify-end w-full">
+                    <div
+                      class="flex items-center gap-2 {watchList?.length === 0
+                        ? 'hidden'
+                        : ''}"
+                    >
                       <!-- Delete Button (edit mode only) -->
                       {#if editMode}
                         <label
                           on:click={handleDeleteItems}
-                          class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                          class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                         >
                           <svg
                             class="inline-block w-5 h-5"
@@ -668,7 +670,7 @@
                       <!-- Edit Watchlist Button -->
                       <label
                         on:click={handleEditMode}
-                        class="w-full border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                        class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                       >
                         <svg
                           class="inline-block w-5 h-5"
@@ -699,7 +701,7 @@
                         title={isFullWidth
                           ? "Exit Full Width"
                           : "Expand Full Width"}
-                        class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                        class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                           ? 'border-violet-400 dark:border-violet-500'
                           : ''}"
                       >
@@ -739,11 +741,8 @@
                         >
                       </button>
                     </div>
-                  </div>
 
-                  <!-- Download -->
-
-                  <div class="ml-2 w-fit flex items-center justify-end gap-2">
+                    <!-- Download -->
                     <DownloadData
                       {data}
                       rawData={filteredWatchList}
