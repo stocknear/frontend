@@ -12,8 +12,8 @@
 
   let isLoading = false;
   let hasError = false;
-  let rawHistory: any[] = [];
-  let rawStockHistory: any[] = [];
+  let rawHistory: any[] = []; // pre-sorted ascending, with .ts pre-computed
+  let rawStockHistory: any[] = []; // pre-sorted ascending, with .ts pre-computed
   let chartConfig: any = null;
   let selectGraphType = "Price";
   let selectedTimePeriod = "3M";
@@ -51,13 +51,6 @@
     chartConfig = plotData();
   }
 
-  $: if (rawHistory.length > 0) {
-    const sorted = [...rawHistory].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-    );
-    latestStats = sorted[0] || null;
-  }
-
   async function fetchContractHistory() {
     isLoading = true;
     hasError = false;
@@ -92,20 +85,31 @@
       }
 
       const contractOutput = await contractRes.json();
-      rawHistory = contractOutput?.history || [];
+      const history = contractOutput?.history || [];
 
-      if (rawHistory.length === 0) {
+      if (history.length === 0) {
         hasError = true;
         return;
       }
 
+      // Pre-sort ascending + pre-compute timestamps once (avoids re-sorting/re-parsing on every plotData call)
+      rawHistory = history
+        .sort((a: any, b: any) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+        .map((d: any) => ({ ...d, ts: new Date(d.date).getTime() }));
+
+      latestStats = rawHistory[rawHistory.length - 1] || null;
+
       // Stock history is best-effort — don't fail the modal if it errors
-      // Normalize "time" field to "date" so filterDataByTimePeriod works
       if (stockRes.ok) {
         const stockOutput = await stockRes.json();
-        rawStockHistory = Array.isArray(stockOutput)
-          ? stockOutput.map((d: any) => ({ ...d, date: d.time ?? d.date }))
-          : [];
+        if (Array.isArray(stockOutput)) {
+          rawStockHistory = stockOutput
+            .map((d: any) => {
+              const date = d.time ?? d.date;
+              return { ...d, date, ts: new Date(date).getTime() };
+            })
+            .sort((a: any, b: any) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
+        }
       }
     } catch {
       hasError = true;
@@ -142,46 +146,53 @@
         thresholdDate.setFullYear(now.getFullYear() - 1);
         break;
       default:
-        thresholdDate = new Date(0);
-        break;
+        return data;
     }
 
-    return data.filter((item) => new Date(item?.date) >= thresholdDate);
+    // ISO date strings (YYYY-MM-DD) are lexicographically sortable — avoid new Date() per item
+    const thresholdStr = thresholdDate.toISOString().slice(0, 10);
+    return data.filter((item) => item?.date >= thresholdStr);
   }
 
   function plotData() {
-    const sortedData =
-      [...rawHistory].sort(
-        (a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime(),
-      ) || [];
-
-    const timeFilteredData = filterDataByTimePeriod(
-      sortedData,
+    // rawHistory is already sorted ascending with pre-computed .ts — no re-sorting needed
+    const filteredData = filterDataByTimePeriod(
+      rawHistory,
       selectedTimePeriod,
-    );
-
-    const filteredData = timeFilteredData.filter((item) => {
-      const close = item?.close ?? item?.mark;
-      return close > 0;
-    });
+    ).filter((item) => (item?.close ?? item?.mark) > 0);
 
     if (filteredData.length === 0) return null;
 
-    // Prepare stock price data (time-filtered, sorted)
-    const sortedStockData = [...rawStockHistory].sort(
-      (a, b) => new Date(a?.date).getTime() - new Date(b?.date).getTime(),
-    );
+    // Pre-compute option price series data once (reused across all chart types)
+    const optionPriceData = filteredData.map((d) => [d.ts, d.close ?? d.mark]);
+
+    // Stock data — already sorted ascending with pre-computed .ts
     const filteredStockData = filterDataByTimePeriod(
-      sortedStockData,
+      rawStockHistory,
       selectedTimePeriod,
     ).filter((d) => d?.close > 0);
 
     const stockColor = $mode === "light" ? "#6b7280" : "#9ca3af";
     const hasStockData = filteredStockData.length > 0;
-    const stockSeriesData = filteredStockData.map((d) => [
-      new Date(d.date).getTime(),
-      d.close,
-    ]);
+    const stockSeriesData = hasStockData
+      ? filteredStockData.map((d) => [d.ts, d.close])
+      : [];
+
+    const optionColor = $mode === "light" ? "#7c3aed" : "#a78bfa";
+
+    const stockSeries = hasStockData
+      ? {
+          name: "Stock Price",
+          type: "spline",
+          data: stockSeriesData,
+          color: stockColor,
+          lineWidth: 1.3,
+          dashStyle: "ShortDash",
+          animation: false,
+          marker: { enabled: false },
+          opacity: 0.7,
+        }
+      : null;
 
     let series: any[] = [];
 
@@ -190,42 +201,24 @@
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 0,
           lineWidth: 2,
           animation: false,
           marker: { enabled: false },
         },
       ];
-      if (hasStockData) {
-        series.push({
-          name: "Stock Price",
-          type: "spline",
-          data: stockSeriesData,
-          color: stockColor,
-          yAxis: 1,
-          lineWidth: 1.3,
-          dashStyle: "ShortDash",
-          animation: false,
-          marker: { enabled: false },
-          opacity: 0.7,
-        });
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 1 });
       }
     } else if (selectGraphType === "Vol/OI") {
-      // Split pane: price top, vol/oi bottom
       series = [
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 2,
           animation: false,
@@ -234,10 +227,7 @@
         {
           name: "Volume",
           type: "column",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item.volume,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.volume]),
           color: "rgba(253, 135, 137, 0.6)",
           borderColor: "#FD8789",
           borderRadius: "1px",
@@ -247,10 +237,7 @@
         {
           name: "OI",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item.open_interest,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.open_interest]),
           color: "#33ABA0",
           yAxis: 1,
           lineWidth: 1.5,
@@ -258,30 +245,16 @@
           marker: { enabled: false },
         },
       ];
-      if (hasStockData) {
-        series.push({
-          name: "Stock Price",
-          type: "spline",
-          data: stockSeriesData,
-          color: stockColor,
-          yAxis: 3,
-          lineWidth: 1.3,
-          dashStyle: "ShortDash",
-          animation: false,
-          marker: { enabled: false },
-          opacity: 0.7,
-        });
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 3 });
       }
     } else if (selectGraphType === "IV") {
       series = [
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 1.5,
           animation: false,
@@ -290,9 +263,9 @@
         {
           name: "IV",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            Math.ceil(item?.implied_volatility * 100 * 100) / 100,
+          data: filteredData.map((d) => [
+            d.ts,
+            Math.ceil(d.implied_volatility * 100 * 100) / 100,
           ]),
           color: $mode === "light" ? "black" : "white",
           yAxis: 0,
@@ -300,19 +273,8 @@
           marker: { enabled: false },
         },
       ];
-      if (hasStockData) {
-        series.push({
-          name: "Stock Price",
-          type: "spline",
-          data: stockSeriesData,
-          color: stockColor,
-          yAxis: 1,
-          lineWidth: 1.3,
-          dashStyle: "ShortDash",
-          animation: false,
-          marker: { enabled: false },
-          opacity: 0.7,
-        });
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 1 });
       }
     }
 

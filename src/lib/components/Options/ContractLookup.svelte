@@ -26,7 +26,6 @@
     stock_detail_options_contract_lookup_1_week,
     stock_detail_options_contract_lookup_1_year,
     stock_detail_options_contract_lookup_3_months,
-    stock_detail_options_contract_lookup_3_years,
     stock_detail_options_contract_lookup_6_months,
     stock_detail_options_contract_lookup_col_avg_price,
     stock_detail_options_contract_lookup_col_date,
@@ -82,6 +81,8 @@
   let selectGraphType = "Price";
   let selectedTimePeriod = "3M";
   let rawDataHistory = [];
+  let chartHistory: any[] = []; // ascending, with .ts pre-computed (for chart rendering)
+  let stockHistory: any[] = []; // ascending, with .ts pre-computed (continuous stock price line)
   // Track the currently sorted data separately
   let sortedData = [];
   let infoText = {};
@@ -267,19 +268,13 @@
         thresholdDate = new Date(now);
         thresholdDate.setFullYear(now.getFullYear() - 1);
         break;
-      case "3Y":
-        thresholdDate = new Date(now);
-        thresholdDate.setFullYear(now.getFullYear() - 3);
-        break;
       default:
-        thresholdDate = new Date(0);
-        break;
+        return data;
     }
 
-    return data.filter((item) => {
-      const itemDate = new Date(item?.date);
-      return itemDate >= thresholdDate;
-    });
+    // ISO date strings (YYYY-MM-DD) are lexicographically sortable — avoid new Date() per item
+    const thresholdStr = thresholdDate.toISOString().slice(0, 10);
+    return data.filter((item) => item?.date >= thresholdStr);
   }
 
   /*
@@ -309,51 +304,69 @@
     */
 
   function plotData() {
-    const sortedData =
-      rawDataHistory?.sort((a, b) => new Date(a?.date) - new Date(b?.date)) ||
-      [];
-
-    const timeFilteredData = filterDataByTimePeriod(
-      sortedData,
+    // chartHistory is already sorted ascending with pre-computed .ts — no re-sorting needed
+    const filteredData = filterDataByTimePeriod(
+      chartHistory,
       selectedTimePeriod,
-    );
+    ).filter((item) => (item?.close ?? item?.mark) > 0);
 
-    // Filter out items where price values are <= 0
-    const filteredData = timeFilteredData.filter((item) => {
-      const close = item?.close ?? item?.mark;
-      return close > 0;
-    });
+    if (filteredData.length === 0) return null;
+
+    // Pre-compute option price series data once (reused across all chart types)
+    const optionPriceData = filteredData.map((d) => [d.ts, d.close ?? d.mark]);
+
+    // Stock data — own continuous series, already sorted ascending with .ts
+    const filteredStockData = filterDataByTimePeriod(
+      stockHistory,
+      selectedTimePeriod,
+    ).filter((d) => d.close > 0);
+
+    const optionColor = $mode === "light" ? "#7c3aed" : "#a78bfa";
+    const stockColor = $mode === "light" ? "#6b7280" : "#9ca3af";
+    const hasStockData = filteredStockData.length > 0;
+    const stockSeriesData = hasStockData
+      ? filteredStockData.map((d) => [d.ts, d.close])
+      : [];
+
+    const stockSeries = hasStockData
+      ? {
+          name: "Stock Price",
+          type: "spline",
+          data: stockSeriesData,
+          color: stockColor,
+          lineWidth: 1.3,
+          dashStyle: "ShortDash",
+          animation: false,
+          marker: { enabled: false },
+          opacity: 0.7,
+        }
+      : null;
 
     let series = [];
 
-    if (selectGraphType == "Price") {
-      // Price only - line chart
+    if (selectGraphType === "Price") {
       series = [
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 0,
           lineWidth: 2,
           animation: false,
           marker: { enabled: false },
         },
       ];
-    } else if (selectGraphType == "Vol/OI") {
-      // Vol/OI split pane: price top, vol/oi bottom
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 1 });
+      }
+    } else if (selectGraphType === "Vol/OI") {
       series = [
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 2,
           animation: false,
@@ -362,10 +375,7 @@
         {
           name: "Volume",
           type: "column",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item.volume,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.volume]),
           color: "rgba(253, 135, 137, 0.6)",
           borderColor: "#FD8789",
           borderRadius: "1px",
@@ -375,10 +385,7 @@
         {
           name: "OI",
           type: "spline",
-          data: filteredData.map((item) => [
-            new Date(item.date).getTime(),
-            item.open_interest,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.open_interest]),
           color: "#33ABA0",
           yAxis: 1,
           lineWidth: 1.5,
@@ -386,17 +393,16 @@
           marker: { enabled: false },
         },
       ];
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 3 });
+      }
     } else if (selectGraphType === "IV") {
-      // IV with price line
       series = [
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 1.5,
           animation: false,
@@ -405,9 +411,9 @@
         {
           name: "IV",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            Math.ceil(item?.implied_volatility * 100 * 100) / 100,
+          data: filteredData.map((d) => [
+            d.ts,
+            Math.ceil(d.implied_volatility * 100 * 100) / 100,
           ]),
           color: $mode === "light" ? "black" : "white",
           yAxis: 0,
@@ -415,19 +421,15 @@
           marker: { enabled: false },
         },
       ];
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 1 });
+      }
     } else if (selectGraphType === "Delta") {
-      // Delta chart with stock price for context
-      // Shows how option tracks the underlying stock
-      const hasStockData = filteredData?.some((item) => item?.stockPrice);
-
       series = [
         {
           name: "Delta",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.delta ?? null,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.delta ?? null]),
           color: "#06988A",
           yAxis: 0,
           animation: false,
@@ -438,11 +440,8 @@
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 1.5,
           animation: false,
@@ -450,16 +449,11 @@
           zIndex: 1,
         },
       ];
-
-      // Add stock price line if available
       if (hasStockData) {
         series.push({
           name: "Stock Price",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.stockPrice ?? null,
-          ]),
+          data: stockSeriesData,
           color: "#9333EA",
           yAxis: 3,
           animation: false,
@@ -470,15 +464,11 @@
         });
       }
     } else if (selectGraphType === "Gamma") {
-      // Gamma chart with delta line to show how delta changes
       series = [
         {
           name: "Gamma",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.gamma ?? null,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.gamma ?? null]),
           color: "#3B82F6",
           yAxis: 0,
           animation: false,
@@ -489,10 +479,7 @@
         {
           name: "Delta",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.delta ?? null,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.delta ?? null]),
           color: "#06988A",
           yAxis: 1,
           animation: false,
@@ -504,11 +491,8 @@
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 1.5,
           animation: false,
@@ -517,26 +501,18 @@
         },
       ];
     } else if (selectGraphType === "Theta") {
-      // Theta chart with cumulative decay and DTE
-      // Calculate cumulative theta (running sum from earliest date)
+      // Cumulative theta — filteredData is already sorted ascending
       let cumulativeTheta = 0;
-      const sortedForCumulative = [...filteredData].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      );
-      const cumulativeMap = new Map();
-      sortedForCumulative.forEach((item) => {
-        cumulativeTheta += item?.theta ?? 0;
-        cumulativeMap.set(item.date, cumulativeTheta);
+      const cumulativeData = filteredData.map((d) => {
+        cumulativeTheta += d.theta ?? 0;
+        return [d.ts, cumulativeTheta];
       });
 
       series = [
         {
           name: "Daily Theta",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.theta ?? null,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.theta ?? null]),
           color: "#F59E0B",
           yAxis: 0,
           animation: false,
@@ -547,10 +523,7 @@
         {
           name: "Cumulative Decay",
           type: "area",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            cumulativeMap.get(item.date) ?? null,
-          ]),
+          data: cumulativeData,
           color: "rgba(245, 158, 11, 0.3)",
           fillColor: {
             linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
@@ -568,10 +541,7 @@
         {
           name: "DTE",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.dte ?? null,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.dte ?? null]),
           color: "#EF4444",
           yAxis: 1,
           animation: false,
@@ -583,11 +553,8 @@
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 1.5,
           animation: false,
@@ -596,15 +563,11 @@
         },
       ];
     } else if (selectGraphType === "Vega") {
-      // Vega chart with IV line for context
       series = [
         {
           name: "Vega",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.vega ?? null,
-          ]),
+          data: filteredData.map((d) => [d.ts, d.vega ?? null]),
           color: "#8B5CF6",
           yAxis: 0,
           animation: false,
@@ -615,10 +578,10 @@
         {
           name: "IV %",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.implied_volatility
-              ? Math.round(item.implied_volatility * 100 * 100) / 100
+          data: filteredData.map((d) => [
+            d.ts,
+            d.implied_volatility
+              ? Math.round(d.implied_volatility * 100 * 100) / 100
               : null,
           ]),
           color: "#EC4899",
@@ -632,11 +595,8 @@
         {
           name: "Option Price",
           type: "spline",
-          data: filteredData?.map((item) => [
-            new Date(item.date).getTime(),
-            item?.close ?? item?.mark,
-          ]),
-          color: $mode === "light" ? "#7c3aed" : "#a78bfa",
+          data: optionPriceData,
+          color: optionColor,
           yAxis: 2,
           lineWidth: 1.5,
           animation: false,
@@ -696,7 +656,14 @@
         height: "60%",
         offset: 0,
       },
-      { title: { text: null }, gridLineWidth: 0, labels: { enabled: false } },
+      {
+        // yAxis 3 — Stock Price (top pane, hidden axis, own scale)
+        title: { text: null },
+        gridLineWidth: 0,
+        labels: { enabled: false },
+        height: "60%",
+        offset: 0,
+      },
     ];
 
     const yAxisConfig =
@@ -829,7 +796,7 @@
             if (point.series.type !== "area") {
               // Skip area charts in tooltip (cumulative is shown differently)
               const formatted = formatValue(point?.y, point.series.name);
-              const prefix = point.series.name === "Option Price" ? "$" : "";
+              const prefix = point.series.name === "Option Price" || point.series.name === "Stock Price" ? "$" : "";
               tooltipContent += `
               <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
               <span class="font-normal text-sm">${point.series.name}:</span>
@@ -1053,6 +1020,8 @@
 
       displayList = [];
       rawDataHistory = [];
+      chartHistory = [];
+      // stockHistory is intentionally NOT cleared — same ticker, same stock price
 
       // Reset sort orders
       for (const key in sortOrders) {
@@ -1067,30 +1036,49 @@
       );
       syncContractParam(optionSymbol);
 
-      const output = await getContractHistory(optionSymbol);
-      rawDataHistory = output?.history;
+      // Fetch contract history; stock history is cached per ticker — only fetch once
+      const stockFetchNeeded = stockHistory.length === 0;
+      const [output, stockData] = await Promise.all([
+        getContractHistory(optionSymbol),
+        stockFetchNeeded
+          ? fetch("/api/historical-price", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ ticker, timePeriod: "one-year" }),
+            })
+              .then((r) => (r.ok ? r.json() : []))
+              .catch(() => [])
+          : null,
+      ]);
+      const history = output?.history;
 
-      if (rawDataHistory?.length > 0) {
-        // Merge stock price data for context in Greek charts
-        rawDataHistory.forEach((entry) => {
-          const matchingData = data?.getHistoricalPrice?.find(
-            (d) => d?.time === entry?.date,
-          );
-          if (matchingData) {
-            entry.stockPrice = matchingData?.close;
-          }
-        });
+      if (history?.length > 0) {
+        // Build stock history once per ticker (cached across contract changes)
+        if (stockFetchNeeded && Array.isArray(stockData)) {
+          stockHistory = stockData
+            .filter((d) => d?.time && d?.close != null)
+            .map((d) => ({ date: d.time, close: d.close, ts: new Date(d.time).getTime() }))
+            .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
+        }
 
         // Calculate DTE (Days to Expiration) for each entry
-        const expirationDate = new Date(selectedDate + "T00:00:00Z");
-        rawDataHistory.forEach((entry) => {
-          const entryDate = new Date(entry.date + "T00:00:00Z");
-          const diffTime = expirationDate.getTime() - entryDate.getTime();
-          entry.dte = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
-        });
+        const expirationTs = new Date(selectedDate + "T00:00:00Z").getTime();
+        const msPerDay = 1000 * 60 * 60 * 24;
+        for (const entry of history) {
+          const entryTs = new Date(entry.date + "T00:00:00Z").getTime();
+          entry.dte = Math.max(0, Math.ceil((expirationTs - entryTs) / msPerDay));
+        }
+
+        // Pre-sort ascending + pre-compute timestamps for chart (avoids re-sorting/re-parsing on every plotData call)
+        chartHistory = [...history]
+          .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+          .map((d) => ({ ...d, ts: new Date(d.date).getTime() }));
+
         config = plotData() || null;
-        rawDataHistory = rawDataHistory?.sort(
-          (a, b) => new Date(b?.date) - new Date(a?.date),
+
+        // Sort descending for table display (newest first)
+        rawDataHistory = history.sort(
+          (a, b) => (b.date > a.date ? 1 : b.date < a.date ? -1 : 0),
         );
         // Initialize sortedData with raw data
         sortedData = [...rawDataHistory];
@@ -1099,6 +1087,8 @@
         updatePaginatedData();
       } else {
         config = null;
+        chartHistory = [];
+        stockHistory = [];
         displayList = [];
       }
     }
@@ -1797,12 +1787,6 @@
                               class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
                             >
                               {stock_detail_options_contract_lookup_1_year()}
-                            </DropdownMenu.Item>
-                            <DropdownMenu.Item
-                              on:click={() => (selectedTimePeriod = "3Y")}
-                              class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
-                            >
-                              {stock_detail_options_contract_lookup_3_years()}
                             </DropdownMenu.Item>
                           </DropdownMenu.Group>
                         </DropdownMenu.Content>
