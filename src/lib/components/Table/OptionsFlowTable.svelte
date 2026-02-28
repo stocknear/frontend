@@ -20,8 +20,8 @@
   const defaultColumns = [
     { key: "time", label: "Time", align: "left" },
     { key: "ticker", label: "Symbol", align: "left" },
+    { key: "watchlist", label: "", align: "center" },
     { key: "insight", label: "", align: "center" },
-    { key: "bookmark", label: "", align: "center" },
     { key: "expiry", label: "Expiry", align: "right" },
     { key: "dte", label: "DTE", align: "right" },
     { key: "strike", label: "Strike", align: "right" },
@@ -1071,7 +1071,7 @@ ${insightData.traderTakeaway}
                     class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   />
                 </td>
-              {:else if column.key === "bookmark"}
+              {:else if column.key === "watchlist"}
                 <td
                   class="text-center whitespace-nowrap"
                 >

@@ -509,155 +509,18 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+  class="w-full overflow-hidden min-h-screen pb-40 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
     ? 'max-w-full'
     : 'max-w-3xl sm:max-w-[1400px]'}"
 >
-  <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
-    <li>
-      <a
-        href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
-      >
-        Home
-      </a>
-    </li>
-
-    <li class="text-gray-500 dark:text-zinc-400">Option Watchlist</li>
-  </BreadCrumb>
-
-  <div class="w-full overflow-hidden m-auto mt-5">
+  <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <h1
-            class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2"
-          >
-            Options Watchlist
-          </h1>
-
           {#if isLoaded}
             <!-- Toolbar (matching stocks watchlist layout) -->
-            <div
-              class="flex w-full sm:w-[50%] md:w-auto mb-5 {!data?.user
-                ? 'hidden'
-                : data?.user?.tier !== 'Pro'
-                  ? 'hidden'
-                  : 'md:block'}  {watchList?.length === 0
-                ? 'hidden'
-                : 'border-t border-b border-gray-300 dark:border-zinc-700 py-2'}"
-            >
-              <div
-                class="w-full grid grid-cols-1 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center justify-end"
-              >
-                <!-- Action Buttons -->
-                <div
-                  class="order-1 sm:order-last w-full sm:w-fit flex justify-end sm:ml-3 {watchList?.length ===
-                  0
-                    ? 'hidden'
-                    : ''}"
-                >
-                  <div class="flex flex-row items-center justify-end w-full">
-                    <!-- Delete Button (edit mode only) -->
-                    {#if editMode}
-                      <label
-                        on:click={handleDeleteItems}
-                        class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
-                      >
-                        <svg
-                          class="inline-block w-5 h-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          ><path
-                            fill="currentColor"
-                            d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
-                          /></svg
-                        >
-                        <span class="ml-1 text-sm">
-                          {numberOfChecked}
-                        </span>
-                      </label>
-                    {/if}
-
-                    <!-- Edit Watchlist Button -->
-                    <label
-                      on:click={handleEditMode}
-                      class="w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
-                    >
-                      <svg
-                        class="inline-block w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 1024 1024"
-                        ><path
-                          fill="currentColor"
-                          d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
-                        /><path
-                          fill="currentColor"
-                          d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-                        /></svg
-                      >
-                      {#if !editMode}
-                        <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          Edit Watchlist
-                        </span>
-                      {:else}
-                        <span class="ml-1 text-[0.85rem] sm:text-sm">
-                          Cancel
-                        </span>
-                      {/if}
-                    </label>
-
-                    <!-- Full Width Toggle (3xl+ only) -->
-                    <button
-                      on:click={toggleFullWidth}
-                      title={isFullWidth
-                        ? "Exit Full Width"
-                        : "Expand Full Width"}
-                      class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
-                        ? 'border-violet-400 dark:border-violet-500'
-                        : ''}"
-                    >
-                      {#if isFullWidth}
-                        <svg
-                          class="w-4 h-4 shrink-0"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <polyline points="4 14 10 14 10 20" />
-                          <polyline points="20 10 14 10 14 4" />
-                          <line x1="14" y1="10" x2="21" y2="3" />
-                          <line x1="3" y1="21" x2="10" y2="14" />
-                        </svg>
-                      {:else}
-                        <svg
-                          class="w-4 h-4 shrink-0"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <polyline points="15 3 21 3 21 9" />
-                          <polyline points="9 21 3 21 3 15" />
-                          <line x1="21" y1="3" x2="14" y2="10" />
-                          <line x1="3" y1="21" x2="10" y2="14" />
-                        </svg>
-                      {/if}
-                      <span class="truncate text-[0.85rem] sm:text-sm"
-                        >{isFullWidth ? "Normal Width" : "Full Width"}</span
-                      >
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <!-- Empty States -->
             {#if !data?.user}
@@ -746,7 +609,7 @@
                 >
                   <!-- Find filter -->
                   <div
-                    class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+                    class="relative min-w-24 w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -774,7 +637,112 @@
                     />
                   </div>
 
+                  <div
+                    class="ml-2 w-fit flex items-center justify-end gap-2 {watchList?.length ===
+                    0
+                      ? 'hidden'
+                      : ''}"
+                  >
+                    <div class="flex flex-row items-center justify-end w-full">
+                      <!-- Delete Button (edit mode only) -->
+                      {#if editMode}
+                        <label
+                          on:click={handleDeleteItems}
+                          class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                        >
+                          <svg
+                            class="inline-block w-5 h-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            ><path
+                              fill="currentColor"
+                              d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
+                            /></svg
+                          >
+                          <span class="ml-1 text-sm">
+                            {numberOfChecked}
+                          </span>
+                        </label>
+                      {/if}
+
+                      <!-- Edit Watchlist Button -->
+                      <label
+                        on:click={handleEditMode}
+                        class="w-full border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                      >
+                        <svg
+                          class="inline-block w-5 h-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 1024 1024"
+                          ><path
+                            fill="currentColor"
+                            d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
+                          /><path
+                            fill="currentColor"
+                            d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
+                          /></svg
+                        >
+                        {#if !editMode}
+                          <span class="ml-1 text-[0.85rem] sm:text-sm">
+                            Edit Watchlist
+                          </span>
+                        {:else}
+                          <span class="ml-1 text-[0.85rem] sm:text-sm">
+                            Cancel
+                          </span>
+                        {/if}
+                      </label>
+
+                      <!-- Full Width Toggle (3xl+ only) -->
+                      <button
+                        on:click={toggleFullWidth}
+                        title={isFullWidth
+                          ? "Exit Full Width"
+                          : "Expand Full Width"}
+                        class="ml-3 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                          ? 'border-violet-400 dark:border-violet-500'
+                          : ''}"
+                      >
+                        {#if isFullWidth}
+                          <svg
+                            class="w-4 h-4 shrink-0"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <polyline points="4 14 10 14 10 20" />
+                            <polyline points="20 10 14 10 14 4" />
+                            <line x1="14" y1="10" x2="21" y2="3" />
+                            <line x1="3" y1="21" x2="10" y2="14" />
+                          </svg>
+                        {:else}
+                          <svg
+                            class="w-4 h-4 shrink-0"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <polyline points="15 3 21 3 21 9" />
+                            <polyline points="9 21 3 21 3 15" />
+                            <line x1="21" y1="3" x2="14" y2="10" />
+                            <line x1="3" y1="21" x2="10" y2="14" />
+                          </svg>
+                        {/if}
+                        <span class="truncate text-[0.85rem] sm:text-sm"
+                          >{isFullWidth ? "Normal Width" : "Full Width"}</span
+                        >
+                      </button>
+                    </div>
+                  </div>
+
                   <!-- Download -->
+
                   <div class="ml-2 w-fit flex items-center justify-end gap-2">
                     <DownloadData
                       {data}

@@ -1047,39 +1047,21 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-gray-700 dark:text-zinc-200 transition-all duration-300 {isFullWidth
+  class="w-full overflow-hidden min-h-screen pb-40 text-gray-700 mt-1 dark:text-zinc-200 transition-all duration-300 {isFullWidth
     ? 'max-w-full'
     : 'max-w-3xl sm:max-w-[1400px]'}"
 >
-  <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
-    <li>
-      <a
-        href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
-        >{watchlist_breadcrumb_home()}</a
-      >
-    </li>
-    <li class="text-gray-500 dark:text-zinc-400">
-      {watchlist_breadcrumb_watchlist()}
-    </li>
-  </BreadCrumb>
-
-  <div class="w-full overflow-hidden m-auto mt-5">
+  <div class="w-full overflow-hidden m-auto">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <h1
-            class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"
-          >
-            {watchlist_main_title()}
-          </h1>
           {#if isLoaded}
             <div
               class="flex w-full sm:w-[50%] md:w-auto mb-5 {!data?.user
                 ? 'hidden'
-                : 'md:block'} border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+                : 'md:block'} py-2"
             >
               <div
                 class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center"
@@ -1162,7 +1144,10 @@
                             <label
                               for="deleteWatchlist"
                               class="ml-auto inline-block cursor-pointer sm:hover:text-rose-800 dark:sm:hover:text-rose-400 transition"
-                              on:click|capture={(e) => { deleteTargetWatchlist = item; handleDeleteModal(e); }}
+                              on:click|capture={(e) => {
+                                deleteTargetWatchlist = item;
+                                handleDeleteModal(e);
+                              }}
                             >
                               <svg
                                 class="size-5"
@@ -1175,8 +1160,8 @@
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                ></path></svg>
-
+                                ></path></svg
+                              >
                             </label>
                           </DropdownMenu.Item>
                         {/each}
@@ -1270,7 +1255,8 @@
                           ><path
                             fill="currentColor"
                             d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
-                          /></svg>
+                          /></svg
+                        >
 
                         <span class="ml-1 text-sm">
                           {numberOfChecked}
@@ -1291,7 +1277,8 @@
                         /><path
                           fill="currentColor"
                           d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-                        /></svg>
+                        /></svg
+                      >
 
                       {#if !editMode}
                         <span class="ml-1 text-[0.85rem] sm:text-sm">
@@ -1388,8 +1375,8 @@
                               d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"
                             /></g
                           ></g
-                        ></svg>
-
+                        ></svg
+                      >
                     </span>
                   </a>
                 {/if}
@@ -1398,7 +1385,7 @@
               <!--Start Table of Watchlist-->
               {#key tableKey}
                 {#if watchList?.length > 0}
-                  <div class="w-full">
+                  <div class="w-full -mt-4">
                     <Table
                       {data}
                       rawData={watchList}
@@ -1649,7 +1636,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="mb-5">
       <h3 class="font-bold text-2xl mb-5">{watchlist_modal_new_title()}</h3>
@@ -1681,7 +1669,13 @@
 <input type="checkbox" id="deleteWatchlist" class="modal-toggle" />
 
 <dialog id="deleteWatchlist" class="modal modal-middle p-3 sm:p-0">
-  <label for="deleteWatchlist" class="cursor-pointer modal-backdrop" on:click={() => { deleteTargetWatchlist = null; }}></label>
+  <label
+    for="deleteWatchlist"
+    class="cursor-pointer modal-backdrop"
+    on:click={() => {
+      deleteTargetWatchlist = null;
+    }}
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -1690,7 +1684,9 @@
       for="deleteWatchlist"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
-      on:click={() => { deleteTargetWatchlist = null; }}
+      on:click={() => {
+        deleteTargetWatchlist = null;
+      }}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -1699,7 +1695,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2">{watchlist_modal_delete_title()}</h3>
     <p class="text-sm mb-6">
@@ -1708,7 +1705,9 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlist"
-        on:click={() => { deleteTargetWatchlist = null; }}
+        on:click={() => {
+          deleteTargetWatchlist = null;
+        }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0">{watchlist_cancel()}</label
       ><label
@@ -1734,8 +1733,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-{watchlist_modal_delete_button()}</label
+          ></line></svg
+        >
+        {watchlist_modal_delete_button()}</label
       >
     </div>
   </div>
