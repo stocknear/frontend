@@ -673,9 +673,10 @@
           <div
             class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
           >
-            <!-- Row 1 on mobile: Find filter (full width) -->
+            <!-- Row 1 on mobile: Find filter + Add Trades -->
+            <div class="flex flex-row items-center gap-2 w-full sm:w-fit">
             <div
-              class="relative min-w-24 w-full sm:w-fit sm:flex-1 lg:flex-none"
+              class="relative min-w-24 grow sm:grow-0 sm:w-fit sm:flex-1 lg:flex-none"
             >
               <div
                 class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -703,14 +704,10 @@
               />
             </div>
 
-            <!-- Row 2 on mobile: Add Trades + Edit Watchlist + Download -->
-            <div
-              class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
-            >
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400 sm:ml-2"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -732,7 +729,12 @@
                   >Add Trades</span
                 >
               </a>
+            </div>
 
+            <!-- Row 2 on mobile: Edit Watchlist + Download -->
+            <div
+              class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
+            >
               <div
                 class="flex items-center gap-2 {watchList?.length === 0
                   ? 'hidden'

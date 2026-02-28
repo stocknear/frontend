@@ -2,11 +2,11 @@
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
   import {
-  error_back_home,
-  error_body_prefix,
-  error_body_suffix,
-  error_title,
-} from "$lib/paraglide/messages";
+    error_back_home,
+    error_body_prefix,
+    error_body_suffix,
+    error_title,
+  } from "$lib/paraglide/messages";
 
   const emailAddress = "support@stocknear.com";
 </script>
@@ -27,7 +27,7 @@
         </h1>
         <a href="/" class="flex justify-center items-center">
           <img
-            class="w-20 m-auto inline-block"
+            class="w-16 m-auto inline-block"
             src="/pwa-192x192.png"
             alt="Logo"
           />
