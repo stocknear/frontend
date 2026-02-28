@@ -604,7 +604,11 @@
   $: excludeTickerList = (() => {
     const val = valueMappings["excludeTickers"];
     if (!val || val === "any") return [];
-    if (typeof val === "string") return val.split(",").map((t) => t.trim().toUpperCase()).filter(Boolean);
+    if (typeof val === "string")
+      return val
+        .split(",")
+        .map((t) => t.trim().toUpperCase())
+        .filter(Boolean);
     return [];
   })();
 
@@ -684,7 +688,11 @@
   $: includeTickerList = (() => {
     const val = valueMappings["includeTickers"];
     if (!val || val === "any") return [];
-    if (typeof val === "string") return val.split(",").map((t) => t.trim().toUpperCase()).filter(Boolean);
+    if (typeof val === "string")
+      return val
+        .split(",")
+        .map((t) => t.trim().toUpperCase())
+        .filter(Boolean);
     return [];
   })();
 
@@ -1326,7 +1334,10 @@
     checkedItems = new Map(
       ruleOfList
         ?.filter((rule) => categoricalRules?.includes(rule.name))
-        ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+        ?.map((rule) => [
+          rule.name,
+          new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+        ]),
     );
 
     // Trigger server-side fetch with new rules
@@ -1376,7 +1387,8 @@
       if (selectedStrategy === idToDelete) {
         selectedStrategy = strategyList?.at(0)?.id ?? "";
         ruleOfList =
-          strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+          strategyList?.find((item) => item.id === selectedStrategy)?.rules ??
+          [];
 
         // Reset all mappings to defaults, then apply new strategy's rules
         for (const key of Object.keys(valueMappings)) {
@@ -1393,7 +1405,10 @@
         checkedItems = new Map(
           ruleOfList
             ?.filter((rule) => categoricalRules?.includes(rule.name))
-            ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+            ?.map((rule) => [
+              rule.name,
+              new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+            ]),
         );
 
         if (ruleOfList.length === 0) {
@@ -1529,7 +1544,10 @@
       checkedItems = new Map(
         ruleOfList
           ?.filter((rule) => categoricalRules?.includes(rule.name))
-          ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+          ?.map((rule) => [
+            rule.name,
+            new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+          ]),
       );
 
       // Trigger server-side fetch with new rules
@@ -1563,7 +1581,9 @@
     }
 
     if (strategyList?.length > 0) {
-      const matchedStrategy = strategyList.find((item) => item.id === selectedStrategy);
+      const matchedStrategy = strategyList.find(
+        (item) => item.id === selectedStrategy,
+      );
       if (matchedStrategy) {
         matchedStrategy.rules = ruleOfList;
       }
@@ -1703,7 +1723,10 @@
   let checkedItems = new Map(
     ruleOfList
       ?.filter((rule) => categoricalRules?.includes(rule.name))
-      ?.map((rule) => [rule.name, new Set(Array.isArray(rule.value) ? rule.value : [rule.value])]),
+      ?.map((rule) => [
+        rule.name,
+        new Set(Array.isArray(rule.value) ? rule.value : [rule.value]),
+      ]),
   );
 
   function isChecked(item, ruleKey = ruleName) {
@@ -2181,9 +2204,12 @@
     isLoaded = true;
 
     if (data?.watchlistFull) {
-      toast.info("Your options watchlist is full (300 trades max). Remove some to add new ones.", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+      toast.info(
+        "Your options watchlist is full (300 trades max). Remove some to add new ones.",
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
     }
   });
 
@@ -2375,30 +2401,12 @@
         -->
       <div class="sm:rounded">
         <div class="flex flex-col md:flex-row items-start md:items-center mb-3">
-          <div
-            class="w-full flex flex-row items-center sm:mt-4"
-          >
+          <div class="w-full flex flex-row items-center sm:mt-4">
             <h1
               class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {options_flow_main_title()}
             </h1>
-            <a
-              href="/watchlist/options"
-              class="ml-2 sm:ml-3 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-xs sm:text-sm font-medium text-gray-700 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition whitespace-nowrap"
-            >
-              <svg
-                class="w-3.5 h-3.5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              Watchlist
-            </a>
           </div>
 
           <div class="flex flex-row items-center w-full mt-5">
@@ -2573,7 +2581,9 @@
                           <!-- svelte-ignore a11y-click-events-have-key-events -->
                           <label
                             for="deleteStrategy"
-                            on:click|stopPropagation={() => { deleteTargetId = item?.id; }}
+                            on:click|stopPropagation={() => {
+                              deleteTargetId = item?.id;
+                            }}
                             class="ml-auto inline-block cursor-pointer sm:hover:text-red-500"
                           >
                             <svg
@@ -3013,8 +3023,19 @@
                         class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
                         title="Remove filter"
                       >
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="max-width:40px">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <svg
+                          class="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          style="max-width:40px"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
                         </svg>
                       </button>
                       <div class="relative inline-block text-left">
@@ -3027,9 +3048,13 @@
                               >
                                 <span class="truncate ml-2 text-sm">
                                   {#if row?.rule === "excludeTickers"}
-                                    {excludeTickerList.length === 0 ? "Any" : excludeTickerList.join(",")}
+                                    {excludeTickerList.length === 0
+                                      ? "Any"
+                                      : excludeTickerList.join(",")}
                                   {:else}
-                                    {includeTickerList.length === 0 ? "Any" : includeTickerList.join(",")}
+                                    {includeTickerList.length === 0
+                                      ? "Any"
+                                      : includeTickerList.join(",")}
                                   {/if}
                                 </span>
                                 <svg
@@ -3055,161 +3080,247 @@
                               class="w-64 h-fit max-h-80 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
                             >
                               {#if row?.rule === "excludeTickers"}
-                              <DropdownMenu.Label class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5">
-                                <div class="relative">
-                                  <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
-                                    <svg class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                  </div>
-                                  <input
-                                    type="text"
-                                    bind:value={excludeTickerInput}
-                                    on:input={searchExcludeTicker}
-                                    on:keydown={(e) => {
-                                      if (e.key === "Enter" && excludeTickerInput.trim()) {
-                                        addExcludeTicker(excludeTickerInput);
-                                      }
-                                      e.stopPropagation();
-                                    }}
-                                    on:click|stopPropagation
-                                    placeholder="Search ticker..."
-                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
-                                  />
-                                </div>
-                              </DropdownMenu.Label>
-                              <DropdownMenu.Group class="min-h-10 mt-1">
-                                {#if excludeTickerInput.trim().length > 0 && excludeTickerResults.length > 0}
-                                  {#each excludeTickerResults as result}
-                                    <DropdownMenu.Item
-                                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                <DropdownMenu.Label
+                                  class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                                >
+                                  <div class="relative">
+                                    <div
+                                      class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                                     >
-                                      <div
-                                        class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
-                                        on:click|capture={(event) => {
-                                          event.preventDefault();
-                                          addExcludeTicker(result?.symbol);
-                                        }}
+                                      <svg
+                                        class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2.5"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
                                       >
-                                        <span class="font-medium">{result?.symbol}</span>
-                                        <span class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate">{result?.name}</span>
-                                      </div>
-                                    </DropdownMenu.Item>
-                                  {/each}
-                                {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
-                                  <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">
-                                    No results
+                                        <path
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        ></path>
+                                      </svg>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      bind:value={excludeTickerInput}
+                                      on:input={searchExcludeTicker}
+                                      on:keydown={(e) => {
+                                        if (
+                                          e.key === "Enter" &&
+                                          excludeTickerInput.trim()
+                                        ) {
+                                          addExcludeTicker(excludeTickerInput);
+                                        }
+                                        e.stopPropagation();
+                                      }}
+                                      on:click|stopPropagation
+                                      placeholder="Search ticker..."
+                                      class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                    />
                                   </div>
-                                {/if}
-                                {#if excludeTickerList.length > 0}
-                                  {#if excludeTickerInput.trim().length > 0}
-                                    <div class="border-t border-gray-200 dark:border-zinc-700 my-1.5"></div>
+                                </DropdownMenu.Label>
+                                <DropdownMenu.Group class="min-h-10 mt-1">
+                                  {#if excludeTickerInput.trim().length > 0 && excludeTickerResults.length > 0}
+                                    {#each excludeTickerResults as result}
+                                      <DropdownMenu.Item
+                                        class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                      >
+                                        <div
+                                          class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
+                                          on:click|capture={(event) => {
+                                            event.preventDefault();
+                                            addExcludeTicker(result?.symbol);
+                                          }}
+                                        >
+                                          <span class="font-medium"
+                                            >{result?.symbol}</span
+                                          >
+                                          <span
+                                            class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                            >{result?.name}</span
+                                          >
+                                        </div>
+                                      </DropdownMenu.Item>
+                                    {/each}
+                                  {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
+                                    <div
+                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                    >
+                                      No results
+                                    </div>
                                   {/if}
-                                  <div class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500">
-                                    Excluded
-                                  </div>
-                                  {#each excludeTickerList as ticker}
-                                    <DropdownMenu.Item
-                                      class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400"
-                                    >
+                                  {#if excludeTickerList.length > 0}
+                                    {#if excludeTickerInput.trim().length > 0}
                                       <div
-                                        class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
-                                        on:click|capture={(event) => {
-                                          event.preventDefault();
-                                          removeExcludeTicker(ticker);
-                                        }}
+                                        class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                      ></div>
+                                    {/if}
+                                    <div
+                                      class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                                    >
+                                      Excluded
+                                    </div>
+                                    {#each excludeTickerList as ticker}
+                                      <DropdownMenu.Item
+                                        class="sm:hover:text-rose-700 dark:sm:hover:text-rose-400"
                                       >
-                                        <span class="font-medium">{ticker}</span>
-                                        <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                      </div>
-                                    </DropdownMenu.Item>
-                                  {/each}
-                                {:else if excludeTickerInput.trim().length === 0}
-                                  <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">
-                                    Search and add tickers to exclude
-                                  </div>
-                                {/if}
-                              </DropdownMenu.Group>
+                                        <div
+                                          class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
+                                          on:click|capture={(event) => {
+                                            event.preventDefault();
+                                            removeExcludeTicker(ticker);
+                                          }}
+                                        >
+                                          <span class="font-medium"
+                                            >{ticker}</span
+                                          >
+                                          <svg
+                                            class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                          >
+                                            <path
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"
+                                            />
+                                          </svg>
+                                        </div>
+                                      </DropdownMenu.Item>
+                                    {/each}
+                                  {:else if excludeTickerInput.trim().length === 0}
+                                    <div
+                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                    >
+                                      Search and add tickers to exclude
+                                    </div>
+                                  {/if}
+                                </DropdownMenu.Group>
                               {:else if row?.rule === "includeTickers"}
-                              <DropdownMenu.Label class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5">
-                                <div class="relative">
-                                  <div class="absolute inset-y-0 left-0 flex items-center pl-2.5">
-                                    <svg class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                  </div>
-                                  <input
-                                    type="text"
-                                    bind:value={includeTickerInput}
-                                    on:input={searchIncludeTicker}
-                                    on:keydown={(e) => {
-                                      if (e.key === "Enter" && includeTickerInput.trim()) {
-                                        addIncludeTicker(includeTickerInput);
-                                      }
-                                      e.stopPropagation();
-                                    }}
-                                    on:click|stopPropagation
-                                    placeholder="Search ticker..."
-                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
-                                  />
-                                </div>
-                              </DropdownMenu.Label>
-                              <DropdownMenu.Group class="min-h-10 mt-1">
-                                {#if includeTickerInput.trim().length > 0 && includeTickerResults.length > 0}
-                                  {#each includeTickerResults as result}
-                                    <DropdownMenu.Item
-                                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                <DropdownMenu.Label
+                                  class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                                >
+                                  <div class="relative">
+                                    <div
+                                      class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                                     >
-                                      <div
-                                        class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
-                                        on:click|capture={(event) => {
-                                          event.preventDefault();
-                                          addIncludeTicker(result?.symbol);
-                                        }}
+                                      <svg
+                                        class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2.5"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
                                       >
-                                        <span class="font-medium">{result?.symbol}</span>
-                                        <span class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate">{result?.name}</span>
-                                      </div>
-                                    </DropdownMenu.Item>
-                                  {/each}
-                                {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
-                                  <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">
-                                    No results
+                                        <path
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        ></path>
+                                      </svg>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      bind:value={includeTickerInput}
+                                      on:input={searchIncludeTicker}
+                                      on:keydown={(e) => {
+                                        if (
+                                          e.key === "Enter" &&
+                                          includeTickerInput.trim()
+                                        ) {
+                                          addIncludeTicker(includeTickerInput);
+                                        }
+                                        e.stopPropagation();
+                                      }}
+                                      on:click|stopPropagation
+                                      placeholder="Search ticker..."
+                                      class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                    />
                                   </div>
-                                {/if}
-                                {#if includeTickerList.length > 0}
-                                  {#if includeTickerInput.trim().length > 0}
-                                    <div class="border-t border-gray-200 dark:border-zinc-700 my-1.5"></div>
+                                </DropdownMenu.Label>
+                                <DropdownMenu.Group class="min-h-10 mt-1">
+                                  {#if includeTickerInput.trim().length > 0 && includeTickerResults.length > 0}
+                                    {#each includeTickerResults as result}
+                                      <DropdownMenu.Item
+                                        class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                      >
+                                        <div
+                                          class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
+                                          on:click|capture={(event) => {
+                                            event.preventDefault();
+                                            addIncludeTicker(result?.symbol);
+                                          }}
+                                        >
+                                          <span class="font-medium"
+                                            >{result?.symbol}</span
+                                          >
+                                          <span
+                                            class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                            >{result?.name}</span
+                                          >
+                                        </div>
+                                      </DropdownMenu.Item>
+                                    {/each}
+                                  {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
+                                    <div
+                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                    >
+                                      No results
+                                    </div>
                                   {/if}
-                                  <div class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500">
-                                    Included
-                                  </div>
-                                  {#each includeTickerList as ticker}
-                                    <DropdownMenu.Item
-                                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                                    >
+                                  {#if includeTickerList.length > 0}
+                                    {#if includeTickerInput.trim().length > 0}
                                       <div
-                                        class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
-                                        on:click|capture={(event) => {
-                                          event.preventDefault();
-                                          removeIncludeTicker(ticker);
-                                        }}
+                                        class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                      ></div>
+                                    {/if}
+                                    <div
+                                      class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                                    >
+                                      Included
+                                    </div>
+                                    {#each includeTickerList as ticker}
+                                      <DropdownMenu.Item
+                                        class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                       >
-                                        <span class="font-medium">{ticker}</span>
-                                        <svg class="w-4 h-4 text-gray-400 dark:text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                      </div>
-                                    </DropdownMenu.Item>
-                                  {/each}
-                                {:else if includeTickerInput.trim().length === 0}
-                                  <div class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500">
-                                    Search and add tickers to include
-                                  </div>
-                                {/if}
-                              </DropdownMenu.Group>
+                                        <div
+                                          class="flex items-center justify-between w-full px-2 py-0.5 text-sm cursor-pointer"
+                                          on:click|capture={(event) => {
+                                            event.preventDefault();
+                                            removeIncludeTicker(ticker);
+                                          }}
+                                        >
+                                          <span class="font-medium"
+                                            >{ticker}</span
+                                          >
+                                          <svg
+                                            class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                          >
+                                            <path
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"
+                                            />
+                                          </svg>
+                                        </div>
+                                      </DropdownMenu.Item>
+                                    {/each}
+                                  {:else if includeTickerInput.trim().length === 0}
+                                    <div
+                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                    >
+                                      Search and add tickers to include
+                                    </div>
+                                  {/if}
+                                </DropdownMenu.Group>
                               {/if}
                             </DropdownMenu.Content>
                           </DropdownMenu.Root>
@@ -3218,339 +3329,346 @@
                     </div>
                   </div>
                 {:else}
-                <div
-                  class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
-                  in:scale={{
-                    start: 0.98,
-                    duration: 160,
-                    delay: 50,
-                    easing: cubicOut,
-                  }}
-                  out:fade={{ duration: 100 }}
-                >
-                  <div class=" flex flex-row items-start sm:items-end">
-                    {row?.label?.length > 20
-                      ? row?.label?.slice(0, 20)?.replace("[%]", "") + "..."
-                      : row?.label?.replace("[%]", "")}
-                    <InfoModal
-                      id={row?.rule}
-                      title={row?.label?.replace("[%]", "")}
-                      callAPI={true}
-                      parameter={row?.rule}
-                    />
-                  </div>
+                  <div
+                    class="flex items-center justify-between space-x-2 px-1 py-1.5 text-[0.95rem] leading-tight"
+                    in:scale={{
+                      start: 0.98,
+                      duration: 160,
+                      delay: 50,
+                      easing: cubicOut,
+                    }}
+                    out:fade={{ duration: 100 }}
+                  >
+                    <div class=" flex flex-row items-start sm:items-end">
+                      {row?.label?.length > 20
+                        ? row?.label?.slice(0, 20)?.replace("[%]", "") + "..."
+                        : row?.label?.replace("[%]", "")}
+                      <InfoModal
+                        id={row?.rule}
+                        title={row?.label?.replace("[%]", "")}
+                        callAPI={true}
+                        parameter={row?.rule}
+                      />
+                    </div>
 
-                  <div class="flex items-center">
-                    <button
-                      on:click={() => handleDeleteRule(row?.rule)}
-                      class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
-                      title="Remove filter"
-                    >
-                      <svg
-                        class="w-6 h-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        style="max-width:40px"
+                    <div class="flex items-center">
+                      <button
+                        on:click={() => handleDeleteRule(row?.rule)}
+                        class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
+                        title="Remove filter"
                       >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path>
-                      </svg>
-                    </button>
-                    <div class="relative inline-block text-left">
-                      <div on:click={() => (ruleName = row?.rule)}>
-                        <DropdownMenu.Root>
-                          <DropdownMenu.Trigger asChild let:builder>
-                            <Button
-                              builders={[builder]}
-                              class="h-[40px] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
-                            >
-                              <span class="truncate ml-2 text-sm">
-                                {#if valueMappings[row?.rule] === "any" || (Array.isArray(valueMappings[row?.rule]) && valueMappings[row?.rule].length === 1 && valueMappings[row?.rule][0] === "any")}
-                                  Any
-                                {:else if ruleCondition[row?.rule] === "between"}
-                                  {Array.isArray(valueMappings[row?.rule])
-                                    ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
-                                    : "Any"}
-                                {:else}
-                                  {ruleCondition[row?.rule]
-                                    ?.replace("under", "Under")
-                                    ?.replace("over", "Over")
-                                    ?.replace("exactly", "Exactly") ?? ""}
-                                  {valueMappings[row?.rule]}
-                                {/if}
-                              </span>
-                              <svg
-                                class=" ml-1 h-6 w-6 xs:ml-2 inline-block"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                style="max-width:40px"
-                                aria-hidden="true"
+                        <svg
+                          class="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          style="max-width:40px"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <div class="relative inline-block text-left">
+                        <div on:click={() => (ruleName = row?.rule)}>
+                          <DropdownMenu.Root>
+                            <DropdownMenu.Trigger asChild let:builder>
+                              <Button
+                                builders={[builder]}
+                                class="h-[40px] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                               >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"
-                                ></path>
-                              </svg>
-                            </Button>
-                          </DropdownMenu.Trigger>
-                          <DropdownMenu.Content
-                            side="bottom"
-                            align="end"
-                            sideOffset={10}
-                            alignOffset={0}
-                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
-                          >
-                            {#if !categoricalRules?.includes(row?.rule) && !textInputRules?.includes(row?.rule)}
-                              <DropdownMenu.Label
-                                class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
-                              >
-                                <div
-                                  class="flex items-center justify-start gap-x-1"
+                                <span class="truncate ml-2 text-sm">
+                                  {#if valueMappings[row?.rule] === "any" || (Array.isArray(valueMappings[row?.rule]) && valueMappings[row?.rule].length === 1 && valueMappings[row?.rule][0] === "any")}
+                                    Any
+                                  {:else if ruleCondition[row?.rule] === "between"}
+                                    {Array.isArray(valueMappings[row?.rule])
+                                      ? `${valueMappings[row?.rule][0]}-${valueMappings[row?.rule][1] ?? "Any"}`
+                                      : "Any"}
+                                  {:else}
+                                    {ruleCondition[row?.rule]
+                                      ?.replace("under", "Under")
+                                      ?.replace("over", "Over")
+                                      ?.replace("exactly", "Exactly") ?? ""}
+                                    {valueMappings[row?.rule]}
+                                  {/if}
+                                </span>
+                                <svg
+                                  class=" ml-1 h-6 w-6 xs:ml-2 inline-block"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  style="max-width:40px"
+                                  aria-hidden="true"
                                 >
-                                  <!--Start Dropdown for Condition-->
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                  ></path>
+                                </svg>
+                              </Button>
+                            </DropdownMenu.Trigger>
+                            <DropdownMenu.Content
+                              side="bottom"
+                              align="end"
+                              sideOffset={10}
+                              alignOffset={0}
+                              class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                            >
+                              {#if !categoricalRules?.includes(row?.rule) && !textInputRules?.includes(row?.rule)}
+                                <DropdownMenu.Label
+                                  class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
+                                >
                                   <div
-                                    class="-ml-2 relative inline-block text-left"
+                                    class="flex items-center justify-start gap-x-1"
                                   >
-                                    <DropdownMenu.Root>
-                                      <DropdownMenu.Trigger asChild let:builder
-                                        ><Button
-                                          builders={[builder]}
-                                          class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                                        >
-                                          <span
-                                            class="truncate ml-2 text-sm sm:text-[1rem]"
+                                    <!--Start Dropdown for Condition-->
+                                    <div
+                                      class="-ml-2 relative inline-block text-left"
+                                    >
+                                      <DropdownMenu.Root>
+                                        <DropdownMenu.Trigger
+                                          asChild
+                                          let:builder
+                                          ><Button
+                                            builders={[builder]}
+                                            class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                                           >
-                                            {ruleCondition[ruleName]
-                                              ?.replace("under", "Under")
-                                              ?.replace("over", "Over")
-                                              ?.replace("between", "Between")
-                                              ?.replace("exactly", "Exactly")}
-                                          </span>
-                                          <svg
-                                            class="mt-1 -mr-1 ml-1 h-5 w-5 xs:ml-2 ml-0! sm:ml-0 inline-block"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
+                                            <span
+                                              class="truncate ml-2 text-sm sm:text-[1rem]"
+                                            >
+                                              {ruleCondition[ruleName]
+                                                ?.replace("under", "Under")
+                                                ?.replace("over", "Over")
+                                                ?.replace("between", "Between")
+                                                ?.replace("exactly", "Exactly")}
+                                            </span>
+                                            <svg
+                                              class="mt-1 -mr-1 ml-1 h-5 w-5 xs:ml-2 ml-0! sm:ml-0 inline-block"
+                                              viewBox="0 0 20 20"
+                                              fill="currentColor"
+                                              style="max-width:40px"
+                                              aria-hidden="true"
+                                              ><path
+                                                fill-rule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clip-rule="evenodd"
+                                              ></path></svg
+                                            >
+                                          </Button>
+                                        </DropdownMenu.Trigger>
+                                        <DropdownMenu.Content
+                                          class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
+                                        >
+                                          <DropdownMenu.Group>
+                                            {#each ["Over", "Under", "Between", "Exactly"] as item}
+                                              <DropdownMenu.Item
+                                                on:click={() =>
+                                                  changeRuleCondition(
+                                                    row?.rule,
+                                                    item,
+                                                  )}
+                                                class="cursor-pointer text-sm font-normal"
+                                                >{item}</DropdownMenu.Item
+                                              >
+                                            {/each}
+                                          </DropdownMenu.Group>
+                                        </DropdownMenu.Content>
+                                      </DropdownMenu.Root>
+                                    </div>
+
+                                    {#if ruleCondition[row?.rule] === "between"}
+                                      <div
+                                        class="flex gap-x-1 -ml-2 z-10 -mt-1"
+                                      >
+                                        <input
+                                          type="text"
+                                          placeholder="Min"
+                                          value={Array.isArray(
+                                            valueMappings[row?.rule],
+                                          )
+                                            ? (valueMappings[row?.rule][0] ??
+                                              "")
+                                            : ""}
+                                          on:input={(e) =>
+                                            handleValueInput(e, row?.rule, 0)}
+                                          class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                        />
+                                        <span
+                                          class=" text-[1rem] font-normal mt-1"
+                                        >
+                                          &
+                                        </span>
+                                        <input
+                                          type="text"
+                                          placeholder="Max"
+                                          value={Array.isArray(
+                                            valueMappings[row?.rule],
+                                          )
+                                            ? (valueMappings[row?.rule][1] ??
+                                              "")
+                                            : ""}
+                                          on:input={(e) =>
+                                            handleValueInput(e, row?.rule, 1)}
+                                          class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                        />
+                                      </div>
+                                    {:else}
+                                      <input
+                                        type="text"
+                                        placeholder="Value"
+                                        value={valueMappings[row?.rule] ===
+                                        "any"
+                                          ? ""
+                                          : valueMappings[row?.rule]}
+                                        on:input={(e) =>
+                                          handleValueInput(e, row?.rule)}
+                                        class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                      />
+                                    {/if}
+
+                                    {#if ["over", "under", "exactly"]?.includes(ruleCondition[ruleName]?.toLowerCase())}
+                                      <div
+                                        class="ml-2 flex touch-manipulation flex-row items-center gap-x-1.5"
+                                      >
+                                        <button
+                                          on:click={() =>
+                                            stepSizeValue(
+                                              valueMappings[row?.rule],
+                                              "add",
+                                            )}
+                                          ><svg
+                                            class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
                                             style="max-width:40px"
-                                            aria-hidden="true"
                                             ><path
-                                              fill-rule="evenodd"
-                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                              clip-rule="evenodd"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                                             ></path></svg
                                           >
-                                        </Button>
-                                      </DropdownMenu.Trigger>
-                                      <DropdownMenu.Content
-                                        class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
-                                      >
-                                        <DropdownMenu.Group>
-                                          {#each ["Over", "Under", "Between", "Exactly"] as item}
-                                            <DropdownMenu.Item
-                                              on:click={() =>
-                                                changeRuleCondition(
-                                                  row?.rule,
-                                                  item,
-                                                )}
-                                              class="cursor-pointer text-sm font-normal"
-                                              >{item}</DropdownMenu.Item
-                                            >
-                                          {/each}
-                                        </DropdownMenu.Group>
-                                      </DropdownMenu.Content>
-                                    </DropdownMenu.Root>
+                                        </button>
+                                        <button
+                                          on:click={() =>
+                                            stepSizeValue(
+                                              valueMappings[row?.rule],
+                                              "minus",
+                                            )}
+                                          ><svg
+                                            class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            style="max-width:40px"
+                                            ><path
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            ></path></svg
+                                          >
+                                        </button>
+                                      </div>
+                                    {/if}
+                                    <!--End Dropdown for Condition-->
                                   </div>
-
-                                  {#if ruleCondition[row?.rule] === "between"}
-                                    <div class="flex gap-x-1 -ml-2 z-10 -mt-1">
-                                      <input
-                                        type="text"
-                                        placeholder="Min"
-                                        value={Array.isArray(
-                                          valueMappings[row?.rule],
-                                        )
-                                          ? (valueMappings[row?.rule][0] ?? "")
-                                          : ""}
-                                        on:input={(e) =>
-                                          handleValueInput(e, row?.rule, 0)}
-                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
-                                      />
-                                      <span
-                                        class=" text-[1rem] font-normal mt-1"
-                                      >
-                                        &
-                                      </span>
-                                      <input
-                                        type="text"
-                                        placeholder="Max"
-                                        value={Array.isArray(
-                                          valueMappings[row?.rule],
-                                        )
-                                          ? (valueMappings[row?.rule][1] ?? "")
-                                          : ""}
-                                        on:input={(e) =>
-                                          handleValueInput(e, row?.rule, 1)}
-                                        class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
-                                      />
-                                    </div>
-                                  {:else}
-                                    <input
-                                      type="text"
-                                      placeholder="Value"
-                                      value={valueMappings[row?.rule] === "any"
-                                        ? ""
-                                        : valueMappings[row?.rule]}
-                                      on:input={(e) =>
-                                        handleValueInput(e, row?.rule)}
-                                      class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
-                                    />
-                                  {/if}
-
-                                  {#if ["over", "under", "exactly"]?.includes(ruleCondition[ruleName]?.toLowerCase())}
-                                    <div
-                                      class="ml-2 flex touch-manipulation flex-row items-center gap-x-1.5"
-                                    >
-                                      <button
-                                        on:click={() =>
-                                          stepSizeValue(
-                                            valueMappings[row?.rule],
-                                            "add",
-                                          )}
-                                        ><svg
-                                          class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke="currentColor"
-                                          style="max-width:40px"
-                                          ><path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                          ></path></svg
+                                </DropdownMenu.Label>
+                              {:else}
+                                <div
+                                  class="relative sticky z-40 focus:outline-hidden -top-1"
+                                  tabindex="0"
+                                  role="menu"
+                                  style=""
+                                ></div>
+                              {/if}
+                              <DropdownMenu.Group class="min-h-10 mt-2">
+                                {#if !categoricalRules?.includes(row?.rule)}
+                                  {#each row?.step as newValue, index}
+                                    {#if ruleCondition[row?.rule] === "between"}
+                                      {#if newValue && row?.step[index + 1]}
+                                        <DropdownMenu.Item
+                                          class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                         >
-                                      </button>
-                                      <button
-                                        on:click={() =>
-                                          stepSizeValue(
-                                            valueMappings[row?.rule],
-                                            "minus",
-                                          )}
-                                        ><svg
-                                          class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke="currentColor"
-                                          style="max-width:40px"
-                                          ><path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                          ></path></svg
-                                        >
-                                      </button>
-                                    </div>
-                                  {/if}
-                                  <!--End Dropdown for Condition-->
-                                </div>
-                              </DropdownMenu.Label>
-                            {:else}
-                              <div
-                                class="relative sticky z-40 focus:outline-hidden -top-1"
-                                tabindex="0"
-                                role="menu"
-                                style=""
-                              ></div>
-                            {/if}
-                            <DropdownMenu.Group class="min-h-10 mt-2">
-                              {#if !categoricalRules?.includes(row?.rule)}
-                                {#each row?.step as newValue, index}
-                                  {#if ruleCondition[row?.rule] === "between"}
-                                    {#if newValue && row?.step[index + 1]}
+                                          <button
+                                            on:click={() => {
+                                              handleChangeValue([
+                                                row?.step[index],
+                                                row?.step[index + 1],
+                                              ]);
+                                            }}
+                                            class="block w-full cursor-pointer border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                          >
+                                            {ruleCondition[row?.rule]?.replace(
+                                              "between",
+                                              "Between",
+                                            )}
+                                            {row?.step[index + 1]} - {row?.step[
+                                              index
+                                            ]}
+                                          </button>
+                                        </DropdownMenu.Item>
+                                      {/if}
+                                    {:else}
                                       <DropdownMenu.Item
                                         class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                       >
                                         <button
                                           on:click={() => {
-                                            handleChangeValue([
-                                              row?.step[index],
-                                              row?.step[index + 1],
-                                            ]);
+                                            handleChangeValue(newValue);
                                           }}
                                           class="block w-full cursor-pointer border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
                                         >
-                                          {ruleCondition[row?.rule]?.replace(
-                                            "between",
-                                            "Between",
-                                          )}
-                                          {row?.step[index + 1]} - {row?.step[
-                                            index
-                                          ]}
+                                          {ruleCondition[row?.rule]
+                                            ?.replace("under", "Under")
+                                            ?.replace("over", "Over")
+                                            ?.replace("exactly", "Exactly")}
+                                          {newValue}
                                         </button>
                                       </DropdownMenu.Item>
                                     {/if}
-                                  {:else}
+                                  {/each}
+                                {:else if categoricalRules?.includes(row?.rule)}
+                                  {#each row?.step as item}
                                     <DropdownMenu.Item
                                       class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                     >
-                                      <button
-                                        on:click={() => {
-                                          handleChangeValue(newValue);
-                                        }}
-                                        class="block w-full cursor-pointer border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                      <div
+                                        class="flex items-center"
+                                        on:click|capture={(event) =>
+                                          event.preventDefault()}
                                       >
-                                        {ruleCondition[row?.rule]
-                                          ?.replace("under", "Under")
-                                          ?.replace("over", "Over")
-                                          ?.replace("exactly", "Exactly")}
-                                        {newValue}
-                                      </button>
+                                        <label
+                                          on:click={() => {
+                                            handleChangeValue(item);
+                                          }}
+                                          class="cursor-pointer"
+                                          for={item}
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            class="rounded"
+                                            checked={checkedItems
+                                              .get(row?.rule)
+                                              ?.has(item) ?? false}
+                                          />
+                                          <span class="ml-2">{item}</span>
+                                        </label>
+                                      </div>
                                     </DropdownMenu.Item>
-                                  {/if}
-                                {/each}
-                              {:else if categoricalRules?.includes(row?.rule)}
-                                {#each row?.step as item}
-                                  <DropdownMenu.Item
-                                    class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
-                                  >
-                                    <div
-                                      class="flex items-center"
-                                      on:click|capture={(event) =>
-                                        event.preventDefault()}
-                                    >
-                                      <label
-                                        on:click={() => {
-                                          handleChangeValue(item);
-                                        }}
-                                        class="cursor-pointer"
-                                        for={item}
-                                      >
-                                        <input
-                                          type="checkbox"
-                                          class="rounded"
-                                          checked={checkedItems
-                                            .get(row?.rule)
-                                            ?.has(item) ?? false}
-                                        />
-                                        <span class="ml-2">{item}</span>
-                                      </label>
-                                    </div>
-                                  </DropdownMenu.Item>
-                                {/each}
-                              {/if}
-                            </DropdownMenu.Group>
-                          </DropdownMenu.Content>
-                        </DropdownMenu.Root>
+                                  {/each}
+                                {/if}
+                              </DropdownMenu.Group>
+                            </DropdownMenu.Content>
+                          </DropdownMenu.Root>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
                 {/if}
                 <!--End Added Rules-->
               {/each}
@@ -4027,7 +4145,9 @@
                     stroke="currentColor"
                     stroke-width="2"
                   >
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    />
                   </svg>
                 </a>
                 <ScreenerExport
@@ -4448,7 +4568,13 @@
 
 <dialog id="addStrategy" class="modal modal-bottom sm:modal-middle">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <label for="addStrategy" on:click={() => { removeList = false; }} class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="addStrategy"
+    on:click={() => {
+      removeList = false;
+    }}
+    class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -4456,7 +4582,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="addStrategy"
-      on:click={() => { removeList = false; }}
+      on:click={() => {
+        removeList = false;
+      }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -4506,7 +4634,13 @@
 
 <dialog id="deleteStrategy" class="modal modal-bottom sm:modal-middle">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <label for="deleteStrategy" on:click={() => { deleteTargetId = ""; }} class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="deleteStrategy"
+    on:click={() => {
+      deleteTargetId = "";
+    }}
+    class="cursor-pointer modal-backdrop"
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -4514,7 +4648,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
       for="deleteStrategy"
-      on:click={() => { deleteTargetId = ""; }}
+      on:click={() => {
+        deleteTargetId = "";
+      }}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -4538,7 +4674,9 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <label
         for="deleteStrategy"
-        on:click={() => { deleteTargetId = ""; }}
+        on:click={() => {
+          deleteTargetId = "";
+        }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
               transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{options_flow_modal_delete_cancel()}</label
