@@ -133,7 +133,7 @@
     }
   }
 
-  // ── Enrichment State ──
+  // ── Enrichment State (populated from SSR) ──
   let enrichmentMap = new Map<
     string,
     {
@@ -143,13 +143,9 @@
       pctChange: number | null;
       status: "pending" | "loading" | "done" | "error";
     }
-  >();
-  let isEnriching = false;
-  let enrichmentDone = false;
+  >(Object.entries(data?.enrichmentData ?? {}));
+  let enrichmentDone = Object.keys(data?.enrichmentData ?? {}).length > 0;
   let includeExpired = false;
-  let enrichAbortController: AbortController | null = null;
-  let enrichGeneration = 0;
-  const MAX_ENRICHMENT_ITEMS = 50;
 
   // Note modal state
   let isLoadingNote = false;
@@ -249,133 +245,6 @@
     }));
   }
 
-  // ── Enrichment Functions ──
-  const nullEnrichment = {
-    currentPrice: null,
-    iv: null,
-    delta: null,
-    pctChange: null,
-  };
-
-  async function fetchContractPrice(
-    item: any,
-    signal?: AbortSignal,
-  ): Promise<typeof nullEnrichment> {
-    try {
-      const res = await fetch("/api/options-contract-history", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ticker: item.ticker,
-          contract: item.option_symbol,
-        }),
-        signal,
-      });
-
-      if (!res.ok) return nullEnrichment;
-
-      const output = await res.json();
-      const history = output?.history || [];
-      if (history.length === 0) return nullEnrichment;
-
-      const latest = history[history.length - 1];
-      const currentPrice = latest?.close ?? latest?.mark ?? null;
-      const iv = latest?.implied_volatility ?? null;
-      const delta = latest?.delta ?? null;
-      const entryPrice = item?.price;
-      const pctChange =
-        currentPrice !== null && entryPrice > 0
-          ? ((currentPrice - entryPrice) / entryPrice) * 100
-          : null;
-
-      return { currentPrice, iv, delta, pctChange };
-    } catch (e) {
-      if (e instanceof DOMException && e.name === "AbortError") {
-        return nullEnrichment;
-      }
-      return nullEnrichment;
-    }
-  }
-
-  async function enrichWatchlist() {
-    if (watchList.length === 0) return;
-
-    // Cancel any in-flight enrichment
-    if (enrichAbortController) enrichAbortController.abort();
-    enrichAbortController = new AbortController();
-    const signal = enrichAbortController.signal;
-    const generation = ++enrichGeneration;
-
-    isEnriching = true;
-    enrichmentDone = false;
-
-    // Filter candidates, skip already-done items, cap at MAX_ENRICHMENT_ITEMS
-    const candidates = watchList.filter(
-      (item) => includeExpired || (item.dte !== null && item.dte >= 0),
-    );
-    const itemsToEnrich = candidates
-      .filter((item) => {
-        const existing = enrichmentMap.get(item.id);
-        return !existing || existing.status !== "done";
-      })
-      .slice(0, MAX_ENRICHMENT_ITEMS);
-
-    // Mark items as pending
-    const newMap = new Map(enrichmentMap);
-    for (const item of itemsToEnrich) {
-      newMap.set(item.id, { ...nullEnrichment, status: "pending" });
-    }
-    enrichmentMap = newMap;
-
-    // Process in batches of 5
-    const batchSize = 5;
-    for (let i = 0; i < itemsToEnrich.length; i += batchSize) {
-      if (signal.aborted || generation !== enrichGeneration) return;
-
-      const batch = itemsToEnrich.slice(i, i + batchSize);
-
-      // Mark batch as loading
-      const loadingMap = new Map(enrichmentMap);
-      for (const item of batch) {
-        const existing = loadingMap.get(item.id);
-        if (existing && existing.status !== "done") {
-          loadingMap.set(item.id, { ...existing, status: "loading" });
-        }
-      }
-      enrichmentMap = loadingMap;
-
-      const results = await Promise.allSettled(
-        batch.map(async (item) => {
-          const data = await fetchContractPrice(item, signal);
-          return { id: item.id, data };
-        }),
-      );
-
-      if (signal.aborted || generation !== enrichGeneration) return;
-
-      // Update map with results
-      const updatedMap = new Map(enrichmentMap);
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          const { id, data: enrichData } = result.value;
-          updatedMap.set(id, { ...enrichData, status: "done" });
-        } else {
-          const batchItem = batch[results.indexOf(result)];
-          if (batchItem) {
-            updatedMap.set(batchItem.id, {
-              ...nullEnrichment,
-              status: "error",
-            });
-          }
-        }
-      }
-      enrichmentMap = updatedMap;
-    }
-
-    isEnriching = false;
-    enrichmentDone = true;
-  }
-
   // ── Scorecard Reactive Stats (single-pass) ──
   $: scorecard = (() => {
     const items: any[] = [];
@@ -391,6 +260,7 @@
     let worstPct = Infinity;
 
     for (const item of watchList) {
+      if (!includeExpired && item.dte !== null && item.dte < 0) continue;
       const e = enrichmentMap.get(item.id);
       if (e?.status !== "done" || e.pctChange === null) continue;
 
@@ -654,10 +524,9 @@
     loadWatchlistData();
     isLoaded = true;
 
-    // Fetch news/earnings for unique tickers + enrich contracts
+    // Fetch news/earnings for unique tickers
     if (watchList.length > 0) {
       fetchNewsFeed();
-      enrichWatchlist();
     }
 
     window.addEventListener("scroll", handleScroll);
@@ -1030,17 +899,6 @@
               {/if}
             </div>
           </div>
-        {:else if isEnriching}
-          <div
-            class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 flex items-center gap-2"
-          >
-            <span
-              class="loading loading-spinner loading-sm text-gray-500 dark:text-zinc-400"
-            ></span>
-            <span class="text-sm text-gray-500 dark:text-zinc-400"
-              >Analyzing trades...</span
-            >
-          </div>
         {/if}
 
         <!-- Include Expired Toggle -->
@@ -1049,7 +907,6 @@
             <input
               type="checkbox"
               bind:checked={includeExpired}
-              on:change={() => enrichWatchlist()}
               class="h-3.5 w-3.5 rounded border cursor-pointer"
             />
             <span class="text-xs text-gray-500 dark:text-zinc-400"
@@ -1083,8 +940,8 @@
                 <th class="p-2 text-right">Sent.</th>
                 <th class="p-2 text-right">Spot</th>
                 <th class="p-2 text-right">Added Price</th>
-                <th class="p-2 text-right">Curr Price</th>
-                <th class="p-2 text-right">% Chg</th>
+                <th class="p-2 text-right">Price</th>
+                <th class="p-2 text-right">% Since Added</th>
                 <th class="p-2 text-right">IV</th>
                 <th class="p-2 text-right">Delta</th>
                 <th class="p-2 text-right">Prem</th>
