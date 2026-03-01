@@ -146,10 +146,12 @@
     disabled={isStreaming || isSubmitting}
   >
     <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
-      <div class="flex shrink-0 items-center justify-center size-4">
+      <div class="flex h-4 w-4 shrink-0 items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="mt-0.5"
+          class="mt-0.5 h-4 w-4 shrink-0"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
