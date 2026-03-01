@@ -272,8 +272,10 @@
 
     // Add specific configurations for column charts
     if (!usePercentChart) {
+      const hideLabels = selectedInterval !== "5Y";
+
       baseConfig.yAxis.stackLabels = {
-        enabled: true,
+        enabled: !hideLabels,
         style: {
           color: isDarkMode ? "#d4d4d8" : "#374151",
           fontWeight: "bold",
@@ -286,7 +288,7 @@
       baseConfig.plotOptions.column = {
         stacking: "normal",
         dataLabels: {
-          enabled: true,
+          enabled: !hideLabels,
           inside: true,
           verticalAlign: "middle",
           style: {
