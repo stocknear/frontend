@@ -796,7 +796,11 @@
             if (point.series.type !== "area") {
               // Skip area charts in tooltip (cumulative is shown differently)
               const formatted = formatValue(point?.y, point.series.name);
-              const prefix = point.series.name === "Option Price" || point.series.name === "Stock Price" ? "$" : "";
+              const prefix =
+                point.series.name === "Option Price" ||
+                point.series.name === "Stock Price"
+                  ? "$"
+                  : "";
               tooltipContent += `
               <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
               <span class="font-normal text-sm">${point.series.name}:</span>
@@ -1057,7 +1061,11 @@
         if (stockFetchNeeded && Array.isArray(stockData)) {
           stockHistory = stockData
             .filter((d) => d?.time && d?.close != null)
-            .map((d) => ({ date: d.time, close: d.close, ts: new Date(d.time).getTime() }))
+            .map((d) => ({
+              date: d.time,
+              close: d.close,
+              ts: new Date(d.time).getTime(),
+            }))
             .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
         }
 
@@ -1066,7 +1074,10 @@
         const msPerDay = 1000 * 60 * 60 * 24;
         for (const entry of history) {
           const entryTs = new Date(entry.date + "T00:00:00Z").getTime();
-          entry.dte = Math.max(0, Math.ceil((expirationTs - entryTs) / msPerDay));
+          entry.dte = Math.max(
+            0,
+            Math.ceil((expirationTs - entryTs) / msPerDay),
+          );
         }
 
         // Pre-sort ascending + pre-compute timestamps for chart (avoids re-sorting/re-parsing on every plotData call)
@@ -1077,8 +1088,8 @@
         config = plotData() || null;
 
         // Sort descending for table display (newest first)
-        rawDataHistory = history.sort(
-          (a, b) => (b.date > a.date ? 1 : b.date < a.date ? -1 : 0),
+        rawDataHistory = history.sort((a, b) =>
+          b.date > a.date ? 1 : b.date < a.date ? -1 : 0,
         );
         // Initialize sortedData with raw data
         sortedData = [...rawDataHistory];
@@ -1184,7 +1195,8 @@
                 />
               </svg>
               <span>
-                The requested expiration date requires a Pro subscription. Showing the nearest available date.
+                The requested expiration date requires a Pro subscription.
+                Showing the nearest available date.
               </span>
             </div>
             <span
@@ -1603,17 +1615,20 @@
                       {rawDataHistory?.at(0)?.vega?.toFixed(3) ?? "n/a"}
                     </td></tr
                   >
-                  <tr class="flex flex-col py-1 sm:table-row sm:py-0"
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem] invisible"
-                      >XXX</td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
+                      >Rho</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem] invisible"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
-                      XXX
+                      {rawDataHistory?.at(0)?.rho?.toFixed(3) ?? "n/a"}
                     </td></tr
                   >
+
                   <tr class="flex flex-col py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem] invisible"
