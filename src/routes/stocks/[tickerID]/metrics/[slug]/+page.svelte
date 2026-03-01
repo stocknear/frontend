@@ -15,16 +15,21 @@
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
   import {
-  stock_detail_metrics_history,
-  stock_detail_metrics_no_category_data,
-  stock_detail_metrics_period_ended,
-  stock_detail_metrics_quarter_ended,
-  stock_detail_metrics_quarterly,
-  stock_detail_metrics_slug_seo_description,
-  stock_detail_metrics_slug_seo_title,
-  stock_detail_metrics_source,
-  stock_detail_metrics_ttm,
-} from "$lib/paraglide/messages";
+    stock_detail_metrics_history,
+    stock_detail_metrics_no_category_data,
+    stock_detail_metrics_period_ended,
+    stock_detail_metrics_quarter_ended,
+    stock_detail_metrics_quarterly,
+    stock_detail_metrics_slug_seo_description,
+    stock_detail_metrics_slug_seo_title,
+    stock_detail_metrics_source,
+    stock_detail_metrics_ttm,
+    insider_tracker_previous,
+    insider_tracker_next,
+    insider_tracker_page_of,
+    insider_tracker_rows,
+    insider_tracker_back_to_top,
+  } from "$lib/paraglide/messages";
 
   export let data;
   $selectedTimePeriod = "ttm";
@@ -140,16 +145,16 @@
     const chartDates = [...dates].reverse();
 
     // Create series data for each metric
-    const chartColor = isDarkMode ? '#FBBF24' : '#F59E0B';
+    const chartColor = isDarkMode ? "#FBBF24" : "#F59E0B";
     const colors = [
       chartColor,
-      '#3B82F6',
-      '#EF4444',
-      '#10B981',
-      '#8B5CF6',
-      '#ec4899',
-      '#06b6d4',
-      '#84cc16',
+      "#3B82F6",
+      "#EF4444",
+      "#10B981",
+      "#8B5CF6",
+      "#ec4899",
+      "#06b6d4",
+      "#84cc16",
     ];
 
     const series = metricsToPlot.map((metric, index) => {
@@ -162,7 +167,7 @@
       const data = chartDates.map((date) => valueMap.get(date) ?? null);
 
       const seriesColor = colors[index % colors.length];
-      const isAmber = seriesColor === '#F59E0B' || seriesColor === '#FBBF24';
+      const isAmber = seriesColor === "#F59E0B" || seriesColor === "#FBBF24";
 
       return {
         name: metric.name,
@@ -313,7 +318,8 @@
 
       baseConfig.tooltip.formatter = function () {
         let total = 0;
-        const formattedDate = dateMap.get(this.points[0]?.key) || this.points[0]?.key;
+        const formattedDate =
+          dateMap.get(this.points[0]?.key) || this.points[0]?.key;
 
         // Pre-calculate all values
         const points = this.points.filter((p) => p.y !== null);
@@ -354,7 +360,8 @@
       };
 
       baseConfig.tooltip.formatter = function () {
-        const formattedDate = dateMap.get(this.points[0]?.key) || this.points[0]?.key;
+        const formattedDate =
+          dateMap.get(this.points[0]?.key) || this.points[0]?.key;
         const points = this.points.filter((p) => p.y !== null);
 
         let content = `<div style="min-width: 250px; max-width: 400px;">`;
@@ -559,11 +566,103 @@
 
     return downloadRow;
   });
+
+  // ── Sorting ──
+  let sortKey = "";
+  let sortOrder: "none" | "asc" | "desc" = "none";
+
+  function sortData(key: string) {
+    if (sortKey === key) {
+      const cycle = ["none", "asc", "desc"];
+      const idx = cycle.indexOf(sortOrder);
+      sortOrder = cycle[(idx + 1) % cycle.length] as typeof sortOrder;
+    } else {
+      sortKey = key;
+      sortOrder = "asc";
+    }
+    currentPage = 1;
+  }
+
+  $: sortedTableData = (() => {
+    if (sortOrder === "none" || !sortKey) return tableData;
+    const sorted = [...tableData].sort((a, b) => {
+      let valA: any, valB: any;
+      if (sortKey === "date") {
+        valA = a.date;
+        valB = b.date;
+      } else {
+        valA = a.metrics[sortKey]?.value;
+        valB = b.metrics[sortKey]?.value;
+      }
+      // Nulls always last
+      if (valA == null && valB == null) return 0;
+      if (valA == null) return 1;
+      if (valB == null) return -1;
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  })();
+
+  // Reset sort and page when underlying data changes
+  $: if (tableData) {
+    sortKey = "";
+    sortOrder = "none";
+    currentPage = 1;
+  }
+
+  // ── Pagination ──
+  let currentPage = 1;
+  let rowsPerPage = 20;
+  const rowsPerPageOptions = [20, 50, 100];
+
+  $: totalPages = Math.max(1, Math.ceil(sortedTableData.length / rowsPerPage));
+
+  $: paginatedData = sortedTableData.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage,
+  );
+
+  function goToPage(page: number) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+    }
+  }
+
+  function changeRowsPerPage(newRows: number) {
+    rowsPerPage = newRows;
+    currentPage = 1;
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  const sortIconSvg = (order: string) => `
+    <svg class="shrink-0 w-4 h-4 ${
+      order === "asc"
+        ? "rotate-180 inline-block"
+        : order === "desc"
+          ? "inline-block"
+          : "hidden"
+    }" viewBox="0 0 20 20" fill="currentColor" style="max-width:50px">
+      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+    </svg>
+  `;
 </script>
 
 <SEO
-  title={stock_detail_metrics_slug_seo_title({ company: $displayCompanyName, ticker: $stockTicker, category: categoryName })}
-  description={stock_detail_metrics_slug_seo_description({ company: $displayCompanyName, ticker: $stockTicker, category: categoryName })}
+  title={stock_detail_metrics_slug_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+    category: categoryName,
+  })}
+  description={stock_detail_metrics_slug_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+    category: categoryName,
+  })}
 />
 
 {#key data?.getParams}
@@ -711,7 +810,9 @@
               <div
                 class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
               >
-                <h3 class="text-xl sm:text-2xl font-bold">{stock_detail_metrics_history()}</h3>
+                <h3 class="text-xl sm:text-2xl font-bold">
+                  {stock_detail_metrics_history()}
+                </h3>
                 <div class="ml-2">
                   <DownloadData
                     {data}
@@ -725,24 +826,42 @@
                 <table
                   class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
                 >
-                  <thead
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
-                  >
-                    <tr>
-                      <th class="font-semibold text-start text-xs">
-                        {$selectedTimePeriod === "quarterly"
-                          ? stock_detail_metrics_quarter_ended()
-                          : stock_detail_metrics_period_ended()}
+                  <thead>
+                    <tr
+                      class="bg-white/60 dark:bg-zinc-950/40 border-b border-gray-300 dark:border-zinc-700 text-gray-500 dark:text-zinc-400"
+                    >
+                      <th
+                        on:click={() => sortData("date")}
+                        class="cursor-pointer select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap text-start transition-all duration-150"
+                      >
+                        <span class="inline-flex items-center gap-1">
+                          {$selectedTimePeriod === "quarterly"
+                            ? stock_detail_metrics_quarter_ended()
+                            : stock_detail_metrics_period_ended()}
+                          {@html sortIconSvg(
+                            sortKey === "date" ? sortOrder : "none",
+                          )}
+                        </span>
                       </th>
                       {#each categoryMetrics as metric}
-                        <th class="font-semibold text-end">
-                          {metric.name}
+                        <th
+                          on:click={() => sortData(metric.name)}
+                          class="cursor-pointer select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap text-end transition-all duration-150"
+                        >
+                          <span
+                            class="inline-flex items-center justify-end gap-1"
+                          >
+                            {metric.name}
+                            {@html sortIconSvg(
+                              sortKey === metric.name ? sortOrder : "none",
+                            )}
+                          </span>
                         </th>
                       {/each}
                     </tr>
                   </thead>
                   <tbody>
-                    {#each tableData as row}
+                    {#each paginatedData as row}
                       <tr class="transition-colors text-sm">
                         <td class=" whitespace-nowrap">
                           {row.formattedDate}
@@ -757,14 +876,163 @@
                   </tbody>
                 </table>
               </div>
+              <!-- Pagination -->
+              {#if paginatedData?.length > 0}
+                <div
+                  class="flex flex-row items-center justify-between mt-8 sm:mt-5"
+                >
+                  <!-- Previous and Next buttons -->
+                  <div class="flex items-center gap-2">
+                    <Button
+                      on:click={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <svg
+                        class="h-5 w-5 inline-block shrink-0 rotate-90"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span class="hidden sm:inline"
+                        >{insider_tracker_previous()}</span
+                      ></Button
+                    >
+                  </div>
+
+                  <!-- Page info and rows selector in center -->
+                  <div class="flex flex-row items-center gap-4">
+                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                      {insider_tracker_page_of({
+                        current: currentPage,
+                        total: totalPages,
+                      })}
+                    </span>
+
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <Button
+                          builders={[builder]}
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        >
+                          <span class="truncate text-[0.85rem] sm:text-sm"
+                            >{rowsPerPage} {insider_tracker_rows()}</span
+                          >
+                          <svg
+                            class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            style="max-width:40px"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </Button>
+                      </DropdownMenu.Trigger>
+
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={10}
+                        alignOffset={0}
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      >
+                        <!-- Dropdown items -->
+                        <DropdownMenu.Group class="pb-2">
+                          {#each rowsPerPageOptions as item}
+                            <DropdownMenu.Item
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            >
+                              <label
+                                on:click={() => changeRowsPerPage(item)}
+                                class="inline-flex justify-between w-full items-center cursor-pointer"
+                              >
+                                <span class="text-sm"
+                                  >{item} {insider_tracker_rows()}</span
+                                >
+                              </label>
+                            </DropdownMenu.Item>
+                          {/each}
+                        </DropdownMenu.Group>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
+
+                  <!-- Next button -->
+                  <div class="flex items-center gap-2">
+                    <Button
+                      on:click={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <span class="hidden sm:inline"
+                        >{insider_tracker_next()}</span
+                      >
+                      <svg
+                        class="h-5 w-5 inline-block shrink-0 -rotate-90"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        style="max-width:40px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </Button>
+                  </div>
+                </div>
+
+                <!-- Back to Top button -->
+                <div class="flex justify-center mt-4">
+                  <button
+                    on:click={scrollToTop}
+                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  >
+                    {insider_tracker_back_to_top()}
+                    <svg
+                      class="h-5 w-5 inline-block shrink-0 rotate-180"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      style="max-width:40px"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              {/if}
+
               <div
-                class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 mt-4"
+                class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 mt-10 rounded-2xl"
               >
-                <strong>Source:</strong> {@html stock_detail_metrics_source({ link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>` })}
+                <strong>Source:</strong>
+                {@html stock_detail_metrics_source({
+                  link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>`,
+                })}
               </div>
             {:else}
               <Infobox
-                text={stock_detail_metrics_no_category_data({ category: categoryName })}
+                text={stock_detail_metrics_no_category_data({
+                  category: categoryName,
+                })}
               />
             {/if}
           </div>
