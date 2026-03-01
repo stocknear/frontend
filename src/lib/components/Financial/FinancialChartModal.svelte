@@ -492,16 +492,16 @@
 
 {#if isOpen}
   <!-- Modal Backdrop -->
-  <div 
-    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm"
+  <div
+    class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 animate-[fadeIn_200ms_ease-out]"
     on:click={handleBackdropClick}
     role="dialog"
     aria-modal="true"
     aria-labelledby="modal-title"
   >
     <!-- Modal Content -->
-    <div 
-      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200 dark:border-zinc-800"
+    <div
+      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200 dark:border-zinc-800 animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -683,6 +683,15 @@
 {/if}
 
 <style>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   /* Ensure modal content scrolls properly */
   :global(.financial-modal-chart .highcharts-container) {
     overflow: visible !important;

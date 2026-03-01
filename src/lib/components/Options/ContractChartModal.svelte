@@ -491,13 +491,13 @@
 
 {#if isOpen && item}
   <div
-    class="fixed inset-0 z-60 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm"
+    class="fixed inset-0 z-60 flex items-end sm:items-center justify-center bg-black/40 animate-[fadeIn_200ms_ease-out]"
     on:click|self={onClose}
     role="dialog"
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 sm:rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-2xl"
+      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 sm:rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-2xl animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -845,3 +845,14 @@
     </div>
   </div>
 {/if}
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
