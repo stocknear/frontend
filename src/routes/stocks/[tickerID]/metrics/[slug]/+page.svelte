@@ -140,15 +140,16 @@
     const chartDates = [...dates].reverse();
 
     // Create series data for each metric
+    const chartColor = isDarkMode ? '#FBBF24' : '#F59E0B';
     const colors = [
-      "#2d6289",
-      "#5369a2",
-      "#8668ae",
-      "#ea6094",
-      "#8b5cf6",
-      "#ec4899",
-      "#06b6d4",
-      "#84cc16",
+      chartColor,
+      '#3B82F6',
+      '#EF4444',
+      '#10B981',
+      '#8B5CF6',
+      '#ec4899',
+      '#06b6d4',
+      '#84cc16',
     ];
 
     const series = metricsToPlot.map((metric, index) => {
@@ -160,11 +161,14 @@
 
       const data = chartDates.map((date) => valueMap.get(date) ?? null);
 
+      const seriesColor = colors[index % colors.length];
+      const isAmber = seriesColor === '#F59E0B' || seriesColor === '#FBBF24';
+
       return {
         name: metric.name,
         type: usePercentChart ? "spline" : "column",
         data: data,
-        color: colors[index % colors.length],
+        color: seriesColor,
         borderRadius: usePercentChart ? undefined : "5px",
         animation: false,
         marker: usePercentChart
@@ -175,6 +179,7 @@
             }
           : undefined,
         lineWidth: usePercentChart ? 2 : undefined,
+        ...(isAmber ? { dataLabels: { style: { color: "#000" } } } : {}),
       };
     });
 
@@ -194,27 +199,28 @@
       title: {
         text: `<h3 class="mt-3 mb-1 text-sm sm:text-lg">${categoryName}</h3>`,
         useHTML: true,
-        style: { color: isDarkMode ? "white" : "black" },
+        style: { color: isDarkMode ? "#f4f4f5" : "#111827" },
       },
 
       xAxis: {
         categories: formattedDates,
         crosshair: {
-          color: isDarkMode ? "#fff" : "#000",
+          color: isDarkMode ? "#3f3f46" : "#d1d5db",
           width: 1,
           dashStyle: "Solid",
         },
         labels: {
-          style: { color: isDarkMode ? "#fff" : "#000" },
+          style: { color: isDarkMode ? "#a1a1aa" : "#6b7280" },
         },
+        lineColor: isDarkMode ? "#27272a" : "#e5e7eb",
       },
 
       yAxis: {
         min: 0,
         title: { text: null },
-        gridLineColor: isDarkMode ? "#1f2937" : "#e5e7eb",
+        gridLineColor: isDarkMode ? "#27272a" : "#f3f4f6",
         labels: {
-          style: { color: isDarkMode ? "#fff" : "#545454" },
+          style: { color: isDarkMode ? "#a1a1aa" : "#6b7280" },
           formatter: function () {
             if (usePercentChart) {
               return this.value.toFixed(1) + "%";
@@ -238,13 +244,12 @@
       tooltip: {
         shared: true,
         useHTML: true,
-        backgroundColor: "rgba(0, 0, 0, 1)",
-        borderColor: "rgba(255, 255, 255, 0.2)",
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        borderColor: "rgba(255, 255, 255, 0.1)",
         borderWidth: 1,
         style: {
           color: "#fff",
-          fontSize: "15px",
-          padding: "12px 16px",
+          fontSize: "13px",
         },
         borderRadius: 8,
         outside: false,
@@ -254,8 +259,8 @@
 
       legend: {
         enabled: isSmallScreen ? false : true,
-        itemStyle: { color: isDarkMode ? "#fff" : "#000" },
-        itemHoverStyle: { color: isDarkMode ? "#d1d5db" : "#374151" },
+        itemStyle: { color: isDarkMode ? "#d4d4d8" : "#374151" },
+        itemHoverStyle: { color: isDarkMode ? "#f4f4f5" : "#111827" },
       },
     };
 
@@ -270,7 +275,7 @@
       baseConfig.yAxis.stackLabels = {
         enabled: true,
         style: {
-          color: isDarkMode ? "#fff" : "#000",
+          color: isDarkMode ? "#d4d4d8" : "#374151",
           fontWeight: "bold",
         },
         formatter: function () {
