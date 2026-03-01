@@ -221,7 +221,7 @@
       },
 
       yAxis: {
-        min: 0,
+        min: usePercentChart ? undefined : 0,
         title: { text: null },
         gridLineColor: isDarkMode ? "#27272a" : "#f3f4f6",
         labels: {
