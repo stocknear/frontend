@@ -690,7 +690,7 @@
 </script>
 
 <SEO
-  title="Options Watchlist - stocknear"
+  title="Options Watchlist"
   description="Track your saved options flow trades. Monitor premium, sentiment, and contract details in one place."
   keywords="options watchlist, options flow tracker, saved options trades, options premium tracker"
   structuredData={{
@@ -1015,9 +1015,15 @@
                     Best
                   </div>
                   <div
-                    class="text-sm font-semibold truncate {scorecard.bestPct >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}"
+                    class="text-sm font-semibold truncate {scorecard.bestPct >=
+                    0
+                      ? 'text-emerald-800 dark:text-emerald-400'
+                      : 'text-rose-800 dark:text-rose-400'}"
                   >
-                    {scorecard.bestPct >= 0 ? '+' : ''}{scorecard.bestPct?.toFixed(1)}% {scorecard.best.ticker}
+                    {scorecard.bestPct >= 0
+                      ? "+"
+                      : ""}{scorecard.bestPct?.toFixed(1)}% {scorecard.best
+                      .ticker}
                   </div>
                 </div>
               {/if}
@@ -1029,16 +1035,21 @@
                     Worst
                   </div>
                   <div
-                    class="text-sm font-semibold truncate {scorecard.worstPct >= 0 ? 'text-emerald-800 dark:text-emerald-400' : 'text-rose-800 dark:text-rose-400'}"
+                    class="text-sm font-semibold truncate {scorecard.worstPct >=
+                    0
+                      ? 'text-emerald-800 dark:text-emerald-400'
+                      : 'text-rose-800 dark:text-rose-400'}"
                   >
-                    {scorecard.worstPct >= 0 ? '+' : ''}{scorecard.worstPct?.toFixed(1)}% {scorecard.worst.ticker}
+                    {scorecard.worstPct >= 0
+                      ? "+"
+                      : ""}{scorecard.worstPct?.toFixed(1)}% {scorecard.worst
+                      .ticker}
                   </div>
                 </div>
               {/if}
             </div>
           </div>
         {/if}
-
 
         <!-- Options Watchlist Table -->
         <div
@@ -1054,67 +1065,177 @@
                 {#if editMode}
                   <th class="p-2 text-center w-8"></th>
                 {/if}
-                <th class="p-2 text-left cursor-pointer select-none" on:click={() => sortData("time")}>
-                  <span class="inline-flex items-center gap-0.5">Time {@html sortIconHtml(sortOrders.time)}</span>
+                <th
+                  class="p-2 text-left cursor-pointer select-none"
+                  on:click={() => sortData("time")}
+                >
+                  <span class="inline-flex items-center gap-0.5"
+                    >Time {@html sortIconHtml(sortOrders.time)}</span
+                  >
                 </th>
                 <th class="p-2 text-center w-8"></th>
-                <th class="p-2 text-left cursor-pointer select-none" on:click={() => sortData("ticker")}>
-                  <span class="inline-flex items-center gap-0.5">Symbol {@html sortIconHtml(sortOrders.ticker)}</span>
+                <th
+                  class="p-2 text-left cursor-pointer select-none"
+                  on:click={() => sortData("ticker")}
+                >
+                  <span class="inline-flex items-center gap-0.5"
+                    >Symbol {@html sortIconHtml(sortOrders.ticker)}</span
+                  >
                 </th>
                 <th class="p-2 text-center w-8"></th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("put_call")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">C/P {@html sortIconHtml(sortOrders.put_call)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("put_call")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >C/P {@html sortIconHtml(sortOrders.put_call)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("strike_price")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Strike {@html sortIconHtml(sortOrders.strike_price)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("strike_price")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Strike {@html sortIconHtml(sortOrders.strike_price)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("date_expiration")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Expiry {@html sortIconHtml(sortOrders.date_expiration)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("date_expiration")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Expiry {@html sortIconHtml(
+                      sortOrders.date_expiration,
+                    )}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("dte")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">DTE {@html sortIconHtml(sortOrders.dte)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("dte")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >DTE {@html sortIconHtml(sortOrders.dte)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("sentiment")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Sent. {@html sortIconHtml(sortOrders.sentiment)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("sentiment")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Sent. {@html sortIconHtml(sortOrders.sentiment)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("underlying_price")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Spot {@html sortIconHtml(sortOrders.underlying_price)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("underlying_price")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Spot {@html sortIconHtml(
+                      sortOrders.underlying_price,
+                    )}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("price")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Added Price {@html sortIconHtml(sortOrders.price)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("price")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Added Price {@html sortIconHtml(sortOrders.price)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("currentPrice")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Price {@html sortIconHtml(sortOrders.currentPrice)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("currentPrice")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Price {@html sortIconHtml(sortOrders.currentPrice)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("pctChange")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">% Since Added {@html sortIconHtml(sortOrders.pctChange)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("pctChange")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >% Since Added {@html sortIconHtml(
+                      sortOrders.pctChange,
+                    )}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("iv")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">IV {@html sortIconHtml(sortOrders.iv)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("iv")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >IV {@html sortIconHtml(sortOrders.iv)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("delta")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Delta {@html sortIconHtml(sortOrders.delta)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("delta")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Delta {@html sortIconHtml(sortOrders.delta)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("cost_basis")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Prem {@html sortIconHtml(sortOrders.cost_basis)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("cost_basis")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Prem {@html sortIconHtml(sortOrders.cost_basis)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("option_activity_type")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Type {@html sortIconHtml(sortOrders.option_activity_type)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("option_activity_type")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Type {@html sortIconHtml(
+                      sortOrders.option_activity_type,
+                    )}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("trade_leg_type")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Leg {@html sortIconHtml(sortOrders.trade_leg_type)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("trade_leg_type")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Leg {@html sortIconHtml(sortOrders.trade_leg_type)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("execution_estimate")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Exec {@html sortIconHtml(sortOrders.execution_estimate)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("execution_estimate")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Exec {@html sortIconHtml(
+                      sortOrders.execution_estimate,
+                    )}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("size")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Size {@html sortIconHtml(sortOrders.size)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("size")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Size {@html sortIconHtml(sortOrders.size)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("volume")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">Vol {@html sortIconHtml(sortOrders.volume)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("volume")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >Vol {@html sortIconHtml(sortOrders.volume)}</span
+                  >
                 </th>
-                <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("openInterest")}>
-                  <span class="inline-flex items-center justify-end gap-0.5">OI {@html sortIconHtml(sortOrders.openInterest)}</span>
+                <th
+                  class="p-2 text-right cursor-pointer select-none"
+                  on:click={() => sortData("openInterest")}
+                >
+                  <span class="inline-flex items-center justify-end gap-0.5"
+                    >OI {@html sortIconHtml(sortOrders.openInterest)}</span
+                  >
                 </th>
               </tr>
             </thead>
@@ -1319,10 +1440,15 @@
                     {intlCompact.format(item?.size)}
                   </td>
                   <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                    {intlCompact.format(enrichmentMap.get(item.id)?.volume ?? item?.volume)}
+                    {intlCompact.format(
+                      enrichmentMap.get(item.id)?.volume ?? item?.volume,
+                    )}
                   </td>
                   <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                    {intlCompact.format(enrichmentMap.get(item.id)?.openInterest ?? item?.open_interest)}
+                    {intlCompact.format(
+                      enrichmentMap.get(item.id)?.openInterest ??
+                        item?.open_interest,
+                    )}
                   </td>
                 </tr>
               {/each}
@@ -1338,7 +1464,8 @@
             {rowsPerPage}
             {rowsPerPageOptions}
             on:pageChange={(e) => goToPage(e.detail.page)}
-            on:rowsPerPageChange={(e) => changeRowsPerPage(e.detail.rowsPerPage)}
+            on:rowsPerPageChange={(e) =>
+              changeRowsPerPage(e.detail.rowsPerPage)}
           />
         {/if}
 
