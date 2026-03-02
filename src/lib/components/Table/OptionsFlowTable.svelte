@@ -1096,7 +1096,7 @@ ${insightData.traderTakeaway}
                         item?.id,
                       )
                         ? 'text-amber-500 dark:text-amber-400 scale-110'
-                        : 'text-gray-800 dark:text-zinc-600 hover:text-amber-400 dark:hover:text-amber-500 hover:scale-110'}"
+                        : 'text-gray-800 dark:text-zinc-400 hover:text-amber-400 dark:hover:text-amber-500 hover:scale-110'}"
                     >
                       {#if bookmarkedIds.has(item?.id)}
                         <svg
@@ -1136,7 +1136,7 @@ ${insightData.traderTakeaway}
                           class="ml-2 cursor-pointer transition-all duration-200
                             {isTracked
                             ? 'text-violet-500 dark:text-violet-400 opacity-100'
-                            : 'text-gray-800 dark:text-zinc-600 opacity-0 group-hover:opacity-100'}
+                            : 'text-gray-800 dark:text-zinc-400 opacity-0 group-hover:opacity-100'}
                             "
                         >
                           <EllipsisVertical
