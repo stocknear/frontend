@@ -6,6 +6,7 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import Spark from "lucide-svelte/icons/sparkles";
+  import Crosshair from "lucide-svelte/icons/crosshair";
 
   export let data;
   export let optionsWatchlist;
@@ -15,12 +16,15 @@
   export let isLoading = false;
   export let onSort: ((key: string, order: string) => void) | undefined =
     undefined;
+  export let trackedContracts: Set<string> = new Set();
+  export let onTrackContract: ((item: any) => void) | undefined = undefined;
 
   // Default columns definition
   const defaultColumns = [
     { key: "time", label: "Time", align: "left" },
     { key: "ticker", label: "Symbol", align: "left" },
     { key: "watchlist", label: "", align: "center" },
+    { key: "track", label: "", align: "center" },
     { key: "insight", label: "", align: "center" },
     { key: "expiry", label: "Expiry", align: "right" },
     { key: "dte", label: "DTE", align: "right" },
@@ -1004,7 +1008,7 @@ ${insightData.traderTakeaway}
             on:dragleave={handleDragLeave}
             on:drop={(e) => handleDrop(e, i)}
             on:dragend={handleDragEnd}
-            on:click={() => column.key !== "insight" && column.key !== "bookmark" && sortData(column.key)}
+            on:click={() => column.key !== "insight" && column.key !== "bookmark" && column.key !== "track" && sortData(column.key)}
             class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
               {dragOverColumnIndex === i && draggedColumnIndex !== i
               ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
@@ -1012,7 +1016,7 @@ ${insightData.traderTakeaway}
           >
             <span class="inline-flex items-center gap-1 justify-center">
               {column.label}
-              {#if column.key !== "insight" && column.key !== "bookmark"}
+              {#if column.key !== "insight" && column.key !== "bookmark" && column.key !== "track"}
                 <svg
                   class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
                     ? 'rotate-180 inline-block'
@@ -1069,6 +1073,18 @@ ${insightData.traderTakeaway}
                     assetType={item?.underlying_type}
                     optionSymbol={item?.option_symbol}
                   />
+                </td>
+              {:else if column.key === "track"}
+                {@const contractKey = `${item?.ticker}|${item?.put_call}|${item?.strike_price}|${item?.date_expiration}`}
+                <td class="text-center whitespace-nowrap">
+                  <button
+                    on:click|stopPropagation={() => onTrackContract?.(item)}
+                    class="cursor-pointer transition-all duration-200 {trackedContracts.has(contractKey)
+                      ? 'text-violet-500 dark:text-violet-400 scale-110'
+                      : 'text-gray-400 dark:text-zinc-600 hover:text-violet-400 dark:hover:text-violet-500 hover:scale-110'}"
+                  >
+                    <Crosshair class="w-4 h-4 inline-block shrink-0" />
+                  </button>
                 </td>
               {:else if column.key === "insight"}
                 <td

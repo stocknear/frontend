@@ -505,6 +505,11 @@
           filters.include_tickers = included;
         }
       }
+
+      // --- Track Contract ---
+      if (rule.name === "trackContract" && Array.isArray(rule.value) && rule.value.length > 0) {
+        filters.track_contracts = rule.value;
+      }
     }
     return filters;
   }
@@ -891,6 +896,11 @@
       step: [],
       defaultValue: "any",
     },
+    trackContract: {
+      label: "Track Contract",
+      step: [],
+      defaultValue: [],
+    },
   };
 
   const textInputRules = ["excludeTickers", "includeTickers"];
@@ -906,6 +916,12 @@
     "trade_leg_type",
   ];
 
+  // Reactive set of tracked contract keys for O(1) lookup in the table
+  $: trackedContracts = new Set<string>(
+    (ruleOfList.find((r) => r.name === "trackContract")?.value as string[]) ??
+      [],
+  );
+
   // Show Vol/OI and Size/OI columns when the user has added the rule to
   // their filter list — even if the value is still "any".  The column only
   // hides when the rule is removed from ruleOfList entirely.
@@ -919,8 +935,9 @@
     return cols;
   })();
 
-  // Generate allRows from allRules
+  // Generate allRows from allRules (exclude trackContract — it's added via table row icon)
   $: allRows = Object?.entries(allRules)
+    ?.filter(([name]) => name !== "trackContract")
     ?.sort(([, a], [, b]) => a.label.localeCompare(b.label)) // Sort by label
     ?.map(([ruleName, ruleProps]) => ({
       rule: ruleName,
@@ -953,9 +970,11 @@
     const selectedRuleNames = new Set(ruleOfList.map((rule) => rule.name));
 
     // Filter available rules that haven't been selected yet
+    // Exclude trackContract — it's added via the table row icon, not the filter dropdown
     quickSearchResults = allRows
       .filter(
         (row) =>
+          row.rule !== "trackContract" &&
           !selectedRuleNames.has(row.rule) &&
           row.label.toLowerCase().includes(searchQuery.toLowerCase()),
       )
@@ -1178,6 +1197,72 @@
     );
     fetchTableData({ page: 1 });
     sendFiltersToWebSocket();
+  }
+
+  function handleTrackContract(item: any) {
+    const key = `${item.ticker}|${item.put_call}|${item.strike_price}|${item.date_expiration}`;
+    const ruleIndex = ruleOfList.findIndex((r) => r.name === "trackContract");
+
+    if (ruleIndex === -1) {
+      // Add new trackContract rule
+      ruleOfList = [...ruleOfList, { name: "trackContract", value: [key] }];
+    } else {
+      const existing = ruleOfList[ruleIndex].value as string[];
+      if (existing.includes(key)) {
+        // Remove this contract
+        const updated = existing.filter((k) => k !== key);
+        if (updated.length === 0) {
+          ruleOfList.splice(ruleIndex, 1);
+          ruleOfList = [...ruleOfList];
+        } else {
+          ruleOfList[ruleIndex] = {
+            ...ruleOfList[ruleIndex],
+            value: updated,
+          };
+          ruleOfList = [...ruleOfList];
+        }
+      } else {
+        // Add this contract
+        ruleOfList[ruleIndex] = {
+          ...ruleOfList[ruleIndex],
+          value: [...existing, key],
+        };
+        ruleOfList = [...ruleOfList];
+      }
+    }
+    displayRules = allRows?.filter((row) =>
+      ruleOfList.some((rule) => rule.name === row.rule),
+    );
+    debouncedFilterFetch();
+    sendFiltersToWebSocket();
+  }
+
+  function removeTrackedContract(key: string) {
+    const ruleIndex = ruleOfList.findIndex((r) => r.name === "trackContract");
+    if (ruleIndex === -1) return;
+    const existing = ruleOfList[ruleIndex].value as string[];
+    const updated = existing.filter((k) => k !== key);
+    if (updated.length === 0) {
+      ruleOfList.splice(ruleIndex, 1);
+      ruleOfList = [...ruleOfList];
+    } else {
+      ruleOfList[ruleIndex] = { ...ruleOfList[ruleIndex], value: updated };
+      ruleOfList = [...ruleOfList];
+    }
+    displayRules = allRows?.filter((row) =>
+      ruleOfList.some((rule) => rule.name === row.rule),
+    );
+    debouncedFilterFetch();
+    sendFiltersToWebSocket();
+  }
+
+  function formatContractKey(key: string): string {
+    const parts = key.split("|");
+    if (parts.length !== 4) return key;
+    const [ticker, putCall, strike, expiry] = parts;
+    const typeChar = putCall === "Calls" ? "C" : "P";
+    const shortExpiry = expiry.slice(5); // "MM-DD"
+    return `${ticker} ${strike}${typeChar} ${shortExpiry}`;
   }
 
   async function applyPopularStrategy(state: string) {
@@ -3672,6 +3757,36 @@
                 {/if}
                 <!--End Added Rules-->
               {/each}
+
+              <!--Tracked Contract Chips-->
+              {#if trackedContracts.size > 0}
+                <div
+                  class="col-span-full flex flex-wrap items-center gap-2 px-1 py-2 border-t border-gray-200 dark:border-zinc-700/50"
+                >
+                  <span class="text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wide mr-1">
+                    Tracking:
+                  </span>
+                  {#each [...trackedContracts] as contractKey (contractKey)}
+                    <span
+                      class="inline-flex items-center gap-1 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-800 dark:text-violet-300 text-xs font-medium pl-2.5 pr-1 py-1"
+                    >
+                      {formatContractKey(contractKey)}
+                      <button
+                        on:click={() => removeTrackedContract(contractKey)}
+                        class="cursor-pointer ml-0.5 p-0.5 rounded-full hover:bg-violet-200 dark:hover:bg-violet-800/50 transition"
+                      >
+                        <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                          <path
+                            fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </span>
+                  {/each}
+                </div>
+              {/if}
             </div>
           {/if}
         </div>
@@ -4242,6 +4357,8 @@
                 {filteredData}
                 {rawData}
                 {extraColumns}
+                {trackedContracts}
+                onTrackContract={handleTrackContract}
                 isLoading={isFetchingPage}
                 onSort={handleServerSort}
                 bind:resetColumnOrder={optionsFlowResetColumnOrder}
