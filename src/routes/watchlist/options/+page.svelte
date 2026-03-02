@@ -191,8 +191,8 @@
     { name: "DTE", key: "dte" },
     { name: "Sent.", key: "sentiment" },
     { name: "Spot", key: "underlying_price" },
-    { name: "Price", key: "currentPrice" },
     { name: "Added Price", key: "price" },
+    { name: "Price", key: "currentPrice" },
     { name: "Price Chg%", key: "pctChange" },
     { name: "IV", key: "iv" },
     { name: "Delta", key: "delta" },
@@ -201,11 +201,11 @@
     { name: "Leg", key: "trade_leg_type" },
     { name: "Exec", key: "execution_estimate" },
     { name: "Size", key: "size" },
-    { name: "Vol", key: "volume" },
     { name: "Added Vol", key: "addedVol" },
+    { name: "Vol", key: "volume" },
     { name: "Vol Chg%", key: "volChange" },
-    { name: "OI", key: "openInterest" },
     { name: "Added OI", key: "addedOI" },
+    { name: "OI", key: "openInterest" },
     { name: "OI Chg%", key: "oiChange" },
   ];
 
@@ -221,7 +221,7 @@
       const saved = localStorage.getItem(COL_STORAGE_KEY);
       if (saved) {
         const parsed: string[] = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
+        if (Array.isArray(parsed)) {
           return new Set(parsed);
         }
       }
@@ -252,7 +252,7 @@
   function resetColumns() {
     indicatorSearch = "";
     indicatorSearchResults = [];
-    visibleColumns = new Set(DEFAULT_VISIBLE_KEYS);
+    visibleColumns = new Set();
     saveVisibleColumns();
   }
 
@@ -267,7 +267,7 @@
     const q = (event.target as HTMLInputElement).value?.toLowerCase() || "";
     indicatorSearch = q;
     if (q.length > 0) {
-      indicatorSearchResults = ALL_COLUMNS.filter((c) =>
+      indicatorSearchResults = orderedColumns.filter((c) =>
         c.name.toLowerCase().startsWith(q),
       );
     } else {
@@ -275,9 +275,125 @@
     }
   }
 
-  $: colVisible = Object.fromEntries(
-    ALL_COLUMNS.map((c) => [c.key, visibleColumns.has(c.key)]),
+  // ── Column Order (drag-reorder) ──
+  const COL_ORDER_STORAGE_KEY = "watchlist_options_columnOrder";
+  let customColumnOrder: string[] = [];
+
+  function loadColumnOrder(): string[] {
+    if (typeof localStorage === "undefined") return [];
+    try {
+      const saved = localStorage.getItem(COL_ORDER_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveColumnOrder(order: string[]) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem(COL_ORDER_STORAGE_KEY, JSON.stringify(order));
+    } catch {}
+  }
+
+  function applyColumnOrder(
+    cols: ColumnDef[],
+    order: string[],
+  ): ColumnDef[] {
+    if (!order.length) return cols;
+    const colMap = new Map(cols.map((c) => [c.key, c]));
+    const ordered: ColumnDef[] = [];
+    for (const key of order) {
+      const col = colMap.get(key);
+      if (col) {
+        ordered.push(col);
+        colMap.delete(key);
+      }
+    }
+    for (const col of colMap.values()) {
+      ordered.push(col);
+    }
+    return ordered;
+  }
+
+  function resetColumnOrder() {
+    customColumnOrder = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.removeItem(COL_ORDER_STORAGE_KEY);
+      } catch {}
+    }
+  }
+
+  $: orderedColumns = applyColumnOrder([...ALL_COLUMNS], customColumnOrder);
+  $: orderedVisibleColumns = orderedColumns.filter((c) =>
+    visibleColumns.has(c.key),
   );
+
+  // ── Drag-and-Drop Column Reorder ──
+  let draggedIndex: number | null = null;
+  let dragOverIndex: number | null = null;
+
+  function handleDragStart(event: DragEvent, index: number) {
+    draggedIndex = index;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", String(index));
+    }
+    const target = event.target as HTMLElement;
+    setTimeout(() => {
+      target.style.opacity = "0.5";
+    }, 0);
+  }
+
+  function handleDragEnd(event: DragEvent) {
+    (event.target as HTMLElement).style.opacity = "1";
+    draggedIndex = null;
+    dragOverIndex = null;
+  }
+
+  function handleDragOver(event: DragEvent, index: number) {
+    if (draggedIndex === null) return;
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+    if (index !== draggedIndex) dragOverIndex = index;
+  }
+
+  function handleDragLeave(event: DragEvent) {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    if (!currentTarget.contains(relatedTarget)) dragOverIndex = null;
+  }
+
+  function handleDrop(event: DragEvent, toIndex: number) {
+    if (draggedIndex === null) return;
+    event.preventDefault();
+    if (draggedIndex !== toIndex) handleColumnReorder(draggedIndex, toIndex);
+    draggedIndex = null;
+    dragOverIndex = null;
+  }
+
+  function handleColumnReorder(
+    fromVisibleIdx: number,
+    toVisibleIdx: number,
+  ) {
+    const fromCol = orderedVisibleColumns[fromVisibleIdx];
+    const toCol = orderedVisibleColumns[toVisibleIdx];
+
+    const fullOrder =
+      customColumnOrder.length > 0
+        ? [...customColumnOrder]
+        : ALL_COLUMNS.map((c) => c.key);
+
+    const fromFullIdx = fullOrder.indexOf(fromCol.key);
+    const toFullIdx = fullOrder.indexOf(toCol.key);
+
+    const [removed] = fullOrder.splice(fromFullIdx, 1);
+    fullOrder.splice(toFullIdx, 0, removed);
+
+    customColumnOrder = fullOrder;
+    saveColumnOrder(customColumnOrder);
+  }
 
   // ── Contract Chart Modal ──
   let chartModalOpen = false;
@@ -915,6 +1031,7 @@
     loadRowsPerPage();
     loadWatchlistData();
     visibleColumns = loadVisibleColumns();
+    customColumnOrder = loadColumnOrder();
     isLoaded = true;
 
     // Fetch news/earnings for unique tickers
@@ -1263,7 +1380,7 @@
                           No indicators found
                         </div>
                       {/if}
-                      {#each indicatorSearch.length > 0 ? indicatorSearchResults : ALL_COLUMNS as col}
+                      {#each indicatorSearch.length > 0 ? indicatorSearchResults : orderedColumns as col}
                         <DropdownMenu.Item
                           class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-lg"
                         >
@@ -1303,6 +1420,19 @@
                   </DropdownMenu.Content>
                 </DropdownMenu.Root>
               </div>
+
+              <!-- Reset Column Order -->
+              {#if customColumnOrder?.length > 0}
+                <button
+                  on:click={resetColumnOrder}
+                  title="Reset column order"
+                  class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              {/if}
 
               <!-- Download -->
               <DownloadData
@@ -1459,238 +1589,22 @@
                   >
                 </th>
                 <th class="p-2 text-center w-8"></th>
-                {#if colVisible["put_call"]}
+                {#each orderedVisibleColumns as col, index}
                   <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("put_call")}
+                    draggable="true"
+                    on:dragstart={(e) => handleDragStart(e, index)}
+                    on:dragend={handleDragEnd}
+                    on:dragover={(e) => handleDragOver(e, index)}
+                    on:dragleave={handleDragLeave}
+                    on:drop={(e) => handleDrop(e, index)}
+                    class="p-2 text-right cursor-pointer select-none cursor-grab active:cursor-grabbing {dragOverIndex === index && draggedIndex !== index ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500' : ''}"
+                    on:click={() => sortData(col.key)}
                   >
                     <span class="inline-flex items-center justify-end gap-0.5"
-                      >C/P {@html sortIconHtml(sortOrders.put_call)}</span
+                      >{col.name} {@html sortIconHtml(sortOrders[col.key])}</span
                     >
                   </th>
-                {/if}
-                {#if colVisible["strike_price"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("strike_price")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Strike {@html sortIconHtml(
-                        sortOrders.strike_price,
-                      )}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["date_expiration"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("date_expiration")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Expiry {@html sortIconHtml(
-                        sortOrders.date_expiration,
-                      )}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["dte"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("dte")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >DTE {@html sortIconHtml(sortOrders.dte)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["sentiment"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("sentiment")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Sent. {@html sortIconHtml(sortOrders.sentiment)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["underlying_price"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("underlying_price")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Spot {@html sortIconHtml(
-                        sortOrders.underlying_price,
-                      )}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["currentPrice"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("currentPrice")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Price {@html sortIconHtml(sortOrders.currentPrice)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["price"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("price")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Added Price {@html sortIconHtml(sortOrders.price)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["pctChange"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("pctChange")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Price Chg% {@html sortIconHtml(
-                        sortOrders.pctChange,
-                      )}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["iv"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("iv")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >IV {@html sortIconHtml(sortOrders.iv)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["delta"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("delta")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Delta {@html sortIconHtml(sortOrders.delta)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["cost_basis"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("cost_basis")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Prem {@html sortIconHtml(sortOrders.cost_basis)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["option_activity_type"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("option_activity_type")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Type {@html sortIconHtml(
-                        sortOrders.option_activity_type,
-                      )}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["trade_leg_type"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("trade_leg_type")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Leg {@html sortIconHtml(sortOrders.trade_leg_type)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["execution_estimate"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("execution_estimate")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Exec {@html sortIconHtml(
-                        sortOrders.execution_estimate,
-                      )}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["size"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("size")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Size {@html sortIconHtml(sortOrders.size)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["volume"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("volume")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Vol {@html sortIconHtml(sortOrders.volume)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["addedVol"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("addedVol")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Added Vol {@html sortIconHtml(sortOrders.addedVol)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["volChange"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("volChange")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Vol Chg% {@html sortIconHtml(sortOrders.volChange)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["openInterest"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("openInterest")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >OI {@html sortIconHtml(sortOrders.openInterest)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["addedOI"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("addedOI")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Added OI {@html sortIconHtml(sortOrders.addedOI)}</span
-                    >
-                  </th>
-                {/if}
-                {#if colVisible["oiChange"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("oiChange")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >OI Chg% {@html sortIconHtml(sortOrders.oiChange)}</span
-                    >
-                  </th>
-                {/if}
+                {/each}
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
@@ -1767,270 +1681,251 @@
                       />
                     </button>
                   </td>
-                  {#if colVisible["put_call"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {item?.put_call ===
-                      'Calls'
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : 'text-rose-800 dark:text-rose-400'}"
-                    >
-                      {item?.put_call}
-                    </td>
-                  {/if}
-                  {#if colVisible["strike_price"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {item?.strike_price}
-                    </td>
-                  {/if}
-                  {#if colVisible["date_expiration"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {formatDate(item?.date_expiration)}
-                    </td>
-                  {/if}
-                  {#if colVisible["dte"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {#if item?.dte === null}
-                        -
-                      {:else if item.dte < 0}
-                        <span class="text-gray-400 dark:text-zinc-500"
-                          >expired</span
-                        >
-                      {:else}
-                        {item.dte}d
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["sentiment"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {item?.sentiment ===
-                      'Bullish'
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : item?.sentiment === 'Bearish'
-                          ? 'text-rose-800 dark:text-rose-400'
-                          : 'text-orange-800 dark:text-[#C6A755]'}"
-                    >
-                      {item?.sentiment}
-                    </td>
-                  {/if}
-                  {#if colVisible["underlying_price"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {item?.underlying_price}
-                    </td>
-                  {/if}
-                  {#if colVisible["currentPrice"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {#if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else if enriched?.status === "done" && enriched.currentPrice !== null}
-                        {enriched.currentPrice.toFixed(2)}
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["price"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap"
-                      on:click|stopPropagation
-                    >
-                      {#if editingPriceItemId === item.id}
-                        <input
-                          type="text"
-                          bind:this={priceInputRef}
-                          bind:value={editingPriceValue}
-                          on:keydown={handlePriceInputKeydown}
-                          on:blur={handlePriceBlur}
-                          class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
-                        />
-                      {:else}
-                        <button
-                          type="button"
-                          class="flex h-full w-full items-center justify-end gap-1 cursor-pointer focus:outline-hidden"
-                          on:click={() => startPriceEdit(item.id, item?.price)}
-                        >
-                          {#if item?.price != null && item?.price !== ""}
-                            <span class="min-w-[3rem] text-right">
-                              {formatPriceValue(item.price)}
-                            </span>
-                          {:else}
-                            <svg
-                              class="h-3 w-3"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              stroke-width="2"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                              ></path>
-                            </svg>
-                            <span class="text-sm">Add</span>
-                          {/if}
-                        </button>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["pctChange"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {enriched?.pctChange !=
-                      null
-                        ? enriched.pctChange >= 0
+                  {#each orderedVisibleColumns as col (col.key)}
+                    {#if col.key === "put_call"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {item?.put_call ===
+                        'Calls'
                           ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'
-                        : ''}"
-                    >
-                      {#if enriched?.status === "done" && enriched.pctChange !== null}
-                        {enriched.pctChange >= 0
-                          ? "+"
-                          : ""}{enriched.pctChange.toFixed(1)}%
-                      {:else if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["iv"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {#if enriched?.status === "done" && enriched.iv !== null}
-                        {(enriched.iv * 100).toFixed(0)}%
-                      {:else if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["delta"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {#if enriched?.status === "done" && enriched.delta !== null}
-                        {enriched.delta.toFixed(2)}
-                      {:else if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["cost_basis"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {abbreviateNumber(item?.cost_basis)}
-                    </td>
-                  {/if}
-                  {#if colVisible["option_activity_type"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {item?.option_activity_type ===
-                      'Sweep'
-                        ? 'text-gray-600 dark:text-[#C6A755]'
-                        : item?.option_activity_type === 'Block'
-                          ? 'text-gray-600 dark:text-[#FF6B6B]'
-                          : item?.option_activity_type === 'Large'
-                            ? 'text-gray-600 dark:text-[#4ECDC4]'
-                            : 'text-gray-600 dark:text-[#976DB7]'}"
-                    >
-                      {item?.option_activity_type}
-                    </td>
-                  {/if}
-                  {#if colVisible["trade_leg_type"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {item?.trade_leg_type ===
-                      'multi-leg'
-                        ? 'text-gray-600 dark:text-[#FF9500]'
-                        : 'text-gray-600 dark:text-[#7B8794]'}"
-                    >
-                      {item?.trade_leg_type === "multi-leg"
-                        ? "Multi"
-                        : "Single"}
-                    </td>
-                  {/if}
-                  {#if colVisible["execution_estimate"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {[
-                        'At Ask',
-                        'Above Ask',
-                      ].includes(item?.execution_estimate)
-                        ? 'text-gray-600 dark:text-[#C8A32D]'
-                        : ['At Bid', 'Below Bid'].includes(
-                              item?.execution_estimate,
-                            )
-                          ? 'text-gray-600 dark:text-[#8F82FE]'
-                          : 'text-gray-600 dark:text-[#A98184]'}"
-                    >
-                      {item?.execution_estimate?.replace("Midpoint", "Mid")}
-                    </td>
-                  {/if}
-                  {#if colVisible["size"]}
-                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                      {intlCompact.format(item?.size)}
-                    </td>
-                  {/if}
-                  {#if colVisible["volume"]}
-                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                      {intlCompact.format(
-                        enrichmentMap.get(item.id)?.volume ?? item?.volume,
-                      )}
-                    </td>
-                  {/if}
-                  {#if colVisible["addedVol"]}
-                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                      {intlCompact.format(item?.volume)}
-                    </td>
-                  {/if}
-                  {#if colVisible["volChange"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {enriched?.volChange !=
-                      null
-                        ? enriched.volChange >= 0
+                          : 'text-rose-800 dark:text-rose-400'}"
+                      >
+                        {item?.put_call}
+                      </td>
+                    {:else if col.key === "strike_price"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {item?.strike_price}
+                      </td>
+                    {:else if col.key === "date_expiration"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {formatDate(item?.date_expiration)}
+                      </td>
+                    {:else if col.key === "dte"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {#if item?.dte === null}
+                          -
+                        {:else if item.dte < 0}
+                          <span class="text-gray-400 dark:text-zinc-500"
+                            >expired</span
+                          >
+                        {:else}
+                          {item.dte}d
+                        {/if}
+                      </td>
+                    {:else if col.key === "sentiment"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {item?.sentiment ===
+                        'Bullish'
                           ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'
-                        : ''}"
-                    >
-                      {#if enriched?.status === "done" && enriched.volChange !== null}
-                        {enriched.volChange >= 0
-                          ? "+"
-                          : ""}{enriched.volChange.toFixed(1)}%
-                      {:else if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["openInterest"]}
-                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                      {intlCompact.format(
-                        enrichmentMap.get(item.id)?.openInterest ??
-                          item?.open_interest,
-                      )}
-                    </td>
-                  {/if}
-                  {#if colVisible["addedOI"]}
-                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
-                      {intlCompact.format(item?.open_interest)}
-                    </td>
-                  {/if}
-                  {#if colVisible["oiChange"]}
-                    <td
-                      class="text-end text-sm whitespace-nowrap {enriched?.oiChange !=
-                      null
-                        ? enriched.oiChange >= 0
-                          ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'
-                        : ''}"
-                    >
-                      {#if enriched?.status === "done" && enriched.oiChange !== null}
-                        {enriched.oiChange >= 0
-                          ? "+"
-                          : ""}{enriched.oiChange.toFixed(1)}%
-                      {:else if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
-                      {/if}
-                    </td>
-                  {/if}
+                          : item?.sentiment === 'Bearish'
+                            ? 'text-rose-800 dark:text-rose-400'
+                            : 'text-orange-800 dark:text-[#C6A755]'}"
+                      >
+                        {item?.sentiment}
+                      </td>
+                    {:else if col.key === "underlying_price"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {item?.underlying_price}
+                      </td>
+                    {:else if col.key === "currentPrice"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {#if enriched?.status === "loading"}
+                          <span class="loading loading-spinner loading-xs"></span>
+                        {:else if enriched?.status === "done" && enriched.currentPrice !== null}
+                          {enriched.currentPrice.toFixed(2)}
+                        {:else}
+                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                        {/if}
+                      </td>
+                    {:else if col.key === "price"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap"
+                        on:click|stopPropagation
+                      >
+                        {#if editingPriceItemId === item.id}
+                          <input
+                            type="text"
+                            bind:this={priceInputRef}
+                            bind:value={editingPriceValue}
+                            on:keydown={handlePriceInputKeydown}
+                            on:blur={handlePriceBlur}
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                          />
+                        {:else}
+                          <button
+                            type="button"
+                            class="flex h-full w-full items-center justify-end gap-1 cursor-pointer focus:outline-hidden"
+                            on:click={() => startPriceEdit(item.id, item?.price)}
+                          >
+                            {#if item?.price != null && item?.price !== ""}
+                              <span class="min-w-[3rem] text-right">
+                                {formatPriceValue(item.price)}
+                              </span>
+                            {:else}
+                              <svg
+                                class="h-3 w-3"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                ></path>
+                              </svg>
+                              <span class="text-sm">Add</span>
+                            {/if}
+                          </button>
+                        {/if}
+                      </td>
+                    {:else if col.key === "pctChange"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {enriched?.pctChange !=
+                        null
+                          ? enriched.pctChange >= 0
+                            ? 'text-emerald-800 dark:text-emerald-400'
+                            : 'text-rose-800 dark:text-rose-400'
+                          : ''}"
+                      >
+                        {#if enriched?.status === "done" && enriched.pctChange !== null}
+                          {enriched.pctChange >= 0
+                            ? "+"
+                            : ""}{enriched.pctChange.toFixed(1)}%
+                        {:else if enriched?.status === "loading"}
+                          <span class="loading loading-spinner loading-xs"></span>
+                        {:else}
+                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                        {/if}
+                      </td>
+                    {:else if col.key === "iv"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {#if enriched?.status === "done" && enriched.iv !== null}
+                          {(enriched.iv * 100).toFixed(0)}%
+                        {:else if enriched?.status === "loading"}
+                          <span class="loading loading-spinner loading-xs"></span>
+                        {:else}
+                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                        {/if}
+                      </td>
+                    {:else if col.key === "delta"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {#if enriched?.status === "done" && enriched.delta !== null}
+                          {enriched.delta.toFixed(2)}
+                        {:else if enriched?.status === "loading"}
+                          <span class="loading loading-spinner loading-xs"></span>
+                        {:else}
+                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                        {/if}
+                      </td>
+                    {:else if col.key === "cost_basis"}
+                      <td class="text-end text-sm whitespace-nowrap">
+                        {abbreviateNumber(item?.cost_basis)}
+                      </td>
+                    {:else if col.key === "option_activity_type"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {item?.option_activity_type ===
+                        'Sweep'
+                          ? 'text-gray-600 dark:text-[#C6A755]'
+                          : item?.option_activity_type === 'Block'
+                            ? 'text-gray-600 dark:text-[#FF6B6B]'
+                            : item?.option_activity_type === 'Large'
+                              ? 'text-gray-600 dark:text-[#4ECDC4]'
+                              : 'text-gray-600 dark:text-[#976DB7]'}"
+                      >
+                        {item?.option_activity_type}
+                      </td>
+                    {:else if col.key === "trade_leg_type"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {item?.trade_leg_type ===
+                        'multi-leg'
+                          ? 'text-gray-600 dark:text-[#FF9500]'
+                          : 'text-gray-600 dark:text-[#7B8794]'}"
+                      >
+                        {item?.trade_leg_type === "multi-leg"
+                          ? "Multi"
+                          : "Single"}
+                      </td>
+                    {:else if col.key === "execution_estimate"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {[
+                          'At Ask',
+                          'Above Ask',
+                        ].includes(item?.execution_estimate)
+                          ? 'text-gray-600 dark:text-[#C8A32D]'
+                          : ['At Bid', 'Below Bid'].includes(
+                                item?.execution_estimate,
+                              )
+                            ? 'text-gray-600 dark:text-[#8F82FE]'
+                            : 'text-gray-600 dark:text-[#A98184]'}"
+                      >
+                        {item?.execution_estimate?.replace("Midpoint", "Mid")}
+                      </td>
+                    {:else if col.key === "size"}
+                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                        {intlCompact.format(item?.size)}
+                      </td>
+                    {:else if col.key === "volume"}
+                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                        {intlCompact.format(
+                          enrichmentMap.get(item.id)?.volume ?? item?.volume,
+                        )}
+                      </td>
+                    {:else if col.key === "addedVol"}
+                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                        {intlCompact.format(item?.volume)}
+                      </td>
+                    {:else if col.key === "volChange"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {enriched?.volChange !=
+                        null
+                          ? enriched.volChange >= 0
+                            ? 'text-emerald-800 dark:text-emerald-400'
+                            : 'text-rose-800 dark:text-rose-400'
+                          : ''}"
+                      >
+                        {#if enriched?.status === "done" && enriched.volChange !== null}
+                          {enriched.volChange >= 0
+                            ? "+"
+                            : ""}{enriched.volChange.toFixed(1)}%
+                        {:else if enriched?.status === "loading"}
+                          <span class="loading loading-spinner loading-xs"></span>
+                        {:else}
+                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                        {/if}
+                      </td>
+                    {:else if col.key === "openInterest"}
+                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                        {intlCompact.format(
+                          enrichmentMap.get(item.id)?.openInterest ??
+                            item?.open_interest,
+                        )}
+                      </td>
+                    {:else if col.key === "addedOI"}
+                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                        {intlCompact.format(item?.open_interest)}
+                      </td>
+                    {:else if col.key === "oiChange"}
+                      <td
+                        class="text-end text-sm whitespace-nowrap {enriched?.oiChange !=
+                        null
+                          ? enriched.oiChange >= 0
+                            ? 'text-emerald-800 dark:text-emerald-400'
+                            : 'text-rose-800 dark:text-rose-400'
+                          : ''}"
+                      >
+                        {#if enriched?.status === "done" && enriched.oiChange !== null}
+                          {enriched.oiChange >= 0
+                            ? "+"
+                            : ""}{enriched.oiChange.toFixed(1)}%
+                        {:else if enriched?.status === "loading"}
+                          <span class="loading loading-spinner loading-xs"></span>
+                        {:else}
+                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                        {/if}
+                      </td>
+                    {/if}
+                  {/each}
                 </tr>
               {/each}
             </tbody>
