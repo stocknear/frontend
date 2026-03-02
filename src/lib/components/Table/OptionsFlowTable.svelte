@@ -7,6 +7,8 @@
   import { mode } from "mode-watcher";
   import Spark from "lucide-svelte/icons/sparkles";
   import Crosshair from "lucide-svelte/icons/crosshair";
+  import EllipsisVertical from "lucide-svelte/icons/ellipsis-vertical";
+  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
 
   export let data;
   export let optionsWatchlist;
@@ -24,8 +26,6 @@
     { key: "time", label: "Time", align: "left" },
     { key: "ticker", label: "Symbol", align: "left" },
     { key: "watchlist", label: "", align: "center" },
-    { key: "track", label: "", align: "center" },
-    { key: "insight", label: "", align: "center" },
     { key: "expiry", label: "Expiry", align: "right" },
     { key: "dte", label: "DTE", align: "right" },
     { key: "strike", label: "Strike", align: "right" },
@@ -269,9 +269,12 @@
     const isBookmarked = currentData.some((d) => d?.id === item.id);
 
     if (!isBookmarked && currentData.length >= 300) {
-      toast.error("Watchlist is full (300 trades max). Remove some to add new ones.", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+      toast.error(
+        "Watchlist is full (300 trades max). Remove some to add new ones.",
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
       return;
     }
 
@@ -328,9 +331,12 @@
         optionsWatchlist.data = currentData;
       }
       optionsWatchlist = optionsWatchlist;
-      toast.error(error instanceof Error ? error.message : "Failed to update watchlist", {
-        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-      });
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update watchlist",
+        {
+          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+        },
+      );
     }
   }
 
@@ -1008,7 +1014,10 @@ ${insightData.traderTakeaway}
             on:dragleave={handleDragLeave}
             on:drop={(e) => handleDrop(e, i)}
             on:dragend={handleDragEnd}
-            on:click={() => column.key !== "insight" && column.key !== "bookmark" && column.key !== "track" && sortData(column.key)}
+            on:click={() =>
+              column.key !== "watchlist" &&
+              column.key !== "bookmark" &&
+              sortData(column.key)}
             class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
               {dragOverColumnIndex === i && draggedColumnIndex !== i
               ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
@@ -1016,7 +1025,7 @@ ${insightData.traderTakeaway}
           >
             <span class="inline-flex items-center gap-1 justify-center">
               {column.label}
-              {#if column.key !== "insight" && column.key !== "bookmark" && column.key !== "track"}
+              {#if column.key !== "watchlist" && column.key !== "bookmark"}
                 <svg
                   class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
                     ? 'rotate-180 inline-block'
@@ -1038,9 +1047,7 @@ ${insightData.traderTakeaway}
         {/each}
       </tr>
     </thead>
-    <tbody
-      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-    >
+    <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
       {#if !sortedDisplayData?.length}
         <tr>
           <td
@@ -1055,7 +1062,7 @@ ${insightData.traderTakeaway}
           {@const isLockedRow =
             index + 1 === rawData?.length && data?.user?.tier !== "Pro"}
           <tr
-            class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+            class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
             class:opacity-30={isLockedRow}
           >
             {#each columns as column}
@@ -1074,48 +1081,95 @@ ${insightData.traderTakeaway}
                     optionSymbol={item?.option_symbol}
                   />
                 </td>
-              {:else if column.key === "track"}
-                {@const contractKey = `${item?.ticker}|${item?.put_call}|${item?.strike_price}|${item?.date_expiration}`}
-                <td class="text-center whitespace-nowrap">
-                  <button
-                    on:click|stopPropagation={() => onTrackContract?.(item)}
-                    class="cursor-pointer transition-all duration-200 {trackedContracts.has(contractKey)
-                      ? 'text-violet-500 dark:text-violet-400 scale-110'
-                      : 'text-gray-400 dark:text-zinc-600 hover:text-violet-400 dark:hover:text-violet-500 hover:scale-110'}"
-                  >
-                    <Crosshair class="w-4 h-4 inline-block shrink-0" />
-                  </button>
-                </td>
-              {:else if column.key === "insight"}
-                <td
-                  on:click|stopPropagation={() => optionsInsight(item)}
-                  class="text-center whitespace-nowrap"
-                >
-                  <Spark
-                    class="w-5 h-5 inline-block cursor-pointer shrink-0 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
-                  />
-                </td>
               {:else if column.key === "watchlist"}
+                {@const contractKey = `${item?.ticker}|${item?.put_call}|${item?.strike_price}|${item?.date_expiration}`}
+                {@const isTracked = trackedContracts.has(contractKey)}
                 <td
                   class="text-center whitespace-nowrap"
+                  on:click|stopPropagation
                 >
-                  <button
-                    id="bookmark-{item?.id}"
-                    on:click|stopPropagation={() => addToWatchlist(item)}
-                    class="cursor-pointer transition-all duration-200 {bookmarkedIds.has(item?.id)
-                      ? 'text-amber-500 dark:text-amber-400 scale-110'
-                      : 'text-gray-400 dark:text-zinc-600 hover:text-amber-400 dark:hover:text-amber-500 hover:scale-110'}"
-                  >
-                    {#if bookmarkedIds.has(item?.id)}
-                      <svg class="{animationId === item?.id ? animationClass : ''} w-5 h-5 inline-block shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                      </svg>
-                    {:else}
-                      <svg class="{animationId === item?.id ? animationClass : ''} w-5 h-5 inline-block shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                      </svg>
-                    {/if}
-                  </button>
+                  <div class="inline-flex items-center gap-0.5">
+                    <button
+                      id="bookmark-{item?.id}"
+                      on:click|stopPropagation={() => addToWatchlist(item)}
+                      class="cursor-pointer transition-all duration-200 {bookmarkedIds.has(
+                        item?.id,
+                      )
+                        ? 'text-amber-500 dark:text-amber-400 scale-110'
+                        : 'text-gray-800 dark:text-zinc-600 hover:text-amber-400 dark:hover:text-amber-500 hover:scale-110'}"
+                    >
+                      {#if bookmarkedIds.has(item?.id)}
+                        <svg
+                          class="{animationId === item?.id
+                            ? animationClass
+                            : ''} w-5 h-5 inline-block shrink-0"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                          />
+                        </svg>
+                      {:else}
+                        <svg
+                          class="{animationId === item?.id
+                            ? animationClass
+                            : ''} w-5 h-5 inline-block shrink-0"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                        >
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                          />
+                        </svg>
+                      {/if}
+                    </button>
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger asChild let:builder>
+                        <button
+                          use:builder.action
+                          {...builder}
+                          class="ml-2 cursor-pointer transition-all duration-200
+                            {isTracked
+                            ? 'text-violet-500 dark:text-violet-400 opacity-100'
+                            : 'text-gray-800 dark:text-zinc-600 opacity-0 group-hover:opacity-100'}
+                            "
+                        >
+                          <EllipsisVertical
+                            class="w-4 h-4 inline-block shrink-0"
+                          />
+                        </button>
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Content
+                        side="bottom"
+                        align="end"
+                        sideOffset={5}
+                        class="w-44 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
+                      >
+                        <DropdownMenu.Item
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition
+                            {isTracked
+                            ? 'text-violet-700 dark:text-violet-400 font-medium'
+                            : 'text-gray-700 dark:text-zinc-300'}"
+                          on:click={() => onTrackContract?.(item)}
+                        >
+                          <Crosshair class="w-4 h-4 shrink-0" />
+                          {isTracked ? "Untrack Contract" : "Track Contract"}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          on:click={() => optionsInsight(item)}
+                        >
+                          <Spark class="w-4 h-4 shrink-0" />
+                          AI Insight
+                        </DropdownMenu.Item>
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  </div>
                 </td>
               {:else if column.key === "expiry"}
                 <td class="text-end text-sm whitespace-nowrap">
