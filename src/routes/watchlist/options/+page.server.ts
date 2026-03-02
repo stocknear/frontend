@@ -112,15 +112,25 @@ export const load = async ({ locals }) => {
           const currentPrice =
             contractData.close ?? contractData.mark ?? null;
           const entryPrice = item.price;
+          const currentOI = contractData.open_interest ?? null;
+          const currentVol = contractData.volume ?? null;
           enrichmentData[item.id] = {
             currentPrice,
             iv: contractData.implied_volatility ?? null,
             delta: contractData.delta ?? null,
-            volume: contractData.volume ?? null,
-            openInterest: contractData.open_interest ?? null,
+            volume: currentVol,
+            openInterest: currentOI,
             pctChange:
               currentPrice != null && entryPrice > 0
                 ? ((currentPrice - entryPrice) / entryPrice) * 100
+                : null,
+            oiChange:
+              currentOI != null && item.open_interest > 0
+                ? ((currentOI - item.open_interest) / item.open_interest) * 100
+                : null,
+            volChange:
+              currentVol != null && item.volume > 0
+                ? ((currentVol - item.volume) / item.volume) * 100
                 : null,
             status: "done",
           };
@@ -132,6 +142,8 @@ export const load = async ({ locals }) => {
             volume: null,
             openInterest: null,
             pctChange: null,
+            oiChange: null,
+            volChange: null,
             status: "error",
           };
         }

@@ -149,6 +149,7 @@
       volume: number | null;
       openInterest: number | null;
       oiChange: number | null;
+      volChange: number | null;
       status: "pending" | "loading" | "done" | "error";
     }
   >(Object.entries(data?.enrichmentData ?? {}));
@@ -190,9 +191,9 @@
     { name: "DTE", key: "dte" },
     { name: "Sent.", key: "sentiment" },
     { name: "Spot", key: "underlying_price" },
-    { name: "Added Price", key: "price" },
     { name: "Price", key: "currentPrice" },
-    { name: "% Since Added", key: "pctChange" },
+    { name: "Added Price", key: "price" },
+    { name: "Price Chg%", key: "pctChange" },
     { name: "IV", key: "iv" },
     { name: "Delta", key: "delta" },
     { name: "Prem", key: "cost_basis" },
@@ -201,7 +202,11 @@
     { name: "Exec", key: "execution_estimate" },
     { name: "Size", key: "size" },
     { name: "Vol", key: "volume" },
+    { name: "Added Vol", key: "addedVol" },
+    { name: "Vol Chg%", key: "volChange" },
     { name: "OI", key: "openInterest" },
+    { name: "Added OI", key: "addedOI" },
+    { name: "OI Chg%", key: "oiChange" },
   ];
 
   const DEFAULT_VISIBLE_KEYS = new Set(ALL_COLUMNS.map((c) => c.key));
@@ -326,6 +331,10 @@
     size: "number",
     volume: "number",
     openInterest: "number",
+    addedVol: "number",
+    volChange: "number",
+    addedOI: "number",
+    oiChange: "number",
   };
 
   let sortOrders: Record<string, string> = Object.fromEntries(
@@ -339,6 +348,8 @@
     "delta",
     "volume",
     "openInterest",
+    "oiChange",
+    "volChange",
   ]);
 
   function getSortValue(item: any, key: string) {
@@ -350,6 +361,8 @@
       if (key === "openInterest") return item.open_interest ?? null;
       return null;
     }
+    if (key === "addedOI") return item.open_interest ?? null;
+    if (key === "addedVol") return item.volume ?? null;
     return item[key] ?? null;
   }
 
@@ -1278,7 +1291,7 @@
                         on:click={resetColumns}
                         class="hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 text-sm cursor-pointer"
                       >
-                        Reset Selection
+                        Reset All
                       </label>
                       <label
                         on:click={selectAllColumns}
@@ -1512,16 +1525,6 @@
                     >
                   </th>
                 {/if}
-                {#if colVisible["price"]}
-                  <th
-                    class="p-2 text-right cursor-pointer select-none"
-                    on:click={() => sortData("price")}
-                  >
-                    <span class="inline-flex items-center justify-end gap-0.5"
-                      >Added Price {@html sortIconHtml(sortOrders.price)}</span
-                    >
-                  </th>
-                {/if}
                 {#if colVisible["currentPrice"]}
                   <th
                     class="p-2 text-right cursor-pointer select-none"
@@ -1532,13 +1535,23 @@
                     >
                   </th>
                 {/if}
+                {#if colVisible["price"]}
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("price")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Added Price {@html sortIconHtml(sortOrders.price)}</span
+                    >
+                  </th>
+                {/if}
                 {#if colVisible["pctChange"]}
                   <th
                     class="p-2 text-right cursor-pointer select-none"
                     on:click={() => sortData("pctChange")}
                   >
                     <span class="inline-flex items-center justify-end gap-0.5"
-                      >% Since Added {@html sortIconHtml(
+                      >Price Chg% {@html sortIconHtml(
                         sortOrders.pctChange,
                       )}</span
                     >
@@ -1628,6 +1641,26 @@
                     >
                   </th>
                 {/if}
+                {#if colVisible["addedVol"]}
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("addedVol")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Added Vol {@html sortIconHtml(sortOrders.addedVol)}</span
+                    >
+                  </th>
+                {/if}
+                {#if colVisible["volChange"]}
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("volChange")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Vol Chg% {@html sortIconHtml(sortOrders.volChange)}</span
+                    >
+                  </th>
+                {/if}
                 {#if colVisible["openInterest"]}
                   <th
                     class="p-2 text-right cursor-pointer select-none"
@@ -1635,6 +1668,26 @@
                   >
                     <span class="inline-flex items-center justify-end gap-0.5"
                       >OI {@html sortIconHtml(sortOrders.openInterest)}</span
+                    >
+                  </th>
+                {/if}
+                {#if colVisible["addedOI"]}
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("addedOI")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Added OI {@html sortIconHtml(sortOrders.addedOI)}</span
+                    >
+                  </th>
+                {/if}
+                {#if colVisible["oiChange"]}
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("oiChange")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >OI Chg% {@html sortIconHtml(sortOrders.oiChange)}</span
                     >
                   </th>
                 {/if}
@@ -1764,6 +1817,17 @@
                       {item?.underlying_price}
                     </td>
                   {/if}
+                  {#if colVisible["currentPrice"]}
+                    <td class="text-end text-sm whitespace-nowrap">
+                      {#if enriched?.status === "loading"}
+                        <span class="loading loading-spinner loading-xs"></span>
+                      {:else if enriched?.status === "done" && enriched.currentPrice !== null}
+                        {enriched.currentPrice.toFixed(2)}
+                      {:else}
+                        <span class="text-gray-400 dark:text-zinc-500">-</span>
+                      {/if}
+                    </td>
+                  {/if}
                   {#if colVisible["price"]}
                     <td
                       class="text-end text-sm whitespace-nowrap"
@@ -1805,17 +1869,6 @@
                             <span class="text-sm">Add</span>
                           {/if}
                         </button>
-                      {/if}
-                    </td>
-                  {/if}
-                  {#if colVisible["currentPrice"]}
-                    <td class="text-end text-sm whitespace-nowrap">
-                      {#if enriched?.status === "loading"}
-                        <span class="loading loading-spinner loading-xs"></span>
-                      {:else if enriched?.status === "done" && enriched.currentPrice !== null}
-                        {enriched.currentPrice.toFixed(2)}
-                      {:else}
-                        <span class="text-gray-400 dark:text-zinc-500">-</span>
                       {/if}
                     </td>
                   {/if}
@@ -1920,12 +1973,62 @@
                       )}
                     </td>
                   {/if}
+                  {#if colVisible["addedVol"]}
+                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      {intlCompact.format(item?.volume)}
+                    </td>
+                  {/if}
+                  {#if colVisible["volChange"]}
+                    <td
+                      class="text-end text-sm whitespace-nowrap {enriched?.volChange !=
+                      null
+                        ? enriched.volChange >= 0
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'
+                        : ''}"
+                    >
+                      {#if enriched?.status === "done" && enriched.volChange !== null}
+                        {enriched.volChange >= 0
+                          ? "+"
+                          : ""}{enriched.volChange.toFixed(1)}%
+                      {:else if enriched?.status === "loading"}
+                        <span class="loading loading-spinner loading-xs"></span>
+                      {:else}
+                        <span class="text-gray-400 dark:text-zinc-500">-</span>
+                      {/if}
+                    </td>
+                  {/if}
                   {#if colVisible["openInterest"]}
                     <td class="text-end text-sm whitespace-nowrap tabular-nums">
                       {intlCompact.format(
                         enrichmentMap.get(item.id)?.openInterest ??
                           item?.open_interest,
                       )}
+                    </td>
+                  {/if}
+                  {#if colVisible["addedOI"]}
+                    <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      {intlCompact.format(item?.open_interest)}
+                    </td>
+                  {/if}
+                  {#if colVisible["oiChange"]}
+                    <td
+                      class="text-end text-sm whitespace-nowrap {enriched?.oiChange !=
+                      null
+                        ? enriched.oiChange >= 0
+                          ? 'text-emerald-800 dark:text-emerald-400'
+                          : 'text-rose-800 dark:text-rose-400'
+                        : ''}"
+                    >
+                      {#if enriched?.status === "done" && enriched.oiChange !== null}
+                        {enriched.oiChange >= 0
+                          ? "+"
+                          : ""}{enriched.oiChange.toFixed(1)}%
+                      {:else if enriched?.status === "loading"}
+                        <span class="loading loading-spinner loading-xs"></span>
+                      {:else}
+                        <span class="text-gray-400 dark:text-zinc-500">-</span>
+                      {/if}
                     </td>
                   {/if}
                 </tr>
