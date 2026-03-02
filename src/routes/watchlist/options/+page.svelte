@@ -259,8 +259,7 @@
   }
 
   function handleIndicatorSearch(event: Event) {
-    const q =
-      (event.target as HTMLInputElement).value?.toLowerCase() || "";
+    const q = (event.target as HTMLInputElement).value?.toLowerCase() || "";
     indicatorSearch = q;
     if (q.length > 0) {
       indicatorSearchResults = ALL_COLUMNS.filter((c) =>
@@ -1054,8 +1053,8 @@
           <div
             class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
           >
-            <!-- Row 1 on mobile: Find filter + Add Trades -->
-            <div class="flex flex-row items-center gap-2 w-full sm:w-fit">
+            <!-- Mobile Row 1: Find input -->
+            <div class="w-full sm:w-fit">
               <div
                 class="relative min-w-24 grow sm:grow-0 sm:w-fit sm:flex-1 lg:flex-none"
               >
@@ -1084,7 +1083,12 @@
                   class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
+            </div>
 
+            <!-- Mobile Row 2: Add Trades + Indicators -->
+            <div
+              class="flex flex-row items-center justify-end gap-2 w-full sm:w-auto sm:ml-2"
+            >
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
@@ -1110,17 +1114,66 @@
                   >Add Trades</span
                 >
               </a>
-            </div>
 
-            <!-- Row 2 on mobile: Edit Watchlist + Download -->
-            <div
-              class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
-            >
               <div
                 class="flex items-center gap-2 {watchList?.length === 0
                   ? 'hidden'
                   : ''}"
               >
+                <!-- Delete Button (edit mode only) -->
+                {#if editMode}
+                  <label
+                    on:click={handleDeleteItems}
+                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                  >
+                    <svg
+                      class="inline-block w-5 h-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      ><path
+                        fill="currentColor"
+                        d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
+                      /></svg
+                    >
+                    <span class="ml-1 text-sm">
+                      {numberOfChecked}
+                    </span>
+                  </label>
+                {/if}
+
+                <!-- Edit Watchlist Button -->
+                <label
+                  on:click={handleEditMode}
+                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                >
+                  <svg
+                    class="inline-block w-5 h-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1024 1024"
+                    ><path
+                      fill="currentColor"
+                      d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
+                    /><path
+                      fill="currentColor"
+                      d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
+                    /></svg
+                  >
+                  {#if !editMode}
+                    <span class="ml-1 text-[0.85rem] sm:text-sm">
+                      Edit Watchlist
+                    </span>
+                  {:else}
+                    <span class="ml-1 text-[0.85rem] sm:text-sm"> Cancel </span>
+                  {/if}
+                </label>
+              </div>
+            </div>
+
+            <!-- Mobile Row 3: Indicators + Download -->
+            <div
+              class="flex flex-row items-center justify-end w-full sm:w-auto gap-2 sm:ml-2"
+            >
+              <div class={watchList?.length === 0 ? "hidden" : ""}>
                 <!-- Indicators Dropdown -->
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild let:builder>
@@ -1236,53 +1289,6 @@
                     </div>
                   </DropdownMenu.Content>
                 </DropdownMenu.Root>
-
-                <!-- Delete Button (edit mode only) -->
-                {#if editMode}
-                  <label
-                    on:click={handleDeleteItems}
-                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
-                  >
-                    <svg
-                      class="inline-block w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      ><path
-                        fill="currentColor"
-                        d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z"
-                      /></svg
-                    >
-                    <span class="ml-1 text-sm">
-                      {numberOfChecked}
-                    </span>
-                  </label>
-                {/if}
-
-                <!-- Edit Watchlist Button -->
-                <label
-                  on:click={handleEditMode}
-                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
-                >
-                  <svg
-                    class="inline-block w-5 h-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 1024 1024"
-                    ><path
-                      fill="currentColor"
-                      d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z"
-                    /><path
-                      fill="currentColor"
-                      d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z"
-                    /></svg
-                  >
-                  {#if !editMode}
-                    <span class="ml-1 text-[0.85rem] sm:text-sm">
-                      Edit Watchlist
-                    </span>
-                  {:else}
-                    <span class="ml-1 text-[0.85rem] sm:text-sm"> Cancel </span>
-                  {/if}
-                </label>
               </div>
 
               <!-- Download -->
@@ -1441,93 +1447,195 @@
                 </th>
                 <th class="p-2 text-center w-8"></th>
                 {#if colVisible["put_call"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("put_call")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">C/P {@html sortIconHtml(sortOrders.put_call)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("put_call")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >C/P {@html sortIconHtml(sortOrders.put_call)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["strike_price"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("strike_price")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Strike {@html sortIconHtml(sortOrders.strike_price)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("strike_price")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Strike {@html sortIconHtml(
+                        sortOrders.strike_price,
+                      )}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["date_expiration"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("date_expiration")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Expiry {@html sortIconHtml(sortOrders.date_expiration)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("date_expiration")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Expiry {@html sortIconHtml(
+                        sortOrders.date_expiration,
+                      )}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["dte"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("dte")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">DTE {@html sortIconHtml(sortOrders.dte)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("dte")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >DTE {@html sortIconHtml(sortOrders.dte)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["sentiment"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("sentiment")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Sent. {@html sortIconHtml(sortOrders.sentiment)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("sentiment")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Sent. {@html sortIconHtml(sortOrders.sentiment)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["underlying_price"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("underlying_price")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Spot {@html sortIconHtml(sortOrders.underlying_price)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("underlying_price")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Spot {@html sortIconHtml(
+                        sortOrders.underlying_price,
+                      )}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["price"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("price")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Added Price {@html sortIconHtml(sortOrders.price)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("price")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Added Price {@html sortIconHtml(sortOrders.price)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["currentPrice"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("currentPrice")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Price {@html sortIconHtml(sortOrders.currentPrice)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("currentPrice")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Price {@html sortIconHtml(sortOrders.currentPrice)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["pctChange"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("pctChange")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">% Since Added {@html sortIconHtml(sortOrders.pctChange)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("pctChange")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >% Since Added {@html sortIconHtml(
+                        sortOrders.pctChange,
+                      )}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["iv"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("iv")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">IV {@html sortIconHtml(sortOrders.iv)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("iv")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >IV {@html sortIconHtml(sortOrders.iv)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["delta"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("delta")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Delta {@html sortIconHtml(sortOrders.delta)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("delta")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Delta {@html sortIconHtml(sortOrders.delta)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["cost_basis"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("cost_basis")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Prem {@html sortIconHtml(sortOrders.cost_basis)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("cost_basis")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Prem {@html sortIconHtml(sortOrders.cost_basis)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["option_activity_type"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("option_activity_type")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Type {@html sortIconHtml(sortOrders.option_activity_type)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("option_activity_type")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Type {@html sortIconHtml(
+                        sortOrders.option_activity_type,
+                      )}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["trade_leg_type"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("trade_leg_type")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Leg {@html sortIconHtml(sortOrders.trade_leg_type)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("trade_leg_type")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Leg {@html sortIconHtml(sortOrders.trade_leg_type)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["execution_estimate"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("execution_estimate")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Exec {@html sortIconHtml(sortOrders.execution_estimate)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("execution_estimate")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Exec {@html sortIconHtml(
+                        sortOrders.execution_estimate,
+                      )}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["size"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("size")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Size {@html sortIconHtml(sortOrders.size)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("size")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Size {@html sortIconHtml(sortOrders.size)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["volume"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("volume")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">Vol {@html sortIconHtml(sortOrders.volume)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("volume")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >Vol {@html sortIconHtml(sortOrders.volume)}</span
+                    >
                   </th>
                 {/if}
                 {#if colVisible["openInterest"]}
-                  <th class="p-2 text-right cursor-pointer select-none" on:click={() => sortData("openInterest")}>
-                    <span class="inline-flex items-center justify-end gap-0.5">OI {@html sortIconHtml(sortOrders.openInterest)}</span>
+                  <th
+                    class="p-2 text-right cursor-pointer select-none"
+                    on:click={() => sortData("openInterest")}
+                  >
+                    <span class="inline-flex items-center justify-end gap-0.5"
+                      >OI {@html sortIconHtml(sortOrders.openInterest)}</span
+                    >
                   </th>
                 {/if}
               </tr>
@@ -1631,7 +1739,9 @@
                       {#if item?.dte === null}
                         -
                       {:else if item.dte < 0}
-                        <span class="text-gray-400 dark:text-zinc-500">expired</span>
+                        <span class="text-gray-400 dark:text-zinc-500"
+                          >expired</span
+                        >
                       {:else}
                         {item.dte}d
                       {/if}
@@ -1777,7 +1887,9 @@
                         ? 'text-gray-600 dark:text-[#FF9500]'
                         : 'text-gray-600 dark:text-[#7B8794]'}"
                     >
-                      {item?.trade_leg_type === "multi-leg" ? "Multi" : "Single"}
+                      {item?.trade_leg_type === "multi-leg"
+                        ? "Multi"
+                        : "Single"}
                     </td>
                   {/if}
                   {#if colVisible["execution_estimate"]}
