@@ -9,7 +9,7 @@
   } from "$lib/utils";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -166,6 +166,12 @@
   let displayList: any[] = [];
   let rawTabData: any[] = [];
   let activeIdx = 0;
+
+  // ── Inline Price Editing State ──
+  let editingPriceItemId: string | null = null;
+  let editingPriceValue = "";
+  let priceInputRef: HTMLInputElement | null = null;
+  let skipPriceBlur = false;
 
   const tabs = ["News", "Earnings Release"];
 
@@ -657,6 +663,140 @@
     editingNoteText = "";
     originalNoteText = "";
     isLoadingNote = false;
+  }
+
+  // ── Inline Price Editing ──
+  function formatPriceValue(value: unknown): string {
+    if (value === null || value === undefined) return "";
+    const num = typeof value === "number" ? value : parseFloat(String(value));
+    if (isNaN(num) || !Number.isFinite(num)) return "";
+    return num.toFixed(2);
+  }
+
+  async function startPriceEdit(itemId: string, currentPrice: unknown) {
+    editingPriceItemId = itemId;
+    editingPriceValue = formatPriceValue(currentPrice);
+    await tick();
+    if (priceInputRef) {
+      priceInputRef.focus();
+      priceInputRef.select();
+    }
+  }
+
+  function cancelPriceEdit() {
+    editingPriceItemId = null;
+    editingPriceValue = "";
+  }
+
+  function handlePriceInputKeydown(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      skipPriceBlur = true;
+      savePriceEdit();
+      (event.target as HTMLInputElement)?.blur();
+      setTimeout(() => {
+        skipPriceBlur = false;
+      }, 0);
+    } else if (event.key === "Escape") {
+      skipPriceBlur = true;
+      cancelPriceEdit();
+      setTimeout(() => {
+        skipPriceBlur = false;
+      }, 0);
+    }
+  }
+
+  function handlePriceBlur() {
+    if (skipPriceBlur) return;
+    savePriceEdit();
+  }
+
+  async function savePriceEdit() {
+    if (!editingPriceItemId) return;
+    const itemId = editingPriceItemId;
+    const trimmed = editingPriceValue.trim();
+
+    let newPrice: number | null = null;
+    if (trimmed.length > 0) {
+      const isValid = /^[0-9]+\.?[0-9]*$/.test(trimmed);
+      if (isValid) {
+        const parsed = parseFloat(trimmed);
+        if (parsed > 0) {
+          newPrice = Math.round(parsed * 100) / 100;
+        }
+      }
+    }
+
+    const item = watchList.find((i: any) => i.id === itemId);
+    const oldPrice = item?.price ?? null;
+    const oldPriceNum =
+      oldPrice != null
+        ? Math.round(parseFloat(String(oldPrice)) * 100) / 100
+        : null;
+
+    editingPriceItemId = null;
+    editingPriceValue = "";
+
+    if (newPrice === oldPriceNum) return;
+
+    // Optimistic update
+    watchList = watchList.map((i: any) => {
+      if (i.id === itemId) return { ...i, price: newPrice };
+      return i;
+    });
+
+    const enriched = enrichmentMap.get(itemId);
+    if (enriched) {
+      const currentPrice = enriched.currentPrice;
+      const updatedPctChange =
+        currentPrice != null && newPrice != null && newPrice > 0
+          ? ((currentPrice - newPrice) / newPrice) * 100
+          : null;
+      enrichmentMap = new Map(enrichmentMap).set(itemId, {
+        ...enriched,
+        pctChange: updatedPctChange,
+      });
+    }
+
+    try {
+      const response = await fetch("/api/update-options-watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "updatePrice",
+          id: optionsWatchlist?.id,
+          itemId,
+          price: newPrice,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update price");
+
+      toast.success("Price updated", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    } catch (e) {
+      // Revert on failure
+      watchList = watchList.map((i: any) => {
+        if (i.id === itemId) return { ...i, price: oldPrice };
+        return i;
+      });
+
+      if (enriched) {
+        const currentPrice = enriched.currentPrice;
+        const revertedPctChange =
+          currentPrice != null && oldPriceNum != null && oldPriceNum > 0
+            ? ((currentPrice - oldPriceNum) / oldPriceNum) * 100
+            : null;
+        enrichmentMap = new Map(enrichmentMap).set(itemId, {
+          ...enriched,
+          pctChange: revertedPctChange,
+        });
+      }
+
+      toast.error("Failed to update price", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
   }
 
   onMount(async () => {
@@ -1351,8 +1491,48 @@
                   <td class="text-end text-sm whitespace-nowrap">
                     {item?.underlying_price}
                   </td>
-                  <td class="text-end text-sm whitespace-nowrap">
-                    {item?.price}
+                  <td
+                    class="text-end text-sm whitespace-nowrap"
+                    on:click|stopPropagation
+                  >
+                    {#if editingPriceItemId === item.id}
+                      <input
+                        type="text"
+                        bind:this={priceInputRef}
+                        bind:value={editingPriceValue}
+                        on:keydown={handlePriceInputKeydown}
+                        on:blur={handlePriceBlur}
+                        class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                      />
+                    {:else}
+                      <button
+                        type="button"
+                        class="flex h-full w-full items-center justify-end gap-1 cursor-pointer focus:outline-hidden"
+                        on:click={() =>
+                          startPriceEdit(item.id, item?.price)}
+                      >
+                        {#if item?.price != null && item?.price !== ""}
+                          <span class="min-w-[3rem] text-right">
+                            {formatPriceValue(item.price)}
+                          </span>
+                        {:else}
+                          <svg
+                            class="h-3 w-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                            ></path>
+                          </svg>
+                          <span class="text-sm">Add</span>
+                        {/if}
+                      </button>
+                    {/if}
                   </td>
                   <td class="text-end text-sm whitespace-nowrap">
                     {#if enriched?.status === "loading"}

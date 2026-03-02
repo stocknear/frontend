@@ -171,6 +171,55 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
   }
 
+  // ─── MODE: "updatePrice" ── Update price for a specific item ───
+  if (mode === "updatePrice") {
+    const itemId = body?.itemId;
+    const price = body?.price;
+    const watchlistId = body?.id;
+
+    if (!itemId || !watchlistId) {
+      return new Response(JSON.stringify({ error: "Invalid updatePrice request" }), { status: 400 });
+    }
+
+    if (price !== null) {
+      if (typeof price !== "number" || !Number.isFinite(price) || price <= 0) {
+        return new Response(JSON.stringify({ error: "Invalid price value" }), { status: 400 });
+      }
+    }
+
+    try {
+      const watchList = await pb.collection("optionsWatchlist").getOne(watchlistId);
+      if (watchList.user !== user.id) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+      }
+
+      const currentData = parseDataArray(watchList.data);
+      const itemIndex = currentData.findIndex((d: any) => d.id === itemId);
+
+      if (itemIndex === -1) {
+        return new Response(JSON.stringify({ error: "Item not found" }), { status: 404 });
+      }
+
+      currentData[itemIndex] = {
+        ...currentData[itemIndex],
+        price: price !== null ? Math.round(price * 100) / 100 : null,
+      };
+
+      const output = await pb
+        .collection("optionsWatchlist")
+        .update(watchlistId, { data: currentData });
+
+      return new Response(
+        JSON.stringify({
+          watchlistId: output?.id,
+          success: true,
+        }),
+      );
+    } catch (e) {
+      return new Response(JSON.stringify({ error: "Failed to update price" }), { status: 500 });
+    }
+  }
+
   // ─── DEFAULT: Toggle add/remove single item ───
   const item = body?.item;
   const watchlistId = body?.id;
