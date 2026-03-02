@@ -1204,6 +1204,8 @@
     sendFiltersToWebSocket();
   }
 
+  const MAX_TRACKED_CONTRACTS = 5;
+
   function handleTrackContract(item: any) {
     const key = `${item.ticker}|${item.put_call}|${item.strike_price}|${item.date_expiration}`;
     const ruleIndex = ruleOfList.findIndex((r) => r.name === "trackContract");
@@ -1230,6 +1232,11 @@
           ruleOfList = [...ruleOfList];
         }
       } else {
+        // Enforce max tracked contracts
+        if (existing.length >= MAX_TRACKED_CONTRACTS) {
+          toast.error(`Maximum of ${MAX_TRACKED_CONTRACTS} tracked contracts reached`);
+          return;
+        }
         // Add this contract
         ruleOfList[ruleIndex] = {
           ...ruleOfList[ruleIndex],
