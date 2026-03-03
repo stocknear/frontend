@@ -1062,63 +1062,18 @@ ${insightData.traderTakeaway}
                   {formatTime(item?.time)}
                 </td>
               {:else if column.key === "ticker"}
+                {@const contractKey = `${item?.ticker}|${item?.put_call}|${item?.strike_price}|${item?.date_expiration}`}
+                {@const isTracked = trackedContracts.has(contractKey)}
                 <td
                   on:click|stopPropagation
                   class="text-left text-sm whitespace-nowrap"
                 >
-                  <HoverStockChart
-                    symbol={item?.ticker}
-                    assetType={item?.underlying_type}
-                    optionSymbol={item?.option_symbol}
-                  />
-                </td>
-              {:else if column.key === "watchlist"}
-                {@const contractKey = `${item?.ticker}|${item?.put_call}|${item?.strike_price}|${item?.date_expiration}`}
-                {@const isTracked = trackedContracts.has(contractKey)}
-                <td
-                  class="text-center whitespace-nowrap"
-                  on:click|stopPropagation
-                >
-                  <div class="inline-flex items-center gap-0.5">
-                    <button
-                      id="bookmark-{item?.id}"
-                      on:click|stopPropagation={() => addToWatchlist(item)}
-                      class="cursor-pointer transition-all duration-200 {bookmarkedIds.has(
-                        item?.id,
-                      )
-                        ? 'text-amber-500 dark:text-amber-400 scale-110'
-                        : 'text-gray-800 dark:text-zinc-400 sm:hover:text-amber-400 dark:sm:hover:text-amber-500 sm:hover:scale-110'}"
-                    >
-                      {#if bookmarkedIds.has(item?.id)}
-                        <svg
-                          class="{animationId === item?.id
-                            ? animationClass
-                            : ''} w-5 h-5 inline-block shrink-0"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                          />
-                        </svg>
-                      {:else}
-                        <svg
-                          class="{animationId === item?.id
-                            ? animationClass
-                            : ''} w-5 h-5 inline-block shrink-0"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.5"
-                        >
-                          <path
-                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                          />
-                        </svg>
-                      {/if}
-                    </button>
+                  <div class="flex items-center">
+                    <HoverStockChart
+                      symbol={item?.ticker}
+                      assetType={item?.underlying_type}
+                      optionSymbol={item?.option_symbol}
+                    />
                     <DropdownMenu.Root>
                       <DropdownMenu.Trigger asChild let:builder>
                         <button
@@ -1127,8 +1082,7 @@ ${insightData.traderTakeaway}
                           class="ml-2 cursor-pointer transition-all duration-200
                             {isTracked
                             ? 'text-gray-800 dark:text-zinc-400 opacity-100'
-                            : 'text-gray-800 dark:text-zinc-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}
-                            "
+                            : 'text-gray-800 dark:text-zinc-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                         >
                           <EllipsisVertical
                             class="w-4 h-4 inline-block shrink-0"
@@ -1176,6 +1130,51 @@ ${insightData.traderTakeaway}
                       </DropdownMenu.Content>
                     </DropdownMenu.Root>
                   </div>
+                </td>
+              {:else if column.key === "watchlist"}
+                <td
+                  class="text-center whitespace-nowrap"
+                  on:click|stopPropagation
+                >
+                  <button
+                    id="bookmark-{item?.id}"
+                    on:click|stopPropagation={() => addToWatchlist(item)}
+                    class="cursor-pointer transition-all duration-200 {bookmarkedIds.has(
+                      item?.id,
+                    )
+                      ? 'text-amber-500 dark:text-amber-400 scale-110'
+                      : 'text-gray-800 dark:text-zinc-400 sm:hover:text-amber-400 dark:sm:hover:text-amber-500 sm:hover:scale-110'}"
+                  >
+                    {#if bookmarkedIds.has(item?.id)}
+                      <svg
+                        class="{animationId === item?.id
+                          ? animationClass
+                          : ''} w-5 h-5 inline-block shrink-0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        />
+                      </svg>
+                    {:else}
+                      <svg
+                        class="{animationId === item?.id
+                          ? animationClass
+                          : ''} w-5 h-5 inline-block shrink-0"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                      >
+                        <path
+                          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                        />
+                      </svg>
+                    {/if}
+                  </button>
                 </td>
               {:else if column.key === "expiry"}
                 <td class="text-end text-sm whitespace-nowrap">
