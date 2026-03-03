@@ -20,7 +20,7 @@
     compare_breadcrumb_current,
     compare_breadcrumb_home,
     compare_no_results,
-    compare_popular_comparisons,
+    compare_stocks_popular_comparisons,
     compare_search_placeholder,
     compare_seo_description,
     compare_seo_keywords,
@@ -961,7 +961,13 @@
         tickerList = Array.isArray(rawList)
           ? rawList
               .filter((t): t is string => typeof t === "string")
-              .map((t) => t.trim().toUpperCase().replace(/[^A-Z0-9.\-^]/g, "").slice(0, 20))
+              .map((t) =>
+                t
+                  .trim()
+                  .toUpperCase()
+                  .replace(/[^A-Z0-9.\-^]/g, "")
+                  .slice(0, 20),
+              )
               .filter(Boolean)
               .slice(0, 10)
           : [];
@@ -1357,7 +1363,7 @@
               <h3
                 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
               >
-                {compare_popular_comparisons()}
+                {compare_stocks_popular_comparisons()}
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
@@ -1446,7 +1452,7 @@
               <h3
                 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
               >
-                {compare_popular_comparisons()}
+                {compare_stocks_popular_comparisons()}
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">

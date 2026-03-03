@@ -31,7 +31,7 @@
     compare_average_return,
     compare_breadcrumb_home,
     compare_no_results,
-    compare_popular_comparisons,
+    compare_etfs_popular_comparisons,
     compare_search_placeholder,
     compare_seo_keywords,
     compare_start_searching,
@@ -2150,7 +2150,7 @@
               <h3
                 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
               >
-                {compare_popular_comparisons()}
+                {compare_etfs_popular_comparisons()}
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
@@ -2181,7 +2181,7 @@
               <h3
                 class="font-semibold tracking-tight text-gray-900 dark:text-white text-xl md:text-2xl"
               >
-                {compare_popular_comparisons()}
+                {compare_etfs_popular_comparisons()}
               </h3>
               <div class="my-4 sm:flex md:my-5">
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">

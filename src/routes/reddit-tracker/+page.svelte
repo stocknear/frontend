@@ -5,6 +5,7 @@
   import SEO from "$lib/components/SEO.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import Infobox from "$lib/components/Infobox.svelte";
 
   import { goto } from "$app/navigation";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -23,7 +24,6 @@
     reddit_tracker_tab_month,
     reddit_tracker_tab_week,
     reddit_tracker_title,
-    reddit_tracker_posts_loading,
     reddit_tracker_posts_empty,
     reddit_tracker_posts_comments,
     reddit_tracker_posts_upvote,
@@ -476,23 +476,23 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-3">
+          <div class="mb-3 border-b border-gray-300 dark:border-zinc-700">
             <h1
               class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
               {reddit_tracker_title()}
             </h1>
-            <p class="text-sm text-gray-800 dark:text-zinc-300">
-              {getSubredditDescription(currentSubreddit)}
-            </p>
           </div>
 
+          <Infobox text={getSubredditDescription(currentSubreddit)} />
+
           <!-- Time Period Tabs -->
+
           <nav
-            class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
+            class="mt-5 border-t border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
           >
             <ul
-              class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
+              class="flex flex-row items-center w-full gap-1 py-2 text-sm sm:text-base"
             >
               {#each tabs as item, i}
                 <button
@@ -596,11 +596,9 @@
                             ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400'
                             : ['Neutral', 'Hold']?.includes(item?.sentiment)
                               ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-yellow-500'
-                              : [
-                                    'Bearish',
-                                    'Sell',
-                                    'Strong Sell',
-                                  ]?.includes(item?.sentiment)
+                              : ['Bearish', 'Sell', 'Strong Sell']?.includes(
+                                    item?.sentiment,
+                                  )
                                 ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-400'
                                 : 'bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300'}"
                         >
@@ -693,9 +691,7 @@
                           class="border-t border-gray-300 dark:border-zinc-700 p-4"
                         >
                           {#if loadingPosts}
-                            <div
-                              class="flex justify-center items-center h-40"
-                            >
+                            <div class="flex justify-center items-center h-40">
                               <div class="relative">
                                 <label
                                   class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
