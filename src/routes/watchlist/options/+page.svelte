@@ -16,6 +16,7 @@
   import Pencil from "lucide-svelte/icons/pencil";
   import EllipsisVertical from "lucide-svelte/icons/ellipsis-vertical";
   import ChartNoAxesCombined from "lucide-svelte/icons/chart-no-axes-combined";
+  import Activity from "lucide-svelte/icons/activity";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Pagination from "$lib/components/Table/Pagination.svelte";
@@ -404,6 +405,21 @@
   function openContractChart(item: any) {
     chartModalItem = item;
     chartModalOpen = true;
+  }
+
+  // ── Contract Activity Modal ──
+  let activityModalOpen = false;
+  let activityModalItem: any = null;
+
+  function openContractActivity(item: any) {
+    if (data?.user?.tier !== "Pro") {
+      toast.error("Unlock this feature with Pro Subscription", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+    activityModalItem = item;
+    activityModalOpen = true;
   }
 
   // ── Search / Filter ──
@@ -1662,6 +1678,13 @@
                             <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
                             View Chart
                           </DropdownMenu.Item>
+                          <DropdownMenu.Item
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            on:click={() => openContractActivity(item)}
+                          >
+                            <Activity class="w-4 h-4 shrink-0" />
+                            Contract Activity
+                          </DropdownMenu.Item>
                         </DropdownMenu.Content>
                       </DropdownMenu.Root>
                     </div>
@@ -2176,6 +2199,20 @@
       onClose={() => {
         chartModalOpen = false;
         chartModalItem = null;
+      }}
+    />
+  {/await}
+{/if}
+
+<!-- Contract Activity Modal -->
+{#if activityModalOpen}
+  {#await import("$lib/components/Options/ContractActivityModal.svelte") then { default: ContractActivityModal }}
+    <ContractActivityModal
+      item={activityModalItem}
+      isOpen={activityModalOpen}
+      onClose={() => {
+        activityModalOpen = false;
+        activityModalItem = null;
       }}
     />
   {/await}
