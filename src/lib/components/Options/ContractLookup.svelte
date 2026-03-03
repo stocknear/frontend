@@ -1616,16 +1616,15 @@
                     </td></tr
                   >
 
-                  <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                  <tr class="flex flex-col py-1 sm:table-row sm:py-0"
                     ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
-                      >Rho</td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem] invisible"
+                      >XXX</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem] invisible"
                     >
-                      {rawDataHistory?.at(0)?.rho?.toFixed(3) ?? "n/a"}
+                      XXX
                     </td></tr
                   >
 
