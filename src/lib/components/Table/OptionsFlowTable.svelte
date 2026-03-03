@@ -966,17 +966,6 @@ ${insightData.traderTakeaway}
     return data.sort(compareFunctions[key]);
   }
 
-  // Function to reapply current sort
-  function reapplySort(data) {
-    if (currentSortKey && currentSortOrder !== "none") {
-      // Reapply the current sort
-      return applySortDirectly(data, currentSortKey, currentSortOrder);
-    } else {
-      // No sort applied, just use the data as is
-      return data;
-    }
-  }
-
   // Watch for changes in displayedData prop and update sortedDisplayData
   // This ensures new data is shown while preserving sort
   $: {

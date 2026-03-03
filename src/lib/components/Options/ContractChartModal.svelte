@@ -1,3 +1,9 @@
+<script context="module" lang="ts">
+  // Module-level cache: survives component destroy/recreate cycles
+  const contractCache = new Map<string, { history: any[]; stockHistory: any[] }>();
+  const MAX_CACHE_SIZE = 20;
+</script>
+
 <script lang="ts">
   import { mode } from "mode-watcher";
   import { abbreviateNumber } from "$lib/utils";
@@ -30,17 +36,29 @@
   let latestStats: any = null;
 
   $: if (isOpen && item?.option_symbol && item?.ticker) {
-    fetchContractHistory();
+    loadContractData();
   }
 
   $: if (!isOpen) {
-    rawHistory = [];
-    rawStockHistory = [];
     chartConfig = null;
-    latestStats = null;
     hasError = false;
     selectGraphType = "Price";
     selectedTimePeriod = "3M";
+  }
+
+  function loadContractData() {
+    const symbol = item.option_symbol;
+
+    // Same contract re-opened — restore from cache, skip fetch
+    if (contractCache.has(symbol)) {
+      const cached = contractCache.get(symbol)!;
+      rawHistory = cached.history;
+      rawStockHistory = cached.stockHistory;
+      latestStats = rawHistory[rawHistory.length - 1] || null;
+      return;
+    }
+
+    fetchContractHistory();
   }
 
   $: if (rawHistory.length > 0) {
@@ -111,6 +129,16 @@
             .sort((a: any, b: any) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
         }
       }
+      // Cache the results
+      if (contractCache.size >= MAX_CACHE_SIZE) {
+        // Evict oldest entry
+        const firstKey = contractCache.keys().next().value;
+        contractCache.delete(firstKey);
+      }
+      contractCache.set(item.option_symbol, {
+        history: rawHistory,
+        stockHistory: rawStockHistory,
+      });
     } catch {
       hasError = true;
     } finally {
