@@ -26,8 +26,7 @@
   // Default columns definition
   const defaultColumns = [
     { key: "time", label: "Time", align: "left" },
-    { key: "ticker", label: "Symbol", align: "left" },
-    { key: "watchlist", label: "", align: "center" },
+    { key: "ticker", label: "Symbol", align: "right" },
     { key: "expiry", label: "Expiry", align: "right" },
     { key: "dte", label: "DTE", align: "right" },
     { key: "strike", label: "Strike", align: "right" },
@@ -1005,10 +1004,7 @@ ${insightData.traderTakeaway}
             on:dragleave={handleDragLeave}
             on:drop={(e) => handleDrop(e, i)}
             on:dragend={handleDragEnd}
-            on:click={() =>
-              column.key !== "watchlist" &&
-              column.key !== "bookmark" &&
-              sortData(column.key)}
+            on:click={() => column.key !== "bookmark" && sortData(column.key)}
             class="p-2 text-center select-none whitespace-nowrap transition-all duration-150 cursor-grab active:cursor-grabbing
               {dragOverColumnIndex === i && draggedColumnIndex !== i
               ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
@@ -1016,7 +1012,7 @@ ${insightData.traderTakeaway}
           >
             <span class="inline-flex items-center gap-1 justify-center">
               {column.label}
-              {#if column.key !== "watchlist" && column.key !== "bookmark"}
+              {#if column.key !== "bookmark"}
                 <svg
                   class="shrink-0 w-4 h-4 {sortOrders[column.key] === 'asc'
                     ? 'rotate-180 inline-block'
@@ -1066,7 +1062,7 @@ ${insightData.traderTakeaway}
                 {@const isTracked = trackedContracts.has(contractKey)}
                 <td
                   on:click|stopPropagation
-                  class="text-left text-sm whitespace-nowrap"
+                  class="flex justify-end text-end text-sm whitespace-nowrap"
                 >
                   <div class="flex items-center">
                     <HoverStockChart
@@ -1109,9 +1105,12 @@ ${insightData.traderTakeaway}
                             : 'text-gray-700 dark:text-zinc-300'}"
                           on:click={() => {
                             if (!isTracked && data?.user?.tier !== "Pro") {
-                              toast.error("Unlock this feature with Pro Subscription", {
-                                style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                              });
+                              toast.error(
+                                "Unlock this feature with Pro Subscription",
+                                {
+                                  style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                                },
+                              );
                               return;
                             }
                             onTrackContract?.(item);
@@ -1129,52 +1128,46 @@ ${insightData.traderTakeaway}
                         </DropdownMenu.Item>
                       </DropdownMenu.Content>
                     </DropdownMenu.Root>
+                    <button
+                      id="bookmark-{item?.id}"
+                      on:click|stopPropagation={() => addToWatchlist(item)}
+                      class="ml-1 cursor-pointer transition-all duration-200 {bookmarkedIds.has(
+                        item?.id,
+                      )
+                        ? 'text-amber-500 dark:text-amber-400 scale-110'
+                        : 'text-gray-800 dark:text-zinc-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:hover:text-amber-400 dark:sm:hover:text-amber-500 sm:hover:scale-110'}"
+                    >
+                      {#if bookmarkedIds.has(item?.id)}
+                        <svg
+                          class="{animationId === item?.id
+                            ? animationClass
+                            : ''} w-5 h-5 inline-block shrink-0"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                          />
+                        </svg>
+                      {:else}
+                        <svg
+                          class="{animationId === item?.id
+                            ? animationClass
+                            : ''} w-5 h-5 inline-block shrink-0"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                        >
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                          />
+                        </svg>
+                      {/if}
+                    </button>
                   </div>
-                </td>
-              {:else if column.key === "watchlist"}
-                <td
-                  class="text-center whitespace-nowrap"
-                  on:click|stopPropagation
-                >
-                  <button
-                    id="bookmark-{item?.id}"
-                    on:click|stopPropagation={() => addToWatchlist(item)}
-                    class="cursor-pointer transition-all duration-200 {bookmarkedIds.has(
-                      item?.id,
-                    )
-                      ? 'text-amber-500 dark:text-amber-400 scale-110'
-                      : 'text-gray-800 dark:text-zinc-400 sm:hover:text-amber-400 dark:sm:hover:text-amber-500 sm:hover:scale-110'}"
-                  >
-                    {#if bookmarkedIds.has(item?.id)}
-                      <svg
-                        class="{animationId === item?.id
-                          ? animationClass
-                          : ''} w-5 h-5 inline-block shrink-0"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path
-                          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                        />
-                      </svg>
-                    {:else}
-                      <svg
-                        class="{animationId === item?.id
-                          ? animationClass
-                          : ''} w-5 h-5 inline-block shrink-0"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                      >
-                        <path
-                          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                        />
-                      </svg>
-                    {/if}
-                  </button>
                 </td>
               {:else if column.key === "expiry"}
                 <td class="text-end text-sm whitespace-nowrap">
