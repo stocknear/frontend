@@ -1142,11 +1142,26 @@ ${insightData.traderTakeaway}
                         class="w-44 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
                       >
                         <DropdownMenu.Item
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          on:click={() => onOpenChart?.(item)}
+                        >
+                          <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
+                          View Chart
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
                           class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition
                             {isTracked
                             ? 'text-violet-700 dark:text-violet-400 font-medium'
                             : 'text-gray-700 dark:text-zinc-300'}"
-                          on:click={() => onTrackContract?.(item)}
+                          on:click={() => {
+                            if (!isTracked && data?.user?.tier !== "Pro") {
+                              toast.error("Unlock this feature with Pro Subscription", {
+                                style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+                              });
+                              return;
+                            }
+                            onTrackContract?.(item);
+                          }}
                         >
                           <Crosshair class="w-4 h-4 shrink-0" />
                           {isTracked ? "Untrack Contract" : "Track Contract"}
@@ -1157,13 +1172,6 @@ ${insightData.traderTakeaway}
                         >
                           <Spark class="w-4 h-4 shrink-0" />
                           AI Insight
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Item
-                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
-                          on:click={() => onOpenChart?.(item)}
-                        >
-                          <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
-                          View Chart
                         </DropdownMenu.Item>
                       </DropdownMenu.Content>
                     </DropdownMenu.Root>
@@ -1211,7 +1219,7 @@ ${insightData.traderTakeaway}
                 </td>
               {:else if column.key === "premium"}
                 <td class="text-end text-sm whitespace-nowrap">
-                  {@html abbreviateNumber(item?.cost_basis, false, true)}
+                  {abbreviateNumber(item?.cost_basis, false, true)}
                 </td>
               {:else if column.key === "type"}
                 <td

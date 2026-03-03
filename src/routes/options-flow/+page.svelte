@@ -1262,14 +1262,22 @@
       }
     }
 
-    // Auto-pause when adding so the user can keep browsing and track more
-    if (isAdding) {
+    // Auto-pause when adding 2nd+ contract so the user can keep browsing;
+    // first contract always applies immediately.
+    const wasPaused = trackingPaused;
+    if (isAdding && ruleIndex !== -1) {
       trackingPaused = true;
     }
 
     displayRules = allRows?.filter((row) =>
       ruleOfList.some((rule) => rule.name === row.rule),
     );
+
+    // Skip redundant fetch when adding while already paused (data hasn't changed)
+    if (isAdding && wasPaused) {
+      return;
+    }
+
     debouncedFilterFetch();
     sendFiltersToWebSocket();
   }

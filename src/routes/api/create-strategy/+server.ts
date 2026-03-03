@@ -3,7 +3,7 @@ import type { RequestHandler } from "./$types";
 const MAX_TRACKED_CONTRACTS = 5;
 
 function sanitizeRules(rules: any[]): any[] {
-  if (!Array.isArray(rules)) return rules;
+  if (!Array.isArray(rules)) return [];
   return rules.map((rule) => {
     if (rule?.name === "trackContract" && Array.isArray(rule.value)) {
       return { ...rule, value: rule.value.slice(0, MAX_TRACKED_CONTRACTS) };
