@@ -127,9 +127,9 @@ export const handle = sequence(async ({ event, resolve }) => {
     const fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
     const wsURL = import.meta.env.VITE_USEAST_WS_URL;
 
-    const rawThemeMode = event?.cookies?.get("theme-mode") || "dark";
+    const rawThemeMode = event?.cookies?.get("theme-mode") || "light";
     const VALID_THEMES = ["dark", "light"];
-    const themeMode = VALID_THEMES?.includes(rawThemeMode) ? rawThemeMode : "dark";
+    const themeMode = VALID_THEMES?.includes(rawThemeMode) ? rawThemeMode : "light";
 
     let cookieConsent: { necessary: boolean; analytics: boolean; marketing: boolean } | null = null;
     const cookieConsentRaw = event?.cookies?.get("cookie-consent");
