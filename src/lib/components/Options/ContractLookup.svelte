@@ -241,6 +241,14 @@
         });
   };
 
+  const getOptionTypePillClass = (optionType: string | undefined) =>
+    `mb-1 px-3 py-1 border border-gray-300 dark:border-gray-700 inline-flex items-center rounded-full border shadow  text-sm font-semibold cursor-pointer select-none transition-colors`;
+
+  async function toggleOptionType() {
+    selectedOptionType = selectedOptionType === "Call" ? "Put" : "Call";
+    await loadData("optionType");
+  }
+
   function filterDataByTimePeriod(data, timePeriod) {
     if (!data || data.length === 0) return [];
 
@@ -1166,7 +1174,7 @@
           <Button
             on:click={copyContractLink}
             disabled={!optionSymbol}
-            class="w-fit transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            class="w-fit shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {copyLabel}
           </Button>
@@ -1234,7 +1242,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{formatDate(selectedDate)}</span
@@ -1322,7 +1330,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{selectedStrike ?? "n/a"}</span
@@ -1383,52 +1391,13 @@
                   </div>
                 </div>
 
-                <DropdownMenu.Root>
-                  <DropdownMenu.Trigger asChild let:builder>
-                    <Button
-                      builders={[builder]}
-                      class="mb-1 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
-                    >
-                      <span class="truncate text-sm">{selectedOptionType}</span>
-                      <svg
-                        class="-mr-1 ml-2 h-5 w-5 inline-block"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        style="max-width:40px"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clip-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </Button>
-                  </DropdownMenu.Trigger>
-
-                  <DropdownMenu.Content
-                    side="bottom"
-                    align="end"
-                    sideOffset={10}
-                    alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
-                  >
-                    <!-- Dropdown items -->
-                    <DropdownMenu.Group class="pb-2"
-                      >{#each ["Call", "Put"] as item}
-                        <DropdownMenu.Item
-                          on:click={() => {
-                            selectedOptionType = item;
-                            loadData("optionType");
-                          }}
-                          class="cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
-                        >
-                          {item}
-                        </DropdownMenu.Item>
-                      {/each}</DropdownMenu.Group
-                    >
-                  </DropdownMenu.Content>
-                </DropdownMenu.Root>
+                <button
+                  type="button"
+                  on:click={toggleOptionType}
+                  class={getOptionTypePillClass(selectedOptionType)}
+                >
+                  {selectedOptionType}
+                </button>
               </div>
               <!--End Added Rules-->
             </div>
@@ -1661,7 +1630,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectGraphType}</span
@@ -1738,7 +1707,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectedTimePeriod}</span
@@ -1958,7 +1927,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1992,7 +1961,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{stock_detail_options_common_rows({
@@ -2050,7 +2019,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{stock_detail_options_common_next()}</span
@@ -2097,6 +2066,8 @@
               {/if}
             {/if}
           {:else if isLoaded && !config}
+            <Infobox text={stock_detail_options_contract_lookup_no_data()} />
+          {:else}
             <div class="flex justify-center items-center h-80">
               <div class="relative">
                 <label
@@ -2108,8 +2079,6 @@
                 </label>
               </div>
             </div>
-          {:else}
-            <Infobox text={stock_detail_options_contract_lookup_no_data()} />
           {/if}
         {:else}
           <Infobox
