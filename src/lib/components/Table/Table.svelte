@@ -844,6 +844,12 @@
     ...PREMARKET_SESSION_COLUMNS,
     ...AFTERMARKET_SESSION_COLUMNS,
     { name: "EPS", rule: "eps", type: "float" },
+    { name: "Earnings Date", rule: "earningsDate", type: "date" },
+    {
+      name: "Est. EPS Growth",
+      rule: "earningsEPSGrowthEst",
+      type: "percentSign",
+    },
     { name: "PE Ratio", rule: "priceToEarningsRatio", type: "float" },
     { name: "PB Ratio", rule: "priceToBookRatio", type: "float" },
     { name: "PS Ratio", rule: "priceToSalesRatio", type: "float" },
@@ -851,6 +857,7 @@
     { name: "Revenue", rule: "revenue", type: "int" },
     { name: "EBITDA", rule: "ebitda", type: "int" },
     { name: "Net Income", rule: "netIncome", type: "int" },
+    { name: "Net Debt", rule: "netDebt", type: "int" },
     { name: "FCF", rule: "freeCashFlow", type: "int" },
     { name: "Industry", rule: "industry", type: "str" },
     { name: "Sector", rule: "sector", type: "str" },
@@ -3019,9 +3026,7 @@
                             : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                           title={item?.hasNote ? "Edit note" : "Add note"}
                         >
-                          <Pencil
-                            class="h-3.5 w-3.5"
-                          />
+                          <Pencil class="h-3.5 w-3.5" />
                         </button>
                       {/if}
                     </div>
