@@ -37,6 +37,10 @@
   $: bearPct = totalSentiment > 0 ? ((contractStats?.bearishCount || 0) / totalSentiment) * 100 : 0;
   $: neutralPct = totalSentiment > 0 ? ((contractStats?.neutralCount || 0) / totalSentiment) * 100 : 0;
 
+  $: totalLegs = (contractStats?.singleLegCount || 0) + (contractStats?.multiLegCount || 0);
+  $: singlePct = totalLegs > 0 ? ((contractStats?.singleLegCount || 0) / totalLegs) * 100 : 0;
+  $: multiPct = totalLegs > 0 ? ((contractStats?.multiLegCount || 0) / totalLegs) * 100 : 0;
+
   function loadActivity() {
     if (activityCache.has(contractKey)) {
       const cached = activityCache.get(contractKey)!;
@@ -253,6 +257,28 @@
             </div>
           {/if}
         </div>
+
+        <!-- Trade Leg Breakdown -->
+        {#if totalLegs > 0}
+          <div class="px-4 sm:px-6 pb-4">
+            <div class="flex items-center gap-4 text-xs">
+              <span class="text-violet-600 dark:text-violet-400">
+                Single: {contractStats.singleLegCount ?? 0}
+              </span>
+              <span class="text-amber-600 dark:text-amber-400">
+                Multi: {contractStats.multiLegCount ?? 0}
+              </span>
+            </div>
+            <div class="flex h-2 rounded-full overflow-hidden mt-1.5 bg-gray-100 dark:bg-zinc-800">
+              {#if singlePct > 0}
+                <div class="bg-violet-500" style="width: {singlePct}%"></div>
+              {/if}
+              {#if multiPct > 0}
+                <div class="bg-amber-500" style="width: {multiPct}%"></div>
+              {/if}
+            </div>
+          </div>
+        {/if}
 
         <!-- Recent Trades -->
         {#if recentTrades.length > 0}
