@@ -2899,7 +2899,7 @@
       <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
         {#each stockList as item, index}
           <tr
-            class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {index +
+            class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {index +
               1 ===
               rawData?.length &&
             !['Pro', 'Plus']?.includes(data?.user?.tier) &&
@@ -3014,13 +3014,13 @@
                               item[column.key],
                               item?.hasNote || false,
                             )}
-                          class="cursor-pointer ml-auto transition-colors"
+                          class="cursor-pointer ml-auto transition-all duration-200 {item?.hasNote
+                            ? 'text-violet-500 dark:text-violet-400'
+                            : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                           title={item?.hasNote ? "Edit note" : "Add note"}
                         >
                           <Pencil
-                            class="h-3.5 w-3.5  {item?.hasNote
-                              ? 'text-violet-500 dark:text-violet-400'
-                              : 'text-gray-400 dark:text-zinc-500'}"
+                            class="h-3.5 w-3.5"
                           />
                         </button>
                       {/if}

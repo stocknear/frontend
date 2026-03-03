@@ -1094,7 +1094,7 @@
                       {@const toTarget = getToTargetStats(item)}
                       <!-- row -->
                       <tr
-                        class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                        class="group border-b border-gray-300 dark:border-zinc-700 last:border-none"
                       >
                         <td
                           on:click={() => editMode && handleFilter(item?.id)}
@@ -1125,13 +1125,13 @@
                                 on:click|stopPropagation={() =>
                                   handleNoteClick(item)}
                                 on:mouseenter={() => handleNoteHover(item)}
-                                class="cursor-pointer ml-auto transition-colors"
+                                class="cursor-pointer ml-auto transition-all duration-200 {item?.hasNote
+                                  ? 'text-violet-500 dark:text-violet-400'
+                                  : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                                 title={item?.hasNote ? "Edit note" : "Add note"}
                               >
                                 <Pencil
-                                  class="h-3.5 w-3.5 {item?.hasNote
-                                    ? 'text-violet-500 dark:text-violet-400'
-                                    : 'text-gray-400 dark:text-zinc-500'}"
+                                  class="h-3.5 w-3.5"
                                 />
                               </button>
                             </div>

@@ -1605,7 +1605,6 @@
                     >Symbol {@html sortIconHtml(sortOrders.ticker)}</span
                   >
                 </th>
-                <th class="p-2 text-center w-8"></th>
                 {#each orderedVisibleColumns as col, index}
                   <th
                     draggable="true"
@@ -1687,27 +1686,23 @@
                           </DropdownMenu.Item>
                         </DropdownMenu.Content>
                       </DropdownMenu.Root>
-                    </div>
-                  </td>
-                  <td class="text-center whitespace-nowrap">
-                    <button
-                      on:click|stopPropagation={() =>
-                        handleNoteClick(
-                          item.id,
-                          item?.hasNote || false,
-                          `${item?.ticker} ${item?.strike_price} ${item?.put_call}`,
-                        )}
-                      on:mouseenter={() =>
-                        handleNoteHover(item.id, item?.hasNote || false)}
-                      class="cursor-pointer transition-colors"
-                      title={item?.hasNote ? "Edit note" : "Add note"}
-                    >
-                      <Pencil
-                        class="h-3.5 w-3.5 {item?.hasNote
+                      <button
+                        on:click|stopPropagation={() =>
+                          handleNoteClick(
+                            item.id,
+                            item?.hasNote || false,
+                            `${item?.ticker} ${item?.strike_price} ${item?.put_call}`,
+                          )}
+                        on:mouseenter={() =>
+                          handleNoteHover(item.id, item?.hasNote || false)}
+                        class="ml-1 cursor-pointer transition-all duration-200 {item?.hasNote
                           ? 'text-violet-500 dark:text-violet-400'
-                          : 'text-gray-400 dark:text-zinc-500'}"
-                      />
-                    </button>
+                          : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                        title={item?.hasNote ? "Edit note" : "Add note"}
+                      >
+                        <Pencil class="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </td>
                   {#each orderedVisibleColumns as col (col.key)}
                     {#if col.key === "put_call"}
