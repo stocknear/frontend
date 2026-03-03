@@ -509,7 +509,12 @@
       }
 
       // --- Track Contract ---
-      if (!trackingPaused && rule.name === "trackContract" && Array.isArray(rule.value) && rule.value.length > 0) {
+      if (
+        !trackingPaused &&
+        rule.name === "trackContract" &&
+        Array.isArray(rule.value) &&
+        rule.value.length > 0
+      ) {
         filters.track_contracts = rule.value;
       }
     }
@@ -927,6 +932,15 @@
   // When true, the trackContract filter is skipped in API calls so the user can browse and add more contracts
   let trackingPaused = false;
 
+  // Contract chart modal state
+  let chartModalOpen = false;
+  let chartModalItem: any = null;
+
+  function openContractChart(item: any) {
+    chartModalItem = item;
+    chartModalOpen = true;
+  }
+
   // Show Vol/OI and Size/OI columns when the user has added the rule to
   // their filter list — even if the value is still "any".  The column only
   // hides when the rule is removed from ruleOfList entirely.
@@ -1234,7 +1248,9 @@
       } else {
         // Enforce max tracked contracts
         if (existing.length >= MAX_TRACKED_CONTRACTS) {
-          toast.error(`Maximum of ${MAX_TRACKED_CONTRACTS} tracked contracts reached`);
+          toast.error(
+            `Maximum of ${MAX_TRACKED_CONTRACTS} tracked contracts reached`,
+          );
           return;
         }
         // Add this contract
@@ -3781,23 +3797,29 @@
               {/each}
 
               <!--Tracked Contract Chips-->
-              {#if trackedContracts.size > 0}
+              {#if trackedContracts?.size > 0}
                 <div
-                  class="col-span-full flex flex-wrap items-center gap-2 px-1 py-2 border-t border-gray-200 dark:border-zinc-700/50"
+                  class="col-span-full flex flex-wrap items-center gap-x-2 mt-2 px-1 py-2"
                 >
-                  <span class="text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wide mr-1">
-                    Tracking{trackingPaused ? ' (paused)' : ''}:
+                  <span
+                    class="text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wide mr-1"
+                  >
+                    Tracking{trackingPaused ? " (paused)" : ""}:
                   </span>
                   {#each [...trackedContracts] as contractKey (contractKey)}
                     <span
-                      class="inline-flex items-center gap-1 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-800 dark:text-violet-300 text-xs font-medium pl-2.5 pr-1 py-1"
+                      class="inline-flex items-center gap-1 rounded-full bg-violet-100 dark:bg-violet-900/40 text-black dark:text-white text-xs font-medium pl-2.5 pr-1 py-1"
                     >
                       {formatContractKey(contractKey)}
                       <button
                         on:click={() => removeTrackedContract(contractKey)}
                         class="cursor-pointer ml-0.5 p-0.5 rounded-full hover:bg-violet-200 dark:hover:bg-violet-800/50 transition"
                       >
-                        <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                        <svg
+                          class="w-3 h-3"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
                           <path
                             fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -3809,22 +3831,46 @@
                   {/each}
                   {#if trackingPaused}
                     <button
-                      on:click={() => { trackingPaused = false; debouncedFilterFetch(); sendFiltersToWebSocket(); }}
-                      class="cursor-pointer inline-flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-medium px-2.5 py-1 hover:bg-emerald-200 dark:hover:bg-emerald-800/50 transition"
+                      on:click={() => {
+                        trackingPaused = false;
+                        debouncedFilterFetch();
+                        sendFiltersToWebSocket();
+                      }}
+                      class="cursor-pointer inline-flex items-center gap-1 rounded-full bg-black dark:bg-white text-white dark:text-black text-xs font-medium px-2.5 py-1 hover:bg-muted dark:hover:bg-gray-100 transition"
                     >
-                      <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      <svg
+                        class="w-3 h-3"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clip-rule="evenodd"
+                        />
                       </svg>
                       Apply
                     </button>
                   {:else}
                     <button
-                      on:click={() => { trackingPaused = true; debouncedFilterFetch(); sendFiltersToWebSocket(); }}
+                      on:click={() => {
+                        trackingPaused = true;
+                        debouncedFilterFetch();
+                        sendFiltersToWebSocket();
+                      }}
                       class="cursor-pointer inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-zinc-800/60 text-gray-600 dark:text-zinc-400 text-xs font-medium px-2 py-1 hover:bg-gray-200 dark:hover:bg-zinc-700/50 transition"
                       title="Pause filter to browse and add more contracts"
                     >
-                      <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                      <svg
+                        class="w-3 h-3"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                          clip-rule="evenodd"
+                        />
                       </svg>
                       Add
                     </button>
@@ -4403,6 +4449,7 @@
                 {extraColumns}
                 {trackedContracts}
                 onTrackContract={handleTrackContract}
+                onOpenChart={openContractChart}
                 isLoading={isFetchingPage}
                 onSort={handleServerSort}
                 bind:resetColumnOrder={optionsFlowResetColumnOrder}
@@ -4875,3 +4922,17 @@
 </dialog>
 
 <!--End Delete Strategy Modal-->
+
+<!--Contract Chart Modal-->
+{#if chartModalOpen}
+  {#await import("$lib/components/Options/ContractChartModal.svelte") then { default: ContractChartModal }}
+    <ContractChartModal
+      item={chartModalItem}
+      isOpen={chartModalOpen}
+      onClose={() => {
+        chartModalOpen = false;
+        chartModalItem = null;
+      }}
+    />
+  {/await}
+{/if}

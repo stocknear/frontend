@@ -8,6 +8,7 @@
   import Spark from "lucide-svelte/icons/sparkles";
   import Crosshair from "lucide-svelte/icons/crosshair";
   import EllipsisVertical from "lucide-svelte/icons/ellipsis-vertical";
+  import ChartNoAxesCombined from "lucide-svelte/icons/chart-no-axes-combined";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
 
   export let data;
@@ -20,6 +21,7 @@
     undefined;
   export let trackedContracts: Set<string> = new Set();
   export let onTrackContract: ((item: any) => void) | undefined = undefined;
+  export let onOpenChart: ((item: any) => void) | undefined = undefined;
 
   // Default columns definition
   const defaultColumns = [
@@ -1166,6 +1168,13 @@ ${insightData.traderTakeaway}
                         >
                           <Spark class="w-4 h-4 shrink-0" />
                           AI Insight
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          on:click={() => onOpenChart?.(item)}
+                        >
+                          <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
+                          View Chart
                         </DropdownMenu.Item>
                       </DropdownMenu.Content>
                     </DropdownMenu.Root>
