@@ -81,10 +81,14 @@ class LRUCache {
 const dataCache = new LRUCache();
 
 const INDEX_TO_ETF = {
-  "^spx": "SPY",
-  "^dji": "DIA",
-  "^ixic": "QQQ",
-  "^rut": "IWM",
+  "^spx": "SPY",   // S&P 500
+  "^dji": "DIA",   // Dow Jones Industrial Average
+  "^ndx": "QQQ",   // Nasdaq-100
+  "^rut": "IWM",   // Russell 2000
+  "^vix": "VXX",   // VIX futures ETN (volatility exposure proxy)
+  "^gspc": "SPY",  // S&P 500 (Yahoo ticker)
+  "^ixic": "QQQ",  // Nasdaq Composite
+  "^nyA": "VTI",   // NYSE Composite proxy
 };
 
 // Main data fetching function with SPX/SPY handling
@@ -94,7 +98,7 @@ const fetchData = async (locals, endpoint, ticker) => {
     SPY_PROXY_ENDPOINTS.includes(endpoint);
 
   const effectiveTicker =
-    useProxyTicker ? INDEX_TO_ETF[ticker.toLowerCase()] : ticker;
+    useProxyTicker ? INDEX_TO_ETF[ticker?.toLowerCase()] : ticker;
 
   const cacheKey = `${endpoint}-${effectiveTicker}`;
   const cachedData = dataCache.get(cacheKey);
@@ -153,7 +157,7 @@ export const load = async ({ params, locals }) => {
     ] = await Promise.all(promises);
 
     const getPrePostQuote = (checkMarketHourSSR() || {} ) ? {} : fetchedPrePostQuote;
-
+    
     return {
       getIndexProfile: getIndexProfile || [],
       getIndexHolding: getIndexHolding || [],

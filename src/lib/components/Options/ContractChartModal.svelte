@@ -1,12 +1,14 @@
 <script context="module" lang="ts">
   // Module-level cache: survives component destroy/recreate cycles
-  const contractCache = new Map<string, { history: any[]; stockHistory: any[] }>();
+  const contractCache = new Map<
+    string,
+    { history: any[]; stockHistory: any[] }
+  >();
   const MAX_CACHE_SIZE = 20;
 </script>
 
 <script lang="ts">
   import { mode } from "mode-watcher";
-  import { abbreviateNumber } from "$lib/utils";
   import highcharts from "$lib/highcharts.ts";
   import { screenWidth } from "$lib/store";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -76,22 +78,24 @@
     rawStockHistory = [];
     chartConfig = null;
     latestStats = null;
-
     try {
+      const isIndex = item?.underlying_type === "index";
       const [contractRes, stockRes] = await Promise.all([
         fetch("/api/options-contract-history", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            ticker: item.ticker,
-            contract: item.option_symbol,
+            ticker: isIndex ? "^" + item?.ticker : item?.ticker,
+            contract: isIndex
+              ? "^" + item.option_symbol
+              : item.option_symbol,
           }),
         }),
         fetch("/api/historical-price", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            ticker: item.ticker,
+            ticker: isIndex ? "^" + item?.ticker : item?.ticker,
             timePeriod: "one-year",
           }),
         }),
@@ -104,16 +108,18 @@
 
       const contractOutput = await contractRes.json();
       const history = contractOutput?.history || [];
-
-      if (history.length === 0) {
+      console.log(history);
+      if (history?.length === 0) {
         hasError = true;
         return;
       }
 
       // Pre-sort ascending + pre-compute timestamps once (avoids re-sorting/re-parsing on every plotData call)
       rawHistory = history
-        .sort((a: any, b: any) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
-        .map((d: any) => ({ ...d, ts: new Date(d.date).getTime() }));
+        ?.sort((a: any, b: any) =>
+          a.date > b.date ? 1 : a.date < b.date ? -1 : 0,
+        )
+        ?.map((d: any) => ({ ...d, ts: new Date(d.date).getTime() }));
 
       latestStats = rawHistory[rawHistory.length - 1] || null;
 
@@ -126,7 +132,9 @@
               const date = d.time ?? d.date;
               return { ...d, date, ts: new Date(date).getTime() };
             })
-            .sort((a: any, b: any) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
+            .sort((a: any, b: any) =>
+              a.date > b.date ? 1 : a.date < b.date ? -1 : 0,
+            );
         }
       }
       // Cache the results
@@ -482,7 +490,8 @@
             const formatValue = (val: number, name: string) => {
               if (val === null || val === undefined) return "N/A";
               if (name === "IV") return val?.toFixed(2);
-              if (name === "Option Price" || name === "Stock Price") return "$" + val?.toFixed(2);
+              if (name === "Option Price" || name === "Stock Price")
+                return "$" + val?.toFixed(2);
               return val?.toLocaleString("en-US");
             };
 
@@ -546,9 +555,7 @@
             </span>
           </h3>
           <span class="text-sm text-gray-600 dark:text-zinc-400">
-            ${item.strike_price} Strike · Exp {formatDate(
-              item.date_expiration,
-            )}
+            ${item.strike_price} Strike · Exp {formatDate(item.date_expiration)}
           </span>
         </div>
         <button
@@ -876,11 +883,21 @@
 
 <style>
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
