@@ -1927,14 +1927,14 @@
       // Similar logic to the original function for adding/removing values
       const index = valueMappings[ruleName].indexOf(value);
       if (index === -1) {
-        valueMappings[ruleName].push(value);
-
-        // Sort the array when a new value is added, respecting shouldSort parameter
-        if (shouldSort) {
-          valueMappings[ruleName] = valueMappings[ruleName].sort(customSort);
-        }
+        valueMappings[ruleName] = shouldSort
+          ? [...valueMappings[ruleName], value].sort(customSort)
+          : [...valueMappings[ruleName], value];
       } else {
-        valueMappings[ruleName].splice(index, 1);
+        valueMappings[ruleName] = [
+          ...valueMappings[ruleName].slice(0, index),
+          ...valueMappings[ruleName].slice(index + 1),
+        ];
       }
 
       // Set to "any" if no values are selected
@@ -3769,26 +3769,19 @@
                                       class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                                     >
                                       <div
-                                        class="flex items-center"
-                                        on:click|capture={(event) =>
-                                          event.preventDefault()}
+                                        class="flex items-center cursor-pointer"
+                                        on:click|preventDefault={() => {
+                                          handleChangeValue(item);
+                                        }}
                                       >
-                                        <label
-                                          on:click={() => {
-                                            handleChangeValue(item);
-                                          }}
-                                          class="cursor-pointer"
-                                          for={item}
-                                        >
-                                          <input
-                                            type="checkbox"
-                                            class="rounded"
-                                            checked={checkedItems
-                                              .get(row?.rule)
-                                              ?.has(item) ?? false}
-                                          />
-                                          <span class="ml-2">{item}</span>
-                                        </label>
+                                        <input
+                                          type="checkbox"
+                                          class="rounded pointer-events-none"
+                                          checked={checkedItems
+                                            .get(row?.rule)
+                                            ?.has(item) ?? false}
+                                        />
+                                        <span class="ml-2">{item}</span>
                                       </div>
                                     </DropdownMenu.Item>
                                   {/each}

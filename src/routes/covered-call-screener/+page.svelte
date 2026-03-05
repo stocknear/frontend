@@ -1721,17 +1721,17 @@
 
       const index = valueMappings[ruleName].indexOf(valueKey);
       if (index === -1) {
-        valueMappings[ruleName].push(valueKey);
+        valueMappings[ruleName] = [...valueMappings[ruleName], valueKey];
       } else {
-        valueMappings[ruleName].splice(index, 1);
+        valueMappings[ruleName] = [
+          ...valueMappings[ruleName].slice(0, index),
+          ...valueMappings[ruleName].slice(index + 1),
+        ];
       }
 
       if (valueMappings[ruleName].length === 0) {
         valueMappings[ruleName] = "any";
       }
-
-      // Trigger Svelte reactivity so the $: block syncs into ruleOfList and fires the worker
-      valueMappings = valueMappings;
     } else if (ruleName in valueMappings) {
       if (ruleCondition[ruleName] === "between" && Array?.isArray(value)) {
         valueMappings[ruleName] = shouldSort ? value?.sort(customSort) : value;
@@ -3079,24 +3079,17 @@
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
                                 <div
-                                  class="flex items-center"
-                                  on:click|capture={(event) =>
-                                    event.preventDefault()}
+                                  class="flex items-center cursor-pointer"
+                                  on:click|preventDefault={() => {
+                                    handleChangeValue(item);
+                                  }}
                                 >
-                                  <label
-                                    on:click={() => {
-                                      handleChangeValue(item);
-                                    }}
-                                    class="cursor-pointer"
-                                    for={item}
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      class="rounded"
-                                      checked={isChecked(item, row?.rule)}
-                                    />
-                                    <span class="ml-2">{item}</span>
-                                  </label>
+                                  <input
+                                    type="checkbox"
+                                    class="rounded pointer-events-none"
+                                    checked={isChecked(item, row?.rule)}
+                                  />
+                                  <span class="ml-2">{item}</span>
                                 </div>
                               </DropdownMenu.Item>
                             {/each}

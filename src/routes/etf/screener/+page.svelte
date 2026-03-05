@@ -3457,24 +3457,17 @@
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
                                 <div
-                                  class="flex items-center"
-                                  on:click|capture={(event) =>
-                                    event.preventDefault()}
+                                  class="flex items-center cursor-pointer"
+                                  on:click|preventDefault={() => {
+                                    handleChangeValue(item);
+                                  }}
                                 >
-                                  <label
-                                    on:click={() => {
-                                      handleChangeValue(item);
-                                    }}
-                                    class="cursor-pointer"
-                                    for={item}
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      class="rounded"
-                                      checked={isChecked(item, row?.rule)}
-                                    />
-                                    <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
-                                  </label>
+                                  <input
+                                    type="checkbox"
+                                    class="rounded pointer-events-none"
+                                    checked={isChecked(item, row?.rule)}
+                                  />
+                                  <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
                                 </div>
                               </DropdownMenu.Item>
                             {/each}
@@ -3484,24 +3477,17 @@
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
                                 <div
-                                  class="flex items-center"
-                                  on:click|capture={(event) =>
-                                    event.preventDefault()}
+                                  class="flex items-center cursor-pointer"
+                                  on:click|preventDefault={() => {
+                                    handleChangeValue(item);
+                                  }}
                                 >
-                                  <label
-                                    on:click={() => {
-                                      handleChangeValue(item);
-                                    }}
-                                    class="cursor-pointer"
-                                    for={item}
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      class="rounded"
-                                      checked={isChecked(item, row?.rule)}
-                                    />
-                                    <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
-                                  </label>
+                                  <input
+                                    type="checkbox"
+                                    class="rounded pointer-events-none"
+                                    checked={isChecked(item, row?.rule)}
+                                  />
+                                  <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
                                 </div>
                               </DropdownMenu.Item>
                             {/each}
