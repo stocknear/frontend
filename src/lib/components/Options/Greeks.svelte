@@ -358,38 +358,41 @@
             interpolateValue(s, strikes, putData),
         );
 
-        // build series conditionally based on selectedType
-        const series = [];
-        if (selectedType === "Calls & Puts" || selectedType === "Calls") {
-            series?.push({
+        // build series — always include both so chart.update() works correctly
+        const showCalls =
+            selectedType === "Calls & Puts" || selectedType === "Calls";
+        const showPuts =
+            selectedType === "Calls & Puts" || selectedType === "Puts";
+        const series = [
+            {
                 name: stock_detail_options_common_call(),
                 type: chartType,
-                data: callSeries,
+                data: showCalls ? callSeries : [],
                 color: "#06988A",
                 borderColor: "#06988A",
                 marker: {
                     enabled: chartType !== "column",
                     radius: chartType === "scatter" ? 4 : 3,
                 },
-                visible: true,
+                visible: showCalls,
                 animation: false,
-            });
-        }
-        if (selectedType === "Calls & Puts" || selectedType === "Puts") {
-            series?.push({
+                showInLegend: showCalls,
+            },
+            {
                 name: stock_detail_options_common_put(),
                 type: chartType,
-                data: putSeries,
+                data: showPuts ? putSeries : [],
                 color: "#FF0808",
                 borderColor: "#FF0808",
                 marker: {
                     enabled: chartType !== "column",
                     radius: chartType === "scatter" ? 4 : 3,
                 },
-                visible: true,
+                visible: showPuts,
                 animation: false,
-            });
-        }
+                showInLegend: showPuts,
+            },
+        ];
 
         return {
             credits: { enabled: false },
