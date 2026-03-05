@@ -7,6 +7,11 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
 
+  import {
+    etf_detail_holdings_stocks_count,
+    etf_detail_holdings_as_of,
+  } from "$lib/paraglide/messages";
+
   export let data;
   let rawData = [...data?.getETFHoldings?.holdings] ?? [];
 
@@ -332,9 +337,10 @@
           </h1>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
-              class="ml-3 sm:mt-1 whitespace-nowrap text-sm sm:text-[1rem] md:ml-0"
+              class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400 md:ml-0"
             >
-              <span class="inline">As of </span>{formattedDate}
+              <span class="inline">{etf_detail_holdings_as_of() + " "}</span
+              >{formattedDate}
             </div>
           {/if}
         </div>
@@ -406,6 +412,9 @@
         {#if rawData?.length > 0}
           <Table
             {data}
+            title={etf_detail_holdings_stocks_count({
+              count: rawData?.length?.toLocaleString("en-US"),
+            })}
             {rawData}
             {excludedRules}
             {defaultList}
