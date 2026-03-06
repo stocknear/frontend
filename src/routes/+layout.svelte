@@ -2019,7 +2019,7 @@
       class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
     ></span>
     <div
-      class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
+      class="grid grid-cols-4 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
     >
       <a
         href="/"
