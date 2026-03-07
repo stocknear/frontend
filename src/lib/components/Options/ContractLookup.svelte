@@ -931,7 +931,17 @@
             const formatValue = (val, name) => {
               if (val === null || val === undefined) return "N/A";
               if (name === "Stock Price") return val?.toFixed(2);
-              if (["Delta", "Gamma", "Vega", "Rho", "Charm", "Vanna", "Vomma"].includes(name))
+              if (
+                [
+                  "Delta",
+                  "Gamma",
+                  "Vega",
+                  "Rho",
+                  "Charm",
+                  "Vanna",
+                  "Vomma",
+                ].includes(name)
+              )
                 return val?.toFixed(4);
               if (name === "Daily Theta" || name === "Cumulative Decay")
                 return val?.toFixed(4);
@@ -1654,16 +1664,11 @@
                         ?.open_interest?.toLocaleString("en-US") ?? "n/a"}</td
                     ></tr
                   >
-                </tbody>
-              </table>
-              <table class="w-[50%] text-sm xl:min-w-[300px]">
-                <tbody
-                  ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                  <tr class="flex flex-col py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
-                      >Implied Volatility (IV)</td
-                    >
+                      >IV
+                    </td>
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
@@ -1674,15 +1679,22 @@
                         : "n/a"}</td
                     ></tr
                   >
-
-                  <tr
+                </tbody>
+              </table>
+              <table class="w-[50%] text-sm xl:min-w-[300px]">
+                <tbody
+                  ><tr
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Delta</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.delta ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                       >{rawDataHistory?.at(0)?.delta?.toFixed(3) ?? "n/a"}</td
                     ></tr
                   >
@@ -1694,7 +1706,11 @@
                       >Gamma</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.gamma ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                       >{rawDataHistory?.at(0)?.gamma?.toFixed(3) ?? "n/a"}</td
                     ></tr
                   >
@@ -1706,7 +1722,11 @@
                       >Theta</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.theta ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                     >
                       {rawDataHistory?.at(0)?.theta?.toFixed(3) ?? "n/a"}
                     </td></tr
@@ -1718,7 +1738,11 @@
                       >Vega</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.vega ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                     >
                       {rawDataHistory?.at(0)?.vega?.toFixed(3) ?? "n/a"}
                     </td></tr
@@ -1731,7 +1755,11 @@
                       >Rho</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.rho ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                     >
                       {rawDataHistory?.at(0)?.rho?.toFixed(3) ?? "n/a"}
                     </td></tr
@@ -1744,7 +1772,11 @@
                       >Charm</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.charm ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                     >
                       {rawDataHistory?.at(0)?.charm?.toFixed(3) ?? "n/a"}
                     </td></tr
@@ -1757,20 +1789,27 @@
                       >Vanna</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.vanna ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                     >
                       {rawDataHistory?.at(0)?.vanna?.toFixed(3) ?? "n/a"}
                     </td></tr
                   >
 
-                  <tr
-                    class="flex flex-col py-1 sm:table-row sm:py-0"
+                  <tr class="flex flex-col py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Vomma</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
+                        0,
+                      )?.vomma ?? 0) < 0
+                        ? 'text-rose-800 dark:text-rose-400'
+                        : ''}"
                     >
                       {rawDataHistory?.at(0)?.vomma?.toFixed(3) ?? "n/a"}
                     </td></tr
