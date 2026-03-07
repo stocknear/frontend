@@ -113,7 +113,16 @@
     let totalPages = 1;
     let pagePathName = $page?.url?.pathname;
 
-    const greekTabs = ["Delta", "Gamma", "Theta", "Vega"];
+    const greekTabs = [
+        "Delta",
+        "Gamma",
+        "Theta",
+        "Vega",
+        "Rho",
+        "Charm",
+        "Vanna",
+        "Vomma",
+    ];
     const pcTabs = ["Calls & Puts", "Calls", "Puts"];
 
     // UI state
@@ -246,26 +255,50 @@
             const putTheta = raw?.putTheta?.[i] ?? 0;
             const callVega = raw?.callVega?.[i] ?? 0;
             const putVega = raw?.putVega?.[i] ?? 0;
+            const callRho = raw?.callRho?.[i] ?? 0;
+            const putRho = raw?.putRho?.[i] ?? 0;
+            const callCharm = raw?.callCharm?.[i] ?? 0;
+            const putCharm = raw?.putCharm?.[i] ?? 0;
+            const callVanna = raw?.callVanna?.[i] ?? 0;
+            const putVanna = raw?.putVanna?.[i] ?? 0;
+            const callVomma = raw?.callVomma?.[i] ?? 0;
+            const putVomma = raw?.putVomma?.[i] ?? 0;
 
             const totalDelta = ((callDelta ?? 0) + (putDelta ?? 0))?.toFixed(4);
             const totalGamma = ((callGamma ?? 0) + (putGamma ?? 0))?.toFixed(4);
             const totalTheta = ((callTheta ?? 0) + (putTheta ?? 0))?.toFixed(4);
             const totalVega = ((callVega ?? 0) + (putVega ?? 0))?.toFixed(4);
+            const totalRho = ((callRho ?? 0) + (putRho ?? 0))?.toFixed(4);
+            const totalCharm = ((callCharm ?? 0) + (putCharm ?? 0))?.toFixed(4);
+            const totalVanna = ((callVanna ?? 0) + (putVanna ?? 0))?.toFixed(4);
+            const totalVomma = ((callVomma ?? 0) + (putVomma ?? 0))?.toFixed(4);
 
             return {
                 strike,
                 callDelta,
                 putDelta,
+                totalDelta,
                 callGamma,
                 putGamma,
+                totalGamma,
                 callTheta,
                 putTheta,
+                totalTheta,
                 callVega,
                 putVega,
-                totalDelta,
-                totalGamma,
-                totalTheta,
                 totalVega,
+                callRho,
+                putRho,
+                totalRho,
+                callCharm,
+                putCharm,
+                totalCharm,
+                callVanna,
+                putVanna,
+                totalVanna,
+                callVomma,
+                putVomma,
+                totalVomma,
             };
         });
 
@@ -579,6 +612,26 @@
             label: stock_detail_options_greeks_col_vega(),
             align: "right",
         },
+        {
+            key: "totalRho",
+            label: "Rho",
+            align: "right",
+        },
+        {
+            key: "totalCharm",
+            label: "Charm",
+            align: "right",
+        },
+        {
+            key: "totalVanna",
+            label: "Vanna",
+            align: "right",
+        },
+        {
+            key: "totalVomma",
+            label: "Vomma",
+            align: "right",
+        },
     ];
 
     $: sortOrders = {
@@ -587,6 +640,10 @@
         totalGamma: { order: "none", type: "number" },
         totalTheta: { order: "none", type: "number" },
         totalVega: { order: "none", type: "number" },
+        totalRho: { order: "none", type: "number" },
+        totalCharm: { order: "none", type: "number" },
+        totalVanna: { order: "none", type: "number" },
+        totalVomma: { order: "none", type: "number" },
     };
 
     const sortData = (key) => {
@@ -689,9 +746,7 @@
                 <h2
                     class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit mb-2 sm:mb-0"
                 >
-                    {stock_detail_options_greeks_title({
-                        company: removeCompanyStrings($displayCompanyName),
-                    })}
+                    Greeks
                 </h2>
 
                 <div
@@ -704,38 +759,6 @@
                     <div
                         class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2"
                     >
-                        <div
-                            class="text-sm inline-flex justify-center w-full rounded sm:w-auto"
-                        >
-                            <div
-                                class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
-                            >
-                                <div class="">
-                                    <div class="inline-flex">
-                                        <div
-                                            class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
-                                        >
-                                            {#each greekTabs as item, i}
-                                                <button
-                                                    on:click={() =>
-                                                        onGreekTabClick(
-                                                            item,
-                                                            i,
-                                                        )}
-                                                    class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
-                          {activeGreekIdx === i
-                                                        ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                                        : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
-                                                >
-                                                    {getPCTabLabel(item)}
-                                                </button>
-                                            {/each}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div
                             class="text-sm inline-flex justify-center w-full rounded sm:w-auto"
                         >
@@ -766,9 +789,7 @@
                         </div>
                     </div>
 
-                    <div
-                        class="mt-4 mb-4 flex flex-wrap items-center justify-between gap-3"
-                    >
+                    <div class="mt-4 mb-4 flex flex-row items-center gap-3">
                         <DropdownMenu.Root>
                             <DropdownMenu.Trigger asChild let:builder>
                                 <Button
@@ -853,8 +874,58 @@
                             </DropdownMenu.Content>
                         </DropdownMenu.Root>
 
+                        <DropdownMenu.Root>
+                            <DropdownMenu.Trigger asChild let:builder>
+                                <Button
+                                    builders={[builder]}
+                                    class="min-w-[100px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                >
+                                    <span class="text-sm"
+                                        >Greek | {selectedGreek}</span
+                                    >
+                                    <svg
+                                        class="-mr-1 ml-2 h-5 w-5 inline-block"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                        style="max-width:40px"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"
+                                        ></path>
+                                    </svg>
+                                </Button>
+                            </DropdownMenu.Trigger>
+
+                            <DropdownMenu.Content
+                                side="bottom"
+                                align="start"
+                                sideOffset={10}
+                                alignOffset={0}
+                                class="min-w-36 w-auto rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                            >
+                                <DropdownMenu.Group>
+                                    {#each greekTabs as item, i}
+                                        <DropdownMenu.Item
+                                            on:click={() =>
+                                                onGreekTabClick(item, i)}
+                                            class="{selectedGreek === item
+                                                ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                                                : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                                        >
+                                            <span>{item}</span>
+                                        </DropdownMenu.Item>
+                                    {/each}
+                                </DropdownMenu.Group>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Root>
+
                         <!-- Chart Type Switcher -->
-                        <div class="flex items-center">
+                        <div
+                            class="flex items-center ml-auto hidden sm:inline-block"
+                        >
                             <div
                                 class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
                             >
@@ -892,10 +963,10 @@
 
                 <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
                     <div
-                        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                        class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
                     >
                         <h2
-                            class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                            class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-none w-full"
                         >
                             {stock_detail_options_greeks_table_title({
                                 greek: selectedGreek,
@@ -903,7 +974,7 @@
                         </h2>
 
                         <div
-                            class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
+                            class="mt-1 w-full flex flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-1"
                         >
                             <div class="ml-auto">
                                 <DownloadData
@@ -971,6 +1042,42 @@
                                             {item?.totalVega != null
                                                 ? abbreviateNumber(
                                                       item.totalVega,
+                                                  )
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalRho != null
+                                                ? abbreviateNumber(
+                                                      item.totalRho,
+                                                  )
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalCharm != null
+                                                ? abbreviateNumber(
+                                                      item.totalCharm,
+                                                  )
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalVanna != null
+                                                ? abbreviateNumber(
+                                                      item.totalVanna,
+                                                  )
+                                                : "-"}
+                                        </td>
+                                        <td
+                                            class="text-sm text-end whitespace-nowrap"
+                                        >
+                                            {item?.totalVomma != null
+                                                ? abbreviateNumber(
+                                                      item.totalVomma,
                                                   )
                                                 : "-"}
                                         </td>

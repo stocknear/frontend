@@ -612,6 +612,145 @@
           zIndex: 1,
         },
       ];
+    } else if (selectGraphType === "Rho") {
+      series = [
+        {
+          name: "Rho",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.rho ?? null]),
+          color: "#0EA5E9",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "Option Price",
+          type: "spline",
+          data: optionPriceData,
+          color: optionColor,
+          yAxis: 2,
+          lineWidth: 1.5,
+          animation: false,
+          marker: { enabled: false },
+          zIndex: 1,
+        },
+      ];
+      if (stockSeries) {
+        series.push({ ...stockSeries, yAxis: 1 });
+      }
+    } else if (selectGraphType === "Charm") {
+      series = [
+        {
+          name: "Charm",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.charm ?? null]),
+          color: "#F97316",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "Delta",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.delta ?? null]),
+          color: "#06988A",
+          yAxis: 1,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        },
+        {
+          name: "Option Price",
+          type: "spline",
+          data: optionPriceData,
+          color: optionColor,
+          yAxis: 2,
+          lineWidth: 1.5,
+          animation: false,
+          marker: { enabled: false },
+          zIndex: 1,
+        },
+      ];
+    } else if (selectGraphType === "Vanna") {
+      series = [
+        {
+          name: "Vanna",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.vanna ?? null]),
+          color: "#14B8A6",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "Delta",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.delta ?? null]),
+          color: "#06988A",
+          yAxis: 1,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        },
+        {
+          name: "Option Price",
+          type: "spline",
+          data: optionPriceData,
+          color: optionColor,
+          yAxis: 2,
+          lineWidth: 1.5,
+          animation: false,
+          marker: { enabled: false },
+          zIndex: 1,
+        },
+      ];
+    } else if (selectGraphType === "Vomma") {
+      series = [
+        {
+          name: "Vomma",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.vomma ?? null]),
+          color: "#E11D48",
+          yAxis: 0,
+          animation: false,
+          lineWidth: 2,
+          marker: { enabled: false },
+          zIndex: 3,
+        },
+        {
+          name: "Vega",
+          type: "spline",
+          data: filteredData.map((d) => [d.ts, d.vega ?? null]),
+          color: "#8B5CF6",
+          yAxis: 1,
+          animation: false,
+          lineWidth: 1.5,
+          dashStyle: "ShortDash",
+          marker: { enabled: false },
+          zIndex: 2,
+        },
+        {
+          name: "Option Price",
+          type: "spline",
+          data: optionPriceData,
+          color: optionColor,
+          yAxis: 2,
+          lineWidth: 1.5,
+          animation: false,
+          marker: { enabled: false },
+          zIndex: 1,
+        },
+      ];
     }
 
     const defaultYAxis = [
@@ -792,7 +931,7 @@
             const formatValue = (val, name) => {
               if (val === null || val === undefined) return "N/A";
               if (name === "Stock Price") return val?.toFixed(2);
-              if (name === "Delta" || name === "Gamma" || name === "Vega")
+              if (["Delta", "Gamma", "Vega", "Rho", "Charm", "Vanna", "Vomma"].includes(name))
                 return val?.toFixed(4);
               if (name === "Daily Theta" || name === "Cumulative Decay")
                 return val?.toFixed(4);
@@ -1585,27 +1724,55 @@
                     </td></tr
                   >
 
-                  <tr class="flex flex-col py-1 sm:table-row sm:py-0"
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem] invisible"
-                      >XXX</td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
+                      >Rho</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem] invisible"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
-                      XXX
+                      {rawDataHistory?.at(0)?.rho?.toFixed(3) ?? "n/a"}
                     </td></tr
                   >
 
-                  <tr class="flex flex-col py-1 sm:table-row sm:py-0"
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
                     ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem] invisible"
-                      >XXX</td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
+                      >Charm</td
                     >
                     <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right sm:text-[1rem] invisible"
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
                     >
-                      XXX
+                      {rawDataHistory?.at(0)?.charm?.toFixed(3) ?? "n/a"}
+                    </td></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
+                      >Vanna</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                    >
+                      {rawDataHistory?.at(0)?.vanna?.toFixed(3) ?? "n/a"}
+                    </td></tr
+                  >
+
+                  <tr
+                    class="flex flex-col py-1 sm:table-row sm:py-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
+                      >Vomma</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right"
+                    >
+                      {rawDataHistory?.at(0)?.vomma?.toFixed(3) ?? "n/a"}
                     </td></tr
                   >
                 </tbody>
@@ -1664,7 +1831,7 @@
                           </DropdownMenu.Label>
                           <DropdownMenu.Separator />
                           <DropdownMenu.Group>
-                            {#each ["Price", "Vol/OI", "IV", "Delta", "Gamma", "Theta", "Vega"] as item, i}
+                            {#each ["Price", "Vol/OI", "IV", "Delta", "Gamma", "Theta", "Vega", "Rho", "Charm", "Vanna", "Vomma"] as item, i}
                               {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                                 <DropdownMenu.Item
                                   on:click={() => goto("/pricing")}
