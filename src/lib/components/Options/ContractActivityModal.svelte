@@ -1,6 +1,9 @@
 <script context="module" lang="ts">
   // Module-level cache: survives component destroy/recreate cycles
-  const activityCache = new Map<string, { contractStats: any; trades: any[] }>();
+  const activityCache = new Map<
+    string,
+    { contractStats: any; trades: any[] }
+  >();
   const MAX_CACHE_SIZE = 20;
 </script>
 
@@ -17,7 +20,10 @@
   let recentTrades: any[] = [];
 
   $: contractKey =
-    item?.ticker && item?.put_call && item?.strike_price != null && item?.date_expiration
+    item?.ticker &&
+    item?.put_call &&
+    item?.strike_price != null &&
+    item?.date_expiration
       ? `${item.ticker}|${item.put_call}|${item.strike_price}|${item.date_expiration}`
       : "";
 
@@ -33,13 +39,18 @@
     (contractStats?.bullishCount || 0) +
     (contractStats?.bearishCount || 0) +
     (contractStats?.neutralCount || 0);
-  $: bullPct = totalSentiment > 0 ? ((contractStats?.bullishCount || 0) / totalSentiment) * 100 : 0;
-  $: bearPct = totalSentiment > 0 ? ((contractStats?.bearishCount || 0) / totalSentiment) * 100 : 0;
-  $: neutralPct = totalSentiment > 0 ? ((contractStats?.neutralCount || 0) / totalSentiment) * 100 : 0;
-
-  $: totalLegs = (contractStats?.singleLegCount || 0) + (contractStats?.multiLegCount || 0);
-  $: singlePct = totalLegs > 0 ? ((contractStats?.singleLegCount || 0) / totalLegs) * 100 : 0;
-  $: multiPct = totalLegs > 0 ? ((contractStats?.multiLegCount || 0) / totalLegs) * 100 : 0;
+  $: bullPct =
+    totalSentiment > 0
+      ? ((contractStats?.bullishCount || 0) / totalSentiment) * 100
+      : 0;
+  $: bearPct =
+    totalSentiment > 0
+      ? ((contractStats?.bearishCount || 0) / totalSentiment) * 100
+      : 0;
+  $: neutralPct =
+    totalSentiment > 0
+      ? ((contractStats?.neutralCount || 0) / totalSentiment) * 100
+      : 0;
 
   function loadActivity() {
     if (activityCache.has(contractKey)) {
@@ -58,7 +69,9 @@
     recentTrades = [];
 
     try {
-      const rules = JSON.stringify([{ name: "trackContract", value: [contractKey] }]);
+      const rules = JSON.stringify([
+        { name: "trackContract", value: [contractKey] },
+      ]);
       const params = new URLSearchParams({ rules, pageSize: "50" });
       const res = await fetch(`/api/options-flow-feed?${params}`);
 
@@ -108,7 +121,8 @@
   }
 
   function sentimentColor(sentiment: string): string {
-    if (sentiment === "Bullish") return "text-emerald-600 dark:text-emerald-400";
+    if (sentiment === "Bullish")
+      return "text-emerald-600 dark:text-emerald-400";
     if (sentiment === "Bearish") return "text-rose-600 dark:text-rose-400";
     return "text-gray-500 dark:text-zinc-400";
   }
@@ -177,15 +191,23 @@
           <div class="grid grid-cols-3 gap-4">
             {#each Array(3) as _}
               <div class="space-y-2">
-                <div class="h-4 w-16 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"></div>
-                <div class="h-5 w-12 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"></div>
+                <div
+                  class="h-4 w-16 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
+                ></div>
+                <div
+                  class="h-5 w-12 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                ></div>
               </div>
             {/each}
           </div>
-          <div class="mt-4 h-2 w-full bg-gray-100 dark:bg-zinc-800 rounded-full animate-pulse"></div>
+          <div
+            class="mt-4 h-2 w-full bg-gray-100 dark:bg-zinc-800 rounded-full animate-pulse"
+          ></div>
           <div class="mt-6 space-y-3">
             {#each Array(5) as _}
-              <div class="h-4 w-full bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"></div>
+              <div
+                class="h-4 w-full bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+              ></div>
             {/each}
           </div>
         </div>
@@ -210,19 +232,25 @@
         <div class="px-4 sm:px-6 py-4">
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400">Trades</span>
+              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                >Trades</span
+              >
               <div class="text-sm font-semibold text-gray-900 dark:text-white">
                 {contractStats.tradeCount?.toLocaleString("en-US") ?? "0"}
               </div>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400">Total Premium</span>
+              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                >Total Premium</span
+              >
               <div class="text-sm font-semibold text-gray-900 dark:text-white">
                 ${abbreviateNumber(contractStats.totalPremium, false, true)}
               </div>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400">Volume</span>
+              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                >Volume</span
+              >
               <div class="text-sm font-semibold text-gray-900 dark:text-white">
                 {contractStats.totalSize?.toLocaleString("en-US") ?? "0"}
               </div>
@@ -244,7 +272,9 @@
             </span>
           </div>
           {#if totalSentiment > 0}
-            <div class="flex h-2 rounded-full overflow-hidden mt-1.5 bg-gray-100 dark:bg-zinc-800">
+            <div
+              class="flex h-2 rounded-full overflow-hidden mt-1.5 bg-gray-100 dark:bg-zinc-800"
+            >
               {#if bullPct > 0}
                 <div class="bg-emerald-500" style="width: {bullPct}%"></div>
               {/if}
@@ -252,44 +282,31 @@
                 <div class="bg-rose-500" style="width: {bearPct}%"></div>
               {/if}
               {#if neutralPct > 0}
-                <div class="bg-gray-400 dark:bg-zinc-500" style="width: {neutralPct}%"></div>
+                <div
+                  class="bg-gray-400 dark:bg-zinc-500"
+                  style="width: {neutralPct}%"
+                ></div>
               {/if}
             </div>
           {/if}
         </div>
 
-        <!-- Trade Leg Breakdown -->
-        {#if totalLegs > 0}
-          <div class="px-4 sm:px-6 pb-4">
-            <div class="flex items-center gap-4 text-xs">
-              <span class="text-violet-600 dark:text-violet-400">
-                Single: {contractStats.singleLegCount ?? 0}
-              </span>
-              <span class="text-amber-600 dark:text-amber-400">
-                Multi: {contractStats.multiLegCount ?? 0}
-              </span>
-            </div>
-            <div class="flex h-2 rounded-full overflow-hidden mt-1.5 bg-gray-100 dark:bg-zinc-800">
-              {#if singlePct > 0}
-                <div class="bg-violet-500" style="width: {singlePct}%"></div>
-              {/if}
-              {#if multiPct > 0}
-                <div class="bg-amber-500" style="width: {multiPct}%"></div>
-              {/if}
-            </div>
-          </div>
-        {/if}
-
         <!-- Recent Trades -->
         {#if recentTrades.length > 0}
-          <div class="px-4 sm:px-6 pb-4 border-t border-gray-200 dark:border-zinc-800 pt-4">
-            <span class="text-xs font-medium text-gray-500 dark:text-zinc-400 mb-2 block">
+          <div
+            class="px-4 sm:px-6 pb-4 border-t border-gray-200 dark:border-zinc-800 pt-4"
+          >
+            <span
+              class="text-xs font-medium text-gray-500 dark:text-zinc-400 mb-2 block"
+            >
               Recent Trades
             </span>
             <div class="overflow-x-auto max-h-64">
               <table class="w-full text-xs">
                 <thead>
-                  <tr class="text-gray-500 dark:text-zinc-400 border-b border-gray-200 dark:border-zinc-800">
+                  <tr
+                    class="text-gray-500 dark:text-zinc-400 border-b border-gray-200 dark:border-zinc-800"
+                  >
                     <th class="text-left py-1.5 pr-2 font-medium">Time</th>
                     <th class="text-right py-1.5 px-2 font-medium">Size</th>
                     <th class="text-right py-1.5 px-2 font-medium">Price</th>
@@ -301,22 +318,36 @@
                 <tbody class="divide-y divide-gray-100 dark:divide-zinc-800/50">
                   {#each recentTrades as trade}
                     <tr>
-                      <td class="py-1.5 pr-2 text-gray-600 dark:text-zinc-400 whitespace-nowrap">
+                      <td
+                        class="py-1.5 pr-2 text-gray-600 dark:text-zinc-400 whitespace-nowrap"
+                      >
                         {formatTradeTime(trade.time)}
                       </td>
-                      <td class="py-1.5 px-2 text-right text-gray-900 dark:text-white">
+                      <td
+                        class="py-1.5 px-2 text-right text-gray-900 dark:text-white"
+                      >
                         {trade.size?.toLocaleString("en-US")}
                       </td>
-                      <td class="py-1.5 px-2 text-right text-gray-900 dark:text-white whitespace-nowrap">
+                      <td
+                        class="py-1.5 px-2 text-right text-gray-900 dark:text-white whitespace-nowrap"
+                      >
                         ${trade.price?.toFixed(2)}
                       </td>
-                      <td class="py-1.5 px-2 text-right text-gray-900 dark:text-white whitespace-nowrap">
+                      <td
+                        class="py-1.5 px-2 text-right text-gray-900 dark:text-white whitespace-nowrap"
+                      >
                         ${abbreviateNumber(trade.cost_basis, false, true)}
                       </td>
-                      <td class="py-1.5 px-2 {sentimentColor(trade.sentiment)} whitespace-nowrap">
+                      <td
+                        class="py-1.5 px-2 {sentimentColor(
+                          trade.sentiment,
+                        )} whitespace-nowrap"
+                      >
                         {trade.sentiment}
                       </td>
-                      <td class="py-1.5 pl-2 text-gray-600 dark:text-zinc-400 whitespace-nowrap">
+                      <td
+                        class="py-1.5 pl-2 text-gray-600 dark:text-zinc-400 whitespace-nowrap"
+                      >
                         {trade.option_activity_type}
                       </td>
                     </tr>
@@ -333,11 +364,21 @@
 
 <style>
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

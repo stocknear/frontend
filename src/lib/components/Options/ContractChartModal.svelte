@@ -86,9 +86,7 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ticker: isIndex ? "^" + item?.ticker : item?.ticker,
-            contract: isIndex
-              ? "^" + item.option_symbol
-              : item.option_symbol,
+            contract: isIndex ? "^" + item.option_symbol : item.option_symbol,
           }),
         }),
         fetch("/api/historical-price", {
@@ -847,6 +845,50 @@
                   class="text-sm font-semibold text-gray-900 dark:text-white"
                 >
                   {latestStats?.vega?.toFixed(4) ?? "n/a"}
+                </div>
+              </div>
+              <div>
+                <span
+                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                  >Rho</span
+                >
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {latestStats?.rho?.toFixed(4) ?? "n/a"}
+                </div>
+              </div>
+              <div>
+                <span
+                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                  >Charm</span
+                >
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {latestStats?.charm?.toFixed(4) ?? "n/a"}
+                </div>
+              </div>
+              <div>
+                <span
+                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                  >Vanna</span
+                >
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {latestStats?.vanna?.toFixed(4) ?? "n/a"}
+                </div>
+              </div>
+              <div>
+                <span
+                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                  >Vomma</span
+                >
+                <div
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                >
+                  {latestStats?.vomma?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
             </div>

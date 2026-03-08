@@ -1009,7 +1009,7 @@
                             <a
                               href="/options-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Flow Feed</a
+                              >Options Flow</a
                             >
                           </Button>
                           <Button
