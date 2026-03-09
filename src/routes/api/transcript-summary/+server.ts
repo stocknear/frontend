@@ -25,11 +25,21 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
 
   const data = await request.json();
+  const { ticker, year, quarter, transcriptData, lang } = data;
+
+  if (!lang || !["en", "de"].includes(lang)) {
+    return new Response(
+      JSON.stringify({ error: "Valid language is required" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   const postData = {
-    ticker: data?.ticker,
-    year: data?.year,
-    quarter: data?.quarter,
-    transcriptData: data?.transcriptData,
+    ticker,
+    year,
+    quarter,
+    transcriptData,
+    lang,
   };
 
   try {

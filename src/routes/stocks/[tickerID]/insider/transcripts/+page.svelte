@@ -13,6 +13,7 @@
   import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import { getLocale } from "$lib/paraglide/runtime.js";
   import {
   stock_detail_insider_ai_summarize,
   stock_detail_insider_copy,
@@ -46,6 +47,7 @@
   export let data;
 
   const SUMMARY_CREDIT_COST = 3;
+  let currentLocale = getLocale();
 
   let chats = [];
   let date;
@@ -95,7 +97,7 @@
 
   // LocalStorage cache helpers
   function getSummaryCacheKey(ticker: string, yr: number, qtr: number): string {
-    return `transcript-summary-${ticker}-${yr}-Q${qtr}`;
+    return `transcript-summary-${ticker}-${yr}-Q${qtr}-${currentLocale}`;
   }
 
   function getCachedSummary(ticker: string, yr: number, qtr: number) {
@@ -248,6 +250,7 @@ ${summaryData.outlook}
           year: displayYear,
           quarter: displayQuarter,
           transcriptData: chats,
+          lang: currentLocale,
         }),
       });
 

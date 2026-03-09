@@ -7,6 +7,7 @@
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
   import { toast } from "svelte-sonner";
+  import { getLocale } from "$lib/paraglide/runtime.js";
 
   import { onMount } from "svelte";
 
@@ -65,6 +66,7 @@
   export let data;
 
   const SUMMARY_CREDIT_COST = 3;
+  let currentLocale = getLocale();
 
   // AI Summarize feature states
   let showSummary = false;
@@ -84,7 +86,7 @@
 
   // LocalStorage cache helpers
   function getSummaryCacheKey(ticker: string): string {
-    return `insider-summary-${ticker}`;
+    return `insider-summary-${ticker}-${currentLocale}`;
   }
 
   function getCachedSummary(ticker: string) {
@@ -229,6 +231,7 @@ ${summaryData.outlook}
         body: JSON.stringify({
           ticker: $stockTicker,
           insiderData: originalData,
+          lang: currentLocale,
         }),
       });
 
