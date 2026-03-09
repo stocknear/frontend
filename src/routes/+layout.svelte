@@ -5,7 +5,7 @@
   import { BProgress } from "@bprogress/core";
   import { GTM_EVENT_SIGNUP } from "$lib/constants/tracking";
 
-  import { ModeWatcher } from "mode-watcher";
+  import { ModeWatcher, setMode, mode } from "mode-watcher";
   import { page } from "$app/stores";
 
   import Footer from "$lib/components/Footer.svelte";
@@ -56,10 +56,12 @@
   import Newspaper from "lucide-svelte/icons/newspaper";
   import BookOpen from "lucide-svelte/icons/book-open";
   import Tools from "lucide-svelte/icons/wrench";
+  import Gem from "lucide-svelte/icons/gem";
   import Plus from "lucide-svelte/icons/plus";
   import Screener from "lucide-svelte/icons/microscope";
   import PieChart from "lucide-svelte/icons/chart-pie";
   import Star from "lucide-svelte/icons/star";
+  import Sparkles from "lucide-svelte/icons/sparkles";
   import {
     layout_all_politicians,
     layout_analyst,
@@ -132,7 +134,7 @@
   let lastScrollY = 0;
   let scrollRafId: number | undefined = undefined;
   const scrollThreshold = 10;
-  const routePrefixes = ["/chart"];
+  const routePrefixes = ["/chart", "/chat"];
   const routeStartsWith = (path: string, prefix: string) =>
     path === prefix || path.startsWith(`${prefix}/`);
 
@@ -142,6 +144,7 @@
     portfolio: false,
     watchlist: false,
     priceAlert: false,
+    chat: false,
   };
 
   function handleScroll() {
@@ -413,6 +416,7 @@
       portfolio: routeStartsWith(path, "/portfolio"),
       watchlist: routeStartsWith(path, "/watchlist"),
       priceAlert: routeStartsWith(path, "/price-alert"),
+      chat: routeStartsWith(path, "/chat"),
     };
   }
 
@@ -503,6 +507,21 @@
     isBeforeMarketOpen.set(isBeforeMarketOpenValue);
     isAfterMarketClose.set(isAfterMarketCloseValue);
   };
+
+  async function handleModeChange() {
+    const newMode = $mode === "light" ? "dark" : "light";
+    setMode(newMode);
+
+    try {
+      await fetch("/api/theme-mode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: newMode }),
+      });
+    } catch (error) {
+      console.error("Failed to update theme:", error);
+    }
+  }
 </script>
 
 <svelte:window
@@ -566,7 +585,6 @@
                 </Button>
               </Sheet.Close>
 
-              <!--
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
@@ -587,7 +605,6 @@
                   </a>
                 </Button>
               </Sheet.Close>
-              -->
 
               <Sheet.Close asChild let:builder>
                 <Button
@@ -1009,7 +1026,7 @@
                             <a
                               href="/options-flow"
                               class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
-                              >Options Flow</a
+                              >{layout_options_flow()}</a
                             >
                           </Button>
                           <Button
@@ -1462,7 +1479,6 @@
                 <nav
                   class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
                 >
-                  <!--
                   <a
                     href="/chat"
                     class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
@@ -1476,7 +1492,6 @@
                       </span>
                     </div>
                   </a>
-                -->
 
                   <a
                     href="/"
@@ -2019,7 +2034,7 @@
       class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
     ></span>
     <div
-      class="grid grid-cols-4 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
+      class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
     >
       <a
         href="/"
@@ -2119,6 +2134,27 @@
         </span>
         <span class={bottomNavState.priceAlert ? "opacity-100" : "opacity-90"}
           >{layout_price_alert()}</span
+        >
+      </a>
+      <a
+        href="/chat"
+        aria-current={bottomNavState.chat ? "page" : undefined}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
+               ${
+                 bottomNavState.chat
+                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
+               }`}
+      >
+        <span
+          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+            bottomNavState.chat ? "scale-105" : "group-hover:scale-105"
+          }`}
+        >
+          <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+        </span>
+        <span class={bottomNavState.chat ? "opacity-100" : "opacity-90"}
+          >Chat</span
         >
       </a>
     </div>
