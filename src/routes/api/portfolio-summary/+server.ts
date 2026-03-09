@@ -1,7 +1,7 @@
 import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb } = locals;
+  const { apiURL, apiKey, user, pb} = locals;
 
   if (!["Plus", "Pro"]?.includes(user?.tier)) {
     return new Response(
@@ -25,7 +25,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
 
   const data = await request.json();
-  const { portfolioId, holdings } = data;
+  const { portfolioId, holdings, lang } = data;
+
+
+    const checkOwner = await pb.collection("portfolio").getOne(portfolioId, {
+      filter: `user="${user.id}"` 
+    });
+
+  if (user?.id !== checkOwner?.user) {
+     return new Response(
+      JSON.stringify({ error: "Not owner of the portfolio!" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   if (!portfolioId) {
     return new Response(
@@ -41,9 +53,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
+   if (!lang  || lang?.length === 0 || !['en','de']?.includes(lang)) {
+    return new Response(
+      JSON.stringify({ error: "Correct language are required" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   const postData = {
-    portfolioId,
-    holdings,
+    portfolioId: portfolioId,
+    holdings: holdings,
+    lang: lang,
   };
 
   try {

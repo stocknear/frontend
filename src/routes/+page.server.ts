@@ -40,8 +40,7 @@ class LRUCache {
 const dashboardCache = new LRUCache();
 
 export async function load({ locals }) {
-  const { pb, locale } = locals;
-
+  const { locale } = locals;
   
 
   // Logged-in user — fetch dashboard data inline (no redirect)

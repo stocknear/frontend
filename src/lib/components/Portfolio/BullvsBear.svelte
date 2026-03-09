@@ -1,37 +1,40 @@
 <script lang="ts">
   import {
-  portfolio_bullbear_ai_summarize,
-  portfolio_bullbear_ai_summary,
-  portfolio_bullbear_copy,
-  portfolio_bullbear_disclaimer,
-  portfolio_bullbear_download,
-  portfolio_bullbear_empty_description,
-  portfolio_bullbear_empty_title,
-  portfolio_bullbear_hide_summary,
-  portfolio_bullbear_highlights,
-  portfolio_bullbear_loading,
-  portfolio_bullbear_loading_description,
-  portfolio_bullbear_no_outlook,
-  portfolio_bullbear_outlook,
-  portfolio_bullbear_risks,
-  portfolio_bullbear_sentiment,
-  portfolio_bullbear_show_summary,
-  portfolio_bullbear_title,
-  portfolio_bullbear_toast_copied,
-  portfolio_bullbear_toast_credits,
-  portfolio_bullbear_toast_downloaded,
-  portfolio_bullbear_toast_error,
-  portfolio_bullbear_toast_login,
-  portfolio_bullbear_toast_upgrade,
-} from "$lib/paraglide/messages";
+    portfolio_bullbear_ai_summarize,
+    portfolio_bullbear_ai_summary,
+    portfolio_bullbear_copy,
+    portfolio_bullbear_disclaimer,
+    portfolio_bullbear_download,
+    portfolio_bullbear_empty_description,
+    portfolio_bullbear_empty_title,
+    portfolio_bullbear_hide_summary,
+    portfolio_bullbear_highlights,
+    portfolio_bullbear_loading,
+    portfolio_bullbear_loading_description,
+    portfolio_bullbear_no_outlook,
+    portfolio_bullbear_outlook,
+    portfolio_bullbear_risks,
+    portfolio_bullbear_sentiment,
+    portfolio_bullbear_show_summary,
+    portfolio_bullbear_title,
+    portfolio_bullbear_toast_copied,
+    portfolio_bullbear_toast_credits,
+    portfolio_bullbear_toast_downloaded,
+    portfolio_bullbear_toast_error,
+    portfolio_bullbear_toast_login,
+    portfolio_bullbear_toast_upgrade,
+  } from "$lib/paraglide/messages";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { invalidateAll } from "$app/navigation";
+  import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data: any = null;
   export let tickers: any[] = [];
   export let showAnalyzeButton: boolean = true;
   export let portfolioId: string = "";
+
+  let currentLocale = getLocale();
 
   const SUMMARY_CREDIT_COST = 3;
   const CACHE_TTL = 1 * 24 * 60 * 60 * 1000; // 1 day in milliseconds
@@ -59,44 +62,24 @@
       ticker?.shares > 0,
   );
 
-  // LocalStorage cache functions
-  // Cache key is based on holdings (symbol, shares, avgPrice) to invalidate when portfolio changes
-  function generateHoldingsHash(holdings: any[]): string {
-    if (!holdings || holdings.length === 0) return "empty";
-
-    // Sort holdings by symbol for consistent hashing
-    const sortedHoldings = [...holdings]
-      .filter((h) => h?.symbol && h?.shares > 0 && h?.avgPrice > 0)
-      .sort((a, b) => (a.symbol || "").localeCompare(b.symbol || ""))
-      .map((h) => `${h.symbol}-${h.shares}-${h.avgPrice}`)
-      .join(",");
-
-    // Simple hash function for the holdings string
-    let hash = 0;
-    for (let i = 0; i < sortedHoldings.length; i++) {
-      const char = sortedHoldings.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return Math.abs(hash).toString(36);
-  }
-
-  function getCacheKey(id: string, holdings: any[]) {
-    const holdingsHash = generateHoldingsHash(holdings);
-    return `portfolio-summary-${id}-${holdingsHash}`;
+  function getCacheKey(id: string, holdings: any[], currentLocale: string) {
+    const holdingsHash = JSON.stringify(holdings);
+    return `portfolio-summary-${id}-${currentLocale}-${holdingsHash}`;
   }
 
   function getCachedSummary(id: string, holdings: any[]) {
     if (typeof window === "undefined") return null;
     try {
-      const cached = localStorage.getItem(getCacheKey(id, holdings));
+      const cached = localStorage.getItem(
+        getCacheKey(id, holdings, currentLocale),
+      );
       if (!cached) return null;
 
       const { data: cachedData, timestamp } = JSON.parse(cached);
       const age = Date.now() - timestamp;
 
       if (age > CACHE_TTL) {
-        localStorage.removeItem(getCacheKey(id, holdings));
+        localStorage.removeItem(getCacheKey(id, holdings, currentLocale));
         return null;
       }
 
@@ -106,24 +89,37 @@
     }
   }
 
-  function saveSummaryToCache(id: string, holdings: any[], summaryResult: any) {
+  function saveSummaryToCache(
+    id: string,
+    holdings: any[],
+    summaryResult: any,
+    currentLocale: string,
+  ) {
     if (typeof window === "undefined") return;
+
     try {
-      // Clean up old cache entries for this portfolio (different holdings hashes)
+      const currentKey = getCacheKey(id, holdings, currentLocale);
+      const portfolioPrefix = `portfolio-summary-${id}-`;
+      const localePrefix = `portfolio-summary-${id}-${currentLocale}-`;
+
+      // Remove only old cache entries for this portfolio + locale
       const keysToRemove: string[] = [];
+
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (
-          key?.startsWith(`portfolio-summary-${id}-`) &&
-          key !== getCacheKey(id, holdings)
+          key?.startsWith(portfolioPrefix) &&
+          key.startsWith(localePrefix) &&
+          key !== currentKey
         ) {
           keysToRemove.push(key);
         }
       }
+
       keysToRemove.forEach((key) => localStorage.removeItem(key));
 
       localStorage.setItem(
-        getCacheKey(id, holdings),
+        currentKey,
         JSON.stringify({
           data: summaryResult,
           timestamp: Date.now(),
@@ -222,19 +218,19 @@
 
     // Check if user has the right tier
     if (!["Plus", "Pro"]?.includes(data?.user?.tier)) {
-      toast.error(
-        portfolio_bullbear_toast_upgrade(),
-        {
-          style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-        },
-      );
+      toast.error(portfolio_bullbear_toast_upgrade(), {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
       return;
     }
 
     // Check if user has enough credits
     if (data?.user?.credits < SUMMARY_CREDIT_COST) {
       toast.error(
-        portfolio_bullbear_toast_credits({ credits: data?.user?.credits, cost: SUMMARY_CREDIT_COST }),
+        portfolio_bullbear_toast_credits({
+          credits: data?.user?.credits,
+          cost: SUMMARY_CREDIT_COST,
+        }),
         {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         },
@@ -255,6 +251,7 @@
         body: JSON.stringify({
           portfolioId,
           holdings: tickers,
+          lang: currentLocale,
         }),
       });
 
@@ -278,7 +275,7 @@
         showSummary = false;
       } else {
         // Save to localStorage cache (includes holdings hash for invalidation)
-        saveSummaryToCache(portfolioId, tickers, summaryData);
+        saveSummaryToCache(portfolioId, tickers, summaryData, currentLocale);
         // Deduct credits on successful generation
         data.user.credits -= SUMMARY_CREDIT_COST;
         summaryGenerated = true;
@@ -382,7 +379,9 @@
     <!-- No tickers in portfolio -->
     <div class="flex justify-center items-center h-40">
       <div class="text-center text-gray-700 dark:text-zinc-400">
-        <p class="text-lg font-medium mb-2">{portfolio_bullbear_empty_title()}</p>
+        <p class="text-lg font-medium mb-2">
+          {portfolio_bullbear_empty_title()}
+        </p>
         <p class="text-sm">{portfolio_bullbear_empty_description()}</p>
       </div>
     </div>
