@@ -856,9 +856,6 @@
   let hoverBar: KLineData | null = null;
   let currentBars: KLineData[] = [];
   let activeRange = "1D";
-  let _cachedAvwapBars: KLineData[] | null = null;
-  let _cachedAvwapAnchor: number | null = null;
-  let _cachedAvwapSeries: Array<number | null> = [];
 
   // Memoized bar index lookup - only recreates Map when currentBars changes
   let _cachedBars: KLineData[] | null = null;
@@ -872,56 +869,6 @@
       );
     }
     return _barIndexMap.get(timestamp);
-  };
-
-  const buildAvwapSeries = (
-    bars: KLineData[],
-    anchor: number,
-  ): Array<number | null> => {
-    const series = Array.from({ length: bars.length }, () => null as number | null);
-    const startIndex = bars.findIndex(
-      (bar) => Number.isFinite(bar.timestamp) && bar.timestamp >= anchor,
-    );
-    if (startIndex < 0) return series;
-
-    let cumulativePV = 0;
-    let cumulativeVolume = 0;
-    for (let i = startIndex; i < bars.length; i += 1) {
-      const bar = bars[i];
-      const high = toNumber(bar?.high);
-      const low = toNumber(bar?.low);
-      const close = toNumber(bar?.close);
-      if (high === null || low === null || close === null) {
-        continue;
-      }
-      const volume = toNumber(bar?.volume) ?? 0;
-      const typicalPrice = (high + low + close) / 3;
-      cumulativePV += typicalPrice * volume;
-      cumulativeVolume += volume;
-      if (cumulativeVolume > 0) {
-        series[i] = cumulativePV / cumulativeVolume;
-      }
-    }
-    return series;
-  };
-
-  const getAvwapValueForTimestamp = (timestamp: number | null): number | null => {
-    if (!indicatorState?.[AVWAP_ID]) return null;
-    const anchor = getAvwapAnchorTimestamp();
-    if (anchor === null || !currentBars.length || timestamp === null) return null;
-
-    if (_cachedAvwapBars !== currentBars || _cachedAvwapAnchor !== anchor) {
-      _cachedAvwapBars = currentBars;
-      _cachedAvwapAnchor = anchor;
-      _cachedAvwapSeries = buildAvwapSeries(currentBars, anchor);
-    }
-
-    const directIndex = getBarIndexByTimestamp(timestamp);
-    const index =
-      directIndex ??
-      getBarIndexByTimestamp(findNearestBar(timestamp)?.timestamp ?? Number.NaN);
-    if (index === undefined) return null;
-    return _cachedAvwapSeries[index] ?? null;
   };
 
   // Binary search to find nearest bar by timestamp (O(log n) instead of O(n))
@@ -8218,6 +8165,131 @@
     current: KLineData | null;
     next: KLineData | null;
   };
+  type CandleTooltipLegend = {
+    title: { text: string; color: string };
+    value: { text: string; color: string };
+  };
+
+  const getTooltipBarIndex = (timestamp: number | null): number | undefined => {
+    if (timestamp === null) return undefined;
+    const directIndex = getBarIndexByTimestamp(timestamp);
+    if (directIndex !== undefined) return directIndex;
+    const nearest = findNearestBar(timestamp);
+    if (!nearest) return undefined;
+    return getBarIndexByTimestamp(nearest.timestamp);
+  };
+
+  const getMainPaneIndicatorLegends = (
+    timestamp: number | null,
+    titleColor: string,
+  ): CandleTooltipLegend[] => {
+    if (!chart) return [];
+    const index = getTooltipBarIndex(timestamp);
+    if (index === undefined) return [];
+
+    const indicators = chart.getIndicators({ paneId: "candle_pane" }) ?? [];
+    if (!indicators.length) return [];
+
+    const indicatorByInstanceId = new Map<string, any>();
+    indicators.forEach((indicator: any) => {
+      if (typeof indicator?.id === "string") {
+        indicatorByInstanceId.set(indicator.id, indicator);
+      }
+    });
+
+    const legends: CandleTooltipLegend[] = [];
+    const pushLegend = (label: string, value: number | null, color: string) => {
+      if (value === null) return;
+      legends.push({
+        title: { text: label, color: titleColor },
+        value: { text: formatPrice(value), color },
+      });
+    };
+
+    const readValue = (point: Record<string, unknown> | null, key: string) =>
+      toNumber(point?.[key]);
+
+    for (const definition of indicatorDefinitions) {
+      if (definition.pane !== "candle" || definition.isOverlay) continue;
+      if (!indicatorState[definition.id]) continue;
+      const instanceId = indicatorInstanceIds[definition.id];
+      if (!instanceId) continue;
+
+      const indicator = indicatorByInstanceId.get(instanceId);
+      const point = Array.isArray(indicator?.result)
+        ? (indicator.result[index] as Record<string, unknown> | null)
+        : null;
+      if (!point) continue;
+
+      const params = getIndicatorParams(definition.id);
+      switch (definition.id) {
+        case "ma":
+          params.forEach((period, idx) =>
+            pushLegend(
+              `MA${Math.round(period)}: `,
+              readValue(point, `ma${idx + 1}`),
+              "#2962FF",
+            ),
+          );
+          break;
+        case "ema":
+          params.forEach((period, idx) =>
+            pushLegend(
+              `EMA${Math.round(period)}: `,
+              readValue(point, `ema${idx + 1}`),
+              "#E91E63",
+            ),
+          );
+          break;
+        case "boll":
+          pushLegend("BOLL U: ", readValue(point, "upper"), "#FFFFFF");
+          pushLegend("BOLL M: ", readValue(point, "mid"), "#FFFFFF");
+          pushLegend("BOLL L: ", readValue(point, "lower"), "#FFFFFF");
+          break;
+        case "vwap":
+          pushLegend("VWAP: ", readValue(point, "vwap"), "#9C27B0");
+          break;
+        case AVWAP_ID:
+          pushLegend("AVWAP: ", readValue(point, "avwap"), "#F59E0B");
+          break;
+        case "parabolic_sar":
+          pushLegend("SAR: ", readValue(point, "sar"), "#22C55E");
+          break;
+        case "donchian":
+          pushLegend("DC U: ", readValue(point, "upper"), "#94A3B8");
+          pushLegend("DC M: ", readValue(point, "middle"), "#94A3B8");
+          pushLegend("DC L: ", readValue(point, "lower"), "#94A3B8");
+          break;
+        case "pivot":
+          pushLegend("PP: ", readValue(point, "pivot"), "#38BDF8");
+          pushLegend("R1: ", readValue(point, "r1"), "#38BDF8");
+          pushLegend("R2: ", readValue(point, "r2"), "#38BDF8");
+          pushLegend("S1: ", readValue(point, "s1"), "#38BDF8");
+          pushLegend("S2: ", readValue(point, "s2"), "#38BDF8");
+          break;
+        case "fibonacci":
+          pushLegend("Fib 23.6: ", readValue(point, "fib236"), "#3B82F6");
+          pushLegend("Fib 38.2: ", readValue(point, "fib382"), "#3B82F6");
+          pushLegend("Fib 50.0: ", readValue(point, "fib500"), "#3B82F6");
+          pushLegend("Fib 61.8: ", readValue(point, "fib618"), "#3B82F6");
+          pushLegend("Fib 78.6: ", readValue(point, "fib786"), "#3B82F6");
+          break;
+        case "psych_round_10":
+        case "psych_round_25":
+        case "psych_round_50": {
+          const step = Math.round(params?.[0] ?? 0);
+          pushLegend(
+            step > 0 ? `Psych ${step}: ` : "Psych: ",
+            readValue(point, "psych"),
+            "#FB7185",
+          );
+          break;
+        }
+      }
+    }
+
+    return legends;
+  };
 
   const buildCandleTooltipLegends = (data: CandleTooltipData) => {
     const current = data?.current;
@@ -8225,7 +8297,6 @@
     const valueColor = isUp ? CHART_COLORS.UP : CHART_COLORS.DOWN;
     const titleColor = CHART_COLORS.NEUTRAL;
     const volumeColor = CHART_COLORS.NEUTRAL;
-    const avwapColor = "#F59E0B";
 
     // Calculate change and percentage
     let changeText = "";
@@ -8236,16 +8307,10 @@
       changeText = `${sign}${change.toFixed(2)} (${sign}${changePercent.toFixed(2)}%)`;
     }
     const changeColor = isUp ? CHART_COLORS.UP : CHART_COLORS.DOWN;
-    const avwapValue = getAvwapValueForTimestamp(
+    const mainPaneIndicatorLegends = getMainPaneIndicatorLegends(
       typeof current?.timestamp === "number" ? current.timestamp : null,
+      titleColor,
     );
-    const avwapLegend =
-      avwapValue !== null
-        ? {
-            title: { text: "AVWAP: ", color: titleColor },
-            value: { text: formatPrice(avwapValue), color: avwapColor },
-          }
-        : null;
 
     // Check if small screen (below sm breakpoint = 640px)
     const isSmallScreen = isMobile;
@@ -8263,7 +8328,7 @@
           title: { text: "V: ", color: titleColor },
           value: { text: "{volume}", color: volumeColor },
         },
-        ...(avwapLegend ? [avwapLegend] : []),
+        ...mainPaneIndicatorLegends,
         {
           title: { text: "", color: titleColor },
           value: { text: changeText, color: changeColor },
@@ -8282,7 +8347,7 @@
           title: { text: "V: ", color: titleColor },
           value: { text: "{volume}", color: volumeColor },
         },
-        ...(avwapLegend ? [avwapLegend] : []),
+        ...mainPaneIndicatorLegends,
         {
           title: { text: "", color: titleColor },
           value: { text: changeText, color: changeColor },
@@ -8312,7 +8377,7 @@
         title: { text: "V: ", color: titleColor },
         value: { text: "{volume}", color: volumeColor },
       },
-      ...(avwapLegend ? [avwapLegend] : []),
+      ...mainPaneIndicatorLegends,
       {
         title: { text: "", color: titleColor },
         value: { text: changeText, color: changeColor },
