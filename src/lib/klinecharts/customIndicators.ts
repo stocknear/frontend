@@ -395,6 +395,127 @@ function createMacdIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   });
 }
 
+function createTtmSqueezeIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return createWorkerIndicator("ttm_squeeze", {
+    name: "SN_TTM_SQUEEZE",
+    shortName: "TTM Squeeze",
+    series: "normal",
+    precision: 2,
+    calcParams: [20, 2, 10, 2, 10],
+    figures: [
+      {
+        key: "momentum",
+        title: "MOM: ",
+        type: "bar",
+        baseValue: 0,
+        styles: ({ data }) => {
+          const current = Number.isFinite(data.current?.momentum as number)
+            ? (data.current?.momentum as number)
+            : 0;
+          const color = current >= 0 ? "#22D3EE" : "#F59E0B";
+          return { color, borderColor: color, style: "fill" };
+        },
+      },
+    ],
+    createTooltipDataSource: ({ crosshair, indicator }) => {
+      const dataIndex = crosshair.dataIndex;
+      if (dataIndex === undefined || !indicator.result) return { legends: [] };
+
+      const result = indicator.result[dataIndex] as IndicatorRecord | undefined;
+      if (!result) return { legends: [] };
+      const momentum = Number.isFinite(result.momentum as number)
+        ? (result.momentum as number)
+        : null;
+      const squeezeState = Number.isFinite(result.squeeze as number)
+        ? Number(result.squeeze)
+        : null;
+      if (momentum === null && squeezeState === null) return { legends: [] };
+
+      const squeezeText =
+        squeezeState === 1
+          ? "On"
+          : squeezeState === -1
+            ? "Fired"
+            : "Neutral";
+      const squeezeColor =
+        squeezeState === 1
+          ? "#EF4444"
+          : squeezeState === -1
+            ? "#22C55E"
+            : "#94A3B8";
+
+      return {
+        legends: [
+          ...(momentum !== null
+            ? [
+                {
+                  title: "MOM: ",
+                  value: {
+                    text: momentum.toFixed(2),
+                    color: momentum >= 0 ? "#22D3EE" : "#F59E0B",
+                  },
+                },
+              ]
+            : []),
+          ...(squeezeState !== null
+            ? [{ title: "Squeeze: ", value: { text: squeezeText, color: squeezeColor } }]
+            : []),
+        ],
+      };
+    },
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0 || to <= from) return true;
+
+      const zeroY = yAxis.convertToPixel(0);
+      if (typeof zeroY !== "number" || Number.isNaN(zeroY)) return true;
+
+      const pixelStep = Math.abs(xAxis.convertToPixel(1) - xAxis.convertToPixel(0));
+      const barWidth = Math.max(2, (Number.isFinite(pixelStep) ? pixelStep : 6) * 0.7);
+
+      // Draw momentum histogram bars.
+      for (let i = from; i < to; i++) {
+        const momentum = Number(result[i]?.momentum);
+        if (!Number.isFinite(momentum)) continue;
+        const x = xAxis.convertToPixel(i);
+        const y = yAxis.convertToPixel(momentum);
+        if (typeof y !== "number" || Number.isNaN(y)) continue;
+
+        const top = Math.min(y, zeroY);
+        const height = Math.max(1, Math.abs(y - zeroY));
+        ctx.fillStyle = momentum >= 0 ? "#22D3EE" : "#F59E0B";
+        ctx.fillRect(x - barWidth / 2, top, barWidth, height);
+      }
+
+      // Zero line for squeeze state dots.
+      const startX = xAxis.convertToPixel(from);
+      const endX = xAxis.convertToPixel(to - 1);
+      ctx.beginPath();
+      ctx.setLineDash([]);
+      ctx.moveTo(startX, zeroY);
+      ctx.lineTo(endX, zeroY);
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.55)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      for (let i = from; i < to; i++) {
+        const state = Number(result[i]?.squeeze);
+        if (!Number.isFinite(state)) continue;
+        const x = xAxis.convertToPixel(i);
+        ctx.beginPath();
+        ctx.arc(x, zeroY, 2.3, 0, Math.PI * 2);
+        ctx.fillStyle =
+          state === 1 ? "#EF4444" : state === -1 ? "#22C55E" : "#94A3B8";
+        ctx.fill();
+      }
+
+      // Return true to prevent default rendering; bars are drawn above manually.
+      return true;
+    },
+  });
+}
+
 function createStochIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   return createWorkerIndicator("stoch", {
     name: "SN_STOCH",
@@ -1891,6 +2012,7 @@ export function registerCustomIndicators() {
   registerIndicator(createVolumeIndicator());
   registerIndicator(createRsiIndicator());
   registerIndicator(createMacdIndicator());
+  registerIndicator(createTtmSqueezeIndicator());
   registerIndicator(createAtrIndicator());
   registerIndicator(createStochIndicator());
   registerIndicator(createStochRsiIndicator());

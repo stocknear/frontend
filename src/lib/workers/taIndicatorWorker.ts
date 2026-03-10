@@ -333,6 +333,145 @@ const calcRollingHighLow = (
   return { highs, lows };
 };
 
+const calcTtmSqueeze = (
+  high: Float64Array,
+  low: Float64Array,
+  close: Float64Array,
+  params: number[],
+) => {
+  const bbPeriod = clampPeriod(params?.[0], 20);
+  const bbMultiplier =
+    Number.isFinite(params?.[1]) && (params?.[1] as number) > 0
+      ? (params[1] as number)
+      : 2;
+  const kcPeriod = clampPeriod(params?.[2], 10);
+  const kcMultiplier =
+    Number.isFinite(params?.[3]) && (params?.[3] as number) > 0
+      ? (params[3] as number)
+      : 2;
+  const momentumPeriod = clampPeriod(params?.[4], kcPeriod);
+
+  const length = close.length;
+  const results = createEmptyResults(length);
+
+  const { highs, lows } = calcRollingHighLow(high, low, kcPeriod);
+
+  const rawMomentum = new Float64Array(length);
+  rawMomentum.fill(Number.NaN);
+
+  let bbSum = 0;
+  let bbSumSquares = 0;
+  let kcCloseSum = 0;
+  let emaClose = 0;
+  let emaTrueRange = 0;
+  const emaWeight = 2 / (kcPeriod + 1);
+
+  const squeezeState = new Int8Array(length);
+  const sumX = (momentumPeriod * (momentumPeriod - 1)) / 2;
+  const sumXX =
+    ((momentumPeriod - 1) * momentumPeriod * (2 * momentumPeriod - 1)) / 6;
+  const denominator = momentumPeriod * sumXX - sumX * sumX;
+
+  for (let i = 0; i < length; i += 1) {
+    const c = close[i];
+    const h = high[i];
+    const l = low[i];
+
+    bbSum += c;
+    bbSumSquares += c * c;
+    if (i >= bbPeriod) {
+      const removed = close[i - bbPeriod];
+      bbSum -= removed;
+      bbSumSquares -= removed * removed;
+    }
+
+    kcCloseSum += c;
+    if (i >= kcPeriod) {
+      kcCloseSum -= close[i - kcPeriod];
+    }
+
+    const prevClose = i > 0 ? close[i - 1] : c;
+    const trueRange = Math.max(
+      h - l,
+      Math.abs(h - prevClose),
+      Math.abs(l - prevClose),
+    );
+
+    if (i === 0) {
+      emaClose = c;
+      emaTrueRange = trueRange;
+    } else {
+      emaClose = c * emaWeight + emaClose * (1 - emaWeight);
+      emaTrueRange = trueRange * emaWeight + emaTrueRange * (1 - emaWeight);
+    }
+
+    if (i >= kcPeriod - 1) {
+      const highest = highs[i];
+      const lowest = lows[i];
+      const midpoint = (highest + lowest) / 2;
+      const kcBasis = kcCloseSum / kcPeriod;
+      rawMomentum[i] = c - (midpoint + kcBasis) / 2;
+    }
+
+    if (i >= bbPeriod - 1) {
+      const bbBasis = bbSum / bbPeriod;
+      const bbVariance = Math.max(bbSumSquares / bbPeriod - bbBasis * bbBasis, 0);
+      const bbDev = Math.sqrt(bbVariance);
+      const bbUpper = bbBasis + bbMultiplier * bbDev;
+      const bbLower = bbBasis - bbMultiplier * bbDev;
+
+      const kcUpper = emaClose + kcMultiplier * emaTrueRange;
+      const kcLower = emaClose - kcMultiplier * emaTrueRange;
+
+      const on = bbLower > kcLower && bbUpper < kcUpper;
+      const off = bbLower < kcLower && bbUpper > kcUpper;
+      squeezeState[i] = on ? 1 : off ? -1 : 0;
+      results[i].squeeze = squeezeState[i];
+    }
+  }
+
+  if (denominator === 0) {
+    for (let i = 0; i < length; i += 1) {
+      const momentum = rawMomentum[i];
+      if (!Number.isFinite(momentum)) continue;
+      results[i].momentum = momentum;
+      if (!Number.isFinite(results[i].squeeze)) {
+        results[i].squeeze = squeezeState[i];
+      }
+    }
+    return results;
+  }
+
+  for (let i = momentumPeriod - 1; i < length; i += 1) {
+    let sumY = 0;
+    let sumXY = 0;
+    let valid = true;
+
+    for (let j = 0; j < momentumPeriod; j += 1) {
+      const v = rawMomentum[i - momentumPeriod + 1 + j];
+      if (!Number.isFinite(v)) {
+        valid = false;
+        break;
+      }
+      sumY += v;
+      sumXY += j * v;
+    }
+
+    if (!valid) continue;
+
+    const slope = (momentumPeriod * sumXY - sumX * sumY) / denominator;
+    const intercept = (sumY - slope * sumX) / momentumPeriod;
+    const momentum = intercept + slope * (momentumPeriod - 1);
+    results[i].momentum = momentum;
+
+    if (!Number.isFinite(results[i].squeeze)) {
+      results[i].squeeze = squeezeState[i];
+    }
+  }
+
+  return results;
+};
+
 const calcStochValues = (
   high: Float64Array,
   low: Float64Array,
@@ -1004,6 +1143,8 @@ const computeIndicator = (indicator: string, params: number[]) => {
       return calcRsi(dataset.close, params);
     case "macd":
       return calcMacd(dataset.close, params);
+    case "ttm_squeeze":
+      return calcTtmSqueeze(dataset.high, dataset.low, dataset.close, params);
     case "atr":
       return calcAtr(dataset.high, dataset.low, dataset.close, params);
     case "stoch":

@@ -1143,6 +1143,15 @@
       height: 140,
     },
     {
+      id: "ttm_squeeze",
+      label: "TTM Squeeze",
+      indicatorName: "SN_TTM_SQUEEZE",
+      category: "Momentum",
+      defaultParams: [20, 2, 10, 2, 10],
+      pane: "panel",
+      height: 150,
+    },
+    {
       id: "atr",
       label: "Average True Range",
       sublabel: "ATR 14",
@@ -1404,6 +1413,13 @@
     // Momentum
     rsi: ["Period"],
     macd: ["Fast Period", "Slow Period", "Signal Period"],
+    ttm_squeeze: [
+      "BB Period",
+      "BB Multiplier",
+      "KC Period",
+      "KC Multiplier",
+      "Momentum Period",
+    ],
     stoch: ["K Period", "D Period"],
     stoch_rsi: ["RSI Period", "Stoch Period", "Smooth K", "Smooth D"],
     stoch_crossover: ["K Period", "D Period"],
