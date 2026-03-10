@@ -2438,6 +2438,9 @@
 
   const getHistoricalFlow = async () => {
     if (data?.user?.tier === "Pro") {
+      // Guard against accidental no-date transitions.
+      if (!selectedDate) return;
+
       modeStatus = false;
       isLoaded = false;
 
@@ -2860,6 +2863,7 @@
                     <Calendar
                       class=" "
                       bind:value={selectedDate}
+                      preventDeselect
                       minValue={calendarMinDate}
                       maxValue={calendarMaxDate}
                       initialFocus
