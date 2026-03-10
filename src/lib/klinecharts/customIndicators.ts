@@ -294,6 +294,53 @@ function createVwapIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   });
 }
 
+function createAvwapIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return createWorkerIndicator("avwap", {
+    name: "SN_AVWAP",
+    shortName: "AVWAP",
+    series: "price",
+    precision: 2,
+    calcParams: [0],
+    figures: [],
+    createTooltipDataSource: () => ({
+      name: "",
+      calcParamsText: "",
+      legends: [],
+      features: [],
+    }),
+    draw: ({ ctx, chart, indicator, xAxis, yAxis }) => {
+      const { from, to } = chart.getVisibleRange();
+      const result = indicator.result as IndicatorRecord[];
+      if (!result || result.length === 0) return false;
+
+      const points: { x: number; y: number }[] = [];
+      for (let i = from; i < to; i++) {
+        const data = result[i];
+        if (data?.avwap !== undefined) {
+          points.push({
+            x: xAxis.convertToPixel(i),
+            y: yAxis.convertToPixel(data.avwap as number),
+          });
+        }
+      }
+
+      if (points.length >= 2) {
+        ctx.beginPath();
+        ctx.setLineDash([]);
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = "#F59E0B";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      return false;
+    },
+  });
+}
+
 function createRsiIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   return createWorkerIndicator("rsi", {
     name: "SN_RSI",
@@ -1840,6 +1887,7 @@ export function registerCustomIndicators() {
   registerIndicator(createEmaIndicator());
   registerIndicator(createBollIndicator());
   registerIndicator(createVwapIndicator());
+  registerIndicator(createAvwapIndicator());
   registerIndicator(createVolumeIndicator());
   registerIndicator(createRsiIndicator());
   registerIndicator(createMacdIndicator());

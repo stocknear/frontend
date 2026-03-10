@@ -985,6 +985,8 @@
   };
 
   type ChartRule = { name: string; params?: number[] };
+  const AVWAP_ID = "avwap";
+  const AVWAP_UNSET_ANCHOR = 0;
 
   type IndicatorDefinition = {
     id: string;
@@ -1045,6 +1047,15 @@
       category: "Volume",
       infoKey: "vwap",
       defaultParams: [],
+      pane: "candle",
+    },
+    {
+      id: AVWAP_ID,
+      label: "Anchored VWAP",
+      indicatorName: "SN_AVWAP",
+      category: "Volume",
+      infoKey: "vwap",
+      defaultParams: [AVWAP_UNSET_ANCHOR],
       pane: "candle",
     },
     {
@@ -1453,6 +1464,18 @@
   let indicatorState: Record<string, boolean> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, Boolean(item.defaultEnabled)]),
   );
+  let awaitingAvwapAnchor = false;
+
+  const getAvwapAnchorTimestamp = (): number | null => {
+    const params =
+      indicatorParams[AVWAP_ID] ?? indicatorParamDefaults[AVWAP_ID] ?? [];
+    const anchor = params[0];
+    return Number.isFinite(anchor) && anchor > AVWAP_UNSET_ANCHOR
+      ? anchor
+      : null;
+  };
+
+  const hasAvwapAnchor = () => getAvwapAnchorTimestamp() !== null;
 
   // Parameter customization modal state
   let paramModalOpen = false;
@@ -1482,6 +1505,8 @@
   let wsOpenHandler: (() => void) | null = null;
   let wsMessageHandler: ((event: MessageEvent) => void) | null = null;
   let wsCloseHandler: (() => void) | null = null;
+  let chartMainClickHandler: ((event: MouseEvent) => void) | null = null;
+  let chartAnchorClickTarget: HTMLElement | null = null;
 
   // Timeout for WebSocket operations
   const WS_CLOSE_TIMEOUT_MS = 3000;
@@ -3419,6 +3444,114 @@
 
   const handleCrosshairChange = (payload) => {
     hoverBar = payload?.kLineData ?? null;
+  };
+
+  const normalizeAnchorTimestampUnit = (value: number): number => {
+    if (!currentBars.length) return value;
+    const sample = currentBars[currentBars.length - 1]?.timestamp;
+    if (!Number.isFinite(sample)) return value;
+    if (sample > 1e11 && value < 1e11) return value * 1000;
+    if (sample < 1e11 && value > 1e11) return Math.floor(value / 1000);
+    return value;
+  };
+
+  const snapAnchorTimestampToBar = (value: number): number | null => {
+    if (!Number.isFinite(value) || value <= 0) return null;
+    if (!currentBars.length) return value;
+
+    let closestTimestamp = currentBars[0]?.timestamp;
+    if (!Number.isFinite(closestTimestamp)) return null;
+    let closestDiff = Math.abs(closestTimestamp - value);
+
+    for (let i = 1; i < currentBars.length; i += 1) {
+      const ts = currentBars[i]?.timestamp;
+      if (!Number.isFinite(ts)) continue;
+      const diff = Math.abs(ts - value);
+      if (diff < closestDiff) {
+        closestDiff = diff;
+        closestTimestamp = ts;
+      }
+    }
+
+    return closestTimestamp;
+  };
+
+  const getTimestampByBarIndex = (value: number | null): number | null => {
+    if (value === null || !Number.isFinite(value)) return null;
+    const index = Math.round(value);
+    if (index < 0 || index >= currentBars.length) return null;
+    const timestamp = currentBars[index]?.timestamp;
+    return Number.isFinite(timestamp) ? timestamp : null;
+  };
+
+  const normalizeAnchorTimestamp = (value: number | null): number | null => {
+    if (value === null) return null;
+    const normalized = normalizeAnchorTimestampUnit(value);
+    return snapAnchorTimestampToBar(normalized);
+  };
+
+  const resolveAvwapAnchorFromClick = (payload: unknown): number | null => {
+    const data = payload as {
+      timestamp?: unknown;
+      kLineData?: { timestamp?: unknown };
+      dataIndex?: unknown;
+      realDataIndex?: unknown;
+    };
+    const dataIndex =
+      toNumber(data?.dataIndex) ?? toNumber(data?.realDataIndex);
+    const candidate =
+      toNumber(data?.kLineData?.timestamp) ??
+      toNumber(data?.timestamp) ??
+      getTimestampByBarIndex(dataIndex) ??
+      toNumber(hoverBar?.timestamp);
+    return normalizeAnchorTimestamp(candidate);
+  };
+
+  const resolveAvwapAnchorFromMainClick = (event: MouseEvent): number | null => {
+    if (!chart || !chartAnchorClickTarget) {
+      return normalizeAnchorTimestamp(toNumber(hoverBar?.timestamp));
+    }
+    const useAbsolute = chartAnchorClickTarget === chartRoot;
+    const rect = chartAnchorClickTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+      return null;
+    }
+
+    const point = chart.convertFromPixel(
+      { x, y },
+      { paneId: "candle_pane", absolute: useAbsolute },
+    ) as {
+      timestamp?: unknown;
+      dataIndex?: unknown;
+      realDataIndex?: unknown;
+    };
+    const dataIndex =
+      toNumber(point?.dataIndex) ?? toNumber(point?.realDataIndex);
+    const candidate =
+      toNumber(point?.timestamp) ??
+      getTimestampByBarIndex(dataIndex) ??
+      toNumber(hoverBar?.timestamp);
+    return normalizeAnchorTimestamp(candidate);
+  };
+
+  const applyAvwapAnchor = (anchorTimestamp: number | null) => {
+    if (anchorTimestamp === null) return false;
+    indicatorParams = {
+      ...indicatorParams,
+      [AVWAP_ID]: [anchorTimestamp],
+    };
+    if (chart) {
+      syncIndicators();
+    }
+    ruleOfList = buildRuleList();
+    return true;
+  };
+
+  const handleCandleBarClick = (payload: unknown) => {
+    if (!indicatorState[AVWAP_ID] || !awaitingAvwapAnchor) return;
+    applyAvwapAnchor(resolveAvwapAnchorFromClick(payload));
   };
 
   function parseDailyTimestamp(value: string): number | null {
@@ -6864,7 +6997,9 @@
         item.category === "Fundamentals" || item.category === "Statistics";
       const isRangeAllowed =
         !isRestrictedCategory || isNonIntradayRange(activeRange);
-      const enabled = Boolean(indicatorState[item.id]) && isRangeAllowed;
+      const hasRequiredAnchor = item.id !== AVWAP_ID || hasAvwapAnchor();
+      const enabled =
+        Boolean(indicatorState[item.id]) && isRangeAllowed && hasRequiredAnchor;
       const existingId = nextInstanceIds[item.id];
 
       // For candle pane indicators, explicitly specify the candle pane ID
@@ -7378,6 +7513,16 @@
           statementIndicatorPeriods,
         });
       }
+    }
+    if (!newState && name === AVWAP_ID) {
+      indicatorParams = {
+        ...indicatorParams,
+        [AVWAP_ID]: [...(indicatorParamDefaults[AVWAP_ID] ?? [0])],
+      };
+    } else if (newState && name === AVWAP_ID && !hasAvwapAnchor()) {
+      toast.info("Click a candle to set the AVWAP anchor.", {
+        style: toastStyle(),
+      });
     }
 
     indicatorState = {
@@ -7944,6 +8089,10 @@
   }
 
   function clearIndicators() {
+    indicatorParams = {
+      ...indicatorParams,
+      [AVWAP_ID]: [...(indicatorParamDefaults[AVWAP_ID] ?? [0])],
+    };
     const nextState: Record<string, boolean> = Object.fromEntries(
       indicatorDefinitions.map((item) => [item.id, false]),
     );
@@ -8316,6 +8465,17 @@
     });
 
     chart.subscribeAction("onCrosshairChange", handleCrosshairChange);
+    chart.subscribeAction("onCandleBarClick", handleCandleBarClick);
+
+    chartAnchorClickTarget = chartMain ?? chartRoot;
+    if (chartAnchorClickTarget) {
+      chartMainClickHandler = (event: MouseEvent) => {
+        if (!indicatorState[AVWAP_ID] || !awaitingAvwapAnchor) return;
+        if (event.button !== 0) return;
+        applyAvwapAnchor(resolveAvwapAnchorFromMainClick(event));
+      };
+      chartAnchorClickTarget.addEventListener("click", chartMainClickHandler);
+    }
 
     // Subscribe to chart events for overlay updates (throttled for performance)
     chart.subscribeAction("onScroll", throttledUpdateOverlays);
@@ -8434,14 +8594,20 @@
 
     if (chart) {
       chart.unsubscribeAction("onCrosshairChange", handleCrosshairChange);
+      chart.unsubscribeAction("onCandleBarClick", handleCandleBarClick);
       chart.unsubscribeAction("onScroll", throttledUpdateOverlays);
       chart.unsubscribeAction("onZoom", throttledUpdateOverlays);
       chart.unsubscribeAction("onVisibleRangeChange", throttledUpdateOverlays);
       dispose(chart);
     }
+    if (chartAnchorClickTarget && chartMainClickHandler) {
+      chartAnchorClickTarget.removeEventListener("click", chartMainClickHandler);
+    }
     chart = null;
     chartRoot = null;
     chartMain = null;
+    chartAnchorClickTarget = null;
+    chartMainClickHandler = null;
     resizeObserver?.disconnect();
     resizeObserver = null;
     rightSidebarResizeObserver?.disconnect();
@@ -8805,6 +8971,8 @@
   $: if (chart) {
     syncIndicators();
   }
+  $: awaitingAvwapAnchor =
+    Boolean(indicatorState?.[AVWAP_ID]) && !hasAvwapAnchor();
 
   // barIndexByTimestamp is now a memoized function: getBarIndexByTimestamp()
 

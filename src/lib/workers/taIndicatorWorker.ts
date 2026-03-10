@@ -152,6 +152,45 @@ const calcVwap = (
   return results;
 };
 
+const calcAvwap = (
+  high: Float64Array,
+  low: Float64Array,
+  close: Float64Array,
+  volume: Float64Array,
+  timestamp: Float64Array,
+  params: number[],
+) => {
+  const length = close.length;
+  const results = createEmptyResults(length);
+  const anchor = Number.isFinite(params?.[0]) ? params[0] : Number.NaN;
+  if (!Number.isFinite(anchor) || anchor <= 0) {
+    return results;
+  }
+
+  let startIndex = 0;
+  while (startIndex < length && timestamp[startIndex] < anchor) {
+    startIndex += 1;
+  }
+  if (startIndex >= length) {
+    return results;
+  }
+
+  let cumulativePV = 0;
+  let cumulativeVolume = 0;
+  for (let i = startIndex; i < length; i += 1) {
+    const typicalPrice = (high[i] + low[i] + close[i]) / 3;
+    const vol = volume[i] ?? 0;
+    cumulativePV += typicalPrice * vol;
+    cumulativeVolume += vol;
+    if (cumulativeVolume === 0) {
+      continue;
+    }
+    results[i].avwap = cumulativePV / cumulativeVolume;
+  }
+
+  return results;
+};
+
 const calcRsi = (values: Float64Array, params: number[]) => {
   const period = clampPeriod(params?.[0], 14);
   const length = values.length;
@@ -950,6 +989,15 @@ const computeIndicator = (indicator: string, params: number[]) => {
       return calcBoll(dataset.close, params);
     case "vwap":
       return calcVwap(dataset.high, dataset.low, dataset.close, dataset.volume);
+    case "avwap":
+      return calcAvwap(
+        dataset.high,
+        dataset.low,
+        dataset.close,
+        dataset.volume,
+        dataset.timestamp,
+        params,
+      );
     case "volume":
       return calcVolume(dataset.open, dataset.close, dataset.volume, params);
     case "rsi":
