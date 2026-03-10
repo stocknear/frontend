@@ -7450,6 +7450,16 @@
       // Refresh data via the current klinecharts v10 loader/reset path.
       void applyRange(activeRange);
     }
+    // Persist selected chart type per ticker.
+    const currentSettings = loadChartSettings() || {
+      chartType: "candles",
+      activeRange: "1D",
+    };
+    saveChartSettings({
+      ...currentSettings,
+      chartType: type,
+      activeRange,
+    });
   }
 
   // Parameter customization modal functions
@@ -8424,6 +8434,12 @@
     const savedSettings = loadChartSettings();
     if (savedSettings) {
       if (
+        typeof savedSettings.chartType === "string" &&
+        chartTypeOptions.some((option) => option.id === savedSettings.chartType)
+      ) {
+        chartType = savedSettings.chartType as ChartTypeId;
+      }
+      if (
         savedSettings.activeRange &&
         timeframes.includes(savedSettings.activeRange)
       ) {
@@ -8805,6 +8821,16 @@
         // Load toolbar settings for the new ticker
         const savedSettings = loadChartSettings();
         if (savedSettings) {
+          if (
+            typeof savedSettings.chartType === "string" &&
+            chartTypeOptions.some(
+              (option) => option.id === savedSettings.chartType,
+            )
+          ) {
+            chartType = savedSettings.chartType as ChartTypeId;
+          } else {
+            chartType = "candles";
+          }
           if (data?.user?.tier === "Pro") {
             showEarnings = savedSettings.showEarnings ?? true;
             showDividends = savedSettings.showDividends ?? true;
@@ -8826,6 +8852,8 @@
           if (typeof savedSettings.drawingsVisible === "boolean") {
             drawingsVisible = savedSettings.drawingsVisible;
           }
+        } else {
+          chartType = "candles";
         }
 
         // Load overlays for the new ticker
