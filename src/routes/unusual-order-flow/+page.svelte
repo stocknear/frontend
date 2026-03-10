@@ -10,10 +10,16 @@
   import { scale, fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
 
-  import { DateFormatter, type DateValue } from "@internationalized/date";
+  import {
+    DateFormatter,
+    type DateValue,
+    today,
+    getLocalTimeZone,
+  } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import * as Popover from "$lib/components/shadcn/popover/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import { Calendar } from "$lib/components/shadcn/calendar/index.js";
   import CalendarIcon from "lucide-svelte/icons/calendar";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import Input from "$lib/components/Input.svelte";
@@ -293,6 +299,15 @@
     year: "numeric",
   });
   let selectedDate: DateValue | undefined = undefined;
+  const todayDate = today(getLocalTimeZone());
+  const calendarMinDate = todayDate.subtract({ days: 30 });
+  const calendarMaxDate = todayDate.subtract({ days: 1 }); // Exclude today (live data)
+
+  function getFormattedSelectedDate(dateValue: DateValue | undefined = selectedDate) {
+    if (!dateValue) return null;
+    return dateValue.toString();
+  }
+
   let infoText = {};
   let tooltipTitle;
 
@@ -1425,6 +1440,7 @@
     pageSize = rowsPerPage,
     sortKey = activeSortKey,
     sortOrder = activeSortOrder,
+    selectedDateOverride = undefined,
   } = {}) {
     // Cancel any in-flight request
     if (currentAbortController) currentAbortController.abort();
@@ -1436,20 +1452,41 @@
 
     isFetchingPage = true;
     try {
-      const params = new URLSearchParams({
-        page: String(page),
-        pageSize: String(pageSize),
-        sortKey,
-        sortOrder,
-      });
+      let response;
+      const formattedDate = getFormattedSelectedDate(
+        selectedDateOverride ?? selectedDate,
+      );
 
-      if (filterQuery) params.set("search", filterQuery);
-      if (activeRules.length > 0)
-        params.set("rules", JSON.stringify(activeRules));
+      if (formattedDate) {
+        response = await fetch("/api/unusual-order-historical-flow", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            selectedDate: formattedDate,
+            rules: activeRules,
+            tickers: filterQuery || "",
+            page,
+            pageSize,
+            sortKey,
+            sortOrder,
+          }),
+          signal,
+        });
+      } else {
+        const params = new URLSearchParams({
+          page: String(page),
+          pageSize: String(pageSize),
+          sortKey,
+          sortOrder,
+        });
 
-      const response = await fetch(`/api/unusual-order-feed?${params}`, {
-        signal,
-      });
+        if (filterQuery) params.set("search", filterQuery);
+        if (activeRules.length > 0) {
+          params.set("rules", JSON.stringify(activeRules));
+        }
+
+        response = await fetch(`/api/unusual-order-feed?${params}`, { signal });
+      }
 
       if (signal.aborted) return;
       const result = await response.json();
@@ -1532,26 +1569,45 @@
     try {
       const PAGE_SIZE = 500;
       const activeRules = buildActiveRules();
+      const formattedDate = getFormattedSelectedDate();
       const allItems: any[] = [];
       let page = 1;
       let total = Infinity;
 
       while (allItems.length < total) {
-        const params = new URLSearchParams({
-          page: String(page),
-          pageSize: String(PAGE_SIZE),
-          sortKey: activeSortKey,
-          sortOrder: activeSortOrder,
-        });
+        let response;
+        if (formattedDate) {
+          response = await fetch("/api/unusual-order-historical-flow", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              selectedDate: formattedDate,
+              rules: activeRules,
+              tickers: filterQuery || "",
+              page,
+              pageSize: PAGE_SIZE,
+              sortKey: activeSortKey,
+              sortOrder: activeSortOrder,
+            }),
+          });
+        } else {
+          const params = new URLSearchParams({
+            page: String(page),
+            pageSize: String(PAGE_SIZE),
+            sortKey: activeSortKey,
+            sortOrder: activeSortOrder,
+          });
 
-        if (filterQuery) {
-          params.set("search", filterQuery);
-        }
-        if (activeRules.length > 0) {
-          params.set("rules", JSON.stringify(activeRules));
+          if (filterQuery) {
+            params.set("search", filterQuery);
+          }
+          if (activeRules.length > 0) {
+            params.set("rules", JSON.stringify(activeRules));
+          }
+
+          response = await fetch(`/api/unusual-order-feed?${params}`);
         }
 
-        const response = await fetch(`/api/unusual-order-feed?${params}`);
         if (!response.ok) break;
 
         const result = await response.json();
@@ -1585,10 +1641,14 @@
       if (data?.user?.tier === "Pro") {
         modeStatus = !modeStatus;
         if (modeStatus === true) {
+          if (selectedDate !== undefined) {
+            selectedDate = undefined;
+            await fetchTableData({ page: 1 });
+          }
           console.log("Switching to live mode - connecting WebSocket");
           connectWebSocket();
         } else {
-          console.log("Switching to paused mode - disconnecting WebSocket");
+          console.log("Switching to historical mode - disconnecting WebSocket");
           disconnectWebSocket();
         }
       }
@@ -1836,12 +1896,17 @@
     }
   });
 
-  /*
-  const getHistoricalFlow = async () => {
-    // Create a delay using setTimeout wrapped in a Promise
+  const getHistoricalFlow = async (nextDate?: DateValue) => {
     if (data?.user?.tier === "Pro") {
-      mode = false;
+      const dateToLoad = nextDate ?? selectedDate;
+      if (!dateToLoad) return;
+      selectedDate = dateToLoad;
+
+      modeStatus = false;
       isLoaded = false;
+
+      // Disconnect WebSocket when viewing historical data
+      disconnectWebSocket();
 
       displayRules = allRows?.filter((row) =>
         ruleOfList.some((rule) => rule.name === row.rule),
@@ -1850,39 +1915,12 @@
 
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      // Make the POST request after the delay
-      const convertDate = new Date(df.format(selectedDate?.toDate()));
-      const year = convertDate?.getFullYear();
-      const month = String(convertDate?.getMonth() + 1).padStart(2, "0");
-      const day = String(convertDate?.getDate()).padStart(2, "0");
-
-      const postData = { selectedDate: `${year}-${month}-${day}` };
-
-      try {
-        const response = await fetch("/api/options-historical-flow", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
-        });
-
-        rawData = await response?.json();
-        fetchTableData(1);
-      } catch (error) {
-        console.error("Error fetching historical flow:", error);
-        rawData = [];
-      } finally {
-        isLoaded = true;
-      }
+      // fetchTableData checks selectedDate and routes to historical endpoint
+      await fetchTableData({ page: 1, selectedDateOverride: dateToLoad });
     } else {
-      toast.error("Only for Pro Members", {
-                style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-
-      });
+      goto("/pricing");
     }
   };
-  */
 
   $: {
     if (searchTerm) {
@@ -2251,19 +2289,35 @@
               <Popover.Root>
                 <Popover.Trigger asChild let:builder>
                   <Button
-                    on:click={() =>
-                      toast?.info("Feature is coming soon 🔥", {
-                        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
-                      })}
                     class="date-picker-driver font-semibold w-full sm:w-[160px] truncate  py-2.5 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-300 dark:border-zinc-700 rounded-full hover:text-violet-600 dark:hover:text-violet-300"
                     builders={[builder]}
                   >
                     <CalendarIcon
                       class="mr-2 h-4 w-4 text-gray-500 dark:text-zinc-400"
                     />
-                    Pick a Date
+                    <span class="text-sm font-medium tracking-tight">
+                      {selectedDate ? df.format(selectedDate?.toDate()) : "Pick a Date"}
+                    </span>
                   </Button>
                 </Popover.Trigger>
+
+                <Popover.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={10}
+                  alignOffset={0}
+                  class="w-auto p-0 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
+                >
+                  <Calendar
+                    class=" "
+                    bind:value={selectedDate}
+                    preventDeselect
+                    minValue={calendarMinDate}
+                    maxValue={calendarMaxDate}
+                    initialFocus
+                    onValueChange={getHistoricalFlow}
+                  />
+                </Popover.Content>
               </Popover.Root>
             </div>
           </div>

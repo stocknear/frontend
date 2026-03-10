@@ -152,10 +152,12 @@
 
   let currentAbortController: AbortController | null = null;
 
-  function getFormattedSelectedDate() {
-    if (!selectedDate) return null;
+  function getFormattedSelectedDate(
+    dateValue: DateValue | undefined = selectedDate,
+  ) {
+    if (!dateValue) return null;
     // Use calendar value directly to avoid locale/timezone conversion drift.
-    return selectedDate.toString();
+    return dateValue.toString();
   }
 
   async function fetchTableData({
@@ -163,6 +165,7 @@
     pageSize = rowsPerPage,
     sortKey = activeSortKey,
     sortOrder = activeSortOrder,
+    selectedDateOverride = undefined,
   } = {}) {
     // Cancel any in-flight request
     if (currentAbortController) currentAbortController.abort();
@@ -175,7 +178,9 @@
     isFetchingPage = true;
     try {
       let response;
-      const formattedDate = getFormattedSelectedDate();
+      const formattedDate = getFormattedSelectedDate(
+        selectedDateOverride ?? selectedDate,
+      );
 
       if (formattedDate) {
         // Historical mode — fetch from historical endpoint
@@ -2436,11 +2441,13 @@
       totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
   }
 
-  const getHistoricalFlow = async () => {
+  const getHistoricalFlow = async (nextDate?: DateValue) => {
     if (data?.user?.tier === "Pro") {
-      // Guard against accidental no-date transitions.
-      if (!selectedDate) return;
+      const dateToLoad = nextDate ?? selectedDate;
+      if (!dateToLoad) return;
+      selectedDate = dateToLoad;
 
+      // Guard against accidental no-date transitions.
       modeStatus = false;
       isLoaded = false;
 
@@ -2455,7 +2462,7 @@
       await new Promise((resolve) => setTimeout(resolve, 300));
 
       // fetchTableData checks selectedDate and routes to historical endpoint
-      await fetchTableData({ page: 1 });
+      await fetchTableData({ page: 1, selectedDateOverride: dateToLoad });
     } else {
       goto("/pricing");
     }
