@@ -856,6 +856,9 @@
   let hoverBar: KLineData | null = null;
   let currentBars: KLineData[] = [];
   let activeRange = "1D";
+  let _cachedAvwapBars: KLineData[] | null = null;
+  let _cachedAvwapAnchor: number | null = null;
+  let _cachedAvwapSeries: Array<number | null> = [];
 
   // Memoized bar index lookup - only recreates Map when currentBars changes
   let _cachedBars: KLineData[] | null = null;
@@ -869,6 +872,56 @@
       );
     }
     return _barIndexMap.get(timestamp);
+  };
+
+  const buildAvwapSeries = (
+    bars: KLineData[],
+    anchor: number,
+  ): Array<number | null> => {
+    const series = Array.from({ length: bars.length }, () => null as number | null);
+    const startIndex = bars.findIndex(
+      (bar) => Number.isFinite(bar.timestamp) && bar.timestamp >= anchor,
+    );
+    if (startIndex < 0) return series;
+
+    let cumulativePV = 0;
+    let cumulativeVolume = 0;
+    for (let i = startIndex; i < bars.length; i += 1) {
+      const bar = bars[i];
+      const high = toNumber(bar?.high);
+      const low = toNumber(bar?.low);
+      const close = toNumber(bar?.close);
+      if (high === null || low === null || close === null) {
+        continue;
+      }
+      const volume = toNumber(bar?.volume) ?? 0;
+      const typicalPrice = (high + low + close) / 3;
+      cumulativePV += typicalPrice * volume;
+      cumulativeVolume += volume;
+      if (cumulativeVolume > 0) {
+        series[i] = cumulativePV / cumulativeVolume;
+      }
+    }
+    return series;
+  };
+
+  const getAvwapValueForTimestamp = (timestamp: number | null): number | null => {
+    if (!indicatorState?.[AVWAP_ID]) return null;
+    const anchor = getAvwapAnchorTimestamp();
+    if (anchor === null || !currentBars.length || timestamp === null) return null;
+
+    if (_cachedAvwapBars !== currentBars || _cachedAvwapAnchor !== anchor) {
+      _cachedAvwapBars = currentBars;
+      _cachedAvwapAnchor = anchor;
+      _cachedAvwapSeries = buildAvwapSeries(currentBars, anchor);
+    }
+
+    const directIndex = getBarIndexByTimestamp(timestamp);
+    const index =
+      directIndex ??
+      getBarIndexByTimestamp(findNearestBar(timestamp)?.timestamp ?? Number.NaN);
+    if (index === undefined) return null;
+    return _cachedAvwapSeries[index] ?? null;
   };
 
   // Binary search to find nearest bar by timestamp (O(log n) instead of O(n))
@@ -8172,6 +8225,7 @@
     const valueColor = isUp ? CHART_COLORS.UP : CHART_COLORS.DOWN;
     const titleColor = CHART_COLORS.NEUTRAL;
     const volumeColor = CHART_COLORS.NEUTRAL;
+    const avwapColor = "#F59E0B";
 
     // Calculate change and percentage
     let changeText = "";
@@ -8182,6 +8236,16 @@
       changeText = `${sign}${change.toFixed(2)} (${sign}${changePercent.toFixed(2)}%)`;
     }
     const changeColor = isUp ? CHART_COLORS.UP : CHART_COLORS.DOWN;
+    const avwapValue = getAvwapValueForTimestamp(
+      typeof current?.timestamp === "number" ? current.timestamp : null,
+    );
+    const avwapLegend =
+      avwapValue !== null
+        ? {
+            title: { text: "AVWAP: ", color: titleColor },
+            value: { text: formatPrice(avwapValue), color: avwapColor },
+          }
+        : null;
 
     // Check if small screen (below sm breakpoint = 640px)
     const isSmallScreen = isMobile;
@@ -8199,6 +8263,7 @@
           title: { text: "V: ", color: titleColor },
           value: { text: "{volume}", color: volumeColor },
         },
+        ...(avwapLegend ? [avwapLegend] : []),
         {
           title: { text: "", color: titleColor },
           value: { text: changeText, color: changeColor },
@@ -8217,6 +8282,7 @@
           title: { text: "V: ", color: titleColor },
           value: { text: "{volume}", color: volumeColor },
         },
+        ...(avwapLegend ? [avwapLegend] : []),
         {
           title: { text: "", color: titleColor },
           value: { text: changeText, color: changeColor },
@@ -8246,6 +8312,7 @@
         title: { text: "V: ", color: titleColor },
         value: { text: "{volume}", color: volumeColor },
       },
+      ...(avwapLegend ? [avwapLegend] : []),
       {
         title: { text: "", color: titleColor },
         value: { text: changeText, color: changeColor },
