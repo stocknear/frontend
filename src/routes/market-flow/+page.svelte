@@ -79,7 +79,8 @@
   let fearAndGreedValue = data?.getFearAndGreed?.current?.value || 50;
   let currentCategory = data?.getFearAndGreed?.current?.category || "Neutral";
 
-  let isPro = data?.user?.tier === "Pro";
+  // Market Flow is intentionally unlocked for all users.
+  let isPro = true;
 
   let marketFlowSocket: WebSocket | null = null;
   let marketFlowReconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -545,7 +546,7 @@
                   <span>{market_flow_card_net_volume()}</span>
                 </div>
                 <div class="flex items-baseline">
-                  {#if data?.user?.tier === "Pro"}
+                  {#if isPro}
                     <span
                       class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
                     >
@@ -585,7 +586,7 @@
                   <span>{market_flow_card_net_call_prem()}</span>
                 </div>
                 <div class="flex items-baseline">
-                  {#if data?.user?.tier === "Pro"}
+                  {#if isPro}
                     <span
                       class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
                     >
@@ -625,7 +626,7 @@
                   <span>{market_flow_card_net_put_prem()}</span>
                 </div>
                 <div class="flex items-baseline">
-                  {#if data?.user?.tier === "Pro"}
+                  {#if isPro}
                     <span
                       class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
                     >
@@ -665,7 +666,7 @@
                   <span>{market_flow_card_most_active_sector()}</span>
                 </div>
                 <div class="flex items-baseline">
-                  {#if data?.user?.tier === "Pro"}
+                  {#if isPro}
                     <a
                       href={sectorNavigation?.find(
                         (listItem) =>
@@ -708,7 +709,7 @@
                 >
                   {market_flow_section_sp500_flow()}
                 </h2>
-                {#if data?.user?.tier === "Pro"}
+                {#if isPro}
                   <div class="relative">
                     <MarketTideChart {marketTideData} />
                   </div>
@@ -767,7 +768,7 @@
                 >
                   {market_flow_section_sector_flow()}
                 </h2>
-                {#if data?.user?.tier === "Pro"}
+                {#if isPro}
                   <div class="relative">
                     <SectorFlowChart {sectorFlow} />
                   </div>
