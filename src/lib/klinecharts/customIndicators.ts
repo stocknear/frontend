@@ -1045,6 +1045,23 @@ function createAroonIndicator(): IndicatorTemplate<IndicatorRecord, number> {
   });
 }
 
+function createAdxIndicator(): IndicatorTemplate<IndicatorRecord, number> {
+  return createWorkerIndicator("adx", {
+    name: "SN_ADX",
+    shortName: "ADX",
+    series: "normal",
+    precision: 2,
+    minValue: 0,
+    maxValue: 100,
+    calcParams: [14],
+    figures: [
+      { key: "adx", title: "ADX: ", type: "line" },
+      { key: "pdi", title: "+DI: ", type: "line" },
+      { key: "mdi", title: "-DI: ", type: "line" },
+    ],
+  });
+}
+
 // Short Interest external data store
 interface ShortInterestDataPoint {
   timestamp: number;
@@ -2032,6 +2049,7 @@ export function registerCustomIndicators() {
   registerIndicator(createRocIndicator());
   registerIndicator(createTsiIndicator());
   registerIndicator(createAroonIndicator());
+  registerIndicator(createAdxIndicator());
   registerIndicator(createShortInterestIndicator());
   // New fundamental & options indicators
   registerIndicator(createFTDIndicator());

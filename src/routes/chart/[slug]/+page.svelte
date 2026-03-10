@@ -1247,6 +1247,15 @@
       height: 150,
     },
     {
+      id: "adx",
+      label: "ADX (+DI / -DI)",
+      indicatorName: "SN_ADX",
+      category: "Trend",
+      defaultParams: [14],
+      pane: "panel",
+      height: 150,
+    },
+    {
       id: "std",
       label: "Standard Deviation",
       indicatorName: "SN_STD",
@@ -1404,6 +1413,7 @@
     donchian: ["Period"],
     parabolic_sar: ["Step", "Max"],
     aroon: ["Period"],
+    adx: ["Period"],
     // Volatility
     boll: ["Period", "Multiplier"],
     atr: ["Period"],
@@ -7437,14 +7447,8 @@
     if (chart) {
       // Apply chart type styling
       applyChartType(type);
-
-      // Transform current bars to new type without resetting position
-      const { bars } = getRangeBars(activeRange);
-      const displayBars = transformBarsForType(bars, type);
-      currentBars = displayBars;
-
-      // Update chart data in place without resetting scroll position
-      chart.applyNewData(displayBars);
+      // Refresh data via the current klinecharts v10 loader/reset path.
+      void applyRange(activeRange);
     }
   }
 

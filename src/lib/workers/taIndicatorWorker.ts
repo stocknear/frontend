@@ -1116,6 +1116,81 @@ const calcAroon = (
   return results;
 };
 
+const calcAdx = (
+  high: Float64Array,
+  low: Float64Array,
+  close: Float64Array,
+  params: number[],
+) => {
+  const period = clampPeriod(params?.[0], 14);
+  const length = close.length;
+  const results = createEmptyResults(length);
+  if (length < 2) return results;
+
+  let trSum = 0;
+  let plusDMSum = 0;
+  let minusDMSum = 0;
+
+  let smoothedTR = 0;
+  let smoothedPlusDM = 0;
+  let smoothedMinusDM = 0;
+
+  let dxSum = 0;
+  let adx = 0;
+
+  for (let i = 1; i < length; i += 1) {
+    const upMove = high[i] - high[i - 1];
+    const downMove = low[i - 1] - low[i];
+    const plusDM = upMove > downMove && upMove > 0 ? upMove : 0;
+    const minusDM = downMove > upMove && downMove > 0 ? downMove : 0;
+    const tr = Math.max(
+      high[i] - low[i],
+      Math.abs(high[i] - close[i - 1]),
+      Math.abs(low[i] - close[i - 1]),
+    );
+
+    if (i <= period) {
+      trSum += tr;
+      plusDMSum += plusDM;
+      minusDMSum += minusDM;
+
+      if (i === period) {
+        smoothedTR = trSum;
+        smoothedPlusDM = plusDMSum;
+        smoothedMinusDM = minusDMSum;
+      }
+    } else {
+      smoothedTR = smoothedTR - smoothedTR / period + tr;
+      smoothedPlusDM = smoothedPlusDM - smoothedPlusDM / period + plusDM;
+      smoothedMinusDM = smoothedMinusDM - smoothedMinusDM / period + minusDM;
+    }
+
+    if (i < period || smoothedTR <= 0) continue;
+
+    const pdi = (smoothedPlusDM / smoothedTR) * 100;
+    const mdi = (smoothedMinusDM / smoothedTR) * 100;
+    results[i].pdi = pdi;
+    results[i].mdi = mdi;
+
+    const diDenominator = pdi + mdi;
+    const dx =
+      diDenominator === 0 ? 0 : (Math.abs(pdi - mdi) / diDenominator) * 100;
+
+    if (i < period * 2) {
+      dxSum += dx;
+      if (i === period * 2 - 1) {
+        adx = dxSum / period;
+        results[i].adx = adx;
+      }
+    } else {
+      adx = (adx * (period - 1) + dx) / period;
+      results[i].adx = adx;
+    }
+  }
+
+  return results;
+};
+
 const computeIndicator = (indicator: string, params: number[]) => {
   if (!dataset) return [];
 
@@ -1183,6 +1258,8 @@ const computeIndicator = (indicator: string, params: number[]) => {
       return calcTsi(dataset.close, params);
     case "aroon":
       return calcAroon(dataset.high, dataset.low, params);
+    case "adx":
+      return calcAdx(dataset.high, dataset.low, dataset.close, params);
     default:
       return [];
   }
