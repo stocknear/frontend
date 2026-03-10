@@ -154,11 +154,8 @@
 
   function getFormattedSelectedDate() {
     if (!selectedDate) return null;
-    const convertDate = new Date(df.format(selectedDate.toDate()));
-    const year = convertDate.getFullYear();
-    const month = String(convertDate.getMonth() + 1).padStart(2, "0");
-    const day = String(convertDate.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    // Use calendar value directly to avoid locale/timezone conversion drift.
+    return selectedDate.toString();
   }
 
   async function fetchTableData({
