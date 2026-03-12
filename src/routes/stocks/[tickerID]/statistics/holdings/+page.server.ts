@@ -3,7 +3,7 @@ import { loginAction, registerAction, oauth2Action } from "$lib/server/authActio
 
 export const load = async ({ locals, params }) => {
   return {
-    getETFHoldings: await postAPI(locals, "/etf-holdings", { ticker: params.tickerID, assetType: 'etf' }),
+    getETFHoldings: await postAPI(locals, "/etf-holdings", { ticker: params.tickerID, assetType: 'stocks' }),
   };
 };
 
