@@ -36,7 +36,7 @@
         earnings: "earnings",
         "market-cap": "market-cap",
         "short-interest": "short-interest",
-        "etf-holdings": "etf-holdings",
+        "etf-holdings": "holdings",
         revenue: "revenue",
         "fail-to-deliver": "fail-to-deliver",
       };
