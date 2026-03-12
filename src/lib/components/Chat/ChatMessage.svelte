@@ -189,6 +189,15 @@
   function autoResize(element) {
     requestAnimationFrame(() => resizeTextarea(element));
   }
+
+  function normalizeSystemHtml(content: string) {
+    if (!content) return "";
+
+    return content.replace(
+      /href=(["'])\/(?!\/)([^"']+)\1/gi,
+      (_match, quote, path) => `href=${quote}https://stocknear.com/${path}${quote}`,
+    );
+  }
 </script>
 
 <div
@@ -272,10 +281,10 @@
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"
-                ? displayedContent
+                ? normalizeSystemHtml(displayedContent)
                 : message?.role === "user"
                   ? message?.content?.replace(/\n/g, "<br/>")
-                  : message?.content}
+                  : normalizeSystemHtml(message?.content)}
               {#if isStreaming && message?.role === "system" && typewriterInterval}
                 <span
                   class="inline-block w-1 h-4 ml-0.5 bg-gray-400 dark:bg-zinc-500 animate-pulse"

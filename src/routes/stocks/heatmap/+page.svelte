@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { onDestroy, onMount } from "svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import SEO from "$lib/components/SEO.svelte";
-  import { setCache, getCache } from "$lib/store";
+  import { setCache, getCache, isOpen } from "$lib/store";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -31,29 +32,381 @@
     heatmap_time_period_label,
   } from "$lib/paraglide/messages.js";
 
+  type HeatmapCustom = {
+    symbol?: string;
+    performance?: string;
+    marketCap?: number;
+    currentPrice?: number;
+    referencePrice?: number;
+    referenceDate?: string | null;
+    timePeriod?: string;
+  };
+
+  type HeatmapNode = {
+    id?: string;
+    name?: string;
+    parent?: string;
+    value?: number;
+    colorValue?: number;
+    custom?: HeatmapCustom;
+  };
+
+  type HeatmapPayload = {
+    data?: HeatmapNode[];
+    timePeriod?: string;
+    colorRange?: number;
+    etfName?: string;
+  };
+
+  type RealtimePricePayload = {
+    symbol?: string;
+    avgPrice?: number;
+  };
+
+  type HeatmapPointUpdate = {
+    symbol: string;
+    colorValue: number;
+    custom: HeatmapCustom;
+  };
+
   export let data;
   let isLoading = false;
   let heatmapChartRef: HeatmapChart;
+  let priceSocket: WebSocket | null = null;
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let lastSubscriptionKey: string | null = null;
+  let pendingQuoteUpdates = new Map<string, number>();
+  let flushAnimationFrame: number | null = null;
+  let hasMounted = false;
+  const PRICE_SOCKET_RECONNECT_DELAY = 1500;
 
   function handleDownload() {
     heatmapChartRef?.downloadChart();
   }
 
-  // Use SSR data immediately
-  let heatmapData: any = data?.getHeatMap?.data ? data.getHeatMap : null;
-  let selectedTimePeriod = "1D";
+  let heatmapData: HeatmapPayload | null = data?.getHeatMap?.data
+    ? data.getHeatMap
+    : null;
+  let selectedTimePeriod = heatmapData?.timePeriod || "1D";
   let selectedETF = "SPY";
-  $: selectedIndexLabel =
-    selectedETF === "SPY"
-      ? "S&P 500"
-      : selectedETF === "DIA"
-        ? "Dow Jones"
-        : selectedETF === "QQQ"
-          ? "Nasdaq 100"
-          : selectedETF;
+  let heatmapLeafMap = new Map<string, HeatmapNode>();
+
+  const INDEX_LABELS: Record<string, string> = {
+    SPY: "S&P 500",
+    DIA: "Dow Jones",
+    QQQ: "Nasdaq 100",
+  };
+
+  $: selectedIndexLabel = INDEX_LABELS[selectedETF] ?? selectedETF;
+  $: heatmapLeafMap = buildHeatmapLeafMap(heatmapData);
+
+  function getHeatmapLeafNodes(payload: HeatmapPayload | null): HeatmapNode[] {
+    if (!Array.isArray(payload?.data)) {
+      return [];
+    }
+
+    return payload.data.filter((node) => {
+      const symbol = node?.custom?.symbol;
+      const referencePrice = node?.custom?.referencePrice;
+      return (
+        !!node?.parent &&
+        typeof symbol === "string" &&
+        symbol.length > 0 &&
+        typeof referencePrice === "number" &&
+        Number.isFinite(referencePrice) &&
+        referencePrice > 0
+      );
+    });
+  }
+
+  function buildHeatmapLeafMap(payload: HeatmapPayload | null) {
+    const nextMap = new Map<string, HeatmapNode>();
+    for (const node of getHeatmapLeafNodes(payload)) {
+      const symbol = node?.custom?.symbol?.toUpperCase();
+      if (symbol) {
+        nextMap.set(symbol, node);
+      }
+    }
+    return nextMap;
+  }
+
+  function getSubscriptionSymbols(): string[] {
+    return Array.from(heatmapLeafMap.keys());
+  }
+
+  function formatPerformance(value: number): string {
+    if (!Number.isFinite(value)) {
+      return "0.00%";
+    }
+    return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
+  }
+
+  function clearPendingQuoteUpdates() {
+    pendingQuoteUpdates.clear();
+    if (flushAnimationFrame !== null && typeof window !== "undefined") {
+      window.cancelAnimationFrame(flushAnimationFrame);
+    }
+    flushAnimationFrame = null;
+  }
+
+  function clearReconnectTimer() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+  }
+
+  function cleanupPriceSocket() {
+    clearReconnectTimer();
+    lastSubscriptionKey = null;
+
+    const socketToClose = priceSocket;
+    priceSocket = null;
+
+    if (
+      socketToClose &&
+      (socketToClose.readyState === WebSocket.OPEN ||
+        socketToClose.readyState === WebSocket.CONNECTING)
+    ) {
+      try {
+        socketToClose.close();
+      } catch (error) {
+        console.error("Error closing heatmap price socket:", error);
+      }
+    }
+  }
+
+  function shouldUseRealtime(): boolean {
+    return (
+      hasMounted &&
+      $isOpen &&
+      typeof data?.wsURL === "string" &&
+      data.wsURL.length > 0 &&
+      getSubscriptionSymbols().length > 0
+    );
+  }
+
+  function sendPriceSubscription(symbols: string[]) {
+    if (!priceSocket || priceSocket.readyState !== WebSocket.OPEN) {
+      return;
+    }
+
+    try {
+      priceSocket.send(JSON.stringify(symbols));
+      lastSubscriptionKey = symbols.slice().sort().join("|");
+    } catch (error) {
+      console.error("Failed to send heatmap subscription:", error);
+    }
+  }
+
+  function scheduleReconnect() {
+    if (reconnectTimer || !shouldUseRealtime()) {
+      return;
+    }
+
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      connectPriceSocket();
+    }, PRICE_SOCKET_RECONNECT_DELAY);
+  }
+
+  function applyRealtimeQuote(
+    symbol: string,
+    livePrice: number,
+  ): HeatmapPointUpdate | null {
+    const node = heatmapLeafMap.get(symbol);
+    const referencePrice = node?.custom?.referencePrice;
+    if (
+      !node ||
+      typeof referencePrice !== "number" ||
+      !Number.isFinite(referencePrice) ||
+      referencePrice <= 0
+    ) {
+      return null;
+    }
+
+    const changeValue = ((livePrice - referencePrice) / referencePrice) * 100;
+    const roundedChangeValue = Number(changeValue.toFixed(4));
+    const nextCustom: HeatmapCustom = {
+      ...(node.custom ?? {}),
+      currentPrice: Number(livePrice.toFixed(4)),
+      performance: formatPerformance(changeValue),
+    };
+
+    node.colorValue = roundedChangeValue;
+    node.custom = nextCustom;
+
+    return {
+      symbol,
+      colorValue: roundedChangeValue,
+      custom: nextCustom,
+    };
+  }
+
+  function flushRealtimeQuoteUpdates() {
+    if (pendingQuoteUpdates.size === 0) {
+      return;
+    }
+
+    const updates = Array.from(pendingQuoteUpdates.entries());
+    pendingQuoteUpdates.clear();
+
+    const pointUpdates: HeatmapPointUpdate[] = [];
+    for (const [symbol, livePrice] of updates) {
+      const pointUpdate = applyRealtimeQuote(symbol, livePrice);
+      if (pointUpdate) {
+        pointUpdates.push(pointUpdate);
+      }
+    }
+
+    if (pointUpdates.length > 0) {
+      heatmapChartRef?.applyRealtimeUpdates(pointUpdates);
+    }
+  }
+
+  function scheduleRealtimeFlush() {
+    if (flushAnimationFrame !== null || typeof window === "undefined") {
+      return;
+    }
+
+    flushAnimationFrame = window.requestAnimationFrame(() => {
+      flushAnimationFrame = null;
+      flushRealtimeQuoteUpdates();
+    });
+  }
+
+  function handlePriceSocketMessage(raw: unknown) {
+    if (typeof raw !== "string") {
+      return;
+    }
+
+    try {
+      const payload = JSON.parse(raw);
+      const updates = Array.isArray(payload) ? payload : [payload];
+
+      for (const item of updates as RealtimePricePayload[]) {
+        const symbol = item?.symbol?.toUpperCase?.();
+        const livePrice = item?.avgPrice;
+
+        if (
+          !symbol ||
+          typeof livePrice !== "number" ||
+          !Number.isFinite(livePrice) ||
+          livePrice <= 0
+        ) {
+          continue;
+        }
+
+        pendingQuoteUpdates.set(symbol, livePrice);
+      }
+
+      scheduleRealtimeFlush();
+    } catch (error) {
+      console.error("Error parsing heatmap WebSocket payload:", error);
+    }
+  }
+
+  function connectPriceSocket() {
+    if (!shouldUseRealtime()) {
+      return;
+    }
+
+    if (
+      priceSocket &&
+      (priceSocket.readyState === WebSocket.OPEN ||
+        priceSocket.readyState === WebSocket.CONNECTING)
+    ) {
+      return;
+    }
+
+    try {
+      priceSocket = new WebSocket(`${data.wsURL}/price-data`);
+    } catch (error) {
+      console.error("Failed establishing heatmap price socket:", error);
+      priceSocket = null;
+      scheduleReconnect();
+      return;
+    }
+
+    priceSocket.addEventListener("open", () => {
+      clearReconnectTimer();
+      sendPriceSubscription(getSubscriptionSymbols());
+    });
+
+    priceSocket.addEventListener("message", (event) => {
+      handlePriceSocketMessage(event?.data);
+    });
+
+    priceSocket.addEventListener("close", () => {
+      priceSocket = null;
+      lastSubscriptionKey = null;
+      if (shouldUseRealtime()) {
+        scheduleReconnect();
+      }
+    });
+
+    priceSocket.addEventListener("error", (error) => {
+      console.error("Heatmap price socket error:", error);
+      if (priceSocket) {
+        try {
+          priceSocket.close();
+        } catch (closeError) {
+          console.error(
+            "Failed closing errored heatmap socket:",
+            closeError,
+          );
+        }
+      }
+    });
+  }
+
+  function syncPriceSubscription() {
+    const symbols = getSubscriptionSymbols();
+    if (!shouldUseRealtime()) {
+      cleanupPriceSocket();
+      return;
+    }
+
+    const nextSubscriptionKey = symbols.slice().sort().join("|");
+
+    if (priceSocket?.readyState === WebSocket.OPEN) {
+      if (nextSubscriptionKey !== lastSubscriptionKey) {
+        sendPriceSubscription(symbols);
+      }
+      return;
+    }
+
+    if (priceSocket?.readyState === WebSocket.CONNECTING) {
+      return;
+    }
+
+    connectPriceSocket();
+  }
+
+  onMount(() => {
+    hasMounted = true;
+    syncPriceSubscription();
+  });
+
+  onDestroy(() => {
+    hasMounted = false;
+    clearPendingQuoteUpdates();
+    cleanupPriceSocket();
+  });
+
+  $: if (hasMounted) {
+    if ($isOpen) {
+      syncPriceSubscription();
+    } else {
+      cleanupPriceSocket();
+    }
+  }
+
+  $: if (hasMounted && heatmapData?.data) {
+    syncPriceSubscription();
+  }
 
   async function getHeatMap(timePeriod: string, etf: string = selectedETF) {
-    // Skip if same selection
     if (
       timePeriod === selectedTimePeriod &&
       etf === selectedETF &&
@@ -67,13 +420,13 @@
     isLoading = true;
 
     try {
-      const cacheKey = `heatmap_${etf}_${timePeriod}_v2`;
+      const cacheKey = `heatmap_${etf}_${timePeriod}_v3`;
       const cachedData = getCache(cacheKey, "getHeatmap");
 
       if (cachedData?.data) {
         heatmapData = cachedData;
       } else {
-        const postData = { params: timePeriod, etf: etf };
+        const postData = { params: timePeriod, etf };
         const response = await fetch("/api/heatmap", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

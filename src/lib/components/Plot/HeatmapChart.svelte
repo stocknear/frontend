@@ -13,6 +13,13 @@
     let chart: any = null;
     let isInitializing = false;
     let currentDataId = "";
+    let pointIndex = new Map<string, any>();
+
+    type HeatmapPointUpdate = {
+        symbol: string;
+        colorValue: number;
+        custom: Record<string, any>;
+    };
 
     export async function downloadChart() {
         if (!chart || !container) return;
@@ -173,11 +180,60 @@
     }
 
     function destroyChart() {
+        pointIndex = new Map();
         if (chart) {
             try {
                 chart.destroy();
             } catch (e) {}
             chart = null;
+        }
+    }
+
+    function rebuildPointIndex() {
+        pointIndex = new Map();
+        const points = chart?.series?.[0]?.points ?? [];
+        for (const point of points) {
+            const symbol = point?.custom?.symbol || point?.name;
+            if (
+                point?.node?.level === 3 &&
+                typeof symbol === "string" &&
+                symbol.length > 0
+            ) {
+                pointIndex.set(symbol.toUpperCase(), point);
+            }
+        }
+    }
+
+    export function applyRealtimeUpdates(updates: HeatmapPointUpdate[] = []) {
+        if (!chart || !Array.isArray(updates) || updates.length === 0) {
+            return;
+        }
+
+        let didUpdate = false;
+        for (const update of updates) {
+            const symbol = update?.symbol?.toUpperCase?.();
+            if (!symbol) continue;
+
+            const point = pointIndex.get(symbol);
+            if (!point) continue;
+
+            const nextCustom = {
+                ...(point?.options?.custom ?? point?.custom ?? {}),
+                ...(update.custom ?? {}),
+            };
+
+            point.update(
+                {
+                    colorValue: update.colorValue,
+                    custom: nextCustom,
+                },
+                false,
+            );
+            didUpdate = true;
+        }
+
+        if (didUpdate) {
+            chart.redraw();
         }
     }
 
@@ -253,7 +309,6 @@
                     const point = this.point as any;
                     if (!point.custom) return false;
 
-                    const fullName = point.custom.fullName || point.name;
                     const perf = point.custom.performance || "";
                     const value = point.value || 0;
 
@@ -405,6 +460,8 @@
                 },
             ],
         });
+
+        rebuildPointIndex();
 
         isInitializing = false;
     }
