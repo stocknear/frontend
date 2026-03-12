@@ -71,7 +71,8 @@ export const load = async ({ locals, cookies }) => {
     const { user, wsURL, themeMode, cookieConsent, locale, pb } = locals ?? {};
 
     const isPreMarket = checkPreMarketHourSSR();
-    const { hasDailyBriefing, dailyBriefingSlug } = await getDailyBriefing(pb);
+    const dailyBriefing = await getDailyBriefing(pb);
+    const { hasDailyBriefing, dailyBriefingSlug } = dailyBriefing;
 
     return {
       user: user || undefined,

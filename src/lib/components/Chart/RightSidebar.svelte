@@ -9,9 +9,15 @@
   import { mode } from "mode-watcher";
   import { isOpen } from "$lib/store";
   import { calculateChange } from "$lib/utils";
+  import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
 
   export let currentSymbol: string | null = null;
   export let wsURL: string | null = null;
+  export let wsToken: string | null = null;
   export let data: { user?: { tier?: string } } | null = null;
 
   $: isPro = data?.user?.tier === "Pro";
@@ -105,7 +111,12 @@
 
   // WebSocket state for real-time price updates
   let socket: WebSocket | null = null;
+  const ignoredPriceSockets = new WeakSet<WebSocket>();
   let lastSubscribedSymbols: string[] = [];
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let reconnectAttempt = 0;
+  let socketConnecting = false;
+  let shouldReconnectSocket = true;
 
   // Pagination state
   let currentPage = 1;
@@ -708,6 +719,47 @@
     }
   }
 
+  function clearReconnectTimer() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+  }
+
+  function shouldUseRealtimeSocket() {
+    return Boolean(
+      isPro &&
+        $isOpen &&
+        wsURL &&
+        paginatedItems.length > 0 &&
+        activeTab === "watchlist",
+    );
+  }
+
+  function scheduleReconnect(event?: Pick<CloseEvent, "code">) {
+    clearReconnectTimer();
+
+    if (!shouldUseRealtimeSocket()) {
+      return;
+    }
+
+    const closePolicy = getPublicWsClosePolicy(event, reconnectAttempt);
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    reconnectAttempt += 1;
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      connectWebSocket();
+    }, closePolicy.delayMs);
+  }
+
   // Efficient array comparison without JSON.stringify or mutation
   function arraysHaveSameElements(a: string[], b: string[]): boolean {
     if (a.length !== b.length) return false;
@@ -715,8 +767,8 @@
     return b.every((item) => setA.has(item));
   }
 
-  function connectWebSocket() {
-    if (!wsURL || !$isOpen || paginatedItems.length === 0) return;
+  async function connectWebSocket() {
+    if (!shouldUseRealtimeSocket() || socketConnecting || reconnectTimer) return;
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
@@ -737,9 +789,32 @@
     }
 
     try {
-      socket = new WebSocket(wsURL + "/price-data");
+      socketConnecting = true;
+      const wsUrl = await buildAuthenticatedWsUrl(
+        wsURL,
+        "/price-data",
+        wsToken,
+      );
+      if (!wsUrl) {
+        socketConnecting = false;
+        scheduleReconnect();
+        return;
+      }
+      if (
+        socket &&
+        (socket.readyState === WebSocket.CONNECTING ||
+          socket.readyState === WebSocket.OPEN)
+      ) {
+        return;
+      }
+      const watchlistSocket = new WebSocket(wsUrl);
+      socket = watchlistSocket;
 
-      socket.addEventListener("open", () => {
+      watchlistSocket.addEventListener("open", () => {
+        clearReconnectTimer();
+        reconnectAttempt = 0;
+        socketConnecting = false;
+        shouldReconnectSocket = true;
         // Only subscribe to paginated (visible) items
         const tickerList = paginatedItems
           .map((item) => item.symbol)
@@ -750,7 +825,7 @@
         }
       });
 
-      socket.addEventListener("message", (event) => {
+      watchlistSocket.addEventListener("message", (event) => {
         try {
           const newList = JSON.parse(event.data);
           if (Array.isArray(newList) && newList.length > 0) {
@@ -768,16 +843,43 @@
         }
       });
 
-      socket.addEventListener("close", () => {
-        // Connection closed - will reconnect via reactive statement if needed
+      watchlistSocket.addEventListener("close", (event) => {
+        if (socket === watchlistSocket) {
+          socket = null;
+        }
+        socketConnecting = false;
+
+        if (ignoredPriceSockets.has(watchlistSocket)) {
+          ignoredPriceSockets.delete(watchlistSocket);
+          return;
+        }
+
+        if (!shouldReconnectSocket) {
+          shouldReconnectSocket = true;
+          return;
+        }
+
+        scheduleReconnect(event);
+      });
+
+      watchlistSocket.addEventListener("error", () => {
+        socketConnecting = false;
+        watchlistSocket.close();
       });
     } catch (error) {
+      socketConnecting = false;
       console.error("WebSocket connection error:", error);
+      scheduleReconnect();
     }
   }
 
   function disconnectWebSocket() {
+    clearReconnectTimer();
+    socketConnecting = false;
+
     if (socket) {
+      ignoredPriceSockets.add(socket);
+      shouldReconnectSocket = false;
       socket.close();
       socket = null;
       lastSubscribedSymbols = [];

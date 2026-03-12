@@ -19,6 +19,11 @@
   import { onDestroy } from "svelte";
   import WIIM from "$lib/components/WIIM.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
 
   import News from "$lib/components/News.svelte";
   import ETFSidecard from "$lib/components/ETFSidecard.svelte";
@@ -101,9 +106,47 @@
 
   // One-Day Price WebSocket
   let oneDayPriceSocket = null;
+  const ignoredOneDayPriceSockets = new WeakSet<WebSocket>();
+  let oneDayReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let oneDayReconnectAttempt = 0;
+  let oneDayConnecting = false;
 
-  function connectOneDayPriceWebSocket() {
-    if (!data?.wsURL || !$isOpen) {
+  function clearOneDayReconnectTimer() {
+    if (oneDayReconnectTimer) {
+      clearTimeout(oneDayReconnectTimer);
+      oneDayReconnectTimer = null;
+    }
+  }
+
+  function scheduleOneDayReconnect(
+    event?: Pick<CloseEvent, "code"> | { code?: number },
+  ) {
+    if (
+      oneDayReconnectTimer ||
+      typeof window === "undefined" ||
+      !data?.wsURL ||
+      !$isOpen
+    ) {
+      return;
+    }
+
+    const policy = getPublicWsClosePolicy(event, oneDayReconnectAttempt);
+    if (!policy.retry) {
+      return;
+    }
+    if (policy.invalidateToken) {
+      invalidateWsToken("/one-day-price");
+    }
+
+    oneDayReconnectAttempt += 1;
+    oneDayReconnectTimer = setTimeout(() => {
+      oneDayReconnectTimer = null;
+      connectOneDayPriceWebSocket();
+    }, policy.delayMs);
+  }
+
+  async function connectOneDayPriceWebSocket() {
+    if (!data?.wsURL || !$isOpen || oneDayConnecting) {
       return;
     }
 
@@ -117,20 +160,40 @@
       return;
     }
 
+    oneDayConnecting = true;
     try {
-      oneDayPriceSocket = new WebSocket(data?.wsURL + "/one-day-price");
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data?.wsURL,
+        "/one-day-price",
+        data?.wsToken,
+      );
+      if (!wsUrl) {
+        scheduleOneDayReconnect();
+        return;
+      }
+      if (
+        oneDayPriceSocket &&
+        (oneDayPriceSocket.readyState === WebSocket.CONNECTING ||
+          oneDayPriceSocket.readyState === WebSocket.OPEN)
+      ) {
+        return;
+      }
+      const nextOneDayPriceSocket = new WebSocket(wsUrl);
+      oneDayPriceSocket = nextOneDayPriceSocket;
 
-      oneDayPriceSocket.addEventListener("open", () => {
+      nextOneDayPriceSocket.addEventListener("open", () => {
         console.log("One-day price WebSocket connection opened");
+        clearOneDayReconnectTimer();
+        oneDayReconnectAttempt = 0;
 
         // Send the ticker to the server
         const message = {
           ticker: $etfTicker,
         };
-        oneDayPriceSocket.send(JSON.stringify(message));
+        nextOneDayPriceSocket.send(JSON.stringify(message));
       });
 
-      oneDayPriceSocket.addEventListener("message", (event) => {
+      nextOneDayPriceSocket.addEventListener("message", (event) => {
         try {
           const newData = JSON?.parse(event.data);
 
@@ -152,25 +215,48 @@
         }
       });
 
-      oneDayPriceSocket.addEventListener("close", (event) => {
+      nextOneDayPriceSocket.addEventListener("close", (event) => {
         console.log(
           "One-day price WebSocket connection closed:",
           event.code,
           event.reason,
         );
-        oneDayPriceSocket = null;
+        if (oneDayPriceSocket === nextOneDayPriceSocket) {
+          oneDayPriceSocket = null;
+        }
+        if (ignoredOneDayPriceSockets.has(nextOneDayPriceSocket)) {
+          ignoredOneDayPriceSockets.delete(nextOneDayPriceSocket);
+          return;
+        }
+        scheduleOneDayReconnect(event);
       });
 
-      oneDayPriceSocket.addEventListener("error", (error) => {
+      nextOneDayPriceSocket.addEventListener("error", (error) => {
         console.error("One-day price WebSocket error:", error);
+        if (
+          nextOneDayPriceSocket.readyState === WebSocket.OPEN ||
+          nextOneDayPriceSocket.readyState === WebSocket.CONNECTING
+        ) {
+          try {
+            nextOneDayPriceSocket.close();
+          } catch {
+            // no-op
+          }
+        }
       });
     } catch (error) {
       console.error("Failed to create one-day price WebSocket:", error);
+      scheduleOneDayReconnect();
+    } finally {
+      oneDayConnecting = false;
     }
   }
 
   function disconnectOneDayPriceWebSocket() {
+    clearOneDayReconnectTimer();
+    oneDayConnecting = false;
     if (oneDayPriceSocket) {
+      ignoredOneDayPriceSockets.add(oneDayPriceSocket);
       oneDayPriceSocket.close();
       oneDayPriceSocket = null;
       console.log("One-day price WebSocket disconnected");

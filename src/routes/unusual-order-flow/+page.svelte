@@ -1659,6 +1659,12 @@
     try {
       const response = await fetch("/api/generate-ws-token", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          scope: "/unusual-order",
+        }),
       });
       if (response.ok) {
         const result = await response.json();

@@ -159,6 +159,11 @@ export const RATE_LIMITS = {
     maxRequests: 30,
     windowMs: 60 * 1000,
   },
+  // WebSocket token minting: generous enough for reconnects, strict enough to block abuse
+  wsToken: {
+    maxRequests: 60,
+    windowMs: 60 * 1000,
+  },
   // Options watchlist updates: 60 per minute
   optionsWatchlist: {
     maxRequests: 60,

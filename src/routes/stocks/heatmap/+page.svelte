@@ -10,6 +10,11 @@
   import HeatmapChart from "$lib/components/Plot/HeatmapChart.svelte";
   import { Download } from "lucide-svelte";
   import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
+  import {
     common_home,
     heatmap_breadcrumb_label,
     heatmap_error_load,
@@ -73,12 +78,14 @@
   let isLoading = false;
   let heatmapChartRef: HeatmapChart;
   let priceSocket: WebSocket | null = null;
+  const ignoredPriceSockets = new WeakSet<WebSocket>();
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let lastSubscriptionKey: string | null = null;
   let pendingQuoteUpdates = new Map<string, number>();
   let flushAnimationFrame: number | null = null;
   let hasMounted = false;
-  const PRICE_SOCKET_RECONNECT_DELAY = 1500;
+  let reconnectAttempt = 0;
+  let isConnecting = false;
 
   function handleDownload() {
     heatmapChartRef?.downloadChart();
@@ -159,6 +166,7 @@
   function cleanupPriceSocket() {
     clearReconnectTimer();
     lastSubscriptionKey = null;
+    isConnecting = false;
 
     const socketToClose = priceSocket;
     priceSocket = null;
@@ -169,6 +177,7 @@
         socketToClose.readyState === WebSocket.CONNECTING)
     ) {
       try {
+        ignoredPriceSockets.add(socketToClose);
         socketToClose.close();
       } catch (error) {
         console.error("Error closing heatmap price socket:", error);
@@ -199,15 +208,26 @@
     }
   }
 
-  function scheduleReconnect() {
+  function scheduleReconnect(
+    event?: Pick<CloseEvent, "code"> | { code?: number },
+  ) {
     if (reconnectTimer || !shouldUseRealtime()) {
       return;
     }
 
+    const policy = getPublicWsClosePolicy(event, reconnectAttempt);
+    if (!policy.retry) {
+      return;
+    }
+    if (policy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    reconnectAttempt += 1;
     reconnectTimer = setTimeout(() => {
       reconnectTimer = null;
       connectPriceSocket();
-    }, PRICE_SOCKET_RECONNECT_DELAY);
+    }, policy.delayMs);
   }
 
   function applyRealtimeQuote(
@@ -306,8 +326,8 @@
     }
   }
 
-  function connectPriceSocket() {
-    if (!shouldUseRealtime()) {
+  async function connectPriceSocket() {
+    if (!shouldUseRealtime() || isConnecting) {
       return;
     }
 
@@ -319,37 +339,67 @@
       return;
     }
 
+    isConnecting = true;
     try {
-      priceSocket = new WebSocket(`${data.wsURL}/price-data`);
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data.wsURL,
+        "/price-data",
+        data.wsToken,
+      );
+      if (!wsUrl) {
+        scheduleReconnect();
+        return;
+      }
+      if (
+        priceSocket &&
+        (priceSocket.readyState === WebSocket.OPEN ||
+          priceSocket.readyState === WebSocket.CONNECTING)
+      ) {
+        return;
+      }
+      const nextPriceSocket = new WebSocket(wsUrl);
+      priceSocket = nextPriceSocket;
     } catch (error) {
       console.error("Failed establishing heatmap price socket:", error);
       priceSocket = null;
       scheduleReconnect();
       return;
+    } finally {
+      isConnecting = false;
     }
 
-    priceSocket.addEventListener("open", () => {
+    nextPriceSocket.addEventListener("open", () => {
       clearReconnectTimer();
+      reconnectAttempt = 0;
       sendPriceSubscription(getSubscriptionSymbols());
     });
 
-    priceSocket.addEventListener("message", (event) => {
+    nextPriceSocket.addEventListener("message", (event) => {
       handlePriceSocketMessage(event?.data);
     });
 
-    priceSocket.addEventListener("close", () => {
-      priceSocket = null;
+    nextPriceSocket.addEventListener("close", (event) => {
+      if (priceSocket === nextPriceSocket) {
+        priceSocket = null;
+      }
+      if (ignoredPriceSockets.has(nextPriceSocket)) {
+        ignoredPriceSockets.delete(nextPriceSocket);
+        return;
+      }
       lastSubscriptionKey = null;
       if (shouldUseRealtime()) {
-        scheduleReconnect();
+        scheduleReconnect(event);
       }
     });
 
-    priceSocket.addEventListener("error", (error) => {
+    nextPriceSocket.addEventListener("error", (error) => {
       console.error("Heatmap price socket error:", error);
-      if (priceSocket) {
+      if (
+        nextPriceSocket.readyState === WebSocket.OPEN ||
+        nextPriceSocket.readyState === WebSocket.CONNECTING
+      ) {
         try {
-          priceSocket.close();
+          nextPriceSocket.close();
         } catch (closeError) {
           console.error(
             "Failed closing errored heatmap socket:",

@@ -23,6 +23,11 @@
   import { onDestroy, afterUpdate } from "svelte";
   import { page } from "$app/stores";
   import ChartNoAxes from "lucide-svelte/icons/chart-no-axes-combined";
+  import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
 
   import { convertTimestamp } from "$lib/utils";
   import TickerHeader from "$lib/components/TickerHeader.svelte";
@@ -47,6 +52,11 @@
   let previousTicker;
   let socket;
   let prePostSocket = null;
+  const ignoredPriceSockets = new WeakSet<WebSocket>();
+  let socketReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let socketReconnectAttempt = 0;
+  let socketConnecting = false;
+  let shouldReconnectPriceSocket = true;
 
   $etfTicker = data?.getParams;
   $assetType = "etf";
@@ -86,6 +96,56 @@
     } else {
       console.error("WebSocket is not open. Unable to send message.");
     }
+  }
+
+  function clearSocketReconnectTimer() {
+    if (socketReconnectTimer) {
+      clearTimeout(socketReconnectTimer);
+      socketReconnectTimer = null;
+    }
+  }
+
+  function shouldUseRealtimeSocket() {
+    return Boolean(data?.wsURL && $isOpen && $etfTicker && !isComponentDestroyed);
+  }
+
+  function closeRealtimeSocket() {
+    clearSocketReconnectTimer();
+    socketConnecting = false;
+
+    if (socket) {
+      ignoredPriceSockets.add(socket);
+      shouldReconnectPriceSocket = false;
+      socket.close(1000, "Client closed connection");
+      socket = null;
+    }
+  }
+
+  function scheduleRealtimeReconnect(event?: Pick<CloseEvent, "code">) {
+    clearSocketReconnectTimer();
+
+    if (!shouldUseRealtimeSocket()) {
+      return;
+    }
+
+    const closePolicy = getPublicWsClosePolicy(
+      event,
+      socketReconnectAttempt,
+    );
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    socketReconnectAttempt += 1;
+    socketReconnectTimer = setTimeout(() => {
+      socketReconnectTimer = null;
+      websocketRealtimeData();
+    }, closePolicy.delayMs);
   }
 
   // Pre-Post Quote WebSocket connection
@@ -176,17 +236,44 @@
   }
 
   async function websocketRealtimeData() {
-    try {
-      socket = new WebSocket(data?.wsURL + "/price-data");
+    if (!shouldUseRealtimeSocket() || socketConnecting || socketReconnectTimer) {
+      return;
+    }
 
-      socket.addEventListener("open", () => {
+    const wsUrl = await buildAuthenticatedWsUrl(
+      data?.wsURL,
+      "/price-data",
+      data?.wsToken,
+    );
+    if (!wsUrl) {
+      scheduleRealtimeReconnect();
+      return;
+    }
+    if (
+      socket &&
+      (socket.readyState === WebSocket.CONNECTING ||
+        socket.readyState === WebSocket.OPEN)
+    ) {
+      return;
+    }
+
+    try {
+      socketConnecting = true;
+      const realtimeSocket = new WebSocket(wsUrl);
+      socket = realtimeSocket;
+
+      realtimeSocket.addEventListener("open", () => {
         console.log("WebSocket connection opened");
+        clearSocketReconnectTimer();
+        socketReconnectAttempt = 0;
+        socketConnecting = false;
+        shouldReconnectPriceSocket = true;
         // Send only current watchlist symbols
         const tickerList = [$etfTicker?.toUpperCase()] || [];
         sendMessage(tickerList);
       });
 
-      socket.addEventListener("message", (event) => {
+      realtimeSocket.addEventListener("message", (event) => {
         const data = event.data;
         //console.log("Received message:", data);
         try {
@@ -222,16 +309,41 @@
         }
       });
 
-      socket.addEventListener("close", (event) => {
+      realtimeSocket.addEventListener("close", (event) => {
         console.log("WebSocket connection closed:", event.reason);
+        if (socket === realtimeSocket) {
+          socket = null;
+        }
+        socketConnecting = false;
+
+        if (ignoredPriceSockets.has(realtimeSocket)) {
+          ignoredPriceSockets.delete(realtimeSocket);
+          return;
+        }
+
+        if (!shouldReconnectPriceSocket) {
+          shouldReconnectPriceSocket = true;
+          return;
+        }
+
+        scheduleRealtimeReconnect(event);
+      });
+
+      realtimeSocket.addEventListener("error", () => {
+        socketConnecting = false;
+        realtimeSocket.close();
       });
     } catch (error) {
+      socketConnecting = false;
       console.error("WebSocket connection error:", error);
+      scheduleRealtimeReconnect();
     }
   }
 
   $: if ($isOpen) {
     websocketRealtimeData();
+  } else {
+    closeRealtimeSocket();
   }
 
   afterUpdate(async () => {
@@ -239,13 +351,9 @@
       previousTicker = $etfTicker;
 
       // Handle price data WebSocket reconnection
-      if (typeof socket !== "undefined") {
-        socket?.close();
-        await new Promise((resolve, reject) => {
-          socket?.addEventListener("close", resolve);
-        });
-
-        if (socket?.readyState === WebSocket?.CLOSED) {
+      if (socket || socketReconnectTimer) {
+        closeRealtimeSocket();
+        if ($isOpen && !isComponentDestroyed) {
           await websocketRealtimeData();
           console.log("Price WebSocket connecting again");
         }
@@ -272,7 +380,7 @@
     isComponentDestroyed = true;
     try {
       //socket?.send('close')
-      socket?.close();
+      closeRealtimeSocket();
       disconnectPrePostWebSocket();
     } catch (e) {
       console.log(e);

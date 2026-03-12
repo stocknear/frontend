@@ -24,6 +24,11 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import { onDestroy, onMount } from "svelte";
   import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
+  import {
     price_alert_breadcrumb_home,
     price_alert_breadcrumb_price_alert,
     price_alert_cancel,
@@ -180,10 +185,13 @@
 
   // Realtime quote websocket state (same feed as /watchlist/stocks table).
   let priceSocket: WebSocket | null = null;
+  const ignoredPriceSockets = new WeakSet<WebSocket>();
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let pendingQuoteUpdates: any[] = [];
   let frameFlushId: number | null = null;
   let lastSubscriptionKey = "";
+  let reconnectAttempt = 0;
+  let isConnecting = false;
   let priceAlertAudio: HTMLAudioElement | null = null;
   let reachedAlertSyncTimer: ReturnType<typeof setTimeout> | null = null;
   let reachedAlertSyncInFlight = false;
@@ -503,6 +511,7 @@
     }
 
     clearRealtimeBuffers();
+    isConnecting = false;
 
     if (priceSocket) {
       try {
@@ -510,6 +519,7 @@
           priceSocket.readyState === WebSocket.OPEN ||
           priceSocket.readyState === WebSocket.CONNECTING
         ) {
+          ignoredPriceSockets.add(priceSocket);
           priceSocket.close();
         }
       } catch {
@@ -519,9 +529,44 @@
     }
   }
 
-  function connectPriceSocket(): void {
+  function scheduleReconnect(
+    event?: Pick<CloseEvent, "code"> | { code?: number },
+  ): void {
+    if (reconnectTimer || !hasMounted || !$isOpen || !data?.wsURL) {
+      return;
+    }
+
     const symbols = collectSymbols();
-    if (!hasMounted || !$isOpen || !data?.wsURL || symbols.length === 0) return;
+    if (symbols.length === 0) {
+      return;
+    }
+
+    const policy = getPublicWsClosePolicy(event, reconnectAttempt);
+    if (!policy.retry) {
+      return;
+    }
+    if (policy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    reconnectAttempt += 1;
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      connectPriceSocket();
+    }, policy.delayMs);
+  }
+
+  async function connectPriceSocket(): Promise<void> {
+    const symbols = collectSymbols();
+    if (
+      !hasMounted ||
+      !$isOpen ||
+      !data?.wsURL ||
+      symbols.length === 0 ||
+      isConnecting
+    ) {
+      return;
+    }
 
     if (
       priceSocket &&
@@ -531,18 +576,40 @@
       return;
     }
 
+    isConnecting = true;
     try {
-      priceSocket = new WebSocket(`${data.wsURL}/price-data`);
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data.wsURL,
+        "/price-data",
+        data.wsToken,
+      );
+      if (!wsUrl) {
+        scheduleReconnect();
+        return;
+      }
+      if (
+        priceSocket &&
+        (priceSocket.readyState === WebSocket.OPEN ||
+          priceSocket.readyState === WebSocket.CONNECTING)
+      ) {
+        return;
+      }
+      const nextPriceSocket = new WebSocket(wsUrl);
+      priceSocket = nextPriceSocket;
     } catch {
       priceSocket = null;
+      scheduleReconnect();
       return;
+    } finally {
+      isConnecting = false;
     }
 
-    priceSocket.addEventListener("open", () => {
+    nextPriceSocket.addEventListener("open", () => {
+      reconnectAttempt = 0;
       sendPriceSocketMessage(symbols);
     });
 
-    priceSocket.addEventListener("message", (event) => {
+    nextPriceSocket.addEventListener("message", (event) => {
       try {
         const payload = JSON.parse(event?.data ?? "[]");
         const updates = Array.isArray(payload) ? payload : [payload];
@@ -554,19 +621,24 @@
       }
     });
 
-    priceSocket.addEventListener("close", () => {
-      priceSocket = null;
-      if (!hasMounted || !$isOpen || !collectSymbols().length) return;
-      reconnectTimer = setTimeout(() => {
-        reconnectTimer = null;
-        connectPriceSocket();
-      }, 1500);
+    nextPriceSocket.addEventListener("close", (event) => {
+      if (priceSocket === nextPriceSocket) {
+        priceSocket = null;
+      }
+      if (ignoredPriceSockets.has(nextPriceSocket)) {
+        ignoredPriceSockets.delete(nextPriceSocket);
+        return;
+      }
+      scheduleReconnect(event);
     });
 
-    priceSocket.addEventListener("error", () => {
-      if (priceSocket) {
+    nextPriceSocket.addEventListener("error", () => {
+      if (
+        nextPriceSocket.readyState === WebSocket.OPEN ||
+        nextPriceSocket.readyState === WebSocket.CONNECTING
+      ) {
         try {
-          priceSocket.close();
+          nextPriceSocket.close();
         } catch {
           // no-op
         }

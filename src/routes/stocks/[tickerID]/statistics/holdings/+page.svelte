@@ -18,6 +18,11 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import highcharts from "$lib/highcharts.ts";
   import { onDestroy, onMount } from "svelte";
+  import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { mode } from "mode-watcher";
@@ -69,11 +74,14 @@
   let pagePathName = "";
   let charNumber = 35;
   let priceSocket: WebSocket | null = null;
+  const ignoredPriceSockets = new WeakSet<WebSocket>();
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let lastSubscriptionKey: string | null = null;
   let pendingQuoteUpdates = new Map<string, number>();
   let flushAnimationFrame: number | null = null;
   let hasMounted = false;
+  let reconnectAttempt = 0;
+  let isConnecting = false;
   let sourceHoldingsRef: HoldingExposure[] | null = null;
 
   let companyLabel = "";
@@ -83,8 +91,6 @@
   let largestExposure: HoldingExposure | null = null;
   let configBarChart;
   let configPieChart;
-  const PRICE_SOCKET_RECONNECT_DELAY = 1500;
-
   const allocationColors = [
     "#2B5F75",
     "#4A7BA7",
@@ -149,13 +155,13 @@
     }
 
     const topHoldings = summaryData
-      .slice(0, 5)
-      .map((item) => {
+      ?.slice(0, 5)
+      ?.map((item) => {
         const weight = item?.weightPercentage ?? 0;
-        return `${removeCompanyStrings(item?.name || item?.symbol)} at ${weight.toFixed(2)}%`;
+        return `<a href="/etf/${item?.symbol}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${item?.symbol}</a> at ${weight.toFixed(2)}%`;
       })
-      .join(", ")
-      .replace(/, ([^,]*)$/, ", and $1");
+      ?.join(", ")
+      ?.replace(/, ([^,]*)$/, ", and $1");
 
     return `<span>${companyLabel} currently has exposure to ${summaryData.length.toLocaleString("en-US")} ETFs, led by ${topHoldings}.</span>`;
   }
@@ -590,6 +596,7 @@
     clearPendingQuoteUpdates();
     clearReconnectTimer();
     lastSubscriptionKey = null;
+    isConnecting = false;
 
     const socketToClose = priceSocket;
     priceSocket = null;
@@ -600,6 +607,7 @@
         socketToClose.readyState === WebSocket.CONNECTING)
     ) {
       try {
+        ignoredPriceSockets.add(socketToClose);
         socketToClose.close();
       } catch (error) {
         console.error("Error closing holdings price socket:", error);
@@ -620,15 +628,26 @@
     }
   }
 
-  function scheduleReconnect() {
+  function scheduleReconnect(
+    event?: Pick<CloseEvent, "code"> | { code?: number },
+  ) {
     if (reconnectTimer || !shouldUseRealtime()) {
       return;
     }
 
+    const policy = getPublicWsClosePolicy(event, reconnectAttempt);
+    if (!policy.retry) {
+      return;
+    }
+    if (policy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    reconnectAttempt += 1;
     reconnectTimer = setTimeout(() => {
       reconnectTimer = null;
       connectPriceSocket();
-    }, PRICE_SOCKET_RECONNECT_DELAY);
+    }, policy.delayMs);
   }
 
   function applyRealtimeQuoteUpdates(
@@ -701,8 +720,8 @@
     }
   }
 
-  function connectPriceSocket() {
-    if (!shouldUseRealtime()) {
+  async function connectPriceSocket() {
+    if (!shouldUseRealtime() || isConnecting) {
       return;
     }
 
@@ -714,37 +733,67 @@
       return;
     }
 
+    isConnecting = true;
     try {
-      priceSocket = new WebSocket(`${data.wsURL}/price-data`);
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data.wsURL,
+        "/price-data",
+        data.wsToken,
+      );
+      if (!wsUrl) {
+        scheduleReconnect();
+        return;
+      }
+      if (
+        priceSocket &&
+        (priceSocket.readyState === WebSocket.OPEN ||
+          priceSocket.readyState === WebSocket.CONNECTING)
+      ) {
+        return;
+      }
+      const nextPriceSocket = new WebSocket(wsUrl);
+      priceSocket = nextPriceSocket;
     } catch (error) {
       console.error("Failed establishing holdings price socket:", error);
       priceSocket = null;
       scheduleReconnect();
       return;
+    } finally {
+      isConnecting = false;
     }
 
-    priceSocket.addEventListener("open", () => {
+    nextPriceSocket.addEventListener("open", () => {
       clearReconnectTimer();
+      reconnectAttempt = 0;
       sendPriceSubscription(getRealtimeSymbols());
     });
 
-    priceSocket.addEventListener("message", (event) => {
+    nextPriceSocket.addEventListener("message", (event) => {
       handlePriceSocketMessage(event?.data);
     });
 
-    priceSocket.addEventListener("close", () => {
-      priceSocket = null;
+    nextPriceSocket.addEventListener("close", (event) => {
+      if (priceSocket === nextPriceSocket) {
+        priceSocket = null;
+      }
+      if (ignoredPriceSockets.has(nextPriceSocket)) {
+        ignoredPriceSockets.delete(nextPriceSocket);
+        return;
+      }
       lastSubscriptionKey = null;
       if (shouldUseRealtime()) {
-        scheduleReconnect();
+        scheduleReconnect(event);
       }
     });
 
-    priceSocket.addEventListener("error", (error) => {
+    nextPriceSocket.addEventListener("error", (error) => {
       console.error("Holdings price socket error:", error);
-      if (priceSocket) {
+      if (
+        nextPriceSocket.readyState === WebSocket.OPEN ||
+        nextPriceSocket.readyState === WebSocket.CONNECTING
+      ) {
         try {
-          priceSocket.close();
+          nextPriceSocket.close();
         } catch (closeError) {
           console.error(
             "Failed closing errored holdings price socket:",

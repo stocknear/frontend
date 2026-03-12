@@ -25,6 +25,11 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import Pencil from "lucide-svelte/icons/pencil";
   import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
+  import {
     list_add_label,
     list_clear,
     list_indicators_label,
@@ -239,6 +244,10 @@
     includeSessionColumns: true,
   });
   let socket;
+  const ignoredPriceSockets = new WeakSet<WebSocket>();
+  let reconnectAttempt = 0;
+  let isConnecting = false;
+  let shouldReconnectPriceSocket = true;
   let sortMode = false;
   let inputValue = "";
 
@@ -1900,19 +1909,99 @@
     }
   }
 
-  async function websocketRealtimeData() {
-    try {
-      socket = new WebSocket(data?.wsURL + "/price-data");
+  function clearRealtimeReconnectTimer() {
+    if (reconnectionTimeout) {
+      clearTimeout(reconnectionTimeout);
+      reconnectionTimeout = null;
+    }
+  }
 
-      socket.addEventListener("open", () => {
+  function shouldUseRealtimeSocket() {
+    return Boolean(
+      typeof window !== "undefined" &&
+        $isOpen &&
+        Array.isArray(rawData) &&
+        rawData.length > 0 &&
+        data?.wsURL,
+    );
+  }
+
+  function disconnectRealtimeSocket() {
+    clearRealtimeReconnectTimer();
+    isConnecting = false;
+
+    if (socket) {
+      ignoredPriceSockets.add(socket);
+      shouldReconnectPriceSocket = false;
+      socket.close(1000, "Client closed connection");
+      socket = null;
+    }
+  }
+
+  function scheduleRealtimeReconnect(event?: Pick<CloseEvent, "code">) {
+    clearRealtimeReconnectTimer();
+
+    if (!shouldUseRealtimeSocket()) {
+      return;
+    }
+
+    const closePolicy = getPublicWsClosePolicy(event, reconnectAttempt);
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    reconnectAttempt += 1;
+    reconnectionTimeout = setTimeout(() => {
+      reconnectionTimeout = null;
+      websocketRealtimeData();
+    }, closePolicy.delayMs);
+  }
+
+  async function websocketRealtimeData() {
+    if (!shouldUseRealtimeSocket() || isConnecting || reconnectionTimeout) {
+      return;
+    }
+
+    const wsUrl = await buildAuthenticatedWsUrl(
+      data?.wsURL,
+      "/price-data",
+      data?.wsToken,
+    );
+    if (!wsUrl) {
+      scheduleRealtimeReconnect();
+      return;
+    }
+    if (
+      socket &&
+      (socket.readyState === WebSocket.CONNECTING ||
+        socket.readyState === WebSocket.OPEN)
+    ) {
+      return;
+    }
+
+    try {
+      isConnecting = true;
+      const realtimeSocket = new WebSocket(wsUrl);
+      socket = realtimeSocket;
+
+      realtimeSocket.addEventListener("open", () => {
         console.log("WebSocket connection opened");
+        clearRealtimeReconnectTimer();
+        reconnectAttempt = 0;
+        isConnecting = false;
+        shouldReconnectPriceSocket = true;
         // Send only current watchlist symbols
         //Only update 200 tickers because of a bug. The previous price is getting changed for tickers. To-do list.
         const tickerList = rawData?.map((item) => item?.symbol) || [];
         sendMessage(tickerList);
       });
 
-      socket.addEventListener("message", (event) => {
+      realtimeSocket.addEventListener("message", (event) => {
         const data = event.data;
         try {
           const newList = JSON?.parse(data);
@@ -1942,11 +2031,34 @@
         }
       });
 
-      socket.addEventListener("close", (event) => {
+      realtimeSocket.addEventListener("close", (event) => {
         console.log("WebSocket connection closed:", event.reason);
+        if (socket === realtimeSocket) {
+          socket = null;
+        }
+        isConnecting = false;
+
+        if (ignoredPriceSockets.has(realtimeSocket)) {
+          ignoredPriceSockets.delete(realtimeSocket);
+          return;
+        }
+
+        if (!shouldReconnectPriceSocket) {
+          shouldReconnectPriceSocket = true;
+          return;
+        }
+
+        scheduleRealtimeReconnect(event);
+      });
+
+      realtimeSocket.addEventListener("error", () => {
+        isConnecting = false;
+        realtimeSocket.close();
       });
     } catch (error) {
+      isConnecting = false;
       console.error("WebSocket connection error:", error);
+      scheduleRealtimeReconnect();
     }
   }
 
@@ -2001,6 +2113,8 @@
   $: if ($isOpen) {
     websocketRealtimeData();
     console.log("WebSocket restarted");
+  } else {
+    disconnectRealtimeSocket();
   }
   const loadSearchWorker = async () => {
     if (searchWorker && originalData?.length > 0) {
@@ -2123,17 +2237,25 @@
   });
 
   let previousSymbolKey = "";
-  let reconnectionTimeout;
+  let reconnectionTimeout: ReturnType<typeof setTimeout> | null = null;
 
   async function reconnectForNewSymbols() {
     try {
-      if (socket && socket.readyState !== WebSocket.CLOSED) {
-        socket?.close();
+      clearRealtimeReconnectTimer();
+
+      const activeSocket = socket;
+      if (activeSocket && activeSocket.readyState !== WebSocket.CLOSED) {
+        ignoredPriceSockets.add(activeSocket);
+        shouldReconnectPriceSocket = false;
+        activeSocket.close(1000, "Refreshing symbols");
+
+        await new Promise((resolve) => {
+          activeSocket.addEventListener("close", resolve, { once: true });
+        });
       }
 
-      await new Promise((resolve) => {
-        socket?.addEventListener("close", resolve, { once: true });
-      });
+      socket = null;
+      isConnecting = false;
 
       if ($isOpen) {
         await websocketRealtimeData();
@@ -2166,16 +2288,12 @@
   onDestroy(() => {
     try {
       // Clear any pending reconnection timeout
-      if (reconnectionTimeout) {
-        clearTimeout(reconnectionTimeout);
-      }
+      clearRealtimeReconnectTimer();
 
       cleanupPrePostSocket();
 
       // Close the WebSocket connection
-      if (socket) {
-        socket.close(1000, "Page unloaded");
-      }
+      disconnectRealtimeSocket();
 
       // Terminate workers
       if (portfolioWorker) {

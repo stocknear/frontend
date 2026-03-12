@@ -8,6 +8,11 @@
   import { toast } from "svelte-sonner";
   import { Splitpanes, Pane } from "svelte-splitpanes";
   import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
+  import {
     registerCustomIndicators,
     setShortInterestData,
     clearShortInterestData,
@@ -1526,6 +1531,9 @@
   let previousTicker = "";
   let isComponentDestroyed = false;
   let latestRealtimePrice: number | null = null;
+  let socketReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let socketReconnectAttempt = 0;
+  let socketConnecting = false;
 
   // WebSocket handler references for proper cleanup
   let wsOpenHandler: (() => void) | null = null;
@@ -6917,21 +6925,73 @@
     }
   }
 
+  function clearSocketReconnectTimer() {
+    if (socketReconnectTimer) {
+      clearTimeout(socketReconnectTimer);
+      socketReconnectTimer = null;
+    }
+  }
+
+  function shouldUseRealtimeSocket() {
+    return Boolean(
+      data?.wsURL &&
+        ticker &&
+        typeof window !== "undefined" &&
+        !isComponentDestroyed &&
+        $isOpen,
+    );
+  }
+
+  function scheduleRealtimeReconnect(event?: Pick<CloseEvent, "code">) {
+    clearSocketReconnectTimer();
+
+    if (!shouldUseRealtimeSocket()) {
+      return;
+    }
+
+    const closePolicy = getPublicWsClosePolicy(
+      event,
+      socketReconnectAttempt,
+    );
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/price-data");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    socketReconnectAttempt += 1;
+    socketReconnectTimer = setTimeout(() => {
+      socketReconnectTimer = null;
+      websocketRealtimeData();
+    }, closePolicy.delayMs);
+  }
+
   // WebSocket batching state for performance
   let pendingWsUpdate: WsTickMessage | null = null;
   let wsUpdateScheduled = false;
 
   async function websocketRealtimeData() {
-    if (!data?.wsURL || !ticker || typeof window === "undefined") return;
+    if (!shouldUseRealtimeSocket() || socketConnecting || socketReconnectTimer) {
+      return;
+    }
 
     // Validate ticker format before connecting
     const upperTicker = ticker.toUpperCase();
     if (!isValidTicker(upperTicker)) return;
 
     // Validate WebSocket URL
-    const wsUrl = data.wsURL + "/price-data";
-    if (!isValidWsUrl(wsUrl)) return;
-
+    const wsUrl = await buildAuthenticatedWsUrl(
+      data.wsURL,
+      "/price-data",
+      data.wsToken,
+    );
+    if (!wsUrl || !isValidWsUrl(wsUrl)) {
+      scheduleRealtimeReconnect();
+      return;
+    }
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
@@ -6941,10 +7001,15 @@
     }
 
     try {
-      socket = new WebSocket(wsUrl);
+      socketConnecting = true;
+      const realtimeSocket = new WebSocket(wsUrl);
+      socket = realtimeSocket;
 
       // Store handler references for cleanup
       wsOpenHandler = () => {
+        clearSocketReconnectTimer();
+        socketReconnectAttempt = 0;
+        socketConnecting = false;
         sendMessage([upperTicker]);
       };
 
@@ -6977,19 +7042,31 @@
         }
       };
 
-      wsCloseHandler = () => {
-        // Handler kept minimal - cleanup happens in disconnectWebSocket
+      wsCloseHandler = (event: CloseEvent) => {
+        if (socket === realtimeSocket) {
+          socket = null;
+        }
+        socketConnecting = false;
+        scheduleRealtimeReconnect(event);
       };
 
-      socket.addEventListener("open", wsOpenHandler);
-      socket.addEventListener("message", wsMessageHandler);
-      socket.addEventListener("close", wsCloseHandler);
+      realtimeSocket.addEventListener("open", wsOpenHandler);
+      realtimeSocket.addEventListener("message", wsMessageHandler);
+      realtimeSocket.addEventListener("close", wsCloseHandler);
+      realtimeSocket.addEventListener("error", () => {
+        socketConnecting = false;
+        realtimeSocket.close();
+      });
     } catch {
-      // WebSocket connection failed - will retry on next trigger
+      socketConnecting = false;
+      scheduleRealtimeReconnect();
     }
   }
 
   function disconnectWebSocket() {
+    clearSocketReconnectTimer();
+    socketConnecting = false;
+
     if (socket) {
       // Remove event listeners before closing
       if (wsOpenHandler) socket.removeEventListener("open", wsOpenHandler);
@@ -8887,6 +8964,7 @@
 
         // Reconnect if component not destroyed
         if (!isComponentDestroyed) {
+          clearSocketReconnectTimer();
           await websocketRealtimeData();
         }
 
@@ -12350,6 +12428,7 @@
                     currentSymbol={ticker}
                     activeTab={rightSidebarTab}
                     wsURL={data?.wsURL}
+                    wsToken={data?.wsToken}
                     {data}
                   />
                 {/if}

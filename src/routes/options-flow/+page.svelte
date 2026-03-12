@@ -2092,6 +2092,12 @@
     try {
       const response = await fetch("/api/generate-ws-token", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          scope: "/options-flow",
+        }),
       });
       if (response.ok) {
         const result = await response.json();

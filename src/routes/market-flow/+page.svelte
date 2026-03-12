@@ -1,5 +1,10 @@
 <script lang="ts">
   import { abbreviateNumber, sectorNavigation } from "$lib/utils";
+  import {
+    buildAuthenticatedWsUrl,
+    getPublicWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -83,12 +88,13 @@
   let isPro = true;
 
   let marketFlowSocket: WebSocket | null = null;
+  const ignoredMarketFlowSockets = new WeakSet<WebSocket>();
   let marketFlowReconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let lastMarketFlowSignature: string | null = null;
   let marketFlowSocketEnabled = false;
   let marketFlowRefreshInterval: ReturnType<typeof setInterval> | null = null;
-
-  const MARKET_FLOW_RECONNECT_DELAY = 5000;
+  let marketFlowReconnectAttempts = 0;
+  let marketFlowConnecting = false;
   const MARKET_FLOW_REFRESH_INTERVAL_MS = 10000;
 
   function cleanupMarketFlowSocket() {
@@ -102,29 +108,44 @@
       marketFlowRefreshInterval = null;
     }
 
-    if (marketFlowSocket) {
+    const socketToClose = marketFlowSocket;
+    marketFlowSocket = null;
+
+    if (socketToClose) {
       try {
-        marketFlowSocket.close();
+        ignoredMarketFlowSockets.add(socketToClose);
+        socketToClose.close();
       } catch (error) {
         console.error("Error closing market flow socket:", error);
       }
     }
 
-    marketFlowSocket = null;
     lastMarketFlowSignature = null;
+    marketFlowConnecting = false;
   }
 
-  function scheduleMarketFlowReconnect() {
+  function scheduleMarketFlowReconnect(
+    event?: Pick<CloseEvent, "code"> | { code?: number },
+  ) {
     if (!marketFlowSocketEnabled || marketFlowReconnectTimer) {
       return;
     }
 
+    const policy = getPublicWsClosePolicy(event, marketFlowReconnectAttempts);
+    if (!policy.retry) {
+      return;
+    }
+    if (policy.invalidateToken) {
+      invalidateWsToken("/market-flow");
+    }
+
+    marketFlowReconnectAttempts += 1;
     marketFlowReconnectTimer = setTimeout(() => {
       marketFlowReconnectTimer = null;
       if (typeof window !== "undefined") {
         connectMarketFlowSocket();
       }
-    }, MARKET_FLOW_RECONNECT_DELAY);
+    }, policy.delayMs);
   }
 
   function handleMarketFlowMessage(raw: unknown) {
@@ -164,8 +185,8 @@
     }
   }
 
-  function connectMarketFlowSocket() {
-    if (!marketFlowSocketEnabled) {
+  async function connectMarketFlowSocket() {
+    if (!marketFlowSocketEnabled || marketFlowConnecting) {
       return;
     }
     if (
@@ -180,62 +201,93 @@
 
     cleanupMarketFlowSocket();
 
+    marketFlowConnecting = true;
     try {
-      marketFlowSocket = new WebSocket(`${data.wsURL}/market-flow`);
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data.wsURL,
+        "/market-flow",
+        data.wsToken,
+      );
+      if (!wsUrl) {
+        scheduleMarketFlowReconnect();
+        return;
+      }
+      if (
+        marketFlowSocket &&
+        (marketFlowSocket.readyState === WebSocket.CONNECTING ||
+          marketFlowSocket.readyState === WebSocket.OPEN)
+      ) {
+        return;
+      }
+      const nextMarketFlowSocket = new WebSocket(wsUrl);
+      marketFlowSocket = nextMarketFlowSocket;
+
+      nextMarketFlowSocket.addEventListener("open", () => {
+        if (marketFlowReconnectTimer) {
+          clearTimeout(marketFlowReconnectTimer);
+          marketFlowReconnectTimer = null;
+        }
+        marketFlowReconnectAttempts = 0;
+        if (!marketFlowRefreshInterval) {
+          marketFlowRefreshInterval = setInterval(() => {
+            if (
+              marketFlowSocket &&
+              marketFlowSocket.readyState === WebSocket.OPEN
+            ) {
+              try {
+                marketFlowSocket.send(JSON.stringify({ type: "refresh" }));
+              } catch (error) {
+                console.error(
+                  "Failed sending market flow refresh request:",
+                  error,
+                );
+              }
+            } else if (!marketFlowReconnectTimer) {
+              connectMarketFlowSocket();
+            }
+          }, MARKET_FLOW_REFRESH_INTERVAL_MS);
+        }
+      });
+
+      nextMarketFlowSocket.addEventListener("message", (event) => {
+        handleMarketFlowMessage(event?.data);
+      });
+
+      nextMarketFlowSocket.addEventListener("close", (event) => {
+        if (marketFlowSocket === nextMarketFlowSocket) {
+          marketFlowSocket = null;
+        }
+        if (ignoredMarketFlowSockets.has(nextMarketFlowSocket)) {
+          ignoredMarketFlowSockets.delete(nextMarketFlowSocket);
+          return;
+        }
+        cleanupMarketFlowSocket();
+        scheduleMarketFlowReconnect(event);
+      });
+
+      nextMarketFlowSocket.addEventListener("error", (error) => {
+        console.error("Market flow socket error:", error);
+        if (
+          nextMarketFlowSocket.readyState === WebSocket.OPEN ||
+          nextMarketFlowSocket.readyState === WebSocket.CONNECTING
+        ) {
+          try {
+            nextMarketFlowSocket.close();
+          } catch (closeError) {
+            console.error(
+              "Failed closing errored market flow socket:",
+              closeError,
+            );
+          }
+        }
+      });
     } catch (error) {
       console.error("Failed establishing market flow socket:", error);
       scheduleMarketFlowReconnect();
       return;
+    } finally {
+      marketFlowConnecting = false;
     }
-
-    marketFlowSocket.addEventListener("open", () => {
-      if (marketFlowReconnectTimer) {
-        clearTimeout(marketFlowReconnectTimer);
-        marketFlowReconnectTimer = null;
-      }
-      if (!marketFlowRefreshInterval) {
-        marketFlowRefreshInterval = setInterval(() => {
-          if (
-            marketFlowSocket &&
-            marketFlowSocket.readyState === WebSocket.OPEN
-          ) {
-            try {
-              marketFlowSocket.send(JSON.stringify({ type: "refresh" }));
-            } catch (error) {
-              console.error(
-                "Failed sending market flow refresh request:",
-                error,
-              );
-            }
-          } else if (!marketFlowReconnectTimer) {
-            connectMarketFlowSocket();
-          }
-        }, MARKET_FLOW_REFRESH_INTERVAL_MS);
-      }
-    });
-
-    marketFlowSocket.addEventListener("message", (event) => {
-      handleMarketFlowMessage(event?.data);
-    });
-
-    marketFlowSocket.addEventListener("close", () => {
-      cleanupMarketFlowSocket();
-      scheduleMarketFlowReconnect();
-    });
-
-    marketFlowSocket.addEventListener("error", (error) => {
-      console.error("Market flow socket error:", error);
-      if (marketFlowSocket) {
-        try {
-          marketFlowSocket.close();
-        } catch (closeError) {
-          console.error(
-            "Failed closing errored market flow socket:",
-            closeError,
-          );
-        }
-      }
-    });
   }
 
   onMount(() => {

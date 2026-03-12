@@ -56,7 +56,6 @@
   import Newspaper from "lucide-svelte/icons/newspaper";
   import BookOpen from "lucide-svelte/icons/book-open";
   import Tools from "lucide-svelte/icons/wrench";
-  import Gem from "lucide-svelte/icons/gem";
   import Plus from "lucide-svelte/icons/plus";
   import Screener from "lucide-svelte/icons/microscope";
   import PieChart from "lucide-svelte/icons/chart-pie";
