@@ -631,7 +631,9 @@
     }, PRICE_SOCKET_RECONNECT_DELAY);
   }
 
-  function applyRealtimeQuoteUpdates(updates: Array<{ symbol: string; avgPrice: number }>) {
+  function applyRealtimeQuoteUpdates(
+    updates: Array<{ symbol: string; avgPrice: number }>,
+  ) {
     if (!updates.length || rawData.length === 0) {
       return;
     }
@@ -799,7 +801,10 @@
     currentPage = 1;
   }
 
-  $: if (Array.isArray(data?.getETFHoldings) && data.getETFHoldings !== sourceHoldingsRef) {
+  $: if (
+    Array.isArray(data?.getETFHoldings) &&
+    data.getETFHoldings !== sourceHoldingsRef
+  ) {
     sourceHoldingsRef = data.getETFHoldings;
     const nextRows = data.getETFHoldings.map((item) => ({ ...item }));
     summaryData = nextRows.map((item) => ({ ...item }));

@@ -3,6 +3,7 @@
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
   import {
     stock_detail_no_data,
     stock_detail_stats_above_average,
@@ -21,6 +22,7 @@
     stock_detail_stats_price_reaction_structured_desc,
     stock_detail_stats_price_reaction_structured_name,
     stock_detail_stats_price_reaction_title,
+    stock_detail_stats_history,
     stock_detail_stats_quarters,
     stock_detail_stats_range,
     stock_detail_stats_release,
@@ -389,6 +391,28 @@
               </div>
             </div>
 
+            <div class="items-center lg:overflow-visible px-1 py-1 mb-4">
+              <div
+                class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+              >
+                <h2
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
+                >
+                  {stock_detail_stats_history()}
+                </h2>
+
+                <div class="w-full flex order-1 items-center ml-auto">
+                  <div class="ml-auto">
+                    <DownloadData
+                      {data}
+                      {rawData}
+                      title={`price_reaction_${$stockTicker}`}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class=" w-full overflow-x-auto">
               <table
                 class="earnings-table table-fixed leading-3 border-collapse border border-gray-300 shadow dark:border-zinc-700 font-sans tabular-nums w-full"
@@ -443,7 +467,7 @@
                   <tbody class="">
                     <tr class="group"
                       ><td
-                        class="whitespace-nowrap border-l border-t border-gray-300 dark:border-zinc-700 py-0.5 rounded-tl-md px-1"
+                        class="whitespace-nowrap border-l border-t border-gray-300 dark:border-zinc-700 py-0.5 rounded-tl-2xl px-1"
                         ><div class="flex flex-col items-start w-fit">
                           <div
                             class="pl-0.5 pr-0.5 mt-2 flex flex-row items-center w-fit text-sm"
@@ -483,7 +507,7 @@
                           >{item?.backward_2_days_close?.toFixed(2)}</span
                         ></td
                       ><td
-                        class="border-gray-300 dark:border-zinc-700 px-3.5 py-0.5 border-t border-l rounded-tr-md px-4 last:pr-11 w-17 last:w-24.5 border-r px-1 text-right"
+                        class="border-gray-300 dark:border-zinc-700 px-3.5 py-0.5 border-t border-l rounded-tr-2xl px-4 last:pr-11 w-17 last:w-24.5 border-r px-1 text-right"
                         ><span class=" text-sm"
                           >{item?.backward_1_days_close?.toFixed(2)}</span
                         ></td
@@ -512,7 +536,7 @@
                       ><td
                         class="border-gray-300 dark:border-zinc-700 px-3.5 py-0.5 px-4 last:pr-11 w-17 last:w-24.5 px-1"
                       ></td><td
-                        class="border-gray-300 dark:border-zinc-700 px-3.5 py-0.5 border-t border-l rounded-tl-md px-4 last:pr-11 w-17 last:w-24.5 border-l px-1 text-center"
+                        class="border-gray-300 dark:border-zinc-700 px-3.5 py-0.5 border-t border-l rounded-tl-2xl px-4 last:pr-11 w-17 last:w-24.5 border-l px-1 text-center"
                         ><span class=" text-sm"
                           >{item?.forward_1_days_close !== undefined
                             ? item?.forward_1_days_close?.toFixed(2)
