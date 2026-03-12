@@ -1,14 +1,23 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { displayCompanyName, screenWidth, stockTicker } from "$lib/store";
-  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  import {
+    displayCompanyName,
+    isOpen,
+    screenWidth,
+    stockTicker,
+  } from "$lib/store";
+  import {
+    abbreviateNumber,
+    calculateChange,
+    removeCompanyStrings,
+  } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import highcharts from "$lib/highcharts.ts";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { mode } from "mode-watcher";
@@ -38,6 +47,7 @@
     price: number | null;
     changesPercentage: number | null;
     marketCap: number | null;
+    previous?: number | null;
   };
 
   type SortType = "number" | "string";
@@ -49,6 +59,7 @@
   const rowsPerPageOptions = [20, 50, 100];
 
   let rawData: HoldingExposure[] = [];
+  let summaryData: HoldingExposure[] = [];
   let filteredTableData: HoldingExposure[] = [];
   let paginatedTableData: HoldingExposure[] = [];
   let inputValue = "";
@@ -57,6 +68,13 @@
   let totalPages = 1;
   let pagePathName = "";
   let charNumber = 35;
+  let priceSocket: WebSocket | null = null;
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let lastSubscriptionKey: string | null = null;
+  let pendingQuoteUpdates = new Map<string, number>();
+  let flushAnimationFrame: number | null = null;
+  let hasMounted = false;
+  let sourceHoldingsRef: HoldingExposure[] | null = null;
 
   let companyLabel = "";
   let infoText = "";
@@ -65,6 +83,7 @@
   let largestExposure: HoldingExposure | null = null;
   let configBarChart;
   let configPieChart;
+  const PRICE_SOCKET_RECONNECT_DELAY = 1500;
 
   const allocationColors = [
     "#2B5F75",
@@ -125,11 +144,11 @@
   }
 
   function generateInfoText(): string {
-    if (!rawData.length) {
+    if (!summaryData.length) {
       return `<span>No ETF exposure data is currently available for ${companyLabel}.</span>`;
     }
 
-    const topHoldings = rawData
+    const topHoldings = summaryData
       .slice(0, 5)
       .map((item) => {
         const weight = item?.weightPercentage ?? 0;
@@ -138,11 +157,11 @@
       .join(", ")
       .replace(/, ([^,]*)$/, ", and $1");
 
-    return `<span>${companyLabel} currently has exposure to ${rawData.length.toLocaleString("en-US")} ETFs, led by ${topHoldings}.</span>`;
+    return `<span>${companyLabel} currently has exposure to ${summaryData.length.toLocaleString("en-US")} ETFs, led by ${topHoldings}.</span>`;
   }
 
   function buildAllocationChartSeries() {
-    const weightedItems = rawData
+    const weightedItems = summaryData
       .filter(
         (item) => typeof item?.marketValue === "number" && item.marketValue > 0,
       )
@@ -531,9 +550,243 @@
       : "text-rose-800 dark:text-rose-400";
   }
 
+  function getRealtimeSymbols(): string[] {
+    const symbols = new Set<string>();
+    for (const item of rawData) {
+      const symbol = item?.symbol?.toUpperCase?.();
+      if (symbol) {
+        symbols.add(symbol);
+      }
+    }
+    return Array.from(symbols);
+  }
+
+  function shouldUseRealtime(): boolean {
+    return (
+      hasMounted &&
+      $isOpen &&
+      typeof data?.wsURL === "string" &&
+      data.wsURL.length > 0 &&
+      getRealtimeSymbols().length > 0
+    );
+  }
+
+  function clearPendingQuoteUpdates() {
+    pendingQuoteUpdates.clear();
+    if (flushAnimationFrame !== null && typeof window !== "undefined") {
+      window.cancelAnimationFrame(flushAnimationFrame);
+    }
+    flushAnimationFrame = null;
+  }
+
+  function clearReconnectTimer() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+  }
+
+  function cleanupPriceSocket() {
+    clearPendingQuoteUpdates();
+    clearReconnectTimer();
+    lastSubscriptionKey = null;
+
+    const socketToClose = priceSocket;
+    priceSocket = null;
+
+    if (
+      socketToClose &&
+      (socketToClose.readyState === WebSocket.OPEN ||
+        socketToClose.readyState === WebSocket.CONNECTING)
+    ) {
+      try {
+        socketToClose.close();
+      } catch (error) {
+        console.error("Error closing holdings price socket:", error);
+      }
+    }
+  }
+
+  function sendPriceSubscription(symbols: string[]) {
+    if (!priceSocket || priceSocket.readyState !== WebSocket.OPEN) {
+      return;
+    }
+
+    try {
+      priceSocket.send(JSON.stringify(symbols));
+      lastSubscriptionKey = symbols.slice().sort().join("|");
+    } catch (error) {
+      console.error("Failed to send holdings price subscription:", error);
+    }
+  }
+
+  function scheduleReconnect() {
+    if (reconnectTimer || !shouldUseRealtime()) {
+      return;
+    }
+
+    reconnectTimer = setTimeout(() => {
+      reconnectTimer = null;
+      connectPriceSocket();
+    }, PRICE_SOCKET_RECONNECT_DELAY);
+  }
+
+  function applyRealtimeQuoteUpdates(updates: Array<{ symbol: string; avgPrice: number }>) {
+    if (!updates.length || rawData.length === 0) {
+      return;
+    }
+
+    const clonedRows = rawData.map((item) => ({ ...item }));
+    const nextRows = calculateChange(clonedRows, updates) as HoldingExposure[];
+    rawData = nextRows.map((item) => ({ ...item }));
+  }
+
+  function flushRealtimeQuoteUpdates() {
+    if (pendingQuoteUpdates.size === 0) {
+      return;
+    }
+
+    const updates = Array.from(pendingQuoteUpdates.entries()).map(
+      ([symbol, avgPrice]) => ({
+        symbol,
+        avgPrice,
+      }),
+    );
+
+    pendingQuoteUpdates.clear();
+    applyRealtimeQuoteUpdates(updates);
+  }
+
+  function scheduleRealtimeFlush() {
+    if (flushAnimationFrame !== null || typeof window === "undefined") {
+      return;
+    }
+
+    flushAnimationFrame = window.requestAnimationFrame(() => {
+      flushAnimationFrame = null;
+      flushRealtimeQuoteUpdates();
+    });
+  }
+
+  function handlePriceSocketMessage(raw: unknown) {
+    if (typeof raw !== "string") {
+      return;
+    }
+
+    try {
+      const payload = JSON.parse(raw);
+      const updates = Array.isArray(payload) ? payload : [payload];
+
+      for (const item of updates) {
+        const symbol = item?.symbol?.toUpperCase?.();
+        const avgPrice = item?.avgPrice;
+
+        if (
+          !symbol ||
+          typeof avgPrice !== "number" ||
+          !Number.isFinite(avgPrice) ||
+          avgPrice <= 0
+        ) {
+          continue;
+        }
+
+        pendingQuoteUpdates.set(symbol, avgPrice);
+      }
+
+      scheduleRealtimeFlush();
+    } catch (error) {
+      console.error("Error parsing holdings WebSocket payload:", error);
+    }
+  }
+
+  function connectPriceSocket() {
+    if (!shouldUseRealtime()) {
+      return;
+    }
+
+    if (
+      priceSocket &&
+      (priceSocket.readyState === WebSocket.OPEN ||
+        priceSocket.readyState === WebSocket.CONNECTING)
+    ) {
+      return;
+    }
+
+    try {
+      priceSocket = new WebSocket(`${data.wsURL}/price-data`);
+    } catch (error) {
+      console.error("Failed establishing holdings price socket:", error);
+      priceSocket = null;
+      scheduleReconnect();
+      return;
+    }
+
+    priceSocket.addEventListener("open", () => {
+      clearReconnectTimer();
+      sendPriceSubscription(getRealtimeSymbols());
+    });
+
+    priceSocket.addEventListener("message", (event) => {
+      handlePriceSocketMessage(event?.data);
+    });
+
+    priceSocket.addEventListener("close", () => {
+      priceSocket = null;
+      lastSubscriptionKey = null;
+      if (shouldUseRealtime()) {
+        scheduleReconnect();
+      }
+    });
+
+    priceSocket.addEventListener("error", (error) => {
+      console.error("Holdings price socket error:", error);
+      if (priceSocket) {
+        try {
+          priceSocket.close();
+        } catch (closeError) {
+          console.error(
+            "Failed closing errored holdings price socket:",
+            closeError,
+          );
+        }
+      }
+    });
+  }
+
+  function syncPriceSubscription() {
+    const symbols = getRealtimeSymbols();
+    if (!shouldUseRealtime()) {
+      cleanupPriceSocket();
+      return;
+    }
+
+    const nextSubscriptionKey = symbols.slice().sort().join("|");
+
+    if (priceSocket?.readyState === WebSocket.OPEN) {
+      if (nextSubscriptionKey !== lastSubscriptionKey) {
+        sendPriceSubscription(symbols);
+      }
+      return;
+    }
+
+    if (priceSocket?.readyState === WebSocket.CONNECTING) {
+      return;
+    }
+
+    connectPriceSocket();
+  }
+
   onMount(() => {
+    hasMounted = true;
     pagePathName = $page?.url?.pathname || "";
     rowsPerPage = loadRowsPerPageFromStorage(pagePathName);
+    syncPriceSubscription();
+  });
+
+  onDestroy(() => {
+    hasMounted = false;
+    clearPendingQuoteUpdates();
+    cleanupPriceSocket();
   });
 
   $: if (
@@ -546,18 +799,33 @@
     currentPage = 1;
   }
 
-  $: rawData = Array.isArray(data?.getETFHoldings) ? data.getETFHoldings : [];
+  $: if (Array.isArray(data?.getETFHoldings) && data.getETFHoldings !== sourceHoldingsRef) {
+    sourceHoldingsRef = data.getETFHoldings;
+    const nextRows = data.getETFHoldings.map((item) => ({ ...item }));
+    summaryData = nextRows.map((item) => ({ ...item }));
+    rawData = nextRows.map((item) => ({ ...item }));
+  }
   $: companyLabel = $displayCompanyName || $stockTicker || "this stock";
   $: charNumber = $screenWidth < 640 ? 25 : 35;
-  $: topTenWeight = sumBy(rawData, "weightPercentage", 10);
-  $: totalMarketValue = sumBy(rawData, "marketValue");
-  $: largestExposure = rawData[0] ?? null;
+  $: topTenWeight = sumBy(summaryData, "weightPercentage", 10);
+  $: totalMarketValue = sumBy(summaryData, "marketValue");
+  $: largestExposure = summaryData[0] ?? null;
   $: infoText = generateInfoText();
   $: {
     if ($mode && typeof window !== "undefined") {
       configBarChart = plotBarChart() || null;
       configPieChart = plotPieChart() || null;
     }
+  }
+  $: if (hasMounted) {
+    if ($isOpen) {
+      syncPriceSubscription();
+    } else {
+      cleanupPriceSocket();
+    }
+  }
+  $: if (hasMounted && rawData.length > 0) {
+    syncPriceSubscription();
   }
   $: {
     const query = inputValue.trim().toLowerCase();
@@ -639,7 +907,7 @@
           <Infobox text={infoText} />
         </div>
 
-        {#if rawData.length > 0}
+        {#if summaryData.length > 0}
           <div
             class="mt-4 mb-6 grid grid-cols-2 divide-x divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4"
           >
@@ -650,7 +918,7 @@
               <div
                 class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-gray-900 dark:text-white"
               >
-                {rawData.length.toLocaleString("en-US")}
+                {summaryData.length.toLocaleString("en-US")}
               </div>
             </div>
 
@@ -721,7 +989,7 @@
                   class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
                   {etf_detail_holdings_stocks_count({
-                    count: rawData.length.toLocaleString("en-US"),
+                    count: summaryData.length.toLocaleString("en-US"),
                   })}
                 </h2>
 
