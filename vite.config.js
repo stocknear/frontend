@@ -19,6 +19,14 @@ const config = {
 
   server: {
     cors: true,
+    proxy: {
+      "/ws": {
+        target: "ws://127.0.0.1:2000",
+        ws: true,
+        changeOrigin: false,
+        rewrite: (path) => path.replace(/^\/ws/, ""),
+      },
+    },
     watch: {
       usePolling: false, // Use native FS events for better performance
       ignored: ["**/src/lib/paraglide/**"], // Don't watch generated paraglide files

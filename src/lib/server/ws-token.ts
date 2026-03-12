@@ -1,15 +1,18 @@
+
 type IssueWsTokenOptions = {
   locals: App.Locals;
   scope: string;
   requirePro?: boolean;
 };
 
+const FASTIFY_INTERNAL_URL = "http://127.0.0.1:2000";
+
 export async function issueWsToken({
   locals,
   scope,
   requirePro = false,
 }: IssueWsTokenOptions): Promise<string | null> {
-  if (!locals?.fastifyURL || !locals?.apiKey) {
+  if (!locals?.apiKey) {
     return null;
   }
 
@@ -32,7 +35,7 @@ export async function issueWsToken({
   }
 
   try {
-    const response = await fetch(locals.fastifyURL + "/generate-ws-token", {
+    const response = await fetch(FASTIFY_INTERNAL_URL + "/generate-ws-token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

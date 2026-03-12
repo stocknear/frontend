@@ -115,6 +115,35 @@ const getClientIp = (event) => {
   return undefined;
 };
 
+const getForwardedHeader = (request: Request, headerName: string) => {
+  const value = request.headers.get(headerName);
+  if (!value) {
+    return undefined;
+  }
+
+  const firstValue = value.split(",")[0]?.trim();
+  return firstValue && firstValue.length > 0 ? firstValue : undefined;
+};
+
+const getPublicWsBaseUrl = (event) => {
+  const forwardedProto = getForwardedHeader(
+    event.request,
+    "x-forwarded-proto",
+  );
+  const forwardedHost = getForwardedHeader(event.request, "x-forwarded-host");
+  const host = forwardedHost || event.request.headers.get("host") || event.url.host;
+
+  if (!host) {
+    return undefined;
+  }
+
+  const protocol = (forwardedProto || event.url.protocol.replace(":", "") || "http")
+    .toLowerCase();
+  const wsProtocol = protocol === "https" ? "wss" : "ws";
+
+  return `${wsProtocol}://${host}/ws`;
+};
+
 export const handle = sequence(async ({ event, resolve }) => {
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
   // API routes don't need locale handling and the middleware consumes the request body
@@ -124,8 +153,7 @@ export const handle = sequence(async ({ event, resolve }) => {
     // Handle API routes without paraglideMiddleware
     const pbURL = import.meta.env.VITE_USEAST_POCKETBASE_URL;
     const apiURL = import.meta.env.VITE_USEAST_API_URL;
-    const fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    const wsURL = import.meta.env.VITE_USEAST_WS_URL;
+    const wsURL = getPublicWsBaseUrl(event);
 
     const rawThemeMode = event?.cookies?.get("theme-mode") || "light";
     const VALID_THEMES = ["dark", "light"];
@@ -146,7 +174,6 @@ export const handle = sequence(async ({ event, resolve }) => {
     event.locals = {
       pb: new PocketBase(pbURL),
       apiURL,
-      fastifyURL,
       wsURL,
       apiKey: STOCKNEAR_API_KEY,
       themeMode,
@@ -206,8 +233,7 @@ export const handle = sequence(async ({ event, resolve }) => {
     // Use a ternary operator instead of the logical OR for better compatibility
     const pbURL = import.meta.env.VITE_USEAST_POCKETBASE_URL;
     const apiURL = import.meta.env.VITE_USEAST_API_URL;
-    const fastifyURL = import.meta.env.VITE_USEAST_FASTIFY_URL;
-    const wsURL = import.meta.env.VITE_USEAST_WS_URL;
+    const wsURL = getPublicWsBaseUrl(event);
 
     // Sanitize theme-mode to prevent XSS injection - only allow valid theme values
     const rawThemeMode = event?.cookies?.get("theme-mode") || "dark";
@@ -230,7 +256,6 @@ export const handle = sequence(async ({ event, resolve }) => {
     event.locals = {
       pb: new PocketBase(pbURL),
       apiURL,
-      fastifyURL,
       wsURL,
       apiKey: STOCKNEAR_API_KEY,
       themeMode,

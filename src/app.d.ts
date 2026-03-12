@@ -10,7 +10,6 @@ declare namespace App {
   interface Locals {
     pb: import("pocketbase").default;
     apiURL: string;
-    fastifyURL: string;
     wsURL: string;
     apiKey: string;
     themeMode: string;

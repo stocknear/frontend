@@ -2,7 +2,7 @@ import { getAPI } from "$lib/server/api";
 import { issueWsToken } from "$lib/server/ws-token";
 
 export const load = async ({ locals }) => {
-  const { pb, user, wsURL, fastifyURL } = locals;
+  const { pb, user, wsURL } = locals;
 
 
   const getAllStrategies = async () => {
