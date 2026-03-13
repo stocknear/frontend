@@ -1967,25 +1967,27 @@
       return;
     }
 
-    const wsUrl = await buildAuthenticatedWsUrl(
-      data?.wsURL,
-      "/price-data",
-      data?.wsToken,
-    );
-    if (!wsUrl) {
-      scheduleRealtimeReconnect();
-      return;
-    }
-    if (
-      socket &&
-      (socket.readyState === WebSocket.CONNECTING ||
-        socket.readyState === WebSocket.OPEN)
-    ) {
-      return;
-    }
-
+    isConnecting = true;
     try {
-      isConnecting = true;
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data?.wsURL,
+        "/price-data",
+        data?.wsToken,
+      );
+      if (!wsUrl) {
+        isConnecting = false;
+        scheduleRealtimeReconnect();
+        return;
+      }
+      if (
+        socket &&
+        (socket.readyState === WebSocket.CONNECTING ||
+          socket.readyState === WebSocket.OPEN)
+      ) {
+        isConnecting = false;
+        return;
+      }
+
       const realtimeSocket = new WebSocket(wsUrl);
       socket = realtimeSocket;
 

@@ -6982,26 +6982,28 @@
     const upperTicker = ticker.toUpperCase();
     if (!isValidTicker(upperTicker)) return;
 
-    // Validate WebSocket URL
-    const wsUrl = await buildAuthenticatedWsUrl(
-      data.wsURL,
-      "/price-data",
-      data.wsToken,
-    );
-    if (!wsUrl || !isValidWsUrl(wsUrl)) {
-      scheduleRealtimeReconnect();
-      return;
-    }
-    if (
-      socket &&
-      (socket.readyState === WebSocket.CONNECTING ||
-        socket.readyState === WebSocket.OPEN)
-    ) {
-      return;
-    }
-
+    socketConnecting = true;
     try {
-      socketConnecting = true;
+      // Validate WebSocket URL
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data.wsURL,
+        "/price-data",
+        data.wsToken,
+      );
+      if (!wsUrl || !isValidWsUrl(wsUrl)) {
+        socketConnecting = false;
+        scheduleRealtimeReconnect();
+        return;
+      }
+      if (
+        socket &&
+        (socket.readyState === WebSocket.CONNECTING ||
+          socket.readyState === WebSocket.OPEN)
+      ) {
+        socketConnecting = false;
+        return;
+      }
+
       const realtimeSocket = new WebSocket(wsUrl);
       socket = realtimeSocket;
 
