@@ -147,6 +147,10 @@
         schedulePrePostReconnect();
         return;
       }
+      if (!shouldUsePrePostSocket()) {
+        prePostConnecting = false;
+        return;
+      }
       if (
         prePostSocket &&
         (prePostSocket.readyState === WebSocket.CONNECTING ||
@@ -350,6 +354,10 @@
       if (!wsUrl) {
         socketConnecting = false;
         scheduleRealtimeReconnect();
+        return;
+      }
+      if (!shouldUseRealtimeSocket()) {
+        socketConnecting = false;
         return;
       }
       if (

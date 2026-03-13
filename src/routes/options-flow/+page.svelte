@@ -84,6 +84,11 @@
 
   import { page } from "$app/stores";
   import { browser } from "$app/environment";
+  import {
+    buildAuthenticatedWsUrl,
+    getAuthenticatedWsClosePolicy,
+    invalidateWsToken,
+  } from "$lib/websocket";
 
   import OptionsFlowTable from "$lib/components/Table/OptionsFlowTable.svelte";
   import ScreenerExport from "$lib/components/ScreenerExport.svelte";
@@ -97,6 +102,9 @@
   let activeSortOrder;
   let requestId = 0;
   let isFetchingPage = false;
+  let socketConnecting = false;
+  let shouldReconnectSocket = true;
+  const ignoredSockets = new WeakSet<WebSocket>();
 
   function applyServerStats(stats) {
     if (!stats) return;
@@ -2088,32 +2096,52 @@
   // --------------------------------------------
 
   // WebSocket connection functions
-  async function refreshWsToken() {
-    try {
-      const response = await fetch("/api/generate-ws-token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          scope: "/options-flow",
-        }),
-      });
-      if (response.ok) {
-        const result = await response.json();
-        if (result?.token) {
-          data.wsToken = result.token;
-          return true;
-        }
-      }
-    } catch (e) {
-      console.error("Failed to refresh WS token:", e);
+  function clearReconnectTimer() {
+    if (reconnectInterval) {
+      clearTimeout(reconnectInterval);
+      reconnectInterval = null;
     }
-    return false;
   }
 
-  function connectWebSocket() {
-    if (data?.user?.tier !== "Pro" || !data?.wsURL || !data?.wsToken) {
+  function shouldUseLiveSocket() {
+    return Boolean(
+      data?.user?.tier === "Pro" &&
+        data?.wsURL &&
+        modeStatus &&
+        $isOpen &&
+        !isComponentDestroyed,
+    );
+  }
+
+  function scheduleReconnect(event?: Pick<CloseEvent, "code">) {
+    clearReconnectTimer();
+
+    if (!shouldUseLiveSocket()) {
+      return;
+    }
+
+    const closePolicy = getAuthenticatedWsClosePolicy(
+      event,
+      reconnectAttempts,
+    );
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/options-flow");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    reconnectAttempts += 1;
+    reconnectInterval = setTimeout(() => {
+      reconnectInterval = null;
+      connectWebSocket();
+    }, closePolicy.delayMs);
+  }
+
+  async function connectWebSocket() {
+    if (!shouldUseLiveSocket() || socketConnecting || reconnectInterval) {
       return;
     }
 
@@ -2123,28 +2151,53 @@
       (socket.readyState === WebSocket.CONNECTING ||
         socket.readyState === WebSocket.OPEN)
     ) {
-      console.log("WebSocket already connected or connecting");
       return;
     }
 
+    socketConnecting = true;
     try {
-      // Include token in WebSocket URL for authentication
-      const wsUrlWithToken = `${data.wsURL}/options-flow?token=${encodeURIComponent(data.wsToken)}`;
-      socket = new WebSocket(wsUrlWithToken);
+      const wsUrlWithToken = await buildAuthenticatedWsUrl(
+        data.wsURL,
+        "/options-flow",
+        data.wsToken,
+      );
+      if (!wsUrlWithToken) {
+        socketConnecting = false;
+        scheduleReconnect();
+        return;
+      }
+      if (!shouldUseLiveSocket()) {
+        socketConnecting = false;
+        return;
+      }
+      if (
+        socket &&
+        (socket.readyState === WebSocket.CONNECTING ||
+          socket.readyState === WebSocket.OPEN)
+      ) {
+        socketConnecting = false;
+        return;
+      }
 
-      socket.addEventListener("open", () => {
+      const nextSocket = new WebSocket(wsUrlWithToken);
+      socket = nextSocket;
+
+      nextSocket.addEventListener("open", () => {
         console.log("Options Flow WebSocket connection opened");
+        clearReconnectTimer();
         reconnectAttempts = 0;
+        socketConnecting = false;
+        shouldReconnectSocket = true;
 
         // Send init with filters — server marks all current cache items as "already sent"
         const message = {
           type: "init",
           filters: buildWsFilters(),
         };
-        socket.send(JSON.stringify(message));
+        nextSocket.send(JSON.stringify(message));
       });
 
-      socket.addEventListener("message", async (event) => {
+      nextSocket.addEventListener("message", async (event) => {
         try {
           const message = JSON.parse(event.data);
 
@@ -2219,46 +2272,50 @@
         }
       });
 
-      socket.addEventListener("close", async (event) => {
+      nextSocket.addEventListener("close", (event) => {
         console.log("Options Flow WebSocket closed:", event.code, event.reason);
-        socket = null;
+        if (socket === nextSocket) {
+          socket = null;
+        }
+        socketConnecting = false;
 
-        if (!$isOpen || !modeStatus || isComponentDestroyed) return;
-
-        // Token expired — refresh before reconnecting
-        if (event.code === 4001) {
-          console.log("Token expired, refreshing...");
-          const refreshed = await refreshWsToken();
-          if (!refreshed) return;
-          reconnectAttempts = 0;
+        if (ignoredSockets.has(nextSocket)) {
+          ignoredSockets.delete(nextSocket);
+          return;
         }
 
-        reconnectAttempts++;
-        const delay = Math.min(5000 * reconnectAttempts, 30000);
-        console.log(
-          `Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts})...`,
-        );
-        reconnectInterval = setTimeout(() => {
-          connectWebSocket();
-        }, delay);
+        if (!shouldReconnectSocket) {
+          shouldReconnectSocket = true;
+          return;
+        }
+
+        scheduleReconnect(event);
       });
 
-      socket.addEventListener("error", (error) => {
+      nextSocket.addEventListener("error", (error) => {
         console.error("Options Flow WebSocket error:", error);
+        socketConnecting = false;
+        try {
+          nextSocket.close();
+        } catch {
+          // no-op
+        }
       });
     } catch (error) {
+      socketConnecting = false;
       console.error("Failed to establish WebSocket connection:", error);
+      scheduleReconnect();
     }
   }
 
   function disconnectWebSocket() {
-    if (reconnectInterval) {
-      clearTimeout(reconnectInterval);
-      reconnectInterval = null;
-    }
+    clearReconnectTimer();
+    socketConnecting = false;
 
     if (socket) {
-      socket.close();
+      ignoredSockets.add(socket);
+      shouldReconnectSocket = false;
+      socket.close(1000, "Client closed connection");
       socket = null;
     }
   }

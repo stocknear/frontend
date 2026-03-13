@@ -6995,6 +6995,11 @@
         scheduleRealtimeReconnect();
         return;
       }
+      const liveTicker = ticker.toUpperCase();
+      if (!shouldUseRealtimeSocket() || !isValidTicker(liveTicker)) {
+        socketConnecting = false;
+        return;
+      }
       if (
         socket &&
         (socket.readyState === WebSocket.CONNECTING ||
@@ -7012,7 +7017,10 @@
         clearSocketReconnectTimer();
         socketReconnectAttempt = 0;
         socketConnecting = false;
-        sendMessage([upperTicker]);
+        const currentTicker = ticker.toUpperCase();
+        if (isValidTicker(currentTicker)) {
+          sendMessage([currentTicker]);
+        }
       };
 
       wsMessageHandler = (event: MessageEvent) => {

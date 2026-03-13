@@ -1,5 +1,4 @@
 import { getAPI } from "$lib/server/api";
-import { issueWsToken } from "$lib/server/ws-token";
 
 export const load = async ({ locals }) => {
   const { pb, user, wsURL } = locals;
@@ -40,26 +39,14 @@ export const load = async ({ locals }) => {
     return await getAPI(locals, `/unusual-order-feed?${params.toString()}`);
   };
 
-  // Generate WebSocket token for Pro users
-  const getWsToken = async () => {
-    return issueWsToken({
-      locals,
-      scope: "/unusual-order",
-      requirePro: true,
-    });
-  };
-
-
-  const [getFlowDataResult, getAllStrategiesResult, wsTokenResult] = await Promise.all([
+  const [getFlowDataResult, getAllStrategiesResult] = await Promise.all([
     getFlowData(),
     getAllStrategies(),
-    getWsToken(),
   ]);
 
   return {
     getFlowData: getFlowDataResult,
     getAllStrategies: getAllStrategiesResult,
     wsURL: wsURL,
-    wsToken: wsTokenResult,
   };
 };

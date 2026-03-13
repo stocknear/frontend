@@ -320,6 +320,7 @@
       return;
     }
 
+    let nextPriceSocket: WebSocket | null = null;
     if (
       priceSocket &&
       (priceSocket.readyState === WebSocket.OPEN ||
@@ -339,6 +340,9 @@
         scheduleReconnect();
         return;
       }
+      if (!shouldUseRealtime()) {
+        return;
+      }
       if (
         priceSocket &&
         (priceSocket.readyState === WebSocket.OPEN ||
@@ -346,7 +350,7 @@
       ) {
         return;
       }
-      const nextPriceSocket = new WebSocket(wsUrl);
+      nextPriceSocket = new WebSocket(wsUrl);
       priceSocket = nextPriceSocket;
     } catch (error) {
       console.error("Failed establishing ETF heatmap price socket:", error);
@@ -355,6 +359,10 @@
       return;
     } finally {
       isConnecting = false;
+    }
+
+    if (!nextPriceSocket) {
+      return;
     }
 
     nextPriceSocket.addEventListener("open", () => {

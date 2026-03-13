@@ -1,5 +1,4 @@
 import { getAPI } from "$lib/server/api";
-import { issueWsToken } from "$lib/server/ws-token";
 
 export const load = async ({ locals, url }) => {
   const { pb, user, wsURL } = locals;
@@ -48,19 +47,9 @@ export const load = async ({ locals, url }) => {
     return output;
   };
 
-  const getWsToken = async () => {
-    return issueWsToken({
-      locals,
-      scope: "/options-flow",
-      requirePro: true,
-    });
-  };
-
-  // Fetch strategies, watchlist, WS token in parallel
-  const [getAllStrategiesData, getOptionsWatchlistData, wsTokenData] = await Promise.all([
+  const [getAllStrategiesData, getOptionsWatchlistData] = await Promise.all([
     getAllStrategies(),
     getOptionsWatchlist(),
-    getWsToken(),
   ]);
 
   // Build paginated request from URL params + saved strategy rules
@@ -106,6 +95,5 @@ export const load = async ({ locals, url }) => {
     getAllStrategies: getAllStrategiesData,
     watchlistFull: (getOptionsWatchlistData?.data?.length ?? 0) >= 300,
     wsURL: wsURL,
-    wsToken: wsTokenData,
   };
 };

@@ -800,11 +800,16 @@
         scheduleReconnect();
         return;
       }
+      if (!shouldUseRealtimeSocket()) {
+        socketConnecting = false;
+        return;
+      }
       if (
         socket &&
         (socket.readyState === WebSocket.CONNECTING ||
           socket.readyState === WebSocket.OPEN)
       ) {
+        socketConnecting = false;
         return;
       }
       const watchlistSocket = new WebSocket(wsUrl);

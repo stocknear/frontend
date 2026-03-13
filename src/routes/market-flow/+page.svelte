@@ -213,6 +213,13 @@
         return;
       }
       if (
+        !marketFlowSocketEnabled ||
+        typeof window === "undefined" ||
+        !data?.wsURL
+      ) {
+        return;
+      }
+      if (
         marketFlowSocket &&
         (marketFlowSocket.readyState === WebSocket.CONNECTING ||
           marketFlowSocket.readyState === WebSocket.OPEN)

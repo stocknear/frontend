@@ -197,6 +197,13 @@ export function getPublicWsClosePolicy(
   };
 }
 
+export function getAuthenticatedWsClosePolicy(
+  event: Pick<CloseEvent, "code"> | { code?: number } | undefined,
+  reconnectAttempt: number,
+): PublicWsClosePolicy {
+  return getPublicWsClosePolicy(event, reconnectAttempt);
+}
+
 export async function buildAuthenticatedWsUrl(
   wsURL: string | null | undefined,
   path: string,

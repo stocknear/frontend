@@ -163,6 +163,9 @@
         scheduleOneDayReconnect();
         return;
       }
+      if (!data?.wsURL || !$isOpen) {
+        return;
+      }
       if (
         oneDayPriceSocket &&
         (oneDayPriceSocket.readyState === WebSocket.CONNECTING ||

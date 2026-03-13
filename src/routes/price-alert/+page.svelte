@@ -558,6 +558,8 @@
 
   async function connectPriceSocket(): Promise<void> {
     const symbols = collectSymbols();
+    let liveSymbols = symbols;
+    let nextPriceSocket: WebSocket | null = null;
     if (
       !hasMounted ||
       !$isOpen ||
@@ -587,14 +589,18 @@
         scheduleReconnect();
         return;
       }
+      liveSymbols = collectSymbols();
+      if (!hasMounted || !$isOpen || !data?.wsURL || liveSymbols.length === 0) {
+        return;
+      }
       if (
         priceSocket &&
         (priceSocket.readyState === WebSocket.OPEN ||
           priceSocket.readyState === WebSocket.CONNECTING)
-      ) {
+        ) {
         return;
       }
-      const nextPriceSocket = new WebSocket(wsUrl);
+      nextPriceSocket = new WebSocket(wsUrl);
       priceSocket = nextPriceSocket;
     } catch {
       priceSocket = null;
@@ -604,9 +610,13 @@
       isConnecting = false;
     }
 
+    if (!nextPriceSocket) {
+      return;
+    }
+
     nextPriceSocket.addEventListener("open", () => {
       reconnectAttempt = 0;
-      sendPriceSocketMessage(symbols);
+      sendPriceSocketMessage(liveSymbols);
     });
 
     nextPriceSocket.addEventListener("message", (event) => {

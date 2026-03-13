@@ -1538,6 +1538,16 @@
         return;
       }
       if (
+        typeof window === "undefined" ||
+        !includePrePostData ||
+        !data?.wsURL ||
+        !shouldListenForSessionQuotes() ||
+        collectPrePostSymbols().length === 0
+      ) {
+        prePostConnecting = false;
+        return;
+      }
+      if (
         prePostSocket &&
         (prePostSocket.readyState === WebSocket.CONNECTING ||
           prePostSocket.readyState === WebSocket.OPEN)
@@ -2039,6 +2049,10 @@
       if (!wsUrl) {
         isConnecting = false;
         scheduleRealtimeReconnect();
+        return;
+      }
+      if (!shouldUseRealtimeSocket()) {
+        isConnecting = false;
         return;
       }
       if (
