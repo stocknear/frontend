@@ -835,9 +835,12 @@
   //$: stockList = originalData.slice(0, 150);
 
   let prePostSocket: WebSocket | null = null;
+  const ignoredPrePostSockets = new WeakSet<WebSocket>();
   let prePostReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let prePostReconnectAttempt = 0;
+  let prePostConnecting = false;
+  let shouldReconnectPrePostSocket = true;
   let lastPrePostSubscriptionKey: string | null = null;
-  const PRE_POST_RECONNECT_DELAY = 5000;
 
   const STOCK_INDICATOR_ROWS: ColumnRule[] = [
     { name: "Volume", rule: "volume", type: "decimal" },
@@ -1277,27 +1280,11 @@
     });
   };
 
-  function cleanupPrePostSocket() {
+  function clearPrePostReconnectTimer() {
     if (prePostReconnectTimer) {
       clearTimeout(prePostReconnectTimer);
       prePostReconnectTimer = null;
     }
-
-    if (prePostSocket) {
-      try {
-        if (
-          prePostSocket.readyState === WebSocket.OPEN ||
-          prePostSocket.readyState === WebSocket.CONNECTING
-        ) {
-          prePostSocket.close();
-        }
-      } catch (error) {
-        console.error("Error closing pre/post socket:", error);
-      }
-    }
-
-    prePostSocket = null;
-    lastPrePostSubscriptionKey = null;
   }
 
   function collectPrePostSymbols(): string[] {
@@ -1435,14 +1422,57 @@
     }
   }
 
-  function schedulePrePostReconnect() {
-    if (prePostReconnectTimer) {
+  function disconnectPrePostSocket() {
+    clearPrePostReconnectTimer();
+    prePostConnecting = false;
+
+    if (prePostSocket) {
+      ignoredPrePostSockets.add(prePostSocket);
+      shouldReconnectPrePostSocket = false;
+      try {
+        if (
+          prePostSocket.readyState === WebSocket.OPEN ||
+          prePostSocket.readyState === WebSocket.CONNECTING
+        ) {
+          prePostSocket.close(1000, "Client closed connection");
+        }
+      } catch (error) {
+        console.error("Error closing pre/post socket:", error);
+      }
+    }
+
+    prePostSocket = null;
+    lastPrePostSubscriptionKey = null;
+  }
+
+  function schedulePrePostReconnect(event?: Pick<CloseEvent, "code">) {
+    clearPrePostReconnectTimer();
+
+    if (
+      typeof window === "undefined" ||
+      !includePrePostData ||
+      !data?.wsURL ||
+      !shouldListenForSessionQuotes() ||
+      collectPrePostSymbols().length === 0
+    ) {
       return;
     }
+
+    const closePolicy = getPublicWsClosePolicy(event, prePostReconnectAttempt);
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/pre-post-quote");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    prePostReconnectAttempt += 1;
     prePostReconnectTimer = setTimeout(() => {
       prePostReconnectTimer = null;
       connectPrePostSocket();
-    }, PRE_POST_RECONNECT_DELAY);
+    }, closePolicy.delayMs);
   }
 
   function handlePrePostMessage(raw: unknown) {
@@ -1477,7 +1507,9 @@
       !includePrePostData ||
       !data?.wsURL ||
       !sessionWindowActive ||
-      collectPrePostSymbols().length === 0
+      collectPrePostSymbols().length === 0 ||
+      prePostConnecting ||
+      prePostReconnectTimer
     ) {
       return;
     }
@@ -1491,48 +1523,78 @@
       return;
     }
 
-    cleanupPrePostSocket();
+    disconnectPrePostSocket();
 
-    try {
-      prePostSocket = new WebSocket(`${data?.wsURL}/pre-post-quote`);
-    } catch (error) {
-      console.error("Failed establishing pre/post socket:", error);
-      schedulePrePostReconnect();
-      return;
-    }
-
-    prePostSocket.addEventListener("open", () => {
-      if (prePostReconnectTimer) {
-        clearTimeout(prePostReconnectTimer);
-        prePostReconnectTimer = null;
-      }
-      syncPrePostSubscription();
-    });
-
-    prePostSocket.addEventListener("message", (event) => {
-      handlePrePostMessage(event?.data);
-    });
-
-    prePostSocket.addEventListener("close", () => {
-      cleanupPrePostSocket();
-      if (
-        includePrePostData &&
-        shouldListenForSessionQuotes() &&
-        collectPrePostSymbols().length > 0
-      ) {
+    prePostConnecting = true;
+    const establishSocket = async () => {
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data?.wsURL,
+        "/pre-post-quote",
+        data?.wsToken,
+      );
+      if (!wsUrl) {
+        prePostConnecting = false;
         schedulePrePostReconnect();
+        return;
       }
-    });
+      if (
+        prePostSocket &&
+        (prePostSocket.readyState === WebSocket.CONNECTING ||
+          prePostSocket.readyState === WebSocket.OPEN)
+      ) {
+        prePostConnecting = false;
+        return;
+      }
 
-    prePostSocket.addEventListener("error", (error) => {
-      console.error("Pre/post socket error:", error);
-      if (prePostSocket) {
+      const nextPrePostSocket = new WebSocket(wsUrl);
+      prePostSocket = nextPrePostSocket;
+
+      nextPrePostSocket.addEventListener("open", () => {
+        clearPrePostReconnectTimer();
+        prePostReconnectAttempt = 0;
+        prePostConnecting = false;
+        shouldReconnectPrePostSocket = true;
+        syncPrePostSubscription();
+      });
+
+      nextPrePostSocket.addEventListener("message", (event) => {
+        handlePrePostMessage(event?.data);
+      });
+
+      nextPrePostSocket.addEventListener("close", (event) => {
+        if (prePostSocket === nextPrePostSocket) {
+          prePostSocket = null;
+        }
+        prePostConnecting = false;
+        lastPrePostSubscriptionKey = null;
+
+        if (ignoredPrePostSockets.has(nextPrePostSocket)) {
+          ignoredPrePostSockets.delete(nextPrePostSocket);
+          return;
+        }
+
+        if (!shouldReconnectPrePostSocket) {
+          shouldReconnectPrePostSocket = true;
+          return;
+        }
+
+        schedulePrePostReconnect(event);
+      });
+
+      nextPrePostSocket.addEventListener("error", () => {
+        prePostConnecting = false;
         try {
-          prePostSocket.close();
+          nextPrePostSocket.close();
         } catch (closeError) {
           console.error("Failed closing errored pre/post socket:", closeError);
         }
-      }
+      });
+    };
+
+    establishSocket().catch((error) => {
+      prePostConnecting = false;
+      console.error("Failed establishing pre/post socket:", error);
+      schedulePrePostReconnect();
     });
   }
 
@@ -2168,8 +2230,8 @@
     ) {
       connectPrePostSocket();
       syncPrePostSubscription();
-    } else if (prePostSocket) {
-      cleanupPrePostSocket();
+    } else if (prePostSocket || prePostReconnectTimer) {
+      disconnectPrePostSocket();
     }
   }
 
@@ -2292,7 +2354,7 @@
       // Clear any pending reconnection timeout
       clearRealtimeReconnectTimer();
 
-      cleanupPrePostSocket();
+      disconnectPrePostSocket();
 
       // Close the WebSocket connection
       disconnectRealtimeSocket();

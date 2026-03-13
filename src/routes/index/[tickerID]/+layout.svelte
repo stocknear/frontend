@@ -51,10 +51,15 @@
   let socket;
   let prePostSocket = null;
   const ignoredPriceSockets = new WeakSet<WebSocket>();
+  const ignoredPrePostSockets = new WeakSet<WebSocket>();
   let socketReconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let socketReconnectAttempt = 0;
   let socketConnecting = false;
   let shouldReconnectPriceSocket = true;
+  let prePostReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let prePostReconnectAttempt = 0;
+  let prePostConnecting = false;
+  let shouldReconnectPrePostSocket = true;
 
   $indexTicker = data?.getParams;
   $assetType = "index";
@@ -140,36 +145,99 @@
     }, closePolicy.delayMs);
   }
 
-  // Pre-Post Quote WebSocket connection
-  function connectPrePostWebSocket() {
-    if (!data?.wsURL || $isOpen || $isWeekend) {
+  function clearPrePostReconnectTimer() {
+    if (prePostReconnectTimer) {
+      clearTimeout(prePostReconnectTimer);
+      prePostReconnectTimer = null;
+    }
+  }
+
+  function shouldUsePrePostSocket() {
+    return Boolean(
+      data?.wsURL &&
+        !$isOpen &&
+        !$isWeekend &&
+        $indexTicker &&
+        !isComponentDestroyed,
+    );
+  }
+
+  function schedulePrePostReconnect(event?: Pick<CloseEvent, "code">) {
+    clearPrePostReconnectTimer();
+
+    if (!shouldUsePrePostSocket()) {
       return;
     }
 
-    // Prevent duplicate connections
+    const closePolicy = getPublicWsClosePolicy(event, prePostReconnectAttempt);
+
+    if (closePolicy.invalidateToken) {
+      invalidateWsToken("/pre-post-quote");
+    }
+
+    if (!closePolicy.retry) {
+      return;
+    }
+
+    prePostReconnectAttempt += 1;
+    prePostReconnectTimer = setTimeout(() => {
+      prePostReconnectTimer = null;
+      connectPrePostWebSocket();
+    }, closePolicy.delayMs);
+  }
+
+  // Pre-Post Quote WebSocket connection
+  async function connectPrePostWebSocket() {
+    if (!shouldUsePrePostSocket() || prePostConnecting || prePostReconnectTimer) {
+      return;
+    }
+
     if (
       prePostSocket &&
       (prePostSocket.readyState === WebSocket.CONNECTING ||
         prePostSocket.readyState === WebSocket.OPEN)
     ) {
-      console.log("Pre-post WebSocket already connected or connecting");
       return;
     }
 
+    prePostConnecting = true;
     try {
-      prePostSocket = new WebSocket(data?.wsURL + "/pre-post-quote");
+      const wsUrl = await buildAuthenticatedWsUrl(
+        data?.wsURL,
+        "/pre-post-quote",
+        data?.wsToken,
+      );
+      if (!wsUrl) {
+        prePostConnecting = false;
+        schedulePrePostReconnect();
+        return;
+      }
+      if (
+        prePostSocket &&
+        (prePostSocket.readyState === WebSocket.CONNECTING ||
+          prePostSocket.readyState === WebSocket.OPEN)
+      ) {
+        prePostConnecting = false;
+        return;
+      }
 
-      prePostSocket.addEventListener("open", () => {
-        console.log("Pre-post quote WebSocket connection opened");
+      const nextPrePostSocket = new WebSocket(wsUrl);
+      prePostSocket = nextPrePostSocket;
+
+      nextPrePostSocket.addEventListener("open", () => {
+        clearPrePostReconnectTimer();
+        prePostReconnectAttempt = 0;
+        prePostConnecting = false;
+        shouldReconnectPrePostSocket = true;
 
         // Send the ticker to the server
         const message = {
           ticker: $indexTicker,
         };
-        prePostSocket.send(JSON.stringify(message));
+        nextPrePostSocket.send(JSON.stringify(message));
       });
 
-      prePostSocket.addEventListener("message", (event) => {
+      nextPrePostSocket.addEventListener("message", (event) => {
         try {
           const newData = JSON.parse(event.data);
 
@@ -185,25 +253,32 @@
         }
       });
 
-      prePostSocket.addEventListener("close", (event) => {
-        console.log(
-          "Pre-post quote WebSocket connection closed:",
-          event.reason,
-        );
-        prePostSocket = null;
-
-        // Attempt to reconnect if market is closed and component not destroyed
-        if (!$isOpen && !$isWeekend && !isComponentDestroyed) {
-          setTimeout(() => {
-            connectPrePostWebSocket();
-          }, 5000);
+      nextPrePostSocket.addEventListener("close", (event) => {
+        if (prePostSocket === nextPrePostSocket) {
+          prePostSocket = null;
         }
+        prePostConnecting = false;
+
+        if (ignoredPrePostSockets.has(nextPrePostSocket)) {
+          ignoredPrePostSockets.delete(nextPrePostSocket);
+          return;
+        }
+
+        if (!shouldReconnectPrePostSocket) {
+          shouldReconnectPrePostSocket = true;
+          return;
+        }
+
+        schedulePrePostReconnect(event);
       });
 
-      prePostSocket.addEventListener("error", (error) => {
-        console.error("Pre-post quote WebSocket error:", error);
+      nextPrePostSocket.addEventListener("error", () => {
+        prePostConnecting = false;
+        nextPrePostSocket.close();
       });
     } catch (error) {
+      prePostConnecting = false;
+      schedulePrePostReconnect();
       console.error(
         "Failed to establish pre-post quote WebSocket connection:",
         error,
@@ -212,8 +287,13 @@
   }
 
   function disconnectPrePostWebSocket() {
+    clearPrePostReconnectTimer();
+    prePostConnecting = false;
+
     if (prePostSocket) {
-      prePostSocket.close();
+      ignoredPrePostSockets.add(prePostSocket);
+      shouldReconnectPrePostSocket = false;
+      prePostSocket.close(1000, "Client closed connection");
       prePostSocket = null;
     }
   }
