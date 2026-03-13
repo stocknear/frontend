@@ -27,11 +27,6 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
 
   import { page } from "$app/stores";
-  import {
-    buildAuthenticatedWsUrl,
-    getAuthenticatedWsClosePolicy,
-    invalidateWsToken,
-  } from "$lib/websocket";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import {
@@ -108,9 +103,6 @@
   let socket: WebSocket | null = null;
   let reconnectAttempts = 0;
   let reconnectInterval: ReturnType<typeof setTimeout> | null = null;
-  let socketConnecting = false;
-  let shouldReconnectSocket = true;
-  const ignoredSockets = new WeakSet<WebSocket>();
   let muted = false;
   let audio: HTMLAudioElement | null = null;
 
@@ -1663,129 +1655,73 @@
     }
   }
 
-  function clearReconnectTimer() {
-    if (reconnectInterval) {
-      clearTimeout(reconnectInterval);
-      reconnectInterval = null;
+  async function refreshWsToken() {
+    try {
+      const response = await fetch("/api/generate-ws-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          scope: "/unusual-order",
+        }),
+      });
+      if (response.ok) {
+        const result = await response.json();
+        if (result?.token) {
+          data.wsToken = result.token;
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to refresh WS token:", e);
     }
+    return false;
   }
 
-  function shouldUseLiveSocket() {
-    return Boolean(
-      data?.user?.tier === "Pro" &&
-        data?.wsURL &&
-        modeStatus &&
-        $isOpen &&
-        !isComponentDestroyed,
-    );
-  }
-
-  function scheduleReconnect(event?: Pick<CloseEvent, "code">) {
-    clearReconnectTimer();
-
-    if (!shouldUseLiveSocket()) {
+  function connectWebSocket() {
+    if (data?.user?.tier !== "Pro" || !data?.wsURL || !data?.wsToken) {
       return;
     }
 
-    const closePolicy = getAuthenticatedWsClosePolicy(
-      event,
-      reconnectAttempts,
-    );
-
-    if (closePolicy.invalidateToken) {
-      invalidateWsToken("/unusual-order");
-    }
-
-    if (!closePolicy.retry) {
-      return;
-    }
-
-    reconnectAttempts += 1;
-    reconnectInterval = setTimeout(() => {
-      reconnectInterval = null;
-      connectWebSocket();
-    }, closePolicy.delayMs);
-  }
-
-  async function connectWebSocket() {
-    if (!shouldUseLiveSocket() || socketConnecting || reconnectInterval) {
-      return;
-    }
-
-    // Prevent duplicate connections
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
         socket.readyState === WebSocket.OPEN)
     ) {
+      console.log("WebSocket already connected or connecting");
       return;
     }
 
-    socketConnecting = true;
     try {
-      const wsUrlWithToken = await buildAuthenticatedWsUrl(
-        data.wsURL,
-        "/unusual-order",
-        data.wsToken,
-      );
-      if (!wsUrlWithToken) {
-        socketConnecting = false;
-        scheduleReconnect();
-        return;
-      }
-      if (!shouldUseLiveSocket()) {
-        socketConnecting = false;
-        return;
-      }
-      if (
-        socket &&
-        (socket.readyState === WebSocket.CONNECTING ||
-          socket.readyState === WebSocket.OPEN)
-      ) {
-        socketConnecting = false;
-        return;
-      }
+      const wsUrlWithToken = `${data.wsURL}/unusual-order?token=${encodeURIComponent(data.wsToken)}`;
+      socket = new WebSocket(wsUrlWithToken);
 
-      const nextSocket = new WebSocket(wsUrlWithToken);
-      socket = nextSocket;
-
-      nextSocket.addEventListener("open", () => {
+      socket.addEventListener("open", () => {
         console.log("Unusual Order Flow WebSocket connection opened");
-        clearReconnectTimer();
         reconnectAttempts = 0;
-        socketConnecting = false;
-        shouldReconnectSocket = true;
 
-        // Send init with filters
         const message = {
           type: "init",
           filters: buildWsFilters(),
         };
-        nextSocket.send(JSON.stringify(message));
+        socket.send(JSON.stringify(message));
       });
 
-      nextSocket.addEventListener("message", async (event) => {
+      socket.addEventListener("message", async (event) => {
         try {
           const message = JSON.parse(event.data);
 
-          // Handle live updates only (array of new trades)
           const newData = Array.isArray(message) ? message : null;
           if (newData && newData.length > 0) {
-            // Always play notification sound for new live trades, regardless
-            // of current page, in-flight fetches, or batch size so the user
-            // is always aware new trades arrived.
             if (!muted && audio) {
               audio?.play()?.catch((error) => {
                 console.log("Audio play failed:", error);
               });
             }
 
-            // Skip data/pagination updates while a REST fetch is in-flight
-            // to avoid a data race — the REST response will set authoritative
-            // counts and data when it completes.
             if (isFetchingPage) return;
 
-            // Safety: if server accidentally sends a huge batch, refresh from API instead
             if (newData.length > 200) {
               console.warn(
                 "WebSocket sent large batch (" +
@@ -1798,9 +1734,6 @@
 
             console.log("Received new live trades:", newData.length);
 
-            // Deduplicate against items already on screen to prevent
-            // the race where the WS poll delivers the same trades that
-            // the REST fetch already loaded.
             const existingIds = new Set(
               displayedData.map((item) => item?.trackingID).filter(Boolean),
             );
@@ -1810,16 +1743,9 @@
 
             if (trulyNew.length === 0) return;
 
-            // Update pagination metadata so controls stay accurate
             totalItems = (totalItems || 0) + trulyNew.length;
             totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
 
-            // Only update visible rows when on page 1 AND using the default
-            // date-desc sort.  New trades sort to position 0 only in that
-            // configuration.  For any other sort (e.g. premium, size) or
-            // page 2+, prepending would displace items that legitimately
-            // belong on the current page — so we just update the counts
-            // above and leave the view untouched.
             const isDefaultSort =
               activeSortKey === "date" && activeSortOrder === "desc";
 
@@ -1836,54 +1762,49 @@
         }
       });
 
-      nextSocket.addEventListener("close", (event) => {
+      socket.addEventListener("close", async (event) => {
         console.log(
           "Unusual Order Flow WebSocket closed:",
           event.code,
           event.reason,
         );
-        if (socket === nextSocket) {
-          socket = null;
-        }
-        socketConnecting = false;
+        socket = null;
 
-        if (ignoredSockets.has(nextSocket)) {
-          ignoredSockets.delete(nextSocket);
-          return;
-        }
+        if (!$isOpen || !modeStatus || isComponentDestroyed) return;
 
-        if (!shouldReconnectSocket) {
-          shouldReconnectSocket = true;
-          return;
+        if (event.code === 4001) {
+          console.log("Token expired, refreshing...");
+          const refreshed = await refreshWsToken();
+          if (!refreshed) return;
+          reconnectAttempts = 0;
         }
 
-        scheduleReconnect(event);
+        reconnectAttempts++;
+        const delay = Math.min(5000 * reconnectAttempts, 30000);
+        console.log(
+          `Reconnecting in ${delay / 1000}s (attempt ${reconnectAttempts})...`,
+        );
+        reconnectInterval = setTimeout(() => {
+          connectWebSocket();
+        }, delay);
       });
 
-      nextSocket.addEventListener("error", (error) => {
+      socket.addEventListener("error", (error) => {
         console.error("Unusual Order Flow WebSocket error:", error);
-        socketConnecting = false;
-        try {
-          nextSocket.close();
-        } catch {
-          // no-op
-        }
       });
     } catch (error) {
-      socketConnecting = false;
       console.error("Failed to create WebSocket connection:", error);
-      scheduleReconnect();
     }
   }
 
   function disconnectWebSocket() {
-    clearReconnectTimer();
-    socketConnecting = false;
+    if (reconnectInterval) {
+      clearTimeout(reconnectInterval);
+      reconnectInterval = null;
+    }
 
     if (socket) {
-      ignoredSockets.add(socket);
-      shouldReconnectSocket = false;
-      socket.close(1000, "Client closed connection");
+      socket.close();
       socket = null;
     }
   }
