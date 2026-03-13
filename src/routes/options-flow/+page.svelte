@@ -2106,10 +2106,10 @@
   function shouldUseLiveSocket() {
     return Boolean(
       data?.user?.tier === "Pro" &&
-        data?.wsURL &&
-        modeStatus &&
-        $isOpen &&
-        !isComponentDestroyed,
+      data?.wsURL &&
+      modeStatus &&
+      $isOpen &&
+      !isComponentDestroyed,
     );
   }
 
@@ -2120,10 +2120,7 @@
       return;
     }
 
-    const closePolicy = getAuthenticatedWsClosePolicy(
-      event,
-      reconnectAttempts,
-    );
+    const closePolicy = getAuthenticatedWsClosePolicy(event, reconnectAttempts);
 
     if (closePolicy.invalidateToken) {
       invalidateWsToken("/options-flow");
@@ -4373,7 +4370,7 @@
             >
               <!-- Find input -->
               <div
-                class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none"
+                class="relative max-w-64 w-full sm:w-fit sm:ml-auto sm:flex-1 lg:flex-none"
               >
                 <div
                   class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
