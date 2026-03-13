@@ -3,10 +3,43 @@ type WsTokenCacheEntry = {
   token: string;
 };
 
+const WS_INITIAL_CONNECT_MAX_DELAY_MS = 150;
 const WS_TOKEN_REFRESH_BUFFER_MS = 30_000;
 const WS_TOKEN_FETCH_TIMEOUT_MS = 3_000;
 const wsTokenCache = new Map<string, WsTokenCacheEntry>();
 const wsTokenRequests = new Map<string, Promise<string | null>>();
+let wsInitialConnectReady = typeof window === "undefined";
+const wsInitialConnectPromise =
+  typeof window === "undefined"
+    ? Promise.resolve()
+    : new Promise<void>((resolve) => {
+        let settled = false;
+        const finish = () => {
+          if (settled) {
+            return;
+          }
+          settled = true;
+          wsInitialConnectReady = true;
+          resolve();
+        };
+
+        const timeoutId = window.setTimeout(
+          finish,
+          WS_INITIAL_CONNECT_MAX_DELAY_MS,
+        );
+
+        if (typeof requestAnimationFrame === "function") {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              clearTimeout(timeoutId);
+              finish();
+            });
+          });
+          return;
+        }
+
+        window.setTimeout(finish, 0);
+      });
 
 export const WS_CLOSE_CODE_AUTH = 4001;
 export const WS_CLOSE_CODE_CONNECTION_LIMIT = 4002;
@@ -18,6 +51,14 @@ export type PublicWsClosePolicy = {
   invalidateToken: boolean;
   retry: boolean;
 };
+
+async function waitForInitialWsConnectWindow(): Promise<void> {
+  if (wsInitialConnectReady) {
+    return;
+  }
+
+  await wsInitialConnectPromise;
+}
 
 function normalizeWsScope(scope: string): string {
   const trimmed = String(scope || "").trim();
@@ -209,6 +250,8 @@ export async function buildAuthenticatedWsUrl(
   path: string,
   token: string | null | undefined,
 ): Promise<string | null> {
+  await waitForInitialWsConnectWindow();
+
   if (token) {
     return buildWsUrl(wsURL, path, token);
   }
