@@ -580,6 +580,32 @@
     return `${mm}/${dd}/${yy}`;
   };
 
+  const formatAssetTypeLabel = (value: unknown): string => {
+    if (typeof value === "number") {
+      if (value === 0) return "Stock";
+      if (value === 1) return "ETF";
+      if (value === 2) return "Index";
+      return String(value);
+    }
+
+    if (typeof value === "string") {
+      const normalized = value.trim().toLowerCase();
+      if (["0", "stock", "stocks"].includes(normalized)) return "Stock";
+      if (["1", "etf", "etfs"].includes(normalized)) return "ETF";
+      if (["2", "index", "indices"].includes(normalized)) return "Index";
+      return value.trim();
+    }
+
+    return "";
+  };
+
+  const getAssetRouteSegment = (value: unknown): string => {
+    const label = formatAssetTypeLabel(value).toLowerCase();
+    if (label === "stock") return "stocks";
+    if (label === "etf") return "etf";
+    return "index";
+  };
+
   async function openChartModal(item) {
     // If item already has chart fields (e.g. income tab), use directly
     if (item.bid != null && item.breakeven != null) {
@@ -1904,6 +1930,7 @@
   };
 
   const stringTypeRules = [
+    "assetType",
     "earningsDate",
     "earningsTime",
     "exDividendDate",
@@ -3186,7 +3213,7 @@
                     <td class="whitespace-nowrap text-start">
                       <div class="flex flex-row items-center gap-2">
                         <a
-                          href={`/${["stock", "stocks"]?.includes(item?.assetType?.toLowerCase()) ? "stocks" : ["etf", "etfs"]?.includes(item?.assetType?.toLowerCase()) ? "etf" : "index"}/` +
+                          href={`/${getAssetRouteSegment(item?.assetType)}/` +
                             item?.symbol +
                             `/options/contract-lookup?contract=${item?.optionSymbol}`}
                           rel="noopener noreferrer"
@@ -3275,12 +3302,14 @@
                       (r) => r.rule === column.key,
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
-                      {#if ["earningsTime", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
-                        {#if item[column.key]}
-                          {item[column.key]
-                            ?.replace("After Market Close", "After Close")
-                            ?.replace("Before Market Open", "Before Open")
-                            ?.replace(/\s*\(.*?\)/, "")}
+                      {#if ["assetType", "earningsTime", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
+                        {#if item[column.key] != null && item[column.key] !== ""}
+                          {column.key === "assetType"
+                            ? formatAssetTypeLabel(item[column.key])
+                            : item[column.key]
+                                ?.replace("After Market Close", "After Close")
+                                ?.replace("Before Market Open", "Before Open")
+                                ?.replace(/\s*\(.*?\)/, "")}
                         {:else if !(column.key in item)}
                           <span
                             class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
