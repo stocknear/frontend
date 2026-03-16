@@ -64,7 +64,7 @@
     <main class="w-full mb-4 sm:mb-0">
       <div class="m-auto">
         <nav
-          class=" sm:ml-4 sm:pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
+          class="sm:ml-4 mt-2 text-sm whitespace-nowrap overflow-x-auto scrollbar-thin"
         >
           <ul
             class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"

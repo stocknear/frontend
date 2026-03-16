@@ -1991,10 +1991,10 @@
   function shouldUseRealtimeSocket() {
     return Boolean(
       typeof window !== "undefined" &&
-        $isOpen &&
-        Array.isArray(rawData) &&
-        rawData.length > 0 &&
-        data?.wsURL,
+      $isOpen &&
+      Array.isArray(rawData) &&
+      rawData.length > 0 &&
+      data?.wsURL,
     );
   }
 
@@ -2829,7 +2829,9 @@
     class="flex flex-col sm:flex-row sm:items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
   >
     <!-- Row 1 on mobile: Find... (full width) -->
-    <div class="relative w-full sm:w-fit ml-auto sm:flex-1 lg:flex-none">
+    <div
+      class="relative max-w-64 w-full sm:w-fit sm:ml-auto sm:flex-1 lg:flex-none"
+    >
       <div class="inline-block cursor-pointer absolute right-2 top-2 text-sm">
         {#if inputValue?.length > 0}
           <label class="cursor-pointer" on:click={() => resetTableSearch()}>
