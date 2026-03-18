@@ -79,6 +79,15 @@
 
   // Store references to info icon elements
   let infoElements: { [key: string]: HTMLElement } = {};
+  let infoTooltipInstances: Map<string, any> = new Map();
+  let infoTooltipLoadState: Map<
+    string,
+    "idle" | "loading" | "loaded" | "error"
+  > = new Map();
+  let fieldLookup: Map<
+    string,
+    { label?: string; key?: string; growthOf?: string }
+  > = new Map();
 
   const isGrowthField = (field?: { key?: string; growthOf?: string }) => {
     if (!field) return false;
@@ -320,6 +329,121 @@
     }
   }
 
+  function setInfoTooltipContent(instance: any, title: string, body: string) {
+    instance.setContent(`
+      <div class="info-tooltip">
+        <div class="info-tooltip__title">${title}</div>
+        <div class="info-tooltip__body">${body}</div>
+      </div>
+    `);
+  }
+
+  function setLoadedInfoTooltipContent(
+    instance: any,
+    title: string,
+    content: any,
+  ) {
+    instance.setContent(`
+      <div class="info-tooltip">
+        <div class="info-tooltip__title">${title}</div>
+        <div class="info-tooltip__body">${content?.text || "n/a"}</div>
+        ${
+          content?.equation
+            ? `<div class="info-tooltip__equation">${content?.equation}</div>`
+            : ""
+        }
+      </div>
+    `);
+  }
+
+  function getInfoLabel(key: string) {
+    const field = fieldLookup.get(key);
+    return getDisplayLabel(field) || key;
+  }
+
+  async function loadInfoTooltip(key: string, instance: any) {
+    const infoLabel = getInfoLabel(key);
+    const currentState = infoTooltipLoadState.get(key) ?? "idle";
+
+    if (currentState === "loaded" || currentState === "loading") {
+      return;
+    }
+
+    infoTooltipLoadState.set(key, "loading");
+    setInfoTooltipContent(instance, infoLabel, stock_detail_financials_loading());
+
+    try {
+      const content = await getInfoText(key);
+      infoTooltipLoadState.set(key, "loaded");
+      setLoadedInfoTooltipContent(instance, infoLabel, content);
+    } catch (error) {
+      infoTooltipLoadState.set(key, "error");
+      setInfoTooltipContent(
+        instance,
+        infoLabel,
+        stock_detail_financials_error_loading(),
+      );
+    }
+  }
+
+  function ensureInfoTooltip(key: string) {
+    const existing = infoTooltipInstances.get(key);
+    if (existing) {
+      return existing;
+    }
+
+    const element = infoElements[key];
+    if (!element) {
+      return null;
+    }
+
+    const infoLabel = getInfoLabel(key);
+    const instance = tippy(element, {
+      trigger: "manual",
+      placement: "bottom",
+      theme: "minimal",
+      allowHTML: true,
+      appendTo: () => document.body,
+      zIndex: 9999,
+      interactive: false,
+      delay: [0, 0],
+      onShow: async (currentInstance) => {
+        const state = infoTooltipLoadState.get(key) ?? "idle";
+        if (state === "loaded" || state === "error") {
+          return;
+        }
+        setInfoTooltipContent(
+          currentInstance,
+          infoLabel,
+          stock_detail_financials_loading(),
+        );
+        await loadInfoTooltip(key, currentInstance);
+      },
+    });
+
+    infoTooltipInstances.set(key, instance);
+    return instance;
+  }
+
+  function showInfoTooltip(key: string) {
+    const instance = ensureInfoTooltip(key);
+    instance?.show();
+  }
+
+  function hideInfoTooltip(key: string) {
+    infoTooltipInstances.get(key)?.hide();
+  }
+
+  function destroyInfoTooltip(key: string) {
+    const instance = infoTooltipInstances.get(key);
+    if (!instance) {
+      return;
+    }
+    instance.destroy();
+    infoTooltipInstances.delete(key);
+    infoTooltipLoadState.delete(key);
+  }
+
   const buildFieldGroups = (fieldList) => {
     const groups = [];
     let index = 0;
@@ -361,6 +485,8 @@
     groups.flatMap((group) => (group?.items ? group.items : []));
 
   $: growthMapping = createGrowthMapping(fields);
+
+  $: fieldLookup = new Map(fields.map((field) => [field.key, field]));
 
   $: growthFieldKeys = new Set(
     fields.filter((field) => isGrowthField(field)).map((field) => field.key),
@@ -412,6 +538,15 @@
   $: visibleComputedFields = computedFields.filter((field) =>
     renderableFieldKeys.has(field.key),
   );
+
+  $: {
+    const visibleKeys = new Set(visibleComputedFields.map((field) => field.key));
+    for (const key of Array.from(infoTooltipInstances.keys())) {
+      if (!visibleKeys.has(key)) {
+        destroyInfoTooltip(key);
+      }
+    }
+  }
 
   $: if (enableFavorites) {
     const filteredFavorites = sanitizeFavoriteList(favoriteMetrics);
@@ -905,64 +1040,15 @@
       loadFavorites();
     }
 
-    // Initialize tippy for all info elements
-    const tippyInstances: any[] = [];
-    Object.entries(infoElements).forEach(([key, element]) => {
-      if (!element) return;
-
-      const field = fields.find((f) => f.key === key);
-      if (!field) return;
-      const infoLabel = getDisplayLabel(field);
-
-      const instance = tippy(element, {
-        trigger: "mouseenter focus",
-        placement: "bottom",
-        theme: "minimal",
-        allowHTML: true,
-        appendTo: () => document.body,
-        zIndex: 9999,
-        interactive: true,
-        delay: [200, 100],
-        onShow: async (instance) => {
-          instance.setContent(`
-            <div class="info-tooltip">
-              <div class="info-tooltip__title">${infoLabel}</div>
-              <div class="info-tooltip__body">${stock_detail_financials_loading()}</div>
-            </div>
-          `);
-          try {
-            const content = await getInfoText(key);
-            instance.setContent(`
-              <div class="info-tooltip">
-                <div class="info-tooltip__title">${infoLabel}</div>
-                <div class="info-tooltip__body">${content?.text || "n/a"}</div>
-                ${
-                  content?.equation
-                    ? `<div class="info-tooltip__equation">${content?.equation}</div>`
-                    : ""
-                }
-              </div>
-            `);
-          } catch (error) {
-            instance.setContent(`
-              <div class="info-tooltip">
-                <div class="info-tooltip__title">${infoLabel}</div>
-                <div class="info-tooltip__body">${stock_detail_financials_error_loading()}</div>
-              </div>
-            `);
-          }
-        },
-      });
-      tippyInstances.push(instance);
-    });
-
     if (isBrowser) {
       document.addEventListener("pointerdown", handleGlobalPointerDown);
       document.addEventListener("keydown", handleGlobalKeydown);
     }
 
     return () => {
-      tippyInstances.forEach((t) => t.destroy());
+      for (const key of Array.from(infoTooltipInstances.keys())) {
+        destroyInfoTooltip(key);
+      }
       if (isBrowser) {
         document.removeEventListener("pointerdown", handleGlobalPointerDown);
         document.removeEventListener("keydown", handleGlobalKeydown);
@@ -1015,16 +1101,22 @@
             </button>
           {/if}
 
-          <div
+          <button
+            type="button"
             bind:this={infoElements[field.key]}
-            class="truncate w-fit max-w-40 sm:max-w-64 cursor-text flex items-center"
+            class="truncate w-fit max-w-40 sm:max-w-64 cursor-help flex items-center text-left"
+            aria-label={`${field.displayLabel ?? field.label} definition`}
+            on:mouseenter={() => showInfoTooltip(field.key)}
+            on:mouseleave={() => hideInfoTooltip(field.key)}
+            on:focus={() => showInfoTooltip(field.key)}
+            on:blur={() => hideInfoTooltip(field.key)}
           >
             <span
               class="truncate"
               class:ml-7={field?.displayLabel?.includes("Growth (YoY)")}
               >{field.displayLabel ?? field.label}
             </span>
-          </div>
+          </button>
         </div>
 
         <div class="flex items-center gap-2">

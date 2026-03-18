@@ -25,7 +25,13 @@ export const partitionStatements = (statements: any[] = [], canViewAll: boolean)
   if (!Array.isArray(statements)) {
     return { visible: [], locked: [] };
   }
-  const chronological = sortStatementsAscending(statements);
+  return partitionSortedStatements(sortStatementsAscending(statements), canViewAll);
+};
+
+const partitionSortedStatements = (
+  chronological: any[] = [],
+  canViewAll: boolean,
+) => {
   if (canViewAll) {
     return { visible: chronological, locked: [] };
   }
@@ -74,6 +80,25 @@ export const buildLockInfo = (statements: any[], canViewAll: boolean) => {
   };
 };
 
+const buildStatementView = (statements: any[], canViewAll: boolean) => {
+  const partitioned = partitionStatements(statements, canViewAll);
+  return {
+    visible: partitioned.visible,
+    lockInfo: {
+      hasLockedData: partitioned.locked.length > 0,
+      lockedCount: partitioned.locked.length,
+      lockedFiscalYearRange: formatLockedRange(
+        partitioned.locked,
+        getFiscalYearValue,
+      ),
+      lockedPeriodRange: formatLockedRange(
+        partitioned.locked,
+        getPeriodEndingYearValue,
+      ),
+    },
+  };
+};
+
 /**
  * Fetch a financial statement and compute lock info + limiting in one call.
  * Used by all 4 statement page servers.
@@ -96,30 +121,36 @@ export async function fetchAndProcessStatement(
 
   let output = await response.json();
 
-  const financialLockInfo = Array.isArray(output)
-    ? {
-        annual: buildLockInfo(output, canViewAllHistory),
-        quarterly: buildLockInfo(output, canViewAllHistory),
-        ttm: buildLockInfo(output, canViewAllHistory),
-      }
-    : {
-        annual: buildLockInfo(output?.annual, canViewAllHistory),
-        quarterly: buildLockInfo(output?.quarter, canViewAllHistory),
-        ttm: buildLockInfo(output?.ttm, canViewAllHistory),
-      };
-
-  if (!canViewAllHistory) {
-    if (Array.isArray(output)) {
-      output = limitStatements(output, false);
-    } else if (output && typeof output === "object") {
-      output = {
-        ...output,
-        annual: limitStatements(output?.annual, false),
-        quarter: limitStatements(output?.quarter, false),
-        ttm: limitStatements(output?.ttm, false),
-      };
-    }
+  if (Array.isArray(output)) {
+    const annualView = buildStatementView(output, canViewAllHistory);
+    return {
+      getData: annualView.visible,
+      financialLockInfo: {
+        annual: annualView.lockInfo,
+        quarterly: annualView.lockInfo,
+        ttm: annualView.lockInfo,
+      },
+    };
   }
 
-  return { getData: output, financialLockInfo };
+  const annualView = buildStatementView(output?.annual, canViewAllHistory);
+  const quarterlyView = buildStatementView(output?.quarter, canViewAllHistory);
+  const ttmView = buildStatementView(output?.ttm, canViewAllHistory);
+
+  return {
+    getData:
+      output && typeof output === "object"
+        ? {
+            ...output,
+            annual: annualView.visible,
+            quarter: quarterlyView.visible,
+            ttm: ttmView.visible,
+          }
+        : output,
+    financialLockInfo: {
+      annual: annualView.lockInfo,
+      quarterly: quarterlyView.lockInfo,
+      ttm: ttmView.lockInfo,
+    },
+  };
 }

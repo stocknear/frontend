@@ -57,7 +57,6 @@
   }
 
   let switchDate = false;
-  let tableList = [];
   let processedData = {};
 
   let financialData = [];
@@ -268,10 +267,11 @@
     }
   };
 
-  // Pre-process all data once instead of in each component
-  function preprocessFinancialData() {
-    processedData = {};
-
+  function buildProcessedFinancialData(
+    statements: any[] = [],
+    periodType: string = "annual",
+  ) {
+    const nextProcessedData = {};
     // Precompute mapping from propertyName to config for quick lookup
     const configMap = {};
     statementConfig.forEach((item) => {
@@ -282,12 +282,12 @@
 
     // Precompute xList from income (reverse order)
     const xList = [];
-    for (let i = financialData.length - 1; i >= 0; i--) {
-      const statement = financialData[i];
+    for (let i = statements.length - 1; i >= 0; i--) {
+      const statement = statements[i];
       const year = statement.fiscalYear?.slice(-2);
       const quarter = statement.period;
       xList.push(
-        $selectedTimePeriod === "annual"
+        periodType === "annual"
           ? "FY" + year
           : "FY" + year + " " + quarter,
       );
@@ -301,8 +301,8 @@
 
       const valueList = [];
       // Loop through financialData in reverse to match xList order
-      for (let i = financialData.length - 1; i >= 0; i--) {
-        const statement = financialData[i];
+      for (let i = statements.length - 1; i >= 0; i--) {
+        const statement = statements[i];
         let rawValue = Number(statement[config.propertyName]);
         if (Number.isFinite(rawValue) && marginKeys.has(config.propertyName)) {
           rawValue = rawValue * 100;
@@ -313,20 +313,13 @@
         valueList.push(value);
       }
 
-      processedData[statementKey] = {
+      nextProcessedData[statementKey] = {
         xList, // re-use the precomputed labels
         valueList,
         labelName: config.label,
       };
     });
-
-    // Build tableList once for all charts and sort by date (newest first)
-    tableList = financialData?.map((statement) => ({
-      date: statement.date,
-      // Add more properties if needed
-    }));
-
-    tableList.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return nextProcessedData;
   }
 
   $: {
@@ -379,19 +372,30 @@
         $selectedTimePeriod || "annual",
       );
       financialData = applyDisplayOrder(filteredVisible, _switchDateDep);
-      preprocessFinancialData();
     } else {
       financialData = [];
       lockedStatements = [];
       lockedFiscalYearRange = "";
       lockedPeriodRange = "";
       hasLockedData = false;
+      lockedCount = 0;
     }
   }
 
-  // Derive growth rows and keep base data unchanged for headers/export.
   $: {
-    if (financialData.length > 0) {
+    if ($coolMode && financialData.length > 0) {
+      processedData = buildProcessedFinancialData(
+        financialData,
+        $selectedTimePeriod || "annual",
+      );
+    } else {
+      processedData = {};
+    }
+  }
+
+  // Derive growth rows only when the table view is active.
+  $: {
+    if (!$coolMode && financialData.length > 0) {
       const { statements, fields: augmentedFields } =
         augmentStatementsWithGrowth(
           financialData,
