@@ -134,7 +134,7 @@
           on:click={() => (installPlatform = "ios")}
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'ios'
-            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+            ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
             : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
         >
           {app_installed_platform_ios()}
@@ -144,7 +144,7 @@
           on:click={() => (installPlatform = "android")}
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'android'
-            ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+            ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
             : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
         >
           {app_installed_platform_android()}

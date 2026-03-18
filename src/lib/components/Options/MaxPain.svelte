@@ -1048,7 +1048,7 @@
                   on:click={() => changeChartTypeStrike(item.type)}
                   class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
                     {chartTypeStrike === item.type
-                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                    ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
                     : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                   title={getChartTypeLabel(item.type)}
                 >
@@ -1107,7 +1107,7 @@
                   on:click={() => changeChartTypeExpiry(item.type)}
                   class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
                     {chartTypeExpiry === item.type
-                    ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                    ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
                     : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                   title={getChartTypeLabel(item.type)}
                 >

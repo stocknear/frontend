@@ -789,7 +789,7 @@
             <table
               class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
             >
-              <thead class="text-white bg-default">
+              <thead class="">
                 <tr class="">
                   <th class=" font-semibold text-sm text-start">Fiscal Year</th>
                   {#each xData as item}

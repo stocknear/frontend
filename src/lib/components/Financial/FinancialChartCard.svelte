@@ -688,7 +688,7 @@
 
 <div
   bind:this={cardElement}
-  class="group relative bg-white dark:bg-zinc-950/60 border border-gray-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 transition-all duration-200 hover:shadow-md cursor-pointer"
+  class="group relative shadow bg-white dark:bg-zinc-950/60 border border-gray-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 cursor-pointer"
   role="button"
   tabindex="0"
   on:click={handleExpand}

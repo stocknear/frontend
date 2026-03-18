@@ -548,7 +548,7 @@
                 on:click={() => changeTimePeriod(i)}
                 class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
-                  ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
+                  ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
                   : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
               >
                 {item.title}
@@ -565,7 +565,7 @@
         <table
           class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
         >
-          <thead class="text-white bg-default">
+          <thead class="">
             <TableHeader {columns} {sortOrders} {sortData} />
           </thead>
           <tbody>
