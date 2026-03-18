@@ -3,13 +3,6 @@ import crypto from 'node:crypto';
 import webPush from 'web-push';
 import { VAPID_PRIVATE_KEY } from "$env/static/private";
 
-import https from 'https';
-
-const agent = new https.Agent({
-  family: 4 // Forces IPv4
-});
-
-
 const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
 webPush.setVapidDetails(
@@ -17,6 +10,20 @@ webPush.setVapidDetails(
   VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY
 );
+
+const extractSubscription = (subRecord: Record<string, any>) => {
+  const rawSubscription = subRecord.subscription;
+
+  if (rawSubscription?.subscription?.endpoint) {
+    return rawSubscription.subscription;
+  }
+
+  if (rawSubscription?.endpoint) {
+    return rawSubscription;
+  }
+
+  return null;
+};
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { pb, apiKey } = locals;
@@ -37,20 +44,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       return new Response(JSON.stringify({ success: false, error: 'No subscriptions found' }), { status: 404 });
     }
 
+    const payload = JSON.stringify({ title, body, url });
+
     const sendNotifications = subscriptions?.map(async (subRecord) => {
       try {
-        const subscriptionData = subRecord.subscription?.subscription;
+        const subscriptionData = extractSubscription(subRecord);
         
         if (!subscriptionData?.endpoint) {
           console.warn(`Skipping invalid subscription: ${subRecord.id}`);
-          return;
+          return { ok: false, recordId: subRecord.id };
         }
 
-        // Always send JSON payload with title, body, and url
-        const payload = JSON?.stringify({ title, body, url });
-
-        await webPush.sendNotification(subscriptionData, payload, { agent });
-        //console.log(`Notification sent to: ${subscriptionData.endpoint}`);
+        await webPush.sendNotification(subscriptionData, payload);
+        return { ok: true, recordId: subRecord.id };
         
       } catch (error: any) {
         console.error(`Error sending notification to ${subRecord.id}:`, error);
@@ -58,14 +64,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         if (error.statusCode === 410 || error.statusCode === 404) {
           await pb.collection('pushSubscription').delete(subRecord.id);
         }
+
+        return { ok: false, recordId: subRecord.id, statusCode: error?.statusCode };
       }
     });
 
-    await Promise.all(sendNotifications);
+    const results = await Promise.all(sendNotifications);
+    const successfulCount = results.filter((result) => result?.ok).length;
+    const failedCount = results.length - successfulCount;
 
     return new Response(JSON.stringify({ 
-      success: true, 
-      message: `Notifications sent to ${subscriptions.length} devices` 
+      success: successfulCount > 0,
+      message: `Notifications sent to ${successfulCount} devices`,
+      failedCount,
     }));
   } catch (error: any) {
     console.error('Error sending notifications:', error);

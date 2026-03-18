@@ -10,6 +10,7 @@
   import { isPWAInstalled } from "$lib/utils";
   import {
     requestNotificationPermission,
+    getNotificationPermissionState,
     checkSubscriptionStatus,
     unsubscribe,
     subscribeUser,
@@ -103,7 +104,8 @@
   let pwaInstalled;
   let loading = false;
 
-  let nottifPermGranted: boolean | null = null;
+  let notificationPermissionState: NotificationPermission | "unsupported" | null =
+    null;
   let isPushSubscribed = data?.getPushSubscriptionData !== null ? true : false;
 
   let subscriptionData = data?.getSubscriptionData;
@@ -239,12 +241,9 @@
 
   onMount(async () => {
     pwaInstalled = isPWAInstalled();
-    nottifPermGranted = await requestNotificationPermission();
-    if (nottifPermGranted) {
-      isPushSubscribed =
-        ((await checkSubscriptionStatus()) &&
-          data?.getPushSubscriptionData !== null) ||
-        false;
+    notificationPermissionState = getNotificationPermissionState();
+    if (notificationPermissionState === "granted") {
+      isPushSubscribed = await checkSubscriptionStatus();
     }
   });
 
@@ -271,6 +270,7 @@
     try {
       // First check if notifications are allowed
       const permission = await requestNotificationPermission();
+      notificationPermissionState = getNotificationPermissionState();
       if (!permission) {
         toast.error(profile_toast_push_allow(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -471,83 +471,86 @@
             </h3>
             {#if pwaInstalled}
               <div class="mt-3">
-                {#if nottifPermGranted === null}
+                {#if notificationPermissionState === null}
                   <p class="text-sm text-muted dark:text-zinc-300">
                     {profile_push_checking()}
                   </p>
-                {:else if nottifPermGranted === true}
-                  {#if isPushSubscribed}
-                    <p class="mb-3 text-sm text-muted dark:text-zinc-300">
-                      {profile_push_active()}
-                    </p>
-                    <div class="mt-3">
-                      {#if !loading}
-                        <button
-                          class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
-                          type="button"
-                          on:click={handlePushUnsubscribe}
-                          >{profile_push_disable()}</button
-                        >
-                      {:else}
-                        <button
-                          class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
-                          disabled
-                        >
-                          <div class="flex flex-row m-auto items-center">
-                            <svg
-                              class="mr-2 w-4 h-4 animate-spin"
-                              viewBox="0 0 20 20"
-                            >
-                              <circle
-                                cx="10"
-                                cy="10"
-                                r="8"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                                stroke-linecap="round"
-                                stroke-dasharray="25.132741228718345"
-                                stroke-dashoffset="25.132741228718345"
-                              >
-                                <animateTransform
-                                  attributeName="transform"
-                                  type="rotate"
-                                  from="0 10 10"
-                                  to="360 10 10"
-                                  dur="1s"
-                                  repeatCount="indefinite"
-                                />
-                              </circle>
-                            </svg>
-                            {profile_push_processing()}
-                          </div>
-                        </button>
-                      {/if}
-                    </div>
-                  {:else}
-                    <p class="mb-3 text-sm text-muted dark:text-zinc-300">
-                      {profile_push_description()}
-                    </p>
+                {:else if notificationPermissionState === "granted" && isPushSubscribed}
+                  <p class="mb-3 text-sm text-muted dark:text-zinc-300">
+                    {profile_push_active()}
+                  </p>
+                  <div class="mt-3">
                     {#if !loading}
                       <button
                         class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                         type="button"
-                        on:click={handlePushSubscribe}
-                        >{profile_push_enable()}</button
+                        on:click={handlePushUnsubscribe}
+                        >{profile_push_disable()}</button
                       >
                     {:else}
                       <button
                         class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
-                        ><div class="flex flex-row m-auto items-center">
-                          <span class="loading loading-infinity"></span>
-                          <span class=" ml-1.5"
-                            >{profile_push_activating()}</span
-                          >
-                        </div></button
+                        disabled
                       >
+                        <div class="flex flex-row m-auto items-center">
+                          <svg
+                            class="mr-2 w-4 h-4 animate-spin"
+                            viewBox="0 0 20 20"
+                          >
+                            <circle
+                              cx="10"
+                              cy="10"
+                              r="8"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              fill="none"
+                              stroke-linecap="round"
+                              stroke-dasharray="25.132741228718345"
+                              stroke-dashoffset="25.132741228718345"
+                            >
+                              <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 10 10"
+                                to="360 10 10"
+                                dur="1s"
+                                repeatCount="indefinite"
+                              />
+                            </circle>
+                          </svg>
+                          {profile_push_processing()}
+                        </div>
+                      </button>
                     {/if}
+                  </div>
+                {:else if notificationPermissionState === "granted" || notificationPermissionState === "default"}
+                  {#if isPushSubscribed}
+                    <p class="mb-3 text-sm text-muted dark:text-zinc-300">
+                      {profile_push_active()}
+                    </p>
                   {/if}
-                {:else if nottifPermGranted === false}
+                  <p class="mb-3 text-sm text-muted dark:text-zinc-300">
+                    {profile_push_description()}
+                  </p>
+                  {#if !loading}
+                    <button
+                      class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
+                      type="button"
+                      on:click={handlePushSubscribe}
+                      >{profile_push_enable()}</button
+                    >
+                  {:else}
+                    <button
+                      class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
+                      ><div class="flex flex-row m-auto items-center">
+                        <span class="loading loading-infinity"></span>
+                        <span class=" ml-1.5"
+                          >{profile_push_activating()}</span
+                        >
+                      </div></button
+                    >
+                  {/if}
+                {:else}
                   <p class="text-sm text-muted dark:text-zinc-300">
                     {profile_push_enable_settings()}
                   </p>

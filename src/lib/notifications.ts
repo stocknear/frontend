@@ -39,6 +39,14 @@ export async function requestNotificationPermission() {
   }
 }
 
+export function getNotificationPermissionState(): NotificationPermission | 'unsupported' {
+  if (!('Notification' in window)) {
+    return 'unsupported';
+  }
+
+  return Notification.permission;
+}
+
 
 export function sendNotification(
     title: string,
@@ -77,13 +85,18 @@ export async function unsubscribe() {
 				const readyRegistration = await navigator.serviceWorker.ready;
 				const subscription = await readyRegistration.pushManager.getSubscription();
 				if (subscription) {
+					await subscription.unsubscribe();
 					const res = await fetch('/api/deletePushSubscription', {
 						method: 'GET',
+						credentials: 'include',
+						cache: 'no-store',
 						headers: {
 							'Content-Type': 'application/json'
 						},
 					});
-					await subscription.unsubscribe();
+					if (!res.ok) {
+						console.warn('Failed to delete push subscription from server:', await res.text());
+					}
 					console.log('Successfully unsubscribed from push notifications');
 				} else {
 					console.log('No push subscription found');
@@ -98,18 +111,24 @@ async function sendSubscriptionToServer(subscription) {
 		try {
 			const response = await fetch('/api/addPushSubscription', {
 				method: 'POST',
+				credentials: 'include',
+				cache: 'no-store',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ subscription })
 			});
 
-			const output = await response?.json()
+			const output = await response?.json();
+			if (!response.ok || !output?.success) {
+				console.error('Push subscription sync failed:', output);
+				return { success: false, error: output?.error ?? output?.message ?? 'Unable to save subscription' };
+			}
 			return output;
 			
 		} catch (error) {
 			console.error('Error saving subscription on server:', error);
-			unsubscribe();
+			return { success: false, error: 'Network error while saving subscription' };
 		}
 	}
 
@@ -175,10 +194,9 @@ export async function checkSubscriptionStatus() {
 				const subscription = await readyRegistration.pushManager.getSubscription();
 				//console.log('check Subscription:', subscription);
 				const exists = subscription !== null;
-				//this can be optional
-				if (exists) {
-					// just to make sure the subscription is saved on the server
-					//sendSubscriptionToServer(subscription);
+				if (exists && subscription) {
+					// Keep the server-side record in sync with the browser subscription.
+					await sendSubscriptionToServer(subscription);
 				}
 				return exists;
 			} catch (error) {
