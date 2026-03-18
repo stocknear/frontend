@@ -85,16 +85,13 @@ export async function unsubscribe() {
 				const readyRegistration = await navigator.serviceWorker.ready;
 				const subscription = await readyRegistration.pushManager.getSubscription();
 				if (subscription) {
-					const endpoint = subscription.endpoint;
 					await subscription.unsubscribe();
 					const res = await fetch('/api/deletePushSubscription', {
-						method: 'POST',
-						credentials: 'include',
+						method: 'GET',
 						cache: 'no-store',
 						headers: {
 							'Content-Type': 'application/json'
 						},
-						body: JSON.stringify({ endpoint }),
 					});
 					if (!res.ok) {
 						console.warn('Failed to delete push subscription from server:', await res.text());
@@ -110,13 +107,12 @@ export async function unsubscribe() {
 	}
 
 async function sendSubscriptionToServer(subscription) {
-		try {
-			const response = await fetch('/api/addPushSubscription', {
-				method: 'POST',
-				credentials: 'include',
-				cache: 'no-store',
-				headers: {
-					'Content-Type': 'application/json'
+			try {
+				const response = await fetch('/api/addPushSubscription', {
+					method: 'POST',
+					cache: 'no-store',
+					headers: {
+						'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ subscription })
 			});

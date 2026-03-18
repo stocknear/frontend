@@ -1,10 +1,9 @@
 import type { RequestHandler } from "./$types";
 import { error} from '@sveltejs/kit';
 
-const getStoredEndpoint = (item: Record<string, any>) =>
-	item?.subscription?.subscription?.endpoint ?? item?.subscription?.endpoint ?? null;
 
-export const POST = (async ({ locals, request }) => {
+
+export const GET = (async ({ locals }) => {
 	const { user, pb } = locals;
 
 	if (!user?.id) {
@@ -13,30 +12,17 @@ export const POST = (async ({ locals, request }) => {
 	}
 
 	try {
-		const { endpoint } = await request.json();
-		if (!endpoint) {
-			return new Response(
-				JSON.stringify({ success: false, error: 'Missing push subscription endpoint' }),
-				{ status: 400 },
-			);
-		}
-
 		const output = await pb.collection("pushSubscription").getFullList({
 			filter: `user="${user.id}"`,
 		});
 
-		let deletedCount = 0;
 		if (output?.length > 0) {
 			for (const item of output) {
-				if (getStoredEndpoint(item) !== endpoint) {
-					continue;
-				}
 				await pb.collection("pushSubscription")?.delete(item?.id);
-				deletedCount += 1;
 			}
 		}
 
-		return new Response(JSON.stringify({ success: true, deletedCount }));
+		return new Response(JSON.stringify({'success': true}));
 	} catch (err) {
 		console.log(err);
 		return new Response(

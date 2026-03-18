@@ -10,12 +10,19 @@ export const load = async ({ locals }) => {
 
 
 const getPushSubscriptionData = async () => {
-  let output = [];
+  let output = {};
   try {
     output = await pb.collection("pushSubscription").getFullList({
       filter: `user="${user?.id}"`,
       sort: "-created", // Sorts newest first
     });
+
+    if (output?.length > 1) {
+      const [, ...toDelete] = output; // Keep the first item, delete the rest
+      await Promise.all(
+        toDelete.map((item) => pb.collection("pushSubscription").delete(item?.id))
+      );
+    }
   } catch (err) {
     console.log(err);
   }
