@@ -1061,7 +1061,7 @@
   <label for="financialPlotModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="financial-modal modal-box w-full max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="financial-modal modal-box w-full max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="financialPlotModal"
@@ -1085,7 +1085,7 @@
         <div class="relative w-full sm:w-auto" bind:this={rangeDropdownRef}>
           <button
             type="button"
-            class="cursor-pointer w-auto transition-all duration-50 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 flex items-center justify-between px-3 py-2 rounded-full text-sm text-gray-900 dark:text-white"
+            class="cursor-pointer w-auto transition-all duration-50 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 flex items-center justify-between px-3 py-2 rounded-full text-sm text-muted dark:text-white"
             aria-haspopup="menu"
             aria-expanded={rangeMenuOpen}
             on:click={toggleRangeMenu}
@@ -1145,7 +1145,7 @@
 
         <Button
           on:click={toggleMode}
-          class="w-fit transition-all duration-50 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+          class="w-fit transition-all duration-50 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
         >
           {#if chartMode === "bar"}
             <LineChart class="w-4.5 h-4.5" />

@@ -272,7 +272,7 @@
             <Infobox text={ipos_statistics_infobox()} />
 
             <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 sm:mb-0 mt-2"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-2 sm:mb-0 mt-2"
             >
               {ipos_statistics_title()}
             </h1>
@@ -320,9 +320,7 @@
             class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <div class="p-4 text-sm text-muted dark:text-zinc-300">
-              <h3
-                class="text-lg font-semibold text-gray-900 dark:text-white mb-3"
-              >
+              <h3 class="text-lg font-semibold text-muted dark:text-white mb-3">
                 {ipos_statistics_stock_news()}
               </h3>
               <ul class="">

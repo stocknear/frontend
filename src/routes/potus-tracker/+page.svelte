@@ -674,7 +674,7 @@
               class="border-b border-gray-300 dark:border-zinc-700 flex flex-row justify-between"
             >
               <h1
-                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
               >
                 {potus_tracker_title()}
               </h1>
@@ -695,7 +695,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate">{selectedSector}</span>
                       <svg
@@ -788,7 +788,7 @@
 
             {#if activeIdx === 0}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
+                class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 {potus_tracker_official_schedule()}
               </h3>
@@ -881,7 +881,7 @@
               </div>
             {:else if activeIdx === 1}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
+                class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-2 mt-2 border-y border-gray-300 dark:border-zinc-700 py-2"
               >
                 {potus_tracker_executive_actions()}
               </h3>
@@ -968,7 +968,7 @@
                               href={item?.link}
                               rel="noopener noreferrer"
                               target="_blank"
-                              class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
+                              class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                             >
                               {potus_tracker_open_link()}
                               <svg
@@ -1001,7 +1001,7 @@
                                 postDate = item?.date;
                                 postUrl = item?.link;
                               }}
-                              class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
+                              class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                             >
                               {potus_tracker_read_more()}
                             </label>
@@ -1030,7 +1030,7 @@
                 >
 
                 <h3
-                  class="ml-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  class="ml-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
                 >
                   {potus_tracker_truth_social_posts()}
                 </h3>
@@ -1082,9 +1082,7 @@
                                 @realDonaldTrump
                               </a>
                             </span>
-                            <span class="text-gray-400 dark:text-zinc-500"
-                              >·</span
-                            >
+                            <span class="text-muted dark:text-white">·</span>
                             <span class="text-sm text-muted dark:text-white">
                               {formatPostDate(item?.created_at)}
                             </span>
@@ -1204,7 +1202,7 @@
                               "_blank",
                               "noopener,noreferrer",
                             )}
-                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold mr-2"
+                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold mr-2"
                         >
                           {potus_tracker_open_link()}
                           <svg
@@ -1238,7 +1236,7 @@
                             postReblogs = item?.reblogs_count || 0;
                             postFavourites = item?.favourites_count || 0;
                           }}
-                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
+                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                         >
                           {potus_tracker_read_more()}
                         </label>
@@ -1262,7 +1260,7 @@
                     {market_news_upgrade_label()}
                   </span>
                   <h2
-                    class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
+                    class="text-lg font-semibold tracking-tight text-muted dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
                   >
                     {market_news_pro_subscription_title()}
                   </h2>
@@ -1325,7 +1323,7 @@
   <label for="executivePostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="executivePostModal"
@@ -1389,12 +1387,12 @@
     <div class="flex justify-end space-x-3 mt-5">
       <label
         for="executivePostModal"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_close()}</label
       >
       <button
         on:click={() => window.open(postUrl, "_blank", "noopener,noreferrer")}
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_read_source()}</button
       >
     </div>
@@ -1407,7 +1405,7 @@
   <label for="socialPostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="socialPostModal"
@@ -1566,12 +1564,12 @@
     <div class="flex justify-end space-x-3 mt-5">
       <label
         for="socialPostModal"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_close()}</label
       >
       <button
         on:click={() => window.open(postUrl, "_blank", "noopener,noreferrer")}
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_read_source()}</button
       >
     </div>

@@ -290,7 +290,7 @@
 
 <SEO title={sitemap_seo_title()} description={sitemap_seo_description()} />
 
-<main class="text-gray-700 dark:text-zinc-200">
+<main class="text-muted dark:text-zinc-200">
   <section
     class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6"
     aria-label={sitemap_section_aria_label()}
@@ -303,7 +303,7 @@
       <li>
         <a
           href="/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
           >{common_home()}</a
         >
       </li>
@@ -320,7 +320,7 @@
           <article class="w-full lg:w-3/4 lg:pr-10">
             <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
               <h1
-                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
               >
                 {sitemap_title()}
               </h1>
@@ -332,7 +332,7 @@
                   {sitemap_intro()}
                 </p>
                 <h2
-                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                  class="text-lg sm:text-xl font-semibold text-muted dark:text-white mt-8 mb-5"
                 >
                   {sitemap_pages_heading()}
                 </h2>
@@ -355,7 +355,7 @@
                 </nav>
 
                 <h2
-                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                  class="text-lg sm:text-xl font-semibold text-muted dark:text-white mt-8 mb-5"
                 >
                   {sitemap_learning_center_heading()}
                 </h2>
@@ -379,7 +379,7 @@
                 </nav>
 
                 <h2
-                  class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-5"
+                  class="text-lg sm:text-xl font-semibold text-muted dark:text-white mt-8 mb-5"
                 >
                   {sitemap_financial_terms_heading()}
                 </h2>

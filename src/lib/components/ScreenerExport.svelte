@@ -208,7 +208,7 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-lg relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-lg relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="screener-export-modal-{screener}"
@@ -283,7 +283,7 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
+        class=" border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
         disabled={isExporting}
       >
         Close

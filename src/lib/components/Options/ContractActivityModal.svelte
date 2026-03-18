@@ -151,7 +151,7 @@
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
           >
             {item.ticker}
             <span
@@ -235,7 +235,7 @@
               <span class="text-xs font-medium text-muted dark:text-white"
                 >Trades</span
               >
-              <div class="text-sm font-semibold text-gray-900 dark:text-white">
+              <div class="text-sm font-semibold text-muted dark:text-white">
                 {contractStats.tradeCount?.toLocaleString("en-US") ?? "0"}
               </div>
             </div>
@@ -243,7 +243,7 @@
               <span class="text-xs font-medium text-muted dark:text-white"
                 >Total Premium</span
               >
-              <div class="text-sm font-semibold text-gray-900 dark:text-white">
+              <div class="text-sm font-semibold text-muted dark:text-white">
                 ${abbreviateNumber(contractStats.totalPremium, false, true)}
               </div>
             </div>
@@ -251,7 +251,7 @@
               <span class="text-xs font-medium text-muted dark:text-white"
                 >Volume</span
               >
-              <div class="text-sm font-semibold text-gray-900 dark:text-white">
+              <div class="text-sm font-semibold text-muted dark:text-white">
                 {contractStats.totalSize?.toLocaleString("en-US") ?? "0"}
               </div>
             </div>
@@ -324,17 +324,17 @@
                         {formatTradeTime(trade.time)}
                       </td>
                       <td
-                        class="py-1.5 px-2 text-right text-gray-900 dark:text-white"
+                        class="py-1.5 px-2 text-right text-muted dark:text-white"
                       >
                         {trade.size?.toLocaleString("en-US")}
                       </td>
                       <td
-                        class="py-1.5 px-2 text-right text-gray-900 dark:text-white whitespace-nowrap"
+                        class="py-1.5 px-2 text-right text-muted dark:text-white whitespace-nowrap"
                       >
                         ${trade.price?.toFixed(2)}
                       </td>
                       <td
-                        class="py-1.5 px-2 text-right text-gray-900 dark:text-white whitespace-nowrap"
+                        class="py-1.5 px-2 text-right text-muted dark:text-white whitespace-nowrap"
                       >
                         ${abbreviateNumber(trade.cost_basis, false, true)}
                       </td>

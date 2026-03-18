@@ -498,7 +498,7 @@ ${summaryData.investorTakeaway}
             </div>
             <div class="min-w-0 flex-1">
               <h2
-                class="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white truncate"
+                class="text-base sm:text-lg md:text-xl font-semibold text-muted dark:text-white truncate"
               >
                 {stock_detail_ai_financial_analysis()}
               </h2>
@@ -611,7 +611,7 @@ ${summaryData.investorTakeaway}
                       ></div>
                     </div>
                     <span
-                      class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white"
+                      class="text-lg sm:text-xl font-bold text-muted dark:text-white"
                     >
                       {summaryData.healthScore}%
                     </span>
@@ -683,7 +683,7 @@ ${summaryData.investorTakeaway}
                 </svg>
               </div>
               <h4
-                class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
               >
                 {stock_detail_ai_executive_summary()}
               </h4>
@@ -719,7 +719,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     {sectionLabels.section1}
                   </h5>
@@ -803,7 +803,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     {sectionLabels.section2}
                   </h5>
@@ -873,7 +873,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     {sectionLabels.section3}
                   </h5>
@@ -939,7 +939,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     {sectionLabels.section4}
                   </h5>
@@ -1004,7 +1004,7 @@ ${summaryData.investorTakeaway}
                   </svg>
                 </div>
                 <h5
-                  class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                 >
                   {stock_detail_ai_key_strengths()}
                 </h5>
@@ -1053,7 +1053,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     {stock_detail_ai_red_flags()}
                   </h5>
@@ -1102,7 +1102,7 @@ ${summaryData.investorTakeaway}
                 </svg>
               </div>
               <h5
-                class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
               >
                 {stock_detail_ai_investor_takeaway()}
               </h5>

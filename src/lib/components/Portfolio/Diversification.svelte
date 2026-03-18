@@ -310,7 +310,7 @@
 <div class="w-full">
     <div class="mb-3 sm:mb-5">
         <h2
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-2"
         >
             {portfolio_diversification_title()}
         </h2>
@@ -322,7 +322,7 @@
             class="flex flex-col sm:flex-row sm:items-center justify-between mb-4"
         >
             <div class="flex items-center gap-3 mb-3 sm:mb-0">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-lg font-semibold text-muted dark:text-white">
                     {portfolio_diversification_concentration()}
                 </h3>
                 {#if portfolioData?.length > 0}

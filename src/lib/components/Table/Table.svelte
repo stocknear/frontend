@@ -2812,7 +2812,7 @@
       class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
     >
       <h2
-        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
       >
         {title}
       </h2>
@@ -2872,7 +2872,7 @@
           <Button
             builders={[builder]}
             on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
-            class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0"
               >{list_indicators_label()}</span
@@ -3192,7 +3192,7 @@
                         on:click={() =>
                           onToggleDeleteTicker &&
                           onToggleDeleteTicker(item[column.key])}
-                        class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white accent-gray-900 dark:accent-white mr-3"
+                        class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white accent-gray-900 dark:accent-white mr-3"
                       />
                       <label
                         for={`delete-ticker-${item[column.key]}-${index}`}
@@ -3221,7 +3221,7 @@
                             )}
                           class="cursor-pointer ml-auto transition-all duration-200 {item?.hasNote
                             ? 'text-violet-500 dark:text-violet-400'
-                            : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                            : 'text-muted dark:text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                           title={item?.hasNote ? "Edit note" : "Add note"}
                         >
                           <Pencil class="h-3.5 w-3.5" />

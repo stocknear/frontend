@@ -44,7 +44,7 @@
 </script>
 
 <section
-    class="w-full overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200 transition-all duration-300 {$watchlistFullWidth
+    class="w-full overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200 transition-all duration-300 {$watchlistFullWidth
         ? 'max-w-full'
         : 'max-w-3xl sm:max-w-[1400px]'}"
 >
@@ -54,7 +54,7 @@
         <li>
             <a
                 href="/"
-                class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                 >Home</a
             >
         </li>
@@ -73,7 +73,7 @@
                         class="mb-2 border-b border-gray-300 dark:border-zinc-700"
                     >
                         <h1
-                            class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                            class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
                         >
                             {activeIdx === 0
                                 ? "Watchlist"
@@ -93,7 +93,7 @@
                                     class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                                     index
                                         ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                                        : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                                        : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                                 >
                                     {item.title}
                                 </a>
@@ -105,7 +105,7 @@
                                 title={$watchlistFullWidth
                                     ? "Exit Full Width"
                                     : "Expand Full Width"}
-                                class="ml-auto hidden 3xl:flex cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-1.5 rounded-full gap-2 {$watchlistFullWidth
+                                class="ml-auto hidden 3xl:flex cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-1.5 rounded-full gap-2 {$watchlistFullWidth
                                     ? 'border-violet-400 dark:border-violet-500'
                                     : ''}"
                             >

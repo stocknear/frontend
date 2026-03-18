@@ -86,7 +86,7 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="installModal"
@@ -105,7 +105,7 @@
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
-        class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
+        class="mb-3 text-2xl font-semibold tracking-tight text-muted dark:text-white text-center m-auto"
       >
         {app_installed_modal_title()}
       </h4>
@@ -177,7 +177,7 @@
     <div class="border-t border-gray-300 dark:border-zinc-700 mt-2">
       <label
         for="installModal"
-        class="mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center cursor-pointer"
+        class="mt-4 font-semibold text-lg text-muted dark:text-white m-auto flex justify-center cursor-pointer"
       >
         {app_installed_close()}
       </label>

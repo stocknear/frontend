@@ -19,7 +19,7 @@
 <section class="text-muted dark:text-zinc-200">
   <a
     href="/options-flow"
-    class="inline-flex items-center gap-1 text-gray-900 dark:text-white group"
+    class="inline-flex items-center gap-1 text-muted dark:text-white group"
     ><h2
       class="mb-2 text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >

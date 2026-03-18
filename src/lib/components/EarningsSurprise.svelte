@@ -66,7 +66,7 @@
 
         <div class="flex flex-row items-center">
           <h3
-            class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
           >
             {stock_detail_earnings_surprise()}
           </h3>

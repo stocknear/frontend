@@ -35,7 +35,7 @@
     >
       <div class="flex-1 text-center lg:text-left">
         <h1
-          class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-5xl leading-tight"
+          class="text-4xl font-semibold tracking-tight text-muted dark:text-white sm:text-5xl leading-tight"
         >
           {app_page_hero_title()}
         </h1>
@@ -61,7 +61,7 @@
   <section class="border-b border-gray-300 dark:border-zinc-700">
     <div class="mx-auto max-w-3xl px-6 py-16 sm:py-20 md:px-8">
       <h2
-        class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white text-center sm:text-4xl"
+        class="text-3xl font-semibold tracking-tight text-muted dark:text-white text-center sm:text-4xl"
       >
         {app_page_install_title()}
       </h2>

@@ -599,7 +599,7 @@
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
                   >
                     {analystName ?? "n/a"}
                   </h1>
@@ -651,7 +651,7 @@
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     # {rank ?? "n/a"}
                   </div>
@@ -667,7 +667,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {totalRatings ?? "n/a"}
                   </div>
@@ -681,7 +681,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
@@ -722,7 +722,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
@@ -820,7 +820,7 @@
                 class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
                   {analysts_detail_count({
                     count: rawData?.length?.toLocaleString("en-US"),
@@ -1276,7 +1276,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1310,7 +1310,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{analysts_pagination_rows({
@@ -1368,7 +1368,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{analysts_pagination_next()}</span

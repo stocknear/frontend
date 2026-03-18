@@ -30,7 +30,7 @@
 
 <div class="px-0.5 lg:px-0 text-muted dark:text-zinc-200">
   <h2
-    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
   >
     {index_sidecard_about({ ticker: $indexTicker })}
   </h2>
@@ -45,8 +45,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span
-            class="font-semibold tracking-tight text-gray-900 dark:text-white"
+          <span class="font-semibold tracking-tight text-muted dark:text-white"
             >{index_sidecard_top_sectors()}</span
           >
         </h2>

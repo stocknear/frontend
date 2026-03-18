@@ -478,7 +478,7 @@
         <main class="w-full">
           <div class="mb-3 border-b border-gray-300 dark:border-zinc-700">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {reddit_tracker_title()}
             </h1>
@@ -513,7 +513,7 @@
               class="-mb-2 pt-3 overflow-x-auto whitespace-nowrap flex flex-row items-center justify-between sm:justify-start w-full"
             >
               <h2
-                class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
               >
                 {reddit_tracker_subreddit_label()}
               </h2>
@@ -521,7 +521,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full "
+                    class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full "
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
                       r/{currentSubreddit}
@@ -738,7 +738,7 @@
                                     </span>
                                   </div>
                                   <h3
-                                    class="text-sm font-medium text-gray-900 dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
+                                    class="text-sm font-medium text-muted dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
                                   >
                                     {post.title}
                                   </h3>
@@ -921,7 +921,7 @@
                                   class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4"
                                 >
                                   <span
-                                    class="text-lg font-semibold text-gray-900 dark:text-white"
+                                    class="text-lg font-semibold text-muted dark:text-white"
                                     >{item?.symbol}</span
                                   >
                                   <span
@@ -1012,7 +1012,7 @@
                                         </div>
                                         <!-- Title -->
                                         <h3
-                                          class="text-sm font-medium text-gray-900 dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
+                                          class="text-sm font-medium text-muted dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
                                         >
                                           {post.title}
                                         </h3>
@@ -1080,7 +1080,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1114,7 +1114,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} {reddit_tracker_rows()}</span
@@ -1167,7 +1167,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{reddit_tracker_next()}</span

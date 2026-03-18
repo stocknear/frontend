@@ -43,8 +43,8 @@
   <button
     class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
       activeTool === "cursor"
-        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
-        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+        ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
+        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
     }`}
     on:click={() => dispatch("setCursorMode")}
     title="Cursor"
@@ -62,8 +62,8 @@
             drawingsLocked
               ? "cursor-not-allowed opacity-40 text-gray-500 dark:text-zinc-500"
               : group.options.some((o) => o.id === activeTool)
-                ? "cursor-pointer bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
-                : "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+                ? "cursor-pointer bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
+                : "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
           }`}
           on:click={() => {
             if (drawingsLocked) return;
@@ -126,7 +126,7 @@
               <DropdownMenu.Item
                 class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
                   selectedToolByGroup[group.id] === option.id
-                    ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium"
+                    ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white font-medium"
                     : "text-muted dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
                 }`}
                 on:click={() => {
@@ -162,8 +162,8 @@
       <button
         class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
           drawingMode !== "normal"
-            ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
-            : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-gray-700 dark:text-zinc-200"
+            ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
+            : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-muted dark:text-zinc-200"
         }`}
         on:click={() => {
           if (drawingMode === "normal") {
@@ -212,7 +212,7 @@
           <DropdownMenu.Item
             class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
               drawingMode === "weak_magnet"
-                ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium"
+                ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white font-medium"
                 : "text-muted dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
             }`}
             on:click={() => {
@@ -231,7 +231,7 @@
           <DropdownMenu.Item
             class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
               drawingMode === "strong_magnet"
-                ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium"
+                ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white font-medium"
                 : "text-muted dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
             }`}
             on:click={() => {
@@ -257,7 +257,7 @@
     class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
       !drawingsVisible
         ? "bg-gray-100 dark:bg-zinc-800 text-rose-400"
-        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-gray-700 dark:text-zinc-200"
+        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-muted dark:text-zinc-200"
     }`}
     on:click={() => dispatch("toggleDrawingsVisibility")}
     title={drawingsVisible ? "Hide drawings" : "Show drawings"}
@@ -272,7 +272,7 @@
     class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
       drawingsLocked
         ? "bg-gray-100 dark:bg-zinc-800 text-amber-500 dark:text-amber-400"
-        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
     }`}
     on:click={() => dispatch("toggleDrawingsLock")}
     title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
@@ -289,7 +289,7 @@
   <button
     class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
       canUndo
-        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
         : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
     }`}
     on:click={() => canUndo && dispatch("undo")}
@@ -301,7 +301,7 @@
   <button
     class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
       canRedo
-        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
         : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
     }`}
     on:click={() => canRedo && dispatch("redo")}
@@ -316,14 +316,14 @@
 
   <!-- Zoom Tools -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
     on:click={() => dispatch("zoomIn")}
     title="Zoom in"
   >
     <ZoomIn class="size-5" />
   </button>
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
     on:click={() => dispatch("zoomOut")}
     title="Zoom out"
   >
@@ -332,7 +332,7 @@
 
   <!-- Screenshot -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
     on:click={() => dispatch("downloadChart")}
     title="Screenshot"
   >
@@ -356,7 +356,7 @@
 
   <!-- Keyboard Shortcuts Help -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-600 dark:hover:text-violet-400 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
     on:click={() => dispatch("showKeyboardShortcuts")}
     title="Keyboard shortcuts (?)"
   >

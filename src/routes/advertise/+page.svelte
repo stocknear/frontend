@@ -45,7 +45,7 @@
 <SEO title={advertise_seo_title()} description={advertise_seo_description()} />
 
 <section
-  class="w-full min-h-screen bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200"
+  class="w-full min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
 >
   <div class="mx-auto w-full max-w-6xl px-6 py-10 lg:py-14">
     <BreadCrumb
@@ -54,7 +54,7 @@
       <li>
         <a
           href="/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
           >{advertise_breadcrumb_home()}</a
         >
       </li>
@@ -65,7 +65,7 @@
 
     <div class="mt-8 border-b border-gray-300/70 pb-4 dark:border-zinc-700">
       <h1
-        class="mt-2 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+        class="mt-2 text-3xl font-semibold tracking-tight text-muted dark:text-white sm:text-4xl"
       >
         {advertise_title()}
       </h1>
@@ -85,7 +85,7 @@
 
         <div class="space-y-4">
           <h2
-            class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="text-lg font-semibold tracking-tight text-muted dark:text-white"
           >
             {advertise_newsletter_title()}
           </h2>
@@ -121,7 +121,7 @@
 
         <div class="space-y-4">
           <h2
-            class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="text-lg font-semibold tracking-tight text-muted dark:text-white"
           >
             {advertise_why_choose_title()}
           </h2>
@@ -155,7 +155,7 @@
 
         <div class="space-y-3">
           <h2
-            class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="text-lg font-semibold tracking-tight text-muted dark:text-white"
           >
             {advertise_cta_title()}
           </h2>
@@ -168,7 +168,7 @@
             >
             <br />{advertise_cta_email_intro()}
             <a
-              class="font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
               href="mailto:contact@stocknear.com">contact@stocknear.com</a
             >
             {advertise_cta_email_outro()}
@@ -183,7 +183,7 @@
           <a href="/donation" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="text-lg font-semibold tracking-tight text-muted dark:text-white"
               >
                 {advertise_sidebar_sponsor_title()}
               </h2>
@@ -200,7 +200,7 @@
           <a href="/contact" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="text-lg font-semibold tracking-tight text-muted dark:text-white"
               >
                 {advertise_sidebar_contact_title()}
               </h2>

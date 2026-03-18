@@ -140,7 +140,7 @@
 
             <div class="mx-auto max-w-3xl text-center">
                 <h1
-                    class="mb-3 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
+                    class="mb-3 text-3xl font-semibold tracking-tight text-muted dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
                 >
                     {home_hero_title()}
                 </h1>

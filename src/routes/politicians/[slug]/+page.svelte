@@ -511,7 +511,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -519,14 +519,14 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{politicians_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/politicians"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{politicians_breadcrumb_politicians()}</a
       >
     </li>
@@ -564,7 +564,7 @@
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
                   >
                     {formatString(name)}
                   </h1>
@@ -615,7 +615,7 @@
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     # {performanceRank ?? "n/a"}
                   </div>
@@ -630,7 +630,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {performanceTrades !== undefined &&
                     performanceTrades !== null
@@ -650,7 +650,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
@@ -696,7 +696,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
@@ -746,7 +746,7 @@
             >
               <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                 >
                   ${new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
@@ -764,7 +764,7 @@
                 class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
               >
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                 >
                   {numOfTrades?.toLocaleString("en-US")}
                 </div>
@@ -779,7 +779,7 @@
                 class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
               >
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                 >
                   {lastTradedDate?.length !== undefined
                     ? new Date(lastTradedDate)?.toLocaleString("en-US", {
@@ -800,7 +800,7 @@
                 class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
               >
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                 >
                   {buySellRatio?.toFixed(2)}
                 </div>
@@ -870,7 +870,7 @@
                 class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
               >
                 <h2
-                  class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
                 >
                   {politicians_detail_count_stocks({
                     count: originalData?.length?.toLocaleString("en-US"),
@@ -908,7 +908,7 @@
                       on:input={search}
                       type="text"
                       placeholder={politicians_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -924,7 +924,7 @@
                     <button
                       on:click={resetColumnOrder}
                       title="Reset column order"
-                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                     >
                       <svg
                         class="w-4 h-4"
@@ -1051,7 +1051,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.ticker)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                       >
                         <span>{politicians_detail_mobile_view_chart()}</span>
                         <svg
@@ -1109,7 +1109,7 @@
                   class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
+                    class="table table-sm table-compact w-full m-auto mt-0 text-muted dark:text-zinc-200 tabular-nums"
                   >
                     <thead>
                       <TableHeader
@@ -1150,7 +1150,7 @@
                               >
                             {:else if column.key === "ticker"}
                               <td
-                                class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
                               >
                                 <HoverStockChart
                                   symbol={item?.symbol ?? item?.ticker}
@@ -1290,7 +1290,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1324,7 +1324,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{politicians_pagination_rows({
@@ -1352,7 +1352,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
@@ -1382,7 +1382,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{politicians_pagination_next()}</span
@@ -1408,7 +1408,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   {politicians_back_to_top()}
                   <svg

@@ -4,28 +4,42 @@
   import ShareHolders from "$lib/components/ShareHolders.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import {
-  stock_detail_institute_seo_description,
-  stock_detail_institute_seo_keywords,
-  stock_detail_institute_seo_title,
-  stock_detail_institute_structured_desc,
-  stock_detail_institute_structured_name,
-  stock_detail_institute_title,
-} from "$lib/paraglide/messages";
+    stock_detail_institute_seo_description,
+    stock_detail_institute_seo_keywords,
+    stock_detail_institute_seo_title,
+    stock_detail_institute_structured_desc,
+    stock_detail_institute_structured_name,
+    stock_detail_institute_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={stock_detail_institute_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_institute_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_institute_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
+  title={stock_detail_institute_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_institute_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_institute_seo_keywords({
+    ticker: $stockTicker,
+    company: $displayCompanyName,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/insider/institute`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Dataset"],
-    name: stock_detail_institute_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_institute_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_institute_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_institute_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/insider/institute`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -65,7 +79,7 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-5 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full">
           <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
           >
             {stock_detail_institute_title()}
           </h1>

@@ -874,7 +874,7 @@
           <div>
             <h2
               id="metrics-modal-title"
-              class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+              class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
             >
               {modalLabel}
             </h2>

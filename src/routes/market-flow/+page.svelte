@@ -394,13 +394,13 @@
               class="mb-5 text-sm sm:text-base leading-6 text-muted dark:text-zinc-300"
             >
               {market_flow_overview_intro()}
-              <strong class="font-semibold text-gray-900 dark:text-white"
+              <strong class="font-semibold text-muted dark:text-white"
                 >S&P500</strong
               >. {market_flow_overview_as_of()}
-              <strong class="font-semibold text-gray-900 dark:text-white"
+              <strong class="font-semibold text-muted dark:text-white"
                 >{marketFlowDate}</strong
               >, {market_flow_overview_total_volume()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {(overview?.putVol + overview?.callVol)?.toLocaleString(
                     "en-US",
@@ -425,7 +425,7 @@
                 {/if}
               </strong>
               {market_flow_overview_contracts()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {overview?.avg30Vol && overview?.avg30Vol > 0
                     ? (
@@ -454,7 +454,7 @@
                 {/if}
               </strong>
               {market_flow_overview_of_average()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {overview?.avg30Vol?.toLocaleString("en-US") || "n/a"}
                 {:else}
@@ -478,7 +478,7 @@
               </strong>
               {market_flow_overview_contracts_period()}
               {market_flow_overview_volume_pc_ratio()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {overview?.pcVol?.toFixed(2) || "n/a"}
                 {:else}
@@ -500,7 +500,7 @@
                   </a>
                 {/if}
               </strong>. {market_flow_overview_net_call_premium()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {abbreviateNumber(
                     findLastNonNull(marketTideData, "net_call_premium"),
@@ -525,7 +525,7 @@
                 {/if}
               </strong>
               {market_flow_overview_net_put_premium()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {abbreviateNumber(
                     findLastNonNull(marketTideData, "net_put_premium"),
@@ -549,7 +549,7 @@
                   </a>
                 {/if}
               </strong>, {market_flow_overview_indicating()}
-              <strong class="font-semibold text-gray-900 dark:text-white">
+              <strong class="font-semibold text-muted dark:text-white">
                 {#if isPro}
                   {(() => {
                     const netCallPremium = findLastNonNull(
@@ -617,7 +617,7 @@
                 <div class="flex items-baseline">
                   {#if isPro}
                     <span
-                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+                      class="text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
                     >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_volume"),
@@ -657,7 +657,7 @@
                 <div class="flex items-baseline">
                   {#if isPro}
                     <span
-                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+                      class="text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
                     >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_call_premium"),
@@ -697,7 +697,7 @@
                 <div class="flex items-baseline">
                   {#if isPro}
                     <span
-                      class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+                      class="text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
                     >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_put_premium"),
@@ -774,7 +774,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div class="lg:col-span-2">
                 <h2
-                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
                 >
                   {market_flow_section_sp500_flow()}
                 </h2>
@@ -811,7 +811,7 @@
               <div class="">
                 <div class="flex items-center justify-between mb-2">
                   <h2
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
                   >
                     {market_flow_section_fear_greed()}
                   </h2>
@@ -837,7 +837,7 @@
 
               <div class="">
                 <h2
-                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
                 >
                   {market_flow_section_sector_flow()}
                 </h2>
@@ -878,7 +878,7 @@
                   class="flex flex-col flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                    class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-fit"
                   >
                     {market_flow_section_open_interest()}
                   </h2>
@@ -1073,7 +1073,7 @@
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-fit"
                   >
                     {market_flow_section_volume()}
                   </h2>
@@ -1256,13 +1256,11 @@
   <label for="marketFlowBarsModal" class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box w-full max-w-5xl relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-5xl relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="flex items-start justify-between gap-4 mb-4">
       <div>
-        <h3
-          class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
-        >
+        <h3 class="text-lg sm:text-xl font-semibold text-muted dark:text-white">
           {market_flow_modal_title()}
         </h3>
         <p class="text-xs sm:text-sm text-muted dark:text-zinc-300">

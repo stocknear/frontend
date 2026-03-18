@@ -80,7 +80,7 @@
           <a
             href={sectorNavigation?.find((item) => item?.title === sector)
               ?.link}
-            class="cursor-pointer font-semibold tracking-tight text-base sm:text-lg text-gray-900 dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+            class="cursor-pointer font-semibold tracking-tight text-base sm:text-lg text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
           >
             {industry_sector_label({ sector })}
             <svg

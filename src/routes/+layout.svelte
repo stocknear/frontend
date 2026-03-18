@@ -572,7 +572,7 @@
                 >
                   <a
                     href="/"
-                    class="flex items-center gap-4 px-0.5 text-gray-900 dark:text-white text-lg sm:text-xl font-semibold tracking-tight"
+                    class="flex items-center gap-4 px-0.5 text-muted dark:text-white text-lg sm:text-xl font-semibold tracking-tight"
                   >
                     <img
                       class="avatar w-9 sm:w-10 rounded-full"
@@ -1108,7 +1108,7 @@
 
                       <div class="ml-4 mt-5">
                         <span
-                          class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500"
+                          class="text-xs font-semibold uppercase tracking-wider text-muted dark:text-white"
                           >{layout_income_strategy()}</span
                         >
                       </div>
@@ -1363,7 +1363,7 @@
             alt={layout_logo_alt()}
           />
           <span
-            class="text-gray-900 dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition font-semibold tracking-tight ml-2 text-xl"
+            class="text-muted dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition font-semibold tracking-tight ml-2 text-xl"
             >Stocknear</span
           >
         </a>
@@ -1823,7 +1823,7 @@
                             >
 
                             <span
-                              class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-zinc-500 ml-4 mt-6"
+                              class="text-xs font-semibold uppercase tracking-wider text-muted dark:text-white ml-4 mt-6"
                               >{layout_income_strategy()}</span
                             >
 

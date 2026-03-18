@@ -354,7 +354,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-1.5">
-        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+        <h3 class="text-xl sm:text-2xl font-bold text-muted dark:text-white">
           {stock_detail_price_levels_title()}
         </h3>
         <InfoModal

@@ -1327,7 +1327,7 @@ ${insightData.traderTakeaway}
             </div>
             <div class="min-w-0 flex-1">
               <h2
-                class="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white truncate"
+                class="text-base sm:text-lg md:text-xl font-semibold text-muted dark:text-white truncate"
               >
                 Options Flow Insight
               </h2>
@@ -1447,7 +1447,7 @@ ${insightData.traderTakeaway}
                       ></div>
                     </div>
                     <span
-                      class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white"
+                      class="text-lg sm:text-xl font-bold text-muted dark:text-white"
                     >
                       {insightData.tradeScore}%
                     </span>
@@ -1519,7 +1519,7 @@ ${insightData.traderTakeaway}
                 </svg>
               </div>
               <h4
-                class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
               >
                 Executive Summary
               </h4>
@@ -1555,7 +1555,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     Order Analysis
                   </h5>
@@ -1578,7 +1578,7 @@ ${insightData.traderTakeaway}
                       >Type</span
                     >
                     <span
-                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                      class="text-sm font-semibold text-muted dark:text-white"
                       >{insightData.orderAnalysis?.orderType}</span
                     >
                   </div>
@@ -1628,7 +1628,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     Sentiment
                   </h5>
@@ -1651,7 +1651,7 @@ ${insightData.traderTakeaway}
                       >Intent</span
                     >
                     <span
-                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                      class="text-sm font-semibold text-muted dark:text-white"
                       >{insightData.sentimentAnalysis?.buyerIntent}</span
                     >
                   </div>
@@ -1702,7 +1702,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     Risk Profile
                   </h5>
@@ -1725,7 +1725,7 @@ ${insightData.traderTakeaway}
                       >Moneyness</span
                     >
                     <span
-                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                      class="text-sm font-semibold text-muted dark:text-white"
                       >{insightData.riskProfile?.moneyness}</span
                     >
                   </div>
@@ -1775,7 +1775,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     Trade Setup
                   </h5>
@@ -1841,7 +1841,7 @@ ${insightData.traderTakeaway}
                   </svg>
                 </div>
                 <h5
-                  class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                  class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                 >
                   Bullish Signals
                 </h5>
@@ -1890,7 +1890,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
                   >
                     Red Flags
                   </h5>
@@ -1939,7 +1939,7 @@ ${insightData.traderTakeaway}
                 </svg>
               </div>
               <h5
-                class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white"
+                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
               >
                 Trader Takeaway
               </h5>

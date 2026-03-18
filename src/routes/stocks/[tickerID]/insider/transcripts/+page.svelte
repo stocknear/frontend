@@ -449,7 +449,7 @@ ${summaryData.outlook}
             class="sm:-mt-3 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-gray-300 dark:border-zinc-700"
           >
             <h1
-              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
             >
               {stock_detail_transcripts_title()}
             </h1>
@@ -463,7 +463,7 @@ ${summaryData.outlook}
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate"
                         >{stock_detail_transcripts_year({ year })}</span
@@ -546,7 +546,7 @@ ${summaryData.outlook}
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate"
                         >{stock_detail_transcripts_quarter({ quarter })}</span
@@ -632,7 +632,7 @@ ${summaryData.outlook}
               >
                 <div>
                   <h2
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
                   >
                     {stock_detail_transcripts_earnings_call({
                       quarter: displayQuarter,
@@ -748,7 +748,7 @@ ${summaryData.outlook}
                           />
                         </svg>
                         <h3
-                          class="text-lg font-semibold text-gray-900 dark:text-white"
+                          class="text-lg font-semibold text-muted dark:text-white"
                         >
                           {stock_detail_transcripts_ai_title()}
                         </h3>
@@ -989,7 +989,7 @@ ${summaryData.outlook}
                         {item?.name?.slice(0, 1)}
                       </div>
                       <span
-                        class="text-sm font-semibold text-gray-900 dark:text-white"
+                        class="text-sm font-semibold text-muted dark:text-white"
                       >
                         {item?.name}
                       </span>

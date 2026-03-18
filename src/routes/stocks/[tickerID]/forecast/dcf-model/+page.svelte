@@ -1170,7 +1170,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm">{metricLabel}</span>
                         <svg
@@ -1200,7 +1200,7 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'freeCashFlow'
-                            ? 'text-gray-900 dark:text-white font-medium'
+                            ? 'text-muted dark:text-white font-medium'
                             : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_fcf()}
@@ -1211,7 +1211,7 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'operatingIncome'
-                            ? 'text-gray-900 dark:text-white font-medium'
+                            ? 'text-muted dark:text-white font-medium'
                             : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_operating_income()}
@@ -1222,7 +1222,7 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'operatingCashFlow'
-                            ? 'text-gray-900 dark:text-white font-medium'
+                            ? 'text-muted dark:text-white font-medium'
                             : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_ocf()}
@@ -1233,7 +1233,7 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'bookValue'
-                            ? 'text-gray-900 dark:text-white font-medium'
+                            ? 'text-muted dark:text-white font-medium'
                             : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_book_value()}
@@ -1256,7 +1256,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm"
                           >{yearsToProject} Years</span
@@ -1289,7 +1289,7 @@
                               userHasModifiedInputs = true;
                             }}
                             class="{yearsToProject === year
-                              ? 'text-gray-900 dark:text-white font-medium'
+                              ? 'text-muted dark:text-white font-medium'
                               : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {year} Years
@@ -1473,7 +1473,7 @@
   ></label>
 
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="showSteps"

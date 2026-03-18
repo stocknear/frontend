@@ -607,7 +607,7 @@
   ></label>
 
   <div
-    class="z-[2147483646] modal-box w-screen h-dvh min-h-dvh max-w-none max-h-none overflow-hidden m-0 sm:my-8 sm:mx-auto sm:w-3/4 lg:w-1/2 2xl:w-1/3 sm:h-auto sm:min-h-0 sm:max-h-[90vh] sm:max-w-[42rem] relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border-0 sm:border border-gray-300 dark:border-zinc-700 rounded-none sm:rounded-2xl shadow-none sm:shadow-2xl p-0"
+    class="z-[2147483646] modal-box w-screen h-dvh min-h-dvh max-w-none max-h-none overflow-hidden m-0 sm:my-8 sm:mx-auto sm:w-3/4 lg:w-1/2 2xl:w-1/3 sm:h-auto sm:min-h-0 sm:max-h-[90vh] sm:max-w-[42rem] relative bg-white dark:bg-zinc-900 text-muted dark:text-white border-0 sm:border border-gray-300 dark:border-zinc-700 rounded-none sm:rounded-2xl shadow-none sm:shadow-2xl p-0"
   >
     <!-- Mobile header -->
     <div

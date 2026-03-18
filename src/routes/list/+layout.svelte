@@ -466,7 +466,7 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -474,7 +474,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
@@ -482,7 +482,7 @@
       <li>
         <a
           href="/industry"
-          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
           >{list_breadcrumb_industry()}</a
         >
       </li>
@@ -490,7 +490,7 @@
       <li>
         <a
           href="/list/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
           >{list_breadcrumb_lists()}</a
         >
       </li>
@@ -512,7 +512,7 @@
         {#each navigation as item}
           {#if item?.link === $page.url.pathname}
             <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {item?.title}
             </h1>

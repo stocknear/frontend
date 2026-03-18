@@ -2494,7 +2494,7 @@
     <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
       <div class="w-full flex flex-row items-center sm:mt-4">
         <h1
-          class="text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="text-3xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {etf_screener_main_title()}
         </h1>
@@ -2700,7 +2700,7 @@
         >
           <button
             on:click={() => (showFilters = !showFilters)}
-            class="flex cursor-pointer items-center text-base font-semibold text-gray-900 dark:text-white"
+            class="flex cursor-pointer items-center text-base font-semibold text-muted dark:text-white"
             title="Hide Filter Area"
           >
             <svg
@@ -3074,7 +3074,7 @@
                                 class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                               >
                                 <svg
-                                  class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                  class="h-3.5 w-3.5 text-muted dark:text-white"
                                   fill="none"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -3116,7 +3116,7 @@
                                 class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                               >
                                 <svg
-                                  class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                  class="h-3.5 w-3.5 text-muted dark:text-white"
                                   fill="none"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -3341,7 +3341,7 @@
                                       >{result?.symbol}</span
                                     >
                                     <span
-                                      class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                      class="ml-2 text-xs text-muted dark:text-white truncate"
                                       >{result?.name}</span
                                     >
                                   </div>
@@ -3349,7 +3349,7 @@
                               {/each}
                             {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                class="px-3 py-2 text-xs text-muted dark:text-white"
                               >
                                 No results
                               </div>
@@ -3378,7 +3378,7 @@
                                   >
                                     <span class="font-medium">{ticker}</span>
                                     <svg
-                                      class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                      class="w-4 h-4 text-muted dark:text-white"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -3394,7 +3394,7 @@
                               {/each}
                             {:else if excludeTickerInput.trim().length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                class="px-3 py-2 text-xs text-muted dark:text-white"
                               >
                                 Search and add tickers to exclude
                               </div>
@@ -3416,7 +3416,7 @@
                                       >{result?.symbol}</span
                                     >
                                     <span
-                                      class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                      class="ml-2 text-xs text-muted dark:text-white truncate"
                                       >{result?.name}</span
                                     >
                                   </div>
@@ -3424,7 +3424,7 @@
                               {/each}
                             {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                class="px-3 py-2 text-xs text-muted dark:text-white"
                               >
                                 No results
                               </div>
@@ -3453,7 +3453,7 @@
                                   >
                                     <span class="font-medium">{ticker}</span>
                                     <svg
-                                      class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                      class="w-4 h-4 text-muted dark:text-white"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -3469,7 +3469,7 @@
                               {/each}
                             {:else if includeTickerInput.trim().length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                class="px-3 py-2 text-xs text-muted dark:text-white"
                               >
                                 Search and add tickers to include
                               </div>
@@ -3589,7 +3589,7 @@
     class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
+      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-muted dark:text-white"
     >
       {#if isDataLoading && totalItems === 0}
         <span
@@ -3652,7 +3652,7 @@
         <button
           on:click={toggleFullWidth}
           title={isFullWidth ? "Exit full width" : "Expand to full width"}
-          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
             ? 'border-violet-400 dark:border-violet-500'
             : ''}"
         >
@@ -4444,7 +4444,7 @@
   ></label>
 
   <div
-    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
@@ -4454,7 +4454,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class=" text-[1rem] sm:text-xl font-semibold text-muted dark:text-white"
           >
             {etf_screener_select_filters_title({
               count: String(allRows?.length),
@@ -4546,7 +4546,7 @@
       <div class="">
         {#each searchTerm?.length !== 0 ? Object.entries(filteredGroupedRules) : Object.entries(groupedRules) as [category, rules]}
           <h4
-            class="mb-1 font-semibold text-lg mt-5 text-gray-900 dark:text-white"
+            class="mb-1 font-semibold text-lg mt-5 text-muted dark:text-white"
           >
             {category}
           </h4>
@@ -4623,7 +4623,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -4645,7 +4645,7 @@
       >
     </label>
     <h1
-      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
     >
       {etf_screener_modal_new_title()}
     </h1>
@@ -4689,7 +4689,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -4710,7 +4710,7 @@
         /></svg
       >
     </label>
-    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+    <h3 class="text-lg font-medium mb-2 text-muted dark:text-white">
       {etf_screener_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-muted dark:text-zinc-300">
@@ -4769,7 +4769,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="mobileTooltip"
@@ -4787,7 +4787,7 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3 class="font-semibold text-2xl mb-5 text-gray-900 dark:text-white">
+      <h3 class="font-semibold text-2xl mb-5 text-muted dark:text-white">
         {tooltipTitle}
       </h3>
       <span class=" text-[1rem] font-normal text-muted dark:text-zinc-300"

@@ -143,7 +143,7 @@
           {list_label_total_stocks()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
         >
           {new Intl.NumberFormat("en")?.format(rawData?.length)}
         </div>
@@ -157,7 +157,7 @@
           {list_label_total_market_cap()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
         >
           {abbreviateNumber(totalMarketCap)}
         </div>
@@ -171,7 +171,7 @@
           {list_label_total_revenue()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
         >
           {abbreviateNumber(totalRevenue)}
         </div>

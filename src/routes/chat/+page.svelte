@@ -489,7 +489,7 @@
           alt="Stocknear Logo"
         />
         <h1
-          class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white text-center"
+          class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-muted dark:text-white text-center"
         >
           {chat_title()}
         </h1>
@@ -801,13 +801,13 @@
         class="w-full rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden"
       >
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
-          <span class="text-sm font-semibold text-gray-900 dark:text-white"
+          <span class="text-sm font-semibold text-muted dark:text-white"
             >Suggested questions</span
           >
           <button
             type="button"
             on:click={refreshSuggestions}
-            class="cursor-pointer p-1.5 rounded-lg text-gray-400 dark:text-zinc-500 sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
+            class="cursor-pointer p-1.5 rounded-lg text-muted dark:text-white sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
             aria-label="Refresh suggestions"
           >
             <svg
@@ -846,7 +846,7 @@
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 shrink-0 text-gray-400 dark:text-zinc-500"
+              class="w-5 h-5 shrink-0 text-muted dark:text-white"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

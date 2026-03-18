@@ -147,7 +147,7 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-4xl relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-4xl relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="feedbackModalToggle"
@@ -167,7 +167,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h1
-        class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
       >
         {feedback_title()}
       </h1>

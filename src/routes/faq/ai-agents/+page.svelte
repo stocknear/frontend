@@ -94,9 +94,7 @@
 
             <div>
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @StockScreener Agent
                 </h2>
                 <p class="mb-4">
@@ -140,9 +138,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @Analyst Agent
                 </h2>
                 <div class="mb-2">
@@ -185,9 +181,7 @@
               <!-- Improved sections continue with same pattern -->
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @BullvsBear
                 </h2>
                 <div class="mb-2">
@@ -227,9 +221,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @CompareStocks
                 </h2>
                 <div class="mb-2">
@@ -268,9 +260,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @DarkPoolData Agent
                 </h2>
                 <div class="mb-2">
@@ -310,9 +300,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @FundamentalData Agent
                 </h2>
                 <div class="mb-2">
@@ -353,9 +341,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @OptionsData Agent
                 </h2>
                 <div class="mb-2">
@@ -393,9 +379,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @OptionsFlowFeed Agent
                 </h2>
                 <div class="mb-2">
@@ -436,9 +420,7 @@
               </section>
 
               <section class="mb-6">
-                <h2
-                  class="mb-2 text-2xl font-bold text-gray-900 dark:text-white"
-                >
+                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
                   @Investor Agent
                 </h2>
                 <p class="mb-4">

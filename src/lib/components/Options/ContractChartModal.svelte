@@ -541,7 +541,7 @@
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
           >
             {item.ticker}
             <span
@@ -630,7 +630,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
                 >
                   <span class="truncate text-xs sm:text-sm"
                     >{selectGraphType}</span
@@ -683,7 +683,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
                 >
                   <span class="truncate text-xs sm:text-sm"
                     >{selectedTimePeriod}</span
@@ -742,7 +742,7 @@
             {/key}
           {:else}
             <div
-              class="flex items-center justify-center rounded-2xl border border-gray-300 dark:border-zinc-700 text-gray-400 dark:text-zinc-500 text-sm"
+              class="flex items-center justify-center rounded-2xl border border-gray-300 dark:border-zinc-700 text-muted dark:text-white text-sm"
               style="height: {$screenWidth < 640 ? 240 : 360}px"
             >
               No data for selected period
@@ -760,9 +760,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Last Price</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   ${(latestStats?.close ?? latestStats?.mark)?.toFixed(2) ??
                     "n/a"}
                 </div>
@@ -771,9 +769,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Volume</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.volume?.toLocaleString("en-US") ?? "n/a"}
                 </div>
               </div>
@@ -781,9 +777,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Open Interest</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.open_interest?.toLocaleString("en-US") ?? "n/a"}
                 </div>
               </div>
@@ -791,9 +785,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >IV</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.implied_volatility != null
                     ? (latestStats.implied_volatility * 100).toFixed(2) + "%"
                     : "n/a"}
@@ -803,9 +795,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Delta</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.delta?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -813,9 +803,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Gamma</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.gamma?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -823,9 +811,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Theta</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.theta?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -833,9 +819,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Vega</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.vega?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -843,9 +827,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Rho</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.rho?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -853,9 +835,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Charm</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.charm?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -863,9 +843,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Vanna</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.vanna?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -873,9 +851,7 @@
                 <span class="text-xs font-medium text-muted dark:text-white"
                   >Vomma</span
                 >
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {latestStats?.vomma?.toFixed(4) ?? "n/a"}
                 </div>
               </div>

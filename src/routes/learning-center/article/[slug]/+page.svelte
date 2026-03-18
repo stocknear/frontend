@@ -697,7 +697,7 @@
   ></div>
 </div>
 
-<div class="min-h-screen bg-white dark:bg-[#09090B]">
+<div class="min-h-bg-[] shadow:bg-[#09090B]">
   <!-- Main Layout Grid -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
     <div class="lg:grid lg:grid-cols-12 lg:gap-12">
@@ -709,7 +709,7 @@
             {#if tableOfContents.length > 0}
               <div>
                 <h4
-                  class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4"
+                  class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider mb-4"
                 >
                   {learning_center_table_of_contents()}
                 </h4>
@@ -737,7 +737,7 @@
             <!-- Share This Post -->
             <div class="pt-6 border-t border-gray-200 dark:border-zinc-800">
               <h4
-                class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4"
+                class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider mb-4"
               >
                 {learning_center_share_this_post()}
               </h4>
@@ -818,7 +818,9 @@
 
         <!-- Cover Image -->
         {#if article?.cover}
-          <div class="mb-8 rounded-2xl overflow-hidden shadow-md">
+          <div
+            class="mb-8 rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-800 shadow"
+          >
             <img
               src={getImageURL(
                 article?.collectionId,
@@ -831,7 +833,9 @@
             />
           </div>
         {:else if article?.category === "Daily"}
-          <div class="mb-8 rounded-2xl overflow-hidden shadow-md">
+          <div
+            class="mb-8 rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-800 shadow"
+          >
             <img
               src="/img/premarket-news-cover.webp"
               alt={article?.title}
@@ -860,7 +864,7 @@
 
           <!-- Title -->
           <h1
-            class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight"
+            class="text-3xl sm:text-4xl lg:text-5xl font-bold text-muted dark:text-white mb-4 leading-tight"
           >
             {article?.title}
           </h1>
@@ -912,7 +916,7 @@
           <!-- CTA Section -->
           <div class="text-center pt-8 pb-4">
             <h2
-              class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4"
+              class="text-2xl sm:text-3xl font-bold text-muted dark:text-white mb-4"
             >
               {learning_center_sign_in_to_read()}
             </h2>
@@ -1034,7 +1038,7 @@
         <div class="sticky top-28">
           <nav>
             <h4
-              class="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-4"
+              class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider mb-4"
             >
               {learning_center_quick_start()}
             </h4>
@@ -1115,7 +1119,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
       <div class="border-t border-gray-200 dark:border-zinc-800 pt-12">
         <h2
-          class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-8"
+          class="text-xl sm:text-2xl font-semibold text-muted dark:text-white mb-8"
         >
           {learning_center_related_articles()}
         </h2>
@@ -1124,7 +1128,7 @@
           {#each relatedArticles as related}
             <a
               href="/learning-center/article/{convertToSlug(related?.title)}"
-              class="group flex flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
+              class="group flex flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
             >
               <!-- Cover Image -->
               {#if related?.cover}
@@ -1164,14 +1168,14 @@
               <div class="flex flex-col flex-1 p-4">
                 <!-- Title -->
                 <h3
-                  class="font-semibold text-gray-900 dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-3"
+                  class="font-semibold text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-3"
                 >
                   {related?.title}
                 </h3>
 
                 <!-- Meta -->
                 <div
-                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                  class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
                 >
                   <div class="flex items-center gap-1">
                     <Calendar class="w-3.5 h-3.5" />

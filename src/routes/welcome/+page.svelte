@@ -105,7 +105,7 @@
           loading="lazy"
         />
         <h1
-          class="mt-1 text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="mt-1 text-3xl sm:text-4xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {welcome_title({ tier })}
         </h1>
@@ -120,7 +120,7 @@
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
     <h2
-      class="text-xl font-semibold mb-5 tracking-tight text-gray-900 dark:text-white"
+      class="text-xl font-semibold mb-5 tracking-tight text-muted dark:text-white"
     >
       {welcome_greeting()}
     </h2>

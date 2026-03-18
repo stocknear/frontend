@@ -9775,7 +9775,7 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="font-semibold text-gray-900 dark:text-white text-sm"
+          <span class="font-semibold text-muted dark:text-white text-sm"
             >{ticker}</span
           >
           <span class="text-gray-500 dark:text-zinc-500">·</span>
@@ -10239,13 +10239,13 @@
                       {item?.title?.length > 18
                         ? item?.title?.slice(0, 18) + "..."
                         : item?.title}
-                      <span class="text-gray-400 dark:text-zinc-500 ml-1"
+                      <span class="text-muted dark:text-white ml-1"
                         >({item?.rules?.length ?? 0})</span
                       >
                     </span>
                     <label
                       for="deleteChartStrategy"
-                      class="ml-2 flex items-center justify-center cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-red-500 transition"
+                      class="ml-2 flex items-center justify-center cursor-pointer text-muted dark:text-white hover:text-red-500 transition"
                       on:click|stopPropagation
                     >
                       <Trash2 class="h-3.5 w-3.5" />
@@ -10253,9 +10253,7 @@
                   </DropdownMenu.Item>
                 {/each}
               {:else}
-                <div
-                  class="px-2 py-1.5 text-sm text-gray-400 dark:text-zinc-500"
-                >
+                <div class="px-2 py-1.5 text-sm text-muted dark:text-white">
                   No saved strategies
                 </div>
               {/if}
@@ -10423,7 +10421,7 @@
                   class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
                 >
                   <span
-                    class="loading loading-spinner loading-md text-gray-900 dark:text-white"
+                    class="loading loading-spinner loading-md text-muted dark:text-white"
                   ></span>
                 </div>
               {/if}
@@ -10750,7 +10748,7 @@
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
-                      <h3 class="text-gray-900 dark:text-white font-semibold">
+                      <h3 class="text-muted dark:text-white font-semibold">
                         {selectedEarningsIsFuture
                           ? "Upcoming Earnings"
                           : "Earnings & Revenue"}
@@ -11068,7 +11066,7 @@
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
-                      <h3 class="text-gray-900 dark:text-white font-semibold">
+                      <h3 class="text-muted dark:text-white font-semibold">
                         Dividend
                       </h3>
                       <button
@@ -11100,7 +11098,7 @@
                         <span class="text-muted dark:text-white"
                           >Ex-Dividend Date</span
                         >
-                        <span class="text-gray-900 dark:text-white">
+                        <span class="text-muted dark:text-white">
                           {new Date(selectedDividend.date).toLocaleDateString(
                             "en-US",
                             { month: "short", day: "numeric", year: "numeric" },
@@ -11238,7 +11236,7 @@
                   >
                     <!-- Header -->
                     <div class="flex items-center justify-between gap-2 mb-3">
-                      <h3 class="text-gray-900 dark:text-white font-semibold">
+                      <h3 class="text-muted dark:text-white font-semibold">
                         Why Price Moved
                       </h3>
                       <span
@@ -11442,7 +11440,7 @@
                             : '#f97316'}"
                       ></div>
                       <h3
-                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
                         {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
                       </h3>
@@ -11673,7 +11671,7 @@
                         style="background: #f59e0b"
                       ></div>
                       <h3
-                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
                         Max Pain
                       </h3>
@@ -11816,7 +11814,7 @@
                         style="background: #22c55e"
                       ></div>
                       <h3
-                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
                         Analyst Targets
                       </h3>
@@ -12051,7 +12049,7 @@
                         style="background: #a855f7"
                       ></div>
                       <h3
-                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
                         Open Interest (OI)
                       </h3>
@@ -12254,7 +12252,7 @@
                           : '#f43f5e'}"
                       ></div>
                       <h3
-                        class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
                         {selectedHottestLevel.optionType === "C"
                           ? "Call"
@@ -12421,7 +12419,7 @@
                   <button
                     class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                       rightSidebarOpen && rightSidebarTab === "watchlist"
-                        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                        ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
                         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
                     }`}
                     on:click={() => toggleRightSidebar("watchlist")}
@@ -12448,7 +12446,7 @@
                   <button
                     class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                       rightSidebarOpen && rightSidebarTab === "alerts"
-                        ? "bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-white"
+                        ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
                         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
                     }`}
                     on:click={() => toggleRightSidebar("alerts")}
@@ -12559,7 +12557,7 @@
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full h-full">
       <div
@@ -12567,7 +12565,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class="text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class="text-[1rem] sm:text-xl font-semibold text-muted dark:text-white"
           >
             Indicators
           </h2>
@@ -12884,7 +12882,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label="Customize {indicator.label} parameters"
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -12952,7 +12950,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label="Customize {indicator.label} parameters"
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13057,7 +13055,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label="Customize {indicator.label} parameters"
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13182,7 +13180,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label="Customize {indicator.label} parameters"
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13347,7 +13345,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label="Customize {indicator.label} parameters"
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13444,7 +13442,7 @@
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
-                              class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                              class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                               aria-label="Customize {indicator.label} parameters"
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
@@ -13580,7 +13578,7 @@
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
-                              class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                              class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                               aria-label="Customize {indicator.label} parameters"
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
@@ -13743,7 +13741,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label="Customize {indicator.label} parameters"
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13848,7 +13846,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label="Customize {indicator.label} parameters"
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13958,7 +13956,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-gray-400 dark:text-zinc-500 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label="Customize {indicator.label} parameters"
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13995,7 +13993,7 @@
       tabindex="-1"
     ></div>
     <div
-      class="modal-box z-20 mx-0 sm:mx-2 w-full max-w-md overflow-hidden relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box z-20 mx-0 sm:mx-2 w-full max-w-md overflow-hidden relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
     >
       <!-- Header -->
       <div class="flex flex-row items-center justify-between mb-4 pt-5 px-5">
@@ -14036,7 +14034,7 @@
                 type="number"
                 min="0"
                 step="any"
-                class="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-gray-900 dark:text-white"
+                class="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-muted dark:text-white"
                 {value}
                 on:change={(e) => {
                   const parsed = parseFloat(e.currentTarget.value);
@@ -14095,7 +14093,7 @@
   <label for="addChartStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="addChartStrategy"
@@ -14113,7 +14111,7 @@
       >
     </label>
     <h1
-      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
     >
       New Chart Strategy
     </h1>
@@ -14148,7 +14146,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteChartStrategy"
@@ -14165,7 +14163,7 @@
         /></svg
       >
     </label>
-    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+    <h3 class="text-lg font-medium mb-2 text-muted dark:text-white">
       Delete Strategy
     </h3>
     <p class="text-sm mb-6 text-muted dark:text-zinc-300">
@@ -14228,7 +14226,7 @@
     >
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+        <h2 class="text-xl font-semibold text-muted dark:text-white">
           Keyboard Shortcuts
         </h2>
         <button

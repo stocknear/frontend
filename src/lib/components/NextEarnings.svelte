@@ -65,7 +65,7 @@
               class="flex flex-row items-center hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <h3
-                class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
               >
                 {stock_detail_next_earnings_release()}
               </h3>

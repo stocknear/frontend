@@ -385,7 +385,7 @@
     <!--Start Content-->
     <div class="w-auto lg:w-full flex flex-col m-auto">
       <h2
-        class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
       >
         {stock_detail_about({ ticker: $stockTicker })}
       </h2>
@@ -496,7 +496,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2
-          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {stock_detail_financial_performance()}
         </h2>
@@ -567,7 +567,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto pb-10">
         <h2
-          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {stock_detail_analyst_forecast()}
         </h2>

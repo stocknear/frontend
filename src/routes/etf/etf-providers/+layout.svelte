@@ -26,7 +26,7 @@
 </script>
 
 <section
-  class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -34,14 +34,14 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/etf/etf-providers"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_providers()}</a
       >
     </li>
@@ -58,7 +58,7 @@
         <main class="w-full">
           <div class=" border-b border-gray-300 dark:border-zinc-700">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {etf_providers_main_name()}
             </h1>

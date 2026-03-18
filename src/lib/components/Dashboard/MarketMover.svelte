@@ -38,15 +38,15 @@
 </script>
 
 <section
-  class="mx-auto flex flex-col space-y-6 px-3 xs:px-4 sm:px-5 text-gray-700 dark:text-zinc-200 lg:max-w-[1200px] lg:flex-row lg:justify-evenly lg:space-x-10 lg:space-y-0 xl:space-x-12 xxxl:space-x-14"
+  class="mx-auto flex flex-col space-y-6 px-3 xs:px-4 sm:px-5 text-muted dark:text-zinc-200 lg:max-w-[1200px] lg:flex-row lg:justify-evenly lg:space-x-10 lg:space-y-0 xl:space-x-12 xxxl:space-x-14"
 >
   <div class="grow">
     <div class="mb-2 flex flex-row items-end justify-between">
       <a
-        class="inline-flex items-center gap-1 text-gray-900 dark:text-white group"
+        class="inline-flex items-center gap-1 text-muted dark:text-white group"
         href={`/market-mover/${marketStatus === 0 ? "gainers" : marketStatus === 1 ? "premarket/gainers" : "afterhours/gainers"}`}
         ><h2
-          class="mb-0.5 text-lg sm:text-xl font-semibold tracking-tight transition sm:group-hover:underline sm:group-hover:underline-offset-4 group-hover:text-violet-600 dark:group-hover:text-violet-400"
+          class="mb-0.5 text-lg sm:text-xl font-semibold tracking-tight transition sm:group-hover:underline sm:group-hover:underline-offset-4 group-hover:text-violet-800 dark:group-hover:text-violet-400"
         >
           {gainersTitle}
         </h2>
@@ -139,10 +139,10 @@
   <div class="grow">
     <div class="mb-2 flex flex-row items-end justify-between">
       <a
-        class="inline-flex items-center gap-1 text-gray-900 dark:text-white group"
+        class="inline-flex items-center gap-1 text-muted dark:text-white group"
         href={`/market-mover/${marketStatus === 0 ? "losers" : marketStatus === 1 ? "premarket/losers" : "afterhours/losers"}`}
         ><h2
-          class="mb-0.5 text-lg sm:text-xl font-semibold tracking-tight transition sm:group-hover:underline sm:group-hover:underline-offset-4 group-hover:text-violet-600 dark:group-hover:text-violet-400"
+          class="mb-0.5 text-lg sm:text-xl font-semibold tracking-tight transition sm:group-hover:underline sm:group-hover:underline-offset-4 group-hover:text-violet-800 dark:group-hover:text-violet-400"
         >
           {losersTitle}
         </h2>

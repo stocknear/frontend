@@ -1316,14 +1316,14 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <div class="flex flex-row items-center justify-between gap-3 mb-3">
           <h2
-            class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
           >
             {stock_detail_options_contract_lookup_title()}
           </h2>
           <Button
             on:click={copyContractLink}
             disabled={!optionSymbol}
-            class="w-fit shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            class="w-fit shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {copyLabel}
           </Button>
@@ -1391,7 +1391,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{formatDate(selectedDate)}</span
@@ -1479,7 +1479,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{selectedStrike ?? "n/a"}</span
@@ -1555,7 +1555,7 @@
 
         {#if Object?.keys(optionData)?.length > 0}
           <h3
-            class="flex flex-row items-center text-xl sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mt-10"
+            class="flex flex-row items-center text-xl sm:text-xl font-semibold tracking-tight text-muted dark:text-white mt-10"
           >
             {ticker}
             {formatDate(selectedDate)}
@@ -1823,7 +1823,7 @@
                 class="flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
               >
                 <h2
-                  class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
+                  class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-full"
                 >
                   {stock_detail_options_contract_lookup_contract_chart()}
                 </h2>
@@ -1836,7 +1836,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectGraphType}</span
@@ -1913,7 +1913,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectedTimePeriod}</span
@@ -2007,7 +2007,7 @@
                   class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
                 >
                   <h2
-                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white w-full"
+                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-full"
                   >
                     {stock_detail_options_contract_lookup_history()}
                   </h2>
@@ -2133,7 +2133,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -2167,7 +2167,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{stock_detail_options_common_rows({
@@ -2225,7 +2225,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{stock_detail_options_common_next()}</span
@@ -2306,7 +2306,7 @@
 
     <!-- Desktop modal content -->
     <div
-      class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
     >
       <label
         for="mobileTooltip"
@@ -2325,7 +2325,7 @@
       </label>
       <div class=" mb-5 text-center">
         <h3
-          class="font-semibold tracking-tight text-2xl text-gray-900 dark:text-white mb-5"
+          class="font-semibold tracking-tight text-2xl text-muted dark:text-white mb-5"
         >
           {tooltipTitle}
         </h3>
@@ -2345,7 +2345,7 @@
       <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
         <label
           for="mobileTooltip"
-          class="cursor-pointer mt-4 font-semibold text-lg text-gray-900 dark:text-white m-auto flex justify-center"
+          class="cursor-pointer mt-4 font-semibold text-lg text-muted dark:text-white m-auto flex justify-center"
         >
           {stock_detail_options_common_close()}
         </label>

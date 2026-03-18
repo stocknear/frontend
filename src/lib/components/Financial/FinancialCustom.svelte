@@ -140,7 +140,7 @@
   }
 </script>
 
-<section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
+<section class="w-full overflow-hidden h-full text-muted dark:text-zinc-200">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -151,7 +151,7 @@
             class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between"
           >
             <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {removeCompanyStrings($displayCompanyName)}
               {stock_detail_financials_custom_title()}
@@ -181,7 +181,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                        class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                       >
                         <span class="text-sm"
                           >{RANGE_LABEL_MAP[$financialHistoryRange] ||
@@ -205,7 +205,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={8}
-                      class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+                      class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-muted dark:text-zinc-200 shadow-lg"
                     >
                       <DropdownMenu.Group>
                         {#each HISTORY_RANGE_OPTIONS as option}
@@ -213,8 +213,8 @@
                             on:click={() =>
                               ($financialHistoryRange = option.value)}
                             class="{$financialHistoryRange === option.value
-                              ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
-                              : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
+                              ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 font-medium'
+                              : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-xl"
                           >
                             {option.label}
                           </DropdownMenu.Item>
@@ -226,7 +226,7 @@
                   <!-- Sort Order Toggle -->
                   <Button
                     on:click={() => (switchDate = !switchDate)}
-                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     title={switchDate
                       ? stock_detail_financials_newest_first()
                       : stock_detail_financials_oldest_first()}

@@ -370,7 +370,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -378,7 +378,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
@@ -397,7 +397,7 @@
         <main class="w-full">
           <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {etf_new_launches_main_name()}
             </h1>
@@ -410,7 +410,7 @@
               class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-300 dark:border-zinc-700"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
                 {etf_new_launches_count({
                   count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -449,7 +449,7 @@
                       on:input={search}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="w-full bg-transparent text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
+                      class="w-full bg-transparent text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
                     />
                   </div>
                 </div>
@@ -466,7 +466,7 @@
                   <button
                     on:click={resetColumnOrder}
                     title="Reset column order"
-                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                   >
                     <svg
                       class="w-4 h-4"
@@ -525,7 +525,7 @@
                               </td>
                             {:else if column.key === "symbol"}
                               <td
-                                class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
+                                class="text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
                               >
                                 <a
                                   href={"/etf/" + item?.symbol}

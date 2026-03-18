@@ -2523,7 +2523,7 @@
         <div class="flex flex-col md:flex-row items-start md:items-center mb-3">
           <div class="w-full flex flex-row items-center sm:mt-4">
             <h1
-              class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {options_flow_main_title()}
             </h1>
@@ -2869,7 +2869,7 @@
           >
             <button
               on:click={() => (showFilters = !showFilters)}
-              class="flex cursor-pointer items-center text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
+              class="flex cursor-pointer items-center text-base sm:text-lg font-semibold text-muted dark:text-white"
               title={showFilters
                 ? options_flow_hide_filter_area()
                 : options_flow_show_filter_area()}
@@ -3209,7 +3209,7 @@
                                       class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                                     >
                                       <svg
-                                        class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                        class="h-3.5 w-3.5 text-muted dark:text-white"
                                         fill="none"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -3259,7 +3259,7 @@
                                             >{result?.symbol}</span
                                           >
                                           <span
-                                            class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                            class="ml-2 text-xs text-muted dark:text-white truncate"
                                             >{result?.name}</span
                                           >
                                         </div>
@@ -3267,7 +3267,7 @@
                                     {/each}
                                   {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
                                     <div
-                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                      class="px-3 py-2 text-xs text-muted dark:text-white"
                                     >
                                       No results
                                     </div>
@@ -3279,7 +3279,7 @@
                                       ></div>
                                     {/if}
                                     <div
-                                      class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                                      class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-muted dark:text-white"
                                     >
                                       Excluded
                                     </div>
@@ -3298,7 +3298,7 @@
                                             >{ticker}</span
                                           >
                                           <svg
-                                            class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                            class="w-4 h-4 text-muted dark:text-white"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -3315,7 +3315,7 @@
                                     {/each}
                                   {:else if excludeTickerInput.trim().length === 0}
                                     <div
-                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                      class="px-3 py-2 text-xs text-muted dark:text-white"
                                     >
                                       Search and add tickers to exclude
                                     </div>
@@ -3330,7 +3330,7 @@
                                       class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                                     >
                                       <svg
-                                        class="h-3.5 w-3.5 text-gray-400 dark:text-zinc-500"
+                                        class="h-3.5 w-3.5 text-muted dark:text-white"
                                         fill="none"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -3380,7 +3380,7 @@
                                             >{result?.symbol}</span
                                           >
                                           <span
-                                            class="ml-2 text-xs text-gray-400 dark:text-zinc-500 truncate"
+                                            class="ml-2 text-xs text-muted dark:text-white truncate"
                                             >{result?.name}</span
                                           >
                                         </div>
@@ -3388,7 +3388,7 @@
                                     {/each}
                                   {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
                                     <div
-                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                      class="px-3 py-2 text-xs text-muted dark:text-white"
                                     >
                                       No results
                                     </div>
@@ -3400,7 +3400,7 @@
                                       ></div>
                                     {/if}
                                     <div
-                                      class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-gray-400 dark:text-zinc-500"
+                                      class="px-2 pb-1 pt-0.5 text-[11px] font-medium uppercase tracking-wide text-muted dark:text-white"
                                     >
                                       Included
                                     </div>
@@ -3419,7 +3419,7 @@
                                             >{ticker}</span
                                           >
                                           <svg
-                                            class="w-4 h-4 text-gray-400 dark:text-zinc-500"
+                                            class="w-4 h-4 text-muted dark:text-white"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -3436,7 +3436,7 @@
                                     {/each}
                                   {:else if includeTickerInput.trim().length === 0}
                                     <div
-                                      class="px-3 py-2 text-xs text-gray-400 dark:text-zinc-500"
+                                      class="px-3 py-2 text-xs text-muted dark:text-white"
                                     >
                                       Search and add tickers to include
                                     </div>
@@ -4277,7 +4277,7 @@
               class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
             >
               <h2
-                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
               >
                 {totalItems?.toLocaleString("en-US")} Trades
               </h2>
@@ -4356,7 +4356,7 @@
                   title={isFullWidth
                     ? "Exit full width"
                     : "Expand to full width"}
-                  class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                  class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                     ? 'border-violet-400 dark:border-violet-500'
                     : ''}"
                 >
@@ -4452,7 +4452,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1 || isFetchingPage}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -4481,7 +4481,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} Rows</span
@@ -4532,7 +4532,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages || isFetchingPage}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline">Next</span>
                       <svg
@@ -4611,7 +4611,7 @@
   ></label>
 
   <div
-    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
@@ -4621,7 +4621,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h1
-            class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class=" text-[1rem] sm:text-xl font-semibold text-muted dark:text-white"
           >
             {options_flow_select_filters_title({ count: allRows?.length })}
           </h1>
@@ -4771,7 +4771,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -4793,7 +4793,7 @@
       >
     </label>
     <h1
-      class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
     >
       {options_flow_modal_new_title()}
     </h1>
@@ -4837,7 +4837,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -4858,7 +4858,7 @@
         /></svg
       >
     </label>
-    <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
+    <h3 class="text-lg font-medium mb-2 text-muted dark:text-white">
       {options_flow_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-muted dark:text-zinc-300">

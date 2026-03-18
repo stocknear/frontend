@@ -143,18 +143,18 @@
             ></span>
           </span>
           <span
-            class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide"
+            class="text-violet-800 dark:text-violet-400 font-semibold tracking-wide"
             >Christmas Deal</span
           >
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
         <span class="text-muted dark:text-zinc-300">
-          <span class="font-bold text-gray-900 dark:text-white">40% off</span> all
+          <span class="font-bold text-muted dark:text-white">40% off</span> all
           plans
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
         <span
-          class="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-zinc-300 tracking-wider"
+          class="font-mono text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-700 text-muted dark:text-zinc-300 tracking-wider"
           >XMAS25</span
         >
         <svg
@@ -201,7 +201,7 @@
 
             <div class="mx-auto max-w-3xl text-center">
                 <h1
-                    class="mb-3 text-3xl font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
+                    class="mb-3 text-3xl font-semibold tracking-tight text-muted dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
                 >
                     {home_hero_title()}
                 </h1>

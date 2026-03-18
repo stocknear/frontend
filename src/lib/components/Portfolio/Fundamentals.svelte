@@ -311,7 +311,7 @@
                             return `<div class="flex justify-center space-x-8 text-xs sm:text-sm">
                         <div class="flex flex-col items-center">
                             <span class="text-muted dark:text-zinc-300 font-semibold">${gaugeData.label}</span>
-                            <span class="text-gray-900 dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
+                            <span class="text-muted dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
                         </div>
                         <div class="flex flex-col items-center">
                             <span class="text-muted dark:text-zinc-300 font-semibold">${gaugeData.compareLabel}</span>
@@ -418,7 +418,7 @@
 
 <div class="w-full" bind:this={componentElement}>
     <h2
-        class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white w-fit"
+        class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white w-fit"
     >
         {displayTitle}
     </h2>
@@ -456,7 +456,7 @@
                             />
                         </div>
                         <span
-                            class="font-semibold text-sm text-gray-900 dark:text-white"
+                            class="font-semibold text-sm text-muted dark:text-white"
                         >
                             {stat?.value}
                         </span>

@@ -180,7 +180,7 @@
   };
 
   const getChangeClass = (value: number | null) => {
-    if (value === null) return "text-gray-400 dark:text-zinc-500";
+    if (value === null) return "text-muted dark:text-white";
     return value >= 0
       ? "text-emerald-800 dark:text-emerald-400"
       : "text-rose-800 dark:text-rose-400";
@@ -993,7 +993,7 @@
         class="flex flex-col items-center justify-center gap-3 px-4 py-8 text-center"
       >
         <svg
-          class="w-8 h-8 text-gray-400 dark:text-zinc-500"
+          class="w-8 h-8 text-muted dark:text-white"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -1465,7 +1465,7 @@
   ></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="createWatchlistModal"
@@ -1532,7 +1532,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteWatchlistModal"

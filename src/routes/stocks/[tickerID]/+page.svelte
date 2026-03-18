@@ -786,7 +786,7 @@
 />
 
 <section
-  class="text-gray-700 dark:text-zinc-200 min-h-screen pb-40 overflow-hidden w-full"
+  class="text-muted dark:text-zinc-200 min-h-screen pb-40 overflow-hidden w-full"
 >
   <h1 class="sr-only">
     {data?.companyName} ({$stockTicker}) Stock Price, Analysis & Data
@@ -819,8 +819,8 @@
                           <span
                             class="block px-3 sm:px-2 py-1 text-sm rounded-full duration-100 ease-in-out whitespace-nowrap
           {displayData === interval
-                              ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                              : 'bg-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                              ? 'bg-gray-100/70 text-muted dark:text-white dark:bg-zinc-900/60 font-semibold'
+                              : 'bg-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >
                             {$screenWidth < 1200
                               ? interval

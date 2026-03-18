@@ -640,7 +640,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -666,7 +666,7 @@
                             ></div>
                             <a
                               href="/chart/{$etfTicker}"
-                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
                               <ChartNoAxes class="size-4 flex-shrink-0" />
                               <span>Pro Chart</span>
@@ -683,7 +683,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title={etf_detail_price_alert()}
                             >
                               <svg
@@ -710,7 +710,7 @@
                             </label>
                             <a
                               href="/chart/{$etfTicker}"
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title="Pro Chart"
                             >
                               <ChartNoAxes class="size-5 flex-shrink-0" />

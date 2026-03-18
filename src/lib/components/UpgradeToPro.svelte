@@ -22,7 +22,7 @@
     <div class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8">
       <div class="mx-auto max-w-2xl text-center">
         <h3
-          class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {upgrade_to_pro_title()}
         </h3>
@@ -38,7 +38,7 @@
           <!-- Success Rate -->
           <div class="relative pl-14">
             <dt
-              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              class="text-lg font-semibold leading-6 text-muted dark:text-white"
             >
               <div
                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -67,7 +67,7 @@
           <!-- Average Return -->
           <div class="relative pl-14">
             <dt
-              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              class="text-lg font-semibold leading-6 text-muted dark:text-white"
             >
               <div
                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -96,7 +96,7 @@
           <!-- Rating Count -->
           <div class="relative pl-14">
             <dt
-              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              class="text-lg font-semibold leading-6 text-muted dark:text-white"
             >
               <div
                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -131,7 +131,7 @@
           <!-- Recency -->
           <div class="relative pl-14">
             <dt
-              class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+              class="text-lg font-semibold leading-6 text-muted dark:text-white"
             >
               <div
                 class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"

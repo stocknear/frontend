@@ -609,9 +609,7 @@
         {#if previewHtml}
           {@html previewHtml}
         {:else}
-          <p class="text-gray-400 dark:text-zinc-500 italic">
-            No content yet...
-          </p>
+          <p class="text-muted dark:text-white italic">No content yet...</p>
         {/if}
       </div>
     {:else}

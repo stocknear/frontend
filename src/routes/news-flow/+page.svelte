@@ -153,7 +153,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -161,7 +161,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{news_flow_breadcrumb_home()}</a
       >
     </li>
@@ -178,7 +178,7 @@
         <main class="w-full lg:w-3/4 lg:pr-5">
           <div class="mb-3">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {news_flow_main_title()}
             </h1>
@@ -191,7 +191,7 @@
               class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
             >
               <h2
-                class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
                 {news_flow_news_count({
                   count: data?.getData?.totalItems?.toLocaleString("en-US"),
@@ -287,7 +287,7 @@
                     >
                       {formatDate(item?.date, true)}
                     </td>
-                    <td class="py-3 pl-2 text-gray-700 dark:text-zinc-300">
+                    <td class="py-3 pl-2 text-muted dark:text-zinc-300">
                       <span
                         class="sm:hidden text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                         >{formatDate(item?.date, true)} ago -</span

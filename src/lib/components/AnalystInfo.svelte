@@ -19,7 +19,7 @@
   >
     <div class="mx-auto max-w-2xl text-center">
       <h3
-        class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
       >
         {analysts_info_title()}
       </h3>
@@ -33,7 +33,7 @@
       >
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            class="text-lg font-semibold leading-6 text-muted dark:text-white"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -60,7 +60,7 @@
         </div>
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            class="text-lg font-semibold leading-6 text-muted dark:text-white"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -87,7 +87,7 @@
         </div>
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            class="text-lg font-semibold leading-6 text-muted dark:text-white"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -114,7 +114,7 @@
         </div>
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            class="text-lg font-semibold leading-6 text-muted dark:text-white"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"

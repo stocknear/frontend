@@ -430,7 +430,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden m-auto text-gray-700 dark:text-zinc-200">
+<section class="w-full overflow-hidden m-auto text-muted dark:text-zinc-200">
   {#if originalData?.length !== 0}
     <div class="mb-5 mt-5 sm:mt-0">
       <Infobox text={htmlOutput} />
@@ -448,7 +448,7 @@
           {etf_stats_listed_funds()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
         >
           {originalData?.length}
         </div>
@@ -462,7 +462,7 @@
           {etf_stats_total_assets()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
         >
           {abbreviateNumber(totalAssets)}
         </div>
@@ -476,7 +476,7 @@
           {etf_stats_average_cost()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-gray-900 dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
         >
           {avgExpenseRatio?.toFixed(2)}%
         </div>
@@ -490,7 +490,7 @@
         class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-300 dark:border-zinc-700"
       >
         <h2
-          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
         >
           {etf_provider_detail_count({
             count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -542,7 +542,7 @@
             <button
               on:click={resetColumnOrder}
               title="Reset column order"
-              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
             >
               <svg
                 class="w-4 h-4"
@@ -589,7 +589,7 @@
                     {#each columns as column}
                       {#if column.key === "symbol"}
                         <td
-                          class="text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
+                          class="text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
                         >
                           <HoverStockChart
                             symbol={item?.symbol}
@@ -663,7 +663,7 @@
               <Button
                 on:click={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -696,7 +696,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm"
                       >{etf_pagination_rows({
@@ -724,7 +724,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                 >
                   <!-- Dropdown items -->
                   <DropdownMenu.Group class="pb-2">
@@ -754,7 +754,7 @@
               <Button
                 on:click={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="hidden sm:inline">{etf_pagination_next()}</span>
                 <svg
@@ -778,7 +778,7 @@
           <div class="flex justify-center mt-4">
             <button
               on:click={scrollToTop}
-              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
             >
               {etf_back_to_top()}
               <svg

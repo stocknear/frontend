@@ -1361,7 +1361,7 @@
           <div class="w-full">
             <div class="border-b border-gray-300 dark:border-zinc-700">
               <h1
-                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
               >
                 {options_calculator_title()}
               </h1>
@@ -1422,7 +1422,7 @@
                           <div
                             class="flex flex-col sm:flex-row items-start sm:items-center"
                           >
-                            <span class="text-sm text-gray-900 dark:text-white"
+                            <span class="text-sm text-muted dark:text-white"
                               >{searchItem?.symbol}</span
                             >
                             <span
@@ -1455,21 +1455,21 @@
                 <button
                   type="button"
                   on:click={() => handleAddOptionLeg()}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_add_option_leg()}
                 </button>
                 <button
                   type="button"
                   on:click={handleAddShareLeg}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Add Shares
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_save_strategy()}
                 </button>
@@ -1480,7 +1480,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate"
                           >{options_calculator_custom_strategy()}</span
@@ -1643,7 +1643,7 @@
                         class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                       >
                         <td
-                          class="px-4 whitespace-nowrap font-semibold text-gray-900 dark:text-white"
+                          class="px-4 whitespace-nowrap font-semibold text-muted dark:text-white"
                         >
                           {selectedTicker}
                         </td>
@@ -1668,7 +1668,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                               >
                                 <span class="truncate text-sm"
                                   >{formatDate(userStrategy[index]?.date)}
@@ -1845,7 +1845,7 @@
 
               {#if shareStrategy?.length > 0}
                 <h3
-                  class="mt-6 mb-2 text-base sm:text-lg font-semibold tracking-tight text-gray-900 dark:text-white"
+                  class="mt-6 mb-2 text-base sm:text-lg font-semibold tracking-tight text-muted dark:text-white"
                 >
                   Shares
                 </h3>
@@ -1893,7 +1893,7 @@
                           class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                         >
                           <td
-                            class="px-4 whitespace-nowrap font-semibold text-gray-900 dark:text-white"
+                            class="px-4 whitespace-nowrap font-semibold text-muted dark:text-white"
                           >
                             {selectedTicker}
                           </td>
@@ -1951,7 +1951,7 @@
 
               {#if isLoaded && config}
                 <h2
-                  class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                  class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
                 >
                   {options_calculator_profit_loss_chart()}
                 </h2>
@@ -1978,7 +1978,7 @@
 
               <div class="mt-10">
                 <h2
-                  class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3"
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
                 >
                   {options_calculator_trade_information()}
                 </h2>
@@ -2021,7 +2021,7 @@
 
                 <!-- Stock Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4"
                 >
                   {options_calculator_stock()}
                 </h2>
@@ -2033,7 +2033,7 @@
                     </div>
                     <div class="flex items-baseline">
                       <span
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                         >${currentStockPrice
                           ? currentStockPrice?.toFixed(2)
                           : "n/a"}</span
@@ -2055,7 +2055,7 @@
                     </div>
                     <div class="flex items-baseline">
                       <span
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                         >{breakEvenPrices?.length > 0
                           ? breakEvenPrices
                               .map((price) => `$${price.toFixed(2)}`)
@@ -2068,7 +2068,7 @@
 
                 <!-- Trade Details Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4"
                 >
                   {options_calculator_trade_details()}
                 </h2>
@@ -2088,7 +2088,7 @@
                     </div>
                     <div class="flex items-baseline">
                       <span
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                         >{totalPremium >= 0 ? "$" : "-$"}{Math.abs(
                           totalPremium,
                         )?.toLocaleString("en-US", {
@@ -2138,7 +2138,7 @@
 
                 <!-- Probability Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4 mt-6"
                 >
                   {options_calculator_probability_analysis()}
                 </h2>
@@ -2204,7 +2204,7 @@
 
                 <!-- Risk Reward Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4 mt-6"
                 >
                   {options_calculator_risk_reward()}
                 </h2>
@@ -2314,7 +2314,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                       >
                         {riskRewardMetrics?.rewardRisk !== null
                           ? `${riskRewardMetrics?.rewardRisk?.toFixed(1)}%`
@@ -2342,7 +2342,7 @@
 
                 <!-- Position Greeks Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4 mt-6"
                 >
                   {options_calculator_greeks()}
                 </h2>
@@ -2363,7 +2363,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                       >
                         {positionGreeks?.delta?.toFixed(2)}
                       </div>
@@ -2400,7 +2400,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                       >
                         {positionGreeks?.gamma?.toFixed(4)}
                       </div>
@@ -2479,7 +2479,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-gray-900 dark:text-white"
+                        class="text-lg font-semibold text-muted dark:text-white"
                       >
                         {positionGreeks?.vega >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.vega,

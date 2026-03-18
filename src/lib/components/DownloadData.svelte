@@ -297,7 +297,7 @@
       <Button
         builders={[builder]}
         on:click={() => (showBulkOptions = false)}
-        class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+        class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
       >
         <span class="truncate text-[0.85rem] sm:text-sm">
           {common_download()}
@@ -398,7 +398,7 @@
           </span>
           <button
             on:click={handleBulkDownload}
-            class="whitespace-nowrap w-full flex justify-end text-gray-900 dark:text-white hover:text-muted dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
+            class="whitespace-nowrap w-full flex justify-end text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
           >
             {common_bulk_download()}
           </button>

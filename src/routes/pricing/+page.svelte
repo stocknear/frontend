@@ -1206,7 +1206,7 @@
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">
+            <span class="text-xl text-muted dark:text-white line-through">
               $10
             </span>
             <span class="text-4xl font-semibold"> $5 </span>
@@ -1806,7 +1806,7 @@
         </div>
       </div>
       <div
-        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-gray-900 dark:text-white"
+        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-muted dark:text-white"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">
@@ -1818,7 +1818,7 @@
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
-            <span class="text-xl text-gray-400 dark:text-zinc-500 line-through">
+            <span class="text-xl text-muted dark:text-white line-through">
               $30
             </span>
             <span class="text-4xl font-semibold"> $15 </span>
@@ -2064,7 +2064,7 @@
           {:else if data?.user?.tier === "Plus"}
             <label
               for="upgradeProModal"
-              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-800 dark:hover:text-violet-400 flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-muted dark:text-white transition hover:text-violet-800 dark:hover:text-violet-400 flex items-center justify-center"
               >{pricing_upgrade_pro()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -2430,7 +2430,7 @@
   <label for="upgradeProModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="upgradeProModal"
@@ -2449,7 +2449,7 @@
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
-        class="mb-3 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white text-center m-auto"
+        class="mb-3 text-2xl font-semibold tracking-tight text-muted dark:text-white text-center m-auto"
       >
         {pricing_upgrade_modal_title()}
       </h4>

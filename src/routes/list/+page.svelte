@@ -142,7 +142,7 @@
 <section class="w-full overflow-hidden m-auto text-muted dark:text-zinc-200">
   <div class="mt-5">
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
     >
       {list_section_popular_lists()}
     </h2>
@@ -232,7 +232,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_market_cap_groups()}
     </h2>
@@ -286,7 +286,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_dividend_lists()}
     </h2>
@@ -340,7 +340,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_exchange_groups()}
     </h2>
@@ -372,7 +372,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_index_groups()}
     </h2>
@@ -404,7 +404,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_options_lists()}
     </h2>
@@ -474,7 +474,7 @@
   <!--Start Other Lists-->
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_other_lists()}
     </h2>
@@ -546,7 +546,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_etf_lists()}
     </h2>
@@ -601,7 +601,7 @@
 
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_category_ranked_by_market_cap()}
     </h2>
@@ -711,7 +711,7 @@
   <!--Start Non-US Stocks Listed on US Exchanges-->
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_non_us_listed()}
     </h2>
@@ -768,7 +768,7 @@
   <!--Start Sector Group-->
   <div>
     <h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white pt-10"
+      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white pt-10"
     >
       {list_section_sector_groups()}
     </h2>

@@ -184,7 +184,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -243,7 +243,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -304,7 +304,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -356,7 +356,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <svg
                         class="size-6 mb-1 inline-block"
@@ -396,7 +396,7 @@
                 class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 w-full"
                 >
                   {stock_detail_stats_history()}
                 </h2>

@@ -278,7 +278,7 @@
     class="cursor-pointer modal-backdrop bg-black/30"
   ></label>
   <div
-    class="modal-box p-0 w-full max-h-[70vh] relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col"
+    class="modal-box p-0 w-full max-h-[70vh] relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col"
   >
     <label
       for="mobileToolsModal"
@@ -304,7 +304,7 @@
     <div
       class="flex items-center justify-between px-4 pb-3 border-b border-gray-300 dark:border-zinc-700 mt-6 flex-shrink-0"
     >
-      <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+      <h3 class="text-base font-semibold text-muted dark:text-white">
         Drawing Tools
       </h3>
       <div class="flex items-center gap-2">

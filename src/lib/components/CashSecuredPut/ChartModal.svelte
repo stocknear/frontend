@@ -207,7 +207,7 @@
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+            class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
           >
             {cash_secured_put_screener_chart_modal_title({
               symbol: item.symbol,
@@ -279,8 +279,7 @@
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
             >
               <div>
-                <span
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                <span class="text-sm font-semibold text-muted dark:text-white"
                   >{cash_secured_put_screener_chart_trade_setup()}</span
                 >
                 <div class="text-sm text-muted dark:text-zinc-300">
@@ -295,8 +294,7 @@
                 </div>
               </div>
               <div class="text-right">
-                <span
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                <span class="text-sm font-semibold text-muted dark:text-white"
                   >{cash_secured_put_screener_chart_net_credit()}</span
                 >
                 <div class="text-sm text-muted dark:text-zinc-300">
@@ -308,7 +306,7 @@
 
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             <div>
-              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+              <span class="text-sm font-semibold text-muted dark:text-white"
                 >{cash_secured_put_screener_chart_breakeven()}</span
               >
               <div class="text-sm text-muted dark:text-zinc-300">
@@ -324,7 +322,7 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+              <span class="text-sm font-semibold text-muted dark:text-white"
                 >{cash_secured_put_screener_chart_last_price()}</span
               >
               <div class="text-sm text-muted dark:text-zinc-300">
@@ -332,7 +330,7 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+              <span class="text-sm font-semibold text-muted dark:text-white"
                 >{cash_secured_put_screener_chart_moneyness()}</span
               >
               <div
@@ -344,7 +342,7 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+              <span class="text-sm font-semibold text-muted dark:text-white"
                 >{cash_secured_put_screener_chart_return_if_flat()}</span
               >
               <div class="text-sm text-muted dark:text-zinc-300">
@@ -353,7 +351,7 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+              <span class="text-sm font-semibold text-muted dark:text-white"
                 >{cash_secured_put_screener_chart_discount()}</span
               >
               <div class="text-sm text-emerald-700 dark:text-emerald-400">
@@ -361,7 +359,7 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+              <span class="text-sm font-semibold text-muted dark:text-white"
                 >{cash_secured_put_screener_chart_probability_of_profit()}</span
               >
               <div class="text-sm text-muted dark:text-zinc-300">

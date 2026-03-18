@@ -125,7 +125,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -133,14 +133,14 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{hedge_funds_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/hedge-funds"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{hedge_funds_breadcrumb_hedge_fund()}</a
       >
     </li>
@@ -179,7 +179,7 @@
 
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+                    class="mb-0 text-2xl font-semibold tracking-tight text-muted dark:text-white"
                   >
                     {formatString(companyName)}
                   </h1>
@@ -194,7 +194,7 @@
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
-                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {abbreviateNumber(hedgeFundStats?.marketValue)}
                   </div>
@@ -209,7 +209,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {hedgeFundStats?.averageHoldingPeriod}
                     {hedge_funds_slug_months()}
@@ -225,7 +225,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
@@ -262,7 +262,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span

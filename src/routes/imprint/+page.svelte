@@ -38,7 +38,7 @@
 <SEO title={imprint_seo_title()} description="" />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -46,7 +46,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
@@ -61,7 +61,7 @@
         <main class="w-full lg:w-3/4 lg:pr-5">
           <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {imprint_hero_title()}
             </h1>
@@ -119,7 +119,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
               >
                 {imprint_vsbg_title()}
               </h2>
@@ -129,12 +129,12 @@
               </p>
 
               <h1
-                class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-start mb-5"
+                class="text-xl sm:text-2xl font-semibold text-muted dark:text-white text-start mb-5"
               >
                 {imprint_disclaimer_title()}
               </h1>
               <h1
-                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+                class="text-lg font-semibold text-muted dark:text-white text-start mb-3 ml-2"
               >
                 {imprint_content_warning_title()}
               </h1>
@@ -144,7 +144,7 @@
               </p>
 
               <h1
-                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+                class="text-lg font-semibold text-muted dark:text-white text-start mb-3 ml-2"
               >
                 {imprint_external_links_title()}
               </h1>
@@ -153,7 +153,7 @@
               </p>
 
               <h1
-                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+                class="text-lg font-semibold text-muted dark:text-white text-start mb-3 ml-2"
               >
                 {imprint_copyright_title()}
               </h1>
@@ -162,7 +162,7 @@
               </p>
 
               <h1
-                class="text-lg font-semibold text-gray-900 dark:text-white text-start mb-3 ml-2"
+                class="text-lg font-semibold text-muted dark:text-white text-start mb-3 ml-2"
               >
                 {imprint_special_conditions_title()}
               </h1>

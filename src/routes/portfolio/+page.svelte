@@ -1046,7 +1046,7 @@
                           on:click={() => changePortfolio(item)}
                           class="text-sm cursor-pointer {item?.id ===
                           displayPortfolio?.id
-                            ? 'text-gray-900 dark:text-white font-semibold'
+                            ? 'text-muted dark:text-white font-semibold'
                             : 'text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400'}"
                         >
                           {item?.title} ({item?.ticker?.length})
@@ -1526,7 +1526,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="addPortfolio"
@@ -1585,7 +1585,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deletePortfolio"

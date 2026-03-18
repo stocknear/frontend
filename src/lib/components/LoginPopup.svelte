@@ -216,7 +216,7 @@
   <div
     class="modal-box w-full {$screenWidth < 640
       ? 'min-h-screen'
-      : ''} relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      : ''} relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="userLogin"
@@ -309,7 +309,7 @@
             {login_popup_no_account()}
             <label
               on:click={() => (displaySection = "register")}
-              class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
+              class="text-muted dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
               >{login_popup_sign_up_link()}</label
             >
           </p>
@@ -480,7 +480,7 @@
             {register_popup_has_account()}
             <label
               on:click={() => (displaySection = "login")}
-              class="text-gray-900 dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
+              class="text-muted dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
               >{register_popup_sign_in_link()}</label
             >
           </p>

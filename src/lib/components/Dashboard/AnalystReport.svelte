@@ -29,7 +29,7 @@
 
 <section class="mx-auto lg:col-span-2 w-full text-muted dark:text-zinc-200">
   <h2
-    class="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+    class="mb-2 text-xl font-semibold tracking-tight text-muted dark:text-white"
   >
     {dashboard_analyst_report_title()}
   </h2>
@@ -52,7 +52,7 @@
         rating: analystReport?.consensusRating,
       })}
       {dashboard_analyst_report_forecast_prefix()}
-      <strong class="text-gray-900 dark:text-white"
+      <strong class="text-muted dark:text-white"
         >${analystReport?.highPriceTarget}</strong
       >, {dashboard_analyst_report_change_prefix({
         direction: changeDirection,

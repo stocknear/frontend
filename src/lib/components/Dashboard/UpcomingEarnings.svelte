@@ -20,7 +20,7 @@
 <section class="mx-auto w-full text-muted dark:text-zinc-200">
   <a
     href="/earnings-calendar/"
-    class="inline-flex items-center gap-1 text-left w-full text-gray-900 dark:text-white group"
+    class="inline-flex items-center gap-1 text-left w-full text-muted dark:text-white group"
     ><h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
@@ -47,7 +47,7 @@
         {#each upcomingEarnings as item}
           <tr class="border-b border-gray-300 dark:border-zinc-700">
             <td class="py-3 sm:pl-2 leading-6 text-muted dark:text-zinc-200">
-              <strong class="font-semibold text-gray-900 dark:text-white"
+              <strong class="font-semibold text-muted dark:text-white"
                 >{item?.name}</strong
               >
               {item?.isToday === true

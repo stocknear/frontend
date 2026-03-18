@@ -365,7 +365,7 @@
   <!-- Header -->
   <div class="mb-8">
     <h1
-      class="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-1"
+      class="text-2xl sm:text-3xl font-semibold text-muted dark:text-white mb-1"
     >
       {learning_center_title()}
     </h1>
@@ -434,7 +434,7 @@
         <DropdownMenu.Trigger asChild let:builder>
           <Button
             builders={[builder]}
-            class="w-full sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+            class="w-full sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
           >
             <span class="text-sm"
               >{learning_center_tag_prefix()} | {selectedTagName}</span
@@ -509,7 +509,7 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            <h2 class="text-lg font-semibold text-muted dark:text-white">
               {learning_center_category_features()}
             </h2>
             <p class="text-sm text-muted dark:text-white">
@@ -530,7 +530,7 @@
           {#each sections.Features.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
             >
               {#if item?.cover}
                 <div class="h-40 overflow-hidden">
@@ -546,7 +546,7 @@
               {/if}
               <div class="flex flex-col flex-1 p-4">
                 <h3
-                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                  class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
                 >
                   {item?.title}
                 </h3>
@@ -554,7 +554,7 @@
                   {item?.abstract}
                 </p>
                 <div
-                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                  class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
                 >
                   <span
                     >{learning_center_min_read({
@@ -574,7 +574,7 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            <h2 class="text-lg font-semibold text-muted dark:text-white">
               {learning_center_category_fundamentals()}
             </h2>
             <p class="text-sm text-muted dark:text-white">
@@ -595,7 +595,7 @@
           {#each sections.Fundamentals.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
             >
               {#if item?.cover}
                 <div class="h-40 overflow-hidden">
@@ -611,7 +611,7 @@
               {/if}
               <div class="flex flex-col flex-1 p-4">
                 <h3
-                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                  class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
                 >
                   {item?.title}
                 </h3>
@@ -619,7 +619,7 @@
                   {item?.abstract}
                 </p>
                 <div
-                  class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                  class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
                 >
                   <span
                     >{learning_center_min_read({
@@ -639,7 +639,7 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            <h2 class="text-lg font-semibold text-muted dark:text-white">
               {learning_center_category_terms()}
             </h2>
             <p class="text-sm text-muted dark:text-white">
@@ -662,17 +662,17 @@
           {#each sections.Terms.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex items-center gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+              class="group flex items-center gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
             >
               <div class="flex-1 min-w-0">
                 <h3
-                  class="font-medium text-gray-900 dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition truncate"
+                  class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition truncate"
                 >
                   {item?.title}
                 </h3>
               </div>
               <svg
-                class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0"
+                class="w-4 h-4 text-muted dark:text-white group-hover:text-violet-500 transition flex-shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -712,11 +712,11 @@
         {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
-            class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+            class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
           >
             <div class="flex-1 min-w-0">
               <h3
-                class="font-medium text-gray-900 dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
               >
                 {item?.title}
               </h3>
@@ -725,7 +725,7 @@
               </p>
             </div>
             <svg
-              class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:text-violet-500 transition flex-shrink-0"
+              class="w-4 h-4 text-muted dark:text-white group-hover:text-violet-500 transition flex-shrink-0"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -748,7 +748,7 @@
           <Button
             on:click={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg
               class="h-5 w-5 rotate-90"
@@ -779,7 +779,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700  text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm"
                     >{learning_center_items_count({
@@ -830,7 +830,7 @@
           <Button
             on:click={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg
@@ -895,7 +895,7 @@
         {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
-            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
           >
             {#if item?.cover}
               <div class="h-40 overflow-hidden">
@@ -918,7 +918,7 @@
             {/if}
             <div class="flex flex-col flex-1 p-4">
               <h3
-                class="font-medium text-gray-900 dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
               >
                 {item?.title}
               </h3>
@@ -926,7 +926,7 @@
                 {item?.abstract}
               </p>
               <div
-                class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
+                class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
               >
                 <div class="flex items-center gap-1">
                   <Calendar class="w-3.5 h-3.5" />
@@ -953,7 +953,7 @@
           <Button
             on:click={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg
               class="h-5 w-5 rotate-90"
@@ -984,7 +984,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm"
                     >{learning_center_items_count({
@@ -1035,7 +1035,7 @@
           <Button
             on:click={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg

@@ -116,7 +116,7 @@
       <div>
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {login_title()}
         </h1>
@@ -201,7 +201,7 @@
       <!-- Already logged in -->
       <div class="text-center">
         <h1
-          class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {login_title_logged_in()}
         </h1>

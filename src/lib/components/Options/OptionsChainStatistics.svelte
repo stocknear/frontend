@@ -1615,7 +1615,7 @@
                 class="col-span-2 flex flex-row items-center lg:order-2 lg:grow py-1"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white py-1 w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 w-full"
                 >
                   {stock_detail_options_chain_statistics()}
                 </h2>

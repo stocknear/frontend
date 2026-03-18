@@ -24,7 +24,7 @@
   <div
     class="modal-box w-full {$screenWidth < 640
       ? 'min-h-screen'
-      : ''} relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      : ''} relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="promotionModal"
@@ -44,7 +44,7 @@
     <div class="grid grid-cols-1 animate-fade-in-once">
       <div class="flex justify-center pt-6 sm:pt-3">
         <div
-          class="h-12 w-12 rounded-full bg-gray-300/80 dark:bg-zinc-900/60 flex items-center justify-center text-gray-900 dark:text-white"
+          class="h-12 w-12 rounded-full bg-gray-300/80 dark:bg-zinc-900/60 flex items-center justify-center text-muted dark:text-white"
         >
           <svg
             class="h-6 w-6"
@@ -63,7 +63,7 @@
       </div>
 
       <h2
-        class="text-center text-2xl sm:text-3xl pt-4 font-semibold tracking-tight text-gray-900 dark:text-white"
+        class="text-center text-2xl sm:text-3xl pt-4 font-semibold tracking-tight text-muted dark:text-white"
       >
         {title}
       </h2>

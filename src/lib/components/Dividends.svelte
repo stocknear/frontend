@@ -335,7 +335,7 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full mb-6">
           <h2
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4 w-full"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-4 w-full"
           >
             {stock_detail_dividends_heading()}
           </h2>
@@ -354,7 +354,7 @@
                 {stock_detail_dividends_yield()}
               </label>
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
               >
                 {dividendYield !== "0.00" ? dividendYield : "0"}%
               </div>
@@ -367,7 +367,7 @@
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
               >
                 {annualDividend !== "0.00" ? annualDividend : "0"}
               </div>
@@ -380,7 +380,7 @@
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
               >
                 {new Date(exDividendDate)?.toLocaleString("en-US", {
                   month: "short",
@@ -399,7 +399,7 @@
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
               >
                 {payoutFrequency ? payoutFrequency : "n/a"}
               </div>
@@ -412,7 +412,7 @@
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
               >
                 {payoutRatio !== "0.00" && payoutRatio !== null
                   ? payoutRatio + "%"
@@ -427,7 +427,7 @@
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-gray-900 dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
               >
                 {dividendGrowth ? dividendGrowth + "%" : "n/a"}
               </div>
@@ -438,7 +438,7 @@
             class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
           >
             <h3
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {stock_detail_dividends_history()}
             </h3>
@@ -535,7 +535,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -569,7 +569,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -623,7 +623,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

@@ -142,7 +142,7 @@
   <label for="priceAlertModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full min-h-fit h-[600px] sm:h-[500px] p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full min-h-fit h-[600px] sm:h-[500px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="priceAlertModal"
@@ -161,7 +161,7 @@
     </label>
     <div class="flex flex-col w-full">
       <h2
-        class="font-semibold text-lg text-start mb-5 tracking-tight text-gray-900 dark:text-white"
+        class="font-semibold text-lg text-start mb-5 tracking-tight text-muted dark:text-white"
       >
         {stock_detail_price_alert_on({ ticker })}
       </h2>

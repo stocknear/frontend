@@ -38,7 +38,7 @@
             {newsletter_label()}
           </p>
           <h1
-            class="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="text-3xl md:text-4xl font-semibold tracking-tight text-muted dark:text-white"
           >
             {newsletter_title()}
           </h1>

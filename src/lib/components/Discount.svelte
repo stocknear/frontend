@@ -51,7 +51,7 @@
         class="cursor-pointer inline-flex items-center gap-2.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2 text-sm transition hover:border-violet-400 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950/30"
       >
         <span
-          class="font-mono text-sm font-semibold text-gray-900 dark:text-white tracking-wider"
+          class="font-mono text-sm font-semibold text-muted dark:text-white tracking-wider"
         >
           SAVE50
         </span>

@@ -429,7 +429,7 @@
     >
         <div class="flex items-center gap-1 sm:gap-2">
             <span
-                class="text-xs sm:text-sm font-semibold tracking-tight text-gray-900 dark:text-white"
+                class="text-xs sm:text-sm font-semibold tracking-tight text-muted dark:text-white"
                 >{nameDict[symbol]}</span
             >
         </div>

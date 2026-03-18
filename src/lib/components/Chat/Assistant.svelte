@@ -1022,7 +1022,7 @@
         </div>
         <div class="min-w-0">
           <div
-            class="text-base font-semibold text-gray-900 dark:text-white truncate"
+            class="text-base font-semibold text-muted dark:text-white truncate"
           >
             AI Assistant
           </div>
@@ -1057,7 +1057,7 @@
               transition:fly={{ y: -10, duration: 200 }}
             >
               <div class="p-4 border-b border-gray-300 dark:border-gray-600">
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-sm font-semibold text-muted dark:text-white">
                   Recent Conversations
                 </h3>
               </div>
@@ -1165,7 +1165,7 @@
       <!-- messages -->
       <div
         bind:this={chatContainer}
-        class="flex-1 px-6 py-6 space-y-6 overflow-y-auto overflow-x-hidden scroll-smooth bg-white dark:bg-default text-gray-900 dark:text-white"
+        class="flex-1 px-6 py-6 space-y-6 overflow-y-auto overflow-x-hidden scroll-smooth bg-white dark:bg-default text-muted dark:text-white"
         style="will-change: scroll-position; contain: layout style paint;"
       >
         {#each messages as message, index (`${chatId || "temp"}-${index}-${message.role}`)}

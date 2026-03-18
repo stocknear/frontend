@@ -353,7 +353,7 @@
         <div class="relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-zinc-500"
+            class="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted dark:text-white"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -396,7 +396,7 @@
                     on:click={handleChatClick}
                     class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-xl text-sm transition-colors {currentSlug ===
                     item.id
-                      ? 'bg-gray-200/80 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium'
+                      ? 'bg-gray-200/80 dark:bg-zinc-800 text-muted dark:text-white font-medium'
                       : 'text-muted dark:text-zinc-300 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
                   >
                     <span class="flex-1 truncate">
@@ -406,7 +406,7 @@
                       on:click|preventDefault|stopPropagation={() => {
                         openDeleteModal(item.id);
                       }}
-                      class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-md text-gray-400 dark:text-zinc-500 sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
+                      class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-md text-muted dark:text-white sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
                       aria-label="Delete chat"
                     >
                       <svg
@@ -437,15 +437,13 @@
               on:click={handleChatClick}
               class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-xl text-sm transition-colors {currentSlug ===
               item.id
-                ? 'bg-gray-200/80 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium'
+                ? 'bg-gray-200/80 dark:bg-zinc-800 text-muted dark:text-white font-medium'
                 : 'text-muted dark:text-zinc-300 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
             >
               <span class="flex-1 truncate">
                 {truncate(item.message)}
               </span>
-              <span
-                class="flex-shrink-0 text-xs text-gray-400 dark:text-zinc-500"
-              >
+              <span class="flex-shrink-0 text-xs text-muted dark:text-white">
                 {formatRelativeTime(item.updated)}
               </span>
             </a>
@@ -470,7 +468,7 @@
   <label for="deleteThreadModal" class="cursor-pointer modal-backdrop" />
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteThreadModal"

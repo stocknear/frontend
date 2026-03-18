@@ -588,7 +588,7 @@
           <div>
             <h2
               id="modal-title"
-              class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+              class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
             >
               {metricLabel}
             </h2>

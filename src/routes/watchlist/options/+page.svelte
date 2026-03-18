@@ -1187,7 +1187,7 @@
             class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {watchList.length} Trade{watchList.length !== 1 ? "s" : ""}
             </h2>
@@ -1511,9 +1511,7 @@
                 >
                   Put/Call Ratio
                 </div>
-                <div
-                  class="text-sm font-semibold text-gray-900 dark:text-white"
-                >
+                <div class="text-sm font-semibold text-muted dark:text-white">
                   {scorecard.putCallRatio !== null
                     ? scorecard.putCallRatio
                     : "-"}
@@ -1529,7 +1527,7 @@
                   <span class="text-emerald-800 dark:text-emerald-400"
                     >{scorecard.bulls}</span
                   >
-                  <span class="text-gray-400 dark:text-zinc-500"> / </span>
+                  <span class="text-muted dark:text-white"> / </span>
                   <span class="text-rose-800 dark:text-rose-400"
                     >{scorecard.bears}</span
                   >
@@ -1707,7 +1705,7 @@
                           handleNoteHover(item.id, item?.hasNote || false)}
                         class="ml-1 cursor-pointer transition-all duration-200 {item?.hasNote
                           ? 'text-violet-500 dark:text-violet-400'
-                          : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                          : 'text-muted dark:text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                         title={item?.hasNote ? "Edit note" : "Add note"}
                       >
                         <Pencil class="h-3.5 w-3.5" />
@@ -1737,8 +1735,7 @@
                         {#if item?.dte === null}
                           -
                         {:else if item.dte < 0}
-                          <span class="text-gray-400 dark:text-zinc-500"
-                            >expired</span
+                          <span class="text-muted dark:text-white">expired</span
                           >
                         {:else}
                           {item.dte}d
@@ -1767,8 +1764,7 @@
                         {:else if enriched?.status === "done" && enriched.currentPrice !== null}
                           {enriched.currentPrice.toFixed(2)}
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span
-                          >
+                          <span class="text-muted dark:text-white">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "price"}
@@ -1832,8 +1828,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span
-                          >
+                          <span class="text-muted dark:text-white">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "iv"}
@@ -1844,8 +1839,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span
-                          >
+                          <span class="text-muted dark:text-white">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "delta"}
@@ -1856,8 +1850,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span
-                          >
+                          <span class="text-muted dark:text-white">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "cost_basis"}
@@ -1940,8 +1933,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span
-                          >
+                          <span class="text-muted dark:text-white">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "openInterest"}
@@ -1976,8 +1968,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span
-                          >
+                          <span class="text-muted dark:text-white">-</span>
                         {/if}
                       </td>
                     {/if}
@@ -2191,7 +2182,7 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}

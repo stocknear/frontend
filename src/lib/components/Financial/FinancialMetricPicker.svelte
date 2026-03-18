@@ -107,7 +107,7 @@
   <DropdownMenu.Trigger asChild let:builder>
     <Button
       builders={[builder]}
-      class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+      class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
       <span class="text-[0.85rem] sm:text-sm"
         >{stock_detail_financials_indicators()}</span
@@ -184,7 +184,7 @@
     <!-- Presets section -->
     {#if filteredPresets.length > 0}
       <div
-        class="text-[10px] uppercase tracking-wider font-semibold text-gray-400 dark:text-zinc-500 px-2 pt-3 pb-1"
+        class="text-[10px] uppercase tracking-wider font-semibold text-muted dark:text-white px-2 pt-3 pb-1"
       >
         {stock_detail_financials_presets()}
       </div>
@@ -210,7 +210,7 @@
     <!-- Grouped indicators -->
     {#each filteredGroups as group}
       <div
-        class="text-[10px] uppercase tracking-wider font-semibold text-gray-400 dark:text-zinc-500 px-2 pt-3 pb-1"
+        class="text-[10px] uppercase tracking-wider font-semibold text-muted dark:text-white px-2 pt-3 pb-1"
       >
         {group.label}
       </div>

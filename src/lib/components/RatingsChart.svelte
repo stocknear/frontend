@@ -351,7 +351,7 @@
                 class="px-2 py-0.5 sm:py-1 text-xs flex items-center {timePeriod ===
                 item
                   ? 'bg-white text-gray-500'
-                  : 'text-gray-400 dark:text-zinc-500 bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-300/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                  : 'text-muted dark:text-white bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-300/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
               >
                 {item}
                 <svg
@@ -361,8 +361,8 @@
                   ><path
                     fill="currentColor"
                     d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                  /></svg>
-
+                  /></svg
+                >
               </a>
             {/if}
           {/each}
@@ -390,7 +390,7 @@
           class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
-            class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+            class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
           ></span>
         </label>
       </div>

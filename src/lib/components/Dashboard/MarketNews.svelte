@@ -13,7 +13,7 @@
 <section class="mx-auto lg:col-span-2 w-full text-muted dark:text-zinc-200">
     <a
         href="/news-flow/"
-        class="inline-flex items-center gap-1 text-left w-full text-gray-900 dark:text-white group"
+        class="inline-flex items-center gap-1 text-left w-full text-muted dark:text-white group"
         ><h2
             class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
         >

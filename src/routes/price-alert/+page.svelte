@@ -1001,7 +1001,7 @@
         <main class="w-full">
           <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
             >
               {price_alert_main_title()}
             </h1>
@@ -1208,7 +1208,7 @@
                                 on:mouseenter={() => handleNoteHover(item)}
                                 class="cursor-pointer ml-auto transition-all duration-200 {item?.hasNote
                                   ? 'text-violet-500 dark:text-violet-400'
-                                  : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                                  : 'text-muted dark:text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                                 title={item?.hasNote ? "Edit note" : "Add note"}
                               >
                                 <Pencil class="h-3.5 w-3.5" />
@@ -1266,9 +1266,7 @@
                               </div>
                             </div>
                           {:else}
-                            <span class="text-gray-400 dark:text-zinc-500"
-                              >-</span
-                            >
+                            <span class="text-muted dark:text-white">-</span>
                           {/if}
                         </td>
                         <td
@@ -1524,7 +1522,7 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}

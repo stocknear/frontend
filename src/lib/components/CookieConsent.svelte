@@ -138,7 +138,7 @@
 
 {#if showBanner}
   <div
-    class="fixed bottom-0 sm:bottom-6 left-0 right-0 z-[9999] p-4 sm:p-5 text-gray-700 dark:text-zinc-200"
+    class="fixed bottom-0 sm:bottom-6 left-0 right-0 z-[9999] p-4 sm:p-5 text-muted dark:text-zinc-200"
     transition:fly={{ y: 100, duration: 300 }}
   >
     <div
@@ -152,7 +152,7 @@
             <Cookie class="h-5 w-5 text-muted dark:text-zinc-300" />
           </div>
           <h3
-            class="text-base font-semibold tracking-tight text-gray-900 dark:text-white"
+            class="text-base font-semibold tracking-tight text-muted dark:text-white"
           >
             {cookies_banner_title()}
           </h3>
@@ -172,14 +172,14 @@
           <Button
             on:click={rejectAll}
             variant="outline"
-            class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
+            class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 sm:w-auto transition"
           >
             {cookies_reject_all()}
           </Button>
           <Button
             on:click={openCustomize}
             variant="outline"
-            class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
+            class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 sm:w-auto transition"
           >
             {cookies_customize()}
           </Button>
@@ -191,11 +191,11 @@
 
 <Dialog.Root bind:open={showCustomize}>
   <Dialog.Content
-    class="max-h-[90vh] w-[95vw] max-w-lg rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-y-auto bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200 z-[999]"
+    class="max-h-[90vh] w-[95vw] max-w-lg rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-y-auto bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200 z-[999]"
   >
     <Dialog.Header>
       <Dialog.Title
-        class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        class="text-xl font-semibold tracking-tight text-muted dark:text-white"
       >
         {cookies_preferences_title()}</Dialog.Title
       >
@@ -211,7 +211,7 @@
       >
         <div class="flex items-start gap-3">
           <div>
-            <h4 class="font-medium text-gray-900 dark:text-white">
+            <h4 class="font-medium text-muted dark:text-white">
               {cookies_necessary_title()}
             </h4>
             <p class="mt-1 text-sm text-muted dark:text-zinc-300">
@@ -234,7 +234,7 @@
       >
         <div class="flex items-start gap-3">
           <div>
-            <h4 class="font-medium text-gray-900 dark:text-white">
+            <h4 class="font-medium text-muted dark:text-white">
               {cookies_analytics_title()}
             </h4>
             <p class="mt-1 text-sm text-muted dark:text-zinc-300">
@@ -265,7 +265,7 @@
       >
         <div class="flex items-start gap-3">
           <div>
-            <h4 class="font-medium text-gray-900 dark:text-white">
+            <h4 class="font-medium text-muted dark:text-white">
               {cookies_marketing_title()}
             </h4>
             <p class="mt-1 text-sm text-muted dark:text-zinc-300">
@@ -295,7 +295,7 @@
       <Button
         on:click={rejectAll}
         variant="outline"
-        class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
+        class="w-full rounded-full border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 sm:w-auto transition"
       >
         {cookies_reject_all()}
       </Button>
@@ -308,7 +308,7 @@
       </Button>
       <Button
         on:click={saveCustom}
-        class="w-full rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 sm:w-auto transition"
+        class="w-full rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 sm:w-auto transition"
       >
         {cookies_save_preferences()}
       </Button>

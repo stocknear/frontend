@@ -284,7 +284,7 @@
 
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {register_step1_title()}
         </h1>
@@ -432,7 +432,7 @@
 
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
         >
           {register_step2_title()}
         </h1>
@@ -448,8 +448,8 @@
         >
           <span
             class={pricingAnnual
-              ? "text-gray-400 dark:text-zinc-500"
-              : "text-gray-900 dark:text-white"}
+              ? "text-muted dark:text-white"
+              : "text-muted dark:text-white"}
           >
             {register_step2_monthly()}
           </span>
@@ -470,8 +470,8 @@
           </label>
           <span
             class={pricingAnnual
-              ? "text-gray-900 dark:text-white"
-              : "text-gray-400 dark:text-zinc-500"}
+              ? "text-muted dark:text-white"
+              : "text-muted dark:text-white"}
           >
             {register_step2_annual()}
           </span>
@@ -496,7 +496,7 @@
             >
               {register_step2_popular()}
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <h3 class="text-xl font-semibold text-muted dark:text-white">
               {register_step2_plus_title()}
             </h3>
             <p class="mt-1 text-xs text-muted dark:text-white">
@@ -506,12 +506,12 @@
               <!--
               {#if pricingAnnual}
                 <span
-                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                  class="text-3xl font-semibold text-muted dark:text-white"
                   >$10</span
                 >
               {:else}
                 <span
-                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                  class="text-3xl font-semibold text-muted dark:text-white"
                   >$15</span
                 >
               {/if}
@@ -521,15 +521,12 @@
             -->
 
               {#if pricingAnnual}
-                <span
-                  class="text-xl text-gray-400 dark:text-zinc-500 line-through"
-                >
+                <span class="text-xl text-muted dark:text-white line-through">
                   $10
                 </span>
                 <span class="text-4xl font-semibold"> $5 </span>
               {:else}
-                <span
-                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                <span class="text-3xl font-semibold text-muted dark:text-white"
                   >$15</span
                 >
               {/if}
@@ -595,7 +592,7 @@
           <div
             class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
           >
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <h3 class="text-xl font-semibold text-muted dark:text-white">
               {register_step2_pro_title()}
             </h3>
             <p class="mt-1 text-xs text-muted dark:text-white">
@@ -605,27 +602,24 @@
               <!--
               {#if pricingAnnual}
                 <span
-                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                  class="text-3xl font-semibold text-muted dark:text-white"
                   >$30</span
                 >
               {:else}
                 <span
-                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                  class="text-3xl font-semibold text-muted dark:text-white"
                   >$45</span
                 >
               {/if}
             -->
 
               {#if pricingAnnual}
-                <span
-                  class="text-xl text-gray-400 dark:text-zinc-500 line-through"
-                >
+                <span class="text-xl text-muted dark:text-white line-through">
                   $30
                 </span>
                 <span class="text-4xl font-semibold"> $15 </span>
               {:else}
-                <span
-                  class="text-3xl font-semibold text-gray-900 dark:text-white"
+                <span class="text-3xl font-semibold text-muted dark:text-white"
                   >$45</span
                 >
               {/if}

@@ -918,7 +918,7 @@
   "stock_detail_shareholders_col_value": "Wert",
   "stock_detail_shareholders_col_portfolio": "Portfolio",
   "stock_detail_shareholders_col_filing": "Einreichung",
-  "stock_detail_shareholders_description": "Insgesamt {count} Institute in {company} haben {direction} mit {changeType} von <span class=\"font-semibold text-gray-900 dark:text-white\">{change}</span> Investoren im Vergleich zum Vorquartal. {sharesDirection} <span class=\"font-semibold text-gray-900 dark:text-white\">{sharesChange}</span> Aktien, wobei das investierte Gesamtkapital {capitalDirection} <span class=\"font-semibold text-gray-900 dark:text-white\">{capitalChange}</span> {ownershipDirection} <span class=\"font-semibold text-gray-900 dark:text-white\">{lastOwnership}%</span> auf <span class=\"font-semibold text-gray-900 dark:text-white\">{currentOwnership}%</span>.",
+  "stock_detail_shareholders_description": "Insgesamt {count} Institute in {company} haben {direction} mit {changeType} von <span class=\"font-semibold text-muted dark:text-white\">{change}</span> Investoren im Vergleich zum Vorquartal. {sharesDirection} <span class=\"font-semibold text-muted dark:text-white\">{sharesChange}</span> Aktien, wobei das investierte Gesamtkapital {capitalDirection} <span class=\"font-semibold text-muted dark:text-white\">{capitalChange}</span> {ownershipDirection} <span class=\"font-semibold text-muted dark:text-white\">{lastOwnership}%</span> auf <span class=\"font-semibold text-muted dark:text-white\">{currentOwnership}%</span>.",
   "stock_detail_shareholders_expanded": "ihre Positionen erweitert",
   "stock_detail_shareholders_reduced": "ihre Positionen reduziert",
   "stock_detail_shareholders_increase": "einer Zunahme",
