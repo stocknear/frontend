@@ -549,7 +549,7 @@ ${summaryData.investorTakeaway}
             <p class="text-sm text-muted dark:text-zinc-200 font-medium">
               {stock_detail_ai_analyzing_data()}
             </p>
-            <p class="text-xs text-gray-500 dark:text-zinc-400">
+            <p class="text-xs text-muted dark:text-white">
               {stock_detail_ai_extracting_insights({
                 statement: getStatementLabel(statementType).toLowerCase(),
               })}

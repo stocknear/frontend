@@ -74,7 +74,7 @@
   // Common CSS classes
   const borderClasses = "border border-gray-300 shadow dark:border-zinc-700";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 mb-3";
+    "h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 mb-3";
   const dropdownButtonClasses =
     "border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
 
@@ -705,7 +705,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -713,7 +713,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{economic_breadcrumb_home()}</a
       >
     </li>
@@ -750,7 +750,7 @@
                     class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
                     selectedWeekday
                       ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                      : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
+                      : 'text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400'}"
                   >
                     <span class="text-[1rem]">{formattedWeekday[index]}</span>
                     <span class="text-sm"
@@ -759,7 +759,7 @@
                     {#if index === 0}
                       <button
                         on:click|stopPropagation={() => changeWeek("previous")}
-                        class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                         aria-label="Previous week"
                         disabled={previousMax}
                       >
@@ -775,7 +775,7 @@
                     {#if index === 4}
                       <button
                         on:click|stopPropagation={() => changeWeek("next")}
-                        class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                         aria-label="Next week"
                         disabled={nextMax}
                       >
@@ -877,7 +877,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <div
                         class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justify-between p-3 bg-white/95 dark:bg-zinc-950/95 border-b border-gray-300 dark:border-zinc-700"
@@ -888,7 +888,7 @@
                           bind:value={searchQuery}
                           on:input={handleInput}
                           autocomplete="off"
-                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 bg-transparent"
+                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 bg-transparent"
                           placeholder={economic_filter_search()}
                         />
                         {#if searchQuery?.length > 0}
@@ -968,7 +968,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <div
                         class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -1061,7 +1061,7 @@
                             >
                               <span>{economic_filters_label()}</span>
                               <span
-                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-[#f8fbfb] dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
+                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-[#f8fbfb] dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-zinc-200"
                               >
                                 {filterList.length}
                               </span>
@@ -1118,7 +1118,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -1140,7 +1140,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-2xl w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-2xl w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-muted dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1166,7 +1166,7 @@
                                     </td>
                                   {:else if column.key === "country"}
                                     <td
-                                      class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                      class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
                                     >
                                       {#if item?.country === "EU"}
                                         <svg
@@ -1384,7 +1384,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -1439,7 +1439,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {economic_back_to_top()}
                             <svg

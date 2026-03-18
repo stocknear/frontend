@@ -407,7 +407,7 @@
   }
 </script>
 
-<section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
+<section class="w-full overflow-hidden h-full text-muted dark:text-zinc-200">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -489,7 +489,7 @@
                         side="bottom"
                         align="start"
                         sideOffset={8}
-                        class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+                        class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-muted dark:text-zinc-200 shadow-lg"
                       >
                         <DropdownMenu.Group>
                           {#each HISTORY_RANGE_OPTIONS as option}
@@ -497,8 +497,8 @@
                               on:click={() =>
                                 ($financialHistoryRange = option.value)}
                               class="{$financialHistoryRange === option.value
-                                ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
-                                : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
+                                ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 font-medium'
+                                : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-xl"
                             >
                               {option.label}
                             </DropdownMenu.Item>
@@ -619,10 +619,10 @@
                   class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums"
+                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums"
                   >
                     <thead
-                      class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                      class="text-xs uppercase tracking-wide text-muted dark:text-white"
                     >
                       <tr class="border-b border-gray-300 dark:border-zinc-700">
                         <td

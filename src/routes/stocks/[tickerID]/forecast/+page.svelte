@@ -1009,7 +1009,7 @@
                             class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                               ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                              : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                              : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                           >
                             {item}
                           </button>
@@ -1085,7 +1085,7 @@
                   >
                     <thead
                       ><tr
-                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
                         ><th class="py-[3px] text-left font-semibold lg:py-0.5"
                           >{stock_detail_forecast_target()}</th
                         >
@@ -1263,7 +1263,7 @@
                   >
                     <thead
                       ><tr
-                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
                         ><th
                           class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
                           >{stock_detail_forecast_rating()}</th
@@ -1324,7 +1324,7 @@
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-300 dark:border-zinc-700"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
                 >
                   {stock_detail_forecast_revenue_this_year()}
                 </div>
@@ -1400,7 +1400,7 @@
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b md:border-l lg:border-b-0"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
                 >
                   {stock_detail_forecast_revenue_next_year()}
                 </div>
@@ -1472,7 +1472,7 @@
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b-0 lg:border-l"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
                 >
                   {stock_detail_forecast_eps_this_year()}
                 </div>
@@ -1529,7 +1529,7 @@
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-300 dark:border-zinc-700"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
                 >
                   {stock_detail_forecast_eps_next_year()}
                 </div>

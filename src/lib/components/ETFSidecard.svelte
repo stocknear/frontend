@@ -186,7 +186,7 @@
           <table class="w-full">
             <thead>
               <tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
               >
                 <th
                   class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
@@ -252,7 +252,7 @@
             >{etf_sidecard_top_holdings()}</span
           >
           <span
-            class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400"
+            class="font-semibold ml-auto text-sm text-muted dark:text-white"
           >
             {etf_sidecard_assets_percent({ percent: totalAssetPercentage })}
           </span>
@@ -262,7 +262,7 @@
           <table class="w-full">
             <thead
               ><tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
                 ><th
                   class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
                   >{etf_sidecard_name()}</th
@@ -334,7 +334,7 @@
             >{etf_sidecard_dividends()}</span
           >
           <span
-            class="font-semibold ml-auto text-sm text-gray-500 dark:text-zinc-400"
+            class="font-semibold ml-auto text-sm text-muted dark:text-white"
           >
             {etf_sidecard_dividend_yield({ yield: dividendYield ?? "0" })}
           </span>
@@ -344,7 +344,7 @@
           <table class="w-full">
             <thead
               ><tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
                 ><th
                   class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
                   >{etf_sidecard_ex_dividend()}</th

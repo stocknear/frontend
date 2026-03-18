@@ -898,7 +898,7 @@
                       "%"
                     : "n/a"}
                 </div>
-                <p class="text-xs text-gray-500 dark:text-zinc-400 mt-1">
+                <p class="text-xs text-muted dark:text-white mt-1">
                   {stock_detail_forecast_dcf_market_expects()}
                 </p>
               </div>
@@ -926,7 +926,7 @@
                         ? 'text-emerald-800 dark:text-emerald-400'
                         : valuationStatus === 'overvalued'
                           ? 'text-rose-800 dark:text-rose-400'
-                          : 'text-gray-700 dark:text-zinc-200'}"
+                          : 'text-muted dark:text-zinc-200'}"
                     >
                       {valuationStatus === "undervalued"
                         ? stock_detail_forecast_dcf_undervalued()
@@ -973,7 +973,7 @@
             <div class="flex items-center justify-between mb-4">
               <label
                 for="showSteps"
-                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 {stock_detail_forecast_dcf_show_steps()}
               </label>
@@ -1025,7 +1025,7 @@
                     />
                   </div>
                 </h2>
-                <p class="text-sm text-gray-500 dark:text-zinc-400 mb-4">
+                <p class="text-sm text-muted dark:text-white mb-4">
                   Fair values at different growth and discount rate combinations
                 </p>
 
@@ -1061,7 +1061,7 @@
                             class="border-b border-gray-300 dark:border-zinc-700 last:border-b-0 transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                           >
                             <td
-                              class="p-3 font-medium text-gray-700 dark:text-zinc-300 {sensitivityGrowthRates[
+                              class="p-3 font-medium text-muted dark:text-zinc-300 {sensitivityGrowthRates[
                                 rowIndex
                               ] === Math.round(metricGrowthRate)
                                 ? 'bg-violet-100 dark:bg-violet-900/30'
@@ -1094,7 +1094,7 @@
                                 {!isCurrentCell &&
                                 !isUndervalued &&
                                 !isOvervalued
-                                  ? 'text-gray-700 dark:text-zinc-300'
+                                  ? 'text-muted dark:text-zinc-300'
                                   : ''}
                               "
                               >
@@ -1109,7 +1109,7 @@
                 </div>
 
                 <div
-                  class="flex flex-wrap gap-4 mt-3 text-xs text-gray-500 dark:text-zinc-400"
+                  class="flex flex-wrap gap-4 mt-3 text-xs text-muted dark:text-white"
                 >
                   <div class="flex items-center gap-1">
                     <span
@@ -1148,7 +1148,7 @@
 
           <aside class="inline-block relative w-full lg:w-1/4 mt-3">
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-gray-700 dark:text-zinc-200"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-muted dark:text-zinc-200"
             >
               <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold">
@@ -1191,7 +1191,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={10}
-                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group>
                         <DropdownMenu.Item
@@ -1201,7 +1201,7 @@
                           }}
                           class="{selectedMetric === 'freeCashFlow'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_fcf()}
                         </DropdownMenu.Item>
@@ -1212,7 +1212,7 @@
                           }}
                           class="{selectedMetric === 'operatingIncome'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_operating_income()}
                         </DropdownMenu.Item>
@@ -1223,7 +1223,7 @@
                           }}
                           class="{selectedMetric === 'operatingCashFlow'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_ocf()}
                         </DropdownMenu.Item>
@@ -1234,7 +1234,7 @@
                           }}
                           class="{selectedMetric === 'bookValue'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_book_value()}
                         </DropdownMenu.Item>
@@ -1279,7 +1279,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={10}
-                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each [3, 5, 10] as year}
@@ -1290,7 +1290,7 @@
                             }}
                             class="{yearsToProject === year
                               ? 'text-gray-900 dark:text-white font-medium'
-                              : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                              : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {year} Years
                           </DropdownMenu.Item>
@@ -1324,7 +1324,7 @@
                       id="metric-growth"
                       bind:value={metricGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1360,7 +1360,7 @@
                       id="shares-growth"
                       bind:value={sharesGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1392,7 +1392,7 @@
                       id="dividend-growth"
                       bind:value={dividendGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
                     />
                   </div>
                 </div>
@@ -1414,7 +1414,7 @@
                     id="price-ratio"
                     bind:value={priceRatioAvg}
                     on:input={() => (userHasModifiedInputs = true)}
-                    class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-gray-700 dark:text-zinc-200"
+                    class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-muted dark:text-zinc-200"
                   />
                   <p class="mt-2 text-xs">
                     {stock_detail_forecast_dcf_avg_ratio({
@@ -1446,7 +1446,7 @@
                       id="discount-rate"
                       bind:value={discountRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1477,7 +1477,7 @@
   >
     <label
       for="showSteps"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg

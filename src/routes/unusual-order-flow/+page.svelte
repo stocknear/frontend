@@ -1998,8 +1998,8 @@
       <!--
         <div class="text-sm sm:text-[1rem] breadcrumbs mb-5">
           <ul>
-            <li><a href="/" class="text-gray-500 dark:text-zinc-400">Home</a></li>
-            <li class="text-gray-500 dark:text-zinc-400">Options Flow</li>
+            <li><a href="/" class="text-muted dark:text-white">Home</a></li>
+            <li class="text-muted dark:text-white">Options Flow</li>
           </ul>
         </div>
         -->
@@ -2017,7 +2017,7 @@
         <div class="flex flex-row items-center w-full mt-3">
           <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
             <div
-              class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
+              class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-muted dark:text-white"
             >
               {unusual_order_flow_popular_filters()}
             </div>
@@ -2026,7 +2026,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="min-w-[110px]  w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="min-w-[110px]  w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate"
                       >{selectedPopularStrategy?.length !== 0
@@ -2053,10 +2053,10 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Label
-                    class="text-gray-500 dark:text-zinc-400 font-normal"
+                    class="text-muted dark:text-white font-normal"
                   >
                     {unusual_order_flow_popular_filters()}
                   </DropdownMenu.Label>
@@ -2099,7 +2099,7 @@
 
           <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
             <div
-              class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-gray-500 dark:text-zinc-400"
+              class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-muted dark:text-white"
             >
               {unusual_order_flow_saved_filters()}
             </div>
@@ -2108,7 +2108,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="min-w-[110px] w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
+                    class="min-w-[110px] w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                   >
                     <span class="truncate max-w-48"
                       >{selectedStrategy?.length !== 0
@@ -2133,10 +2133,10 @@
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
-                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Label
-                    class="text-gray-500 dark:text-zinc-400 font-normal"
+                    class="text-muted dark:text-white font-normal"
                   >
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
@@ -2145,7 +2145,7 @@
                           handleCreateStrategy();
                         }}
                         builders={[builder]}
-                        class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-300 focus:outline-hidden"
+                        class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-300 focus:outline-hidden"
                       >
                         <svg
                           class="h-4 w-4"
@@ -2177,7 +2177,7 @@
                         class="whitespace-nowrap cursor-pointer rounded-xl px-2 py-1.5 {item?.id ===
                         selectedStrategy
                           ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                          : ''} hover:text-violet-600 dark:hover:text-violet-300"
+                          : ''} hover:text-violet-800 dark:hover:text-violet-300"
                       >
                         {item?.title?.length > 20
                           ? item?.title?.slice(0, 20) + "..."
@@ -2264,7 +2264,7 @@
             <span
               class="text-xs sm:text-sm sm:text-lg {!mode
                 ? ''
-                : 'text-gray-500 dark:text-zinc-400'} mr-3"
+                : 'text-muted dark:text-white'} mr-3"
             >
               {$isOpen ? "Paused" : "Market Closed"}
             </span>
@@ -2302,7 +2302,7 @@
               <span
                 class="text-xs sm:text-sm sm:text-lg {$isOpen && modeStatus
                   ? 'text-emerald-800 dark:text-emerald-400'
-                  : 'text-gray-500 dark:text-zinc-400'}"
+                  : 'text-muted dark:text-white'}"
               >
                 Live Flow
               </span>
@@ -2314,11 +2314,11 @@
               <Popover.Root>
                 <Popover.Trigger asChild let:builder>
                   <Button
-                    class="date-picker-driver font-semibold w-full sm:w-[160px] truncate  py-2.5 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-300 dark:border-zinc-700 rounded-full hover:text-violet-600 dark:hover:text-violet-300"
+                    class="date-picker-driver font-semibold w-full sm:w-[160px] truncate  py-2.5 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 justify-center sm:justify-start text-center sm:text-left border border-gray-300 dark:border-zinc-700 rounded-full hover:text-violet-800 dark:hover:text-violet-300"
                     builders={[builder]}
                   >
                     <CalendarIcon
-                      class="mr-2 h-4 w-4 text-gray-500 dark:text-zinc-400"
+                      class="mr-2 h-4 w-4 text-muted dark:text-white"
                     />
                     <span class="text-sm font-medium tracking-tight">
                       {selectedDate
@@ -2333,7 +2333,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto p-0 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
+                  class="w-auto p-0 border border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
                 >
                   <Calendar
                     class=" "
@@ -2377,7 +2377,7 @@
           <div class="flex flex-row items-center ml-auto justify-start">
             <div class="flex items-center gap-1">
               <span
-                class="inline-flex items-center text-xs text-gray-500 dark:text-zinc-400"
+                class="inline-flex items-center text-xs text-muted dark:text-white"
               >
                 <svg
                   class="w-3 h-3 mr-1"
@@ -2432,7 +2432,7 @@
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-500 dark:text-zinc-400"
+                      class="w-4 h-4 text-muted dark:text-white"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -2457,7 +2457,7 @@
                     on:keydown={handleQuickSearchKeydown}
                     on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                     on:blur={closeQuickSearchDropdown}
-                    class="block w-full lg:w-64 py-2 bg-[#f8fbfb] dark:bg-zinc-950/60 placeholder:text-muted dark:placeholder:text-zinc-300 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 text-gray-700 dark:text-zinc-200"
+                    class="block w-full lg:w-64 py-2 bg-[#f8fbfb] dark:bg-zinc-950/60 placeholder:text-muted dark:placeholder:text-zinc-300 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 text-muted dark:text-zinc-200"
                   />
 
                   <!-- Clear button -->
@@ -2472,7 +2472,7 @@
                       class="absolute inset-y-0 right-0 flex items-center pr-3"
                     >
                       <svg
-                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-muted dark:hover:text-gray-200"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -2502,7 +2502,7 @@
                   >
                     {#each quickSearchResults as result, index}
                       <button
-                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center rounded-xl hover:text-violet-600 dark:hover:text-violet-300 {index ===
+                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center rounded-xl hover:text-violet-800 dark:hover:text-violet-300 {index ===
                         selectedQuickSearchIndex
                           ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                           : ''}"
@@ -2536,7 +2536,7 @@
                 <!-- No results message -->
                 {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-gray-500 dark:text-zinc-400"
+                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-muted dark:text-white"
                   >
                     {unusual_order_flow_no_filters_found()}
                   </div>
@@ -2574,7 +2574,7 @@
                         goto("/pricing");
                       }
                     }}
-                    class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
+                    class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
                   >
                     <Copy class="w-4 h-4 inline-block mr-2" />
                     <div>{unusual_order_flow_save_as_new()}</div>
@@ -2585,7 +2585,7 @@
               {#if ruleOfList?.length !== 0}
                 <label
                   on:click={handleResetAll}
-                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-gray-700 dark:text-zinc-200 hover:text-rose-500 dark:hover:text-rose-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-[0.95rem] cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 py-2 pl-3 pr-4 font-semibold text-muted dark:text-zinc-200 hover:text-rose-500 dark:hover:text-rose-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="h-4 w-4"
@@ -2664,7 +2664,7 @@
                           <DropdownMenu.Trigger asChild let:builder>
                             <Button
                               builders={[builder]}
-                              class="h-[40px] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="h-[40px] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <span class="truncate ml-2 text-sm">
                                 {#if row?.rule === "excludeTickers"}
@@ -2697,7 +2697,7 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 h-fit max-h-80 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                            class="w-64 h-fit max-h-80 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none"
                           >
                             {#if row?.rule === "excludeTickers"}
                               <DropdownMenu.Label
@@ -2737,7 +2737,7 @@
                                     }}
                                     on:click|stopPropagation
                                     placeholder="Search ticker..."
-                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-muted dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                                   />
                                 </div>
                               </DropdownMenu.Label>
@@ -2857,7 +2857,7 @@
                                     }}
                                     on:click|stopPropagation
                                     placeholder="Search ticker..."
-                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                    class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-muted dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                                   />
                                 </div>
                               </DropdownMenu.Label>
@@ -2996,7 +2996,7 @@
                           <DropdownMenu.Trigger asChild let:builder>
                             <Button
                               builders={[builder]}
-                              class="bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 h-[40px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate"
+                              class="bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 h-[40px] flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate"
                             >
                               <span
                                 class="truncate ml-2 text-sm font-semibold dark:font-normal"
@@ -3035,7 +3035,7 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-gray-700 dark:text-zinc-200 shadow-none"
+                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none"
                           >
                             {#if !categoricalRules?.includes(row?.rule)}
                               <DropdownMenu.Label
@@ -3153,7 +3153,7 @@
                                             "add",
                                           )}
                                         ><svg
-                                          class="size-6 cursor-pointer text-gray-500 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-300"
+                                          class="size-6 cursor-pointer text-gray-500 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-300"
                                           fill="none"
                                           viewBox="0 0 24 24"
                                           stroke="currentColor"
@@ -3173,7 +3173,7 @@
                                             "minus",
                                           )}
                                         ><svg
-                                          class="size-6 cursor-pointer text-gray-500 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-300"
+                                          class="size-6 cursor-pointer text-gray-500 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-300"
                                           fill="none"
                                           viewBox="0 0 24 24"
                                           stroke="currentColor"
@@ -3205,7 +3205,7 @@
                                   {#if ruleCondition[row?.rule] === "between"}
                                     {#if newValue && row?.step[index + 1]}
                                       <DropdownMenu.Item
-                                        class="hover:text-violet-600 dark:hover:text-violet-300 rounded-xl"
+                                        class="hover:text-violet-800 dark:hover:text-violet-300 rounded-xl"
                                       >
                                         <button
                                           on:click={() => {
@@ -3228,7 +3228,7 @@
                                     {/if}
                                   {:else}
                                     <DropdownMenu.Item
-                                      class="hover:text-violet-600 dark:hover:text-violet-300 rounded-xl"
+                                      class="hover:text-violet-800 dark:hover:text-violet-300 rounded-xl"
                                     >
                                       <button
                                         on:click={() => {
@@ -3248,7 +3248,7 @@
                               {:else if categoricalRules?.includes(row?.rule)}
                                 {#each row?.step as item}
                                   <DropdownMenu.Item
-                                    class="hover:text-violet-600 dark:hover:text-violet-300 rounded-xl"
+                                    class="hover:text-violet-800 dark:hover:text-violet-300 rounded-xl"
                                   >
                                     <div
                                       class="flex items-center cursor-pointer"
@@ -3292,7 +3292,7 @@
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  class="font-semibold text-muted dark:text-white text-sm sm:text-[1rem]"
                   >{unusual_order_flow_total_volume()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
@@ -3328,7 +3328,7 @@
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  class="font-semibold text-muted dark:text-white text-sm sm:text-[1rem]"
                   >{unusual_order_flow_total_value()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
@@ -3368,7 +3368,7 @@
                 class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
               >
                 <span
-                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  class="font-semibold text-muted dark:text-white text-sm sm:text-[1rem]"
                   >{unusual_order_flow_transaction_type()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
@@ -3377,7 +3377,7 @@
                       <span
                         class="w-2 h-2 rounded-full bg-violet-500/70 dark:bg-violet-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400"
+                      <span class="text-muted dark:text-white"
                         >{unusual_order_flow_dark_pool()}</span
                       >
                     </div>
@@ -3385,7 +3385,7 @@
                       <span
                         class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400"
+                      <span class="text-muted dark:text-white"
                         >{unusual_order_flow_block()}</span
                       >
                     </div>
@@ -3447,7 +3447,7 @@
                 class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
               >
                 <span
-                  class="font-semibold text-gray-500 dark:text-zinc-400 text-sm sm:text-[1rem]"
+                  class="font-semibold text-muted dark:text-white text-sm sm:text-[1rem]"
                   >{unusual_order_flow_asset_type()}</span
                 >
                 {#if data?.user?.tier === "Pro"}
@@ -3456,7 +3456,7 @@
                       <span
                         class="w-2 h-2 rounded-full bg-emerald-500/70 dark:bg-emerald-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400"
+                      <span class="text-muted dark:text-white"
                         >{unusual_order_flow_stock()}</span
                       >
                     </div>
@@ -3464,7 +3464,7 @@
                       <span
                         class="w-2 h-2 rounded-full bg-amber-500/70 dark:bg-amber-400/70"
                       ></span>
-                      <span class="text-gray-500 dark:text-zinc-400"
+                      <span class="text-muted dark:text-white"
                         >{unusual_order_flow_etf()}</span
                       >
                     </div>
@@ -3527,7 +3527,7 @@
           {#if displayedData?.length !== 0}
             <!-- Table toolbar: Find, Download, Reset Column Order -->
             <div
-              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-3 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-3 text-muted dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
             >
               <div
                 class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -3572,7 +3572,7 @@
                     on:input={debouncedServerSearch}
                     type="text"
                     placeholder={unusual_order_flow_search_placeholder()}
-                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -3593,7 +3593,7 @@
                     title={isFullWidth
                       ? unusual_order_flow_exit_full_width()
                       : unusual_order_flow_expand_full_width()}
-                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-600 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                       ? 'border-violet-400 dark:border-violet-500'
                       : ''}"
                   >
@@ -3639,7 +3639,7 @@
                     <button
                       on:click={() => unusualOrderFlowResetColumnOrder?.()}
                       title={unusual_order_flow_reset_column_order()}
-                      class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                      class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                     >
                       <svg
                         class="w-4 h-4"
@@ -3743,7 +3743,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
@@ -3792,7 +3792,7 @@
               <div class="flex justify-center mt-4 mb-10">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   Back to Top
                   <svg
@@ -3860,7 +3860,7 @@
           </h2>
           <label
             for="ruleModal"
-            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
             aria-label="Close modal"
           >
             <svg
@@ -3888,7 +3888,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-gray-500 dark:text-zinc-400"
+                class="w-4 h-4 text-muted dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -3912,7 +3912,7 @@
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-300"
+                class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-300"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -3933,7 +3933,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder:text-muted dark:placeholder:text-zinc-300 block w-full p-2 ps-10 text-sm text-gray-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-[#f8fbfb] dark:bg-zinc-950/60"
+              class="focus:outline-none placeholder:text-muted dark:placeholder:text-zinc-300 block w-full p-2 ps-10 text-sm text-muted dark:text-zinc-200 border border-gray-300 dark:border-zinc-700 rounded-full bg-[#f8fbfb] dark:bg-zinc-950/60"
               placeholder={unusual_order_flow_search_input_placeholder()}
               bind:value={searchTerm}
             />
@@ -4012,7 +4012,7 @@
       on:click={() => {
         removeList = false;
       }}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -4076,7 +4076,7 @@
       on:click={() => {
         deleteTargetId = "";
       }}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -4103,7 +4103,7 @@
           deleteTargetId = "";
         }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-              transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-300"
+              transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-300"
         tabindex="0">{unusual_order_flow_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
@@ -4154,7 +4154,7 @@
   >
     <label
       for="mobileTooltip"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -4181,7 +4181,7 @@
     <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
       <label
         for="mobileTooltip"
-        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer text-gray-700 dark:text-zinc-200"
+        class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer text-muted dark:text-zinc-200"
       >
         Close
       </label>

@@ -53,7 +53,7 @@
 </script>
 
 {#if Object?.keys(rawData)?.length !== 0}
-  <div class="space-y-3 overflow-hidden text-gray-700 dark:text-zinc-200">
+  <div class="space-y-3 overflow-hidden text-muted dark:text-zinc-200">
     <!--Start Content-->
     <div class="w-auto lg:w-full flex flex-col m-auto">
       {#if !hideTitle}
@@ -62,7 +62,7 @@
             <!--<img class="h-10 inline-block mr-2" src={copilotIcon} />-->
             <a
               href="/stocks/{$stockTicker}/statistics/earnings"
-              class="flex flex-row items-center hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="flex flex-row items-center hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <h3
                 class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
@@ -107,7 +107,7 @@
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           ...
           <a
-            class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+            class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
             href="/pricing"
             >{stock_detail_upgrade()}
             <svg
@@ -129,7 +129,7 @@
               ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
               : revenueRatio < 0 && revenueRatio !== 'Infinity'
                 ? 'text-rose-800 dark:text-rose-400'
-                : 'text-gray-500 dark:text-zinc-400'} font-semibold"
+                : 'text-muted dark:text-white'} font-semibold"
             >{revenueRatio !== "Infinity"
               ? abbreviateNumber(revenueRatio) + "%"
               : "n/a"}</span

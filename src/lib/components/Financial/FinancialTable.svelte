@@ -904,7 +904,7 @@
       class="whitespace-nowrap transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
     >
       <td
-        class="text-start min-w-72 max-w-72 sm:min-w-96 sm:max-w-96 text-sm sm:text-[0.95rem] border-r border-gray-300 dark:border-zinc-700 w-full flex flex-row items-center justify-between text-gray-700 dark:text-zinc-200"
+        class="text-start min-w-72 max-w-72 sm:min-w-96 sm:max-w-96 text-sm sm:text-[0.95rem] border-r border-gray-300 dark:border-zinc-700 w-full flex flex-row items-center justify-between text-muted dark:text-zinc-200"
       >
         <div class="flex items-center gap-2">
           {#if enableFavorites && !field.isGrowth}
@@ -1031,7 +1031,7 @@
           class="text-xs sm:text-sm text-end border-r border-gray-300 dark:border-zinc-700"
         >
           <a
-            class="inline-flex w-full items-center justify-end gap-1 font-semibold text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+            class="inline-flex w-full items-center justify-end gap-1 font-semibold text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
             href={upgradeHref}
             on:click|preventDefault={goToUpgrade}
           >
@@ -1065,7 +1065,7 @@
   >
     <label
       for="financialPlotModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1112,7 +1112,7 @@
             <div
               tabindex="0"
               role="menu"
-              class="absolute z-40 rounded-xl bg-white/95 dark:bg-zinc-950/95 py-1 focus:outline-none min-w-[90px] left-0 right-0 origin-top-right border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200 shadow-none"
+              class="absolute z-40 rounded-xl bg-white/95 dark:bg-zinc-950/95 py-1 focus:outline-none min-w-[90px] left-0 right-0 origin-top-right border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-zinc-200 shadow-none"
             >
               {#each RANGE_OPTIONS as option}
                 <button
@@ -1124,7 +1124,7 @@
                   <span>{option.label}</span>
                   {#if option.locked && showUpgradeColumn}
                     <svg
-                      class="h-4 w-4 text-gray-500 dark:text-zinc-400"
+                      class="h-4 w-4 text-muted dark:text-white"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       style="max-width:40px"
@@ -1176,7 +1176,7 @@
     <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
       <label
         for="financialPlotModal"
-        class="mt-4 font-semibold text-base text-gray-700 dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
+        class="mt-4 font-semibold text-base text-muted dark:text-zinc-200 m-auto flex justify-center cursor-pointer"
       >
         {stock_detail_close()}
       </label>

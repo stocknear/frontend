@@ -333,7 +333,7 @@
           rel="noopener noreferrer"
           target="_blank"
           href="https://www.trustpilot.com/review/stocknear.com"
-          class="underline underline-offset-4 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >
           {pricing_reviews()}
         </a>
@@ -1230,20 +1230,20 @@
         >
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span
-              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
               Billed Annually (<span class="line-through mx-1">$120</span> $60)
             </span>
           {:else}
             <span
-              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
               >{pricing_billed_annually_plus()}</span
             >
           {/if}
 
           <!--
           <span
-            class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+            class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >{pricing_billed_annually_plus()}</span
           >
             -->
@@ -1832,7 +1832,7 @@
           <span class="text-4xl font-semibold">
             {mode ? "$30" : "$45"}
           </span>
-          <span class="text-sm text-gray-500 dark:text-zinc-400"
+          <span class="text-sm text-muted dark:text-white"
             >{pricing_per_month()}</span
           >
             -->
@@ -1844,13 +1844,13 @@
         >
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span
-              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
               Billed Annually (<span class="line-through mx-1">$360</span> $180)
             </span>
           {:else}
             <span
-              class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
               {pricing_billed_annually_pro()}</span
             >
@@ -1858,7 +1858,7 @@
 
           <!--
           <span
-            class="text-gray-700 dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+            class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
           >
             {pricing_billed_annually_pro()}</span
           >
@@ -1891,7 +1891,7 @@
             >
             <span class="mr-2">{pricing_feature_credits_1000()}</span>
           </li>
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1908,7 +1908,7 @@
             <span class="">{pricing_feature_everything_plus()}</span>
           </li>
 
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1925,7 +1925,7 @@
             <span class="">{pricing_feature_watchlist_pro()}</span>
           </li>
 
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1942,7 +1942,7 @@
             <span class="">{pricing_feature_portfolio_pro()}</span>
           </li>
 
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1960,7 +1960,7 @@
             <span class="">{pricing_feature_options_realtime()}</span>
           </li>
 
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1977,7 +1977,7 @@
 
             <span class="">{pricing_feature_options_flow()}</span>
           </li>
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1994,7 +1994,7 @@
 
             <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2011,7 +2011,7 @@
 
             <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
-          <li class="flex items-start text-gray-700 dark:text-zinc-200">
+          <li class="flex items-start text-muted dark:text-zinc-200">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2044,7 +2044,7 @@
         >
           {#if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 font-semibold text-muted dark:text-white flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -2064,7 +2064,7 @@
           {:else if data?.user?.tier === "Plus"}
             <label
               for="upgradeProModal"
-              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-600 dark:hover:text-violet-400 flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-gray-900 dark:text-white transition hover:text-violet-800 dark:hover:text-violet-400 flex items-center justify-center"
               >{pricing_upgrade_pro()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -2122,7 +2122,7 @@
               Lock Pro Features forever
             </h3>
             <p
-              class="mt-2 text-sm sm:text-[1rem] font-medium text-gray-700 dark:text-zinc-300"
+              class="mt-2 text-sm sm:text-[1rem] font-medium text-muted dark:text-zinc-300"
             >
               Everything in Pro, one payment, never charged again.
             </p>
@@ -2131,7 +2131,7 @@
           <div class="">
             <div class="flex items-end justify-center gap-2">
               <span
-                class="text-base text-gray-500 dark:text-zinc-400 line-through"
+                class="text-base text-muted dark:text-white line-through"
                 >$599</span
               >
               <span class="text-3xl font-semibold">$449</span>
@@ -2173,7 +2173,7 @@
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
-              class="underline underline-offset-2 font-medium text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="underline underline-offset-2 font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
               >{pricing_manage_subscription()}</a
             >
           </p>
@@ -2389,7 +2389,7 @@
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     {@html pricing_faq_q7_answer({
-                      email: `<a href="mailto:${emailAddress}" class="text-muted dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
+                      email: `<a href="mailto:${emailAddress}" class="text-muted dark:text-zinc-300 underline hover:text-violet-800 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
                     })}
                   </p>
                 </div>
@@ -2434,7 +2434,7 @@
   >
     <label
       for="upgradeProModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg

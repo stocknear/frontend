@@ -1114,7 +1114,7 @@
 />
 
 <div
-  class="w-full overflow-hidden min-h-screen mt-1 text-gray-700 dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen mt-1 text-muted dark:text-zinc-200"
 >
   <div class="w-full">
     {#if isLoaded}
@@ -1181,7 +1181,7 @@
       {:else}
         <!-- Table Header Row (like Table component's header: title + find + download) -->
         <div
-          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-gray-700 dark:text-zinc-200 pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-muted dark:text-zinc-200 pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
         >
           <div
             class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -1222,7 +1222,7 @@
                   bind:value={searchQuery}
                   type="text"
                   placeholder="Find..."
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
             </div>
@@ -1234,7 +1234,7 @@
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -1266,7 +1266,7 @@
                 {#if editMode}
                   <label
                     on:click={handleDeleteItems}
-                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1286,7 +1286,7 @@
                 <!-- Edit Watchlist Button -->
                 <label
                   on:click={handleEditMode}
-                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   <svg
                     class="inline-block w-5 h-5"
@@ -1321,7 +1321,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900 text-gray-700 dark:text-zinc-200 flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-violet-800 dark:hover:text-violet-400"
+                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900 text-muted dark:text-zinc-200 flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <span>Indicators</span>
                       <svg
@@ -1342,7 +1342,7 @@
                     side="bottom"
                     align="end"
                     sideOffset={10}
-                    class="w-60 max-h-[400px] overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200"
+                    class="w-60 max-h-[400px] overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200"
                   >
                     <!-- Sticky search header -->
                     <div
@@ -1355,7 +1355,7 @@
                           autocomplete="off"
                           type="text"
                           placeholder="Search indicators..."
-                          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
+                          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-muted dark:text-zinc-200 pr-8"
                         />
                         {#if indicatorSearch.length > 0}
                           <button
@@ -1366,7 +1366,7 @@
                             class="absolute right-2 top-1/2 -translate-y-1/2"
                           >
                             <svg
-                              class="h-5 w-5 text-gray-500 dark:text-zinc-400 cursor-pointer"
+                              class="h-5 w-5 text-muted dark:text-white cursor-pointer"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -1387,7 +1387,7 @@
                     <DropdownMenu.Group class="pb-2">
                       {#if indicatorSearch.length > 0 && indicatorSearchResults.length === 0}
                         <div
-                          class="px-2 py-1 text-xs text-gray-500 dark:text-zinc-400"
+                          class="px-2 py-1 text-xs text-muted dark:text-white"
                         >
                           No indicators found
                         </div>
@@ -1418,13 +1418,13 @@
                     >
                       <label
                         on:click={resetColumns}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
+                        class="hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
                       >
                         Reset All
                       </label>
                       <label
                         on:click={selectAllColumns}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
+                        class="hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
                       >
                         Select All
                       </label>
@@ -1438,7 +1438,7 @@
                 <button
                   on:click={resetColumnOrder}
                   title="Reset column order"
-                  class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                  class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                 >
                   <svg
                     class="w-4 h-4"
@@ -1477,7 +1477,7 @@
             >
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                 >
                   Win Rate
                 </div>
@@ -1491,7 +1491,7 @@
               </div>
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                 >
                   Avg Return
                 </div>
@@ -1507,7 +1507,7 @@
               </div>
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                 >
                   Put/Call Ratio
                 </div>
@@ -1521,7 +1521,7 @@
               </div>
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                 >
                   Bull / Bear
                 </div>
@@ -1538,7 +1538,7 @@
               {#if scorecard.best}
                 <div>
                   <div
-                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >
                     Best
                   </div>
@@ -1558,7 +1558,7 @@
               {#if scorecard.worst}
                 <div>
                   <div
-                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >
                     Worst
                   </div>
@@ -1584,11 +1584,11 @@
           class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
         >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
           >
             <thead>
               <tr
-                class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+                class="bg-white/60 dark:bg-zinc-950/40 text-muted dark:text-white font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
               >
                 {#if editMode}
                   <th class="p-2 text-center w-8"></th>
@@ -1648,7 +1648,7 @@
                     </td>
                   {/if}
                   <td
-                    class="text-start text-xs whitespace-nowrap text-gray-500 dark:text-zinc-400"
+                    class="text-start text-xs whitespace-nowrap text-muted dark:text-white"
                   >
                     {formatTradeTime(item?.time)} · {formatDate(item?.date)}
                   </td>
@@ -1681,14 +1681,14 @@
                           class="w-44 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
                         >
                           <DropdownMenu.Item
-                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                             on:click={() => openContractChart(item)}
                           >
                             <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
                             View Chart
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
-                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                             on:click={() => openContractActivity(item)}
                           >
                             <Activity class="w-4 h-4 shrink-0" />
@@ -1783,7 +1783,7 @@
                             bind:value={editingPriceValue}
                             on:keydown={handlePriceInputKeydown}
                             on:blur={handlePriceBlur}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
                           />
                         {:else}
                           <button
@@ -2023,7 +2023,7 @@
                         class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                               {activeIdx === i
                           ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                          : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                          : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                       >
                         {item}
                       </button>
@@ -2038,7 +2038,7 @@
             {#if groupedNews?.length > 0}
               {#each displayList as [date, titleGroups]}
                 <h3
-                  class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                  class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
                 >
                   {date}
                 </h3>
@@ -2052,7 +2052,7 @@
                         : ''} dark:border-zinc-700 text-sm"
                     >
                       <div
-                        class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                        class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
                       >
                         {formatTimeLocale(items[0].publishedDate)}
                       </div>
@@ -2090,9 +2090,7 @@
             {/if}
           {:else if groupedEarnings?.length > 0}
             {#each displayList as [date, titleGroups]}
-              <h3
-                class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
-              >
+              <h3 class="mb-1.5 mt-3 font-semibold text-muted dark:text-white">
                 {date}
               </h3>
               <div
@@ -2103,7 +2101,7 @@
                     class="flex border-gray-300 dark:border-zinc-700 text-sm"
                   >
                     <div
-                      class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                      class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
                     >
                       {formatTime(item?.time)}
                     </div>

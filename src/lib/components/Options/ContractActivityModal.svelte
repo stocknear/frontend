@@ -124,7 +124,7 @@
     if (sentiment === "Bullish")
       return "text-emerald-600 dark:text-emerald-400";
     if (sentiment === "Bearish") return "text-rose-600 dark:text-rose-400";
-    return "text-gray-500 dark:text-zinc-400";
+    return "text-muted dark:text-white";
   }
 
   function handleKeydown(e: KeyboardEvent) {
@@ -168,7 +168,7 @@
         </div>
         <button
           on:click={onClose}
-          class="cursor-pointer p-1 rounded-full text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+          class="cursor-pointer p-1 rounded-full text-muted dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
         >
           <svg
             class="w-5 h-5"
@@ -223,7 +223,7 @@
           >
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
           </svg>
-          <p class="text-gray-500 dark:text-zinc-400 text-sm">
+          <p class="text-muted dark:text-white text-sm">
             No flow activity found for this contract today.
           </p>
         </div>
@@ -232,7 +232,7 @@
         <div class="px-4 sm:px-6 py-4">
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+              <span class="text-xs font-medium text-muted dark:text-white"
                 >Trades</span
               >
               <div class="text-sm font-semibold text-gray-900 dark:text-white">
@@ -240,7 +240,7 @@
               </div>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+              <span class="text-xs font-medium text-muted dark:text-white"
                 >Total Premium</span
               >
               <div class="text-sm font-semibold text-gray-900 dark:text-white">
@@ -248,7 +248,7 @@
               </div>
             </div>
             <div>
-              <span class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+              <span class="text-xs font-medium text-muted dark:text-white"
                 >Volume</span
               >
               <div class="text-sm font-semibold text-gray-900 dark:text-white">
@@ -267,7 +267,7 @@
             <span class="text-rose-600 dark:text-rose-400">
               Bearish: {contractStats.bearishCount ?? 0}
             </span>
-            <span class="text-gray-500 dark:text-zinc-400">
+            <span class="text-muted dark:text-white">
               Neutral: {contractStats.neutralCount ?? 0}
             </span>
           </div>
@@ -297,7 +297,7 @@
             class="px-4 sm:px-6 pb-4 border-t border-gray-200 dark:border-zinc-800 pt-4"
           >
             <span
-              class="text-xs font-medium text-gray-500 dark:text-zinc-400 mb-2 block"
+              class="text-xs font-medium text-muted dark:text-white mb-2 block"
             >
               Recent Trades
             </span>
@@ -305,7 +305,7 @@
               <table class="w-full text-xs">
                 <thead>
                   <tr
-                    class="text-gray-500 dark:text-zinc-400 border-b border-gray-200 dark:border-zinc-800"
+                    class="text-muted dark:text-white border-b border-gray-200 dark:border-zinc-800"
                   >
                     <th class="text-left py-1.5 pr-2 font-medium">Time</th>
                     <th class="text-right py-1.5 px-2 font-medium">Size</th>

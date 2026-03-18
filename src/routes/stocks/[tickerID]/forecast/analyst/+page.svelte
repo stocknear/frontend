@@ -552,7 +552,7 @@
                 
                           {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-[#f8fbfb] border-gray-300 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
+                              : 'bg-[#f8fbfb] border-gray-300 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item}
@@ -573,7 +573,7 @@
                             class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                               ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                              : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                              : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                           >
                             {item}
                           </button>
@@ -594,7 +594,7 @@
             class="p-4 bp:p-5 sm:p-6 border-r border-gray-300 dark:border-zinc-700"
           >
             <div
-              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              class="text-xs uppercase tracking-wide text-muted dark:text-white"
             >
               {stock_detail_forecast_analyst_total()}
             </div>
@@ -609,7 +609,7 @@
             class="p-4 bp:p-5 sm:p-6 border-r-0 md:border-r border-gray-300 dark:border-zinc-700"
           >
             <div
-              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              class="text-xs uppercase tracking-wide text-muted dark:text-white"
             >
               {stock_detail_forecast_analyst_consensus()}
             </div>
@@ -623,7 +623,7 @@
             class="p-4 bp:p-5 sm:p-6 border-r-0 md:border-r border-t md:border-t-0 border-gray-300 dark:border-zinc-700"
           >
             <div
-              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              class="text-xs uppercase tracking-wide text-muted dark:text-white"
             >
               {stock_detail_forecast_analyst_price_target()}
             </div>
@@ -639,7 +639,7 @@
             class="p-4 bp:p-5 sm:p-6 border-t border-gray-300 dark:border-zinc-700 md:border-0 border-l border-gray-300 dark:border-zinc-700 md:border-0"
           >
             <div
-              class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              class="text-xs uppercase tracking-wide text-muted dark:text-white"
             >
               {stock_detail_forecast_analyst_upside()}
             </div>
@@ -673,7 +673,7 @@
 
           <div class=" w-full m-auto mb-4 overflow-x-auto lg:overflow-hidden">
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums m-auto"
             >
               <thead>
                 <TableHeader
@@ -704,7 +704,7 @@
                               href={item?.analystId !== null
                                 ? `/analysts/${item?.analystId}`
                                 : "#"}
-                              class="font-semibold dark:font-normal text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="font-semibold dark:font-normal text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                               >{item?.analyst_name}
                             </a>
 
@@ -844,7 +844,7 @@
                           <div class="flex flex-col items-end">
                             {#if latestInfoDate(item?.date)}
                               <label
-                                class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 mb-1"
+                                class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 mb-1"
                               >
                                 {stock_detail_forecast_new()}
                               </label>
@@ -934,12 +934,12 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}

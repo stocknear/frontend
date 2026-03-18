@@ -1028,19 +1028,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
   >
     <li>
       <a
         href="/"
-        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
         >{compare_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">
+    <li class="text-muted dark:text-white">
       {compare_breadcrumb_current()}
     </li>
   </BreadCrumb>
@@ -1098,7 +1098,7 @@
                       disabled={tickerList?.length > 10 ? true : false}
                       class="{tickerList?.length > 10
                         ? 'cursor-not-allowed'
-                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder={compare_search_placeholder()}
                       aria-label={compare_search_placeholder()}
                     />
@@ -1107,7 +1107,7 @@
                   <Combobox.Content
                     class="z-10 w-full {inputValue?.length > 0
                       ? ''
-                      : 'hidden'} rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none outline-hidden"
+                      : 'hidden'} rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0}
@@ -1125,14 +1125,14 @@
                               >{searchItem?.symbol}</span
                             >
                             <span
-                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-gray-500 dark:text-zinc-400"
+                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-muted dark:text-white"
                               >{searchItem?.name}</span
                             >
                           </div>
                         </Combobox.Item>
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
+                          class="block px-5 py-2 text-sm text-muted dark:text-white"
                         >
                           {compare_no_results()}
                         </span>
@@ -1141,7 +1141,7 @@
                       <Combobox.Item
                         class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class="text-sm text-gray-500 dark:text-zinc-400">
+                        <span class="text-sm text-muted dark:text-white">
                           {inputValue?.length > 0
                             ? compare_no_results()
                             : compare_start_searching()}
@@ -1183,7 +1183,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-full max-w-80 sm:w-64 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-full max-w-80 sm:w-64 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each categoryList as item}
@@ -1251,7 +1251,7 @@
                       class="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold border border-gray-300 shadow dark:border-zinc-700 transition cursor-pointer {selectedPlotPeriod ===
                       item
                         ? 'bg-gray-100/70 text-gray-900 dark:bg-zinc-900/60 dark:text-white'
-                        : 'text-gray-500 dark:text-zinc-400 bg-[#f8fbfb] dark:bg-zinc-950/40 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                        : 'text-muted dark:text-white bg-[#f8fbfb] dark:bg-zinc-950/40 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                     >
                       {item}
                     </label>
@@ -1271,7 +1271,7 @@
                     class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
-                      class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                      class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
                     ></span>
                   </label>
                 </div>
@@ -1340,7 +1340,7 @@
                             ></div>
                             <a
                               href={`/stocks/${ticker}/`}
-                              class="font-semibold text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400"
+                              class="font-semibold text-gray-900 dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               {ticker}
                             </a>

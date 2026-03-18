@@ -114,7 +114,7 @@
       >
       {#if totalSelected > 0}
         <div
-          class="ml-1.5 flex items-center justify-center h-4 min-w-[16px] px-1 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
+          class="ml-1.5 flex items-center justify-center h-4 min-w-[16px] px-1 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700/80 text-muted dark:text-zinc-200 rounded-full text-xs font-semibold"
         >
           {totalSelected}
         </div>
@@ -140,7 +140,7 @@
     align="end"
     sideOffset={10}
     alignOffset={0}
-    class="w-72 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+    class="w-72 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
   >
     <!-- Sticky search input -->
     <div
@@ -152,7 +152,7 @@
           bind:this={searchInputEl}
           on:keydown|stopPropagation
           autocomplete="off"
-          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
+          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-muted dark:text-zinc-200 pr-8"
           type="text"
           placeholder={stock_detail_financials_search_indicators()}
         />
@@ -164,7 +164,7 @@
             class="absolute right-2 top-1/2 transform -translate-y-1/2"
           >
             <svg
-              class="h-5 w-5 text-gray-500 dark:text-zinc-400 cursor-pointer"
+              class="h-5 w-5 text-muted dark:text-white cursor-pointer"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -234,9 +234,7 @@
     {/each}
 
     {#if filteredGroups.length === 0 && filteredPresets.length === 0}
-      <div
-        class="px-2 py-3 text-xs text-gray-500 dark:text-zinc-400 text-center"
-      >
+      <div class="px-2 py-3 text-xs text-muted dark:text-white text-center">
         {stock_detail_financials_no_indicators_found()}
       </div>
     {/if}
@@ -250,7 +248,7 @@
           searchQuery = "";
           onReset();
         }}
-        class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        class="w-full hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_reset_selection()}
       </label>
@@ -259,7 +257,7 @@
           searchQuery = "";
           onSelectAll();
         }}
-        class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        class="w-full flex justify-end hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_select_all()}
       </label>

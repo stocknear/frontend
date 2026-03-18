@@ -210,7 +210,7 @@
   >
     <label
       for={`intraday-export-${ticker}`}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -233,7 +233,7 @@
     </p>
 
     <div class="mt-4 grid gap-3 sm:grid-cols-2">
-      <label class="text-sm text-gray-700 dark:text-zinc-200">
+      <label class="text-sm text-muted dark:text-zinc-200">
         {stock_detail_start_date()}
         <input
           type="date"
@@ -243,7 +243,7 @@
           disabled={isExporting}
         />
       </label>
-      <label class="text-sm text-gray-700 dark:text-zinc-200">
+      <label class="text-sm text-muted dark:text-zinc-200">
         {stock_detail_end_date()}
         <input
           type="date"
@@ -255,7 +255,7 @@
       </label>
     </div>
     <div class="mt-3">
-      <label class="text-sm text-gray-700 dark:text-zinc-200">
+      <label class="text-sm text-muted dark:text-zinc-200">
         {stock_detail_interval()}
         <select
           class="mt-1 w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
@@ -271,7 +271,7 @@
       </label>
     </div>
 
-    <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
+    <div class="mt-3 text-xs text-muted dark:text-white">
       <div>
         {stock_detail_estimated_cost({
           cost: creditCost.toString(),
@@ -296,7 +296,7 @@
         <div>
           <a
             href="/register"
-            class="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
+            class="text-violet-800 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
             >{stock_detail_sign_in()}</a
           >
           {stock_detail_to_use_credits()}

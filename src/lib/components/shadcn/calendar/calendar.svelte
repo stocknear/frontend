@@ -37,7 +37,7 @@
           <Calendar.GridRow class="flex ">
             {#each weekdays as weekday}
               <Calendar.HeadCell
-                class="text-gray-500 dark:text-zinc-400 uppercase tracking-wide text-[0.7rem]"
+                class="text-muted dark:text-white uppercase tracking-wide text-[0.7rem]"
               >
                 {weekday.slice(0, 2)}
               </Calendar.HeadCell>

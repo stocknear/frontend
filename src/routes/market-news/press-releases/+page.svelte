@@ -218,7 +218,7 @@
 
                     <div class="w-full">
                       <h3
-                        class="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-zinc-400 truncate mb-2"
+                        class="text-xs font-medium uppercase tracking-wide text-muted dark:text-white truncate mb-2"
                       >
                         {market_news_time_ago({
                           time: formatDate(item?.publishedDate),
@@ -232,7 +232,7 @@
                         class="group"
                       >
                         <span
-                          class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
+                          class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
                         >
                           {item?.title}
                         </span>
@@ -244,7 +244,7 @@
                       </a>
                       <div class="mt-3">
                         <span
-                          class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                          class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-white"
                           >{market_news_stocks_label()}</span
                         >
 
@@ -331,7 +331,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                 >
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
@@ -383,7 +383,7 @@
           <div class="flex justify-center mt-4">
             <button
               on:click={scrollToTop}
-              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
             >
               {market_news_back_to_top()}
               <svg
@@ -410,12 +410,12 @@
           >
             <a href="/pricing" class="group flex flex-col gap-2">
               <span
-                class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-white"
               >
                 {market_news_upgrade_label()}
               </span>
               <h2
-                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
+                class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
               >
                 {market_news_pro_subscription_title()}
               </h2>
@@ -432,7 +432,7 @@
           >
             <div class="p-4 text-sm">
               <h3
-                class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-3"
+                class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-white mb-3"
               >
                 {market_news_stock_news_label()}
               </h3>

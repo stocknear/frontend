@@ -989,12 +989,12 @@ ${insightData.traderTakeaway}
   class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
     aria-busy={isLoading}
   >
     <thead>
       <tr
-        class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+        class="bg-white/60 dark:bg-zinc-950/40 text-muted dark:text-white font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
       >
         {#each columns as column, i}
           <th
@@ -1092,7 +1092,7 @@ ${insightData.traderTakeaway}
                         class="w-44 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
                       >
                         <DropdownMenu.Item
-                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                           on:click={() => onOpenChart?.(item)}
                         >
                           <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
@@ -1102,7 +1102,7 @@ ${insightData.traderTakeaway}
                           class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition
                             {isTracked
                             ? 'text-violet-700 dark:text-violet-400 font-medium'
-                            : 'text-gray-700 dark:text-zinc-300'}"
+                            : 'text-muted dark:text-zinc-300'}"
                           on:click={() => {
                             if (!isTracked && data?.user?.tier !== "Pro") {
                               toast.error(
@@ -1120,7 +1120,7 @@ ${insightData.traderTakeaway}
                           {isTracked ? "Untrack Contract" : "Track Contract"}
                         </DropdownMenu.Item>
                         <DropdownMenu.Item
-                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-gray-700 dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                           on:click={() => optionsInsight(item)}
                         >
                           <Spark class="w-4 h-4 shrink-0" />
@@ -1332,7 +1332,7 @@ ${insightData.traderTakeaway}
                 Options Flow Insight
               </h2>
               <p
-                class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 mt-0.5 truncate"
+                class="text-xs sm:text-sm text-muted dark:text-white mt-0.5 truncate"
               >
                 {selectedOptionData?.option_symbol}
                 • DTE {selectedOptionData?.dte}
@@ -1341,10 +1341,10 @@ ${insightData.traderTakeaway}
           </div>
           <button
             on:click={closeInsightModal}
-            class="cursor-pointer p-2 rounded-full border border-transparent text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-800/80 transition-colors flex-shrink-0"
+            class="cursor-pointer p-2 rounded-full border border-transparent text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-800/80 transition-colors flex-shrink-0"
           >
             <svg
-              class="w-5 h-5 text-gray-500 dark:text-zinc-400"
+              class="w-5 h-5 text-muted dark:text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -1371,13 +1371,13 @@ ${insightData.traderTakeaway}
               class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
             >
               <span
-                class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
               ></span>
             </label>
-            <p class="text-sm text-gray-700 dark:text-zinc-200 font-medium">
+            <p class="text-sm text-muted dark:text-zinc-200 font-medium">
               Analyzing options flow...
             </p>
-            <p class="text-xs text-gray-500 dark:text-zinc-400">
+            <p class="text-xs text-muted dark:text-white">
               Extracting trade insights and signals
             </p>
           </div>
@@ -1413,7 +1413,7 @@ ${insightData.traderTakeaway}
               <div class="flex-1">
                 <div class="mb-3 sm:mb-4">
                   <span
-                    class="text-xs font-semibold text-gray-500 dark:text-zinc-400 uppercase tracking-wider"
+                    class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider"
                     >Trade Signal Score</span
                   >
                 </div>
@@ -1457,7 +1457,7 @@ ${insightData.traderTakeaway}
               <div class="flex items-center gap-2">
                 <button
                   on:click={copyInsightToClipboard}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-300 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700/70 rounded-full hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-300 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700/70 rounded-full hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -1476,7 +1476,7 @@ ${insightData.traderTakeaway}
                 </button>
                 <button
                   on:click={downloadInsightMarkdown}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-300 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700/70 rounded-full hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-300 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700/70 rounded-full hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -1955,7 +1955,7 @@ ${insightData.traderTakeaway}
           <div
             class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-3 sm:p-4 shadow-none"
           >
-            <p class="text-xs text-gray-500 dark:text-zinc-400 italic">
+            <p class="text-xs text-muted dark:text-white italic">
               This analysis was generated by AI based on order flow data and may
               not capture all market factors. Always conduct your own research
               before making trading decisions.

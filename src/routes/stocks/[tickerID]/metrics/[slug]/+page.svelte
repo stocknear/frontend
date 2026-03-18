@@ -699,7 +699,7 @@
                           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                         >
                           {item}
                         </button>
@@ -742,14 +742,14 @@
                           <DropdownMenu.Group>
                             <DropdownMenu.Item
                               on:click={() => changeStatement("5Y")}
-                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               5Y
                             </DropdownMenu.Item>
 
                             <DropdownMenu.Item
                               on:click={() => changeStatement("10Y")}
-                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
+                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 flex items-center"
                             >
                               10Y
                               {#if !isSubscribed}
@@ -769,7 +769,7 @@
 
                             <DropdownMenu.Item
                               on:click={() => changeStatement("MAX")}
-                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
+                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 flex items-center"
                             >
                               Max
                               {#if !isSubscribed}
@@ -824,11 +824,11 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto mt-4"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums m-auto mt-4"
                 >
                   <thead>
                     <tr
-                      class="bg-white/60 dark:bg-zinc-950/40 border-b border-gray-300 dark:border-zinc-700 text-gray-500 dark:text-zinc-400"
+                      class="bg-white/60 dark:bg-zinc-950/40 border-b border-gray-300 dark:border-zinc-700 text-muted dark:text-white"
                     >
                       <th
                         on:click={() => sortData("date")}
@@ -946,7 +946,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
@@ -1000,7 +1000,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                   >
                     {insider_tracker_back_to_top()}
                     <svg

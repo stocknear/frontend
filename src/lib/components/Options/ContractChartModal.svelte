@@ -558,7 +558,7 @@
         </div>
         <button
           on:click={onClose}
-          class="cursor-pointer p-1 rounded-full text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+          class="cursor-pointer p-1 rounded-full text-muted dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
         >
           <svg
             class="w-5 h-5"
@@ -615,7 +615,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          <p class="text-gray-500 dark:text-zinc-400 text-sm">
+          <p class="text-muted dark:text-white text-sm">
             No contract data available for this option.
           </p>
         </div>
@@ -655,10 +655,10 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                  class="text-xs font-medium text-muted dark:text-white"
                 >
                   Chart Type
                 </DropdownMenu.Label>
@@ -667,7 +667,7 @@
                   {#each chartTypes as type}
                     <DropdownMenu.Item
                       on:click={() => (selectGraphType = type)}
-                      class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                      class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       {type}
                     </DropdownMenu.Item>
@@ -708,10 +708,10 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                  class="text-xs font-medium text-muted dark:text-white"
                 >
                   Time Period
                 </DropdownMenu.Label>
@@ -720,7 +720,7 @@
                   {#each Object.entries(timePeriodLabels) as [key, label]}
                     <DropdownMenu.Item
                       on:click={() => (selectedTimePeriod = key)}
-                      class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                      class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       {label}
                     </DropdownMenu.Item>
@@ -757,8 +757,7 @@
           >
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-6">
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Last Price</span
                 >
                 <div
@@ -769,8 +768,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Volume</span
                 >
                 <div
@@ -780,8 +778,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Open Interest</span
                 >
                 <div
@@ -791,8 +788,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >IV</span
                 >
                 <div
@@ -804,8 +800,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Delta</span
                 >
                 <div
@@ -815,8 +810,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Gamma</span
                 >
                 <div
@@ -826,8 +820,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Theta</span
                 >
                 <div
@@ -837,8 +830,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Vega</span
                 >
                 <div
@@ -848,8 +840,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Rho</span
                 >
                 <div
@@ -859,8 +850,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Charm</span
                 >
                 <div
@@ -870,8 +860,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Vanna</span
                 >
                 <div
@@ -881,8 +870,7 @@
                 </div>
               </div>
               <div>
-                <span
-                  class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                <span class="text-xs font-medium text-muted dark:text-white"
                   >Vomma</span
                 >
                 <div
@@ -901,7 +889,7 @@
         >
           <a
             href="/stocks/{item.ticker}/options/contract-lookup?contract={item.option_symbol}"
-            class="text-sm text-violet-600 dark:text-violet-400 hover:underline inline-flex items-center gap-1"
+            class="text-sm text-violet-800 dark:text-violet-400 hover:underline inline-flex items-center gap-1"
           >
             View Full Contract History
             <svg

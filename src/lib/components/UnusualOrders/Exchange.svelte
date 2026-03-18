@@ -431,7 +431,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -473,7 +473,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -524,7 +524,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -561,7 +561,7 @@
         >
           <a
             href="/pricing"
-            class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
+            class="flex flex-col items-center gap-3 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
           >
             <svg
               class="size-10"

@@ -246,7 +246,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                             {selectedInterval === item
             ? 'bg-white text-gray-900 shadow-sm border border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white'
-            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
         >
           {item}m
         </button>

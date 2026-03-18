@@ -93,7 +93,7 @@
     class={`cursor-pointer text-xs flex items-center gap-x-2 px-3 py-1.5 rounded-full focus:z-10 focus:outline-none transition-all ${
       modeValue === "light"
         ? "bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white"
-        : "text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
+        : "text-muted dark:text-white hover:text-gray-900 dark:hover:text-white"
     }`}
     aria-pressed={modeValue === "light"}
     aria-label="Set light theme"

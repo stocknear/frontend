@@ -40,7 +40,7 @@
       >
         Sources
       </h3>
-      <span class="text-xs text-gray-500 dark:text-zinc-400 tabular-nums">
+      <span class="text-xs text-muted dark:text-white tabular-nums">
         ({sources?.length})
       </span>
     </div>
@@ -100,7 +100,7 @@
     {#if hasMoreSources}
       <button
         on:click={() => (isExpanded = !isExpanded)}
-        class="cursor-pointer group mt-4 inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-gray-500 dark:text-zinc-400 transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+        class="cursor-pointer group mt-4 inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
       >
         <span class="relative">
           {#if !isExpanded}

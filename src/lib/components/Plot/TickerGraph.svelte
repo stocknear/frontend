@@ -445,9 +445,7 @@
     >
       <!-- Header -->
       <div class="flex items-center gap-2 mb-6">
-        <div
-          class="ml-auto text-xs text-gray-500 dark:text-zinc-400 tabular-nums"
-        >
+        <div class="ml-auto text-xs text-muted dark:text-white tabular-nums">
           {#if displayTickerList?.length > 0}
             {@const firstTicker = displayTickerList[0]}
             {@const firstQuote = stockQuotes[firstTicker]}
@@ -520,7 +518,7 @@
               <div class="">
                 <div class="flex justify-between items-center mb-4">
                   <h3
-                    class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-400"
+                    class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-muted dark:text-white"
                   >
                     {ticker?.toUpperCase()}
                   </h3>

@@ -726,7 +726,7 @@
       on:click|stopPropagation={handleExpand}
       aria-label="Expand chart"
     >
-      <Maximize class="w-4 h-4 text-gray-500 dark:text-zinc-400" />
+      <Maximize class="w-4 h-4 text-muted dark:text-white" />
     </button>
   </div>
 
@@ -739,9 +739,7 @@
             class="w-2 h-2 rounded-full"
             style="background-color: {getSeriesColor(i)}"
           ></div>
-          <span class="text-[10px] text-gray-500 dark:text-zinc-400"
-            >{s.label}</span
-          >
+          <span class="text-[10px] text-muted dark:text-white">{s.label}</span>
         </div>
       {/each}
     </div>

@@ -612,7 +612,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
+<section class="w-full overflow-hidden h-full text-muted dark:text-zinc-200">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -654,7 +654,7 @@
                           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {timeIdx === i
                             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                         >
                           {i === 0
                             ? stock_detail_stats_eps_surprise()
@@ -692,21 +692,21 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                       >
                         <DropdownMenu.Group>
                           {#each ["3Y", "5Y", "MAX"] as item, index}
                             {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
                               <DropdownMenu.Item
                                 on:click={() => (timeFrame = item)}
-                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                               >
                                 {item}
                               </DropdownMenu.Item>
                             {:else}
                               <DropdownMenu.Item
                                 on:click={() => goto("/pricing")}
-                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                               >
                                 {item}
                                 <svg
@@ -768,10 +768,10 @@
               <div class=" w-full m-auto mb-4 overflow-x-auto">
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                    class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                   >
                     <thead
-                      class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                      class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                     >
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
@@ -889,12 +889,12 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}

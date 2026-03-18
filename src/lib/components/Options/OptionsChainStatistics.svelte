@@ -101,9 +101,9 @@
 
   let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
   const lockLinkClass =
-    "mt-1 inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition";
+    "mt-1 inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition";
   const lockLinkInlineClass =
-    "inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition";
+    "inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition";
 
   let configIV;
   let configOI;
@@ -970,7 +970,7 @@
               {:else}
                 <a
                   href="/pricing"
-                  class="mt-1 inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                  class="mt-1 inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                 >
                   <svg
                     class="w-4 h-4 mb-1 inline-block"
@@ -1645,10 +1645,10 @@
             >
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead
-                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >
                     <tr>
                       <td class="text-start"

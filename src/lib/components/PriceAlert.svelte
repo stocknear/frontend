@@ -146,7 +146,7 @@
   >
     <label
       for="priceAlertModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -170,12 +170,12 @@
         class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-5 font-medium"
       >
         <label
-          class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
+          class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
           >{stock_detail_symbol()}</label
         >
 
         <label
-          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200"
+          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200"
         >
           <!--
           <img
@@ -195,13 +195,13 @@
         <!-- Condition Label -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
-            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
+            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
             >{stock_detail_condition()}</label
           >
           <input
             type="text"
             value={stock_detail_price()}
-            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
+            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3"
             readonly
           />
         </div>
@@ -209,13 +209,13 @@
         <!-- Crossing Dropdown -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
-            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
+            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
             >{stock_detail_crossing()}</label
           >
           <div class="relative w-full sm:w-[80%]">
             <select
               on:change={changeStatement}
-              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
               <option value="above" selected>{stock_detail_above()}</option>
               <option value="below">{stock_detail_below()}</option>
@@ -233,21 +233,21 @@
         <!-- Value Input -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
-            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0"
+            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
             >{stock_detail_value()}</label
           >
 
           <div class="relative w-full sm:w-[80%]">
             <input
               bind:value={targetPrice}
-              class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
+              class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
             />
             <div
               class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-x-1.5"
             >
               <button on:click={() => stepSizeValue("add")}>
                 <svg
-                  class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                  class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -263,7 +263,7 @@
               </button>
               <button on:click={() => stepSizeValue("minus")}>
                 <svg
-                  class="size-6 cursor-pointer text-gray-400 hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                  class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -283,7 +283,7 @@
 
         <div class="flex flex-col sm:flex-row items-start sm:items-start">
           <label
-            class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 w-[20%] mb-1 sm:mb-0 sm:mt-2"
+            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0 sm:mt-2"
             >Note</label
           >
           <div class="w-full sm:w-[80%]">
@@ -292,10 +292,10 @@
               maxlength={NOTE_MAX_LENGTH}
               rows="4"
               placeholder="Note down why this alert level matters and what you plan to do when it triggers"
-              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
+              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
             ></textarea>
             <div
-              class="mt-1 flex items-center justify-between text-[11px] text-gray-500 dark:text-zinc-400"
+              class="mt-1 flex items-center justify-between text-[11px] text-muted dark:text-white"
             >
               <span class="tabular-nums">{note.length}/{NOTE_MAX_LENGTH}</span>
             </div>
@@ -306,7 +306,7 @@
         <div class="flex justify-end gap-4 absolute bottom-3 right-5">
           <label
             for="priceAlertModal"
-            class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
           >
             {stock_detail_cancel()}
           </label>

@@ -378,7 +378,7 @@
   {#if hasNoTickers}
     <!-- No tickers in portfolio -->
     <div class="flex justify-center items-center h-40">
-      <div class="text-center text-gray-700 dark:text-zinc-400">
+      <div class="text-center text-muted dark:text-zinc-400">
         <p class="text-lg font-medium mb-2">
           {portfolio_bullbear_empty_title()}
         </p>
@@ -388,7 +388,7 @@
   {:else if showSummary}
     <!-- AI Summary Panel -->
     <div
-      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200"
+      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200"
     >
       {#if isGeneratingSummary}
         <!-- Loading State -->
@@ -397,13 +397,13 @@
             class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
           >
             <span
-              class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+              class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
             ></span>
           </label>
-          <p class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium">
+          <p class="mt-4 text-sm text-muted dark:text-zinc-200 font-medium">
             {portfolio_bullbear_loading()}
           </p>
-          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400 text-center">
+          <p class="mt-1 text-xs text-muted dark:text-white text-center">
             {portfolio_bullbear_loading_description()}
           </p>
         </div>
@@ -451,7 +451,7 @@
                       style="width: {summaryData?.sentimentScore ?? 50}%"
                     ></div>
                   </div>
-                  <span class="text-xs text-gray-500 dark:text-zinc-400"
+                  <span class="text-xs text-muted dark:text-white"
                     >{summaryData?.sentimentScore ?? 50}%</span
                   >
                 </div>
@@ -466,7 +466,7 @@
             <div class="flex items-center gap-2">
               <button
                 on:click={copyToClipboard}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -485,7 +485,7 @@
               </button>
               <button
                 on:click={downloadMarkdown}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -508,7 +508,7 @@
           <!-- Key Highlights -->
           <div>
             <h4
-              class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
+              class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
             >
               <svg
                 class="w-4 h-4 text-muted dark:text-zinc-300"
@@ -524,7 +524,7 @@
             <ul class="space-y-2">
               {#each summaryData?.keyHighlights ?? [] as highlight}
                 <li
-                  class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
+                  class="flex items-start gap-2 text-sm text-muted dark:text-zinc-200"
                 >
                   <svg
                     class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
@@ -547,7 +547,7 @@
           {#if summaryData?.risks?.length}
             <div>
               <h4
-                class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
               >
                 <svg
                   class="w-4 h-4 text-muted dark:text-zinc-300"
@@ -567,7 +567,7 @@
               <ul class="space-y-2">
                 {#each summaryData?.risks ?? [] as risk}
                   <li
-                    class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
+                    class="flex items-start gap-2 text-sm text-muted dark:text-zinc-200"
                   >
                     <svg
                       class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
@@ -590,7 +590,7 @@
           <!-- Outlook -->
           <div>
             <h4
-              class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
+              class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
             >
               <svg
                 class="w-4 h-4 text-muted dark:text-zinc-300"
@@ -614,7 +614,7 @@
               {portfolio_bullbear_outlook()}
             </h4>
             <p
-              class="text-sm text-gray-700 dark:text-zinc-200 bg-white/70 dark:bg-zinc-950/40 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+              class="text-sm text-muted dark:text-zinc-200 bg-white/70 dark:bg-zinc-950/40 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
             >
               {summaryData?.outlook ?? portfolio_bullbear_no_outlook()}
             </p>
@@ -622,7 +622,7 @@
 
           <!-- Disclaimer -->
           <p
-            class="text-xs text-gray-500 dark:text-zinc-400 italic border-t border-gray-300 dark:border-zinc-700 pt-4"
+            class="text-xs text-muted dark:text-white italic border-t border-gray-300 dark:border-zinc-700 pt-4"
           >
             {portfolio_bullbear_disclaimer()}
           </p>

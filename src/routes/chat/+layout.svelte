@@ -217,7 +217,7 @@
     >
       <button
         on:click={toggleChatSidebar}
-        class="cursor-pointer h-full w-full flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur overflow-hidden border-l border-gray-200/80 dark:border-zinc-700/20 border-dashed text-gray-700 dark:text-zinc-300 sm:hover:text-gray-900 dark:sm:hover:text-zinc-100 transition-colors sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 {$chatSidebarOpen
+        class="cursor-pointer h-full w-full flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur overflow-hidden border-l border-gray-200/80 dark:border-zinc-700/20 border-dashed text-muted dark:text-zinc-300 sm:hover:text-gray-900 dark:sm:hover:text-zinc-100 transition-colors sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 {$chatSidebarOpen
           ? 'bg-gray-50 dark:bg-zinc-900'
           : ''}"
         aria-label={$chatSidebarOpen
@@ -253,7 +253,7 @@
 
         <div class="flex-1 flex items-center justify-center pb-[55px]">
           <span
-            class="-rotate-90 text-[13px] font-medium text-gray-700 dark:text-zinc-300 tracking-[0.02em] whitespace-nowrap"
+            class="-rotate-90 text-[13px] font-medium text-muted dark:text-zinc-300 tracking-[0.02em] whitespace-nowrap"
           >
             My Chats
           </span>
@@ -265,7 +265,7 @@
   {#if data?.user && allChats?.length > 0 && !$chatSidebarOpen}
     <button
       on:click={toggleChatSidebar}
-      class="cursor-pointer hidden sm:inline-flex lg:hidden fixed top-20 left-3 z-40 items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
+      class="cursor-pointer hidden sm:inline-flex lg:hidden fixed top-20 left-3 z-40 items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
       aria-label="Open My Chats sidebar"
       title="Open My Chats"
     >
@@ -308,7 +308,7 @@
           <a
             href="/chat"
             on:click={handleChatClick}
-            class="flex items-center gap-2 w-full px-3 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
+            class="flex items-center gap-2 w-full px-3 py-2.5 text-sm font-medium rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-muted dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +329,7 @@
           <!-- Close button (mobile only) -->
           <button
             on:click={() => setChatSidebarOpen(false)}
-            class="cursor-pointer lg:hidden p-2 ml-auto rounded-lg text-gray-500 dark:text-zinc-400"
+            class="cursor-pointer lg:hidden p-2 ml-auto rounded-lg text-muted dark:text-white"
             aria-label="Close sidebar"
             title="Close chat history"
           >
@@ -369,7 +369,7 @@
             placeholder="Search chats..."
             value={searchQuery}
             on:input={handleSearch}
-            class="w-full pl-8 pr-3 py-2 text-sm rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 outline-none focus:border-gray-400 dark:focus:border-zinc-600 transition"
+            class="w-full pl-8 pr-3 py-2 text-sm rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-muted dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 outline-none focus:border-gray-400 dark:focus:border-zinc-600 transition"
           />
         </div>
       </div>
@@ -377,9 +377,7 @@
       <!-- Chat list -->
       <nav class="flex-1 overflow-y-auto px-2 pb-4 scroller">
         {#if filteredChats.length === 0}
-          <p
-            class="px-3 py-6 text-sm text-center text-gray-500 dark:text-zinc-400"
-          >
+          <p class="px-3 py-6 text-sm text-center text-muted dark:text-white">
             {filteredSearch ? "No chats found" : chat_no_threads()}
           </p>
         {:else if groupedChats}
@@ -399,7 +397,7 @@
                     class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-xl text-sm transition-colors {currentSlug ===
                     item.id
                       ? 'bg-gray-200/80 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium'
-                      : 'text-gray-700 dark:text-zinc-300 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
+                      : 'text-muted dark:text-zinc-300 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
                   >
                     <span class="flex-1 truncate">
                       {truncate(item.message)}
@@ -440,7 +438,7 @@
               class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-xl text-sm transition-colors {currentSlug ===
               item.id
                 ? 'bg-gray-200/80 dark:bg-zinc-800 text-gray-900 dark:text-white font-medium'
-                : 'text-gray-700 dark:text-zinc-300 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
+                : 'text-muted dark:text-zinc-300 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
             >
               <span class="flex-1 truncate">
                 {truncate(item.message)}
@@ -476,7 +474,7 @@
   >
     <label
       for="deleteThreadModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -495,7 +493,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThreadModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0">{chat_cancel()}</label
       >
       <label

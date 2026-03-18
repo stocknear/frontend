@@ -187,7 +187,7 @@
 
 <Button
   on:click={openModal}
-  class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+  class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
   title="Download screener data"
 >
   <DownloadIcon class="w-4 h-4" />
@@ -212,7 +212,7 @@
   >
     <label
       for="screener-export-modal-{screener}"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -240,7 +240,7 @@
       {/if}
     </p>
 
-    <div class="mt-3 text-xs text-gray-500 dark:text-zinc-400">
+    <div class="mt-3 text-xs text-muted dark:text-white">
       <div>
         Export cost: {creditCost} credits.
       </div>
@@ -261,7 +261,7 @@
         <div>
           <a
             href="/login"
-            class="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
+            class="text-violet-800 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
             >Sign in</a
           >
           to use credits.

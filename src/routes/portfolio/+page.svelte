@@ -1013,11 +1013,11 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-gray-700 dark:text-zinc-200"
+                          class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-muted dark:text-zinc-200"
                         >
                           <label
                             for="addPortfolio"
-                            class="flex flex-row items-center cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 transition"
+                            class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition"
                           >
                             <svg
                               class="h-4 w-4 mr-1"
@@ -1047,7 +1047,7 @@
                           class="text-sm cursor-pointer {item?.id ===
                           displayPortfolio?.id
                             ? 'text-gray-900 dark:text-white font-semibold'
-                            : 'text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                            : 'text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400'}"
                         >
                           {item?.title} ({item?.ticker?.length})
                           <label
@@ -1106,18 +1106,17 @@
                     {#if inputValue?.length > 0}
                       {#each searchBarData as item}
                         <Combobox.Item
-                          class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-600 dark:data-[highlighted]:text-violet-400"
+                          class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
                           value={item?.symbol}
                           label={item?.name}
                           on:click={(e) => handleAddTicker(e, item?.symbol)}
                         >
                           <div class="flex flex-col items-start">
-                            <span
-                              class="text-sm text-gray-700 dark:text-zinc-200"
+                            <span class="text-sm text-muted dark:text-zinc-200"
                               >{item?.symbol}</span
                             >
                             <span
-                              class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400"
+                              class="text-xs sm:text-sm text-muted dark:text-white"
                               >{item?.name}</span
                             >
                           </div>
@@ -1125,7 +1124,7 @@
                         <!--This else is related to for loop-->
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
+                          class="block px-5 py-2 text-sm text-muted dark:text-white"
                         >
                           {portfolio_no_results()}
                         </span>
@@ -1134,7 +1133,7 @@
                       <Combobox.Item
                         class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class=" text-sm text-gray-500 dark:text-zinc-400">
+                        <span class=" text-sm text-muted dark:text-white">
                           {portfolio_no_results()}
                         </span>
                       </Combobox.Item>
@@ -1153,7 +1152,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                      class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1172,7 +1171,7 @@
                   {/if}
                   <label
                     on:click={handleEditMode}
-                    class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1338,7 +1337,7 @@
                                   class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                                     {activeIdx === i
                                     ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                    : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                                    : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                                 >
                                   {getTabLabel(item)}
                                 </button>
@@ -1352,7 +1351,7 @@
                       {#if groupedNews?.length > 0}
                         {#each displayList as [date, titleGroups]}
                           <h3
-                            class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                            class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
                           >
                             {date}
                           </h3>
@@ -1366,7 +1365,7 @@
                                   : ''} dark:border-zinc-700 text-sm"
                               >
                                 <div
-                                  class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                                  class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
                                 >
                                   {formatTimeLocale(items[0].publishedDate)}
                                 </div>
@@ -1405,7 +1404,7 @@
                     {:else if groupedEarnings?.length > 0}
                       {#each displayList as [date, titleGroups]}
                         <h3
-                          class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                          class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
                         >
                           {date}
                         </h3>
@@ -1417,7 +1416,7 @@
                               class="flex border-gray-300 dark:border-zinc-700 text-sm"
                             >
                               <div
-                                class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                                class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
                               >
                                 {formatTime(item?.time)}
                               </div>
@@ -1531,7 +1530,7 @@
   >
     <label
       for="addPortfolio"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1590,7 +1589,7 @@
   >
     <label
       for="deletePortfolio"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
       on:click={() => {
         deleteTargetPortfolio = null;
@@ -1616,7 +1615,7 @@
         on:click={() => {
           deleteTargetPortfolio = null;
         }}
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0">{portfolio_cancel()}</label
       ><label
         for="deletePortfolio"

@@ -349,7 +349,7 @@
           >
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
               >
                 {stock_detail_dividends_yield()}
               </label>
@@ -361,7 +361,7 @@
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
               >
                 {stock_detail_dividends_annual()}
               </label>
@@ -374,7 +374,7 @@
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
               >
                 {stock_detail_dividends_ex_date()}
               </label>
@@ -393,7 +393,7 @@
 
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
               >
                 {stock_detail_dividends_payout_frequency()}
               </label>
@@ -406,7 +406,7 @@
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
               >
                 {stock_detail_dividends_payout_ratio()}
               </label>
@@ -421,7 +421,7 @@
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
               >
                 {stock_detail_dividends_growth()}
               </label>
@@ -458,10 +458,10 @@
             >
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead
-                    class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
@@ -595,13 +595,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                            class="hover:text-violet-800 dark:hover:text-violet-400 transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -647,7 +647,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   {stock_detail_dividends_back_to_top()}
                   <svg

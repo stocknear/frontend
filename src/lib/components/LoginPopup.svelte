@@ -243,7 +243,7 @@
           </h2>
         </div>
 
-        <span class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5">
+        <span class="text-muted dark:text-white text-center text-sm pb-5">
           {login_popup_welcome_back()}
         </span>
 
@@ -270,7 +270,7 @@
             <div class="text-start w-full max-w-lg">
               <a
                 href="/reset-password"
-                class="text-start text-sm text-gray-500 dark:text-zinc-400 cursor-pointer sm:hover:text-gray-900 dark:sm:hover:text-white transition"
+                class="text-start text-sm text-muted dark:text-white cursor-pointer sm:hover:text-gray-900 dark:sm:hover:text-white transition"
                 >{login_popup_forgot_password()}</a
               >
             </div>
@@ -304,7 +304,7 @@
             on:click={() => (oauthLoading = !oauthLoading)}
           />
           <p
-            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
+            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-muted dark:text-white"
           >
             {login_popup_no_account()}
             <label
@@ -325,7 +325,7 @@
           </h2>
         </div>
 
-        <span class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5">
+        <span class="text-muted dark:text-white text-center text-sm pb-5">
           {register_popup_subtitle()}
         </span>
 
@@ -475,7 +475,7 @@
           </p>
 
           <p
-            class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-gray-500 dark:text-zinc-400"
+            class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-muted dark:text-white"
           >
             {register_popup_has_account()}
             <label

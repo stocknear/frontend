@@ -1179,7 +1179,7 @@
                           >{item?.symbol}</span
                         >
                         <span
-                          class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400"
+                          class="text-xs sm:text-sm text-muted dark:text-white"
                           >{item?.name}</span
                         >
                       </div>
@@ -1187,7 +1187,7 @@
                     <!--This else is related to for loop-->
                   {:else}
                     <span
-                      class="block px-5 py-2 text-sm text-gray-500 dark:text-zinc-400"
+                      class="block px-5 py-2 text-sm text-muted dark:text-white"
                     >
                       {watchlist_no_results()}
                     </span>
@@ -1196,7 +1196,7 @@
                   <Combobox.Item
                     class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                   >
-                    <span class=" text-sm text-gray-500 dark:text-zinc-400">
+                    <span class=" text-sm text-muted dark:text-white">
                       {watchlist_no_results()}
                     </span>
                   </Combobox.Item>
@@ -1353,7 +1353,7 @@
                               class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                                     {activeIdx === i
                                 ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                                : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                             >
                               {getTabLabel(item)}
                             </button>
@@ -1367,7 +1367,7 @@
                   {#if groupedNews?.length > 0}
                     {#each displayList as [date, titleGroups]}
                       <h3
-                        class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                        class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
                       >
                         {date}
                       </h3>
@@ -1381,7 +1381,7 @@
                               : ''} dark:border-zinc-700 text-sm"
                           >
                             <div
-                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
                             >
                               {formatTimeLocale(items[0].publishedDate)}
                             </div>
@@ -1420,7 +1420,7 @@
                 {:else if groupedEarnings?.length > 0}
                   {#each displayList as [date, titleGroups]}
                     <h3
-                      class="mb-1.5 mt-3 font-semibold text-gray-500 dark:text-zinc-400"
+                      class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
                     >
                       {date}
                     </h3>
@@ -1432,7 +1432,7 @@
                           class="flex border-gray-300 dark:border-zinc-700 text-sm"
                         >
                           <div
-                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-gray-500 dark:text-zinc-400 lg:flex"
+                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
                           >
                             {formatTime(item?.time)}
                           </div>

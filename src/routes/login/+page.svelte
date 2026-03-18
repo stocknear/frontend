@@ -120,9 +120,7 @@
         >
           {login_title()}
         </h1>
-        <p
-          class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8"
-        >
+        <p class="text-center text-sm text-muted dark:text-white mt-2 mb-8">
           {login_subtitle()}
         </p>
 
@@ -161,7 +159,7 @@
           <div class="w-full text-start">
             <a
               href="/reset-password"
-              class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+              class="text-sm text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
               >{login_forgot_password()}</a
             >
           </div>
@@ -190,7 +188,7 @@
         </form>
 
         <!-- Sign up link -->
-        <p class="text-sm text-center text-gray-500 dark:text-zinc-400 mt-6">
+        <p class="text-sm text-center text-muted dark:text-white mt-6">
           {login_no_account()}
           <a
             href="/register"
@@ -207,7 +205,7 @@
         >
           {login_title_logged_in()}
         </h1>
-        <p class="mt-3 text-sm text-gray-500 dark:text-zinc-400">
+        <p class="mt-3 text-sm text-muted dark:text-white">
           {login_logged_in_as({ email: data?.user?.email })}
         </p>
         <form class="cursor-pointer" action="/logout" method="POST">

@@ -67,7 +67,7 @@
       >
         {title}
       </h2>
-      <p class="text-gray-500 dark:text-zinc-400 text-center text-sm pb-5 pt-3">
+      <p class="text-muted dark:text-white text-center text-sm pb-5 pt-3">
         {subtitle}
       </p>
 

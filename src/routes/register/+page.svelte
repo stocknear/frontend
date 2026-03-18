@@ -288,9 +288,7 @@
         >
           {register_step1_title()}
         </h1>
-        <p
-          class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8"
-        >
+        <p class="text-center text-sm text-muted dark:text-white mt-2 mb-8">
           {register_step1_subtitle()}
         </p>
 
@@ -393,7 +391,7 @@
         </form>
 
         <!-- Terms -->
-        <p class="text-xs text-center text-gray-500 dark:text-zinc-400 mt-4">
+        <p class="text-xs text-center text-muted dark:text-white mt-4">
           {register_terms_prefix()}
           <a
             href="/terms-of-use"
@@ -409,7 +407,7 @@
         </p>
 
         <!-- Sign in link -->
-        <p class="text-sm text-center text-gray-500 dark:text-zinc-400 mt-6">
+        <p class="text-sm text-center text-muted dark:text-white mt-6">
           {register_has_account()}
           <a
             href="/login"
@@ -438,9 +436,7 @@
         >
           {register_step2_title()}
         </h1>
-        <p
-          class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8"
-        >
+        <p class="text-center text-sm text-muted dark:text-white mt-2 mb-8">
           {data?.user?.freeTrial
             ? register_step2_subtitle_no_trial()
             : register_step2_subtitle()}
@@ -503,7 +499,7 @@
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
               {register_step2_plus_title()}
             </h3>
-            <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
+            <p class="mt-1 text-xs text-muted dark:text-white">
               {register_step2_plus_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
@@ -519,7 +515,7 @@
                   >$15</span
                 >
               {/if}
-              <span class="text-sm text-gray-500 dark:text-zinc-400"
+              <span class="text-sm text-muted dark:text-white"
                 >{register_step2_per_month()}</span
               >
             -->
@@ -602,7 +598,7 @@
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
               {register_step2_pro_title()}
             </h3>
-            <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
+            <p class="mt-1 text-xs text-muted dark:text-white">
               {register_step2_pro_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
@@ -634,7 +630,7 @@
                 >
               {/if}
 
-              <span class="text-sm text-gray-500 dark:text-zinc-400"
+              <span class="text-sm text-muted dark:text-white"
                 >{register_step2_per_month()}</span
               >
             </div>
@@ -700,7 +696,7 @@
         <div class="text-center mt-8">
           <a
             href="/"
-            class="text-sm text-gray-500 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 transition"
+            class="text-sm text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 transition"
           >
             {register_step2_skip()}
             <svg

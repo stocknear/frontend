@@ -1003,10 +1003,10 @@
           />
         </svg>
         <div>
-          <p class="text-sm font-semibold text-gray-700 dark:text-zinc-200">
+          <p class="text-sm font-semibold text-muted dark:text-zinc-200">
             Pro Feature
           </p>
-          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
+          <p class="mt-1 text-xs text-muted dark:text-white">
             Watchlist is available for Pro members
           </p>
         </div>
@@ -1049,7 +1049,7 @@
           >
             <DropdownMenu.Item
               on:click={() => (isCreateModalOpen = true)}
-              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-gray-700 dark:text-zinc-200"
+              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-muted dark:text-zinc-200"
             >
               <svg
                 class="h-4 w-4 mr-1"
@@ -1104,7 +1104,7 @@
               {/each}
             </DropdownMenu.Group>
             {#if watchlists.length === 0}
-              <div class="px-3 py-2 text-xs text-gray-500 dark:text-zinc-400">
+              <div class="px-3 py-2 text-xs text-muted dark:text-white">
                 No watchlists yet
               </div>
             {/if}
@@ -1167,17 +1167,17 @@
                     on:click={() => handleAddTicker(item?.symbol)}
                   >
                     <div class="flex flex-col items-start">
-                      <span class="text-xs text-gray-700 dark:text-zinc-200"
+                      <span class="text-xs text-muted dark:text-zinc-200"
                         >{item?.symbol}</span
                       >
-                      <span class="text-[10px] text-gray-500 dark:text-zinc-400"
+                      <span class="text-[10px] text-muted dark:text-white"
                         >{item?.name}</span
                       >
                     </div>
                   </Combobox.Item>
                 {:else}
                   <span
-                    class="block px-3 py-2 text-xs text-gray-500 dark:text-zinc-400"
+                    class="block px-3 py-2 text-xs text-muted dark:text-white"
                   >
                     No results found
                   </span>
@@ -1186,7 +1186,7 @@
                 <Combobox.Item
                   class="cursor-pointer flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden"
                 >
-                  <span class="text-xs text-gray-500 dark:text-zinc-400">
+                  <span class="text-xs text-muted dark:text-white">
                     No results found
                   </span>
                 </Combobox.Item>
@@ -1201,7 +1201,7 @@
             {#if editMode}
               <label
                 on:click={handleDeleteTickers}
-                class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
               >
                 <svg
                   class="inline-block w-3.5 h-3.5"
@@ -1218,7 +1218,7 @@
             {/if}
             <label
               on:click={handleEditMode}
-              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
             >
               <svg
                 class="inline-block w-4 h-4"
@@ -1250,9 +1250,9 @@
 
   <div class="flex-1 overflow-y-auto">
     {#if activeTab === "alerts"}
-      <div class="px-4 py-6 text-sm text-gray-500 dark:text-zinc-400">
+      <div class="px-4 py-6 text-sm text-muted dark:text-white">
         <div
-          class="flex items-center gap-2 text-gray-700 dark:text-zinc-200 font-semibold"
+          class="flex items-center gap-2 text-muted dark:text-zinc-200 font-semibold"
         >
           Price alerts
         </div>
@@ -1262,7 +1262,7 @@
         </p>
         <button
           type="button"
-          class="mt-4 w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-gray-500 dark:text-zinc-400 cursor-not-allowed"
+          class="mt-4 w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-muted dark:text-white cursor-not-allowed"
           disabled
         >
           Create alert
@@ -1271,7 +1271,7 @@
     {:else if !isPro}
       <!-- Pro gate handled in dropdown section above -->
     {:else if isLoading}
-      <div class="px-4 py-6 text-xs text-gray-500 dark:text-zinc-400">
+      <div class="px-4 py-6 text-xs text-muted dark:text-white">
         Loading watchlist...
       </div>
     {:else if errorMessage}
@@ -1279,12 +1279,12 @@
         {errorMessage}
       </div>
     {:else if watchlistItems.length === 0}
-      <div class="px-4 py-6 text-xs text-gray-500 dark:text-zinc-400">
+      <div class="px-4 py-6 text-xs text-muted dark:text-white">
         Add tickers to see them here.
       </div>
     {:else}
       <div
-        class="px-3 py-2 text-[10px] uppercase tracking-wide text-gray-500 dark:text-zinc-400 grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2"
+        class="px-3 py-2 text-[10px] uppercase tracking-wide text-muted dark:text-white grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2"
       >
         <span>Symbol</span>
         <span class="text-right whitespace-nowrap">Price</span>
@@ -1323,7 +1323,7 @@
               )}
               <button
                 type="button"
-                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-gray-700 dark:text-zinc-200 {item?.symbol?.toUpperCase() ===
+                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-muted dark:text-zinc-200 {item?.symbol?.toUpperCase() ===
                 currentSymbol?.toUpperCase()
                   ? 'bg-violet-50/70 dark:bg-violet-950/30 border-l-2 border-l-violet-500 dark:border-l-violet-400'
                   : ''}"
@@ -1344,7 +1344,7 @@
                       checked={isSelected}
                       on:click|stopPropagation={() =>
                         handleFilter(item?.symbol ?? "")}
-                      class="size-3.5 rounded border-gray-300 dark:border-zinc-600 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                      class="size-3.5 rounded border-gray-300 dark:border-zinc-600 text-violet-800 focus:ring-violet-500 cursor-pointer"
                     />
                   {:else}
                     <img
@@ -1395,7 +1395,7 @@
 
                 <!-- Volume -->
                 <span
-                  class="text-right tabular-nums text-gray-500 dark:text-zinc-400"
+                  class="text-right tabular-nums text-muted dark:text-white"
                 >
                   {formatVolume(item?.volume)}
                 </span>
@@ -1427,7 +1427,7 @@
           </button>
 
           <!-- Page info -->
-          <span class="text-[10px] text-gray-500 dark:text-zinc-400">
+          <span class="text-[10px] text-muted dark:text-white">
             {currentPage} / {totalPages}
           </span>
 
@@ -1469,7 +1469,7 @@
   >
     <label
       for="createWatchlistModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1489,10 +1489,10 @@
 
       <form on:submit={handleCreateWatchlist} class="space-y-2 w-full m-auto">
         <div
-          class="form-control w-full max-w-2xl mb-2 text-gray-700 dark:text-white"
+          class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
         >
           <label for="watchlistTitle" class="label pb-1">
-            <span class="text-gray-700 dark:text-white">List Name</span>
+            <span class="text-muted dark:text-white">List Name</span>
           </label>
           <div class="relative">
             <input
@@ -1500,7 +1500,7 @@
               type="text"
               name="title"
               bind:value={newWatchlistTitle}
-              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
               required
               autocomplete="off"
             />
@@ -1536,7 +1536,7 @@
   >
     <label
       for="deleteWatchlistModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1560,7 +1560,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlistModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0"
       >
         Cancel

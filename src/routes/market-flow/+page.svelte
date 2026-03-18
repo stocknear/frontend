@@ -368,13 +368,13 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen text-gray-700 dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen text-muted dark:text-zinc-200"
 >
   <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs mb-4">
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{market_flow_breadcrumb_home()}</a
       >
     </li>
@@ -408,7 +408,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -437,7 +437,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -460,7 +460,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -484,7 +484,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -508,7 +508,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -533,7 +533,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -586,7 +586,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -626,7 +626,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <svg
                         class="size-5"
@@ -666,7 +666,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <svg
                         class="size-5"
@@ -706,7 +706,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <svg
                         class="size-5"
@@ -750,7 +750,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <svg
                         class="size-5"
@@ -788,7 +788,7 @@
                   >
                     <a
                       href="/pricing"
-                      class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="flex flex-col items-center gap-3 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <svg
                         class="size-10"
@@ -851,7 +851,7 @@
                   >
                     <a
                       href="/pricing"
-                      class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="flex flex-col items-center gap-3 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <svg
                         class="size-10"
@@ -885,7 +885,7 @@
                   <div class="flex items-center gap-2 mb-6">
                     <label
                       for="marketFlowBarsModal"
-                      class="order-0 sm:order-1 cursor-pointer text-md font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="order-0 sm:order-1 cursor-pointer text-md font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <LineChart class="size-6 inline-block " />
                       {market_flow_view_intraday_bars()}
@@ -926,7 +926,7 @@
                           />
                         </div>
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {(
@@ -935,7 +935,7 @@
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -966,14 +966,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {overview?.pcOI?.toFixed(2)}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1004,14 +1004,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {overview?.putOI?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1042,14 +1042,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {overview?.callOI?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1100,7 +1100,7 @@
                           />
                         </div>
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {(
@@ -1109,7 +1109,7 @@
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1140,14 +1140,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {overview?.pcVol?.toFixed(2)}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1178,14 +1178,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {overview?.putVol?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1216,14 +1216,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
                         >
                           {#if isPro}
                             {overview?.callVol?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1271,7 +1271,7 @@
       </div>
       <label
         for="marketFlowBarsModal"
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
         aria-label="Close modal"
       >
         <svg

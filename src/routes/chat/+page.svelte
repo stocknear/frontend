@@ -129,7 +129,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-gray-500 dark:text-zinc-400 pointer-events-none text-sm sm:text-[1rem]";
+            "text-muted dark:text-white pointer-events-none text-sm sm:text-[1rem]";
           span.textContent = chat_placeholder();
           return span;
         });
@@ -572,7 +572,7 @@
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
                           <DropdownMenu.Label
-                            class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
+                            class="text-muted dark:text-white font-semibold text-xs"
                           >
                             {data?.user?.credits}
                             {chat_credits_left()}

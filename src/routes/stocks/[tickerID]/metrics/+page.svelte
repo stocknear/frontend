@@ -655,7 +655,7 @@
                                 class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                                   ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                  : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                                  : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                               >
                                 {item}
                               </button>
@@ -684,7 +684,7 @@
                   class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums m-auto"
                 >
                   <thead
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     <tr>
                       <th
@@ -878,7 +878,7 @@
             >
               {modalLabel}
             </h2>
-            <p class="text-sm text-gray-500 dark:text-zinc-400 mt-0.5">
+            <p class="text-sm text-muted dark:text-white mt-0.5">
               {$stockTicker} - {$selectedTimePeriod === "quarterly"
                 ? "Quarterly"
                 : "TTM"}
@@ -890,7 +890,7 @@
             on:click={handleCloseModal}
             aria-label="Close modal"
           >
-            <X class="w-5 h-5 text-gray-500 dark:text-zinc-400" />
+            <X class="w-5 h-5 text-muted dark:text-white" />
           </button>
         </div>
 

@@ -183,7 +183,7 @@
 <div class="w-full">
   {#if preparedCharts.length === 0}
     <div
-      class="flex items-center justify-center py-12 text-gray-500 dark:text-zinc-400"
+      class="flex items-center justify-center py-12 text-muted dark:text-white"
     >
       <p>No chart data available</p>
     </div>
@@ -209,7 +209,7 @@
               class="text-sm font-semibold text-muted dark:text-zinc-200 mb-2"
               >{chart.config.label}</span
             >
-            <span class="text-xs text-gray-500 dark:text-zinc-400 text-center"
+            <span class="text-xs text-muted dark:text-white text-center"
               >No data available for this indicator.</span
             >
           </div>

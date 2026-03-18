@@ -96,7 +96,7 @@
       </h1>
     </div>
 
-    <span class="text-sm text-gray-500 dark:text-zinc-400 text-center">
+    <span class="text-sm text-muted dark:text-white text-center">
       {reset_password_description()}
     </span>
 

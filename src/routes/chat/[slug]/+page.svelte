@@ -339,8 +339,7 @@
 
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
-          span.className =
-            "text-gray-500 dark:text-zinc-400 pointer-events-none";
+          span.className = "text-muted dark:text-white pointer-events-none";
           span.textContent = editable
             ? chat_placeholder_editable()
             : chat_placeholder_readonly();
@@ -1110,7 +1109,7 @@
       <!-- Mobile: sidebar toggle -->
       <button
         on:click={() => ($chatSidebarOpen = true)}
-        class="cursor-pointer hidden sm:inline-flex lg:hidden p-2 text-gray-500 dark:text-zinc-400"
+        class="cursor-pointer hidden sm:inline-flex lg:hidden p-2 text-muted dark:text-white"
         aria-label="Open chat history"
       >
         <svg
@@ -1131,7 +1130,7 @@
       <!-- Desktop: back arrow -->
       <a
         href="/chat"
-        class="hidden lg:block p-2 text-gray-500 dark:text-zinc-400"
+        class="hidden lg:block p-2 text-muted dark:text-white"
         aria-label="Back to chat"
       >
         <svg
@@ -1158,7 +1157,7 @@
     <div class="flex items-center gap-1">
       <button
         on:click={handleHeaderShare}
-        class="cursor-pointer p-2 text-gray-500 dark:text-zinc-400"
+        class="cursor-pointer p-2 text-muted dark:text-white"
         aria-label="Share chat"
       >
         <svg
@@ -1180,7 +1179,7 @@
       {#if editable}
         <button
           on:click={handleHeaderDelete}
-          class="cursor-pointer p-2 text-gray-500 dark:text-zinc-400 sm:hover:text-red-500 dark:sm:hover:text-red-400"
+          class="cursor-pointer p-2 text-muted dark:text-white sm:hover:text-red-500 dark:sm:hover:text-red-400"
           aria-label="Delete chat"
         >
           <svg
@@ -1338,7 +1337,7 @@
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
                           <DropdownMenu.Label
-                            class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
+                            class="text-muted dark:text-white font-semibold text-xs"
                           >
                             {data?.user?.credits}
                             {chat_credits_left()}

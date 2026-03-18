@@ -16,7 +16,7 @@
     if (normalized.includes("lower")) {
       return "text-rose-800 dark:text-rose-400 border-rose-200 dark:border-rose-500/40";
     }
-    return "text-gray-700 dark:text-zinc-200 border-gray-300 dark:border-zinc-700";
+    return "text-muted dark:text-zinc-200 border-gray-300 dark:border-zinc-700";
   };
 
   function latestInfoDate(inputDate) {
@@ -52,7 +52,7 @@
   }
 </script>
 
-<section class="overflow-hidden text-gray-700 dark:text-zinc-200 h-full mt-5">
+<section class="overflow-hidden text-muted dark:text-zinc-200 h-full mt-5">
   <main class="overflow-hidden">
     <div class="flex flex-row items-center">
       <label
@@ -135,7 +135,7 @@
                               {item?.text?.slice(0, 50) + "..."}
 
                               <a
-                                class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                                 href="/pricing"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -171,7 +171,7 @@
           class="cursor-pointer flex justify-center items-center mt-5"
         >
           <svg
-            class="w-10 h-10 transform text-gray-500 dark:text-zinc-400 {showFullHistory
+            class="w-10 h-10 transform text-muted dark:text-white {showFullHistory
               ? 'rotate-180'
               : ''} "
             xmlns="http://www.w3.org/2000/svg"

@@ -644,19 +644,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-500 dark:text-zinc-400"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
   >
     <li>
       <a
         href="/"
-        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
         >{potus_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">
+    <li class="text-muted dark:text-white">
       {potus_tracker_breadcrumb_current()}
     </li>
   </BreadCrumb>
@@ -718,10 +718,10 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
-                      class="text-xs text-gray-500 dark:text-zinc-400 font-semibold"
+                      class="text-xs text-muted dark:text-white font-semibold"
                     >
                       {potus_tracker_select_sector()}
                     </DropdownMenu.Label>
@@ -778,7 +778,7 @@
                     class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                     i
                       ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                      : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                      : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                   >
                     {item.title}
                   </button>
@@ -895,7 +895,7 @@
                         <span class="text-[1rem] font-semibold">{date}</span>
                         {#if latestInfoDate(date)}
                           <label
-                            class="rounded-full border border-gray-300 shadow dark:border-zinc-700/80 bg-[#f8fbfb] dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
+                            class="rounded-full border border-gray-300 shadow dark:border-zinc-700/80 bg-[#f8fbfb] dark:bg-zinc-900/50 text-muted dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
                             >{potus_tracker_new()}</label
                           >
                         {/if}
@@ -937,7 +937,7 @@
                     ? "border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                     : item?.sentiment === "Bearish"
                       ? "border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
-                      : "border-gray-300 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
+                      : "border-gray-300 bg-gray-50 text-muted dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
                 }`}
                                   >
                                     {item?.sentiment}
@@ -1067,19 +1067,17 @@
                                 href="https://truthsocial.com/@realDonaldTrump"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="hover:text-violet-600 dark:hover:text-violet-400"
+                                class="hover:text-violet-800 dark:hover:text-violet-400"
                               >
                                 Donald J. Trump
                               </a>
                             </h3>
-                            <span
-                              class="text-sm text-gray-500 dark:text-zinc-400"
-                            >
+                            <span class="text-sm text-muted dark:text-white">
                               <a
                                 href="https://truthsocial.com/@realDonaldTrump"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="hover:text-violet-600 dark:hover:text-violet-400"
+                                class="hover:text-violet-800 dark:hover:text-violet-400"
                               >
                                 @realDonaldTrump
                               </a>
@@ -1087,9 +1085,7 @@
                             <span class="text-gray-400 dark:text-zinc-500"
                               >·</span
                             >
-                            <span
-                              class="text-sm text-gray-500 dark:text-zinc-400"
-                            >
+                            <span class="text-sm text-muted dark:text-white">
                               {formatPostDate(item?.created_at)}
                             </span>
                           </div>
@@ -1145,7 +1141,7 @@
                       <!-- Engagement stats -->
                       {#if item?.replies_count > 0 && item?.reblogs_count > 0 && item?.favourites_count > 0}
                         <div
-                          class="flex flex-row items-center gap-4 mt-3 text-sm text-gray-500 dark:text-zinc-400"
+                          class="flex flex-row items-center gap-4 mt-3 text-sm text-muted dark:text-white"
                         >
                           <span class="flex items-center gap-1" title="Replies">
                             <svg
@@ -1261,12 +1257,12 @@
               >
                 <a href="/pricing" class="group flex flex-col gap-2">
                   <span
-                    class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-white"
                   >
                     {market_news_upgrade_label()}
                   </span>
                   <h2
-                    class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-600 dark:group-hover:text-violet-400"
+                    class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
                   >
                     {market_news_pro_subscription_title()}
                   </h2>
@@ -1333,7 +1329,7 @@
   >
     <label
       for="executivePostModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1368,7 +1364,7 @@
                     ? "border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                     : postSentiment === "Bearish"
                       ? "border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300"
-                      : "border-gray-300 bg-gray-50 text-gray-700 dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
+                      : "border-gray-300 bg-gray-50 text-muted dark:border-zinc-700/80 dark:bg-zinc-900/40 dark:text-zinc-300"
                 }`}
         >
           {postSentiment}
@@ -1415,7 +1411,7 @@
   >
     <label
       for="socialPostModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1449,17 +1445,17 @@
             href="https://truthsocial.com/@realDonaldTrump"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-violet-600 dark:hover:text-violet-400"
+            class="hover:text-violet-800 dark:hover:text-violet-400"
           >
             Donald J. Trump
           </a>
         </h3>
-        <h4 class="text-sm text-gray-500 dark:text-zinc-400">
+        <h4 class="text-sm text-muted dark:text-white">
           <a
             href="https://truthsocial.com/@realDonaldTrump"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-violet-600 dark:hover:text-violet-400"
+            class="hover:text-violet-800 dark:hover:text-violet-400"
           >
             @realDonaldTrump
           </a>
@@ -1509,7 +1505,7 @@
 
     <!-- Engagement stats in modal -->
     <div
-      class="flex flex-row items-center gap-4 mb-4 text-sm text-gray-500 dark:text-zinc-400"
+      class="flex flex-row items-center gap-4 mb-4 text-sm text-muted dark:text-white"
     >
       <span class="flex items-center gap-1" title="Replies">
         <svg
@@ -1562,7 +1558,7 @@
     </div>
 
     <div class="border-b border-gray-300 dark:border-zinc-700 pb-2">
-      <span class="text-sm text-gray-500 dark:text-zinc-400"
+      <span class="text-sm text-muted dark:text-white"
         >{formatPostDate(postDate)}</span
       >
     </div>

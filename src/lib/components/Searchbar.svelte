@@ -501,11 +501,11 @@
                 class="pointer-events-none absolute end-6 top-2.5 gap-1 opacity-80 rtl:flex-row-reverse hidden lg:flex"
               >
                 <kbd
-                  class="kbd kbd-sm rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400"
+                  class="kbd kbd-sm rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-muted dark:text-white"
                   >ctrl</kbd
                 >
                 <kbd
-                  class="kbd kbd-sm rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400"
+                  class="kbd kbd-sm rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-muted dark:text-white"
                   >K</kbd
                 >
               </div>
@@ -537,7 +537,7 @@
                   <span class="ml-3 text-sm text-muted dark:text-zinc-300"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                  <span class="ml-auto text-sm text-muted dark:text-white"
                     >{item?.type}</span
                   >
                 </div>
@@ -566,7 +566,7 @@
                   <span class="ml-3 text-sm text-muted dark:text-zinc-300"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                  <span class="ml-auto text-sm text-muted dark:text-white"
                     >{item?.type}</span
                   >
                 </div>
@@ -585,7 +585,7 @@
 
 <label
   for="searchBarModal"
-  class="sm:hidden rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
+  class="sm:hidden rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
 >
   <Search class="h-[20px] w-[20px]" />
 </label>
@@ -636,7 +636,7 @@
             {searchbar_search_label()}
           </label>
           <svg
-            class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-zinc-400"
+            class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted dark:text-white"
             fill="none"
             stroke="currentColor"
             stroke-linecap="round"
@@ -669,7 +669,7 @@
           {:else if inputValue?.length > 0}
             <button
               type="button"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 transition"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 transition"
               on:click={() => (inputValue = "")}
               aria-label="Clear search"
             >
@@ -710,7 +710,7 @@
                   {item?.symbol}
                 </div>
                 <div
-                  class="mt-0.5 truncate text-sm leading-snug text-gray-500 dark:text-zinc-400"
+                  class="mt-0.5 truncate text-sm leading-snug text-muted dark:text-white"
                 >
                   {item?.name}
                 </div>
@@ -741,7 +741,7 @@
                   {item?.symbol}
                 </div>
                 <div
-                  class="mt-0.5 truncate text-sm leading-snug text-gray-500 dark:text-zinc-400"
+                  class="mt-0.5 truncate text-sm leading-snug text-muted dark:text-white"
                 >
                   {item?.name}
                 </div>

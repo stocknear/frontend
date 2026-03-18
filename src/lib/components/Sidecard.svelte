@@ -115,7 +115,7 @@
       title: {
         text: `<div class="text-muted dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-800 dark:text-emerald-400" : "text-rose-800 dark:text-rose-400"}">$${priceTarget}</span></div>
         <div class="text-muted dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? stock_detail_upside() : stock_detail_downside()})</div>
-        <div class="text-muted dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-800 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-800 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-gray-500 dark:text-zinc-400"}">${consensusRating ?? "n/a"}</span></div>`,
+        <div class="text-muted dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-800 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-800 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-muted dark:text-white"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -541,7 +541,7 @@
           ></div>
         {/if}
         {#if currency !== "USD"}
-          <span class="text-sm text-gray-500 dark:text-zinc-400 mt-2"
+          <span class="text-sm text-muted dark:text-white mt-2"
             >{stock_detail_financial_numbers_in({ currency })}</span
           >
         {/if}

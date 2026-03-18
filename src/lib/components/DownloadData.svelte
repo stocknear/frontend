@@ -328,7 +328,7 @@
     >
       {#if showBulkOptions && bulkDownload}
         <DropdownMenu.Label
-          class="text-gray-500 dark:text-zinc-400 font-semibold dark:font-normal text-xs"
+          class="text-muted dark:text-white font-semibold dark:font-normal text-xs"
         >
           {common_credits_left({ count: data?.user?.credits })}
         </DropdownMenu.Label>
@@ -392,7 +392,7 @@
           class="sticky -bottom-1 bg-white/90 dark:bg-zinc-950/90 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
         >
           <span
-            class="w-full text-gray-500 dark:text-zinc-400 bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
+            class="w-full text-muted dark:text-white bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
           >
             {common_credit_cost_total({ count: totalCreditCost })}
           </span>

@@ -360,7 +360,7 @@
   >
     <thead>
       <tr
-        class="bg-white/60 dark:bg-zinc-950/40 text-gray-500 dark:text-zinc-400 font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+        class="bg-white/60 dark:bg-zinc-950/40 text-muted dark:text-white font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
       >
         {#each columns as column, i}
           <th
@@ -426,7 +426,7 @@
             {#each columns as column (column.key)}
               {#if column.key === "date"}
                 <td
-                  class="text-left text-sm whitespace-nowrap text-gray-500 dark:text-zinc-400 tabular-nums"
+                  class="text-left text-sm whitespace-nowrap text-muted dark:text-white tabular-nums"
                 >
                   {formatToNewYorkTime(item?.date)}
                 </td>

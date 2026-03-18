@@ -142,7 +142,7 @@
         <span
           class={hasMinLength
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-gray-500 dark:text-zinc-400"}
+            : "text-muted dark:text-white"}
         >
           {register_password_min_length()}
         </span>
@@ -173,7 +173,7 @@
         <span
           class={hasLetter
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-gray-500 dark:text-zinc-400"}
+            : "text-muted dark:text-white"}
         >
           {register_password_has_letter()}
         </span>
@@ -204,7 +204,7 @@
         <span
           class={hasNumber
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-gray-500 dark:text-zinc-400"}
+            : "text-muted dark:text-white"}
         >
           {register_password_has_number()}
         </span>
@@ -235,7 +235,7 @@
         <span
           class={hasSpecial
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-gray-500 dark:text-zinc-400"}
+            : "text-muted dark:text-white"}
         >
           {register_password_has_special()}
         </span>

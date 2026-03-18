@@ -199,7 +199,7 @@
                     class="ml-3 text-sm text-muted dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                  <span class="ml-auto text-sm text-muted dark:text-white"
                     >{item?.type}</span
                   >
                 </div>
@@ -227,7 +227,7 @@
                     class="ml-3 text-sm text-muted dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                  <span class="ml-auto text-sm text-muted dark:text-white"
                     >{item?.type}</span
                   >
                 </div>
@@ -384,7 +384,7 @@
                     class="whitespace-nowrap ml-3 mr-6 text-sm text-muted dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                  <span class="ml-auto text-sm text-muted dark:text-white"
                     >{item?.type}</span
                   >
                 </div>
@@ -410,7 +410,7 @@
                     class="whitespace-nowrap ml-3 mr-6 text-sm text-muted dark:text-zinc-300 truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
+                  <span class="ml-auto text-sm text-muted dark:text-white"
                     >{item?.type}</span
                   >
                 </div>

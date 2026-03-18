@@ -489,7 +489,7 @@ ${summaryData.outlook}
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each yearRange as yr, index}
@@ -504,14 +504,14 @@ ${summaryData.outlook}
                               quarter = availableQuarters[0] ?? 1;
                               getTranscripts();
                             }}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_transcripts_fy({ year: yr })}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
                               <span
@@ -572,7 +572,7 @@ ${summaryData.outlook}
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each quarterRange as q, index}
@@ -582,14 +582,14 @@ ${summaryData.outlook}
                               quarter = q;
                               getTranscripts();
                             }}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_transcripts_q({ quarter: q })}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
                               <span
@@ -639,7 +639,7 @@ ${summaryData.outlook}
                       year: displayYear,
                     })}
                   </h2>
-                  <p class="text-sm text-gray-500 dark:text-zinc-400 mt-1">
+                  <p class="text-sm text-muted dark:text-white mt-1">
                     {$displayCompanyName} ({$stockTicker})
                   </p>
                 </div>
@@ -673,7 +673,7 @@ ${summaryData.outlook}
                   <button
                     on:click={generateSummary}
                     disabled={isGeneratingSummary}
-                    class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
+                    class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
                   >
                     {#if isGeneratingSummary}
                       <span class="loading loading-spinner loading-xs"></span>
@@ -705,7 +705,7 @@ ${summaryData.outlook}
             <!-- AI Summary Panel -->
             {#if showSummary}
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 mb-6 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200"
+                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 mb-6 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200"
               >
                 {#if isGeneratingSummary}
                   <!-- Loading State -->
@@ -714,15 +714,15 @@ ${summaryData.outlook}
                       class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
                     >
                       <span
-                        class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
                       ></span>
                     </label>
                     <p
-                      class="mt-4 text-sm text-gray-700 dark:text-zinc-200 font-medium"
+                      class="mt-4 text-sm text-muted dark:text-zinc-200 font-medium"
                     >
                       {stock_detail_transcripts_ai_loading()}
                     </p>
-                    <p class="mt-1 text-xs text-gray-500 dark:text-zinc-400">
+                    <p class="mt-1 text-xs text-muted dark:text-white">
                       {stock_detail_transcripts_ai_loading_sub()}
                     </p>
                   </div>
@@ -773,8 +773,7 @@ ${summaryData.outlook}
                                   50}%"
                               ></div>
                             </div>
-                            <span
-                              class="text-xs text-gray-500 dark:text-zinc-400"
+                            <span class="text-xs text-muted dark:text-white"
                               >{summaryData?.sentimentScore ?? 50}%</span
                             >
                           </div>
@@ -789,7 +788,7 @@ ${summaryData.outlook}
                       <div class="flex items-center gap-2">
                         <button
                           on:click={copyToClipboard}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -808,7 +807,7 @@ ${summaryData.outlook}
                         </button>
                         <button
                           on:click={downloadMarkdown}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -831,7 +830,7 @@ ${summaryData.outlook}
                     <!-- Key Highlights -->
                     <div>
                       <h4
-                        class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
+                        class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
                           class="w-4 h-4 text-muted dark:text-zinc-300"
@@ -847,7 +846,7 @@ ${summaryData.outlook}
                       <ul class="space-y-2">
                         {#each summaryData?.keyHighlights ?? [] as highlight}
                           <li
-                            class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
+                            class="flex items-start gap-2 text-sm text-muted dark:text-zinc-200"
                           >
                             <svg
                               class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
@@ -869,7 +868,7 @@ ${summaryData.outlook}
                     <!-- Risks Section -->
                     <div>
                       <h4
-                        class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
+                        class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
                           class="w-4 h-4 text-muted dark:text-zinc-300"
@@ -889,7 +888,7 @@ ${summaryData.outlook}
                       <ul class="space-y-2">
                         {#each summaryData?.risks ?? [] as risk}
                           <li
-                            class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
+                            class="flex items-start gap-2 text-sm text-muted dark:text-zinc-200"
                           >
                             <svg
                               class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
@@ -911,7 +910,7 @@ ${summaryData.outlook}
                     <!-- Management Outlook -->
                     <div>
                       <h4
-                        class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
+                        class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
                           class="w-4 h-4 text-muted dark:text-zinc-300"
@@ -935,7 +934,7 @@ ${summaryData.outlook}
                         {stock_detail_transcripts_management_outlook()}
                       </h4>
                       <p
-                        class="text-sm text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+                        class="text-sm text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
                       >
                         {summaryData?.outlook ??
                           stock_detail_transcripts_no_outlook()}
@@ -944,7 +943,7 @@ ${summaryData.outlook}
 
                     <!-- Disclaimer -->
                     <p
-                      class="text-xs text-gray-500 dark:text-zinc-400 italic border-t border-gray-300 dark:border-zinc-700 pt-4"
+                      class="text-xs text-muted dark:text-white italic border-t border-gray-300 dark:border-zinc-700 pt-4"
                     >
                       {stock_detail_transcripts_disclaimer()}
                     </p>
@@ -979,13 +978,13 @@ ${summaryData.outlook}
                         </svg>
                       </div>
                       <span
-                        class="text-sm font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide"
+                        class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide"
                       >
                         {item?.name}
                       </span>
                     {:else}
                       <div
-                        class="w-8 h-8 rounded-full bg-gray-200/80 dark:bg-zinc-800/80 flex items-center justify-center flex-shrink-0 text-gray-700 dark:text-zinc-200 text-sm font-medium"
+                        class="w-8 h-8 rounded-full bg-gray-200/80 dark:bg-zinc-800/80 flex items-center justify-center flex-shrink-0 text-muted dark:text-zinc-200 text-sm font-medium"
                       >
                         {item?.name?.slice(0, 1)}
                       </div>
@@ -1000,7 +999,7 @@ ${summaryData.outlook}
                   <!-- Speech Content -->
                   <div class="pl-11">
                     <p
-                      class="text-sm sm:text-[15px] leading-relaxed text-gray-700 dark:text-zinc-300"
+                      class="text-sm sm:text-[15px] leading-relaxed text-muted dark:text-zinc-300"
                     >
                       {@html item?.description}
                     </p>
@@ -1013,7 +1012,7 @@ ${summaryData.outlook}
             <div class="flex justify-center mt-10 mb-6">
               <button
                 on:click={backToTop}
-                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 <svg
                   class="w-4 h-4"
@@ -1047,7 +1046,7 @@ ${summaryData.outlook}
                 class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               >
                 <span
-                  class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                  class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
                 ></span>
               </label>
             </div>

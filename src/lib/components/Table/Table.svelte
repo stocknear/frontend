@@ -2818,7 +2818,7 @@
       </h2>
       {#if date}
         <span
-          class="text-xs sm:text-sm text-gray-500 dark:text-zinc-400 font-medium ml-5 mt-1"
+          class="text-xs sm:text-sm text-muted dark:text-white font-medium ml-5 mt-1"
         >
           {date ? `Updated ${date}` : ""}
         </span>
@@ -2926,7 +2926,7 @@
                   class="absolute right-2 top-1/2 transform -translate-y-1/2"
                 >
                   <svg
-                    class="h-5 w-5 text-gray-500 dark:text-zinc-400 cursor-pointer"
+                    class="h-5 w-5 text-muted dark:text-white cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -2945,7 +2945,7 @@
           <!-- Dropdown items -->
           <DropdownMenu.Group class="pb-2">
             {#if searchQuery?.length !== 0 && testList?.length === 0}
-              <div class="px-2 py-1 text-xs text-gray-500 dark:text-zinc-400">
+              <div class="px-2 py-1 text-xs text-muted dark:text-white">
                 No indicators found
               </div>
             {/if}
@@ -2996,7 +2996,7 @@
                   {:else}
                     <a href="/pricing" class="cursor-pointer">
                       <svg
-                        class="h-[18px] w-[18px] inline-block text-gray-500 dark:text-zinc-400"
+                        class="h-[18px] w-[18px] inline-block text-muted dark:text-white"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width:40px"

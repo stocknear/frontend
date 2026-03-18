@@ -344,7 +344,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_hhi_score()}</span>
                     <InfoModal
@@ -373,7 +373,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_sectors_industries()}</span
                     >
@@ -398,7 +398,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_largest_position()}</span>
                     <InfoModal
@@ -427,7 +427,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-gray-500 dark:text-zinc-400 text-sm mb-2 flex items-center"
+                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_top5()}</span>
                     <InfoModal
@@ -453,7 +453,7 @@
 
     <!-- Column headers -->
     <div
-        class="grid grid-cols-4 gap-2 sm:gap-4 mb-3 text-xs sm:text-sm font-medium text-gray-500 dark:text-zinc-400"
+        class="grid grid-cols-4 gap-2 sm:gap-4 mb-3 text-xs sm:text-sm font-medium text-muted dark:text-white"
     >
         <div class="text-left">{portfolio_diversification_col_portfolio()}</div>
         <div class="text-center">{portfolio_diversification_col_sector()}</div>
@@ -467,7 +467,7 @@
     <div class="w-full">
         {#if portfolioData?.length === 0}
             <div
-                class="flex items-center justify-center h-[300px] text-gray-500 dark:text-zinc-400"
+                class="flex items-center justify-center h-[300px] text-muted dark:text-white"
             >
                 <div class="text-center">
                     <p class="text-lg font-medium mb-2">
@@ -482,7 +482,7 @@
             <div use:highcharts={sankeyConfig}></div>
         {:else}
             <div
-                class="flex items-center justify-center h-[500px] sm:h-[650px] text-gray-500 dark:text-zinc-400"
+                class="flex items-center justify-center h-[500px] sm:h-[650px] text-muted dark:text-white"
             >
                 <p class="text-sm">{portfolio_diversification_loading()}</p>
             </div>

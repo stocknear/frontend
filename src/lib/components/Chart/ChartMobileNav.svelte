@@ -320,7 +320,7 @@
         </button>
         <!-- Show/Hide -->
         <button
-          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-gray-500 dark:text-zinc-400" : "text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
+          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-muted dark:text-white" : "text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsVisibility")}
           title={drawingsVisible ? "Hide drawings" : "Show drawings"}
         >
@@ -364,7 +364,7 @@
       {#each toolGroups as group}
         <div>
           <h4
-            class="text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wide mb-2"
+            class="text-xs font-medium text-muted dark:text-white uppercase tracking-wide mb-2"
           >
             {group.label}
           </h4>

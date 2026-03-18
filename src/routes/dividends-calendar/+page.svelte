@@ -81,7 +81,7 @@
   const tableBorderClasses =
     "border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 mb-3";
+    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 mb-3";
 
   let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
   let dividendCalendar = data?.getDividendCalendar;
@@ -622,7 +622,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
@@ -630,7 +630,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{dividends_breadcrumb_home()}</a
       >
     </li>
@@ -668,7 +668,7 @@
                       class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                         {timeframe === item
                         ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                        : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                        : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                     >
                       {getTabLabel(item)}
                     </button>
@@ -695,7 +695,7 @@
                         class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
                         selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                          : 'text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400'}"
+                          : 'text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400'}"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
@@ -707,7 +707,7 @@
                           <button
                             on:click|stopPropagation={() =>
                               changeWeek("previous")}
-                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Previous week"
                             disabled={previousMax}
                           >
@@ -723,7 +723,7 @@
                         {#if index === 4}
                           <button
                             on:click|stopPropagation={() => changeWeek("next")}
-                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Next week"
                             disabled={nextMax}
                           >
@@ -769,7 +769,7 @@
                           class=" m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -898,7 +898,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -920,7 +920,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full {tableBorderClasses} m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-none sm:rounded w-full {tableBorderClasses} m-auto text-muted dark:text-zinc-200 tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -941,7 +941,7 @@
                                 {#each columns as column}
                                   {#if column.key === "symbol"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-700 dark:text-zinc-200"
+                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
                                     >
                                       <HoverStockChart symbol={item?.symbol} />
                                     </td>
@@ -1092,7 +1092,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -1147,7 +1147,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {dividends_back_to_top()}
                             <svg
@@ -1182,7 +1182,7 @@
                     {#each weekday as day, index}
                       <div
                         on:click={() => switchToDailyView(index)}
-                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
@@ -1194,7 +1194,7 @@
                           <button
                             on:click|stopPropagation={() =>
                               changeWeek("previous")}
-                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Previous week"
                             disabled={previousMax}
                           >
@@ -1210,7 +1210,7 @@
                         {#if index === 4}
                           <button
                             on:click|stopPropagation={() => changeWeek("next")}
-                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-500 dark:text-zinc-400 transition hover:text-gray-700 dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Next week"
                             disabled={nextMax}
                           >
@@ -1415,7 +1415,7 @@
                           class=" m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"

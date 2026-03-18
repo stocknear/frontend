@@ -55,7 +55,7 @@
           <table class="w-full">
             <thead>
               <tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
               >
                 <th
                   class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"

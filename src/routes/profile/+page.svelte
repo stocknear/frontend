@@ -358,20 +358,20 @@
 <SEO title={profile_seo_title()} description={profile_seo_description()} />
 
 <section
-  class="text-gray-700 dark:text-zinc-200 w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="text-muted dark:text-zinc-200 w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
   <BreadCrumb
-    containerClass="text-sm sm:text-[1rem] breadcrumbs text-gray-500 dark:text-zinc-400"
+    containerClass="text-sm sm:text-[1rem] breadcrumbs text-muted dark:text-white"
   >
     <li>
       <a
         href="/"
-        class="text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
       >
         {profile_breadcrumb_home()}
       </a>
     </li>
-    <li class="text-gray-500 dark:text-zinc-400">
+    <li class="text-muted dark:text-white">
       {profile_breadcrumb_label()}
     </li>
   </BreadCrumb>
@@ -490,7 +490,7 @@
                         >
                       {:else}
                         <button
-                          class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
+                          class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
                           disabled
                         >
                           <div class="flex flex-row m-auto items-center">
@@ -537,7 +537,7 @@
                       >
                     {:else}
                       <button
-                        class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-gray-500 dark:text-zinc-400 text-sm font-semibold rounded-full transition"
+                        class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
                         ><div class="flex flex-row m-auto items-center">
                           <span class="loading loading-infinity"></span>
                           <span class=" ml-1.5"
@@ -603,7 +603,7 @@
                   ></span>
                 </span>
 
-                <span class="ml-2 text-sm text-gray-700 dark:text-zinc-200">
+                <span class="ml-2 text-sm text-muted dark:text-zinc-200">
                   {#if data?.user?.lifetime === true}
                     {profile_subscription_active()}
                   {:else}
@@ -652,7 +652,7 @@
               <span class="mr-2 text-sm text-muted dark:text-zinc-300">
                 {profile_subscription_current_plan()}
               </span>
-              <span class="text-sm text-gray-700 dark:text-zinc-200">
+              <span class="text-sm text-muted dark:text-zinc-200">
                 {#if data?.user?.lifetime}
                   {profile_subscription_lifetime()}
                 {:else if ["Plus", "Pro"]?.includes(data?.user?.tier)}
@@ -862,7 +862,7 @@
   >
     <label
       for="cancelSubscriptionModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -935,7 +935,7 @@
   >
     <label
       for="reactivateSubscriptionModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1014,7 +1014,7 @@
   >
     <label
       for="changeSubscriptionPlusAnnualModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1091,7 +1091,7 @@
   >
     <label
       for="changeSubscriptionProAnnualModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1155,7 +1155,7 @@
   >
     <label
       for="installModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1186,7 +1186,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'ios'
             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
         >
           {profile_install_ios()}
         </button>
@@ -1196,7 +1196,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'android'
             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-            : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
         >
           {profile_install_android()}
         </button>

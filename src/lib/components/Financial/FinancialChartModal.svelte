@@ -12,7 +12,13 @@
     stock_detail_financials_chart_bar,
     stock_detail_financials_fy_prefix,
   } from "$lib/paraglide/messages";
-  import { abbreviateNumber, calculatePeriodCAGRs, formatCAGRValue, getCAGRColorClass, sortStatementsChronologicallyForCAGR } from "$lib/utils";
+  import {
+    abbreviateNumber,
+    calculatePeriodCAGRs,
+    formatCAGRValue,
+    getCAGRColorClass,
+    sortStatementsChronologicallyForCAGR,
+  } from "$lib/utils";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -57,13 +63,17 @@
     { value: "3Y", label: stock_detail_financials_range_3y() },
     { value: "1Y", label: stock_detail_financials_range_1y() },
   ];
-  const RANGE_LABEL_MAP = Object.fromEntries(RANGE_OPTIONS.map(o => [o.value, o.label]));
+  const RANGE_LABEL_MAP = Object.fromEntries(
+    RANGE_OPTIONS.map((o) => [o.value, o.label]),
+  );
 
   const normalizeRange = (
     value: string,
   ): "All" | "10Y" | "5Y" | "3Y" | "1Y" => {
     const valid = new Set(["All", "10Y", "5Y", "3Y", "1Y"]);
-    return valid.has(value) ? (value as "All" | "10Y" | "5Y" | "3Y" | "1Y") : "All";
+    return valid.has(value)
+      ? (value as "All" | "10Y" | "5Y" | "3Y" | "1Y")
+      : "All";
   };
 
   // Keep modal range aligned with shared page-level range.
@@ -81,10 +91,13 @@
   $: overlayConfig = getMetricOverlayConfig(metricKey);
 
   // Filter overlays to only those that can produce data from the current dataset
-  function canOverlayProduceData(overlay: any, entries: Record<string, any>[]): boolean {
+  function canOverlayProduceData(
+    overlay: any,
+    entries: Record<string, any>[],
+  ): boolean {
     if (!entries?.length) return false;
     // Check at least one entry produces a non-null value
-    return entries.some(entry => {
+    return entries.some((entry) => {
       if (overlay.computed) {
         return computeDerivedMetric(overlay.key, entry) !== null;
       }
@@ -99,9 +112,10 @@
     });
   }
 
-  $: availableOverlays = overlayConfig?.overlays?.filter(
-    (o: any) => canOverlayProduceData(o, data)
-  ) || [];
+  $: availableOverlays =
+    overlayConfig?.overlays?.filter((o: any) =>
+      canOverlayProduceData(o, data),
+    ) || [];
   $: hasOverlays = !overviewConfig && availableOverlays.length > 1;
 
   // Reset overlay when metric changes — prevents stale state from previous metric
@@ -117,25 +131,32 @@
   }
 
   // Check if current metric should be displayed as percentage
-  $: isMarginMetric = overviewConfig?.isMargin || marginKeys.has(selectedOverlay) || marginKeys.has(metricKey);
+  $: isMarginMetric =
+    overviewConfig?.isMargin ||
+    marginKeys.has(selectedOverlay) ||
+    marginKeys.has(metricKey);
 
   // Filter data by time range
-  function filterByRange(entries: Record<string, any>[], range: string): Record<string, any>[] {
+  function filterByRange(
+    entries: Record<string, any>[],
+    range: string,
+  ): Record<string, any>[] {
     if (!entries?.length || range === "All") return entries;
-    
+
     const sortedData = sortStatementsChronologicallyForCAGR(entries);
-    const periodsPerYear = periodType === "quarterly" || periodType === "ttm" ? 4 : 1;
-    
+    const periodsPerYear =
+      periodType === "quarterly" || periodType === "ttm" ? 4 : 1;
+
     const yearsMap: Record<string, number> = {
       "1Y": 1,
       "3Y": 3,
       "5Y": 5,
       "10Y": 10,
     };
-    
+
     const years = yearsMap[range];
     if (!years) return sortedData;
-    
+
     const periodsToShow = years * periodsPerYear;
     return sortedData.slice(-periodsToShow);
   }
@@ -145,19 +166,24 @@
     const fiscalYear = entry?.fiscalYear || "";
     if (periodType === "quarterly" || periodType === "ttm") {
       const periodLabel = entry?.period || (periodType === "ttm" ? "TTM" : "");
-      return periodLabel && fiscalYear ? `${periodLabel} ${fiscalYear}` : fiscalYear;
+      return periodLabel && fiscalYear
+        ? `${periodLabel} ${fiscalYear}`
+        : fiscalYear;
     }
     return `${stock_detail_financials_fy_prefix()} ${fiscalYear}`;
   }
 
   // Get value for current overlay
-  function getOverlayValue(entry: Record<string, any>, overlayKey: string): number | null {
+  function getOverlayValue(
+    entry: Record<string, any>,
+    overlayKey: string,
+  ): number | null {
     // Check if it's a computed metric
     const overlay = availableOverlays.find((o: any) => o.key === overlayKey);
     if (overlay?.computed) {
       return computeDerivedMetric(overlayKey, entry);
     }
-    
+
     // Direct metric value
     const value = entry?.[overlayKey];
     if (value === null || value === undefined) return null;
@@ -170,22 +196,25 @@
     const revenue = Number(row?.revenue);
     if (!Number.isFinite(revenue) || revenue === 0) return NaN;
     switch (key) {
-      case 'grossProfitMargin': {
+      case "grossProfitMargin": {
         const v = Number(row?.grossProfit);
         return Number.isFinite(v) ? v / revenue : NaN;
       }
-      case 'operatingProfitMargin': {
+      case "operatingProfitMargin": {
         const v = Number(row?.operatingIncome);
         return Number.isFinite(v) ? v / revenue : NaN;
       }
-      case 'netProfitMargin': {
+      case "netProfitMargin": {
         const v = Number(row?.netIncome);
         return Number.isFinite(v) ? v / revenue : NaN;
       }
-      case 'returnOnCapitalEmployed': {
+      case "returnOnCapitalEmployed": {
         const ebit = Number(row?.operatingIncome);
-        const denom = Number(row?.totalAssets) - Number(row?.totalCurrentLiabilities);
-        return Number.isFinite(ebit) && Number.isFinite(denom) && denom !== 0 ? ebit / denom : NaN;
+        const denom =
+          Number(row?.totalAssets) - Number(row?.totalCurrentLiabilities);
+        return Number.isFinite(ebit) && Number.isFinite(denom) && denom !== 0
+          ? ebit / denom
+          : NaN;
       }
       default:
         return NaN;
@@ -196,10 +225,13 @@
     if (valueAbs < 1000) return 0;
 
     const unit =
-      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
-      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
-      valueAbs >= 1_000_000 ? 1_000_000 :
-      1_000;
+      valueAbs >= 1_000_000_000_000
+        ? 1_000_000_000_000
+        : valueAbs >= 1_000_000_000
+          ? 1_000_000_000
+          : valueAbs >= 1_000_000
+            ? 1_000_000
+            : 1_000;
 
     const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
     const stepInUnit = safeStep / unit;
@@ -219,7 +251,10 @@
 
     let formatted = "";
     if (abs >= 1000) {
-      const compactDigits = getCompactFractionDigits(abs, Math.abs(tickInterval));
+      const compactDigits = getCompactFractionDigits(
+        abs,
+        Math.abs(tickInterval),
+      );
       formatted = new Intl.NumberFormat("en-US", {
         notation: "compact",
         maximumFractionDigits: compactDigits,
@@ -239,8 +274,12 @@
   }
 
   // Shared chart shell — returns the common Highcharts config structure
-  function makeChartShell(dateList: string[], series: any[], stacking?: string) {
-    const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
+  function makeChartShell(
+    dateList: string[],
+    series: any[],
+    stacking?: string,
+  ) {
+    const chartColor = $mode === "light" ? "#F59E0B" : "#FBBF24";
     return {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
@@ -271,8 +310,14 @@
       },
       xAxis: {
         categories: dateList,
-        crosshair: { color: $mode === "light" ? "#d1d5db" : "#3f3f46", width: 1 },
-        labels: { style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" }, rotation: -45 },
+        crosshair: {
+          color: $mode === "light" ? "#d1d5db" : "#3f3f46",
+          width: 1,
+        },
+        labels: {
+          style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
+          rotation: -45,
+        },
         lineColor: $mode === "light" ? "#e5e7eb" : "#27272a",
       },
       yAxis: {
@@ -282,7 +327,8 @@
           style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
           formatter: function () {
             const tickInterval = Number(
-              (this as { axis?: { tickInterval?: number } })?.axis?.tickInterval,
+              (this as { axis?: { tickInterval?: number } })?.axis
+                ?.tickInterval,
             );
             return formatProfessionalAxisLabel(
               Number(this.value),
@@ -306,15 +352,18 @@
           const categoryName = this.points?.[0]?.key ?? this.x;
           // Iterate ALL series so null values show as "n/a"
           const allSeries = this.points?.[0]?.series?.chart?.series || [];
-          const xIdx = typeof this.x === 'number' ? this.x : 0;
+          const xIdx = typeof this.x === "number" ? this.x : 0;
           let html = `<div class="px-1 py-1"><div class="font-semibold mb-1">${categoryName}</div>`;
           allSeries.forEach((s: any) => {
             const point = s.data?.[xIdx];
             const val = point?.y;
-            const formatted = val != null
-              ? (Math.abs(val) < 1000 ? val?.toFixed(2) : abbreviateNumber(val))
-              : 'n/a';
-            const suffix = val != null && isMarginMetric ? '%' : '';
+            const formatted =
+              val != null
+                ? Math.abs(val) < 1000
+                  ? val?.toFixed(2)
+                  : abbreviateNumber(val)
+                : "n/a";
+            const suffix = val != null && isMarginMetric ? "%" : "";
             html += `<div class="flex items-center gap-2">
               <span style="color: ${s.color}">${s.name}:</span>
               <span class="font-medium">${formatted}${suffix}</span>
@@ -336,11 +385,13 @@
     const rangedData = filterByRange(sortedData, selectedRange);
     if (!rangedData.length) return null;
 
-    const dateList = rangedData.map(entry => formatDateLabel(entry));
-    const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
-    const COLORS = [chartColor, '#3B82F6', '#EF4444', '#10B981', '#8B5CF6'];
+    const dateList = rangedData.map((entry) => formatDateLabel(entry));
+    const chartColor = $mode === "light" ? "#F59E0B" : "#FBBF24";
+    const COLORS = [chartColor, "#3B82F6", "#EF4444", "#10B981", "#8B5CF6"];
     const isMargin = overviewConfig.isMargin || false;
-    const isStacked = overviewConfig.chartType === 'stacked' || overviewConfig.chartType === 'grouped-stacked';
+    const isStacked =
+      overviewConfig.chartType === "stacked" ||
+      overviewConfig.chartType === "grouped-stacked";
 
     const series = overviewConfig.metrics.map((m: any, idx: number) => {
       const values = rangedData.map((entry: any) => {
@@ -368,13 +419,23 @@
     });
 
     // Drop periods where every series is null (e.g. stock price before history starts)
-    const keep = dateList.map((_: any, i: number) => series.some((s: any) => s.data[i] !== null));
+    const keep = dateList.map((_: any, i: number) =>
+      series.some((s: any) => s.data[i] !== null),
+    );
     const filteredDates = dateList.filter((_: any, i: number) => keep[i]);
-    const filteredSeries = series.map((s: any) => ({ ...s, data: s.data.filter((_: any, i: number) => keep[i]) }));
+    const filteredSeries = series.map((s: any) => ({
+      ...s,
+      data: s.data.filter((_: any, i: number) => keep[i]),
+    }));
 
-    if (!filteredSeries.some((s: any) => s.data.some((v: any) => v !== null))) return null;
+    if (!filteredSeries.some((s: any) => s.data.some((v: any) => v !== null)))
+      return null;
 
-    return makeChartShell(filteredDates, filteredSeries, isStacked ? 'normal' : undefined);
+    return makeChartShell(
+      filteredDates,
+      filteredSeries,
+      isStacked ? "normal" : undefined,
+    );
   }
 
   // Build chart options (single-series default path)
@@ -392,27 +453,31 @@
     const activeKey = selectedOverlay || metricKey;
 
     const chartData = rangedData
-      .map(entry => ({
+      .map((entry) => ({
         label: formatDateLabel(entry),
         value: getOverlayValue(entry, activeKey),
         rawEntry: entry,
       }))
-      .filter(item => item.value !== null);
+      .filter((item) => item.value !== null);
 
     if (!chartData.length) return null;
 
-    const dateList = chartData.map(d => d.label);
-    const valueList = chartData.map(d => isMarginMetric ? (d.value as number) * 100 : d.value);
+    const dateList = chartData.map((d) => d.label);
+    const valueList = chartData.map((d) =>
+      isMarginMetric ? (d.value as number) * 100 : d.value,
+    );
 
-    const chartColor = $mode === "light" ? '#F59E0B' : '#FBBF24';
+    const chartColor = $mode === "light" ? "#F59E0B" : "#FBBF24";
 
-    const activeOverlay = overlayConfig?.overlays.find(o => o.key === selectedOverlay);
+    const activeOverlay = overlayConfig?.overlays.find(
+      (o) => o.key === selectedOverlay,
+    );
     let series: any[] = [];
 
     if (activeOverlay?.series && activeOverlay.series.length > 1) {
-      const colors = [chartColor, '#F59E0B', '#10B981', '#8B5CF6'];
+      const colors = [chartColor, "#F59E0B", "#10B981", "#8B5CF6"];
       series = activeOverlay.series.map((seriesKey, idx) => {
-        const seriesValues = rangedData.map(entry => {
+        const seriesValues = rangedData.map((entry) => {
           const val = entry?.[seriesKey];
           if (val === null || val === undefined) return null;
           const numVal = Number(val);
@@ -420,7 +485,7 @@
         });
 
         return {
-          name: seriesKey.replace(/([A-Z])/g, ' $1').trim(),
+          name: seriesKey.replace(/([A-Z])/g, " $1").trim(),
           data: seriesValues,
           color: colors[idx % colors.length],
           borderColor: colors[idx % colors.length],
@@ -429,14 +494,16 @@
         };
       });
     } else {
-      series = [{
-        name: metricLabel,
-        data: valueList,
-        color: chartColor,
-        borderColor: chartColor,
-        borderRadius: 2,
-        animation: false,
-      }];
+      series = [
+        {
+          name: metricLabel,
+          data: valueList,
+          color: chartColor,
+          borderColor: chartColor,
+          borderRadius: 2,
+          animation: false,
+        },
+      ];
     }
 
     return makeChartShell(dateList, series);
@@ -446,10 +513,19 @@
   $: hideCAGR = overviewConfig?.metrics?.length > 1;
 
   // Calculate CAGR values
-  $: cagrValues = data?.length > 0 ? calculatePeriodCAGRs(data, selectedOverlay || metricKey, periodType) : { '1Y': null, '2Y': null, '5Y': null, '10Y': null };
+  $: cagrValues =
+    data?.length > 0
+      ? calculatePeriodCAGRs(data, selectedOverlay || metricKey, periodType)
+      : { "1Y": null, "2Y": null, "5Y": null, "10Y": null };
 
   // Rebuild chart when any dependency changes
-  $: if (isOpen && metricKey && data?.length > 0 && $mode !== undefined && overviewConfig !== undefined) {
+  $: if (
+    isOpen &&
+    metricKey &&
+    data?.length > 0 &&
+    $mode !== undefined &&
+    overviewConfig !== undefined
+  ) {
     config = buildChartOptions();
   }
 
@@ -505,14 +581,23 @@
       on:click|stopPropagation
     >
       <!-- Header -->
-      <div class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4">
+      <div
+        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4"
+      >
         <div class="flex items-start justify-between">
           <div>
-            <h2 id="modal-title" class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+            <h2
+              id="modal-title"
+              class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+            >
               {metricLabel}
             </h2>
-            <p class="text-sm text-gray-500 dark:text-zinc-400 mt-0.5">
-              {$stockTicker} - {periodType === 'annual' ? 'Annual' : periodType === 'quarterly' ? 'Quarterly' : 'TTM'}
+            <p class="text-sm text-muted dark:text-white mt-0.5">
+              {$stockTicker} - {periodType === "annual"
+                ? "Annual"
+                : periodType === "quarterly"
+                  ? "Quarterly"
+                  : "TTM"}
             </p>
           </div>
           <button
@@ -521,7 +606,7 @@
             on:click={handleClose}
             aria-label="Close modal"
           >
-            <X class="w-5 h-5 text-gray-500 dark:text-zinc-400" />
+            <X class="w-5 h-5 text-muted dark:text-white" />
           </button>
         </div>
 
@@ -554,27 +639,27 @@
               side="bottom"
               align="start"
               sideOffset={8}
-              class="min-w-[100px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+              class="min-w-[100px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2 text-muted dark:text-zinc-200 shadow-lg"
             >
               <DropdownMenu.Group>
                 {#each RANGE_OPTIONS as option}
                   <DropdownMenu.Item
                     on:click={() => {
                       if (!isPremiumUser) {
-                        goto('/pricing');
+                        goto("/pricing");
                       } else {
                         handleRangeSelect(option.value);
                       }
                     }}
                     class="{selectedRange === option.value
-                      ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-600 dark:text-violet-400 font-medium'
-                      : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-xl"
+                      ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 font-medium'
+                      : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-xl"
                   >
                     <div class="flex items-center justify-between w-full gap-2">
                       <span>{option.label}</span>
                       {#if !isPremiumUser}
                         <svg
-                          class="w-3.5 h-3.5 text-gray-500 dark:text-zinc-400"
+                          class="w-3.5 h-3.5 text-muted dark:text-white"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                         >
@@ -612,7 +697,8 @@
             {#each availableOverlays as overlay}
               <button
                 type="button"
-                class="cursor-pointer px-3 py-1 text-xs font-medium rounded-full border transition {selectedOverlay === overlay.key
+                class="cursor-pointer px-3 py-1 text-xs font-medium rounded-full border transition {selectedOverlay ===
+                overlay.key
                   ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
                   : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800'}"
                 on:click={() => handleOverlaySelect(overlay.key)}
@@ -629,25 +715,37 @@
         {#if config}
           <div class="w-full" use:highcharts={config}></div>
         {:else if data?.length > 0}
-          <div class="h-[400px] flex flex-col items-center justify-center text-gray-500 dark:text-zinc-400">
+          <div
+            class="h-[400px] flex flex-col items-center justify-center text-muted dark:text-white"
+          >
             <span class="text-sm">No data available for this metric.</span>
           </div>
         {:else}
           <div class="h-[400px] flex items-center justify-center">
-            <span class="loading loading-spinner loading-md text-gray-400"></span>
+            <span class="loading loading-spinner loading-md text-gray-400"
+            ></span>
           </div>
         {/if}
       </div>
 
       <!-- CAGR Footer (hidden for stacked/grouped-stacked charts) -->
       {#if !hideCAGR}
-        <div class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl">
+        <div
+          class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl"
+        >
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-sm font-medium text-gray-700 dark:text-zinc-300 mr-2">{stock_detail_financials_cagr_label()}</span>
+            <span class="text-sm font-medium text-muted dark:text-zinc-300 mr-2"
+              >{stock_detail_financials_cagr_label()}</span
+            >
             {#if isPremiumUser}
               {#each Object.entries(cagrValues) as [period, value]}
-                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(value)}">
-                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
+                <div
+                  class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {getCAGRColorClass(
+                    value,
+                  )}"
+                >
+                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span
+                  >
                   <span>{formatCAGRValue(value)}</span>
                 </div>
               {/each}
@@ -655,12 +753,13 @@
               {#each Object.entries(cagrValues) as [period]}
                 <button
                   type="button"
-                  on:click={() => goto('/pricing')}
+                  on:click={() => goto("/pricing")}
                   class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 transition"
                 >
-                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span>
+                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span
+                  >
                   <svg
-                    class="w-3.5 h-3.5 text-gray-500 dark:text-zinc-400"
+                    class="w-3.5 h-3.5 text-muted dark:text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >
@@ -684,12 +783,22 @@
 
 <style>
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Ensure modal content scrolls properly */

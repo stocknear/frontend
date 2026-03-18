@@ -1417,7 +1417,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2"
@@ -1428,14 +1428,14 @@
                               selectedDate = item;
                               loadData("default");
                             }}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {formatDate(item)}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
                               <span> {formatDate(item)}</span>
@@ -1505,7 +1505,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
@@ -1516,7 +1516,7 @@
                             selectedStrike = item;
                             loadData("default");
                           }}
-                          class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                         >
                           {item}
                         </DropdownMenu.Item>
@@ -1861,10 +1861,10 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                         >
                           <DropdownMenu.Label
-                            class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                            class="text-xs font-medium text-muted dark:text-white"
                           >
                             Chart Type
                           </DropdownMenu.Label>
@@ -1874,7 +1874,7 @@
                               {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                                 <DropdownMenu.Item
                                   on:click={() => goto("/pricing")}
-                                  class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                                  class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                                 >
                                   <div
                                     class="flex flex-row items-center gap-x-2"
@@ -1898,7 +1898,7 @@
                               {:else}
                                 <DropdownMenu.Item
                                   on:click={() => (selectGraphType = item)}
-                                  class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                                  class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                                 >
                                   {item}
                                 </DropdownMenu.Item>
@@ -1938,10 +1938,10 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                         >
                           <DropdownMenu.Label
-                            class="text-xs font-medium text-gray-500 dark:text-zinc-400"
+                            class="text-xs font-medium text-muted dark:text-white"
                           >
                             {stock_detail_options_contract_lookup_select_time()}
                           </DropdownMenu.Label>
@@ -1949,31 +1949,31 @@
                           <DropdownMenu.Group>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1W")}
-                              class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               {stock_detail_options_contract_lookup_1_week()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1M")}
-                              class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               {stock_detail_options_contract_lookup_1_month()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "3M")}
-                              class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               {stock_detail_options_contract_lookup_3_months()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "6M")}
-                              class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               {stock_detail_options_contract_lookup_6_months()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1Y")}
-                              class="cursor-pointer text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
                             >
                               {stock_detail_options_contract_lookup_1_year()}
                             </DropdownMenu.Item>
@@ -2030,10 +2030,10 @@
               >
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                    class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                   >
                     <thead
-                      class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                      class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                     >
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
@@ -2195,13 +2195,13 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -2251,7 +2251,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                   >
                     {stock_detail_options_common_back_to_top()}
                     <svg
@@ -2310,7 +2310,7 @@
     >
       <label
         for="mobileTooltip"
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
         aria-label="Close modal"
       >
         <svg

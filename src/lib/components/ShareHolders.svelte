@@ -510,12 +510,10 @@
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >{stock_detail_shareholders_put_call()}</span
                 >
-                <span
-                  class="text-start text-sm text-gray-700 dark:text-zinc-200"
-                >
+                <span class="text-start text-sm text-muted dark:text-zinc-200">
                   {putCallRatio?.toFixed(3)}
                 </span>
               </div>
@@ -556,7 +554,7 @@
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
                   <span
-                    class="text-center text-sm text-gray-700 dark:text-zinc-200"
+                    class="text-center text-sm text-muted dark:text-zinc-200"
                     >{putCallRatio?.toFixed(2)}</span
                   >
                 </div>
@@ -570,12 +568,10 @@
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >{stock_detail_shareholders_call_flow()}</span
                 >
-                <span
-                  class="text-start text-sm text-gray-700 dark:text-zinc-200"
-                >
+                <span class="text-start text-sm text-muted dark:text-zinc-200">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
@@ -617,7 +613,7 @@
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
                   <span
-                    class="text-center text-sm text-gray-700 dark:text-zinc-200"
+                    class="text-center text-sm text-muted dark:text-zinc-200"
                     >{callPercentage?.toFixed(0)}%</span
                   >
                 </div>
@@ -632,12 +628,10 @@
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                   >{stock_detail_shareholders_put_flow()}</span
                 >
-                <span
-                  class="text-start text-sm text-gray-700 dark:text-zinc-200"
-                >
+                <span class="text-start text-sm text-muted dark:text-zinc-200">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
@@ -679,7 +673,7 @@
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
                   <span
-                    class="text-center text-sm text-gray-700 dark:text-zinc-200"
+                    class="text-center text-sm text-muted dark:text-zinc-200"
                     >{putPercentage?.toFixed(0)}%</span
                   >
                 </div>
@@ -730,7 +724,7 @@
                 on:input={search}
                 type="text"
                 placeholder={stock_detail_shareholders_find()}
-                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
 
@@ -748,10 +742,10 @@
       <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
         <div class="w-full">
           <table
-            class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+            class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
           >
             <thead
-              class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
             >
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
@@ -894,13 +888,13 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}
@@ -946,7 +940,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
           >
             {stock_detail_back_to_top()}
             <svg
