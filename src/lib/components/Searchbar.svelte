@@ -431,7 +431,7 @@
         class=" rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-14 w-14 flex justify-center items-center"
       >
         <span
-          class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+          class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
         ></span>
       </label>
     </div>
@@ -524,14 +524,14 @@
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-muted dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => handleSearch(item?.symbol, item?.type)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
+                    class="text-sm font-semibold text-muted dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
                   <span class="ml-3 text-sm text-muted dark:text-zinc-300"
@@ -553,14 +553,14 @@
             </div>
             {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-gray-700 dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-muted dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => handleSearch(item?.symbol, item?.type)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
+                    class="text-sm font-semibold text-muted dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
                   <span class="ml-3 text-sm text-muted dark:text-zinc-300"
@@ -585,7 +585,7 @@
 
 <label
   for="searchBarModal"
-  class="sm:hidden rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
+  class="sm:hidden rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
 >
   <Search class="h-[20px] w-[20px]" />
 </label>
@@ -616,7 +616,7 @@
       <div class="flex items-center gap-2">
         <label
           for="searchBarModal"
-          class="inline-flex cursor-pointer items-center justify-center text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+          class="inline-flex cursor-pointer items-center justify-center text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
           aria-label="Close modal"
         >
           <svg
@@ -650,7 +650,7 @@
 
           <input
             id="modal-search"
-            class="focus:outline-none w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-[16px] sm:text-sm text-gray-700 dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:ring-0"
+            class="focus:outline-none w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-[16px] sm:text-sm text-muted dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:ring-0"
             placeholder={searchbar_placeholder()}
             bind:value={inputValue}
             bind:this={inputElement}
@@ -669,7 +669,7 @@
           {:else if inputValue?.length > 0}
             <button
               type="button"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 transition"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 transition"
               on:click={() => (inputValue = "")}
               aria-label="Clear search"
             >
@@ -694,14 +694,14 @@
     >
       {#if inputValue?.length > 0 && searchBarData?.length > 0}
         <div
-          class="border-b border-gray-200 dark:border-zinc-700 px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-zinc-200"
+          class="border-b border-gray-200 dark:border-zinc-700 px-4 py-2.5 text-sm font-semibold text-muted dark:text-zinc-200"
         >
           {searchbar_suggestions()}
         </div>
         {#each searchBarData as item}
           <button
             type="button"
-            class="w-full cursor-pointer border-b border-gray-200 dark:border-zinc-700 px-4 py-3 text-left text-gray-700 dark:text-zinc-100 transition-colors duration-75 active:bg-gray-100 dark:active:bg-zinc-800"
+            class="w-full cursor-pointer border-b border-gray-200 dark:border-zinc-700 px-4 py-3 text-left text-muted dark:text-zinc-100 transition-colors duration-75 active:bg-gray-100 dark:active:bg-zinc-800"
             on:click={() => handleSearch(item?.symbol, item?.type)}
           >
             <div class="flex items-center justify-between gap-3">
@@ -725,14 +725,14 @@
         {/each}
       {:else if inputValue?.length === 0 || !showSuggestions}
         <div
-          class="border-b border-gray-200 dark:border-zinc-700 px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-zinc-200"
+          class="border-b border-gray-200 dark:border-zinc-700 px-4 py-2.5 text-sm font-semibold text-muted dark:text-zinc-200"
         >
           {searchHistory?.length > 0 ? searchbar_recent() : searchbar_popular()}
         </div>
         {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
           <button
             type="button"
-            class="w-full cursor-pointer border-b border-gray-200 dark:border-zinc-700 px-4 py-3 text-left text-gray-700 dark:text-zinc-100 transition-colors duration-75 active:bg-gray-100 dark:active:bg-zinc-800"
+            class="w-full cursor-pointer border-b border-gray-200 dark:border-zinc-700 px-4 py-3 text-left text-muted dark:text-zinc-100 transition-colors duration-75 active:bg-gray-100 dark:active:bg-zinc-800"
             on:click={() => handleSearch(item?.symbol, item?.type)}
           >
             <div class="flex items-center justify-between gap-3">

@@ -356,7 +356,7 @@
           </h1>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
-              class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400 md:ml-0"
+              class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-muted dark:text-zinc-400 md:ml-0"
             >
               <span class="inline">{etf_detail_holdings_as_of() + " "}</span
               >{formattedDate}
@@ -372,7 +372,7 @@
         >
           <div class="p-4 bp:p-5 sm:p-6">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
             >
               {etf_detail_holdings_total()}
             </label>
@@ -386,7 +386,7 @@
             class="p-4 bp:p-5 sm:p-6 border-b border-gray-300 dark:border-zinc-700"
           >
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
             >
               {etf_detail_holdings_top10()}
             </label>
@@ -402,7 +402,7 @@
           </div>
           <div class="p-4 bp:p-5 sm:p-6 border-t border-b sm:border-none">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
             >
               {etf_detail_holdings_asset_class()}
             </label>
@@ -416,7 +416,7 @@
 
           <div class="p-4 bp:p-5 sm:p-6 border-t">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
             >
               {etf_detail_holdings_assets()}
             </label>
@@ -429,7 +429,7 @@
           </div>
           <div class="p-4 bp:p-5 sm:p-6">
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
             >
               {etf_detail_holdings_pe_ratio()}
             </label>
@@ -444,7 +444,7 @@
             class="p-4 bp:p-5 sm:p-6 border-t border-gray-300 dark:border-zinc-700"
           >
             <label
-              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-gray-500 dark:text-zinc-400"
+              class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
             >
               {etf_detail_expense_ratio()}
             </label>

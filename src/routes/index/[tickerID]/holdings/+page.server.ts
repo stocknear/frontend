@@ -1,21 +1,15 @@
 import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
+import { getIndexProxyTicker } from "$lib/server/indexTickers";
 
 export const load = async ({ locals, params }) => {
-const tickerMap = {
-  '^spx': 'spy',   // S&P 500
-  '^gspc': 'spy',  // S&P 500 (Yahoo symbol)
-  '^dji': 'dia',   // Dow Jones Industrial Average
-  '^ndx': 'qqq',   // Nasdaq-100
-  '^ixic': 'qqq',  // Nasdaq Composite (closest ETF proxy)
-  '^rut': 'iwm',   // Russell 2000
-  '^vix': 'vxx',   // VIX proxy (volatility ETN)
-  '^nyA': 'vti',   // NYSE Composite proxy
-};
-  const ticker = tickerMap[params.tickerID?.toLowerCase()] ?? params.tickerID;
+  const ticker = getIndexProxyTicker(params.tickerID);
 
   return {
-    getETFHoldings: await postAPI(locals, "/etf-holdings", { ticker }),
+    getETFHoldings: await postAPI(locals, "/etf-holdings", {
+      ticker,
+      assetType: "etf",
+    }),
   };
 };
 

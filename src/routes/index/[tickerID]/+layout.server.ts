@@ -1,6 +1,7 @@
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
 import { postAPI } from "$lib/server/api";
+import { getIndexProxyTicker, INDEX_HOLDINGS_PROXY_TICKERS } from "$lib/server/indexTickers";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -80,32 +81,24 @@ class LRUCache {
 
 const dataCache = new LRUCache();
 
-const INDEX_TO_ETF = {
-  "^spx": "SPY",   // S&P 500
-  "^dji": "DIA",   // Dow Jones Industrial Average
-  "^ndx": "QQQ",   // Nasdaq-100
-  "^rut": "IWM",   // Russell 2000
-  "^vix": "VXX",   // VIX futures ETN (volatility exposure proxy)
-  "^gspc": "SPY",  // S&P 500 (Yahoo ticker)
-  "^ixic": "QQQ",  // Nasdaq Composite
-  "^nyA": "VTI",   // NYSE Composite proxy
-};
-
 // Main data fetching function with SPX/SPY handling
 const fetchData = async (locals, endpoint, ticker) => {
   const useProxyTicker =
-    ticker?.toLowerCase() in INDEX_TO_ETF &&
+    ticker?.toLowerCase() in INDEX_HOLDINGS_PROXY_TICKERS &&
     SPY_PROXY_ENDPOINTS.includes(endpoint);
 
-  const effectiveTicker =
-    useProxyTicker ? INDEX_TO_ETF[ticker?.toLowerCase()] : ticker;
+  const effectiveTicker = useProxyTicker ? getIndexProxyTicker(ticker) : ticker;
 
   const cacheKey = `${endpoint}-${effectiveTicker}`;
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
 
   try {
-    const data = await postAPI(locals, endpoint, { ticker: effectiveTicker });
+    const requestBody =
+      endpoint === "/etf-holdings"
+        ? { ticker: effectiveTicker, assetType: "etf" }
+        : { ticker: effectiveTicker };
+    const data = await postAPI(locals, endpoint, requestBody);
     dataCache.set(cacheKey, data);
     return data;
   } catch (error) {

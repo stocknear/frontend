@@ -337,7 +337,7 @@
           </h1>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
-              class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-gray-500 dark:text-zinc-400 md:ml-0"
+              class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-muted dark:text-zinc-400 md:ml-0"
             >
               <span class="inline">{etf_detail_holdings_as_of() + " "}</span
               >{formattedDate}

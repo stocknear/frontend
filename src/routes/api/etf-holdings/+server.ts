@@ -26,6 +26,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return new Response(JSON.stringify({ error: "Invalid ticker format" }), { status: 400 });
   }
 
-  const output = await postAPI(locals, "/etf-holdings", { ticker: rawTicker });
+  const output = await postAPI(locals, "/etf-holdings", {
+    ticker: rawTicker,
+    assetType: "etf",
+  });
   return new Response(JSON.stringify(output));
 };

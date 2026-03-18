@@ -395,7 +395,7 @@
       <div class="inline-block">
         <a
           href={`/stocks/${$stockTicker}/profile`}
-          class="w-full text-sm mt-1 cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="w-full text-sm mt-1 cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >
           {stock_detail_read_more()}
         </a>
@@ -469,7 +469,7 @@
             >
             <a
               href={website}
-              class="truncate text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+              class="truncate text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
               target="_blank">{website}</a
             >
           </div>
