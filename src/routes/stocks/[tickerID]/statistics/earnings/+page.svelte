@@ -1,6 +1,6 @@
 <script lang="ts">
   import { displayCompanyName, stockTicker } from "$lib/store";
-  import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
+  import { abbreviateNumber } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -619,13 +619,15 @@
     >
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
-          <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
-            >
-              {stock_detail_stats_earnings_surprise()}
-            </h1>
-          </div>
+          {#if data?.getNextEarnings && Object.keys(data.getNextEarnings).length > 0 && data?.getEarningsSurprise?.date !== data.getNextEarnings?.date}
+            <div class="w-full flex flex-col sm:flex-row justify-between">
+              <h1
+                class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+              >
+                {stock_detail_stats_earnings_surprise()}
+              </h1>
+            </div>
+          {/if}
 
           {#if rawData?.length > 0}
             <div class="grid grid-cols-1 gap-2">
