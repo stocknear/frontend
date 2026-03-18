@@ -71,6 +71,8 @@
   let favoriteMetrics: string[] = [];
   let favoriteSet: Set<string> = new Set();
   let computedFields = [];
+  let visibleComputedFields = [];
+  let renderableFieldKeys: Set<string> = new Set();
   let animationKey: string | null = null;
   let rangeMenuOpen = false;
   let rangeDropdownRef: HTMLDivElement | null = null;
@@ -180,6 +182,83 @@
       .replace(/[^a-z0-9/_-]+/g, "_")
       .replace(/_+/g, "_")
       .replace(/^_|_$/g, "");
+
+  const EMPTY_LIKE_ROW_STRINGS = new Set([
+    "",
+    "-",
+    "n/a",
+    "na",
+    "null",
+    "undefined",
+  ]);
+  const ZERO_LIKE_ROW_NUMBER_REGEX = /^-?\d*\.?\d+$/;
+
+  function isEmptyLikeRowValue(value: unknown): boolean {
+    if (value === null || value === undefined) {
+      return true;
+    }
+
+    if (typeof value === "number") {
+      return !Number.isFinite(value) || value === 0;
+    }
+
+    if (typeof value === "bigint") {
+      return value === 0n;
+    }
+
+    if (typeof value === "string") {
+      const normalized = value.trim().toLowerCase();
+      if (EMPTY_LIKE_ROW_STRINGS.has(normalized)) {
+        return true;
+      }
+
+      const numericCandidate = normalized
+        .replace(/[$,%\s]/g, "")
+        .replace(/,/g, "");
+      if (
+        numericCandidate &&
+        ZERO_LIKE_ROW_NUMBER_REGEX.test(numericCandidate)
+      ) {
+        return Number(numericCandidate) === 0;
+      }
+
+      return false;
+    }
+
+    return false;
+  }
+
+  function buildRenderableFieldKeySet(
+    entries: any[] = [],
+    fieldList: { key: string }[] = [],
+  ) {
+    if (!Array.isArray(fieldList) || fieldList.length === 0) {
+      return new Set<string>();
+    }
+
+    const keys = fieldList.map((field) => field.key);
+    if (!Array.isArray(entries) || entries.length === 0) {
+      return new Set(keys);
+    }
+
+    const visibleKeys = new Set<string>();
+    for (const item of entries) {
+      for (const key of keys) {
+        if (visibleKeys.has(key)) {
+          continue;
+        }
+        if (!isEmptyLikeRowValue(item?.[key])) {
+          visibleKeys.add(key);
+        }
+      }
+
+      if (visibleKeys.size === keys.length) {
+        break;
+      }
+    }
+
+    return visibleKeys;
+  }
 
   function buildStorageKey() {
     const base =
@@ -327,6 +406,12 @@
       computedFields = flattenGroups(groups);
     }
   }
+
+  $: renderableFieldKeys = buildRenderableFieldKeySet(data, fields);
+
+  $: visibleComputedFields = computedFields.filter((field) =>
+    renderableFieldKeys.has(field.key),
+  );
 
   $: if (enableFavorites) {
     const filteredFavorites = sanitizeFavoriteList(favoriteMetrics);
@@ -898,7 +983,7 @@
   }
 </script>
 
-{#each computedFields as field (field.key)}
+{#each visibleComputedFields as field (field.key)}
   {#if !field.isGrowth || visibleGrowthKeys.has(field.key)}
     <tr
       class="whitespace-nowrap transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
