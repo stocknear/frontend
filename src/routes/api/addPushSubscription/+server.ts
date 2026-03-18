@@ -23,27 +23,34 @@ export const POST = (async ({ locals, request }) => {
 			filter: `user="${user.id}"`,
 		});
 
-		if (items?.length > 0) {
-			for (const item of items) {
-				await pb.collection("pushSubscription").delete(item?.id);
-			}
-		}
-
-		await pb.collection("pushSubscription").create({
-			user: user.id,
+		const normalizedSubscription = {
 			subscription: {
-				subscription: {
-					endpoint: subscription.endpoint,
-					expirationTime: subscription.expirationTime ?? null,
-					keys: {
-						p256dh: subscription.keys?.p256dh ?? "",
-						auth: subscription.keys?.auth ?? "",
-					},
+				endpoint: subscription.endpoint,
+				expirationTime: subscription.expirationTime ?? null,
+				keys: {
+					p256dh: subscription.keys?.p256dh ?? "",
+					auth: subscription.keys?.auth ?? "",
 				},
 			},
+		};
+
+		const existingItem = items.find((item) => {
+			const existingSubscription = item.subscription?.subscription ?? item.subscription;
+			return existingSubscription?.endpoint === subscription.endpoint;
 		});
 
-		return new Response(JSON.stringify({ success: true }));
+		if (existingItem?.id) {
+			await pb.collection("pushSubscription").update(existingItem.id, {
+				subscription: normalizedSubscription,
+			});
+		} else {
+			await pb.collection("pushSubscription").create({
+				user: user.id,
+				subscription: normalizedSubscription,
+			});
+		}
+
+		return new Response(JSON.stringify({ success: true, deviceCount: existingItem ? items.length : items.length + 1 }));
 	} catch(err) {
 		console.log(err)
 		return new Response(
