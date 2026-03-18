@@ -341,7 +341,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden h-full text-gray-700 dark:text-zinc-200">
+<section class="w-full overflow-hidden h-full text-muted dark:text-zinc-200">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -381,7 +381,7 @@
                   class="short-interest-driver rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4"
                 >
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     {stock_detail_stats_nav_short_interest()}
                   </div>
@@ -395,7 +395,7 @@
                   class="shortPriorMonth-driver rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4"
                 >
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     {stock_detail_stats_short_prior_month()}
                   </div>
@@ -409,7 +409,7 @@
                   class="changeMoM-driver rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4"
                 >
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     {stock_detail_stats_change_mom()}
                   </div>
@@ -430,7 +430,7 @@
                   class="shortPercentFloat-driver rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4"
                 >
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     {stock_detail_stats_short_percent_floating()}
                   </div>
@@ -446,7 +446,7 @@
                   class="shortPercentOutstanding-driver rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4"
                 >
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     {stock_detail_stats_short_percent_outstanding()}
                   </div>
@@ -462,7 +462,7 @@
                   class="daysToCover-driver rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4"
                 >
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   >
                     {stock_detail_stats_days_to_cover()}
                   </div>
@@ -499,10 +499,10 @@
               <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
                 <div class="w-full overflow-x-flow">
                   <table
-                    class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                    class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
                   >
                     <thead
-                      class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                      class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
                     >
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
@@ -623,12 +623,12 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}

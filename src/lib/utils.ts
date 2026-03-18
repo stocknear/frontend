@@ -2870,7 +2870,7 @@ export function formatCAGRValue(value: number | null): string {
  * Get CSS class for CAGR value based on positive/negative
  */
 export function getCAGRColorClass(value: number | null): string {
-  if (value === null) return 'text-gray-500 dark:text-zinc-400';
+  if (value === null) return 'text-muted dark:text-white';
   if (value > 0) return 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30';
   if (value < 0) return 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30';
   return 'text-muted dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800';

@@ -7,11 +7,7 @@
     screenWidth,
     stockTicker,
   } from "$lib/store";
-  import {
-    abbreviateNumber,
-    calculateChange,
-    removeCompanyStrings,
-  } from "$lib/utils";
+  import { abbreviateNumber, calculateChange } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -950,7 +946,7 @@
 />
 
 <section
-  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-gray-700 dark:text-zinc-200"
+  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-muted dark:text-zinc-200"
 >
   <div class="flex justify-center m-auto h-full overflow-hidden w-full">
     <div
@@ -974,7 +970,7 @@
             class="mt-4 mb-6 grid grid-cols-2 divide-x divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4"
           >
             <div class="p-4 bp:p-5 sm:p-6">
-              <label class="text-sm text-gray-500 dark:text-zinc-400">
+              <label class="text-sm text-muted dark:text-white">
                 Total ETFs
               </label>
               <div
@@ -985,7 +981,7 @@
             </div>
 
             <div class="p-4 bp:p-5 sm:p-6">
-              <label class="text-sm text-gray-500 dark:text-zinc-400">
+              <label class="text-sm text-muted dark:text-white">
                 Top 10 Weight
               </label>
               <div
@@ -996,7 +992,7 @@
             </div>
 
             <div class="p-4 bp:p-5 sm:p-6">
-              <label class="text-sm text-gray-500 dark:text-zinc-400">
+              <label class="text-sm text-muted dark:text-white">
                 Total Market Value
               </label>
               <div
@@ -1007,7 +1003,7 @@
             </div>
 
             <div class="p-4 bp:p-5 sm:p-6 flex flex-col items-start">
-              <label class="text-sm text-gray-500 dark:text-zinc-400">
+              <label class="text-sm text-muted dark:text-white">
                 Largest ETF
               </label>
               <a
@@ -1017,7 +1013,7 @@
                 {largestExposure?.symbol}
               </a>
 
-              <div class="text-sm text-gray-500 dark:text-zinc-400">
+              <div class="text-sm text-muted dark:text-white">
                 {(largestExposure?.weightPercentage ?? 0).toFixed(2)}%
               </div>
             </div>
@@ -1088,7 +1084,7 @@
                       on:input={() => (currentPage = 1)}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -1108,7 +1104,7 @@
                 class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -1242,7 +1238,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
@@ -1291,7 +1287,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   {stock_detail_back_to_top()}
                   <svg

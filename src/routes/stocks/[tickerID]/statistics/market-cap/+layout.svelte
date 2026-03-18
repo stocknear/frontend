@@ -146,14 +146,14 @@
                 class="table table-sm table-compact w-full text-sm text-muted dark:text-zinc-200 tabular-nums"
               >
                 <thead
-                  class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
                   ><tr
                     ><th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-left px-2"
+                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white font-semibold text-left px-2"
                       >{stock_detail_stats_company()}</th
                     >
                     <th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400 font-semibold text-right px-2"
+                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white font-semibold text-right px-2"
                       >{stock_detail_stats_nav_market_cap()}</th
                     ></tr
                   ></thead

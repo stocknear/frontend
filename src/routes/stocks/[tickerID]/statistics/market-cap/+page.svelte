@@ -901,7 +901,7 @@
                         class="w-56 h-fit max-h-72 overflow-y-auto scroller"
                       >
                         <DropdownMenu.Label
-                          class="text-gray-500 dark:text-zinc-400 font-normal"
+                          class="text-muted dark:text-white font-normal"
                         >
                           {stock_detail_stats_select_time_frame()}
                         </DropdownMenu.Label>
@@ -909,43 +909,43 @@
                         <DropdownMenu.Group>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("1M")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_1_month()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("6M")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_6_months()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("1Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_1_year()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("3Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_3_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("5Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_5_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("10Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_10_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("Max")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
                           >
                             {stock_detail_stats_max()}
                           </DropdownMenu.Item>
@@ -989,7 +989,7 @@
                               class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                                 ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                                : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
+                                : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
                             >
                               {i === 0
                                 ? stock_detail_stats_annual()
@@ -1005,7 +1005,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-gray-700 dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -1111,12 +1111,12 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
