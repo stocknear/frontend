@@ -437,9 +437,7 @@
 <section class="overflow-hidden h-full pb-8">
   <main class="overflow-hidden">
     {#if shareholderList?.length !== 0}
-      <div
-        class="mt-3 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
-      >
+      <div class="mt-3 text-sm text-muted dark:text-zinc-300 leading-relaxed">
         <p>
           {@html stock_detail_shareholders_description({
             count: rawData?.investorsHolding?.toLocaleString("en-US"),
@@ -493,7 +491,7 @@
           {stock_detail_shareholders_options_activity()}
         </h1>
 
-        <div class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
+        <div class="mt-2 text-sm text-muted dark:text-zinc-300">
           {stock_detail_shareholders_options_holding()}
           {callPercentage > 55
             ? stock_detail_shareholders_options_bullish()
@@ -508,7 +506,7 @@
           >
             <!--Start Put/Call-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
                 <span
@@ -568,7 +566,7 @@
             <!--End Put/Call-->
             <!--Start Call Flow-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
                 <span
@@ -630,7 +628,7 @@
 
             <!--Start Put Flow-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
                 <span
@@ -721,8 +719,8 @@
                       ><path
                         fill="currentColor"
                         d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                      /></svg>
-
+                      /></svg
+                    >
                   </label>
                 {/if}
               </div>
@@ -732,7 +730,7 @@
                 on:input={search}
                 type="text"
                 placeholder={stock_detail_shareholders_find()}
-                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
 
@@ -859,7 +857,7 @@
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-gray-600 dark:text-zinc-300">
+            <span class="text-sm text-muted dark:text-zinc-300">
               {stock_detail_page_of({
                 current: currentPage,
                 total: totalPages,
@@ -902,7 +900,7 @@
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                      class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}
@@ -948,7 +946,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             {stock_detail_back_to_top()}
             <svg

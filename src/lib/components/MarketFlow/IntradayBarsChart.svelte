@@ -215,7 +215,7 @@
 </script>
 
 <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-  <div class="text-sm font-semibold text-gray-800 dark:text-zinc-200">
+  <div class="text-sm font-semibold text-muted dark:text-zinc-200">
     Interval Bars
   </div>
   <div
@@ -225,7 +225,7 @@
       {#if !isPro && item !== 30}
         <button
           on:click={() => goto("/pricing")}
-          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all bg-white/80 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60"
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all bg-[#f8fbfb] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60"
         >
           <span class="relative text-sm block font-semibold">
             {item}m
@@ -259,7 +259,7 @@
   <div class="" use:highcharts={config}></div>
 {:else}
   <div
-    class="border border-dashed border-gray-300 dark:border-zinc-700 rounded-2xl py-10 text-center text-sm text-gray-600 dark:text-zinc-300"
+    class="border border-dashed border-gray-300 dark:border-zinc-700 rounded-2xl py-10 text-center text-sm text-muted dark:text-zinc-300"
   >
     No intraday bar data available yet.
   </div>

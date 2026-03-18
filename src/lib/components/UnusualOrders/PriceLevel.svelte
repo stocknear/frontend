@@ -376,7 +376,7 @@
             <span>{stock_detail_price_levels_key_support()}</span>
             {#if keySupport?.strength && !showLocked}
               <span
-                class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
+                class="ml-auto text-xs tabular-nums text-muted dark:text-zinc-300"
               >
                 {stock_detail_price_levels_strength({
                   pct:
@@ -390,7 +390,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -429,7 +429,7 @@
             <span>{stock_detail_price_levels_key_resistance()}</span>
             {#if keyResistance?.strength && !showLocked}
               <span
-                class="ml-auto text-xs tabular-nums text-gray-800 dark:text-zinc-300"
+                class="ml-auto text-xs tabular-nums text-muted dark:text-zinc-300"
               >
                 {stock_detail_price_levels_strength({
                   pct:
@@ -443,7 +443,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -482,7 +482,7 @@
       >
         <a
           href="/pricing"
-          class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >
           <svg
             class="size-10"
@@ -503,7 +503,7 @@
       <!-- Chart Controls -->
       <div class="flex items-center justify-between mb-3">
         <div
-          class="flex items-center gap-3 text-xs text-gray-800 dark:text-zinc-300"
+          class="flex items-center gap-3 text-xs text-muted dark:text-zinc-300"
         >
           <span class="flex items-center gap-1.5">
             <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
@@ -526,7 +526,7 @@
                 class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
                   {chartType === item.type
                   ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                  : 'text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
+                  : 'text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
                 title={item.label}
               >
                 <svelte:component this={item.icon} class="w-4 h-4" />
@@ -544,7 +544,7 @@
       </div>
 
       <!-- Note -->
-      <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
+      <p class="text-xs text-muted dark:text-zinc-300 text-center mt-3">
         {stock_detail_price_levels_note()}
       </p>
     {/if}

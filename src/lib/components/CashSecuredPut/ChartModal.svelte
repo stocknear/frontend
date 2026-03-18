@@ -62,10 +62,7 @@
     // If s < strike: profit = (s - strike + premium) * 100
     const dataPoints = [];
     for (let s = xMin; s <= xMax; s += step) {
-      const payoff =
-        s >= strike
-          ? premium * 100
-          : (s - strike + premium) * 100;
+      const payoff = s >= strike ? premium * 100 : (s - strike + premium) * 100;
       dataPoints.push([
         parseFloat(s.toFixed(2)),
         parseFloat(payoff.toFixed(2)),
@@ -174,7 +171,13 @@
     };
   }
 
-  $: if (isOpen && item && !isLoading && item.bid != null && item.breakeven != null) {
+  $: if (
+    isOpen &&
+    item &&
+    !isLoading &&
+    item.bid != null &&
+    item.breakeven != null
+  ) {
     chartConfig = buildChartConfig(item);
   } else if (!isOpen) {
     chartConfig = null;
@@ -206,7 +209,9 @@
           <h3
             class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {cash_secured_put_screener_chart_modal_title({ symbol: item.symbol })}
+            {cash_secured_put_screener_chart_modal_title({
+              symbol: item.symbol,
+            })}
           </h3>
           <span class="text-sm text-gray-600 dark:text-zinc-400">
             {item.symbol} @ {item.stockPrice?.toFixed(2)}
@@ -235,118 +240,136 @@
       {#if isLoading || !chartConfig}
         <!-- Loading skeleton -->
         <div class="px-4 sm:px-6 py-4">
-          <div class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse" style="height: {$screenWidth < 640 ? 240 : 360}px"></div>
+          <div
+            class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse"
+            style="height: {$screenWidth < 640 ? 240 : 360}px"
+          ></div>
         </div>
-        <div class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4">
+        <div
+          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+        >
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             {#each Array(6) as _}
               <div class="space-y-2">
-                <div class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"></div>
-                <div class="h-4 w-16 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"></div>
+                <div
+                  class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
+                ></div>
+                <div
+                  class="h-4 w-16 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                ></div>
               </div>
             {/each}
           </div>
         </div>
       {:else}
-      <!-- Chart -->
-      <div class="px-4 sm:px-6 py-4">
-        <div
-          use:highcharts={chartConfig}
-          class=" bg-white/70 dark:bg-zinc-950/40"
-        ></div>
-      </div>
-
-      <!-- Trade Info -->
-      <div
-        class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
-      >
-        <div class="mb-4">
+        <!-- Chart -->
+        <div class="px-4 sm:px-6 py-4">
           <div
-            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
-          >
+            use:highcharts={chartConfig}
+            class=" bg-white/70 dark:bg-zinc-950/40"
+          ></div>
+        </div>
+
+        <!-- Trade Info -->
+        <div
+          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+        >
+          <div class="mb-4">
+            <div
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+            >
+              <div>
+                <span
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                  >{cash_secured_put_screener_chart_trade_setup()}</span
+                >
+                <div class="text-sm text-muted dark:text-zinc-300">
+                  {cash_secured_put_screener_chart_sell_put({
+                    strike: item.strike,
+                  })}
+                  {item.bid?.toFixed(2)}
+                  <span class="mx-1 text-gray-400">|</span>
+                  {cash_secured_put_screener_chart_cash_secured()} ${(
+                    item.strike * 100
+                  )?.toFixed(0)}
+                </div>
+              </div>
+              <div class="text-right">
+                <span
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                  >{cash_secured_put_screener_chart_net_credit()}</span
+                >
+                <div class="text-sm text-muted dark:text-zinc-300">
+                  ${(item.bid * 100)?.toFixed(0)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             <div>
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                >{cash_secured_put_screener_chart_trade_setup()}</span
+                >{cash_secured_put_screener_chart_breakeven()}</span
               >
-              <div class="text-sm text-gray-700 dark:text-zinc-300">
-                {cash_secured_put_screener_chart_sell_put({ strike: item.strike })} {item.bid?.toFixed(2)}
-                <span class="mx-1 text-gray-400">|</span>
-                {cash_secured_put_screener_chart_cash_secured()} ${(item.strike * 100)?.toFixed(0)}
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {cash_secured_put_screener_chart_below()}
+                {item.breakeven?.toFixed(2)}
+                <span
+                  class={item.pctBeBid <= 0
+                    ? "text-emerald-700 dark:text-emerald-400"
+                    : "text-rose-700 dark:text-rose-400"}
+                >
+                  ({item.pctBeBid?.toFixed(2)}%)
+                </span>
               </div>
             </div>
-            <div class="text-right">
+            <div>
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                >{cash_secured_put_screener_chart_net_credit()}</span
+                >{cash_secured_put_screener_chart_last_price()}</span
               >
-              <div class="text-sm text-gray-700 dark:text-zinc-300">
-                ${(item.bid * 100)?.toFixed(0)}
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.stockPrice?.toFixed(2)}
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{cash_secured_put_screener_chart_moneyness()}</span
+              >
+              <div
+                class="text-sm {item.moneynessPercent <= 0
+                  ? 'text-emerald-700 dark:text-emerald-400'
+                  : 'text-rose-700 dark:text-rose-400'}"
+              >
+                {item.moneynessPercent?.toFixed(2)}%
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{cash_secured_put_screener_chart_return_if_flat()}</span
+              >
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.returnVal}% ({cash_secured_put_screener_chart_annualized_abbr()}
+                {item.annualizedReturn}%)
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{cash_secured_put_screener_chart_discount()}</span
+              >
+              <div class="text-sm text-emerald-700 dark:text-emerald-400">
+                {item.discount}%
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{cash_secured_put_screener_chart_probability_of_profit()}</span
+              >
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.profitProb}%
               </div>
             </div>
           </div>
         </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{cash_secured_put_screener_chart_breakeven()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {cash_secured_put_screener_chart_below()} {item.breakeven?.toFixed(2)}
-              <span
-                class={item.pctBeBid <= 0
-                  ? "text-emerald-700 dark:text-emerald-400"
-                  : "text-rose-700 dark:text-rose-400"}
-              >
-                ({item.pctBeBid?.toFixed(2)}%)
-              </span>
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{cash_secured_put_screener_chart_last_price()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.stockPrice?.toFixed(2)}
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{cash_secured_put_screener_chart_moneyness()}</span
-            >
-            <div
-              class="text-sm {item.moneynessPercent <= 0
-                ? 'text-emerald-700 dark:text-emerald-400'
-                : 'text-rose-700 dark:text-rose-400'}"
-            >
-              {item.moneynessPercent?.toFixed(2)}%
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{cash_secured_put_screener_chart_return_if_flat()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.returnVal}% ({cash_secured_put_screener_chart_annualized_abbr()} {item.annualizedReturn}%)
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{cash_secured_put_screener_chart_discount()}</span
-            >
-            <div class="text-sm text-emerald-700 dark:text-emerald-400">
-              {item.discount}%
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{cash_secured_put_screener_chart_probability_of_profit()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.profitProb}%
-            </div>
-          </div>
-        </div>
-      </div>
       {/if}
     </div>
   </div>

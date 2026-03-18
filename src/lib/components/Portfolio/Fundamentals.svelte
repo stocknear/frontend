@@ -1,12 +1,12 @@
 <script lang="ts">
     import {
-  portfolio_fundamentals_efficiency,
-  portfolio_fundamentals_growth,
-  portfolio_fundamentals_margins,
-  portfolio_fundamentals_portfolio,
-  portfolio_fundamentals_us_market,
-  portfolio_fundamentals_valuation,
-} from "$lib/paraglide/messages";
+        portfolio_fundamentals_efficiency,
+        portfolio_fundamentals_growth,
+        portfolio_fundamentals_margins,
+        portfolio_fundamentals_portfolio,
+        portfolio_fundamentals_us_market,
+        portfolio_fundamentals_valuation,
+    } from "$lib/paraglide/messages";
     import highcharts from "$lib/highcharts";
     import { onMount } from "svelte";
     import { mode } from "mode-watcher";
@@ -19,10 +19,10 @@
     // Get translated display title based on internal identifier
     function getDisplayTitle(t: string): string {
         const titleMap = {
-            "Valuation": portfolio_fundamentals_valuation(),
-            "Growth": portfolio_fundamentals_growth(),
-            "Efficiency": portfolio_fundamentals_efficiency(),
-            "Margins": portfolio_fundamentals_margins(),
+            Valuation: portfolio_fundamentals_valuation(),
+            Growth: portfolio_fundamentals_growth(),
+            Efficiency: portfolio_fundamentals_efficiency(),
+            Margins: portfolio_fundamentals_margins(),
         };
         return titleMap[t] || t;
     }
@@ -310,12 +310,12 @@
                                     : "n/a";
                             return `<div class="flex justify-center space-x-8 text-xs sm:text-sm">
                         <div class="flex flex-col items-center">
-                            <span class="text-gray-800 dark:text-zinc-300 font-semibold">${gaugeData.label}</span>
+                            <span class="text-muted dark:text-zinc-300 font-semibold">${gaugeData.label}</span>
                             <span class="text-gray-900 dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
                         </div>
                         <div class="flex flex-col items-center">
-                            <span class="text-gray-800 dark:text-zinc-300 font-semibold">${gaugeData.compareLabel}</span>
-                            <span class="text-gray-700 dark:text-zinc-200 text-base sm:text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
+                            <span class="text-muted dark:text-zinc-300 font-semibold">${gaugeData.compareLabel}</span>
+                            <span class="text-muted dark:text-zinc-200 text-base sm:text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
                         </div>
                     </div>`;
                         },
@@ -445,7 +445,7 @@
                 {#each gaugeData.stats as stat}
                     <div class="flex flex-col">
                         <div
-                            class="text-gray-800 dark:text-zinc-300 text-sm flex flex-row items-center gap-x-2"
+                            class="text-muted dark:text-zinc-300 text-sm flex flex-row items-center gap-x-2"
                         >
                             <span>{stat.label}</span>
                             <InfoModal

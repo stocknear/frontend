@@ -68,7 +68,12 @@
           break;
         case "failure":
           if (result.data?.rateLimited) {
-            toast.error(login_toast_rate_limited({ minutes: String(result.data?.retryAfter || 15) }), { style: toastStyle });
+            toast.error(
+              login_toast_rate_limited({
+                minutes: String(result.data?.retryAfter || 15),
+              }),
+              { style: toastStyle },
+            );
           } else if (result.data?.authFailed) {
             toast.error(login_toast_auth_failed(), { style: toastStyle });
           } else if (result.data?.errors?.turnstile) {
@@ -90,14 +95,12 @@
   };
 </script>
 
-<SEO
-  title={login_seo_title()}
-  description={login_seo_description()}
-/>
+<SEO title={login_seo_title()} description={login_seo_description()} />
 
-<div class="min-h-screen bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200">
+<div
+  class="min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
+>
   <div class="mx-auto max-w-lg px-4 sm:px-6 py-8 sm:py-16">
-
     <!-- Logo -->
     <div class="text-center mb-8">
       <a href="/" class="inline-block">
@@ -112,10 +115,14 @@
     {#if !data?.user}
       <div>
         <!-- Heading -->
-        <h1 class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h1
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
           {login_title()}
         </h1>
-        <p class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8">
+        <p
+          class="text-center text-sm text-gray-500 dark:text-zinc-400 mt-2 mb-8"
+        >
           {login_subtitle()}
         </p>
 
@@ -125,7 +132,7 @@
         </div>
 
         <!-- Divider -->
-        <div class="divider text-gray-800 dark:text-zinc-300 py-4">
+        <div class="divider text-muted dark:text-zinc-300 py-4">
           <span class="text-[11px] uppercase tracking-[0.3em] z-10">
             {login_divider()}
           </span>
@@ -155,7 +162,8 @@
             <a
               href="/reset-password"
               class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
-            >{login_forgot_password()}</a>
+              >{login_forgot_password()}</a
+            >
           </div>
 
           {#if showTurnstile && !dev}
@@ -184,13 +192,19 @@
         <!-- Sign up link -->
         <p class="text-sm text-center text-gray-500 dark:text-zinc-400 mt-6">
           {login_no_account()}
-          <a href="/register" class="text-violet-700 dark:text-violet-400 hover:underline ml-1">{login_signup_link()}</a>
+          <a
+            href="/register"
+            class="text-violet-700 dark:text-violet-400 hover:underline ml-1"
+            >{login_signup_link()}</a
+          >
         </p>
       </div>
     {:else}
       <!-- Already logged in -->
       <div class="text-center">
-        <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        <h1
+          class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 dark:text-white"
+        >
           {login_title_logged_in()}
         </h1>
         <p class="mt-3 text-sm text-gray-500 dark:text-zinc-400">
@@ -203,7 +217,8 @@
             class="cursor-pointer mx-auto mt-4 flex w-full max-w-xs justify-center rounded-full
               bg-gray-900 text-white dark:bg-white dark:text-gray-900 border border-transparent px-4 py-2.5 text-sm font-semibold
               hover:bg-gray-800 dark:hover:bg-gray-200 transition-all focus:outline-none"
-          >{login_logout_button()}</button>
+            >{login_logout_button()}</button
+          >
         </form>
       </div>
     {/if}
@@ -211,9 +226,15 @@
 </div>
 
 {#if oauthLoading}
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-    <div class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center shadow-lg">
-      <span class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"></span>
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm"
+  >
+    <div
+      class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
+    >
+      <span
+        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+      ></span>
     </div>
   </div>
 {/if}

@@ -561,7 +561,7 @@
                       class="px-3 py-1 rounded-full text-xs font-medium border transition ease-out duration-100 cursor-pointer {plotPeriod ===
                       item
                         ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-gray-900/80 dark:border-white'
-                        : 'bg-white/70 dark:bg-zinc-950/50 text-gray-600 dark:text-zinc-300 border-gray-300 dark:border-zinc-700 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
+                        : 'bg-white/70 dark:bg-zinc-950/50 text-muted dark:text-zinc-300 border-gray-300 dark:border-zinc-700 hover:text-violet-600 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
                     >
                       {item}
                     </label>

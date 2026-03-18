@@ -61,7 +61,7 @@
 
   <!-- Page info and rows selector in center -->
   <div class="flex flex-row items-center gap-4">
-    <span class="text-sm text-gray-600 dark:text-zinc-300">
+    <span class="text-sm text-muted dark:text-zinc-300">
       {list_pagination_page_of({
         current: currentPage,
         total: totalPages,
@@ -149,7 +149,7 @@
   <div class="flex justify-center mt-4">
     <button
       on:click={scrollToTop}
-      class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+      class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
     >
       {list_back_to_top()}
       <svg

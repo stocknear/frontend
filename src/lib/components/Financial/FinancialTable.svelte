@@ -35,7 +35,9 @@
   export let upgradeHref = "/pricing";
   export let upgradeLabel = "Upgrade";
   export let periodType: "annual" | "quarterly" | "ttm" = "annual";
-  export let onExpandChart: ((metricKey: string, metricLabel: string) => void) | null = null;
+  export let onExpandChart:
+    | ((metricKey: string, metricLabel: string) => void)
+    | null = null;
 
   type RangeOption = {
     value: string;
@@ -368,7 +370,7 @@
       ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
       : numericValue < 0
         ? "text-rose-800 dark:text-rose-400"
-        : "text-gray-600 dark:text-zinc-300";
+        : "text-muted dark:text-zinc-300";
   };
 
   function formatModalMetricValue(value: number | null | undefined): string {
@@ -390,10 +392,13 @@
     if (valueAbs < 1000) return 0;
 
     const unit =
-      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
-      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
-      valueAbs >= 1_000_000 ? 1_000_000 :
-      1_000;
+      valueAbs >= 1_000_000_000_000
+        ? 1_000_000_000_000
+        : valueAbs >= 1_000_000_000
+          ? 1_000_000_000
+          : valueAbs >= 1_000_000
+            ? 1_000_000
+            : 1_000;
 
     const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
     const stepInUnit = safeStep / unit;
@@ -413,7 +418,10 @@
 
     let formatted = "";
     if (abs >= 1000) {
-      const compactDigits = getCompactFractionDigits(abs, Math.abs(tickInterval));
+      const compactDigits = getCompactFractionDigits(
+        abs,
+        Math.abs(tickInterval),
+      );
       formatted = new Intl.NumberFormat("en-US", {
         notation: "compact",
         maximumFractionDigits: compactDigits,
@@ -679,7 +687,8 @@
           style: { color: $mode === "light" ? "black" : "white" },
           formatter: function () {
             const tickInterval = Number(
-              (this as { axis?: { tickInterval?: number } })?.axis?.tickInterval,
+              (this as { axis?: { tickInterval?: number } })?.axis
+                ?.tickInterval,
             );
             return formatProfessionalAxisLabel(
               Number(this.value),
@@ -868,7 +877,7 @@
     }
 
     return () => {
-      tippyInstances.forEach(t => t.destroy());
+      tippyInstances.forEach((t) => t.destroy());
       if (isBrowser) {
         document.removeEventListener("pointerdown", handleGlobalPointerDown);
         document.removeEventListener("keydown", handleGlobalKeydown);
@@ -951,7 +960,11 @@
             <!-- Use external modal (FinancialChartModal) when handler provided -->
             <button
               type="button"
-              on:click={() => onExpandChart(field.growthOf || field.key, field.displayLabel ?? field.label)}
+              on:click={() =>
+                onExpandChart(
+                  field.growthOf || field.key,
+                  field.displayLabel ?? field.label,
+                )}
               class="cursor-pointer inline-block"
               aria-label="Expand chart"
             >
@@ -972,7 +985,8 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path>
-                </g></svg>
+                </g></svg
+              >
             </button>
           {:else}
             <!-- Fallback to internal modal -->
@@ -999,7 +1013,8 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   ></path>
-                </g></svg>
+                </g></svg
+              >
             </label>
           {/if}
         </div>
@@ -1016,7 +1031,7 @@
           class="text-xs sm:text-sm text-end border-r border-gray-300 dark:border-zinc-700"
         >
           <a
-            class="inline-flex w-full items-center justify-end gap-1 font-semibold text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+            class="inline-flex w-full items-center justify-end gap-1 font-semibold text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
             href={upgradeHref}
             on:click|preventDefault={goToUpgrade}
           >
@@ -1060,7 +1075,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     {#if config}
       <div

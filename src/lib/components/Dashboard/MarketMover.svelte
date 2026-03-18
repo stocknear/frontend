@@ -51,7 +51,7 @@
           {gainersTitle}
         </h2>
         <svg
-          class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
+          class="h-5 w-5 text-muted dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
           viewBox="0 0 20 20"
           fill="currentColor"
           style="max-width:40px"
@@ -71,7 +71,7 @@
         <table class="w-full text-sm">
           <thead>
             <tr
-              class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
+              class="text-xs uppercase tracking-widest text-muted dark:text-zinc-300"
             >
               <th class="py-2.5 px-3 sm:px-4 text-left font-semibold">
                 {dashboard_table_symbol()}
@@ -100,7 +100,7 @@
                   >
                 </td>
                 <td
-                  class="py-3 sm:px-4 text-gray-600 dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
+                  class="py-3 sm:px-4 text-muted dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
                 >
                   {removeCompanyStrings(item?.name)?.length > charNumber
                     ? removeCompanyStrings(item?.name)?.slice(0, charNumber) +
@@ -108,7 +108,7 @@
                     : removeCompanyStrings(item?.name)}
                 </td>
                 <td
-                  class="py-3 px-3 sm:px-4 text-right tabular-nums text-gray-600 dark:text-zinc-300"
+                  class="py-3 px-3 sm:px-4 text-right tabular-nums text-muted dark:text-zinc-300"
                 >
                   {item?.price?.toFixed(2)}
                 </td>
@@ -147,7 +147,7 @@
           {losersTitle}
         </h2>
         <svg
-          class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
+          class="h-5 w-5 text-muted dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
           viewBox="0 0 20 20"
           fill="currentColor"
           style="max-width:40px"
@@ -167,7 +167,7 @@
         <table class="w-full text-sm">
           <thead>
             <tr
-              class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
+              class="text-xs uppercase tracking-widest text-muted dark:text-zinc-300"
             >
               <th class="py-2.5 px-3 sm:px-4 text-left font-semibold">
                 {dashboard_table_symbol()}
@@ -196,7 +196,7 @@
                   >
                 </td>
                 <td
-                  class="py-3 sm:px-4 text-gray-600 dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
+                  class="py-3 sm:px-4 text-muted dark:text-zinc-300 lg:max-w-[210px] lg:truncate xxxl:max-w-[250px]"
                 >
                   {removeCompanyStrings(item?.name)?.length > charNumber
                     ? removeCompanyStrings(item?.name)?.slice(0, charNumber) +
@@ -204,7 +204,7 @@
                     : removeCompanyStrings(item?.name)}
                 </td>
                 <td
-                  class="py-3 px-3 sm:px-4 text-right tabular-nums text-gray-600 dark:text-zinc-300"
+                  class="py-3 px-3 sm:px-4 text-right tabular-nums text-muted dark:text-zinc-300"
                 >
                   {item?.price ? item?.price?.toFixed(2) : item?.price}
                 </td>

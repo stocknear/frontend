@@ -2,21 +2,21 @@
   import { stockTicker } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
   import {
-  stock_detail_history_dividend_rankings,
-  stock_detail_history_dividend_yield,
-  stock_detail_stats_company,
-  stock_detail_stats_pro_subscription,
-  stock_detail_stats_related_stocks,
-  stock_detail_stats_ticker_news,
-  stock_detail_stats_upgrade_desc,
-  time_ago,
-  time_day,
-  time_days,
-  time_hour,
-  time_hours,
-  time_minute,
-  time_minutes,
-} from "$lib/paraglide/messages";
+    stock_detail_history_dividend_rankings,
+    stock_detail_history_dividend_yield,
+    stock_detail_stats_company,
+    stock_detail_stats_pro_subscription,
+    stock_detail_stats_related_stocks,
+    stock_detail_stats_ticker_news,
+    stock_detail_stats_upgrade_desc,
+    time_ago,
+    time_day,
+    time_days,
+    time_hour,
+    time_hours,
+    time_minute,
+    time_minutes,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -89,9 +89,11 @@
             <div
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
-              <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_stats_related_stocks()}</h3>
+              <h3 class="p-2 pt-4 text-xl font-semibold">
+                {stock_detail_stats_related_stocks()}
+              </h3>
               <table
-                class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="table table-sm table-compact w-full text-sm text-muted dark:text-zinc-200 tabular-nums"
               >
                 <thead
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"

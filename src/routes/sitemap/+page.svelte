@@ -288,10 +288,7 @@
   ];
 </script>
 
-<SEO
-  title={sitemap_seo_title()}
-  description={sitemap_seo_description()}
-/>
+<SEO title={sitemap_seo_title()} description={sitemap_seo_description()} />
 
 <main class="text-gray-700 dark:text-zinc-200">
   <section
@@ -301,16 +298,16 @@
     <BreadCrumb
       tag="nav"
       ariaLabel={sitemap_breadcrumb_aria_label()}
-      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
     >
       <li>
         <a
           href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >{common_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300" aria-current="page">
+      <li class="text-muted dark:text-zinc-300" aria-current="page">
         {sitemap_title()}
       </li>
     </BreadCrumb>
@@ -331,9 +328,7 @@
 
             <div class=" w-full m-auto">
               <div class="content">
-                <p
-                  class="text-sm sm:text-base text-gray-800 dark:text-zinc-300"
-                >
+                <p class="text-sm sm:text-base text-muted dark:text-zinc-300">
                   {sitemap_intro()}
                 </p>
                 <h2
@@ -343,7 +338,7 @@
                 </h2>
                 <nav aria-label={sitemap_pages_heading()}>
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-muted dark:text-zinc-300"
                   >
                     {#each tabs as item}
                       <li>
@@ -366,7 +361,7 @@
                 </h2>
                 <nav aria-label={sitemap_learning_center_heading()}>
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-muted dark:text-zinc-300"
                   >
                     {#each data?.getTutorialPost?.slice(0, 15) as item}
                       <li>
@@ -390,12 +385,13 @@
                 </h2>
                 <nav aria-label={sitemap_financial_terms_heading()}>
                   <ul
-                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                    class="list-outside list-disc space-y-1 p-1 pl-6 text-sm sm:text-base text-muted dark:text-zinc-300"
                   >
                     {#each data?.getTerms as item}
                       <li>
                         <a
-                          href={"/learning-center/article/" + convertToSlug(item?.title)}
+                          href={"/learning-center/article/" +
+                            convertToSlug(item?.title)}
                           class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                           title={sitemap_visit_page_title({
                             title: item?.title,
@@ -425,7 +421,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {sitemap_sidebar_pro_desc()}
                 </span>
@@ -445,7 +441,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {sitemap_sidebar_screener_desc()}
                 </span>
@@ -465,7 +461,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                   >{sitemap_sidebar_watchlists_desc()}
                 </span>
               </a>

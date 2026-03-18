@@ -625,16 +625,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{dividends_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">
+    <li class="text-muted dark:text-zinc-300">
       {dividends_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
@@ -687,7 +687,7 @@
                 <!-- Cards -->
                 {#if timeframe === "Daily"}
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -769,7 +769,7 @@
                           class=" m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -880,7 +880,7 @@
                               on:input={search}
                               type="text"
                               placeholder={dividends_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -947,7 +947,7 @@
                                     </td>
                                   {:else if column.key === "name"}
                                     <td
-                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
+                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300"
                                     >
                                       {item?.name.length > 20
                                         ? item?.name.slice(0, 20) + "..."
@@ -955,7 +955,7 @@
                                     </td>
                                   {:else if column.key === "marketCap"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {@html item?.marketCap !== null
                                         ? abbreviateNumber(
@@ -967,7 +967,7 @@
                                     </td>
                                   {:else if column.key === "revenue"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.revenue !== null
                                         ? abbreviateNumber(item?.revenue)
@@ -975,7 +975,7 @@
                                     </td>
                                   {:else if column.key === "adjDividend"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.adjDividend !== null
                                         ? item?.adjDividend?.toFixed(3)
@@ -983,7 +983,7 @@
                                     </td>
                                   {:else if column.key === "date"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.date !== null
                                         ? new Date(item?.date)?.toLocaleString(
@@ -1000,7 +1000,7 @@
                                     </td>
                                   {:else if column.key === "paymentDate"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.paymentDate !== null
                                         ? new Date(
@@ -1052,9 +1052,7 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span
-                              class="text-sm text-gray-600 dark:text-zinc-300"
-                            >
+                            <span class="text-sm text-muted dark:text-zinc-300">
                               {dividends_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
@@ -1149,7 +1147,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {dividends_back_to_top()}
                             <svg
@@ -1179,7 +1177,7 @@
                 <!-- Weekly View Container -->
                 <div class="flex flex-col w-full">
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -1417,7 +1415,7 @@
                           class=" m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"

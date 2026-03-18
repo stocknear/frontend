@@ -22,11 +22,13 @@
   class="modal modal-bottom sm:modal-middle rounded-none sm:rounded"
 >
   <div
-    class="modal-box w-full {$screenWidth < 640 ? 'min-h-screen' : ''} relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full {$screenWidth < 640
+      ? 'min-h-screen'
+      : ''} relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="promotionModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -36,7 +38,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="grid grid-cols-1 animate-fade-in-once">
       <div class="flex justify-center pt-6 sm:pt-3">
@@ -68,9 +71,7 @@
         {subtitle}
       </p>
 
-      <ul
-        class="space-y-3 text-sm sm:text-base text-gray-800 dark:text-zinc-200"
-      >
+      <ul class="space-y-3 text-sm sm:text-base text-muted dark:text-zinc-200">
         {#each features as feature}
           <li class="flex items-start gap-3">
             <span
@@ -107,7 +108,7 @@
         </label>
       </div>
 
-      <p class="mt-5 text-center text-xs text-gray-800 dark:text-zinc-300">
+      <p class="mt-5 text-center text-xs text-muted dark:text-zinc-300">
         Cancel anytime. We are a small team and your support means everything.
       </p>
     </div>

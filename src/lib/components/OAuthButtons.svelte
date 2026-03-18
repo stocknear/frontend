@@ -24,7 +24,7 @@
       on:click={handleClick}
       on:mouseenter={() => (isHoveredGoogle = true)}
       on:mouseleave={() => (isHoveredGoogle = false)}
-      class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
+      class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-[#f8fbfb] dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition"
     >
       <svg
         class="{isHoveredGoogle ? 'shake-logo' : ''} w-6 h-6 inline-block"
@@ -62,7 +62,7 @@
       on:click={handleClick}
       on:mouseenter={() => (isHoveredDiscord = true)}
       on:mouseleave={() => (isHoveredDiscord = false)}
-      class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+      class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-[#f8fbfb] dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
     >
       <svg
         class="{isHoveredDiscord ? 'shake-logo' : ''} w-7 h-7 inline-block"
@@ -84,7 +84,7 @@
       on:click={handleClick}
       on:mouseenter={() => (isHoveredGithub = true)}
       on:mouseleave={() => (isHoveredGithub = false)}
-      class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-white/80 dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
+      class="cursor-pointer shrink-0 rounded-full w-11 h-11 relative bg-[#f8fbfb] dark:bg-zinc-900/50 flex items-center justify-center border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900/80 transition text-gray-900 dark:text-white"
     >
       <svg
         class="{isHoveredGithub ? 'shake-logo' : ''} w-7 h-7 inline-block"

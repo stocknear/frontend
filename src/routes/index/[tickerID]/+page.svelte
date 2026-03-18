@@ -719,7 +719,7 @@
                             class="block px-3 sm:px-2 py-1 text-sm rounded-full duration-100 ease-in-out whitespace-nowrap
           {displayData === interval
                               ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                              : 'bg-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                              : 'bg-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >
                             {$screenWidth < 1200
                               ? interval
@@ -755,7 +755,6 @@
                   previousClose={data?.getStockQuote?.previousClose}
                   isNegative={chartIsNegative}
                   isLoading={isLoadingChart}
-
                 />
               {:else if !isLoadingChart}
                 <div
@@ -772,7 +771,6 @@
                   previousClose={null}
                   isNegative={false}
                   isLoading={true}
-
                 />
               {/if}
             </div>

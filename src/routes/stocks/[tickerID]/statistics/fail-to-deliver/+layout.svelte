@@ -1,16 +1,16 @@
 <script lang="ts">
   import { abbreviateNumber, removeCompanyStrings } from "$lib/utils";
   import {
-  stock_detail_stats_company,
-  stock_detail_stats_ftd_avg_volume_header,
-  stock_detail_stats_ftd_definition,
-  stock_detail_stats_ftd_definition_title,
-  stock_detail_stats_ftd_rankings,
-  stock_detail_stats_full_definition,
-  stock_detail_stats_pro_subscription,
-  stock_detail_stats_related_stocks,
-  stock_detail_stats_upgrade_desc,
-} from "$lib/paraglide/messages";
+    stock_detail_stats_company,
+    stock_detail_stats_ftd_avg_volume_header,
+    stock_detail_stats_ftd_definition,
+    stock_detail_stats_ftd_definition_title,
+    stock_detail_stats_ftd_rankings,
+    stock_detail_stats_full_definition,
+    stock_detail_stats_pro_subscription,
+    stock_detail_stats_related_stocks,
+    stock_detail_stats_upgrade_desc,
+  } from "$lib/paraglide/messages";
 
   export let data;
   const similarStocks = data?.getSimilarStocks?.sort(
@@ -73,9 +73,11 @@
             <div
               class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
             >
-              <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_stats_related_stocks()}</h3>
+              <h3 class="p-2 pt-4 text-xl font-semibold">
+                {stock_detail_stats_related_stocks()}
+              </h3>
               <table
-                class="table table-sm table-compact w-full text-sm text-gray-700 dark:text-zinc-200 tabular-nums"
+                class="table table-sm table-compact w-full text-sm text-muted dark:text-zinc-200 tabular-nums"
               >
                 <thead
                   class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"

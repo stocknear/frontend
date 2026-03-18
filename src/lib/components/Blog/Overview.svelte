@@ -180,13 +180,13 @@
             lg:grid-cols-4"
   >
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Market Cap</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Market Cap</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {abbreviateNumber(blogData?.marketCap)}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Sector</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Sector</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         <a
           href={sectorNavigation?.find(
@@ -199,19 +199,19 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">EPS (TTM)</div>
+      <div class="text-muted dark:text-gray-300 text-sm">EPS (TTM)</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.epsTTM}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">P/E (TTM)</div>
+      <div class="text-muted dark:text-gray-300 text-sm">P/E (TTM)</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.peTTM}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Div & Yield</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Div & Yield</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.annualDividend ?? "n/a"} ({blogData?.dividendYield
           ? blogData?.dividendYield + "%"
@@ -220,28 +220,28 @@
     </div>
 
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">P/S</div>
+      <div class="text-muted dark:text-gray-300 text-sm">P/S</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.priceToSalesRatio}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">P/B</div>
+      <div class="text-muted dark:text-gray-300 text-sm">P/B</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.priceToBookRatio}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Next Earnings</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Next Earnings</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.nextEarning}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-gray-300 text-sm">
         Shares Outstanding
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -249,20 +249,20 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Short % Float</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Short % Float</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.shortFloatPercent + "%"}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Short % Out</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Short % Out</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.shortOutstandingPercent?.toFixed(2) + "%"}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-gray-800 dark:text-gray-300 text-sm">Forward P/E</div>
+      <div class="text-muted dark:text-gray-300 text-sm">Forward P/E</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.forwardPE}
       </div>

@@ -548,7 +548,7 @@
 
   function getSignedPercentClass(value: number | null): string {
     if (value == null || value === 0) {
-      return "text-gray-600 dark:text-zinc-300";
+      return "text-muted dark:text-zinc-300";
     }
 
     return value > 0
@@ -1059,7 +1059,7 @@
                   class="mt-1 w-full flex flex-row lg:flex items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -1088,7 +1088,7 @@
                       on:input={() => (currentPage = 1)}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -1130,7 +1130,7 @@
                         </td>
 
                         <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-gray-600 dark:text-zinc-300"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-muted dark:text-zinc-300"
                         >
                           {#if item?.name?.length > charNumber}
                             {item.name.slice(0, charNumber) + "..."}
@@ -1140,7 +1140,7 @@
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                         >
                           {formatPrice(item?.price)}
                         </td>
@@ -1154,19 +1154,19 @@
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                         >
                           {formatLargeNumber(item?.marketValue)}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                         >
                           {formatLargeNumber(item?.sharesNumber)}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                         >
                           {formatWeight(item?.weightPercentage)}
                         </td>
@@ -1205,7 +1205,7 @@
                 </div>
 
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-gray-600 dark:text-zinc-300">
+                  <span class="text-sm text-muted dark:text-zinc-300">
                     {stock_detail_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1291,7 +1291,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   {stock_detail_back_to_top()}
                   <svg

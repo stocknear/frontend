@@ -538,7 +538,7 @@
                     on:input={search}
                     type="text"
                     placeholder={analysts_search_placeholder()}
-                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
                   />
                 </div>
 
@@ -697,7 +697,7 @@
                             </td>
                           {:else if column.key === "lastRating"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                             >
                               {item?.lastRating !== null
                                 ? new Date(item?.lastRating)?.toLocaleString(
@@ -754,7 +754,7 @@
                 </div>
 
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-gray-600 dark:text-zinc-300">
+                  <span class="text-sm text-muted dark:text-zinc-300">
                     {analysts_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -846,7 +846,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   {analysts_back_to_top()}
                   <svg

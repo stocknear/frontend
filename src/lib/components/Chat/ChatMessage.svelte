@@ -195,7 +195,8 @@
 
     return content.replace(
       /href=(["'])\/(?!\/)([^"']+)\1/gi,
-      (_match, quote, path) => `href=${quote}https://stocknear.com/${path}${quote}`,
+      (_match, quote, path) =>
+        `href=${quote}https://stocknear.com/${path}${quote}`,
     );
   }
 </script>
@@ -240,7 +241,7 @@
         <div class="w-full {message?.role === 'system' ? 'space-y-4' : ''}">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/80 dark:bg-zinc-950/60"
+              class="p-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-[#f8fbfb] dark:bg-zinc-950/60"
             >
               <textarea
                 bind:this={textareaElement}

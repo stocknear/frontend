@@ -24,7 +24,7 @@
       <!-- Discount badge -->
       <div class="flex items-center gap-3">
         <span
-          class="text-4xl sm:text-5xl font-bold text-violet-600 dark:text-violet-400"
+          class="text-4xl sm:text-5xl font-bold text-violet-800 dark:text-violet-400"
         >
           50%
         </span>

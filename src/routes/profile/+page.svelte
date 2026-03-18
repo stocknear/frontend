@@ -398,11 +398,11 @@
             >
               {profile_user_info_title()}
             </h2>
-            <div class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
+            <div class="mt-1 text-sm text-muted dark:text-zinc-300">
               <strong>{profile_user_email()}</strong>
               {data?.user?.email}
             </div>
-            <div class="mt-1 mb-5 text-sm text-gray-800 dark:text-zinc-300">
+            <div class="mt-1 mb-5 text-sm text-muted dark:text-zinc-300">
               <strong>{profile_user_registered()}</strong>
               {new Date(data?.user?.created ?? null)?.toLocaleString("en-US", {
                 month: "short",
@@ -425,7 +425,7 @@
             >
               {profile_discord_title()}
             </h2>
-            <p class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed">
+            <p class="text-sm text-muted dark:text-zinc-300 leading-relaxed">
               {profile_discord_description()}
             </p>
 
@@ -472,18 +472,18 @@
             {#if pwaInstalled}
               <div class="mt-3">
                 {#if nottifPermGranted === null}
-                  <p class="text-sm text-gray-800 dark:text-zinc-300">
+                  <p class="text-sm text-muted dark:text-zinc-300">
                     {profile_push_checking()}
                   </p>
                 {:else if nottifPermGranted === true}
                   {#if isPushSubscribed}
-                    <p class="mb-3 text-sm text-gray-800 dark:text-zinc-300">
+                    <p class="mb-3 text-sm text-muted dark:text-zinc-300">
                       {profile_push_active()}
                     </p>
                     <div class="mt-3">
                       {#if !loading}
                         <button
-                          class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
+                          class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                           type="button"
                           on:click={handlePushUnsubscribe}
                           >{profile_push_disable()}</button
@@ -525,12 +525,12 @@
                       {/if}
                     </div>
                   {:else}
-                    <p class="mb-3 text-sm text-gray-800 dark:text-zinc-300">
+                    <p class="mb-3 text-sm text-muted dark:text-zinc-300">
                       {profile_push_description()}
                     </p>
                     {#if !loading}
                       <button
-                        class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-white/80 dark:hover:bg-zinc-900/70 transition"
+                        class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                         type="button"
                         on:click={handlePushSubscribe}
                         >{profile_push_enable()}</button
@@ -548,14 +548,14 @@
                     {/if}
                   {/if}
                 {:else if nottifPermGranted === false}
-                  <p class="text-sm text-gray-800 dark:text-zinc-300">
+                  <p class="text-sm text-muted dark:text-zinc-300">
                     {profile_push_enable_settings()}
                   </p>
                 {/if}
               </div>
             {:else}
               <div class="mt-2">
-                <p class="mb-5 text-sm text-gray-800 dark:text-zinc-300">
+                <p class="mb-5 text-sm text-muted dark:text-zinc-300">
                   {profile_push_install_required()}
                 </p>
                 <label
@@ -578,7 +578,7 @@
             </h2>
             <div class="flex flex-row items-center">
               <span
-                class="text-sm sm:text-[1rem] text-gray-800 dark:text-zinc-300"
+                class="text-sm sm:text-[1rem] text-muted dark:text-zinc-300"
               >
                 {profile_subscription_status()}
               </span>
@@ -615,7 +615,7 @@
             </div>
             {#if !data?.user?.lifetime}
               {#if subscriptionData?.status_formatted === "Active"}
-                <span class="text-sm text-gray-800 dark:text-zinc-300 pr-5">
+                <span class="text-sm text-muted dark:text-zinc-300 pr-5">
                   Your subscription will automatically renew on {new Date(
                     subscriptionData?.renews_at,
                   )?.toLocaleDateString("en-GB", {
@@ -625,7 +625,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "On Trial"}
-                <span class="text-sm text-gray-800 dark:text-zinc-300 pr-5">
+                <span class="text-sm text-muted dark:text-zinc-300 pr-5">
                   Your subscription will automatically billed on {new Date(
                     subscriptionData?.trial_ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -636,7 +636,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "Cancelled"}
-                <span class="text-sm text-gray-800 dark:text-zinc-300">
+                <span class="text-sm text-muted dark:text-zinc-300">
                   Your subscription will remain active until {new Date(
                     subscriptionData?.ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -649,7 +649,7 @@
             {/if}
 
             <div class="flex flex-col justify-start items-start mt-4 mb-3">
-              <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
+              <span class="mr-2 text-sm text-muted dark:text-zinc-300">
                 {profile_subscription_current_plan()}
               </span>
               <span class="text-sm text-gray-700 dark:text-zinc-200">
@@ -670,7 +670,7 @@
             </div>
 
             <div class="flex flex-col justify-start items-start mb-3">
-              <span class="mr-2 text-sm text-gray-800 dark:text-zinc-300">
+              <span class="mr-2 text-sm text-muted dark:text-zinc-300">
                 {profile_subscription_credits({
                   credits: data?.user?.credits?.toLocaleString("en-US") ?? "0",
                 })}
@@ -680,7 +680,7 @@
             {#if ["Plus", "Pro"].includes(data?.user?.tier)}
               <div class="mx-auto w-full mt-6 mb-2">
                 <div class="flex items-center mt-3">
-                  <p class="text-sm text-gray-800 dark:text-zinc-300">
+                  <p class="text-sm text-muted dark:text-zinc-300">
                     <a
                       href="https://app.lemonsqueezy.com/my-orders"
                       target="_blank"
@@ -762,10 +762,10 @@
             >
               {profile_help_title()}
             </h2>
-            <div class="mt-1 text-sm text-gray-800 dark:text-zinc-300">
+            <div class="mt-1 text-sm text-muted dark:text-zinc-300">
               <strong>{profile_help_how_to()}</strong>
             </div>
-            <div class="mt-2 mb-1 text-sm text-gray-800 dark:text-zinc-300">
+            <div class="mt-2 mb-1 text-sm text-muted dark:text-zinc-300">
               <ul class="list-disc pl-5">
                 <li>
                   {profile_help_email()}
@@ -808,7 +808,7 @@
             >
               Sign Out
             </h2>
-            <p class="text-sm text-gray-800 dark:text-zinc-300 mb-4">
+            <p class="text-sm text-muted dark:text-zinc-300 mb-4">
               Sign out of your account on this device.
             </p>
             <form action="/logout" method="POST">
@@ -826,9 +826,13 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
-                  ></path><polyline points="16 17 21 12 16 7"
-                  ></polyline><line x1="21" x2="9" y1="12" y2="12"
-                  ></line></svg>
+                  ></path><polyline points="16 17 21 12 16 7"></polyline><line
+                    x1="21"
+                    x2="9"
+                    y1="12"
+                    y2="12"
+                  ></line></svg
+                >
 
                 Sign Out
               </button>
@@ -868,7 +872,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class=" mb-5 text-center">
       <h3
@@ -876,7 +881,7 @@
       >
         {profile_modal_cancel_title()}
       </h3>
-      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
+      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
         {profile_modal_cancel_description()}
       </span>
     </div>
@@ -940,7 +945,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class=" mb-5 text-center">
       <h3
@@ -948,7 +954,7 @@
       >
         {profile_modal_reactivate_title()}
       </h3>
-      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
+      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
         {profile_modal_reactivate_description()}
       </span>
     </div>
@@ -1018,7 +1024,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class=" mb-5 text-center">
       <h3
@@ -1026,7 +1033,7 @@
       >
         {profile_modal_upgrade_plus_title()}
       </h3>
-      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
+      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
         {profile_modal_upgrade_plus_description()}
       </span>
     </div>
@@ -1094,7 +1101,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class=" mb-5 text-center">
       <h3
@@ -1102,7 +1110,7 @@
       >
         {profile_modal_upgrade_pro_title()}
       </h3>
-      <span class="text-sm text-gray-800 dark:text-zinc-300 font-normal">
+      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
         {profile_modal_upgrade_pro_description()}
       </span>
     </div>
@@ -1157,7 +1165,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
@@ -1195,18 +1204,18 @@
 
       {#if installPlatform === "ios"}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
         >
           <li class="mb-2">{profile_install_ios_step1()}</li>
           <li class="mb-2">{profile_install_ios_step2()}</li>
           <li class="mb-4">{profile_install_ios_step3()}</li>
-          <p class="text-sm mb-4 text-gray-800 dark:text-zinc-300">
+          <p class="text-sm mb-4 text-muted dark:text-zinc-300">
             {profile_install_ios_note()}
           </p>
         </ul>
       {:else}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
         >
           <li class="mb-2">{profile_install_android_step1()}</li>
           <li class="mb-2">{profile_install_android_step2()}</li>

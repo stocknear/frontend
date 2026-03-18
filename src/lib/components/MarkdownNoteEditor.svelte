@@ -455,7 +455,7 @@
         </h3>
         <div class="flex items-center gap-2 mt-0.5">
           <span
-            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300"
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300"
           >
             {symbol}
           </span>

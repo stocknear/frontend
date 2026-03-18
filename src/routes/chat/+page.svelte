@@ -476,7 +476,7 @@
 />
 
 <div
-  class="w-full overflow-hidden m-auto min-h-[80vh] flex flex-col justify-center text-gray-700 dark:text-zinc-200 mt-10 sm:mt-0"
+  class="w-full overflow-hidden m-auto min-h-[80vh] flex flex-col justify-center text-muted dark:text-zinc-200 mt-10 sm:mt-0"
 >
   <div class="flex flex-col m-auto justify-center items-center w-full px-4">
     <div
@@ -507,12 +507,12 @@
         <!-- Suggestions Dropdown -->
         {#if showSuggestions}
           <ul
-            class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+            class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
             style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
           >
             {#each suggestions as suggestion, i}
               <li
-                class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-gray-700 dark:text-zinc-200 {i ===
+                class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-muted dark:text-zinc-200 {i ===
                 selectedSuggestion
                   ? ' bg-gray-100 dark:bg-zinc-900'
                   : ''}"
@@ -540,7 +540,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -567,7 +567,7 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
@@ -616,7 +616,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -667,7 +667,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -694,7 +694,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -743,7 +743,7 @@
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -839,7 +839,7 @@
                 closePopup?.dispatchEvent(new MouseEvent("click"));
               }
             }}
-            class="cursor-pointer flex items-center gap-3 w-full px-5 py-3.5 text-left text-sm text-gray-700 dark:text-zinc-300 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/50 transition-colors {i <
+            class="cursor-pointer flex items-center gap-3 w-full px-5 py-3.5 text-left text-sm text-muted dark:text-zinc-300 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/50 transition-colors {i <
             displayedChats.length - 1
               ? 'border-b border-gray-100 dark:border-zinc-800'
               : ''}"

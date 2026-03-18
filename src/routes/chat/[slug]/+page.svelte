@@ -16,16 +16,20 @@
   import { EditorView, Decoration, DecorationSet } from "prosemirror-view";
   import { keymap } from "prosemirror-keymap";
   import { schema } from "prosemirror-schema-basic";
-  import { chatReasoning, chatSidebarOpen, chatDeleteTargetId } from "$lib/store";
   import {
-  chat_credits,
-  chat_credits_left,
-  chat_error_connect,
-  chat_how_to_use_agents,
-  chat_placeholder_editable,
-  chat_placeholder_readonly,
-  chat_stock_agents,
-} from "$lib/paraglide/messages";
+    chatReasoning,
+    chatSidebarOpen,
+    chatDeleteTargetId,
+  } from "$lib/store";
+  import {
+    chat_credits,
+    chat_credits_left,
+    chat_error_connect,
+    chat_how_to_use_agents,
+    chat_placeholder_editable,
+    chat_placeholder_readonly,
+    chat_stock_agents,
+  } from "$lib/paraglide/messages";
 
   import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -114,7 +118,11 @@
   }
 
   async function pollChatStatus(targetChatId: string, runId: number) {
-    if (!targetChatId || runId !== chatStatusPollRunId || targetChatId !== chatId) {
+    if (
+      !targetChatId ||
+      runId !== chatStatusPollRunId ||
+      targetChatId !== chatId
+    ) {
       return;
     }
 
@@ -651,14 +659,14 @@
               }
             }
 
-            const resolvedContent = typeof json?.content === "string"
-              ? json.content
-              : (
-                typeof json?.delta === "string" &&
-                  (json?.event === "response_delta" || typeof json?.event === "undefined")
-              )
-              ? assistantText + json.delta
-              : null;
+            const resolvedContent =
+              typeof json?.content === "string"
+                ? json.content
+                : typeof json?.delta === "string" &&
+                    (json?.event === "response_delta" ||
+                      typeof json?.event === "undefined")
+                  ? assistantText + json.delta
+                  : null;
 
             if (resolvedContent !== null) {
               assistantText = resolvedContent;
@@ -757,7 +765,11 @@
         if (pendingContent && messages[lastIdx]?.role === "system") {
           messages[lastIdx].content = pendingContent;
           messages = [...messages];
-        } else if (!pendingContent && messages[lastIdx]?.role === "system" && !messages[lastIdx]?.content) {
+        } else if (
+          !pendingContent &&
+          messages[lastIdx]?.role === "system" &&
+          !messages[lastIdx]?.content
+        ) {
           // No content was received yet, remove the empty placeholder
           messages = messages.slice(0, -1);
         }
@@ -1088,7 +1100,7 @@
 />
 
 <section
-  class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0 text-gray-700 dark:text-zinc-200"
+  class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0 text-muted dark:text-zinc-200"
 >
   <!-- Header bar -->
   <div
@@ -1138,7 +1150,7 @@
     {/if}
 
     <h1
-      class="flex-1 text-sm font-medium text-gray-700 dark:text-zinc-300 truncate mx-3 text-center"
+      class="flex-1 text-sm font-medium text-muted dark:text-zinc-300 truncate mx-3 text-center"
     >
       {chatTitle}
     </h1>
@@ -1244,12 +1256,21 @@
       {#if userScrolledUp && isStreaming}
         <button
           on:click={scrollToBottom}
-          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-white dark:bg-zinc-900 text-gray-600 dark:text-zinc-300 rounded-full p-2 shadow-lg border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors {$chatSidebarOpen
+          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-white dark:bg-zinc-900 text-muted dark:text-zinc-300 rounded-full p-2 shadow-lg border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors {$chatSidebarOpen
             ? 'lg:left-[calc(50%+164px)]'
             : 'lg:left-[calc(50%+24px)]'}"
           aria-label="Scroll to bottom"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M7 13l5 5 5-5" /><path d="M7 6l5 5 5-5" />
           </svg>
         </button>
@@ -1285,7 +1306,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-11 w-11 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-11 w-11 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -1297,7 +1318,8 @@
                             fill="currentColor"
                             fill-rule="evenodd"
                             clip-rule="evenodd"
-                          ></path></svg>
+                          ></path></svg
+                        >
 
                         <div class="flex items-center gap-0.5">
                           <span class="max-w-16 truncate"
@@ -1311,14 +1333,15 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
                           <DropdownMenu.Label
                             class="text-gray-500 dark:text-zinc-400 font-semibold text-xs"
                           >
-                            {data?.user?.credits} {chat_credits_left()}
+                            {data?.user?.credits}
+                            {chat_credits_left()}
                           </DropdownMenu.Label>
                         {/if}
                         <!--
@@ -1359,7 +1382,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1400,9 +1423,9 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                                ><path d="m15 18-6-6 6-6"></path></svg>
-</button
-                            >
+                                ><path d="m15 18-6-6 6-6"></path></svg
+                              >
+                            </button>
                           </div>
                           {#each agentCategory as option}
                             <DropdownMenu.Item
@@ -1410,7 +1433,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -1437,7 +1460,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1478,15 +1501,15 @@
                                 stroke-width="2"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                                ><path d="m15 18-6-6 6-6"></path></svg>
-</button
-                            >
+                                ><path d="m15 18-6-6 6-6"></path></svg
+                              >
+                            </button>
                           </div>
                           {#each agentOptions as option}
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-gray-700 dark:text-zinc-200 transition-colors"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -1558,12 +1581,12 @@
     </main>
     {#if showSuggestions}
       <ul
-        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}
           <li
-            class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-gray-700 dark:text-zinc-200 {i ===
+            class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-muted dark:text-zinc-200 {i ===
             selectedSuggestion
               ? 'bg-gray-100 dark:bg-zinc-900'
               : ''}"

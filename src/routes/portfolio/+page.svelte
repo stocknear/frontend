@@ -1047,13 +1047,16 @@
                           class="text-sm cursor-pointer {item?.id ===
                           displayPortfolio?.id
                             ? 'text-gray-900 dark:text-white font-semibold'
-                            : 'text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
+                            : 'text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400'}"
                         >
                           {item?.title} ({item?.ticker?.length})
                           <label
                             for="deletePortfolio"
                             class="ml-auto inline-block cursor-pointer hover:text-rose-800 dark:hover:text-rose-400 transition"
-                            on:click|capture={(e) => { deleteTargetPortfolio = item; handleDeleteModal(e); }}
+                            on:click|capture={(e) => {
+                              deleteTargetPortfolio = item;
+                              handleDeleteModal(e);
+                            }}
                           >
                             <svg
                               class="size-5"
@@ -1090,7 +1093,7 @@
                   <div class="relative sm:ml-3 w-full">
                     <Combobox.Input
                       on:input={search}
-                      class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
+                      class="py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                       placeholder={portfolio_add_stock_placeholder()}
                       aria-label={portfolio_add_stock_placeholder()}
                     />
@@ -1150,7 +1153,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                      class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1169,7 +1172,7 @@
                   {/if}
                   <label
                     on:click={handleEditMode}
-                    class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1574,7 +1577,13 @@
 <input type="checkbox" id="deletePortfolio" class="modal-toggle" />
 
 <dialog id="deletePortfolio" class="modal modal-middle p-3 sm:p-0">
-  <label for="deletePortfolio" class="cursor-pointer modal-backdrop" on:click={() => { deleteTargetPortfolio = null; }}></label>
+  <label
+    for="deletePortfolio"
+    class="cursor-pointer modal-backdrop"
+    on:click={() => {
+      deleteTargetPortfolio = null;
+    }}
+  ></label>
 
   <div
     class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -1583,7 +1592,9 @@
       for="deletePortfolio"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
-      on:click={() => { deleteTargetPortfolio = null; }}
+      on:click={() => {
+        deleteTargetPortfolio = null;
+      }}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -1602,8 +1613,10 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deletePortfolio"
-        on:click={() => { deleteTargetPortfolio = null; }}
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        on:click={() => {
+          deleteTargetPortfolio = null;
+        }}
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{portfolio_cancel()}</label
       ><label
         for="deletePortfolio"

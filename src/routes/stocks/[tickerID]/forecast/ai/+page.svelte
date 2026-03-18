@@ -813,7 +813,7 @@
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !isSubscribed}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-gray-600 dark:text-zinc-300"
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-zinc-300"
                       >
                         <a
                           href="/pricing"
@@ -827,8 +827,8 @@
                             ><path
                               fill="currentColor"
                               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg>
-
+                            /></svg
+                          >
                         </a>
                       </div>
                     {/if}
@@ -845,13 +845,13 @@
                           class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm whitespace-nowrap"
                         >
                           <th
-                            class="py-[3px] text-left font-semibold lg:py-0.5 text-gray-600 dark:text-zinc-300"
+                            class="py-[3px] text-left font-semibold lg:py-0.5 text-muted dark:text-zinc-300"
                           >
                             {stock_detail_forecast_ai_date()}
                           </th>
                           {#each tableDates as item}
                             <th
-                              class="py-[3px] text-left font-semibold lg:py-0.5 text-gray-600 dark:text-zinc-300"
+                              class="py-[3px] text-left font-semibold lg:py-0.5 text-muted dark:text-zinc-300"
                             >
                               {item}
                             </th>
@@ -1125,7 +1125,7 @@
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !isSubscribed}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-gray-600 dark:text-zinc-300"
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-zinc-300"
                       >
                         <a
                           href="/pricing"
@@ -1139,8 +1139,8 @@
                             ><path
                               fill="currentColor"
                               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg>
-
+                            /></svg
+                          >
                         </a>
                       </div>
                     {/if}
@@ -1255,7 +1255,7 @@
                           {/if}
                         </tr>
 
-                        <tr class="text-sm text-gray-600 dark:text-zinc-300">
+                        <tr class="text-sm text-muted dark:text-zinc-300">
                           <td class="py-[3px] text-left lg:py-0.5"
                             >{stock_detail_forecast_change()}</td
                           >

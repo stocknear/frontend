@@ -9,7 +9,11 @@
   import { scale, fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
 
-  import { abbreviateNumber, formatETFName, groupScreenerRules } from "$lib/utils";
+  import {
+    abbreviateNumber,
+    formatETFName,
+    groupScreenerRules,
+  } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -112,14 +116,18 @@
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
   let ruleOfList = strategyList?.at(0)?.rules ?? [];
   let groupedRules = {};
-  $: displayRules = allRows?.filter((row) =>
-    ruleOfList?.some((rule) => rule.name === row.rule),
-  ) ?? [];
+  $: displayRules =
+    allRows?.filter((row) =>
+      ruleOfList?.some((rule) => rule.name === row.rule),
+    ) ?? [];
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
     { key: "lowCostIndex", label: etf_screener_strategy_low_cost_index() },
     { key: "highDividend", label: etf_screener_strategy_high_dividend() },
-    { key: "topPerformers1Y", label: etf_screener_strategy_top_performers_1y() },
+    {
+      key: "topPerformers1Y",
+      label: etf_screener_strategy_top_performers_1y(),
+    },
     { key: "oversoldETFs", label: etf_screener_strategy_oversold() },
   ];
 
@@ -419,8 +427,17 @@
     totalReturn1M: {
       label: "Total Return 1M",
       step: [
-        "100%", "50%", "20%", "10%", "5%", "1%",
-        "-1%", "-5%", "-10%", "-20%", "-50%",
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -430,8 +447,17 @@
     totalReturn3M: {
       label: "Total Return 3M",
       step: [
-        "100%", "50%", "20%", "10%", "5%", "1%",
-        "-1%", "-5%", "-10%", "-20%", "-50%",
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -441,8 +467,17 @@
     totalReturn6M: {
       label: "Total Return 6M",
       step: [
-        "100%", "50%", "20%", "10%", "5%", "1%",
-        "-1%", "-5%", "-10%", "-20%", "-50%",
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -452,8 +487,17 @@
     totalReturnYTD: {
       label: "Total Return YTD",
       step: [
-        "100%", "50%", "20%", "10%", "5%", "1%",
-        "-1%", "-5%", "-10%", "-20%", "-50%",
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "1%",
+        "-1%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -463,8 +507,16 @@
     totalReturn1Y: {
       label: "Total Return 1Y",
       step: [
-        "200%", "100%", "50%", "20%", "10%", "5%",
-        "-5%", "-10%", "-20%", "-50%",
+        "200%",
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "5%",
+        "-5%",
+        "-10%",
+        "-20%",
+        "-50%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -474,8 +526,15 @@
     totalReturn3Y: {
       label: "Total Return 3Y",
       step: [
-        "300%", "200%", "100%", "50%", "20%", "10%",
-        "-10%", "-20%", "-50%",
+        "300%",
+        "200%",
+        "100%",
+        "50%",
+        "20%",
+        "10%",
+        "-10%",
+        "-20%",
+        "-50%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -484,10 +543,7 @@
     },
     totalReturn5Y: {
       label: "Total Return 5Y",
-      step: [
-        "500%", "300%", "200%", "100%", "50%", "20%",
-        "-20%", "-50%",
-      ],
+      step: ["500%", "300%", "200%", "100%", "50%", "20%", "-20%", "-50%"],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -495,10 +551,7 @@
     },
     totalReturn10Y: {
       label: "Total Return 10Y",
-      step: [
-        "1000%", "500%", "300%", "200%", "100%", "50%",
-        "-50%",
-      ],
+      step: ["1000%", "500%", "300%", "200%", "100%", "50%", "-50%"],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -507,8 +560,16 @@
     cagr1Y: {
       label: "CAGR 1Y",
       step: [
-        "50%", "30%", "20%", "15%", "10%", "5%", "0%",
-        "-5%", "-10%", "-20%",
+        "50%",
+        "30%",
+        "20%",
+        "15%",
+        "10%",
+        "5%",
+        "0%",
+        "-5%",
+        "-10%",
+        "-20%",
       ],
       defaultCondition: "over",
       defaultValue: "any",
@@ -517,10 +578,7 @@
     },
     cagr3Y: {
       label: "CAGR 3Y",
-      step: [
-        "30%", "20%", "15%", "10%", "7%", "5%", "0%",
-        "-5%", "-10%",
-      ],
+      step: ["30%", "20%", "15%", "10%", "7%", "5%", "0%", "-5%", "-10%"],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -528,10 +586,7 @@
     },
     cagr5Y: {
       label: "CAGR 5Y",
-      step: [
-        "25%", "20%", "15%", "10%", "7%", "5%", "0%",
-        "-5%", "-10%",
-      ],
+      step: ["25%", "20%", "15%", "10%", "7%", "5%", "0%", "-5%", "-10%"],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -539,10 +594,7 @@
     },
     cagr10Y: {
       label: "CAGR 10Y",
-      step: [
-        "20%", "15%", "12%", "10%", "7%", "5%", "0%",
-        "-5%",
-      ],
+      step: ["20%", "15%", "12%", "10%", "7%", "5%", "0%", "-5%"],
       defaultCondition: "over",
       defaultValue: "any",
       varType: "percentSign",
@@ -1919,7 +1971,9 @@
       if (index === -1) {
         valueMappings[ruleName] = [...valueMappings[ruleName], valueKey];
       } else {
-        valueMappings[ruleName] = valueMappings[ruleName].filter((_, i) => i !== index);
+        valueMappings[ruleName] = valueMappings[ruleName].filter(
+          (_, i) => i !== index,
+        );
       }
 
       if (valueMappings[ruleName].length === 0) {
@@ -2380,7 +2434,9 @@
 
 <SEO
   title={etf_screener_seo_title()}
-  description={etf_screener_seo_description({ count: String(allRows?.length || 'thousands of') })}
+  description={etf_screener_seo_description({
+    count: String(allRows?.length || "thousands of"),
+  })}
   keywords={etf_screener_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
@@ -2427,7 +2483,9 @@
       >
     </li>
     <li>
-      <span class="text-gray-500 dark:text-zinc-400">{etf_screener_breadcrumb_etf_screener()}</span>
+      <span class="text-gray-500 dark:text-zinc-400"
+        >{etf_screener_breadcrumb_etf_screener()}</span
+      >
     </li>
   </BreadCrumb>
 
@@ -2443,7 +2501,9 @@
         <span
           class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-gray-500 dark:text-zinc-400"
         >
-          {etf_screener_matches_found({ count: totalItems?.toLocaleString("en-US") })}
+          {etf_screener_matches_found({
+            count: totalItems?.toLocaleString("en-US"),
+          })}
         </span>
       </div>
 
@@ -2459,7 +2519,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
@@ -2520,7 +2580,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate max-w-48"
                     >{selectedStrategy?.length !== 0
@@ -2576,7 +2636,9 @@
                           clip-rule="evenodd"
                         ></path>
                       </svg>
-                      <div class="text-sm text-start">{etf_screener_new_screen()}</div>
+                      <div class="text-sm text-start">
+                        {etf_screener_new_screen()}
+                      </div>
                     </Button>
                   </DropdownMenu.Trigger>
                 </DropdownMenu.Label>
@@ -2703,13 +2765,15 @@
               </div>
               <input
                 type="text"
-                placeholder={etf_screener_search_filters({ count: String(allRows?.length) })}
+                placeholder={etf_screener_search_filters({
+                  count: String(allRows?.length),
+                })}
                 bind:value={quickSearchTerm}
                 on:input={handleQuickSearchInput}
                 on:keydown={handleQuickSearchKeydown}
                 on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                 on:blur={closeQuickSearchDropdown}
-                class="block w-full lg:w-64 py-2.5 bg-white/80 dark:bg-zinc-950/60 placeholder:text-gray-800 dark:placeholder:text-zinc-300 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                class="block w-full lg:w-64 py-2.5 bg-[#f8fbfb] dark:bg-zinc-950/60 placeholder:text-muted dark:placeholder:text-zinc-300 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
               />
 
               <!-- Clear button -->
@@ -2832,7 +2896,7 @@
                 on:click={() => {
                   handleCreateStrategy();
                 }}
-                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
+                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-600 dark:hover:text-violet-400 focus:outline-hidden"
               >
                 <Copy class="w-4 h-4 inline-block mr-2" />
                 <div>{etf_screener_save_as_new()}</div>
@@ -2843,7 +2907,7 @@
           {#if ruleOfList?.length !== 0}
             <label
               on:click={handleResetAll}
-              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
             >
               <svg
                 class="h-4 w-4"
@@ -2896,7 +2960,7 @@
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-gray-800 dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-muted dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -2934,7 +2998,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if row?.rule === "excludeTickers"}
@@ -2962,8 +3026,12 @@
                                   )}
                             {:else if row?.rule === "etfProvider"}
                               {Array.isArray(valueMappings[row?.rule])
-                                ? valueMappings[row?.rule]?.map((v) => formatETFName(v))?.join(", ")
-                                : formatETFName(String(valueMappings[row?.rule]))}
+                                ? valueMappings[row?.rule]
+                                    ?.map((v) => formatETFName(v))
+                                    ?.join(", ")
+                                : formatETFName(
+                                    String(valueMappings[row?.rule]),
+                                  )}
                             {:else}
                               {ruleCondition[row?.rule]
                                 ?.replace("under", "Under")
@@ -3035,7 +3103,7 @@
                                 }}
                                 on:click|stopPropagation
                                 placeholder={etf_screener_search_input_placeholder()}
-                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
                           </DropdownMenu.Label>
@@ -3077,7 +3145,7 @@
                                 }}
                                 on:click|stopPropagation
                                 placeholder={etf_screener_search_input_placeholder()}
-                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-gray-700 dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
                           </DropdownMenu.Label>
@@ -3151,7 +3219,7 @@
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 0)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
                                   />
                                   <span class=" text-[1rem] font-normal mt-1">
                                     &
@@ -3166,7 +3234,7 @@
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 1)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
                                   />
                                 </div>
                               {:else}
@@ -3178,7 +3246,7 @@
                                     : ""}
                                   on:input={(e) =>
                                     handleValueInput(e, row?.rule)}
-                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-white/80 dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
                                 />
                               {/if}
 
@@ -3249,8 +3317,8 @@
                                 'country',
                               ].includes(row?.rule)
                                 ? 'hidden'
-                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-white/80 dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
-                                      focus:outline-none placeholder:text-gray-800 dark:placeholder:text-zinc-300"
+                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-[#f8fbfb] dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
+                                      focus:outline-none placeholder:text-muted dark:placeholder:text-zinc-300"
                               placeholder={etf_screener_search_input_placeholder()}
                             />
                           </div>
@@ -3452,7 +3520,7 @@
                               {/if}
                             {/each}
                           {:else if checkedRules.includes(row?.rule)}
-                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (row?.step ?? []) as item}
+                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (row?.step ?? [] as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
@@ -3467,12 +3535,16 @@
                                     class="rounded pointer-events-none"
                                     checked={isChecked(item, row?.rule)}
                                   />
-                                  <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
+                                  <span class="ml-2"
+                                    >{row?.rule === "etfProvider"
+                                      ? formatETFName(item)
+                                      : item}</span
+                                  >
                                 </div>
                               </DropdownMenu.Item>
                             {/each}
                           {:else}
-                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (allRules[row?.rule]?.step ?? []) as item}
+                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (allRules[row?.rule]?.step ?? [] as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
@@ -3487,7 +3559,11 @@
                                     class="rounded pointer-events-none"
                                     checked={isChecked(item, row?.rule)}
                                   />
-                                  <span class="ml-2">{row?.rule === "etfProvider" ? formatETFName(item) : item}</span>
+                                  <span class="ml-2"
+                                    >{row?.rule === "etfProvider"
+                                      ? formatETFName(item)
+                                      : item}</span
+                                  >
                                 </div>
                               </DropdownMenu.Item>
                             {/each}
@@ -3520,7 +3596,9 @@
           class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
         ></span>
       {:else}
-        {etf_screener_etfs_count({ count: totalItems?.toLocaleString("en-US") })}
+        {etf_screener_etfs_count({
+          count: totalItems?.toLocaleString("en-US"),
+        })}
       {/if}
     </h2>
     <div
@@ -3553,7 +3631,7 @@
             on:input={search}
             type="text"
             placeholder={etf_screener_search_placeholder()}
-            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -3610,7 +3688,9 @@
             </svg>
           {/if}
           <span class="truncate text-[0.85rem] sm:text-sm"
-            >{isFullWidth ? etf_screener_normal_width() : etf_screener_full_width()}</span
+            >{isFullWidth
+              ? etf_screener_normal_width()
+              : etf_screener_full_width()}</span
           >
         </button>
 
@@ -3648,7 +3728,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
               'general'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_general()}
             </button>
@@ -3659,7 +3739,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'filters'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               <span>{etf_screener_tab_filters()}</span>
               {#if ruleOfList?.length > 0}
@@ -3677,7 +3757,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'performance'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_performance()}
             </button>
@@ -3688,7 +3768,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'technicals'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {etf_screener_tab_technicals()}
             </button>
@@ -3699,7 +3779,7 @@
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'dividends'
                 ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_dividends()}
             </button>
@@ -3896,7 +3976,9 @@
                       >
                         {#if ["etfProvider", "assetClass", "topSector", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
                           {#if item[column.key]}
-                            {column.key === "etfProvider" ? formatETFName(item[column.key]) : item[column.key]}
+                            {column.key === "etfProvider"
+                              ? formatETFName(item[column.key])
+                              : item[column.key]}
                           {:else if !(column.key in item)}
                             <span
                               class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
@@ -4129,7 +4211,9 @@
                       >
                         {#if ["etfProvider", "assetClass", "topSector", "aumGroup", "payoutFrequency", "country"].includes(column.key)}
                           {#if item[column.key]}
-                            {column.key === "etfProvider" ? formatETFName(item[column.key]) : item[column.key]}
+                            {column.key === "etfProvider"
+                              ? formatETFName(item[column.key])
+                              : item[column.key]}
                           {:else if !(column.key in item)}
                             <span
                               class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
@@ -4174,7 +4258,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -4189,24 +4273,31 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="hidden sm:inline">{etf_screener_pagination_previous()}</span></Button
+              <span class="hidden sm:inline"
+                >{etf_screener_pagination_previous()}</span
+              ></Button
             >
           </div>
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {etf_screener_pagination_page_of({ current: String(currentPage), total: String(totalPages) })}
+            <span class="text-sm text-muted dark:text-zinc-300">
+              {etf_screener_pagination_page_of({
+                current: String(currentPage),
+                total: String(totalPages),
+              })}
             </span>
 
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
-                    >{etf_screener_rows_label({ rows: String(rowsPerPage) })}</span
+                    >{etf_screener_rows_label({
+                      rows: String(rowsPerPage),
+                    })}</span
                   >
                   <svg
                     class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -4241,7 +4332,11 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{etf_screener_rows_label({ rows: String(item) })}</span>
+                        <span class="text-sm"
+                          >{etf_screener_rows_label({
+                            rows: String(item),
+                          })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -4255,9 +4350,11 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <span class="hidden sm:inline">{etf_screener_pagination_next()}</span>
+              <span class="hidden sm:inline"
+                >{etf_screener_pagination_next()}</span
+              >
               <svg
                 class="h-5 w-5 inline-block shrink-0 -rotate-90"
                 viewBox="0 0 20 20"
@@ -4279,7 +4376,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             {etf_screener_back_to_top()}
             <svg
@@ -4359,7 +4456,9 @@
           <h2
             class=" text-[1rem] sm:text-xl font-semibold text-gray-900 dark:text-white"
           >
-            {etf_screener_select_filters_title({ count: String(allRows?.length) })}
+            {etf_screener_select_filters_title({
+              count: String(allRows?.length),
+            })}
           </h2>
           <label
             for="ruleModal"
@@ -4434,7 +4533,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-white/80 dark:bg-zinc-950/60"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-[#f8fbfb] dark:bg-zinc-950/60"
               placeholder={etf_screener_search_input_placeholder()}
               bind:value={searchTerm}
             />
@@ -4614,7 +4713,7 @@
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       {etf_screener_modal_delete_title()}
     </h3>
-    <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
+    <p class="text-sm mb-6 text-muted dark:text-zinc-300">
       {etf_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
@@ -4625,7 +4724,7 @@
           deleteTargetId = "";
         }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-            transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+            transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{etf_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
@@ -4691,13 +4790,13 @@
       <h3 class="font-semibold text-2xl mb-5 text-gray-900 dark:text-white">
         {tooltipTitle}
       </h3>
-      <span class=" text-[1rem] font-normal text-gray-800 dark:text-zinc-300"
+      <span class=" text-[1rem] font-normal text-muted dark:text-zinc-300"
         >{infoText?.text ?? "n/a"}</span
       >
       {#if infoText?.equation !== undefined}
         <div class="w-5/6 m-auto mt-5"></div>
         <div
-          class="text-[1rem] w-full pt-3 pb-3 m-auto text-gray-800 dark:text-zinc-300"
+          class="text-[1rem] w-full pt-3 pb-3 m-auto text-muted dark:text-zinc-300"
         >
           {infoText?.equation}
         </div>

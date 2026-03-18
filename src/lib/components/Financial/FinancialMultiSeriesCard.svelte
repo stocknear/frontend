@@ -6,7 +6,12 @@
 
   export let metricLabel: string;
   export let xList: string[] = [];
-  export let series: { label: string; values: number[]; color: string; darkColor: string }[] = [];
+  export let series: {
+    label: string;
+    values: number[];
+    color: string;
+    darkColor: string;
+  }[] = [];
   export let chartType: "grouped-bar" | "multi-line" = "grouped-bar";
   export let isMargin: boolean = false;
   export let onExpand: () => void = () => {};
@@ -18,19 +23,22 @@
   let tooltipVisible = false;
   let tooltipX = 0;
   let tooltipY = 0;
-  let tooltipData: { label: string; items: { name: string; value: string; color: string }[] } | null = null;
+  let tooltipData: {
+    label: string;
+    items: { name: string; value: string; color: string }[];
+  } | null = null;
 
   const CHART_HEIGHT = 160;
   const CHART_PADDING = { top: 10, right: 10, bottom: 35, left: 10 };
 
-  function getSeriesColor(s: typeof series[0]): string {
-    return $mode === 'light' ? s.color : s.darkColor;
+  function getSeriesColor(s: (typeof series)[0]): string {
+    return $mode === "light" ? s.color : s.darkColor;
   }
 
   function drawChart() {
     if (!canvasElement || !series?.length || !xList?.length) return;
 
-    const ctx = canvasElement.getContext('2d');
+    const ctx = canvasElement.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
@@ -55,12 +63,17 @@
     drawXLabels(ctx, chartWidth, height);
   }
 
-  function drawGroupedBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number) {
+  function drawGroupedBars(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+  ) {
     const dataLength = xList.length;
     const seriesCount = series.length;
     if (!dataLength || !seriesCount) return;
 
-    let minValue = 0, maxValue = 0;
+    let minValue = 0,
+      maxValue = 0;
     for (const s of series) {
       for (const v of s.values) {
         if (Number.isFinite(v)) {
@@ -72,10 +85,11 @@
     const valueRange = maxValue - minValue || 1;
     const zeroY = CHART_PADDING.top + chartHeight * (maxValue / valueRange);
 
-    const groupGap = Math.max(2, chartWidth / dataLength * 0.2);
+    const groupGap = Math.max(2, (chartWidth / dataLength) * 0.2);
     const groupWidth = (chartWidth - (dataLength - 1) * groupGap) / dataLength;
     const barGapInGroup = 1;
-    const barWidth = (groupWidth - (seriesCount - 1) * barGapInGroup) / seriesCount;
+    const barWidth =
+      (groupWidth - (seriesCount - 1) * barGapInGroup) / seriesCount;
 
     for (let i = 0; i < dataLength; i++) {
       const groupX = CHART_PADDING.left + i * (groupWidth + groupGap);
@@ -103,7 +117,12 @@
           ctx.moveTo(x, y);
           ctx.lineTo(x + barWidth, y);
           ctx.lineTo(x + barWidth, y + barHeight - radius);
-          ctx.quadraticCurveTo(x + barWidth, y + barHeight, x + barWidth - radius, y + barHeight);
+          ctx.quadraticCurveTo(
+            x + barWidth,
+            y + barHeight,
+            x + barWidth - radius,
+            y + barHeight,
+          );
           ctx.lineTo(x + radius, y + barHeight);
           ctx.quadraticCurveTo(x, y + barHeight, x, y + barHeight - radius);
           ctx.lineTo(x, y);
@@ -113,8 +132,13 @@
     }
   }
 
-  function drawMultiLine(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number) {
-    let minValue = Infinity, maxValue = -Infinity;
+  function drawMultiLine(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+  ) {
+    let minValue = Infinity,
+      maxValue = -Infinity;
     for (const s of series) {
       for (const v of s.values) {
         if (Number.isFinite(v)) {
@@ -130,7 +154,8 @@
     maxValue += padding;
     const valueRange = maxValue - minValue;
 
-    const stepX = xList.length > 1 ? chartWidth / (xList.length - 1) : chartWidth;
+    const stepX =
+      xList.length > 1 ? chartWidth / (xList.length - 1) : chartWidth;
 
     for (const s of series) {
       const color = getSeriesColor(s);
@@ -138,12 +163,16 @@
       // Draw area fill
       ctx.beginPath();
       let started = false;
-      let firstX = 0, lastX = 0;
+      let firstX = 0,
+        lastX = 0;
       for (let i = 0; i < s.values.length; i++) {
         const v = s.values[i];
         if (!Number.isFinite(v)) continue;
         const x = CHART_PADDING.left + i * stepX;
-        const y = CHART_PADDING.top + chartHeight - ((v - minValue) / valueRange) * chartHeight;
+        const y =
+          CHART_PADDING.top +
+          chartHeight -
+          ((v - minValue) / valueRange) * chartHeight;
         if (!started) {
           ctx.moveTo(x, y);
           firstX = x;
@@ -157,7 +186,7 @@
         ctx.lineTo(lastX, CHART_PADDING.top + chartHeight);
         ctx.lineTo(firstX, CHART_PADDING.top + chartHeight);
         ctx.closePath();
-        ctx.fillStyle = color + '18';
+        ctx.fillStyle = color + "18";
         ctx.fill();
       }
 
@@ -168,7 +197,10 @@
         const v = s.values[i];
         if (!Number.isFinite(v)) continue;
         const x = CHART_PADDING.left + i * stepX;
-        const y = CHART_PADDING.top + chartHeight - ((v - minValue) / valueRange) * chartHeight;
+        const y =
+          CHART_PADDING.top +
+          chartHeight -
+          ((v - minValue) / valueRange) * chartHeight;
         if (!started) {
           ctx.moveTo(x, y);
           started = true;
@@ -182,22 +214,30 @@
     }
   }
 
-  function drawXLabels(ctx: CanvasRenderingContext2D, chartWidth: number, height: number) {
+  function drawXLabels(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    height: number,
+  ) {
     const labelStep = Math.max(1, Math.ceil(xList.length / 6));
-    ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
-    ctx.font = '9px system-ui, -apple-system, sans-serif';
-    ctx.textAlign = 'center';
+    ctx.fillStyle = $mode === "light" ? "#6b7280" : "#a1a1aa";
+    ctx.font = "9px system-ui, -apple-system, sans-serif";
+    ctx.textAlign = "center";
 
     const dataLength = xList.length;
     if (!dataLength) return;
 
     if (chartType === "grouped-bar") {
-      const groupGap = Math.max(2, chartWidth / dataLength * 0.2);
-      const groupWidth = (chartWidth - (dataLength - 1) * groupGap) / dataLength;
+      const groupGap = Math.max(2, (chartWidth / dataLength) * 0.2);
+      const groupWidth =
+        (chartWidth - (dataLength - 1) * groupGap) / dataLength;
 
       xList.forEach((label, index) => {
         if (index % labelStep === 0 || index === xList.length - 1) {
-          const x = CHART_PADDING.left + index * (groupWidth + groupGap) + groupWidth / 2;
+          const x =
+            CHART_PADDING.left +
+            index * (groupWidth + groupGap) +
+            groupWidth / 2;
           const y = height - 8;
           ctx.save();
           ctx.translate(x, y);
@@ -233,21 +273,27 @@
     let barIndex: number;
     if (chartType === "grouped-bar") {
       const dataLength = xList.length;
-      const groupGap = Math.max(2, chartWidth / dataLength * 0.2);
-      const groupWidth = (chartWidth - (dataLength - 1) * groupGap) / dataLength;
+      const groupGap = Math.max(2, (chartWidth / dataLength) * 0.2);
+      const groupWidth =
+        (chartWidth - (dataLength - 1) * groupGap) / dataLength;
       barIndex = Math.floor(relativeX / (groupWidth + groupGap));
     } else {
-      const stepX = xList.length > 1 ? chartWidth / (xList.length - 1) : chartWidth;
+      const stepX =
+        xList.length > 1 ? chartWidth / (xList.length - 1) : chartWidth;
       barIndex = Math.round(relativeX / stepX);
     }
 
     if (barIndex >= 0 && barIndex < xList.length) {
-      const label = xList[barIndex] || '';
-      const items = series.map(s => {
+      const label = xList[barIndex] || "";
+      const items = series.map((s) => {
         const value = s.values[barIndex] ?? 0;
         const formatted = abbreviateNumber(value);
-        const suffix = isMargin ? '%' : '';
-        return { name: s.label, value: `${formatted}${suffix}`, color: getSeriesColor(s) };
+        const suffix = isMargin ? "%" : "";
+        return {
+          name: s.label,
+          value: `${formatted}${suffix}`,
+          color: getSeriesColor(s),
+        };
       });
 
       tooltipData = { label, items };
@@ -264,7 +310,7 @@
   }
 
   onMount(() => {
-    if (typeof window === 'undefined' || !cardElement) return;
+    if (typeof window === "undefined" || !cardElement) return;
 
     observer = new IntersectionObserver(
       (entries) => {
@@ -276,7 +322,7 @@
           }
         });
       },
-      { root: null, rootMargin: '50px', threshold: 0 }
+      { root: null, rootMargin: "50px", threshold: 0 },
     );
 
     observer.observe(cardElement);
@@ -290,23 +336,30 @@
     drawChart();
   }
 
-  $: if (hasBeenVisible && canvasElement && series?.length > 0 && xList?.length > 0) {
+  $: if (
+    hasBeenVisible &&
+    canvasElement &&
+    series?.length > 0 &&
+    xList?.length > 0
+  ) {
     drawChart();
   }
 
   // Compute latest values for header display
-  $: latestValues = series.map(s => {
+  $: latestValues = series.map((s) => {
     const lastVal = s.values[s.values.length - 1];
     return Number.isFinite(lastVal) ? lastVal : 0;
   });
 
   $: primaryLatest = latestValues.length > 0 ? latestValues[0] : 0;
-  $: primaryPrev = series.length > 0 && series[0].values.length > 1
-    ? series[0].values[series[0].values.length - 2]
-    : null;
-  $: primaryChange = primaryPrev !== null && primaryPrev !== 0 && Number.isFinite(primaryPrev)
-    ? ((primaryLatest - primaryPrev) / Math.abs(primaryPrev)) * 100
-    : null;
+  $: primaryPrev =
+    series.length > 0 && series[0].values.length > 1
+      ? series[0].values[series[0].values.length - 2]
+      : null;
+  $: primaryChange =
+    primaryPrev !== null && primaryPrev !== 0 && Number.isFinite(primaryPrev)
+      ? ((primaryLatest - primaryPrev) / Math.abs(primaryPrev)) * 100
+      : null;
 </script>
 
 <div
@@ -315,24 +368,29 @@
   role="button"
   tabindex="0"
   on:click={onExpand}
-  on:keydown={(e) => e.key === 'Enter' && onExpand()}
+  on:keydown={(e) => e.key === "Enter" && onExpand()}
 >
   <!-- Header -->
   <div class="flex items-center justify-between px-3 pt-3 pb-1">
     <div class="flex items-center gap-2 min-w-0">
-      <h3 class="text-sm font-medium text-gray-800 dark:text-zinc-200 truncate">
+      <h3 class="text-sm font-medium text-muted dark:text-zinc-200 truncate">
         {metricLabel}
       </h3>
-      <span class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0">
+      <span
+        class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0"
+      >
         {isMargin
           ? `${abbreviateNumber(primaryLatest)}%`
           : abbreviateNumber(primaryLatest)}
       </span>
       {#if primaryChange !== null}
-        <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-2xl shrink-0 {primaryChange >= 0
-          ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30'
-          : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30'}">
-          {primaryChange >= 0 ? '+' : ''}{primaryChange.toFixed(1)}%
+        <span
+          class="text-[10px] font-medium px-1.5 py-0.5 rounded-2xl shrink-0 {primaryChange >=
+          0
+            ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30'
+            : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30'}"
+        >
+          {primaryChange >= 0 ? "+" : ""}{primaryChange.toFixed(1)}%
         </span>
       {/if}
     </div>
@@ -351,8 +409,13 @@
     <div class="flex items-center gap-3 px-3 pb-1">
       {#each series as s}
         <div class="flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full" style="background-color: {getSeriesColor(s)}"></span>
-          <span class="text-[10px] text-gray-500 dark:text-zinc-400">{s.label}</span>
+          <span
+            class="w-2 h-2 rounded-full"
+            style="background-color: {getSeriesColor(s)}"
+          ></span>
+          <span class="text-[10px] text-gray-500 dark:text-zinc-400"
+            >{s.label}</span
+          >
         </div>
       {/each}
     </div>
@@ -361,10 +424,16 @@
   <!-- Chart -->
   <div class="px-2 pb-2 relative">
     {#if !hasBeenVisible}
-      <div class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg">
+      <div
+        class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg"
+      >
         <div class="flex flex-col items-center gap-2">
-          <div class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
-          <div class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+          <div
+            class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"
+          ></div>
+          <div
+            class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"
+          ></div>
         </div>
       </div>
     {:else}
@@ -384,7 +453,10 @@
           <div class="font-medium mb-0.5">{tooltipData.label}</div>
           {#each tooltipData.items as item}
             <div class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full" style="background-color: {item.color}"></span>
+              <span
+                class="w-1.5 h-1.5 rounded-full"
+                style="background-color: {item.color}"
+              ></span>
               <span>{item.name}: {item.value}</span>
             </div>
           {/each}

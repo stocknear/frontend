@@ -5,27 +5,27 @@
   import { page } from "$app/stores";
   import { GTM_EVENT_PURCHASE } from "$lib/constants/tracking";
   import {
-  welcome_access_info,
-  welcome_cta_button,
-  welcome_greeting,
-  welcome_plus_feature_1,
-  welcome_plus_feature_2,
-  welcome_plus_feature_3,
-  welcome_plus_feature_4,
-  welcome_plus_feature_5,
-  welcome_plus_feature_6,
-  welcome_plus_unlocks_title,
-  welcome_pro_feature_1,
-  welcome_pro_feature_2,
-  welcome_pro_feature_3,
-  welcome_pro_feature_4,
-  welcome_pro_feature_5,
-  welcome_pro_unlocks_title,
-  welcome_seo_title,
-  welcome_subtitle,
-  welcome_thanks,
-  welcome_title,
-} from "$lib/paraglide/messages";
+    welcome_access_info,
+    welcome_cta_button,
+    welcome_greeting,
+    welcome_plus_feature_1,
+    welcome_plus_feature_2,
+    welcome_plus_feature_3,
+    welcome_plus_feature_4,
+    welcome_plus_feature_5,
+    welcome_plus_feature_6,
+    welcome_plus_unlocks_title,
+    welcome_pro_feature_1,
+    welcome_pro_feature_2,
+    welcome_pro_feature_3,
+    welcome_pro_feature_4,
+    welcome_pro_feature_5,
+    welcome_pro_unlocks_title,
+    welcome_seo_title,
+    welcome_subtitle,
+    welcome_thanks,
+    welcome_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -50,13 +50,15 @@
           value: data.purchaseConversion.value,
           currency: "USD",
           transaction_id: data.purchaseConversion.transactionId,
-          items: [{
-            item_id: data.purchaseConversion.tier,
-            item_name: data.purchaseConversion.tier + " Subscription",
-            item_category: "Subscription",
-            price: data.purchaseConversion.value,
-            quantity: 1,
-          }],
+          items: [
+            {
+              item_id: data.purchaseConversion.tier,
+              item_name: data.purchaseConversion.tier + " Subscription",
+              item_category: "Subscription",
+              price: data.purchaseConversion.value,
+              quantity: 1,
+            },
+          ],
         },
       });
     }
@@ -90,7 +92,7 @@
 
 <SEO title={welcome_seo_title()} description="" />
 
-<main class="text-gray-700 dark:text-zinc-200 w-full min-h-screen pb-20">
+<main class="text-muted dark:text-zinc-200 w-full min-h-screen pb-20">
   <section
     class="border-b border-gray-300 dark:border-zinc-700 sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
   >
@@ -108,7 +110,7 @@
           {welcome_title({ tier })}
         </h1>
         <p
-          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-gray-800 dark:text-zinc-300"
+          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-muted dark:text-zinc-300"
         >
           {welcome_subtitle()}
         </p>
@@ -124,13 +126,13 @@
     </h2>
 
     <p
-      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
+      class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
     >
       {@html welcome_thanks()}
     </p>
 
     <p
-      class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
+      class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
     >
       {welcome_access_info()}
       <a
@@ -143,12 +145,12 @@
 
     {#if ["Pro", "Lifetime"]?.includes(tier)}
       <p
-        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
+        class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
       >
         {welcome_pro_unlocks_title()}
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>{welcome_pro_feature_1()}</li>
         <li>{welcome_pro_feature_2()}</li>
@@ -158,12 +160,12 @@
       </ul>
     {:else if tier === "Plus"}
       <p
-        class="mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300"
+        class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
       >
         {welcome_plus_unlocks_title()}
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-gray-800 dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>{welcome_plus_feature_1()}</li>
         <li>{welcome_plus_feature_2()}</li>

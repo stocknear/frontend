@@ -69,7 +69,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {stock_detail_stats_upgrade_desc()}
                 </span>
@@ -80,7 +80,9 @@
           <div
             class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
           >
-            <h3 class="p-2 pt-4 text-xl font-semibold">{stock_detail_dividends_definition_title()}</h3>
+            <h3 class="p-2 pt-4 text-xl font-semibold">
+              {stock_detail_dividends_definition_title()}
+            </h3>
             <div class="p-2">
               {stock_detail_dividends_definition_text()}
             </div>

@@ -103,7 +103,9 @@
   }
 
   function shouldUseRealtimeSocket() {
-    return Boolean(data?.wsURL && $isOpen && $indexTicker && !isComponentDestroyed);
+    return Boolean(
+      data?.wsURL && $isOpen && $indexTicker && !isComponentDestroyed,
+    );
   }
 
   function closeRealtimeSocket() {
@@ -125,10 +127,7 @@
       return;
     }
 
-    const closePolicy = getPublicWsClosePolicy(
-      event,
-      socketReconnectAttempt,
-    );
+    const closePolicy = getPublicWsClosePolicy(event, socketReconnectAttempt);
 
     if (closePolicy.invalidateToken) {
       invalidateWsToken("/price-data");
@@ -155,10 +154,10 @@
   function shouldUsePrePostSocket() {
     return Boolean(
       data?.wsURL &&
-        !$isOpen &&
-        !$isWeekend &&
-        $indexTicker &&
-        !isComponentDestroyed,
+      !$isOpen &&
+      !$isWeekend &&
+      $indexTicker &&
+      !isComponentDestroyed,
     );
   }
 
@@ -188,7 +187,11 @@
 
   // Pre-Post Quote WebSocket connection
   async function connectPrePostWebSocket() {
-    if (!shouldUsePrePostSocket() || prePostConnecting || prePostReconnectTimer) {
+    if (
+      !shouldUsePrePostSocket() ||
+      prePostConnecting ||
+      prePostReconnectTimer
+    ) {
       return;
     }
 
@@ -312,7 +315,11 @@
   }
 
   async function websocketRealtimeData() {
-    if (!shouldUseRealtimeSocket() || socketConnecting || socketReconnectTimer) {
+    if (
+      !shouldUseRealtimeSocket() ||
+      socketConnecting ||
+      socketReconnectTimer
+    ) {
       return;
     }
 
@@ -624,7 +631,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -650,7 +657,7 @@
                             ></div>
                             <a
                               href="/chart/{$indexTicker}"
-                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-gray-900 dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
                               <ChartNoAxes class="size-4 flex-shrink-0" />
                               <span>Pro Chart</span>
@@ -667,7 +674,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title={index_detail_price_alert()}
                             >
                               <svg
@@ -694,7 +701,7 @@
                             </label>
                             <a
                               href="/chart/{$indexTicker}"
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-gray-900 dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title="Pro Chart"
                             >
                               <ChartNoAxes class="size-5 flex-shrink-0" />
@@ -743,7 +750,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_overview()}
                         </a>
@@ -754,7 +761,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'holdings'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_holdings()}
                         </a>
@@ -765,7 +772,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_options()}
                         </a>
@@ -776,7 +783,7 @@
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'
                             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_history()}
                         </a>

@@ -651,7 +651,7 @@
           <div class="flex justify-center mb-6">
             <button
               on:click={() => (isExpanded = !isExpanded)}
-              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-gray-600 dark:text-zinc-400 transition sm:hover:text-violet-600 dark:sm:hover:text-violet-400"
+              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-gray-600 dark:text-zinc-400 transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
             >
               {#if isExpanded}
                 <span class="flex items-center gap-2">

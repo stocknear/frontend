@@ -778,7 +778,7 @@
                     class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                     i
                       ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                      : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                      : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                   >
                     {item.title}
                   </button>
@@ -861,7 +861,7 @@
                             </div>
 
                             <span
-                              class="text-sm sm:text-[1rem] text-gray-800 dark:text-zinc-300"
+                              class="text-sm sm:text-[1rem] text-muted dark:text-zinc-300"
                             >
                               {item.time_formatted}
                               {item.location !== null
@@ -895,7 +895,7 @@
                         <span class="text-[1rem] font-semibold">{date}</span>
                         {#if latestInfoDate(date)}
                           <label
-                            class="rounded-full border border-gray-300 shadow dark:border-zinc-700/80 bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
+                            class="rounded-full border border-gray-300 shadow dark:border-zinc-700/80 bg-[#f8fbfb] dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
                             >{potus_tracker_new()}</label
                           >
                         {/if}
@@ -925,9 +925,7 @@
                               <h3 class="font-semibold">
                                 <span>{potus_tracker_donald_trump()}</span>
                               </h3>
-                              <h4
-                                class="text-sm text-gray-800 dark:text-zinc-300"
-                              >
+                              <h4 class="text-sm text-muted dark:text-zinc-300">
                                 <div>
                                   {potus_tracker_title_label()}
                                   {item?.title}
@@ -951,9 +949,7 @@
 
                           <!-- Description -->
                           <div class="mt-2 w-full">
-                            <span
-                              class="text-sm text-gray-800 dark:text-zinc-300"
-                            >
+                            <span class="text-sm text-muted dark:text-zinc-300">
                               {item?.description?.length > 500
                                 ? item?.description?.slice(0, 500) + "..."
                                 : item?.description}
@@ -1100,7 +1096,7 @@
                         </div>
                       </div>
 
-                      <p class="mt-2 text-sm text-gray-800 dark:text-zinc-300">
+                      <p class="mt-2 text-sm text-muted dark:text-zinc-300">
                         {item?.content?.length > 500
                           ? item?.content?.slice(0, 500) + "..."
                           : item?.content}
@@ -1274,7 +1270,7 @@
                   >
                     {market_news_pro_subscription_title()}
                   </h2>
-                  <p class="text-sm text-gray-600 dark:text-zinc-300">
+                  <p class="text-sm text-muted dark:text-zinc-300">
                     {market_news_upgrade_description()}
                   </p>
                 </a>
@@ -1294,7 +1290,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {potus_tracker_sidebar_screener_desc()}
                 </span>
@@ -1314,7 +1310,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {potus_tracker_sidebar_watchlist_desc()}
                 </span>
@@ -1364,7 +1360,7 @@
         <h3 class="font-semibold">
           <span> Donald J. Trump </span>
         </h3>
-        <h4 class="text-sm text-gray-800 dark:text-zinc-300">{postTitle}</h4>
+        <h4 class="text-sm text-muted dark:text-zinc-300">{postTitle}</h4>
         <div
           class={`mt-2 px-3 py-1 rounded-full  text-xs sm:text-sm w-fit
                 ${
@@ -1471,7 +1467,7 @@
       </div>
     </div>
 
-    <p class="text-sm text-gray-800 dark:text-zinc-300 mb-4 mt-4">
+    <p class="text-sm text-muted dark:text-zinc-300 mb-4 mt-4">
       {postContent}
     </p>
 

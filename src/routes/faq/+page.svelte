@@ -65,16 +65,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{faq_breadcrumb()}</li>
+    <li class="text-muted dark:text-zinc-300">{faq_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -99,10 +99,10 @@
                 {faq_q1_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {@html faq_q1_answer({
-                  learningCenterLink: `<a href="/learning-center" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_learning_center()}</a>`
+                  learningCenterLink: `<a href="/learning-center" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_learning_center()}</a>`,
                 })}
               </p>
 
@@ -112,7 +112,7 @@
                 {faq_q2_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q2_answer()}
               </p>
@@ -123,20 +123,20 @@
                 {faq_q3_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q3_answer_1()}
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q3_answer_2()}
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {@html faq_q3_answer_3({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
                 })}
               </p>
 
@@ -146,10 +146,10 @@
                 {faq_q4_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {@html faq_q4_answer({
-                  optionsFlowLink: `<a href="/options-flow" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Options Flow</a>`
+                  optionsFlowLink: `<a href="/options-flow" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Options Flow</a>`,
                 })}
               </p>
 
@@ -159,7 +159,7 @@
                 {faq_q5_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q5_answer()}
               </p>
@@ -170,7 +170,7 @@
                 {faq_q6_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q6_answer()}
               </p>
@@ -181,14 +181,14 @@
                 {faq_q7_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {@html faq_q7_answer_1({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
                 })}
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q7_answer_2()}
               </p>
@@ -199,10 +199,10 @@
                 {faq_q8_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {@html faq_q8_answer({
-                  discordLink: `<a href="${discordURL}" rel="noopener noreferrer" target="_blank" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Discord</a>`
+                  discordLink: `<a href="${discordURL}" rel="noopener noreferrer" target="_blank" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Discord</a>`,
                 })}
               </p>
 
@@ -212,7 +212,7 @@
                 {faq_q9_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
               >
                 {faq_q9_answer()}
               </p>
@@ -233,9 +233,7 @@
                   {faq_sidebar_pro_title()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {faq_sidebar_pro_desc()}
               </span>
             </a>
@@ -249,11 +247,11 @@
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">{faq_sidebar_about_title()}</h2>
+                <h2 class="text-start text-lg font-semibold ml-3">
+                  {faq_sidebar_about_title()}
+                </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -271,9 +269,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_let_me_know()}
               </span>
             </a>

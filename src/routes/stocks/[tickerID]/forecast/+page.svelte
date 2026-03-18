@@ -438,7 +438,7 @@
                 ratingClass = "text-[#31B800]";
               }
 
-              const prefixClass = `${labelPrefixClass} font-semibold text-gray-600 dark:text-zinc-300`;
+              const prefixClass = `${labelPrefixClass} font-semibold text-muted dark:text-zinc-300`;
               const valueClass = `${labelValueClass} font-semibold ${ratingClass}`;
 
               return `
@@ -528,7 +528,7 @@
     const markerRadius = isCompact ? 3 : 4;
     const historicalLineWidth = isCompact ? 2 : 3;
     const titleWidthClass = isCompact ? "w-[200px]" : "w-[500px]";
-    const titleTextClass = `${titleWidthClass} grid grid-cols-2 text-xs font-semibold text-gray-600 dark:text-zinc-300`;
+    const titleTextClass = `${titleWidthClass} grid grid-cols-2 text-xs font-semibold text-muted dark:text-zinc-300`;
 
     const formatTarget = (value) => {
       if (value === null || value === undefined || Number.isNaN(value)) {
@@ -716,7 +716,7 @@
             allowOverlap: true,
             formatter: makeLabelFormatter(
               "Avg",
-              "text-gray-800 dark:text-zinc-300",
+              "text-muted dark:text-zinc-300",
             ),
           },
         },
@@ -988,7 +988,7 @@
                 
                           {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-white/80 border-gray-300 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
+                              : 'bg-[#f8fbfb] border-gray-300 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item}
@@ -999,8 +999,8 @@
                                 ><path
                                   fill="currentColor"
                                   d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                /></svg>
-
+                                /></svg
+                              >
                             </span>
                           </button>
                         {:else}
@@ -1081,7 +1081,7 @@
                   class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
-                    class="w-full text-right text-xs sm:text-sm text-gray-800 dark:text-zinc-300 tabular-nums"
+                    class="w-full text-right text-xs sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                   >
                     <thead
                       ><tr
@@ -1120,7 +1120,7 @@
                         <td>{highPriceTarget > 0 ? highPriceTarget : "n/a"}</td
                         ></tr
                       >
-                      <tr class="text-sm text-gray-600 dark:text-zinc-300">
+                      <tr class="text-sm text-muted dark:text-zinc-300">
                         <td class="py-[3px] text-left lg:py-0.5"
                           >{stock_detail_forecast_change()}</td
                         >
@@ -1175,7 +1175,7 @@
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
-                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-300 font-semibold text-xs px-2 py-0.5 ml-3"
+                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-300 font-semibold text-xs px-2 py-0.5 ml-3"
                       >{stock_detail_forecast_new()}</label
                     >
                   {/if}
@@ -1196,18 +1196,18 @@
                       <span class="mt-3">
                         {stock_detail_forecast_unlock_pro()}
                         <a
-                          class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
                           href="/pricing"
                           ><svg
-                            class="w-4 h-4 mb-1 inline-block text-gray-800 dark:text-zinc-300"
+                            class="w-4 h-4 mb-1 inline-block text-muted dark:text-zinc-300"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             ><path
                               fill="currentColor"
                               d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                            /></svg>
-</a
-                        >
+                            /></svg
+                          >
+                        </a>
                       </span>
                     </p>
 
@@ -1259,7 +1259,7 @@
                   class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
-                    class="w-full text-right text-xs sm:text-sm text-gray-800 dark:text-zinc-300 tabular-nums"
+                    class="w-full text-right text-xs sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                   >
                     <thead
                       ><tr
@@ -1373,7 +1373,8 @@
                           stroke-linejoin="round"
                           stroke-width="2"
                           d="M7 11l5-5m0 0l5 5m-5-5v12"
-                        ></path></svg>
+                        ></path></svg
+                      >
 
                       <span class="sr-only"
                         >{stock_detail_forecast_increased_by()}</span
@@ -1446,7 +1447,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
-                      ></path></svg>
+                      ></path></svg
+                    >
 
                     <span class="sr-only"
                       >{stock_detail_forecast_increased_by()}</span
@@ -1507,7 +1509,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
-                      ></path></svg>
+                      ></path></svg
+                    >
 
                     <span class="sr-only"
                       >{stock_detail_forecast_increased_by()}</span
@@ -1565,7 +1568,8 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M7 11l5-5m0 0l5 5m-5-5v12"
-                      ></path></svg>
+                      ></path></svg
+                    >
 
                     <span class="sr-only"
                       >{stock_detail_forecast_increased_by()}</span
@@ -1602,7 +1606,8 @@
                 ><path
                   fill="#fff"
                   d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16"
-                /></svg>
+                /></svg
+              >
 
               {stock_detail_forecast_no_forecast_data({
                 company: $displayCompanyName,

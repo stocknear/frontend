@@ -85,11 +85,11 @@
   // Helper to check if ticker exists in watchlist (handles both string and object formats)
   function tickerExistsInWatchlist(
     tickers: (string | { symbol: string })[],
-    symbol: string
+    symbol: string,
   ): boolean {
     if (!tickers || !Array.isArray(tickers)) return false;
     return tickers.some((t) =>
-      typeof t === "string" ? t === symbol : t?.symbol === symbol
+      typeof t === "string" ? t === symbol : t?.symbol === symbol,
     );
   }
 
@@ -145,7 +145,7 @@
 
     try {
       const watchlistIndex = userWatchList.findIndex(
-        (item) => item?.id === watchListId
+        (item) => item?.id === watchListId,
       );
 
       if (watchlistIndex !== -1) {
@@ -178,7 +178,7 @@
 
         // Update local state based on API response (single source of truth)
         userWatchList = userWatchList.map((item) =>
-          item.id === watchListId ? output : item
+          item.id === watchListId ? output : item,
         );
       } else {
         // If watchlist doesn't exist, create a new entry
@@ -210,7 +210,7 @@
 <!-- Watchlist Button -->
 <button
   on:click={handleWatchlistButtonClick}
-  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-700 ease-out whitespace-nowrap text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-white/80 sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
+  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-700 ease-out whitespace-nowrap text-gray-900 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-[#f8fbfb] sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
   title={msg.watchlist()}
 >
   <svg
@@ -223,9 +223,14 @@
     stroke-linejoin="round"
     aria-hidden="true"
   >
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    <polygon
+      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+    />
   </svg>
-  <span class="text-xs sm:text-sm sm:overflow-hidden sm:max-w-0 sm:group-hover:max-w-24 sm:group-hover:ml-1.5 transition-all duration-700 ease-out">{msg.watchlist()}</span>
+  <span
+    class="text-xs sm:text-sm sm:overflow-hidden sm:max-w-0 sm:group-hover:max-w-24 sm:group-hover:ml-1.5 transition-all duration-700 ease-out"
+    >{msg.watchlist()}</span
+  >
 </button>
 
 <!-- Watchlist Modal -->
@@ -239,10 +244,7 @@
 <dialog id="watchlistModal-{ticker}" class="modal p-3 sm:p-0">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div
-    class="modal-backdrop"
-    on:click={closeModal}
-  ></div>
+  <div class="modal-backdrop" on:click={closeModal}></div>
 
   <div
     class="modal-box max-h-96 w-full relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
@@ -259,12 +261,15 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div
       class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800"
     >
-      <h3 class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white">
+      <h3
+        class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-white"
+      >
         {msg.addTo()}
       </h3>
     </div>
@@ -279,7 +284,7 @@
             <div
               class="flex flex-row items-center w-full border p-3 rounded-2xl {tickerExistsInWatchlist(
                 item?.ticker,
-                ticker
+                ticker,
               )
                 ? 'border-gray-200/70 dark:border-zinc-700/80 bg-gray-50/60 dark:bg-zinc-900/50'
                 : 'border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40'}"
@@ -288,7 +293,9 @@
                 <span class="ml-1 mr-auto text-gray-700 dark:text-zinc-200">
                   {item?.title}
                 </span>
-                <span class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300">
+                <span
+                  class="ml-1 text-sm mr-auto text-gray-500 dark:text-zinc-300"
+                >
                   {item?.ticker?.length}
                   {item?.ticker?.length !== 1 ? msg.companies() : msg.company()}
                 </span>
@@ -315,7 +322,12 @@
                     <g id="SVGRepo_iconCarrier">
                       <title>ic_fluent_checkmark_circle_48_filled</title>
                       <desc>Created with Sketch.</desc>
-                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g
+                        stroke="none"
+                        stroke-width="1"
+                        fill="none"
+                        fill-rule="evenodd"
+                      >
                         <g
                           id="ic_fluent_checkmark_circle_48_filled"
                           fill="currentColor"

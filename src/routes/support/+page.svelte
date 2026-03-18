@@ -10,28 +10,28 @@
   import { Turnstile } from "svelte-turnstile";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  support_breadcrumb_current,
-  support_breadcrumb_home,
-  support_button_processing,
-  support_button_send,
-  support_description_1,
-  support_description_2,
-  support_description_3,
-  support_faq_link,
-  support_label_email,
-  support_label_message,
-  support_label_subject,
-  support_seo_title,
-  support_sidebar_pro_description,
-  support_sidebar_pro_title,
-  support_sidebar_screener_description,
-  support_sidebar_screener_title,
-  support_sidebar_watchlist_description,
-  support_sidebar_watchlist_title,
-  support_success_message,
-  support_title,
-  support_toast_error,
-} from "$lib/paraglide/messages";
+    support_breadcrumb_current,
+    support_breadcrumb_home,
+    support_button_processing,
+    support_button_send,
+    support_description_1,
+    support_description_2,
+    support_description_3,
+    support_faq_link,
+    support_label_email,
+    support_label_message,
+    support_label_subject,
+    support_seo_title,
+    support_sidebar_pro_description,
+    support_sidebar_pro_title,
+    support_sidebar_screener_description,
+    support_sidebar_screener_title,
+    support_sidebar_watchlist_description,
+    support_sidebar_watchlist_title,
+    support_success_message,
+    support_title,
+    support_toast_error,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let form;
@@ -95,16 +95,18 @@
     class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
   >
     <BreadCrumb
-      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
     >
       <li>
         <a
           href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >{support_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">{support_breadcrumb_current()}</li>
+      <li class="text-muted dark:text-zinc-300">
+        {support_breadcrumb_current()}
+      </li>
     </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
@@ -123,7 +125,8 @@
 
             <div class="w-full m-auto">
               <p class="text-sm sm:text-base">
-                {support_description_1()} <a
+                {support_description_1()}
+                <a
                   href={`mailto:${emailAddress}`}
                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{emailAddress}</a
@@ -131,7 +134,8 @@
               </p>
               <br />
               <p class="text-sm sm:text-base">
-                {support_description_2()} <a
+                {support_description_2()}
+                <a
                   href="/faq"
                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                   >{support_faq_link()}</a
@@ -163,7 +167,11 @@
                   />
                 </div>
                 <div class="mt-5 w-full max-w-[650px]">
-                  <TextArea label={support_label_message()} id="message" required={true} />
+                  <TextArea
+                    label={support_label_message()}
+                    id="message"
+                    required={true}
+                  />
 
                   {#if showTurnstile}
                     <div class="pt-5">
@@ -191,7 +199,8 @@
                     >
                       <div class="flex flex-row m-auto items-center">
                         <span class="loading loading-spinner"></span>
-                        <span class="ml-1.5">{support_button_processing()}</span>
+                        <span class="ml-1.5">{support_button_processing()}</span
+                        >
                       </div>
                     </label>
                   {/if}
@@ -213,8 +222,8 @@
                                 fill-rule="evenodd"
                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                 clip-rule="evenodd"
-                              ></path></svg>
-
+                              ></path></svg
+                            >
                           </div>
                           <div class="ml-3 sm:ml-4">
                             <span class="text-base"
@@ -244,7 +253,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {support_sidebar_pro_description()}
                 </span>
@@ -264,7 +273,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {support_sidebar_screener_description()}
                 </span>
@@ -284,7 +293,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                   >{support_sidebar_watchlist_description()}
                 </span>
               </a>

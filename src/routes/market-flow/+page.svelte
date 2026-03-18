@@ -17,51 +17,51 @@
   import IntradayBarsChart from "$lib/components/MarketFlow/IntradayBarsChart.svelte";
   import LineChart from "lucide-svelte/icons/chart-no-axes-gantt";
   import {
-  market_flow_breadcrumb_home,
-  market_flow_breadcrumb_market_flow,
-  market_flow_card_most_active_sector,
-  market_flow_card_net_call_prem,
-  market_flow_card_net_put_prem,
-  market_flow_card_net_volume,
-  market_flow_last_update,
-  market_flow_modal_description,
-  market_flow_modal_title,
-  market_flow_overview_as_of,
-  market_flow_overview_contracts,
-  market_flow_overview_contracts_period,
-  market_flow_overview_indicating,
-  market_flow_overview_intro,
-  market_flow_overview_net_call_premium,
-  market_flow_overview_net_put_premium,
-  market_flow_overview_of_average,
-  market_flow_overview_sentiment,
-  market_flow_overview_total_volume,
-  market_flow_overview_volume_pc_ratio,
-  market_flow_section_fear_greed,
-  market_flow_section_open_interest,
-  market_flow_section_sector_flow,
-  market_flow_section_sp500_flow,
-  market_flow_section_volume,
-  market_flow_sentiment_bearish,
-  market_flow_sentiment_bullish,
-  market_flow_sentiment_neutral,
-  market_flow_sentiment_unknown,
-  market_flow_seo_description,
-  market_flow_seo_keywords,
-  market_flow_seo_title,
-  market_flow_stat_call_oi,
-  market_flow_stat_call_volume,
-  market_flow_stat_put_call_ratio,
-  market_flow_stat_put_oi,
-  market_flow_stat_put_volume,
-  market_flow_stat_todays_oi,
-  market_flow_stat_todays_volume,
-  market_flow_structured_description,
-  market_flow_structured_name,
-  market_flow_upgrade,
-  market_flow_upgrade_to_pro,
-  market_flow_view_intraday_bars,
-} from "$lib/paraglide/messages";
+    market_flow_breadcrumb_home,
+    market_flow_breadcrumb_market_flow,
+    market_flow_card_most_active_sector,
+    market_flow_card_net_call_prem,
+    market_flow_card_net_put_prem,
+    market_flow_card_net_volume,
+    market_flow_last_update,
+    market_flow_modal_description,
+    market_flow_modal_title,
+    market_flow_overview_as_of,
+    market_flow_overview_contracts,
+    market_flow_overview_contracts_period,
+    market_flow_overview_indicating,
+    market_flow_overview_intro,
+    market_flow_overview_net_call_premium,
+    market_flow_overview_net_put_premium,
+    market_flow_overview_of_average,
+    market_flow_overview_sentiment,
+    market_flow_overview_total_volume,
+    market_flow_overview_volume_pc_ratio,
+    market_flow_section_fear_greed,
+    market_flow_section_open_interest,
+    market_flow_section_sector_flow,
+    market_flow_section_sp500_flow,
+    market_flow_section_volume,
+    market_flow_sentiment_bearish,
+    market_flow_sentiment_bullish,
+    market_flow_sentiment_neutral,
+    market_flow_sentiment_unknown,
+    market_flow_seo_description,
+    market_flow_seo_keywords,
+    market_flow_seo_title,
+    market_flow_stat_call_oi,
+    market_flow_stat_call_volume,
+    market_flow_stat_put_call_ratio,
+    market_flow_stat_put_oi,
+    market_flow_stat_put_volume,
+    market_flow_stat_todays_oi,
+    market_flow_stat_todays_volume,
+    market_flow_structured_description,
+    market_flow_structured_name,
+    market_flow_upgrade,
+    market_flow_upgrade_to_pro,
+    market_flow_view_intraday_bars,
+  } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
@@ -374,11 +374,13 @@
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{market_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">{market_flow_breadcrumb_market_flow()}</li>
+    <li class="text-muted dark:text-gray-300">
+      {market_flow_breadcrumb_market_flow()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto">
@@ -389,10 +391,10 @@
         <main class="w-full">
           <div class="w-full m-auto">
             <p
-              class="mb-5 text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
+              class="mb-5 text-sm sm:text-base leading-6 text-muted dark:text-zinc-300"
             >
-              {market_flow_overview_intro()} <strong
-                class="font-semibold text-gray-900 dark:text-white"
+              {market_flow_overview_intro()}
+              <strong class="font-semibold text-gray-900 dark:text-white"
                 >S&P500</strong
               >. {market_flow_overview_as_of()}
               <strong class="font-semibold text-gray-900 dark:text-white"
@@ -408,7 +410,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -436,7 +439,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -458,7 +462,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -471,7 +476,8 @@
                   </a>
                 {/if}
               </strong>
-              {market_flow_overview_contracts_period()} {market_flow_overview_volume_pc_ratio()}
+              {market_flow_overview_contracts_period()}
+              {market_flow_overview_volume_pc_ratio()}
               <strong class="font-semibold text-gray-900 dark:text-white">
                 {#if isPro}
                   {overview?.pcVol?.toFixed(2) || "n/a"}
@@ -480,7 +486,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -503,7 +510,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -527,7 +535,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -579,7 +588,8 @@
                     href="/pricing"
                     class="inline-flex items-center gap-1 font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
                   >
-                    {market_flow_upgrade()} <svg
+                    {market_flow_upgrade()}
+                    <svg
                       class="w-4 h-4 mb-1 inline-block"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -600,7 +610,7 @@
                 class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>{market_flow_card_net_volume()}</span>
                 </div>
@@ -640,7 +650,7 @@
                 class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>{market_flow_card_net_call_prem()}</span>
                 </div>
@@ -680,7 +690,7 @@
                 class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>{market_flow_card_net_put_prem()}</span>
                 </div>
@@ -720,7 +730,7 @@
                 class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-gray-800 dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
                 >
                   <span>{market_flow_card_most_active_sector()}</span>
                 </div>
@@ -805,14 +815,18 @@
                   >
                     {market_flow_section_fear_greed()}
                   </h2>
-                  <span class="text-xs italic text-gray-800 dark:text-zinc-300">
-                    {market_flow_last_update()} {new Date(
+                  <span class="text-xs italic text-muted dark:text-zinc-300">
+                    {market_flow_last_update()}
+                    {new Date(
                       data?.getFearAndGreed?.current?.date,
-                    )?.toLocaleDateString(getLocale() === "de" ? "de-DE" : "en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                    )?.toLocaleDateString(
+                      getLocale() === "de" ? "de-DE" : "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      },
+                    )}
                   </span>
                 </div>
 
@@ -901,7 +915,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_todays_oi()}</span>
                           <InfoModal
@@ -940,7 +954,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_call_ratio()}</span>
                           <InfoModal
@@ -978,7 +992,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_oi()}</span>
                           <InfoModal
@@ -1016,7 +1030,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_call_oi()}</span>
                           <InfoModal
@@ -1075,7 +1089,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_todays_volume()}</span>
                           <InfoModal
@@ -1114,7 +1128,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_call_ratio()}</span>
                           <InfoModal
@@ -1152,7 +1166,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_volume()}</span>
                           <InfoModal
@@ -1190,7 +1204,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-gray-800 dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_call_volume()}</span>
                           <InfoModal
@@ -1251,7 +1265,7 @@
         >
           {market_flow_modal_title()}
         </h3>
-        <p class="text-xs sm:text-sm text-gray-600 dark:text-zinc-300">
+        <p class="text-xs sm:text-sm text-muted dark:text-zinc-300">
           {market_flow_modal_description()}
         </p>
       </div>
@@ -1267,7 +1281,8 @@
           ><path
             fill="currentColor"
             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg>
+          /></svg
+        >
       </label>
     </div>
 

@@ -552,10 +552,10 @@
             <Button
               builders={[builder]}
               size="icon"
-              class="group rounded-full bg-transparent text-gray-600 dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
+              class="group rounded-full bg-transparent text-muted dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
             >
               <Menu
-                class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-gray-600 dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
+                class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-muted dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
               />
               <span class="sr-only">{layout_toggle_menu()}</span>
             </Button>
@@ -587,7 +587,7 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="rounded-full w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 transition"
+                  class="rounded-full w-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 transition"
                 >
                   <a
                     class="cursor-pointer w-full flex justify-start items-start"
@@ -653,7 +653,7 @@
                           >
                             <a
                               href="/industry"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_by_industry()}</a
                             >
                           </Button>
@@ -665,7 +665,7 @@
                           >
                             <a
                               href="/market-mover/gainers"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_mover()}</a
                             >
                           </Button>
@@ -677,7 +677,7 @@
                           >
                             <a
                               href="/stocks/heatmap"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_heatmap()}</a
                             >
                           </Button>
@@ -689,7 +689,7 @@
                           >
                             <a
                               href="/stocks/compare"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
                           </Button>
@@ -701,7 +701,7 @@
                           >
                             <a
                               href="/list"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
                             >
                           </Button>
@@ -735,7 +735,7 @@
                           >
                             <a
                               href="/etf/etf-providers"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
                             >
                           </Button>
@@ -746,7 +746,7 @@
                           >
                             <a
                               href="/etf/heatmap"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
                           </Button>
@@ -757,7 +757,7 @@
                           >
                             <a
                               href="/etf/compare"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_comparison_tool()}</a
                             >
                           </Button>
@@ -768,7 +768,7 @@
                           >
                             <a
                               href="/etf/new-launches"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_new_launches()}</a
                             >
                           </Button>
@@ -802,7 +802,7 @@
                           >
                             <a
                               href="/analysts"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_top_analysts()}</a
                             >
                           </Button>
@@ -813,7 +813,7 @@
                           >
                             <a
                               href="/analysts/top-stocks"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_top_analyst_stocks()}</a
                             >
                           </Button>
@@ -825,7 +825,7 @@
                           >
                             <a
                               href="/analysts/analyst-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_analyst_live_flow()}</a
                             >
                           </Button>
@@ -859,7 +859,7 @@
                           >
                             <a
                               href="/dividends-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_dividends_calendar()}</a
                             >
                           </Button>
@@ -870,7 +870,7 @@
                           >
                             <a
                               href="/earnings-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_earnings_calendar()}</a
                             >
                           </Button>
@@ -882,7 +882,7 @@
                           >
                             <a
                               href="/ipos"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_ipo_calendar()}</a
                             >
                           </Button>
@@ -894,7 +894,7 @@
                           >
                             <a
                               href="/economic-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_economic_calendar()}</a
                             >
                           </Button>
@@ -906,7 +906,7 @@
                           >
                             <a
                               href="/economic-indicator"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Economic Indicator</a
                             >
                           </Button>
@@ -919,7 +919,7 @@
                           >
                             <a
                               href="/stock-splits-calendar"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Splits Calendar</a
                             >
                              
@@ -955,7 +955,7 @@
                           >
                             <a
                               href="/politicians/flow-data"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_congress_flow()}</a
                             >
                           </Button>
@@ -966,7 +966,7 @@
                           >
                             <a
                               href="/politicians"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_all_politicians()}</a
                             >
                           </Button>
@@ -1000,7 +1000,7 @@
                           >
                             <a
                               href="/market-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_market_flow()}</a
                             >
                           </Button>
@@ -1012,7 +1012,7 @@
                           >
                             <a
                               href="/news-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_news_flow()}</a
                             >
                           </Button>
@@ -1024,7 +1024,7 @@
                           >
                             <a
                               href="/options-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_flow()}</a
                             >
                           </Button>
@@ -1035,7 +1035,7 @@
                           >
                             <a
                               href="/unusual-order-flow"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_unusual_order_flow()}</a
                             >
                           </Button>
@@ -1069,7 +1069,7 @@
                           >
                             <a
                               href="/stocks/screener"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_screener()}</a
                             >
                           </Button>
@@ -1084,7 +1084,7 @@
                           >
                             <a
                               href="/etf/screener"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >
                           </Button>
@@ -1099,7 +1099,7 @@
                           >
                             <a
                               href="/options-screener"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_screener()}</a
                             >
                           </Button>
@@ -1121,7 +1121,7 @@
                           >
                             <a
                               href="/covered-call-screener"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_covered_call_screener()}</a
                             >
                           </Button>
@@ -1136,7 +1136,7 @@
                           >
                             <a
                               href="/cash-secured-put-screener"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_cash_secured_put_screener()}</a
                             >
                           </Button>
@@ -1170,7 +1170,7 @@
                           >
                             <a
                               href="/options-calculator"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_calculator()}</a
                             >
                           </Button>
@@ -1186,7 +1186,7 @@
                           >
                             <a
                               href="/potus-tracker"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_potus_tracker()}</a
                             >
                           </Button>
@@ -1202,7 +1202,7 @@
                           >
                             <a
                               href="/insider-tracker"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_insider_tracker()}</a
                             >
                           </Button>
@@ -1218,7 +1218,7 @@
                           >
                             <a
                               href="/reddit-tracker"
-                              class="text-start w-full text-[0.95rem] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_reddit_tracker()}</a
                             >
                           </Button>
@@ -1497,12 +1497,12 @@
                     class="group flex flex-row items-center ml-9 w-full"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Home class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >{layout_home()}</span
                     >
                   </a>
@@ -1511,11 +1511,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Stock class="h-5.5 w-5.5" />
                             </div>
@@ -1565,11 +1565,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Layers class="h-5.5 w-5.5" />
                             </div>
@@ -1610,11 +1610,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Analyst class="h-5.5 w-5.5" />
                             </div>
@@ -1651,11 +1651,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Calendar class="h-5.5 w-5.5" />
                             </div>
@@ -1704,11 +1704,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <HandShake class="h-5.5 w-5.5" />
                             </div>
@@ -1742,11 +1742,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Flow class="h-5.5 w-5.5" />
                             </div>
@@ -1789,11 +1789,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Screener class="h-5.5 w-5.5" />
                             </div>
@@ -1847,11 +1847,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                             >
                               <Tools class="h-5.5 w-5.5" />
                             </div>
@@ -1894,12 +1894,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Boxes class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >{layout_hedge_funds()}</span
                     >
                   </a>
@@ -1909,12 +1909,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <ChartNoAxes class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >Pro Chart</span
                     >
                   </a>
@@ -1924,12 +1924,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <Newspaper class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >{layout_market_news()}</span
                     >
                   </a>
@@ -1943,12 +1943,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
                     >
                       <BookOpen class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-gray-800 dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition"
                       >{data?.hasDailyBriefing && data?.isPreMarket
                         ? layout_daily_briefing()
                         : layout_learning_center()}</span

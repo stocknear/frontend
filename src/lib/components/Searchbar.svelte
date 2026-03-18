@@ -456,10 +456,10 @@
           class="relative w-full"
         >
           <div
-            class="absolute inset-y-0 left-0 flex items-center pl-2.5 text-gray-800 dark:text-zinc-300"
+            class="absolute inset-y-0 left-0 flex items-center pl-2.5 text-muted dark:text-zinc-300"
           >
             <svg
-              class="h-5 w-5 text-gray-800 dark:text-zinc-300"
+              class="h-5 w-5 text-muted dark:text-zinc-300"
               fill="none"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -475,12 +475,12 @@
           <Combobox.Input
             id="combobox-input"
             on:click={() => (inputValue = "")}
-            class="grow rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/60 py-2.5 pl-9 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
+            class="grow rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 py-2.5 pl-9 text-sm text-muted dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
             placeholder={searchbar_placeholder()}
             aria-label={searchbar_aria_label()}
           />
           <div
-            class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-gray-800 dark:text-zinc-300 font-semibold"
+            class="absolute inset-y-0 right-0 flex items-center gap-x-2 px-3 text-muted dark:text-zinc-300 font-semibold"
           >
             {#if isLoading}
               <span class="loading loading-spinner loading-sm"></span>
@@ -518,7 +518,7 @@
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 w-full"
             >
               {searchbar_suggestions()}
             </div>
@@ -534,7 +534,7 @@
                     class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 text-sm text-gray-600 dark:text-zinc-300"
+                  <span class="ml-3 text-sm text-muted dark:text-zinc-300"
                     >{item?.name}</span
                   >
                   <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
@@ -545,7 +545,7 @@
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300 w-full"
+              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 w-full"
             >
               {searchHistory?.length > 0
                 ? searchbar_recent()
@@ -563,7 +563,7 @@
                     class="text-sm font-semibold text-gray-700 dark:text-zinc-200"
                     >{item?.symbol}</span
                   >
-                  <span class="ml-3 text-sm text-gray-600 dark:text-zinc-300"
+                  <span class="ml-3 text-sm text-muted dark:text-zinc-300"
                     >{item?.name}</span
                   >
                   <span class="ml-auto text-sm text-gray-500 dark:text-zinc-400"
@@ -573,9 +573,7 @@
               </Combobox.Item>
             {/each}
           {:else}
-            <span
-              class="block px-5 py-2 text-sm text-gray-800 dark:text-zinc-300"
-            >
+            <span class="block px-5 py-2 text-sm text-muted dark:text-zinc-300">
               {searchbar_no_results()}
             </span>
           {/if}
@@ -666,7 +664,7 @@
 
           {#if isLoading}
             <span
-              class="absolute right-3 top-1/2 -translate-y-1/2 loading loading-spinner loading-sm text-gray-600 dark:text-zinc-300"
+              class="absolute right-3 top-1/2 -translate-y-1/2 loading loading-spinner loading-sm text-muted dark:text-zinc-300"
             ></span>
           {:else if inputValue?.length > 0}
             <button
@@ -718,7 +716,7 @@
                 </div>
               </div>
               <span
-                class="ml-auto shrink-0 text-sm font-medium text-gray-600 dark:text-zinc-300"
+                class="ml-auto shrink-0 text-sm font-medium text-muted dark:text-zinc-300"
               >
                 {item?.type}
               </span>
@@ -749,7 +747,7 @@
                 </div>
               </div>
               <span
-                class="ml-auto shrink-0 text-sm font-medium text-gray-600 dark:text-zinc-300"
+                class="ml-auto shrink-0 text-sm font-medium text-muted dark:text-zinc-300"
               >
                 {item?.type}
               </span>
@@ -757,7 +755,7 @@
           </button>
         {/each}
       {:else}
-        <span class="block px-5 py-6 text-sm text-gray-600 dark:text-zinc-300">
+        <span class="block px-5 py-6 text-sm text-muted dark:text-zinc-300">
           {searchbar_no_results()}
         </span>
       {/if}

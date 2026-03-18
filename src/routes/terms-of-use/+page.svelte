@@ -69,16 +69,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{terms_breadcrumb()}</li>
+    <li class="text-muted dark:text-zinc-300">{terms_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -96,16 +96,16 @@
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+            class="w-full m-auto text-sm sm:text-base text-muted dark:text-zinc-300"
           >
             <div class="">
-              <p class="italic mb-2 text-xs text-gray-800 dark:text-zinc-300">
+              <p class="italic mb-2 text-xs text-muted dark:text-zinc-300">
                 {terms_last_updated()}
               </p>
 
               <p class=" mb-10">
                 {@html terms_intro({
-                  privacyLink: `<a href="/privacy-policy" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_privacy_policy()}</a>`
+                  privacyLink: `<a href="/privacy-policy" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_privacy_policy()}</a>`,
                 })}
               </p>
 
@@ -175,7 +175,7 @@
               <p class=" mb-10">
                 {terms_copyright_content_1()}<br /><br />
                 {@html terms_copyright_content_2({
-                  email: `<a href="mailto:contact@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">contact@stocknear.com</a>`
+                  email: `<a href="mailto:contact@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">contact@stocknear.com</a>`,
                 })}<br /><br />
                 {terms_copyright_content_3()}
               </p>
@@ -190,7 +190,7 @@
                 {terms_subscriptions_content_1()}<br /><br />
                 {terms_subscriptions_content_2()}<br /><br />
                 {@html terms_subscriptions_content_3({
-                  email: `<a href="mailto:support@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">support@stocknear.com</a>`
+                  email: `<a href="mailto:support@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">support@stocknear.com</a>`,
                 })}<br /><br />
                 {terms_subscriptions_content_4()}<br /><br />
                 {terms_subscriptions_content_5()}
@@ -249,7 +249,7 @@
               <div class=" mb-10">
                 {terms_data_content_1()}<br /><br />
                 {@html terms_data_content_2({
-                  email: `<a href="mailto:support@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">support@stocknear.com</a>`
+                  email: `<a href="mailto:support@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">support@stocknear.com</a>`,
                 })}
               </div>
 
@@ -262,7 +262,7 @@
               <p class=" mb-10">
                 {@html terms_complete_content_1({
                   privacyLink: `<a href="/privacy-policy" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_privacy_policy()}</a>`,
-                  imprintLink: `<a href="/imprint" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_imprint()}</a>`
+                  imprintLink: `<a href="/imprint" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_imprint()}</a>`,
                 })}
                 <br /><br />
                 {terms_complete_content_2()}
@@ -284,9 +284,7 @@
                   {common_sponsor_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -304,9 +302,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_let_me_know()}
               </span>
             </a>

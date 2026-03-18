@@ -25,7 +25,10 @@
   let darkButtonRef: HTMLButtonElement | null = null;
   let isAnimating = false;
 
-  async function switchTheme(nextMode: ThemeMode, buttonRef: HTMLButtonElement | null) {
+  async function switchTheme(
+    nextMode: ThemeMode,
+    buttonRef: HTMLButtonElement | null,
+  ) {
     if (isAnimating) return;
     if (nextMode === modeValue) return;
     const applyTheme = async () => {
@@ -34,7 +37,10 @@
 
     const viewTransitionDoc = document as ViewTransitionDocument;
 
-    if (!buttonRef || typeof viewTransitionDoc.startViewTransition !== "function") {
+    if (
+      !buttonRef ||
+      typeof viewTransitionDoc.startViewTransition !== "function"
+    ) {
       await applyTheme();
       return;
     }
@@ -84,10 +90,11 @@
     bind:this={lightButtonRef}
     type="button"
     on:click={() => switchTheme("light", lightButtonRef)}
-    class={`cursor-pointer text-xs flex items-center gap-x-2 px-3 py-1.5 rounded-full focus:z-10 focus:outline-none transition-all ${modeValue ===
-    "light"
-      ? "bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white"
-      : "text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"}`}
+    class={`cursor-pointer text-xs flex items-center gap-x-2 px-3 py-1.5 rounded-full focus:z-10 focus:outline-none transition-all ${
+      modeValue === "light"
+        ? "bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white"
+        : "text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
+    }`}
     aria-pressed={modeValue === "light"}
     aria-label="Set light theme"
   >
@@ -98,10 +105,11 @@
     bind:this={darkButtonRef}
     type="button"
     on:click={() => switchTheme("dark", darkButtonRef)}
-    class={`cursor-pointer text-xs flex items-center gap-x-2 pl-3 pr-2 py-1.5 rounded-full focus:z-10 focus:outline-none transition-all ${modeValue ===
-    "dark"
-      ? "bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white"
-      : "text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"}`}
+    class={`cursor-pointer text-xs flex items-center gap-x-2 pl-3 pr-2 py-1.5 rounded-full focus:z-10 focus:outline-none transition-all ${
+      modeValue === "dark"
+        ? "bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white"
+        : "text-gray-800 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white"
+    }`}
     aria-pressed={modeValue === "dark"}
     aria-label="Set dark theme"
   >

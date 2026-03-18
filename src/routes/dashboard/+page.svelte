@@ -148,7 +148,7 @@
           >
         </span>
         <span class="text-gray-400 dark:text-zinc-600">|</span>
-        <span class="text-gray-600 dark:text-zinc-300">
+        <span class="text-muted dark:text-zinc-300">
           <span class="font-bold text-gray-900 dark:text-white">40% off</span> all
           plans
         </span>
@@ -158,7 +158,7 @@
           >XMAS25</span
         >
         <svg
-          class="w-4 h-4 text-gray-800 dark:text-zinc-300 group-hover:translate-x-0.5 transition-transform"
+          class="w-4 h-4 text-muted dark:text-zinc-300 group-hover:translate-x-0.5 transition-transform"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -206,7 +206,7 @@
                     {home_hero_title()}
                 </h1>
                 <p
-                    class="text-sm text-gray-800 dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
+                    class="text-sm text-muted dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
                 >
                     {home_hero_subtitle()}
                 </p>

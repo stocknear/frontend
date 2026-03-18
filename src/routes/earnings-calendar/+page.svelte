@@ -752,16 +752,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{earnings_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">
+    <li class="text-muted dark:text-zinc-300">
       {earnings_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
@@ -872,7 +872,7 @@
                 <!-- Daily View -->
                 {#if timeframe === "Daily"}
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -953,7 +953,7 @@
                           on:click={() => toggleDate(index)}
                           class="{weekdayClasses} {index === selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'}"
+                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'}"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -995,8 +995,8 @@
                                 ><path
                                   fill="currentColor"
                                   d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"
-                                /></svg>
-
+                                /></svg
+                              >
                             </label>
                           </div>
                         </label>
@@ -1064,7 +1064,7 @@
                               on:input={search}
                               type="text"
                               placeholder={earnings_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -1131,7 +1131,7 @@
                                     </td>
                                   {:else if column.key === "name"}
                                     <td
-                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300"
+                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300"
                                     >
                                       {item?.name?.length > 20
                                         ? item?.name?.slice(0, 20) + "..."
@@ -1139,7 +1139,7 @@
                                     </td>
                                   {:else if column.key === "marketCap"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {@html item?.marketCap !== null
                                         ? abbreviateNumber(
@@ -1151,7 +1151,7 @@
                                     </td>
                                   {:else if column.key === "revenueEst"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       <div
                                         class="flex flex-row items-center justify-end"
@@ -1185,7 +1185,7 @@
                                     </td>
                                   {:else if column.key === "epsEst"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       <div
                                         class="flex flex-row items-center justify-end"
@@ -1215,7 +1215,7 @@
                                     </td>
                                   {:else if column.key === "release"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                                     >
                                       {#if item?.release === "amc"}
                                         <svg
@@ -1225,7 +1225,8 @@
                                           ><path
                                             fill="currentColor"
                                             d="M232.13 143.64a6 6 0 0 0-6-1.49a90.07 90.07 0 0 1-112.27-112.3a6 6 0 0 0-7.49-7.48a102.88 102.88 0 0 0-51.89 36.31a102 102 0 0 0 142.84 142.84a102.88 102.88 0 0 0 36.31-51.89a6 6 0 0 0-1.5-5.99m-42 48.29a90 90 0 0 1-126-126a90.9 90.9 0 0 1 35.52-28.27a102.06 102.06 0 0 0 118.69 118.69a90.9 90.9 0 0 1-28.24 35.58Z"
-                                          /></svg>
+                                          /></svg
+                                        >
 
                                         {earnings_time_after_close()}
                                       {:else}
@@ -1240,7 +1241,8 @@
                                             /><path
                                               d="M120 40V16a8 8 0 0 1 16 0v24a8 8 0 0 1-16 0Zm72 88a64 64 0 1 1-64-64a64.07 64.07 0 0 1 64 64Zm-16 0a48 48 0 1 0-48 48a48.05 48.05 0 0 0 48-48ZM58.34 69.66a8 8 0 0 0 11.32-11.32l-16-16a8 8 0 0 0-11.32 11.32Zm0 116.68l-16 16a8 8 0 0 0 11.32 11.32l16-16a8 8 0 0 0-11.32-11.32ZM192 72a8 8 0 0 0 5.66-2.34l16-16a8 8 0 0 0-11.32-11.32l-16 16A8 8 0 0 0 192 72Zm5.66 114.34a8 8 0 0 0-11.32 11.32l16 16a8 8 0 0 0 11.32-11.32ZM48 128a8 8 0 0 0-8-8H16a8 8 0 0 0 0 16h24a8 8 0 0 0 8-8Zm80 80a8 8 0 0 0-8 8v24a8 8 0 0 0 16 0v-24a8 8 0 0 0-8-8Zm112-88h-24a8 8 0 0 0 0 16h24a8 8 0 0 0 0-16Z"
                                             /></g
-                                          ></svg>
+                                          ></svg
+                                        >
 
                                         {earnings_time_before_open()}
                                       {/if}
@@ -1283,9 +1285,7 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span
-                              class="text-sm text-gray-600 dark:text-zinc-300"
-                            >
+                            <span class="text-sm text-muted dark:text-zinc-300">
                               {earnings_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
@@ -1380,7 +1380,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {earnings_back_to_top()}
                             <svg
@@ -1409,7 +1409,7 @@
               {:else if timeframe === "Weekly"}
                 <div class="flex flex-col w-full">
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -1701,8 +1701,8 @@
                         ><path
                           fill="currentColor"
                           d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"
-                        /></svg>
-
+                        /></svg
+                      >
                     </label>
                     {#each weekday as day, index}
                       <div
@@ -1715,7 +1715,7 @@
                           class="m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3"
+                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -1733,8 +1733,8 @@
                                 ><path
                                   fill="currentColor"
                                   d="M8.025 22L6.25 20.225L14.475 12L6.25 3.775L8.025 2l10 10l-10 10Z"
-                                /></svg>
-
+                                /></svg
+                              >
                             </label>
                             <div
                               class="flex flex-col items-center truncate m-auto p-1"

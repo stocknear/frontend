@@ -128,14 +128,14 @@
       class="cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white relative"
     >
       <svg
-        class="absolute -right-[2px] -top-[10px] size-[10px] text-gray-600 cursor-pointer sm:hover:text-gray-800 dark:text-gray-200 dark:sm:hover:text-white"
+        class="absolute -right-[2px] -top-[10px] size-[10px] text-gray-600 cursor-pointer sm:hover:text-muted dark:text-gray-200 dark:sm:hover:text-white"
         viewBox="0 0 4 16"
         fill="currentColor"
         style="max-width:20px"
         ><path
           d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-        ></path></svg>
-
+        ></path></svg
+      >
     </label>
   {:else}
     <!-- For desktop: keep existing hover behavior -->
@@ -144,14 +144,14 @@
       class="cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white relative"
     >
       <svg
-        class="absolute -right-[2px] -top-[10px] h-[9px] w-[9px] text-gray-600 cursor-pointer sm:hover:text-gray-800 dark:text-gray-200 dark:sm:hover:text-white"
+        class="absolute -right-[2px] -top-[10px] h-[9px] w-[9px] text-gray-600 cursor-pointer sm:hover:text-muted dark:text-gray-200 dark:sm:hover:text-white"
         viewBox="0 0 4 16"
         fill="currentColor"
         style="max-width:20px"
         ><path
           d="M0 6h4v10h-4v-10zm2-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"
-        ></path></svg>
-
+        ></path></svg
+      >
     </div>
   {/if}
 </div>
@@ -178,7 +178,7 @@
     >
       <label
         for={id}
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
         aria-label="Close modal"
       >
         <svg
@@ -188,8 +188,8 @@
           ><path
             fill="currentColor"
             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg>
-
+          /></svg
+        >
       </label>
       <div
         class="mx-auto h-1 w-14 shrink-0 rounded-full bg-gray-200 dark:bg-zinc-800"
@@ -202,7 +202,7 @@
             {title}
           </h3>
         {/if}
-        <div class="text-sm leading-relaxed text-gray-700 dark:text-zinc-200">
+        <div class="text-sm leading-relaxed text-muted dark:text-zinc-200">
           {#if isLoading}
             Loading...
           {:else}
@@ -221,7 +221,7 @@
       <div class="w-full">
         <label
           for={id}
-          class="mt-2 inline-flex w-full justify-center rounded-full border border-gray-300 dark:border-zinc-700 px-4 py-2 text-sm font-semibold text-gray-700 dark:text-zinc-200 hover:text-violet-700 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-700/80 transition cursor-pointer"
+          class="mt-2 inline-flex w-full justify-center rounded-full border border-gray-300 dark:border-zinc-700 px-4 py-2 text-sm font-semibold text-muted dark:text-zinc-200 hover:text-violet-700 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-700/80 transition cursor-pointer"
         >
           Close
         </label>

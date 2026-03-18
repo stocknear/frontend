@@ -4,17 +4,17 @@
     import Diversification from "$lib/components/Portfolio/Diversification.svelte";
     import SEO from "$lib/components/SEO.svelte";
     import {
-  portfolio_analysis_seo_description,
-  portfolio_analysis_seo_keywords,
-  portfolio_analysis_seo_title,
-  portfolio_analysis_structured_description,
-  portfolio_analysis_structured_name,
-  portfolio_analysis_vs_market_description,
-  portfolio_analysis_vs_market_title,
-  portfolio_breadcrumb_analysis,
-  portfolio_breadcrumb_home,
-  portfolio_breadcrumb_portfolio,
-} from "$lib/paraglide/messages";
+        portfolio_analysis_seo_description,
+        portfolio_analysis_seo_keywords,
+        portfolio_analysis_seo_title,
+        portfolio_analysis_structured_description,
+        portfolio_analysis_structured_name,
+        portfolio_analysis_vs_market_description,
+        portfolio_analysis_vs_market_title,
+        portfolio_breadcrumb_analysis,
+        portfolio_breadcrumb_home,
+        portfolio_breadcrumb_portfolio,
+    } from "$lib/paraglide/messages";
 
     export let data;
 
@@ -130,7 +130,7 @@
         >
             {portfolio_analysis_vs_market_title()}
         </h2>
-        <p class="mb-4 text-sm text-gray-800 dark:text-zinc-300 max-w-3xl">
+        <p class="mb-4 text-sm text-muted dark:text-zinc-300 max-w-3xl">
             {portfolio_analysis_vs_market_description()}
         </p>
 

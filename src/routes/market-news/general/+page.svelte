@@ -273,9 +273,7 @@
                         >
                           {item?.title}
                         </span>
-                        <p
-                          class="mt-2 text-sm text-gray-600 dark:text-zinc-300"
-                        >
+                        <p class="mt-2 text-sm text-muted dark:text-zinc-300">
                           {item?.text?.length > 200
                             ? item?.text?.slice(0, 200) + "..."
                             : item?.text}
@@ -317,9 +315,7 @@
                           >
                             {item?.title}
                           </span>
-                          <p
-                            class="mt-2 text-sm text-gray-600 dark:text-zinc-300"
-                          >
+                          <p class="mt-2 text-sm text-muted dark:text-zinc-300">
                             {item?.text?.length > 200
                               ? item?.text?.slice(0, 200) + "..."
                               : item?.text}
@@ -364,7 +360,7 @@
             </div>
 
             <div class="flex flex-row items-center gap-4">
-              <span class="text-sm text-gray-600 dark:text-zinc-300">
+              <span class="text-sm text-muted dark:text-zinc-300">
                 {market_news_pagination_page_of({
                   currentPage,
                   totalPages,
@@ -378,7 +374,8 @@
                     class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
-                      {rowsPerPage} {market_news_rows_label()}
+                      {rowsPerPage}
+                      {market_news_rows_label()}
                     </span>
                     <svg
                       class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
@@ -413,7 +410,8 @@
                           class="inline-flex justify-between w-full items-center cursor-pointer"
                         >
                           <span class="text-sm">
-                            {item} {market_news_rows_label()}
+                            {item}
+                            {market_news_rows_label()}
                           </span>
                         </label>
                       </DropdownMenu.Item>
@@ -452,9 +450,10 @@
           <div class="flex justify-center mt-4">
             <button
               on:click={scrollToTop}
-              class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
             >
-              {market_news_back_to_top()} <svg
+              {market_news_back_to_top()}
+              <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-180"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -487,7 +486,7 @@
               >
                 {market_news_pro_subscription_title()}
               </h2>
-              <p class="text-sm text-gray-600 dark:text-zinc-300">
+              <p class="text-sm text-muted dark:text-zinc-300">
                 {market_news_upgrade_description()}
               </p>
             </a>
@@ -504,7 +503,7 @@
               >
                 {market_news_stock_news_label()}
               </h3>
-              <ul class="text-sm text-gray-600 dark:text-zinc-300">
+              <ul class="text-sm text-muted dark:text-zinc-300">
                 {#each stockNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
                     {market_news_time_ago({

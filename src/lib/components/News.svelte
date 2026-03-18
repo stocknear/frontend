@@ -11,20 +11,20 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import {
-  stock_detail_back_to_top,
-  stock_detail_news,
-  stock_detail_news_all,
-  stock_detail_news_no_articles,
-  stock_detail_news_no_available,
-  stock_detail_news_no_videos,
-  stock_detail_news_press,
-  stock_detail_news_press_releases,
-  stock_detail_news_videos,
-  stock_detail_next,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-} from "$lib/paraglide/messages";
+    stock_detail_back_to_top,
+    stock_detail_news,
+    stock_detail_news_all,
+    stock_detail_news_no_articles,
+    stock_detail_news_no_available,
+    stock_detail_news_no_videos,
+    stock_detail_news_press,
+    stock_detail_news_press_releases,
+    stock_detail_news_videos,
+    stock_detail_next,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -253,7 +253,7 @@
           <li>
             <button
               on:click={showAllNews}
-              class="cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
+              class="cursor-pointer rounded-full px-3 py-1 text-sm text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
               'all'
                 ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                 : ''}">{stock_detail_news_all()}</button
@@ -263,7 +263,7 @@
             <li>
               <button
                 on:click={() => getNewsVideos()}
-                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
+                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'videos'
                   ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                   : ''}">{stock_detail_news_videos()}</button
@@ -274,12 +274,14 @@
             <li>
               <button
                 on:click={() => getPressRelease()}
-                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
+                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'press-releases'
                   ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
                   : ''}"
-                ><span class="inline sm:hidden">{stock_detail_news_press()}</span><span
-                  class="hidden sm:inline">{stock_detail_news_press_releases()}</span
+                ><span class="inline sm:hidden"
+                  >{stock_detail_news_press()}</span
+                ><span class="hidden sm:inline"
+                  >{stock_detail_news_press_releases()}</span
                 ></button
               >
             </li>
@@ -402,12 +404,15 @@
                   fill-rule="evenodd"
                   d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                   clip-rule="evenodd"
-                ></path></svg>
+                ></path></svg
+              >
 
               <div class="ml-3 w-full sm:ml-4">
                 <div class="flex w-full flex-row justify-between">
                   <div>
-                    {displaySection === "videos" ? stock_detail_news_no_videos() : stock_detail_news_no_articles()}
+                    {displaySection === "videos"
+                      ? stock_detail_news_no_videos()
+                      : stock_detail_news_no_articles()}
                   </div>
                 </div>
               </div>
@@ -445,8 +450,11 @@
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {stock_detail_page_of({ current: currentPage, total: totalPages })}
+            <span class="text-sm text-muted dark:text-zinc-300">
+              {stock_detail_page_of({
+                current: currentPage,
+                total: totalPages,
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -491,7 +499,9 @@
                         on:click={() => changeRowsPerPage(item)}
                         class="inline-flex justify-between w-full items-center cursor-pointer"
                       >
-                        <span class="text-sm">{stock_detail_rows({ count: item })}</span>
+                        <span class="text-sm"
+                          >{stock_detail_rows({ count: item })}</span
+                        >
                       </label>
                     </DropdownMenu.Item>
                   {/each}
@@ -529,9 +539,10 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
-            {stock_detail_back_to_top()} <svg
+            {stock_detail_back_to_top()}
+            <svg
               class="h-5 w-5 inline-block shrink-0 rotate-180"
               viewBox="0 0 20 20"
               fill="currentColor"

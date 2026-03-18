@@ -15,22 +15,22 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import {
-  stock_detail_next,
-  stock_detail_no_data,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-  stock_detail_stats_earnings_chart,
-  stock_detail_stats_earnings_seo_description,
-  stock_detail_stats_earnings_seo_keywords,
-  stock_detail_stats_earnings_seo_title,
-  stock_detail_stats_earnings_structured_desc,
-  stock_detail_stats_earnings_structured_name,
-  stock_detail_stats_earnings_surprise,
-  stock_detail_stats_eps_surprise,
-  stock_detail_stats_history,
-  stock_detail_stats_revenue_surprise,
-} from "$lib/paraglide/messages";
+    stock_detail_next,
+    stock_detail_no_data,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+    stock_detail_stats_earnings_chart,
+    stock_detail_stats_earnings_seo_description,
+    stock_detail_stats_earnings_seo_keywords,
+    stock_detail_stats_earnings_seo_title,
+    stock_detail_stats_earnings_structured_desc,
+    stock_detail_stats_earnings_structured_name,
+    stock_detail_stats_earnings_surprise,
+    stock_detail_stats_eps_surprise,
+    stock_detail_stats_history,
+    stock_detail_stats_revenue_surprise,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -557,16 +557,30 @@
 </script>
 
 <SEO
-  title={stock_detail_stats_earnings_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_stats_earnings_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_stats_earnings_seo_keywords({ company: $displayCompanyName, ticker: $stockTicker })}
+  title={stock_detail_stats_earnings_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_stats_earnings_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_stats_earnings_seo_keywords({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataAnalysis"],
-    name: stock_detail_stats_earnings_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_stats_earnings_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_stats_earnings_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_stats_earnings_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -642,7 +656,9 @@
                             ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
                             : 'text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white'}"
                         >
-                          {i === 0 ? stock_detail_stats_eps_surprise() : stock_detail_stats_revenue_surprise()}
+                          {i === 0
+                            ? stock_detail_stats_eps_surprise()
+                            : stock_detail_stats_revenue_surprise()}
                         </button>
                       {/each}
                     </div>
@@ -683,14 +699,14 @@
                             {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
                               <DropdownMenu.Item
                                 on:click={() => (timeFrame = item)}
-                                class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                               >
                                 {item}
                               </DropdownMenu.Item>
                             {:else}
                               <DropdownMenu.Item
                                 on:click={() => goto("/pricing")}
-                                class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                               >
                                 {item}
                                 <svg
@@ -830,12 +846,17 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="hidden sm:inline">{stock_detail_previous()}</span>
+                    <span class="hidden sm:inline"
+                      >{stock_detail_previous()}</span
+                    >
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-gray-600 dark:text-zinc-300">
-                      {stock_detail_page_of({ current: currentPage, total: totalPages })}
+                    <span class="text-sm text-muted dark:text-zinc-300">
+                      {stock_detail_page_of({
+                        current: currentPage,
+                        total: totalPages,
+                      })}
                     </span>
 
                     <DropdownMenu.Root>
@@ -873,7 +894,7 @@
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}

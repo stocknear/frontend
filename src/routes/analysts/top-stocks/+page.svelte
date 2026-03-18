@@ -6,15 +6,15 @@
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  analysts_breadcrumb_home,
-  analysts_top_stocks_breadcrumb,
-  analysts_top_stocks_count,
-  analysts_top_stocks_infobox,
-  analysts_top_stocks_seo_description,
-  analysts_top_stocks_seo_keywords,
-  analysts_top_stocks_seo_title,
-  analysts_top_stocks_title,
-} from "$lib/paraglide/messages";
+    analysts_breadcrumb_home,
+    analysts_top_stocks_breadcrumb,
+    analysts_top_stocks_count,
+    analysts_top_stocks_infobox,
+    analysts_top_stocks_seo_description,
+    analysts_top_stocks_seo_keywords,
+    analysts_top_stocks_seo_title,
+    analysts_top_stocks_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -88,11 +88,13 @@
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
         >{analysts_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">{analysts_top_stocks_breadcrumb()}</li>
+    <li class="text-muted dark:text-gray-300">
+      {analysts_top_stocks_breadcrumb()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -107,9 +109,7 @@
             </h1>
           </div>
 
-          <Infobox
-            text={analysts_top_stocks_infobox()}
-          />
+          <Infobox text={analysts_top_stocks_infobox()} />
 
           <div class="w-full m-auto">
             <Table

@@ -573,7 +573,7 @@
                         : ''}"
                     >
                       <td
-                        class="border-l border-gray-300 dark:border-zinc-700 mt-auto text-xs text-gray-600 dark:text-zinc-300"
+                        class="border-l border-gray-300 dark:border-zinc-700 mt-auto text-xs text-muted dark:text-zinc-300"
                       >
                         <div
                           class="grid grid-cols-2 items-center justify-center pl-0.5 pr-0.5 w-full m-auto text-center"

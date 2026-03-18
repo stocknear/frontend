@@ -27,7 +27,7 @@
       : dashboard_direction_decrease();
 </script>
 
-<section class="mx-auto lg:col-span-2 w-full text-gray-700 dark:text-zinc-200">
+<section class="mx-auto lg:col-span-2 w-full text-muted dark:text-zinc-200">
   <h2
     class="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
   >
@@ -35,13 +35,11 @@
   </h2>
 
   {#if Object?.keys(analystReport)?.length > 0}
-    <div
-      class="text-sm sm:text-base leading-6 text-gray-600 dark:text-zinc-300"
-    >
+    <div class="text-sm sm:text-base leading-6 text-muted dark:text-zinc-300">
       {analystReport?.insight}
     </div>
 
-    <div class="mt-4 text-sm text-gray-700 dark:text-zinc-200">
+    <div class="mt-4 text-sm text-muted dark:text-zinc-200">
       {dashboard_analyst_report_prefix({
         count: analystReport?.numOfAnalyst,
       })}
@@ -71,7 +69,7 @@
     <table class="w-full text-right text-sm mt-5">
       <thead class="">
         <tr
-          class="border-b border-gray-300 dark:border-zinc-700 text-gray-800 dark:text-zinc-300"
+          class="border-b border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
         >
           <th class="py-2 text-left uppercase tracking-widest text-xs">
             {dashboard_analyst_report_table_target()}
@@ -92,24 +90,24 @@
       </thead>
       <tbody class="text-sm">
         <tr class="border-b border-gray-300 dark:border-zinc-700">
-          <td class="py-2 text-left text-gray-700 dark:text-zinc-200">
+          <td class="py-2 text-left text-muted dark:text-zinc-200">
             {dashboard_analyst_report_row_price()}
           </td>
-          <td class="text-gray-600 dark:text-zinc-300"
+          <td class="text-muted dark:text-zinc-300"
             >${analystReport?.lowPriceTarget}</td
           >
-          <td class="text-gray-600 dark:text-zinc-300"
+          <td class="text-muted dark:text-zinc-300"
             >${analystReport?.avgPriceTarget}</td
           >
-          <td class="text-gray-600 dark:text-zinc-300"
+          <td class="text-muted dark:text-zinc-300"
             >${analystReport?.medianPriceTarget}</td
           >
-          <td class="text-gray-600 dark:text-zinc-300"
+          <td class="text-muted dark:text-zinc-300"
             >${analystReport?.highPriceTarget}</td
           >
         </tr>
         <tr>
-          <td class="py-2 text-left text-gray-700 dark:text-zinc-200">
+          <td class="py-2 text-left text-muted dark:text-zinc-200">
             {dashboard_analyst_report_row_change()}
           </td>
           <td

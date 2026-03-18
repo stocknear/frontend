@@ -2854,7 +2854,7 @@
         on:input={search}
         type="text"
         placeholder={list_search_placeholder()}
-        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
       />
     </div>
 
@@ -3020,13 +3020,13 @@
           >
             <label
               on:click={handleResetAll}
-              class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
             >
               Reset Selection
             </label>
             <label
               on:click={handleSelectAll}
-              class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
             >
               Select All
             </label>
@@ -3070,7 +3070,7 @@
           class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full px-3 py-1 border font-medium transition {displayTableTab ===
           tab?.key
             ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-            : 'border-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
         >
           <span>{tab?.label}</span>
           {#if (tab?.showCount || tab?.key === "indicators") && tab?.key === "indicators" && indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
@@ -3141,7 +3141,7 @@
                       on:blur={(event) =>
                         handleInlineCellBlur(item, index, column.key, event)}
                       use:inlineInputAction={cellKey}
-                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
+                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
                     />
                   {:else}
                     <button
@@ -3196,7 +3196,7 @@
                       />
                       <label
                         for={`delete-ticker-${item[column.key]}-${index}`}
-                        class="text-gray-800 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer"
+                        class="text-muted dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer"
                       >
                         {item[column.key]}
                       </label>

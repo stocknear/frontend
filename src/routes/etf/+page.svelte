@@ -326,16 +326,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{etf_breadcrumb_current()}</li>
+    <li class="text-muted dark:text-zinc-300">{etf_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -350,9 +350,7 @@
             >
               {etf_main_title()}
             </h1>
-            <p
-              class="mb-3 px-1 text-sm text-gray-800 dark:text-zinc-300 sm:px-0"
-            >
+            <p class="mb-3 px-1 text-sm text-muted dark:text-zinc-300 sm:px-0">
               {etf_main_description({
                 count: originalData?.length?.toLocaleString("en-US"),
               })}
@@ -376,7 +374,7 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -404,7 +402,7 @@
                       on:input={search}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -442,7 +440,7 @@
                           </a>
                         </td>
                         <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-gray-600 dark:text-zinc-300"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-muted dark:text-zinc-300"
                         >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
@@ -450,19 +448,19 @@
                         </td>
 
                         <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate text-gray-600 dark:text-zinc-300"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate text-muted dark:text-zinc-300"
                         >
                           {item?.assetClass}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                         >
                           {abbreviateNumber(item?.aum)}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                         >
                           {item?.expenseRatio
                             ? item?.expenseRatio?.toFixed(2) + "%"
@@ -507,7 +505,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                    <span class="text-sm text-muted dark:text-zinc-300">
                       {etf_pagination_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -598,7 +596,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     {etf_back_to_top()}
                     <svg

@@ -72,8 +72,8 @@
           ><path
             fill="currentColor"
             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg>
-
+          /></svg
+        >
       </label>
     </div>
   </div>
@@ -90,7 +90,7 @@
   >
     <label
       for="installModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -100,7 +100,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
@@ -119,8 +120,8 @@
           ><path
             fill="currentColor"
             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-          /></svg>
-
+          /></svg
+        >
       </label>
     </div>
 
@@ -152,18 +153,18 @@
 
       {#if installPlatform === "ios"}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
         >
           <li class="mb-2">{app_installed_ios_step_1()}</li>
           <li class="mb-2">{app_installed_ios_step_2()}</li>
           <li class="mb-4">{app_installed_ios_step_3()}</li>
-          <p class="text-sm mb-4 text-gray-800 dark:text-zinc-300">
+          <p class="text-sm mb-4 text-muted dark:text-zinc-300">
             {app_installed_ios_note()}
           </p>
         </ul>
       {:else}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-gray-800 dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
         >
           <li class="mb-2">{app_installed_android_step_1()}</li>
           <li class="mb-2">{app_installed_android_step_2()}</li>

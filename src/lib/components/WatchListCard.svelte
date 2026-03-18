@@ -148,7 +148,7 @@
         >
           Latest News
         </h2>
-        <div class="relative text-gray-800 m-auto">
+        <div class="relative text-muted m-auto">
           <div class="flex flex-wrap md:flex-row">
             {#each news as item}
               <a

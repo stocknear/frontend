@@ -9,25 +9,25 @@
   import { formatDate } from "$lib/utils";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  news_flow_breadcrumb_home,
-  news_flow_breadcrumb_news_flow,
-  news_flow_infobox,
-  news_flow_main_title,
-  news_flow_news_count,
-  news_flow_no_news,
-  news_flow_search_placeholder,
-  news_flow_seo_description,
-  news_flow_seo_keywords,
-  news_flow_seo_title,
-  news_flow_sidebar_dark_pool_description,
-  news_flow_sidebar_dark_pool_title,
-  news_flow_sidebar_market_flow_description,
-  news_flow_sidebar_market_flow_title,
-  news_flow_sidebar_options_flow_description,
-  news_flow_sidebar_options_flow_title,
-  news_flow_structured_description,
-  news_flow_structured_name,
-} from "$lib/paraglide/messages";
+    news_flow_breadcrumb_home,
+    news_flow_breadcrumb_news_flow,
+    news_flow_infobox,
+    news_flow_main_title,
+    news_flow_news_count,
+    news_flow_no_news,
+    news_flow_search_placeholder,
+    news_flow_seo_description,
+    news_flow_seo_keywords,
+    news_flow_seo_title,
+    news_flow_sidebar_dark_pool_description,
+    news_flow_sidebar_dark_pool_title,
+    news_flow_sidebar_market_flow_description,
+    news_flow_sidebar_market_flow_title,
+    news_flow_sidebar_options_flow_description,
+    news_flow_sidebar_options_flow_title,
+    news_flow_structured_description,
+    news_flow_structured_name,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -108,9 +108,8 @@
     updatePaginatedData();
 
     if (!searchWorker) {
-      const SearchWorker = await import(
-        "$lib/workers/tableSearchWorker?worker"
-      );
+      const SearchWorker =
+        await import("$lib/workers/tableSearchWorker?worker");
       searchWorker = new SearchWorker.default();
       searchWorker.onmessage = handleSearchMessage;
     }
@@ -157,16 +156,18 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{news_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{news_flow_breadcrumb_news_flow()}</li>
+    <li class="text-muted dark:text-zinc-300">
+      {news_flow_breadcrumb_news_flow()}
+    </li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -183,9 +184,7 @@
             </h1>
           </div>
 
-          <Infobox
-            text={news_flow_infobox()}
-          />
+          <Infobox text={news_flow_infobox()} />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
@@ -194,7 +193,9 @@
               <h2
                 class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-gray-900 dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {news_flow_news_count({ count: data?.getData?.totalItems?.toLocaleString("en-US") })}
+                {news_flow_news_count({
+                  count: data?.getData?.totalItems?.toLocaleString("en-US"),
+                })}
               </h2>
 
               <div
@@ -216,8 +217,8 @@
                           ><path
                             fill="currentColor"
                             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          /></svg>
-
+                          /></svg
+                        >
                       </label>
                     {/if}
                   </div>
@@ -227,7 +228,7 @@
                     on:input={search}
                     type="text"
                     placeholder={news_flow_search_placeholder()}
-                    class="py-[7px] text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-[7px] text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -282,13 +283,13 @@
                     })()}"
                   >
                     <td
-                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-gray-800 dark:text-zinc-300"
+                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-muted dark:text-zinc-300"
                     >
                       {formatDate(item?.date, true)}
                     </td>
                     <td class="py-3 pl-2 text-gray-700 dark:text-zinc-300">
                       <span
-                        class="sm:hidden text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                        class="sm:hidden text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                         >{formatDate(item?.date, true)} ago -</span
                       >
                       {item?.text}
@@ -297,7 +298,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+                            class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                           >
                             {symbol}
                           </a>
@@ -305,7 +306,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+                          class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
                         >
                           {item?.symbol}
                         </a>
@@ -316,9 +317,7 @@
               </tbody>
             </table>
           {:else}
-            <Infobox
-              text={news_flow_no_news()}
-            />
+            <Infobox text={news_flow_no_news()} />
           {/if}
 
           <UpgradeToPro {data} display={true} />
@@ -348,9 +347,7 @@
                   {news_flow_sidebar_market_flow_title()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {news_flow_sidebar_market_flow_description()}
               </span>
             </a>
@@ -368,9 +365,7 @@
                   {news_flow_sidebar_options_flow_title()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {news_flow_sidebar_options_flow_description()}
               </span>
             </a>
@@ -387,9 +382,7 @@
                   {news_flow_sidebar_dark_pool_title()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {news_flow_sidebar_dark_pool_description()}
               </span>
             </a>

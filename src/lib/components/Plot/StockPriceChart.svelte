@@ -1,12 +1,7 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import { mode } from "mode-watcher";
-  import {
-    init,
-    dispose,
-    registerXAxis,
-    type KLineData,
-  } from "klinecharts";
+  import { init, dispose, registerXAxis, type KLineData } from "klinecharts";
   import { screenWidth } from "$lib/store";
 
   // ============================================================================
@@ -36,7 +31,9 @@
   // Cached NY offset (recalculated only when needed)
   let cachedNyOffset: number | null = null;
   const getNyOffset = (date: Date): number => {
-    const tzPart = tzFormatter.formatToParts(date).find((p) => p.type === "timeZoneName")?.value || "GMT-05:00";
+    const tzPart =
+      tzFormatter.formatToParts(date).find((p) => p.type === "timeZoneName")
+        ?.value || "GMT-05:00";
     const match = tzPart.match(/GMT([+-])(\d{2}):(\d{2})/);
     if (!match) return -5 * 60 * 60 * 1000;
     const sign = match[1] === "-" ? -1 : 1;
@@ -75,8 +72,20 @@
 
   // Range selection state
   let isSelecting = false;
-  let selectionStart: { index: number; price: number; x: number; y: number; timestamp: number } | null = null;
-  let selectionEnd: { index: number; price: number; x: number; y: number; timestamp: number } | null = null;
+  let selectionStart: {
+    index: number;
+    price: number;
+    x: number;
+    y: number;
+    timestamp: number;
+  } | null = null;
+  let selectionEnd: {
+    index: number;
+    price: number;
+    x: number;
+    y: number;
+    timestamp: number;
+  } | null = null;
   let startPointerId: number | null = null;
   let startChartX: number | null = null;
 
@@ -90,21 +99,22 @@
   // ============================================================================
   // AXIS LABELS (reactive to screen width)
   // ============================================================================
-  $: axisLabels = $screenWidth > 640
-    ? [
-        { label: "10 AM", minutes: 600 },
-        { label: "11 AM", minutes: 660 },
-        { label: "12 PM", minutes: 720 },
-        { label: "1 PM", minutes: 780 },
-        { label: "2 PM", minutes: 840 },
-        { label: "3 PM", minutes: 900 },
-        { label: "4 PM", minutes: 960 },
-      ]
-    : [
-        { label: "10 AM", minutes: 600 },
-        { label: "1 PM", minutes: 780 },
-        { label: "4 PM", minutes: 960 },
-      ];
+  $: axisLabels =
+    $screenWidth > 640
+      ? [
+          { label: "10 AM", minutes: 600 },
+          { label: "11 AM", minutes: 660 },
+          { label: "12 PM", minutes: 720 },
+          { label: "1 PM", minutes: 780 },
+          { label: "2 PM", minutes: 840 },
+          { label: "3 PM", minutes: 900 },
+          { label: "4 PM", minutes: 960 },
+        ]
+      : [
+          { label: "10 AM", minutes: 600 },
+          { label: "1 PM", minutes: 780 },
+          { label: "4 PM", minutes: 960 },
+        ];
 
   const ensureOneDayXAxis = () => {
     if (oneDayXAxisRegistered) return;
@@ -113,10 +123,14 @@
       createTicks: ({ bounding }) => {
         const width = Math.max(bounding.width, 0);
         if (width <= 0) return [];
-        const leftPad = 6, rightPad = 20;
+        const leftPad = 6,
+          rightPad = 20;
         const usableWidth = Math.max(width - leftPad - rightPad, 1);
         return axisLabels.map((tick) => ({
-          coord: leftPad + usableWidth * ((tick.minutes - SESSION_START_MIN) / SESSION_RANGE_MIN),
+          coord:
+            leftPad +
+            usableWidth *
+              ((tick.minutes - SESSION_START_MIN) / SESSION_RANGE_MIN),
           value: tick.minutes,
           text: tick.label,
         }));
@@ -139,7 +153,11 @@
 
   const parseTimestamp = (value: unknown): number | null => {
     if (typeof value === "number" && Number.isFinite(value)) {
-      return value > 1e12 ? Math.floor(value) : value > 1e9 ? Math.floor(value * 1000) : null;
+      return value > 1e12
+        ? Math.floor(value)
+        : value > 1e9
+          ? Math.floor(value * 1000)
+          : null;
     }
     if (typeof value === "string") {
       const raw = value.trim();
@@ -163,7 +181,11 @@
     return null;
   };
 
-  const buildSessionTimestamp = (baseTimestamp: number, hours: number, minutes: number): number => {
+  const buildSessionTimestamp = (
+    baseTimestamp: number,
+    hours: number,
+    minutes: number,
+  ): number => {
     const dateStr = dateFormatter.format(new Date(baseTimestamp));
     const timeStr = `${dateStr}T${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00Z`;
     const asUtc = new Date(timeStr);
@@ -185,7 +207,10 @@
   };
 
   // LTTB downsampling (optimized)
-  const downsampleBars = (bars: KLineData[], targetCount: number): KLineData[] => {
+  const downsampleBars = (
+    bars: KLineData[],
+    targetCount: number,
+  ): KLineData[] => {
     const len = bars.length;
     if (len <= targetCount || targetCount < 3) return bars;
 
@@ -196,23 +221,38 @@
       const bucketStart = Math.floor(i * bucketSize) + 1;
       const bucketEnd = Math.floor((i + 1) * bucketSize) + 1;
       const nextBucketStart = bucketEnd;
-      const nextBucketEnd = Math.min(Math.floor((i + 2) * bucketSize) + 1, len - 1);
+      const nextBucketEnd = Math.min(
+        Math.floor((i + 2) * bucketSize) + 1,
+        len - 1,
+      );
 
-      let avgX = 0, avgY = 0, count = 0;
+      let avgX = 0,
+        avgY = 0,
+        count = 0;
       for (let j = nextBucketStart; j < nextBucketEnd; j++) {
         avgX += j;
         avgY += bars[j].close;
         count++;
       }
-      if (count > 0) { avgX /= count; avgY /= count; }
+      if (count > 0) {
+        avgX /= count;
+        avgY /= count;
+      }
 
       const prevX = result.length - 1;
       const prevY = result[result.length - 1].close;
-      let maxArea = -1, maxIndex = bucketStart;
+      let maxArea = -1,
+        maxIndex = bucketStart;
 
       for (let j = bucketStart; j < bucketEnd && j < len - 1; j++) {
-        const area = Math.abs((prevX - avgX) * (bars[j].close - prevY) - (prevX - j) * (avgY - prevY));
-        if (area > maxArea) { maxArea = area; maxIndex = j; }
+        const area = Math.abs(
+          (prevX - avgX) * (bars[j].close - prevY) -
+            (prevX - j) * (avgY - prevY),
+        );
+        if (area > maxArea) {
+          maxArea = area;
+          maxIndex = j;
+        }
       }
       result.push(bars[maxIndex]);
     }
@@ -250,7 +290,7 @@
       sessionEnd = buildSessionTimestamp(baseTs, 16, 0);
 
       const sessionBars = parsed.filter(
-        (bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!
+        (bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!,
       );
       if (!sessionBars.length) return parsed;
 
@@ -318,15 +358,45 @@
     const areaGradient = negative
       ? [
           { offset: 0, color: "rgba(0, 0, 0, 0)" },
-          { offset: 0.4, color: isLight ? "rgba(220, 38, 38, 0.05)" : "rgba(248, 113, 113, 0.04)" },
-          { offset: 0.7, color: isLight ? "rgba(220, 38, 38, 0.12)" : "rgba(248, 113, 113, 0.10)" },
-          { offset: 1, color: isLight ? "rgba(220, 38, 38, 0.25)" : "rgba(248, 113, 113, 0.20)" },
+          {
+            offset: 0.4,
+            color: isLight
+              ? "rgba(220, 38, 38, 0.05)"
+              : "rgba(248, 113, 113, 0.04)",
+          },
+          {
+            offset: 0.7,
+            color: isLight
+              ? "rgba(220, 38, 38, 0.12)"
+              : "rgba(248, 113, 113, 0.10)",
+          },
+          {
+            offset: 1,
+            color: isLight
+              ? "rgba(220, 38, 38, 0.25)"
+              : "rgba(248, 113, 113, 0.20)",
+          },
         ]
       : [
           { offset: 0, color: "rgba(0, 0, 0, 0)" },
-          { offset: 0.4, color: isLight ? "rgba(22, 163, 74, 0.05)" : "rgba(34, 197, 94, 0.04)" },
-          { offset: 0.7, color: isLight ? "rgba(22, 163, 74, 0.12)" : "rgba(34, 197, 94, 0.10)" },
-          { offset: 1, color: isLight ? "rgba(22, 163, 74, 0.25)" : "rgba(34, 197, 94, 0.20)" },
+          {
+            offset: 0.4,
+            color: isLight
+              ? "rgba(22, 163, 74, 0.05)"
+              : "rgba(34, 197, 94, 0.04)",
+          },
+          {
+            offset: 0.7,
+            color: isLight
+              ? "rgba(22, 163, 74, 0.12)"
+              : "rgba(34, 197, 94, 0.10)",
+          },
+          {
+            offset: 1,
+            color: isLight
+              ? "rgba(22, 163, 74, 0.25)"
+              : "rgba(34, 197, 94, 0.20)",
+          },
         ];
 
     chart.setStyles({
@@ -346,7 +416,13 @@
         size: "auto",
         axisLine: { show: false },
         tickLine: { show: false },
-        tickText: { show: true, color: axisText, size: 11, family: chartFont, weight: 400 },
+        tickText: {
+          show: true,
+          color: axisText,
+          size: 11,
+          family: chartFont,
+          weight: 400,
+        },
       },
       yAxis: {
         show: true,
@@ -355,12 +431,24 @@
         inside: false,
         axisLine: { show: false },
         tickLine: { show: false },
-        tickText: { show: true, color: axisText, size: 11, family: chartFont, weight: 400 },
+        tickText: {
+          show: true,
+          color: axisText,
+          size: 11,
+          family: chartFont,
+          weight: 400,
+        },
       },
       crosshair: {
         show: true,
         horizontal: {
-          line: { show: true, style: "dashed", dashedValue: [4, 4], size: 1, color: crosshairLine },
+          line: {
+            show: true,
+            style: "dashed",
+            dashedValue: [4, 4],
+            size: 1,
+            color: crosshairLine,
+          },
           text: {
             show: true,
             color: crosshairText,
@@ -377,7 +465,13 @@
           },
         },
         vertical: {
-          line: { show: true, style: "dashed", dashedValue: [4, 4], size: 1, color: crosshairLine },
+          line: {
+            show: true,
+            style: "dashed",
+            dashedValue: [4, 4],
+            size: 1,
+            color: crosshairLine,
+          },
           text: {
             show: true,
             color: crosshairText,
@@ -397,9 +491,15 @@
       candle: {
         type: "area",
         bar: {
-          upColor, downColor, noChangeColor: axisText,
-          upBorderColor: upColor, downBorderColor: downColor, noChangeBorderColor: axisText,
-          upWickColor: upColor, downWickColor: downColor, noChangeWickColor: axisText,
+          upColor,
+          downColor,
+          noChangeColor: axisText,
+          upBorderColor: upColor,
+          downBorderColor: downColor,
+          noChangeBorderColor: axisText,
+          upWickColor: upColor,
+          downWickColor: downColor,
+          noChangeWickColor: axisText,
         },
         area: {
           lineSize: 1.5,
@@ -415,14 +515,32 @@
           low: { show: false },
           last: {
             show: true,
-            upColor, downColor, noChangeColor: axisText,
+            upColor,
+            downColor,
+            noChangeColor: axisText,
             line: { show: true, style: "dashed", dashedValue: [4, 4], size: 1 },
-            text: { show: true, color: "#fff", size: 10, family: chartFont, weight: 600, borderRadius: 2, paddingLeft: 4, paddingRight: 4, paddingTop: 2, paddingBottom: 2 },
+            text: {
+              show: true,
+              color: "#fff",
+              size: 10,
+              family: chartFont,
+              weight: 600,
+              borderRadius: 2,
+              paddingLeft: 4,
+              paddingRight: 4,
+              paddingTop: 2,
+              paddingBottom: 2,
+            },
           },
         },
         tooltip: { showRule: "none" },
       },
-      separator: { size: 0, color: "transparent", fill: false, activeBackgroundColor: "transparent" },
+      separator: {
+        size: 0,
+        color: "transparent",
+        fill: false,
+        activeBackgroundColor: "transparent",
+      },
     });
 
     lastAppliedMode = isLight ? "light" : "dark";
@@ -433,14 +551,23 @@
     if (!chart || !chartContainer || currentBarCount <= 0) return;
 
     // Use consistent fallback with updateChartData (300 for mobile)
-    const width = chart.getSize("candle_pane", "main")?.width || chartContainer?.clientWidth || 300;
+    const width =
+      chart.getSize("candle_pane", "main")?.width ||
+      chartContainer?.clientWidth ||
+      300;
 
-    const targetCount = displayRange === "1D" && sessionBarCount > 0 ? sessionBarCount : currentBarCount;
+    const targetCount =
+      displayRange === "1D" && sessionBarCount > 0
+        ? sessionBarCount
+        : currentBarCount;
     const barSpace = Math.max(KLINE_MIN_BAR_SPACE, width / targetCount);
     chart.setBarSpace(barSpace);
 
     const actualSpace = chart.getBarSpace()?.bar ?? barSpace;
-    const rightOffset = displayRange === "1D" && missingRightBars > 0 ? missingRightBars * actualSpace : 0;
+    const rightOffset =
+      displayRange === "1D" && missingRightBars > 0
+        ? missingRightBars * actualSpace
+        : 0;
     chart.setMaxOffsetRightDistance(rightOffset + 10);
     chart.setOffsetRightDistance(rightOffset);
   };
@@ -455,23 +582,34 @@
       sessionBarCount = 0;
       missingRightBars = 0;
       chart.setDataLoader({
-        getBars: async ({ callback }) => callback([], { backward: false, forward: false }),
+        getBars: async ({ callback }) =>
+          callback([], { backward: false, forward: false }),
       });
       return;
     }
 
     const intervalMs = computeIntervalMs(bars);
-    const width = chart.getSize("candle_pane", "main")?.width || chartContainer?.clientWidth || 300;
+    const width =
+      chart.getSize("candle_pane", "main")?.width ||
+      chartContainer?.clientWidth ||
+      300;
     const maxBars = Math.max(100, Math.floor(width));
 
     if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
-      const fullCount = Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
+      const fullCount =
+        Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
       const lastTs = bars[bars.length - 1].timestamp;
-      const rawMissing = lastTs < sessionEnd ? Math.round((sessionEnd - lastTs) / intervalMs) : 0;
+      const rawMissing =
+        lastTs < sessionEnd
+          ? Math.round((sessionEnd - lastTs) / intervalMs)
+          : 0;
 
       if (fullCount > maxBars) {
         const ratio = maxBars / fullCount;
-        bars = downsampleBars(bars, Math.max(2, Math.floor(bars.length * ratio)));
+        bars = downsampleBars(
+          bars,
+          Math.max(2, Math.floor(bars.length * ratio)),
+        );
         sessionBarCount = maxBars;
         missingRightBars = Math.round(rawMissing * ratio);
       } else {
@@ -487,8 +625,18 @@
     currentBars = bars;
     currentBarCount = bars.length;
 
-    const periodType = intervalMs >= 86400000 ? "day" : intervalMs >= 3600000 ? "hour" : "minute";
-    const periodSpan = periodType === "day" ? 1 : periodType === "hour" ? Math.round(intervalMs / 3600000) : Math.round(intervalMs / 60000);
+    const periodType =
+      intervalMs >= 86400000
+        ? "day"
+        : intervalMs >= 3600000
+          ? "hour"
+          : "minute";
+    const periodSpan =
+      periodType === "day"
+        ? 1
+        : periodType === "hour"
+          ? Math.round(intervalMs / 3600000)
+          : Math.round(intervalMs / 60000);
 
     chart.setPeriod({ type: periodType, span: periodSpan });
 
@@ -528,12 +676,25 @@
   const formatXAxisLabel = (timestamp: number): string => {
     const date = new Date(timestamp);
     if (displayRange === "1D") {
-      return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: NY_TIMEZONE });
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: NY_TIMEZONE,
+      });
     }
     if (displayRange === "1W" || displayRange === "1M") {
-      return date.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        timeZone: "UTC",
+      });
     }
-    return date.toLocaleDateString("en-US", { year: "2-digit", month: "short", timeZone: "UTC" });
+    return date.toLocaleDateString("en-US", {
+      year: "2-digit",
+      month: "short",
+      timeZone: "UTC",
+    });
   };
 
   // ============================================================================
@@ -542,43 +703,89 @@
   const formatRangeTimestamp = (ts: number): string => {
     const date = new Date(ts);
     if (displayRange === "1D") {
-      return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: NY_TIMEZONE });
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: NY_TIMEZONE,
+      });
     }
     if (displayRange === "1W" || displayRange === "1M") {
-      return date.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", hour12: true, timeZone: "UTC" });
+      return date.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+      });
     }
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
   };
 
   const hexToRgba = (hex: string, alpha: number): string => {
     const h = hex.replace("#", "");
-    const expanded = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
+    const expanded =
+      h.length === 3
+        ? h
+            .split("")
+            .map((c) => c + c)
+            .join("")
+        : h;
     if (expanded.length !== 6) return `rgba(0,0,0,${alpha})`;
     return `rgba(${parseInt(expanded.slice(0, 2), 16)},${parseInt(expanded.slice(2, 4), 16)},${parseInt(expanded.slice(4, 6), 16)},${alpha})`;
   };
 
-  $: selectionDelta = selectionStart && selectionEnd ? selectionEnd.price - selectionStart.price : 0;
-  $: selectionPercent = selectionStart && selectionEnd && selectionStart.price !== 0
-    ? ((selectionEnd.price - selectionStart.price) / selectionStart.price) * 100 : 0;
+  $: selectionDelta =
+    selectionStart && selectionEnd
+      ? selectionEnd.price - selectionStart.price
+      : 0;
+  $: selectionPercent =
+    selectionStart && selectionEnd && selectionStart.price !== 0
+      ? ((selectionEnd.price - selectionStart.price) / selectionStart.price) *
+        100
+      : 0;
   $: selectionColor = selectionDelta >= 0 ? "#00FC50" : "#FF2F1F";
-  $: selectionTimeRange = selectionStart && selectionEnd
-    ? (selectionStart.timestamp === selectionEnd.timestamp
+  $: selectionTimeRange =
+    selectionStart && selectionEnd
+      ? selectionStart.timestamp === selectionEnd.timestamp
         ? formatRangeTimestamp(selectionStart.timestamp)
-        : `${formatRangeTimestamp(Math.min(selectionStart.timestamp, selectionEnd.timestamp))} – ${formatRangeTimestamp(Math.max(selectionStart.timestamp, selectionEnd.timestamp))}`)
-    : "";
-  $: selectionRect = selectionStart && selectionEnd && chartContainer
-    ? { x: Math.min(selectionStart.x, selectionEnd.x), y: 0, width: Math.abs(selectionEnd.x - selectionStart.x), height: chartContainer.clientHeight - 80 }
-    : null;
+        : `${formatRangeTimestamp(Math.min(selectionStart.timestamp, selectionEnd.timestamp))} – ${formatRangeTimestamp(Math.max(selectionStart.timestamp, selectionEnd.timestamp))}`
+      : "";
+  $: selectionRect =
+    selectionStart && selectionEnd && chartContainer
+      ? {
+          x: Math.min(selectionStart.x, selectionEnd.x),
+          y: 0,
+          width: Math.abs(selectionEnd.x - selectionStart.x),
+          height: chartContainer.clientHeight - 80,
+        }
+      : null;
 
   const getDataFromPoint = (clientX: number, clientY: number) => {
     if (!chart || !chartContainer) return null;
     const rect = chartContainer.getBoundingClientRect();
-    const x = clientX - rect.left, y = clientY - rect.top;
-    const dataIndex = chart.convertFromPixel({ x, y }, { paneId: "candle_pane", absolute: false });
+    const x = clientX - rect.left,
+      y = clientY - rect.top;
+    const dataIndex = chart.convertFromPixel(
+      { x, y },
+      { paneId: "candle_pane", absolute: false },
+    );
     if (!dataIndex || dataIndex.dataIndex === undefined) return null;
     const bar = chart.getDataList()[dataIndex.dataIndex];
     if (!bar) return null;
-    return { index: dataIndex.dataIndex, price: bar.close, x, y, timestamp: bar.timestamp };
+    return {
+      index: dataIndex.dataIndex,
+      price: bar.close,
+      x,
+      y,
+      timestamp: bar.timestamp,
+    };
   };
 
   const onPointerDown = (evt: PointerEvent) => {
@@ -594,9 +801,15 @@
     if (startPointerId !== evt.pointerId || !selectionStart) return;
     const data = getDataFromPoint(evt.clientX, evt.clientY);
     if (!data) return;
-    if (!isSelecting && startChartX !== null && Math.abs(data.x - startChartX) > DRAG_THRESHOLD_PX) {
+    if (
+      !isSelecting &&
+      startChartX !== null &&
+      Math.abs(data.x - startChartX) > DRAG_THRESHOLD_PX
+    ) {
       isSelecting = true;
-      try { (evt.target as HTMLElement)?.setPointerCapture(evt.pointerId); } catch {}
+      try {
+        (evt.target as HTMLElement)?.setPointerCapture(evt.pointerId);
+      } catch {}
     }
     if (isSelecting) {
       selectionEnd = { ...data };
@@ -606,7 +819,9 @@
 
   const onPointerUp = (evt: PointerEvent) => {
     if (startPointerId !== evt.pointerId) return;
-    try { (evt.target as HTMLElement)?.releasePointerCapture(evt.pointerId); } catch {}
+    try {
+      (evt.target as HTMLElement)?.releasePointerCapture(evt.pointerId);
+    } catch {}
     setTimeout(() => {
       isSelecting = false;
       selectionStart = selectionEnd = null;
@@ -632,13 +847,22 @@
     chart.setRightMinVisibleBarCount(0);
     chart.setSymbol({ ticker: "STOCK", pricePrecision: 2, volumePrecision: 0 });
 
-    chart.setPaneOptions({ id: "candle_pane", gap: { top: 0.02, bottom: 0.02 }, axis: { scrollZoomEnabled: false } });
+    chart.setPaneOptions({
+      id: "candle_pane",
+      gap: { top: 0.02, bottom: 0.02 },
+      axis: { scrollZoomEnabled: false },
+    });
 
     if (displayRange === "1D") {
-      chart.setPaneOptions({ id: "x_axis_pane", axis: { name: ONE_DAY_X_AXIS_NAME, scrollZoomEnabled: false } });
+      chart.setPaneOptions({
+        id: "x_axis_pane",
+        axis: { name: ONE_DAY_X_AXIS_NAME, scrollZoomEnabled: false },
+      });
     }
 
-    chart.setFormatter({ formatDate: ({ timestamp }) => formatXAxisLabel(timestamp) });
+    chart.setFormatter({
+      formatDate: ({ timestamp }) => formatXAxisLabel(timestamp),
+    });
     chart.setPeriod({ type: "minute", span: 1 });
 
     applyStyles($mode === "light", isNegative);
@@ -672,7 +896,10 @@
     if (dataUpdateRaf !== null) cancelAnimationFrame(dataUpdateRaf);
     if (pendingStyleTimeout !== null) clearTimeout(pendingStyleTimeout);
     resizeObserver?.disconnect();
-    if (chart) { dispose(chart); chart = null; }
+    if (chart) {
+      dispose(chart);
+      chart = null;
+    }
   });
 
   // ============================================================================
@@ -684,7 +911,10 @@
       styleRaf = null;
       if (!chart) return;
       const isLight = $mode === "light";
-      if (lastAppliedMode !== (isLight ? "light" : "dark") || lastAppliedNegative !== isNegative) {
+      if (
+        lastAppliedMode !== (isLight ? "light" : "dark") ||
+        lastAppliedNegative !== isNegative
+      ) {
         applyStyles(isLight, isNegative);
       }
     });
@@ -734,28 +964,37 @@
     // Update x-axis type
     chart.setPaneOptions({
       id: "x_axis_pane",
-      axis: { name: displayRange === "1D" ? ONE_DAY_X_AXIS_NAME : "default", scrollZoomEnabled: false },
+      axis: {
+        name: displayRange === "1D" ? ONE_DAY_X_AXIS_NAME : "default",
+        scrollZoomEnabled: false,
+      },
     });
     // Only trigger data update if priceData hasn't changed yet (handles cached data with same reference)
     // If priceData will change, let the priceData reactive handle the update to avoid race conditions
     if (lastProcessedDisplayRange !== displayRange && priceData?.length > 0) {
       // Small delay to allow priceData reactive to fire first if data is changing
       setTimeout(() => {
-        if (lastProcessedDisplayRange !== displayRange && priceData?.length > 0) {
+        if (
+          lastProcessedDisplayRange !== displayRange &&
+          priceData?.length > 0
+        ) {
           lastProcessedDisplayRange = displayRange;
           scheduleDataUpdate();
         }
       }, 10);
     }
   }
-
 </script>
 
 <div class="relative w-full h-[320px]">
   {#if isLoading}
     <div class="absolute inset-0 flex items-center justify-center z-10">
-      <div class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex items-center justify-center shadow-sm">
-        <span class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"></span>
+      <div
+        class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex items-center justify-center shadow-sm"
+      >
+        <span
+          class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+        ></span>
       </div>
     </div>
   {/if}
@@ -775,25 +1014,54 @@
     <div class="absolute inset-0 pointer-events-none z-10">
       <div
         class="absolute"
-        style="left:{selectionRect.x}px;top:0;width:{selectionRect.width}px;height:{selectionRect.height}px;background-color:{hexToRgba(selectionColor, $mode === 'light' ? 0.12 : 0.16)}"
+        style="left:{selectionRect.x}px;top:0;width:{selectionRect.width}px;height:{selectionRect.height}px;background-color:{hexToRgba(
+          selectionColor,
+          $mode === 'light' ? 0.12 : 0.16,
+        )}"
       ></div>
       <div
         class="absolute w-px"
-        style="left:{selectionStart.x}px;top:0;height:{selectionRect.height}px;background:repeating-linear-gradient(to bottom,{$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 0px,{$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 3px,transparent 3px,transparent 6px)"
+        style="left:{selectionStart.x}px;top:0;height:{selectionRect.height}px;background:repeating-linear-gradient(to bottom,{$mode ===
+        'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 0px,{$mode === 'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 3px,transparent 3px,transparent 6px)"
       ></div>
       <div
         class="absolute w-px"
-        style="left:{selectionEnd.x}px;top:0;height:{selectionRect.height}px;background:repeating-linear-gradient(to bottom,{$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 0px,{$mode === 'light' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'} 3px,transparent 3px,transparent 6px)"
+        style="left:{selectionEnd.x}px;top:0;height:{selectionRect.height}px;background:repeating-linear-gradient(to bottom,{$mode ===
+        'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 0px,{$mode === 'light'
+          ? 'rgba(0,0,0,0.35)'
+          : 'rgba(255,255,255,0.35)'} 3px,transparent 3px,transparent 6px)"
       ></div>
-      <div class="absolute w-2.5 h-2.5 rounded-full" style="left:{selectionStart.x - 5}px;top:{selectionStart.y - 5}px;background:{$mode === 'light' ? '#000' : '#fff'}"></div>
-      <div class="absolute w-2.5 h-2.5 rounded-full" style="left:{selectionEnd.x - 5}px;top:{selectionEnd.y - 5}px;background:{$mode === 'light' ? '#000' : '#fff'}"></div>
-      <div class="absolute bg-black border border-gray-700 rounded px-2 py-1.5 text-sm" style="left:{(selectionStart.x + selectionEnd.x) / 2}px;top:20px;transform:translateX(-50%)">
+      <div
+        class="absolute w-2.5 h-2.5 rounded-full"
+        style="left:{selectionStart.x - 5}px;top:{selectionStart.y -
+          5}px;background:{$mode === 'light' ? '#000' : '#fff'}"
+      ></div>
+      <div
+        class="absolute w-2.5 h-2.5 rounded-full"
+        style="left:{selectionEnd.x - 5}px;top:{selectionEnd.y -
+          5}px;background:{$mode === 'light' ? '#000' : '#fff'}"
+      ></div>
+      <div
+        class="absolute bg-black border border-gray-700 rounded px-2 py-1.5 text-sm"
+        style="left:{(selectionStart.x + selectionEnd.x) /
+          2}px;top:20px;transform:translateX(-50%)"
+      >
         <div class="whitespace-nowrap" style="color:{selectionColor}">
-          {selectionDelta > 0 ? "+" : ""}{selectionDelta.toFixed(2)} ({selectionPercent.toFixed(2)}%)
+          {selectionDelta > 0 ? "+" : ""}{selectionDelta.toFixed(2)} ({selectionPercent.toFixed(
+            2,
+          )}%)
           {selectionDelta > 0 ? "↑" : selectionDelta < 0 ? "↓" : ""}
         </div>
         {#if selectionTimeRange}
-          <div class="text-xs text-gray-400 whitespace-nowrap mt-0.5">{selectionTimeRange}</div>
+          <div class="text-xs text-gray-400 whitespace-nowrap mt-0.5">
+            {selectionTimeRange}
+          </div>
         {/if}
       </div>
     </div>

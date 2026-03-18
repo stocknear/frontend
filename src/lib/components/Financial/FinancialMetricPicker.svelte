@@ -1,4 +1,4 @@
-  <script lang="ts">
+<script lang="ts">
   import { tick } from "svelte";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
@@ -38,10 +38,26 @@
   let searchInputEl: HTMLInputElement | null = null;
 
   const GROUPS: { key: string; label: string; statement: string }[] = [
-    { key: "income", label: stock_detail_financials_income_statement(), statement: "income" },
-    { key: "balance", label: stock_detail_financials_balance_sheet_statement(), statement: "balance" },
-    { key: "cashflow", label: stock_detail_financials_cash_flow_statement(), statement: "cashflow" },
-    { key: "ratios", label: stock_detail_financials_ratios_metrics(), statement: "ratios" },
+    {
+      key: "income",
+      label: stock_detail_financials_income_statement(),
+      statement: "income",
+    },
+    {
+      key: "balance",
+      label: stock_detail_financials_balance_sheet_statement(),
+      statement: "balance",
+    },
+    {
+      key: "cashflow",
+      label: stock_detail_financials_cash_flow_statement(),
+      statement: "cashflow",
+    },
+    {
+      key: "ratios",
+      label: stock_detail_financials_ratios_metrics(),
+      statement: "ratios",
+    },
   ];
 
   // Group indicators by statement
@@ -93,7 +109,9 @@
       builders={[builder]}
       class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
-      <span class="text-[0.85rem] sm:text-sm">{stock_detail_financials_indicators()}</span>
+      <span class="text-[0.85rem] sm:text-sm"
+        >{stock_detail_financials_indicators()}</span
+      >
       {#if totalSelected > 0}
         <div
           class="ml-1.5 flex items-center justify-center h-4 min-w-[16px] px-1 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
@@ -216,7 +234,9 @@
     {/each}
 
     {#if filteredGroups.length === 0 && filteredPresets.length === 0}
-      <div class="px-2 py-3 text-xs text-gray-500 dark:text-zinc-400 text-center">
+      <div
+        class="px-2 py-3 text-xs text-gray-500 dark:text-zinc-400 text-center"
+      >
         {stock_detail_financials_no_indicators_found()}
       </div>
     {/if}
@@ -226,14 +246,20 @@
       class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
     >
       <label
-        on:click={() => { searchQuery = ""; onReset(); }}
-        class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        on:click={() => {
+          searchQuery = "";
+          onReset();
+        }}
+        class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_reset_selection()}
       </label>
       <label
-        on:click={() => { searchQuery = ""; onSelectAll(); }}
-        class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        on:click={() => {
+          searchQuery = "";
+          onSelectAll();
+        }}
+        class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_select_all()}
       </label>

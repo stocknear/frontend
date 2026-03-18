@@ -38,8 +38,8 @@
                 fill-rule="evenodd"
                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                 clip-rule="evenodd"
-              ></path></svg>
-
+              ></path></svg
+            >
           </a></Card.Title
         >
       </div>
@@ -71,7 +71,7 @@
         <Table.Body>
           {#each darkPoolList as item}
             <Table.Row>
-              <Table.Cell class="text-sm text-gray-600 dark:text-zinc-300">
+              <Table.Cell class="text-sm text-muted dark:text-zinc-300">
                 <a
                   href={`/${item?.assetType === "Stock" ? "stocks" : "etf"}/${item?.ticker}`}
                   class="text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"

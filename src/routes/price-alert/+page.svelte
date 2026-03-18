@@ -597,7 +597,7 @@
         priceSocket &&
         (priceSocket.readyState === WebSocket.OPEN ||
           priceSocket.readyState === WebSocket.CONNECTING)
-        ) {
+      ) {
         return;
       }
       nextPriceSocket = new WebSocket(wsUrl);
@@ -1016,7 +1016,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                      class="border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1035,7 +1035,7 @@
                   {/if}
                   <label
                     on:click={handleEditMode}
-                    class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1072,7 +1072,7 @@
                   <div class="relative w-full">
                     <Combobox.Input
                       on:input={search}
-                      class="py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
+                      class="py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
                       placeholder={price_alert_search_placeholder()}
                       aria-label={price_alert_search_placeholder()}
                     />
@@ -1212,9 +1212,7 @@
                                   : 'text-gray-400 dark:text-zinc-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                                 title={item?.hasNote ? "Edit note" : "Add note"}
                               >
-                                <Pencil
-                                  class="h-3.5 w-3.5"
-                                />
+                                <Pencil class="h-3.5 w-3.5" />
                               </button>
                             </div>
                           {/if}
@@ -1473,7 +1471,7 @@
               </span>
 
               <span
-                class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-gray-600 dark:text-zinc-300"
+                class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-muted dark:text-zinc-300"
               >
                 {price_alert_empty_description()}
               </span>
@@ -1491,7 +1489,7 @@
                       class="ml-1 size-5 text-white dark:text-gray-900"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
-                    ><g transform="rotate(90 12 12)"
+                      ><g transform="rotate(90 12 12)"
                         ><g fill="none"
                           ><path
                             d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"

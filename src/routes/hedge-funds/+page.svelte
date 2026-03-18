@@ -553,16 +553,16 @@
 >
   <div class="w-full overflow-hidden m-auto">
     <BreadCrumb
-      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
     >
       <li>
         <a
           href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >{hedge_funds_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">
+      <li class="text-muted dark:text-zinc-300">
         {hedge_funds_breadcrumb_hedge_funds()}
       </li>
     </BreadCrumb>
@@ -598,7 +598,7 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -615,8 +615,8 @@
                             ><path
                               fill="currentColor"
                               d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                            /></svg>
-
+                            /></svg
+                          >
                         </label>
                       {/if}
                     </div>
@@ -626,7 +626,7 @@
                       on:input={search}
                       type="text"
                       placeholder={hedge_funds_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -695,7 +695,7 @@
                       <tr>
                         <td
                           colspan={columns.length}
-                          class="py-6 text-center text-sm text-gray-800 dark:text-zinc-300"
+                          class="py-6 text-center text-sm text-muted dark:text-zinc-300"
                         >
                           {isLoading
                             ? hedge_funds_loading()
@@ -726,13 +726,13 @@
                               </td>
                             {:else if column.key === "marketValue"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {abbreviateNumber(item?.marketValue)}
                               </td>
                             {:else if column.key === "numberOfStocks"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {new Intl.NumberFormat("en", {
                                   minimumFractionDigits: 0,
@@ -741,7 +741,7 @@
                               </td>
                             {:else if column.key === "turnover"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {item?.turnover?.toFixed(2)}
                               </td>
@@ -861,7 +861,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                    <span class="text-sm text-muted dark:text-zinc-300">
                       {hedge_funds_pagination_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -956,7 +956,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     {hedge_funds_back_to_top()}
                     <svg

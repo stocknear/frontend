@@ -788,7 +788,9 @@
 <section
   class="text-gray-700 dark:text-zinc-200 min-h-screen pb-40 overflow-hidden w-full"
 >
-  <h1 class="sr-only">{data?.companyName} ({$stockTicker}) Stock Price, Analysis & Data</h1>
+  <h1 class="sr-only">
+    {data?.companyName} ({$stockTicker}) Stock Price, Analysis & Data
+  </h1>
   <div class="w-full m-auto overflow-hidden">
     <div
       class="md:flex md:justify-between md:divide-x md:divide-gray-200/70 dark:md:divide-zinc-800/80 w-full"
@@ -818,7 +820,7 @@
                             class="block px-3 sm:px-2 py-1 text-sm rounded-full duration-100 ease-in-out whitespace-nowrap
           {displayData === interval
                               ? 'bg-gray-100/70 text-gray-900 dark:text-white dark:bg-zinc-900/60 font-semibold'
-                              : 'bg-transparent text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
+                              : 'bg-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60'}"
                           >
                             {$screenWidth < 1200
                               ? interval
@@ -854,7 +856,6 @@
                   previousClose={data?.getStockQuote?.previousClose}
                   isNegative={chartIsNegative}
                   isLoading={isLoadingChart}
-
                 />
               {:else if !isLoadingChart}
                 <div
@@ -871,7 +872,6 @@
                   previousClose={null}
                   isNegative={false}
                   isLoading={true}
-
                 />
               {/if}
             </div>
@@ -902,7 +902,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/market-cap`}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
+                        class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
                         >{stock_detail_market_cap()}</a
                       ></td
                     >
@@ -922,7 +922,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       ><a
                         href={`/stocks/${$stockTicker}/statistics/revenue`}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
+                        class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
                         >{stock_detail_revenue_ttm()}</a
                       ></td
                     >
@@ -1181,7 +1181,7 @@
                           : ""}
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
-                          ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
+                          ? "hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
                           : " cursor-text"}>{stock_detail_analyst()}</a
                       >
                     </td>
@@ -1206,7 +1206,7 @@
                           : ""}
                         class={data?.getAnalystSummary?.consensusRating !==
                         undefined
-                          ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
+                          ? "hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
                           : " cursor-text"}>{stock_detail_price_target()}</a
                       >
                     </td>
@@ -1230,7 +1230,7 @@
                           ? `/stocks/${$stockTicker}/dividends`
                           : ""}
                         class={data?.getStockDeck?.annualDividend
-                          ? "hover:text-violet-600 dark:hover:text-violet-400 underline underline-offset-4"
+                          ? "hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
                           : " cursor-text"}>{stock_detail_dividends()}</a
                       >
                     </td>

@@ -75,7 +75,9 @@
     { value: "3Y", label: stock_detail_financials_range_3y() },
     { value: "1Y", label: stock_detail_financials_range_1y() },
   ];
-  const RANGE_LABEL_MAP = Object.fromEntries(HISTORY_RANGE_OPTIONS.map(o => [o.value, o.label]));
+  const RANGE_LABEL_MAP = Object.fromEntries(
+    HISTORY_RANGE_OPTIONS.map((o) => [o.value, o.label]),
+  );
 
   const fields = statementConfig.map((item) => ({
     label: item.label,
@@ -427,7 +429,7 @@
             {#if financialData?.length > 0}
               <div class="flex flex-col md:flex-row items-end justify-between">
                 <span
-                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full"
+                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-muted dark:text-zinc-300 w-full"
                 >
                   {stock_detail_financials_in_currency({
                     currency: financialData?.at(0)?.reportedCurrency,
@@ -447,10 +449,14 @@
                     >
                       {#if $coolMode}
                         <Table class="w-4 h-4" />
-                        <span class="ml-1.5 text-sm">{stock_detail_financials_table_mode()}</span>
+                        <span class="ml-1.5 text-sm"
+                          >{stock_detail_financials_table_mode()}</span
+                        >
                       {:else}
                         <LayoutGrid class="w-4 h-4" />
-                        <span class="ml-1.5 text-sm">{stock_detail_financials_chart_mode()}</span>
+                        <span class="ml-1.5 text-sm"
+                          >{stock_detail_financials_chart_mode()}</span
+                        >
                       {/if}
                     </Button>
 
@@ -461,7 +467,10 @@
                           builders={[builder]}
                           class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                         >
-                          <span class="text-sm">{RANGE_LABEL_MAP[$financialHistoryRange] || $financialHistoryRange}</span>
+                          <span class="text-sm"
+                            >{RANGE_LABEL_MAP[$financialHistoryRange] ||
+                              $financialHistoryRange}</span
+                          >
                           <svg
                             class="-mr-1 ml-1 h-4 w-4"
                             viewBox="0 0 20 20"
@@ -502,7 +511,9 @@
                     <Button
                       on:click={() => (switchDate = !switchDate)}
                       class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
-                      title={switchDate ? stock_detail_financials_newest_first() : stock_detail_financials_oldest_first()}
+                      title={switchDate
+                        ? stock_detail_financials_newest_first()
+                        : stock_detail_financials_oldest_first()}
                     >
                       <svg
                         class="shrink-0 w-5 h-5 pointer-events-none"
@@ -574,10 +585,14 @@
                       />
                     </svg>
                     <span>
-                      {stock_detail_financials_viewing_periods({ count: financialData.length })}
+                      {stock_detail_financials_viewing_periods({
+                        count: financialData.length,
+                      })}
                       {#if lockedFiscalYearRange}
                         <span class="font-medium"
-                          >&middot; {stock_detail_financials_unlock_history({ range: lockedFiscalYearRange })}</span
+                          >&middot; {stock_detail_financials_unlock_history({
+                            range: lockedFiscalYearRange,
+                          })}</span
                         >
                       {/if}
                     </span>
@@ -619,13 +634,15 @@
                         {#each financialData as item, index}
                           {#if $selectedTimePeriod === "annual"}
                             <td
-                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
                             >
-                              {stock_detail_financials_fy_prefix() + " " + item?.fiscalYear}
+                              {stock_detail_financials_fy_prefix() +
+                                " " +
+                                item?.fiscalYear}
                             </td>
                           {:else}
                             <td
-                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
                             >
                               {item?.period + " " + item?.fiscalYear}
                             </td>
@@ -633,7 +650,7 @@
                         {/each}
                         {#if hasLockedData}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
+                            class="font-semibold text-xs uppercase tracking-wide text-center text-muted dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
                           >
                             {lockedFiscalYearRange || stock_detail_upgrade()}
                           </td>
@@ -646,7 +663,7 @@
                         >
                         {#each financialData as item, index}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-300"
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
                           >
                             {new Date(item?.date).toLocaleDateString("en-US", {
                               month: "short",
@@ -657,7 +674,7 @@
                         {/each}
                         {#if hasLockedData}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-center text-gray-600 dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
+                            class="font-semibold text-xs uppercase tracking-wide text-center text-muted dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
                           >
                             {lockedPeriodRange || stock_detail_upgrade()}
                           </td>
@@ -686,7 +703,7 @@
 
               <!-- SEC Filings Links -->
               <div
-                class="sm:flex sm:justify-between text-sm text-gray-800 dark:text-zinc-300"
+                class="sm:flex sm:justify-between text-sm text-muted dark:text-zinc-300"
               >
                 <div class="mt-2 flex ml-auto items-center gap-x-2">
                   {stock_detail_financials_sec_filings()}

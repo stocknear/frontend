@@ -388,8 +388,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg>
-
+                  /></svg
+                >
               </label>
             {/if}
           </div>
@@ -399,7 +399,7 @@
             on:input={search}
             type="text"
             placeholder={industry_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -477,25 +477,25 @@
                     </td>
                   {:else if column.key === "numStocks"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                     >
                       {item?.numStocks}
                     </td>
                   {:else if column.key === "totalMarketCap"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                     >
                       {abbreviateNumber(item?.totalMarketCap) ?? "n/a"}
                     </td>
                   {:else if column.key === "avgDividendYield"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                     >
                       {item?.avgDividendYield?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "pe"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                     >
                       {item?.pe?.toFixed(2) ?? "n/a"}
                     </td>
@@ -583,7 +583,7 @@
 
       <!-- Page info and rows selector in center -->
       <div class="flex flex-row items-center gap-4">
-        <span class="text-sm text-gray-600 dark:text-zinc-300">
+        <span class="text-sm text-muted dark:text-zinc-300">
           {industry_pagination_page_of({
             current: currentPage,
             total: totalPages,
@@ -672,7 +672,7 @@
     <div class="flex justify-center mt-4">
       <button
         on:click={scrollToTop}
-        class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
       >
         {industry_back_to_top()}
         <svg

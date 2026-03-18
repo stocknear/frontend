@@ -469,12 +469,12 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
@@ -482,7 +482,7 @@
       <li>
         <a
           href="/industry"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >{list_breadcrumb_industry()}</a
         >
       </li>
@@ -490,14 +490,14 @@
       <li>
         <a
           href="/list/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >{list_breadcrumb_lists()}</a
         >
       </li>
     {/if}
     {#if $page.url.pathname.startsWith("/list/")}
       <li>
-        <span class="text-gray-800 dark:text-zinc-300">
+        <span class="text-muted dark:text-zinc-300">
           {combinedNavigation?.find((item) => item?.link === $page.url.pathname)
             ?.title}
         </span>
@@ -543,7 +543,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {list_sidebar_pro_description()}
                 </span>
@@ -563,9 +563,7 @@
                   {list_sidebar_watchlist_title()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {list_sidebar_watchlist_description()}
               </span>
             </a>
@@ -583,9 +581,7 @@
                   {list_sidebar_screener_title()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {list_sidebar_screener_description()}
               </span>
             </a>

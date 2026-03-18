@@ -729,10 +729,10 @@
   function shouldUseRealtimeSocket() {
     return Boolean(
       isPro &&
-        $isOpen &&
-        wsURL &&
-        paginatedItems.length > 0 &&
-        activeTab === "watchlist",
+      $isOpen &&
+      wsURL &&
+      paginatedItems.length > 0 &&
+      activeTab === "watchlist",
     );
   }
 
@@ -768,7 +768,8 @@
   }
 
   async function connectWebSocket() {
-    if (!shouldUseRealtimeSocket() || socketConnecting || reconnectTimer) return;
+    if (!shouldUseRealtimeSocket() || socketConnecting || reconnectTimer)
+      return;
     if (
       socket &&
       (socket.readyState === WebSocket.CONNECTING ||
@@ -944,7 +945,7 @@
 >
   <!-- Header title row -->
   <div
-    class="flex items-center gap-1.5 px-3 py-1.5 border-b border-gray-200 dark:border-zinc-800 text-[11px] font-semibold text-gray-800 dark:text-zinc-200"
+    class="flex items-center gap-1.5 px-3 py-1.5 border-b border-gray-200 dark:border-zinc-800 text-[11px] font-semibold text-muted dark:text-zinc-200"
   >
     {#if activeTab === "alerts"}
       <svg
@@ -1021,7 +1022,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="w-fit transition-all px-1 py-0 duration-150 text-gray-900 dark:text-zinc-200 bg-white/80 dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
+              class="w-fit transition-all px-1 py-0 duration-150 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-[#0b0b0d]  flex flex-row justify-between items-center truncate text-xs"
             >
               <span class="truncate font-medium">{activeWatchlistTitle}</span>
               <svg
@@ -1075,7 +1076,7 @@
                   }}
                   class="text-xs cursor-pointer {list.id === activeWatchlistId
                     ? 'text-violet-800 dark:text-violet-400'
-                    : 'text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+                    : 'text-muted dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
                 >
                   {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
                     ? list.ticker.length
@@ -1110,7 +1111,7 @@
             <DropdownMenu.Separator />
             <DropdownMenu.Item
               on:click={() => goto("/watchlist/stocks")}
-              class="flex items-center gap-2 text-xs cursor-pointer text-gray-600 dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+              class="flex items-center gap-2 text-xs cursor-pointer text-muted dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
             >
               <svg
                 class="size-4"
@@ -1147,7 +1148,7 @@
             <div class="relative w-full">
               <Combobox.Input
                 on:input={searchStocks}
-                class="py-1.5 text-xs border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
+                class="py-1.5 text-xs border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
                 placeholder="Add stocks..."
                 aria-label="Add stocks"
               />
@@ -1200,7 +1201,7 @@
             {#if editMode}
               <label
                 on:click={handleDeleteTickers}
-                class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
               >
                 <svg
                   class="inline-block w-3.5 h-3.5"
@@ -1217,7 +1218,7 @@
             {/if}
             <label
               on:click={handleEditMode}
-              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
             >
               <svg
                 class="inline-block w-4 h-4"
@@ -1407,7 +1408,7 @@
       <!-- Pagination Controls -->
       {#if totalPages > 1}
         <div
-          class="flex items-center justify-between px-3 py-2 border-t border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-[#0b0b0d] sticky bottom-0"
+          class="flex items-center justify-between px-3 py-2 border-t border-gray-200 dark:border-zinc-800 bg-[#f8fbfb] dark:bg-[#0b0b0d] sticky bottom-0"
         >
           <!-- Previous button -->
           <button
@@ -1499,7 +1500,7 @@
               type="text"
               name="title"
               bind:value={newWatchlistTitle}
-              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
               required
               autocomplete="off"
             />
@@ -1559,7 +1560,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlistModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0"
       >
         Cancel

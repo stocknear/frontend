@@ -9,17 +9,17 @@
   import PasswordInput from "$lib/components/PasswordInput.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import {
-  update_password_button,
-  update_password_confirm_label,
-  update_password_error,
-  update_password_loading,
-  update_password_new_password_label,
-  update_password_old_password_label,
-  update_password_seo_description,
-  update_password_seo_title,
-  update_password_success,
-  update_password_title,
-} from "$lib/paraglide/messages";
+    update_password_button,
+    update_password_confirm_label,
+    update_password_error,
+    update_password_loading,
+    update_password_new_password_label,
+    update_password_old_password_label,
+    update_password_seo_description,
+    update_password_seo_title,
+    update_password_success,
+    update_password_title,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let form;
@@ -44,7 +44,10 @@
       if (result.type === "success" && result.data?.success) {
         toast.success(update_password_success(), { style: toastStyle });
       } else if (result.data?.rateLimited) {
-        toast.error(`Too many attempts. Please try again in ${result.data?.retryAfter || 15} minutes.`, { style: toastStyle });
+        toast.error(
+          `Too many attempts. Please try again in ${result.data?.retryAfter || 15} minutes.`,
+          { style: toastStyle },
+        );
       } else {
         // Show turnstile error inline, use generic toast for other errors
         if (!result.data?.errors?.turnstile) {
@@ -58,7 +61,10 @@
   };
 </script>
 
-<SEO title={update_password_seo_title()} description={update_password_seo_description()} />
+<SEO
+  title={update_password_seo_title()}
+  description={update_password_seo_description()}
+/>
 
 <section
   class="flex flex-col items-center min-h-screen w-full max-w-3xl m-auto px-3 sm:px-0"
@@ -109,13 +115,17 @@
               on:input={(e) => (password = e.detail)}
             />
 
-            <div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+            <div
+              class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
+            >
               <label for="passwordConfirm" class="label pb-1">
-                <span class="text-muted dark:text-white">{update_password_confirm_label()}</span>
+                <span class="text-muted dark:text-white"
+                  >{update_password_confirm_label()}</span
+                >
               </label>
               <div class="relative">
                 <input
-                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
                   type="password"
                   id="passwordConfirm"
                   name="passwordConfirm"
@@ -127,12 +137,32 @@
                 {#if passwordConfirm.length > 0}
                   <div class="absolute right-4 top-1/2 -translate-y-1/2">
                     {#if password === passwordConfirm && password.length > 0}
-                      <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        class="w-5 h-5 text-emerald-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     {:else}
-                      <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        class="w-5 h-5 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     {/if}
                   </div>
@@ -141,7 +171,9 @@
 
               {#if form?.errors?.errorPasswordConfirm}
                 <label for="passwordConfirm" class="py-0 pt-1 text-xs">
-                  <span class="text-red-800 font-semibold dark:font-normal dark:text-error">
+                  <span
+                    class="text-red-800 font-semibold dark:font-normal dark:text-error"
+                  >
                     {form?.errors?.errorPasswordConfirm}
                   </span>
                 </label>
@@ -170,7 +202,9 @@
 
             {#if showTurnstile && !dev}
               <div class="flex justify-center">
-                <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+                <Turnstile
+                  siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+                />
               </div>
             {/if}
             {#if form?.errors?.turnstile}

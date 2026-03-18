@@ -391,8 +391,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg>
-
+                  /></svg
+                >
               </label>
             {/if}
           </div>
@@ -402,7 +402,7 @@
             bind:value={inputValue}
             on:input={search}
             placeholder={etf_search_placeholder()}
-            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -472,25 +472,25 @@
                       </td>
                     {:else if column.key === "totalAssets"}
                       <td
-                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                       >
                         {abbreviateNumber(item?.totalAssets)}
                       </td>
                     {:else if column.key === "funds"}
                       <td
-                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                       >
                         {item?.funds}
                       </td>
                     {:else if column.key === "avgExpenseRatio"}
                       <td
-                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                       >
                         {item?.avgExpenseRatio}%
                       </td>
                     {:else if column.key === "avgHoldings"}
                       <td
-                        class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                       >
                         {item?.avgHoldings}
                       </td>

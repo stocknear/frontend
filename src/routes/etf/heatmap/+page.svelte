@@ -546,16 +546,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">
+    <li class="text-muted dark:text-zinc-300">
       {etf_heatmap_breadcrumb_label()}
     </li>
   </BreadCrumb>
@@ -644,7 +644,7 @@
                     class="border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
-                      class="loading loading-spinner loading-md text-gray-600 dark:text-zinc-300"
+                      class="loading loading-spinner loading-md text-muted dark:text-zinc-300"
                     ></span>
                   </label>
                 </div>

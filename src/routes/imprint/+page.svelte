@@ -41,16 +41,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{imprint_breadcrumb()}</li>
+    <li class="text-muted dark:text-zinc-300">{imprint_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -68,10 +68,10 @@
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+            class="w-full m-auto text-sm sm:text-base text-muted dark:text-zinc-300"
           >
             <div class="">
-              <p class="italic mb-2 text-xs text-gray-800 dark:text-zinc-300">
+              <p class="italic mb-2 text-xs text-muted dark:text-zinc-300">
                 {imprint_tmg_notice()}
               </p>
 
@@ -90,8 +90,9 @@
                 >.
                 <br class="mb-3" />
 
-                {imprint_managing_director()} (<span class="italic">{imprint_managing_director_de()}</span>):
-                Dr. rer. nat. Muslem Rahimi
+                {imprint_managing_director()} (<span class="italic"
+                  >{imprint_managing_director_de()}</span
+                >): Dr. rer. nat. Muslem Rahimi
                 <br class="mb-3" />
 
                 {imprint_registered()}
@@ -185,9 +186,7 @@
                   {common_sponsor_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -205,9 +204,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_let_me_know()}
               </span>
             </a>

@@ -58,10 +58,13 @@
   function getCompactFractionDigits(valueAbs: number, stepAbs: number): number {
     if (valueAbs < 1000) return 0;
     const unit =
-      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
-      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
-      valueAbs >= 1_000_000 ? 1_000_000 :
-      1_000;
+      valueAbs >= 1_000_000_000_000
+        ? 1_000_000_000_000
+        : valueAbs >= 1_000_000_000
+          ? 1_000_000_000
+          : valueAbs >= 1_000_000
+            ? 1_000_000
+            : 1_000;
     const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
     const stepInUnit = safeStep / unit;
     if (stepInUnit < 0.05) return 2;
@@ -69,21 +72,32 @@
     return 0;
   }
 
-  function formatProfessionalAxisLabel(value: number, isPercent = false, tickInterval = 0): string {
+  function formatProfessionalAxisLabel(
+    value: number,
+    isPercent = false,
+    tickInterval = 0,
+  ): string {
     const safeValue = Number.isFinite(value) ? value : 0;
     const abs = Math.abs(safeValue);
     let formatted = "";
     if (abs >= 1000) {
-      const compactDigits = getCompactFractionDigits(abs, Math.abs(tickInterval));
+      const compactDigits = getCompactFractionDigits(
+        abs,
+        Math.abs(tickInterval),
+      );
       formatted = new Intl.NumberFormat("en-US", {
         notation: "compact",
         maximumFractionDigits: compactDigits,
         minimumFractionDigits: 0,
       }).format(safeValue);
     } else if (abs >= 10) {
-      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", { maximumFractionDigits: 1 });
+      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", {
+        maximumFractionDigits: 1,
+      });
     } else {
-      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", { maximumFractionDigits: 2 });
+      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", {
+        maximumFractionDigits: 2,
+      });
     }
     return isPercent ? `${formatted}%` : formatted;
   }
@@ -163,7 +177,10 @@
       },
       xAxis: {
         categories: dateList,
-        crosshair: { color: $mode === "light" ? "#d1d5db" : "#3f3f46", width: 1 },
+        crosshair: {
+          color: $mode === "light" ? "#d1d5db" : "#3f3f46",
+          width: 1,
+        },
         labels: {
           style: { color: $mode === "light" ? "#6b7280" : "#a1a1aa" },
           rotation: -45,
@@ -200,9 +217,14 @@
           let html = `<div class="px-1 py-1"><div class="font-semibold mb-1">${categoryName}</div>`;
           this.points.forEach((point) => {
             const val = point.y;
-            const formatted = val != null
-              ? (isGrowth ? val.toFixed(2) + "%" : (Math.abs(val) < 1000 ? val?.toFixed(2) : abbreviateNumber(val)))
-              : "n/a";
+            const formatted =
+              val != null
+                ? isGrowth
+                  ? val.toFixed(2) + "%"
+                  : Math.abs(val) < 1000
+                    ? val?.toFixed(2)
+                    : abbreviateNumber(val)
+                : "n/a";
             html += `<div class="flex items-center gap-2">
               <span style="color: ${point.series.color}">${point.series.name}:</span>
               <span class="font-medium">${formatted}</span>
@@ -659,7 +681,7 @@
                 class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 tabular-nums m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums m-auto"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-gray-500 dark:text-zinc-400"
@@ -685,7 +707,7 @@
                     {#each tableData.rows as row (row.name)}
                       <tr class="w-full transition-colors">
                         <th
-                          class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
+                          class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200"
                         >
                           {row.name}
                           <button
@@ -709,8 +731,8 @@
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                 ></path>
-                              </g></svg>
-
+                              </g></svg
+                            >
                           </button>
                         </th>
                         {#each row.cells as cell}
@@ -770,8 +792,8 @@
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                 ></path>
-                              </g></svg>
-
+                              </g></svg
+                            >
                           </button>
                         </td>
                         {#each row.cells as cell}
@@ -781,7 +803,7 @@
                             {#if cell.isPremium && cell.growth !== "-"}
                               <a
                                 href="/pricing"
-                                class="inline-flex items-center justify-end text-sm font-semibold text-gray-600 dark:text-zinc-300"
+                                class="inline-flex items-center justify-end text-sm font-semibold text-muted dark:text-zinc-300"
                               >
                                 {stock_detail_metrics_upgrade()}
                                 <svg
@@ -845,14 +867,21 @@
       on:click|stopPropagation
     >
       <!-- Header -->
-      <div class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4">
+      <div
+        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4"
+      >
         <div class="flex items-start justify-between">
           <div>
-            <h2 id="metrics-modal-title" class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+            <h2
+              id="metrics-modal-title"
+              class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white"
+            >
               {modalLabel}
             </h2>
             <p class="text-sm text-gray-500 dark:text-zinc-400 mt-0.5">
-              {$stockTicker} - {$selectedTimePeriod === "quarterly" ? "Quarterly" : "TTM"}
+              {$stockTicker} - {$selectedTimePeriod === "quarterly"
+                ? "Quarterly"
+                : "TTM"}
             </p>
           </div>
           <button
@@ -888,7 +917,8 @@
           <div class="w-full" use:highcharts={config}></div>
         {:else}
           <div class="h-[400px] flex items-center justify-center">
-            <span class="loading loading-spinner loading-md text-gray-400"></span>
+            <span class="loading loading-spinner loading-md text-gray-400"
+            ></span>
           </div>
         {/if}
       </div>
@@ -898,11 +928,21 @@
 
 <style>
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

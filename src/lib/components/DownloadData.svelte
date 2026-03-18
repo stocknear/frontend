@@ -324,7 +324,7 @@
       alignOffset={0}
       class="{showBulkOptions && bulkDownload
         ? 'w-auto min-w-64 max-w-80'
-        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-gray-700 dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
     >
       {#if showBulkOptions && bulkDownload}
         <DropdownMenu.Label
@@ -398,7 +398,7 @@
           </span>
           <button
             on:click={handleBulkDownload}
-            class="whitespace-nowrap w-full flex justify-end text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
+            class="whitespace-nowrap w-full flex justify-end text-gray-900 dark:text-white hover:text-muted dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
           >
             {common_bulk_download()}
           </button>

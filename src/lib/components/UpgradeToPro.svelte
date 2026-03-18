@@ -1,24 +1,24 @@
 <script lang="ts">
   import { mode } from "mode-watcher";
   import {
-  upgrade_to_pro_cta,
-  upgrade_to_pro_feature_analyst_desc,
-  upgrade_to_pro_feature_analyst_title,
-  upgrade_to_pro_feature_data_desc,
-  upgrade_to_pro_feature_data_title,
-  upgrade_to_pro_feature_flow_desc,
-  upgrade_to_pro_feature_flow_title,
-  upgrade_to_pro_feature_history_desc,
-  upgrade_to_pro_feature_history_title,
-  upgrade_to_pro_subtitle,
-  upgrade_to_pro_title,
-} from "$lib/paraglide/messages";
+    upgrade_to_pro_cta,
+    upgrade_to_pro_feature_analyst_desc,
+    upgrade_to_pro_feature_analyst_title,
+    upgrade_to_pro_feature_data_desc,
+    upgrade_to_pro_feature_data_title,
+    upgrade_to_pro_feature_flow_desc,
+    upgrade_to_pro_feature_flow_title,
+    upgrade_to_pro_feature_history_desc,
+    upgrade_to_pro_feature_history_title,
+    upgrade_to_pro_subtitle,
+    upgrade_to_pro_title,
+  } from "$lib/paraglide/messages";
   export let data;
   export let display = false;
 </script>
 
 {#if (display === true && data?.user?.tier !== "Pro") || !["Pro", "Plus"]?.includes(data?.user?.tier)}
-  <div class="mt-6 py-8 text-gray-700 dark:text-zinc-200">
+  <div class="mt-6 py-8 text-muted dark:text-zinc-200">
     <div class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8">
       <div class="mx-auto max-w-2xl text-center">
         <h3
@@ -26,7 +26,7 @@
         >
           {upgrade_to_pro_title()}
         </h3>
-        <p class="mt-4 text-base sm:text-lg text-gray-800 dark:text-zinc-300">
+        <p class="mt-4 text-base sm:text-lg text-muted dark:text-zinc-300">
           {upgrade_to_pro_subtitle()}
         </p>
       </div>
@@ -41,7 +41,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -54,15 +54,15 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path></svg>
-
-            </div>
-            {upgrade_to_pro_feature_data_title()}
-          </dt>
-          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {upgrade_to_pro_feature_data_desc()}
-          </dd>
-        </div>
+                  ></path></svg
+                >
+              </div>
+              {upgrade_to_pro_feature_data_title()}
+            </dt>
+            <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
+              {upgrade_to_pro_feature_data_desc()}
+            </dd>
+          </div>
 
           <!-- Average Return -->
           <div class="relative pl-14">
@@ -70,7 +70,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -83,15 +83,15 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-                ></path></svg>
-
-            </div>
-            {upgrade_to_pro_feature_flow_title()}
-          </dt>
-          <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
-            {upgrade_to_pro_feature_flow_desc()}
-          </dd>
-        </div>
+                  ></path></svg
+                >
+              </div>
+              {upgrade_to_pro_feature_flow_title()}
+            </dt>
+            <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
+              {upgrade_to_pro_feature_flow_desc()}
+            </dd>
+          </div>
 
           <!-- Rating Count -->
           <div class="relative pl-14">
@@ -99,7 +99,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -118,12 +118,12 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     ></path>
-                  </g></svg>
-
+                  </g></svg
+                >
               </div>
               {upgrade_to_pro_feature_analyst_title()}
             </dt>
-            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
+            <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
               {upgrade_to_pro_feature_analyst_desc()}
             </dd>
           </div>
@@ -134,7 +134,7 @@
               class="text-lg font-semibold leading-6 text-gray-900 dark:text-white"
             >
               <div
-                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-gray-700 dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+                class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
               >
                 <svg
                   class="w-6 h-6"
@@ -148,12 +148,12 @@
                     stroke-linejoin="round"
                     stroke-width="2"
                     d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-                  ></path></svg>
-
+                  ></path></svg
+                >
               </div>
               {upgrade_to_pro_feature_history_title()}
             </dt>
-            <dd class="mt-2 leading-7 text-gray-800 dark:text-zinc-300">
+            <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
               {upgrade_to_pro_feature_history_desc()}
             </dd>
           </div>
@@ -182,8 +182,8 @@
                     d="M13.06 3.283a1.5 1.5 0 0 0-2.12 0L5.281 8.939a1.5 1.5 0 0 0 2.122 2.122L10.5 7.965V19.5a1.5 1.5 0 0 0 3 0V7.965l3.096 3.096a1.5 1.5 0 1 0 2.122-2.122L13.06 3.283Z"
                   /></g
                 ></g
-              ></svg>
-
+              ></svg
+            >
           </span>
         </a>
       </div>

@@ -775,7 +775,7 @@
                     class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
                   >
                     <DropdownMenu.Label
-                      class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                      class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
                     >
                       {notifications_customize()}
                     </DropdownMenu.Label>
@@ -844,8 +844,8 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path></svg>
-
+                      ></path></svg
+                    >
                   </label>
                 </div>
               {/if}
@@ -876,7 +876,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -884,7 +884,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 {notifications_type_price_alert_triggered()}
                                 <HoverStockChart
@@ -893,7 +893,7 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 {notifications_type_price_is()}
                                 <span class="font-semibold"
@@ -909,7 +909,7 @@
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-gray-800 dark:text-zinc-300"
+                            class="text-xs mt-1 text-muted dark:text-zinc-300"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -937,7 +937,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -945,7 +945,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_breaking_news()}</span
@@ -956,14 +956,14 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 {notifications_type_wiim_new_data()}
                               </div>
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-gray-800 dark:text-zinc-300"
+                            class="text-xs mt-1 text-muted dark:text-zinc-300"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -990,7 +990,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -998,7 +998,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_top_analyst_new()}</span
@@ -1010,7 +1010,7 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 {notifications_type_top_analyst_rating({
                                   analyst: item?.liveResults?.analyst,
@@ -1023,7 +1023,7 @@
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-gray-800 dark:text-zinc-300"
+                            class="text-xs mt-1 text-muted dark:text-zinc-300"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1050,7 +1050,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-gray-600 dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -1058,7 +1058,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_earnings_release()}</span
@@ -1069,14 +1069,14 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-gray-600 dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
                                 {notifications_type_earnings_surprise_new()}
                               </div>
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-gray-800 dark:text-zinc-300"
+                            class="text-xs mt-1 text-muted dark:text-zinc-300"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1116,7 +1116,7 @@
               </div>
 
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm text-gray-600 dark:text-zinc-300">
+                <span class="text-sm text-muted dark:text-zinc-300">
                   {notifications_pagination_page_of({
                     current: currentPage,
                     total: totalPages,
@@ -1208,7 +1208,7 @@
             <div class="flex justify-center mt-4 w-full">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {notifications_back_to_top()}
                 <svg
@@ -1246,9 +1246,7 @@
                   {notifications_sidebar_watchlist()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {notifications_sidebar_watchlist_description()}
               </span>
             </a>
@@ -1266,9 +1264,7 @@
                   {notifications_sidebar_portfolio()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {notifications_sidebar_portfolio_description()}
               </span>
             </a>
@@ -1300,7 +1296,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3 class="text-lg font-medium mb-2">
       {notifications_modal_delete_title()}
@@ -1347,8 +1344,9 @@
             y1="11"
             x2="14"
             y2="17"
-          ></line></svg>
-<span class="whitespace-nowrap"
+          ></line></svg
+        >
+        <span class="whitespace-nowrap"
           >{deleteInFlight
             ? notifications_modal_deleting()
             : notifications_modal_delete_button()}</span

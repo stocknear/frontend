@@ -495,14 +495,14 @@
             //   }
             // }
 
-            const resolvedContent = typeof json?.content === "string"
-              ? json.content
-              : (
-                typeof json?.delta === "string" &&
-                  (json?.event === "response_delta" || typeof json?.event === "undefined")
-              )
-              ? assistantText + json.delta
-              : null;
+            const resolvedContent =
+              typeof json?.content === "string"
+                ? json.content
+                : typeof json?.delta === "string" &&
+                    (json?.event === "response_delta" ||
+                      typeof json?.event === "undefined")
+                  ? assistantText + json.delta
+                  : null;
 
             // Handle content updates
             if (resolvedContent !== null) {
@@ -1271,7 +1271,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-full bg-white dark:bg-secondary text-gray-800 sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
+                          class="w-full bg-white dark:bg-secondary text-muted sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
                         >
                           <svg
                             class="size-4.5"
@@ -1283,7 +1283,8 @@
                               fill="currentColor"
                               fill-rule="evenodd"
                               clip-rule="evenodd"
-                            ></path></svg>
+                            ></path></svg
+                          >
 
                           <div class="flex items-center gap-0.5">
                             <span class="max-w-16 truncate"
@@ -1387,9 +1388,9 @@
                                   stroke-width="2"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  ><path d="m15 18-6-6 6-6"></path></svg>
-</button
-                              >
+                                  ><path d="m15 18-6-6 6-6"></path></svg
+                                >
+                              </button>
                             </div>
                             {#each agentCategory as option}
                               <DropdownMenu.Item
@@ -1465,9 +1466,9 @@
                                   stroke-width="2"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  ><path d="m15 18-6-6 6-6"></path></svg>
-</button
-                              >
+                                  ><path d="m15 18-6-6 6-6"></path></svg
+                                >
+                              </button>
                             </div>
                             {#each agentOptions as option}
                               {#if option?.group === selectedGroup}

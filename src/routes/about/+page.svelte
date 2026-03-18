@@ -43,7 +43,7 @@
           {about_hero_title()}
         </h1>
         <p
-          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-800 dark:text-zinc-300"
+          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-muted dark:text-zinc-300"
         >
           {about_hero_description()}
         </p>
@@ -57,7 +57,7 @@
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
         <div>
           <p
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-800 dark:text-zinc-300 mb-4"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300 mb-4"
           >
             {about_story_label()}
           </p>
@@ -69,7 +69,7 @@
         </div>
         <div class="lg:col-span-2 mt-10 lg:mt-0">
           <div
-            class="text-gray-800 dark:text-zinc-300 space-y-4 text-lg leading-relaxed"
+            class="text-muted dark:text-zinc-300 space-y-4 text-lg leading-relaxed"
           >
             <p>{about_story_paragraph_1()}</p>
             <p>{about_story_paragraph_2()}</p>
@@ -93,7 +93,7 @@
             {about_stats_investors()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-gray-800 dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
           >
             {about_stats_investors_label()}
           </dd>
@@ -105,7 +105,7 @@
             {about_stats_stocks()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-gray-800 dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
           >
             {about_stats_stocks_label()}
           </dd>
@@ -117,7 +117,7 @@
             {about_stats_data_points()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-gray-800 dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
           >
             {about_stats_data_points_label()}
           </dd>
@@ -129,7 +129,7 @@
             {about_stats_trustpilot()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-gray-800 dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
           >
             <a
               href="https://www.trustpilot.com/review/stocknear.com"
@@ -158,9 +158,7 @@
       >
         {about_cta_title()}
       </h2>
-      <p
-        class="mt-4 text-lg text-gray-800 dark:text-zinc-300 max-w-2xl mx-auto"
-      >
+      <p class="mt-4 text-lg text-muted dark:text-zinc-300 max-w-2xl mx-auto">
         {about_cta_description()}
       </p>
       <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">

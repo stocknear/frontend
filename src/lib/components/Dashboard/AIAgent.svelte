@@ -113,7 +113,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-gray-700 dark:text-gray-300 pointer-events-none text-sm sm:text-[1rem]";
+            "text-muted dark:text-gray-300 pointer-events-none text-sm sm:text-[1rem]";
           span.textContent = dashboard_ai_placeholder();
           return span;
         });
@@ -431,7 +431,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-full bg-white dark:bg-secondary text-gray-800 sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
+                    class="w-full bg-white dark:bg-secondary text-muted sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
                   >
                     <svg
                       class="size-4.5"
@@ -443,7 +443,8 @@
                         fill="currentColor"
                         fill-rule="evenodd"
                         clip-rule="evenodd"
-                      ></path></svg>
+                      ></path></svg
+                    >
 
                     <div class="flex items-center gap-0.5">
                       <span class="max-w-16 truncate"
@@ -548,9 +549,9 @@
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            ><path d="m15 18-6-6 6-6"></path></svg>
-</button
-                        >
+                            ><path d="m15 18-6-6 6-6"></path></svg
+                          >
+                        </button>
                       </div>
                       {#each agentCategory as option}
                         <DropdownMenu.Item
@@ -624,9 +625,9 @@
                             stroke-width="2"
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            ><path d="m15 18-6-6 6-6"></path></svg>
-</button
-                        >
+                            ><path d="m15 18-6-6 6-6"></path></svg
+                          >
+                        </button>
                       </div>
                       {#each agentOptions as option}
                         {#if option?.group === selectedGroup}
@@ -638,7 +639,8 @@
                               <span>{option?.name} </span>
 
                               <span class="ml-auto text-xs"
-                                >{option?.credit} {dashboard_ai_credits_unit()}</span
+                                >{option?.credit}
+                                {dashboard_ai_credits_unit()}</span
                               >
                             </div>
                           </DropdownMenu.Item>
@@ -740,8 +742,9 @@
                       stroke-linejoin="round"
                       d="M 58.5833,55.4167L 53.8333,55.4167L 53.8333,34.8333L 58.5833,39.5833L 58.5833,55.4167 Z M 49.0833,55.4167L 44.3333,55.4167L 44.3333,44.3333L 49.0833,39.5834L 49.0833,55.4167 Z M 39.5833,55.4167L 34.8333,55.4167L 34.8333,45.9167L 37.2083,36.4167L 39.5833,39.5833L 39.5833,55.4167 Z M 30.0833,55.4167L 25.3333,55.4167L 25.3333,44.3333L 30.0833,49.0833L 30.0833,55.4167 Z M 20.5833,55.4167L 15.8333,55.4167L 15.8333,53.8334L 20.5833,49.0834L 20.5833,55.4167 Z "
                     ></path></g
-                  ></svg>
-<span class="text-sm">{item?.type}</span>
+                  ></svg
+                >
+                <span class="text-sm">{item?.type}</span>
               </div>
             </div>
           </div></button

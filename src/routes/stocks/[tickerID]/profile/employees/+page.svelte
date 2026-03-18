@@ -795,7 +795,7 @@
               </div>
 
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm text-gray-600 dark:text-zinc-300">
+                <span class="text-sm text-muted dark:text-zinc-300">
                   {stock_detail_page_of({
                     current: currentPage,
                     total: totalPages,
@@ -837,7 +837,7 @@
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}

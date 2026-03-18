@@ -46,9 +46,21 @@
   let chartType: ChartType = "column";
 
   $: chartTypes = [
-    { type: "column" as ChartType, label: stock_detail_exchange_chart_type_column(), icon: BarChartIcon },
-    { type: "spline" as ChartType, label: stock_detail_exchange_chart_type_line(), icon: LineChartIcon },
-    { type: "scatter" as ChartType, label: stock_detail_exchange_chart_type_scatter(), icon: ScatterChartIcon },
+    {
+      type: "column" as ChartType,
+      label: stock_detail_exchange_chart_type_column(),
+      icon: BarChartIcon,
+    },
+    {
+      type: "spline" as ChartType,
+      label: stock_detail_exchange_chart_type_line(),
+      icon: LineChartIcon,
+    },
+    {
+      type: "scatter" as ChartType,
+      label: stock_detail_exchange_chart_type_scatter(),
+      icon: ScatterChartIcon,
+    },
   ];
 
   function changeChartType(type: ChartType) {
@@ -419,7 +431,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -442,9 +454,11 @@
               </span>
             </div>
             <div
-              class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
+              class="text-sm text-muted dark:text-zinc-300 mt-1 tabular-nums"
             >
-              {stock_detail_exchange_30_day_avg({ pct: pctText(avgDarkPoolPct) })}
+              {stock_detail_exchange_30_day_avg({
+                pct: pctText(avgDarkPoolPct),
+              })}
             </div>
           {/if}
         </div>
@@ -459,7 +473,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -487,9 +501,11 @@
               </span>
             </div>
             <div
-              class="text-sm text-gray-800 dark:text-zinc-300 mt-1 tabular-nums"
+              class="text-sm text-muted dark:text-zinc-300 mt-1 tabular-nums"
             >
-              {stock_detail_exchange_of_volume({ pct: pctText(topOnExchangeVenue.pct) })}
+              {stock_detail_exchange_of_volume({
+                pct: pctText(topOnExchangeVenue.pct),
+              })}
             </div>
           {:else}
             <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
@@ -508,7 +524,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               <svg
                 class="size-5"
@@ -530,10 +546,10 @@
                 {abbreviateNumber(latestTotalPremium, true, true)}
               </span>
             </div>
-            <div
-              class="text-sm text-gray-800 dark:text-zinc-300 mt-1 capitalize"
-            >
-              {stock_detail_exchange_institutional_activity({ level: activityLevel })}
+            <div class="text-sm text-muted dark:text-zinc-300 mt-1 capitalize">
+              {stock_detail_exchange_institutional_activity({
+                level: activityLevel,
+              })}
             </div>
           {/if}
         </div>
@@ -545,7 +561,7 @@
         >
           <a
             href="/pricing"
-            class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            class="flex flex-col items-center gap-3 text-gray-500 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
           >
             <svg
               class="size-10"
@@ -557,14 +573,16 @@
                 d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
               />
             </svg>
-            <span class="text-sm font-medium">{stock_detail_exchange_upgrade_unlock()}</span>
+            <span class="text-sm font-medium"
+              >{stock_detail_exchange_upgrade_unlock()}</span
+            >
           </a>
         </div>
       {:else}
         <!-- Chart Controls -->
         <div class="flex items-center justify-between mb-3">
           <div
-            class="flex items-center gap-3 text-xs text-gray-800 dark:text-zinc-300"
+            class="flex items-center gap-3 text-xs text-muted dark:text-zinc-300"
           >
             <span class="flex items-center gap-1.5">
               <span
@@ -593,7 +611,7 @@
                   class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
                     {chartType === item.type
                     ? 'bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white'
-                    : 'text-gray-800 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
+                    : 'text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
                   title={item.label}
                 >
                   <svelte:component this={item.icon} class="w-4 h-4" />
@@ -617,7 +635,7 @@
         </div>
 
         <!-- Interpretation Note -->
-        <p class="text-xs text-gray-800 dark:text-zinc-300 text-center mt-3">
+        <p class="text-xs text-muted dark:text-zinc-300 text-center mt-3">
           {stock_detail_exchange_note()}
         </p>
       {/if}

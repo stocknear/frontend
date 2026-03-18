@@ -145,7 +145,7 @@
                     {home_hero_title()}
                 </h1>
                 <p
-                    class="text-sm text-gray-800 dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
+                    class="text-sm text-muted dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
                 >
                     {home_hero_subtitle()}
                 </p>

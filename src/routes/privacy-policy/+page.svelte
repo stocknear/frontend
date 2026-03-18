@@ -63,25 +63,22 @@
   }
 </script>
 
-<SEO
-  title={privacy_seo_title()}
-  description={privacy_seo_description()}
-/>
+<SEO title={privacy_seo_title()} description={privacy_seo_description()} />
 
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">{privacy_breadcrumb()}</li>
+    <li class="text-muted dark:text-zinc-300">{privacy_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -99,16 +96,16 @@
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+            class="w-full m-auto text-sm sm:text-base text-muted dark:text-zinc-300"
           >
             <div class="">
-              <p class="italic mb-2 text-xs text-gray-800 dark:text-zinc-300">
+              <p class="italic mb-2 text-xs text-muted dark:text-zinc-300">
                 {privacy_last_updated()}
               </p>
 
               <p class=" mb-10">
                 {@html privacy_intro({
-                  termsLink: `<a href="/terms-of-use" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_terms_of_use()}</a>`
+                  termsLink: `<a href="/terms-of-use" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_terms_of_use()}</a>`,
                 })}
               </p>
 
@@ -124,13 +121,16 @@
 
               <ul class="list-disc ml-6 mb-4 space-y-2">
                 <li>
-                  <strong>{privacy_cookies_necessary()}</strong> {privacy_cookies_necessary_desc()}
+                  <strong>{privacy_cookies_necessary()}</strong>
+                  {privacy_cookies_necessary_desc()}
                 </li>
                 <li>
-                  <strong>{privacy_cookies_analytics()}</strong> {privacy_cookies_analytics_desc()}
+                  <strong>{privacy_cookies_analytics()}</strong>
+                  {privacy_cookies_analytics_desc()}
                 </li>
                 <li>
-                  <strong>{privacy_cookies_marketing()}</strong> {privacy_cookies_marketing_desc()}
+                  <strong>{privacy_cookies_marketing()}</strong>
+                  {privacy_cookies_marketing_desc()}
                 </li>
               </ul>
 
@@ -176,7 +176,7 @@
               <div class=" mb-10">
                 {privacy_gdpr_intro()}<br /><br />
                 {@html privacy_gdpr_contact({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
                 })}<br /><br />
                 {privacy_gdpr_rights_intro()}
                 <ol class="list-decimal ml-8 mt-2">
@@ -207,7 +207,7 @@
                   <li>{privacy_caloppa_3()}</li>
                   <li>
                     {@html privacy_caloppa_4({
-                      email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                      email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
                     })}
                   </li>
                 </ol>
@@ -251,9 +251,7 @@
                   {common_sponsor_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -271,9 +269,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span
-                class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
-              >
+              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
                 {common_let_me_know()}
               </span>
             </a>

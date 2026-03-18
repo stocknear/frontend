@@ -355,7 +355,7 @@
   class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-gray-700 dark:text-zinc-200 tabular-nums"
+    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
     aria-busy={isLoading}
   >
     <thead>
@@ -398,14 +398,12 @@
         {/each}
       </tr>
     </thead>
-    <tbody
-      class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
-    >
+    <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
       {#if !sortedDisplayData?.length}
         <tr>
           <td
             colspan={columns.length}
-            class="py-6 text-center text-sm text-gray-800 dark:text-zinc-300"
+            class="py-6 text-center text-sm text-muted dark:text-zinc-300"
           >
             {isLoading ? "Loading..." : "No data available"}
           </td>

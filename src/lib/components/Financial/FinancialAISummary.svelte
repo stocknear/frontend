@@ -516,7 +516,7 @@ ${summaryData.investorTakeaway}
             class="cursor-pointer p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
           >
             <svg
-              class="w-5 h-5 text-gray-800 dark:text-gray-400"
+              class="w-5 h-5 text-muted dark:text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -543,10 +543,10 @@ ${summaryData.investorTakeaway}
               class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
             >
               <span
-                class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+                class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
               ></span>
             </label>
-            <p class="text-sm text-gray-700 dark:text-zinc-200 font-medium">
+            <p class="text-sm text-muted dark:text-zinc-200 font-medium">
               {stock_detail_ai_analyzing_data()}
             </p>
             <p class="text-xs text-gray-500 dark:text-zinc-400">
@@ -587,7 +587,7 @@ ${summaryData.investorTakeaway}
               <div class="flex-1">
                 <div class="mb-3 sm:mb-4">
                   <span
-                    class="text-xs font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-wider"
+                    class="text-xs font-semibold text-muted dark:text-gray-400 uppercase tracking-wider"
                   >
                     {summaryData.yearsAnalyzed}
                     {stock_detail_ai_overall_health()}
@@ -621,7 +621,7 @@ ${summaryData.investorTakeaway}
               <div class="flex items-center gap-2">
                 <button
                   on:click={copyToClipboard}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -640,7 +640,7 @@ ${summaryData.investorTakeaway}
                 </button>
                 <button
                   on:click={downloadMarkdown}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -670,7 +670,7 @@ ${summaryData.investorTakeaway}
                 class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
               >
                 <svg
-                  class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-gray-300"
+                  class="w-4 h-4 sm:w-5 sm:h-5 text-muted dark:text-gray-300"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -689,7 +689,7 @@ ${summaryData.investorTakeaway}
               </h4>
             </div>
             <p
-              class="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed"
+              class="text-sm sm:text-base text-muted dark:text-gray-300 leading-relaxed"
             >
               {summaryData.executiveSummary}
             </p>
@@ -707,7 +707,7 @@ ${summaryData.investorTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -788,7 +788,7 @@ ${summaryData.investorTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -857,7 +857,7 @@ ${summaryData.investorTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -927,7 +927,7 @@ ${summaryData.investorTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700 dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -1024,7 +1024,7 @@ ${summaryData.investorTakeaway}
                       />
                     </svg>
                     <span
-                      class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
+                      class="text-xs sm:text-sm text-muted dark:text-gray-300 leading-relaxed"
                       >{strength}</span
                     >
                   </li>
@@ -1073,7 +1073,7 @@ ${summaryData.investorTakeaway}
                         />
                       </svg>
                       <span
-                        class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
+                        class="text-xs sm:text-sm text-muted dark:text-gray-300 leading-relaxed"
                         >{flag}</span
                       >
                     </li>
@@ -1108,7 +1108,7 @@ ${summaryData.investorTakeaway}
               </h5>
             </div>
             <p
-              class="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed"
+              class="text-xs sm:text-sm md:text-base text-muted dark:text-gray-300 leading-relaxed"
             >
               {summaryData.investorTakeaway}
             </p>
@@ -1118,7 +1118,7 @@ ${summaryData.investorTakeaway}
           <div
             class="bg-gray-50 dark:bg-gray-900/50 border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-3 sm:p-4"
           >
-            <p class="text-xs text-gray-800 dark:text-gray-200 italic">
+            <p class="text-xs text-muted dark:text-gray-200 italic">
               {stock_detail_ai_disclaimer()}
             </p>
           </div>

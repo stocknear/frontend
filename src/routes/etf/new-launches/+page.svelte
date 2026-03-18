@@ -373,17 +373,17 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <a class="text-gray-800 dark:text-zinc-300"
+      <a class="text-muted dark:text-zinc-300"
         >{etf_breadcrumb_new_launches()}</a
       >
     </li>
@@ -435,14 +435,14 @@
                           ><path
                             fill="currentColor"
                             d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          /></svg>
-
+                          /></svg
+                        >
                       </label>
                     {/if}
                   </div>
 
                   <div
-                    class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 px-3 flex items-center"
+                    class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 px-3 flex items-center"
                   >
                     <input
                       bind:value={inputValue}
@@ -511,7 +511,7 @@
                           {#each columns as column}
                             {#if column.key === "inceptionDate"}
                               <td
-                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                               >
                                 {new Date(item?.inceptionDate)?.toLocaleString(
                                   "en-US",
@@ -536,7 +536,7 @@
                               </td>
                             {:else if column.key === "name"}
                               <td
-                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
                               >
                                 {item?.name?.length > charNumber
                                   ? item?.name?.slice(0, charNumber) + "..."
@@ -544,7 +544,7 @@
                               </td>
                             {:else if column.key === "price"}
                               <td
-                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                               >
                                 {item?.price !== null && item?.price !== 0
                                   ? item?.price
@@ -552,7 +552,7 @@
                               </td>
                             {:else if column.key === "changesPercentage"}
                               <td
-                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                               >
                                 {#if item?.changesPercentage >= 0}
                                   <span
@@ -571,7 +571,7 @@
                               </td>
                             {:else if column.key === "numberOfHoldings"}
                               <td
-                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                               >
                                 {item?.numberOfHoldings !== null &&
                                 item?.numberOfHoldings !== 0
@@ -582,7 +582,7 @@
                               </td>
                             {:else if column.key === "totalAssets"}
                               <td
-                                class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                               >
                                 {item?.totalAssets !== 0 &&
                                 item?.totalAssets !== null

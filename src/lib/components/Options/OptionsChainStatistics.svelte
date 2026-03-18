@@ -1635,7 +1635,7 @@
             </div>
 
             <p
-              class="text-sm text-gray-800 dark:text-zinc-300 leading-relaxed mt-2"
+              class="text-sm text-muted dark:text-zinc-300 leading-relaxed mt-2"
             >
               {@html stock_detail_options_chain_desc({ ticker })}
             </p>

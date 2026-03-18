@@ -927,19 +927,19 @@
                         <DropdownMenu.Group>
                           <DropdownMenu.Item
                             on:click={() => ($timeFrame = "5Y")}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             5Y
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => ($timeFrame = "10Y")}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             10Y
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => ($timeFrame = "MAX")}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
                           >
                             Max
                           </DropdownMenu.Item>
@@ -955,7 +955,7 @@
                 use:highcharts={config}
               ></div>
               {#if currency !== "USD"}
-                <span class="text-sm text-gray-800 dark:text-gray-400"
+                <span class="text-sm text-muted dark:text-gray-400"
                   >* This company reports financials in DKK.</span
                 >
               {/if}
@@ -1082,7 +1082,7 @@
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                    <span class="text-sm text-muted dark:text-zinc-300">
                       {stock_detail_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -1124,7 +1124,7 @@
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                              class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -1166,7 +1166,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     {stock_detail_back_to_top()}
                     <svg

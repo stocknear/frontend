@@ -125,10 +125,7 @@
   $: currentInfo = currentNavigation?.info ? currentNavigation.info() : "";
 </script>
 
-<SEO
-  title={currentTitle}
-  description={currentDescription}
-/>
+<SEO title={currentTitle} description={currentDescription} />
 
 <section class="w-full overflow-hidden m-auto">
   {#if currentInfo}
@@ -141,7 +138,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {list_label_total_stocks()}
         </div>
@@ -155,7 +152,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {list_label_total_market_cap()}
         </div>
@@ -169,7 +166,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {list_label_total_revenue()}
         </div>

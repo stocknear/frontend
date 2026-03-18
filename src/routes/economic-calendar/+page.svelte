@@ -708,16 +708,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{economic_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">
+    <li class="text-muted dark:text-zinc-300">
       {economic_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
@@ -742,7 +742,7 @@
             <div class="relative flex flex-col flex-1 overflow-hidden">
               <!-- Header Dates - Desktop: grid with all days, Mobile: only selected day -->
               <div
-                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-white/80 dark:bg-zinc-950/60"
+                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
               >
                 {#each displayWeekData as day, index (formattedWeekday[index])}
                   <div
@@ -888,7 +888,7 @@
                           bind:value={searchQuery}
                           on:input={handleInput}
                           autocomplete="off"
-                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 bg-transparent"
+                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 bg-transparent"
                           placeholder={economic_filter_search()}
                         />
                         {#if searchQuery?.length > 0}
@@ -1057,11 +1057,11 @@
                           </h2>
                           {#if filterList.length !== 0}
                             <div
-                              class="text-sm flex flex-row items-center text-gray-600 dark:text-zinc-300"
+                              class="text-sm flex flex-row items-center text-muted dark:text-zinc-300"
                             >
                               <span>{economic_filters_label()}</span>
                               <span
-                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-white/80 dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
+                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-[#f8fbfb] dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-gray-700 dark:text-zinc-200"
                               >
                                 {filterList.length}
                               </span>
@@ -1100,7 +1100,7 @@
                               on:input={tableSearch}
                               type="text"
                               placeholder={economic_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -1160,7 +1160,7 @@
                                 {#each columns as column}
                                   {#if column.key === "time"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.time}
                                     </td>
@@ -1237,7 +1237,7 @@
                                     </td>
                                   {:else if column.key === "event"}
                                     <td
-                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                                     >
                                       {item?.event?.length > 60
                                         ? item?.event.slice(0, 60) + "..."
@@ -1245,7 +1245,7 @@
                                     </td>
                                   {:else if column.key === "actual"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.actual !== null &&
                                       item?.actual !== ""
@@ -1254,7 +1254,7 @@
                                     </td>
                                   {:else if column.key === "consensus"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.consensus !== null &&
                                       item?.consensus !== ""
@@ -1263,7 +1263,7 @@
                                     </td>
                                   {:else if column.key === "prior"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                                     >
                                       {item?.prior !== null &&
                                       item?.prior !== ""
@@ -1272,7 +1272,7 @@
                                     </td>
                                   {:else if column.key === "importance"}
                                     <td
-                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                                     >
                                       <div
                                         class="flex flex-row items-center justify-end"
@@ -1344,9 +1344,7 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span
-                              class="text-sm text-gray-600 dark:text-zinc-300"
-                            >
+                            <span class="text-sm text-muted dark:text-zinc-300">
                               {economic_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
@@ -1441,7 +1439,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {economic_back_to_top()}
                             <svg
@@ -1466,7 +1464,7 @@
                   {/if}
                 {/each}
                 <div
-                  class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-gray-600 dark:text-zinc-300 p-3 mt-6"
+                  class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 p-3 mt-6"
                 >
                   <strong>{economic_source_label()}</strong>
                   {economic_source_text()}

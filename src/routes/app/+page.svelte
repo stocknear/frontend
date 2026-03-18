@@ -25,7 +25,7 @@
 
 <SEO title={app_page_seo_title()} description={app_page_seo_description()} />
 
-<div class="text-gray-700 dark:text-zinc-200 w-full">
+<div class="text-muted dark:text-zinc-200 w-full">
   <!-- Hero Section -->
   <section
     class="border-b border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950/60"
@@ -40,7 +40,7 @@
           {app_page_hero_title()}
         </h1>
         <p
-          class="mt-6 max-w-xl text-lg leading-relaxed text-gray-800 dark:text-zinc-300 mx-auto lg:mx-0"
+          class="mt-6 max-w-xl text-lg leading-relaxed text-muted dark:text-zinc-300 mx-auto lg:mx-0"
         >
           {app_page_hero_description()}
         </p>
@@ -103,7 +103,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >1</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_ios_step_1()}</span
               >
             </li>
@@ -112,7 +112,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >2</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_ios_step_2()}</span
               >
             </li>
@@ -121,7 +121,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >3</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_ios_step_3()}</span
               >
             </li>
@@ -138,7 +138,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >1</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_android_step_1()}</span
               >
             </li>
@@ -147,7 +147,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >2</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_android_step_2()}</span
               >
             </li>
@@ -156,7 +156,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >3</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_android_step_3()}</span
               >
             </li>
@@ -165,7 +165,7 @@
                 class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-sm font-semibold"
                 >4</span
               >
-              <span class="text-base text-gray-800 dark:text-zinc-300 pt-1"
+              <span class="text-base text-muted dark:text-zinc-300 pt-1"
                 >{app_installed_android_step_4()}</span
               >
             </li>

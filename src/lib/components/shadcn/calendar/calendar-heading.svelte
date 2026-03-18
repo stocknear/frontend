@@ -10,7 +10,10 @@
 
 <CalendarPrimitive.Heading
   let:headingValue
-  class={cn("text-sm font-semibold tracking-tight text-gray-700 dark:text-zinc-200", className)}
+  class={cn(
+    "text-sm font-semibold tracking-tight text-muted dark:text-zinc-200",
+    className,
+  )}
   {...$$restProps}
 >
   <slot {headingValue}>

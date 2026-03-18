@@ -973,7 +973,7 @@
             <div class="flex items-center justify-between mb-4">
               <label
                 for="showSteps"
-                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 {stock_detail_forecast_dcf_show_steps()}
               </label>
@@ -1170,7 +1170,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm">{metricLabel}</span>
                         <svg
@@ -1201,7 +1201,7 @@
                           }}
                           class="{selectedMetric === 'freeCashFlow'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_fcf()}
                         </DropdownMenu.Item>
@@ -1212,7 +1212,7 @@
                           }}
                           class="{selectedMetric === 'operatingIncome'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_operating_income()}
                         </DropdownMenu.Item>
@@ -1223,7 +1223,7 @@
                           }}
                           class="{selectedMetric === 'operatingCashFlow'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_ocf()}
                         </DropdownMenu.Item>
@@ -1234,7 +1234,7 @@
                           }}
                           class="{selectedMetric === 'bookValue'
                             ? 'text-gray-900 dark:text-white font-medium'
-                            : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           {stock_detail_forecast_dcf_book_value()}
                         </DropdownMenu.Item>
@@ -1256,7 +1256,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm"
                           >{yearsToProject} Years</span
@@ -1290,7 +1290,7 @@
                             }}
                             class="{yearsToProject === year
                               ? 'text-gray-900 dark:text-white font-medium'
-                              : 'text-gray-800 dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
+                              : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {year} Years
                           </DropdownMenu.Item>
@@ -1324,7 +1324,7 @@
                       id="metric-growth"
                       bind:value={metricGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1360,7 +1360,7 @@
                       id="shares-growth"
                       bind:value={sharesGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1392,7 +1392,7 @@
                       id="dividend-growth"
                       bind:value={dividendGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                 </div>
@@ -1414,7 +1414,7 @@
                     id="price-ratio"
                     bind:value={priceRatioAvg}
                     on:input={() => (userHasModifiedInputs = true)}
-                    class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-gray-700 dark:text-zinc-200"
+                    class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-gray-700 dark:text-zinc-200"
                   />
                   <p class="mt-2 text-xs">
                     {stock_detail_forecast_dcf_avg_ratio({
@@ -1446,7 +1446,7 @@
                       id="discount-rate"
                       bind:value={discountRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
+                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-gray-700 dark:text-zinc-200"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1468,10 +1468,7 @@
 
 <input type="checkbox" id="showSteps" class="modal-toggle" />
 
-<dialog
-  id="showSteps"
-  class="modal p-3 sm:p-0 text-gray-600 dark:text-zinc-300"
->
+<dialog id="showSteps" class="modal p-3 sm:p-0 text-muted dark:text-zinc-300">
   <label for="showSteps" class="cursor-pointer modal-backdrop bg-[#000]/30"
   ></label>
 
@@ -1490,7 +1487,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <div class="mx-auto h-1.5 w-20 shrink-0 rounded-full" />
     <div class="mb-5 text-center overflow-y-auto max-h-[80vh]">

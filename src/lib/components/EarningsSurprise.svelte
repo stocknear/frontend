@@ -57,7 +57,7 @@
   }
 </script>
 
-<div class="space-y-3 overflow-hidden text-gray-700 dark:text-zinc-200">
+<div class="space-y-3 overflow-hidden text-muted dark:text-zinc-200">
   <!--Start Content-->
   <div class="w-auto lg:w-full p-1 flex flex-col m-auto">
     <div class="flex flex-col items-center w-full mb-3">
@@ -73,7 +73,7 @@
           <label
             class="{latestInfoDate(rawData?.date)
               ? 'border border-gray-300 shadow dark:border-zinc-700'
-              : 'hidden'} bg-white/80 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-200 ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
+              : 'hidden'} bg-[#f8fbfb] dark:bg-zinc-900/50 text-muted dark:text-zinc-200 ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
             >{stock_detail_new()}</label
           >
         </div>

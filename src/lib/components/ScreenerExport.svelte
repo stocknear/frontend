@@ -231,7 +231,7 @@
     >
       {modalTitle}
     </h3>
-    <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
+    <p class="mt-2 text-sm leading-relaxed text-muted dark:text-zinc-300">
       {#if fetchAllData}
         Export all filtered {itemLabel} as a CSV file.
       {:else}
@@ -270,7 +270,7 @@
     </div>
 
     {#if statusMessage}
-      <div class="mt-3 text-sm text-gray-600 dark:text-zinc-300">
+      <div class="mt-3 text-sm text-muted dark:text-zinc-300">
         {statusMessage}
       </div>
     {/if}
@@ -283,7 +283,7 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
+        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
         disabled={isExporting}
       >
         Close

@@ -178,11 +178,11 @@
       <!-- Describe your issue or suggestion -->
       <div class="space-y-2">
         <label
-          class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
           >{feedback_description_label()}</label
         >
         <textarea
-          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 p-3 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 p-3 text-sm text-gray-700 dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
           placeholder=""
           bind:value={description}
         />
@@ -191,12 +191,12 @@
       <!-- Feedback for page -->
       <div class="space-y-2">
         <label
-          class="block text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
           >{feedback_page_label()}</label
         >
         <input
           type="text"
-          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 px-3 text-sm text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
+          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 px-3 text-sm text-gray-700 dark:text-zinc-200 focus:outline-none focus:ring-0"
           bind:value={pageUrl}
           readonly
         />
@@ -208,7 +208,7 @@
     <div class="mt-6 flex justify-end gap-2">
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
+        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-sm text-gray-700 dark:text-zinc-200 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
         on:click={closeModal}
         disabled={isSubmitting}
       >

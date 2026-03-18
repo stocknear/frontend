@@ -299,10 +299,7 @@
     } catch {}
   }
 
-  function applyColumnOrder(
-    cols: ColumnDef[],
-    order: string[],
-  ): ColumnDef[] {
+  function applyColumnOrder(cols: ColumnDef[], order: string[]): ColumnDef[] {
     if (!order.length) return cols;
     const colMap = new Map(cols.map((c) => [c.key, c]));
     const ordered: ColumnDef[] = [];
@@ -376,10 +373,7 @@
     dragOverIndex = null;
   }
 
-  function handleColumnReorder(
-    fromVisibleIdx: number,
-    toVisibleIdx: number,
-  ) {
+  function handleColumnReorder(fromVisibleIdx: number, toVisibleIdx: number) {
     const fromCol = orderedVisibleColumns[fromVisibleIdx];
     const toCol = orderedVisibleColumns[toVisibleIdx];
 
@@ -1228,7 +1222,7 @@
                   bind:value={searchQuery}
                   type="text"
                   placeholder="Find..."
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
             </div>
@@ -1240,7 +1234,7 @@
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -1272,7 +1266,7 @@
                 {#if editMode}
                   <label
                     on:click={handleDeleteItems}
-                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1292,7 +1286,7 @@
                 <!-- Edit Watchlist Button -->
                 <label
                   on:click={handleEditMode}
-                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
                 >
                   <svg
                     class="inline-block w-5 h-5"
@@ -1327,7 +1321,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900 text-gray-700 dark:text-zinc-200 flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-violet-800 dark:hover:text-violet-400"
+                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900 text-gray-700 dark:text-zinc-200 flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-violet-800 dark:hover:text-violet-400"
                     >
                       <span>Indicators</span>
                       <svg
@@ -1424,13 +1418,13 @@
                     >
                       <label
                         on:click={resetColumns}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 text-sm cursor-pointer"
+                        class="hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
                       >
                         Reset All
                       </label>
                       <label
                         on:click={selectAllColumns}
-                        class="hover:text-violet-600 dark:hover:text-violet-400 text-gray-600 dark:text-zinc-300 text-sm cursor-pointer"
+                        class="hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
                       >
                         Select All
                       </label>
@@ -1446,8 +1440,18 @@
                   title="Reset column order"
                   class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                 >
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11" stroke-linecap="round" stroke-linejoin="round" />
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 </button>
               {/if}
@@ -1613,11 +1617,15 @@
                     on:dragover={(e) => handleDragOver(e, index)}
                     on:dragleave={handleDragLeave}
                     on:drop={(e) => handleDrop(e, index)}
-                    class="p-2 text-right cursor-pointer select-none cursor-grab active:cursor-grabbing {dragOverIndex === index && draggedIndex !== index ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500' : ''}"
+                    class="p-2 text-right cursor-pointer select-none cursor-grab active:cursor-grabbing {dragOverIndex ===
+                      index && draggedIndex !== index
+                      ? 'bg-violet-100 dark:bg-violet-900/30 border-l-2 border-violet-500'
+                      : ''}"
                     on:click={() => sortData(col.key)}
                   >
                     <span class="inline-flex items-center justify-end gap-0.5"
-                      >{col.name} {@html sortIconHtml(sortOrders[col.key])}</span
+                      >{col.name}
+                      {@html sortIconHtml(sortOrders[col.key])}</span
                     >
                   </th>
                 {/each}
@@ -1659,9 +1667,11 @@
                           <button
                             use:builder.action
                             {...builder}
-                            class="ml-2 cursor-pointer transition-all duration-200 text-gray-800 dark:text-zinc-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                            class="ml-2 cursor-pointer transition-all duration-200 text-muted dark:text-zinc-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
                           >
-                            <EllipsisVertical class="w-4 h-4 inline-block shrink-0" />
+                            <EllipsisVertical
+                              class="w-4 h-4 inline-block shrink-0"
+                            />
                           </button>
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content
@@ -1752,11 +1762,13 @@
                     {:else if col.key === "currentPrice"}
                       <td class="text-end text-sm whitespace-nowrap">
                         {#if enriched?.status === "loading"}
-                          <span class="loading loading-spinner loading-xs"></span>
+                          <span class="loading loading-spinner loading-xs"
+                          ></span>
                         {:else if enriched?.status === "done" && enriched.currentPrice !== null}
                           {enriched.currentPrice.toFixed(2)}
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          <span class="text-gray-400 dark:text-zinc-500">-</span
+                          >
                         {/if}
                       </td>
                     {:else if col.key === "price"}
@@ -1777,7 +1789,8 @@
                           <button
                             type="button"
                             class="flex h-full w-full items-center justify-end gap-1 cursor-pointer focus:outline-hidden"
-                            on:click={() => startPriceEdit(item.id, item?.price)}
+                            on:click={() =>
+                              startPriceEdit(item.id, item?.price)}
                           >
                             {#if item?.price != null && item?.price !== ""}
                               <span class="min-w-[3rem] text-right">
@@ -1816,9 +1829,11 @@
                             ? "+"
                             : ""}{enriched.pctChange.toFixed(1)}%
                         {:else if enriched?.status === "loading"}
-                          <span class="loading loading-spinner loading-xs"></span>
+                          <span class="loading loading-spinner loading-xs"
+                          ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          <span class="text-gray-400 dark:text-zinc-500">-</span
+                          >
                         {/if}
                       </td>
                     {:else if col.key === "iv"}
@@ -1826,9 +1841,11 @@
                         {#if enriched?.status === "done" && enriched.iv !== null}
                           {(enriched.iv * 100).toFixed(0)}%
                         {:else if enriched?.status === "loading"}
-                          <span class="loading loading-spinner loading-xs"></span>
+                          <span class="loading loading-spinner loading-xs"
+                          ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          <span class="text-gray-400 dark:text-zinc-500">-</span
+                          >
                         {/if}
                       </td>
                     {:else if col.key === "delta"}
@@ -1836,9 +1853,11 @@
                         {#if enriched?.status === "done" && enriched.delta !== null}
                           {enriched.delta.toFixed(2)}
                         {:else if enriched?.status === "loading"}
-                          <span class="loading loading-spinner loading-xs"></span>
+                          <span class="loading loading-spinner loading-xs"
+                          ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          <span class="text-gray-400 dark:text-zinc-500">-</span
+                          >
                         {/if}
                       </td>
                     {:else if col.key === "cost_basis"}
@@ -1885,17 +1904,23 @@
                         {item?.execution_estimate?.replace("Midpoint", "Mid")}
                       </td>
                     {:else if col.key === "size"}
-                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      <td
+                        class="text-end text-sm whitespace-nowrap tabular-nums"
+                      >
                         {intlCompact.format(item?.size)}
                       </td>
                     {:else if col.key === "volume"}
-                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      <td
+                        class="text-end text-sm whitespace-nowrap tabular-nums"
+                      >
                         {intlCompact.format(
                           enrichmentMap.get(item.id)?.volume ?? item?.volume,
                         )}
                       </td>
                     {:else if col.key === "addedVol"}
-                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      <td
+                        class="text-end text-sm whitespace-nowrap tabular-nums"
+                      >
                         {intlCompact.format(item?.volume)}
                       </td>
                     {:else if col.key === "volChange"}
@@ -1912,20 +1937,26 @@
                             ? "+"
                             : ""}{enriched.volChange.toFixed(1)}%
                         {:else if enriched?.status === "loading"}
-                          <span class="loading loading-spinner loading-xs"></span>
+                          <span class="loading loading-spinner loading-xs"
+                          ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          <span class="text-gray-400 dark:text-zinc-500">-</span
+                          >
                         {/if}
                       </td>
                     {:else if col.key === "openInterest"}
-                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      <td
+                        class="text-end text-sm whitespace-nowrap tabular-nums"
+                      >
                         {intlCompact.format(
                           enrichmentMap.get(item.id)?.openInterest ??
                             item?.open_interest,
                         )}
                       </td>
                     {:else if col.key === "addedOI"}
-                      <td class="text-end text-sm whitespace-nowrap tabular-nums">
+                      <td
+                        class="text-end text-sm whitespace-nowrap tabular-nums"
+                      >
                         {intlCompact.format(item?.open_interest)}
                       </td>
                     {:else if col.key === "oiChange"}
@@ -1942,9 +1973,11 @@
                             ? "+"
                             : ""}{enriched.oiChange.toFixed(1)}%
                         {:else if enriched?.status === "loading"}
-                          <span class="loading loading-spinner loading-xs"></span>
+                          <span class="loading loading-spinner loading-xs"
+                          ></span>
                         {:else}
-                          <span class="text-gray-400 dark:text-zinc-500">-</span>
+                          <span class="text-gray-400 dark:text-zinc-500">-</span
+                          >
                         {/if}
                       </td>
                     {/if}

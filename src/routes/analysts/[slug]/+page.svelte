@@ -594,8 +594,8 @@
                       fill-rule="evenodd"
                       d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
                       clip-rule="evenodd"
-                    ></path></svg>
-
+                    ></path></svg
+                  >
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
@@ -604,7 +604,7 @@
                     {analystName ?? "n/a"}
                   </h1>
                   <p
-                    class="mb-0.5 text-sm font-medium text-gray-800 dark:text-zinc-300"
+                    class="mb-0.5 text-sm font-medium text-muted dark:text-zinc-300"
                   >
                     {analysts_detail_stock_analyst_at({
                       companyName: companyName ?? "n/a",
@@ -656,7 +656,7 @@
                     # {rank ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {analysts_detail_out_of_analysts({
                       count: numOfAnalysts ?? "n/a",
@@ -672,7 +672,7 @@
                     {totalRatings ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {analysts_detail_total_ratings()}
                   </div>
@@ -713,7 +713,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {analysts_detail_success_rate()}
                   </div>
@@ -754,7 +754,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {analysts_detail_average_return()}
                   </div>
@@ -783,7 +783,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -804,7 +804,7 @@
                       {#each data?.getData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -845,8 +845,8 @@
                             ><path
                               fill="currentColor"
                               d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                            /></svg>
-
+                            /></svg
+                          >
                         </label>
                       {/if}
                     </div>
@@ -856,7 +856,7 @@
                       on:input={search}
                       type="text"
                       placeholder={analysts_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -908,7 +908,7 @@
                         <div class="min-w-0 flex-1">
                           <HoverStockChart symbol={item?.ticker} />
                           <p
-                            class="mt-0.5 text-[13px] text-gray-800 dark:text-zinc-300 truncate"
+                            class="mt-0.5 text-[13px] text-muted dark:text-zinc-300 truncate"
                           >
                             {item?.name?.length > 28
                               ? item?.name?.slice(0, 28) + "..."
@@ -916,7 +916,7 @@
                           </p>
                         </div>
                         <span
-                          class="ml-3 text-[13px] tabular-nums text-gray-800 dark:text-zinc-300 whitespace-nowrap"
+                          class="ml-3 text-[13px] tabular-nums text-muted dark:text-zinc-300 whitespace-nowrap"
                         >
                           {new Date(item?.date)?.toLocaleString("en-US", {
                             month: "short",
@@ -934,7 +934,7 @@
                               >{item?.action_company}:</span
                             >
                             <span
-                              class="font-medium text-gray-800 dark:text-zinc-200"
+                              class="font-medium text-muted dark:text-zinc-200"
                               >{item?.rating_current}</span
                             >
                           </div>
@@ -951,12 +951,12 @@
                               >
                               <span class="mx-1">→</span>
                               <span
-                                class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
+                                class="font-medium tabular-nums text-muted dark:text-zinc-200"
                                 >${Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
                               <span
-                                class="font-medium tabular-nums text-gray-800 dark:text-zinc-200"
+                                class="font-medium tabular-nums text-muted dark:text-zinc-200"
                                 >${Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else}
@@ -975,7 +975,7 @@
                               >Current</span
                             >
                             <span
-                              class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              class="tabular-nums text-muted dark:text-zinc-200"
                               >{item?.price !== null
                                 ? "$" + item?.price
                                 : "n/a"}</span
@@ -1007,7 +1007,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.ticker)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
                         <span
                           >{item?.ratings}
@@ -1097,7 +1097,7 @@
                                     on:click={() => openGraph(item?.ticker)}
                                     class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                                     ><svg
-                                      class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                      class="w-5 h-5 text-muted dark:text-zinc-300 {checkedSymbol ===
                                       item?.ticker
                                         ? 'rotate-180'
                                         : ''}"
@@ -1108,9 +1108,9 @@
                                         fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                         clip-rule="evenodd"
-                                      ></path></svg>
-</button
-                                  ></td
+                                      ></path></svg
+                                    >
+                                  </button></td
                                 >
                               {:else if column.key === "ticker"}
                                 <td
@@ -1166,7 +1166,8 @@
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
                                           d="M4 12h16m0 0l-6-6m6 6l-6 6"
-                                        /></svg>
+                                        /></svg
+                                      >
 
                                       <span class="font-semibold"
                                         >{Math?.ceil(
@@ -1213,7 +1214,7 @@
                                 </td>
                               {:else if column.key === "date"}
                                 <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                                 >
                                   {new Date(item?.date).toLocaleString(
                                     "en-US",
@@ -1229,7 +1230,7 @@
                             {/each}
                           </tr>
                           {#if checkedSymbol === item?.ticker}
-                            <tr class="bg-white/80 dark:bg-zinc-950/60"
+                            <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60"
                               ><td colspan="9" class="px-0"
                                 ><div class="-mt-0.5 px-0 pb-2">
                                   <div class="relative h-[350px]">
@@ -1299,7 +1300,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-gray-600 dark:text-zinc-300">
+                  <span class="text-sm text-muted dark:text-zinc-300">
                     {analysts_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1394,7 +1395,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   {analysts_back_to_top()}
                   <svg

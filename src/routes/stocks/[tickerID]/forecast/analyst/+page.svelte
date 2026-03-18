@@ -552,7 +552,7 @@
                 
                           {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-white/80 border-gray-300 text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
+                              : 'bg-[#f8fbfb] border-gray-300 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item}
@@ -563,8 +563,8 @@
                                 ><path
                                   fill="currentColor"
                                   d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                /></svg>
-
+                                /></svg
+                              >
                             </span>
                           </button>
                         {:else}
@@ -895,7 +895,7 @@
               </div>
 
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm text-gray-600 dark:text-zinc-300">
+                <span class="text-sm text-muted dark:text-zinc-300">
                   {stock_detail_forecast_analyst_page({
                     current: currentPage,
                     total: totalPages,
@@ -939,7 +939,7 @@
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}

@@ -68,7 +68,7 @@
                                             class="prose prose-sm max-w-none dark:prose-invert"
                                         >
                                             <p
-                                                class="mb-3 text-[14px] text-gray-700 dark:text-gray-300 leading-relaxed"
+                                                class="mb-3 text-[14px] text-muted dark:text-gray-300 leading-relaxed"
                                             >
                                                 {step?.content}
                                             </p>

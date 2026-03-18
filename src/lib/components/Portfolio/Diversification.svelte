@@ -327,7 +327,7 @@
                 </h3>
                 {#if portfolioData?.length > 0}
                     <span
-                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 {getScoreColor(
+                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 {getScoreColor(
                             diversificationMetrics?.hhiScore,
                         )}"
                     >

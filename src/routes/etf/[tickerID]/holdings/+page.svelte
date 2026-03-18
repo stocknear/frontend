@@ -341,7 +341,7 @@
 />
 
 <section
-  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-gray-700 dark:text-zinc-200"
+  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-muted dark:text-zinc-200"
 >
   <div class="flex justify-center m-auto h-full overflow-hidden w-full">
     <div

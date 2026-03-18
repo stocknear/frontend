@@ -181,10 +181,13 @@
 <div class={`flex items-center ${className}`}>
   <Button
     on:click={openModal}
-    class="group shadow transition-all duration-700 ease-out border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
+    class="group shadow transition-all duration-700 ease-out border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
   >
     <DownloadIcon class="size-5 flex-shrink-0" />
-    <span class="overflow-hidden max-w-0 group-hover:max-w-32 group-hover:ml-1.5 transition-all duration-700 ease-out">{stock_detail_export_price()}</span>
+    <span
+      class="overflow-hidden max-w-0 group-hover:max-w-32 group-hover:ml-1.5 transition-all duration-700 ease-out"
+      >{stock_detail_export_price()}</span
+    >
   </Button>
 </div>
 
@@ -217,14 +220,15 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     <h3
       class="font-semibold text-lg sm:text-xl text-gray-900 dark:text-zinc-100"
     >
       {stock_detail_export_intraday_title()}
     </h3>
-    <p class="mt-2 text-sm leading-relaxed text-gray-600 dark:text-zinc-300">
+    <p class="mt-2 text-sm leading-relaxed text-muted dark:text-zinc-300">
       {stock_detail_export_intraday_desc()}
     </p>
 
@@ -301,7 +305,7 @@
     </div>
 
     {#if statusMessage}
-      <div class="mt-3 text-sm text-gray-600 dark:text-zinc-300">
+      <div class="mt-3 text-sm text-muted dark:text-zinc-300">
         {statusMessage}
       </div>
     {/if}
@@ -314,7 +318,7 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
+        class=" border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
         disabled={isExporting}
       >
         {stock_detail_close()}

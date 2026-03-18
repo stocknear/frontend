@@ -214,11 +214,13 @@
   ></label>
 
   <div
-    class="modal-box w-full {$screenWidth < 640 ? 'min-h-screen' : ''} relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full {$screenWidth < 640
+      ? 'min-h-screen'
+      : ''} relative bg-white dark:bg-zinc-900 text-gray-900 dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="userLogin"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -228,7 +230,8 @@
         ><path
           fill="currentColor"
           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg>
+        /></svg
+      >
     </label>
     {#if displaySection === "login"}
       <div class="grid grid-cols-1 animate-fade-in-once">
@@ -290,7 +293,7 @@
             </div>
           </form>
 
-          <div class="divider text-gray-800 dark:text-zinc-300 py-6">
+          <div class="divider text-muted dark:text-zinc-300 py-6">
             <span class="text-[11px] uppercase tracking-[0.3em] z-10"
               >{login_popup_or_login_using()}</span
             >
@@ -353,13 +356,17 @@
               on:input={(e) => (password = e.detail)}
             />
 
-            <div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+            <div
+              class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
+            >
               <label for="passwordConfirm" class="label pb-1">
-                <span class="text-muted dark:text-white">{register_popup_confirm_password_label()}</span>
+                <span class="text-muted dark:text-white"
+                  >{register_popup_confirm_password_label()}</span
+                >
               </label>
               <div class="relative">
                 <input
-                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
                   type="password"
                   id="passwordConfirm"
                   name="passwordConfirm"
@@ -371,12 +378,32 @@
                 {#if passwordConfirm.length > 0}
                   <div class="absolute right-4 top-1/2 -translate-y-1/2">
                     {#if password === passwordConfirm && password.length > 0}
-                      <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        class="w-5 h-5 text-emerald-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     {:else}
-                      <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        class="w-5 h-5 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     {/if}
                   </div>
@@ -385,7 +412,9 @@
 
               {#if form?.errors?.passwordConfirm}
                 <label for="passwordConfirm" class="py-0 pt-1 text-xs">
-                  <span class="text-red-800 font-semibold dark:font-normal dark:text-error">
+                  <span
+                    class="text-red-800 font-semibold dark:font-normal dark:text-error"
+                  >
                     {form?.errors?.passwordConfirm}
                   </span>
                 </label>
@@ -420,7 +449,7 @@
             {/if}
           </form>
 
-          <div class="divider text-gray-800 dark:text-zinc-300 py-6">
+          <div class="divider text-muted dark:text-zinc-300 py-6">
             <span class="text-[11px] uppercase tracking-[0.3em] z-10"
               >{register_popup_or_register_using()}</span
             >
@@ -430,17 +459,17 @@
             {returnUrl}
             on:click={() => (oauthLoading = !oauthLoading)}
           />
-          <p class="pb-1 text-xs text-center text-gray-800 dark:text-zinc-300">
+          <p class="pb-1 text-xs text-center text-muted dark:text-zinc-300">
             {register_popup_terms_prefix()}
             <a
               href="/terms-of-use"
-              class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
+              class="text-muted dark:text-zinc-200 sm:hover:text-violet-500 transition"
               >{register_popup_terms_link()}</a
             >
             {register_popup_privacy_middle()}
             <a
               href="/privacy-policy"
-              class="text-gray-800 dark:text-zinc-200 sm:hover:text-violet-500 transition"
+              class="text-muted dark:text-zinc-200 sm:hover:text-violet-500 transition"
               >{register_popup_privacy_link()}</a
             >.
           </p>
@@ -466,7 +495,7 @@
             class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <span
-              class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+              class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
             ></span>
           </label>
         </div>

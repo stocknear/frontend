@@ -3541,7 +3541,9 @@
     return normalizeAnchorTimestamp(candidate);
   };
 
-  const resolveAvwapAnchorFromMainClick = (event: MouseEvent): number | null => {
+  const resolveAvwapAnchorFromMainClick = (
+    event: MouseEvent,
+  ): number | null => {
     if (!chart || !chartAnchorClickTarget) {
       return normalizeAnchorTimestamp(toNumber(hoverBar?.timestamp));
     }
@@ -3842,12 +3844,12 @@
       }
     }
 
-    return Array.from(buckets.values()).sort((a, b) => a.timestamp - b.timestamp);
+    return Array.from(buckets.values()).sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
   };
 
-  const getIntradayBarsWithLiveAggregation = (
-    interval: IntradayInterval,
-  ) => {
+  const getIntradayBarsWithLiveAggregation = (interval: IntradayInterval) => {
     const history = intradayHistory[interval]?.bars ?? [];
     if (!history.length || interval === "1min") {
       return history;
@@ -6935,10 +6937,10 @@
   function shouldUseRealtimeSocket() {
     return Boolean(
       data?.wsURL &&
-        ticker &&
-        typeof window !== "undefined" &&
-        !isComponentDestroyed &&
-        $isOpen,
+      ticker &&
+      typeof window !== "undefined" &&
+      !isComponentDestroyed &&
+      $isOpen,
     );
   }
 
@@ -6949,10 +6951,7 @@
       return;
     }
 
-    const closePolicy = getPublicWsClosePolicy(
-      event,
-      socketReconnectAttempt,
-    );
+    const closePolicy = getPublicWsClosePolicy(event, socketReconnectAttempt);
 
     if (closePolicy.invalidateToken) {
       invalidateWsToken("/price-data");
@@ -6974,7 +6973,11 @@
   let wsUpdateScheduled = false;
 
   async function websocketRealtimeData() {
-    if (!shouldUseRealtimeSocket() || socketConnecting || socketReconnectTimer) {
+    if (
+      !shouldUseRealtimeSocket() ||
+      socketConnecting ||
+      socketReconnectTimer
+    ) {
       return;
     }
 
@@ -7868,7 +7871,9 @@
     const transition = docWithTransition.startViewTransition(() => applyMode());
     await transition.ready;
 
-    const animationOptions: KeyframeAnimationOptions & { pseudoElement: string } = {
+    const animationOptions: KeyframeAnimationOptions & {
+      pseudoElement: string;
+    } = {
       duration: 420,
       easing: "ease-in-out",
       pseudoElement: "::view-transition-new(root)",
@@ -8856,7 +8861,10 @@
       dispose(chart);
     }
     if (chartAnchorClickTarget && chartMainClickHandler) {
-      chartAnchorClickTarget.removeEventListener("click", chartMainClickHandler);
+      chartAnchorClickTarget.removeEventListener(
+        "click",
+        chartMainClickHandler,
+      );
     }
     chart = null;
     chartRoot = null;
@@ -11337,7 +11345,7 @@
                           aria-label="GEX label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border ${
                               level.isPositive
                                 ? "text-emerald-200 border-emerald-500/30"
                                 : "text-rose-200 border-rose-500/30"
@@ -11390,7 +11398,7 @@
                           aria-label="DEX label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border ${
                               level.isPositive
                                 ? "text-sky-200 border-sky-500/30"
                                 : "text-orange-200 border-orange-500/30"
@@ -11584,7 +11592,7 @@
                         aria-label="Max pain label at ${level.price}"
                       >
                         <span
-                          class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-amber-200 border border-amber-500/30"
+                          class="px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] text-amber-200 border border-amber-500/30"
                         >
                           MP {formatExpiration(level.expiration)}
                           {#if level.dte !== null}
@@ -11628,7 +11636,7 @@
                         aria-label="Analyst target label {level.label} at ${level.price}"
                       >
                         <span
-                          class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border"
+                          class="px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border"
                           style="color: {level.color}; border-color: {level.color}55;"
                         >
                           PT {level.label}
@@ -11969,7 +11977,7 @@
                         class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5"
                         >↔</span
                       >
-                      <span class="text-gray-800 dark:text-[#d1d4dc]">
+                      <span class="text-muted dark:text-[#d1d4dc]">
                         <span class="hidden sm:inline"
                           >{infoLineData.numBars} bars ({infoLineData.timeStr}),
                           distance: {infoLineData.pixelDistance} px</span
@@ -11987,7 +11995,7 @@
                         class="text-gray-500 dark:text-[#787b86] text-[13px] sm:text-[15px] w-4 sm:w-5"
                         >∠</span
                       >
-                      <span class="text-gray-800 dark:text-[#d1d4dc]">
+                      <span class="text-muted dark:text-[#d1d4dc]">
                         {infoLineData.angleDeg.toFixed(2)}°
                       </span>
                     </div>
@@ -12027,7 +12035,7 @@
                           aria-label="OI label at ${level.strike}"
                         >
                           <span
-                            class="px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] text-purple-200 border border-purple-500/30"
+                            class="px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] text-purple-200 border border-purple-500/30"
                           >
                             OI {formatPrice(level.strike)}
                             {formatCount(level.totalOi)}
@@ -12233,7 +12241,7 @@
                           aria-label="Hottest contract label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-white/80 dark:bg-zinc-900/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border ${
                               level.optionType === "C"
                                 ? "text-emerald-200 border-emerald-500/30"
                                 : "text-rose-200 border-rose-500/30"
@@ -14195,14 +14203,14 @@
     <h3 class="text-lg font-medium mb-2 text-gray-900 dark:text-white">
       Delete Strategy
     </h3>
-    <p class="text-sm mb-6 text-gray-800 dark:text-zinc-300">
+    <p class="text-sm mb-6 text-muted dark:text-zinc-300">
       Are you sure you want to delete this strategy? This action cannot be
       undone.
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteChartStrategy"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">Cancel</label
       ><label
         for="deleteChartStrategy"

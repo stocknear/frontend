@@ -602,16 +602,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{politicians_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-gray-800 dark:text-zinc-300">
+    <li class="text-muted dark:text-zinc-300">
       {politicians_breadcrumb_politicians()}
     </li>
   </BreadCrumb>
@@ -628,7 +628,7 @@
             {politicians_main_title()}
           </h1>
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-gray-600 dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
           >
             <div
               class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
@@ -663,8 +663,8 @@
                         ><path
                           fill="currentColor"
                           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                        /></svg>
-
+                        /></svg
+                      >
                     </label>
                   {/if}
                 </div>
@@ -674,7 +674,7 @@
                   bind:value={inputValue}
                   on:input={search}
                   placeholder={politicians_search_placeholder()}
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                 />
               </div>
 
@@ -837,19 +837,19 @@
                                   ><path
                                     fill="currentColor"
                                     d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-                                  /></svg>
-
+                                  /></svg
+                                >
                               </div>
                             </td>
                           {:else if column.key === "party"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                             >
                               {item?.party}
                             </td>
                           {:else if column.key === "successRate"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                             >
                               {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                                 {#if item?.successRate === null || item?.successRate === undefined}
@@ -879,7 +879,7 @@
                             </td>
                           {:else if column.key === "avgReturn"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                             >
                               {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                                 {#if item?.avgReturn === null || item?.avgReturn === undefined}
@@ -916,13 +916,13 @@
                             </td>
                           {:else if column.key === "totalTrades"}
                             <td
-                              class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                              class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                             >
                               {item?.totalTrades?.toLocaleString("en-US")}
                             </td>
                           {:else if column.key === "lastTrade"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                             >
                               {new Date(item?.lastTrade)?.toLocaleString(
                                 "en-US",
@@ -980,7 +980,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-gray-600 dark:text-zinc-300">
+                  <span class="text-sm text-muted dark:text-zinc-300">
                     {politicians_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1075,7 +1075,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   {politicians_back_to_top()}
                   <svg

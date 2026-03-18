@@ -15,34 +15,34 @@
   import { mode } from "mode-watcher";
   import { getLocale } from "$lib/paraglide/runtime.js";
   import {
-  stock_detail_insider_ai_summarize,
-  stock_detail_insider_copy,
-  stock_detail_insider_download,
-  stock_detail_insider_hide_summary,
-  stock_detail_insider_show_summary,
-  stock_detail_transcripts_ai_loading,
-  stock_detail_transcripts_ai_loading_sub,
-  stock_detail_transcripts_ai_title,
-  stock_detail_transcripts_back_to_top,
-  stock_detail_transcripts_disclaimer,
-  stock_detail_transcripts_earnings_call,
-  stock_detail_transcripts_fy,
-  stock_detail_transcripts_key_highlights,
-  stock_detail_transcripts_management_outlook,
-  stock_detail_transcripts_no_outlook,
-  stock_detail_transcripts_no_transcript,
-  stock_detail_transcripts_q,
-  stock_detail_transcripts_quarter,
-  stock_detail_transcripts_risk_factors,
-  stock_detail_transcripts_sentiment_label,
-  stock_detail_transcripts_seo_description,
-  stock_detail_transcripts_seo_keywords,
-  stock_detail_transcripts_seo_title,
-  stock_detail_transcripts_structured_desc,
-  stock_detail_transcripts_structured_name,
-  stock_detail_transcripts_title,
-  stock_detail_transcripts_year,
-} from "$lib/paraglide/messages";
+    stock_detail_insider_ai_summarize,
+    stock_detail_insider_copy,
+    stock_detail_insider_download,
+    stock_detail_insider_hide_summary,
+    stock_detail_insider_show_summary,
+    stock_detail_transcripts_ai_loading,
+    stock_detail_transcripts_ai_loading_sub,
+    stock_detail_transcripts_ai_title,
+    stock_detail_transcripts_back_to_top,
+    stock_detail_transcripts_disclaimer,
+    stock_detail_transcripts_earnings_call,
+    stock_detail_transcripts_fy,
+    stock_detail_transcripts_key_highlights,
+    stock_detail_transcripts_management_outlook,
+    stock_detail_transcripts_no_outlook,
+    stock_detail_transcripts_no_transcript,
+    stock_detail_transcripts_q,
+    stock_detail_transcripts_quarter,
+    stock_detail_transcripts_risk_factors,
+    stock_detail_transcripts_sentiment_label,
+    stock_detail_transcripts_seo_description,
+    stock_detail_transcripts_seo_keywords,
+    stock_detail_transcripts_seo_title,
+    stock_detail_transcripts_structured_desc,
+    stock_detail_transcripts_structured_name,
+    stock_detail_transcripts_title,
+    stock_detail_transcripts_year,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -391,16 +391,30 @@ ${summaryData.outlook}
 </script>
 
 <SEO
-  title={stock_detail_transcripts_seo_title({ company: $displayCompanyName, ticker: $stockTicker })}
-  description={stock_detail_transcripts_seo_description({ company: $displayCompanyName, ticker: $stockTicker })}
-  keywords={stock_detail_transcripts_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
+  title={stock_detail_transcripts_seo_title({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  description={stock_detail_transcripts_seo_description({
+    company: $displayCompanyName,
+    ticker: $stockTicker,
+  })}
+  keywords={stock_detail_transcripts_seo_keywords({
+    ticker: $stockTicker,
+    company: $displayCompanyName,
+  })}
   type="website"
   url={`https://stocknear.com/stocks/${$stockTicker}/insider/transcripts`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "Article"],
-    name: stock_detail_transcripts_structured_name({ company: $displayCompanyName }),
-    description: stock_detail_transcripts_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
+    name: stock_detail_transcripts_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_transcripts_structured_desc({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/insider/transcripts`,
     applicationCategory: "FinanceApplication",
     featureList: [
@@ -451,7 +465,9 @@ ${summaryData.outlook}
                       builders={[builder]}
                       class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="truncate">{stock_detail_transcripts_year({ year })}</span>
+                      <span class="truncate"
+                        >{stock_detail_transcripts_year({ year })}</span
+                      >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -488,17 +504,21 @@ ${summaryData.outlook}
                               quarter = availableQuarters[0] ?? 1;
                               getTranscripts();
                             }}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {stock_detail_transcripts_fy({ year: yr })}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
-                              <span>{stock_detail_transcripts_fy({ year: yr })}</span>
+                              <span
+                                >{stock_detail_transcripts_fy({
+                                  year: yr,
+                                })}</span
+                              >
                               <svg
                                 class="size-4"
                                 viewBox="0 0 20 20"
@@ -528,7 +548,9 @@ ${summaryData.outlook}
                       builders={[builder]}
                       class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="truncate">{stock_detail_transcripts_quarter({ quarter })}</span>
+                      <span class="truncate"
+                        >{stock_detail_transcripts_quarter({ quarter })}</span
+                      >
                       <svg
                         class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                         viewBox="0 0 20 20"
@@ -560,17 +582,21 @@ ${summaryData.outlook}
                               quarter = q;
                               getTranscripts();
                             }}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             {stock_detail_transcripts_q({ quarter: q })}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                           >
                             <div class="flex flex-row items-center gap-x-2">
-                              <span>{stock_detail_transcripts_q({ quarter: q })}</span>
+                              <span
+                                >{stock_detail_transcripts_q({
+                                  quarter: q,
+                                })}</span
+                              >
                               <svg
                                 class="size-4"
                                 viewBox="0 0 20 20"
@@ -608,7 +634,10 @@ ${summaryData.outlook}
                   <h2
                     class="text-lg sm:text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
                   >
-                    {stock_detail_transcripts_earnings_call({ quarter: displayQuarter, year: displayYear })}
+                    {stock_detail_transcripts_earnings_call({
+                      quarter: displayQuarter,
+                      year: displayYear,
+                    })}
                   </h2>
                   <p class="text-sm text-gray-500 dark:text-zinc-400 mt-1">
                     {$displayCompanyName} ({$stockTicker})
@@ -616,7 +645,7 @@ ${summaryData.outlook}
                 </div>
                 <div class="flex flex-col items-start sm:items-end gap-3">
                   <div
-                    class="flex items-center gap-2 text-sm text-gray-800 dark:text-zinc-300"
+                    class="flex items-center gap-2 text-sm text-muted dark:text-zinc-300"
                   >
                     <svg
                       class="w-4 h-4"
@@ -644,7 +673,7 @@ ${summaryData.outlook}
                   <button
                     on:click={generateSummary}
                     disabled={isGeneratingSummary}
-                    class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
+                    class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
                   >
                     {#if isGeneratingSummary}
                       <span class="loading loading-spinner loading-xs"></span>
@@ -706,7 +735,7 @@ ${summaryData.outlook}
                     >
                       <div class="flex items-center gap-2">
                         <svg
-                          class="w-5 h-5 text-gray-600 dark:text-zinc-300"
+                          class="w-5 h-5 text-muted dark:text-zinc-300"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -725,7 +754,7 @@ ${summaryData.outlook}
                         </h3>
                       </div>
                       <div class="flex items-center gap-3">
-                        <span class="text-sm text-gray-800 dark:text-zinc-300"
+                        <span class="text-sm text-muted dark:text-zinc-300"
                           >{stock_detail_transcripts_sentiment_label()}</span
                         >
                         <div class="flex items-center gap-2">
@@ -760,7 +789,7 @@ ${summaryData.outlook}
                       <div class="flex items-center gap-2">
                         <button
                           on:click={copyToClipboard}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -779,7 +808,7 @@ ${summaryData.outlook}
                         </button>
                         <button
                           on:click={downloadMarkdown}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -805,7 +834,7 @@ ${summaryData.outlook}
                         class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                          class="w-4 h-4 text-muted dark:text-zinc-300"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -821,7 +850,7 @@ ${summaryData.outlook}
                             class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                           >
                             <svg
-                              class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                              class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -843,7 +872,7 @@ ${summaryData.outlook}
                         class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                          class="w-4 h-4 text-muted dark:text-zinc-300"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -863,7 +892,7 @@ ${summaryData.outlook}
                             class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                           >
                             <svg
-                              class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                              class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -885,7 +914,7 @@ ${summaryData.outlook}
                         class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                          class="w-4 h-4 text-muted dark:text-zinc-300"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -906,9 +935,10 @@ ${summaryData.outlook}
                         {stock_detail_transcripts_management_outlook()}
                       </h4>
                       <p
-                        class="text-sm text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+                        class="text-sm text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
                       >
-                        {summaryData?.outlook ?? stock_detail_transcripts_no_outlook()}
+                        {summaryData?.outlook ??
+                          stock_detail_transcripts_no_outlook()}
                       </p>
                     </div>
 
@@ -938,7 +968,7 @@ ${summaryData.outlook}
                         class="w-8 h-8 rounded-full bg-gray-200 dark:bg-zinc-800 flex items-center justify-center flex-shrink-0"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-600 dark:text-zinc-300"
+                          class="w-4 h-4 text-muted dark:text-zinc-300"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           fill="currentColor"
@@ -983,7 +1013,7 @@ ${summaryData.outlook}
             <div class="flex justify-center mt-10 mb-6">
               <button
                 on:click={backToTop}
-                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 <svg
                   class="w-4 h-4"
@@ -1003,7 +1033,11 @@ ${summaryData.outlook}
             </div>
           {:else}
             <Infobox
-              text={stock_detail_transcripts_no_transcript({ company: $displayCompanyName, quarter: displayQuarter, year: displayYear })}
+              text={stock_detail_transcripts_no_transcript({
+                company: $displayCompanyName,
+                quarter: displayQuarter,
+                year: displayYear,
+              })}
             />
           {/if}
         {:else}

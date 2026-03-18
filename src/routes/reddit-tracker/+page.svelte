@@ -500,7 +500,7 @@
                   class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   i
                     ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item?.title}
                 </button>
@@ -580,7 +580,7 @@
                         <div class="min-w-0 flex-1">
                           <HoverStockChart symbol={item?.symbol} />
                           <p
-                            class="mt-0.5 text-[13px] text-gray-800 dark:text-zinc-300 truncate"
+                            class="mt-0.5 text-[13px] text-muted dark:text-zinc-300 truncate"
                           >
                             {item?.name?.length > 28
                               ? item?.name?.slice(0, 28) + "..."
@@ -614,7 +614,7 @@
                               >Mentions:</span
                             >
                             <span
-                              class="font-medium text-gray-800 dark:text-zinc-200 tabular-nums"
+                              class="font-medium text-muted dark:text-zinc-200 tabular-nums"
                               >{item?.mentions?.toLocaleString("en-US") ||
                                 "0"}</span
                             >
@@ -625,7 +625,7 @@
                               >Mkt Cap</span
                             >
                             <span
-                              class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              class="tabular-nums text-muted dark:text-zinc-200"
                               >{abbreviateNumber(item?.marketCap)}</span
                             >
                           </div>
@@ -635,7 +635,7 @@
                             class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5"
                           >
                             <span
-                              class="tabular-nums text-gray-800 dark:text-zinc-200"
+                              class="tabular-nums text-muted dark:text-zinc-200"
                               >{item?.price !== undefined &&
                               item?.price !== null
                                 ? "$" + item.price.toFixed(2)
@@ -666,7 +666,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.symbol)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
                         <span>View Reddit Posts</span>
                         <svg
@@ -818,7 +818,7 @@
                                   class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                                 >
                                   <svg
-                                    class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                    class="w-5 h-5 text-muted dark:text-zinc-300 {checkedSymbol ===
                                     item?.symbol
                                       ? 'rotate-180'
                                       : ''}"
@@ -913,7 +913,7 @@
 
                         <!-- Expanded Row: Reddit Posts -->
                         {#if checkedSymbol === item?.symbol}
-                          <tr class="bg-white/80 dark:bg-zinc-950/60">
+                          <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60">
                             <td colspan={columns.length} class="px-0">
                               <div class="p-4 sm:p-5">
                                 <!-- Header -->
@@ -1103,7 +1103,7 @@
 
                   <!-- Page info + rows selector -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                    <span class="text-sm text-muted dark:text-zinc-300">
                       {reddit_tracker_page_of({
                         current: String(currentPage),
                         total: String(totalPages),

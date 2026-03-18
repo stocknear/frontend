@@ -12,7 +12,10 @@
     stock_detail_financials_popular_efficiency,
   } from "$lib/paraglide/messages";
 
-  export let onApply: (presetKeys: string[], indicatorIds: string[]) => void = () => {};
+  export let onApply: (
+    presetKeys: string[],
+    indicatorIds: string[],
+  ) => void = () => {};
 
   interface PopularPreset {
     label: string;
@@ -92,7 +95,9 @@
       builders={[builder]}
       class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
-      <span class="text-[0.85rem] sm:text-sm">{stock_detail_financials_popular()}</span>
+      <span class="text-[0.85rem] sm:text-sm"
+        >{stock_detail_financials_popular()}</span
+      >
       <svg
         class="ml-0.5 mt-0.5 h-5 w-5 inline-block shrink-0"
         viewBox="0 0 20 20"
@@ -114,7 +119,7 @@
     align="end"
     sideOffset={10}
     alignOffset={0}
-    class="w-56 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+    class="w-56 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
   >
     {#each POPULAR_PRESETS as preset}
       <DropdownMenu.Item

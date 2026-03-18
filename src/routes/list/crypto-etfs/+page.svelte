@@ -454,7 +454,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {list_label_total_etfs()}
         </div>
@@ -468,7 +468,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {list_label_total_assets()}
         </div>
@@ -482,7 +482,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {list_label_avg_cost()}
         </div>
@@ -522,8 +522,8 @@
                   ><path
                     fill="currentColor"
                     d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                  /></svg>
-
+                  /></svg
+                >
               </label>
             {/if}
           </div>
@@ -533,7 +533,7 @@
             on:input={search}
             type="text"
             placeholder={list_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
 
@@ -606,7 +606,7 @@
                       </td>
                     {:else if column.key === "name"}
                       <td
-                        class="text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                        class="text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
                       >
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
@@ -614,7 +614,7 @@
                       </td>
                     {:else if column.key === "price"}
                       <td
-                        class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                        class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                       >
                         {item?.price}
                       </td>
@@ -634,13 +634,13 @@
                       </td>
                     {:else if column.key === "expenseRatio"}
                       <td
-                        class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 tabular-nums"
+                        class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
                       >
                         {item?.expenseRatio}%
                       </td>
                     {:else if column.key === "totalAssets"}
                       <td
-                        class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                        class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                       >
                         {abbreviateNumber(item?.totalAssets)}
                       </td>

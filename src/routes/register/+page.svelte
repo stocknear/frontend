@@ -250,7 +250,7 @@
 <SEO title={register_seo_title()} description={register_seo_description()} />
 
 <div
-  class="min-h-screen bg-white dark:bg-zinc-950 text-gray-700 dark:text-zinc-200"
+  class="min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
 >
   <div
     class="mx-auto {currentStep === 2
@@ -303,7 +303,7 @@
         </div>
 
         <!-- Divider -->
-        <div class="divider text-gray-800 dark:text-zinc-300 py-4">
+        <div class="divider text-muted dark:text-zinc-300 py-4">
           <span class="text-[11px] uppercase tracking-[0.3em] z-10">
             {register_step1_email_divider()}
           </span>
@@ -345,7 +345,7 @@
               >
             </label>
             <input
-              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
               type="password"
               id="passwordConfirm"
               name="passwordConfirm"
@@ -397,13 +397,13 @@
           {register_terms_prefix()}
           <a
             href="/terms-of-use"
-            class="text-gray-700 dark:text-zinc-300 hover:text-violet-500 transition"
+            class="text-muted dark:text-zinc-300 hover:text-violet-500 transition"
             >{register_terms_link()}</a
           >
           {register_terms_middle()}
           <a
             href="/privacy-policy"
-            class="text-gray-700 dark:text-zinc-300 hover:text-violet-500 transition"
+            class="text-muted dark:text-zinc-300 hover:text-violet-500 transition"
             >{register_privacy_link()}</a
           >.
         </p>
@@ -556,7 +556,7 @@
               {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
                 <li class="flex items-start gap-2">
                   <svg
-                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-600 dark:text-zinc-300"
+                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-muted dark:text-zinc-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -568,8 +568,7 @@
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span class="text-gray-600 dark:text-zinc-300">{feature}</span
-                  >
+                  <span class="text-muted dark:text-zinc-300">{feature}</span>
                 </li>
               {/each}
             </ul>
@@ -657,7 +656,7 @@
               {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
                 <li class="flex items-start gap-2">
                   <svg
-                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-600 dark:text-zinc-300"
+                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-muted dark:text-zinc-300"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -669,8 +668,7 @@
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span class="text-gray-600 dark:text-zinc-300">{feature}</span
-                  >
+                  <span class="text-muted dark:text-zinc-300">{feature}</span>
                 </li>
               {/each}
             </ul>
@@ -702,7 +700,7 @@
         <div class="text-center mt-8">
           <a
             href="/"
-            class="text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 transition"
+            class="text-sm text-gray-500 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 transition"
           >
             {register_step2_skip()}
             <svg
@@ -733,7 +731,7 @@
       class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
     >
       <span
-        class="loading loading-spinner loading-md text-gray-700 dark:text-zinc-200"
+        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
       ></span>
     </div>
   </div>

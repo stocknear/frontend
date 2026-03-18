@@ -175,7 +175,7 @@
         >
 
         <label
-          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200"
+          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200"
         >
           <!--
           <img
@@ -201,7 +201,7 @@
           <input
             type="text"
             value={stock_detail_price()}
-            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
+            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3"
             readonly
           />
         </div>
@@ -215,7 +215,7 @@
           <div class="relative w-full sm:w-[80%]">
             <select
               on:change={changeStatement}
-              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
               <option value="above" selected>{stock_detail_above()}</option>
               <option value="below">{stock_detail_below()}</option>
@@ -240,7 +240,7 @@
           <div class="relative w-full sm:w-[80%]">
             <input
               bind:value={targetPrice}
-              class="w-full border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
+              class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
             />
             <div
               class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-x-1.5"
@@ -292,7 +292,7 @@
               maxlength={NOTE_MAX_LENGTH}
               rows="4"
               placeholder="Note down why this alert level matters and what you plan to do when it triggers"
-              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-gray-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
+              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
             ></textarea>
             <div
               class="mt-1 flex items-center justify-between text-[11px] text-gray-500 dark:text-zinc-400"
@@ -306,7 +306,7 @@
         <div class="flex justify-end gap-4 absolute bottom-3 right-5">
           <label
             for="priceAlertModal"
-            class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
+            class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >
             {stock_detail_cancel()}
           </label>

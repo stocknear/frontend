@@ -719,7 +719,7 @@
           </div>
 
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-gray-600 dark:text-zinc-300">
+            <span class="text-sm text-muted dark:text-zinc-300">
               {stock_detail_dark_pool_page_of({
                 current: currentPage,
                 total: totalPages,
@@ -756,7 +756,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
               >
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}

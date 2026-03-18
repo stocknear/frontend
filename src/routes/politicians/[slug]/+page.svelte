@@ -514,24 +514,24 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{politicians_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/politicians"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{politicians_breadcrumb_politicians()}</a
       >
     </li>
 
-    <li class="text-gray-800 dark:text-zinc-300">{name}</li>
+    <li class="text-muted dark:text-zinc-300">{name}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto">
@@ -568,7 +568,7 @@
                   >
                     {formatString(name)}
                   </h1>
-                  <p class="mb-0.5 text-sm text-gray-800 dark:text-zinc-300">
+                  <p class="mb-0.5 text-sm text-muted dark:text-zinc-300">
                     {politicianParty ?? "n/a"} / {politicianCongress}
                     {#if politicianDistrict !== undefined && politicianDistrict?.length !== 0}
                       / {politicianDistrict}
@@ -591,7 +591,7 @@
                           </svg>
                         {:else}
                           <svg
-                            class="w-5 h-5 text-gray-800 dark:text-zinc-300"
+                            class="w-5 h-5 text-muted dark:text-zinc-300"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -604,7 +604,7 @@
                         {/if}
                       {/each}
                     </div>
-                    <span class="ml-1 text-sm text-gray-800 dark:text-zinc-300"
+                    <span class="ml-1 text-sm text-muted dark:text-zinc-300"
                       >({performanceScore ?? "n/a"})</span
                     >
                   </div>
@@ -620,7 +620,7 @@
                     # {performanceRank ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {politicians_detail_stats_rank()}
                   </div>
@@ -640,7 +640,7 @@
                         : "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {politicians_detail_stats_trades_scored()}
                   </div>
@@ -687,7 +687,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {politicians_detail_stats_success_rate()}
                   </div>
@@ -733,7 +733,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                   >
                     {politicians_detail_stats_avg_return()}
                   </div>
@@ -754,7 +754,7 @@
                   }).format(totalAmountTraded)}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                 >
                   {politicians_detail_stats_total_amount()}
                 </div>
@@ -769,7 +769,7 @@
                   {numOfTrades?.toLocaleString("en-US")}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                 >
                   {politicians_detail_stats_transaction()}
                 </div>
@@ -791,7 +791,7 @@
                     : "n/a"}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                 >
                   {politicians_detail_stats_last_transaction()}
                 </div>
@@ -805,7 +805,7 @@
                   {buySellRatio?.toFixed(2)}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                 >
                   {politicians_detail_stats_buy_sell()}
                 </div>
@@ -833,7 +833,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -854,7 +854,7 @@
                       {#each mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                         >
                           {item}
                         </a>
@@ -897,8 +897,8 @@
                             ><path
                               fill="currentColor"
                               d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                            /></svg>
-
+                            /></svg
+                          >
                         </label>
                       {/if}
                     </div>
@@ -908,7 +908,7 @@
                       on:input={search}
                       type="text"
                       placeholder={politicians_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -962,7 +962,7 @@
                             assetType={item?.assetType}
                           />
                           <p
-                            class="mt-0.5 text-[13px] text-gray-800 dark:text-zinc-300 truncate"
+                            class="mt-0.5 text-[13px] text-muted dark:text-zinc-300 truncate"
                           >
                             {item?.name?.length > 28
                               ? item?.name?.slice(0, 28) + "..."
@@ -970,7 +970,7 @@
                           </p>
                         </div>
                         <span
-                          class="ml-3 text-[13px] tabular-nums text-gray-800 dark:text-zinc-300 whitespace-nowrap"
+                          class="ml-3 text-[13px] tabular-nums text-muted dark:text-zinc-300 whitespace-nowrap"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -1007,7 +1007,7 @@
                               >·</span
                             >
                             <span
-                              class="tabular-nums text-gray-800 dark:text-zinc-300"
+                              class="tabular-nums text-muted dark:text-zinc-300"
                             >
                               {item?.transaction?.toLocaleString("en-US")} trade{item?.transaction >
                               1
@@ -1034,7 +1034,7 @@
                             {politicians_detail_mobile_filed()}
                           </p>
                           <p
-                            class="text-[13px] tabular-nums text-gray-800 dark:text-zinc-300"
+                            class="text-[13px] tabular-nums text-muted dark:text-zinc-300"
                           >
                             {new Date(item?.disclosureDate)?.toLocaleString(
                               "en-US",
@@ -1051,7 +1051,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.ticker)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                       >
                         <span>{politicians_detail_mobile_view_chart()}</span>
                         <svg
@@ -1133,7 +1133,7 @@
                                   on:click={() => openGraph(item?.ticker)}
                                   class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                                   ><svg
-                                    class="w-5 h-5 text-gray-800 dark:text-zinc-300 transition {(checkedSymbol ===
+                                    class="w-5 h-5 text-muted dark:text-zinc-300 transition {(checkedSymbol ===
                                       item?.ticker ?? item?.symbol)
                                       ? 'rotate-180'
                                       : ''}"
@@ -1144,9 +1144,9 @@
                                       fill-rule="evenodd"
                                       d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                       clip-rule="evenodd"
-                                    ></path></svg>
-</button
-                                ></td
+                                    ></path></svg
+                                  >
+                                </button></td
                               >
                             {:else if column.key === "ticker"}
                               <td
@@ -1159,7 +1159,7 @@
                               </td>
                             {:else if column.key === "name"}
                               <td
-                                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300"
+                                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                               >
                                 {item?.name?.length > 20
                                   ? item?.name?.slice(0, 20) + "..."
@@ -1167,7 +1167,7 @@
                               </td>
                             {:else if column.key === "type"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 <span class="">
                                   {#if item?.type === "Bought"}
@@ -1190,19 +1190,19 @@
                               >
                             {:else if column.key === "amount"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {item?.amount}</td
                               >
                             {:else if column.key === "transaction"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {item?.transaction?.toLocaleString("en-US")}</td
                               >
                             {:else if column.key === "transactionDate"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {new Date(
                                   item?.transactionDate,
@@ -1215,7 +1215,7 @@
                               </td>
                             {:else if column.key === "disclosureDate"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-gray-600 dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
                               >
                                 {new Date(item?.disclosureDate)?.toLocaleString(
                                   "en-US",
@@ -1313,7 +1313,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-gray-600 dark:text-zinc-300">
+                  <span class="text-sm text-muted dark:text-zinc-300">
                     {politicians_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1408,7 +1408,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   {politicians_back_to_top()}
                   <svg

@@ -7,18 +7,32 @@
   export let metricKey: string;
   export let metricLabel: string;
   export let xList: string[] = [];
-  export let chartType: 'bar' | 'line' | 'grouped' | 'stacked' | 'grouped-stacked' = 'bar';
-  export let seriesData: Array<{ key: string; label: string; values: (number | null)[]; color?: string; stack?: string }> = [];
+  export let chartType:
+    | "bar"
+    | "line"
+    | "grouped"
+    | "stacked"
+    | "grouped-stacked" = "bar";
+  export let seriesData: Array<{
+    key: string;
+    label: string;
+    values: (number | null)[];
+    color?: string;
+    stack?: string;
+  }> = [];
   export let isMargin: boolean = false;
   export let ghostCount: number = 0;
-  export let onExpand: (metricKey: string, metricLabel: string) => void = () => {};
+  export let onExpand: (
+    metricKey: string,
+    metricLabel: string,
+  ) => void = () => {};
 
   const SERIES_COLORS = [
-    { light: '#F59E0B', dark: '#FBBF24' },
-    { light: '#3B82F6', dark: '#60A5FA' },
-    { light: '#EF4444', dark: '#F87171' },
-    { light: '#10B981', dark: '#34D399' },
-    { light: '#8B5CF6', dark: '#A78BFA' },
+    { light: "#F59E0B", dark: "#FBBF24" },
+    { light: "#3B82F6", dark: "#60A5FA" },
+    { light: "#EF4444", dark: "#F87171" },
+    { light: "#10B981", dark: "#34D399" },
+    { light: "#8B5CF6", dark: "#A78BFA" },
   ];
 
   let canvasElement: HTMLCanvasElement;
@@ -37,17 +51,20 @@
     const s = seriesData[index];
     if (s?.color) return s.color;
     const palette = SERIES_COLORS[index % SERIES_COLORS.length];
-    return $mode === 'light' ? palette.light : palette.dark;
+    return $mode === "light" ? palette.light : palette.dark;
   }
 
   function getCompactFractionDigits(valueAbs: number, stepAbs: number): number {
     if (valueAbs < 1000) return 0;
 
     const unit =
-      valueAbs >= 1_000_000_000_000 ? 1_000_000_000_000 :
-      valueAbs >= 1_000_000_000 ? 1_000_000_000 :
-      valueAbs >= 1_000_000 ? 1_000_000 :
-      1_000;
+      valueAbs >= 1_000_000_000_000
+        ? 1_000_000_000_000
+        : valueAbs >= 1_000_000_000
+          ? 1_000_000_000
+          : valueAbs >= 1_000_000
+            ? 1_000_000
+            : 1_000;
 
     const safeStep = Number.isFinite(stepAbs) && stepAbs > 0 ? stepAbs : unit;
     const stepInUnit = safeStep / unit;
@@ -92,7 +109,7 @@
     minValue: number,
     maxValue: number,
     chartWidth: number,
-    chartHeight: number
+    chartHeight: number,
   ) {
     if (!Number.isFinite(minValue) || !Number.isFinite(maxValue)) return;
 
@@ -104,13 +121,13 @@
     let lastDrawnLabel = "";
 
     ctx.save();
-    ctx.font = '9px system-ui, -apple-system, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
+    ctx.font = "9px system-ui, -apple-system, sans-serif";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = $mode === "light" ? "#6b7280" : "#a1a1aa";
 
     // Y-axis border
-    ctx.strokeStyle = $mode === 'light' ? '#e5e7eb' : '#27272a';
+    ctx.strokeStyle = $mode === "light" ? "#e5e7eb" : "#27272a";
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(CHART_PADDING.left, CHART_PADDING.top);
@@ -120,14 +137,13 @@
     for (let i = ticks; i >= 0; i--) {
       const ratio = i / ticks;
       const y = CHART_PADDING.top + chartHeight * ratio;
-      const value = valueRange === 0
-        ? maxValue
-        : maxValue - valueRange * ratio;
+      const value = valueRange === 0 ? maxValue : maxValue - valueRange * ratio;
       const label = formatYAxisValue(value, tickStep);
 
       const yDistance = Math.abs(lastDrawnY - y);
       const tooClose = yDistance < minLabelGap;
-      const duplicateAndClose = label === lastDrawnLabel && yDistance < minLabelGap * 2;
+      const duplicateAndClose =
+        label === lastDrawnLabel && yDistance < minLabelGap * 2;
       if (!tooClose && !duplicateAndClose) {
         ctx.fillText(label, CHART_PADDING.left - 6, y);
         lastDrawnY = y;
@@ -136,7 +152,7 @@
 
       // Light horizontal guides make the labels easier to parse.
       if (i > 0 && i < ticks) {
-        ctx.strokeStyle = $mode === 'light' ? '#f3f4f6' : '#27272a';
+        ctx.strokeStyle = $mode === "light" ? "#f3f4f6" : "#27272a";
         ctx.beginPath();
         ctx.moveTo(CHART_PADDING.left, y);
         ctx.lineTo(CHART_PADDING.left + chartWidth, y);
@@ -150,7 +166,7 @@
   function drawChart() {
     if (!canvasElement || !xList?.length || !seriesData?.length) return;
 
-    const ctx = canvasElement.getContext('2d');
+    const ctx = canvasElement.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
@@ -167,17 +183,17 @@
     ctx.clearRect(0, 0, width, height);
 
     const barCount = xList.length;
-    const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
+    const barGap = Math.max(1, Math.min(3, (chartWidth / barCount) * 0.15));
 
-    if (chartType === 'line') {
+    if (chartType === "line") {
       drawLine(ctx, chartWidth, chartHeight, barCount, barGap);
-    } else if (chartType === 'bar') {
+    } else if (chartType === "bar") {
       drawSingleBars(ctx, chartWidth, chartHeight, barCount, barGap);
-    } else if (chartType === 'grouped') {
+    } else if (chartType === "grouped") {
       drawGroupedBars(ctx, chartWidth, chartHeight, barCount, barGap);
-    } else if (chartType === 'stacked') {
+    } else if (chartType === "stacked") {
       drawStackedBars(ctx, chartWidth, chartHeight, barCount, barGap);
-    } else if (chartType === 'grouped-stacked') {
+    } else if (chartType === "grouped-stacked") {
       drawGroupedStackedBars(ctx, chartWidth, chartHeight, barCount, barGap);
     }
 
@@ -185,22 +201,42 @@
 
     // Ghost overlay: gray wash + gradient fade over locked bars
     if (ghostCount > 0 && barCount > 0) {
-      const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+      const barWidth = Math.max(
+        2,
+        (chartWidth - (barCount - 1) * barGap) / barCount,
+      );
       const ghostEndX = CHART_PADDING.left + ghostCount * (barWidth + barGap);
 
       // Save context, draw gray wash over ghost area
       ctx.save();
 
       // Semi-transparent overlay to desaturate ghost bars (CSS blur handles the rest)
-      ctx.fillStyle = $mode === 'light' ? 'rgba(255,255,255,0.35)' : 'rgba(9,9,11,0.35)';
-      ctx.fillRect(CHART_PADDING.left, 0, ghostEndX - CHART_PADDING.left, height);
+      ctx.fillStyle =
+        $mode === "light" ? "rgba(255,255,255,0.35)" : "rgba(9,9,11,0.35)";
+      ctx.fillRect(
+        CHART_PADDING.left,
+        0,
+        ghostEndX - CHART_PADDING.left,
+        height,
+      );
 
       // Gradient fade from opaque to transparent at the ghost/real boundary
       const fadeWidth = Math.min(barWidth * 2, 30);
-      const grad = ctx.createLinearGradient(ghostEndX - fadeWidth, 0, ghostEndX + fadeWidth * 0.5, 0);
-      grad.addColorStop(0, $mode === 'light' ? 'rgba(255,255,255,0)' : 'rgba(9,9,11,0)');
-      grad.addColorStop(0.5, $mode === 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(9,9,11,0.7)');
-      grad.addColorStop(1, 'transparent');
+      const grad = ctx.createLinearGradient(
+        ghostEndX - fadeWidth,
+        0,
+        ghostEndX + fadeWidth * 0.5,
+        0,
+      );
+      grad.addColorStop(
+        0,
+        $mode === "light" ? "rgba(255,255,255,0)" : "rgba(9,9,11,0)",
+      );
+      grad.addColorStop(
+        0.5,
+        $mode === "light" ? "rgba(255,255,255,0.7)" : "rgba(9,9,11,0.7)",
+      );
+      grad.addColorStop(1, "transparent");
       ctx.fillStyle = grad;
       ctx.fillRect(ghostEndX - fadeWidth, 0, fadeWidth * 1.5, height);
 
@@ -208,12 +244,21 @@
     }
   }
 
-  function drawLine(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
+  function drawLine(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+    barCount: number,
+    barGap: number,
+  ) {
     const rawValues = seriesData[0]?.values || [];
     const numeric = rawValues.filter((v): v is number => v != null);
     if (!numeric.length) return;
 
-    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const barWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
     const minValue = Math.min(...numeric);
     const maxValue = Math.max(...numeric);
     const valueRange = maxValue - minValue || 1;
@@ -223,7 +268,9 @@
 
     const toXY = (value: number | null, index: number) => ({
       x: CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2,
-      y: CHART_PADDING.top + chartHeight * (1 - ((value ?? minValue) - minValue) / valueRange),
+      y:
+        CHART_PADDING.top +
+        chartHeight * (1 - ((value ?? minValue) - minValue) / valueRange),
     });
 
     // Draw filled area under the line
@@ -239,7 +286,7 @@
     ctx.lineTo(lastPt.x, bottomY);
     ctx.lineTo(firstPt.x, bottomY);
     ctx.closePath();
-    ctx.fillStyle = lineColor + '18';
+    ctx.fillStyle = lineColor + "18";
     ctx.fill();
 
     // Draw the line
@@ -251,16 +298,25 @@
     });
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = 2;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
     ctx.stroke();
   }
 
-  function drawSingleBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
+  function drawSingleBars(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+    barCount: number,
+    barGap: number,
+  ) {
     const rawValues = seriesData[0]?.values || [];
     const numeric = rawValues.filter((v): v is number => v != null);
     if (!numeric.length) return;
-    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const barWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
     const minValue = Math.min(0, ...numeric);
     const maxValue = Math.max(0, ...numeric);
     const valueRange = maxValue - minValue || 1;
@@ -280,13 +336,26 @@
     });
   }
 
-  function drawGroupedBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
+  function drawGroupedBars(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+    barCount: number,
+    barGap: number,
+  ) {
     const numSeries = seriesData.length;
-    const groupWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const groupWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
     const subBarGap = 1;
-    const subBarWidth = Math.max(1, (groupWidth - (numSeries - 1) * subBarGap) / numSeries);
+    const subBarWidth = Math.max(
+      1,
+      (groupWidth - (numSeries - 1) * subBarGap) / numSeries,
+    );
 
-    let globalMin = 0, globalMax = 0;
+    let globalMin = 0,
+      globalMax = 0;
     for (const s of seriesData) {
       for (const v of s.values) {
         if (v == null) continue;
@@ -314,12 +383,23 @@
     }
   }
 
-  function drawStackedBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
-    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+  function drawStackedBars(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+    barCount: number,
+    barGap: number,
+  ) {
+    const barWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
 
-    let globalMax = 0, globalMin = 0;
+    let globalMax = 0,
+      globalMin = 0;
     for (let i = 0; i < barCount; i++) {
-      let posSum = 0, negSum = 0;
+      let posSum = 0,
+        negSum = 0;
       for (const s of seriesData) {
         const v = s.values[i] ?? 0;
         if (v >= 0) posSum += v;
@@ -359,7 +439,13 @@
     }
   }
 
-  function drawGroupedStackedBars(ctx: CanvasRenderingContext2D, chartWidth: number, chartHeight: number, barCount: number, barGap: number) {
+  function drawGroupedStackedBars(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    chartHeight: number,
+    barCount: number,
+    barGap: number,
+  ) {
     const stackGroups: Map<string, number[]> = new Map();
     const groupOrder: string[] = [];
     seriesData.forEach((s, idx) => {
@@ -372,15 +458,23 @@
     });
 
     const numGroups = groupOrder.length;
-    const groupWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const groupWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
     const subBarGap = 1;
-    const subBarWidth = Math.max(1, (groupWidth - (numGroups - 1) * subBarGap) / numGroups);
+    const subBarWidth = Math.max(
+      1,
+      (groupWidth - (numGroups - 1) * subBarGap) / numGroups,
+    );
 
-    let globalMin = 0, globalMax = 0;
+    let globalMin = 0,
+      globalMax = 0;
     for (let i = 0; i < barCount; i++) {
       for (const gId of groupOrder) {
         const indices = stackGroups.get(gId)!;
-        let posSum = 0, negSum = 0;
+        let posSum = 0,
+          negSum = 0;
         for (const si of indices) {
           const v = seriesData[si]?.values[i] ?? 0;
           if (v >= 0) posSum += v;
@@ -427,7 +521,14 @@
     }
   }
 
-  function drawRoundedBar(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, isPositive: boolean) {
+  function drawRoundedBar(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    isPositive: boolean,
+  ) {
     const radius = Math.min(2, w / 4);
     ctx.beginPath();
     if (isPositive) {
@@ -450,16 +551,26 @@
     ctx.fill();
   }
 
-  function drawXLabels(ctx: CanvasRenderingContext2D, chartWidth: number, height: number, barCount: number, barGap: number) {
-    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+  function drawXLabels(
+    ctx: CanvasRenderingContext2D,
+    chartWidth: number,
+    height: number,
+    barCount: number,
+    barGap: number,
+  ) {
+    const barWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
     const labelStep = Math.max(1, Math.ceil(xList.length / 6));
-    ctx.fillStyle = $mode === 'light' ? '#6b7280' : '#a1a1aa';
-    ctx.font = '9px system-ui, -apple-system, sans-serif';
-    ctx.textAlign = 'center';
+    ctx.fillStyle = $mode === "light" ? "#6b7280" : "#a1a1aa";
+    ctx.font = "9px system-ui, -apple-system, sans-serif";
+    ctx.textAlign = "center";
 
     xList.forEach((label, index) => {
       if (index % labelStep === 0 || index === xList.length - 1) {
-        const x = CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2;
+        const x =
+          CHART_PADDING.left + index * (barWidth + barGap) + barWidth / 2;
         const y = height - 8;
         ctx.save();
         ctx.translate(x, y);
@@ -478,18 +589,25 @@
 
     const chartWidth = rect.width - CHART_PADDING.left - CHART_PADDING.right;
     const barCount = xList.length;
-    const barGap = Math.max(1, Math.min(3, chartWidth / barCount * 0.15));
-    const barWidth = Math.max(2, (chartWidth - (barCount - 1) * barGap) / barCount);
+    const barGap = Math.max(1, Math.min(3, (chartWidth / barCount) * 0.15));
+    const barWidth = Math.max(
+      2,
+      (chartWidth - (barCount - 1) * barGap) / barCount,
+    );
 
     const relativeX = x - CHART_PADDING.left;
     const barIndex = Math.floor(relativeX / (barWidth + barGap));
 
-    if (barIndex >= 0 && barIndex < xList.length && !(ghostCount > 0 && barIndex < ghostCount)) {
-      const label = xList[barIndex] || '';
-      const suffix = isMargin ? '%' : '';
-      const lines = seriesData.map(s => {
+    if (
+      barIndex >= 0 &&
+      barIndex < xList.length &&
+      !(ghostCount > 0 && barIndex < ghostCount)
+    ) {
+      const label = xList[barIndex] || "";
+      const suffix = isMargin ? "%" : "";
+      const lines = seriesData.map((s) => {
         const val = s.values[barIndex];
-        return `${s.label}: ${val == null ? 'n/a' : abbreviateNumber(val) + suffix}`;
+        return `${s.label}: ${val == null ? "n/a" : abbreviateNumber(val) + suffix}`;
       });
       tooltipData = { label, lines };
       tooltipX = event.clientX - rect.left;
@@ -508,25 +626,33 @@
     onExpand(metricKey, metricLabel);
   }
 
-  function findLastNonZero(values: (number | null)[]): { value: number | null; prevValue: number | null } {
+  function findLastNonZero(values: (number | null)[]): {
+    value: number | null;
+    prevValue: number | null;
+  } {
     for (let i = values.length - 1; i >= 0; i--) {
       if (values[i] != null && values[i] !== 0) {
         const prev = i > 0 ? values[i - 1] : null;
-        return { value: values[i], prevValue: prev != null && prev !== 0 ? prev : null };
+        return {
+          value: values[i],
+          prevValue: prev != null && prev !== 0 ? prev : null,
+        };
       }
     }
     return { value: null, prevValue: null };
   }
 
-  $: ({ value: latestValue, prevValue: previousValue } = seriesData[0]?.values?.length > 0
-    ? findLastNonZero(seriesData[0].values)
-    : { value: null, prevValue: null });
-  $: change = previousValue !== null && previousValue !== 0 && latestValue !== null
-    ? ((latestValue - previousValue) / Math.abs(previousValue)) * 100
-    : null;
+  $: ({ value: latestValue, prevValue: previousValue } =
+    seriesData[0]?.values?.length > 0
+      ? findLastNonZero(seriesData[0].values)
+      : { value: null, prevValue: null });
+  $: change =
+    previousValue !== null && previousValue !== 0 && latestValue !== null
+      ? ((latestValue - previousValue) / Math.abs(previousValue)) * 100
+      : null;
 
   onMount(() => {
-    if (typeof window === 'undefined' || !cardElement) return;
+    if (typeof window === "undefined" || !cardElement) return;
 
     observer = new IntersectionObserver(
       (entries) => {
@@ -538,7 +664,7 @@
           }
         });
       },
-      { root: null, rootMargin: '50px', threshold: 0 }
+      { root: null, rootMargin: "50px", threshold: 0 },
     );
 
     observer.observe(cardElement);
@@ -549,7 +675,13 @@
   });
 
   // Redraw on data change or theme toggle (single reactive block)
-  $: if (hasBeenVisible && canvasElement && seriesData?.length > 0 && xList?.length > 0 && $mode !== undefined) {
+  $: if (
+    hasBeenVisible &&
+    canvasElement &&
+    seriesData?.length > 0 &&
+    xList?.length > 0 &&
+    $mode !== undefined
+  ) {
     drawChart();
   }
 </script>
@@ -560,25 +692,30 @@
   role="button"
   tabindex="0"
   on:click={handleExpand}
-  on:keydown={(e) => e.key === 'Enter' && handleExpand()}
+  on:keydown={(e) => e.key === "Enter" && handleExpand()}
 >
   <!-- Header -->
   <div class="flex items-center justify-between px-3 pt-3 pb-1">
     <div class="flex items-center gap-2 min-w-0">
-      <h3 class="text-sm font-medium text-gray-800 dark:text-zinc-200 truncate">
+      <h3 class="text-sm font-medium text-muted dark:text-zinc-200 truncate">
         {metricLabel}
       </h3>
       {#if latestValue !== null}
-        <span class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0">
+        <span
+          class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0"
+        >
           {isMargin
             ? `${abbreviateNumber(latestValue)}%`
             : abbreviateNumber(latestValue)}
         </span>
         {#if change !== null}
-          <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-2xl shrink-0 {change >= 0
-            ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30'
-            : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30'}">
-            {change >= 0 ? '+' : ''}{change.toFixed(1)}%
+          <span
+            class="text-[10px] font-medium px-1.5 py-0.5 rounded-2xl shrink-0 {change >=
+            0
+              ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30'
+              : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30'}"
+          >
+            {change >= 0 ? "+" : ""}{change.toFixed(1)}%
           </span>
         {/if}
       {/if}
@@ -598,8 +735,13 @@
     <div class="flex flex-wrap gap-x-3 gap-y-0.5 px-3 pb-1">
       {#each seriesData as s, i}
         <div class="flex items-center gap-1">
-          <div class="w-2 h-2 rounded-full" style="background-color: {getSeriesColor(i)}"></div>
-          <span class="text-[10px] text-gray-500 dark:text-zinc-400">{s.label}</span>
+          <div
+            class="w-2 h-2 rounded-full"
+            style="background-color: {getSeriesColor(i)}"
+          ></div>
+          <span class="text-[10px] text-gray-500 dark:text-zinc-400"
+            >{s.label}</span
+          >
         </div>
       {/each}
     </div>
@@ -608,10 +750,16 @@
   <!-- Chart -->
   <div class="px-2 pb-2 relative">
     {#if !hasBeenVisible}
-      <div class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg">
+      <div
+        class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg"
+      >
         <div class="flex flex-col items-center gap-2">
-          <div class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
-          <div class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+          <div
+            class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"
+          ></div>
+          <div
+            class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"
+          ></div>
         </div>
       </div>
     {:else}
@@ -631,18 +779,34 @@
           class="absolute top-0 left-0 bottom-0 rounded-l-lg"
           style="width: {ghostPct}%; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);"
         >
-          <div class="absolute inset-0 bg-white/30 dark:bg-zinc-950/30 rounded-l-lg pointer-events-none"></div>
+          <div
+            class="absolute inset-0 bg-white/30 dark:bg-zinc-950/30 rounded-l-lg pointer-events-none"
+          ></div>
           <!-- Lock badge linking to /pricing -->
           <a
             href="/pricing"
             class="absolute inset-0 flex items-center justify-center z-10"
             on:click|stopPropagation
           >
-            <div class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-violet-200/60 dark:border-violet-700/40 shadow-lg cursor-pointer hover:scale-105 transition-transform">
-              <svg class="w-4 h-4 text-violet-500 dark:text-violet-400" viewBox="0 0 20 20" fill="currentColor" style="max-width:40px">
-                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            <div
+              class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-violet-200/60 dark:border-violet-700/40 shadow-lg cursor-pointer hover:scale-105 transition-transform"
+            >
+              <svg
+                class="w-4 h-4 text-violet-500 dark:text-violet-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clip-rule="evenodd"
+                />
               </svg>
-              <span class="text-[9px] font-semibold text-violet-600 dark:text-violet-300">Upgrade</span>
+              <span
+                class="text-[9px] font-semibold text-violet-800 dark:text-violet-300"
+                >Upgrade</span
+              >
             </div>
           </a>
         </div>

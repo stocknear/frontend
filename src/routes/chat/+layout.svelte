@@ -236,7 +236,7 @@
               viewBox="0 0 24 24"
               fill="none"
               color="currentColor"
-              class="text-gray-800 dark:text-zinc-300"
+              class="text-muted dark:text-zinc-300"
               stroke-width="2"
               stroke="currentColor"
             >
@@ -495,7 +495,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThreadModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
         tabindex="0">{chat_cancel()}</label
       >
       <label

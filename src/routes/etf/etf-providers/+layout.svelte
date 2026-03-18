@@ -4,10 +4,10 @@
 
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
-  etf_breadcrumb_home,
-  etf_breadcrumb_providers,
-  etf_providers_main_name,
-} from "$lib/paraglide/messages";
+    etf_breadcrumb_home,
+    etf_breadcrumb_providers,
+    etf_providers_main_name,
+  } from "$lib/paraglide/messages";
 
   export let data;
   let currentPath = "";
@@ -29,24 +29,24 @@
   class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
   >
     <li>
       <a
         href="/"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/etf/etf-providers"
-        class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+        class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
         >{etf_breadcrumb_providers()}</a
       >
     </li>
     {#if currentPath?.length !== 0 && typeof currentPath !== undefined}
-      <li class="text-gray-800 dark:text-zinc-300">{currentPath}</li>
+      <li class="text-muted dark:text-zinc-300">{currentPath}</li>
     {/if}
   </BreadCrumb>
 

@@ -562,8 +562,8 @@
                       ><path
                         fill="currentColor"
                         d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                      /></svg>
-
+                      /></svg
+                    >
                   </label>
                 {/if}
               </div>
@@ -573,7 +573,7 @@
                 bind:value={inputValue}
                 on:input={search}
                 placeholder={list_search_placeholder()}
-                class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
 
@@ -633,7 +633,7 @@
                       {#each columns as column}
                         {#if column.key === "rank"}
                           <td
-                            class="text-start text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                            class="text-start text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
                           >
                             {item?.rank}
                           </td>
@@ -649,7 +649,7 @@
                           </td>
                         {:else if column.key === "optionSymbol"}
                           <td
-                            class="text-start text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                            class="text-start text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
                           >
                             <a
                               href={`/stocks/${item?.symbol}/options/contract-lookup?contract=${item?.optionSymbol}`}
@@ -668,19 +668,19 @@
                           </td>
                         {:else if column.key === "optionVolume"}
                           <td
-                            class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                            class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                           >
                             {item?.optionVolume?.toLocaleString("en-US")}
                           </td>
                         {:else if column.key === "totalOI"}
                           <td
-                            class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                            class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                           >
                             {item?.totalOI?.toLocaleString("en-US")}
                           </td>
                         {:else if column.key === "volumeOIRatio"}
                           <td
-                            class="text-end text-[0.85rem] sm:text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                            class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                           >
                             {item?.volumeOIRatio}
                           </td>
@@ -734,7 +734,7 @@
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm text-gray-600 dark:text-zinc-300">
+                <span class="text-sm text-muted dark:text-zinc-300">
                   {list_pagination_page_of({
                     current: currentPage,
                     total: totalPages,
@@ -823,7 +823,7 @@
             <div class="flex justify-center mt-4">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {list_back_to_top()}
                 <svg

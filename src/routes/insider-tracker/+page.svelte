@@ -563,7 +563,7 @@
                     on:input={search}
                     type="text"
                     placeholder={insider_tracker_search_placeholder()}
-                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -631,7 +631,7 @@
                                 class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                               >
                                 <svg
-                                  class="w-5 h-5 text-gray-800 dark:text-zinc-300 {checkedSymbol ===
+                                  class="w-5 h-5 text-muted dark:text-zinc-300 {checkedSymbol ===
                                   item?.symbol
                                     ? 'rotate-180'
                                     : ''}"
@@ -733,7 +733,7 @@
                       </tr>
 
                       {#if checkedSymbol === item?.symbol}
-                        <tr class="bg-white/80 dark:bg-zinc-950/60"
+                        <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60"
                           ><td colspan="10" class="px-0"
                             ><div class="-mt-0.5 px-0 pb-2">
                               <div class="relative h-[350px]">
@@ -813,7 +813,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-gray-600 dark:text-zinc-300">
+                  <span class="text-sm text-muted dark:text-zinc-300">
                     {insider_tracker_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -904,7 +904,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                 >
                   {insider_tracker_back_to_top()}
                   <svg

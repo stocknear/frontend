@@ -1176,7 +1176,7 @@
           {#if !data?.user}
             <label
               for="userLogin"
-              class="text-[rgb(var(--pricing-ink))] cursor-pointer w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] rounded-full font-semibold sm:hover:bg-white/80 dark:sm:hover:bg-[rgb(var(--pricing-card))] transition duration-150 flex items-center justify-center"
+              class="text-[rgb(var(--pricing-ink))] cursor-pointer w-full py-3 px-4 border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.9)] rounded-full font-semibold sm:hover:bg-[#f8fbfb] dark:sm:hover:bg-[rgb(var(--pricing-card))] transition duration-150 flex items-center justify-center"
               >{pricing_get_registered()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -1251,7 +1251,7 @@
         <!--
         <div class="mt-4 flex justify-center">
           <span
-            class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-zinc-300"
+            class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300"
           >
             Promo code XXX
           </span>
@@ -1813,7 +1813,7 @@
             {pricing_pro_title()}
           </h3>
         </div>
-        <p class="text-sm mt-2 text-gray-800 dark:text-zinc-300">
+        <p class="text-sm mt-2 text-muted dark:text-zinc-300">
           {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
@@ -1867,7 +1867,7 @@
         <!--
         <div class="mt-4 flex justify-center">
           <span
-            class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gray-600 dark:text-zinc-300"
+            class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300"
           >
             Promo code XXXX
           </span>
@@ -2044,7 +2044,7 @@
         >
           {#if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 font-semibold text-gray-500 dark:text-zinc-400 flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -2173,7 +2173,7 @@
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
-              class="underline underline-offset-2 font-medium text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+              class="underline underline-offset-2 font-medium text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
               >{pricing_manage_subscription()}</a
             >
           </p>
@@ -2389,7 +2389,7 @@
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     {@html pricing_faq_q7_answer({
-                      email: `<a href="mailto:${emailAddress}" class="text-gray-800 dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
+                      email: `<a href="mailto:${emailAddress}" class="text-muted dark:text-zinc-300 underline hover:text-violet-600 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
                     })}
                   </p>
                 </div>
@@ -2472,7 +2472,7 @@
     <div
       class="flex flex-col justify-center items-center text-center px-4 pb-6"
     >
-      <p class="text-sm text-gray-800 dark:text-zinc-300 mt-4">
+      <p class="text-sm text-muted dark:text-zinc-300 mt-4">
         {pricing_upgrade_modal_content()}
       </p>
 

@@ -5,15 +5,15 @@
   import IPOChart from "$lib/components/IPOChart.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import {
-  ipos_statistics_description,
-  ipos_statistics_infobox,
-  ipos_statistics_more_news,
-  ipos_statistics_seo_description,
-  ipos_statistics_seo_keywords,
-  ipos_statistics_seo_title,
-  ipos_statistics_stock_news,
-  ipos_statistics_title,
-} from "$lib/paraglide/messages";
+    ipos_statistics_description,
+    ipos_statistics_infobox,
+    ipos_statistics_more_news,
+    ipos_statistics_seo_description,
+    ipos_statistics_seo_keywords,
+    ipos_statistics_seo_title,
+    ipos_statistics_stock_news,
+    ipos_statistics_title,
+  } from "$lib/paraglide/messages";
   import {
     market_news_time_minute,
     market_news_time_minutes,
@@ -269,9 +269,7 @@
       <main class="w-full lg:w-3/4 lg:pr-10">
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
-            <Infobox
-              text={ipos_statistics_infobox()}
-            />
+            <Infobox text={ipos_statistics_infobox()} />
 
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2 sm:mb-0 mt-2"
@@ -280,9 +278,15 @@
             </h1>
 
             <div
-              class="mb-2 text-sm sm:text-base text-gray-800 dark:text-zinc-300"
+              class="mb-2 text-sm sm:text-base text-muted dark:text-zinc-300"
             >
-              {ipos_statistics_description({ count: data?.getIPOCalendar?.length?.toLocaleString("en-US"), minYear, minCount, maxYear, maxCount: maxCount?.toLocaleString("en-US") })}
+              {ipos_statistics_description({
+                count: data?.getIPOCalendar?.length?.toLocaleString("en-US"),
+                minYear,
+                minCount,
+                maxYear,
+                maxCount: maxCount?.toLocaleString("en-US"),
+              })}
             </div>
 
             {#if isLoaded && config}
@@ -297,7 +301,7 @@
                     class="border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
-                      class="loading loading-spinner loading-md text-gray-600 dark:text-zinc-300"
+                      class="loading loading-spinner loading-md text-muted dark:text-zinc-300"
                     ></span>
                   </label>
                 </div>
@@ -315,7 +319,7 @@
           <div
             class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
-            <div class="p-4 text-sm text-gray-600 dark:text-zinc-300">
+            <div class="p-4 text-sm text-muted dark:text-zinc-300">
               <h3
                 class="text-lg font-semibold text-gray-900 dark:text-white mb-3"
               >
@@ -324,7 +328,9 @@
               <ul class="">
                 {#each marketNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
-                    {market_news_time_ago({ time: formatDate(item?.publishedDate) })} -
+                    {market_news_time_ago({
+                      time: formatDate(item?.publishedDate),
+                    })} -
                     <a
                       class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                       href={item?.url}

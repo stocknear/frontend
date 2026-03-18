@@ -170,7 +170,13 @@
     };
   }
 
-  $: if (isOpen && item && !isLoading && item.bid != null && item.breakeven != null) {
+  $: if (
+    isOpen &&
+    item &&
+    !isLoading &&
+    item.bid != null &&
+    item.breakeven != null
+  ) {
     chartConfig = buildChartConfig(item);
   } else if (!isOpen) {
     chartConfig = null;
@@ -231,121 +237,139 @@
       {#if isLoading || !chartConfig}
         <!-- Loading skeleton -->
         <div class="px-4 sm:px-6 py-4">
-          <div class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse" style="height: {$screenWidth < 640 ? 240 : 360}px"></div>
+          <div
+            class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse"
+            style="height: {$screenWidth < 640 ? 240 : 360}px"
+          ></div>
         </div>
-        <div class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4">
+        <div
+          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+        >
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             {#each Array(6) as _}
               <div class="space-y-2">
-                <div class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"></div>
-                <div class="h-4 w-16 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"></div>
+                <div
+                  class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
+                ></div>
+                <div
+                  class="h-4 w-16 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                ></div>
               </div>
             {/each}
           </div>
         </div>
       {:else}
-      <!-- Chart -->
-      <div class="px-4 sm:px-6 py-4">
-        <div
-          use:highcharts={chartConfig}
-          class=" bg-white/70 dark:bg-zinc-950/40"
-        ></div>
-      </div>
-
-      <!-- Trade Info -->
-      <div
-        class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
-      >
-        <div class="mb-4">
+        <!-- Chart -->
+        <div class="px-4 sm:px-6 py-4">
           <div
-            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
-          >
+            use:highcharts={chartConfig}
+            class=" bg-white/70 dark:bg-zinc-950/40"
+          ></div>
+        </div>
+
+        <!-- Trade Info -->
+        <div
+          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+        >
+          <div class="mb-4">
+            <div
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+            >
+              <div>
+                <span
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                  >{covered_call_screener_chart_trade_setup()}</span
+                >
+                <div class="text-sm text-muted dark:text-zinc-300">
+                  {covered_call_screener_chart_buy_stock()}
+                  {item.stockPrice?.toFixed(2)}
+                  <span class="mx-1 text-gray-400">|</span>
+                  {covered_call_screener_chart_sell_call({
+                    strike: item.strike,
+                  })}
+                  {item.bid?.toFixed(2)}
+                </div>
+              </div>
+              <div class="text-right">
+                <span
+                  class="text-sm font-semibold text-gray-900 dark:text-white"
+                  >{covered_call_screener_chart_net_credit_debit()}</span
+                >
+                <div class="text-sm text-muted dark:text-zinc-300">
+                  ${(item.bid * 100)?.toFixed(0)} / ${(
+                    (item.stockPrice - item.bid) *
+                    100
+                  )?.toFixed(0)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             <div>
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                >{covered_call_screener_chart_trade_setup()}</span
+                >{covered_call_screener_chart_breakeven()}</span
               >
-              <div class="text-sm text-gray-700 dark:text-zinc-300">
-                {covered_call_screener_chart_buy_stock()} {item.stockPrice?.toFixed(2)}
-                <span class="mx-1 text-gray-400">|</span>
-                {covered_call_screener_chart_sell_call({ strike: item.strike })} {item.bid?.toFixed(2)}
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {covered_call_screener_chart_above()}
+                {item.breakeven?.toFixed(2)}
+                <span
+                  class={item.pctBeBid >= 0
+                    ? "text-emerald-700 dark:text-emerald-400"
+                    : "text-rose-700 dark:text-rose-400"}
+                >
+                  ({item.pctBeBid?.toFixed(2)}%)
+                </span>
               </div>
             </div>
-            <div class="text-right">
+            <div>
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
-                >{covered_call_screener_chart_net_credit_debit()}</span
+                >{covered_call_screener_chart_last_price()}</span
               >
-              <div class="text-sm text-gray-700 dark:text-zinc-300">
-                ${(item.bid * 100)?.toFixed(0)} / ${(
-                  (item.stockPrice - item.bid) *
-                  100
-                )?.toFixed(0)}
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.stockPrice?.toFixed(2)}
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{covered_call_screener_chart_moneyness()}</span
+              >
+              <div
+                class="text-sm {item.moneynessPercent >= 0
+                  ? 'text-emerald-700 dark:text-emerald-400'
+                  : 'text-rose-700 dark:text-rose-400'}"
+              >
+                {item.moneynessPercent?.toFixed(2)}%
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{covered_call_screener_chart_return_if_flat()}</span
+              >
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.returnVal}% ({covered_call_screener_chart_annualized_abbr()}
+                {item.annualizedReturn}%)
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{covered_call_screener_chart_return_if_assigned()}</span
+              >
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.ptnlRtn}% ({covered_call_screener_chart_annualized_abbr()}
+                {item.ifCalledAnnualized}%)
+              </div>
+            </div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white"
+                >{covered_call_screener_chart_probability_of_profit()}</span
+              >
+              <div class="text-sm text-muted dark:text-zinc-300">
+                {item.profitProb}%
               </div>
             </div>
           </div>
         </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{covered_call_screener_chart_breakeven()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {covered_call_screener_chart_above()} {item.breakeven?.toFixed(2)}
-              <span
-                class={item.pctBeBid >= 0
-                  ? "text-emerald-700 dark:text-emerald-400"
-                  : "text-rose-700 dark:text-rose-400"}
-              >
-                ({item.pctBeBid?.toFixed(2)}%)
-              </span>
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{covered_call_screener_chart_last_price()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.stockPrice?.toFixed(2)}
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{covered_call_screener_chart_moneyness()}</span
-            >
-            <div
-              class="text-sm {item.moneynessPercent >= 0
-                ? 'text-emerald-700 dark:text-emerald-400'
-                : 'text-rose-700 dark:text-rose-400'}"
-            >
-              {item.moneynessPercent?.toFixed(2)}%
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{covered_call_screener_chart_return_if_flat()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.returnVal}% ({covered_call_screener_chart_annualized_abbr()} {item.annualizedReturn}%)
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{covered_call_screener_chart_return_if_assigned()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.ptnlRtn}% ({covered_call_screener_chart_annualized_abbr()} {item.ifCalledAnnualized}%)
-            </div>
-          </div>
-          <div>
-            <span class="text-sm font-semibold text-gray-900 dark:text-white"
-              >{covered_call_screener_chart_probability_of_profit()}</span
-            >
-            <div class="text-sm text-gray-700 dark:text-zinc-300">
-              {item.profitProb}%
-            </div>
-          </div>
-        </div>
-      </div>
       {/if}
     </div>
   </div>

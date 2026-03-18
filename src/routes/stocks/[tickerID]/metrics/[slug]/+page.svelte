@@ -742,14 +742,14 @@
                           <DropdownMenu.Group>
                             <DropdownMenu.Item
                               on:click={() => changeStatement("5Y")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                             >
                               5Y
                             </DropdownMenu.Item>
 
                             <DropdownMenu.Item
                               on:click={() => changeStatement("10Y")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
+                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
                             >
                               10Y
                               {#if !isSubscribed}
@@ -769,7 +769,7 @@
 
                             <DropdownMenu.Item
                               on:click={() => changeStatement("MAX")}
-                              class="cursor-pointer text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
+                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 flex items-center"
                             >
                               Max
                               {#if !isSubscribed}
@@ -909,7 +909,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-gray-600 dark:text-zinc-300">
+                    <span class="text-sm text-muted dark:text-zinc-300">
                       {insider_tracker_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -1000,7 +1000,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     {insider_tracker_back_to_top()}
                     <svg

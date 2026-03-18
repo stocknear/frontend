@@ -416,7 +416,7 @@
           >
             <div class="flex items-center gap-2">
               <svg
-                class="w-5 h-5 text-gray-600 dark:text-zinc-300"
+                class="w-5 h-5 text-muted dark:text-zinc-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -433,7 +433,7 @@
               </h3>
             </div>
             <div class="flex items-center gap-3">
-              <span class="text-sm text-gray-800 dark:text-zinc-300"
+              <span class="text-sm text-muted dark:text-zinc-300"
                 >{portfolio_bullbear_sentiment()}</span
               >
               <div class="flex items-center gap-2">
@@ -466,7 +466,7 @@
             <div class="flex items-center gap-2">
               <button
                 on:click={copyToClipboard}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -485,7 +485,7 @@
               </button>
               <button
                 on:click={downloadMarkdown}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -511,7 +511,7 @@
               class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
             >
               <svg
-                class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                class="w-4 h-4 text-muted dark:text-zinc-300"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -527,7 +527,7 @@
                   class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                 >
                   <svg
-                    class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                    class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -550,7 +550,7 @@
                 class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
               >
                 <svg
-                  class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                  class="w-4 h-4 text-muted dark:text-zinc-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -570,7 +570,7 @@
                     class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                      class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -593,7 +593,7 @@
               class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
             >
               <svg
-                class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                class="w-4 h-4 text-muted dark:text-zinc-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

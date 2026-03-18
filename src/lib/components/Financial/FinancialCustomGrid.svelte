@@ -8,65 +8,83 @@
   export let chartConfig: Array<{
     key: string;
     label: string;
-    chartType: 'bar' | 'line' | 'grouped' | 'stacked' | 'grouped-stacked';
-    metrics: Array<{ key: string; label: string; color?: string; negate?: boolean; stack?: string }>;
+    chartType: "bar" | "line" | "grouped" | "stacked" | "grouped-stacked";
+    metrics: Array<{
+      key: string;
+      label: string;
+      color?: string;
+      negate?: boolean;
+      stack?: string;
+    }>;
     isMargin?: boolean;
     negate?: boolean;
   }> = [];
   export let currentPrice: number | undefined = undefined;
   export let ghostCount: number = 0;
-  export let onExpandChart: (metricKey: string, metricLabel: string) => void = () => {};
+  export let onExpandChart: (
+    metricKey: string,
+    metricLabel: string,
+  ) => void = () => {};
 
   function buildXList(data: Record<string, any>[]): string[] {
-    return data.map(row => {
-      const year = row.fiscalYear?.slice?.(-2) || '';
+    return data.map((row) => {
+      const year = row.fiscalYear?.slice?.(-2) || "";
       const fyPrefix = stock_detail_financials_fy_prefix();
-      return $selectedTimePeriod === 'annual'
+      return $selectedTimePeriod === "annual"
         ? fyPrefix + year
-        : fyPrefix + year + ' ' + row.period;
+        : fyPrefix + year + " " + row.period;
     });
   }
 
-  function getFallbackMargin(row: Record<string, any>, key: string): number | null {
+  function getFallbackMargin(
+    row: Record<string, any>,
+    key: string,
+  ): number | null {
     const revenue = Number(row.revenue);
     if (!Number.isFinite(revenue) || revenue === 0) return null;
     switch (key) {
-      case 'grossProfitMargin': {
+      case "grossProfitMargin": {
         const v = Number(row.grossProfit);
         return Number.isFinite(v) ? v / revenue : null;
       }
-      case 'operatingProfitMargin': {
+      case "operatingProfitMargin": {
         const v = Number(row.operatingIncome);
         return Number.isFinite(v) ? v / revenue : null;
       }
-      case 'netProfitMargin': {
+      case "netProfitMargin": {
         const v = Number(row.netIncome);
         return Number.isFinite(v) ? v / revenue : null;
       }
-      case 'returnOnCapitalEmployed': {
+      case "returnOnCapitalEmployed": {
         const ebit = Number(row.operatingIncome);
-        const denom = Number(row.totalAssets) - Number(row.totalCurrentLiabilities);
+        const denom =
+          Number(row.totalAssets) - Number(row.totalCurrentLiabilities);
         return Number.isFinite(ebit) && Number.isFinite(denom) && denom !== 0
-          ? ebit / denom : null;
+          ? ebit / denom
+          : null;
       }
       default:
         return null;
     }
   }
 
-  function buildSeriesData(data: Record<string, any>[], config: typeof chartConfig[0]) {
-    return config.metrics.map(m => ({
+  function buildSeriesData(
+    data: Record<string, any>[],
+    config: (typeof chartConfig)[0],
+  ) {
+    return config.metrics.map((m) => ({
       key: m.key,
       label: m.label,
       color: m.color,
       stack: m.stack,
-      values: data.map(row => {
+      values: data.map((row) => {
         let val = Number(row[m.key]);
         if ((!Number.isFinite(val) || val === 0) && marginKeys.has(m.key)) {
           const fallback = getFallbackMargin(row, m.key);
           if (fallback !== null) val = fallback;
         }
-        if (Number.isFinite(val) && (config.isMargin || marginKeys.has(m.key))) val *= 100;
+        if (Number.isFinite(val) && (config.isMargin || marginKeys.has(m.key)))
+          val *= 100;
         if (Number.isFinite(val) && (config.negate || m.negate)) val = -val;
         return Number.isFinite(val) ? parseFloat(val.toFixed(2)) : null;
       }),
@@ -75,11 +93,16 @@
 
   function trimLeadingZeros(
     xLabels: string[],
-    series: Array<{ key: string; label: string; values: (number | null)[]; color?: string }>,
+    series: Array<{
+      key: string;
+      label: string;
+      values: (number | null)[];
+      color?: string;
+    }>,
   ) {
     let firstNonZero = xLabels.length;
     for (let i = 0; i < xLabels.length; i++) {
-      if (series.some(s => s.values[i] != null && s.values[i] !== 0)) {
+      if (series.some((s) => s.values[i] != null && s.values[i] !== 0)) {
         firstNonZero = i;
         break;
       }
@@ -87,7 +110,10 @@
     if (firstNonZero === 0) return { xList: xLabels, series };
     return {
       xList: xLabels.slice(firstNonZero),
-      series: series.map(s => ({ ...s, values: s.values.slice(firstNonZero) })),
+      series: series.map((s) => ({
+        ...s,
+        values: s.values.slice(firstNonZero),
+      })),
     };
   }
 
@@ -95,54 +121,70 @@
    * Build ghost placeholder values that look like realistic data.
    * Uses a deterministic sine pattern at 30-70% of the max real value.
    */
-  function buildGhostValues(realValues: (number | null)[], count: number): (number | null)[] {
+  function buildGhostValues(
+    realValues: (number | null)[],
+    count: number,
+  ): (number | null)[] {
     if (count <= 0) return [];
     const numeric = realValues.filter((v): v is number => v != null && v !== 0);
     const peak = numeric.length > 0 ? Math.max(...numeric.map(Math.abs)) : 100;
     return Array.from({ length: count }, (_, i) =>
-      parseFloat((peak * (0.3 + 0.4 * Math.abs(Math.sin(i * 2.3)))).toFixed(2))
+      parseFloat((peak * (0.3 + 0.4 * Math.abs(Math.sin(i * 2.3)))).toFixed(2)),
     );
   }
 
   // Single reactive pass: build xList, series, trim, filter — no double computation
   $: xList = buildXList(mergedData);
-  $: preparedCharts = chartConfig
-    .map(config => {
-      const series = buildSeriesData(mergedData, config);
-      const hasData = series.some(s => s.values.some(v => v != null && v !== 0));
-      const trimmed = trimLeadingZeros(xList, series);
+  $: preparedCharts = chartConfig.map((config) => {
+    const series = buildSeriesData(mergedData, config);
+    const hasData = series.some((s) =>
+      s.values.some((v) => v != null && v !== 0),
+    );
+    const trimmed = trimLeadingZeros(xList, series);
 
-      // Skip ghost bars for stock price chart; cap at 4 to keep visual subtle
-      const effectiveGhostCount = config.key === 'stockPrice' ? 0 : Math.min(ghostCount, 4);
+    // Skip ghost bars for stock price chart; cap at 4 to keep visual subtle
+    const effectiveGhostCount =
+      config.key === "stockPrice" ? 0 : Math.min(ghostCount, 4);
 
-      // Prepend ghost entries
-      const ghostLabels = Array.from({ length: effectiveGhostCount }, () => '');
-      const finalXList = [...ghostLabels, ...trimmed.xList];
-      const finalSeries = trimmed.series.map(s => ({
-        ...s,
-        values: [...buildGhostValues(s.values, effectiveGhostCount), ...s.values],
-      }));
+    // Prepend ghost entries
+    const ghostLabels = Array.from({ length: effectiveGhostCount }, () => "");
+    const finalXList = [...ghostLabels, ...trimmed.xList];
+    const finalSeries = trimmed.series.map((s) => ({
+      ...s,
+      values: [...buildGhostValues(s.values, effectiveGhostCount), ...s.values],
+    }));
 
-      if (config.key === 'stockPrice' && currentPrice != null && Number.isFinite(currentPrice)) {
-        return {
-          config,
-          hasData,
-          ghostCount: 0,
-          xList: [...finalXList, 'Current'],
-          series: finalSeries.map(s => ({
-            ...s,
-            values: [...s.values, parseFloat(Number(currentPrice).toFixed(2))],
-          })),
-        };
-      }
-      return { config, hasData, ghostCount: effectiveGhostCount, xList: finalXList, series: finalSeries };
-    })
-;
+    if (
+      config.key === "stockPrice" &&
+      currentPrice != null &&
+      Number.isFinite(currentPrice)
+    ) {
+      return {
+        config,
+        hasData,
+        ghostCount: 0,
+        xList: [...finalXList, "Current"],
+        series: finalSeries.map((s) => ({
+          ...s,
+          values: [...s.values, parseFloat(Number(currentPrice).toFixed(2))],
+        })),
+      };
+    }
+    return {
+      config,
+      hasData,
+      ghostCount: effectiveGhostCount,
+      xList: finalXList,
+      series: finalSeries,
+    };
+  });
 </script>
 
 <div class="w-full">
   {#if preparedCharts.length === 0}
-    <div class="flex items-center justify-center py-12 text-gray-500 dark:text-zinc-400">
+    <div
+      class="flex items-center justify-center py-12 text-gray-500 dark:text-zinc-400"
+    >
       <p>No chart data available</p>
     </div>
   {:else}
@@ -160,9 +202,16 @@
             onExpand={onExpandChart}
           />
         {:else}
-          <div class="flex flex-col items-center justify-center rounded-xl border border-gray-200 dark:border-zinc-700/70 bg-white dark:bg-zinc-950/60 p-6 min-h-[220px]">
-            <span class="text-sm font-semibold text-gray-800 dark:text-zinc-200 mb-2">{chart.config.label}</span>
-            <span class="text-xs text-gray-500 dark:text-zinc-400 text-center">No data available for this indicator.</span>
+          <div
+            class="flex flex-col items-center justify-center rounded-xl border border-gray-200 dark:border-zinc-700/70 bg-white dark:bg-zinc-950/60 p-6 min-h-[220px]"
+          >
+            <span
+              class="text-sm font-semibold text-muted dark:text-zinc-200 mb-2"
+              >{chart.config.label}</span
+            >
+            <span class="text-xs text-gray-500 dark:text-zinc-400 text-center"
+              >No data available for this indicator.</span
+            >
           </div>
         {/if}
       {/each}

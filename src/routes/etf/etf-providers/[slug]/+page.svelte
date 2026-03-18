@@ -443,7 +443,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {etf_stats_listed_funds()}
         </div>
@@ -457,7 +457,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {etf_stats_total_assets()}
         </div>
@@ -471,7 +471,7 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
         >
           {etf_stats_average_cost()}
         </div>
@@ -515,8 +515,8 @@
                     ><path
                       fill="currentColor"
                       d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                    /></svg>
-
+                    /></svg
+                  >
                 </label>
               {/if}
             </div>
@@ -526,7 +526,7 @@
               bind:value={inputValue}
               on:input={search}
               placeholder={etf_search_placeholder()}
-              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-white/80 dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
             />
           </div>
 
@@ -598,7 +598,7 @@
                         </td>
                       {:else if column.key === "name"}
                         <td
-                          class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap"
+                          class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
                         >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
@@ -606,13 +606,13 @@
                         </td>
                       {:else if column.key === "price"}
                         <td
-                          class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                          class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                         >
                           {item?.price}
                         </td>
                       {:else if column.key === "changesPercentage"}
                         <td
-                          class="text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                          class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
                         >
                           {#if item?.changesPercentage >= 0}
                             <span class="text-emerald-800 dark:text-emerald-400"
@@ -632,19 +632,19 @@
                         </td>
                       {:else if column.key === "totalAssets"}
                         <td
-                          class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          class="text-end text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                         >
                           {abbreviateNumber(item?.totalAssets)}
                         </td>
                       {:else if column.key === "numberOfHoldings"}
                         <td
-                          class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          class="text-end text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                         >
                           {item?.numberOfHoldings}
                         </td>
                       {:else if column.key === "expenseRatio"}
                         <td
-                          class="text-end text-sm text-gray-600 dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          class="text-end text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
                         >
                           {item?.expenseRatio}%
                         </td>
@@ -685,7 +685,7 @@
 
             <!-- Page info and rows selector in center -->
             <div class="flex flex-row items-center gap-4">
-              <span class="text-sm text-gray-600 dark:text-zinc-300">
+              <span class="text-sm text-muted dark:text-zinc-300">
                 {etf_pagination_page_of({
                   current: String(currentPage),
                   total: String(totalPages),
@@ -778,7 +778,7 @@
           <div class="flex justify-center mt-4">
             <button
               on:click={scrollToTop}
-              class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
             >
               {etf_back_to_top()}
               <svg
@@ -803,7 +803,7 @@
     </div>
   {:else}
     <div
-      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-gray-800 dark:text-zinc-300"
+      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-muted dark:text-zinc-300"
     >
       {etf_provider_detail_no_data()}
     </div>

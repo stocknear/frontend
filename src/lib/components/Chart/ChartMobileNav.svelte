@@ -60,7 +60,7 @@
         <button
           use:builder.action
           {...builder}
-          class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
+          class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 transition"
         >
           <Timer class="h-5 w-5" />
           <span class="text-[10px] font-medium">{activeRange}</span>
@@ -78,7 +78,7 @@
               class={`px-3 py-2 text-sm rounded cursor-pointer transition ${
                 activeRange === frame
                   ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                  : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
+                  : "text-muted dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
               }`}
               on:click={() => dispatch("setRange", { range: frame })}
             >
@@ -95,7 +95,7 @@
         <button
           use:builder.action
           {...builder}
-          class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
+          class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 transition"
         >
           <svelte:component this={currentChartType?.icon} class="h-5 w-5" />
           <span class="text-[10px] font-medium">Chart</span>
@@ -113,7 +113,7 @@
               class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
                 chartType === option.id
                   ? "text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                  : "text-gray-700 dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
+                  : "text-muted dark:text-zinc-300 hover:bg-gray-100/60 dark:hover:bg-zinc-800"
               }`}
               on:click={() => dispatch("setChartType", { type: option.id })}
             >
@@ -128,7 +128,7 @@
     <!-- Indicators -->
     <label
       for="indicatorModal"
-      class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition cursor-pointer"
+      class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 transition cursor-pointer"
     >
       <svg
         class="h-5 w-5"
@@ -149,7 +149,7 @@
         <button
           use:builder.action
           {...builder}
-          class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition"
+          class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 transition"
         >
           <svg
             class="h-5 w-5"
@@ -182,7 +182,7 @@
               on:click|stopPropagation
               on:pointerdown|stopPropagation
             >
-              <span class="text-gray-700 dark:text-zinc-300">Earnings</span>
+              <span class="text-muted dark:text-zinc-300">Earnings</span>
               <div class="relative ml-4 flex items-center">
                 <input
                   type="checkbox"
@@ -205,7 +205,7 @@
               on:click|stopPropagation
               on:pointerdown|stopPropagation
             >
-              <span class="text-gray-700 dark:text-zinc-300">Dividends</span>
+              <span class="text-muted dark:text-zinc-300">Dividends</span>
               <div class="relative ml-4 flex items-center">
                 <input
                   type="checkbox"
@@ -229,7 +229,7 @@
                 on:click|stopPropagation
                 on:pointerdown|stopPropagation
               >
-                <span class="text-gray-700 dark:text-zinc-300">News Flow</span>
+                <span class="text-muted dark:text-zinc-300">News Flow</span>
                 <div class="relative ml-4 flex items-center">
                   <input
                     type="checkbox"
@@ -251,7 +251,7 @@
     <!-- Drawing Tools -->
     <label
       for="mobileToolsModal"
-      class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 transition cursor-pointer"
+      class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 transition cursor-pointer"
     >
       <svg
         class="h-5 w-5"
@@ -282,7 +282,7 @@
   >
     <label
       for="mobileToolsModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition z-10"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition z-10"
       aria-label="Close drawing tools"
     >
       <svg
@@ -310,7 +310,7 @@
       <div class="flex items-center gap-2">
         <!-- Lock/Unlock -->
         <button
-          class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
+          class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsLock")}
           title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
         >
@@ -320,7 +320,7 @@
         </button>
         <!-- Show/Hide -->
         <button
-          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-gray-500 dark:text-zinc-400" : "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
+          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-gray-500 dark:text-zinc-400" : "text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsVisibility")}
           title={drawingsVisible ? "Hide drawings" : "Show drawings"}
         >
@@ -332,7 +332,7 @@
         </button>
         <!-- Undo -->
         <button
-          class={`p-2 rounded-lg transition ${canUndo ? "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
+          class={`p-2 rounded-lg transition ${canUndo ? "text-gray-600 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
           on:click={() => canUndo && dispatch("undo")}
           disabled={!canUndo}
           title="Undo"
@@ -341,7 +341,7 @@
         </button>
         <!-- Redo -->
         <button
-          class={`p-2 rounded-lg transition ${canRedo ? "text-gray-600 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
+          class={`p-2 rounded-lg transition ${canRedo ? "text-gray-600 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
           on:click={() => canRedo && dispatch("redo")}
           disabled={!canRedo}
           title="Redo"
@@ -375,7 +375,7 @@
                 class={`flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${
                   selectedToolByGroup[group.id] === option.id
                     ? "border-violet-500 bg-violet-500/10 text-violet-300"
-                    : "border-gray-300 dark:border-zinc-700 bg-gray-100/50 dark:bg-zinc-900/50 text-gray-700 dark:text-zinc-300 hover:border-gray-300 dark:border-zinc-700 hover:bg-gray-100/60 dark:hover:bg-zinc-800/50"
+                    : "border-gray-300 dark:border-zinc-700 bg-gray-100/50 dark:bg-zinc-900/50 text-muted dark:text-zinc-300 hover:border-gray-300 dark:border-zinc-700 hover:bg-gray-100/60 dark:hover:bg-zinc-800/50"
                 } ${drawingsLocked ? "opacity-50 pointer-events-none" : ""}`}
                 on:click={() =>
                   dispatch("activateDrawingTool", {
@@ -408,7 +408,7 @@
     >
       <label
         for="mobileToolsModal"
-        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800/50 text-gray-700 dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-zinc-800 transition cursor-pointer"
+        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-100 dark:bg-zinc-800/50 text-muted dark:text-zinc-200 hover:bg-gray-200 dark:hover:bg-zinc-800 transition cursor-pointer"
         on:click={() => dispatch("setCursorMode")}
       >
         <MousePointer2 class="h-5 w-5" />

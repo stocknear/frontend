@@ -1098,7 +1098,7 @@
                       disabled={tickerList?.length > 10 ? true : false}
                       class="{tickerList?.length > 10
                         ? 'cursor-not-allowed'
-                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder={compare_search_placeholder()}
                       aria-label={compare_search_placeholder()}
                     />
@@ -1204,7 +1204,7 @@
               <div class="w-full">
                 {#each tickerList as t, i}
                   <span
-                    class="inline-flex items-center gap-x-2 mb-1.5 sm:mt-0 mr-2 px-2 py-1 text-xs sm:text-sm font-semibold rounded-full border border-gray-300 shadow dark:border-zinc-700 border-l-4 bg-white/80 dark:bg-zinc-900/50"
+                    class="inline-flex items-center gap-x-2 mb-1.5 sm:mt-0 mr-2 px-2 py-1 text-xs sm:text-sm font-semibold rounded-full border border-gray-300 shadow dark:border-zinc-700 border-l-4 bg-[#f8fbfb] dark:bg-zinc-900/50"
                     style="border-left-color: {colorPairs[
                       i % colorPairs?.length
                     ][$mode ? 'dark' : 'light']}"
@@ -1251,7 +1251,7 @@
                       class="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold border border-gray-300 shadow dark:border-zinc-700 transition cursor-pointer {selectedPlotPeriod ===
                       item
                         ? 'bg-gray-100/70 text-gray-900 dark:bg-zinc-900/60 dark:text-white'
-                        : 'text-gray-500 dark:text-zinc-400 bg-white/80 dark:bg-zinc-950/40 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
+                        : 'text-gray-500 dark:text-zinc-400 bg-[#f8fbfb] dark:bg-zinc-950/40 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
                     >
                       {item}
                     </label>
@@ -1317,7 +1317,7 @@
                   <table class="w-full">
                     <thead
                       ><tr
-                        class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-gray-600 dark:text-zinc-300"
+                        class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
                         ><th class="text-left">{compare_table_symbol()}</th>
                         <th>{compare_table_1month()}</th>
                         <th>{compare_table_ytd()}</th>

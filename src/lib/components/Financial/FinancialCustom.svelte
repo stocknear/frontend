@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { displayCompanyName, selectedTimePeriod, financialHistoryRange } from "$lib/store";
+  import {
+    displayCompanyName,
+    selectedTimePeriod,
+    financialHistoryRange,
+  } from "$lib/store";
   import { removeCompanyStrings } from "$lib/utils";
   import {
     stock_detail_financials_in_currency,
@@ -36,7 +40,9 @@
     { value: "3Y", label: stock_detail_financials_range_3y() },
     { value: "1Y", label: stock_detail_financials_range_1y() },
   ];
-  const RANGE_LABEL_MAP = Object.fromEntries(HISTORY_RANGE_OPTIONS.map(o => [o.value, o.label]));
+  const RANGE_LABEL_MAP = Object.fromEntries(
+    HISTORY_RANGE_OPTIONS.map((o) => [o.value, o.label]),
+  );
 
   const filterByHistoryRange = (
     statements: any[] = [],
@@ -44,7 +50,12 @@
     periodType: string = "annual",
   ) => {
     if (!Array.isArray(statements) || range === "All") return statements;
-    const yearsByRange: Record<string, number> = { "1Y": 1, "3Y": 3, "5Y": 5, "10Y": 10 };
+    const yearsByRange: Record<string, number> = {
+      "1Y": 1,
+      "3Y": 3,
+      "5Y": 5,
+      "10Y": 10,
+    };
     const years = yearsByRange[range];
     if (!years) return statements;
     const periodsPerYear = periodType === "annual" ? 1 : 4;
@@ -120,7 +131,11 @@
     const sorted = sortStatementsAscending(
       Array.isArray(fullStatement) ? fullStatement : [],
     );
-    const ranged = filterByHistoryRange(sorted, $financialHistoryRange, $selectedTimePeriod || "annual");
+    const ranged = filterByHistoryRange(
+      sorted,
+      $financialHistoryRange,
+      $selectedTimePeriod || "annual",
+    );
     mergedData = switchDate ? [...ranged].reverse() : ranged;
   }
 </script>
@@ -138,7 +153,8 @@
             <h1
               class="text-xl sm:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
             >
-              {removeCompanyStrings($displayCompanyName)} {stock_detail_financials_custom_title()}
+              {removeCompanyStrings($displayCompanyName)}
+              {stock_detail_financials_custom_title()}
             </h1>
           </div>
 
@@ -146,7 +162,7 @@
             {#if mergedData?.length > 0}
               <div class="flex flex-col md:flex-row items-end justify-between">
                 <span
-                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-gray-800 dark:text-zinc-300 w-full"
+                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-muted dark:text-zinc-300 w-full"
                 >
                   {stock_detail_financials_in_currency({
                     currency: mergedData[0]?.reportedCurrency || "USD",
@@ -167,7 +183,10 @@
                         builders={[builder]}
                         class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                       >
-                        <span class="text-sm">{RANGE_LABEL_MAP[$financialHistoryRange] || $financialHistoryRange}</span>
+                        <span class="text-sm"
+                          >{RANGE_LABEL_MAP[$financialHistoryRange] ||
+                            $financialHistoryRange}</span
+                        >
                         <svg
                           class="-mr-1 ml-1 h-4 w-4"
                           viewBox="0 0 20 20"
@@ -208,7 +227,9 @@
                   <Button
                     on:click={() => (switchDate = !switchDate)}
                     class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
-                    title={switchDate ? stock_detail_financials_newest_first() : stock_detail_financials_oldest_first()}
+                    title={switchDate
+                      ? stock_detail_financials_newest_first()
+                      : stock_detail_financials_oldest_first()}
                   >
                     <svg
                       class="shrink-0 w-5 h-5 pointer-events-none"
@@ -249,10 +270,14 @@
                       />
                     </svg>
                     <span>
-                      {stock_detail_financials_viewing_periods({ count: mergedData.length })}
+                      {stock_detail_financials_viewing_periods({
+                        count: mergedData.length,
+                      })}
                       {#if lockInfo.lockedFiscalYearRange}
                         <span class="font-medium"
-                          >&middot; {stock_detail_financials_unlock_history({ range: lockInfo.lockedFiscalYearRange })}</span
+                          >&middot; {stock_detail_financials_unlock_history({
+                            range: lockInfo.lockedFiscalYearRange,
+                          })}</span
                         >
                       {/if}
                     </span>

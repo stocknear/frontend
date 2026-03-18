@@ -62,7 +62,8 @@
 
   $: activeCategory = data?.categoryFilter || "all";
   $: activeTag = data?.tagFilter || "all";
-  $: activeSearch = searchResultData?.searchFilter ?? (data?.searchFilter || "");
+  $: activeSearch =
+    searchResultData?.searchFilter ?? (data?.searchFilter || "");
 
   // When server data changes (navigation), reset client search state
   $: if (data) {
@@ -74,9 +75,12 @@
   $: displayData = searchResultData || data;
 
   // Pagination from whichever source is active
-  $: currentPage = displayData?.view === "category" ? (displayData?.currentPage ?? 1) : 1;
-  $: totalPages = displayData?.view === "category" ? (displayData?.totalPages ?? 1) : 1;
-  $: itemsPerPage = displayData?.view === "category" ? (displayData?.perPage ?? 15) : 15;
+  $: currentPage =
+    displayData?.view === "category" ? (displayData?.currentPage ?? 1) : 1;
+  $: totalPages =
+    displayData?.view === "category" ? (displayData?.totalPages ?? 1) : 1;
+  $: itemsPerPage =
+    displayData?.view === "category" ? (displayData?.perPage ?? 15) : 15;
 
   // Available tags for filtering
   const availableTags = [
@@ -235,7 +239,14 @@
     searchInput = "";
     searchResultData = null;
     searchCache.clear();
-    goto(buildUrl({ category: categoryId, page: null, perPage: null, search: null }));
+    goto(
+      buildUrl({
+        category: categoryId,
+        page: null,
+        perPage: null,
+        search: null,
+      }),
+    );
   }
 
   function setTag(tagId: string) {
@@ -251,7 +262,9 @@
 
   // Total count for SEO structured data
   $: totalCount =
-    displayData?.view === "all" ? (displayData?.totalCount ?? 0) : (displayData?.totalItems ?? 0);
+    displayData?.view === "all"
+      ? (displayData?.totalCount ?? 0)
+      : (displayData?.totalItems ?? 0);
 
   function goToPage(pageNum: number) {
     if (pageNum >= 1 && pageNum <= totalPages) {
@@ -259,7 +272,9 @@
       if (query) {
         performSearch(query, pageNum);
       } else {
-        goto(buildUrl({ page: String(pageNum), perPage: String(itemsPerPage) }));
+        goto(
+          buildUrl({ page: String(pageNum), perPage: String(itemsPerPage) }),
+        );
       }
       scrollToTop();
     }
@@ -269,7 +284,13 @@
     saveItemsPerPage(newItemsPerPage);
     searchCache.clear();
     searchResultData = null;
-    goto(buildUrl({ page: "1", perPage: String(newItemsPerPage), search: searchInput.trim() || null }));
+    goto(
+      buildUrl({
+        page: "1",
+        perPage: String(newItemsPerPage),
+        search: searchInput.trim() || null,
+      }),
+    );
   }
 
   function saveItemsPerPage(value: number) {
@@ -367,7 +388,7 @@
             class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition
               {activeCategory === category.id
               ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-              : 'border-transparent text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+              : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
           >
             {category.name}
           </button>
@@ -384,10 +405,7 @@
             class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
           >
             {#if searchInput?.length > 0}
-              <label
-                class="cursor-pointer"
-                on:click={clearSearch}
-              >
+              <label class="cursor-pointer" on:click={clearSearch}>
                 <svg
                   class="w-5 h-5"
                   xmlns="http://www.w3.org/2000/svg"
@@ -407,66 +425,68 @@
             type="text"
             maxlength={MAX_SEARCH_LENGTH}
             placeholder="Find..."
-            class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
+            class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
           />
         </div>
       {/if}
 
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild let:builder>
-        <Button
-          builders={[builder]}
-          class="w-full sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white/80 dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
-        >
-          <span class="text-sm">{learning_center_tag_prefix()} | {selectedTagName}</span>
-          <svg
-            class="-mr-1 ml-2 h-5 w-5 inline-block"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild let:builder>
+          <Button
+            builders={[builder]}
+            class="w-full sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
           >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </Button>
-      </DropdownMenu.Trigger>
-
-      <DropdownMenu.Content
-        side="bottom"
-        align="end"
-        sideOffset={10}
-        class="min-w-40 w-auto max-w-60 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
-      >
-        <DropdownMenu.Group>
-          {#each availableTags as tag}
-            <DropdownMenu.Item
-              on:click={() => setTag(tag.id)}
-              class="{activeTag === tag.id
-                ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+            <span class="text-sm"
+              >{learning_center_tag_prefix()} | {selectedTagName}</span
             >
-              <span>{tag.name}</span>
-              {#if activeTag === tag.id}
-                <svg
-                  class="ml-auto h-4 w-4 text-violet-600 dark:text-violet-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              {/if}
-            </DropdownMenu.Item>
-          {/each}
-        </DropdownMenu.Group>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+            <svg
+              class="-mr-1 ml-2 h-5 w-5 inline-block"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </Button>
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          side="bottom"
+          align="end"
+          sideOffset={10}
+          class="min-w-40 w-auto max-w-60 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-lg"
+        >
+          <DropdownMenu.Group>
+            {#each availableTags as tag}
+              <DropdownMenu.Item
+                on:click={() => setTag(tag.id)}
+                class="{activeTag === tag.id
+                  ? 'bg-gray-100/70 dark:bg-zinc-900/60'
+                  : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+              >
+                <span>{tag.name}</span>
+                {#if activeTag === tag.id}
+                  <svg
+                    class="ml-auto h-4 w-4 text-violet-600 dark:text-violet-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                {/if}
+              </DropdownMenu.Item>
+            {/each}
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
     </div>
   </div>
 
@@ -538,7 +558,11 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{learning_center_min_read({ time: String(item?.time || 5) })}</span>
+                  <span
+                    >{learning_center_min_read({
+                      time: String(item?.time || 5),
+                    })}</span
+                  >
                 </div>
               </div>
             </a>
@@ -601,7 +625,11 @@
                 <div
                   class="flex items-center gap-3 text-xs text-gray-400 dark:text-zinc-500 mt-auto"
                 >
-                  <span>{learning_center_min_read({ time: String(item?.time || 5) })}</span>
+                  <span
+                    >{learning_center_min_read({
+                      time: String(item?.time || 5),
+                    })}</span
+                  >
                 </div>
               </div>
             </a>
@@ -628,7 +656,9 @@
               on:click={() => setCategory("Terms")}
               class="cursor-pointer text-sm text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
             >
-              {learning_center_view_all_count({ count: String(sections.Terms.totalItems) })}
+              {learning_center_view_all_count({
+                count: String(sections.Terms.totalItems),
+              })}
             </button>
           {/if}
         </div>
@@ -737,13 +767,18 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="hidden sm:inline ml-1">{learning_center_previous()}</span>
+            <span class="hidden sm:inline ml-1"
+              >{learning_center_previous()}</span
+            >
           </Button>
 
           <!-- Page info and items per page -->
           <div class="flex items-center gap-4">
-            <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {learning_center_page_of({ currentPage: String(currentPage), totalPages: String(totalPages) })}
+            <span class="text-sm text-muted dark:text-zinc-300">
+              {learning_center_page_of({
+                currentPage: String(currentPage),
+                totalPages: String(totalPages),
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -752,7 +787,11 @@
                   builders={[builder]}
                   class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
-                  <span class="text-sm">{learning_center_items_count({ count: String(itemsPerPage) })}</span>
+                  <span class="text-sm"
+                    >{learning_center_items_count({
+                      count: String(itemsPerPage),
+                    })}</span
+                  >
                   <svg
                     class="ml-1 h-5 w-5"
                     viewBox="0 0 20 20"
@@ -781,7 +820,11 @@
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                         : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
                     >
-                      <span class="text-sm">{learning_center_items_count({ count: String(option) })}</span>
+                      <span class="text-sm"
+                        >{learning_center_items_count({
+                          count: String(option),
+                        })}</span
+                      >
                     </DropdownMenu.Item>
                   {/each}
                 </DropdownMenu.Group>
@@ -814,7 +857,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             {learning_center_back_to_top()}
             <svg
@@ -834,7 +877,9 @@
     {:else}
       <div class="text-center py-12">
         {#if activeSearch}
-          <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_search_results({ query: activeSearch })}</p>
+          <p class="text-gray-500 dark:text-zinc-400">
+            {learning_center_no_search_results({ query: activeSearch })}
+          </p>
           <button
             type="button"
             on:click={clearSearch}
@@ -843,7 +888,9 @@
             {learning_center_clear_search()}
           </button>
         {:else}
-          <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_terms_yet()}</p>
+          <p class="text-gray-500 dark:text-zinc-400">
+            {learning_center_no_terms_yet()}
+          </p>
         {/if}
       </div>
     {/if}
@@ -895,7 +942,11 @@
                 </div>
                 <div class="flex items-center gap-1">
                   <Clock class="w-3.5 h-3.5" />
-                  <span>{learning_center_min_read({ time: String(item?.time || 5) })}</span>
+                  <span
+                    >{learning_center_min_read({
+                      time: String(item?.time || 5),
+                    })}</span
+                  >
                 </div>
               </div>
             </div>
@@ -923,13 +974,18 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="hidden sm:inline ml-1">{learning_center_previous()}</span>
+            <span class="hidden sm:inline ml-1"
+              >{learning_center_previous()}</span
+            >
           </Button>
 
           <!-- Page info and items per page -->
           <div class="flex items-center gap-4">
-            <span class="text-sm text-gray-600 dark:text-zinc-300">
-              {learning_center_page_of({ currentPage: String(currentPage), totalPages: String(totalPages) })}
+            <span class="text-sm text-muted dark:text-zinc-300">
+              {learning_center_page_of({
+                currentPage: String(currentPage),
+                totalPages: String(totalPages),
+              })}
             </span>
 
             <DropdownMenu.Root>
@@ -938,7 +994,11 @@
                   builders={[builder]}
                   class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
-                  <span class="text-sm">{learning_center_items_count({ count: String(itemsPerPage) })}</span>
+                  <span class="text-sm"
+                    >{learning_center_items_count({
+                      count: String(itemsPerPage),
+                    })}</span
+                  >
                   <svg
                     class="ml-1 h-5 w-5"
                     viewBox="0 0 20 20"
@@ -967,7 +1027,11 @@
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                         : ''} cursor-pointer hover:text-violet-600 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
                     >
-                      <span class="text-sm">{learning_center_items_count({ count: String(option) })}</span>
+                      <span class="text-sm"
+                        >{learning_center_items_count({
+                          count: String(option),
+                        })}</span
+                      >
                     </DropdownMenu.Item>
                   {/each}
                 </DropdownMenu.Group>
@@ -1000,7 +1064,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
           >
             {learning_center_back_to_top()}
             <svg
@@ -1020,7 +1084,9 @@
     {:else}
       <div class="text-center py-12">
         {#if activeSearch}
-          <p class="text-gray-500 dark:text-zinc-400">{learning_center_no_search_results({ query: activeSearch })}</p>
+          <p class="text-gray-500 dark:text-zinc-400">
+            {learning_center_no_search_results({ query: activeSearch })}
+          </p>
           <button
             type="button"
             on:click={clearSearch}

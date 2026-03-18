@@ -58,7 +58,6 @@
       }) + "%"
     );
   };
-
 </script>
 
 <div class="flex items-center w-full mt-5 sm:mt-10">
@@ -78,7 +77,7 @@
             >
           </h1>
 
-          <div class="mt-[1px] text-xs text-gray-800 dark:text-gray-300">
+          <div class="mt-[1px] text-xs text-muted dark:text-gray-300">
             {data?.getStockQuote?.exchange}: {ticker?.toUpperCase()}
             · {stock_detail_real_time_price()} · USD
           </div>

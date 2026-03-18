@@ -16,7 +16,7 @@
   export let optionsFlowList;
 </script>
 
-<section class="text-gray-700 dark:text-zinc-200">
+<section class="text-muted dark:text-zinc-200">
   <a
     href="/options-flow"
     class="inline-flex items-center gap-1 text-gray-900 dark:text-white group"
@@ -26,7 +26,7 @@
       {dashboard_options_flow_title()}
     </h2>
     <svg
-      class="h-5 w-5 text-gray-800 dark:text-zinc-300 transition group-hover:text-gray-700 dark:group-hover:text-zinc-200"
+      class="h-5 w-5 text-muted dark:text-zinc-300 transition group-hover:text-muted dark:group-hover:text-zinc-200"
       viewBox="0 0 20 20"
       fill="currentColor"
       style="max-width:40px"
@@ -35,16 +35,16 @@
         fill-rule="evenodd"
         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
         clip-rule="evenodd"
-      ></path></svg>
-</a
-  >
+      ></path></svg
+    >
+  </a>
   {#if optionsFlowList?.length > 0}
     <table
       class="w-full text-sm sm:text-[0.95rem] border-t border-gray-300 dark:border-zinc-700"
     >
       <thead>
         <tr
-          class="text-xs uppercase tracking-widest text-gray-800 dark:text-zinc-300"
+          class="text-xs uppercase tracking-widest text-muted dark:text-zinc-300"
         >
           <th class="py-2 text-left font-semibold">
             {dashboard_table_symbol()}
@@ -73,10 +73,10 @@
                 >{item?.ticker}</a
               >
             </td>
-            <td class="py-3 text-left text-gray-600 dark:text-zinc-300">
+            <td class="py-3 text-left text-muted dark:text-zinc-300">
               {abbreviateNumber(item?.cost_basis)}
             </td>
-            <td class="py-3 text-left text-gray-600 dark:text-zinc-300">
+            <td class="py-3 text-left text-muted dark:text-zinc-300">
               {item?.strike_price}
             </td>
             <td class="py-3 text-left">
@@ -95,7 +95,7 @@
                 </span>
               {/if}
             </td>
-            <td class="py-3 text-left text-gray-600 dark:text-zinc-300">
+            <td class="py-3 text-left text-muted dark:text-zinc-300">
               {item?.option_activity_type}
             </td>
           </tr>

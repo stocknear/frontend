@@ -16,52 +16,52 @@
   import Infobox from "$lib/components/Infobox.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import {
-  stock_detail_back_to_top,
-  stock_detail_insider_ai_loading,
-  stock_detail_insider_ai_loading_sub,
-  stock_detail_insider_ai_summarize,
-  stock_detail_insider_ai_title,
-  stock_detail_insider_bearish,
-  stock_detail_insider_bullish,
-  stock_detail_insider_col_name,
-  stock_detail_insider_col_price,
-  stock_detail_insider_col_shares,
-  stock_detail_insider_col_transaction_date,
-  stock_detail_insider_col_type,
-  stock_detail_insider_col_value,
-  stock_detail_insider_copy,
-  stock_detail_insider_description,
-  stock_detail_insider_disclaimer,
-  stock_detail_insider_download,
-  stock_detail_insider_filter_type,
-  stock_detail_insider_find,
-  stock_detail_insider_hide_summary,
-  stock_detail_insider_key_highlights,
-  stock_detail_insider_no_history,
-  stock_detail_insider_no_outlook,
-  stock_detail_insider_no_results,
-  stock_detail_insider_no_type,
-  stock_detail_insider_outlook,
-  stock_detail_insider_purchases,
-  stock_detail_insider_risk_signals,
-  stock_detail_insider_sales,
-  stock_detail_insider_sentiment_label,
-  stock_detail_insider_seo_description,
-  stock_detail_insider_seo_keywords,
-  stock_detail_insider_seo_title,
-  stock_detail_insider_show_summary,
-  stock_detail_insider_stock_price,
-  stock_detail_insider_structured_desc,
-  stock_detail_insider_structured_headline,
-  stock_detail_insider_structured_name,
-  stock_detail_insider_title,
-  stock_detail_insider_transactions_title,
-  stock_detail_insider_yaxis_label,
-  stock_detail_next,
-  stock_detail_page_of,
-  stock_detail_previous,
-  stock_detail_rows,
-} from "$lib/paraglide/messages";
+    stock_detail_back_to_top,
+    stock_detail_insider_ai_loading,
+    stock_detail_insider_ai_loading_sub,
+    stock_detail_insider_ai_summarize,
+    stock_detail_insider_ai_title,
+    stock_detail_insider_bearish,
+    stock_detail_insider_bullish,
+    stock_detail_insider_col_name,
+    stock_detail_insider_col_price,
+    stock_detail_insider_col_shares,
+    stock_detail_insider_col_transaction_date,
+    stock_detail_insider_col_type,
+    stock_detail_insider_col_value,
+    stock_detail_insider_copy,
+    stock_detail_insider_description,
+    stock_detail_insider_disclaimer,
+    stock_detail_insider_download,
+    stock_detail_insider_filter_type,
+    stock_detail_insider_find,
+    stock_detail_insider_hide_summary,
+    stock_detail_insider_key_highlights,
+    stock_detail_insider_no_history,
+    stock_detail_insider_no_outlook,
+    stock_detail_insider_no_results,
+    stock_detail_insider_no_type,
+    stock_detail_insider_outlook,
+    stock_detail_insider_purchases,
+    stock_detail_insider_risk_signals,
+    stock_detail_insider_sales,
+    stock_detail_insider_sentiment_label,
+    stock_detail_insider_seo_description,
+    stock_detail_insider_seo_keywords,
+    stock_detail_insider_seo_title,
+    stock_detail_insider_show_summary,
+    stock_detail_insider_stock_price,
+    stock_detail_insider_structured_desc,
+    stock_detail_insider_structured_headline,
+    stock_detail_insider_structured_name,
+    stock_detail_insider_title,
+    stock_detail_insider_transactions_title,
+    stock_detail_insider_yaxis_label,
+    stock_detail_next,
+    stock_detail_page_of,
+    stock_detail_previous,
+    stock_detail_rows,
+  } from "$lib/paraglide/messages";
 
   export let data;
 
@@ -485,8 +485,7 @@ ${summaryData.outlook}
       },
       yAxis: {
         title: {
-          text:
-            $screenWidth < 640 ? null : stock_detail_insider_yaxis_label(),
+          text: $screenWidth < 640 ? null : stock_detail_insider_yaxis_label(),
           style: {
             color: $mode === "light" ? "#6b7280" : "#fff",
           },
@@ -1025,9 +1024,7 @@ ${summaryData.outlook}
           </h1>
         </div>
 
-        <p
-          class="mt-4 text-sm text-gray-800 dark:text-zinc-300 leading-relaxed"
-        >
+        <p class="mt-4 text-sm text-muted dark:text-zinc-300 leading-relaxed">
           {@html stock_detail_insider_description({
             transactions: totalTransaction,
             purchases: rawData
@@ -1104,7 +1101,7 @@ ${summaryData.outlook}
               <DropdownMenu.Group>
                 {#each transactionList as item (item + "-" + checkedItems.has(item))}
                   <DropdownMenu.Item
-                    class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                    class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                   >
                     <div
                       on:click|capture|preventDefault={() =>
@@ -1129,7 +1126,7 @@ ${summaryData.outlook}
           <button
             on:click={generateSummary}
             disabled={isGeneratingSummary || originalData?.length === 0}
-            class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/80 dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
+            class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-gray-700 dark:text-zinc-200 transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
           >
             {#if isGeneratingSummary}
               <span class="loading loading-spinner loading-xs"></span>
@@ -1189,7 +1186,7 @@ ${summaryData.outlook}
                 >
                   <div class="flex items-center gap-2">
                     <svg
-                      class="w-5 h-5 text-gray-600 dark:text-zinc-300"
+                      class="w-5 h-5 text-muted dark:text-zinc-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1208,7 +1205,7 @@ ${summaryData.outlook}
                     </h3>
                   </div>
                   <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-800 dark:text-zinc-300"
+                    <span class="text-sm text-muted dark:text-zinc-300"
                       >{stock_detail_insider_sentiment_label()}</span
                     >
                     <div class="flex items-center gap-2">
@@ -1241,7 +1238,7 @@ ${summaryData.outlook}
                   <div class="flex items-center gap-2">
                     <button
                       on:click={copyToClipboard}
-                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
+                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="w-3.5 h-3.5"
@@ -1260,7 +1257,7 @@ ${summaryData.outlook}
                     </button>
                     <button
                       on:click={downloadMarkdown}
-                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
+                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-violet-600 dark:hover:text-violet-400"
                     >
                       <svg
                         class="w-3.5 h-3.5"
@@ -1286,7 +1283,7 @@ ${summaryData.outlook}
                     class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                      class="w-4 h-4 text-muted dark:text-zinc-300"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -1302,7 +1299,7 @@ ${summaryData.outlook}
                         class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                          class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -1324,7 +1321,7 @@ ${summaryData.outlook}
                     class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                      class="w-4 h-4 text-muted dark:text-zinc-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1344,7 +1341,7 @@ ${summaryData.outlook}
                         class="flex items-start gap-2 text-sm text-gray-700 dark:text-zinc-200"
                       >
                         <svg
-                          class="w-4 h-4 text-gray-800 dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                          class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -1366,7 +1363,7 @@ ${summaryData.outlook}
                     class="text-sm font-semibold text-gray-700 dark:text-zinc-200 mb-3 flex items-center gap-2"
                   >
                     <svg
-                      class="w-4 h-4 text-gray-800 dark:text-zinc-300"
+                      class="w-4 h-4 text-muted dark:text-zinc-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -1387,10 +1384,9 @@ ${summaryData.outlook}
                     {stock_detail_insider_outlook()}
                   </h4>
                   <p
-                    class="text-sm text-gray-700 dark:text-zinc-200 bg-white/80 dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+                    class="text-sm text-gray-700 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
                   >
-                    {summaryData?.outlook ??
-                      stock_detail_insider_no_outlook()}
+                    {summaryData?.outlook ?? stock_detail_insider_no_outlook()}
                   </p>
                 </div>
 
@@ -1443,8 +1439,8 @@ ${summaryData.outlook}
                         ><path
                           fill="currentColor"
                           d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                        /></svg>
-
+                        /></svg
+                      >
                     </label>
                   {/if}
                 </div>
@@ -1454,7 +1450,7 @@ ${summaryData.outlook}
                   on:input={search}
                   type="text"
                   placeholder={stock_detail_insider_find()}
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
 
@@ -1547,15 +1543,14 @@ ${summaryData.outlook}
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                  <span class="hidden sm:inline"
-                    >{stock_detail_previous()}</span
+                  <span class="hidden sm:inline">{stock_detail_previous()}</span
                   >
                 </Button>
               </div>
 
               <!-- Page info and rows selector in center -->
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm text-gray-600 dark:text-zinc-300">
+                <span class="text-sm text-muted dark:text-zinc-300">
                   {stock_detail_page_of({
                     current: currentPage,
                     total: totalPages,
@@ -1598,7 +1593,7 @@ ${summaryData.outlook}
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="text-gray-600 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+                          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}
@@ -1644,7 +1639,7 @@ ${summaryData.outlook}
             <div class="flex justify-center mt-4">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer text-sm font-medium text-gray-800 dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
+                class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-600 dark:hover:text-violet-400"
               >
                 {stock_detail_back_to_top()}
                 <svg

@@ -95,7 +95,7 @@
                     <div class="w-full h-full">
                       <div class="flex flex-col items-start">
                         <div class="flex flex-row items-start w-full">
-                          <span class="text-sm text-gray-800 dark:text-zinc-300"
+                          <span class="text-sm text-muted dark:text-zinc-300"
                             >{formatDate(item?.date)}
                             <!--
                             &#183;
@@ -109,10 +109,9 @@
                           </span>
                           {#if latestInfoDate(item?.date)}
                             <label
-                              class={`bg-white/80 dark:bg-zinc-900/50 border shadow rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3 ${getDirectionClass(
+                              class={`bg-[#f8fbfb] dark:bg-zinc-900/50 border shadow rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3 ${getDirectionClass(
                                 item?.text,
-                              )}`}
-                              >New</label
+                              )}`}>New</label
                             >
                           {/if}
                           <div class="text-sm ml-auto">
@@ -136,7 +135,7 @@
                               {item?.text?.slice(0, 50) + "..."}
 
                               <a
-                                class="inline-block ml-0.5 text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
+                                class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400"
                                 href="/pricing"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -145,14 +144,12 @@
                                   ><path
                                     fill="currentColor"
                                     d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                                  /></svg>
-</a
-                              >
+                                  /></svg
+                                >
+                              </a>
                             </span>
                           {:else}
-                            <span
-                              class="text-sm text-gray-800 dark:text-zinc-300"
-                            >
+                            <span class="text-sm text-muted dark:text-zinc-300">
                               {item?.text}
                             </span>
                           {/if}
@@ -182,8 +179,8 @@
             ><path
               fill="currentColor"
               d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11L12 15.5z"
-            /></svg>
-
+            /></svg
+          >
         </label>
       {/if}
     {/if}

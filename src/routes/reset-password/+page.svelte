@@ -7,16 +7,16 @@
   import { Turnstile } from "svelte-turnstile";
   import { dev } from "$app/environment";
   import {
-  reset_password_button,
-  reset_password_description,
-  reset_password_email_label,
-  reset_password_error,
-  reset_password_loading,
-  reset_password_seo_description,
-  reset_password_seo_title,
-  reset_password_success,
-  reset_password_title,
-} from "$lib/paraglide/messages";
+    reset_password_button,
+    reset_password_description,
+    reset_password_email_label,
+    reset_password_error,
+    reset_password_loading,
+    reset_password_seo_description,
+    reset_password_seo_title,
+    reset_password_success,
+    reset_password_title,
+  } from "$lib/paraglide/messages";
 
   export let form;
 
@@ -47,7 +47,10 @@
           break;
         case "failure":
           if (result.data?.rateLimited) {
-            toast.error(`Too many attempts. Please try again in ${result.data?.retryAfter || 15} minutes.`, { style: toastStyle });
+            toast.error(
+              `Too many attempts. Please try again in ${result.data?.retryAfter || 15} minutes.`,
+              { style: toastStyle },
+            );
           } else if (result.data?.errors?.turnstile) {
             toast.error(result.data.errors.turnstile[0], { style: toastStyle });
           } else {
@@ -72,7 +75,9 @@
   description={reset_password_seo_description()}
 />
 
-<div class="text-gray-700 dark:text-zinc-200 relative w-full max-w-3xl mx-auto min-h-screen">
+<div
+  class="text-muted dark:text-zinc-200 relative w-full max-w-3xl mx-auto min-h-screen"
+>
   <div class="grid grid-cols-1 gap-4">
     <div class="relative">
       <a href="/">

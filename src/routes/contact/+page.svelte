@@ -90,16 +90,16 @@
     class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-6 px-4 lg:px-6 text-gray-700 dark:text-zinc-200"
   >
     <BreadCrumb
-      containerClass="text-xs sm:text-sm breadcrumbs text-gray-800 dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
     >
       <li>
         <a
           href="/"
-          class="text-gray-800 dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
+          class="text-muted dark:text-zinc-300 hover:text-violet-600 dark:hover:text-violet-400 transition"
           >{common_home()}</a
         >
       </li>
-      <li class="text-gray-800 dark:text-zinc-300">{contact_breadcrumb()}</li>
+      <li class="text-muted dark:text-zinc-300">{contact_breadcrumb()}</li>
     </BreadCrumb>
 
     <div class="w-full overflow-hidden m-auto mt-5">
@@ -119,7 +119,7 @@
             <div class="w-full m-auto">
               <p class="text-sm sm:text-base">
                 {@html contact_intro({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`
+                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
                 })}
               </p>
 
@@ -144,7 +144,11 @@
                   />
                 </div>
                 <div class="mt-5 w-full max-w-[650px]">
-                  <TextArea label={contact_message_label()} id="message" required={true} />
+                  <TextArea
+                    label={contact_message_label()}
+                    id="message"
+                    required={true}
+                  />
 
                   {#if showTurnstile}
                     <div class="pt-5">
@@ -194,13 +198,11 @@
                                 fill-rule="evenodd"
                                 d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                 clip-rule="evenodd"
-                              ></path></svg>
-
+                              ></path></svg
+                            >
                           </div>
                           <div class="ml-3 sm:ml-4">
-                            <span class="text-base"
-                              >{contact_success()}</span
-                            >
+                            <span class="text-base">{contact_success()}</span>
                           </div>
                         </div>
                       </div>
@@ -225,7 +227,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {contact_sidebar_pro_desc()}
                 </span>
@@ -245,7 +247,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                 >
                   {contact_sidebar_screener_desc()}
                 </span>
@@ -265,7 +267,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-gray-800 dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
                   >{contact_sidebar_watchlist_desc()}
                 </span>
               </a>
