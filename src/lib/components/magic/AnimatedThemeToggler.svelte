@@ -84,7 +84,7 @@
 </script>
 
 <div
-  class={`w-fit flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 p-0.5 ${className}`}
+  class={`w-fit flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-0.5 ${className}`}
 >
   <button
     bind:this={lightButtonRef}
@@ -92,7 +92,7 @@
     on:click={() => switchTheme("light", lightButtonRef)}
     class={`cursor-pointer text-xs flex items-center gap-x-2 px-3 py-1.5 rounded-full focus:z-10 focus:outline-none transition-all ${
       modeValue === "light"
-        ? "bg-white text-gray-900 shadow-sm dark:bg-zinc-800 dark:text-white"
+        ? "bg-black shadow-sm dark:bg-zinc-800 text-white"
         : "text-muted dark:text-white hover:text-gray-900 dark:hover:text-white"
     }`}
     aria-pressed={modeValue === "light"}

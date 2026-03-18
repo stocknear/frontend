@@ -218,7 +218,7 @@
                   <button
                     use:builder.action
                     {...builder}
-                    class="flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/60 dark:bg-zinc-900/60 hover:bg-gray-200/60 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer"
+                    class="flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-900/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer"
                   >
                     <img
                       class="size-4 object-cover rounded-sm"
