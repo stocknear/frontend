@@ -2805,7 +2805,7 @@
 <!-- Content area -->
 
 <div
-  class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-gray-700 dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+  class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-muted dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
 >
   {#if title}
     <div
@@ -2854,7 +2854,7 @@
         on:input={search}
         type="text"
         placeholder={list_search_placeholder()}
-        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
       />
     </div>
 
@@ -2898,7 +2898,7 @@
           align="end"
           sideOffset={10}
           alignOffset={0}
-          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-gray-700 dark:text-zinc-200 shadow-none"
+          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
         >
           <!-- Search Input -->
           <div
@@ -2911,7 +2911,7 @@
                 on:input={handleInput}
                 autocomplete="off"
                 autofocus=""
-                class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-gray-700 dark:text-zinc-200 pr-8"
+                class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-muted dark:text-zinc-200 pr-8"
                 type="text"
                 placeholder={list_search_indicators_placeholder()}
               />
@@ -3020,13 +3020,13 @@
           >
             <label
               on:click={handleResetAll}
-              class="w-full hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="w-full hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
             >
               Reset Selection
             </label>
             <label
               on:click={handleSelectAll}
-              class="w-full flex justify-end hover:text-violet-600 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="w-full flex justify-end hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
             >
               Select All
             </label>
@@ -3037,7 +3037,7 @@
         <button
           on:click={resetColumnOrder}
           title={list_reset_column_order()}
-          class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+          class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
         >
           <svg
             class="w-4 h-4"
@@ -3075,7 +3075,7 @@
           <span>{tab?.label}</span>
           {#if (tab?.showCount || tab?.key === "indicators") && tab?.key === "indicators" && indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
             <div
-              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-gray-700 dark:text-zinc-200 rounded-full text-xs font-semibold"
+              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-muted dark:text-zinc-200 rounded-full text-xs font-semibold"
             >
               {indicatorsTabRules.length - activeIndicatorDefaultRows.length}
             </div>
@@ -3088,10 +3088,10 @@
 
 {#if stockList?.length > 0}
   <div
-    class="w-full overflow-x-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-gray-700 dark:text-zinc-200 mt-2"
+    class="w-full overflow-x-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 mt-2"
   >
     <table
-      class="table table-sm table-compact w-full m-auto mt-0 text-gray-700 dark:text-zinc-200 tabular-nums"
+      class="table table-sm table-compact w-full m-auto mt-0 text-muted dark:text-zinc-200 tabular-nums"
     >
       <thead>
         <TableHeader
@@ -3114,7 +3114,7 @@
           >
             {#each columns as column}
               <td
-                class="text-[0.85rem] sm:text-sm text-gray-700 dark:text-zinc-200 whitespace-nowrap"
+                class="text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
                 class:text-left={column.align === "left"}
                 class:text-right={column.align === "right"}
               >
@@ -3141,7 +3141,7 @@
                       on:blur={(event) =>
                         handleInlineCellBlur(item, index, column.key, event)}
                       use:inlineInputAction={cellKey}
-                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-gray-700 dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
+                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
                     />
                   {:else}
                     <button
@@ -3196,7 +3196,7 @@
                       />
                       <label
                         for={`delete-ticker-${item[column.key]}-${index}`}
-                        class="text-muted dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 cursor-pointer"
+                        class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 cursor-pointer"
                       >
                         {item[column.key]}
                       </label>
