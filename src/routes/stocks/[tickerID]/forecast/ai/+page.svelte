@@ -671,7 +671,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -698,7 +698,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -723,7 +723,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -752,7 +752,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -778,7 +778,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -817,7 +817,7 @@
                       >
                         <a
                           href="/pricing"
-                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
+                          class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row items-center"
                         >
                           <span>{stock_detail_forecast_ai_upgrade()}</span>
                           <svg
@@ -878,7 +878,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                  class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >
                                   {stock_detail_forecast_ai_upgrade()}
                                   <svg
@@ -910,7 +910,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-sm text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+                                  class="text-sm text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
                                 >
                                   {stock_detail_forecast_ai_upgrade()}
                                   <svg
@@ -949,7 +949,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-sm text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400"
+                                  class="text-sm text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
                                 >
                                   {stock_detail_forecast_ai_upgrade()}
                                   <svg
@@ -992,7 +992,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1014,7 +1014,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1037,7 +1037,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1069,7 +1069,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1092,7 +1092,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1129,7 +1129,7 @@
                       >
                         <a
                           href="/pricing"
-                          class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 flex flex-row items-center"
+                          class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row items-center"
                         >
                           <span>{stock_detail_forecast_ai_upgrade()}</span>
                           <svg
@@ -1182,7 +1182,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1199,7 +1199,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1216,7 +1216,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1233,7 +1233,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1263,7 +1263,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                               >
                                 Upgrade
                                 <svg
@@ -1281,7 +1281,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1298,7 +1298,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1315,7 +1315,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="text-gray-700 dark:text-zinc-200 hover:text-violet-600 dark:hover:text-violet-400 text-sm"
+                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
