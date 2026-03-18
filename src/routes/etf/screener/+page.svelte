@@ -3520,7 +3520,12 @@
                               {/if}
                             {/each}
                           {:else if checkedRules.includes(row?.rule)}
-                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (row?.step ?? [] as item}
+                            {#each (testList.length > 0 && searchQuery?.length > 0
+                              ? testList
+                              : searchQuery?.length > 0 &&
+                                  testList?.length === 0
+                                ? []
+                                : row?.step ?? []) as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
@@ -3544,7 +3549,12 @@
                               </DropdownMenu.Item>
                             {/each}
                           {:else}
-                            {#each testList.length > 0 && searchQuery?.length > 0 ? testList : searchQuery?.length > 0 && testList?.length === 0 ? [] : (allRules[row?.rule]?.step ?? [] as item}
+                            {#each (testList.length > 0 && searchQuery?.length > 0
+                              ? testList
+                              : searchQuery?.length > 0 &&
+                                  testList?.length === 0
+                                ? []
+                                : allRules[row?.rule]?.step ?? []) as item}
                               <DropdownMenu.Item
                                 class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
                               >
