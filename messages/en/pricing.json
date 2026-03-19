@@ -12,7 +12,7 @@
   "pricing_no_hidden_fees": "No hidden fees",
   "pricing_monthly": "Monthly",
   "pricing_annual": "Annual",
-  "pricing_save": "Save 66%",
+  "pricing_save": "Save 33%",
   "pricing_per_month": "/month",
   "pricing_basic_title": "Basic",
   "pricing_basic_subtitle": "Everything you need to explore the platform.",
@@ -88,7 +88,7 @@
   "pricing_upgrade_modal_content": "To upgrade your account from Plus to Pro, please contact us via email and we will handle the upgrade for you.",
   "pricing_upgrade_modal_button": "Contact Support",
   "pricing_upgrade_modal_response_time": "We typically respond within 24 hours.",
-  "pricing_billed_annually_plus": "Billed annually $120",
-  "pricing_billed_annually_pro": "Billed annually $360",
+  "pricing_billed_annually_plus": "Billed annually",
+  "pricing_billed_annually_pro": "Billed annually",
   "pricing_pro_active": "Pro Plan Active"
 }
