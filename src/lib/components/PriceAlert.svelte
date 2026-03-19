@@ -25,16 +25,34 @@
   export let ticker;
   export let assetType;
 
+  type AlertType =
+    | "price"
+    | "movingAverage"
+    | "percentMove"
+    | "volumeSpike";
+
   let currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
   let targetPrice = currentPrice; //(currentPrice * (1 + targetPrice / 100))?.toFixed(2);
+  let alertType: AlertType = "price";
   let condition = "above";
+  let movingAveragePeriod = "50";
+  let percentMoveDirection = "up";
+  let percentMoveValue = 5;
+  let volumeSpikeMultiplier = "2";
+  let volumeSpikePriceFilter = "any";
   let note = "";
   const NOTE_MAX_LENGTH = 500;
 
   function resetAlertForm() {
     currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
     targetPrice = currentPrice;
+    alertType = "price";
     condition = "above";
+    movingAveragePeriod = "50";
+    percentMoveDirection = "up";
+    percentMoveValue = 5;
+    volumeSpikeMultiplier = "2";
+    volumeSpikePriceFilter = "any";
     note = "";
   }
 
@@ -42,7 +60,18 @@
     condition = event.target.value;
   }
 
+  function changeAlertType(event) {
+    alertType = event.target.value;
+  }
+
   async function handleCreateAlert() {
+    if (alertType !== "price") {
+      toast.message("This alert type is preview-only for now.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
     // Validate input locally.
     if (targetPrice < 0) {
       toast.error(stock_detail_target_price_error(), {
@@ -126,6 +155,9 @@
       resetAlertForm();
     }
   }
+
+  $: isPreviewOnly = alertType !== "price";
+  $: saveButtonLabel = isPreviewOnly ? "Coming soon" : stock_detail_save();
 </script>
 
 <svelte:head>
@@ -142,7 +174,7 @@
   <label for="priceAlertModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full min-h-fit h-[600px] sm:h-[500px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full min-h-fit h-[650px] sm:h-[560px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="priceAlertModal"
@@ -192,33 +224,20 @@
       </div>
 
       <div class="flex flex-col gap-4 mt-5 font-medium">
-        <!-- Condition Label -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
             class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
-            >{stock_detail_condition()}</label
-          >
-          <input
-            type="text"
-            value={stock_detail_price()}
-            class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3"
-            readonly
-          />
-        </div>
-
-        <!-- Crossing Dropdown -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center">
-          <label
-            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
-            >{stock_detail_crossing()}</label
+            >Alert Type</label
           >
           <div class="relative w-full sm:w-[80%]">
             <select
-              on:change={changeStatement}
+              on:change={changeAlertType}
               class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
-              <option value="above" selected>{stock_detail_above()}</option>
-              <option value="below">{stock_detail_below()}</option>
+              <option value="price" selected>Price target</option>
+              <option value="movingAverage">Moving average cross</option>
+              <option value="percentMove">Percent move</option>
+              <option value="volumeSpike">Volume spike</option>
             </select>
             <svg
               class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
@@ -230,56 +249,244 @@
           </div>
         </div>
 
-        <!-- Value Input -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center">
-          <label
-            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
-            >{stock_detail_value()}</label
-          >
-
-          <div class="relative w-full sm:w-[80%]">
-            <input
-              bind:value={targetPrice}
-              class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
-            />
-            <div
-              class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-x-1.5"
+        <!-- Condition Label -->
+        {#if alertType === "price"}
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >{stock_detail_condition()}</label
             >
-              <button on:click={() => stepSizeValue("add")}>
-                <svg
-                  class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  style="max-width: 40px"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </button>
-              <button on:click={() => stepSizeValue("minus")}>
-                <svg
-                  class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  style="max-width: 40px"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </button>
+            <input
+              type="text"
+              value={stock_detail_price()}
+              class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3"
+              readonly
+            />
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >{stock_detail_crossing()}</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <select
+                on:change={changeStatement}
+                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              >
+                <option value="above" selected>{stock_detail_above()}</option>
+                <option value="below">{stock_detail_below()}</option>
+              </select>
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="currentColor" d="M7 10l5 5l5-5z" />
+              </svg>
             </div>
           </div>
-        </div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >{stock_detail_value()}</label
+            >
+
+            <div class="relative w-full sm:w-[80%]">
+              <input
+                bind:value={targetPrice}
+                class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
+              />
+              <div
+                class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-x-1.5"
+              >
+                <button on:click={() => stepSizeValue("add")}>
+                  <svg
+                    class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    style="max-width: 40px"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </button>
+                <button on:click={() => stepSizeValue("minus")}>
+                  <svg
+                    class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    style="max-width: 40px"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {:else if alertType === "movingAverage"}
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >{stock_detail_crossing()}</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <select
+                bind:value={condition}
+                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              >
+                <option value="above">{stock_detail_above()}</option>
+                <option value="below">{stock_detail_below()}</option>
+              </select>
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="currentColor" d="M7 10l5 5l5-5z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >Moving Avg</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <select
+                bind:value={movingAveragePeriod}
+                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              >
+                <option value="20">20 MA</option>
+                <option value="50">50 MA</option>
+                <option value="200">200 MA</option>
+              </select>
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="currentColor" d="M7 10l5 5l5-5z" />
+              </svg>
+            </div>
+          </div>
+
+          <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
+            Alert when price crosses the selected moving average.
+          </p>
+        {:else if alertType === "percentMove"}
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >Direction</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <select
+                bind:value={percentMoveDirection}
+                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              >
+                <option value="up">Up</option>
+                <option value="down">Down</option>
+              </select>
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="currentColor" d="M7 10l5 5l5-5z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >Percent</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <input
+                type="number"
+                min="0"
+                step="0.1"
+                bind:value={percentMoveValue}
+                class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-10"
+              />
+              <span
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 dark:text-zinc-400"
+                >%</span
+              >
+            </div>
+          </div>
+
+          <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
+            Measured from the current price when the alert is created.
+          </p>
+        {:else if alertType === "volumeSpike"}
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >Volume</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <select
+                bind:value={volumeSpikeMultiplier}
+                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              >
+                <option value="1.5">1.5x avg</option>
+                <option value="2">2x avg</option>
+                <option value="3">3x avg</option>
+              </select>
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="currentColor" d="M7 10l5 5l5-5z" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-start sm:items-center">
+            <label
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              >Price Filter</label
+            >
+            <div class="relative w-full sm:w-[80%]">
+              <select
+                bind:value={volumeSpikePriceFilter}
+                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              >
+                <option value="any">Any move</option>
+                <option value="up">Only if price is up</option>
+                <option value="down">Only if price is down</option>
+              </select>
+              <svg
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path fill="currentColor" d="M7 10l5 5l5-5z" />
+              </svg>
+            </div>
+          </div>
+
+          <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
+            Alert when trading volume is unusually high.
+          </p>
+        {/if}
 
         <div class="flex flex-col sm:flex-row items-start sm:items-start">
           <label
@@ -303,7 +510,13 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-end gap-4 absolute bottom-3 right-5">
+        <div class="flex flex-col items-end gap-2 absolute bottom-3 right-5 left-5 sm:left-auto">
+          {#if isPreviewOnly}
+            <p class="text-xs font-normal text-muted/80 dark:text-zinc-400">
+              Preview only. Backend support is not wired yet.
+            </p>
+          {/if}
+          <div class="flex justify-end gap-4">
           <label
             for="priceAlertModal"
             class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
@@ -312,10 +525,16 @@
           </label>
           <button
             on:click={handleCreateAlert}
-            class="cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition"
+            disabled={isPreviewOnly}
+            class={`py-2 px-4 rounded-full text-sm font-semibold transition ${
+              isPreviewOnly
+                ? "cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-zinc-800 dark:text-zinc-400"
+                : "cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200"
+            }`}
           >
-            {stock_detail_save()}
+            {saveButtonLabel}
           </button>
+          </div>
         </div>
       </div>
 
