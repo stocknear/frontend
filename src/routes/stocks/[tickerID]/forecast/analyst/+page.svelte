@@ -6,7 +6,6 @@
   import { page } from "$app/stores";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
-  import InfoModal from "$lib/components/InfoModal.svelte";
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
