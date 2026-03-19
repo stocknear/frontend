@@ -20,9 +20,9 @@ export const load = async ({ locals, params }) => {
       lang: "en" //locale ?? 'en'
     });
 
-    // Process analyst ticker history: if user isn't Pro, limit to 6 items
+    // Plus and Pro both unlock the full analyst history table.
     let analystTickerHistory = bulkData["/analyst-ticker-history"];
-    if (user?.tier !== "Pro" && Array.isArray(analystTickerHistory)) {
+    if (!["Plus", "Pro"].includes(user?.tier) && Array.isArray(analystTickerHistory)) {
       analystTickerHistory = analystTickerHistory.slice(0, 6);
     }
 
