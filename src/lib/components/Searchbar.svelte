@@ -475,7 +475,7 @@
           <Combobox.Input
             id="combobox-input"
             on:click={() => (inputValue = "")}
-            class="grow rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 py-2.5 pl-9 text-sm text-muted dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
+            class="grow rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 py-2.5 pl-9 text-sm text-muted dark:text-zinc-200 placeholder:text-gray-800 dark:placeholder:text-zinc-200 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
             placeholder={searchbar_placeholder()}
             aria-label={searchbar_aria_label()}
           />
@@ -650,7 +650,7 @@
 
           <input
             id="modal-search"
-            class="focus:outline-none w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-[16px] sm:text-sm text-muted dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-400 focus:ring-0"
+            class="focus:outline-none w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-[16px] sm:text-sm text-muted dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-200 focus:ring-0"
             placeholder={searchbar_placeholder()}
             bind:value={inputValue}
             bind:this={inputElement}

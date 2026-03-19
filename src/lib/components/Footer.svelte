@@ -70,7 +70,7 @@
 </script>
 
 <footer
-  class="w-full mt-auto bg-[#1e2837] dark:bg-zinc-950 border-t border-gray-300 dark:border-zinc-700"
+  class="w-full mt-auto bg-[#1e2837] dark:bg-[#131214] border-t border-gray-300 dark:border-zinc-700"
 >
   <div class="mx-auto max-w-7xl px-5 pt-12 sm:px-6 lg:px-8 lg:pb-8">
     <div
@@ -101,31 +101,31 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/stocks/">{footer_stocks()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/ipos/">{footer_ipos()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/etf/">{footer_etfs()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/portfolio/">{footer_portfolio()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/learning-center/">{footer_learning_center()}</a
               >
             </li>
@@ -140,21 +140,21 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/pricing/">{footer_pricing_plan()}</a
               >
             </li>
 
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/support/">{footer_get_support()}</a
               >
             </li>
 
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/app/">Install the App</a
               >
             </li>
@@ -177,20 +177,20 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/login/">{footer_login()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/faq/">{footer_faq()}</a
               >
             </li>
 
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/sitemap/">{footer_sitemap()}</a
               >
             </li>
@@ -275,37 +275,37 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/about/">{footer_about()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/contact/">{common_contact_us()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/terms-of-use/">{footer_terms_of_use()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/privacy-policy/">{common_privacy_policy()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/data-disclaimer/">{footer_data_disclaimer()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-400 dark:hover:text-white transition"
+                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href="/imprint/">{common_imprint()}</a
               >
             </li>

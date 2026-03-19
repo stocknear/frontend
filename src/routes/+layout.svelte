@@ -5,7 +5,7 @@
   import { BProgress } from "@bprogress/core";
   import { GTM_EVENT_SIGNUP } from "$lib/constants/tracking";
 
-  import { ModeWatcher, setMode, mode } from "mode-watcher";
+  import { ModeWatcher } from "mode-watcher";
   import { page } from "$app/stores";
 
   import Footer from "$lib/components/Footer.svelte";
@@ -506,21 +506,6 @@
     isBeforeMarketOpen.set(isBeforeMarketOpenValue);
     isAfterMarketClose.set(isAfterMarketCloseValue);
   };
-
-  async function handleModeChange() {
-    const newMode = $mode === "light" ? "dark" : "light";
-    setMode(newMode);
-
-    try {
-      await fetch("/api/theme-mode", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode: newMode }),
-      });
-    } catch (error) {
-      console.error("Failed to update theme:", error);
-    }
-  }
 </script>
 
 <svelte:window
@@ -545,14 +530,14 @@
   <div class="flex min-h-screen w-full flex-col bg-white dark:bg-zinc-950">
     <div class="w-full">
       <div
-        class="w-full navbar sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-gray-300 dark:border-zinc-700 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
+        class="w-full navbar sticky top-0 z-40 bg-white dark:bg-[#131214] border-b border-gray-300 dark:border-zinc-700 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
       >
         <Sheet.Root>
           <Sheet.Trigger asChild let:builder>
             <Button
               builders={[builder]}
               size="icon"
-              class="group rounded-full bg-transparent text-muted dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
+              class="group rounded-full bg-transparent dark:bg-[#131214] text-muted dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
             >
               <Menu
                 class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-muted dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
@@ -562,13 +547,13 @@
           </Sheet.Trigger>
           <Sheet.Content
             side="left"
-            class="max-w-screen w-full sm:max-w-xs bg-white/95 dark:bg-zinc-950/95 backdrop-blur overflow-y-auto text-muted dark:text-zinc-200"
+            class="max-w-screen w-full sm:max-w-xs bg-white/95 dark:bg-[#131214] backdrop-blur overflow-y-auto text-muted dark:text-zinc-200"
           >
             <nav class=" grid gap-6 text-lg">
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="-ml-4 mr-auto rounded-full bg-transparent transition"
+                  class="-ml-4 mr-auto bg-transparent dark:bg-[#131214]"
                 >
                   <a
                     href="/"
@@ -609,7 +594,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="w-full -ml-4 mr-auto rounded-full bg-transparent transition"
+                  class="w-full -ml-4 mr-auto bg-transparent dark:bg-[#131214]"
                 >
                   <a
                     href="/"
@@ -623,7 +608,7 @@
                       />
                     </div>
                     <span
-                      class="ml-1 mr-auot text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-1 mr-auto text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
                       >{layout_home()}</span
                     >
                   </a>
@@ -649,7 +634,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/industry"
@@ -661,7 +646,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/market-mover/gainers"
@@ -673,7 +658,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/stocks/heatmap"
@@ -685,7 +670,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/stocks/compare"
@@ -697,7 +682,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/list"
@@ -731,7 +716,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/etf/etf-providers"
@@ -742,7 +727,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/etf/heatmap"
@@ -753,7 +738,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/etf/compare"
@@ -764,7 +749,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/etf/new-launches"
@@ -798,7 +783,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/analysts"
@@ -809,7 +794,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/analysts/top-stocks"
@@ -821,7 +806,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/analysts/analyst-flow"
@@ -855,7 +840,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/dividends-calendar"
@@ -866,7 +851,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/earnings-calendar"
@@ -878,7 +863,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/ipos"
@@ -890,7 +875,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/economic-calendar"
@@ -902,7 +887,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/economic-indicator"
@@ -915,7 +900,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/stock-splits-calendar"
@@ -951,7 +936,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/politicians/flow-data"
@@ -962,7 +947,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/politicians"
@@ -996,7 +981,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/market-flow"
@@ -1008,7 +993,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/news-flow"
@@ -1020,7 +1005,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/options-flow"
@@ -1031,7 +1016,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/unusual-order-flow"
@@ -1065,7 +1050,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/stocks/screener"
@@ -1080,7 +1065,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/etf/screener"
@@ -1095,7 +1080,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/options-screener"
@@ -1117,7 +1102,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/covered-call-screener"
@@ -1132,7 +1117,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/cash-secured-put-screener"
@@ -1166,7 +1151,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/options-calculator"
@@ -1182,7 +1167,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/potus-tracker"
@@ -1198,7 +1183,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/insider-tracker"
@@ -1214,7 +1199,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full rounded-full bg-transparent transition cursor-pointer"
+                            class="w-full  cursor-pointer"
                           >
                             <a
                               href="/reddit-tracker"
@@ -1233,7 +1218,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent transition"
+                  class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
                     href="/hedge-funds"
@@ -1260,7 +1245,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent transition"
+                  class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
                     href="/chart/NVDA"
@@ -1287,7 +1272,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent transition"
+                  class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
                     href="/market-news"
@@ -1314,7 +1299,7 @@
                 <Button
                   builders={[builder]}
                   type="submit"
-                  class="-ml-4 w-full rounded-full bg-transparent transition"
+                  class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
                     href={data?.hasDailyBriefing &&
@@ -1473,7 +1458,7 @@
           {#if !isChartRoute}
             <div class="hidden 3xl:block 3xl:w-[300px] 3xl:shrink-0">
               <aside
-                class="sidebar-scroll sticky top-[72px] z-30 3xl:flex w-64 self-start max-h-[calc(100dvh-84px)] overflow-x-hidden overflow-y-auto overscroll-contain flex-col bg-white/90 dark:bg-zinc-950/90 backdrop-blur"
+                class="sidebar-scroll sticky top-[64px] z-30 3xl:flex w-64 h-full self-start max-h-[calc(100dvh-84px)] overflow-x-hidden overflow-y-auto overscroll-contain flex-col bg-white/90 dark:bg-[#131214] backdrop-blur"
               >
                 <nav
                   class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
@@ -2021,16 +2006,16 @@
 {#if !isChartRoute && !isLandingPage}
   <nav
     aria-label="Primary navigation"
-    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border border-white/15 bg-zinc-950/98 text-white shadow-[0_-12px_32px_rgba(0,0,0,0.52),0_-1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
-           supports-[backdrop-filter]:bg-zinc-950/82
-           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-3xl sm:border-white/20 sm:shadow-[0_22px_48px_rgba(0,0,0,0.52),0_0_0_1px_rgba(255,255,255,0.05)]
+    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border border-slate-500/20 bg-slate-900/95 text-white shadow-[0_-12px_32px_rgba(2,6,23,0.5),0_-1px_0_rgba(148,163,184,0.08)] backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
+           supports-[backdrop-filter]:bg-slate-900/80
+           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-3xl sm:border-slate-400/25 sm:shadow-[0_22px_48px_rgba(2,6,23,0.48),0_0_0_1px_rgba(148,163,184,0.06)]
            {navbarHidden
       ? 'translate-y-[calc(100%+1rem)] sm:translate-y-[calc(100%+2rem)]'
       : 'translate-y-0'}"
   >
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent"
+      class="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-slate-200/55 to-transparent"
     ></span>
     <div
       class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
@@ -2041,8 +2026,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.home
-                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
+                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
+                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2062,8 +2047,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.portfolio
-                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
+                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
+                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2083,8 +2068,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.watchlist
-                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
+                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
+                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2104,8 +2089,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.priceAlert
-                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
+                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
+                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2141,8 +2126,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.chat
-                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
+                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
+                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
                }`}
       >
         <span
