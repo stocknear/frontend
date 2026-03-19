@@ -2021,16 +2021,16 @@
 {#if !isChartRoute && !isLandingPage}
   <nav
     aria-label="Primary navigation"
-    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border border-white/10 bg-zinc-950/95 text-white shadow-[0_-6px_24px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
-           supports-[backdrop-filter]:bg-zinc-950/75
-           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-3xl sm:border-white/15 sm:shadow-[0_18px_42px_rgba(0,0,0,0.45)]
+    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border border-white/15 bg-zinc-950/98 text-white shadow-[0_-12px_32px_rgba(0,0,0,0.52),0_-1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
+           supports-[backdrop-filter]:bg-zinc-950/82
+           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-3xl sm:border-white/20 sm:shadow-[0_22px_48px_rgba(0,0,0,0.52),0_0_0_1px_rgba(255,255,255,0.05)]
            {navbarHidden
       ? 'translate-y-[calc(100%+1rem)] sm:translate-y-[calc(100%+2rem)]'
       : 'translate-y-0'}"
   >
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
+      class="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent"
     ></span>
     <div
       class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
@@ -2041,8 +2041,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.home
-                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
+                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2062,8 +2062,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.portfolio
-                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
+                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2083,8 +2083,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.watchlist
-                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
+                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2104,8 +2104,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.priceAlert
-                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
+                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
                }`}
       >
         <span
@@ -2141,8 +2141,8 @@
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                ${
                  bottomNavState.chat
-                   ? "sm:bg-white/15 text-white sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-                   : "text-zinc-400 hover:bg-white/5 active:scale-[0.97] active:text-white"
+                   ? "bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] sm:bg-white/15 sm:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+                   : "text-zinc-300 hover:bg-white/[0.07] active:scale-[0.97] active:text-white"
                }`}
       >
         <span
