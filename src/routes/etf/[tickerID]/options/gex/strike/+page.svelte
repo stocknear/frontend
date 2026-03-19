@@ -3,13 +3,66 @@
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import GreekByStrike from "$lib/components/Options/GreekByStrike.svelte";
+  import {
+    stock_detail_options_gex_no_data,
+    stock_detail_options_gex_strike_seo_description,
+    stock_detail_options_gex_strike_seo_keywords,
+    stock_detail_options_gex_strike_seo_title,
+    stock_detail_options_gex_strike_structured_desc,
+    stock_detail_options_gex_strike_structured_name,
+    stock_detail_options_gex_title_gamma,
+  } from "$lib/paraglide/messages";
 
   export let data;
 </script>
 
 <SEO
-  title={`${$displayCompanyName} (${$etfTicker}) GEX by Strike`}
-  description={`Gamma exposure by strike for ${$displayCompanyName} (${$etfTicker}) to map pin levels and hedging pressure.`}
+  title={stock_detail_options_gex_strike_seo_title({
+    company: $displayCompanyName,
+    ticker: $etfTicker,
+  })}
+  description={stock_detail_options_gex_strike_seo_description({
+    company: $displayCompanyName,
+    ticker: $etfTicker,
+  })}
+  keywords={stock_detail_options_gex_strike_seo_keywords({
+    ticker: $etfTicker,
+  })}
+  type="website"
+  url={`https://stocknear.com/stocks/${$etfTicker}/options/gex/strike`}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": ["FinancialProduct", "DataVisualization"],
+    name: stock_detail_options_gex_strike_structured_name({
+      company: $displayCompanyName,
+    }),
+    description: stock_detail_options_gex_strike_structured_desc({
+      company: $displayCompanyName,
+      ticker: $etfTicker,
+    }),
+    url: `https://stocknear.com/stocks/${$etfTicker}/options/gex/strike`,
+    applicationCategory: "FinanceApplication",
+    featureList: [
+      "Gamma exposure by strike tracking",
+      "Strike price gamma analysis",
+      "Volatility suppression by strike",
+      "Dealer gamma positioning by strike",
+      "Strike-based gamma hedging",
+      "Gamma concentration analysis",
+      "Strike price volatility zones",
+      "Gamma-based support/resistance",
+    ],
+    provider: {
+      "@type": "Organization",
+      name: "Stocknear",
+      url: "https://stocknear.com",
+    },
+    mainEntity: {
+      "@type": "Corporation",
+      name: $displayCompanyName,
+      tickerSymbol: $etfTicker,
+    },
+  }}
 />
 
 <section class="w-full overflow-hidden min-h-screen pb-40">
@@ -20,13 +73,13 @@
       {#if Object?.keys(data?.getData)?.length > 0}
         <GreekByStrike
           {data}
-          title="Gamma"
+          title={stock_detail_options_gex_title_gamma()}
           ticker={$etfTicker?.toUpperCase()}
         />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
           <div class="">
-            <Infobox text="No data is available" />
+            <Infobox text={stock_detail_options_gex_no_data()} />
           </div>
         </div>
       {/if}
