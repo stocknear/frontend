@@ -56,7 +56,7 @@ export const POST = (async ({ request, locals }) => {
   }
 
   if (!isValidPriceAlertId(priceAlertId)) {
-    return new Response(JSON.stringify({ error: "Invalid price alert ID" }), {
+    return new Response(JSON.stringify({ error: "Invalid alert ID" }), {
       status: 400,
     });
   }
@@ -110,12 +110,12 @@ export const POST = (async ({ request, locals }) => {
       }
     }
 
-    return new Response(JSON.stringify({ error: "Price alert not found" }), {
+    return new Response(JSON.stringify({ error: "Alert not found" }), {
       status: 404,
     });
   } catch {
     return new Response(
-      JSON.stringify({ error: "Failed to update price alert" }),
+      JSON.stringify({ error: "Failed to update alert" }),
       {
         status: 500,
       },

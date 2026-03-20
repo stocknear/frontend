@@ -650,7 +650,7 @@
                                   <path d="M9.5 13h5M12 10.5v5" />
                                 </g>
                               </svg>
-                              <span>Price Alert</span>
+                              <span>Alert</span>
                             </label>
                             <div
                               class="w-px h-5 bg-gray-300 dark:bg-zinc-700"

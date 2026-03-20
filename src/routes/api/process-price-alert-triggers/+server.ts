@@ -205,7 +205,7 @@ async function sendPushNotificationForAlert(params: {
   if (!apiKey || !userId || !symbol) return;
 
   const alertType = normalizeAlertType(liveResults?.alertType);
-  let title = `🚨 ${symbol} price alert`;
+  let title = `🚨 ${symbol} alert`;
   let body = "";
 
   if (alertType === "movingAverage") {

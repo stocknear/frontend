@@ -142,7 +142,7 @@
       const result = await response.json();
       // If the response is not ok, throw an error to be caught by toast.promise.
       if (!response.ok) {
-        throw new Error(result.error || "Failed to create price alert");
+        throw new Error(result.error || "Failed to create alert");
       }
       return result;
     });
@@ -164,7 +164,7 @@
       resetAlertForm();
     } catch (error) {
       // The error is already handled by toast.promise, but you can log it here.
-      console.error("Error creating price alert:", error);
+      console.error("Error creating alert:", error);
     }
   }
 

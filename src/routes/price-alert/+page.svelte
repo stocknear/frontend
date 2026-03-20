@@ -540,10 +540,10 @@
       if (triggeredCount > 0) {
         const toastMessage =
           triggeredSymbols.length > 0
-            ? `Price alert triggered for ${triggeredSymbols.join(", ")}`
+            ? `Alert triggered for ${triggeredSymbols.join(", ")}`
             : triggeredCount === 1
-              ? "1 price alert was triggered"
-              : `${triggeredCount} price alerts were triggered`;
+              ? "1 alert was triggered"
+              : `${triggeredCount} alerts were triggered`;
 
         toast.success(toastMessage, {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -874,7 +874,7 @@
   async function saveNote(markdown: string) {
     const wasNewNote = isNewNote;
     if (!editingPriceAlertId) {
-      toast.error("No price alert selected");
+      toast.error("No alert selected");
       return;
     }
 
@@ -1031,7 +1031,7 @@
       priceCurrency: "USD",
     },
     featureList: [
-      "Custom price alerts",
+      "Custom alerts",
       "Real-time notifications",
       "Earnings calendar integration",
       "News feed monitoring",
@@ -1615,7 +1615,7 @@
           value={editingNoteText}
           symbol={editingNoteSymbol}
           {isNewNote}
-          placeholderText="Add why this price alert matters, your setup, and what action to take when it triggers..."
+          placeholderText="Add why this alert matters, your setup, and what action to take when it triggers..."
           onSave={saveNote}
           onCancel={closeNoteModal}
         />

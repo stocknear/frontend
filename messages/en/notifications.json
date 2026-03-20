@@ -33,7 +33,7 @@
   "notifications_modal_cancel": "Cancel",
   "notifications_delete_error": "Failed to delete notifications. Please try again.",
 
-  "notifications_type_price_alert_triggered": "Price Alert triggered for",
+  "notifications_type_price_alert_triggered": "Alert triggered for",
   "notifications_type_price_is": "The price of",
   "notifications_type_is_condition": "is {condition} your target of",
   "notifications_type_breaking_news": "BREAKING News for",

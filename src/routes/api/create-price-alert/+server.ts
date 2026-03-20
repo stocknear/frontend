@@ -179,7 +179,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const minutesRemaining = Math.ceil(rateLimitResult.resetIn / 60000);
     return new Response(
       JSON.stringify({
-        error: `Rate limit exceeded. Please wait ${minutesRemaining} minute${minutesRemaining === 1 ? "" : "s"} before creating another price alert.`,
+        error: `Rate limit exceeded. Please wait ${minutesRemaining} minute${minutesRemaining === 1 ? "" : "s"} before creating another alert.`,
         rateLimited: true,
         retryAfter: minutesRemaining,
       }),
@@ -282,7 +282,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     if (!["Pro", "Plus"].includes(user?.tier) && activeAlerts.length >= 3) {
       return new Response(
-        JSON.stringify({ error: "Price alert limit reached for non-Pro users" }),
+        JSON.stringify({ error: "Alert limit reached for non-Pro users" }),
         { status: 403 },
       );
     }
@@ -315,7 +315,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   } catch {
     return new Response(
-      JSON.stringify({ error: "Error creating price alert" }),
+      JSON.stringify({ error: "Error creating alert" }),
       { status: 500 },
     );
   }

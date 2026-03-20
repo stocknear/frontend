@@ -923,7 +923,7 @@
     featureList: [
       "Real-time price tracking",
       "AI portfolio insights",
-      "Custom price alerts",
+      "Custom alerts",
       "Performance & P&L analytics",
       "Dividend tracking",
       "Watchlists & holdings import",
