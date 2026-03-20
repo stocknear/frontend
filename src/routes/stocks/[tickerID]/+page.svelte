@@ -953,6 +953,20 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
+                      >{stock_detail_beta()}</td
+                    >
+                    <td
+                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
+                      >{stockDeck?.beta
+                        ? stockDeck?.beta?.toFixed(2)
+                        : "n/a"}</td
+                    ></tr
+                  >
+
+                  <tr
+                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
+                    ><td
+                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
                       >{stock_detail_eps_ttm()}</td
                     >
                     <td
@@ -1015,42 +1029,20 @@
                     class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{stock_detail_total_assets_ttm()}</td
+                      >Earnings Date</td
                     >
                     <td
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{stockDeck?.totalAssets
-                        ? abbreviateNumber(stockDeck?.totalAssets)
-                        : "n/a"}</td
-                    ></tr
-                  >
-                  <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
-                    ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{stock_detail_total_liabilities_ttm()}</td
-                    >
-                    <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                    >
-                      {stockDeck?.totalLiabilities
-                        ? abbreviateNumber(stockDeck?.totalLiabilities)
-                        : "n/a"}</td
-                    ></tr
-                  >
-
-                  <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
-                    ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                    >
-                      {stock_detail_total_equity_ttm()}
-                    </td>
-                    <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                    >
-                      {stockDeck?.totalEquity
-                        ? abbreviateNumber(stockDeck?.totalEquity)
+                      >{data?.getNextEarnings?.date
+                        ? new Date(data?.getNextEarnings?.date)?.toLocaleString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                              timeZone: "UTC",
+                            },
+                          )
                         : "n/a"}</td
                     ></tr
                   >
@@ -1153,19 +1145,6 @@
                         ? data?.getStockQuote?.yearLow?.toFixed(2)
                         : "n/a"} - {data?.getStockQuote?.yearHigh
                         ? data?.getStockQuote?.yearHigh?.toFixed(2)
-                        : "n/a"}</td
-                    ></tr
-                  >
-                  <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 min-h-[60px] justify-center sm:table-row sm:min-h-0"
-                    ><td
-                      class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 text-sm sm:text-[0.9rem]"
-                      >{stock_detail_beta()}</td
-                    >
-                    <td
-                      class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm sm:text-[0.9rem] font-semibold dark:font-normal xs:px-1 sm:text-right"
-                      >{stockDeck?.beta
-                        ? stockDeck?.beta?.toFixed(2)
                         : "n/a"}</td
                     ></tr
                   >
