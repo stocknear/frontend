@@ -197,7 +197,7 @@
   <label
     for="priceAlertModal"
     class="cursor-pointer modal-backdrop"
-    on:click={closeAlertModal}
+    on:click|preventDefault={closeAlertModal}
   ></label>
 
   <div
@@ -205,7 +205,7 @@
   >
     <label
       for="priceAlertModal"
-      on:click={closeAlertModal}
+      on:click|preventDefault={closeAlertModal}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -551,7 +551,7 @@
           <div class="flex justify-end gap-4">
             <label
               for="priceAlertModal"
-              on:click={closeAlertModal}
+              on:click|preventDefault={closeAlertModal}
               class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               {stock_detail_cancel()}
