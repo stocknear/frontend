@@ -2024,11 +2024,7 @@
         href="/"
         aria-current={bottomNavState.home ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               ${
-                 bottomNavState.home
-                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
-                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
-               }`}
+               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
@@ -2045,11 +2041,7 @@
         href="/portfolio"
         aria-current={bottomNavState.portfolio ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               ${
-                 bottomNavState.portfolio
-                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
-                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
-               }`}
+               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
@@ -2066,11 +2058,7 @@
         href="/watchlist/stocks"
         aria-current={bottomNavState.watchlist ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               ${
-                 bottomNavState.watchlist
-                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
-                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
-               }`}
+               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
@@ -2087,11 +2075,7 @@
         href="/price-alert"
         aria-current={bottomNavState.priceAlert ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               ${
-                 bottomNavState.priceAlert
-                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
-                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
-               }`}
+               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
@@ -2124,11 +2108,7 @@
         href="/chat"
         aria-current={bottomNavState.chat ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               ${
-                 bottomNavState.chat
-                   ? "bg-slate-200/10 text-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.12)] sm:bg-slate-200/14 sm:shadow-[inset_0_0_0_1px_rgba(226,232,240,0.16)]"
-                   : "text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white"
-               }`}
+               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
       >
         <span
           class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${

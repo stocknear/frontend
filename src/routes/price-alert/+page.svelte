@@ -383,7 +383,9 @@
         : "Up from created";
     }
     if (alertType === "volumeSpike") {
-      const filter = String(item?.volumeSpikePriceFilter || "any").toLowerCase();
+      const filter = String(
+        item?.volumeSpikePriceFilter || "any",
+      ).toLowerCase();
       if (filter === "up") return "Above alert price";
       if (filter === "down") return "Below alert price";
       return "Any move";
@@ -1074,11 +1076,9 @@
           </div>
 
           {#if data?.user}
-            <div
-              class="w-full grid grid-cols-2 gap-3 sm:gap-0 sm:flex sm:flex-row sm:items-center"
-            >
-              <div class="order-4 w-fit flex justify-end sm:ml-3">
-                <div class="flex flex-row items-center justify-end">
+            <div class="w-full flex flex-row items-center">
+              <div class="order-4 mr-auto ml-1.5">
+                <div class="flex flex-row items-center justify-start">
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
@@ -1121,7 +1121,7 @@
                         {price_alert_edit_alert()}
                       </span>
                     {:else}
-                      <span class="ml-1 text-sm sm:text-[1rem]">
+                      <span class="ml-1 text-[0.85rem] sm:text-sm">
                         {price_alert_cancel()}
                       </span>
                     {/if}
@@ -1129,7 +1129,7 @@
                 </div>
               </div>
 
-              <div class="order-2 sm:order-1 w-full">
+              <div class="order-2 sm:order-1 w-full max-w-72">
                 <Combobox.Root
                   items={searchBarData}
                   bind:inputValue
