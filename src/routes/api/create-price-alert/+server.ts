@@ -3,13 +3,24 @@ import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 
 const NOTE_MAX_LENGTH = 500;
 
+type AlertType = "price" | "movingAverage" | "percentMove" | "volumeSpike";
+type AlertCondition = "above" | "below";
+type PercentMoveDirection = "up" | "down";
+type VolumeSpikePriceFilter = "any" | "up" | "down";
+
 type AlertEntry = {
   symbol: string;
   name: string;
   assetType: string;
+  alertType: AlertType;
   targetPrice: number | null;
   priceWhenCreated: number | null;
-  condition: string;
+  condition: AlertCondition;
+  movingAveragePeriod: number | null;
+  percentMoveDirection: PercentMoveDirection | null;
+  percentMoveValue: number | null;
+  volumeSpikeMultiplier: number | null;
+  volumeSpikePriceFilter: VolumeSpikePriceFilter | null;
   note: string;
   triggered: boolean;
 };
@@ -35,6 +46,37 @@ function toBool(value: unknown): boolean {
   return Boolean(value);
 }
 
+function normalizeAlertType(value: unknown): AlertType {
+  const raw = String(value ?? "").trim().toLowerCase();
+  if (raw === "movingaverage") return "movingAverage";
+  if (raw === "percentmove") return "percentMove";
+  if (raw === "volumespike") return "volumeSpike";
+  return "price";
+}
+
+function normalizeCondition(value: unknown): AlertCondition {
+  const raw = String(value ?? "").trim().toLowerCase();
+  return raw === "below" ? "below" : "above";
+}
+
+function normalizePercentMoveDirection(value: unknown): PercentMoveDirection {
+  const raw = String(value ?? "").trim().toLowerCase();
+  return raw === "down" ? "down" : "up";
+}
+
+function normalizeVolumeSpikePriceFilter(
+  value: unknown,
+): VolumeSpikePriceFilter {
+  const raw = String(value ?? "").trim().toLowerCase();
+  if (raw === "up" || raw === "down") return raw;
+  return "any";
+}
+
+function normalizeMovingAveragePeriod(value: unknown): number | null {
+  const period = toNumberOrNull(value);
+  return period === 20 || period === 50 || period === 200 ? period : null;
+}
+
 function parseDataArray(raw: unknown): AlertEntry[] {
   let parsed: unknown = raw;
   if (typeof parsed === "string") {
@@ -53,9 +95,21 @@ function parseDataArray(raw: unknown): AlertEntry[] {
       symbol: normalizeSymbol(item.symbol),
       name: String(item.name ?? "").trim(),
       assetType: String(item.assetType ?? "stock").trim().toLowerCase() || "stock",
+      alertType: normalizeAlertType(item.alertType),
       targetPrice: toNumberOrNull(item.targetPrice),
       priceWhenCreated: toNumberOrNull(item.priceWhenCreated),
-      condition: String(item.condition ?? "above").trim().toLowerCase() || "above",
+      condition: normalizeCondition(item.condition),
+      movingAveragePeriod: normalizeMovingAveragePeriod(item.movingAveragePeriod),
+      percentMoveDirection:
+        item.percentMoveDirection == null
+          ? null
+          : normalizePercentMoveDirection(item.percentMoveDirection),
+      percentMoveValue: toNumberOrNull(item.percentMoveValue),
+      volumeSpikeMultiplier: toNumberOrNull(item.volumeSpikeMultiplier),
+      volumeSpikePriceFilter:
+        item.volumeSpikePriceFilter == null
+          ? null
+          : normalizeVolumeSpikePriceFilter(item.volumeSpikePriceFilter),
       note: typeof item.note === "string" ? item.note.slice(0, NOTE_MAX_LENGTH) : "",
       triggered: toBool(item.triggered),
     }))
@@ -73,14 +127,17 @@ function parseLegacyRow(record: any): AlertEntry[] {
       assetType: String(record?.asset_type ?? record?.assetType ?? "stock")
         .trim()
         .toLowerCase() || "stock",
+      alertType: "price",
       targetPrice: toNumberOrNull(record?.target_price ?? record?.targetPrice),
       priceWhenCreated: toNumberOrNull(
         record?.price_when_created ?? record?.priceWhenCreated,
       ),
-      condition:
-        String(record?.condition ?? "above")
-          .trim()
-          .toLowerCase() || "above",
+      condition: normalizeCondition(record?.condition),
+      movingAveragePeriod: null,
+      percentMoveDirection: null,
+      percentMoveValue: null,
+      volumeSpikeMultiplier: null,
+      volumeSpikePriceFilter: null,
       note:
         typeof record?.note === "string"
           ? record.note.slice(0, NOTE_MAX_LENGTH)
@@ -133,20 +190,81 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const normalizedNote =
     typeof data?.note === "string" ? data.note.trim().slice(0, NOTE_MAX_LENGTH) : "";
+  const alertType = normalizeAlertType(data?.alertType);
 
   const newAlert: AlertEntry = {
     symbol: normalizeSymbol(data?.symbol),
     name: String(data?.name ?? "").trim(),
     assetType: String(data?.assetType ?? "stock").trim().toLowerCase() || "stock",
-    targetPrice: toNumberOrNull(data?.targetPrice),
-    condition: String(data?.condition ?? "above").trim().toLowerCase() || "above",
+    alertType,
+    targetPrice: alertType === "price" ? toNumberOrNull(data?.targetPrice) : null,
     priceWhenCreated: toNumberOrNull(data?.priceWhenCreated),
+    condition:
+      alertType === "price" || alertType === "movingAverage"
+        ? normalizeCondition(data?.condition)
+        : "above",
+    movingAveragePeriod:
+      alertType === "movingAverage"
+        ? normalizeMovingAveragePeriod(data?.movingAveragePeriod)
+        : null,
+    percentMoveDirection:
+      alertType === "percentMove"
+        ? normalizePercentMoveDirection(data?.percentMoveDirection)
+        : null,
+    percentMoveValue:
+      alertType === "percentMove" ? toNumberOrNull(data?.percentMoveValue) : null,
+    volumeSpikeMultiplier:
+      alertType === "volumeSpike"
+        ? toNumberOrNull(data?.volumeSpikeMultiplier)
+        : null,
+    volumeSpikePriceFilter:
+      alertType === "volumeSpike"
+        ? normalizeVolumeSpikePriceFilter(data?.volumeSpikePriceFilter)
+        : null,
     note: normalizedNote,
     triggered: false,
   };
 
   if (!newAlert.symbol) {
     return new Response(JSON.stringify({ error: "Invalid symbol" }), {
+      status: 400,
+    });
+  }
+
+  if (newAlert.alertType === "price" && (!newAlert.targetPrice || newAlert.targetPrice <= 0)) {
+    return new Response(JSON.stringify({ error: "Invalid target price" }), {
+      status: 400,
+    });
+  }
+
+  if (
+    newAlert.alertType === "movingAverage" &&
+    newAlert.movingAveragePeriod === null
+  ) {
+    return new Response(JSON.stringify({ error: "Invalid moving average period" }), {
+      status: 400,
+    });
+  }
+
+  if (
+    newAlert.alertType === "percentMove" &&
+    (
+      !newAlert.priceWhenCreated ||
+      newAlert.priceWhenCreated <= 0 ||
+      !newAlert.percentMoveValue ||
+      newAlert.percentMoveValue <= 0
+    )
+  ) {
+    return new Response(JSON.stringify({ error: "Invalid percent move settings" }), {
+      status: 400,
+    });
+  }
+
+  if (
+    newAlert.alertType === "volumeSpike" &&
+    (!newAlert.volumeSpikeMultiplier || newAlert.volumeSpikeMultiplier <= 0)
+  ) {
+    return new Response(JSON.stringify({ error: "Invalid volume spike settings" }), {
       status: 400,
     });
   }

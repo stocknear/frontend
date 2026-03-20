@@ -72,9 +72,15 @@
     symbol: string;
     name?: string;
     type?: string;
+    alertType?: string;
     targetPrice?: number | null;
     condition?: string;
     priceWhenCreated?: number | null;
+    movingAveragePeriod?: number | null;
+    percentMoveDirection?: string | null;
+    percentMoveValue?: number | null;
+    volumeSpikeMultiplier?: number | null;
+    volumeSpikePriceFilter?: string | null;
     price?: number | null;
     changesPercentage?: number | null;
     volume?: number | null;
@@ -267,6 +273,19 @@
   }
 
   function getToTargetStats(item: PriceAlertItem) {
+    const alertType = String(item?.alertType || "price");
+    if (alertType !== "price") {
+      return {
+        valid: false,
+        reached: false,
+        distancePct: null,
+        progressPct: 0,
+        label: "-",
+        textClass: "text-muted dark:text-white",
+        barClass: "bg-gray-400 dark:bg-zinc-500",
+      };
+    }
+
     const currentPrice = toFiniteNumber(item?.price);
     const targetPrice = toFiniteNumber(item?.targetPrice);
     const condition =
@@ -324,6 +343,52 @@
       textClass,
       barClass,
     };
+  }
+
+  function getAlertLabel(item: PriceAlertItem): string {
+    const alertType = String(item?.alertType || "price");
+    if (alertType === "movingAverage") {
+      const period = toFiniteNumber(item?.movingAveragePeriod);
+      return period ? `${period} MA` : "MA";
+    }
+    if (alertType === "percentMove") {
+      const percent = toFiniteNumber(item?.percentMoveValue);
+      return percent !== null ? `${percent}% move` : "Percent move";
+    }
+    if (alertType === "volumeSpike") {
+      const multiplier = toFiniteNumber(item?.volumeSpikeMultiplier);
+      return multiplier !== null ? `${multiplier}x avg vol` : "Volume spike";
+    }
+    const targetPrice = toFiniteNumber(item?.targetPrice);
+    return targetPrice !== null ? `${targetPrice}` : "-";
+  }
+
+  function getAlertTypeLabel(item: PriceAlertItem): string {
+    const alertType = String(item?.alertType || "price");
+    if (alertType === "movingAverage") return "MA";
+    if (alertType === "percentMove") return "Percent Move";
+    if (alertType === "volumeSpike") return "Volume Spike";
+    return "Price";
+  }
+
+  function getAlertRuleLabel(item: PriceAlertItem): string {
+    const alertType = String(item?.alertType || "price");
+    const condition = String(item?.condition || "above").toLowerCase();
+    if (alertType === "movingAverage") {
+      return condition === "below" ? "Cross below" : "Cross above";
+    }
+    if (alertType === "percentMove") {
+      return String(item?.percentMoveDirection || "up").toLowerCase() === "down"
+        ? "Down from created"
+        : "Up from created";
+    }
+    if (alertType === "volumeSpike") {
+      const filter = String(item?.volumeSpikePriceFilter || "any").toLowerCase();
+      if (filter === "up") return "Above alert price";
+      if (filter === "down") return "Below alert price";
+      return "Any move";
+    }
+    return condition === "below" ? "Below" : "Above";
   }
 
   function collectSymbols(): string[] {
@@ -408,6 +473,7 @@
     for (const item of list) {
       const id = String(item?.id || "").trim();
       if (!id) continue;
+      if (String(item?.alertType || "price") !== "price") continue;
 
       const stats = getToTargetStats(item);
       if (!stats.valid || !stats.reached) continue;
@@ -1142,14 +1208,18 @@
                         class=" font-semibold text-[11px] sm:text-[12px] text-left"
                         >Company</th
                       >
+                      <th
+                        class=" font-semibold text-[11px] sm:text-[12px] text-left"
+                        >Alert Type</th
+                      >
 
                       <th
                         class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                        >Price Target</th
+                        >Alert</th
                       >
                       <th
                         class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                        >Condition</th
+                        >Rule</th
                       >
                       <th
                         class=" font-semibold text-left text-[11px] sm:text-[12px]"
@@ -1226,15 +1296,21 @@
                         </td>
 
                         <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap"
                         >
-                          {item?.targetPrice}
+                          {getAlertTypeLabel(item)}
                         </td>
 
                         <td
                           class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
                         >
-                          {item?.condition}
+                          {getAlertLabel(item)}
+                        </td>
+
+                        <td
+                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
+                        >
+                          {getAlertRuleLabel(item)}
                         </td>
 
                         <td

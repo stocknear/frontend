@@ -6,14 +6,23 @@ const MAX_NOTE_LENGTH = 500;
 const MAX_ALERTS_PER_REQUEST = 200;
 
 type RawAlertEntry = Record<string, unknown>;
+type AlertType = "price" | "movingAverage" | "percentMove" | "volumeSpike";
+type PercentMoveDirection = "up" | "down";
+type VolumeSpikePriceFilter = "any" | "up" | "down";
 
 type NormalizedAlertEntry = {
   symbol: string;
   name: string;
   assetType: string;
+  alertType: AlertType;
   targetPrice: number | null;
   priceWhenCreated: number | null;
   condition: "above" | "below";
+  movingAveragePeriod: number | null;
+  percentMoveDirection: PercentMoveDirection | null;
+  percentMoveValue: number | null;
+  volumeSpikeMultiplier: number | null;
+  volumeSpikePriceFilter: VolumeSpikePriceFilter | null;
   note: string;
   triggered: boolean;
 };
@@ -75,6 +84,35 @@ function normalizeCondition(value: unknown): "above" | "below" {
   return "above";
 }
 
+function normalizeAlertType(value: unknown): AlertType {
+  const raw = String(value ?? "").trim().toLowerCase();
+  if (raw === "movingaverage") return "movingAverage";
+  if (raw === "percentmove") return "percentMove";
+  if (raw === "volumespike") return "volumeSpike";
+  return "price";
+}
+
+function normalizeMovingAveragePeriod(value: unknown): number | null {
+  const parsed = toNumberOrNull(value);
+  return parsed === 20 || parsed === 50 || parsed === 200 ? parsed : null;
+}
+
+function normalizePercentMoveDirection(
+  value: unknown,
+): PercentMoveDirection | null {
+  if (value == null) return null;
+  return String(value).trim().toLowerCase() === "down" ? "down" : "up";
+}
+
+function normalizeVolumeSpikePriceFilter(
+  value: unknown,
+): VolumeSpikePriceFilter | null {
+  if (value == null) return null;
+  const raw = String(value).trim().toLowerCase();
+  if (raw === "up" || raw === "down") return raw;
+  return "any";
+}
+
 function normalizeNote(value: unknown): string {
   if (typeof value !== "string") return "";
   return value.slice(0, MAX_NOTE_LENGTH);
@@ -104,9 +142,19 @@ function normalizeAlertEntry(raw: RawAlertEntry): NormalizedAlertEntry | null {
     symbol,
     name: String(raw?.name ?? "").trim(),
     assetType: normalizeAssetType(raw?.assetType, symbol),
+    alertType: normalizeAlertType(raw?.alertType),
     targetPrice: toNumberOrNull(raw?.targetPrice),
     priceWhenCreated: toNumberOrNull(raw?.priceWhenCreated),
     condition: normalizeCondition(raw?.condition),
+    movingAveragePeriod: normalizeMovingAveragePeriod(raw?.movingAveragePeriod),
+    percentMoveDirection: normalizePercentMoveDirection(
+      raw?.percentMoveDirection,
+    ),
+    percentMoveValue: toNumberOrNull(raw?.percentMoveValue),
+    volumeSpikeMultiplier: toNumberOrNull(raw?.volumeSpikeMultiplier),
+    volumeSpikePriceFilter: normalizeVolumeSpikePriceFilter(
+      raw?.volumeSpikePriceFilter,
+    ),
     note: normalizeNote(raw?.note),
     triggered: toBool(raw?.triggered),
   };
@@ -150,18 +198,57 @@ async function sendPushNotificationForAlert(params: {
   origin: string;
   apiKey: string;
   userId: string;
-  symbol: string;
+  liveResults: Record<string, unknown>;
 }): Promise<void> {
-  const { origin, apiKey, userId, symbol } = params;
+  const { origin, apiKey, userId, liveResults } = params;
+  const symbol = normalizeSymbol(liveResults?.symbol);
   if (!apiKey || !userId || !symbol) return;
+
+  const alertType = normalizeAlertType(liveResults?.alertType);
+  let title = `🚨 ${symbol} price alert`;
+  let body = "";
+
+  if (alertType === "movingAverage") {
+    const period = toNumberOrNull(liveResults?.movingAveragePeriod);
+    const condition = normalizeCondition(liveResults?.condition);
+    title = `🚨 ${symbol} MA alert`;
+    body = `Price crossed ${condition} the ${period ?? ""} MA.`.replace(
+      "  ",
+      " ",
+    );
+  } else if (alertType === "percentMove") {
+    const direction =
+      normalizePercentMoveDirection(liveResults?.percentMoveDirection) ?? "up";
+    const percent = toNumberOrNull(liveResults?.percentMoveValue) ?? 0;
+    title = `🚨 ${symbol} percent move`;
+    body = `Price moved ${direction} ${percent}% from your alert price.`;
+  } else if (alertType === "volumeSpike") {
+    const multiplier = toNumberOrNull(liveResults?.volumeSpikeMultiplier) ?? 0;
+    const priceFilter =
+      normalizeVolumeSpikePriceFilter(liveResults?.volumeSpikePriceFilter) ??
+      "any";
+    const suffix =
+      priceFilter === "up"
+        ? " and is above your alert price"
+        : priceFilter === "down"
+          ? " and is below your alert price"
+          : "";
+    title = `🚨 ${symbol} volume spike`;
+    body = `Volume reached ${multiplier}x average${suffix}.`;
+  } else {
+    const currentPrice = toNumberOrNull(liveResults?.currentPrice) ?? 0;
+    const targetPrice = toNumberOrNull(liveResults?.targetPrice) ?? 0;
+    const condition = normalizeCondition(liveResults?.condition);
+    body = `Price ${currentPrice.toFixed(2)} is ${condition} ${targetPrice.toFixed(2)}.`;
+  }
 
   try {
     await fetch(`${origin}/api/sendPushSubscription`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: `🚨 ${symbol} Price Alert triggered`,
-        body: "",
+        title,
+        body,
         url: `${origin}/notifications`,
         userId,
         key: apiKey,
@@ -261,6 +348,7 @@ export const POST = (async ({ request, locals, url }) => {
       const targetPrice = normalized.targetPrice;
 
       if (
+        normalized.alertType === "price" &&
         currentPrice !== undefined &&
         targetPrice !== null &&
         targetPrice > 0 &&
@@ -281,9 +369,15 @@ export const POST = (async ({ request, locals, url }) => {
         symbol: normalized.symbol,
         name: normalized.name,
         assetType: normalized.assetType,
+        alertType: normalized.alertType,
         targetPrice: normalized.targetPrice,
         priceWhenCreated: normalized.priceWhenCreated,
         condition: normalized.condition,
+        movingAveragePeriod: normalized.movingAveragePeriod,
+        percentMoveDirection: normalized.percentMoveDirection,
+        percentMoveValue: normalized.percentMoveValue,
+        volumeSpikeMultiplier: normalized.volumeSpikeMultiplier,
+        volumeSpikePriceFilter: normalized.volumeSpikePriceFilter,
         note: normalized.note,
         triggered: false,
       });
@@ -298,9 +392,15 @@ export const POST = (async ({ request, locals, url }) => {
       symbol: entry.symbol,
       name: entry.name,
       assetType: entry.assetType,
+      alertType: entry.alertType,
       targetPrice: entry.targetPrice,
       priceWhenCreated: entry.priceWhenCreated,
       condition: entry.condition,
+      movingAveragePeriod: entry.movingAveragePeriod,
+      percentMoveDirection: entry.percentMoveDirection,
+      percentMoveValue: entry.percentMoveValue,
+      volumeSpikeMultiplier: entry.volumeSpikeMultiplier,
+      volumeSpikePriceFilter: entry.volumeSpikePriceFilter,
       note: entry.note,
       triggered: false,
     }));
@@ -369,7 +469,14 @@ export const POST = (async ({ request, locals, url }) => {
       origin: url.origin,
       apiKey: apiKey ?? "",
       userId: user.id,
-      symbol: event.symbol,
+      liveResults: {
+        symbol: event.symbol,
+        assetType: event.assetType,
+        alertType: "price",
+        condition: event.condition,
+        targetPrice: Number(event.targetPrice.toFixed(2)),
+        currentPrice: Number(event.currentPrice.toFixed(2)),
+      },
     });
   }
 

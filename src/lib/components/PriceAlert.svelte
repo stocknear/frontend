@@ -30,16 +30,18 @@
     | "movingAverage"
     | "percentMove"
     | "volumeSpike";
+  type PercentMoveDirection = "up" | "down";
+  type VolumeSpikePriceFilter = "any" | "up" | "down";
 
   let currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
   let targetPrice = currentPrice; //(currentPrice * (1 + targetPrice / 100))?.toFixed(2);
   let alertType: AlertType = "price";
   let condition = "above";
   let movingAveragePeriod = "50";
-  let percentMoveDirection = "up";
+  let percentMoveDirection: PercentMoveDirection = "up";
   let percentMoveValue = 5;
   let volumeSpikeMultiplier = "2";
-  let volumeSpikePriceFilter = "any";
+  let volumeSpikePriceFilter: VolumeSpikePriceFilter = "any";
   let note = "";
   const NOTE_MAX_LENGTH = 500;
 
@@ -65,16 +67,33 @@
   }
 
   async function handleCreateAlert() {
-    if (alertType !== "price") {
-      toast.message("This alert type is preview-only for now.", {
+    // Validate input locally.
+    if (alertType === "price" && targetPrice < 0) {
+      toast.error(stock_detail_target_price_error(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
     }
 
-    // Validate input locally.
-    if (targetPrice < 0) {
-      toast.error(stock_detail_target_price_error(), {
+    if (
+      alertType === "movingAverage" &&
+      !["20", "50", "200"].includes(String(movingAveragePeriod))
+    ) {
+      toast.error("Select a valid moving average.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
+    if (alertType === "percentMove" && percentMoveValue <= 0) {
+      toast.error("Enter a valid percent move.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+      return;
+    }
+
+    if (alertType === "volumeSpike" && Number(volumeSpikeMultiplier) <= 0) {
+      toast.error("Enter a valid volume multiplier.", {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
       return;
@@ -92,9 +111,23 @@
       symbol: ticker,
       name: data?.getStockQuote?.name,
       assetType: assetType,
+      alertType,
       priceWhenCreated: currentPrice,
-      condition: condition,
-      targetPrice: targetPrice,
+      condition:
+        alertType === "price" || alertType === "movingAverage"
+          ? condition
+          : undefined,
+      targetPrice: alertType === "price" ? targetPrice : undefined,
+      movingAveragePeriod:
+        alertType === "movingAverage" ? Number(movingAveragePeriod) : undefined,
+      percentMoveDirection:
+        alertType === "percentMove" ? percentMoveDirection : undefined,
+      percentMoveValue:
+        alertType === "percentMove" ? Number(percentMoveValue) : undefined,
+      volumeSpikeMultiplier:
+        alertType === "volumeSpike" ? Number(volumeSpikeMultiplier) : undefined,
+      volumeSpikePriceFilter:
+        alertType === "volumeSpike" ? volumeSpikePriceFilter : undefined,
       note: sanitizedNote,
     };
 
@@ -156,8 +189,6 @@
     }
   }
 
-  $: isPreviewOnly = alertType !== "price";
-  $: saveButtonLabel = isPreviewOnly ? "Coming soon" : stock_detail_save();
 </script>
 
 <svelte:head>
@@ -470,8 +501,8 @@
                 class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="any">Any move</option>
-                <option value="up">Only if price is up</option>
-                <option value="down">Only if price is down</option>
+                <option value="up">Only if above alert price</option>
+                <option value="down">Only if below alert price</option>
               </select>
               <svg
                 class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
@@ -484,7 +515,8 @@
           </div>
 
           <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
-            Alert when trading volume is unusually high.
+            Alert when trading volume is unusually high compared with the quote
+            when you created the alert.
           </p>
         {/if}
 
@@ -511,11 +543,6 @@
 
         <!-- Action Buttons -->
         <div class="flex flex-col items-end gap-2 absolute bottom-3 right-5 left-5 sm:left-auto">
-          {#if isPreviewOnly}
-            <p class="text-xs font-normal text-muted/80 dark:text-zinc-400">
-              Preview only. Backend support is not wired yet.
-            </p>
-          {/if}
           <div class="flex justify-end gap-4">
           <label
             for="priceAlertModal"
@@ -525,14 +552,9 @@
           </label>
           <button
             on:click={handleCreateAlert}
-            disabled={isPreviewOnly}
-            class={`py-2 px-4 rounded-full text-sm font-semibold transition ${
-              isPreviewOnly
-                ? "cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-zinc-800 dark:text-zinc-400"
-                : "cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200"
-            }`}
+            class="cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition"
           >
-            {saveButtonLabel}
+            {stock_detail_save()}
           </button>
           </div>
         </div>

@@ -21,6 +21,35 @@ function toNumberOrNull(value: unknown): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function normalizeAlertType(value: unknown): string {
+  const raw = String(value ?? "").trim().toLowerCase();
+  if (raw === "movingaverage") return "movingAverage";
+  if (raw === "percentmove") return "percentMove";
+  if (raw === "volumespike") return "volumeSpike";
+  return "price";
+}
+
+function normalizeCondition(value: unknown): string {
+  return String(value ?? "").trim().toLowerCase() === "below" ? "below" : "above";
+}
+
+function normalizePercentMoveDirection(value: unknown): string | null {
+  if (value == null) return null;
+  return String(value).trim().toLowerCase() === "down" ? "down" : "up";
+}
+
+function normalizeVolumeSpikePriceFilter(value: unknown): string | null {
+  if (value == null) return null;
+  const raw = String(value).trim().toLowerCase();
+  if (raw === "up" || raw === "down") return raw;
+  return "any";
+}
+
+function normalizeMovingAveragePeriod(value: unknown): number | null {
+  const parsed = toNumberOrNull(value);
+  return parsed === 20 || parsed === 50 || parsed === 200 ? parsed : null;
+}
+
 function parseDataArray(raw: unknown): Record<string, unknown>[] {
   let parsed = raw;
   if (typeof parsed === "string") {
@@ -50,9 +79,19 @@ function toCanonicalEntry(
     name: String(entry?.name ?? "").trim(),
     assetType:
       String(entry?.assetType ?? "stock").trim().toLowerCase() || "stock",
+    alertType: normalizeAlertType(entry?.alertType),
     targetPrice: toNumberOrNull(entry?.targetPrice),
     priceWhenCreated: toNumberOrNull(entry?.priceWhenCreated),
-    condition: String(entry?.condition ?? "above").trim().toLowerCase() || "above",
+    condition: normalizeCondition(entry?.condition),
+    movingAveragePeriod: normalizeMovingAveragePeriod(entry?.movingAveragePeriod),
+    percentMoveDirection: normalizePercentMoveDirection(
+      entry?.percentMoveDirection,
+    ),
+    percentMoveValue: toNumberOrNull(entry?.percentMoveValue),
+    volumeSpikeMultiplier: toNumberOrNull(entry?.volumeSpikeMultiplier),
+    volumeSpikePriceFilter: normalizeVolumeSpikePriceFilter(
+      entry?.volumeSpikePriceFilter,
+    ),
     note: typeof entry?.note === "string" ? entry.note : "",
     triggered: false,
   };
@@ -62,8 +101,14 @@ function entryIdentityKey(entry: Record<string, unknown>): string {
   return [
     String(entry?.symbol ?? ""),
     String(entry?.assetType ?? ""),
+    String(entry?.alertType ?? ""),
     String(entry?.targetPrice ?? ""),
     String(entry?.condition ?? ""),
+    String(entry?.movingAveragePeriod ?? ""),
+    String(entry?.percentMoveDirection ?? ""),
+    String(entry?.percentMoveValue ?? ""),
+    String(entry?.volumeSpikeMultiplier ?? ""),
+    String(entry?.volumeSpikePriceFilter ?? ""),
     String(entry?.priceWhenCreated ?? ""),
   ].join("|");
 }

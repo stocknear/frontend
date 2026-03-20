@@ -235,6 +235,66 @@
     }
   }
 
+  function toFiniteNumber(value: unknown): number | null {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function getPriceAlertNotificationTitle(
+    liveResults: Record<string, unknown> | null | undefined,
+  ): string {
+    const alertType = String(liveResults?.alertType || "price");
+    if (alertType === "movingAverage") return "Moving average alert triggered";
+    if (alertType === "percentMove") return "Percent move alert triggered";
+    if (alertType === "volumeSpike") return "Volume spike alert triggered";
+    return notifications_type_price_alert_triggered();
+  }
+
+  function getPriceAlertNotificationMessage(
+    liveResults: Record<string, unknown> | null | undefined,
+  ): string {
+    const alertType = String(liveResults?.alertType || "price");
+
+    if (alertType === "movingAverage") {
+      const condition =
+        String(liveResults?.condition || "").toLowerCase() === "below"
+          ? "below"
+          : "above";
+      const period = toFiniteNumber(liveResults?.movingAveragePeriod);
+      return `Price crossed ${condition} the ${period ?? "-"} MA.`;
+    }
+
+    if (alertType === "percentMove") {
+      const direction =
+        String(liveResults?.percentMoveDirection || "").toLowerCase() === "down"
+          ? "down"
+          : "up";
+      const percent = toFiniteNumber(liveResults?.percentMoveValue);
+      return `Price moved ${direction} ${percent ?? "-"}% from your alert price.`;
+    }
+
+    if (alertType === "volumeSpike") {
+      const multiplier = toFiniteNumber(liveResults?.volumeSpikeMultiplier);
+      const filter = String(liveResults?.volumeSpikePriceFilter || "any").toLowerCase();
+      const suffix =
+        filter === "up"
+          ? " and is above your alert price"
+          : filter === "down"
+            ? " and is below your alert price"
+            : "";
+      return `Volume reached ${multiplier ?? "-"}x average${suffix}.`;
+    }
+
+    const currentPrice = toFiniteNumber(liveResults?.currentPrice);
+    const targetPrice = toFiniteNumber(liveResults?.targetPrice);
+    const condition =
+      String(liveResults?.condition || "").toLowerCase() === "below"
+        ? "below"
+        : "above";
+    if (currentPrice === null || targetPrice === null) return "-";
+    return `Price ${currentPrice.toFixed(2)} is ${condition} ${targetPrice.toFixed(2)}.`;
+  }
+
   $: if (
     data?.notificationChannels &&
     data.notificationChannels.id &&
@@ -886,7 +946,7 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
-                                {notifications_type_price_alert_triggered()}
+                                {getPriceAlertNotificationTitle(item?.liveResults)}
                                 <HoverStockChart
                                   symbol={item?.liveResults?.symbol}
                                   assetType={item?.liveResults?.assetType}
@@ -895,16 +955,9 @@
                               <div
                                 class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
                               >
-                                {notifications_type_price_is()}
-                                <span class="font-semibold"
-                                  >{item?.liveResults?.currentPrice}</span
-                                >
-                                {notifications_type_is_condition({
-                                  condition: item?.liveResults?.condition,
-                                })}
-                                <span class="font-semibold"
-                                  >{item?.liveResults?.targetPrice}</span
-                                >
+                                {getPriceAlertNotificationMessage(
+                                  item?.liveResults,
+                                )}
                               </div>
                             </div>
                           </div>
