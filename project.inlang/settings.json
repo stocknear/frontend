@@ -48,7 +48,7 @@
       "./messages/{locale}/terms.json",
       "./messages/{locale}/watchlist.json",
       "./messages/{locale}/portfolio.json",
-      "./messages/{locale}/price-alert.json",
+      "./messages/{locale}/alerts.json",
       "./messages/{locale}/notifications.json",
       "./messages/{locale}/market-flow.json",
       "./messages/{locale}/hedge-funds.json",

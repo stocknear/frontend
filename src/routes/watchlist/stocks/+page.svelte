@@ -71,7 +71,7 @@
   import Table from "$lib/components/Table/Table.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
-  import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+
   // Lazy load MarkdownNoteEditor for better performance
   let MarkdownNoteEditor: any = null;
   let isLoadingEditor = false;
@@ -1143,7 +1143,7 @@
           </div>
 
           <div
-            class="order-2 sm:order-1 w-full {displayWatchList?.title ===
+            class="order-2 sm:order-1 w-full sm:max-w-72 {displayWatchList?.title ===
             undefined
               ? 'hidden'
               : ''}"

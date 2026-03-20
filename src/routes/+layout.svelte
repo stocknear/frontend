@@ -414,7 +414,7 @@
       home: path === "/",
       portfolio: routeStartsWith(path, "/portfolio"),
       watchlist: routeStartsWith(path, "/watchlist"),
-      priceAlert: routeStartsWith(path, "/price-alert"),
+      priceAlert: routeStartsWith(path, "/alerts"),
       chat: routeStartsWith(path, "/chat"),
     };
   }
@@ -634,7 +634,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/industry"
@@ -646,7 +646,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/market-mover/gainers"
@@ -658,7 +658,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/stocks/heatmap"
@@ -670,7 +670,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/stocks/compare"
@@ -682,7 +682,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/list"
@@ -716,7 +716,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/etf/etf-providers"
@@ -727,7 +727,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/etf/heatmap"
@@ -738,7 +738,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/etf/compare"
@@ -749,7 +749,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/etf/new-launches"
@@ -783,7 +783,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/analysts"
@@ -794,7 +794,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/analysts/top-stocks"
@@ -806,7 +806,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/analysts/analyst-flow"
@@ -840,7 +840,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/dividends-calendar"
@@ -851,7 +851,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/earnings-calendar"
@@ -863,7 +863,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/ipos"
@@ -875,7 +875,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/economic-calendar"
@@ -887,7 +887,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/economic-indicator"
@@ -900,7 +900,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/stock-splits-calendar"
@@ -936,7 +936,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/politicians/flow-data"
@@ -947,7 +947,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/politicians"
@@ -981,7 +981,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/market-flow"
@@ -993,7 +993,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/news-flow"
@@ -1005,7 +1005,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/options-flow"
@@ -1016,7 +1016,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/unusual-order-flow"
@@ -1050,7 +1050,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/stocks/screener"
@@ -1065,7 +1065,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/etf/screener"
@@ -1080,7 +1080,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/options-screener"
@@ -1102,7 +1102,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/covered-call-screener"
@@ -1117,7 +1117,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/cash-secured-put-screener"
@@ -1151,7 +1151,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/options-calculator"
@@ -1167,7 +1167,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/potus-tracker"
@@ -1183,7 +1183,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/insider-tracker"
@@ -1199,7 +1199,7 @@
                           <Button
                             builders={[builder]}
                             type="submit"
-                            class="w-full  cursor-pointer"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
                               href="/reddit-tracker"
@@ -2072,7 +2072,7 @@
         >
       </a>
       <a
-        href="/price-alert"
+        href="/alerts"
         aria-current={bottomNavState.priceAlert ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}

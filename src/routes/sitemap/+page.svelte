@@ -243,7 +243,7 @@
     },
     {
       title: sitemap_tab_price_alerts(),
-      link: "/price-alert",
+      link: "/alerts",
     },
     {
       title: sitemap_tab_about(),

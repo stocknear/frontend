@@ -87,7 +87,7 @@
     hasNote?: boolean;
   };
 
-  // Lazy-load markdown editor to keep /price-alert lightweight.
+  // Lazy-load markdown editor to keep /alerts lightweight.
   let MarkdownNoteEditor: any = null;
   let isLoadingEditor = false;
 

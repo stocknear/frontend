@@ -135,7 +135,7 @@
 - `/profile/verification` - Account verification
 - `/watchlist/stocks` - Stock watchlist
 - `/watchlist/options` - Options watchlist
-- `/price-alert` - Price alerts
+- `/alerts` - Alerts
 - `/notifications` - Notifications
 - `/customize` - Dashboard customization
 - `/reset-password` - Password reset

@@ -114,7 +114,7 @@ const pages = [
   { path: "/newsletter", priority: 0.5, changefreq: "monthly" },
   { path: "/advertise", priority: 0.3, changefreq: "monthly" },
   { path: "/affiliate-program", priority: 0.3, changefreq: "monthly" },
-  { path: "/price-alert", priority: 0.5, changefreq: "monthly" },
+  { path: "/alerts", priority: 0.5, changefreq: "monthly" },
   { path: "/support", priority: 0.3, changefreq: "yearly" },
 
   // Legal pages
