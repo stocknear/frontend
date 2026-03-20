@@ -40,9 +40,7 @@
     price_alert_earnings_in_eps,
     price_alert_earnings_in_revenue,
     price_alert_earnings_will_report,
-    price_alert_earnings_will_report_monday,
     price_alert_earnings_will_report_today,
-    price_alert_earnings_will_report_tomorrow,
     price_alert_earnings_yoy,
     price_alert_edit_alert,
     price_alert_empty_description,
@@ -1046,9 +1044,7 @@
 <section
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-muted dark:text-zinc-200"
 >
-  <BreadCrumb
-    containerClass="text-sm sm:text-[0.95rem] breadcrumbs text-muted dark:text-white"
-  >
+  <BreadCrumb containerClass="text-sm  breadcrumbs text-muted dark:text-white">
     <li>
       <a
         href="/"
@@ -1193,51 +1189,26 @@
                 class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
               >
                 <table
-                  class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact w-full m-auto text-sm text-muted dark:text-zinc-200 tabular-nums"
                 >
                   <!-- head -->
                   <thead
                     class="text-[11px] uppercase tracking-wide text-muted dark:text-white bg-white/60 dark:bg-zinc-950/30"
                   >
                     <tr class="border-b border-gray-300 dark:border-zinc-700">
-                      <th
-                        class=" font-semibold text-[11px] sm:text-[12px] text-left"
-                        >Symbol</th
-                      >
-                      <th
-                        class=" font-semibold text-[11px] sm:text-[12px] text-left"
-                        >Company</th
-                      >
-                      <th
-                        class=" font-semibold text-[11px] sm:text-[12px] text-left"
+                      <th class=" font-semibold text-xs text-left">Symbol</th>
+                      <th class=" font-semibold text-xs text-left">Company</th>
+                      <th class=" font-semibold text-xs text-left"
                         >Alert Type</th
                       >
 
-                      <th
-                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                        >Alert</th
+                      <th class=" font-semibold text-end text-xs">Alert</th>
+                      <th class=" font-semibold text-end text-xs">Rule</th>
+                      <th class=" font-semibold text-left text-xs">To Target</th
                       >
-                      <th
-                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                        >Rule</th
-                      >
-                      <th
-                        class=" font-semibold text-left text-[11px] sm:text-[12px]"
-                        >To Target</th
-                      >
-                      <th
-                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                      >
-                        Price</th
-                      >
-                      <th
-                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                        >% Change</th
-                      >
-                      <th
-                        class=" font-semibold text-end text-[11px] sm:text-[12px]"
-                        >Volume</th
-                      >
+                      <th class=" font-semibold text-end text-xs"> Price</th>
+                      <th class=" font-semibold text-end text-xs">% Change</th>
+                      <th class=" font-semibold text-end text-xs">Volume</th>
                     </tr>
                   </thead>
                   <tbody class="p-3">
@@ -1249,7 +1220,7 @@
                       >
                         <td
                           on:click={() => editMode && handleFilter(item?.id)}
-                          class="text-sm sm:text-[0.95rem] whitespace-nowrap text-start"
+                          class="text-sm whitespace-nowrap text-start"
                         >
                           {#if editMode}
                             <div class="flex flex-row items-center">
@@ -1287,35 +1258,25 @@
                           {/if}
                         </td>
 
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap"
-                        >
+                        <td class=" text-sm whitespace-nowrap">
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
                             : item?.name}
                         </td>
 
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap"
-                        >
+                        <td class=" text-sm whitespace-nowrap">
                           {getAlertTypeLabel(item)}
                         </td>
 
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
-                        >
+                        <td class=" text-sm whitespace-nowrap text-end">
                           {getAlertLabel(item)}
                         </td>
 
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
-                        >
+                        <td class=" text-sm whitespace-nowrap text-end">
                           {getAlertRuleLabel(item)}
                         </td>
 
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap"
-                        >
+                        <td class=" text-sm whitespace-nowrap">
                           {#if toTarget.valid}
                             <div class="min-w-[130px]">
                               <div
@@ -1345,15 +1306,11 @@
                             <span class="text-muted dark:text-white">-</span>
                           {/if}
                         </td>
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
-                        >
+                        <td class=" text-sm whitespace-nowrap text-end">
                           {item?.price?.toFixed(2)}
                         </td>
 
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
-                        >
+                        <td class=" text-sm whitespace-nowrap text-end">
                           {#if item?.changesPercentage >= 0}
                             <span class="text-emerald-800 dark:text-emerald-400"
                               >+{item?.changesPercentage?.toFixed(2)}%</span
@@ -1364,9 +1321,7 @@
                             </span>
                           {/if}
                         </td>
-                        <td
-                          class=" text-sm sm:text-[0.95rem] whitespace-nowrap text-end"
-                        >
+                        <td class=" text-sm whitespace-nowrap text-end">
                           {abbreviateNumber(item?.volume)}
                         </td>
                       </tr>

@@ -54,12 +54,14 @@
     note = "";
   }
 
-  function changeStatement(event) {
-    condition = event.target.value;
-  }
-
-  function changeAlertType(event) {
-    alertType = event.target.value;
+  function closeAlertModal() {
+    const modalToggle = document.querySelector(
+      "input#priceAlertModal.modal-toggle",
+    ) as HTMLInputElement | null;
+    if (modalToggle) {
+      modalToggle.checked = false;
+    }
+    resetAlertForm();
   }
 
   async function handleCreateAlert() {
@@ -96,10 +98,6 @@
     }
 
     const sanitizedNote = note.trim();
-
-    // Optionally close the modal popup.
-    const closePopup = document.getElementById("priceAlertModal");
-    closePopup?.dispatchEvent(new MouseEvent("click"));
 
     // Prepare data for the POST request.
     const postData = {
@@ -156,8 +154,7 @@
       const createdPriceAlertData = await promise;
       // Update reactive store or state as needed.
       newPriceAlertData.set(createdPriceAlertData);
-      // Optionally reset targetPrice or perform further actions.
-      resetAlertForm();
+      closeAlertModal();
     } catch (error) {
       // The error is already handled by toast.promise, but you can log it here.
       console.error("Error creating alert:", error);
@@ -197,13 +194,18 @@
 <input type="checkbox" id="priceAlertModal" class="modal-toggle" />
 
 <dialog id="priceAlertModal" class="modal modal-middle p-2 sm:p-0">
-  <label for="priceAlertModal" class="cursor-pointer modal-backdrop"></label>
+  <label
+    for="priceAlertModal"
+    class="cursor-pointer modal-backdrop"
+    on:click={closeAlertModal}
+  ></label>
 
   <div
     class="modal-box w-full min-h-fit h-auto max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain sm:h-[560px] sm:max-h-[560px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="priceAlertModal"
+      on:click={closeAlertModal}
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
@@ -257,10 +259,10 @@
           >
           <div class="relative w-full sm:w-[80%]">
             <select
-              on:change={changeAlertType}
+              bind:value={alertType}
               class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
-              <option value="price" selected>Price target</option>
+              <option value="price">Price target</option>
               <option value="movingAverage">Moving average cross</option>
               <option value="percentMove">Percent move</option>
               <option value="volumeSpike">Volume spike</option>
@@ -297,10 +299,10 @@
             >
             <div class="relative w-full sm:w-[80%]">
               <select
-                on:change={changeStatement}
+                bind:value={condition}
                 class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
-                <option value="above" selected>{stock_detail_above()}</option>
+                <option value="above">{stock_detail_above()}</option>
                 <option value="below">{stock_detail_below()}</option>
               </select>
               <svg
@@ -549,6 +551,7 @@
           <div class="flex justify-end gap-4">
             <label
               for="priceAlertModal"
+              on:click={closeAlertModal}
               class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
             >
               {stock_detail_cancel()}

@@ -2397,7 +2397,7 @@
                 </div>
               </details>
             </li>
-
+            <!--
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -2416,6 +2416,7 @@
                 </div>
               </details>
             </li>
+            -->
           </ul>
         </div>
       </div>
