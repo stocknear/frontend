@@ -1,24 +1,29 @@
 export const load = async ({locals}) => {
     const { pb } = locals;
+  const fields = "title";
 
   const getTutorialPost = async () => {
-    // Get all tutorials (excluding Terms for the main list)
-    const output = await pb.collection("tutorials").getFullList({
+    // Get only the 15 titles displayed in the main list.
+    const output = await pb.collection("tutorials").getList(1, 15, {
       sort: "-created",
       filter: 'category != "Terms"',
-    }) || [];
+      fields,
+      requestKey: "sitemap-tutorials",
+    });
 
-    return output;
+    return output?.items || [];
   };
 
   const getTerms = async () => {
-    // Get terms from tutorials collection
-    const output = await pb.collection("tutorials").getFullList({
-      sort: "title",
+    // Load only the latest 20 term titles for the sitemap terms section.
+    const output = await pb.collection("tutorials").getList(1, 20, {
+      sort: "-created",
       filter: 'category = "Terms"',
-    }) || [];
+      fields,
+      requestKey: "sitemap-terms",
+    });
 
-    return output;
+    return output?.items || [];
   };
 
   const [tutorialPost, terms] = await Promise.all([
