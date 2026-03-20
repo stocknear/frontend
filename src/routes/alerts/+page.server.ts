@@ -199,13 +199,6 @@ export const load = async ({ locals }) => {
 
     const output = await postAPI(locals, "/get-price-alert", { userId: user.id });
 
-    output.data = (output?.data || [])
-      ?.filter((item) => !toBool(item?.triggered))
-      ?.map((item) => ({
-        ...item,
-        hasNote: Boolean(item?.note && String(item.note)?.trim()?.length > 0),
-      }))
-      ?.sort((a, b) => a?.symbol?.localeCompare(b?.symbol));
     return output;
   };
 

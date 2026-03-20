@@ -25,11 +25,7 @@
   export let ticker;
   export let assetType;
 
-  type AlertType =
-    | "price"
-    | "movingAverage"
-    | "percentMove"
-    | "volumeSpike";
+  type AlertType = "price" | "movingAverage" | "percentMove" | "volumeSpike";
   type PercentMoveDirection = "up" | "down";
   type VolumeSpikePriceFilter = "any" | "up" | "down";
 
@@ -188,7 +184,6 @@
       resetAlertForm();
     }
   }
-
 </script>
 
 <svelte:head>
@@ -205,7 +200,7 @@
   <label for="priceAlertModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full min-h-fit h-[650px] sm:h-[560px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full min-h-fit h-auto max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain sm:h-[560px] sm:max-h-[560px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="priceAlertModal"
@@ -415,7 +410,9 @@
             </div>
           </div>
 
-          <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
+          <p
+            class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]"
+          >
             Alert when price crosses the selected moving average.
           </p>
         {:else if alertType === "percentMove"}
@@ -462,7 +459,9 @@
             </div>
           </div>
 
-          <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
+          <p
+            class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]"
+          >
             Measured from the current price when the alert is created.
           </p>
         {:else if alertType === "volumeSpike"}
@@ -514,13 +513,15 @@
             </div>
           </div>
 
-          <p class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]">
+          <p
+            class="text-xs font-normal text-muted/80 dark:text-zinc-400 sm:pl-[20%]"
+          >
             Alert when trading volume is unusually high compared with the quote
             when you created the alert.
           </p>
         {/if}
 
-        <div class="flex flex-col sm:flex-row items-start sm:items-start">
+        <div class="flex flex-col sm:flex-row items-start sm:items-start pb-5">
           <label
             class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0 sm:mt-2"
             >Note</label
@@ -542,20 +543,22 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex flex-col items-end gap-2 absolute bottom-3 right-5 left-5 sm:left-auto">
+        <div
+          class="flex flex-col items-end gap-2 absolute bottom-3 right-5 left-5 sm:left-auto"
+        >
           <div class="flex justify-end gap-4">
-          <label
-            for="priceAlertModal"
-            class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
-          >
-            {stock_detail_cancel()}
-          </label>
-          <button
-            on:click={handleCreateAlert}
-            class="cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition"
-          >
-            {stock_detail_save()}
-          </button>
+            <label
+              for="priceAlertModal"
+              class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+            >
+              {stock_detail_cancel()}
+            </label>
+            <button
+              on:click={handleCreateAlert}
+              class="cursor-pointer bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 px-4 rounded-full text-sm font-semibold hover:bg-gray-800 dark:hover:bg-zinc-200 transition"
+            >
+              {stock_detail_save()}
+            </button>
           </div>
         </div>
       </div>
