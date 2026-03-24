@@ -10,7 +10,6 @@
     stock_detail_quarterly_earnings_released,
     stock_detail_revenue_of,
     stock_detail_with,
-    stock_detail_yoy,
     stock_detail_yoy_decline,
     stock_detail_yoy_growth,
   } from "$lib/paraglide/messages";
@@ -113,7 +112,7 @@
             ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
             : 'text-rose-800 dark:text-rose-400'}">{revenueRatio}%</span
         >
-        {stock_detail_yoy()}
+
         {revenueRatio < 0
           ? stock_detail_yoy_decline()
           : stock_detail_yoy_growth()}.
@@ -136,7 +135,7 @@
         >
           {epsRatio === null ? "n/a" : `${epsRatio}%`}
         </span>
-        {stock_detail_yoy()}
+
         {epsRatio === null
           ? ""
           : epsRatio < 0
