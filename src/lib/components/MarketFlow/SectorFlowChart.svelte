@@ -58,6 +58,18 @@
                 gridLineWidth: 0,
                 lineWidth: 0,
                 tickLength: 0,
+                stackLabels: {
+                    enabled: true,
+                    useHTML: true,
+                    formatter: function () {
+                        const item = sectorFlow?.[this.x];
+                        if (!item || !item.callPrem) return "";
+                        const ratio = (item.putPrem / item.callPrem).toFixed(2);
+                        const color =
+                            parseFloat(ratio) > 1 ? "#f87171" : "#34d399";
+                        return `<span style="color:${color}; font-size:11px; font-weight:600;">P/C ${ratio}</span>`;
+                    },
+                },
             },
             plotOptions: {
                 series: { pointWidth: 10 },
@@ -65,21 +77,7 @@
                 bar: {
                     stacking: "normal", // <-- enables stacking
                     dataLabels: {
-                        enabled: true,
-                        inside: false,
-                        align: "right",
-                        style: {
-                            color: "#000",
-                            fontSize: "12.5px",
-                            fontWeight: "550",
-                            textOutline: "none",
-                        },
-                        formatter: function () {
-                            if (this.series.name === "Total") {
-                                return this.y?.toLocaleString("en-US");
-                            }
-                            return null;
-                        },
+                        enabled: false,
                     },
                     borderWidth: 0,
                     pointPadding: $screenWidth < 640 ? 0.02 : 0.18,
@@ -114,11 +112,17 @@
                         this.points.find((p) => p.series.name === "Put Prem")
                             ?.y || 0;
                     const total = call + put;
+                    const pcRatio = call > 0 ? (put / call).toFixed(2) : "N/A";
+                    const ratioColor =
+                        pcRatio !== "N/A" && parseFloat(pcRatio) > 1
+                            ? "text-red-400"
+                            : "text-green-400";
 
                     return `
           <span class="m-auto text-xs font-semibold">${sector}</span><br>
           <span class="text-green-400">Call Prem: ${abbreviateNumber(call)}</span><br>
           <span class="text-red-400">Put Prem: ${abbreviateNumber(put)}</span><br>
+          <span class="${ratioColor}">P/C Ratio: ${pcRatio}</span><br>
           <span class="text-white font-bold">Total Prem: ${abbreviateNumber(total)}</span>
         `;
                 },
