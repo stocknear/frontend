@@ -20,9 +20,47 @@
   <div class="shadow">
     <h2 class="mb-2 text-xl font-bold">{title} Forecast</h2>
     <div class="p-2">
-      <div class="w-full">
+      <div class="relative w-full">
         {#if config !== null}
           <div use:highcharts={config}></div>
+        {/if}
+        {#if !["Pro", "Plus"]?.includes(userTier)}
+          {@const lockedPct = Math.min(
+            (2 / (tableDataList?.length || 1)) * 100,
+            60,
+          )}
+          <div
+            class="absolute top-0 right-0 bottom-0 rounded-r-lg"
+            style="width: {lockedPct}%; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);"
+          >
+            <div
+              class="absolute inset-0 bg-white/30 dark:bg-zinc-950/30 rounded-r-lg pointer-events-none"
+            ></div>
+            <a
+              href="/pricing"
+              class="absolute inset-0 flex items-center justify-center z-10"
+            >
+              <div
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
+              >
+                <svg
+                  class="w-4 h-4 text-muted dark:text-white"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span
+                  class="text-[9px] font-semibold text-muted dark:text-white"
+                  >Upgrade</span
+                >
+              </div>
+            </a>
+          </div>
         {/if}
       </div>
       <div class="mt-3 overflow-x-auto p-0 text-center sm:p-0.5 lg:mt-3.5">
@@ -56,9 +94,9 @@
                           ><path
                             fill="currentColor"
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg>
-</a
-                      >
+                          /></svg
+                        >
+                      </a>
                     {:else}
                       {abbreviateNumber(item?.val)}
                     {/if}
@@ -80,9 +118,9 @@
                           ><path
                             fill="currentColor"
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg>
-</a
-                      >
+                          /></svg
+                        >
+                      </a>
                     {:else}
                       {abbreviateNumber(item?.val)}
                     {/if}
@@ -104,9 +142,9 @@
                           ><path
                             fill="currentColor"
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg>
-</a
-                      >
+                          /></svg
+                        >
+                      </a>
                     {:else}
                       {abbreviateNumber(item?.val)}
                     {/if}
@@ -123,9 +161,47 @@
   <div class="shadow">
     <h2 class="mb-2 text-xl font-bold">{title}</h2>
     <div class="p-2">
-      <div class="w-full">
+      <div class="relative w-full">
         {#if config !== null}
           <div use:highcharts={config}></div>
+        {/if}
+        {#if !["Pro", "Plus"]?.includes(userTier)}
+          {@const lockedPct = Math.min(
+            (2 / (tableDataList?.length || 1)) * 100,
+            60,
+          )}
+          <div
+            class="absolute top-0 right-0 bottom-0 rounded-r-lg"
+            style="width: {lockedPct}%; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);"
+          >
+            <div
+              class="absolute inset-0 bg-white/30 dark:bg-zinc-950/30 rounded-r-lg pointer-events-none"
+            ></div>
+            <a
+              href="/pricing"
+              class="absolute inset-0 flex items-center justify-center z-10"
+            >
+              <div
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
+              >
+                <svg
+                  class="w-4 h-4 text-muted dark:text-white"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span
+                  class="text-[9px] font-semibold text-muted dark:text-white"
+                  >Upgrade</span
+                >
+              </div>
+            </a>
+          </div>
         {/if}
       </div>
       <div class="mt-3 overflow-x-auto p-0 text-center sm:p-0.5 lg:mt-3.5">
@@ -159,9 +235,9 @@
                           ><path
                             fill="currentColor"
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg>
-</a
-                      >
+                          /></svg
+                        >
+                      </a>
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
@@ -193,9 +269,9 @@
                           ><path
                             fill="currentColor"
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg>
-</a
-                      >
+                          /></svg
+                        >
+                      </a>
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
@@ -227,9 +303,9 @@
                           ><path
                             fill="currentColor"
                             d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
-                          /></svg>
-</a
-                      >
+                          /></svg
+                        >
+                      </a>
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
