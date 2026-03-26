@@ -41,7 +41,7 @@
               class="absolute inset-0 flex items-center justify-center z-10"
             >
               <div
-                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
               >
                 <svg
                   class="w-4 h-4 text-muted dark:text-white"

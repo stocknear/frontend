@@ -787,10 +787,10 @@
             on:click|stopPropagation
           >
             <div
-              class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-violet-200/60 dark:border-violet-700/40 shadow-lg cursor-pointer hover:scale-105 transition-transform"
+              class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
             >
               <svg
-                class="w-4 h-4 text-violet-500 dark:text-violet-400"
+                class="w-4 h-4 text-muted dark:text-white"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 style="max-width:40px"
@@ -802,7 +802,7 @@
                 />
               </svg>
               <span
-                class="text-[9px] font-semibold text-violet-800 dark:text-violet-300"
+                class="text-[9px] font-semibold text-muted dark:text-white"
                 >Upgrade</span
               >
             </div>
