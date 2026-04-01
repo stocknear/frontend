@@ -3,6 +3,11 @@ import { registerUserSchema } from "$lib/schemas";
 import { validateData, checkDisposableEmail } from "$lib/utils";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
+import {
+  register_turnstile_required,
+  register_turnstile_failed,
+  register_turnstile_error,
+} from "$lib/paraglide/messages.js";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -89,7 +94,7 @@ export const actions = {
         return fail(400, {
           data: safeFormData,
           errors: {
-            turnstile: ["Please confirm you are not a robot."],
+            turnstile: [register_turnstile_required()],
           },
         });
       }
@@ -112,7 +117,7 @@ export const actions = {
             errors: {
               turnstile: [
                 turnstileVerification?.message ??
-                  "Turnstile verification failed. Please try again.",
+                  register_turnstile_failed(),
               ],
             },
           });
@@ -123,7 +128,7 @@ export const actions = {
           data: safeFormData,
           errors: {
             turnstile: [
-              "Unable to verify Turnstile response. Please refresh and try again.",
+              register_turnstile_error(),
             ],
           },
         });

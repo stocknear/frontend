@@ -78,6 +78,9 @@
     pricing_start_trial,
     pricing_billed_annually_plus,
     pricing_billed_annually_pro,
+    pricing_billed_annually_plus_promo,
+    pricing_billed_annually_pro_promo,
+    register_logo_alt,
   } from "$lib/paraglide/messages.js";
 
   export let form;
@@ -264,7 +267,7 @@
         <img
           class="w-14 sm:w-16 rounded-full mx-auto"
           src="/pwa-192x192.png"
-          alt="Stocknear Logo"
+          alt={register_logo_alt()}
         />
       </a>
     </div>
@@ -546,7 +549,10 @@
 
             {#if pricingAnnual}
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                Billed Annually (<span class="line-through mx-1">$120</span> $60)
+                {@html pricing_billed_annually_plus_promo({
+                  originalPrice: '<span class="line-through mx-1">$120</span>',
+                  discountPrice: '$60'
+                })}
               </p>
             {/if}
 
@@ -645,7 +651,10 @@
 
             {#if pricingAnnual}
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                Billed Annually (<span class="line-through mx-1">$360</span> $90)
+                {@html pricing_billed_annually_pro_promo({
+                  originalPrice: '<span class="line-through mx-1">$360</span>',
+                  discountPrice: '$90'
+                })}
               </p>
             {/if}
 

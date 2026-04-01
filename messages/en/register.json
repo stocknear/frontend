@@ -55,5 +55,9 @@
   "register_step2_plus_title": "Plus",
   "register_step2_plus_subtitle": "For serious investors",
   "register_step2_pro_title": "Pro",
-  "register_step2_pro_subtitle": "For professional traders"
+  "register_step2_pro_subtitle": "For professional traders",
+  "register_logo_alt": "Stocknear Logo",
+  "register_turnstile_required": "Please confirm you are not a robot.",
+  "register_turnstile_failed": "Turnstile verification failed. Please try again.",
+  "register_turnstile_error": "Unable to verify Turnstile response. Please refresh and try again."
 }

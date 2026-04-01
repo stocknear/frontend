@@ -55,5 +55,9 @@
   "register_step2_plus_title": "Plus",
   "register_step2_plus_subtitle": "Für ernsthafte Investoren",
   "register_step2_pro_title": "Pro",
-  "register_step2_pro_subtitle": "Für professionelle Trader"
+  "register_step2_pro_subtitle": "Für professionelle Trader",
+  "register_logo_alt": "Stocknear Logo",
+  "register_turnstile_required": "Bitte bestätige, dass du kein Roboter bist.",
+  "register_turnstile_failed": "Verifizierung fehlgeschlagen. Bitte versuche es erneut.",
+  "register_turnstile_error": "Verifizierung nicht möglich. Bitte lade die Seite neu und versuche es erneut."
 }

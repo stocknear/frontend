@@ -123,7 +123,6 @@ export const coolMode = createFinancialViewModeStore();
 export const timeFrame =writable(<string>"5Y");
 
 export const closedPWA = writable(<boolean>false);
-export const closedPromoBanner = writable(<boolean>false);
 
 export const executiveClicked = writable(<boolean>false);
 export const secFilingsClicked = writable(<boolean>false);
