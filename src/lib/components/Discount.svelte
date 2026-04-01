@@ -5,6 +5,12 @@
     pricing_discount_plans,
     //pricing_discount_copied,
     //pricing_discount_click_to_copy,
+    pricing_discount_promo_title,
+    pricing_discount_expires_in,
+    pricing_discount_days,
+    pricing_discount_hours,
+    pricing_discount_min,
+    pricing_discount_sec,
   } from "$lib/paraglide/messages.js";
 
   let copied = false;
@@ -72,7 +78,7 @@
       <div
         class="flex flex-col items-center -mt-2 text-center text-sm text-muted dark:text-white"
       >
-        <div class="uppercase font-semibold">Easter Special</div>
+        <div class="uppercase font-semibold">{pricing_discount_promo_title()}</div>
         <div>🔥 {pricing_discount_plans()}</div>
       </div>
 
@@ -81,7 +87,7 @@
         <p
           class="text-center text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-zinc-400 mb-3"
         >
-          Expires in
+          {pricing_discount_expires_in()}
         </p>
 
         <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
@@ -98,7 +104,7 @@
             <span
               class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
             >
-              Days
+              {pricing_discount_days()}
             </span>
           </div>
 
@@ -115,7 +121,7 @@
             <span
               class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
             >
-              Hours
+              {pricing_discount_hours()}
             </span>
           </div>
 
@@ -132,7 +138,7 @@
             <span
               class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
             >
-              Min
+              {pricing_discount_min()}
             </span>
           </div>
 
@@ -149,7 +155,7 @@
             <span
               class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
             >
-              Sec
+              {pricing_discount_sec()}
             </span>
           </div>
         </div>

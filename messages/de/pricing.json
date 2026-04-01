@@ -90,5 +90,20 @@
   "pricing_upgrade_modal_response_time": "Wir antworten in der Regel innerhalb von 24 Stunden.",
   "pricing_billed_annually_plus": "Jährlich abgerechnet",
   "pricing_billed_annually_pro": "Jährlich abgerechnet",
-  "pricing_pro_active": "Pro-Plan aktiv"
+  "pricing_pro_active": "Pro-Plan aktiv",
+  "pricing_discount_promo_title": "Oster-Aktion",
+  "pricing_discount_expires_in": "Endet in",
+  "pricing_discount_days": "Tage",
+  "pricing_discount_hours": "Std",
+  "pricing_discount_min": "Min",
+  "pricing_discount_sec": "Sek",
+  "pricing_billed_annually_plus_promo": "Jährlich abgerechnet ({originalPrice} {discountPrice})",
+  "pricing_billed_annually_pro_promo": "Jährlich abgerechnet ({originalPrice} {discountPrice})",
+  "pricing_seo_keywords": "stocknear preise, stocknear pro, aktienanalyse abo, premium aktientools, investment analyse preise, trading tools abo, aktien daten premium, finanzanalyse pläne",
+  "pricing_structured_data_name": "Stocknear Preisübersicht",
+  "pricing_structured_data_description": "Premium-Abonnement-Pläne für fortgeschrittene Aktienanalyse und Trading-Tools",
+  "pricing_breadcrumb_home": "Startseite",
+  "pricing_breadcrumb_pricing": "Preise",
+  "pricing_offer_pro_plan": "Pro-Plan",
+  "pricing_offer_lifetime_plan": "Lifetime-Plan"
 }

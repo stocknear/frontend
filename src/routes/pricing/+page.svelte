@@ -92,6 +92,15 @@
     pricing_billed_annually_plus,
     pricing_billed_annually_pro,
     pricing_pro_active,
+    pricing_seo_keywords,
+    pricing_structured_data_name,
+    pricing_structured_data_description,
+    pricing_breadcrumb_home,
+    pricing_breadcrumb_pricing,
+    pricing_offer_pro_plan,
+    pricing_offer_lifetime_plan,
+    pricing_billed_annually_plus_promo,
+    pricing_billed_annually_pro_promo,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -231,13 +240,12 @@
 <SEO
   title={pricing_seo_title()}
   description={pricing_seo_description()}
-  keywords="stocknear pricing, stocknear pro, stock analysis subscription, premium stock tools, investment analytics pricing, trading tools subscription, stock data premium, financial analysis plans"
+  keywords={pricing_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Stocknear Pricing Plans",
-    description:
-      "Premium subscription plans for advanced stock analysis and trading tools",
+    name: pricing_structured_data_name(),
+    description: pricing_structured_data_description(),
     url: "https://stocknear.com/pricing",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -245,13 +253,13 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: pricing_breadcrumb_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Pricing",
+          name: pricing_breadcrumb_pricing(),
           item: "https://stocknear.com/pricing",
         },
       ],
@@ -259,7 +267,7 @@
     offers: [
       {
         "@type": "Offer",
-        name: "Pro Plan",
+        name: pricing_offer_pro_plan(),
         price: "20",
         priceCurrency: "USD",
         priceSpecification: {
@@ -271,7 +279,7 @@
       },
       {
         "@type": "Offer",
-        name: "Lifetime Plan",
+        name: pricing_offer_lifetime_plan(),
         price: "449",
         priceCurrency: "USD",
         priceSpecification: {
@@ -1233,7 +1241,10 @@
             <span
               class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
-              Billed Annually (<span class="line-through mx-1">$120</span> $60)
+              {@html pricing_billed_annually_plus_promo({
+                originalPrice: '<span class="line-through mx-1">$120</span>',
+                discountPrice: "$60",
+              })}
             </span>
           {:else}
             <span
@@ -1848,7 +1859,10 @@
             <span
               class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
-              Billed Annually (<span class="line-through mx-1">$360</span> $90)
+              {@html pricing_billed_annually_pro_promo({
+                originalPrice: '<span class="line-through mx-1">$360</span>',
+                discountPrice: "$90",
+              })}
             </span>
           {:else}
             <span
@@ -2397,7 +2411,7 @@
                 </div>
               </details>
             </li>
-            <!--
+
             <li
               class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
@@ -2416,7 +2430,6 @@
                 </div>
               </details>
             </li>
-            -->
           </ul>
         </div>
       </div>

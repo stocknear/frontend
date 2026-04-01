@@ -90,5 +90,20 @@
   "pricing_upgrade_modal_response_time": "We typically respond within 24 hours.",
   "pricing_billed_annually_plus": "Billed annually",
   "pricing_billed_annually_pro": "Billed annually",
-  "pricing_pro_active": "Pro Plan Active"
+  "pricing_pro_active": "Pro Plan Active",
+  "pricing_discount_promo_title": "Easter Special",
+  "pricing_discount_expires_in": "Expires in",
+  "pricing_discount_days": "Days",
+  "pricing_discount_hours": "Hours",
+  "pricing_discount_min": "Min",
+  "pricing_discount_sec": "Sec",
+  "pricing_billed_annually_plus_promo": "Billed Annually ({originalPrice} {discountPrice})",
+  "pricing_billed_annually_pro_promo": "Billed Annually ({originalPrice} {discountPrice})",
+  "pricing_seo_keywords": "stocknear pricing, stocknear pro, stock analysis subscription, premium stock tools, investment analytics pricing, trading tools subscription, stock data premium, financial analysis plans",
+  "pricing_structured_data_name": "Stocknear Pricing Plans",
+  "pricing_structured_data_description": "Premium subscription plans for advanced stock analysis and trading tools",
+  "pricing_breadcrumb_home": "Home",
+  "pricing_breadcrumb_pricing": "Pricing",
+  "pricing_offer_pro_plan": "Pro Plan",
+  "pricing_offer_lifetime_plan": "Lifetime Plan"
 }
