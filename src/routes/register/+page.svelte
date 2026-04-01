@@ -551,7 +551,7 @@
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
                 {@html pricing_billed_annually_plus_promo({
                   originalPrice: '<span class="line-through mx-1">$120</span>',
-                  discountPrice: '$60'
+                  discountPrice: "$60",
                 })}
               </p>
             {/if}
@@ -629,7 +629,7 @@
                 <span class="text-xl text-muted dark:text-white line-through">
                   $30
                 </span>
-                <span class="text-4xl font-semibold"> $15 </span>
+                <span class="text-4xl font-semibold"> $7.5 </span>
               {:else}
                 <span class="text-3xl font-semibold text-muted dark:text-white"
                   >$45</span
@@ -653,7 +653,7 @@
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
                 {@html pricing_billed_annually_pro_promo({
                   originalPrice: '<span class="line-through mx-1">$360</span>',
-                  discountPrice: '$90'
+                  discountPrice: "$90",
                 })}
               </p>
             {/if}
