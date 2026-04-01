@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  //import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
   import {
     pricing_seo_title,
     pricing_seo_description,
@@ -364,11 +364,10 @@
         >
       </div>
     </div>
-    <!--
+
     {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
       <Discount />
     {/if}
-    -->
 
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
@@ -1206,7 +1205,6 @@
         </div>
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <!--
           {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span class="text-xl text-muted dark:text-white line-through">
               $10
@@ -1217,11 +1215,12 @@
               {mode ? "$10" : "$15"}
             </span>
           {/if}
-          -->
+          <!--
 
           <span class="text-4xl font-semibold">
             {mode ? "$10" : "$15"}
           </span>
+            -->
 
           <span class="text-sm">{pricing_per_month()}</span>
         </div>
@@ -1230,7 +1229,6 @@
             ? 'hidden'
             : ''}"
         >
-          <!--
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span
               class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
@@ -1243,12 +1241,13 @@
               >{pricing_billed_annually_plus()}</span
             >
           {/if}
-        -->
 
+          <!--
           <span
             class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >{pricing_billed_annually_plus()}</span
           >
+            -->
         </p>
         <!--
         <div class="mt-4 flex justify-center">
@@ -1819,22 +1818,23 @@
           {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <!--
           {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span class="text-xl text-muted dark:text-white line-through">
               $30
             </span>
-            <span class="text-4xl font-semibold"> $15 </span>
+            <span class="text-4xl font-semibold"> $7.5 </span>
           {:else}
             <span class="text-4xl font-semibold">
               {mode ? "$30" : "$45"}
             </span>
           {/if}
-          -->
 
+          <!--
           <span class="text-4xl font-semibold">
             {mode ? "$30" : "$45"}
           </span>
+          -->
+
           <span class="text-sm text-muted dark:text-white"
             >{pricing_per_month()}</span
           >
@@ -1844,12 +1844,11 @@
             ? 'hidden'
             : ''}"
         >
-          <!--
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <span
               class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
-              Billed Annually (<span class="line-through mx-1">$360</span> $180)
+              Billed Annually (<span class="line-through mx-1">$360</span> $90)
             </span>
           {:else}
             <span
@@ -1858,15 +1857,16 @@
               {pricing_billed_annually_pro()}</span
             >
           {/if}
-        -->
 
+          <!--
           <span
             class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
           >
             {pricing_billed_annually_pro()}</span
           >
         </p>
-        <!--
+        -->
+          <!--
         <div class="mt-4 flex justify-center">
           <span
             class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300"
@@ -1875,7 +1875,7 @@
           </span>
         </div>
         -->
-
+        </p>
         <ul class="mt-6 mb-6 space-y-2">
           <li class="flex flex-row items-center">
             <svg

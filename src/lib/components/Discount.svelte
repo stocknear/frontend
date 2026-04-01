@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import {
     pricing_discount_off,
     pricing_discount_plans,
@@ -7,13 +8,47 @@
   } from "$lib/paraglide/messages.js";
 
   let copied = false;
+
+  const targetDate = new Date("2026-04-11T23:59:59+01:00");
+
+  let days: number | string = "-";
+  let hours: number | string = "-";
+  let minutes: number | string = "-";
+  let seconds: number | string = "-";
+
+  const updateTime = () => {
+    const now = new Date();
+    const timeDiff = targetDate.getTime() - now.getTime();
+
+    if (timeDiff > 0) {
+      const totalSeconds = Math.floor(timeDiff / 1000);
+
+      days = Math.floor(totalSeconds / (60 * 60 * 24));
+      hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+      minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+      seconds = totalSeconds % 60;
+    } else {
+      days = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+    }
+  };
+
+  updateTime();
+
+  onMount(() => {
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  });
+
   /*
   async function copyPromoCode() {
     await navigator.clipboard.writeText("SAVE50");
     copied = true;
     setTimeout(() => (copied = false), 2000);
   }
-    */
+  */
 </script>
 
 <div class="w-full max-w-lg mx-auto mb-8 mt-4">
@@ -26,11 +61,9 @@
         <span
           class="text-4xl sm:text-5xl font-bold text-violet-800 dark:text-violet-400"
         >
-          50%
+          75%
         </span>
-        <span
-          class="text-lg sm:text-xl font-medium text-muted, dark:text-white"
-        >
+        <span class="text-lg sm:text-xl font-medium text-muted dark:text-white">
           {pricing_discount_off()}
         </span>
       </div>
@@ -39,8 +72,87 @@
       <div
         class="flex flex-col items-center -mt-2 text-center text-sm text-muted dark:text-white"
       >
-        <div class="uppercase font-semibold">Limited Special</div>
+        <div class="uppercase font-semibold">Easter Special</div>
         <div>🔥 {pricing_discount_plans()}</div>
+      </div>
+
+      <!-- Countdown timer -->
+      <div class="w-full border-t border-gray-200 dark:border-zinc-800 pt-4">
+        <p
+          class="text-center text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-zinc-400 mb-3"
+        >
+          Expires in
+        </p>
+
+        <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
+          <div class="text-center">
+            <div
+              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+            >
+              <span
+                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+              >
+                <span style="--value:{days};"></span>
+              </span>
+            </div>
+            <span
+              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+            >
+              Days
+            </span>
+          </div>
+
+          <div class="text-center">
+            <div
+              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+            >
+              <span
+                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+              >
+                <span style="--value:{hours};"></span>
+              </span>
+            </div>
+            <span
+              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+            >
+              Hours
+            </span>
+          </div>
+
+          <div class="text-center">
+            <div
+              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+            >
+              <span
+                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+              >
+                <span style="--value:{minutes};"></span>
+              </span>
+            </div>
+            <span
+              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+            >
+              Min
+            </span>
+          </div>
+
+          <div class="text-center">
+            <div
+              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+            >
+              <span
+                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+              >
+                <span style="--value:{seconds};"></span>
+              </span>
+            </div>
+            <span
+              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+            >
+              Sec
+            </span>
+          </div>
+        </div>
       </div>
 
       <!-- Promo code button -->
@@ -94,7 +206,7 @@
           {pricing_discount_click_to_copy()}
         {/if}
       </p>
-            -->
+      -->
     </div>
   </div>
 </div>
