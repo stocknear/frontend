@@ -441,7 +441,9 @@
         },
         borderRadius: 4,
         formatter: function () {
-          let tooltipContent = `<span class="text-white m-auto text-black text-[1rem] font-[501]">Strike ${this?.x}</span><br>`;
+          const strike =
+            this.points?.[0]?.key ?? this.key ?? this.category ?? this.x;
+          let tooltipContent = `<span class="text-white m-auto text-black text-[1rem] font-[501]">Strike ${strike}</span><br>`;
           this.points.forEach((point) => {
             tooltipContent += `
         <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
