@@ -9577,19 +9577,27 @@
     revenue: revenueIndicatorPeriod,
     statements: statementIndicatorPeriods,
   });
+  let panelIndicatorsHeight = 0;
+  let watermarkBottom = 150;
+  let eventMarkerBottom = 28;
   // Calculate total height of panel indicators below volume for watermark positioning
-  $: panelIndicatorsHeight = indicatorDefinitions
-    ?.filter((item) => {
-      if (item.pane !== "panel") return false;
-      if (!isIndicatorEnabled(item.id)) return false;
-      // Fundamentals/Statistics are hidden on intraday ranges
-      const isRestrictedCategory =
-        item.category === "Fundamentals" || item.category === "Statistics";
-      if (isRestrictedCategory && !isNonIntradayRange(activeRange))
-        return false;
-      return true;
-    })
-    ?.reduce((sum, item) => sum + (item.height ?? 150), 0);
+  $: {
+    // Keep this statement reactive to period-list indicators (MA/EMA, etc.)
+    indicatorState;
+    indicatorParams;
+    panelIndicatorsHeight = indicatorDefinitions
+      ?.filter((item) => {
+        if (item.pane !== "panel") return false;
+        if (!isIndicatorEnabled(item.id)) return false;
+        // Fundamentals/Statistics are hidden on intraday ranges
+        const isRestrictedCategory =
+          item.category === "Fundamentals" || item.category === "Statistics";
+        if (isRestrictedCategory && !isNonIntradayRange(activeRange))
+          return false;
+        return true;
+      })
+      ?.reduce((sum, item) => sum + (item.height ?? 150), 0);
+  }
   // Watermark bottom offset: volume pane (120px) + buffer (80px) + panel indicators height
   $: watermarkBottom = 150 + panelIndicatorsHeight;
   // Event marker position slightly above volume y=0 (bottom of volume pane + offset)
@@ -9652,10 +9660,16 @@
       }
       return a.label.localeCompare(b.label);
     });
+  let selectedIndicators: typeof indicatorDefinitions = [];
   // Get all selected (checked) indicators for the Selected tab
-  $: selectedIndicators = indicatorDefinitions.filter(
-    (indicator) => isIndicatorEnabled(indicator.id),
-  );
+  $: {
+    // Explicit dependencies so Svelte recomputes when period-list params change.
+    indicatorState;
+    indicatorParams;
+    selectedIndicators = indicatorDefinitions.filter((indicator) =>
+      isIndicatorEnabled(indicator.id),
+    );
+  }
 
   $: currentChartType =
     chartTypeOptions.find((item) => item.id === chartType) ??
