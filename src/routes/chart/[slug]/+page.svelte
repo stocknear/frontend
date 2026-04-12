@@ -14,6 +14,8 @@
   } from "$lib/websocket";
   import {
     registerCustomIndicators,
+    MA_LINE_COLORS,
+    EMA_LINE_COLORS,
     setShortInterestData,
     clearShortInterestData,
     setFTDData,
@@ -992,6 +994,8 @@
   type ChartRule = { name: string; params?: number[] };
   const AVWAP_ID = "avwap";
   const AVWAP_UNSET_ANCHOR = 0;
+  type IndicatorParamMode = "fixed_tuple" | "period_list";
+  type IndicatorActivationMode = "toggle" | "period_list_non_empty";
 
   type IndicatorDefinition = {
     id: string;
@@ -1004,6 +1008,14 @@
     height?: number;
     defaultEnabled?: boolean;
     isOverlay?: boolean; // For GEX/DEX that render as overlays, not klinechart indicators
+    paramMode?: IndicatorParamMode;
+    activationMode?: IndicatorActivationMode;
+    defaultOnEnable?: number;
+    presetPeriods?: number[];
+    minPeriod?: number;
+    maxPeriod?: number;
+    maxPeriodCount?: number;
+    legacyFallbackParams?: number[];
   };
 
   const statementIndicatorDefinitions: IndicatorDefinition[] =
@@ -1025,8 +1037,16 @@
       indicatorName: "SN_MA",
       category: "Trend",
       infoKey: "ma",
-      defaultParams: [20, 50, 100, 200],
+      defaultParams: [],
       pane: "candle",
+      paramMode: "period_list",
+      activationMode: "period_list_non_empty",
+      defaultOnEnable: 20,
+      presetPeriods: [9, 20, 50, 100, 200],
+      minPeriod: 1,
+      maxPeriod: 1000,
+      maxPeriodCount: 8,
+      legacyFallbackParams: [20, 50, 100, 200],
     },
     {
       id: "ema",
@@ -1034,8 +1054,16 @@
       indicatorName: "SN_EMA",
       category: "Trend",
       infoKey: "ema",
-      defaultParams: [9, 21, 50],
+      defaultParams: [],
       pane: "candle",
+      paramMode: "period_list",
+      activationMode: "period_list_non_empty",
+      defaultOnEnable: 50,
+      presetPeriods: [9, 21, 50, 100, 200],
+      minPeriod: 1,
+      maxPeriod: 1000,
+      maxPeriodCount: 8,
+      legacyFallbackParams: [9, 21, 50],
     },
     {
       id: "boll",
@@ -1406,6 +1434,12 @@
     ...STATEMENT_INDICATOR_TAB_MAP,
     revenue: "income",
   };
+  const PERIOD_LIST_MIN = 1;
+  const PERIOD_LIST_MAX = 1000;
+  const PERIOD_LIST_MAX_ITEMS = 8;
+
+  const indicatorDefinitionById: Record<string, IndicatorDefinition> =
+    Object.fromEntries(indicatorDefinitions.map((item) => [item.id, item]));
 
   const indicatorParamDefaults: Record<string, number[]> = Object.fromEntries(
     indicatorDefinitions.map((item) => [item.id, item.defaultParams]),
@@ -1413,8 +1447,6 @@
 
   const INDICATOR_PARAM_LABELS: Record<string, string[]> = {
     // Trend
-    ma: ["Period 1", "Period 2", "Period 3", "Period 4"],
-    ema: ["Period 1", "Period 2", "Period 3"],
     donchian: ["Period"],
     parabolic_sar: ["Step", "Max"],
     aroon: ["Period"],
@@ -1447,9 +1479,71 @@
     mfi: ["Period"],
   };
 
+  const getIndicatorDefinition = (id: string) => indicatorDefinitionById[id];
+
+  const isPeriodListIndicator = (id: string): boolean =>
+    getIndicatorDefinition(id)?.paramMode === "period_list";
+
+  const sanitizePeriodListParams = (
+    id: string,
+    values: number[],
+    options?: { allowEmpty?: boolean },
+  ): number[] => {
+    const definition = getIndicatorDefinition(id);
+    if (!definition || definition.paramMode !== "period_list") return [];
+
+    const minValue = definition.minPeriod ?? PERIOD_LIST_MIN;
+    const maxValue = definition.maxPeriod ?? PERIOD_LIST_MAX;
+    const maxItems = definition.maxPeriodCount ?? PERIOD_LIST_MAX_ITEMS;
+    const allowEmpty = options?.allowEmpty ?? true;
+
+    const normalized = Array.from(
+      new Set(
+        (Array.isArray(values) ? values : [])
+          .map((value) => Number(value))
+          .filter((value) => Number.isFinite(value))
+          .map((value) => Math.round(value))
+          .map((value) => Math.min(maxValue, Math.max(minValue, value))),
+      ),
+    )
+      .sort((a, b) => a - b)
+      .slice(0, maxItems);
+
+    if (normalized.length > 0) {
+      return normalized;
+    }
+    if (allowEmpty) {
+      return [];
+    }
+
+    const fallbackValue = Number.isFinite(definition.defaultOnEnable)
+      ? Number(definition.defaultOnEnable)
+      : minValue;
+    return [
+      Math.min(maxValue, Math.max(minValue, Math.round(fallbackValue))),
+    ];
+  };
+
+  const getDefaultTogglePeriods = (id: string): number[] => {
+    const definition = getIndicatorDefinition(id);
+    if (!definition || definition.paramMode !== "period_list") return [];
+    return sanitizePeriodListParams(id, [definition.defaultOnEnable ?? 20], {
+      allowEmpty: false,
+    });
+  };
+
+  const getLegacyFallbackPeriods = (id: string): number[] => {
+    const definition = getIndicatorDefinition(id);
+    if (!definition || definition.paramMode !== "period_list") return [];
+    return sanitizePeriodListParams(id, definition.legacyFallbackParams ?? [], {
+      allowEmpty: true,
+    });
+  };
+
   const hasCustomizableParams = (id: string): boolean =>
-    (indicatorParamDefaults[id]?.length ?? 0) > 0 &&
-    id in INDICATOR_PARAM_LABELS;
+    isPeriodListIndicator(id) ||
+    ((indicatorParamDefaults[id]?.length ?? 0) > 0 &&
+      id in INDICATOR_PARAM_LABELS);
 
   const getParamLabels = (id: string): string[] =>
     INDICATOR_PARAM_LABELS[id] ?? [];
@@ -1479,6 +1573,33 @@
     );
 
   let indicatorParams = cloneIndicatorParams();
+  const getIndicatorParams = (key: string): number[] => {
+    if (isPeriodListIndicator(key)) {
+      return sanitizePeriodListParams(key, indicatorParams[key] ?? [], {
+        allowEmpty: true,
+      });
+    }
+    return indicatorParams[key]?.length
+      ? indicatorParams[key]
+      : (indicatorParamDefaults[key] ?? []);
+  };
+
+  const isIndicatorEnabled = (id: string): boolean => {
+    const definition = getIndicatorDefinition(id);
+    if (!definition) return false;
+    if (definition.activationMode === "period_list_non_empty") {
+      return getIndicatorParams(id).length > 0;
+    }
+    return Boolean(indicatorState[id]);
+  };
+
+  const getIndicatorLabel = (indicator: { id: string; label: string }) => {
+    if (!isPeriodListIndicator(indicator.id)) return indicator.label;
+    const params = getIndicatorParams(indicator.id);
+    if (!params.length) return indicator.label;
+    return `${indicator.label} (${params.join(", ")})`;
+  };
+
   const strategyType = "chart";
   const getStrategyRules = (strategy): ChartRule[] =>
     Array.isArray(strategy?.rules) ? strategy.rules : [];
@@ -1512,10 +1633,18 @@
   let paramModalOpen = false;
   let paramModalIndicatorId: string | null = null;
   let paramModalTempValues: number[] = [];
+  let paramModalCustomPeriod = "";
 
   $: paramModalIndicator = paramModalIndicatorId
     ? indicatorDefinitions.find((d) => d.id === paramModalIndicatorId)
     : null;
+  $: paramModalIsPeriodList = paramModalIndicatorId
+    ? isPeriodListIndicator(paramModalIndicatorId)
+    : false;
+  $: paramModalPresetPeriods =
+    paramModalIndicator?.paramMode === "period_list"
+      ? (paramModalIndicator.presetPeriods ?? [])
+      : [];
   $: paramModalLabels = paramModalIndicatorId
     ? getParamLabels(paramModalIndicatorId)
     : [];
@@ -7096,11 +7225,6 @@
     wsCloseHandler = null;
   }
 
-  const getIndicatorParams = (key: string) =>
-    indicatorParams[key]?.length
-      ? indicatorParams[key]
-      : (indicatorParamDefaults[key] ?? []);
-
   function syncIndicators() {
     if (!chart) return;
     const nextInstanceIds = { ...indicatorInstanceIds };
@@ -7115,7 +7239,7 @@
         !isRestrictedCategory || isNonIntradayRange(activeRange);
       const hasRequiredAnchor = item.id !== AVWAP_ID || hasAvwapAnchor();
       const enabled =
-        Boolean(indicatorState[item.id]) && isRangeAllowed && hasRequiredAnchor;
+        isIndicatorEnabled(item.id) && isRangeAllowed && hasRequiredAnchor;
       const existingId = nextInstanceIds[item.id];
 
       // For candle pane indicators, explicitly specify the candle pane ID
@@ -7214,23 +7338,42 @@
       .filter((item) => isIndicatorEnabled(item.id))
       .map((item) => ({
         name: item.id,
-        params:
-          indicatorParams[item.id] ?? indicatorParamDefaults[item.id] ?? [],
+        params: getIndicatorParams(item.id),
       }));
 
   const applyStrategyRules = (rules: ChartRule[]) => {
     const nextState: Record<string, boolean> = Object.fromEntries(
       indicatorDefinitions.map((item) => [item.id, false]),
     );
-    indicatorParams = cloneIndicatorParams();
+    const nextParams = cloneIndicatorParams();
+
     rules.forEach((rule) => {
       if (!rule?.name || !(rule.name in nextState)) return;
+
+      if (isPeriodListIndicator(rule.name)) {
+        const paramsFromRule = Array.isArray(rule.params) ? rule.params : [];
+        let sanitized = sanitizePeriodListParams(rule.name, paramsFromRule, {
+          allowEmpty: true,
+        });
+
+        // Backward compatibility: legacy MA/EMA strategies may have an empty
+        // params array even though the indicator was enabled.
+        if (sanitized.length === 0) {
+          sanitized = getLegacyFallbackPeriods(rule.name);
+        }
+
+        nextParams[rule.name] = sanitized;
+        nextState[rule.name] = sanitized.length > 0;
+        return;
+      }
+
       nextState[rule.name] = true;
       if (Array.isArray(rule.params) && rule.params.length > 0) {
-        indicatorParams[rule.name] = [...rule.params];
+        nextParams[rule.name] = [...rule.params];
       }
     });
 
+    indicatorParams = nextParams;
     indicatorState = nextState;
     if (chart) {
       syncIndicators();
@@ -7555,11 +7698,16 @@
   // Parameter customization modal functions
   function openParamModal(indicatorId: string) {
     paramModalIndicatorId = indicatorId;
-    paramModalTempValues = [
-      ...(indicatorParams[indicatorId] ??
-        indicatorParamDefaults[indicatorId] ??
-        []),
-    ];
+    if (isPeriodListIndicator(indicatorId)) {
+      paramModalTempValues = [...getIndicatorParams(indicatorId)];
+    } else {
+      paramModalTempValues = [
+        ...(indicatorParams[indicatorId] ??
+          indicatorParamDefaults[indicatorId] ??
+          []),
+      ];
+    }
+    paramModalCustomPeriod = "";
     paramModalOpen = true;
   }
 
@@ -7567,14 +7715,31 @@
     paramModalOpen = false;
     paramModalIndicatorId = null;
     paramModalTempValues = [];
+    paramModalCustomPeriod = "";
   }
 
   function applyParamChanges() {
     if (!paramModalIndicatorId) return;
+    let nextParams = [...paramModalTempValues];
+    let nextEnabledState = true;
+
+    if (isPeriodListIndicator(paramModalIndicatorId)) {
+      nextParams = sanitizePeriodListParams(paramModalIndicatorId, nextParams, {
+        allowEmpty: true,
+      });
+      nextEnabledState = nextParams.length > 0;
+    }
+
     indicatorParams = {
       ...indicatorParams,
-      [paramModalIndicatorId]: [...paramModalTempValues],
+      [paramModalIndicatorId]: nextParams,
     };
+    if (isPeriodListIndicator(paramModalIndicatorId)) {
+      indicatorState = {
+        ...indicatorState,
+        [paramModalIndicatorId]: nextEnabledState,
+      };
+    }
     if (chart) syncIndicators();
     ruleOfList = buildRuleList();
     closeParamModal();
@@ -7582,6 +7747,10 @@
 
   function resetParamToDefaults() {
     if (!paramModalIndicatorId) return;
+    if (isPeriodListIndicator(paramModalIndicatorId)) {
+      paramModalTempValues = getDefaultTogglePeriods(paramModalIndicatorId);
+      return;
+    }
     paramModalTempValues = [
       ...(indicatorParamDefaults[paramModalIndicatorId] ?? []),
     ];
@@ -7593,8 +7762,76 @@
     );
   }
 
+  function addPeriodToParamModal(period: number | null) {
+    if (!paramModalIndicatorId || period === null) return;
+    if (!isPeriodListIndicator(paramModalIndicatorId)) return;
+
+    const definition = getIndicatorDefinition(paramModalIndicatorId);
+    const maxItems = definition?.maxPeriodCount ?? PERIOD_LIST_MAX_ITEMS;
+    const normalizedPeriod = sanitizePeriodListParams(
+      paramModalIndicatorId,
+      [period],
+      { allowEmpty: true },
+    )?.[0];
+    if (!Number.isFinite(normalizedPeriod)) return;
+
+    if (paramModalTempValues.includes(normalizedPeriod)) return;
+    if (paramModalTempValues.length >= maxItems) {
+      toast.info(`Maximum ${maxItems} periods allowed.`, {
+        style: toastStyle(),
+      });
+      return;
+    }
+
+    const candidateList = [...paramModalTempValues, period];
+    const normalized = sanitizePeriodListParams(
+      paramModalIndicatorId,
+      candidateList,
+      { allowEmpty: true },
+    );
+    paramModalTempValues = normalized;
+  }
+
+  function removePeriodFromParamModal(period: number) {
+    if (!paramModalIndicatorId || !isPeriodListIndicator(paramModalIndicatorId))
+      return;
+    paramModalTempValues = sanitizePeriodListParams(
+      paramModalIndicatorId,
+      paramModalTempValues.filter((item) => item !== period),
+      { allowEmpty: true },
+    );
+  }
+
+  function addCustomPeriodToParamModal() {
+    if (!paramModalIndicatorId || !isPeriodListIndicator(paramModalIndicatorId))
+      return;
+    const parsed = Number.parseFloat(paramModalCustomPeriod);
+    if (!Number.isFinite(parsed)) return;
+    addPeriodToParamModal(parsed);
+    paramModalCustomPeriod = "";
+  }
+
   function toggleIndicator(name: string) {
     if (!(name in indicatorState)) return;
+    if (isPeriodListIndicator(name)) {
+      const currentPeriods = getIndicatorParams(name);
+      const isEnabled = currentPeriods.length > 0;
+      const nextParams = isEnabled ? [] : getDefaultTogglePeriods(name);
+      indicatorParams = {
+        ...indicatorParams,
+        [name]: nextParams,
+      };
+      indicatorState = {
+        ...indicatorState,
+        [name]: nextParams.length > 0,
+      };
+      if (chart) {
+        syncIndicators();
+      }
+      ruleOfList = buildRuleList();
+      return;
+    }
+
     const newState = !indicatorState[name];
 
     // Auto-switch to 1D for Fundamentals/Statistics/Options indicators on intraday timeframes
@@ -7768,10 +8005,6 @@
 
   function toggleIndicatorById(id: string) {
     toggleIndicator(id);
-  }
-
-  function isIndicatorEnabled(id: string) {
-    return Boolean(indicatorState[id]);
   }
 
   const getFinancialIndicatorPeriod = (id: string) => {
@@ -8094,7 +8327,7 @@
     indicatorSearchTerm = "";
     // Default to Selected if user has selected indicators, else Favorites if has favorites, otherwise Technicals
     const hasSelectedIndicators = indicatorDefinitions.some(
-      (indicator) => indicatorState[indicator.id],
+      (indicator) => isIndicatorEnabled(indicator.id),
     );
     if (hasSelectedIndicators) {
       indicatorModalSection = "Selected";
@@ -8211,10 +8444,14 @@
   }
 
   function clearIndicators() {
-    indicatorParams = {
-      ...indicatorParams,
-      [AVWAP_ID]: [...(indicatorParamDefaults[AVWAP_ID] ?? [0])],
-    };
+    const nextParams = { ...indicatorParams };
+    indicatorDefinitions.forEach((item) => {
+      if (item.paramMode === "period_list") {
+        nextParams[item.id] = [];
+      }
+    });
+    nextParams[AVWAP_ID] = [...(indicatorParamDefaults[AVWAP_ID] ?? [0])];
+    indicatorParams = nextParams;
     const nextState: Record<string, boolean> = Object.fromEntries(
       indicatorDefinitions.map((item) => [item.id, false]),
     );
@@ -8333,7 +8570,7 @@
 
     for (const definition of indicatorDefinitions) {
       if (definition.pane !== "candle" || definition.isOverlay) continue;
-      if (!indicatorState[definition.id]) continue;
+      if (!isIndicatorEnabled(definition.id)) continue;
       const instanceId = indicatorInstanceIds[definition.id];
       if (!instanceId) continue;
 
@@ -8350,7 +8587,7 @@
             pushLegend(
               `MA${Math.round(period)}: `,
               readValue(point, `ma${idx + 1}`),
-              "#2962FF",
+              MA_LINE_COLORS[idx % MA_LINE_COLORS.length],
             ),
           );
           break;
@@ -8359,7 +8596,7 @@
             pushLegend(
               `EMA${Math.round(period)}: `,
               readValue(point, `ema${idx + 1}`),
-              "#E91E63",
+              EMA_LINE_COLORS[idx % EMA_LINE_COLORS.length],
             ),
           );
           break;
@@ -9344,7 +9581,7 @@
   $: panelIndicatorsHeight = indicatorDefinitions
     ?.filter((item) => {
       if (item.pane !== "panel") return false;
-      if (!indicatorState[item.id]) return false;
+      if (!isIndicatorEnabled(item.id)) return false;
       // Fundamentals/Statistics are hidden on intraday ranges
       const isRestrictedCategory =
         item.category === "Fundamentals" || item.category === "Statistics";
@@ -9417,7 +9654,7 @@
     });
   // Get all selected (checked) indicators for the Selected tab
   $: selectedIndicators = indicatorDefinitions.filter(
-    (indicator) => indicatorState[indicator.id],
+    (indicator) => isIndicatorEnabled(indicator.id),
   );
 
   $: currentChartType =
@@ -12870,20 +13107,20 @@
                           on:click={() => toggleIndicatorById(indicator.id)}
                           id={indicator.id}
                           type="checkbox"
-                          checked={Boolean(indicatorState[indicator.id])}
+                          checked={isIndicatorEnabled(indicator.id)}
                           class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
                           class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                         >
-                          {indicator.label}
+                          {getIndicatorLabel(indicator)}
                         </label>
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
                             class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                            aria-label="Customize {indicator.label} parameters"
+                            aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
                           >
@@ -12892,7 +13129,7 @@
                         {/if}
                         <InfoModal
                           id={`indicator-${indicator.id}`}
-                          title={indicator.label}
+                          title={getIndicatorLabel(indicator)}
                           callAPI={true}
                           parameter={indicator.infoKey || indicator.id}
                         />
@@ -12938,20 +13175,20 @@
                         on:click={() => toggleIndicatorById(indicator.id)}
                         id={indicator.id}
                         type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
+                        checked={isIndicatorEnabled(indicator.id)}
                         class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
                         class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
-                        {indicator.label}
+                        {getIndicatorLabel(indicator)}
                       </label>
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
                           class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                          aria-label="Customize {indicator.label} parameters"
+                          aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
                         >
@@ -12960,7 +13197,7 @@
                       {/if}
                       <InfoModal
                         id={`indicator-${indicator.id}`}
-                        title={indicator.label}
+                        title={getIndicatorLabel(indicator)}
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
@@ -12999,7 +13236,7 @@
                           />
                         </svg>
                         <span class="text-sm sm:text-[1rem]"
-                          >{indicator.label}</span
+                          >{getIndicatorLabel(indicator)}</span
                         >
                       </button>
                     {/if}
@@ -13043,20 +13280,20 @@
                         on:click={() => toggleIndicatorById(indicator.id)}
                         id={indicator.id}
                         type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
+                        checked={isIndicatorEnabled(indicator.id)}
                         class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
                         class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
-                        {indicator.label}
+                        {getIndicatorLabel(indicator)}
                       </label>
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
                           class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                          aria-label="Customize {indicator.label} parameters"
+                          aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
                         >
@@ -13065,7 +13302,7 @@
                       {/if}
                       <InfoModal
                         id={`indicator-${indicator.id}`}
-                        title={indicator.label}
+                        title={getIndicatorLabel(indicator)}
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
@@ -13104,7 +13341,7 @@
                           />
                         </svg>
                         <span class="text-sm sm:text-[1rem]"
-                          >{indicator.label}</span
+                          >{getIndicatorLabel(indicator)}</span
                         >
                       </button>
                     {/if}
@@ -13168,20 +13405,20 @@
                           on:click={() => toggleIndicatorById(indicator.id)}
                           id={indicator.id}
                           type="checkbox"
-                          checked={Boolean(indicatorState[indicator.id])}
+                          checked={isIndicatorEnabled(indicator.id)}
                           class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
                           class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                         >
-                          {indicator.label}
+                          {getIndicatorLabel(indicator)}
                         </label>
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
                             class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                            aria-label="Customize {indicator.label} parameters"
+                            aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
                           >
@@ -13190,7 +13427,7 @@
                         {/if}
                         <InfoModal
                           id={`indicator-${indicator.id}`}
-                          title={indicator.label}
+                          title={getIndicatorLabel(indicator)}
                           callAPI={true}
                           parameter={indicator.infoKey || indicator.id}
                         />
@@ -13255,7 +13492,7 @@
                           />
                         </svg>
                         <span class="text-sm sm:text-[1rem]"
-                          >{indicator.label}</span
+                          >{getIndicatorLabel(indicator)}</span
                         >
                       </button>
                     {/if}
@@ -13333,20 +13570,20 @@
                           on:click={() => toggleIndicatorById(indicator.id)}
                           id={`selected-${indicator.id}`}
                           type="checkbox"
-                          checked={Boolean(indicatorState[indicator.id])}
+                          checked={isIndicatorEnabled(indicator.id)}
                           class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={`selected-${indicator.id}`}
                           class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                         >
-                          {indicator.label}
+                          {getIndicatorLabel(indicator)}
                         </label>
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
                             class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                            aria-label="Customize {indicator.label} parameters"
+                            aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
                           >
@@ -13355,7 +13592,7 @@
                         {/if}
                         <InfoModal
                           id={`indicator-selected-${indicator.id}`}
-                          title={indicator.label}
+                          title={getIndicatorLabel(indicator)}
                           callAPI={true}
                           parameter={indicator.infoKey || indicator.id}
                         />
@@ -13430,20 +13667,20 @@
                             on:click={() => toggleIndicatorById(indicator.id)}
                             id={`favorite-${indicator.id}`}
                             type="checkbox"
-                            checked={Boolean(indicatorState[indicator.id])}
+                            checked={isIndicatorEnabled(indicator.id)}
                             class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                           />
                           <label
                             for={`favorite-${indicator.id}`}
                             class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                           >
-                            {indicator.label}
+                            {getIndicatorLabel(indicator)}
                           </label>
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
                               class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                              aria-label="Customize {indicator.label} parameters"
+                              aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
                             >
@@ -13452,7 +13689,7 @@
                           {/if}
                           <InfoModal
                             id={`indicator-favorite-${indicator.id}`}
-                            title={indicator.label}
+                            title={getIndicatorLabel(indicator)}
                             callAPI={true}
                             parameter={indicator.infoKey || indicator.id}
                           />
@@ -13472,7 +13709,7 @@
                               />
                             </svg>
                             <span class="text-sm sm:text-[1rem]"
-                              >{indicator.label}</span
+                              >{getIndicatorLabel(indicator)}</span
                             >
                           </button>
                         {/if}
@@ -13566,20 +13803,20 @@
                             on:click={() => toggleIndicatorById(indicator.id)}
                             id={indicator.id}
                             type="checkbox"
-                            checked={Boolean(indicatorState[indicator.id])}
+                            checked={isIndicatorEnabled(indicator.id)}
                             class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                           />
                           <label
                             for={indicator.id}
                             class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                           >
-                            {indicator.label}
+                            {getIndicatorLabel(indicator)}
                           </label>
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
                               class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                              aria-label="Customize {indicator.label} parameters"
+                              aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
                             >
@@ -13588,7 +13825,7 @@
                           {/if}
                           <InfoModal
                             id={`indicator-${indicator.id}`}
-                            title={indicator.label}
+                            title={getIndicatorLabel(indicator)}
                             callAPI={true}
                             parameter={indicator.infoKey || indicator.id}
                           />
@@ -13658,7 +13895,7 @@
                               />
                             </svg>
                             <span class="text-sm sm:text-[1rem]"
-                              >{indicator.label}</span
+                              >{getIndicatorLabel(indicator)}</span
                             >
                           </button>
                         </div>
@@ -13729,20 +13966,20 @@
                         on:click={() => toggleIndicatorById(indicator.id)}
                         id={indicator.id}
                         type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
+                        checked={isIndicatorEnabled(indicator.id)}
                         class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
                         class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
-                        {indicator.label}
+                        {getIndicatorLabel(indicator)}
                       </label>
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
                           class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                          aria-label="Customize {indicator.label} parameters"
+                          aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
                         >
@@ -13751,7 +13988,7 @@
                       {/if}
                       <InfoModal
                         id={`indicator-${indicator.id}`}
-                        title={indicator.label}
+                        title={getIndicatorLabel(indicator)}
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
@@ -13790,7 +14027,7 @@
                           />
                         </svg>
                         <span class="text-sm sm:text-[1rem]"
-                          >{indicator.label}</span
+                          >{getIndicatorLabel(indicator)}</span
                         >
                       </button>
                     {/if}
@@ -13834,20 +14071,20 @@
                         on:click={() => toggleIndicatorById(indicator.id)}
                         id={indicator.id}
                         type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
+                        checked={isIndicatorEnabled(indicator.id)}
                         class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
                         class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
-                        {indicator.label}
+                        {getIndicatorLabel(indicator)}
                       </label>
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
                           class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                          aria-label="Customize {indicator.label} parameters"
+                          aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
                         >
@@ -13856,7 +14093,7 @@
                       {/if}
                       <InfoModal
                         id={`indicator-${indicator.id}`}
-                        title={indicator.label}
+                        title={getIndicatorLabel(indicator)}
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
@@ -13895,7 +14132,7 @@
                           />
                         </svg>
                         <span class="text-sm sm:text-[1rem]"
-                          >{indicator.label}</span
+                          >{getIndicatorLabel(indicator)}</span
                         >
                       </button>
                     {/if}
@@ -13944,20 +14181,20 @@
                         on:click={() => toggleIndicatorById(indicator.id)}
                         id={indicator.id}
                         type="checkbox"
-                        checked={Boolean(indicatorState[indicator.id])}
+                        checked={isIndicatorEnabled(indicator.id)}
                         class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
                         class="cursor-pointer text-sm sm:text-[1rem] ml-2"
                       >
-                        {indicator.label}
+                        {getIndicatorLabel(indicator)}
                       </label>
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
                           class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
-                          aria-label="Customize {indicator.label} parameters"
+                          aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
                         >
@@ -13966,7 +14203,7 @@
                       {/if}
                       <InfoModal
                         id={`indicator-${indicator.id}`}
-                        title={indicator.label}
+                        title={getIndicatorLabel(indicator)}
                         callAPI={true}
                         parameter={indicator.infoKey || indicator.id}
                       />
@@ -14020,40 +14257,129 @@
       </div>
       <!-- Parameter Inputs -->
       <div class="px-5 pb-4 space-y-4">
-        {#each paramModalTempValues as value, index (index)}
-          <div class="flex flex-col gap-1.5">
+        {#if paramModalIsPeriodList}
+          <div class="space-y-2">
+            <div
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-zinc-400"
+            >
+              Active Periods
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {#if paramModalTempValues.length === 0}
+                <span
+                  class="text-xs text-muted dark:text-zinc-400 border border-dashed border-gray-300 dark:border-zinc-700 px-2 py-1 rounded-lg"
+                >
+                  No lines selected
+                </span>
+              {/if}
+              {#each paramModalTempValues as period (period)}
+                <button
+                  type="button"
+                  class="cursor-pointer inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-violet-300 dark:border-violet-700 bg-violet-50 dark:bg-violet-900/20 text-violet-800 dark:text-violet-300 text-xs font-medium"
+                  on:click={() => removePeriodFromParamModal(period)}
+                >
+                  {period}
+                  <span class="text-[10px] leading-none">x</span>
+                </button>
+              {/each}
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div
+              class="text-[11px] uppercase tracking-wide text-muted dark:text-zinc-400"
+            >
+              Presets
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {#each paramModalPresetPeriods as period (period)}
+                <button
+                  type="button"
+                  class="cursor-pointer px-2.5 py-1 rounded-full border text-xs font-medium transition {paramModalTempValues.includes(period)
+                    ? 'border-violet-500 bg-violet-600 text-white dark:bg-violet-500 dark:text-white'
+                    : 'border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 hover:border-violet-400 dark:hover:border-violet-500'}"
+                  on:click={() =>
+                    paramModalTempValues.includes(period)
+                      ? removePeriodFromParamModal(period)
+                      : addPeriodToParamModal(period)}
+                >
+                  {period}
+                </button>
+              {/each}
+            </div>
+          </div>
+
+          <div class="space-y-2">
             <label
-              for="param-{index}"
+              for="custom-period"
               class="text-sm font-medium text-muted dark:text-zinc-300"
             >
-              {paramModalLabels[index] ?? `Parameter ${index + 1}`}
+              Custom Period
             </label>
             <div class="flex items-center gap-2">
               <input
-                id="param-{index}"
+                id="custom-period"
                 type="number"
-                min="0"
-                step="any"
+                min={paramModalIndicator?.minPeriod ?? PERIOD_LIST_MIN}
+                max={paramModalIndicator?.maxPeriod ?? PERIOD_LIST_MAX}
+                step="1"
                 class="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-muted dark:text-white"
-                {value}
-                on:change={(e) => {
-                  const parsed = parseFloat(e.currentTarget.value);
-                  updateParamValue(
-                    index,
-                    Number.isNaN(parsed) || parsed < 0
-                      ? paramModalDefaults[index]
-                      : parsed,
-                  );
+                bind:value={paramModalCustomPeriod}
+                on:keydown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addCustomPeriodToParamModal();
+                  }
                 }}
               />
-              <span
-                class="text-xs text-muted dark:text-white whitespace-nowrap"
+              <button
+                type="button"
+                class="cursor-pointer px-3 py-2 text-xs sm:text-sm font-medium bg-violet-600 hover:bg-violet-700 text-white rounded-xl transition"
+                on:click={addCustomPeriodToParamModal}
               >
-                Default: {paramModalDefaults[index]}
-              </span>
+                Add
+              </button>
             </div>
+            <p class="text-xs text-muted dark:text-zinc-400">
+              Periods are rounded to integers and kept unique.
+            </p>
           </div>
-        {/each}
+        {:else}
+          {#each paramModalTempValues as value, index (index)}
+            <div class="flex flex-col gap-1.5">
+              <label
+                for="param-{index}"
+                class="text-sm font-medium text-muted dark:text-zinc-300"
+              >
+                {paramModalLabels[index] ?? `Parameter ${index + 1}`}
+              </label>
+              <div class="flex items-center gap-2">
+                <input
+                  id="param-{index}"
+                  type="number"
+                  min="0"
+                  step="any"
+                  class="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-muted dark:text-white"
+                  {value}
+                  on:change={(e) => {
+                    const parsed = parseFloat(e.currentTarget.value);
+                    updateParamValue(
+                      index,
+                      Number.isNaN(parsed) || parsed < 0
+                        ? paramModalDefaults[index]
+                        : parsed,
+                    );
+                  }}
+                />
+                <span
+                  class="text-xs text-muted dark:text-white whitespace-nowrap"
+                >
+                  Default: {paramModalDefaults[index]}
+                </span>
+              </div>
+            </div>
+          {/each}
+        {/if}
       </div>
       <!-- Footer -->
       <div

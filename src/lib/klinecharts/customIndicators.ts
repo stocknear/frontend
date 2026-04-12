@@ -11,6 +11,9 @@ let registered = false;
 type IndicatorRecord = Record<string, number | undefined>;
 type FinancialIndicatorPeriod = "annual" | "quarterly" | "ttm";
 
+export const MA_LINE_COLORS = ["#2962FF", "#FF6D00", "#2E7D32", "#AB47BC"];
+export const EMA_LINE_COLORS = ["#E91E63", "#00BCD4", "#FFC107"];
+
 type StatementMetricExtendData = {
   metricIndex?: number;
   period?: FinancialIndicatorPeriod;
@@ -42,7 +45,6 @@ const createWorkerIndicator = <D extends IndicatorRecord, C = number>(
 });
 
 function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  const maColors = ["#2962FF", "#FF6D00", "#2E7D32", "#AB47BC"];
   return createWorkerIndicator("ma", {
     name: "SN_MA",
     shortName: "MA",
@@ -83,7 +85,7 @@ function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
           for (let i = 1; i < points.length; i++) {
             ctx.lineTo(points[i].x, points[i].y);
           }
-          ctx.strokeStyle = maColors[index % maColors.length];
+          ctx.strokeStyle = MA_LINE_COLORS[index % MA_LINE_COLORS.length];
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -95,7 +97,6 @@ function createMaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
 }
 
 function createEmaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
-  const emaColors = ["#E91E63", "#00BCD4", "#FFC107"];
   return createWorkerIndicator("ema", {
     name: "SN_EMA",
     shortName: "EMA",
@@ -136,7 +137,7 @@ function createEmaIndicator(): IndicatorTemplate<IndicatorRecord, number> {
           for (let i = 1; i < points.length; i++) {
             ctx.lineTo(points[i].x, points[i].y);
           }
-          ctx.strokeStyle = emaColors[index % emaColors.length];
+          ctx.strokeStyle = EMA_LINE_COLORS[index % EMA_LINE_COLORS.length];
           ctx.lineWidth = 1;
           ctx.stroke();
         }
