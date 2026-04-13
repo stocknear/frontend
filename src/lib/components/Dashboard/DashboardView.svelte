@@ -138,7 +138,7 @@
 
             <div class="flex justify-center mb-5 whitespace-nowrap">
                 <div class=" flex justify-center lg:mb-3">
-                    <a href="/guidance-flow"
+                    <a href="/stocks/AMD/statistics/earnings"
                         ><div
                             class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
                         >
