@@ -330,6 +330,7 @@
   "stock_detail_stats_management_guidance_sentence_both": "Für {period} prognostiziert das Management einen Umsatz von {revenue} und eine EPS-Prognose von {eps}.",
   "stock_detail_stats_management_guidance_sentence_revenue": "Für {period} prognostiziert das Management einen Umsatz von {revenue}.",
   "stock_detail_stats_management_guidance_sentence_eps": "Für {period} liegt die EPS-Prognose des Managements bei {eps}.",
+  "stock_detail_stats_management_guidance_stale_notice": "{company} hat seit über einem Jahr keine aktualisierte Management-Prognose veröffentlicht.",
   "stock_detail_stats_management_guidance_info_text": "Liefert Unternehmens-Guidance-Daten einschließlich zukunftsgerichteter Gewinn- und Umsatzprognosen des Managements. Enthält EPS-Guidance-Spannen (min/max), Umsatz-Guidance-Spannen und Vergleiche mit früherer Guidance. Guidance ist entscheidend, um die Erwartungen des Managements an die zukünftige Entwicklung zu verstehen.",
 
   "stock_detail_stats_market_capitalization": "Marktkapitalisierung",

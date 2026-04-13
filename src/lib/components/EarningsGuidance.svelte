@@ -11,6 +11,7 @@
     stock_detail_stats_management_guidance_sentence_both,
     stock_detail_stats_management_guidance_sentence_revenue,
     stock_detail_stats_management_guidance_sentence_eps,
+    stock_detail_stats_management_guidance_stale_notice,
     stock_detail_stats_management_guidance_info_text,
   } from "$lib/paraglide/messages";
   import InfoModal from "$lib/components/InfoModal.svelte";
@@ -25,6 +26,7 @@
   let hasRevenueGuidance = false;
   let hasEpsGuidance = false;
   let shouldRender = false;
+  let isStaleGuidance = false;
   let publishedGuidanceHtml = "";
   let guidanceSummaryHtml = "";
 
@@ -214,21 +216,20 @@
       hasRevenueGuidance = revenueGuidanceText.length > 0;
       hasEpsGuidance = epsGuidanceText.length > 0;
 
-      publishedGuidanceHtml = stock_detail_stats_management_guidance_published_on(
-        {
+      publishedGuidanceHtml =
+        stock_detail_stats_management_guidance_published_on({
           company: escapeHtml($displayCompanyName),
           date: strongHtml(publishedDateLabel),
-        },
-      );
+        });
+      isStaleGuidance = parsedDate !== null && !isFreshGuidance(rawData?.date);
 
       if (hasRevenueGuidance && hasEpsGuidance) {
-        guidanceSummaryHtml = stock_detail_stats_management_guidance_sentence_both(
-          {
+        guidanceSummaryHtml =
+          stock_detail_stats_management_guidance_sentence_both({
             period: strongHtml(periodLabel),
             revenue: strongHtml(revenueGuidanceText),
             eps: strongHtml(epsGuidanceText),
-          },
-        );
+          });
       } else if (hasRevenueGuidance) {
         guidanceSummaryHtml =
           stock_detail_stats_management_guidance_sentence_revenue({
@@ -236,19 +237,17 @@
             revenue: strongHtml(revenueGuidanceText),
           });
       } else if (hasEpsGuidance) {
-        guidanceSummaryHtml = stock_detail_stats_management_guidance_sentence_eps(
-          {
+        guidanceSummaryHtml =
+          stock_detail_stats_management_guidance_sentence_eps({
             period: strongHtml(periodLabel),
             eps: strongHtml(epsGuidanceText),
-          },
-        );
+          });
       } else {
         guidanceSummaryHtml = "";
       }
 
       shouldRender =
         Object.keys(rawData).length > 0 &&
-        isFreshGuidance(rawData?.date) &&
         (hasRevenueGuidance || hasEpsGuidance);
     }
   }
@@ -296,6 +295,30 @@
           </a>
         {:else}
           {@html guidanceSummaryHtml}
+        {/if}
+
+        {#if isStaleGuidance}
+          <div
+            class=" mt-4 flex items-center px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30"
+          >
+            <svg
+              class="w-4 h-4 shrink-0 text-violet-500 dark:text-violet-400 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              style="max-width:40px"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 10A8 8 0 114 4a8 8 0 0114 6m-8.75-4a.75.75 0 011.5 0v4a.75.75 0 01-1.5 0zm.75 8.25a1 1 0 100-2a1 1 0 000 2"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="text-violet-900 dark:text-violet-200">
+              {stock_detail_stats_management_guidance_stale_notice({
+                company: $displayCompanyName,
+              })}
+            </span>
+          </div>
         {/if}
       </div>
     </div>
