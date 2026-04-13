@@ -1,7 +1,19 @@
 <script lang="ts">
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
-  import { stock_detail_upgrade } from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime.js";
+  import {
+    stock_detail_upgrade,
+    stock_detail_stats_management_guidance_title,
+    stock_detail_stats_management_guidance_latest_period,
+    stock_detail_stats_management_guidance_published_on,
+    stock_detail_stats_management_guidance_premium_desc,
+    stock_detail_stats_management_guidance_sentence_both,
+    stock_detail_stats_management_guidance_sentence_revenue,
+    stock_detail_stats_management_guidance_sentence_eps,
+    stock_detail_stats_management_guidance_info_text,
+  } from "$lib/paraglide/messages";
+  import InfoModal from "$lib/components/InfoModal.svelte";
 
   export let data;
 
@@ -82,7 +94,7 @@
       return yearText ? `${period} ${yearText}` : period;
     }
 
-    return yearText || "latest period";
+    return yearText || stock_detail_stats_management_guidance_latest_period();
   }
 
   function periodPriority(periodValue) {
@@ -142,7 +154,7 @@
 
       const parsedDate = parseDate(rawData?.date);
       publishedDateLabel = parsedDate
-        ? parsedDate.toLocaleDateString("en-US", {
+        ? parsedDate.toLocaleDateString(getLocale(), {
             month: "short",
             day: "numeric",
             year: "numeric",
@@ -200,21 +212,30 @@
     <div
       class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
     >
-      <h2
-        class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
-      >
-        Management Guidance
-      </h2>
+      <div class="inline-flex flex-row items-center gap-1">
+        <h2
+          class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+        >
+          {stock_detail_stats_management_guidance_title()}
+        </h2>
+        <InfoModal
+          title={stock_detail_stats_management_guidance_title()}
+          content={stock_detail_stats_management_guidance_info_text()}
+          id={"managementGuidanceInfo"}
+        />
+      </div>
     </div>
 
     <div class="w-auto lg:w-full flex flex-col m-auto">
       <div class="text-sm text-muted dark:text-zinc-300">
-        Latest management guidance for {$displayCompanyName} was published on
-        <strong>{publishedDateLabel}</strong>.
+        {stock_detail_stats_management_guidance_published_on({
+          company: $displayCompanyName,
+          date: publishedDateLabel,
+        })}
         <br />
 
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-          Revenue and EPS guidance ranges are available for premium users.
+          {stock_detail_stats_management_guidance_premium_desc()}
           <a
             class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
             href="/pricing"
@@ -230,15 +251,21 @@
             >
           </a>
         {:else if hasRevenueGuidance && hasEpsGuidance}
-          For <strong>{periodLabel}</strong>, management guides revenue to
-          <strong>{revenueGuidanceText}</strong> and EPS guidance to
-          <strong>{epsGuidanceText}</strong>.
+          {stock_detail_stats_management_guidance_sentence_both({
+            period: periodLabel,
+            revenue: revenueGuidanceText,
+            eps: epsGuidanceText,
+          })}
         {:else if hasRevenueGuidance}
-          For <strong>{periodLabel}</strong>, management guides revenue to
-          <strong>{revenueGuidanceText}</strong>.
+          {stock_detail_stats_management_guidance_sentence_revenue({
+            period: periodLabel,
+            revenue: revenueGuidanceText,
+          })}
         {:else if hasEpsGuidance}
-          For <strong>{periodLabel}</strong>, management EPS guidance is
-          <strong>{epsGuidanceText}</strong>.
+          {stock_detail_stats_management_guidance_sentence_eps({
+            period: periodLabel,
+            eps: epsGuidanceText,
+          })}
         {/if}
       </div>
     </div>
