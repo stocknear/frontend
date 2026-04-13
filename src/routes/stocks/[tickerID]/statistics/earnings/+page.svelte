@@ -7,6 +7,8 @@
   import { onMount } from "svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import NextEarnings from "$lib/components/NextEarnings.svelte";
+  import EarningsGuidance from "$lib/components/EarningsGuidance.svelte";
+
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto } from "$app/navigation";
@@ -636,6 +638,10 @@
                   <NextEarnings {data} hideTitle={true} />
                 </div>
               {/if}
+
+              <div class=" mb-3">
+                <EarningsGuidance {data} />
+              </div>
 
               <div
                 class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
