@@ -1292,12 +1292,12 @@
                 </div>
               </div>
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-lg overflow-hidden bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 w-full"
                 use:highcharts={configGraph}
               ></div>
             {:else}
               <div
-                class="mt-2 flex justify-center items-center h-96 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+                class="mt-2 flex justify-center items-center h-96 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
               >
                 <div class="relative">
                   <label
@@ -1342,7 +1342,7 @@
               </div>
 
               <div
-                class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg overflow-hidden bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 w-full"
               >
                 <div use:highcharts={configReturn}></div>
 
@@ -1470,7 +1470,7 @@
             </div>
           {:else}
             <div
-              class="mt-3 rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 xs:mt-4 md:mt-6"
+              class="mt-3 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 xs:mt-4 md:mt-6"
             >
               <div
                 class="flex h-[300px] w-full items-center justify-center overflow-y-hidden rounded px-8 bp:h-[350px] md:h-[400px] lg:h-[500px]"
