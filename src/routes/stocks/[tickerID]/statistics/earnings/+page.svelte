@@ -38,6 +38,9 @@
 
   // raw earnings & prices from backend
   let rawData: Array<any> = data?.getData?.historicalEarnings || [];
+  let rawGuidanceData: Array<any> = Array.isArray(data?.getEarningsGuidance)
+    ? data.getEarningsGuidance
+    : [];
 
   // ensure data is sorted descending by earnings date (latest first)
   rawData = [...rawData].sort(
@@ -62,6 +65,155 @@
   function safeParseFloat(v: any, fallback = 0) {
     const n = parseFloat(v);
     return Number.isFinite(n) ? n : fallback;
+  }
+
+  function toNumberOrNull(value: any): number | null {
+    if (value === null || value === undefined || value === "") {
+      return null;
+    }
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  function guidanceCenterDelta(minValue: any, maxValue: any, estValue: any) {
+    const min = toNumberOrNull(minValue);
+    const max = toNumberOrNull(maxValue);
+    const est = toNumberOrNull(estValue);
+
+    if (min !== null && max !== null) {
+      return {
+        center: (min + max) / 2,
+        delta: Math.abs(max - min) / 2,
+      };
+    }
+
+    if (est !== null) return { center: est, delta: null };
+    if (min !== null) return { center: min, delta: null };
+    if (max !== null) return { center: max, delta: null };
+
+    return { center: null, delta: null };
+  }
+
+  function hasGuidanceMetric(row: any, metricPrefix: "eps" | "revenue") {
+    const avg = toNumberOrNull(row?.[`${metricPrefix}GuidanceAvg`]);
+    if (avg !== null) return true;
+
+    const min = toNumberOrNull(row?.[`${metricPrefix}GuidanceMin`]);
+    const max = toNumberOrNull(row?.[`${metricPrefix}GuidanceMax`]);
+    const est = toNumberOrNull(row?.[`${metricPrefix}GuidanceEst`]);
+    return min !== null || max !== null || est !== null;
+  }
+
+  function guidanceCompletenessScore(row: any) {
+    return (
+      (hasGuidanceMetric(row, "revenue") ? 1 : 0) +
+      (hasGuidanceMetric(row, "eps") ? 1 : 0)
+    );
+  }
+
+  function guidancePeriodPriority(periodValue: any) {
+    const period = (periodValue ?? "").toString().trim().toUpperCase();
+    if (/^Q[1-4]$/.test(period)) return 0;
+    if (period.startsWith("FY")) return 1;
+    return 2;
+  }
+
+  function normalizePeriod(periodValue: any) {
+    return (periodValue ?? "").toString().trim().toUpperCase();
+  }
+
+  function normalizeYear(yearValue: any) {
+    const parsed = toNumberOrNull(yearValue);
+    return parsed === null ? null : Math.trunc(parsed);
+  }
+
+  function isExactGuidancePeriodMatch(earningsRow: any, guidanceRow: any) {
+    const earningsPeriod = normalizePeriod(earningsRow?.period);
+    const guidancePeriod = normalizePeriod(guidanceRow?.period);
+    const earningsYear = normalizeYear(earningsRow?.period_year);
+    const guidanceYear = normalizeYear(guidanceRow?.periodYear);
+
+    return (
+      earningsPeriod.length > 0 &&
+      earningsPeriod === guidancePeriod &&
+      earningsYear !== null &&
+      earningsYear === guidanceYear
+    );
+  }
+
+  function selectBestGuidanceRow(dateRows: Array<any>, earningsRow: any) {
+    if (!Array.isArray(dateRows) || dateRows.length === 0) {
+      return null;
+    }
+
+    const exactMatches = dateRows.filter((row) =>
+      isExactGuidancePeriodMatch(earningsRow, row),
+    );
+    const candidates = exactMatches.length > 0 ? exactMatches : dateRows;
+
+    return [...candidates].sort((a, b) => {
+      const scoreDiff =
+        guidanceCompletenessScore(b) - guidanceCompletenessScore(a);
+      if (scoreDiff !== 0) return scoreDiff;
+
+      const periodDiff =
+        guidancePeriodPriority(a?.period) - guidancePeriodPriority(b?.period);
+      if (periodDiff !== 0) return periodDiff;
+
+      const prelimA = normalizePeriod(a?.prelim) === "Y" ? 1 : 0;
+      const prelimB = normalizePeriod(b?.prelim) === "Y" ? 1 : 0;
+      return prelimA - prelimB;
+    })[0];
+  }
+
+  function formatRevenueGuidanceCell(guidanceRow: any) {
+    if (!guidanceRow) return "";
+
+    const avg = toNumberOrNull(guidanceRow?.revenueGuidanceAvg);
+    const delta = toNumberOrNull(guidanceRow?.revenueGuidanceDelta);
+    const centerDelta =
+      avg !== null
+        ? { center: avg, delta }
+        : guidanceCenterDelta(
+            guidanceRow?.revenueGuidanceMin,
+            guidanceRow?.revenueGuidanceMax,
+            guidanceRow?.revenueGuidanceEst,
+          );
+
+    if (centerDelta.center === null) return "";
+    return abbreviateNumber(centerDelta.center);
+  }
+
+  function formatEpsGuidanceCell(guidanceRow: any) {
+    if (!guidanceRow) return "";
+
+    const avg = toNumberOrNull(guidanceRow?.epsGuidanceAvg);
+    const delta = toNumberOrNull(guidanceRow?.epsGuidanceDelta);
+    const centerDelta =
+      avg !== null
+        ? { center: avg, delta }
+        : guidanceCenterDelta(
+            guidanceRow?.epsGuidanceMin,
+            guidanceRow?.epsGuidanceMax,
+            guidanceRow?.epsGuidanceEst,
+          );
+
+    if (centerDelta.center === null) return "";
+    return centerDelta.center.toFixed(2);
+  }
+
+  function buildGuidanceDateIndex(guidanceRows: Array<any>) {
+    const byDate = new Map<string, Array<any>>();
+    for (const row of guidanceRows || []) {
+      if (!row || typeof row !== "object") continue;
+      const dateKey = (row?.date ?? "").toString().trim();
+      if (!dateKey) continue;
+      if (!byDate.has(dateKey)) {
+        byDate.set(dateKey, []);
+      }
+      byDate.get(dateKey)?.push(row);
+    }
+    return byDate;
   }
 
   function normalizePercentValue(value: any): number | null {
@@ -333,8 +485,10 @@
     { key: "date", label: "Date", align: "right" },
     { key: "eps", label: "EPS", align: "right" },
     { key: "eps_est", label: "EPS Est.", align: "right" },
+    { key: "epsGuidanceDisplay", label: "EPS Guidance", align: "right" },
     { key: "revenue", label: "Revenue", align: "right" },
     { key: "revenue_est", label: "Rev Est.", align: "right" },
+    { key: "revGuidanceDisplay", label: "Rev Guidance", align: "right" },
   ];
 
   let sortOrders = {
@@ -345,6 +499,8 @@
     eps_est: { order: "none", type: "number" },
     revenue: { order: "none", type: "number" },
     revenue_est: { order: "none", type: "number" },
+    epsGuidanceDisplay: { order: "none", type: "string" },
+    revGuidanceDisplay: { order: "none", type: "string" },
   };
 
   const DEFAULT_ROWS_PER_PAGE = 20;
@@ -388,11 +544,22 @@
   }
 
   function prepareBaseTableData(dataset: Array<any>) {
+    const guidanceByDate = buildGuidanceDateIndex(rawGuidanceData);
+
     return [...dataset]
       .filter((item) => !isFutureDate(item?.date ?? ""))
-      .sort(
-        (a, b) => new Date(b?.date).getTime() - new Date(a?.date).getTime(),
-      );
+      .sort((a, b) => new Date(b?.date).getTime() - new Date(a?.date).getTime())
+      .map((item) => {
+        const dateKey = (item?.date ?? "").toString().trim();
+        const dateGuidanceRows = guidanceByDate.get(dateKey) || [];
+        const matchedGuidance = selectBestGuidanceRow(dateGuidanceRows, item);
+
+        return {
+          ...item,
+          epsGuidanceDisplay: formatEpsGuidanceCell(matchedGuidance),
+          revGuidanceDisplay: formatRevenueGuidanceCell(matchedGuidance),
+        };
+      });
   }
 
   function compareForSort(
@@ -639,12 +806,10 @@
                 </div>
               {/if}
 
-              <div class=" mb-3">
-                <EarningsGuidance {data} />
-              </div>
+              <EarningsGuidance {data} />
 
               <div
-                class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
+                class="mt-3 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
               >
                 <h2
                   class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
@@ -814,6 +979,10 @@
                             </td>
 
                             <td class="text-sm text-right whitespace-nowrap">
+                              {item?.epsGuidanceDisplay || ""}
+                            </td>
+
+                            <td class="text-sm text-right whitespace-nowrap">
                               {item.revenue && item.revenue?.length > 0
                                 ? abbreviateNumber(item.revenue)
                                 : "-"}
@@ -823,6 +992,10 @@
                               {item.revenue_est && item.revenue_est?.length > 0
                                 ? abbreviateNumber(item.revenue_est)
                                 : "-"}
+                            </td>
+
+                            <td class="text-sm text-right whitespace-nowrap">
+                              {item?.revGuidanceDisplay || ""}
                             </td>
                           </tr>
                         {/if}
