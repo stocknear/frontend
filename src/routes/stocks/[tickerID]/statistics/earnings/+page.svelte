@@ -49,6 +49,7 @@
   let baseTableData: Array<any> = [];
   let tableList: Array<any> = [];
   let paginatedTableList: Array<any> = [];
+  let canViewGuidanceValues = ["Pro", "Plus"]?.includes(data?.user?.tier);
 
   const todayDateStr = new Date().toISOString().slice(0, 10);
 
@@ -719,6 +720,10 @@
   updateBaseTableData(rawData);
 
   $: {
+    canViewGuidanceValues = ["Pro", "Plus"]?.includes(data?.user?.tier);
+  }
+
+  $: {
     if ($mode || timeFrame || timeIdx) {
       config = plotData();
     }
@@ -979,7 +984,28 @@
                             </td>
 
                             <td class="text-sm text-right whitespace-nowrap">
-                              {item?.epsGuidanceDisplay || ""}
+                              {#if canViewGuidanceValues}
+                                {item?.epsGuidanceDisplay || ""}
+                              {:else if item?.epsGuidanceDisplay}
+                                <a
+                                  href="/pricing"
+                                  class="inline-flex items-center text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                  aria-label="Upgrade to unlock EPS guidance"
+                                >
+                                  <svg
+                                    class="w-3.5 h-3.5 inline-block"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                    />
+                                  </svg>
+                                </a>
+                              {:else}
+                                {""}
+                              {/if}
                             </td>
 
                             <td class="text-sm text-right whitespace-nowrap">
@@ -995,7 +1021,28 @@
                             </td>
 
                             <td class="text-sm text-right whitespace-nowrap">
-                              {item?.revGuidanceDisplay || ""}
+                              {#if canViewGuidanceValues}
+                                {item?.revGuidanceDisplay || ""}
+                              {:else if item?.revGuidanceDisplay}
+                                <a
+                                  href="/pricing"
+                                  class="inline-flex items-center text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                  aria-label="Upgrade to unlock revenue guidance"
+                                >
+                                  <svg
+                                    class="w-3.5 h-3.5 inline-block"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
+                                    />
+                                  </svg>
+                                </a>
+                              {:else}
+                                {""}
+                              {/if}
                             </td>
                           </tr>
                         {/if}

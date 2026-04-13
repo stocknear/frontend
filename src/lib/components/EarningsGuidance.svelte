@@ -25,6 +25,21 @@
   let hasRevenueGuidance = false;
   let hasEpsGuidance = false;
   let shouldRender = false;
+  let publishedGuidanceHtml = "";
+  let guidanceSummaryHtml = "";
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function strongHtml(value) {
+    return `<strong>${escapeHtml(value)}</strong>`;
+  }
 
   function toNumber(value) {
     if (value === null || value === undefined || value === "") return null;
@@ -199,6 +214,38 @@
       hasRevenueGuidance = revenueGuidanceText.length > 0;
       hasEpsGuidance = epsGuidanceText.length > 0;
 
+      publishedGuidanceHtml = stock_detail_stats_management_guidance_published_on(
+        {
+          company: escapeHtml($displayCompanyName),
+          date: strongHtml(publishedDateLabel),
+        },
+      );
+
+      if (hasRevenueGuidance && hasEpsGuidance) {
+        guidanceSummaryHtml = stock_detail_stats_management_guidance_sentence_both(
+          {
+            period: strongHtml(periodLabel),
+            revenue: strongHtml(revenueGuidanceText),
+            eps: strongHtml(epsGuidanceText),
+          },
+        );
+      } else if (hasRevenueGuidance) {
+        guidanceSummaryHtml =
+          stock_detail_stats_management_guidance_sentence_revenue({
+            period: strongHtml(periodLabel),
+            revenue: strongHtml(revenueGuidanceText),
+          });
+      } else if (hasEpsGuidance) {
+        guidanceSummaryHtml = stock_detail_stats_management_guidance_sentence_eps(
+          {
+            period: strongHtml(periodLabel),
+            eps: strongHtml(epsGuidanceText),
+          },
+        );
+      } else {
+        guidanceSummaryHtml = "";
+      }
+
       shouldRender =
         Object.keys(rawData).length > 0 &&
         isFreshGuidance(rawData?.date) &&
@@ -228,10 +275,7 @@
 
     <div class="w-auto lg:w-full flex flex-col m-auto">
       <div class="text-sm text-muted dark:text-zinc-300">
-        {stock_detail_stats_management_guidance_published_on({
-          company: $displayCompanyName,
-          date: publishedDateLabel,
-        })}
+        {@html publishedGuidanceHtml}
         <br />
 
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
@@ -250,22 +294,8 @@
               /></svg
             >
           </a>
-        {:else if hasRevenueGuidance && hasEpsGuidance}
-          {stock_detail_stats_management_guidance_sentence_both({
-            period: periodLabel,
-            revenue: revenueGuidanceText,
-            eps: epsGuidanceText,
-          })}
-        {:else if hasRevenueGuidance}
-          {stock_detail_stats_management_guidance_sentence_revenue({
-            period: periodLabel,
-            revenue: revenueGuidanceText,
-          })}
-        {:else if hasEpsGuidance}
-          {stock_detail_stats_management_guidance_sentence_eps({
-            period: periodLabel,
-            eps: epsGuidanceText,
-          })}
+        {:else}
+          {@html guidanceSummaryHtml}
         {/if}
       </div>
     </div>
