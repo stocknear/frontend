@@ -1028,13 +1028,45 @@
     // 1) filter & parse each symbol's data into [timestamp, value] pairs
     const parsedData = {};
 
+    const rebaseType = selectedPlotCategory?.type;
+    const needsPctRebase =
+      rebaseType === "price-change" || rebaseType === "total-return-pct";
+    const needsIndexRebase = rebaseType === "total-return";
+    // YoY-growth style series: each point is an independent observation, so
+    // a simple subtraction is the meaningful rebase (gives change-from-start).
+    const needsSubtractRebase =
+      rebaseType === "income-growth-ttm" ||
+      rebaseType === "dividend-growth" ||
+      rebaseType === "dividend-growth-yoy";
+
     for (const [symbol, data] of Object?.entries(rawGraphData)) {
       // Ensure `history` exists and is an array
       const series = Array?.isArray(data?.history) ? data?.history : [];
       const filteredSeries = filterDataByTimePeriod(series);
 
+      // Backend normalizes these series against the first point of the full
+      // history. Rebase to the first point of the filtered range so each
+      // period starts at its baseline (0 for %, 100 for TR index).
+      const baseline = filteredSeries?.[0]?.value;
+      const canRebase =
+        filteredSeries?.length > 0 &&
+        baseline != null &&
+        (needsPctRebase ||
+          needsSubtractRebase ||
+          (needsIndexRebase && baseline !== 0));
+
       parsedData[symbol] = filteredSeries?.map((item) => {
         const d = new Date(item?.date);
+        let v = item?.value;
+        if (canRebase && v != null) {
+          if (needsPctRebase) {
+            v = ((100 + v) / (100 + baseline) - 1) * 100;
+          } else if (needsIndexRebase) {
+            v = (v / baseline) * 100;
+          } else if (needsSubtractRebase) {
+            v = v - baseline;
+          }
+        }
         return [
           Date.UTC(
             d.getUTCFullYear(),
@@ -1043,7 +1075,7 @@
             d.getUTCHours(),
             d.getUTCMinutes(),
           ),
-          item?.value,
+          v,
         ];
       });
     }
@@ -1780,24 +1812,26 @@
           {#if tickerList?.length > 0}
             {#if configGraph && isLoaded}
               <div class="relative mt-2">
-                <div
-                  class="flex justify-start space-x-2 w-full left-4 absolute top-3.5 z-10"
-                >
-                  {#each ["1Y", "3Y", "5Y", "Max"] as item}
-                    <label
-                      on:click={() => changePlotPeriod(item)}
-                      class="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold border border-gray-300 shadow dark:border-zinc-700 transition cursor-pointer {selectedPlotPeriod ===
-                      item
-                        ? 'bg-gray-100/70 text-gray-900 dark:bg-zinc-900/60 dark:text-white'
-                        : 'text-muted dark:text-white bg-[#f8fbfb] dark:bg-zinc-950/40 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'}"
-                    >
-                      {item}
-                    </label>
-                  {/each}
+                <div class="absolute left-4 top-3.5 z-10">
+                  <div
+                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                  >
+                    {#each ["1Y", "3Y", "5Y", "Max"] as item}
+                      <button
+                        on:click={() => changePlotPeriod(item)}
+                        class="cursor-pointer font-medium rounded-full px-3 py-1 text-xs focus:z-10 focus:outline-none transition-all {selectedPlotPeriod ===
+                        item
+                          ? 'bg-black shadow-sm dark:bg-zinc-800 text-white'
+                          : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                      >
+                        {item}
+                      </button>
+                    {/each}
+                  </div>
                 </div>
               </div>
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 w-full"
                 use:highcharts={configGraph}
               ></div>
             {:else}
@@ -1849,7 +1883,7 @@
               </div>
 
               <div
-                class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
+                class="mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 w-full"
               >
                 <div use:highcharts={configReturn}></div>
 
