@@ -1,33 +1,40 @@
 {
   "earnings_breadcrumb_home": "首页",
   "earnings_breadcrumb_calendar": "财报日历",
-  "earnings_seo_title": "财报日历 - 期权交易者的波动率机会",
-  "earnings_seo_description": "跟踪财报日期、预期波动和分析师预估，助力期权波动率交易和IV崩溃策略。",
-  "earnings_seo_keywords": "财报日历, 期权财报策略, 预期波动, IV崩溃, 财报波动率, 每股收益预估, 收入预测, 财报时间表",
+
+  "earnings_seo_title": "财报日历 - 为期权交易者打造的波动率布局",
+  "earnings_seo_description": "追踪财报日期、预期波动幅度与分析师预估，规划期权波动率交易与 IV 崩塌布局。",
+  "earnings_seo_keywords": "财报日历, 财报期权布局, 预期波动, IV 崩塌, 财报波动率, 每股收益预估, 营收预测, 财报时间表",
+
   "earnings_structured_name": "财报日历",
-  "earnings_structured_description": "专为关注波动率和预期波动的期权交易者打造的财报日历",
+  "earnings_structured_description": "专为关注波动率与预期波动的期权交易者打造的财报日历",
+
   "earnings_main_name": "财报日历",
   "earnings_count": "{count} 份财报",
-  "earnings_empty": "当天暂无财报发布。",
-  "earnings_empty_scheduled": "暂无预定财报",
-  "earnings_tab_daily": "按天",
-  "earnings_tab_weekly": "按周",
+  "earnings_empty": "当日暂无财报。",
+  "earnings_empty_scheduled": "暂无安排的财报",
+
+  "earnings_tab_daily": "每日",
+  "earnings_tab_weekly": "每周",
   "earnings_tab_details": "详情",
   "earnings_tab_compact": "紧凑",
-  "earnings_time_of_day": "时间",
+
+  "earnings_time_of_day": "发布时段",
   "earnings_time_any": "任意时间",
-  "earnings_time_before_open": "开盘前",
-  "earnings_time_after_close": "收盘后",
-  "earnings_expanded_reports": "财报",
+  "earnings_time_before_open": "盘前",
+  "earnings_time_after_close": "盘后",
+
+  "earnings_expanded_reports": "报告",
   "earnings_expanded_market_cap": "市值",
-  "earnings_expanded_revenue_est": "收入预估",
-  "earnings_expanded_revenue_estimate": "收入预估",
+  "earnings_expanded_revenue_est": "营收预估",
+  "earnings_expanded_revenue_estimate": "营收预估",
   "earnings_expanded_eps_est": "每股收益预估",
   "earnings_expanded_eps_estimate": "每股收益预估",
+
   "earnings_pagination_previous": "上一页",
   "earnings_pagination_next": "下一页",
   "earnings_pagination_page_of": "第 {current} 页，共 {total} 页",
   "earnings_pagination_rows": "{count} 行",
   "earnings_back_to_top": "返回顶部",
-  "earnings_search_placeholder": "搜索..."
+  "earnings_search_placeholder": "搜索…"
 }

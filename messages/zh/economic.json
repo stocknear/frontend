@@ -1,28 +1,33 @@
 {
   "economic_breadcrumb_home": "首页",
   "economic_breadcrumb_calendar": "经济日历",
-  "economic_seo_title": "经济日历 - 实时市场动态事件与金融数据发布",
-  "economic_seo_description": "通过我们全面的经济日历，实时掌握金融事件、经济指标和影响市场的数据发布。精准追踪GDP、通胀、就业数据、央行会议及重要经济公告的时间与预测。交易者和投资者预判市场波动的必备工具。",
-  "economic_seo_keywords": "经济日历, 金融事件, 市场日历, 经济指标, GDP发布, 通胀数据, 就业统计, 央行会议, 经济新闻, 市场动态事件, 金融数据发布, 经济公告, 交易日历, 投资规划",
+
+  "economic_seo_title": "经济日历 - 实时市场波动事件与财经数据发布",
+  "economic_seo_description": "通过我们完整的经济日历掌握实时财经事件、经济指标与市场波动数据发布。追踪 GDP、通胀、就业数据、央行会议和关键经济公告的精确时点与预期。交易者和投资者预判市场波动的必备工具。",
+  "economic_seo_keywords": "经济日历, 财经事件, 市场日历, 经济指标, GDP 发布, 通胀数据, 就业数据, 央行会议, 经济新闻, 市场波动事件, 财经数据发布, 经济公告, 交易日历, 投资规划",
   "economic_structured_name": "经济日历",
-  "economic_structured_description": "全面追踪全球金融事件、经济指标和市场动态数据发布的经济日历",
+  "economic_structured_description": "完整的经济日历，追踪全球财经事件、经济指标与市场波动数据",
+
   "economic_main_name": "经济日历",
   "economic_count_events": "{count} 个事件",
-  "economic_empty_day": "当天暂无事件。",
+  "economic_empty_day": "当日暂无事件。",
+
   "economic_filter_country": "筛选国家",
   "economic_filter_importance": "筛选重要性",
-  "economic_filter_reset": "重置全部",
-  "economic_filter_search": "搜索...",
-  "economic_filter_no_country": "未找到相关国家",
-  "economic_filters_label": "筛选条件",
+  "economic_filter_reset": "全部重置",
+  "economic_filter_search": "搜索…",
+  "economic_filter_no_country": "未找到国家",
+  "economic_filters_label": "筛选",
+
   "economic_pagination_previous": "上一页",
   "economic_pagination_next": "下一页",
   "economic_pagination_page_of": "第 {current} 页，共 {total} 页",
   "economic_pagination_rows": "{count} 行",
   "economic_back_to_top": "返回顶部",
-  "economic_search_placeholder": "查找...",
+  "economic_search_placeholder": "搜索…",
+
   "economic_source_label": "来源：",
-  "economic_source_text": "经济日历由以下机构提供",
+  "economic_source_text": "经济日历由",
   "economic_source_provider": "Financial Modeling Prep",
-  "economic_source_times": "，时间以ET（美东时间）显示。"
+  "economic_source_times": "提供，时间以美国东部时间（ET）显示。"
 }

@@ -1,21 +1,25 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "news_flow_breadcrumb_home": "首页",
-  "news_flow_breadcrumb_news_flow": "新闻流",
-  "news_flow_seo_title": "市场新闻流 - 实时交易催化剂",
-  "news_flow_seo_description": "关注实时市场新闻和推动价格变动的催化剂。专为需要快速获取短线交易背景的期权交易者打造。",
-  "news_flow_seo_keywords": "市场新闻流, 交易催化剂, 最新市场新闻, 期权交易者新闻, 价格变动新闻, 实时市场更新",
+  "news_flow_breadcrumb_news_flow": "新闻资讯流",
+
+  "news_flow_seo_title": "市场新闻流 - 实时可交易的催化剂",
+  "news_flow_seo_description": "实时关注能撼动价格的市场新闻与催化剂。专为需要快速上下文的期权交易者打造。",
+  "news_flow_seo_keywords": "市场新闻流, 交易催化剂, 突发市场新闻, 期权交易者新闻, 价格变动新闻, 实时市场更新",
   "news_flow_structured_name": "市场新闻流",
-  "news_flow_structured_description": "用于短线交易规划的实时市场新闻和催化剂",
-  "news_flow_main_title": "新闻流",
+  "news_flow_structured_description": "实时市场新闻与短线交易催化剂",
+
+  "news_flow_main_title": "新闻资讯流",
   "news_flow_news_count": "{count} 条新闻",
-  "news_flow_search_placeholder": "查找...",
-  "news_flow_infobox": "追踪最新突发新闻，实时了解股价变动原因",
+  "news_flow_search_placeholder": "搜索…",
+
+  "news_flow_infobox": "实时追踪最新突发新闻，了解股价为何波动",
   "news_flow_no_news": "目前暂无重要股市新闻。",
-  "news_flow_sidebar_market_flow_title": "市场流",
-  "news_flow_sidebar_market_flow_description": "追踪实时期权情绪。",
-  "news_flow_sidebar_options_flow_title": "期权流",
-  "news_flow_sidebar_options_flow_description": "监控实时异常期权活动和流向模式",
-  "news_flow_sidebar_dark_pool_title": "暗池流",
-  "news_flow_sidebar_dark_pool_description": "分析隐藏的机构流动和暗池交易数据"
+
+  "news_flow_sidebar_market_flow_title": "市场资金流",
+  "news_flow_sidebar_market_flow_description": "实时追踪期权情绪。",
+  "news_flow_sidebar_options_flow_title": "期权资金流",
+  "news_flow_sidebar_options_flow_description": "实时监控异常期权活动与资金流模式",
+  "news_flow_sidebar_dark_pool_title": "暗池资金流",
+  "news_flow_sidebar_dark_pool_description": "分析隐藏的机构资金流与暗池交易数据"
 }
