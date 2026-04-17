@@ -30,7 +30,7 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 mt-4"
             >
               <a
                 href="/pricing"
