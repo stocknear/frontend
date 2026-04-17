@@ -14,6 +14,42 @@
     getPublicWsClosePolicy,
     invalidateWsToken,
   } from "$lib/websocket";
+  import {
+    chart_rsb_header_price_alerts,
+    chart_rsb_alerts_coming_soon,
+    chart_rsb_create_alert,
+    chart_rsb_loading_watchlist,
+    chart_rsb_add_tickers_hint,
+    chart_rsb_col_symbol,
+    chart_rsb_col_price,
+    chart_rsb_col_change,
+    chart_rsb_col_volume,
+    chart_rsb_edit,
+    chart_rsb_cancel,
+    chart_rsb_no_watchlists,
+    chart_rsb_manage_watchlists,
+    chart_rsb_add_stocks_placeholder,
+    chart_rsb_add_stocks_aria,
+    chart_rsb_aria_close_modal,
+    chart_rsb_list_name,
+    chart_rsb_create_watchlist_btn,
+    chart_rsb_creating,
+    chart_rsb_delete_watchlist_title,
+    chart_rsb_delete_default_name,
+    chart_rsb_delete_confirm,
+    chart_rsb_delete_button,
+    chart_rsb_deleting,
+    chart_rsb_toast_updating,
+    chart_rsb_toast_updated,
+    chart_rsb_toast_failed_add,
+    chart_rsb_toast_watchlist_created,
+    chart_rsb_toast_failed_create,
+    chart_rsb_watchlist_label,
+    chart_rsb_new_watchlist_title,
+    chart_rsb_pro_feature,
+    chart_rsb_pro_watchlist_gate,
+    chart_rsb_upgrade_to_pro,
+  } from "$lib/paraglide/messages";
 
   export let currentSymbol: string | null = null;
   export let wsURL: string | null = null;
@@ -126,7 +162,7 @@
 
   $: isLoading = isLoadingWatchlists || isLoadingItems;
   $: headerTitle =
-    activeTab === "alerts" ? "Price alerts" : activeWatchlistTitle;
+    activeTab === "alerts" ? chart_rsb_header_price_alerts() : activeWatchlistTitle;
 
   const numberFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2,
@@ -459,9 +495,9 @@
       });
 
       toast.promise(promise, {
-        loading: "Updating...",
-        success: "Updated!",
-        error: (e: Error) => e.message || "Failed to add ticker",
+        loading: chart_rsb_toast_updating(),
+        success: chart_rsb_toast_updated(),
+        error: (e: Error) => e.message || chart_rsb_toast_failed_add(),
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
 
@@ -620,9 +656,9 @@
       });
 
       toast.promise(promise, {
-        loading: "Creating...",
-        success: "Watchlist created!",
-        error: (e: Error) => e.message || "Failed to create watchlist",
+        loading: chart_rsb_creating(),
+        success: chart_rsb_toast_watchlist_created(),
+        error: (e: Error) => e.message || chart_rsb_toast_failed_create(),
       });
 
       const output = await promise;
@@ -965,7 +1001,7 @@
           <path d="M9.5 13h5M12 10.5v5" />
         </g>
       </svg>
-      <span class="text-sm">Price alerts</span>
+      <span class="text-sm">{chart_rsb_header_price_alerts()}</span>
     {:else}
       <svg
         class="size-4"
@@ -981,7 +1017,7 @@
           points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
         />
       </svg>
-      <span class="text-sm">Watchlist</span>
+      <span class="text-sm">{chart_rsb_watchlist_label()}</span>
     {/if}
   </div>
 
@@ -1004,16 +1040,16 @@
         </svg>
         <div>
           <p class="text-sm font-semibold text-muted dark:text-zinc-200">
-            Pro Feature
+            {chart_rsb_pro_feature()}
           </p>
           <p class="mt-1 text-xs text-muted dark:text-white">
-            Watchlist is available for Pro members
+            {chart_rsb_pro_watchlist_gate()}
           </p>
         </div>
         <span
           class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-violet-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-violet-700 transition"
         >
-          Upgrade to Pro
+          {chart_rsb_upgrade_to_pro()}
         </span>
       </a>
     {:else}
@@ -1064,7 +1100,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="text-xs">New Watchlist</span>
+              <span class="text-xs">{chart_rsb_new_watchlist_title()}</span>
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
             <DropdownMenu.Group>
@@ -1105,7 +1141,7 @@
             </DropdownMenu.Group>
             {#if watchlists.length === 0}
               <div class="px-3 py-2 text-xs text-muted dark:text-white">
-                No watchlists yet
+                {chart_rsb_no_watchlists()}
               </div>
             {/if}
             <DropdownMenu.Separator />
@@ -1126,7 +1162,7 @@
                   d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
                 />
               </svg>
-              Manage Watchlists
+              {chart_rsb_manage_watchlists()}
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
@@ -1149,8 +1185,8 @@
               <Combobox.Input
                 on:input={searchStocks}
                 class="py-1.5 text-xs border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
-                placeholder="Add stocks..."
-                aria-label="Add stocks"
+                placeholder={chart_rsb_add_stocks_placeholder()}
+                aria-label={chart_rsb_add_stocks_aria()}
               />
             </div>
 
@@ -1236,9 +1272,9 @@
               </svg>
               <span class="ml-1 text-xs">
                 {#if !editMode}
-                  Edit
+                  {chart_rsb_edit()}
                 {:else}
-                  Cancel
+                  {chart_rsb_cancel()}
                 {/if}
               </span>
             </label>
@@ -1254,25 +1290,24 @@
         <div
           class="flex items-center gap-2 text-muted dark:text-zinc-200 font-semibold"
         >
-          Price alerts
+          {chart_rsb_header_price_alerts()}
         </div>
         <p class="mt-2 text-xs leading-relaxed">
-          Alerts are coming soon. You will be able to set triggers directly from
-          the chart and watchlist.
+          {chart_rsb_alerts_coming_soon()}
         </p>
         <button
           type="button"
           class="mt-4 w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-muted dark:text-white cursor-not-allowed"
           disabled
         >
-          Create alert
+          {chart_rsb_create_alert()}
         </button>
       </div>
     {:else if !isPro}
       <!-- Pro gate handled in dropdown section above -->
     {:else if isLoading}
       <div class="px-4 py-6 text-xs text-muted dark:text-white">
-        Loading watchlist...
+        {chart_rsb_loading_watchlist()}
       </div>
     {:else if errorMessage}
       <div class="px-4 py-6 text-sm text-rose-800 dark:text-rose-400">
@@ -1280,16 +1315,16 @@
       </div>
     {:else if watchlistItems.length === 0}
       <div class="px-4 py-6 text-xs text-muted dark:text-white">
-        Add tickers to see them here.
+        {chart_rsb_add_tickers_hint()}
       </div>
     {:else}
       <div
         class="px-3 py-2 text-[10px] uppercase tracking-wide text-muted dark:text-white grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2"
       >
-        <span>Symbol</span>
-        <span class="text-right whitespace-nowrap">Price</span>
-        <span class="text-right whitespace-nowrap">% Chg</span>
-        <span class="text-right whitespace-nowrap">Vol</span>
+        <span>{chart_rsb_col_symbol()}</span>
+        <span class="text-right whitespace-nowrap">{chart_rsb_col_price()}</span>
+        <span class="text-right whitespace-nowrap">{chart_rsb_col_change()}</span>
+        <span class="text-right whitespace-nowrap">{chart_rsb_col_volume()}</span>
       </div>
 
       <div class="pb-4">
@@ -1470,7 +1505,7 @@
     <label
       for="createWatchlistModal"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
+      aria-label={chart_rsb_aria_close_modal()}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -1485,14 +1520,14 @@
     </label>
 
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">New Watchlist</h3>
+      <h3 class="font-bold text-2xl mb-5">{chart_rsb_new_watchlist_title()}</h3>
 
       <form on:submit={handleCreateWatchlist} class="space-y-2 w-full m-auto">
         <div
           class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
         >
           <label for="watchlistTitle" class="label pb-1">
-            <span class="text-muted dark:text-white">List Name</span>
+            <span class="text-muted dark:text-white">{chart_rsb_list_name()}</span>
           </label>
           <div class="relative">
             <input
@@ -1512,7 +1547,7 @@
           disabled={isCreatingWatchlist}
           class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 disabled:opacity-60"
         >
-          {isCreatingWatchlist ? "Creating..." : "Create Watchlist"}
+          {isCreatingWatchlist ? chart_rsb_creating() : chart_rsb_create_watchlist_btn()}
         </button>
       </form>
     </div>
@@ -1537,7 +1572,7 @@
     <label
       for="deleteWatchlistModal"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
+      aria-label={chart_rsb_aria_close_modal()}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -1551,10 +1586,11 @@
       </svg>
     </label>
 
-    <h3 class="text-lg font-medium mb-2">Delete Watchlist</h3>
+    <h3 class="text-lg font-medium mb-2">{chart_rsb_delete_watchlist_title()}</h3>
     <p class="text-sm mb-6">
-      Are you sure you want to delete "{watchlistToDelete?.title ??
-        "this watchlist"}"? This action cannot be undone.
+      {chart_rsb_delete_confirm({
+        name: watchlistToDelete?.title ?? chart_rsb_delete_default_name(),
+      })}
     </p>
 
     <div class="flex justify-end space-x-3">
@@ -1563,7 +1599,7 @@
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
         tabindex="0"
       >
-        Cancel
+        {chart_rsb_cancel()}
       </label>
       <button
         type="button"
@@ -1589,7 +1625,7 @@
           <line x1="10" y1="11" x2="10" y2="17"></line>
           <line x1="14" y1="11" x2="14" y2="17"></line>
         </svg>
-        {isDeletingWatchlist ? "Deleting..." : "Delete"}
+        {isDeletingWatchlist ? chart_rsb_deleting() : chart_rsb_delete_button()}
       </button>
     </div>
   </div>

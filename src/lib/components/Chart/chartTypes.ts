@@ -3,6 +3,32 @@
 import type { KLineData } from "klinecharts";
 import type ChartCandlestick from "lucide-svelte/icons/chart-candlestick";
 import type ChartLine from "lucide-svelte/icons/chart-line";
+import {
+  chart_dt_group_lines,
+  chart_dt_group_channels,
+  chart_dt_group_shapes,
+  chart_dt_group_fibonacci,
+  chart_dt_group_patterns,
+  chart_dt_horizontal_line,
+  chart_dt_horizontal_ray,
+  chart_dt_horizontal_segment,
+  chart_dt_vertical_line,
+  chart_dt_vertical_ray,
+  chart_dt_vertical_segment,
+  chart_dt_straight_line,
+  chart_dt_ray_line,
+  chart_dt_segment,
+  chart_dt_price_line,
+  chart_dt_info_line,
+  chart_dt_price_channel,
+  chart_dt_parallel_channel,
+  chart_dt_circle,
+  chart_dt_rectangle,
+  chart_dt_fib_retracement,
+  chart_dt_fib_extension,
+  chart_dt_xabcd_pattern,
+  chart_dt_abcd_pattern,
+} from "$lib/paraglide/messages";
 
 // ============================================================================
 // CONSTANTS
@@ -428,71 +454,71 @@ export const toolIcons: Record<string, string> = {
 export const toolGroups: ToolGroup[] = [
   {
     id: "lines",
-    label: "Lines",
+    label: chart_dt_group_lines(),
     options: [
       {
         id: "horizontalStraightLine",
-        label: "Horizontal Line",
+        label: chart_dt_horizontal_line(),
         overlay: "horizontalStraightLine",
         icon: "horizontalStraightLine",
       },
       {
         id: "horizontalRayLine",
-        label: "Horizontal Ray",
+        label: chart_dt_horizontal_ray(),
         overlay: "horizontalRayLine",
         icon: "horizontalRayLine",
       },
       {
         id: "horizontalSegment",
-        label: "Horizontal Segment",
+        label: chart_dt_horizontal_segment(),
         overlay: "horizontalSegment",
         icon: "horizontalSegment",
       },
       {
         id: "verticalStraightLine",
-        label: "Vertical Line",
+        label: chart_dt_vertical_line(),
         overlay: "verticalStraightLine",
         icon: "verticalStraightLine",
       },
       {
         id: "verticalRayLine",
-        label: "Vertical Ray",
+        label: chart_dt_vertical_ray(),
         overlay: "verticalRayLine",
         icon: "verticalRayLine",
       },
       {
         id: "verticalSegment",
-        label: "Vertical Segment",
+        label: chart_dt_vertical_segment(),
         overlay: "verticalSegment",
         icon: "verticalSegment",
       },
       {
         id: "straightLine",
-        label: "Straight Line",
+        label: chart_dt_straight_line(),
         overlay: "straightLine",
         icon: "straightLine",
       },
       {
         id: "rayLine",
-        label: "Ray Line",
+        label: chart_dt_ray_line(),
         overlay: "rayLine",
         icon: "rayLine",
       },
       {
         id: "segment",
-        label: "Segment",
+        label: chart_dt_segment(),
         overlay: "segment",
         icon: "segment",
       },
       {
         id: "priceLine",
-        label: "Price Line",
+        label: chart_dt_price_line(),
         overlay: "priceLine",
         icon: "priceLine",
       },
       {
         id: "infoLine",
-        label: "Info Line",
+        label: chart_dt_info_line(),
         overlay: "infoLine",
         icon: "infoLine",
       },
@@ -500,17 +526,17 @@ export const toolGroups: ToolGroup[] = [
   },
   {
     id: "channels",
-    label: "Channels",
+    label: chart_dt_group_channels(),
     options: [
       {
         id: "priceChannelLine",
-        label: "Price Channel",
+        label: chart_dt_price_channel(),
         overlay: "priceChannelLine",
         icon: "priceChannelLine",
       },
       {
         id: "parallelStraightLine",
-        label: "Parallel Channel",
+        label: chart_dt_parallel_channel(),
         overlay: "parallelStraightLine",
         icon: "parallelStraightLine",
       },
@@ -518,25 +544,25 @@ export const toolGroups: ToolGroup[] = [
   },
   {
     id: "shapes",
-    label: "Shapes",
+    label: chart_dt_group_shapes(),
     options: [
-      { id: "circle", label: "Circle", overlay: "circle", icon: "circle" },
-      { id: "rect", label: "Rectangle", overlay: "rect", icon: "rect" },
+      { id: "circle", label: chart_dt_circle(), overlay: "circle", icon: "circle" },
+      { id: "rect", label: chart_dt_rectangle(), overlay: "rect", icon: "rect" },
     ],
   },
   {
     id: "fibonacci",
-    label: "Fibonacci",
+    label: chart_dt_group_fibonacci(),
     options: [
       {
         id: "fibonacciLine",
-        label: "Fib Retracement",
+        label: chart_dt_fib_retracement(),
         overlay: "fibonacciLine",
         icon: "fibonacciLine",
       },
       {
         id: "fibonacciExtension",
-        label: "Fib Extension",
+        label: chart_dt_fib_extension(),
         overlay: "fibonacciExtension",
         icon: "fibonacciExtension",
       },
@@ -544,15 +570,15 @@ export const toolGroups: ToolGroup[] = [
   },
   {
     id: "waves",
-    label: "Patterns",
+    label: chart_dt_group_patterns(),
     options: [
       {
         id: "xabcd",
-        label: "XABCD Pattern",
+        label: chart_dt_xabcd_pattern(),
         overlay: "xabcd",
         icon: "xabcd",
       },
-      { id: "abcd", label: "ABCD Pattern", overlay: "abcd", icon: "abcd" },
+      { id: "abcd", label: chart_dt_abcd_pattern(), overlay: "abcd", icon: "abcd" },
     ],
   },
 ];

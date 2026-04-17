@@ -14,6 +14,25 @@
     type ChartTypeOption,
     type ChartTypeId,
   } from "./chartTypes";
+  import {
+    chart_mnav_chart,
+    chart_mnav_tools,
+    chart_mnav_cursor_mode,
+    chart_mnav_close_drawing_aria,
+    chart_mnav_delete_all_drawings,
+    chart_mnav_drawing_tools_header,
+    chart_toolbar_indicators,
+    chart_toolbar_events,
+    chart_events_earnings,
+    chart_events_dividends,
+    chart_events_news_flow,
+    chart_ct_lock_drawings,
+    chart_ct_unlock_drawings,
+    chart_ct_hide_drawings,
+    chart_ct_show_drawings,
+    chart_shortcuts_undo,
+    chart_shortcuts_redo,
+  } from "$lib/paraglide/messages";
 
   // Props
   export let activeRange: string;
@@ -98,7 +117,7 @@
           class="flex flex-col items-center justify-center gap-0.5 p-2 min-w-[56px] text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 transition"
         >
           <svelte:component this={currentChartType?.icon} class="h-5 w-5" />
-          <span class="text-[10px] font-medium">Chart</span>
+          <span class="text-[10px] font-medium">{chart_mnav_chart()}</span>
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
@@ -140,7 +159,7 @@
         <path d="M3 3v18h18" />
         <path d="m19 9-5 5-4-4-3 3" />
       </svg>
-      <span class="text-[10px] font-medium">Indicators</span>
+      <span class="text-[10px] font-medium">{chart_toolbar_indicators()}</span>
     </label>
 
     <!-- Events -->
@@ -163,7 +182,7 @@
             <line x1="8" y1="2" x2="8" y2="6" />
             <line x1="3" y1="10" x2="21" y2="10" />
           </svg>
-          <span class="text-[10px] font-medium">Events</span>
+          <span class="text-[10px] font-medium">{chart_toolbar_events()}</span>
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
@@ -182,7 +201,7 @@
               on:click|stopPropagation
               on:pointerdown|stopPropagation
             >
-              <span class="text-muted dark:text-zinc-300">Earnings</span>
+              <span class="text-muted dark:text-zinc-300">{chart_events_earnings()}</span>
               <div class="relative ml-4 flex items-center">
                 <input
                   type="checkbox"
@@ -205,7 +224,7 @@
               on:click|stopPropagation
               on:pointerdown|stopPropagation
             >
-              <span class="text-muted dark:text-zinc-300">Dividends</span>
+              <span class="text-muted dark:text-zinc-300">{chart_events_dividends()}</span>
               <div class="relative ml-4 flex items-center">
                 <input
                   type="checkbox"
@@ -229,7 +248,7 @@
                 on:click|stopPropagation
                 on:pointerdown|stopPropagation
               >
-                <span class="text-muted dark:text-zinc-300">News Flow</span>
+                <span class="text-muted dark:text-zinc-300">{chart_events_news_flow()}</span>
                 <div class="relative ml-4 flex items-center">
                   <input
                     type="checkbox"
@@ -265,7 +284,7 @@
         <path d="M2 2l7.586 7.586" />
         <circle cx="11" cy="11" r="2" />
       </svg>
-      <span class="text-[10px] font-medium">Tools</span>
+      <span class="text-[10px] font-medium">{chart_mnav_tools()}</span>
     </label>
   </div>
 </div>
@@ -283,7 +302,7 @@
     <label
       for="mobileToolsModal"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition z-10"
-      aria-label="Close drawing tools"
+      aria-label={chart_mnav_close_drawing_aria()}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -305,14 +324,14 @@
       class="flex items-center justify-between px-4 pb-3 border-b border-gray-300 dark:border-zinc-700 mt-6 flex-shrink-0"
     >
       <h3 class="text-base font-semibold text-muted dark:text-white">
-        Drawing Tools
+        {chart_mnav_drawing_tools_header()}
       </h3>
       <div class="flex items-center gap-2">
         <!-- Lock/Unlock -->
         <button
           class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsLock")}
-          title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
+          title={drawingsLocked ? chart_ct_unlock_drawings() : chart_ct_lock_drawings()}
         >
           <svg class="h-5 w-5" viewBox="0 0 22 22" fill="currentColor">
             <path d={drawingsLocked ? toolIcons.lock : toolIcons.unlock} />
@@ -322,7 +341,7 @@
         <button
           class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-muted dark:text-white" : "text-gray-600 dark:text-zinc-400 hover:text-muted dark:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsVisibility")}
-          title={drawingsVisible ? "Hide drawings" : "Show drawings"}
+          title={drawingsVisible ? chart_ct_hide_drawings() : chart_ct_show_drawings()}
         >
           <svg class="h-5 w-5" viewBox="0 0 22 22" fill="currentColor">
             <path
@@ -335,7 +354,7 @@
           class={`p-2 rounded-lg transition ${canUndo ? "text-gray-600 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
           on:click={() => canUndo && dispatch("undo")}
           disabled={!canUndo}
-          title="Undo"
+          title={chart_shortcuts_undo()}
         >
           <Undo2 class="h-5 w-5" />
         </button>
@@ -344,7 +363,7 @@
           class={`p-2 rounded-lg transition ${canRedo ? "text-gray-600 dark:text-zinc-400 hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
           on:click={() => canRedo && dispatch("redo")}
           disabled={!canRedo}
-          title="Redo"
+          title={chart_shortcuts_redo()}
         >
           <Redo2 class="h-5 w-5" />
         </button>
@@ -352,7 +371,7 @@
         <button
           class="p-2 rounded-lg text-gray-600 dark:text-zinc-400 hover:text-rose-400 hover:bg-rose-400/10 transition"
           on:click={() => dispatch("removeAllDrawings")}
-          title="Delete all drawings"
+          title={chart_mnav_delete_all_drawings()}
         >
           <Trash2 class="h-5 w-5" />
         </button>
@@ -412,7 +431,7 @@
         on:click={() => dispatch("setCursorMode")}
       >
         <MousePointer2 class="h-5 w-5" />
-        <span class="text-sm font-medium">Cursor Mode</span>
+        <span class="text-sm font-medium">{chart_mnav_cursor_mode()}</span>
       </label>
     </div>
   </div>

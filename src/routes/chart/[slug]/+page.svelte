@@ -55,6 +55,231 @@
   import AlarmClockPlus from "lucide-svelte/icons/alarm-clock-plus";
   import Settings from "lucide-svelte/icons/settings";
   import { groupChartIndicators, abbreviateNumber } from "$lib/utils";
+  import {
+    chart_toolbar_toggle_drawing_show,
+    chart_toolbar_toggle_drawing_hide,
+    chart_toolbar_back_to_ticker,
+    chart_toolbar_indicators,
+    chart_toolbar_events,
+    chart_toolbar_strategy,
+    chart_toolbar_save,
+    chart_toolbar_save_as_new,
+    chart_toolbar_reset_all,
+    chart_toolbar_theme,
+    chart_theme_light,
+    chart_theme_dark,
+    chart_events_earnings,
+    chart_events_dividends,
+    chart_events_news_flow,
+    chart_strategy_new,
+    chart_strategy_none_saved,
+    chart_type_candles,
+    chart_type_bars,
+    chart_type_hollow_candles,
+    chart_type_high_low,
+    chart_type_heikin_ashi,
+    chart_type_line_step,
+    chart_type_area,
+    chart_type_hlc_area,
+    chart_drawing_color,
+    chart_drawing_thickness,
+    chart_drawing_line_style,
+    chart_drawing_style_solid,
+    chart_drawing_style_dashed,
+    chart_drawing_lock,
+    chart_drawing_unlock,
+    chart_drawing_delete,
+    chart_sidebar_watchlist,
+    chart_sidebar_price_alerts,
+    chart_sidebar_show,
+    chart_sidebar_hide,
+    chart_modal_indicators_title,
+    chart_modal_search_placeholder,
+    chart_modal_section_personal,
+    chart_modal_section_selected,
+    chart_modal_section_favorites,
+    chart_modal_section_builtin,
+    chart_modal_section_technicals,
+    chart_modal_section_fundamentals,
+    chart_modal_section_options,
+    chart_modal_section_statistics,
+    chart_modal_nothing_found,
+    chart_modal_no_indicators_section,
+    chart_modal_selected_indicators,
+    chart_modal_reset_all,
+    chart_modal_none_selected,
+    chart_aria_close_indicators,
+    chart_aria_clear_search,
+    chart_period_annual,
+    chart_period_quarterly,
+    chart_period_ttm,
+    chart_fundamentals_income,
+    chart_fundamentals_balance,
+    chart_fundamentals_cashflow,
+    chart_fundamentals_ratios,
+    chart_toast_max_periods,
+    chart_toast_avwap_anchor,
+    chart_toast_sign_in_required,
+    chart_toast_saving_strategy,
+    chart_toast_strategy_saved,
+    chart_toast_save_failed,
+    chart_toast_title_too_long,
+    chart_toast_creating_strategy,
+    chart_toast_strategy_created,
+    chart_toast_create_failed,
+    chart_toast_deleting_strategy,
+    chart_toast_strategy_deleted,
+    chart_toast_delete_failed,
+    chart_toast_chart_not_ready,
+    chart_toast_canvas_failed,
+    chart_toast_download_failed,
+    chart_earnings_upcoming,
+    chart_earnings_and_revenue,
+    chart_earnings_date,
+    chart_earnings_period_ending,
+    chart_earnings_eps_estimate,
+    chart_earnings_section,
+    chart_earnings_reported,
+    chart_earnings_estimate,
+    chart_earnings_surprise,
+    chart_earnings_yoy_change,
+    chart_earnings_revenue_estimate,
+    chart_earnings_revenue,
+    chart_earnings_more_financials,
+    chart_dividend_header,
+    chart_dividend_ex_date,
+    chart_dividend_amount,
+    chart_dividend_declaration_date,
+    chart_dividend_record_date,
+    chart_dividend_payment_date,
+    chart_dividend_more_details,
+    chart_news_why_price_moved,
+    chart_gex_gamma,
+    chart_dex_delta,
+    chart_label_strike,
+    chart_label_expiration,
+    chart_label_dte,
+    chart_label_spot,
+    chart_label_call,
+    chart_label_put,
+    chart_label_volume,
+    chart_exposure_net_gamma,
+    chart_exposure_net_delta,
+    chart_gex_positive_explanation,
+    chart_gex_negative_explanation,
+    chart_dex_positive_explanation,
+    chart_dex_negative_explanation,
+    chart_exposure_view_all_levels,
+    chart_max_pain_header,
+    chart_max_pain_price,
+    chart_max_pain_distance,
+    chart_analyst_target_analysts,
+    chart_analyst_target_consensus,
+    chart_oi_total,
+    chart_oi_call,
+    chart_oi_put,
+    chart_hottest_open_interest,
+    chart_hottest_last_price,
+    chart_hottest_iv,
+    chart_hottest_premium,
+    chart_hottest_explanation,
+    chart_hottest_view_all,
+    chart_aria_close,
+    chart_aria_view_earnings,
+    chart_aria_close_earnings,
+    chart_aria_view_dividend,
+    chart_aria_close_dividend,
+    chart_aria_view_news,
+    chart_aria_close_news,
+    chart_aria_close_gex_dex,
+    chart_aria_close_max_pain,
+    chart_aria_close_analyst,
+    chart_aria_close_oi,
+    chart_aria_close_hottest,
+    chart_aria_add_favorite,
+    chart_aria_remove_favorite,
+    chart_aria_customize_params,
+    chart_aria_close_param_modal,
+    chart_aria_close_shortcuts,
+    chart_shortcuts_title,
+    chart_shortcuts_section_drawing,
+    chart_shortcuts_horizontal_line,
+    chart_shortcuts_vertical_line,
+    chart_shortcuts_trend_line,
+    chart_shortcuts_rectangle,
+    chart_shortcuts_circle,
+    chart_shortcuts_fibonacci,
+    chart_shortcuts_price_line,
+    chart_shortcuts_exit_drawing,
+    chart_shortcuts_section_actions,
+    chart_shortcuts_undo,
+    chart_shortcuts_redo,
+    chart_shortcuts_delete_drawing,
+    chart_shortcuts_zoom_in,
+    chart_shortcuts_zoom_out,
+    chart_shortcuts_pan_left,
+    chart_shortcuts_pan_right,
+    chart_shortcuts_section_timeframe,
+    chart_shortcuts_1min,
+    chart_shortcuts_5min,
+    chart_shortcuts_15min,
+    chart_shortcuts_30min,
+    chart_shortcuts_1hour,
+    chart_shortcuts_4hour,
+    chart_shortcuts_daily,
+    chart_shortcuts_weekly,
+    chart_shortcuts_monthly,
+    chart_shortcuts_help_text,
+    chart_indicator_moving_average,
+    chart_indicator_exponential_ma,
+    chart_indicator_bollinger_bands,
+    chart_indicator_vwap,
+    chart_indicator_anchored_vwap,
+    chart_indicator_parabolic_sar,
+    chart_indicator_donchian_channels,
+    chart_indicator_pivot_points,
+    chart_indicator_fibonacci_retracements,
+    chart_indicator_psych_levels_10,
+    chart_indicator_psych_levels_25,
+    chart_indicator_psych_levels_50,
+    chart_indicator_obv,
+    chart_indicator_rsi,
+    chart_indicator_macd,
+    chart_indicator_ttm_squeeze,
+    chart_indicator_atr,
+    chart_indicator_stochastic,
+    chart_indicator_stochastic_rsi,
+    chart_indicator_stochastic_crossover,
+    chart_indicator_cci,
+    chart_indicator_williams_r,
+    chart_indicator_mfi,
+    chart_indicator_roc,
+    chart_indicator_tsi,
+    chart_indicator_aroon,
+    chart_indicator_adx,
+    chart_indicator_std_deviation,
+    chart_indicator_historical_volatility,
+    chart_indicator_chaikin_volatility,
+    chart_indicator_gex,
+    chart_indicator_dex,
+    chart_indicator_oi,
+    chart_indicator_hottest_contracts,
+    chart_indicator_short_interest,
+    chart_indicator_revenue,
+    chart_indicator_market_cap,
+    chart_indicator_analyst_target,
+    chart_indicator_max_pain,
+    chart_indicator_ftd,
+    chart_strategy_new_modal_title,
+    chart_strategy_name_label,
+    chart_strategy_create_button,
+    chart_strategy_delete_modal_title,
+    chart_strategy_delete_confirm,
+    chart_strategy_delete_button,
+    chart_strategy_cancel,
+    chart_aria_close_new_strategy,
+    chart_aria_close_delete_strategy,
+  } from "$lib/paraglide/messages";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import ChartRightSidebar from "$lib/components/Chart/RightSidebar.svelte";
@@ -917,14 +1142,14 @@
     icon: typeof ChartCandlestick | typeof ChartLine;
   };
   const chartTypeOptions: ChartTypeOption[] = [
-    { id: "candles", label: "Candles", icon: ChartCandlestick },
-    { id: "bars", label: "Bars", icon: ChartCandlestick },
-    { id: "hollow_candles", label: "Hollow Candles", icon: ChartCandlestick },
-    { id: "high_low", label: "High-Low", icon: ChartCandlestick },
-    { id: "heikin_ashi", label: "Heikin Ashi", icon: ChartCandlestick },
-    { id: "line_step", label: "Line Step", icon: ChartLine },
-    { id: "area", label: "Area", icon: ChartLine },
-    { id: "hlc_area", label: "HLC Area", icon: ChartLine },
+    { id: "candles", label: chart_type_candles(), icon: ChartCandlestick },
+    { id: "bars", label: chart_type_bars(), icon: ChartCandlestick },
+    { id: "hollow_candles", label: chart_type_hollow_candles(), icon: ChartCandlestick },
+    { id: "high_low", label: chart_type_high_low(), icon: ChartCandlestick },
+    { id: "heikin_ashi", label: chart_type_heikin_ashi(), icon: ChartCandlestick },
+    { id: "line_step", label: chart_type_line_step(), icon: ChartLine },
+    { id: "area", label: chart_type_area(), icon: ChartLine },
+    { id: "hlc_area", label: chart_type_hlc_area(), icon: ChartLine },
   ];
   let chartType: ChartTypeId = "candles";
   let currentChartType: ChartTypeOption | undefined = chartTypeOptions[0];
@@ -1033,7 +1258,7 @@
   const indicatorDefinitions: IndicatorDefinition[] = [
     {
       id: "ma",
-      label: "Moving Average",
+      label: chart_indicator_moving_average(),
       indicatorName: "SN_MA",
       category: "Trend",
       infoKey: "ma",
@@ -1050,7 +1275,7 @@
     },
     {
       id: "ema",
-      label: "Exponential Moving Average",
+      label: chart_indicator_exponential_ma(),
       indicatorName: "SN_EMA",
       category: "Trend",
       infoKey: "ema",
@@ -1067,7 +1292,7 @@
     },
     {
       id: "boll",
-      label: "Bollinger Bands",
+      label: chart_indicator_bollinger_bands(),
       indicatorName: "SN_BOLL",
       category: "Volatility",
       defaultParams: [20, 2],
@@ -1075,7 +1300,7 @@
     },
     {
       id: "vwap",
-      label: "VWAP",
+      label: chart_indicator_vwap(),
       indicatorName: "SN_VWAP",
       category: "Volume",
       infoKey: "vwap",
@@ -1084,7 +1309,7 @@
     },
     {
       id: AVWAP_ID,
-      label: "Anchored VWAP",
+      label: chart_indicator_anchored_vwap(),
       indicatorName: "SN_AVWAP",
       category: "Volume",
       infoKey: "vwap",
@@ -1093,7 +1318,7 @@
     },
     {
       id: "parabolic_sar",
-      label: "Parabolic SAR",
+      label: chart_indicator_parabolic_sar(),
       indicatorName: "SN_SAR",
       category: "Trend",
       defaultParams: [0.02, 0.2],
@@ -1101,7 +1326,7 @@
     },
     {
       id: "donchian",
-      label: "Donchian Channels",
+      label: chart_indicator_donchian_channels(),
       indicatorName: "SN_DONCHIAN",
       category: "Trend",
       defaultParams: [20],
@@ -1109,7 +1334,7 @@
     },
     {
       id: "pivot",
-      label: "Pivot Points",
+      label: chart_indicator_pivot_points(),
       indicatorName: "SN_PIVOT",
       category: "Price Levels",
       defaultParams: [],
@@ -1117,7 +1342,7 @@
     },
     {
       id: "fibonacci",
-      label: "Fibonacci Retracements",
+      label: chart_indicator_fibonacci_retracements(),
       indicatorName: "SN_FIB",
       category: "Price Levels",
       defaultParams: [],
@@ -1125,7 +1350,7 @@
     },
     {
       id: "psych_round_10",
-      label: "Psychological Levels ($10)",
+      label: chart_indicator_psych_levels_10(),
       indicatorName: "SN_PSYCH",
       category: "Price Levels",
       defaultParams: [10],
@@ -1133,7 +1358,7 @@
     },
     {
       id: "psych_round_25",
-      label: "Psychological Levels ($25)",
+      label: chart_indicator_psych_levels_25(),
       indicatorName: "SN_PSYCH",
       category: "Price Levels",
       defaultParams: [25],
@@ -1141,7 +1366,7 @@
     },
     {
       id: "psych_round_50",
-      label: "Psychological Levels ($50)",
+      label: chart_indicator_psych_levels_50(),
       indicatorName: "SN_PSYCH",
       category: "Price Levels",
       defaultParams: [50],
@@ -1149,7 +1374,7 @@
     },
     {
       id: "obv",
-      label: "On-Balance Volume",
+      label: chart_indicator_obv(),
       indicatorName: "SN_OBV",
       category: "Volume",
       defaultParams: [5, 10, 20, 50],
@@ -1158,7 +1383,7 @@
     },
     {
       id: "rsi",
-      label: "Relative Strength Index",
+      label: chart_indicator_rsi(),
       indicatorName: "SN_RSI",
       category: "Momentum",
       infoKey: "rsi",
@@ -1168,7 +1393,7 @@
     },
     {
       id: "macd",
-      label: "MACD",
+      label: chart_indicator_macd(),
       indicatorName: "SN_MACD",
       category: "Momentum",
       defaultParams: [12, 26, 9],
@@ -1177,7 +1402,7 @@
     },
     {
       id: "ttm_squeeze",
-      label: "TTM Squeeze",
+      label: chart_indicator_ttm_squeeze(),
       indicatorName: "SN_TTM_SQUEEZE",
       category: "Momentum",
       defaultParams: [20, 2, 10, 2, 10],
@@ -1186,7 +1411,7 @@
     },
     {
       id: "atr",
-      label: "Average True Range",
+      label: chart_indicator_atr(),
       sublabel: "ATR 14",
       indicatorName: "SN_ATR",
       category: "Volatility",
@@ -1197,7 +1422,7 @@
     },
     {
       id: "stoch",
-      label: "Stochastic Oscillator",
+      label: chart_indicator_stochastic(),
       indicatorName: "SN_STOCH",
       category: "Momentum",
       defaultParams: [14, 3],
@@ -1206,7 +1431,7 @@
     },
     {
       id: "stoch_rsi",
-      label: "Stochastic RSI",
+      label: chart_indicator_stochastic_rsi(),
       indicatorName: "SN_STOCH_RSI",
       category: "Momentum",
       defaultParams: [14, 14, 3, 3],
@@ -1215,7 +1440,7 @@
     },
     {
       id: "stoch_crossover",
-      label: "Stochastic Crossover",
+      label: chart_indicator_stochastic_crossover(),
       indicatorName: "SN_STOCH_X",
       category: "Momentum",
       defaultParams: [14, 3],
@@ -1224,7 +1449,7 @@
     },
     {
       id: "cci",
-      label: "Commodity Channel Index",
+      label: chart_indicator_cci(),
       indicatorName: "SN_CCI",
       category: "Momentum",
       infoKey: "cci",
@@ -1234,7 +1459,7 @@
     },
     {
       id: "williams_r",
-      label: "Williams %R",
+      label: chart_indicator_williams_r(),
       indicatorName: "SN_WILLIAMS",
       category: "Momentum",
       defaultParams: [14],
@@ -1243,7 +1468,7 @@
     },
     {
       id: "mfi",
-      label: "Money Flow Index",
+      label: chart_indicator_mfi(),
       indicatorName: "SN_MFI",
       category: "Volume",
       infoKey: "mfi",
@@ -1254,7 +1479,7 @@
 
     {
       id: "roc",
-      label: "Rate of Change",
+      label: chart_indicator_roc(),
       indicatorName: "SN_ROC",
       category: "Momentum",
       defaultParams: [12],
@@ -1263,7 +1488,7 @@
     },
     {
       id: "tsi",
-      label: "True Strength Index",
+      label: chart_indicator_tsi(),
       indicatorName: "SN_TSI",
       category: "Momentum",
       defaultParams: [25, 13, 7],
@@ -1272,7 +1497,7 @@
     },
     {
       id: "aroon",
-      label: "Aroon",
+      label: chart_indicator_aroon(),
       indicatorName: "SN_AROON",
       category: "Trend",
       defaultParams: [25],
@@ -1281,7 +1506,7 @@
     },
     {
       id: "adx",
-      label: "ADX (+DI / -DI)",
+      label: chart_indicator_adx(),
       indicatorName: "SN_ADX",
       category: "Trend",
       defaultParams: [14],
@@ -1290,7 +1515,7 @@
     },
     {
       id: "std",
-      label: "Standard Deviation",
+      label: chart_indicator_std_deviation(),
       indicatorName: "SN_STD",
       category: "Volatility",
       defaultParams: [20],
@@ -1299,7 +1524,7 @@
     },
     {
       id: "hist_vol",
-      label: "Historical Volatility",
+      label: chart_indicator_historical_volatility(),
       indicatorName: "SN_HVOL",
       category: "Volatility",
       defaultParams: [20],
@@ -1308,7 +1533,7 @@
     },
     {
       id: "chaikin_vol",
-      label: "Chaikin Volatility",
+      label: chart_indicator_chaikin_volatility(),
       indicatorName: "SN_CHAIKIN",
       category: "Volatility",
       defaultParams: [10, 10],
@@ -1317,7 +1542,7 @@
     },
     {
       id: "gex",
-      label: "Gamma Exposure (GEX)",
+      label: chart_indicator_gex(),
       indicatorName: "SN_GEX",
       category: "Options",
       defaultParams: [],
@@ -1326,7 +1551,7 @@
     },
     {
       id: "dex",
-      label: "Delta Exposure (DEX)",
+      label: chart_indicator_dex(),
       indicatorName: "SN_DEX",
       category: "Options",
       defaultParams: [],
@@ -1335,7 +1560,7 @@
     },
     {
       id: "oi",
-      label: "Open Interest (OI)",
+      label: chart_indicator_oi(),
       indicatorName: "SN_OI",
       category: "Options",
       defaultParams: [],
@@ -1344,7 +1569,7 @@
     },
     {
       id: "hottest",
-      label: "Hottest Contracts",
+      label: chart_indicator_hottest_contracts(),
       indicatorName: "SN_HOTTEST",
       category: "Options",
       defaultParams: [],
@@ -1354,7 +1579,7 @@
     // Fundamentals category
     {
       id: "short_interest",
-      label: "Short Interest",
+      label: chart_indicator_short_interest(),
       indicatorName: "SN_SHORT_INTEREST",
       category: "Statistics",
       defaultParams: [],
@@ -1363,7 +1588,7 @@
     },
     {
       id: "revenue",
-      label: "Revenue",
+      label: chart_indicator_revenue(),
       indicatorName: "SN_REVENUE",
       category: "Fundamentals",
       defaultParams: [],
@@ -1372,7 +1597,7 @@
     },
     {
       id: "market_cap",
-      label: "Market Cap",
+      label: chart_indicator_market_cap(),
       indicatorName: "SN_MARKET_CAP",
       category: "Statistics",
       defaultParams: [],
@@ -1381,7 +1606,7 @@
     },
     {
       id: "analyst_target",
-      label: "Analyst Price Target",
+      label: chart_indicator_analyst_target(),
       indicatorName: "SN_ANALYST_TARGET",
       category: "Statistics",
       defaultParams: [],
@@ -1392,7 +1617,7 @@
     // Options category
     {
       id: "max_pain",
-      label: "Max Pain",
+      label: chart_indicator_max_pain(),
       indicatorName: "SN_MAX_PAIN",
       category: "Options",
       defaultParams: [],
@@ -1402,7 +1627,7 @@
     // Statistics category
     {
       id: "ftd",
-      label: "Fail-to-Deliver",
+      label: chart_indicator_ftd(),
       indicatorName: "SN_FTD",
       category: "Statistics",
       defaultParams: [],
@@ -1415,20 +1640,20 @@
     id: FinancialIndicatorPeriod;
     label: string;
   }[] = [
-    { id: "annual", label: "Annual" },
-    { id: "quarterly", label: "Quarterly" },
-    { id: "ttm", label: "TTM" },
+    { id: "annual", label: chart_period_annual() },
+    { id: "quarterly", label: chart_period_quarterly() },
+    { id: "ttm", label: chart_period_ttm() },
   ];
   const FINANCIAL_PERIOD_LABELS: Record<FinancialIndicatorPeriod, string> = {
-    annual: "Annual",
-    quarterly: "Quarterly",
-    ttm: "TTM",
+    annual: chart_period_annual(),
+    quarterly: chart_period_quarterly(),
+    ttm: chart_period_ttm(),
   };
   const FUNDAMENTAL_TABS: { id: FundamentalTabId; label: string }[] = [
-    { id: "income", label: "Income statement" },
-    { id: "balance", label: "Balance sheet" },
-    { id: "cashflow", label: "Cash flow" },
-    { id: "ratios", label: "Ratios" },
+    { id: "income", label: chart_fundamentals_income() },
+    { id: "balance", label: chart_fundamentals_balance() },
+    { id: "cashflow", label: chart_fundamentals_cashflow() },
+    { id: "ratios", label: chart_fundamentals_ratios() },
   ];
   const FUNDAMENTAL_INDICATOR_MAP: Record<string, FundamentalTabId> = {
     ...STATEMENT_INDICATOR_TAB_MAP,
@@ -7777,7 +8002,7 @@
 
     if (paramModalTempValues.includes(normalizedPeriod)) return;
     if (paramModalTempValues.length >= maxItems) {
-      toast.info(`Maximum ${maxItems} periods allowed.`, {
+      toast.info(chart_toast_max_periods({ maxItems: String(maxItems) }), {
         style: toastStyle(),
       });
       return;
@@ -7877,7 +8102,7 @@
         [AVWAP_ID]: [...(indicatorParamDefaults[AVWAP_ID] ?? [0])],
       };
     } else if (newState && name === AVWAP_ID && !hasAvwapAnchor()) {
-      toast.info("Click a candle to set the AVWAP anchor.", {
+      toast.info(chart_toast_avwap_anchor(), {
         style: toastStyle(),
       });
     }
@@ -8136,7 +8361,7 @@
   const ensureAuth = () => {
     if (data?.user) return true;
     if (!openLoginModal()) {
-      toast.info("Sign in to save chart strategies.", {
+      toast.info(chart_toast_sign_in_required(), {
         style: toastStyle(),
       });
     }
@@ -8185,9 +8410,9 @@
 
     if (showMessage) {
       return toast.promise(savePromise, {
-        loading: "Saving strategy...",
-        success: "Strategy saved!",
-        error: "Save failed. Please try again.",
+        loading: chart_toast_saving_strategy(),
+        success: chart_toast_strategy_saved(),
+        error: chart_toast_save_failed(),
         style: toastStyle(),
       });
     }
@@ -8219,7 +8444,7 @@
         : "My Chart Strategy";
 
     if (title.length > 100) {
-      toast.error("Title is too long. Please keep it under 100 characters.", {
+      toast.error(chart_toast_title_too_long(), {
         style: toastStyle(),
       });
       return;
@@ -8259,9 +8484,9 @@
     })();
 
     return toast.promise(createPromise, {
-      loading: "Creating strategy...",
-      success: "Strategy created!",
-      error: "Something went wrong. Please try again later!",
+      loading: chart_toast_creating_strategy(),
+      success: chart_toast_strategy_created(),
+      error: chart_toast_create_failed(),
       style: toastStyle(),
     });
   }
@@ -8304,9 +8529,9 @@
     })();
 
     return toast.promise(deletePromise, {
-      loading: "Deleting strategy...",
-      success: "Strategy deleted successfully!",
-      error: "Delete failed. Please try again.",
+      loading: chart_toast_deleting_strategy(),
+      success: chart_toast_strategy_deleted(),
+      error: chart_toast_delete_failed(),
       style: toastStyle(),
     });
   }
@@ -8349,7 +8574,7 @@
       // Get all canvas elements from the chart container
       const canvases = chartContainer.querySelectorAll("canvas");
       if (!canvases.length) {
-        toast.error("Chart not ready for download");
+        toast.error(chart_toast_chart_not_ready());
         return;
       }
 
@@ -8364,7 +8589,7 @@
       compositeCanvas.height = height * 2;
       const ctx = compositeCanvas.getContext("2d");
       if (!ctx) {
-        toast.error("Failed to create canvas context");
+        toast.error(chart_toast_canvas_failed());
         return;
       }
 
@@ -8434,7 +8659,7 @@
       document.body.removeChild(link);
     } catch (e) {
       console.error("Failed to download chart:", e);
-      toast.error("Failed to download chart");
+      toast.error(chart_toast_download_failed());
     }
   }
 
@@ -10183,7 +10408,7 @@
               d="M19 12a1 1 0 0 0-1 1v4h-3v-1a1 1 0 0 0-1-1h-3a1 1 0 0 0-1 1v2H7a1 1 0 0 0-1 1v4h17V13a1 1 0 0 0-1-1h-3zm0 10h3v-9h-3v9zm-1 0v-4h-3v4h3zm-4-4.5V22h-3v-6h3v1.5zM10 22v-3H7v3h3z"
             />
           </svg>
-          <span>Indicators</span>
+          <span>{chart_toolbar_indicators()}</span>
         </label>
 
         <!-- Separator -->
@@ -10210,7 +10435,7 @@
                     d="M10 6a4 4 0 1 1 8 0v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6zm6 0a2 2 0 1 0-4 0v1h4V6zM8 9v12h12V9H8zm3 3h6v2h-6v-2zm0 4h4v2h-4v-2z"
                   />
                 </svg>
-                <span>Events</span>
+                <span>{chart_toolbar_events()}</span>
                 <ChevronDown class="size-3" />
               </button>
             </DropdownMenu.Trigger>
@@ -10230,7 +10455,7 @@
                     on:click|stopPropagation
                     on:pointerdown|stopPropagation
                   >
-                    <span>Earnings</span>
+                    <span>{chart_events_earnings()}</span>
                     <div class="relative ml-4 flex items-center">
                       {#if isSubscribed}
                         <input
@@ -10289,7 +10514,7 @@
                     on:click|stopPropagation
                     on:pointerdown|stopPropagation
                   >
-                    <span>Dividends</span>
+                    <span>{chart_events_dividends()}</span>
                     <div class="relative ml-4 flex items-center">
                       {#if isSubscribed}
                         <input
@@ -10348,7 +10573,7 @@
                     on:click|stopPropagation
                     on:pointerdown|stopPropagation
                   >
-                    <span>News Flow</span>
+                    <span>{chart_events_news_flow()}</span>
                     <div class="relative ml-4 flex items-center">
                       {#if isSubscribed}
                         <input
@@ -10420,7 +10645,7 @@
               <span class="truncate max-w-24">
                 {selectedStrategyTitle?.length > 0
                   ? selectedStrategyTitle
-                  : "Strategy"}
+                  : chart_toolbar_strategy()}
               </span>
               <ChevronDown class="size-3" />
             </button>
@@ -10448,7 +10673,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span>New Strategy</span>
+                <span>{chart_strategy_new()}</span>
               </label>
             {:else}
               <button
@@ -10468,7 +10693,7 @@
                     d="M17 9V7c0-2.8-2.2-5-5-5S7 4.2 7 7v2c-1.7 0-3 1.3-3 3v7c0 1.7 1.3 3 3 3h10c1.7 0 3-1.3 3-3v-7c0-1.7-1.3-3-3-3M9 7c0-1.7 1.3-3 3-3s3 1.3 3 3v2H9z"
                   />
                 </svg>
-                <span>New Strategy</span>
+                <span>{chart_strategy_new()}</span>
               </button>
             {/if}
             <DropdownMenu.Separator
@@ -10505,7 +10730,7 @@
                 {/each}
               {:else}
                 <div class="px-2 py-1.5 text-sm text-muted dark:text-white">
-                  No saved strategies
+                  {chart_strategy_none_saved()}
                 </div>
               {/if}
             </DropdownMenu.Group>
@@ -10529,7 +10754,7 @@
                 d="M6 4h12l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm11 2H7v4h10V6zm-4 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
               />
             </svg>
-            <span>Save</span>
+            <span>{chart_toolbar_save()}</span>
           </button>
 
           {#if strategyList?.length > 0}
@@ -10547,7 +10772,7 @@
                   d="M14 4a1 1 0 0 1 1 1v8h8a1 1 0 1 1 0 2h-8v8a1 1 0 1 1-2 0v-8H5a1 1 0 1 1 0-2h8V5a1 1 0 0 1 1-1z"
                 />
               </svg>
-              <span>Save as New</span>
+              <span>{chart_toolbar_save_as_new()}</span>
             </label>
           {/if}
 
@@ -10572,7 +10797,7 @@
                   <path d="M7.5 6.5h-4v-4" />
                 </g>
               </svg>
-              <span>Reset All</span>
+              <span>{chart_toolbar_reset_all()}</span>
             </button>
           {/if}
         {/if}
@@ -10589,7 +10814,7 @@
               {:else}
                 <Sun class="size-4" />
               {/if}
-              <span>Theme</span>
+              <span>{chart_toolbar_theme()}</span>
               <ChevronDown class="h-3 w-3" />
             </button>
           </DropdownMenu.Trigger>
@@ -10609,7 +10834,7 @@
                 on:click={(e) =>
                   handleModeChange("light", e.currentTarget as HTMLElement)}
               >
-                Light
+                {chart_theme_light()}
               </DropdownMenu.Item>
               <DropdownMenu.Item
                 class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
@@ -10620,7 +10845,7 @@
                 on:click={(e) =>
                   handleModeChange("dark", e.currentTarget as HTMLElement)}
               >
-                Dark
+                {chart_theme_dark()}
               </DropdownMenu.Item>
             </DropdownMenu.Group>
           </DropdownMenu.Content>
@@ -10696,7 +10921,7 @@
                           showThicknessPicker = false;
                           showStylePicker = false;
                         }}
-                        title="Color"
+                        title={chart_drawing_color()}
                       ></button>
                       {#if showColorPicker}
                         <div
@@ -10738,7 +10963,7 @@
                             showColorPicker = false;
                             showStylePicker = false;
                           }}
-                          title="Thickness"
+                          title={chart_drawing_thickness()}
                         >
                           <span class="font-medium"
                             >{currentOverlayThickness}px</span
@@ -10781,7 +11006,7 @@
                             showColorPicker = false;
                             showThicknessPicker = false;
                           }}
-                          title="Line style"
+                          title={chart_drawing_line_style()}
                         >
                           <svg
                             class="w-5 h-5 text-gray-600 dark:text-zinc-400"
@@ -10815,7 +11040,7 @@
                                 stroke="currentColor"
                                 stroke-width="2"><path d="M3 12h18" /></svg
                               >
-                              <span class="text-sm">Solid</span>
+                              <span class="text-sm">{chart_drawing_style_solid()}</span>
                             </button>
                             <button
                               class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-lg transition {getCurrentLineStyle() ===
@@ -10835,7 +11060,7 @@
                                   d="M3 12h18"
                                 /></svg
                               >
-                              <span class="text-sm">Dashed</span>
+                              <span class="text-sm">{chart_drawing_style_dashed()}</span>
                             </button>
                           </div>
                         {/if}
@@ -10850,7 +11075,7 @@
                         ? 'text-amber-500 bg-amber-100 dark:bg-amber-900/30'
                         : 'text-muted dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800'}"
                       on:click={toggleSelectedOverlayLock}
-                      title={selectedOverlay.lock ? "Unlock" : "Lock"}
+                      title={selectedOverlay.lock ? chart_drawing_unlock() : chart_drawing_lock()}
                     >
                       <svg
                         class="w-4 h-4"
@@ -10873,7 +11098,7 @@
                     <button
                       class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg text-muted dark:text-white hover:text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition"
                       on:click={deleteSelectedOverlay}
-                      title="Delete"
+                      title={chart_drawing_delete()}
                     >
                       <Trash2 class="w-4 h-4" />
                     </button>
@@ -10908,7 +11133,7 @@
                         class="cursor-pointer absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
                         style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
                         on:click={(e) => handleEarningsClick(marker, e)}
-                        aria-label="View earnings details"
+                        aria-label={chart_aria_view_earnings()}
                       >
                         <svg
                           width="24"
@@ -11001,13 +11226,13 @@
                     <div class="flex items-center gap-2 mb-3">
                       <h3 class="text-muted dark:text-white font-semibold">
                         {selectedEarningsIsFuture
-                          ? "Upcoming Earnings"
-                          : "Earnings & Revenue"}
+                          ? chart_earnings_upcoming()
+                          : chart_earnings_and_revenue()}
                       </h3>
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
                         on:click={closeEarningsPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -11030,7 +11255,7 @@
                       class="text-sm text-muted dark:text-zinc-300 mb-3 space-y-1"
                     >
                       <div class="flex justify-between">
-                        <span class="text-muted dark:text-white">Date</span>
+                        <span class="text-muted dark:text-white">{chart_earnings_date()}</span>
                         <span class="flex items-center gap-1">
                           {DateTime.fromISO(selectedEarnings.date, {
                             zone,
@@ -11063,7 +11288,7 @@
                       {#if selectedEarnings.period && selectedEarnings.period_year}
                         <div class="flex justify-between">
                           <span class="text-muted dark:text-white"
-                            >Period Ending</span
+                            >{chart_earnings_period_ending()}</span
                           >
                           <span
                             >{selectedEarnings.period}
@@ -11082,14 +11307,14 @@
                       <div
                         class="text-xs text-muted dark:text-white uppercase mb-2"
                       >
-                        {selectedEarningsIsFuture ? "EPS Estimate" : "Earnings"}
+                        {selectedEarningsIsFuture ? chart_earnings_eps_estimate() : chart_earnings_section()}
                       </div>
                       <div class="text-sm space-y-1">
                         {#if !selectedEarningsIsFuture}
                           <div
                             class="flex justify-between text-muted dark:text-zinc-300"
                           >
-                            <span>Reported</span>
+                            <span>{chart_earnings_reported()}</span>
                             <span
                               >{formatEarningsValue(
                                 getEpsValue(selectedEarnings),
@@ -11100,7 +11325,7 @@
                         <div
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
-                          <span>Estimate</span>
+                          <span>{chart_earnings_estimate()}</span>
                           <span
                             >{formatEarningsValue(
                               getEpsEstimate(selectedEarnings),
@@ -11117,7 +11342,7 @@
                               class={surprise?.positive
                                 ? "text-emerald-800 dark:text-emerald-400"
                                 : "text-rose-800 dark:text-rose-400"}
-                              >Surprise</span
+                              >{chart_earnings_surprise()}</span
                             >
                             <span
                               class={surprise?.positive
@@ -11140,7 +11365,7 @@
                           {#if yoy}
                             <div class="flex justify-between">
                               <span class="text-gray-600 dark:text-zinc-400"
-                                >YoY Change</span
+                                >{chart_earnings_yoy_change()}</span
                               >
                               <span
                                 class={yoy.positive
@@ -11165,15 +11390,15 @@
                         class="text-xs text-muted dark:text-white uppercase mb-2"
                       >
                         {selectedEarningsIsFuture
-                          ? "Revenue Estimate"
-                          : "Revenue"}
+                          ? chart_earnings_revenue_estimate()
+                          : chart_earnings_revenue()}
                       </div>
                       <div class="text-sm space-y-1">
                         {#if !selectedEarningsIsFuture}
                           <div
                             class="flex justify-between text-muted dark:text-zinc-300"
                           >
-                            <span>Reported</span>
+                            <span>{chart_earnings_reported()}</span>
                             <span
                               >{formatRevenueValue(
                                 getRevenueValue(selectedEarnings),
@@ -11184,7 +11409,7 @@
                         <div
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
-                          <span>Estimate</span>
+                          <span>{chart_earnings_estimate()}</span>
                           <span
                             >{formatRevenueValue(
                               getRevenueEstimate(selectedEarnings),
@@ -11201,7 +11426,7 @@
                               class={surprise?.positive
                                 ? "text-emerald-800 dark:text-emerald-400"
                                 : "text-rose-800 dark:text-rose-400"}
-                              >Surprise</span
+                              >{chart_earnings_surprise()}</span
                             >
                             <span
                               class={surprise?.positive
@@ -11224,7 +11449,7 @@
                           {#if yoy}
                             <div class="flex justify-between">
                               <span class="text-gray-600 dark:text-zinc-400"
-                                >YoY Change</span
+                                >{chart_earnings_yoy_change()}</span
                               >
                               <span
                                 class={yoy.positive
@@ -11246,7 +11471,7 @@
                       href="/stocks/{ticker}/statistics/earnings"
                       class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-sm font-medium rounded-lg transition"
                     >
-                      More {ticker} financials
+                      {chart_earnings_more_financials({ ticker })}
                     </a>
                   </div>
                 </div>
@@ -11255,7 +11480,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default"
                   on:click={closeEarningsPopup}
-                  aria-label="Close earnings popup"
+                  aria-label={chart_aria_close_earnings()}
                 ></button>
               {/if}
 
@@ -11268,7 +11493,7 @@
                         class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
                         style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
                         on:click={(e) => handleDividendClick(marker, e)}
-                        aria-label="View dividend details"
+                        aria-label={chart_aria_view_dividend()}
                       >
                         <svg
                           width="24"
@@ -11318,12 +11543,12 @@
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
                       <h3 class="text-muted dark:text-white font-semibold">
-                        Dividend
+                        {chart_dividend_header()}
                       </h3>
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
                         on:click={closeDividendPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -11347,7 +11572,7 @@
                     >
                       <div class="flex justify-between">
                         <span class="text-muted dark:text-white"
-                          >Ex-Dividend Date</span
+                          >{chart_dividend_ex_date()}</span
                         >
                         <span class="text-muted dark:text-white">
                           {new Date(selectedDividend.date).toLocaleDateString(
@@ -11357,7 +11582,7 @@
                         </span>
                       </div>
                       <div class="flex justify-between">
-                        <span class="text-muted dark:text-white">Amount</span>
+                        <span class="text-muted dark:text-white">{chart_dividend_amount()}</span>
                         <span class="text-blue-400 font-semibold">
                           ${selectedDividend.adjDividend?.toFixed(4)}
                         </span>
@@ -11365,7 +11590,7 @@
                       {#if selectedDividend.declarationDate}
                         <div class="flex justify-between">
                           <span class="text-muted dark:text-white"
-                            >Declaration Date</span
+                            >{chart_dividend_declaration_date()}</span
                           >
                           <span>
                             {new Date(
@@ -11381,7 +11606,7 @@
                       {#if selectedDividend.recordDate}
                         <div class="flex justify-between">
                           <span class="text-muted dark:text-white"
-                            >Record Date</span
+                            >{chart_dividend_record_date()}</span
                           >
                           <span>
                             {new Date(
@@ -11397,7 +11622,7 @@
                       {#if selectedDividend.paymentDate}
                         <div class="flex justify-between">
                           <span class="text-muted dark:text-white"
-                            >Payment Date</span
+                            >{chart_dividend_payment_date()}</span
                           >
                           <span>
                             {new Date(
@@ -11417,7 +11642,7 @@
                       href="/stocks/{ticker}/dividends"
                       class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-sm font-medium rounded-lg transition"
                     >
-                      More {ticker} dividends
+                      {chart_dividend_more_details({ ticker })}
                     </a>
                   </div>
                 </div>
@@ -11426,7 +11651,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default"
                   on:click={closeDividendPopup}
-                  aria-label="Close dividend popup"
+                  aria-label={chart_aria_close_dividend()}
                 ></button>
               {/if}
 
@@ -11439,7 +11664,7 @@
                         class="absolute -translate-x-1/2 pointer-events-auto cursor-pointer transition-transform hover:scale-110"
                         style="left: {marker.x}px; bottom: {eventMarkerBottom}px"
                         on:click={(e) => handleNewsClick(marker, e)}
-                        aria-label="View news details"
+                        aria-label={chart_aria_view_news()}
                       >
                         <svg
                           width="24"
@@ -11550,7 +11775,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default"
                   on:click={closeNewsPopup}
-                  aria-label="Close news popup"
+                  aria-label={chart_aria_close_news()}
                 ></button>
               {/if}
 
@@ -11669,7 +11894,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default bg-transparent"
                   on:click={closeGexDexPopup}
-                  aria-label="Close GEX/DEX popup"
+                  aria-label={chart_aria_close_gex_dex()}
                 ></button>
                 <div
                   class="absolute z-[7] pointer-events-auto w-[260px]"
@@ -11693,12 +11918,12 @@
                       <h3
                         class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
-                        {isGex ? "Gamma (GEX)" : "Delta (DEX)"}
+                        {isGex ? chart_gex_gamma() : chart_dex_delta()}
                       </h3>
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeGexDexPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -11721,7 +11946,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Strike</span>
+                        <span class="text-muted dark:text-white">{chart_label_strike()}</span>
                         <span class="font-medium"
                           >${level?.strike.toFixed(2)}</span
                         >
@@ -11730,7 +11955,7 @@
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
                         <span class="text-muted dark:text-white"
-                          >Net {isGex ? "Gamma" : "Delta"}</span
+                          >{isGex ? chart_exposure_net_gamma() : chart_exposure_net_delta()}</span
                         >
                         <span
                           class="font-medium {level?.isPositive
@@ -11743,7 +11968,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Call</span>
+                        <span class="text-muted dark:text-white">{chart_label_call()}</span>
                         <span class="text-emerald-800 dark:text-emerald-400"
                           >{formatExposureValue(level?.callValue ?? 0)}</span
                         >
@@ -11751,7 +11976,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Put</span>
+                        <span class="text-muted dark:text-white">{chart_label_put()}</span>
                         <span class="text-rose-800 dark:text-rose-400"
                           >{formatExposureValue(level?.putValue ?? 0)}</span
                         >
@@ -11764,26 +11989,14 @@
                     >
                       {#if isGex}
                         {#if level?.isPositive}
-                          <p>
-                            Positive GEX: Price pinned here. MMs sell rallies,
-                            buy dips.
-                          </p>
+                          <p>{chart_gex_positive_explanation()}</p>
                         {:else}
-                          <p>
-                            Negative GEX: Price accelerates. Higher volatility
-                            expected.
-                          </p>
+                          <p>{chart_gex_negative_explanation()}</p>
                         {/if}
                       {:else if level?.isPositive}
-                        <p>
-                          Positive DEX: Dealers long delta. Mean-reverting
-                          behavior.
-                        </p>
+                        <p>{chart_dex_positive_explanation()}</p>
                       {:else}
-                        <p>
-                          Negative DEX: Dealers short delta. Trend-following
-                          behavior.
-                        </p>
+                        <p>{chart_dex_negative_explanation()}</p>
                       {/if}
                     </div>
 
@@ -11794,7 +12007,7 @@
                         : 'dex'}/strike"
                       class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
                     >
-                      View all levels
+                      {chart_exposure_view_all_levels()}
                     </a>
                   </div>
                 </div>
@@ -11906,7 +12119,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default bg-transparent"
                   on:click={closeMaxPainPopup}
-                  aria-label="Close Max Pain popup"
+                  aria-label={chart_aria_close_max_pain()}
                 ></button>
                 <div
                   class="absolute z-[7] pointer-events-auto w-[260px]"
@@ -11924,12 +12137,12 @@
                       <h3
                         class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
-                        Max Pain
+                        {chart_max_pain_header()}
                       </h3>
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeMaxPainPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -11953,7 +12166,7 @@
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
                         <span class="text-muted dark:text-white"
-                          >Expiration</span
+                          >{chart_label_expiration()}</span
                         >
                         <span class="font-medium"
                           >{formatExpiration(
@@ -11964,7 +12177,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">DTE</span>
+                        <span class="text-muted dark:text-white">{chart_label_dte()}</span>
                         <span class="font-medium"
                           >{selectedMaxPainLevel.dte !== null
                             ? `${selectedMaxPainLevel.dte}d`
@@ -11974,7 +12187,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Max Pain</span>
+                        <span class="text-muted dark:text-white">{chart_max_pain_price()}</span>
                         <span class="font-medium text-amber-200"
                           >{formatPrice(selectedMaxPainLevel.price)}</span
                         >
@@ -11982,13 +12195,13 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Spot</span>
+                        <span class="text-muted dark:text-white">{chart_label_spot()}</span>
                         <span class="font-medium">{formatPrice(refPrice)}</span>
                       </div>
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Distance</span>
+                        <span class="text-muted dark:text-white">{chart_max_pain_distance()}</span>
                         <span
                           class="font-medium {diff !== null && diff >= 0
                             ? 'text-emerald-400'
@@ -12049,7 +12262,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default bg-transparent"
                   on:click={closeAnalystTargetPopup}
-                  aria-label="Close Analyst Target popup"
+                  aria-label={chart_aria_close_analyst()}
                 ></button>
                 <div
                   class="absolute z-[7] pointer-events-auto w-[260px]"
@@ -12072,7 +12285,7 @@
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeAnalystTargetPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -12095,7 +12308,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Spot</span>
+                        <span class="text-muted dark:text-white">{chart_label_spot()}</span>
                         <span class="font-medium">{formatPrice(refPrice)}</span>
                       </div>
                       {#each targetRows as row (row.key)}
@@ -12129,7 +12342,7 @@
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
                           <span class="text-muted dark:text-white"
-                            >Analysts</span
+                            >{chart_analyst_target_analysts()}</span
                           >
                           <span class="font-medium">
                             {formatCount(analystTargetSummary.numAnalysts)}
@@ -12141,7 +12354,7 @@
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
                           <span class="text-muted dark:text-white"
-                            >Consensus</span
+                            >{chart_analyst_target_consensus()}</span
                           >
                           <span class="font-medium">
                             {analystTargetSummary.consensus}
@@ -12284,7 +12497,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default bg-transparent"
                   on:click={closeOiPopup}
-                  aria-label="Close OI popup"
+                  aria-label={chart_aria_close_oi()}
                 ></button>
                 <div
                   class="absolute z-[7] pointer-events-auto w-[260px]"
@@ -12302,12 +12515,12 @@
                       <h3
                         class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
-                        Open Interest (OI)
+                        {chart_indicator_oi()}
                       </h3>
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeOiPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -12330,7 +12543,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Strike</span>
+                        <span class="text-muted dark:text-white">{chart_label_strike()}</span>
                         <span class="font-medium"
                           >{formatPrice(selectedOiLevel.strike)}</span
                         >
@@ -12340,7 +12553,7 @@
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
                           <span class="text-muted dark:text-white"
-                            >Expiration</span
+                            >{chart_label_expiration()}</span
                           >
                           <span class="font-medium"
                             >{formatExpiration(
@@ -12353,7 +12566,7 @@
                         <div
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
-                          <span class="text-muted dark:text-white">DTE</span>
+                          <span class="text-muted dark:text-white">{chart_label_dte()}</span>
                           <span class="font-medium">{selectedOiLevel.dte}d</span
                           >
                         </div>
@@ -12361,7 +12574,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Total OI</span>
+                        <span class="text-muted dark:text-white">{chart_oi_total()}</span>
                         <span class="font-medium text-purple-400">
                           {formatCount(selectedOiLevel.totalOi)}
                         </span>
@@ -12369,7 +12582,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Call OI</span>
+                        <span class="text-muted dark:text-white">{chart_oi_call()}</span>
                         <span class="text-emerald-800 dark:text-emerald-400"
                           >{formatCount(selectedOiLevel.callOi)}</span
                         >
@@ -12377,7 +12590,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Put OI</span>
+                        <span class="text-muted dark:text-white">{chart_oi_put()}</span>
                         <span class="text-rose-800 dark:text-rose-400"
                           >{formatCount(selectedOiLevel.putOi)}</span
                         >
@@ -12417,7 +12630,7 @@
                       href="/{assetType}/{ticker}/options/oi"
                       class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
                     >
-                      View all levels
+                      {chart_exposure_view_all_levels()}
                     </a>
                   </div>
                 </div>
@@ -12484,7 +12697,7 @@
                 <button
                   class="fixed inset-0 z-[6] cursor-default bg-transparent"
                   on:click={closeHottestPopup}
-                  aria-label="Close Hottest Contracts popup"
+                  aria-label={chart_aria_close_hottest()}
                 ></button>
                 <div
                   class="absolute z-[7] pointer-events-auto w-[260px]"
@@ -12506,14 +12719,14 @@
                         class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
                       >
                         {selectedHottestLevel.optionType === "C"
-                          ? "Call"
-                          : "Put"}
+                          ? chart_label_call()
+                          : chart_label_put()}
                         {formatPrice(selectedHottestLevel.strike)}
                       </h3>
                       <button
                         class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeHottestPopup}
-                        aria-label="Close"
+                        aria-label={chart_aria_close()}
                       >
                         <svg
                           class="w-4 h-4"
@@ -12537,7 +12750,7 @@
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
                         <span class="text-muted dark:text-white"
-                          >Expiration</span
+                          >{chart_label_expiration()}</span
                         >
                         <span class="font-medium"
                           >{formatExpiration(
@@ -12549,7 +12762,7 @@
                         <div
                           class="flex justify-between text-muted dark:text-zinc-300"
                         >
-                          <span class="text-muted dark:text-white">DTE</span>
+                          <span class="text-muted dark:text-white">{chart_label_dte()}</span>
                           <span class="font-medium"
                             >{selectedHottestLevel.dte}d</span
                           >
@@ -12558,7 +12771,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Volume</span>
+                        <span class="text-muted dark:text-white">{chart_label_volume()}</span>
                         <span class="font-medium text-amber-400">
                           {formatCount(selectedHottestLevel.volume)}
                         </span>
@@ -12567,7 +12780,7 @@
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
                         <span class="text-muted dark:text-white"
-                          >Open Interest</span
+                          >{chart_hottest_open_interest()}</span
                         >
                         <span class="text-purple-400"
                           >{formatCount(
@@ -12579,7 +12792,7 @@
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
                         <span class="text-muted dark:text-white"
-                          >Last Price</span
+                          >{chart_hottest_last_price()}</span
                         >
                         <span
                           class={selectedHottestLevel.optionType === "C"
@@ -12591,7 +12804,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">IV</span>
+                        <span class="text-muted dark:text-white">{chart_hottest_iv()}</span>
                         <span class="font-medium"
                           >{formatIvPercent(selectedHottestLevel.iv)}</span
                         >
@@ -12599,7 +12812,7 @@
                       <div
                         class="flex justify-between text-muted dark:text-zinc-300"
                       >
-                        <span class="text-muted dark:text-white">Premium</span>
+                        <span class="text-muted dark:text-white">{chart_hottest_premium()}</span>
                         <span class="font-medium"
                           >${formatCount(selectedHottestLevel.premium)}</span
                         >
@@ -12610,10 +12823,7 @@
                     <div
                       class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
                     >
-                      <p>
-                        High volume contract. Large trades here may signal
-                        institutional activity or hedging.
-                      </p>
+                      <p>{chart_hottest_explanation()}</p>
                     </div>
 
                     <!-- Link to more details -->
@@ -12621,7 +12831,7 @@
                       href="/{assetType}/{ticker}/options/hottest-contracts/volume"
                       class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
                     >
-                      View all contracts
+                      {chart_hottest_view_all()}
                     </a>
                   </div>
                 </div>
@@ -12674,7 +12884,7 @@
                         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
                     }`}
                     on:click={() => toggleRightSidebar("watchlist")}
-                    title="Watchlist"
+                    title={chart_sidebar_watchlist()}
                     aria-pressed={rightSidebarOpen &&
                       rightSidebarTab === "watchlist"}
                   >
@@ -12701,7 +12911,7 @@
                         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
                     }`}
                     on:click={() => toggleRightSidebar("alerts")}
-                    title="Price alerts"
+                    title={chart_sidebar_price_alerts()}
                     aria-pressed={rightSidebarOpen &&
                       rightSidebarTab === "alerts"}
                   >
@@ -12728,7 +12938,7 @@
                     <button
                       class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
                       on:click={() => toggleRightSidebar()}
-                      title={rightSidebarOpen ? "Hide sidebar" : "Show sidebar"}
+                      title={rightSidebarOpen ? chart_sidebar_hide() : chart_sidebar_show()}
                     >
                       {#if rightSidebarOpen}
                         <svg
@@ -12818,13 +13028,13 @@
           <h2
             class="text-[1rem] sm:text-xl font-semibold text-muted dark:text-white"
           >
-            Indicators
+            {chart_modal_indicators_title()}
           </h2>
           <label
             for="indicatorModal"
             class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
             on:click={closeIndicatorModal}
-            aria-label="Close indicators modal"
+            aria-label={chart_aria_close_indicators()}
           >
             <svg
               class="w-6 h-6 sm:w-7 sm:h-7"
@@ -12842,7 +13052,7 @@
           class="w-full h-10"
           on:keydown={(e) => (e?.key === "Enter" ? e.preventDefault() : "")}
         >
-          <label for="indicator-search" class="sr-only">Search</label>
+          <label for="indicator-search" class="sr-only">{chart_modal_search_placeholder()}</label>
           <div class="relative w-full max-w-md">
             <div
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
@@ -12874,7 +13084,7 @@
                 on:click={() => (indicatorSearchTerm = "")}
                 class="cursor-pointer text-muted dark:text-white hover:text-muted dark:text-zinc-200 transition"
                 tabindex="0"
-                aria-label="Clear search"
+                aria-label={chart_aria_clear_search()}
               >
                 <svg
                   class="w-5 h-5"
@@ -12896,7 +13106,7 @@
               autocomplete="off"
               id="indicator-search"
               class="focus:outline-none placeholder:text-muted dark:text-white block w-full p-2.5 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-gray-100 dark:bg-zinc-800"
-              placeholder="Search"
+              placeholder={chart_modal_search_placeholder()}
               bind:value={indicatorSearchTerm}
             />
           </div>
@@ -12910,7 +13120,7 @@
           <div
             class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
           >
-            Personal
+            {chart_modal_section_personal()}
           </div>
           <button
             type="button"
@@ -12932,7 +13142,7 @@
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            Selected
+            {chart_modal_section_selected()}
           </button>
           <button
             type="button"
@@ -12949,13 +13159,13 @@
             >
               <path fill="currentColor" d={indicatorStarPath} />
             </svg>
-            Favorites
+            {chart_modal_section_favorites()}
           </button>
 
           <div
             class="mt-3 text-[11px] uppercase tracking-wide text-muted dark:text-white"
           >
-            Built-in
+            {chart_modal_section_builtin()}
           </div>
           <button
             type="button"
@@ -12980,7 +13190,7 @@
               <path d="M12 17V7" />
               <path d="M17 17V13" />
             </svg>
-            Technicals
+            {chart_modal_section_technicals()}
           </button>
           <button
             type="button"
@@ -13005,7 +13215,7 @@
               <path d="M12 17V5" />
               <path d="M17 17V12" />
             </svg>
-            Fundamentals
+            {chart_modal_section_fundamentals()}
           </button>
           <button
             type="button"
@@ -13028,7 +13238,7 @@
               <circle cx="12" cy="12" r="8" />
               <path d="M12 8v5l3 2" />
             </svg>
-            Options
+            {chart_modal_section_options()}
           </button>
           <button
             type="button"
@@ -13053,7 +13263,7 @@
               <path d="M13 17V5" />
               <path d="M8 17v-3" />
             </svg>
-            Statistics
+            {chart_modal_section_statistics()}
           </button>
         </aside>
 
@@ -13077,7 +13287,7 @@
             <div
               class="mt-5 font-semibold text-[1rem] sm:text-lg text-muted dark:text-zinc-200"
             >
-              Nothing found
+              {chart_modal_nothing_found()}
             </div>
           {:else if isSearchActive}
             {#if technicalGroups.length}
@@ -13386,7 +13596,7 @@
               </div>
               {#if fundamentalsIndicators.length === 0}
                 <div class="mt-4 text-sm text-muted dark:text-white">
-                  No indicators available for this section yet.
+                  {chart_modal_no_indicators_section()}
                 </div>
               {/if}
               <div class="mt-4 space-y-2 sm:space-y-1">
@@ -13519,7 +13729,7 @@
               <div
                 class="text-xs uppercase tracking-wide text-muted dark:text-white"
               >
-                Selected Indicators
+                {chart_modal_selected_indicators()}
               </div>
               {#if selectedIndicators.length > 0}
                 <button
@@ -13543,13 +13753,13 @@
                       <path d="M7.5 6.5h-4v-4" />
                     </g>
                   </svg>
-                  Reset All
+                  {chart_modal_reset_all()}
                 </button>
               {/if}
             </div>
             {#if selectedIndicators.length === 0}
               <div class="mt-4 text-sm text-muted dark:text-white">
-                No indicators selected.
+                {chart_modal_none_selected()}
               </div>
             {:else}
               <div class="mt-4 space-y-2 sm:space-y-1">
@@ -13664,7 +13874,7 @@
                         <button
                           type="button"
                           class="shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300 mr-2 p-1.5 -m-1 rounded-lg active:bg-gray-200 dark:active:bg-zinc-700"
-                          aria-label="Remove from favorites"
+                          aria-label={chart_aria_remove_favorite()}
                           on:click|stopPropagation={(event) =>
                             toggleIndicatorFavorite(event, indicator.id)}
                         >
@@ -13781,7 +13991,7 @@
               </div>
               {#if fundamentalsIndicators.length === 0}
                 <div class="mt-4 text-sm text-muted dark:text-white">
-                  No indicators available for this section yet.
+                  {chart_modal_no_indicators_section()}
                 </div>
               {/if}
               <div class="mt-4 space-y-2 sm:space-y-1">
@@ -14255,7 +14465,7 @@
           type="button"
           class="cursor-pointer text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
           on:click={closeParamModal}
-          aria-label="Close parameter modal"
+          aria-label={chart_aria_close_param_modal()}
         >
           <svg
             class="w-6 h-6"
@@ -14438,7 +14648,7 @@
     <label
       for="addChartStrategy"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close new strategy modal"
+      aria-label={chart_aria_close_new_strategy()}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -14453,7 +14663,7 @@
     <h1
       class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
     >
-      New Chart Strategy
+      {chart_strategy_new_modal_title()}
     </h1>
 
     <form
@@ -14465,7 +14675,7 @@
         id="title"
         type="text"
         errors=""
-        label="Strategy Name"
+        label={chart_strategy_name_label()}
         required={true}
       />
 
@@ -14473,7 +14683,7 @@
         type="submit"
         class="cursor-pointer mt-2 py-2.5 bg-gray-900 text-white dark:bg-white dark:text-gray-900 duration-100 w-full rounded-full m-auto font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
       >
-        Create Strategy
+        {chart_strategy_create_button()}
       </button>
     </form>
   </div>
@@ -14491,7 +14701,7 @@
     <label
       for="deleteChartStrategy"
       class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close delete strategy modal"
+      aria-label={chart_aria_close_delete_strategy()}
     >
       <svg
         class="w-6 h-6 sm:w-7 sm:h-7"
@@ -14504,17 +14714,16 @@
       >
     </label>
     <h3 class="text-lg font-medium mb-2 text-muted dark:text-white">
-      Delete Strategy
+      {chart_strategy_delete_modal_title()}
     </h3>
     <p class="text-sm mb-6 text-muted dark:text-zinc-300">
-      Are you sure you want to delete this strategy? This action cannot be
-      undone.
+      {chart_strategy_delete_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteChartStrategy"
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
-        tabindex="0">Cancel</label
+        tabindex="0">{chart_strategy_cancel()}</label
       ><label
         for="deleteChartStrategy"
         on:click={handleDeleteStrategy}
@@ -14540,7 +14749,7 @@
             y2="17"
           ></line></svg
         >
-        Delete Strategy</label
+        {chart_strategy_delete_button()}</label
       >
     </div>
   </div>
@@ -14567,12 +14776,12 @@
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-semibold text-muted dark:text-white">
-          Keyboard Shortcuts
+          {chart_shortcuts_title()}
         </h2>
         <button
           class="p-2 rounded-lg text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
           on:click={() => (showKeyboardShortcutsModal = false)}
-          aria-label="Close keyboard shortcuts"
+          aria-label={chart_aria_close_shortcuts()}
         >
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
             <path
@@ -14589,12 +14798,12 @@
           <h3
             class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide mb-3"
           >
-            Drawing Tools
+            {chart_shortcuts_section_drawing()}
           </h3>
           <div class="space-y-2">
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Horizontal Line</span
+                >{chart_shortcuts_horizontal_line()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14603,7 +14812,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Vertical Line</span
+                >{chart_shortcuts_vertical_line()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14612,7 +14821,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Trend Line</span
+                >{chart_shortcuts_trend_line()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14621,7 +14830,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Rectangle</span
+                >{chart_shortcuts_rectangle()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14629,7 +14838,7 @@
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">Circle</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_circle()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >C</kbd
@@ -14637,7 +14846,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Fibonacci Retracement</span
+                >{chart_shortcuts_fibonacci()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14646,7 +14855,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Price Line</span
+                >{chart_shortcuts_price_line()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14655,7 +14864,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Exit Drawing Mode</span
+                >{chart_shortcuts_exit_drawing()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14670,11 +14879,11 @@
           <h3
             class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide mb-3"
           >
-            Actions
+            {chart_shortcuts_section_actions()}
           </h3>
           <div class="space-y-2">
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">Undo</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_undo()}</span>
               <div class="flex gap-1">
                 <kbd
                   class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14687,7 +14896,7 @@
               </div>
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">Redo</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_redo()}</span>
               <div class="flex gap-1">
                 <kbd
                   class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14705,7 +14914,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Delete Selected Drawing</span
+                >{chart_shortcuts_delete_drawing()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14713,14 +14922,14 @@
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">Zoom In</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_zoom_in()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >+</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">Zoom Out</span
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_zoom_out()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14728,7 +14937,7 @@
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">Pan Left</span
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_pan_left()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14737,7 +14946,7 @@
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-muted dark:text-zinc-300"
-                >Pan Right</span
+                >{chart_shortcuts_pan_right()}</span
               >
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
@@ -14752,13 +14961,13 @@
           <h3
             class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide mb-3"
           >
-            Timeframe Quick Switch
+            {chart_shortcuts_section_timeframe()}
           </h3>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">1 min</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_1min()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >1</kbd
@@ -14767,7 +14976,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">5 min</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_5min()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >2</kbd
@@ -14776,7 +14985,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">15 min</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_15min()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >3</kbd
@@ -14785,7 +14994,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">30 min</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_30min()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >4</kbd
@@ -14794,7 +15003,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">1 hour</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_1hour()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >5</kbd
@@ -14803,7 +15012,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">4 hour</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_4hour()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >6</kbd
@@ -14812,7 +15021,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">Daily</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_daily()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >7</kbd
@@ -14821,7 +15030,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">Weekly</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_weekly()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >8</kbd
@@ -14830,7 +15039,7 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">Monthly</span>
+              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_monthly()}</span>
               <kbd
                 class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
                 >9</kbd
@@ -14843,10 +15052,7 @@
       <!-- Footer -->
       <div class="mt-6 pt-4 border-t border-gray-200 dark:border-zinc-700">
         <p class="text-xs text-gray-500 dark:text-zinc-500 text-center">
-          Press <kbd
-            class="px-1.5 py-0.5 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded"
-            >?</kbd
-          > anytime to show this help
+          {chart_shortcuts_help_text()}
         </p>
       </div>
     </div>

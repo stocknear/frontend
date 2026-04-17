@@ -8,6 +8,22 @@
   import Redo2 from "lucide-svelte/icons/redo-2";
   import Keyboard from "lucide-svelte/icons/keyboard";
   import { toolGroups, toolIcons, type DrawingMode } from "./chartTypes";
+  import {
+    chart_ct_cursor,
+    chart_ct_weak_magnet,
+    chart_ct_strong_magnet,
+    chart_ct_show_drawings,
+    chart_ct_hide_drawings,
+    chart_ct_lock_drawings,
+    chart_ct_unlock_drawings,
+    chart_ct_undo_tooltip,
+    chart_ct_redo_tooltip,
+    chart_ct_zoom_in,
+    chart_ct_zoom_out,
+    chart_ct_screenshot,
+    chart_ct_shortcuts_tooltip,
+    chart_ct_remove_all,
+  } from "$lib/paraglide/messages";
 
   // Props
   export let activeTool: string | null;
@@ -47,7 +63,7 @@
         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
     }`}
     on:click={() => dispatch("setCursorMode")}
-    title="Cursor"
+    title={chart_ct_cursor()}
   >
     <MousePointer2 class="size-5" />
   </button>
@@ -226,7 +242,7 @@
             >
               <path d={toolIcons.magnet} />
             </svg>
-            <span>Weak Magnet</span>
+            <span>{chart_ct_weak_magnet()}</span>
           </DropdownMenu.Item>
           <DropdownMenu.Item
             class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
@@ -245,7 +261,7 @@
             >
               <path d={toolIcons.magnet} />
             </svg>
-            <span>Strong Magnet</span>
+            <span>{chart_ct_strong_magnet()}</span>
           </DropdownMenu.Item>
         </DropdownMenu.Group>
       </DropdownMenu.Content>
@@ -260,7 +276,7 @@
         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-muted dark:text-zinc-200"
     }`}
     on:click={() => dispatch("toggleDrawingsVisibility")}
-    title={drawingsVisible ? "Hide drawings" : "Show drawings"}
+    title={drawingsVisible ? chart_ct_hide_drawings() : chart_ct_show_drawings()}
   >
     <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
       <path d={drawingsVisible ? toolIcons.visible : toolIcons.invisible} />
@@ -275,7 +291,7 @@
         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
     }`}
     on:click={() => dispatch("toggleDrawingsLock")}
-    title={drawingsLocked ? "Unlock drawings" : "Lock drawings"}
+    title={drawingsLocked ? chart_ct_unlock_drawings() : chart_ct_lock_drawings()}
   >
     <svg viewBox="0 0 22 22" class="h-6 w-6 fill-current">
       <path d={drawingsLocked ? toolIcons.lock : toolIcons.unlock} />
@@ -294,7 +310,7 @@
     }`}
     on:click={() => canUndo && dispatch("undo")}
     disabled={!canUndo}
-    title="Undo (Ctrl+Z)"
+    title={chart_ct_undo_tooltip()}
   >
     <Undo2 class="size-5" />
   </button>
@@ -306,7 +322,7 @@
     }`}
     on:click={() => canRedo && dispatch("redo")}
     disabled={!canRedo}
-    title="Redo (Ctrl+Shift+Z)"
+    title={chart_ct_redo_tooltip()}
   >
     <Redo2 class="size-5" />
   </button>
@@ -318,14 +334,14 @@
   <button
     class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
     on:click={() => dispatch("zoomIn")}
-    title="Zoom in"
+    title={chart_ct_zoom_in()}
   >
     <ZoomIn class="size-5" />
   </button>
   <button
     class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
     on:click={() => dispatch("zoomOut")}
-    title="Zoom out"
+    title={chart_ct_zoom_out()}
   >
     <ZoomOut class="size-5" />
   </button>
@@ -334,7 +350,7 @@
   <button
     class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
     on:click={() => dispatch("downloadChart")}
-    title="Screenshot"
+    title={chart_ct_screenshot()}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -358,7 +374,7 @@
   <button
     class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
     on:click={() => dispatch("showKeyboardShortcuts")}
-    title="Keyboard shortcuts (?)"
+    title={chart_ct_shortcuts_tooltip()}
   >
     <Keyboard class="size-5" />
   </button>
@@ -367,7 +383,7 @@
   <button
     class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-rose-500 mt-1"
     on:click={() => dispatch("removeAllDrawings")}
-    title="Remove all drawings"
+    title={chart_ct_remove_all()}
   >
     <svg viewBox="0 0 28 28" class="h-6 w-6 fill-current">
       <path d={toolIcons.remove} />
