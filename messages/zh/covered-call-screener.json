@@ -50,7 +50,7 @@
   "covered_call_screener_rows_label": "{rows} 行",
   "covered_call_screener_back_to_top": "回到顶部",
   "covered_call_screener_no_results_query": "未找到与“{query}”相关的结果",
-  "covered_call_screener_no_contracts": "没有符合您条件的合约。",
+  "covered_call_screener_no_contracts": "没有符合你条件的合约。",
   "covered_call_screener_modal_new_title": "新建筛选",
   "covered_call_screener_modal_new_name_label": "筛选名称",
   "covered_call_screener_modal_new_create": "创建",

@@ -24,7 +24,7 @@
   "compare_stocks_plural": "股票",
   "compare_toast_ticker_included": "该代码已在列表中",
   "compare_toast_invalid_list": "代码列表无效",
-  "compare_toast_ticker_not_found": "您的自选列表中未找到代码「{ticker}」",
+  "compare_toast_ticker_not_found": "你的自选列表中未找到代码「{ticker}」",
   "compare_overlap_loading": "正在计算所选 ETF 之间的持仓重叠度…",
   "compare_overlap_no_data": "暂时没有足够的持仓数据来计算所选 ETF 的重叠度。",
   "compare_overlap_none": "所选 ETF 之间没有重叠的持仓。",

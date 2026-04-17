@@ -48,7 +48,7 @@
   "options_calculator_reward_risk_info": "回报/风险百分比衡量交易潜在盈利与潜在亏损的比例（以百分比表示），计算方式为最大盈利除以最大亏损。例如，最大盈利$500，最大亏损$200，则回报/风险为250%。该指标帮助交易者判断潜在回报是否值得承担相应风险，百分比越高，风险回报越优。",
   "options_calculator_greeks": "仓位希腊值",
   "options_calculator_delta": "Delta（Δ）",
-  "options_calculator_delta_info": "Delta衡量标的股票每变动$1，您的仓位价值将变化多少。例如，Delta为50，股票上涨$1时仓位盈利$50，下跌$1时亏损$50。正Delta=看涨敞口，负Delta=看跌敞口。",
+  "options_calculator_delta_info": "Delta衡量标的股票每变动$1，你的仓位价值将变化多少。例如，Delta为50，股票上涨$1时仓位盈利$50，下跌$1时亏损$50。正Delta=看涨敞口，负Delta=看跌敞口。",
   "options_calculator_gamma": "Gamma（Γ）",
   "options_calculator_gamma_info": "Gamma表示每当标的资产变动$1时，Delta的变化速度。高Gamma意味着股票波动时Delta变化快。到期临近的平值期权Gamma最高。正Gamma受益于大幅波动，负Gamma则受损。",
   "options_calculator_theta": "Theta（Θ）",

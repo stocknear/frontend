@@ -5,7 +5,7 @@
   "data_breadcrumb": "数据免责声明",
   "data_hero_title": "数据免责声明",
   "data_intro": "Stocknear 上的金融数据仅供信息与教育用途。这些信息不应被解读为财务建议，也不应作为交易或投资决定的唯一依据。",
-  "data_contact": "我们对数据的准确性与质量保持严格标准。如果您发现差异或需要澄清，请通过 {discordLink} 联系我们，或发邮件至 {email} 联系客服团队。",
+  "data_contact": "我们对数据的准确性与质量保持严格标准。如果你发现差异或需要澄清，请通过 {discordLink} 联系我们，或发邮件至 {email} 联系客服团队。",
   "data_market_title": "市场数据与股票图表",
   "data_market_content": "我们的全面市场数据与实时股票图表由领先的金融数据服务供应商 {fmpLink} 提供。包含日内价格、历史数据与技术指标。",
   "data_coverage_title": "市场覆盖",

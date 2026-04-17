@@ -47,7 +47,7 @@
   "options_flow_pick_date": "选择日期",
   "options_flow_realtime_data": "实时期权数据",
   "options_flow_realtime_data_title": "来自OPRA的实时期权数据",
-  "options_flow_realtime_data_content": "我们的期权流由OPRA实时数据驱动，OPRA是美国所有上市期权交易的官方综合数据源。这确保您看到的每一笔成交都直接来自OPRA实时推送，为您提供机构级别的大单、扫单、异常活动和权利金流动的透明视角。依托OPRA高完整性的数据流，您能更快获得洞察，数据更干净，准确把握smart money在期权市场的动向。",
+  "options_flow_realtime_data_content": "我们的期权流由OPRA实时数据驱动，OPRA是美国所有上市期权交易的官方综合数据源。这确保你看到的每一笔成交都直接来自OPRA实时推送，为你提供机构级别的大单、扫单、异常活动和权利金流动的透明视角。依托OPRA高完整性的数据流，你能更快获得洞察，数据更干净，准确把握smart money在期权市场的动向。",
   "options_flow_hide_filter_area": "隐藏筛选区",
   "options_flow_show_filter_area": "显示筛选区",
   "options_flow_put_to_call": "看跌/看涨比",

@@ -48,7 +48,7 @@
   "dashboard_upcoming_earnings_during_market": "（盘中）。",
   "dashboard_upcoming_earnings_estimate": "分析师预期营收 {revenue}（同比 {revenueYoy}%），每股收益 {eps}",
   "dashboard_upcoming_earnings_eps_yoy": "（同比 {epsYoy}%）。",
-  "dashboard_upcoming_earnings_empty": "今日暂无重要财报，但您可在财报日历查看完整列表。",
+  "dashboard_upcoming_earnings_empty": "今日暂无重要财报，但你可在财报日历查看完整列表。",
   "dashboard_dark_pool_title": "暗池订单",
   "dashboard_dark_pool_header_prem": "权利金",
   "dashboard_dark_pool_header_size": "数量",
@@ -64,12 +64,12 @@
   "dashboard_recent_earnings_misses": "低于",
   "dashboard_recent_earnings_growth": "增长",
   "dashboard_recent_earnings_decline": "下降",
-  "dashboard_recent_earnings_empty": "今日暂无重要财报，但您可在财报日历查看完整列表。",
+  "dashboard_recent_earnings_empty": "今日暂无重要财报，但你可在财报日历查看完整列表。",
   "dashboard_ai_placeholder": "询问任何股票问题——获取实时信息",
   "dashboard_ai_credits_left": "剩余 {credits} 点积分",
   "dashboard_ai_stock_agents": "股票助手",
   "dashboard_ai_how_to_use_agents": "如何正确使用助手",
   "dashboard_ai_credits_unit": "积分",
-  "dashboard_ai_upgrade_toast": "请升级您的账户以解锁此功能",
-  "dashboard_ai_insufficient_credits": "积分不足。您当前余额为 {credits}。"
+  "dashboard_ai_upgrade_toast": "请升级你的账户以解锁此功能",
+  "dashboard_ai_insufficient_credits": "积分不足。你当前余额为 {credits}。"
 }

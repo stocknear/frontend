@@ -3,17 +3,17 @@
   "contact_seo_title": "联系我们",
   "contact_breadcrumb": "联系我们",
   "contact_hero_title": "联系我们",
-  "contact_intro": "我们很乐意听到您的声音。请通过下方的联系表单向我们留言，我们会尽快回复。您也可以直接发送邮件至 {email}。",
+  "contact_intro": "我们很乐意听到你的声音。请通过下方的联系表单向我们留言，我们会尽快回复。你也可以直接发送邮件至 {email}。",
   "contact_email_label": "邮箱",
   "contact_subject_label": "主题",
   "contact_message_label": "留言内容",
   "contact_send_button": "发送留言",
   "contact_processing": "处理中…",
-  "contact_success": "您的留言已成功发送，我们会尽快回复您。",
+  "contact_success": "你的留言已成功发送，我们会尽快回复你。",
   "contact_sidebar_pro_title": "Pro 订阅",
   "contact_sidebar_pro_desc": "立即升级，无限使用所有数据与工具，并告别广告。",
   "contact_sidebar_screener_title": "股票筛选器",
-  "contact_sidebar_screener_desc": "筛选、排序并分析所有股票，找到您的下一笔投资。",
+  "contact_sidebar_screener_desc": "筛选、排序并分析所有股票，找到你的下一笔投资。",
   "contact_sidebar_watchlist_title": "自选列表",
-  "contact_sidebar_watchlist_desc": "实时追踪您关注的股票。"
+  "contact_sidebar_watchlist_desc": "实时追踪你关注的股票。"
 }

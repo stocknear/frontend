@@ -11,14 +11,14 @@
   "notifications_mark_all_read": "全部标为已读",
   "notifications_marking": "标记中…",
   "notifications_settings": "设置",
-  "notifications_customize": "自定义您的通知",
+  "notifications_customize": "自定义你的通知",
 
   "notifications_channel_earnings_surprise": "财报超预期",
   "notifications_channel_wiim": "价格变动原因",
   "notifications_channel_top_analyst": "顶级分析师评级",
   "notifications_no_channels": "暂无可用的通知渠道。",
 
-  "notifications_empty": "您还没有任何通知。",
+  "notifications_empty": "你还没有任何通知。",
 
   "notifications_pagination_previous": "上一页",
   "notifications_pagination_next": "下一页",
@@ -35,7 +35,7 @@
 
   "notifications_type_price_alert_triggered": "触发提醒：",
   "notifications_type_price_is": "以下股票的价格",
-  "notifications_type_is_condition": "已 {condition} 您设定的目标值",
+  "notifications_type_is_condition": "已 {condition} 你设定的目标值",
   "notifications_type_breaking_news": "突发新闻：",
   "notifications_type_wiim_new_data": "「价格变动原因」事件的新数据已发布。",
   "notifications_type_top_analyst_new": "新的顶级分析师评级：",
@@ -44,7 +44,7 @@
   "notifications_type_earnings_surprise_new": "「财报超预期」事件的新数据已发布。",
 
   "notifications_sidebar_watchlist": "自选列表",
-  "notifications_sidebar_watchlist_description": "实时掌握您关注股票的动态",
+  "notifications_sidebar_watchlist_description": "实时掌握你关注股票的动态",
   "notifications_sidebar_portfolio": "投资组合追踪",
-  "notifications_sidebar_portfolio_description": "实时掌握您投资组合的动态"
+  "notifications_sidebar_portfolio_description": "实时掌握你投资组合的动态"
 }

@@ -20,6 +20,7 @@
     footer_services,
     footer_pricing_plan,
     footer_get_support,
+    footer_install_app,
     footer_website,
     footer_login,
     footer_faq,
@@ -156,7 +157,7 @@
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/app/">Install the App</a
+                href="/app/">{footer_install_app()}</a
               >
             </li>
             <!--

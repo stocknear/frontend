@@ -49,7 +49,7 @@
   "unusual_order_flow_etf": "ETF",
   "unusual_order_flow_delayed": "延迟15分钟",
   "unusual_order_flow_delayed_title": "SIP数据延迟15分钟",
-  "unusual_order_flow_delayed_content": "Intrinio的SIP数据源提供来自所有主要交易所的高质量美国股票综合数据——包括成交、报价和NBBO。15分钟延迟为您带来全面的市场洞察和完整的交易所覆盖。",
+  "unusual_order_flow_delayed_content": "Intrinio的SIP数据源提供来自所有主要交易所的高质量美国股票综合数据——包括成交、报价和NBBO。15分钟延迟为你带来全面的市场洞察和完整的交易所覆盖。",
   "unusual_order_flow_hide_filter_area": "隐藏筛选区域",
   "unusual_order_flow_show_filter_area": "显示筛选区域",
   "unusual_order_flow_exit_full_width": "退出全宽",

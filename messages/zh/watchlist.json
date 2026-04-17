@@ -2,8 +2,8 @@
   "watchlist_breadcrumb_home": "首页",
   "watchlist_breadcrumb_watchlist": "自选列表",
 
-  "watchlist_seo_title": "股票自选列表 - 追踪您的组合与监控股价",
-  "watchlist_seo_description": "创建并管理您的个人股票自选列表，实时追踪价格。带提醒与业绩分析，监控您关注的股票、ETF 与投资。免费股票组合追踪器，功能强大。",
+  "watchlist_seo_title": "股票自选列表 - 追踪你的组合与监控股价",
+  "watchlist_seo_description": "创建并管理你的个人股票自选列表，实时追踪价格。带提醒与业绩分析，监控你关注的股票、ETF 与投资。免费股票组合追踪器，功能强大。",
   "watchlist_seo_keywords": "股票自选列表, 组合追踪器, 股票追踪器, 投资追踪, 股票监控, 提醒, 组合管理, 股票业绩, 投资自选",
   "watchlist_structured_name": "股票自选列表追踪器",
   "watchlist_structured_description": "个人股票自选列表与投资组合追踪工具",
@@ -23,7 +23,7 @@
   "watchlist_expand_full_width": "展开为全宽",
 
   "watchlist_empty_title": "自选列表为空",
-  "watchlist_empty_description": "加入您关注的股票，一个地方看齐实时数据和最新新闻！",
+  "watchlist_empty_description": "加入你关注的股票，一个地方看齐实时数据和最新新闻！",
   "watchlist_get_started": "立即开始",
 
   "watchlist_count_stocks": "{count} 只股票",
@@ -50,7 +50,7 @@
   "watchlist_toast_error_generic": "发生错误，请稍后再试。",
   "watchlist_toast_title_empty": "标题不能为空！",
   "watchlist_toast_title_long": "标题过长，请简洁一些！",
-  "watchlist_toast_already_in_list": "该股票已在您的自选列表中",
+  "watchlist_toast_already_in_list": "该股票已在你的自选列表中",
   "watchlist_toast_select_symbols": "请先选择要删除的股票代码",
 
   "watchlist_earnings_will_report": "将发布财报",
@@ -66,7 +66,7 @@
   "watchlist_note_add_title": "添加备注",
   "watchlist_note_edit_title": "编辑备注",
   "watchlist_note_placeholder_new": "为什么把这只股票加入自选？",
-  "watchlist_note_placeholder_edit": "更新您的备注…",
+  "watchlist_note_placeholder_edit": "更新你的备注…",
   "watchlist_note_save": "保存",
   "watchlist_note_add": "添加备注",
   "watchlist_note_update": "更新备注",

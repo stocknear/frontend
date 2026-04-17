@@ -6,12 +6,12 @@
   "app_installed_platform_ios": "Apple (iOS)",
   "app_installed_platform_android": "Android",
   "app_installed_ios_step_1": "点击 Safari 的分享按钮。",
-  "app_installed_ios_step_2": "点击"添加到主屏幕"。",
-  "app_installed_ios_step_3": "点击"添加"。",
+  "app_installed_ios_step_2": "点击“添加到主屏幕”。",
+  "app_installed_ios_step_3": "点击“添加”。",
   "app_installed_ios_note": "请注意：iOS 上的网页应用只能通过 Safari 安装。",
   "app_installed_android_step_1": "在 Chrome 中打开 Stocknear。",
   "app_installed_android_step_2": "点击右上角的三点菜单。",
-  "app_installed_android_step_3": "点击"安装应用"或"添加到主屏幕"。",
+  "app_installed_android_step_3": "点击“安装应用”或“添加到主屏幕”。",
   "app_installed_android_step_4": "确认安装。",
   "app_installed_close": "关闭"
 }
