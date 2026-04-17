@@ -3,7 +3,7 @@
 // and what to do when importing types
 
 // Locale type from Paraglide
-type Locale = "en" | "de";
+type Locale = "en" | "de" | "zh";
 
 declare namespace App {
   // interface Error {}

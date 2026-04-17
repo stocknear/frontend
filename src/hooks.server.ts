@@ -6,7 +6,12 @@ import { type Locale, locales, baseLocale, cookieName, cookieMaxAge, extractLoca
 import { STOCKNEAR_API_KEY } from "$env/static/private";
 
 // Locale detection constants
-const GERMAN_COUNTRY_CODE = "DE";
+// Cloudflare ISO-3166 country code → locale. Used as fallback when
+// Accept-Language is missing (e.g. bots, privacy-stripped headers).
+const COUNTRY_LOCALE_MAP: Record<string, Locale> = {
+  DE: "de",
+  CN: "zh", TW: "zh", HK: "zh", SG: "zh", MO: "zh",
+};
 
 /**
  * Detects and injects locale cookie for first-time visitors based on Cloudflare IP geolocation.
@@ -41,8 +46,9 @@ function detectLocaleFromRequest(request: Request): { locale: Locale; needsToSet
     detectedLocale = browserLocale as Locale;
   } else if (!browserLocale) {
     const country = request.headers.get("CF-IPCountry");
-    if (country === GERMAN_COUNTRY_CODE) {
-      detectedLocale = "de";
+    const mapped = country ? COUNTRY_LOCALE_MAP[country] : undefined;
+    if (mapped && (locales as readonly string[]).includes(mapped)) {
+      detectedLocale = mapped;
     }
   }
 

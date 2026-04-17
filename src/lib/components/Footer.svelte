@@ -41,6 +41,7 @@
   const flagCodes: Record<Locale, string> = {
     en: "US",
     de: "DE",
+    zh: "CN",
   };
 
   const getFlagUrl = (locale: Locale) =>

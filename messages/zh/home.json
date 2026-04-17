@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "实时期权资金流、扫单与异常活动",
+  "home_seo_description": "覆盖美股和 ETF 的实时期权资金流、扫单、大单和异常活动。用 Stocknear 更快找到短线交易机会。",
+  "home_seo_keywords": "期权资金流, 异常期权活动, 扫单, 大宗交易, 暗池, 隐含波动率, IV 偏斜, 未平仓合约, 期权链, 短线交易机会, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "实时期权资金流与异常活动，助你捕捉短线交易机会",
+  "home_structured_feature_live_options_flow": "实时期权资金流与扫单",
+  "home_structured_feature_unusual_options_activity": "异常期权活动",
+  "home_structured_feature_dark_pool_monitoring": "暗池监控",
+  "home_structured_feature_implied_volatility": "隐含波动率与偏斜",
+  "home_structured_feature_options_chain": "期权链与未平仓合约",
+  "home_structured_feature_earnings_volatility": "财报波动率布局",
+  "home_structured_feature_market_catalysts": "市场催化剂",
+  "home_hero_title": "抢在市场之前看到下一步",
+  "home_hero_subtitle": "覆盖每一只美股与 ETF 的实时价格、期权资金流、暗池委托、新闻、财务、预测与图表。更快速地做出决策，抓住有效信号。"
+}

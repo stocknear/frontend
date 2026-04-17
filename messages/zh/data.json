@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "数据免责声明 | 金融数据来源与准确性",
+  "data_seo_description": "全面介绍我们的金融数据来源、准确性标准以及股市数据、分析师预估和财务指标的使用指南。",
+  "data_breadcrumb": "数据免责声明",
+  "data_hero_title": "数据免责声明",
+  "data_intro": "Stocknear 上的金融数据仅供信息与教育用途。这些信息不应被解读为财务建议，也不应作为交易或投资决定的唯一依据。",
+  "data_contact": "我们对数据的准确性与质量保持严格标准。如果您发现差异或需要澄清，请通过 {discordLink} 联系我们，或发邮件至 {email} 联系客服团队。",
+  "data_market_title": "市场数据与股票图表",
+  "data_market_content": "我们的全面市场数据与实时股票图表由领先的金融数据服务供应商 {fmpLink} 提供。包含日内价格、历史数据与技术指标。",
+  "data_coverage_title": "市场覆盖",
+  "data_coverage_content": "Stocknear 全面覆盖美国主要交易所（NASDAQ、NYSE、NYSE American 和 NYSE Arca）上市的证券。我们的数据库涵盖股票、ETF、ADR 以及部分 OTC 证券。我们正在积极扩展覆盖范围，将其他全球交易所和金融工具纳入其中。",
+  "data_fundamentals_title": "基本面财务数据",
+  "data_fundamentals_content": "我们的基本面财务数据来自 {fmpLink}，源自 SEC 官方备案（10-K、10-Q 和 8-K）。尽管系统每日更新，但由于标准的 SEC 备案窗口和公司披露节奏，可能存在固有延迟。所有财务数据都基于公司向监管机构提交的经审计正式披露。",
+  "data_business_title": "业务指标数据",
+  "data_business_content": "业务指标数据——包括运营 KPI 和非 GAAP 单位经济学——由我们的合作伙伴 {mainStreetLink} 提供。他们的研究团队会从公司财报、投资者演示和管理层评论中聚合、标准化并持续验证这些披露内容，以确保平台上业务表现数据的高可信度。",
+  "data_analyst_title": "分析师覆盖与市场预测",
+  "data_analyst_content": "我们的分析师覆盖整合了多家权威来源的数据。目标价和评级由 Benzinga 提供，代表主要华尔街分析师的共识。营收预测和每股收益预测聚合自 Benzinga 与 {fmpLink}。尽管我们致力于提供尽可能准确的预测，但请注意市场预测本身存在不确定性，应作为更广泛投研过程中的一部分参考。",
+  "data_etf_title": "ETF 分析",
+  "data_etf_content": "我们的 ETF 持仓数据与分析通过与 {fmpLink} 的合作提供，确保基金构成、配置与业绩指标的准确与及时。",
+  "data_options_title": "期权市场数据",
+  "data_options_content": "我们的期权市场数据基础设施整合多家数据供应商的数据源，形成统一管道，提供完整的 OPRA（Options Price Reporting Authority）全量数据流。通过聚合多来源的实时期权资金流与期权链数据，我们确保美国所有主要期权交易所的活动与价格信息全面覆盖。"
+}

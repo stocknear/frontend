@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "提交反馈",
+  "feedback_error_signin": "请先登录再提交反馈。",
+  "feedback_error_description": "请描述您遇到的问题或建议。",
+  "feedback_error_send_try_again": "发送反馈时出错，请重试。",
+  "feedback_success": "感谢！您的反馈已提交。",
+  "feedback_error_send_generic": "发送反馈时出错。",
+  "feedback_description_label": "描述您的问题或建议：",
+  "feedback_page_label": "反馈页面：",
+  "feedback_close_button": "关闭",
+  "feedback_cancel_button": "取消",
+  "feedback_send_button": "发送反馈"
+}

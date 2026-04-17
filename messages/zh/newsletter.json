@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "市场通讯：每天 2 分钟，保持消息灵通",
+  "newsletter_seo_description": "订阅我们的专业通讯，抢占市场先机！最新动态、趋势和洞察直达您的收件箱。",
+  "newsletter_label": "通讯",
+  "newsletter_title": "每天 2 分钟，保持消息灵通",
+  "newsletter_description": "Pre-market Report 是一份帮您轻松跟上金融市场的通讯。",
+  "newsletter_intro_1": "所有内容都以简短的要点形式呈现，阅读这份通讯绝对不会像完成任务。",
+  "newsletter_intro_2": "由我们替您阅读新闻、过滤噪音，并把要点发给您。您将收到：",
+  "newsletter_feature_1": "最新分析师报告，关键洞察由 AI 提炼。",
+  "newsletter_feature_2": "近期与即将发布的财报速览。",
+  "newsletter_feature_3": "可能显著影响市场的重大经济事件。",
+  "newsletter_feature_4": "来自头部媒体的准确、最新信息。",
+  "newsletter_closing": "通讯完全免费，每个工作日（节假日除外）在开盘前送达您的收件箱。",
+  "newsletter_signup_button": "免费订阅"
+}

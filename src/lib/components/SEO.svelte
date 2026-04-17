@@ -154,6 +154,7 @@
   <!-- Hreflang for multilingual SEO -->
   <link rel="alternate" hreflang="en" href={`${baseURL}${pathname}`} />
   <link rel="alternate" hreflang="de" href={`${baseURL}/de${pathname}`} />
+  <link rel="alternate" hreflang="zh" href={`${baseURL}/zh${pathname}`} />
   <link rel="alternate" hreflang="x-default" href={`${baseURL}${pathname}`} />
 
   <!-- Global Organization + WebSite Schema -->

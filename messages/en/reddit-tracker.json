@@ -42,5 +42,9 @@
   "reddit_tracker_previous": "Prev",
   "reddit_tracker_next": "Next",
   "reddit_tracker_rows": "Rows",
-  "reddit_tracker_page_of": "Page {current} of {total}"
+  "reddit_tracker_page_of": "Page {current} of {total}",
+  "reddit_tracker_mobile_mentions_label": "Mentions:",
+  "reddit_tracker_mobile_mktcap_label": "Mkt Cap",
+  "reddit_tracker_mobile_view_posts": "View Reddit Posts",
+  "reddit_tracker_mentions_suffix": "{count} mentions"
 }

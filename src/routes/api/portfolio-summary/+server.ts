@@ -53,7 +53,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-   if (!lang  || lang?.length === 0 || !['en','de']?.includes(lang)) {
+   if (!lang  || lang?.length === 0 || !['en','de','zh']?.includes(lang)) {
     return new Response(
       JSON.stringify({ error: "Correct language are required" }),
       { status: 400, headers: { "Content-Type": "application/json" } },

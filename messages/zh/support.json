@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "获取支持",
+  "support_breadcrumb_home": "首页",
+  "support_breadcrumb_current": "获取支持",
+  "support_title": "获取支持",
+  "support_description_1": "请通过下方表单提交您的支持请求，我们会尽快回复。您也可以直接发送邮件至",
+  "support_description_2": "常见问题的答案请参考：",
+  "support_faq_link": "常见问题",
+  "support_description_3": "如果您需要报告错误或数据偏差，请附上发现问题的具体页面 URL。",
+  "support_label_email": "邮箱",
+  "support_label_subject": "主题",
+  "support_label_message": "留言内容",
+  "support_button_send": "发送留言",
+  "support_button_processing": "处理中…",
+  "support_success_message": "您的留言已成功发送，我们会尽快回复。",
+  "support_toast_error": "出错了，请重试……",
+  "support_sidebar_pro_title": "Pro 订阅",
+  "support_sidebar_pro_description": "立即升级，无限使用所有数据与工具，并告别广告。",
+  "support_sidebar_screener_title": "股票筛选器",
+  "support_sidebar_screener_description": "筛选、排序并分析所有股票，找到您的下一笔投资。",
+  "support_sidebar_watchlist_title": "自选列表",
+  "support_sidebar_watchlist_description": "实时追踪您关注的股票。"
+}

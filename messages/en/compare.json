@@ -24,5 +24,9 @@
   "compare_stocks_plural": "Stocks",
   "compare_toast_ticker_included": "Ticker is already included",
   "compare_toast_invalid_list": "Invalid ticker list",
-  "compare_toast_ticker_not_found": "Ticker \"{ticker}\" not found in your watchlist"
+  "compare_toast_ticker_not_found": "Ticker \"{ticker}\" not found in your watchlist",
+  "compare_overlap_loading": "Calculating holdings overlap across selected ETFs...",
+  "compare_overlap_no_data": "We don't have enough holdings data yet to calculate overlap across the selected ETFs.",
+  "compare_overlap_none": "No overlapping holdings found across the selected ETFs.",
+  "compare_overlap_summary": "Across <strong>{etfCount}</strong> ETFs, <strong>{overlapCount}</strong> stocks overlap across holdings, which is <strong>{overlapPct}%</strong> of <strong>{totalUnique}</strong> unique holdings. <strong>{commonAcrossAll}</strong> stocks are held by all selected ETFs. Total holdings by ETF: {holdingsCountText}."
 }

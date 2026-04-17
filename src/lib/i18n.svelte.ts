@@ -30,7 +30,8 @@ export { locales, baseLocale, isLocale, type Locale };
 // Language display names
 export const languageNames: Record<Locale, string> = {
   en: 'English',
-  de: 'Deutsch'
+  de: 'Deutsch',
+  zh: '中文'
 };
 
 /**

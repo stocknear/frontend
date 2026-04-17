@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "首页",
+  "watchlist_breadcrumb_watchlist": "自选列表",
+
+  "watchlist_seo_title": "股票自选列表 - 追踪您的组合与监控股价",
+  "watchlist_seo_description": "创建并管理您的个人股票自选列表，实时追踪价格。带提醒与业绩分析，监控您关注的股票、ETF 与投资。免费股票组合追踪器，功能强大。",
+  "watchlist_seo_keywords": "股票自选列表, 组合追踪器, 股票追踪器, 投资追踪, 股票监控, 提醒, 组合管理, 股票业绩, 投资自选",
+  "watchlist_structured_name": "股票自选列表追踪器",
+  "watchlist_structured_description": "个人股票自选列表与投资组合追踪工具",
+
+  "watchlist_main_title": "自选列表",
+  "watchlist_create_watchlist": "创建自选列表",
+  "watchlist_new_watchlist": "新建自选列表",
+  "watchlist_delete_watchlist": "删除自选列表",
+
+  "watchlist_add_stock_placeholder": "添加股票…",
+  "watchlist_no_results": "未找到结果",
+  "watchlist_edit_watchlist": "编辑自选列表",
+  "watchlist_cancel": "取消",
+  "watchlist_normal_width": "标准宽度",
+  "watchlist_full_width": "全宽模式",
+  "watchlist_exit_full_width": "退出全宽",
+  "watchlist_expand_full_width": "展开为全宽",
+
+  "watchlist_empty_title": "自选列表为空",
+  "watchlist_empty_description": "加入您关注的股票，一个地方看齐实时数据和最新新闻！",
+  "watchlist_get_started": "立即开始",
+
+  "watchlist_count_stocks": "{count} 只股票",
+
+  "watchlist_tab_news": "新闻",
+  "watchlist_tab_earnings": "财报发布",
+  "watchlist_no_news": "暂无新闻。将股票加入自选列表后即可查看最新新闻。",
+  "watchlist_no_earnings": "暂无财报数据。将股票加入自选列表后即可查看最新财报数据。",
+
+  "watchlist_modal_new_title": "新建自选列表",
+  "watchlist_modal_list_name": "列表名称",
+  "watchlist_modal_create_button": "创建自选列表",
+
+  "watchlist_modal_delete_title": "删除自选列表",
+  "watchlist_modal_delete_confirm": "确定要删除此自选列表吗？此操作无法撤销。",
+  "watchlist_modal_delete_button": "删除自选列表",
+
+  "watchlist_toast_creating": "正在创建自选列表…",
+  "watchlist_toast_created": "自选列表已创建！",
+  "watchlist_toast_deleted": "自选列表已删除！",
+  "watchlist_toast_updating": "正在更新自选列表…",
+  "watchlist_toast_updated": "自选列表已更新！",
+  "watchlist_toast_error": "出错了，请重试！",
+  "watchlist_toast_error_generic": "发生错误，请稍后再试。",
+  "watchlist_toast_title_empty": "标题不能为空！",
+  "watchlist_toast_title_long": "标题过长，请简洁一些！",
+  "watchlist_toast_already_in_list": "该股票已在您的自选列表中",
+  "watchlist_toast_select_symbols": "请先选择要删除的股票代码",
+
+  "watchlist_earnings_will_report": "将发布财报",
+  "watchlist_earnings_after_close": "（盘后）。",
+  "watchlist_earnings_before_open": "（盘前）。",
+  "watchlist_earnings_during_market": "（盘中）。",
+  "watchlist_earnings_analysts_estimate": "分析师预期",
+  "watchlist_earnings_in_revenue": "营收",
+  "watchlist_earnings_yoy": "同比",
+  "watchlist_earnings_and": "以及",
+  "watchlist_earnings_in_eps": "每股收益",
+
+  "watchlist_note_add_title": "添加备注",
+  "watchlist_note_edit_title": "编辑备注",
+  "watchlist_note_placeholder_new": "为什么把这只股票加入自选？",
+  "watchlist_note_placeholder_edit": "更新您的备注…",
+  "watchlist_note_save": "保存",
+  "watchlist_note_add": "添加备注",
+  "watchlist_note_update": "更新备注",
+  "watchlist_note_created": "备注已创建",
+  "watchlist_note_updated": "备注已更新",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "剩余 {count} 个字符",
+  "watchlist_note_chars_over": "超出 {count} 个字符",
+  "watchlist_note_exceeded": "备注长度不能超过 {max} 个字符",
+  "watchlist_added_price": "加入时价格",
+
+  "watchlist_column_entry_price": "买入价",
+  "watchlist_column_since_added": "加入以来涨跌%"
+}

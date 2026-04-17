@@ -43,6 +43,10 @@
     compare_toast_invalid_list,
     compare_toast_ticker_included,
     compare_toast_ticker_not_found,
+    compare_overlap_loading,
+    compare_overlap_no_data,
+    compare_overlap_none,
+    compare_overlap_summary,
   } from "$lib/paraglide/messages";
 
   export let data;
@@ -673,7 +677,7 @@
     }
 
     if (isLoading && Object.keys(holdingsByTicker ?? {}).length === 0) {
-      return "Calculating holdings overlap across selected ETFs...";
+      return compare_overlap_loading();
     }
 
     const symbolFrequency = new Map<string, number>();
@@ -702,14 +706,14 @@
 
     const totalUniqueHoldings = symbolFrequency.size;
     if (totalUniqueHoldings === 0) {
-      return "We don't have enough holdings data yet to calculate overlap across the selected ETFs.";
+      return compare_overlap_no_data();
     }
 
     const overlapCount = [...symbolFrequency.values()]?.filter(
       (count) => count >= 2,
     )?.length;
     if (overlapCount === 0) {
-      return "No overlapping holdings found across the selected ETFs.";
+      return compare_overlap_none();
     }
     const overlapPct = (overlapCount / totalUniqueHoldings) * 100;
     const commonAcrossAllCount = [...symbolFrequency.values()]?.filter(
@@ -722,7 +726,14 @@
       )
       ?.join(", ");
 
-    return `Across <strong>${selectedTickers.length}</strong> ETFs, <strong>${overlapCount.toLocaleString("en-US")}</strong> stocks overlap across holdings, which is <strong>${overlapPct.toFixed(2)}%</strong> of <strong>${totalUniqueHoldings.toLocaleString("en-US")}</strong> unique holdings. <strong>${commonAcrossAllCount.toLocaleString("en-US")}</strong> stocks are held by all selected ETFs. Total holdings by ETF: ${holdingsCountText}.`;
+    return compare_overlap_summary({
+      etfCount: String(selectedTickers.length),
+      overlapCount: overlapCount.toLocaleString("en-US"),
+      overlapPct: overlapPct.toFixed(2),
+      totalUnique: totalUniqueHoldings.toLocaleString("en-US"),
+      commonAcrossAll: commonAcrossAllCount.toLocaleString("en-US"),
+      holdingsCountText,
+    });
   };
 
   $: if (typeof window !== "undefined") {

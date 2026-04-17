@@ -1,0 +1,6 @@
+{
+  "error_title": "页面未找到 - {status}",
+  "error_body_prefix": "抱歉，我们找不到您请求的页面。如果此问题持续出现，请通过以下方式告知我们",
+  "error_body_suffix": "我们会尽快修复！",
+  "error_back_home": "返回首页"
+}

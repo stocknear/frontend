@@ -24,5 +24,9 @@
   "compare_stocks_plural": "Aktien",
   "compare_toast_ticker_included": "Ticker ist bereits enthalten",
   "compare_toast_invalid_list": "Ungültige Ticker-Liste",
-  "compare_toast_ticker_not_found": "Ticker \"{ticker}\" nicht in deiner Watchlist gefunden"
+  "compare_toast_ticker_not_found": "Ticker \"{ticker}\" nicht in deiner Watchlist gefunden",
+  "compare_overlap_loading": "Berechne Überschneidungen der Bestände zwischen den ausgewählten ETFs...",
+  "compare_overlap_no_data": "Wir haben noch nicht genügend Bestandsdaten, um die Überschneidungen zwischen den ausgewählten ETFs zu berechnen.",
+  "compare_overlap_none": "Keine überschneidenden Bestände zwischen den ausgewählten ETFs gefunden.",
+  "compare_overlap_summary": "Über <strong>{etfCount}</strong> ETFs hinweg überschneiden sich <strong>{overlapCount}</strong> Aktien in den Beständen, was <strong>{overlapPct}%</strong> von <strong>{totalUnique}</strong> einzigartigen Beständen entspricht. <strong>{commonAcrossAll}</strong> Aktien werden von allen ausgewählten ETFs gehalten. Gesamtanzahl der Bestände pro ETF: {holdingsCountText}."
 }

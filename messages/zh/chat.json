@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "AI 驱动的股市分析 - 金融 AI 助手与市场情报",
+  "chat_seo_description": "先进的 AI 金融助手，提供实时股票分析、市场洞察和投资研究。与专业 AI 助手对话，完成股票筛选、财报分析、期权资金流追踪、暗池活动和市场情绪分析。获取个性化投资建议和全面的市场情报。",
+  "chat_seo_keywords": "AI 金融顾问, 股市 AI, 金融 AI 助手, AI 投资分析, 自动化股票研究, AI 交易洞察, 机器学习金融, 金融聊天机器人, AI 市场分析, 算法交易洞察, AI 投资组合分析, 人工智能投资",
+  "chat_title": "你的投资伙伴",
+  "chat_placeholder": "有关股票的任何问题都可以问我——即时获取最新信息",
+  "chat_placeholder_readonly": "只读：您无权编辑此对话。",
+  "chat_placeholder_editable": "请输入问题",
+  "chat_credits_left": "剩余积分",
+  "chat_stock_agents": "股票助手",
+  "chat_how_to_use_agents": "如何正确使用助手",
+  "chat_credits": "积分",
+  "chat_threads": "对话记录",
+  "chat_no_threads": "看起来我们还没聊过。",
+  "chat_ready_to_analyze": "准备好分析股票了吗？",
+  "chat_ready_description": "探索数千只股票的详细财务数据、分析师评级和技术指标。",
+  "chat_get_started": "立即开始",
+  "chat_delete_thread_title": "删除对话",
+  "chat_delete_thread_confirm": "确定要删除这段对话吗？此操作无法撤销。",
+  "chat_cancel": "取消",
+  "chat_delete": "删除对话",
+  "chat_toast_deleted": "对话已删除！",
+  "chat_toast_error": "出错了，请重试！",
+  "chat_toast_error_occurred": "发生错误，请稍后再试。",
+  "chat_toast_insufficient_credits": "积分不足。您当前的余额为",
+  "chat_last_message": "最后消息",
+  "chat_ago": "前",
+  "chat_minutes": "分钟",
+  "chat_hour": "小时",
+  "chat_hours": "小时",
+  "chat_day": "天",
+  "chat_days": "天",
+  "chat_error_connect": "无法连接到聊天服务，请稍后再试。",
+
+  "chat_default_gainers_losers_label": "今日涨幅榜、跌幅榜与成交最活跃股",
+  "chat_default_gainers_losers_query": "请汇总今日涨幅最大的股票、跌幅最大的股票以及成交量最活跃的股票，包含涨跌幅和成交量等关键指标。",
+
+  "chat_default_options_flow_label": "今日期权资金流亮点",
+  "chat_default_options_flow_query": "概述今日值得关注的期权资金流，重点关注大额大宗交易、异常放量以及方向性情绪。",
+
+  "chat_default_market_news_label": "今日市场新闻",
+  "chat_default_market_news_query": "请总结今日最重要的市场新闻和关键财经事件。",
+
+  "chat_default_bull_bear_label": "英伟达的多空观点",
+  "chat_default_bull_bear_query": "@BullvsBear 英伟达",
+
+  "chat_default_value_investor_label": "作为价值投资者，现在该买入英特尔吗？",
+  "chat_default_value_investor_query": "@WarrenBuffet 现在我该买入英特尔吗？",
+
+  "chat_default_cathie_wood_label": "Cathie Wood 现在怎么看特斯拉？",
+  "chat_default_cathie_wood_query": "@CathieWood 评估特斯拉，告诉我你会买入还是卖出",
+
+  "chat_default_options_data_label": "SPY 最新期权数据",
+  "chat_default_options_data_query": "@OptionsData SPY 最新期权数据",
+
+  "chat_default_undervalued_label": "帮我找出被低估的股票",
+  "chat_default_undervalued_query": "@StockScreener 帮我找出市盈率大于 0、营收增长超过 5%、市净率大于 0 的被低估股票",
+
+  "chat_default_gamestop_label": "GameStop 现在健康吗？",
+  "chat_default_gamestop_query": "@FundamentalData GameStop 现在健康吗？",
+
+  "chat_default_spy_bullish_label": "SPY 现在看多吗？",
+  "chat_default_spy_bullish_query": "SPY 现在看多吗？",
+
+  "chat_default_nvidia_flow_label": "英伟达期权资金流",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed 英伟达期权资金流",
+
+  "chat_default_googl_flow_label": "GOOGL 异常订单流",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed 谷歌订单流",
+
+  "chat_default_compare_aapl_msft_label": "对比苹果与微软",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks 对比苹果和微软",
+
+  "chat_default_analyst_ratings_label": "分析师怎么看亚马逊？",
+  "chat_default_analyst_ratings_query": "@Analyst 最新针对亚马逊的分析师评级和目标价是什么？",
+
+  "chat_default_dark_pool_label": "今日有显著的暗池活动吗？",
+  "chat_default_dark_pool_query": "展示今日最值得关注的暗池交易与活动",
+
+  "chat_default_dividend_label": "现在最好的分红股",
+  "chat_default_dividend_query": "@StockScreener 帮我找出股息率高、派息率低于 80%、营收增长为正的股票",
+
+  "chat_default_michael_burry_label": "Michael Burry 会如何看待当前市场？",
+  "chat_default_michael_burry_query": "@MichaelBurry 分析当前市场状况，告诉我你看到了什么",
+
+  "chat_default_peter_lynch_label": "Peter Lynch 对 Meta 的看法",
+  "chat_default_peter_lynch_query": "@PeterLynch 你会把 Meta 当作现在的好投资吗？",
+
+  "chat_default_sector_performance_label": "本周哪些板块跑赢大盘？",
+  "chat_default_sector_performance_query": "请分解本周板块表现，指出哪些板块领涨、哪些落后",
+
+  "chat_default_earnings_label": "本周哪些公司发布财报？",
+  "chat_default_earnings_query": "本周最重要的财报有哪些？我应该关注什么？"
+}

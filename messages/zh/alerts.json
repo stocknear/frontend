@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "首页",
+  "price_alert_breadcrumb_price_alert": "提醒",
+
+  "price_alert_seo_title": "股票提醒 - 实时通知与市场更新",
+  "price_alert_seo_description": "创建自定义股票提醒，在条件触发时立即收到通知。通过实时市场数据追踪自选股的财报、新闻与价格变动。",
+  "price_alert_seo_keywords": "股票提醒, 价格通知, 市场提醒, 股票触发, 财报日历, 股票新闻流, 实时提醒, 市场通知, 股票自选列表, 价格监控",
+  "price_alert_structured_name": "提醒 - Stocknear",
+  "price_alert_structured_description": "实时股票提醒系统，触发即通知",
+
+  "price_alert_main_title": "提醒",
+
+  "price_alert_search_placeholder": "搜索…",
+  "price_alert_no_results": "未找到结果",
+  "price_alert_edit_alert": "编辑提醒",
+  "price_alert_cancel": "取消",
+
+  "price_alert_empty_title": "尚未设置提醒",
+  "price_alert_empty_description": "为您看好的股票创建提醒，不错过任何机会。",
+  "price_alert_get_started": "立即开始",
+
+  "price_alert_tab_news": "新闻",
+  "price_alert_tab_earnings": "财报发布",
+  "price_alert_no_news": "暂无新闻。将股票添加到提醒列表后即可查看最新新闻。",
+  "price_alert_no_earnings": "暂无财报。将股票添加到提醒列表后即可查看最新财报数据。",
+
+  "price_alert_toast_deleted": "提醒已删除",
+  "price_alert_toast_select_symbols": "请先选择要删除的股票代码",
+
+  "price_alert_earnings_will_report_today": "将于今日发布财报",
+  "price_alert_earnings_will_report_tomorrow": "将于明日发布财报",
+  "price_alert_earnings_will_report_monday": "将于周一发布财报",
+  "price_alert_earnings_will_report": "将发布财报",
+  "price_alert_earnings_after_close": "（盘后）。",
+  "price_alert_earnings_before_open": "（盘前）。",
+  "price_alert_earnings_during_market": "（盘中）。",
+  "price_alert_earnings_analysts_estimate": "分析师预期",
+  "price_alert_earnings_in_revenue": "营收",
+  "price_alert_earnings_yoy": "同比",
+  "price_alert_earnings_and": "以及",
+  "price_alert_earnings_in_eps": "每股收益"
+}

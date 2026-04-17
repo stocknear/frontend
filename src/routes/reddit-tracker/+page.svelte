@@ -38,7 +38,27 @@
     reddit_tracker_next,
     reddit_tracker_rows,
     reddit_tracker_page_of,
+    reddit_tracker_subreddit_wsb,
+    reddit_tracker_subreddit_wsb_short,
+    reddit_tracker_subreddit_wsb_desc,
+    reddit_tracker_subreddit_value,
+    reddit_tracker_subreddit_value_short,
+    reddit_tracker_subreddit_value_desc,
+    reddit_tracker_subreddit_stocks,
+    reddit_tracker_subreddit_stocks_short,
+    reddit_tracker_subreddit_stocks_desc,
+    reddit_tracker_subreddit_investing,
+    reddit_tracker_subreddit_investing_short,
+    reddit_tracker_subreddit_investing_desc,
+    reddit_tracker_subreddit_market,
+    reddit_tracker_subreddit_market_short,
+    reddit_tracker_subreddit_market_desc,
+    reddit_tracker_mobile_mentions_label,
+    reddit_tracker_mobile_mktcap_label,
+    reddit_tracker_mobile_view_posts,
+    reddit_tracker_mentions_suffix,
   } from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime";
 
   export let data;
 
@@ -46,51 +66,48 @@
   $: currentSubreddit = data?.currentSubreddit || "wallstreetbets";
   $: availableSubreddits = data?.availableSubreddits || [];
 
-  // Subreddit display configuration
-  const subredditConfig = {
-    wallstreetbets: {
-      displayName: "WallStreetBets",
-      shortName: "WSB",
-      description:
-        "High-volume discussions from r/wallstreetbets, tracking meme stocks and aggressive trading strategies",
-    },
-    valueinvesting: {
-      displayName: "Value Investing",
-      shortName: "Value",
-      description:
-        "Value-focused discussions from r/valueinvesting, emphasizing fundamental analysis and long-term holds",
-    },
-    stocks: {
-      displayName: "Stocks",
-      shortName: "Stocks",
-      description:
-        "General stock discussions from r/stocks covering market trends and investment ideas",
-    },
-    investing: {
-      displayName: "Investing",
-      shortName: "Investing",
-      description:
-        "Broad investing discussions from r/investing for diverse portfolio strategies",
-    },
-    stockmarket: {
-      displayName: "Stock Market",
-      shortName: "Market",
-      description:
-        "Market news and analysis from r/stockmarket tracking overall market trends",
-    },
-  };
+  // Subreddit display configuration — reads translations reactively via getLocale().
+  // Recomputes whenever the locale changes.
+  $: subredditConfig = (() => {
+    getLocale(); // tracks locale for reactivity
+    return {
+      wallstreetbets: {
+        displayName: reddit_tracker_subreddit_wsb(),
+        shortName: reddit_tracker_subreddit_wsb_short(),
+        description: reddit_tracker_subreddit_wsb_desc(),
+      },
+      valueinvesting: {
+        displayName: reddit_tracker_subreddit_value(),
+        shortName: reddit_tracker_subreddit_value_short(),
+        description: reddit_tracker_subreddit_value_desc(),
+      },
+      stocks: {
+        displayName: reddit_tracker_subreddit_stocks(),
+        shortName: reddit_tracker_subreddit_stocks_short(),
+        description: reddit_tracker_subreddit_stocks_desc(),
+      },
+      investing: {
+        displayName: reddit_tracker_subreddit_investing(),
+        shortName: reddit_tracker_subreddit_investing_short(),
+        description: reddit_tracker_subreddit_investing_desc(),
+      },
+      stockmarket: {
+        displayName: reddit_tracker_subreddit_market(),
+        shortName: reddit_tracker_subreddit_market_short(),
+        description: reddit_tracker_subreddit_market_desc(),
+      },
+    } as Record<string, { displayName: string; shortName: string; description: string }>;
+  })();
 
   function changeSubreddit(subreddit: string) {
     goto(`/reddit-tracker?subreddit=${subreddit}`);
   }
 
-  function getSubredditDisplay(name: string) {
-    return subredditConfig[name]?.displayName || name;
-  }
+  $: getSubredditDisplay = (name: string) =>
+    subredditConfig[name]?.displayName || name;
 
-  function getSubredditDescription(name: string) {
-    return subredditConfig[name]?.description || "";
-  }
+  $: getSubredditDescription = (name: string) =>
+    subredditConfig[name]?.description || "";
 
   let timePeriod = "oneWeek";
   let rawData = [];
@@ -611,7 +628,7 @@
                         <div class="space-y-1">
                           <div class="flex items-center gap-1.5 text-[13px]">
                             <span class="text-gray-600 dark:text-zinc-400"
-                              >Mentions:</span
+                              >{reddit_tracker_mobile_mentions_label()}</span
                             >
                             <span
                               class="font-medium text-muted dark:text-zinc-200 tabular-nums"
@@ -622,7 +639,7 @@
                           <div class="flex items-center gap-1.5 text-[13px]">
                             <span
                               class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400"
-                              >Mkt Cap</span
+                              >{reddit_tracker_mobile_mktcap_label()}</span
                             >
                             <span
                               class="tabular-nums text-muted dark:text-zinc-200"
@@ -668,7 +685,7 @@
                         on:click={() => openGraph(item?.symbol)}
                         class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
                       >
-                        <span>View Reddit Posts</span>
+                        <span>{reddit_tracker_mobile_view_posts()}</span>
                         <svg
                           class="h-4 w-4 transition-transform {checkedSymbol ===
                           item?.symbol
@@ -948,8 +965,12 @@
                                   <span
                                     class="text-sm text-muted dark:text-white"
                                   >
-                                    {item?.mentions?.toLocaleString("en-US") ||
-                                      "0"} mentions
+                                    {reddit_tracker_mentions_suffix({
+                                      count:
+                                        item?.mentions?.toLocaleString(
+                                          "en-US",
+                                        ) || "0",
+                                    })}
                                   </span>
                                 </div>
 
