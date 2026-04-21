@@ -34,4 +34,39 @@ declare global {
   }
 }
 
+declare module "pulltorefreshjs" {
+  interface PtrInitOptions {
+    mainElement?: string | HTMLElement;
+    triggerElement?: string | HTMLElement;
+    ptrElement?: string | HTMLElement;
+    classPrefix?: string;
+    distThreshold?: number;
+    distMax?: number;
+    distReload?: number;
+    distIgnore?: number;
+    refreshTimeout?: number;
+    passive?: boolean;
+    instructionsPullToRefresh?: string;
+    instructionsReleaseToRefresh?: string;
+    instructionsRefreshing?: string;
+    iconArrow?: string;
+    iconRefreshing?: string;
+    resistanceFunction?: (t: number) => number;
+    shouldPullToRefresh?: () => boolean;
+    onInit?: () => void;
+    onRefresh?: () => void | Promise<void>;
+    getStyles?: () => string;
+    getMarkup?: () => string;
+  }
+  interface PtrInstance {
+    destroy(): void;
+  }
+  const PullToRefresh: {
+    init(options: PtrInitOptions): PtrInstance;
+    destroyAll(): void;
+    setPassiveMode(passive: boolean): void;
+  };
+  export default PullToRefresh;
+}
+
 export {};

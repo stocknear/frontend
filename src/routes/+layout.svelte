@@ -11,7 +11,6 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
-  //import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
 
@@ -285,10 +284,16 @@
     }
   }
 
+  let isStandalonePWA = false;
+
   onMount(() => {
     checkMarketHour();
 
     if (!browser) return;
+
+    isStandalonePWA =
+      window.matchMedia?.("(display-mode: standalone)").matches ||
+      (navigator as Navigator & { standalone?: boolean }).standalone === true;
 
     // Delay mounting the cookie consent component to keep initial load snappy
     cookieConsentDelayTimer = setTimeout(() => {
@@ -525,6 +530,14 @@
     title="Google Tag Manager"
   ></iframe>
 </noscript>
+
+{#if isStandalonePWA}
+  {#await import("$lib/components/PullToRefresh.svelte") then { default: PullToRefresh }}
+    <PullToRefresh />
+  {:catch _err}
+    <!-- PTR chunk failed to load; silently degrade -->
+  {/await}
+{/if}
 
 <div class="app text-muted dark:text-zinc-200">
   <div class="flex min-h-screen w-full flex-col bg-white dark:bg-zinc-950">
