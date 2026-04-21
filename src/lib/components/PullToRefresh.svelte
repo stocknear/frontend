@@ -65,20 +65,7 @@
     return true;
   };
 
-  const iconArrow = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`;
-  const iconRefreshing = `<span class="loading loading-spinner loading-sm text-violet-600 dark:text-zinc-200"></span>`;
-
-  const getMarkup = () =>
-    `<div class="__PREFIX__box flex flex-col items-center justify-end gap-1 pb-3 pt-14 bg-white dark:bg-[#131214] border-b border-gray-200 dark:border-zinc-800 text-violet-600 dark:text-zinc-200 shadow-sm">
-       <div class="__PREFIX__content flex flex-col items-center justify-center gap-1.5">
-         <div class="__PREFIX__icon flex items-center justify-center transition-transform duration-200 ease-out"></div>
-         <div class="__PREFIX__text text-[11px] font-medium tracking-wide opacity-80"></div>
-       </div>
-     </div>`;
-
-  const getStyles = () =>
-    `.__PREFIX__ptr{pointer-events:none;font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;top:0;left:0;right:0;position:fixed;z-index:60;overflow:hidden;}
-     .__PREFIX__release .__PREFIX__icon{transform:rotate(180deg);}`;
+  const SPINNER = `<span class="loading loading-spinner loading-md text-violet-600 dark:text-zinc-200"></span>`;
 
   onMount(() => {
     const isTouch =
@@ -101,13 +88,11 @@
           distReload: 50,
           refreshTimeout: 200,
           passive: true,
-          instructionsPullToRefresh: "Pull to refresh",
-          instructionsReleaseToRefresh: "Release to refresh",
-          instructionsRefreshing: "Refreshing",
-          iconArrow,
-          iconRefreshing,
-          getMarkup,
-          getStyles,
+          instructionsPullToRefresh: "",
+          instructionsReleaseToRefresh: "",
+          instructionsRefreshing: "",
+          iconArrow: SPINNER,
+          iconRefreshing: SPINNER,
           shouldPullToRefresh,
           onRefresh: () => window.location.reload(),
         });
@@ -127,3 +112,17 @@
     }
   });
 </script>
+
+<style>
+  :global(.stocknear-ptr--box) {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  :global(.stocknear-ptr--release .stocknear-ptr--box),
+  :global(.stocknear-ptr--refresh .stocknear-ptr--box) {
+    opacity: 1;
+  }
+  :global(.stocknear-ptr--text) {
+    display: none;
+  }
+</style>
