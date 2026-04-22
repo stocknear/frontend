@@ -27,13 +27,17 @@ const extractSubscription = (subRecord: Record<string, any>) => {
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { pb, apiKey } = locals;
-  // Extract 'url' from the request body
+
+  // Accept the shared secret from either the X-Stocknear-Key header or the JSON body.
+  // The header is preferred because Cloudflare inspects it to bypass WAF/bot rules.
+  const headerKey = request.headers.get('x-stocknear-key') ?? '';
   const { title, body, key, url, userId } = await request?.json();
+  const providedKey = headerKey || key || '';
 
   // Timing-safe API key comparison to prevent timing attacks
   const apiKeyBuf = Buffer.from(apiKey ?? '', 'utf8');
-  const keyBuf = Buffer.from(key ?? '', 'utf8');
-  if (apiKeyBuf.length !== keyBuf.length || !crypto.timingSafeEqual(apiKeyBuf, keyBuf)) {
+  const providedBuf = Buffer.from(providedKey, 'utf8');
+  if (apiKeyBuf.length !== providedBuf.length || !crypto.timingSafeEqual(apiKeyBuf, providedBuf)) {
     return new Response(JSON.stringify({ success: false, error: 'Invalid API key' }), { status: 401 });
   }
 
