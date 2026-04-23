@@ -352,6 +352,12 @@
       defaultCondition: "over",
       defaultValue: "any",
     },
+    price: {
+      label: "Price",
+      step: [1000, 500, 400, 300, 200, 150, 100, 80, 60, 50, 20, 10, 5, 1],
+      defaultCondition: "over",
+      defaultValue: "any",
+    },
     assetType: {
       label: "Asset Type",
       step: ["Stock", "ETF"],
