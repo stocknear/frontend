@@ -1,8 +1,10 @@
 <script lang="ts">
   import InfoModal from "$lib/components/InfoModal.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
 
+  import { page } from "$app/stores";
   import { abbreviateNumber } from "$lib/utils";
 
   import {
@@ -183,18 +185,27 @@
 
 <section class="overflow-hidden h-full pb-8">
   <main class="overflow-hidden">
-    <div class="flex flex-row items-center">
-      <label
-        for="hottestDPTrade"
-        class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
-      >
-        {stock_detail_hottest_trades_title()}
-      </label>
-      <InfoModal
-        title={stock_detail_hottest_trades_title()}
-        content={stock_detail_hottest_trades_info()}
-        id={"hottestDPTrade"}
-      />
+    <div class="flex flex-row items-center justify-between gap-2">
+      <div class="flex flex-row items-center">
+        <label
+          for="hottestDPTrade"
+          class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-bold"
+        >
+          {stock_detail_hottest_trades_title()}
+        </label>
+        <InfoModal
+          title={stock_detail_hottest_trades_title()}
+          content={stock_detail_hottest_trades_info()}
+          id={"hottestDPTrade"}
+        />
+      </div>
+      {#if rawData?.length !== 0}
+        <DownloadData
+          {data}
+          {rawData}
+          title={`hottest_trades_${$page?.params?.tickerID}`}
+        />
+      {/if}
     </div>
 
     {#if rawData?.length !== 0}
