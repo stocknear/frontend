@@ -711,16 +711,23 @@
       new Set([...strikes, ...[currentPrice]]),
     )?.sort((a, b) => a - b);
 
-    // Ensure numerical values instead of strings (toFixed returns a string) - handle undefined values
-    const callValues = processedData?.map((d) =>
-      parseFloat((d.callValue ?? 0).toFixed(2)),
-    );
-    const putValues = processedData?.map((d) =>
-      parseFloat((d.putValue ?? 0).toFixed(2)),
-    );
-    const netValues = processedData?.map((d) =>
-      parseFloat((d.netValue ?? 0).toFixed(2)),
-    );
+    // Align series data to allStrikes so xAxis categories and data indices stay in sync
+    // (allStrikes may contain currentPrice as an extra slot between real strikes).
+    const strikeToData = new Map(processedData.map((d) => [d.strike, d]));
+    const toNum = (v) => parseFloat((v ?? 0).toFixed(2));
+
+    const callValues = allStrikes.map((s) => {
+      const d = strikeToData.get(s);
+      return d ? toNum(d.callValue) : null;
+    });
+    const putValues = allStrikes.map((s) => {
+      const d = strikeToData.get(s);
+      return d ? toNum(d.putValue) : null;
+    });
+    const netValues = allStrikes.map((s) => {
+      const d = strikeToData.get(s);
+      return d ? toNum(d.netValue) : null;
+    });
 
     const options = {
       credits: {
