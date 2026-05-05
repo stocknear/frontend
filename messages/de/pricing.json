@@ -81,7 +81,7 @@
   "pricing_faq_q12_title": "Gilt der Rabatt für immer?",
   "pricing_faq_q12_answer": "Ja — dein Rabatt bleibt bestehen, solange dein Abonnement aktiv ist. Wenn du kündigst oder dein Abonnement ausläuft, endet der Rabatt und eine erneute Anmeldung erfolgt zum regulären Preis.",
   "pricing_discount_off": "Rabatt",
-  "pricing_discount_plans": "Pro & Plus Jahrespläne",
+  "pricing_discount_plans": "Pro Lifetime – Endet bald",
   "pricing_discount_copied": "Kopiert!",
   "pricing_discount_click_to_copy": "Klicken zum Kopieren",
   "pricing_upgrade_modal_title": "Upgrade auf Pro",
@@ -91,7 +91,7 @@
   "pricing_billed_annually_plus": "Jährlich abgerechnet",
   "pricing_billed_annually_pro": "Jährlich abgerechnet",
   "pricing_pro_active": "Pro-Plan aktiv",
-  "pricing_discount_promo_title": "Oster-Aktion",
+  "pricing_discount_promo_title": "Lifetime-Deal",
   "pricing_discount_expires_in": "Endet in",
   "pricing_discount_days": "Tage",
   "pricing_discount_hours": "Std",
@@ -105,5 +105,8 @@
   "pricing_breadcrumb_home": "Startseite",
   "pricing_breadcrumb_pricing": "Preise",
   "pricing_offer_pro_plan": "Pro-Plan",
-  "pricing_offer_lifetime_plan": "Lifetime-Plan"
+  "pricing_offer_lifetime_plan": "Lifetime-Plan",
+  "pricing_lifetime_offer_title": "Pro-Features für immer sichern",
+  "pricing_lifetime_offer_subtitle": "Alles aus Pro – einmal zahlen, nie wieder.",
+  "pricing_lifetime_offer_button": "Lifetime sichern"
 }

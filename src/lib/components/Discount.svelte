@@ -15,7 +15,7 @@
 
   let copied = false;
 
-  const targetDate = new Date("2026-04-15T23:59:59+01:00");
+  const targetDate = new Date("2026-05-10T23:59:59+01:00");
 
   let days: number | string = "-";
   let hours: number | string = "-";
@@ -67,7 +67,7 @@
         <span
           class="text-4xl sm:text-5xl font-bold text-violet-800 dark:text-violet-400"
         >
-          75%
+          33%
         </span>
         <span class="text-lg sm:text-xl font-medium text-muted dark:text-white">
           {pricing_discount_off()}

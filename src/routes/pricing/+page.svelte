@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
-  //import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
   import {
     pricing_seo_title,
     pricing_seo_description,
@@ -99,6 +99,9 @@
     pricing_breadcrumb_pricing,
     pricing_offer_pro_plan,
     pricing_offer_lifetime_plan,
+    pricing_lifetime_offer_title,
+    pricing_lifetime_offer_subtitle,
+    pricing_lifetime_offer_button,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -371,11 +374,10 @@
       </div>
     </div>
 
-    <!--
-    {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+    <!--{#if !["Pro", "Plus"]?.includes(data?.user?.tier)}-->
+    {#if !data?.user?.lifetime}
       <Discount />
     {/if}
-    -->
 
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
@@ -2120,12 +2122,12 @@
         >
           <div>
             <h3 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight">
-              Lock Pro Features forever
+              {pricing_lifetime_offer_title()}
             </h3>
             <p
               class="mt-2 text-sm sm:text-[1rem] font-medium text-muted dark:text-zinc-300"
             >
-              Everything in Pro, one payment, never charged again.
+              {pricing_lifetime_offer_subtitle()}
             </p>
           </div>
 
@@ -2141,7 +2143,7 @@
               on:click={() => data?.user && purchasePlan("lifetime")}
               class="mt-3 cursor-pointer w-full py-2.5 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white flex items-center justify-center"
             >
-              Get Lifetime
+              {pricing_lifetime_offer_button()}
             </label>
           </div>
         </div>

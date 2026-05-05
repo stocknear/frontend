@@ -81,7 +81,7 @@
   "pricing_faq_q12_title": "Does the discount apply forever?",
   "pricing_faq_q12_answer": "Yes — your discount is locked in for as long as your subscription stays active. If you cancel or your subscription lapses, the discount ends and re-subscribing will be at the regular price.",
   "pricing_discount_off": "off",
-  "pricing_discount_plans": "Pro & Plus Annual Plans",
+  "pricing_discount_plans": "Pro Lifetime — Ending Soon",
   "pricing_discount_copied": "Copied!",
   "pricing_discount_click_to_copy": "Click to copy code",
   "pricing_upgrade_modal_title": "Upgrade to Pro",
@@ -91,7 +91,7 @@
   "pricing_billed_annually_plus": "Billed annually",
   "pricing_billed_annually_pro": "Billed annually",
   "pricing_pro_active": "Pro Plan Active",
-  "pricing_discount_promo_title": "Easter Special",
+  "pricing_discount_promo_title": "Lifetime Deal",
   "pricing_discount_expires_in": "Expires in",
   "pricing_discount_days": "Days",
   "pricing_discount_hours": "Hours",
@@ -105,5 +105,8 @@
   "pricing_breadcrumb_home": "Home",
   "pricing_breadcrumb_pricing": "Pricing",
   "pricing_offer_pro_plan": "Pro Plan",
-  "pricing_offer_lifetime_plan": "Lifetime Plan"
+  "pricing_offer_lifetime_plan": "Lifetime Plan",
+  "pricing_lifetime_offer_title": "Lock Pro Features forever",
+  "pricing_lifetime_offer_subtitle": "Everything in Pro, one payment, never charged again.",
+  "pricing_lifetime_offer_button": "Get Lifetime"
 }
