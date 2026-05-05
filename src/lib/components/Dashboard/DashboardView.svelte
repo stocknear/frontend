@@ -81,8 +81,8 @@
         <div
             class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
         >
-            <!--
-            {#if !["Pro", "Plus"].includes(data?.user?.tier)}
+            <!--{#if !["Pro", "Plus"].includes(data?.user?.tier)}-->
+            {#if !data?.user?.lifetime}
                 <div
                     class="flex justify-center mb-5 text-center mt-5 sm:mt-0 px-4 mb-8"
                 >
@@ -109,15 +109,15 @@
                             </span>
                             <span
                                 class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide"
-                                >Easter Deal</span
+                                >Lifetime Deal</span
                             >
                         </span>
                         <span class="text-gray-400 dark:text-zinc-600">|</span>
                         <span class="text-gray-600 dark:text-zinc-300">
                             <span
                                 class="font-bold text-gray-900 dark:text-white"
-                                >up to 75% off</span
-                            > Annual plans
+                                >33% off</span
+                            > Limited Time
                         </span>
 
                         <svg
@@ -136,7 +136,7 @@
                     </a>
                 </div>
             {/if}
-        -->
+
             <!--
             <div class="flex justify-center mb-5 whitespace-nowrap">
                 <div class=" flex justify-center lg:mb-3">

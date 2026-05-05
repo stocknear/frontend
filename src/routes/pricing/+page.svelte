@@ -2110,7 +2110,7 @@
         </div>
       </div>
     </div>
-    <!--
+
     {#if !data?.user?.lifetime}
       <div
         class="mt-8 rounded-2xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6"
@@ -2119,11 +2119,6 @@
           class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
         >
           <div>
-            <span
-              class="inline-flex items-center rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-700 px-4 py-1.5 text-xs sm:text-sm font-bold uppercase text-white shadow-lg shadow-indigo-900/25"
-            >
-              Limited-time Pro Lifetime · Expires Soon
-            </span>
             <h3 class="mt-3 text-xl sm:text-2xl font-semibold tracking-tight">
               Lock Pro Features forever
             </h3>
@@ -2136,11 +2131,10 @@
 
           <div class="">
             <div class="flex items-end justify-center gap-2">
-              <span
-                class="text-base text-muted dark:text-white line-through"
+              <span class="text-base text-muted dark:text-white line-through"
                 >$599</span
               >
-              <span class="text-3xl font-semibold">$449</span>
+              <span class="text-3xl font-semibold">$399</span>
             </div>
             <label
               for={!data?.user ? "userLogin" : ""}
@@ -2153,7 +2147,6 @@
         </div>
       </div>
     {/if}
-    -->
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div
