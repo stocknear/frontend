@@ -24,6 +24,9 @@
         home_structured_feature_options_chain,
         home_structured_feature_unusual_options_activity,
         home_structured_name,
+        home_lifetime_pill_label,
+        home_lifetime_pill_discount,
+        home_lifetime_pill_subtitle,
     } from "$lib/paraglide/messages.js";
 
     export let data;
@@ -109,15 +112,15 @@
                             </span>
                             <span
                                 class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide"
-                                >Lifetime Deal</span
+                                >{home_lifetime_pill_label()}</span
                             >
                         </span>
                         <span class="text-gray-400 dark:text-zinc-600">|</span>
                         <span class="text-gray-600 dark:text-zinc-300">
                             <span
                                 class="font-bold text-gray-900 dark:text-white"
-                                >33% off</span
-                            > Limited Time
+                                >{home_lifetime_pill_discount()}</span
+                            > {home_lifetime_pill_subtitle()}
                         </span>
 
                         <svg
