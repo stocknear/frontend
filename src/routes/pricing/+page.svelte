@@ -102,6 +102,7 @@
     pricing_lifetime_offer_title,
     pricing_lifetime_offer_subtitle,
     pricing_lifetime_offer_button,
+    pricing_lifetime_offer_savings,
   } from "$lib/paraglide/messages.js";
 
   export let data;
@@ -2115,7 +2116,7 @@
 
     {#if !data?.user?.lifetime}
       <div
-        class="mt-8 rounded-2xl border border-[rgb(var(--pricing-border)/0.55)] bg-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6"
+        class="mt-8 rounded-2xl border border-violet-300/70 dark:border-violet-800/60 bg-gradient-to-br from-violet-50/70 to-[rgb(var(--pricing-card)/0.92)] dark:from-violet-950/20 dark:to-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6 ring-1 ring-violet-500/0 hover:ring-violet-500/20 transition"
       >
         <div
           class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
@@ -2138,6 +2139,11 @@
               >
               <span class="text-3xl font-semibold">$399</span>
             </div>
+            <p
+              class="mt-1 text-center text-xs font-medium text-emerald-600 dark:text-emerald-400"
+            >
+              {pricing_lifetime_offer_savings()}
+            </p>
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => data?.user && purchasePlan("lifetime")}

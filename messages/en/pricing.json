@@ -108,5 +108,6 @@
   "pricing_offer_lifetime_plan": "Lifetime Plan",
   "pricing_lifetime_offer_title": "Lock Pro Features forever",
   "pricing_lifetime_offer_subtitle": "Everything in Pro, one payment, never charged again.",
-  "pricing_lifetime_offer_button": "Get Lifetime"
+  "pricing_lifetime_offer_button": "Get Lifetime",
+  "pricing_lifetime_offer_savings": "You save $200 (33%)"
 }
