@@ -3530,142 +3530,142 @@
 
         <!-- Page wrapper -->
         <div class="flex flex-col w-full m-auto h-full overflow-hidden">
-          {#if displayedData?.length !== 0}
-            <!-- Table toolbar: Find, Download, Reset Column Order -->
+          <!-- Table toolbar: Find, Download, Reset Column Order -->
+          <div
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-3 text-muted dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+          >
             <div
-              class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-3 text-muted dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+              class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
             >
-              <div
-                class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
+              <h2
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
               >
-                <h2
-                  class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
-                >
-                  {totalItems?.toLocaleString("en-US")} Trades
-                </h2>
-              </div>
+                {totalItems?.toLocaleString("en-US")} Trades
+              </h2>
+            </div>
+            <div
+              class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+            >
+              <!-- Find input -->
               <div
-                class="flex flex-row items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0"
+                class="relative max-w-64 w-full sm:w-fit sm:ml-auto sm:flex-1 lg:flex-none"
               >
-                <!-- Find input -->
                 <div
-                  class="relative max-w-64 w-full sm:w-fit sm:ml-auto sm:flex-1 lg:flex-none"
+                  class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
                 >
-                  <div
-                    class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
-                  >
-                    {#if filterQuery?.length > 0}
-                      <label
-                        class="cursor-pointer"
-                        on:click={() => resetSearch()}
-                      >
-                        <svg
-                          class="w-5 h-5"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-                          />
-                        </svg>
-                      </label>
-                    {/if}
-                  </div>
-
-                  <input
-                    bind:value={filterQuery}
-                    on:input={debouncedServerSearch}
-                    type="text"
-                    placeholder={unusual_order_flow_search_placeholder()}
-                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
-                  />
-                </div>
-
-                <!-- Download + Reset Column Order -->
-                <div class="ml-2 w-fit flex items-center justify-end gap-2">
-                  <ScreenerExport
-                    {data}
-                    {displayedData}
-                    screener="unusual-order-flow"
-                    title="unusual_order_flow_data"
-                    creditCost={3}
-                    modalTitle="Export unusual order flow data"
-                    itemLabel="trades"
-                  />
-
-                  <button
-                    on:click={toggleFullWidth}
-                    title={isFullWidth
-                      ? unusual_order_flow_exit_full_width()
-                      : unusual_order_flow_expand_full_width()}
-                    class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
-                      ? 'border-violet-400 dark:border-violet-500'
-                      : ''}"
-                  >
-                    {#if isFullWidth}
-                      <svg
-                        class="w-4 h-4 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <polyline points="4 14 10 14 10 20" />
-                        <polyline points="20 10 14 10 14 4" />
-                        <line x1="14" y1="10" x2="21" y2="3" />
-                        <line x1="3" y1="21" x2="10" y2="14" />
-                      </svg>
-                    {:else}
-                      <svg
-                        class="w-4 h-4 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <polyline points="15 3 21 3 21 9" />
-                        <polyline points="9 21 3 21 3 15" />
-                        <line x1="21" y1="3" x2="14" y2="10" />
-                        <line x1="3" y1="21" x2="10" y2="14" />
-                      </svg>
-                    {/if}
-                    <span class="truncate text-[0.85rem] sm:text-sm"
-                      >{isFullWidth
-                        ? unusual_order_flow_normal_width()
-                        : unusual_order_flow_full_width()}</span
-                    >
-                  </button>
-
-                  {#if customColumnOrder}
-                    <button
-                      on:click={() => unusualOrderFlowResetColumnOrder?.()}
-                      title={unusual_order_flow_reset_column_order()}
-                      class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                  {#if filterQuery?.length > 0}
+                    <label
+                      class="cursor-pointer"
+                      on:click={() => resetSearch()}
                     >
                       <svg
-                        class="w-4 h-4"
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
                       >
                         <path
-                          d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          fill="currentColor"
+                          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
                         />
                       </svg>
-                    </button>
+                    </label>
                   {/if}
                 </div>
+
+                <input
+                  bind:value={filterQuery}
+                  on:input={debouncedServerSearch}
+                  type="text"
+                  placeholder={unusual_order_flow_search_placeholder()}
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                />
+              </div>
+
+              <!-- Download + Reset Column Order -->
+              <div class="ml-2 w-fit flex items-center justify-end gap-2">
+                <ScreenerExport
+                  {data}
+                  {displayedData}
+                  screener="unusual-order-flow"
+                  title="unusual_order_flow_data"
+                  creditCost={3}
+                  modalTitle="Export unusual order flow data"
+                  itemLabel="trades"
+                />
+
+                <button
+                  on:click={toggleFullWidth}
+                  title={isFullWidth
+                    ? unusual_order_flow_exit_full_width()
+                    : unusual_order_flow_expand_full_width()}
+                  class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                    ? 'border-violet-400 dark:border-violet-500'
+                    : ''}"
+                >
+                  {#if isFullWidth}
+                    <svg
+                      class="w-4 h-4 shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="4 14 10 14 10 20" />
+                      <polyline points="20 10 14 10 14 4" />
+                      <line x1="14" y1="10" x2="21" y2="3" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  {:else}
+                    <svg
+                      class="w-4 h-4 shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="15 3 21 3 21 9" />
+                      <polyline points="9 21 3 21 3 15" />
+                      <line x1="21" y1="3" x2="14" y2="10" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  {/if}
+                  <span class="truncate text-[0.85rem] sm:text-sm"
+                    >{isFullWidth
+                      ? unusual_order_flow_normal_width()
+                      : unusual_order_flow_full_width()}</span
+                  >
+                </button>
+
+                {#if customColumnOrder}
+                  <button
+                    on:click={() => unusualOrderFlowResetColumnOrder?.()}
+                    title={unusual_order_flow_reset_column_order()}
+                    class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 7h14M3 12h10M3 17h6M17 10l4 4-4 4M21 14H11"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                {/if}
               </div>
             </div>
+          </div>
 
+          {#if displayedData?.length !== 0}
             <div class="flex w-full m-auto h-full overflow-hidden">
               <div class="mt-3 w-full overflow-x-auto overflow-hidden">
                 <UnusualOrderFlowTable
