@@ -282,11 +282,11 @@
       {
         "@type": "Offer",
         name: pricing_offer_lifetime_plan(),
-        price: "449",
+        price: "599",
         priceCurrency: "USD",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
-          price: "449",
+          price: "599",
           priceCurrency: "USD",
         },
       },
@@ -375,10 +375,10 @@
       </div>
     </div>
 
-    <!--{#if !["Pro", "Plus"]?.includes(data?.user?.tier)}-->
-    {#if !data?.user?.lifetime}
+    <!--{#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
       <Discount />
     {/if}
+    -->
 
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
@@ -2134,16 +2134,21 @@
 
           <div class="">
             <div class="flex items-end justify-center gap-2">
+              <!--
               <span class="text-base text-muted dark:text-white line-through"
                 >$599</span
               >
-              <span class="text-3xl font-semibold">$399</span>
+                -->
+              <span class="text-3xl font-semibold">$599</span>
             </div>
+            <!--
             <p
               class="mt-1 text-center text-xs font-medium text-emerald-600 dark:text-emerald-400"
             >
               {pricing_lifetime_offer_savings()}
             </p>
+            -->
+
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => data?.user && purchasePlan("lifetime")}

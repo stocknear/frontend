@@ -12,7 +12,7 @@
   "pricing_no_hidden_fees": "无隐藏费用",
   "pricing_monthly": "月付",
   "pricing_annual": "年付",
-  "pricing_save": "最高节省 33%",
+  "pricing_save": "最高节省 25%",
   "pricing_per_month": "/月",
   "pricing_basic_title": "Basic",
   "pricing_basic_subtitle": "探索平台所需的全部基础功能。",
@@ -109,5 +109,5 @@
   "pricing_lifetime_offer_title": "永久解锁 Pro 全部功能",
   "pricing_lifetime_offer_subtitle": "Pro 全部功能，一次付费，永不续费。",
   "pricing_lifetime_offer_button": "立即买断",
-  "pricing_lifetime_offer_savings": "立省 $200（33%）"
+  "pricing_lifetime_offer_savings": "立省 $200（25%）"
 }

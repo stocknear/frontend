@@ -12,7 +12,7 @@
   "pricing_no_hidden_fees": "No hidden fees",
   "pricing_monthly": "Monthly",
   "pricing_annual": "Annual",
-  "pricing_save": "Save up to 33%",
+  "pricing_save": "Save up to 25%",
   "pricing_per_month": "/month",
   "pricing_basic_title": "Basic",
   "pricing_basic_subtitle": "Everything you need to explore the platform.",
@@ -109,5 +109,5 @@
   "pricing_lifetime_offer_title": "Lock Pro Features forever",
   "pricing_lifetime_offer_subtitle": "Everything in Pro, one payment, never charged again.",
   "pricing_lifetime_offer_button": "Get Lifetime",
-  "pricing_lifetime_offer_savings": "You save $200 (33%)"
+  "pricing_lifetime_offer_savings": "You save $200 (25%)"
 }

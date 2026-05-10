@@ -85,6 +85,7 @@
             class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
         >
             <!--{#if !["Pro", "Plus"].includes(data?.user?.tier)}-->
+            <!--
             {#if !data?.user?.lifetime}
                 <div
                     class="flex justify-center mb-5 text-center mt-5 sm:mt-0 px-4 mb-8"
@@ -139,6 +140,7 @@
                     </a>
                 </div>
             {/if}
+            -->
 
             <!--
             <div class="flex justify-center mb-5 whitespace-nowrap">

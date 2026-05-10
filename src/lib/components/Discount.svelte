@@ -67,7 +67,7 @@
         <span
           class="text-4xl sm:text-5xl font-bold text-violet-800 dark:text-violet-400"
         >
-          33%
+          25%
         </span>
         <span class="text-lg sm:text-xl font-medium text-muted dark:text-white">
           {pricing_discount_off()}
