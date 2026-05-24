@@ -55,7 +55,7 @@
   "options_calculator_theta_info": "Theta measures your position's daily loss in value due to time decay. A theta of -$50 means your position loses $50 per day just from the passage of time, assuming all else stays constant. Option buyers have negative theta (time works against them), while sellers have positive theta.",
   "options_calculator_vega": "Vega (ν)",
   "options_calculator_vega_info": "Vega measures the amount the position will change for every 1% change in implied volatility. A vega of $100 means your position will gain $100 if IV rises by 1%, or lose $100 if IV falls by 1%. Long options have positive vega, short options have negative vega.",
-  "options_calculator_toast_max_legs": "You've reached the maximum number of option legs.",
+  "options_calculator_toast_max_legs": "You've reached the maximum of {count} legs.",
   "options_calculator_toast_one_leg_required": "At least one option leg is required!",
   "options_calculator_toast_upgrade_pro": "Upgrade to Pro to unlock this feature!",
   "options_calculator_toast_saved": "Options Strategy saved!",

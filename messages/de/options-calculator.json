@@ -55,7 +55,7 @@
   "options_calculator_theta_info": "Theta misst den täglichen Wertverlust deiner Position durch Zeitverfall. Ein Theta von -$50 bedeutet, dass deine Position $50 pro Tag verliert, nur durch den Zeitablauf, wenn alles andere gleich bleibt.",
   "options_calculator_vega": "Vega (ν)",
   "options_calculator_vega_info": "Vega misst den Betrag, um den sich die Position bei jeder 1%igen Änderung der impliziten Volatilität ändert. Ein Vega von $100 bedeutet, dass deine Position $100 gewinnt, wenn die IV um 1% steigt, oder $100 verliert, wenn die IV um 1% fällt.",
-  "options_calculator_toast_max_legs": "Du hast die maximale Anzahl von Option Legs erreicht.",
+  "options_calculator_toast_max_legs": "Du hast das Maximum von {count} Legs erreicht.",
   "options_calculator_toast_one_leg_required": "Mindestens ein Option Leg ist erforderlich!",
   "options_calculator_toast_upgrade_pro": "Upgrade auf Pro um diese Funktion freizuschalten!",
   "options_calculator_toast_saved": "Optionen Strategie gespeichert!",

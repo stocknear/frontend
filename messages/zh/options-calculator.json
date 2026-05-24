@@ -55,7 +55,7 @@
   "options_calculator_theta_info": "Theta衡量仓位因时间流逝每天损失的价值。Theta为-$50表示仅因时间流逝，每天亏损$50（其他条件不变）。买方为负Theta（时间对其不利），卖方为正Theta。",
   "options_calculator_vega": "Vega（ν）",
   "options_calculator_vega_info": "Vega衡量隐含波动率每变动1%，仓位价值的变化量。Vega为$100表示IV上升1%时盈利$100，下降1%时亏损$100。多头期权为正Vega，空头期权为负Vega。",
-  "options_calculator_toast_max_legs": "已达期权腿数量上限。",
+  "options_calculator_toast_max_legs": "已达 {count} 条腿的上限。",
   "options_calculator_toast_one_leg_required": "至少需要一个期权腿！",
   "options_calculator_toast_upgrade_pro": "升级到Pro解锁此功能！",
   "options_calculator_toast_saved": "期权策略已保存！",

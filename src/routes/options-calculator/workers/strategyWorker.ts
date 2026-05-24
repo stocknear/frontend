@@ -1,4 +1,25 @@
 
+// Picks the available strike closest to `targetFactor * anchor`, restricted by `predicate`.
+// Falls back to the list extreme on the requested side, or the raw target if the list is empty.
+const pickStrikeNear = (
+  strikeList: number[],
+  anchor: number,
+  targetFactor: number,
+  predicate: (s: number) => boolean,
+  fallbackExtreme: "max" | "min",
+): number => {
+  const target = anchor * targetFactor;
+  if (!strikeList || strikeList.length === 0) return target;
+  const candidates = strikeList.filter(predicate);
+  if (candidates.length === 0) {
+    return fallbackExtreme === "max" ? Math.max(...strikeList) : Math.min(...strikeList);
+  }
+  return candidates.reduce(
+    (closest, s) => (Math.abs(s - target) < Math.abs(closest - target) ? s : closest),
+    candidates[0],
+  );
+};
+
 const getStrategy =  (userStrategy, strikeList, selectedStrategy, selectedAction, selectedDate, selectedOptionPrice, selectedOptionType, selectedQuantity, selectedStrike) => {
 
  // Set appropriate option type and action based on strategy
@@ -349,6 +370,30 @@ const getStrategy =  (userStrategy, strikeList, selectedStrategy, selectedAction
           quantity: 1,
           action: "Buy",
         },
+      ];
+    } else if ("Iron Condor" === selectedStrategy) {
+      const anchor = selectedStrike;
+      const shortPutStrike  = pickStrikeNear(strikeList, anchor, 0.95, (s) => s < anchor,        "min");
+      const longPutStrike   = pickStrikeNear(strikeList, anchor, 0.90, (s) => s < shortPutStrike, "min");
+      const shortCallStrike = pickStrikeNear(strikeList, anchor, 1.05, (s) => s > anchor,        "max");
+      const longCallStrike  = pickStrikeNear(strikeList, anchor, 1.10, (s) => s > shortCallStrike, "max");
+
+      userStrategy = [
+        { strike: longPutStrike,   optionType: "Put",  date: selectedDate, optionPrice: 0, quantity: 1, action: "Buy"  },
+        { strike: shortPutStrike,  optionType: "Put",  date: selectedDate, optionPrice: 0, quantity: 1, action: "Sell" },
+        { strike: shortCallStrike, optionType: "Call", date: selectedDate, optionPrice: 0, quantity: 1, action: "Sell" },
+        { strike: longCallStrike,  optionType: "Call", date: selectedDate, optionPrice: 0, quantity: 1, action: "Buy"  },
+      ];
+    } else if ("Iron Butterfly" === selectedStrategy) {
+      const anchor = selectedStrike;
+      const longPutStrike  = pickStrikeNear(strikeList, anchor, 0.90, (s) => s < anchor, "min");
+      const longCallStrike = pickStrikeNear(strikeList, anchor, 1.10, (s) => s > anchor, "max");
+
+      userStrategy = [
+        { strike: longPutStrike,  optionType: "Put",  date: selectedDate, optionPrice: 0, quantity: 1, action: "Buy"  },
+        { strike: anchor,         optionType: "Put",  date: selectedDate, optionPrice: 0, quantity: 1, action: "Sell" },
+        { strike: anchor,         optionType: "Call", date: selectedDate, optionPrice: 0, quantity: 1, action: "Sell" },
+        { strike: longCallStrike, optionType: "Call", date: selectedDate, optionPrice: 0, quantity: 1, action: "Buy"  },
       ];
     } else {
       userStrategy = [

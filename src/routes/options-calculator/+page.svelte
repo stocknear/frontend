@@ -78,6 +78,7 @@
 
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
+  import { MAX_OPTION_LEGS, MAX_SHARE_LEGS } from "./config";
 
   export let data;
 
@@ -242,6 +243,18 @@
       sentiment: "Neutral",
       description:
         "A long call butterfly is an options strategy that is created by purchasing a call option at a lower strike price, selling two call options at a middle strike price, and purchasing another call option at a higher strike price, all with the same expiration date. This strategy is used when an investor believes that the underlying asset will stay within a certain price range until the options expire.",
+    },
+    {
+      name: "Iron Condor",
+      sentiment: "Neutral",
+      description:
+        "An iron condor is a four-leg, defined-risk options strategy built by selling an out-of-the-money put and an out-of-the-money call, then buying a further out-of-the-money put and call to cap the downside on each wing. All four contracts share the same expiration. Traders use it when they expect the underlying to stay range-bound until expiration and want to collect a net credit while keeping the maximum loss limited to the width of the wider wing minus the premium received.",
+    },
+    {
+      name: "Iron Butterfly",
+      sentiment: "Neutral",
+      description:
+        "An iron butterfly is a four-leg, defined-risk options strategy that sells an at-the-money call and put (the body) and buys an out-of-the-money call and put (the wings) at the same expiration. It is a narrower, higher-credit cousin of the iron condor and profits most when the underlying pins the body strike at expiration. Maximum loss is capped at the wing width minus the net premium received.",
     },
   ];
 
@@ -896,8 +909,8 @@
   }
 
   async function handleAddOptionLeg() {
-    if (userStrategy?.length >= 5) {
-      toast.error(options_calculator_toast_max_legs(), {
+    if (userStrategy?.length >= MAX_OPTION_LEGS) {
+      toast.error(options_calculator_toast_max_legs({ count: MAX_OPTION_LEGS }), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
 
@@ -925,8 +938,8 @@
   }
 
   function handleAddShareLeg() {
-    if (shareStrategy?.length >= 5) {
-      toast.error(options_calculator_toast_max_legs(), {
+    if (shareStrategy?.length >= MAX_SHARE_LEGS) {
+      toast.error(options_calculator_toast_max_legs({ count: MAX_SHARE_LEGS }), {
         style: `border-radius: 5px; background: #fff; color: #000; border: 1px solid ${$mode === "light" ? "#F3F4F6" : "#4B5563"}; font-size: 15px; padding: 10px;`,
       });
       return;
