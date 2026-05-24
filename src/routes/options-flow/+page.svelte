@@ -427,6 +427,32 @@
         }
       }
 
+      // --- Ticker-aggregate filters (bullish/bearish premium %) ---
+      // Same shape as ratio filters; server reads per-ticker aggregates.
+      if (
+        (rule.name === "bullish_premium_pct" || rule.name === "bearish_premium_pct") &&
+        rule.condition &&
+        rule.value
+      ) {
+        const key = `${rule.name}_filter`;
+        if (rule.condition === "between" && Array.isArray(rule.value)) {
+          const lo =
+            rule.value[0] != null
+              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
+              : null;
+          const hi =
+            rule.value[1] != null
+              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
+              : null;
+          if (lo != null || hi != null) {
+            filters[key] = { condition: "between", value: [lo, hi] };
+          }
+        } else {
+          const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
+          filters[key] = { condition: rule.condition, value: v };
+        }
+      }
+
       // --- Ratio filters: Vol/OI and Size/OI (percentage threshold) ---
       // Supports all conditions: over, under, between, exactly
       if (
@@ -821,6 +847,18 @@
     sizeOIRatio: {
       label: "Size / OI",
       step: ["100%", "80%", "60%", "50%", "30%", "15%", "10%", "5%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+    },
+    bullish_premium_pct: {
+      label: "Bullish Premium %",
+      step: ["90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%"],
+      defaultCondition: "over",
+      defaultValue: "any",
+    },
+    bearish_premium_pct: {
+      label: "Bearish Premium %",
+      step: ["90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%"],
       defaultCondition: "over",
       defaultValue: "any",
     },
