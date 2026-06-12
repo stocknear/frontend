@@ -303,28 +303,26 @@
       return "";
     }
 
-    if (typeof value === "number" && Number?.isFinite(value)) {
+    // Keep up to 4 decimal places (fractional shares / broker avg cost),
+    // trimming trailing zeros; avgPrice always shows at least 2 decimals.
+    const formatNumber = (num: number): string => {
+      const rounded = parseFloat(num?.toFixed(4));
       if (key === "avgPrice") {
-        return value?.toFixed(2);
-      } else {
-        const rounded = Math?.round(value * 100) / 100;
-        return rounded % 1 === 0
-          ? String(Math?.round(rounded))
-          : rounded?.toFixed(2);
+        const str = String(rounded);
+        const decimals = str?.split(".")[1]?.length ?? 0;
+        return decimals < 2 ? rounded?.toFixed(2) : str;
       }
+      return rounded % 1 === 0 ? String(Math?.round(rounded)) : String(rounded);
+    };
+
+    if (typeof value === "number" && Number?.isFinite(value)) {
+      return formatNumber(value);
     }
 
     if (typeof value === "string") {
       const num = parseFloat(value);
       if (!isNaN(num) && Number?.isFinite(num)) {
-        if (key === "avgPrice") {
-          return num?.toFixed(2);
-        } else {
-          const rounded = Math?.round(num * 100) / 100;
-          return rounded % 1 === 0
-            ? String(Math?.round(rounded))
-            : rounded?.toFixed(2);
-        }
+        return formatNumber(num);
       }
       return value;
     }
@@ -734,8 +732,8 @@
 
     if (isValidNumber) {
       const numValue = parseFloat(trimmed);
-      if (numValue > 0) {
-        const roundedValue = Math.round(numValue * 100) / 100;
+      const roundedValue = parseFloat(numValue?.toFixed(4));
+      if (roundedValue > 0) {
         applyEditableValue(row, key, String(roundedValue));
         if (onPortfolioUpdate && (key === "avgPrice" || key === "shares")) {
           onPortfolioUpdate(originalData);
