@@ -1,4 +1,5 @@
-import { PURCHASE_COOKIE, PURCHASE_VALUES } from "$lib/constants/tracking";
+import { PURCHASE_COOKIE } from "$lib/constants/tracking";
+import { getActivePromotion, getPurchaseValue } from "$lib/constants/promo";
 
 function parsePositiveConversionValue(
   raw: string | null | undefined,
@@ -40,15 +41,12 @@ export function load({ locals, cookies, url }) {
   const billingCycle = (url.searchParams.get("billing") || "").toLowerCase();
   const isAnnual = billingCycle === "annual";
   if (purchaseValue === null) {
-    if (userTier === "Pro") {
-      purchaseValue = isAnnual
-        ? PURCHASE_VALUES.pro_annual
-        : PURCHASE_VALUES.pro_monthly;
-    } else {
-      purchaseValue = isAnnual
-        ? PURCHASE_VALUES.plus_annual
-        : PURCHASE_VALUES.plus_monthly;
-    }
+    const period = isAnnual ? "annual" : "monthly";
+    purchaseValue = getPurchaseValue(
+      userTier === "Pro" ? "Pro" : "Plus",
+      period,
+      getActivePromotion(),
+    );
   }
 
   return {

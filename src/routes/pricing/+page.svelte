@@ -1,6 +1,15 @@
 <script lang="ts">
   import { openLemonSqueezyUrl } from "$lib/lemonsqueezy";
   import { PURCHASE_COOKIE, PURCHASE_VALUES } from "$lib/constants/tracking";
+  import {
+    PLAN_PRICING,
+    getActivePromotion,
+    getPurchaseValue,
+    isEligibleUser,
+    promoAppliesTo,
+    discounted,
+    formatPrice,
+  } from "$lib/constants/promo";
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
@@ -91,6 +100,8 @@
     pricing_upgrade_modal_response_time,
     pricing_billed_annually_plus,
     pricing_billed_annually_pro,
+    pricing_billed_annually_plus_promo,
+    pricing_billed_annually_pro_promo,
     pricing_pro_active,
     pricing_seo_keywords,
     pricing_structured_data_name,
@@ -109,6 +120,10 @@
   export let form;
 
   let mode = false;
+
+  const promo = getActivePromotion();
+  const annualPromo = promo && promoAppliesTo(promo, "annual") ? promo : null;
+  $: eligible = isEligibleUser(data?.user);
 
   const emailAddress = "support@stocknear.com";
 
@@ -215,16 +230,12 @@
 
       // Store purchase value for Google Ads conversion tracking via GTM on /welcome
       const sub = subscriptionType?.toLowerCase();
-      const annual = Boolean(mode);
+      const period = Boolean(mode) ? "annual" : "monthly";
       const purchaseValue =
         sub === "pro"
-          ? annual
-            ? PURCHASE_VALUES.pro_annual
-            : PURCHASE_VALUES.pro_monthly
+          ? getPurchaseValue("Pro", period, getActivePromotion())
           : sub === "plus"
-            ? annual
-              ? PURCHASE_VALUES.plus_annual
-              : PURCHASE_VALUES.plus_monthly
+            ? getPurchaseValue("Plus", period, getActivePromotion())
             : sub === "lifetime"
               ? PURCHASE_VALUES.pro_lifetime
               : 0;
@@ -375,10 +386,7 @@
       </div>
     </div>
 
-    <!--{#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-      <Discount />
-    {/if}
-    -->
+    <Discount user={data?.user} />
 
     <div
       class="mt-5 flex flex-wrap items-center justify-center gap-3 text-sm font-semibold"
@@ -1216,22 +1224,20 @@
         </div>
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <!--
-          {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
+          {#if mode && annualPromo && eligible}
             <span class="text-xl text-muted dark:text-white line-through">
-              $10
+              {formatPrice(PLAN_PRICING.Plus.annualPerMonth)}
             </span>
-            <span class="text-4xl font-semibold"> $5 </span>
+            <span class="text-4xl font-semibold">
+              {formatPrice(discounted(PLAN_PRICING.Plus.annualPerMonth, annualPromo))}
+            </span>
           {:else}
             <span class="text-4xl font-semibold">
-              {mode ? "$7.5" : "$10"}
+              {mode
+                ? formatPrice(PLAN_PRICING.Plus.annualPerMonth)
+                : formatPrice(PLAN_PRICING.Plus.monthly)}
             </span>
           {/if}
-          -->
-
-          <span class="text-4xl font-semibold">
-            {mode ? "$7.5" : "$10"}
-          </span>
 
           <span class="text-sm">{pricing_per_month()}</span>
         </div>
@@ -1240,14 +1246,15 @@
             ? 'hidden'
             : ''}"
         >
-          <!--
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+          {#if annualPromo && eligible}
             <span
               class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
               {@html pricing_billed_annually_plus_promo({
-                originalPrice: '<span class="line-through mx-1">$120</span>',
-                discountPrice: "$60",
+                originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Plus.annualTotal)}</span>`,
+                discountPrice: formatPrice(
+                  discounted(PLAN_PRICING.Plus.annualTotal, annualPromo),
+                ),
               })}
             </span>
           {:else}
@@ -1256,21 +1263,7 @@
               >{pricing_billed_annually_plus()}</span
             >
           {/if}
-        -->
-          <span
-            class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
-            >{pricing_billed_annually_plus()}</span
-          >
         </p>
-        <!--
-        <div class="mt-4 flex justify-center">
-          <span
-            class="inline-flex items-center gap-2 rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300"
-          >
-            Promo code XXX
-          </span>
-        </div>
-        -->
 
         <ul class="mt-6 mb-6 space-y-2 text-sm">
           <li class="flex flex-row items-center whitespace-nowrap">
@@ -1831,22 +1824,20 @@
           {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
-          <!--
-          {#if mode && !["Pro", "Plus"]?.includes(data?.user?.tier)}
+          {#if mode && annualPromo && eligible}
             <span class="text-xl text-muted dark:text-white line-through">
-              $30
+              {formatPrice(PLAN_PRICING.Pro.annualPerMonth)}
             </span>
-            <span class="text-4xl font-semibold"> $7.5 </span>
+            <span class="text-4xl font-semibold">
+              {formatPrice(discounted(PLAN_PRICING.Pro.annualPerMonth, annualPromo))}
+            </span>
           {:else}
             <span class="text-4xl font-semibold">
-              {mode ? "$30" : "$45"}
+              {mode
+                ? formatPrice(PLAN_PRICING.Pro.annualPerMonth)
+                : formatPrice(PLAN_PRICING.Pro.monthly)}
             </span>
           {/if}
-          -->
-
-          <span class="text-4xl font-semibold">
-            {mode ? "$15" : "$20"}
-          </span>
 
           <span class="text-sm text-muted dark:text-white"
             >{pricing_per_month()}</span
@@ -1857,14 +1848,15 @@
             ? 'hidden'
             : ''}"
         >
-          <!--
-          {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
+          {#if annualPromo && eligible}
             <span
               class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
             >
               {@html pricing_billed_annually_pro_promo({
-                originalPrice: '<span class="line-through mx-1">$360</span>',
-                discountPrice: "$90",
+                originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Pro.annualTotal)}</span>`,
+                discountPrice: formatPrice(
+                  discounted(PLAN_PRICING.Pro.annualTotal, annualPromo),
+                ),
               })}
             </span>
           {:else}
@@ -1874,13 +1866,6 @@
               {pricing_billed_annually_pro()}</span
             >
           {/if}
-        -->
-
-          <span
-            class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
-          >
-            {pricing_billed_annually_pro()}</span
-          >
         </div>
 
         <ul class="mt-6 mb-6 space-y-2">

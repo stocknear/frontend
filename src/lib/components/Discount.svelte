@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { getActivePromotion, isEligibleUser } from "$lib/constants/promo";
   import {
     pricing_discount_off,
     pricing_discount_plans,
@@ -13,16 +14,22 @@
     pricing_discount_sec,
   } from "$lib/paraglide/messages.js";
 
+  export let user = undefined;
+
   let copied = false;
 
-  const targetDate = new Date("2026-05-10T23:59:59+01:00");
+  const promo = getActivePromotion();
+  const targetDate = promo ? new Date(promo.endsAt) : null;
 
+  let expired = !promo;
   let days: number | string = "-";
   let hours: number | string = "-";
   let minutes: number | string = "-";
   let seconds: number | string = "-";
 
   const updateTime = () => {
+    if (!targetDate) return;
+
     const now = new Date();
     const timeDiff = targetDate.getTime() - now.getTime();
 
@@ -38,6 +45,7 @@
       hours = 0;
       minutes = 0;
       seconds = 0;
+      expired = true;
     }
   };
 
@@ -57,6 +65,7 @@
   */
 </script>
 
+{#if promo && !expired && isEligibleUser(user)}
 <div class="w-full max-w-lg mx-auto mb-8 mt-4">
   <div
     class="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-gradient-to-br from-violet-50 to-gray-50 dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
@@ -67,7 +76,7 @@
         <span
           class="text-4xl sm:text-5xl font-bold text-violet-800 dark:text-violet-400"
         >
-          25%
+          {promo.percentOff}%
         </span>
         <span class="text-lg sm:text-xl font-medium text-muted dark:text-white">
           {pricing_discount_off()}
@@ -218,3 +227,4 @@
     </div>
   </div>
 </div>
+{/if}

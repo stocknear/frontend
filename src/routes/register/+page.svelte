@@ -5,14 +5,23 @@
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { toast } from "svelte-sonner";
-  //import Discount from "$lib/components/Discount.svelte";
+  import Discount from "$lib/components/Discount.svelte";
 
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
   import { dev } from "$app/environment";
   import { openLemonSqueezyUrl } from "$lib/lemonsqueezy";
-  import { PURCHASE_COOKIE, PURCHASE_VALUES } from "$lib/constants/tracking";
+  import { PURCHASE_COOKIE } from "$lib/constants/tracking";
+  import {
+    PLAN_PRICING,
+    getActivePromotion,
+    getPurchaseValue,
+    isEligibleUser,
+    promoAppliesTo,
+    discounted,
+    formatPrice,
+  } from "$lib/constants/promo";
   import {
     register_seo_title,
     register_seo_description,
@@ -78,6 +87,8 @@
     pricing_start_trial,
     pricing_billed_annually_plus,
     pricing_billed_annually_pro,
+    pricing_billed_annually_plus_promo,
+    pricing_billed_annually_pro_promo,
     register_logo_alt,
   } from "$lib/paraglide/messages.js";
 
@@ -91,6 +102,10 @@
   let password = "";
   let confirmPassword = "";
   let pricingAnnual = false;
+
+  const promo = getActivePromotion();
+  const annualPromo = promo && promoAppliesTo(promo, "annual") ? promo : null;
+  $: eligible = isEligibleUser(data?.user);
 
   $: currentStep = data?.step || 1;
 
@@ -231,14 +246,11 @@
       })?.toString();
 
     // Store purchase value for Google Ads conversion tracking via GTM on /welcome
+    const period = isAnnual ? "annual" : "monthly";
     const purchaseValue = isPro
-      ? isAnnual
-        ? PURCHASE_VALUES.pro_annual
-        : PURCHASE_VALUES.pro_monthly
+      ? getPurchaseValue("Pro", period, getActivePromotion())
       : isPlus
-        ? isAnnual
-          ? PURCHASE_VALUES.plus_annual
-          : PURCHASE_VALUES.plus_monthly
+        ? getPurchaseValue("Plus", period, getActivePromotion())
         : 0;
     if (purchaseValue > 0) {
       document.cookie = `${PURCHASE_COOKIE}=${purchaseValue}; path=/; max-age=3600; SameSite=Lax`;
@@ -483,11 +495,7 @@
             {register_step2_save()}
           </span>
         </div>
-        <!--
-        {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
-          <Discount />
-        {/if}
-        -->
+        <Discount user={data?.user} />
 
         <!-- Plan cards -->
         <div class="grid gap-6 sm:grid-cols-2">
@@ -507,28 +515,24 @@
               {register_step2_plus_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
-              {#if pricingAnnual}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
-                  >$7.5</span
-                >
-              {:else}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
-                  >$10</span
-                >
-              {/if}
-
-              <!--
-              {#if pricingAnnual}
+              {#if pricingAnnual && annualPromo && eligible}
                 <span class="text-xl text-muted dark:text-white line-through">
-                  $10
+                  {formatPrice(PLAN_PRICING.Plus.annualPerMonth)}
                 </span>
-                <span class="text-4xl font-semibold"> $5 </span>
+                <span class="text-3xl font-semibold text-muted dark:text-white"
+                  >{formatPrice(
+                    discounted(PLAN_PRICING.Plus.annualPerMonth, annualPromo),
+                  )}</span
+                >
+              {:else if pricingAnnual}
+                <span class="text-3xl font-semibold text-muted dark:text-white"
+                  >{formatPrice(PLAN_PRICING.Plus.annualPerMonth)}</span
+                >
               {:else}
                 <span class="text-3xl font-semibold text-muted dark:text-white"
-                  >$15</span
+                  >{formatPrice(PLAN_PRICING.Plus.monthly)}</span
                 >
               {/if}
-              -->
 
               <span class="text-sm text-muted dark:text-white"
                 >{register_step2_per_month()}</span
@@ -537,20 +541,18 @@
 
             {#if pricingAnnual}
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                {pricing_billed_annually_plus()}
+                {#if annualPromo && eligible}
+                  {@html pricing_billed_annually_plus_promo({
+                    originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Plus.annualTotal)}</span>`,
+                    discountPrice: formatPrice(
+                      discounted(PLAN_PRICING.Plus.annualTotal, annualPromo),
+                    ),
+                  })}
+                {:else}
+                  {pricing_billed_annually_plus()}
+                {/if}
               </p>
             {/if}
-
-            <!--
-            {#if pricingAnnual}
-              <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                {@html pricing_billed_annually_plus_promo({
-                  originalPrice: '<span class="line-through mx-1">$120</span>',
-                  discountPrice: "$60",
-                })}
-              </p>
-            {/if}
-            -->
 
             <ul class="mt-5 mb-5 space-y-2 text-sm flex-1">
               {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
@@ -606,28 +608,24 @@
               {register_step2_pro_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
-              {#if pricingAnnual}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
-                  >$15</span
-                >
-              {:else}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
-                  >$20</span
-                >
-              {/if}
-
-              <!--
-              {#if pricingAnnual}
+              {#if pricingAnnual && annualPromo && eligible}
                 <span class="text-xl text-muted dark:text-white line-through">
-                  $30
+                  {formatPrice(PLAN_PRICING.Pro.annualPerMonth)}
                 </span>
-                <span class="text-4xl font-semibold"> $7.5 </span>
+                <span class="text-3xl font-semibold text-muted dark:text-white"
+                  >{formatPrice(
+                    discounted(PLAN_PRICING.Pro.annualPerMonth, annualPromo),
+                  )}</span
+                >
+              {:else if pricingAnnual}
+                <span class="text-3xl font-semibold text-muted dark:text-white"
+                  >{formatPrice(PLAN_PRICING.Pro.annualPerMonth)}</span
+                >
               {:else}
                 <span class="text-3xl font-semibold text-muted dark:text-white"
-                  >$45</span
+                  >{formatPrice(PLAN_PRICING.Pro.monthly)}</span
                 >
               {/if}
-              -->
 
               <span class="text-sm text-muted dark:text-white"
                 >{register_step2_per_month()}</span
@@ -636,20 +634,18 @@
 
             {#if pricingAnnual}
               <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                {pricing_billed_annually_pro()}
+                {#if annualPromo && eligible}
+                  {@html pricing_billed_annually_pro_promo({
+                    originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Pro.annualTotal)}</span>`,
+                    discountPrice: formatPrice(
+                      discounted(PLAN_PRICING.Pro.annualTotal, annualPromo),
+                    ),
+                  })}
+                {:else}
+                  {pricing_billed_annually_pro()}
+                {/if}
               </p>
             {/if}
-
-            <!--
-            {#if pricingAnnual}
-              <p class="mt-1 text-sm text-muted dark:text-gray-300">
-                {@html pricing_billed_annually_pro_promo({
-                  originalPrice: '<span class="line-through mx-1">$360</span>',
-                  discountPrice: "$90",
-                })}
-              </p>
-            {/if}
-            -->
 
             <ul class="mt-5 mb-5 space-y-2 text-sm flex-1">
               {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
