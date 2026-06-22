@@ -16,6 +16,7 @@
   "notifications_channel_earnings_surprise": "Earnings Surprise",
   "notifications_channel_wiim": "Why Price Moved",
   "notifications_channel_top_analyst": "Top Analyst Rating",
+  "notifications_channel_followed_analysts": "Followed Analysts",
   "notifications_no_channels": "No notification channels available.",
 
   "notifications_empty": "You have no notifications yet.",
@@ -40,6 +41,8 @@
   "notifications_type_wiim_new_data": "New data for \"Why Price Moved\" event is out.",
   "notifications_type_top_analyst_new": "New Top Analyst Rating for",
   "notifications_type_top_analyst_rating": "The rating company {analyst} has issued a new rating of \"{rating}\" with an updated price target of {price}.",
+  "notifications_type_followed_analyst_new": "New rating from",
+  "notifications_type_followed_analyst_rating": "Rated {symbol} \"{rating}\" with a price target of {price}.",
   "notifications_type_earnings_release": "Earnings Release for",
   "notifications_type_earnings_surprise_new": "New data for \"Earnings Surprise\" event is out.",
 

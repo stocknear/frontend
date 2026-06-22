@@ -3,6 +3,7 @@
   import Tutorial from "$lib/components/Tutorial.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
+  import FollowAnalystButton from "$lib/components/FollowAnalystButton.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -615,7 +616,8 @@
                             <td
                               class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
-                              <div class="flex flex-col items-start">
+                              <div class="flex flex-row items-center gap-3">
+                                <div class="flex flex-col items-start">
                                 <a
                                   href={"/analysts/" + item?.analystId}
                                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
@@ -656,6 +658,13 @@
                                       : 0})
                                   </span>
                                 </div>
+                                </div>
+                                <FollowAnalystButton
+                                  variant="row"
+                                  analystId={item?.analystId}
+                                  analystName={item?.name}
+                                  companyName={item?.companyName}
+                                />
                               </div>
                             </td>
                           {:else if column.key === "successRate"}

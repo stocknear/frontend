@@ -48,6 +48,7 @@ export const load = async ({ locals, url }) => {
               earningsSurprise: true,
               wiim: true,
               topAnalyst: true,
+              followedAnalysts: true,
             };
 
         defaultValues.user = userId;

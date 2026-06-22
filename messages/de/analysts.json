@@ -1,5 +1,13 @@
 {
   "analysts_breadcrumb_home": "Startseite",
+
+  "analysts_follow": "Folgen",
+  "analysts_following": "Folge ich",
+  "analysts_follow_added": "Du folgst jetzt {name}",
+  "analysts_follow_removed": "{name} nicht mehr gefolgt",
+  "analysts_follow_failed": "Konnte nicht aktualisiert werden. Bitte erneut versuchen.",
+  "analysts_follow_upgrade": "Analysten folgen ist mit Plus & Pro verfügbar.",
+  "analysts_follow_limit": "Plus-Mitglieder können bis zu 5 Analysten folgen. Upgrade auf Pro für unbegrenzt.",
   "analysts_breadcrumb_analysts": "Analyst",
   "analysts_breadcrumb_top_analysts": "Top Wall Street Analysten",
   "analysts_breadcrumb_analyst_flow": "Analyst Live Flow",

@@ -16,6 +16,7 @@
   "notifications_channel_earnings_surprise": "财报超预期",
   "notifications_channel_wiim": "价格变动原因",
   "notifications_channel_top_analyst": "顶级分析师评级",
+  "notifications_channel_followed_analysts": "已关注分析师",
   "notifications_no_channels": "暂无可用的通知渠道。",
 
   "notifications_empty": "你还没有任何通知。",
@@ -40,6 +41,8 @@
   "notifications_type_wiim_new_data": "「价格变动原因」事件的新数据已发布。",
   "notifications_type_top_analyst_new": "新的顶级分析师评级：",
   "notifications_type_top_analyst_rating": "评级机构 {analyst} 发布新评级「{rating}」，最新目标价为 {price}。",
+  "notifications_type_followed_analyst_new": "新评级来自",
+  "notifications_type_followed_analyst_rating": "对 {symbol} 给出「{rating}」评级，目标价为 {price}。",
   "notifications_type_earnings_release": "财报发布：",
   "notifications_type_earnings_surprise_new": "「财报超预期」事件的新数据已发布。",
 

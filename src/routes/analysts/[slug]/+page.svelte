@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import RatingsChart from "$lib/components/RatingsChart.svelte";
+  import FollowAnalystButton from "$lib/components/FollowAnalystButton.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
@@ -643,6 +644,14 @@
                     <span class="ml-1 text-sm text-muted dark:text-white"
                       >({analystScore ?? "n/a"})</span
                     >
+                  </div>
+                  <div class="mt-3">
+                    <FollowAnalystButton
+                      variant="detail"
+                      analystId={data?.getData?.analystId}
+                      analystName={analystName}
+                      companyName={companyName}
+                    />
                   </div>
                 </div>
               </div>

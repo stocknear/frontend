@@ -49,6 +49,9 @@
     notifications_type_top_analyst_new,
     notifications_type_top_analyst_rating,
     notifications_type_wiim_new_data,
+    notifications_channel_followed_analysts,
+    notifications_type_followed_analyst_new,
+    notifications_type_followed_analyst_rating,
   } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
 
@@ -126,6 +129,7 @@
       earningsSurprise: () => notifications_channel_earnings_surprise(),
       wiim: () => notifications_channel_wiim(),
       topAnalyst: () => notifications_channel_top_analyst(),
+      followedAnalysts: () => notifications_channel_followed_analysts(),
     };
     return (
       labelGetters[key]?.() ??
@@ -135,7 +139,7 @@
 
   const formatChannelLabel = (key: string) => getChannelLabel(key);
 
-  const channelOrder = ["earningsSurprise", "wiim", "topAnalyst"];
+  const channelOrder = ["earningsSurprise", "wiim", "topAnalyst", "followedAnalysts"];
 
   const toChannelOptions = (settings: Record<string, boolean>) =>
     Object.keys(settings)
@@ -1136,6 +1140,63 @@
                       </div>
                     </div>
                   </div>
+                {:else if item?.notifyType === "followedAnalyst"}
+                  <a
+                    href={"/stocks/" + item?.liveResults?.symbol}
+                    class="block rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                      ? 'bg-gray-50/90 dark:bg-zinc-900/60'
+                      : ''}"
+                  >
+                    <div class="flex flex-row items-center w-full">
+                      <div
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
+                      >
+                        <img
+                          style="clip-path: circle(50%);"
+                          class="shrink-0 w-8 h-8 rounded-full inline-block p-0.5"
+                          src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
+                          alt="Company Logo"
+                        />
+                      </div>
+
+                      <div
+                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
+                      >
+                        <div class="flex flex-col items-start">
+                          <div>
+                            <div class="flex flex-col items-start">
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                              >
+                                <span class="font-semibold"
+                                  >{notifications_type_followed_analyst_new()}</span
+                                >
+                                <span
+                                  class="font-semibold text-violet-800 dark:text-violet-400"
+                                  >{item?.liveResults?.analystName}</span
+                                >
+                              </div>
+                              <div
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                              >
+                                {notifications_type_followed_analyst_rating({
+                                  symbol: item?.liveResults?.symbol,
+                                  rating: item?.liveResults?.rating_current,
+                                  price: item?.liveResults?.adjusted_pt_current
+                                    ? "$" + item?.liveResults?.adjusted_pt_current
+                                    : "—",
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            class="text-xs mt-1 text-muted dark:text-zinc-300"
+                            >{formatDate(item?.created)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
                 {/if}
               {/each}
             </div>
