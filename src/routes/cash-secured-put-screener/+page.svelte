@@ -136,6 +136,7 @@
     "earningsDate",
     "payoutFrequency",
     "exDividendDate",
+    "analystRating",
   ];
 
   let selectedPopularStrategy = "";
@@ -259,6 +260,13 @@
         "Micro-Cap (Under 300M)",
         "Nano-Cap (Under 50M)",
       ],
+      defaultCondition: "",
+      defaultValue: "any",
+      category: "Company Info",
+    },
+    analystRating: {
+      label: "Analyst Rating",
+      step: ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"],
       defaultCondition: "",
       defaultValue: "any",
       category: "Company Info",
@@ -1247,6 +1255,7 @@
       case "earningsDate":
       case "payoutFrequency":
       case "exDividendDate":
+      case "analystRating":
         newRule = {
           name: ruleName,
           value: Array.isArray(valueMappings[ruleName])
@@ -1954,6 +1963,7 @@
     "exDividendDate",
     "payoutFrequency",
     "marketCapGroup",
+    "analystRating",
   ];
 
   const getType = (key) =>
@@ -3469,8 +3479,28 @@
                       (r) => r.rule === column.key,
                     )}
                     <td class="whitespace-nowrap text-sm text-end">
-                      {#if ["assetType", "earningsTime", "payoutFrequency", "marketCapGroup"]?.includes(column.key)}
-                        {#if item[column.key] != null && item[column.key] !== ""}
+                      {#if ["assetType", "earningsTime", "payoutFrequency", "marketCapGroup", "analystRating"]?.includes(column.key)}
+                        {#if column.key === "analystRating"}
+                          {#if ["Strong Buy", "Buy"].includes(item[column.key])}
+                            <span class="text-emerald-800 dark:text-emerald-400"
+                              >{item[column.key]}</span
+                            >
+                          {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
+                            <span class="text-rose-800 dark:text-rose-400"
+                              >{item[column.key]}</span
+                            >
+                          {:else if item[column.key] === "Hold"}
+                            <span class="text-orange-800 dark:text-[#FFA838]"
+                              >{item[column.key]}</span
+                            >
+                          {:else if !(column.key in item)}
+                            <span
+                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            ></span>
+                          {:else}
+                            n/a
+                          {/if}
+                        {:else if item[column.key] != null && item[column.key] !== ""}
                           {column.key === "assetType"
                             ? formatAssetTypeLabel(item[column.key])
                             : item[column.key]

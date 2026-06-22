@@ -19,7 +19,7 @@ const allowedDisplayColumns = new Set([
   "earningsGap", "payoutRatio", "dividendYield",
   "annualDividend", "dividendGrowth",
   "marketCapGroup", "earningsTime", "payoutFrequency",
-  "earningsDate", "exDividendDate",
+  "earningsDate", "exDividendDate", "analystRating",
 ]);
 
 export const GET: RequestHandler = async ({ url, locals }) => {
