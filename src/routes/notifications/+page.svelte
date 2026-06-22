@@ -1143,14 +1143,15 @@
                     </div>
                   </div>
                 {:else if item?.notifyType === "followedAnalyst"}
-                  <a
-                    href={"/stocks/" + item?.liveResults?.symbol}
-                    class="block rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                  <div
+                    class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
                       ? 'bg-gray-50/90 dark:bg-zinc-900/60'
                       : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
-                      <div
+                      <!-- svelte-ignore a11y-label-has-associated-control -->
+                      <a
+                        href={"/stocks/" + item?.liveResults?.symbol}
                         class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
@@ -1159,7 +1160,7 @@
                           src={`https://financialmodelingprep.com/image-stock/${item?.liveResults?.symbol}.png`}
                           alt="Company Logo"
                         />
-                      </div>
+                      </a>
 
                       <div
                         class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
@@ -1173,9 +1174,11 @@
                                 <span class="font-semibold"
                                   >{notifications_type_followed_analyst_new()}</span
                                 >
-                                <span
-                                  class="font-semibold text-violet-800 dark:text-violet-400"
-                                  >{item?.liveResults?.analystName}</span
+                                <a
+                                  href={"/analysts/" +
+                                    item?.liveResults?.analystId}
+                                  class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+                                  >{item?.liveResults?.analystName}</a
                                 >
                               </div>
                               <div
@@ -1198,7 +1201,7 @@
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 {/if}
               {/each}
             </div>
