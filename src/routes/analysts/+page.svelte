@@ -36,6 +36,7 @@
     analysts_column_avg_return,
     analysts_column_total_ratings,
     analysts_column_last_rating,
+    analysts_column_follow,
   } from "$lib/paraglide/messages";
 
   export let data;
@@ -590,6 +591,8 @@
                       {sortOrders}
                       {sortData}
                       onColumnReorder={handleColumnReorder}
+                      trailingLabel={analysts_column_follow()}
+                      trailingAfterKey="name"
                     />
                   </thead>
                   <tbody
@@ -616,8 +619,7 @@
                             <td
                               class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
-                              <div class="flex flex-row items-center gap-3">
-                                <div class="flex flex-col items-start">
+                              <div class="flex flex-col items-start">
                                 <a
                                   href={"/analysts/" + item?.analystId}
                                   class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
@@ -658,14 +660,15 @@
                                       : 0})
                                   </span>
                                 </div>
-                                </div>
-                                <FollowAnalystButton
-                                  variant="row"
-                                  analystId={item?.analystId}
-                                  analystName={item?.name}
-                                  companyName={item?.companyName}
-                                />
                               </div>
+                            </td>
+                            <td class="text-start whitespace-nowrap align-middle">
+                              <FollowAnalystButton
+                                variant="row"
+                                analystId={item?.analystId}
+                                analystName={item?.name}
+                                companyName={item?.companyName}
+                              />
                             </td>
                           {:else if column.key === "successRate"}
                             <td

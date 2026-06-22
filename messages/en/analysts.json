@@ -78,6 +78,7 @@
   "analysts_column_avg_return": "Avg. Return",
   "analysts_column_total_ratings": "Total Ratings",
   "analysts_column_last_rating": "Last Rating",
+  "analysts_column_follow": "Follow",
 
   "analysts_detail_column_symbol": "Symbol",
   "analysts_detail_column_name": "Name",

@@ -1,51 +1,53 @@
 <script lang="ts">
-  import TableHeader from "$lib/components/Table/TableHeader.svelte";
-  import FollowAnalystButton from "$lib/components/FollowAnalystButton.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
-  import SEO from "$lib/components/SEO.svelte";
+  import Tutorial from "$lib/components/Tutorial.svelte";
+  import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import AnalystInfo from "$lib/components/AnalystInfo.svelte";
-  import DownloadData from "$lib/components/DownloadData.svelte";
-  import Infobox from "$lib/components/Infobox.svelte";
+  import FollowAnalystButton from "$lib/components/FollowAnalystButton.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
-  import { page } from "$app/stores";
+  import Infobox from "$lib/components/Infobox.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
-  import Tutorial from "$lib/components/Tutorial.svelte";
+  import DownloadData from "$lib/components/DownloadData.svelte";
 
+  import SEO from "$lib/components/SEO.svelte";
+
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import {
     analysts_back_to_top,
-    analysts_breadcrumb_analyst_flow,
     analysts_breadcrumb_home,
-    analysts_flow_count,
-    analysts_flow_empty,
-    analysts_flow_infobox,
-    analysts_flow_main_name,
-    analysts_flow_seo_description,
-    analysts_flow_seo_keywords,
-    analysts_flow_seo_title,
+    analysts_breadcrumb_top_analysts,
+    analysts_count,
+    analysts_empty,
+    analysts_infobox,
+    analysts_main_name,
     analysts_pagination_next,
     analysts_pagination_page_of,
     analysts_pagination_previous,
     analysts_pagination_rows,
     analysts_search_placeholder,
+    analysts_seo_description,
+    analysts_seo_keywords,
+    analysts_seo_title,
+    analysts_column_rank,
+    analysts_column_analyst,
+    analysts_column_success_rate,
+    analysts_column_avg_return,
+    analysts_column_total_ratings,
+    analysts_column_last_rating,
     analysts_column_follow,
   } from "$lib/paraglide/messages";
 
-  import { screenWidth } from "$lib/store";
-  import { onMount } from "svelte";
-
   export let data;
 
-  let originalData = data?.getData;
-  let rawData = originalData;
+  let rawData = data?.getTopAnalyst ?? [];
+  let originalData = [...rawData]; // Unaltered copy of raw data
+  let unsortedSearchData = []; // Preserve unsorted search results
+  let analystList = [];
+
   let inputValue = "";
   let searchWorker: Worker | undefined;
-
-  let pagePathName = $page?.url?.pathname;
-
-  let stockList = [];
-
-  let isSubscribed = ["Pro", "Plus"].includes(data?.user?.tier);
 
   // Pagination state
   let currentPage = 1;
@@ -53,13 +55,19 @@
   let rowsPerPageOptions = [20, 50, 100];
   let totalPages = 1;
 
-  // Pagination functions
+  let pagePathName = $page?.url?.pathname;
+
   function updatePaginatedData() {
+    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    const totalItems = dataSource?.length || 0;
+    totalPages = totalItems === 0 ? 1 : Math.ceil(totalItems / rowsPerPage);
+    const normalizedPage = Math.min(Math.max(currentPage, 1), totalPages || 1);
+    if (normalizedPage !== currentPage) {
+      currentPage = normalizedPage;
+    }
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    const dataSource = inputValue?.length > 0 ? rawData : originalData;
-    stockList = dataSource?.slice(startIndex, endIndex) || [];
-    totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
+    analystList = dataSource?.slice(startIndex, endIndex) ?? [];
   }
 
   function goToPage(page) {
@@ -71,16 +79,11 @@
 
   function changeRowsPerPage(newRowsPerPage) {
     rowsPerPage = newRowsPerPage;
-    currentPage = 1; // Reset to first page when changing rows per page
+    currentPage = 1;
     updatePaginatedData();
-    saveRowsPerPage(); // Save to localStorage
+    saveRowsPerPage();
   }
 
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  // Save rows per page preference to localStorage
   function saveRowsPerPage() {
     if (!pagePathName || typeof localStorage === "undefined") return;
 
@@ -92,12 +95,11 @@
     }
   }
 
-  // Load rows per page preference from localStorage
   function loadRowsPerPage() {
     const currentPath = pagePathName || $page?.url?.pathname;
 
     if (!currentPath || typeof localStorage === "undefined") {
-      rowsPerPage = 20; // Default value
+      rowsPerPage = 20;
       return;
     }
 
@@ -108,18 +110,24 @@
       if (savedRows && rowsPerPageOptions.includes(Number(savedRows))) {
         rowsPerPage = Number(savedRows);
       } else {
-        rowsPerPage = 20; // Default if invalid or not found
+        rowsPerPage = 20;
       }
     } catch (e) {
       console.warn("Failed to load rows per page preference:", e);
-      rowsPerPage = 20; // Default on error
+      rowsPerPage = 20;
     }
+  }
+
+  function scrollToTop() {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   async function resetTableSearch() {
     inputValue = "";
     rawData = originalData;
-    currentPage = 1; // Reset to first page
+    unsortedSearchData = [];
+    currentPage = 1;
     updatePaginatedData();
   }
 
@@ -130,16 +138,16 @@
       if (inputValue?.length > 0) {
         await loadSearchWorker();
       } else {
-        // Reset to original data if filter is empty
         rawData = originalData || [];
-        currentPage = 1; // Reset to first page
+        unsortedSearchData = [];
+        currentPage = 1;
         updatePaginatedData();
       }
     }, 100);
   }
 
   const loadSearchWorker = async () => {
-    if (searchWorker && originalData?.length > 0) {
+    if (searchWorker && rawData?.length > 0) {
       searchWorker.postMessage({
         rawData: originalData,
         inputValue: inputValue,
@@ -150,13 +158,13 @@
   const handleSearchMessage = (event) => {
     if (event.data?.message === "success") {
       rawData = event.data?.output ?? [];
-      currentPage = 1; // Reset to first page after search
+      unsortedSearchData = [...rawData];
+      currentPage = 1;
       updatePaginatedData();
     }
   };
 
   onMount(async () => {
-    // Load pagination preference
     loadRowsPerPage();
     loadColumnOrder(true);
 
@@ -167,29 +175,41 @@
       searchWorker.onmessage = handleSearchMessage;
     }
 
-    // Initialize pagination
     updatePaginatedData();
   });
 
   // Reactive statement to load pagination settings when page changes
   $: if ($page?.url?.pathname && $page?.url?.pathname !== pagePathName) {
     pagePathName = $page?.url?.pathname;
-    loadRowsPerPage(); // Load pagination preference for new page
-    loadColumnOrder(true); // Load column order preference for new page
-    updatePaginatedData(); // Update display with loaded preference
+    loadRowsPerPage();
+    loadColumnOrder(true);
+    updatePaginatedData();
   }
 
-  const defaultColumns = [
-    { key: "analystScore", label: "Rank", align: "left" },
-    { key: "analystName", label: "Analyst", align: "left" },
-    { key: "symbol", label: "Symbol", align: "left" },
-    { key: "name", label: "Name", align: "left" },
-    { key: "rating_current", label: "Action", align: "left" },
-    { key: "adjusted_pt_current", label: "Price Target", align: "right" },
-    { key: "upside", label: "Upside [%]", align: "right" },
-    { key: "date", label: "Date", align: "right" },
-  ];
+  function getDefaultColumns() {
+    return [
+      { key: "rank", label: analysts_column_rank(), align: "left" },
+      { key: "name", label: analysts_column_analyst(), align: "left" },
+      {
+        key: "successRate",
+        label: analysts_column_success_rate(),
+        align: "right",
+      },
+      { key: "avgReturn", label: analysts_column_avg_return(), align: "right" },
+      {
+        key: "totalRatings",
+        label: analysts_column_total_ratings(),
+        align: "right",
+      },
+      {
+        key: "lastRating",
+        label: analysts_column_last_rating(),
+        align: "right",
+      },
+    ];
+  }
 
+  let defaultColumns = getDefaultColumns();
   let columns = [...defaultColumns];
 
   // Column reordering state and functions
@@ -283,6 +303,7 @@
     }
     customColumnOrder = [];
     lastAppliedColumnKeys = "";
+    defaultColumns = getDefaultColumns();
     columns = [...defaultColumns];
   }
 
@@ -309,15 +330,12 @@
   }
 
   let sortOrders = {
-    analystName: { order: "none", type: "string" },
-    analystScore: { order: "none", type: "number" },
-    filingDate: { order: "none", type: "date" },
-    symbol: { order: "none", type: "string" },
+    rank: { order: "none", type: "number" },
     name: { order: "none", type: "string" },
-    rating_current: { order: "none", type: "string" },
-    adjusted_pt_current: { order: "none", type: "number" },
-    upside: { order: "none", type: "number" },
-    date: { order: "none", type: "date" },
+    successRate: { order: "none", type: "number" },
+    avgReturn: { order: "none", type: "number" },
+    totalRatings: { order: "none", type: "number" },
+    lastRating: { order: "none", type: "date" },
   };
 
   const sortData = (key) => {
@@ -330,28 +348,24 @@
 
     // Cycle through 'none', 'asc', 'desc' for the clicked key
     const orderCycle = ["none", "asc", "desc"];
-
-    const currentOrderIndex = orderCycle.indexOf(sortOrders[key].order);
-    sortOrders[key].order =
-      orderCycle[(currentOrderIndex + 1) % orderCycle.length];
-    const sortOrder = sortOrders[key].order;
+    const currentOrderIndex = orderCycle.indexOf(
+      sortOrders[key]?.order || "none",
+    );
+    sortOrders[key] = {
+      ...(sortOrders[key] || {}),
+      order: orderCycle[(currentOrderIndex + 1) % orderCycle.length],
+    };
+    const sortOrder = sortOrders[key]?.order;
 
     // Reset to original data when 'none' and stop further sorting
     if (sortOrder === "none") {
-      if (inputValue?.length > 0) {
-        // If searching, re-run the search to get the original filtered order
-        search();
-      } else {
-        // Reset to original unsorted state
-        originalData = data?.getData || [];
-        rawData = [...originalData];
-        currentPage = 1; // Reset to first page
-        updatePaginatedData(); // Reset displayed data
-      }
+      originalData = [...rawData]; // Reset originalData to rawData
+      currentPage = 1;
+      updatePaginatedData();
       return;
     }
 
-    // Define a generic comparison function
+    // Generic comparison function
     const compareValues = (a, b) => {
       const { type } = sortOrders[key];
       let valueA, valueB;
@@ -361,12 +375,29 @@
           valueA = new Date(a[key]);
           valueB = new Date(b[key]);
           break;
+        case "rating":
         case "string":
-          valueA = a[key].toUpperCase();
-          valueB = b[key].toUpperCase();
+          // Retrieve values
+          valueA = a[key];
+          valueB = b[key];
+
+          // Handle null or undefined values, always placing them at the bottom
+          if (valueA == null && valueB == null) {
+            return 0; // Both are null/undefined, no need to change the order
+          } else if (valueA == null) {
+            return 1; // null goes to the bottom
+          } else if (valueB == null) {
+            return -1; // null goes to the bottom
+          }
+
+          // Convert the values to uppercase for case-insensitive comparison
+          valueA = valueA?.toUpperCase();
+          valueB = valueB?.toUpperCase();
+
+          // Perform the sorting based on ascending or descending order
           return sortOrder === "asc"
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
+            ? valueA?.localeCompare(valueB)
+            : valueB?.localeCompare(valueA);
         case "number":
         default:
           valueA = parseFloat(a[key]);
@@ -381,39 +412,24 @@
       }
     };
 
-    // Get the data to sort and sort it
-    const dataToSort = inputValue?.length > 0 ? rawData : originalData;
-    const sortedData = [...dataToSort].sort(compareValues);
-
-    // Update the appropriate data source based on whether we're filtering or not
-    if (inputValue?.length > 0) {
-      rawData = sortedData;
-    } else {
-      originalData = sortedData;
-      rawData = sortedData; // Keep rawData in sync for consistency
-    }
-
-    currentPage = 1; // Reset to first page when sorting
-    updatePaginatedData(); // Update the displayed data
-
-    // Force reactivity by triggering the sortOrders reactivity
-    sortOrders = { ...sortOrders };
+    // Sort and update the originalData and analystList
+    originalData = [...rawData].sort(compareValues);
+    currentPage = 1;
+    updatePaginatedData();
   };
-
-  $: charNumber = $screenWidth < 640 ? 20 : 40;
 </script>
 
 <SEO
-  title={analysts_flow_seo_title()}
-  description={analysts_flow_seo_description()}
-  keywords={analysts_flow_seo_keywords()}
+  title={analysts_seo_title()}
+  description={analysts_seo_description()}
+  keywords={analysts_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Analyst Flow - Latest Ratings",
+    "@type": "CollectionPage",
+    name: "Analyst Rankings",
     description:
-      "Real-time feed of Wall Street analyst ratings and stock recommendations",
-    url: "https://stocknear.com/analysts/analyst-flow",
+      "Analyst rankings and rating performance for catalyst-driven trade ideas",
+    url: "https://stocknear.com/analysts",
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -426,29 +442,22 @@
         {
           "@type": "ListItem",
           position: 2,
-          name: "Analysts",
+          name: "Analyst Rankings",
           item: "https://stocknear.com/analysts",
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Analyst Flow",
-          item: "https://stocknear.com/analysts/analyst-flow",
         },
       ],
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "Latest Analyst Ratings",
-      description:
-        "Real-time feed of analyst ratings and stock recommendations",
-      numberOfItems: originalData?.length || 0,
+      name: "Wall Street Analyst Rankings",
+      description: "Analyst performance rankings with recent rating catalysts",
+      numberOfItems: rawData?.length || 0,
     },
   }}
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-5 px-4 lg:px-3 mb-20 text-muted dark:text-zinc-200"
 >
   <BreadCrumb
     containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
@@ -461,22 +470,22 @@
       >
     </li>
     <li class="text-muted dark:text-white">
-      {analysts_breadcrumb_analyst_flow()}
+      {analysts_breadcrumb_top_analysts()}
     </li>
   </BreadCrumb>
 
-  <div class="w-full overflow-hidden m-auto mt-5">
+  <div class="w-full overflow-hidden m-auto mt-5 mb-20">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div
-        class="relative flex justify-center items-start overflow-hidden w-full"
+        class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
-        <main class="w-full lg:pr-5">
+        <main class="w-full">
           <div class="border-b border-gray-300 dark:border-zinc-700">
-            <div class=" flex flex-row items-center gap-3">
+            <div class="mb-3 flex flex-row items-center gap-3">
               <h1
-                class="mb-3 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+                class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
               >
-                {analysts_flow_main_name()}
+                {analysts_main_name()}
               </h1>
               <div class="ml-auto">
                 <Tutorial />
@@ -484,7 +493,7 @@
             </div>
           </div>
 
-          <Infobox text={analysts_flow_infobox()} />
+          <Infobox text={analysts_infobox()} />
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
@@ -493,9 +502,9 @@
               <h2
                 class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
               >
-                {analysts_flow_count({
-                  count: isSubscribed
-                    ? originalData?.length?.toLocaleString("en-US")
+                {analysts_count({
+                  count: ["Plus", "Pro"].includes(data?.user?.tier)
+                    ? (originalData?.length ?? 0)
                     : 100,
                 })}
               </h2>
@@ -538,8 +547,8 @@
                 <div class="ml-2">
                   <DownloadData
                     {data}
-                    {rawData}
-                    title={"latest_analyst_ratings_data"}
+                    rawData={originalData}
+                    title={"top_wall_street_analysts"}
                   />
                 </div>
 
@@ -569,12 +578,12 @@
           </div>
 
           <div class="w-full m-auto mt-4">
-            {#if stockList?.length > 0}
+            {#if analystList?.length > 0}
               <div
                 class="w-full m-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
                 >
                   <thead>
                     <TableHeader
@@ -583,171 +592,153 @@
                       {sortData}
                       onColumnReorder={handleColumnReorder}
                       trailingLabel={analysts_column_follow()}
-                      trailingAfterKey="analystName"
                     />
                   </thead>
                   <tbody
                     class="divide-y divide-gray-200/70 dark:divide-zinc-800/80"
                   >
-                    {#each stockList as item, index}
+                    {#each analystList as item, index}
                       <tr
-                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {index ===
-                          stockList.length - 1 && !isSubscribed
-                          ? 'opacity-10'
+                        class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {(currentPage -
+                          1) *
+                          rowsPerPage +
+                          index +
+                          1 ===
+                          rawData?.length &&
+                        !['Pro', 'Plus']?.includes(data?.user?.tier)
+                          ? 'opacity-[0.1]'
                           : ''}"
                       >
                         {#each columns as column}
-                          {#if column.key === "analystScore"}
-                            <td
-                              class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row mt-2.5 sm:mt-0 items-center"
-                            >
-                              <div>{item?.analystScore?.toFixed(1)}</div>
-                              <svg
-                                class="ml-1 w-4 h-4"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="#FFA500"
-                                viewBox="0 0 22 20"
-                              >
-                                <path
-                                  d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
-                                />
-                              </svg>
-                            </td>
-                          {:else if column.key === "analystName"}
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap"
-                            >
-                              <a
-                                href={`/analysts/${item?.analystId}`}
-                                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                >{item?.analystName}</a
-                              >
-                            </td>
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap align-middle"
-                            >
-                              <FollowAnalystButton
-                                variant="row"
-                                analystId={item?.analystId}
-                                analystName={item?.analystName}
-                              />
-                            </td>
-                          {:else if column.key === "symbol"}
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap"
-                            >
-                              <a
-                                href={`/stocks/${item?.symbol}`}
-                                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
-                                >{item?.symbol}</a
-                              >
+                          {#if column.key === "rank"}
+                            <td class="text-[0.85rem] sm:text-sm text-center">
+                              {item?.rank}
                             </td>
                           {:else if column.key === "name"}
                             <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-muted dark:text-zinc-300"
+                              class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
-                              {item?.name?.length > charNumber
-                                ? item?.name?.slice(0, charNumber) + "..."
-                                : item?.name}
-                            </td>
-                          {:else if column.key === "rating_current"}
-                            <td
-                              class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-muted dark:text-zinc-300"
-                            >
-                              <div
-                                class="flex flex-col sm:flex-row items-start"
-                              >
-                                <span class="mr-1">{item?.action}:</span>
-                                <span>
-                                  {item?.rating_current}
-                                </span>
-                              </div>
-                            </td>
-                          {:else if column.key === "adjusted_pt_current"}
-                            <td
-                              class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
-                            >
-                              <div
-                                class="flex flex-row items-center justify-end"
-                              >
-                                {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
-                                  <span
-                                    class="text-muted dark:text-zinc-300 font-normal"
-                                    >{Math?.ceil(item?.adjusted_pt_prior)}</span
-                                  >
-                                  <svg
-                                    class="w-3 h-3 ml-1 mr-1 inline-block"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    ><path
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="1.5"
-                                      d="M4 12h16m0 0l-6-6m6 6l-6 6"
-                                    /></svg
-                                  >
+                              <div class="flex flex-col items-start">
+                                <a
+                                  href={"/analysts/" + item?.analystId}
+                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                  >{item?.name}
+                                </a>
+                                <div class="flex flex-row items-center mt-1">
+                                  {#each Array.from({ length: 5 }) as _, i}
+                                    {#if i < Math.floor(item?.analystScore)}
+                                      <svg
+                                        class="w-3.5 h-3.5 text-amber-400"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 22 20"
+                                      >
+                                        <path
+                                          d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                        />
+                                      </svg>
+                                    {:else}
+                                      <svg
+                                        class="w-3.5 h-3.5 text-gray-300 dark:text-zinc-600"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 22 20"
+                                      >
+                                        <path
+                                          d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+                                        />
+                                      </svg>
+                                    {/if}
+                                  {/each}
 
-                                  <span
-                                    class="font-semibold text-muted dark:text-white"
-                                    >{Math?.ceil(
-                                      item?.adjusted_pt_current,
-                                    )}</span
-                                  >
-                                {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
-                                  <span
-                                    class="font-semibold text-muted dark:text-white"
-                                    >{Math?.ceil(
-                                      item?.adjusted_pt_current,
-                                    )}</span
-                                  >
-                                {:else}
-                                  n/a
-                                {/if}
+                                  <span class="ml-1 text-muted dark:text-white">
+                                    ({item?.analystScore !== null
+                                      ? item?.analystScore
+                                      : 0})
+                                  </span>
+                                </div>
                               </div>
                             </td>
-                          {:else if column.key === "upside"}
+                          {:else if column.key === "successRate"}
                             <td
-                              class="{item?.upside >= 0 && item?.upside !== null
-                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                : item?.upside < 0 && item?.upside !== null
-                                  ? 'text-rose-800 dark:text-rose-400'
-                                  : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                             >
-                              {item?.upside !== null
-                                ? item?.upside + "%"
-                                : "n/a"}
+                              {#if Number(item?.successRate) >= 0}
+                                <span
+                                  class="font-medium text-emerald-800 dark:text-emerald-400"
+                                  >+{Number(item?.successRate)?.toFixed(
+                                    2,
+                                  )}%</span
+                                >
+                              {/if}
                             </td>
-                          {:else if column.key === "date"}
+                          {:else if column.key === "avgReturn"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              {#if Number(item?.avgReturn) >= 0}
+                                <span
+                                  class="font-medium text-emerald-800 dark:text-emerald-400"
+                                  >+{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                >
+                              {:else}
+                                <span
+                                  class="font-medium text-rose-800 dark:text-rose-400"
+                                  >{Number(item?.avgReturn)?.toFixed(2)}%</span
+                                >
+                              {/if}
+                            </td>
+                          {:else if column.key === "totalRatings"}
+                            <td
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
+                            >
+                              {item?.totalRatings}
+                            </td>
+                          {:else if column.key === "lastRating"}
                             <td
                               class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
                             >
-                              {new Date(item?.date).toLocaleString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                                daySuffix: "2-digit",
-                              })}
+                              {item?.lastRating !== null
+                                ? new Date(item?.lastRating)?.toLocaleString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      year: "numeric",
+                                      daySuffix: "2-digit",
+                                    },
+                                  )
+                                : "n/a"}
                             </td>
                           {/if}
                         {/each}
+                        <td class="text-end whitespace-nowrap align-middle">
+                          <div class="flex justify-end">
+                            <FollowAnalystButton
+                              variant="row"
+                              analystId={item?.analystId}
+                              analystName={item?.name}
+                              companyName={item?.companyName}
+                            />
+                          </div>
+                        </td>
                       </tr>
                     {/each}
                   </tbody>
                 </table>
               </div>
             {:else}
-              <Infobox text={analysts_flow_empty({ query: inputValue })} />
+              <div class="w-full flex items-center justify-start text-start">
+                <Infobox text={analysts_empty()} />
+              </div>
             {/if}
 
-            <!-- Pagination controls -->
-            {#if stockList?.length > 0 && ["Pro", "Plus"].includes(data?.user?.tier)}
+            {#if analystList?.length > 0}
               <div
                 class="flex flex-row items-center justify-between mt-8 sm:mt-5"
               >
-                <!-- Previous button -->
                 <div class="flex items-center gap-2">
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
@@ -773,7 +764,6 @@
                   >
                 </div>
 
-                <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
                   <span class="text-sm text-muted dark:text-zinc-300">
                     {analysts_pagination_page_of({
@@ -816,7 +806,6 @@
                       alignOffset={0}
                       class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
                     >
-                      <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
@@ -839,7 +828,6 @@
                   </DropdownMenu.Root>
                 </div>
 
-                <!-- Next button -->
                 <div class="flex items-center gap-2">
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
@@ -866,7 +854,6 @@
                 </div>
               </div>
 
-              <!-- Back to Top button -->
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
@@ -891,7 +878,8 @@
             {/if}
           </div>
 
-          <UpgradeToPro {data} display={true} />
+          <UpgradeToPro {data} />
+
           <AnalystInfo />
         </main>
       </div>

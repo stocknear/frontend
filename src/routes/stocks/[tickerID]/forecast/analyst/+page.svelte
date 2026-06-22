@@ -10,6 +10,7 @@
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import FollowAnalystButton from "$lib/components/FollowAnalystButton.svelte";
   import {
     stock_detail_forecast_analyst_all,
     stock_detail_forecast_analyst_col_action,
@@ -38,6 +39,7 @@
     stock_detail_forecast_analyst_total,
     stock_detail_forecast_analyst_upside,
     stock_detail_forecast_new,
+    analysts_column_follow,
   } from "$lib/paraglide/messages";
 
   import { removeCompanyStrings } from "$lib/utils";
@@ -679,6 +681,8 @@
                   columns={columnDefinitions}
                   {sortOrders}
                   {sortData}
+                  trailingLabel={analysts_column_follow()}
+                  trailingAfterKey="analyst_name"
                 />
               </thead>
               <tbody>
@@ -858,6 +862,16 @@
                           </div>
                         {/if}
                       </td>
+                      {#if column.key === "analyst_name"}
+                        <td class="text-sm whitespace-nowrap text-left align-middle">
+                          <FollowAnalystButton
+                            variant="row"
+                            analystId={item?.analystId}
+                            analystName={item?.analyst_name}
+                            companyName={item?.analyst}
+                          />
+                        </td>
+                      {/if}
                     {/each}
                   </tr>
                 {/each}

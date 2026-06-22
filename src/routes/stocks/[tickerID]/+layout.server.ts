@@ -1,5 +1,6 @@
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
+import { fetchFollowedAnalysts } from "$lib/server/followedAnalysts";
 import { postAPI } from "$lib/server/api";
 
 // Pre-compile regex pattern and substrings for cleaning
@@ -99,9 +100,10 @@ export const load = async ({ params, locals }) => {
   }
 
   try {
-    const [stockData, userWatchlist] = await Promise.all([
+    const [stockData, userWatchlist, followedAnalysts] = await Promise.all([
       fetchData(locals, tickerID, locale ?? "en"),
-      fetchWatchlist(pb, user?.id)
+      fetchWatchlist(pb, user?.id),
+      fetchFollowedAnalysts(pb, user?.id)
     ]);
 
     const {
@@ -129,6 +131,7 @@ export const load = async ({ params, locals }) => {
       getEarningsSurprise,
       getNews,
       getUserWatchlist: userWatchlist,
+      getFollowedAnalysts: followedAnalysts,
       companyName: cleanString(getStockDeck?.companyName),
       getParams: tickerID
     };

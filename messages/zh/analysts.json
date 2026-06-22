@@ -78,6 +78,7 @@
   "analysts_column_avg_return": "平均回报",
   "analysts_column_total_ratings": "评级总数",
   "analysts_column_last_rating": "最近评级",
+  "analysts_column_follow": "关注",
 
   "analysts_detail_column_symbol": "代码",
   "analysts_detail_column_name": "名称",

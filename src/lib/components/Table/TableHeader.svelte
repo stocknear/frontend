@@ -5,6 +5,13 @@
   export let onColumnReorder:
     | ((fromIndex: number, toIndex: number) => void)
     | null = null;
+  // Optional non-interactive trailing column header (e.g. an action column
+  // such as a Follow button). Not sortable or draggable. Defaults to null
+  // so existing tables are unaffected.
+  export let trailingLabel: string | null = null;
+  // When set, the extra column renders immediately AFTER the column with this
+  // key (and moves with it on reorder) instead of at the very end.
+  export let trailingAfterKey: string | null = null;
 
   // Drag and drop state
   let draggedIndex: number | null = null;
@@ -190,5 +197,19 @@
         {@html SortIcon({ sortOrder: sortOrders[column.key]?.order })}
       </span>
     </th>
+    {#if trailingLabel !== null && trailingAfterKey !== null && column.key === trailingAfterKey}
+      <th
+        class="select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap text-start"
+      >
+        {trailingLabel}
+      </th>
+    {/if}
   {/each}
+  {#if trailingLabel !== null && trailingAfterKey === null}
+    <th
+      class="select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap text-end"
+    >
+      {trailingLabel}
+    </th>
+  {/if}
 </tr>
