@@ -103,7 +103,7 @@ export const load = async ({ params, locals }) => {
     const [stockData, userWatchlist, followedAnalysts] = await Promise.all([
       fetchData(locals, tickerID, locale ?? "en"),
       fetchWatchlist(pb, user?.id),
-      fetchFollowedAnalysts(pb, user?.id)
+      fetchFollowedAnalysts(pb, user)
     ]);
 
     const {

@@ -6,6 +6,6 @@ export const load = async ({ locals }) => {
   const { pb, user } = locals;
 
   return {
-    getFollowedAnalysts: await fetchFollowedAnalysts(pb, user?.id),
+    getFollowedAnalysts: await fetchFollowedAnalysts(pb, user),
   };
 };

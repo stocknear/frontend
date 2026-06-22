@@ -1,6 +1,7 @@
 import type { RequestHandler } from "./$types";
 
-// Premium-only feature: follow individual analysts and get notified on new ratings.
+// Follow individual analysts and get notified on new ratings.
+// Caps by tier: Free = 1, Plus = 5, Pro = unlimited.
 // Stored as a single per-user row in the analystWatchlist collection, whose
 // `analysts` JSON field holds an array of { analystId, analystName, companyName }.
 
@@ -32,16 +33,9 @@ export const POST = (async ({ request, locals }) => {
     );
   }
 
-  // Premium gate: following analysts is a Pro/Plus feature
-  if (!["Pro", "Plus"].includes(user?.tier)) {
-    return new Response(
-      JSON.stringify({ error: "Following analysts is available on Plus and Pro." }),
-      { status: 403 }
-    );
-  }
-
-  // Tier caps: Plus = up to 5 analysts, Pro = unlimited
-  const followLimit = user?.tier === "Pro" ? Infinity : 5;
+  // Tier caps: Free = 1, Plus = 5, Pro = unlimited
+  const followLimit =
+    user?.tier === "Pro" ? Infinity : user?.tier === "Plus" ? 5 : 1;
 
   let data;
   try {
@@ -86,7 +80,10 @@ export const POST = (async ({ request, locals }) => {
     if (analysts.length >= followLimit) {
       return new Response(
         JSON.stringify({
-          error: "Plus members can follow up to 5 analysts. Upgrade to Pro for unlimited.",
+          error:
+            user?.tier === "Plus"
+              ? "Plus members can follow up to 5 analysts. Upgrade to Pro for unlimited."
+              : "Free members can follow 1 analyst. Upgrade to Plus or Pro to follow more.",
         }),
         { status: 403 }
       );
@@ -106,8 +103,10 @@ export const POST = (async ({ request, locals }) => {
       });
     }
   } catch (e: any) {
+    // Don't echo internal PocketBase error text to the client.
+    console.error("follow-analyst update failed:", e);
     return new Response(
-      JSON.stringify({ error: e?.message ?? "Failed to update follows" }),
+      JSON.stringify({ error: "Failed to update follows" }),
       { status: 500 }
     );
   }

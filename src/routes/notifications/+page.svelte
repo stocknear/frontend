@@ -15,7 +15,6 @@
     notifications_breadcrumb_home,
     notifications_breadcrumb_notifications,
     notifications_channel_earnings_surprise,
-    notifications_channel_top_analyst,
     notifications_channel_wiim,
     notifications_customize,
     notifications_delete_error,
@@ -96,11 +95,15 @@
   let deleteInFlight = false;
   let deleteError: string | null = null;
 
+  // Retired channels: still present on old records but no longer offered as a
+  // toggle (topAnalyst was replaced by the followedAnalysts notifications).
+  const RETIRED_CHANNELS = new Set(["topAnalyst"]);
+
   const extractChannelSettings = (record: Record<string, unknown> | null) =>
     record
       ? Object.entries(record).reduce(
           (acc, [key, value]) => {
-            if (typeof value === "boolean") {
+            if (typeof value === "boolean" && !RETIRED_CHANNELS.has(key)) {
               acc[key] = value;
             }
             return acc;
@@ -128,7 +131,6 @@
     const labelGetters: Record<string, () => string> = {
       earningsSurprise: () => notifications_channel_earnings_surprise(),
       wiim: () => notifications_channel_wiim(),
-      topAnalyst: () => notifications_channel_top_analyst(),
       followedAnalysts: () => notifications_channel_followed_analysts(),
     };
     return (
@@ -139,7 +141,7 @@
 
   const formatChannelLabel = (key: string) => getChannelLabel(key);
 
-  const channelOrder = ["earningsSurprise", "wiim", "topAnalyst", "followedAnalysts"];
+  const channelOrder = ["earningsSurprise", "wiim", "followedAnalysts"];
 
   const toChannelOptions = (settings: Record<string, boolean>) =>
     Object.keys(settings)

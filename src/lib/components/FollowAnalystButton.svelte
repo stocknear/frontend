@@ -10,8 +10,8 @@
     analysts_follow_added,
     analysts_follow_removed,
     analysts_follow_failed,
-    analysts_follow_upgrade,
     analysts_follow_limit,
+    analysts_follow_limit_free,
   } from "$lib/paraglide/messages";
 
   // Props - minimal, only what's needed to identify the analyst
@@ -30,8 +30,10 @@
 
   let isToggling = false;
 
+  // Follow caps by tier: Free = 1, Plus = 5, Pro = unlimited.
+  $: followLimit =
+    user?.tier === "Pro" ? Infinity : user?.tier === "Plus" ? 5 : 1;
   $: isFollowing = followed?.some((a) => a?.analystId === analystId);
-  $: isPremium = ["Pro", "Plus"].includes(user?.tier);
   $: sizeClass =
     variant === "row" ? "px-3 py-1 text-xs" : "px-3.5 py-2 text-sm";
   $: iconClass = variant === "row" ? "size-3.5" : "size-4";
@@ -57,14 +59,14 @@
       openLoginModal();
       return;
     }
-    if (!isPremium) {
-      toast.error(analysts_follow_upgrade(), { style: toastStyle() });
-      return;
-    }
-
-    // Plus members can follow up to 5 analysts; Pro is unlimited.
-    if (!isFollowing && user?.tier !== "Pro" && (followed?.length ?? 0) >= 5) {
-      toast.error(analysts_follow_limit(), { style: toastStyle() });
+    // Enforce the follow cap (Free 1 / Plus 5 / Pro unlimited) before the request.
+    if (!isFollowing && (followed?.length ?? 0) >= followLimit) {
+      toast.error(
+        user?.tier === "Plus"
+          ? analysts_follow_limit()
+          : analysts_follow_limit_free(),
+        { style: toastStyle() },
+      );
       return;
     }
 

@@ -9,20 +9,21 @@ export type FollowedAnalyst = {
 
 /**
  * Fetch the analysts a user follows (lightweight: id + name only).
- * Returns an empty array when the user has no follow row yet.
+ * Available to any logged-in user (Free can follow 1, Plus 5, Pro unlimited);
+ * logged-out users return an empty array without querying PocketBase.
  * @param pb - PocketBase instance
- * @param userId - User ID to fetch follows for
+ * @param user - The authenticated user (needs `id`)
  */
 export async function fetchFollowedAnalysts(
   pb: any,
-  userId: string | undefined
+  user: { id?: string; tier?: string } | null | undefined
 ): Promise<FollowedAnalyst[]> {
-  if (!userId) return [];
+  if (!user?.id) return [];
 
   try {
     const row = await pb
       .collection("analystWatchlist")
-      .getFirstListItem(`user="${userId}"`, { fields: "analysts" });
+      .getFirstListItem(`user="${user.id}"`, { fields: "analysts" });
 
     const list = Array.isArray(row?.analysts) ? row.analysts : [];
 

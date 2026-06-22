@@ -46,6 +46,9 @@
     pricing_feature_portfolio_pro,
     pricing_feature_alerts_3,
     pricing_feature_alerts_unlimited,
+    pricing_feature_analysts_1,
+    pricing_feature_analysts_5,
+    pricing_feature_analysts_unlimited,
     pricing_feature_notification,
     pricing_feature_hedgefund,
     pricing_feature_congress,
@@ -496,6 +499,22 @@
               ></path></svg
             >
             <span class="">{pricing_feature_alerts_3()}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+            <span class="">{pricing_feature_analysts_1()}</span>
           </li>
           <li class="flex items-start">
             <svg
@@ -1344,6 +1363,22 @@
                 d="M5 13l4 4L19 7"
               ></path></svg
             >
+            <span class="">{pricing_feature_analysts_5()}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
 
             <span class="">{pricing_feature_screener_unlimited()}</span>
           </li>
@@ -1934,6 +1969,23 @@
               ></path></svg
             >
             <span class="">{pricing_feature_portfolio_pro()}</span>
+          </li>
+
+          <li class="flex items-start text-muted dark:text-zinc-200">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+            <span class="">{pricing_feature_analysts_unlimited()}</span>
           </li>
 
           <li class="flex items-start text-muted dark:text-zinc-200">
