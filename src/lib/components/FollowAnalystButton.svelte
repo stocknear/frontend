@@ -33,7 +33,8 @@
   $: isFollowing = followed?.some((a) => a?.analystId === analystId);
   $: isPremium = ["Pro", "Plus"].includes(user?.tier);
   $: sizeClass =
-    variant === "row" ? "px-2.5 py-1 text-xs" : "px-3 py-2 text-sm";
+    variant === "row" ? "px-3 py-1 text-xs" : "px-3.5 py-2 text-sm";
+  $: iconClass = variant === "row" ? "size-3.5" : "size-4";
 
   const toastStyle = () =>
     `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`;
@@ -112,18 +113,18 @@
   on:click={toggleFollow}
   disabled={isToggling}
   title={isFollowing ? analysts_following() : analysts_follow()}
-  class="inline-flex items-center gap-1.5 cursor-pointer rounded-full border font-medium whitespace-nowrap transition-colors {sizeClass} {isFollowing
-    ? 'border-violet-500/60 text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-500/10 hover:bg-violet-100 dark:hover:bg-violet-500/20'
-    : 'border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-50 dark:hover:bg-zinc-900'}"
+  class="inline-flex items-center gap-1 cursor-pointer rounded-full border font-medium whitespace-nowrap shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-60 {sizeClass} {isFollowing
+    ? 'border-violet-500/40 text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-500/15 hover:bg-violet-100 dark:hover:bg-violet-500/25'
+    : 'border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 bg-white dark:bg-zinc-900/60 hover:border-violet-400 hover:text-violet-700 dark:hover:border-violet-500/70 dark:hover:text-violet-300 hover:bg-violet-50/60 dark:hover:bg-violet-500/10'}"
 >
   {#if isFollowing}
     <!-- check -->
     <svg
-      class="size-4 flex-shrink-0"
+      class="{iconClass} flex-shrink-0"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      stroke-width="2.5"
+      stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
       aria-hidden="true"
@@ -133,11 +134,11 @@
   {:else}
     <!-- plus -->
     <svg
-      class="size-4 flex-shrink-0"
+      class="{iconClass} flex-shrink-0"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      stroke-width="2.5"
+      stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
       aria-hidden="true"
