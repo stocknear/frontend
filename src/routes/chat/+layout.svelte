@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { DateTime } from "luxon";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
@@ -15,7 +15,7 @@
     chat_toast_error,
     chat_toast_error_occurred,
   } from "$lib/paraglide/messages";
-  import { chatSidebarOpen, chatDeleteTargetId } from "$lib/store";
+  import { chatSidebarOpen, chatDeleteTargetId, screenWidth } from "$lib/store";
 
   export let data;
   let searchQuery = "";
@@ -146,6 +146,18 @@
     }
   });
 
+  // Lock page scroll while the drawer is an overlay (< lg) and open.
+  // On desktop the sidebar is in-layout (not an overlay), so never lock there.
+  $: if (typeof document !== "undefined") {
+    const lockScroll =
+      $chatSidebarOpen && $screenWidth > 0 && $screenWidth < DESKTOP_BREAKPOINT;
+    document.body.style.overflow = lockScroll ? "hidden" : "";
+  }
+
+  onDestroy(() => {
+    if (typeof document !== "undefined") document.body.style.overflow = "";
+  });
+
   function openDeleteModal(threadId: string) {
     if (!threadId) return;
     currentItem = allChats.find((item) => item.id === threadId) || {
@@ -262,10 +274,10 @@
     </div>
   {/if}
 
-  {#if data?.user && allChats?.length > 0 && !$chatSidebarOpen}
+  {#if data?.user && allChats?.length > 0 && !$chatSidebarOpen && !currentSlug}
     <button
       on:click={toggleChatSidebar}
-      class="cursor-pointer hidden sm:inline-flex lg:hidden fixed top-20 left-3 z-40 items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
+      class="cursor-pointer inline-flex lg:hidden fixed top-20 left-3 z-40 items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-200 sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
       aria-label="Open My Chats sidebar"
       title="Open My Chats"
     >
@@ -289,7 +301,7 @@
   <!-- Mobile backdrop -->
   {#if $chatSidebarOpen}
     <button
-      class="cursor-pointer hidden sm:block lg:hidden fixed inset-0 bg-black/40 z-40"
+      class="cursor-pointer block lg:hidden fixed inset-0 bg-black/40 z-40"
       on:click={() => setChatSidebarOpen(false)}
       aria-label="Close sidebar"
     />
@@ -298,7 +310,7 @@
   <!-- Sidebar -->
   {#if data?.user && allChats?.length > 0}
     <aside
-      class="hidden sm:flex fixed top-0 left-0 z-50 lg:z-30 h-screen w-[280px] pt-0 lg:pt-16 border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex-col transition-transform duration-200 ease-out {$chatSidebarOpen
+      class="flex fixed top-0 left-0 z-50 lg:z-30 h-[100dvh] w-[280px] max-w-[85vw] pt-0 lg:pt-16 border-r border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 flex-col transition-transform duration-200 ease-out {$chatSidebarOpen
         ? 'translate-x-0'
         : '-translate-x-full'}"
     >

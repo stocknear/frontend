@@ -1109,7 +1109,7 @@
       <!-- Mobile: sidebar toggle -->
       <button
         on:click={() => ($chatSidebarOpen = true)}
-        class="cursor-pointer hidden sm:inline-flex lg:hidden p-2 text-muted dark:text-white"
+        class="cursor-pointer inline-flex lg:hidden p-2 text-muted dark:text-white"
         aria-label="Open chat history"
       >
         <svg
