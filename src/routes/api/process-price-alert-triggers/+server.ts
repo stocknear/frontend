@@ -2,10 +2,12 @@ import type { RequestHandler } from "./$types";
 import { createHash } from "node:crypto";
 import { env } from "$env/dynamic/private";
 
-// Same-process push hop. Set PUSH_ORIGIN (in pm2's env - $env/dynamic/private reads process.env,
-// so .env.production is a no-op here) to keep it on loopback in production and off Cloudflare.
-// Falls back to the request's own origin, which is what makes local dev work.
-const PUSH_ORIGIN = env.PUSH_ORIGIN;
+// Same-process push hop. Going out via the public hostname means Cloudflare challenges the
+// request (cf-mitigated: challenge) for a route that lives in this very process, so in
+// production this stays on loopback. adapter-node listens on env.PORT (default 3000), so the
+// port is derived rather than hardcoded. In dev it falls back to the request's own origin.
+const PUSH_ORIGIN =
+  env.PUSH_ORIGIN || (import.meta.env.DEV ? "" : `http://127.0.0.1:${env.PORT || 3000}`);
 
 const PRICE_ALERT_ID_REGEX = /^[A-Za-z0-9:_-]{1,80}$/;
 const MAX_NOTE_LENGTH = 500;
