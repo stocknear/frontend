@@ -1,5 +1,11 @@
 import type { RequestHandler } from "./$types";
 import { createHash } from "node:crypto";
+import { env } from "$env/dynamic/private";
+
+// Same-process push hop. Set PUSH_ORIGIN (in pm2's env - $env/dynamic/private reads process.env,
+// so .env.production is a no-op here) to keep it on loopback in production and off Cloudflare.
+// Falls back to the request's own origin, which is what makes local dev work.
+const PUSH_ORIGIN = env.PUSH_ORIGIN;
 
 const PRICE_ALERT_ID_REGEX = /^[A-Za-z0-9:_-]{1,80}$/;
 const MAX_NOTE_LENGTH = 500;
@@ -199,10 +205,10 @@ async function sendPushNotificationForAlert(params: {
   apiKey: string;
   userId: string;
   liveResults: Record<string, unknown>;
-}): Promise<void> {
+}): Promise<boolean> {
   const { origin, apiKey, userId, liveResults } = params;
   const symbol = normalizeSymbol(liveResults?.symbol);
-  if (!apiKey || !userId || !symbol) return;
+  if (!apiKey || !userId || !symbol) return false;
 
   const alertType = normalizeAlertType(liveResults?.alertType);
   let title = `🚨 ${symbol} alert`;
@@ -243,9 +249,15 @@ async function sendPushNotificationForAlert(params: {
   }
 
   try {
-    await fetch(`${origin}/api/sendPushSubscription`, {
+    // This route lives in the same process, so in production PUSH_ORIGIN keeps the hop on
+    // loopback and Cloudflare never sees it. The click-through link stays on `origin` so a
+    // dev-triggered notification doesn't open production.
+    const res = await fetch(`${PUSH_ORIGIN || origin}/api/sendPushSubscription`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-stocknear-key": apiKey,
+      },
       body: JSON.stringify({
         title,
         body,
@@ -253,16 +265,27 @@ async function sendPushNotificationForAlert(params: {
         userId,
         key: apiKey,
       }),
+      // Without this a hung hop stalls the handler and the notification row is never written.
+      signal: AbortSignal.timeout(10_000),
     });
-  } catch {
-    // Best-effort only.
+    // fetch does not throw on 4xx/5xx - without this a failed push is silently discarded.
+    if (!res.ok) {
+      console.error("sendPushSubscription failed", res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("sendPushSubscription request failed", error);
+    return false;
   }
 }
 
 export const POST = (async ({ request, locals, url }) => {
   const { user, pb, apiKey } = locals;
 
-  if (!user?.id && !['Pro','Plus']?.includes(user?.tier)) {
+  // `&&` here meant any authenticated user short-circuited the whole condition to false, so the
+  // paid-tier gate never actually ran.
+  if (!user?.id || !['Pro','Plus']?.includes(user?.tier)) {
     return new Response(JSON.stringify({ error: "Authentication required" }), {
       status: 401,
     });
@@ -450,22 +473,10 @@ export const POST = (async ({ request, locals, url }) => {
     }
 
     existingPushHashes.add(pushHash);
-    await pb.collection("notifications").create({
-      user: user.id,
-      notifyType: "priceAlert",
-      priceAlert: canonical.id,
-      sent: true,
-      pushHash,
-      liveResults: {
-        symbol: event.symbol,
-        assetType: event.assetType,
-        condition: event.condition,
-        targetPrice: Number(event.targetPrice.toFixed(2)),
-        currentPrice: Number(event.currentPrice.toFixed(2)),
-      },
-    });
 
-    await sendPushNotificationForAlert({
+    // Push before writing the record so `sent` reflects what actually happened - it used to be
+    // hardcoded true, which made a total delivery outage indistinguishable from success.
+    const pushed = await sendPushNotificationForAlert({
       origin: url.origin,
       apiKey: apiKey ?? "",
       userId: user.id,
@@ -473,6 +484,23 @@ export const POST = (async ({ request, locals, url }) => {
         symbol: event.symbol,
         assetType: event.assetType,
         alertType: "price",
+        condition: event.condition,
+        targetPrice: Number(event.targetPrice.toFixed(2)),
+        currentPrice: Number(event.currentPrice.toFixed(2)),
+      },
+    });
+
+    // Created either way: the in-app notification is the record of the trigger, push is only
+    // one delivery channel for it.
+    await pb.collection("notifications").create({
+      user: user.id,
+      notifyType: "priceAlert",
+      priceAlert: canonical.id,
+      sent: pushed,
+      pushHash,
+      liveResults: {
+        symbol: event.symbol,
+        assetType: event.assetType,
         condition: event.condition,
         targetPrice: Number(event.targetPrice.toFixed(2)),
         currentPrice: Number(event.currentPrice.toFixed(2)),

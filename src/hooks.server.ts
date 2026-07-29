@@ -3,7 +3,15 @@ import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import { type Locale, locales, baseLocale, cookieName, cookieMaxAge, extractLocaleFromHeader } from "$lib/paraglide/runtime.js";
-import { STOCKNEAR_API_KEY } from "$env/static/private";
+import { STOCKNEAR_API_KEY as BUILT_IN_API_KEY } from "$env/static/private";
+import { env } from "$env/dynamic/private";
+
+// $env/static/private is inlined at build time, so editing .env and reloading pm2 changes
+// nothing - the running build keeps the value it was compiled with. That split-brain between a
+// frozen frontend and the backend's runtime os.getenv is what silently broke push delivery.
+// Prefer the runtime value so rotation is a restart, and fall back to the compiled-in one so
+// hosts that do not export the variable behave exactly as before.
+const STOCKNEAR_API_KEY = env.STOCKNEAR_API_KEY || BUILT_IN_API_KEY;
 
 // Locale detection constants
 // Cloudflare ISO-3166 country code → locale. Used as fallback when

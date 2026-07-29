@@ -86,16 +86,7 @@ export async function unsubscribe() {
 				const subscription = await readyRegistration.pushManager.getSubscription();
 				if (subscription) {
 					await subscription.unsubscribe();
-					const res = await fetch('/api/deletePushSubscription', {
-						method: 'GET',
-						cache: 'no-store',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-					});
-					if (!res.ok) {
-						console.warn('Failed to delete push subscription from server:', await res.text());
-					}
+					await deleteSubscriptionOnServer();
 					console.log('Successfully unsubscribed from push notifications');
 				} else {
 					console.log('No push subscription found');
@@ -105,6 +96,56 @@ export async function unsubscribe() {
 			}
 		}
 	}
+
+// State-changing, so POST: a GET is sent cross-site with sameSite=lax cookies and is not
+// covered by SvelteKit's CSRF protection.
+async function deleteSubscriptionOnServer() {
+	const res = await fetch('/api/deletePushSubscription', {
+		method: 'POST',
+		cache: 'no-store',
+		headers: { 'Content-Type': 'application/json' },
+	});
+	if (!res.ok) {
+		console.warn('Failed to delete push subscription from server:', await res.text());
+	}
+	return res.ok;
+}
+
+// A subscription is bound for life to the applicationServerKey it was created with. After a
+// VAPID rotation the old ones still look healthy client-side but every send returns 403.
+// An ABSENT key counts as a match: some browsers do not expose options.applicationServerKey,
+// and tearing down a working subscription on every page load is worse than a stale one.
+function keyMatches(subscription, vapidKey) {
+	const current = subscription?.options?.applicationServerKey;
+	if (!current) return true;
+	const bytes = new Uint8Array(current);
+	return bytes.length === vapidKey.length && bytes.every((b, i) => b === vapidKey[i]);
+}
+
+async function subscribeWithCurrentKey(registration) {
+	const vapidKey = urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY);
+	const existing = await registration.pushManager.getSubscription();
+
+	if (existing && keyMatches(existing, vapidKey)) return existing;
+
+	if (existing) {
+		console.log('Push subscription bound to a retired VAPID key, re-subscribing');
+		// subscribe() with a different key throws InvalidStateError while the old one is live.
+		await existing.unsubscribe();
+	}
+
+	try {
+		return await registration.pushManager.subscribe({
+			userVisibleOnly: true,
+			applicationServerKey: vapidKey
+		});
+	} catch (err) {
+		// The old subscription is gone and a new one could not be minted - drop the stale server
+		// row so client and server at least agree that push is off.
+		if (existing) await deleteSubscriptionOnServer().catch(() => {});
+		throw err;
+	}
+}
 
 async function sendSubscriptionToServer(subscription) {
 			try {
@@ -152,23 +193,8 @@ async function sendSubscriptionToServer(subscription) {
 			registration = await navigator.serviceWorker.ready;
 			console.log('Service worker ready:', registration);
 			
-			// Convert the VAPID key string to Uint8Array:
-			const vapidKey = urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY);
-	  
-			// Check if already subscribed
-			let subscription = await registration.pushManager.getSubscription();
-			
-			if (!subscription) {
-				// Create new subscription
-				subscription = await registration.pushManager.subscribe({
-					userVisibleOnly: true,
-					applicationServerKey: vapidKey
-				});
-				console.log('New subscription created:', subscription);
-			} else {
-				console.log('Using existing subscription:', subscription);
-			}
-			
+			const subscription = await subscribeWithCurrentKey(registration);
+
 			const output = await sendSubscriptionToServer(subscription);
 			return output;
 		} catch (err) {
@@ -189,14 +215,16 @@ export async function checkSubscriptionStatus() {
 
 				// Wait for it to be ready
 				const readyRegistration = await navigator.serviceWorker.ready;
-				const subscription = await readyRegistration.pushManager.getSubscription();
-				//console.log('check Subscription:', subscription);
-				const exists = subscription !== null;
-				if (exists && subscription) {
-					// Keep the server-side record in sync with the browser subscription.
-					await sendSubscriptionToServer(subscription);
+				const existing = await readyRegistration.pushManager.getSubscription();
+				// Only repair what is already there - never create a subscription from a status check.
+				if (!existing) {
+					return false;
 				}
-				return exists;
+				// Repairs a retired-key binding, otherwise returns the same subscription.
+				const subscription = await subscribeWithCurrentKey(readyRegistration);
+				// Keep the server-side record in sync with the browser subscription.
+				await sendSubscriptionToServer(subscription);
+				return true;
 			} catch (error) {
 				console.error('Error checking subscription status:', error);
 				return false;

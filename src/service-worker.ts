@@ -121,3 +121,44 @@ self.addEventListener('message', (event) => {
 
   // All caching-related messages are ignored since caching is disabled
 });
+
+// The browser can re-mint a subscription on its own (key change, expiry). Without this the new
+// endpoint never reaches the server and the device goes silent with no visible symptom.
+self.addEventListener('pushsubscriptionchange', (event: any) => {
+  event.waitUntil(
+    (async () => {
+      try {
+        // Firefox hands us the replacement directly; use it before deriving anything.
+        let subscription = event.newSubscription;
+
+        if (!subscription) {
+          // Chrome fires this event with neither property populated, so fall back to the
+          // build-time public key (already shipped to the client - nothing secret is added to
+          // the SW bundle). Preferred over oldSubscription's key, which on a rotation is dead.
+          const applicationServerKey =
+            import.meta.env.VITE_VAPID_PUBLIC_KEY ??
+            event.oldSubscription?.options?.applicationServerKey;
+          if (!applicationServerKey) return;
+
+          subscription = await self.registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey,
+          });
+        }
+
+        // This can fire days later with no page open, so the auth cookie may have expired.
+        const res = await fetch('/api/addPushSubscription', {
+          method: 'POST',
+          cache: 'no-store',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subscription }),
+        });
+        if (!res.ok) {
+          console.error('pushsubscriptionchange sync failed:', res.status);
+        }
+      } catch (error) {
+        console.error('pushsubscriptionchange resubscribe failed:', error);
+      }
+    })()
+  );
+});

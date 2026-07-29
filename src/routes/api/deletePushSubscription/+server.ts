@@ -3,7 +3,9 @@ import { error} from '@sveltejs/kit';
 
 
 
-export const GET = (async ({ locals }) => {
+// POST, not GET: this deletes state, and a GET is sent cross-site with sameSite=lax cookies
+// while SvelteKit's CSRF protection does not cover GET.
+export const POST = (async ({ locals }) => {
 	const { user, pb } = locals;
 
 	if (!user?.id) {
