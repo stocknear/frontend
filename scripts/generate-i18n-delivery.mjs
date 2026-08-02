@@ -391,11 +391,14 @@ async function analyzeSourceFileUncached(normalized) {
 }
 
 async function resolveSourceImport(importer, specifier) {
-  specifier = specifier.split("?")?.[0];
+  specifier = specifier?.split("?")?.[0];
   let base;
-  if (specifier.startsWith("$lib/")) base = path.join(root, "src", "lib", specifier.slice(5));
-  else if (specifier.startsWith(".")) base = path.resolve(path.dirname(importer), specifier);
+  if (specifier?.startsWith("$lib/")) base = path.join(root, "src", "lib", specifier.slice(5));
+  else if (specifier?.startsWith(".")) base = path.resolve(path.dirname(importer), specifier);
   else return null;
+  // Generated delivery modules are outputs of this script. Route analysis must
+  // not require them to exist before a clean checkout can generate them.
+  if (base === generatedSource || base?.startsWith(`${generatedSource}${path.sep}`)) return null;
   const candidates = (await isDirectory(base))
     ? [path.join(base, "index.ts"), path.join(base, "index.js")]
     : [
