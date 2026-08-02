@@ -15,6 +15,7 @@ export type LocaleDefinition = {
   ogLocale: string;
   direction: "ltr" | "rtl";
   browserAliases: readonly string[];
+  countryCodes: readonly string[];
 };
 
 export const localeRegistry = {
@@ -27,6 +28,7 @@ export const localeRegistry = {
     ogLocale: "en_US",
     direction: "ltr",
     browserAliases: ["en"],
+    countryCodes: [],
   },
   de: {
     locale: "de",
@@ -37,6 +39,7 @@ export const localeRegistry = {
     ogLocale: "de_DE",
     direction: "ltr",
     browserAliases: ["de"],
+    countryCodes: ["DE", "AT", "LI"],
   },
   "zh-CN": {
     locale: "zh-CN",
@@ -47,6 +50,7 @@ export const localeRegistry = {
     ogLocale: "zh_CN",
     direction: "ltr",
     browserAliases: ["zh-cn", "zh-sg", "zh-hans", "zh"],
+    countryCodes: ["CN", "SG"],
   },
   "zh-TW": {
     locale: "zh-TW",
@@ -57,6 +61,7 @@ export const localeRegistry = {
     ogLocale: "zh_TW",
     direction: "ltr",
     browserAliases: ["zh-tw", "zh-hk", "zh-mo", "zh-hant"],
+    countryCodes: ["TW", "HK", "MO"],
   },
   es: {
     locale: "es",
@@ -67,6 +72,28 @@ export const localeRegistry = {
     ogLocale: "es_ES",
     direction: "ltr",
     browserAliases: ["es"],
+    countryCodes: [
+      "ES",
+      "AR",
+      "BO",
+      "CL",
+      "CO",
+      "CR",
+      "CU",
+      "DO",
+      "EC",
+      "SV",
+      "GT",
+      "HN",
+      "MX",
+      "NI",
+      "PA",
+      "PY",
+      "PE",
+      "PR",
+      "UY",
+      "VE",
+    ],
   },
   fr: {
     locale: "fr",
@@ -77,6 +104,7 @@ export const localeRegistry = {
     ogLocale: "fr_FR",
     direction: "ltr",
     browserAliases: ["fr"],
+    countryCodes: ["FR", "MC"],
   },
 } as const satisfies Record<Locale, LocaleDefinition>;
 
@@ -87,7 +115,10 @@ export const LANGUAGE_SUGGESTION_DISMISS_SECONDS = 60 * 60 * 24 * 30;
 
 const LEGACY_LOCALE_ALIASES: Readonly<Record<string, Locale>> = {
   zh: "zh-CN",
+  "zh-sg": "zh-CN",
   "zh-hans": "zh-CN",
+  "zh-hk": "zh-TW",
+  "zh-mo": "zh-TW",
   "zh-hant": "zh-TW",
 };
 
@@ -105,7 +136,7 @@ export function canonicalizeLocale(value: unknown): Locale | null {
   if (legacyLocale) return legacyLocale;
 
   return (
-    supportedLocales.find((locale) => locale.toLowerCase() === normalized) ??
+    supportedLocales?.find((locale) => locale.toLowerCase() === normalized) ??
     null
   );
 }
@@ -116,8 +147,21 @@ export function getLocaleDefinition(locale: Locale): LocaleDefinition {
 
 export function getLocaleFromSlug(slug: string): Locale | undefined {
   const normalized = slug.trim().toLowerCase().replaceAll("_", "-");
-  return supportedLocales.find(
+  return supportedLocales?.find(
     (locale) => localeRegistry[locale].slug === normalized,
+  );
+}
+
+export function matchCountryLocale(
+  countryCode: string | null | undefined,
+): Locale | null {
+  const normalized = countryCode?.trim()?.toUpperCase();
+  if (!normalized) return null;
+
+  return (
+    supportedLocales?.find((locale) =>
+      localeRegistry[locale].countryCodes?.includes(normalized),
+    ) ?? null
   );
 }
 
@@ -128,14 +172,14 @@ export function matchBrowserLocale(languageTags: readonly string[]): Locale | nu
 
     for (const locale of supportedLocales) {
       const specificAliases = localeRegistry[locale]?.browserAliases?.filter((alias) => alias.includes("-")) ?? [];
-      if (specificAliases.some((alias) => normalized === alias || normalized.startsWith(`${alias}-`))) {
+      if (specificAliases?.some((alias) => normalized === alias || normalized.startsWith(`${alias}-`))) {
         return locale;
       }
     }
 
     for (const locale of supportedLocales) {
       const baseAliases = localeRegistry[locale]?.browserAliases?.filter((alias) => !alias.includes("-")) ?? [];
-      if (baseAliases.some((alias) => normalized === alias || normalized.startsWith(`${alias}-`))) {
+      if (baseAliases?.some((alias) => normalized === alias || normalized.startsWith(`${alias}-`))) {
         return locale;
       }
     }
@@ -148,7 +192,7 @@ export function parseAcceptLanguage(header: string | null): string[] {
 
   return header
     .split(",")
-    .map((entry, index) => {
+    ?.map((entry, index) => {
       const [tag, ...parameters] = entry.trim().split(";");
       const qualityParameter = parameters.find((parameter) => parameter.trim().startsWith("q="));
       const quality = qualityParameter

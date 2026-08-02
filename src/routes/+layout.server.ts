@@ -1,6 +1,6 @@
 import { convertToSlug, checkPreMarketHourSSR } from "$lib/utils";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
-import { cookieName, type Locale } from "$lib/paraglide/runtime.js";
+import { baseLocale, cookieName, type Locale } from "$lib/paraglide/runtime.js";
 import {
   LANGUAGE_SUGGESTION_DISMISS_COOKIE,
   canonicalizeLocale,
@@ -112,7 +112,7 @@ export const load = async ({ locals, cookies, request }) => {
       cookieConsent: null,
       wsURL: undefined,
       themeMode: "dark",
-      locale: "en",
+      locale: locals?.locale ?? baseLocale,
       isPreMarket: false,
       hasDailyBriefing: false,
       dailyBriefingSlug: null,

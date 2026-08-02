@@ -4,7 +4,7 @@
     buildOptionSymbol,
     parseOptionSymbol,
   } from "$lib/utils";
-  import { setCache, getCache } from "$lib/store";
+  import { fetchInfoText } from "$lib/i18n/info-text";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -1266,21 +1266,10 @@
 
   async function getInfoText(parameter, title) {
     tooltipTitle = title;
-    const cachedData = getCache(parameter, "getInfoText");
-    if (cachedData) {
-      infoText = cachedData;
-    } else {
-      const postData = { parameter };
-      const response = await fetch("/api/info-text", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      infoText = await response.json();
-      setCache(parameter, infoText, "getInfoText");
+    try {
+      infoText = await fetchInfoText(parameter);
+    } catch {
+      infoText = {};
     }
   }
 

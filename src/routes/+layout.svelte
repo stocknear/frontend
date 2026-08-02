@@ -28,7 +28,7 @@
     type Locale,
   } from "$lib/paraglide/runtime.js";
   import { localizedHref } from "$lib/i18n/navigation";
-  import { getLocaleFromSlug } from "$lib/i18n/locales";
+  import { canonicalizeLocale } from "$lib/i18n/locales";
   import {
     hasRouteMessages,
     loadRouteMessages,
@@ -160,7 +160,10 @@
     priceAlert: false,
     chat: false,
   };
-  let translationNavigationRetry = false;
+  let translationNavigationGeneration = 0;
+  let translationNavigationRetry:
+    | { target: string; generation: number }
+    | null = null;
 
   $: currentLocale =
     extractLocaleFromUrl($page.url) ?? data?.locale ?? baseLocale;
@@ -429,9 +432,10 @@
     ) {
       const destination = navigation.to.url;
       if (destination.origin === window.location.origin) {
+        const navigationGeneration = ++translationNavigationGeneration;
         const [firstSegment] = destination.pathname.split("/")?.filter(Boolean) ?? [];
         const destinationHasLocale = Boolean(
-          firstSegment && getLocaleFromSlug(firstSegment),
+          firstSegment && canonicalizeLocale(firstSegment),
         );
         if (!destinationHasLocale) {
           const currentUrlLocale = extractLocaleFromUrl(window.location.href);
@@ -456,21 +460,36 @@
         }
 
         const targetRouteId = navigation.to.route.id;
+        const target = `${destination.pathname}${destination.search}${destination.hash}`;
+        const isTranslationRetry =
+          translationNavigationRetry?.target === target;
+        if (isTranslationRetry) translationNavigationRetry = null;
         if (
-          !translationNavigationRetry &&
+          !isTranslationRetry &&
           targetRouteId &&
-          !hasRouteMessages(targetRouteId)
+          !hasRouteMessages(targetRouteId, activeLocale)
         ) {
           navigation.cancel();
-          const target = `${destination.pathname}${destination.search}${destination.hash}`;
-          void loadRouteMessages(targetRouteId)
-            .then(async () => {
-              translationNavigationRetry = true;
+          void loadRouteMessages(targetRouteId, activeLocale)
+            ?.then(async () => {
+              if (navigationGeneration !== translationNavigationGeneration) return;
+              translationNavigationRetry = {
+                target,
+                generation: navigationGeneration,
+              };
               await goto(target);
             })
-            .catch(() => window.location.assign(target))
-            .finally(() => {
-              translationNavigationRetry = false;
+            ?.catch(() => {
+              if (navigationGeneration === translationNavigationGeneration) {
+                window.location.assign(target);
+              }
+            })
+            ?.finally(() => {
+              if (
+                translationNavigationRetry?.generation === navigationGeneration
+              ) {
+                translationNavigationRetry = null;
+              }
             });
           return;
         }

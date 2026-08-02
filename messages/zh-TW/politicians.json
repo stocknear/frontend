@@ -10,7 +10,7 @@
   "politicians_main_title": "所有美國政客",
   "politicians_count_members": "{count} 會員",
   "politicians_search_placeholder": "找...",
-  "politicians_filter_party": "派對",
+  "politicians_filter_party": "政黨",
   "politicians_empty_search": "找不到「{query}」的國會議員",
   "politicians_empty_filter": "沒有找到符合你的搜尋或篩選條件的結果。",
   "politicians_pagination_previous": "上一頁",

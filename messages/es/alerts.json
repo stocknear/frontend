@@ -17,7 +17,7 @@
   "price_alert_tab_news": "Noticias",
   "price_alert_tab_earnings": "Publicación de resultados",
   "price_alert_no_news": "Aún no hay noticias. Añade algunas acciones a tu lista de alertas para ver las últimas noticias.",
-  "price_alert_no_earnings": "Aún no hay ganancias. Añade algunas acciones a la lista de alertas para ver los datos de ganancias más recientes.",
+  "price_alert_no_earnings": "Aún no hay resultados. Añade algunas acciones a la lista de alertas para ver los datos de resultados más recientes.",
   "price_alert_toast_deleted": "Alertas eliminadas exitosamente",
   "price_alert_toast_select_symbols": "Debes seleccionar símbolos antes de poder eliminarlos.",
   "price_alert_earnings_will_report_today": "informará hoy",

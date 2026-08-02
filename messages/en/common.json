@@ -45,5 +45,6 @@
   "common_language_suggestion": "Stocknear is available in {language}.",
   "common_language_switch": "Switch language",
   "common_language_keep_english": "Keep English",
-  "common_language_close": "Close language suggestion"
+  "common_language_close": "Close language suggestion",
+  "common_close": "Close"
 }

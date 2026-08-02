@@ -14,7 +14,7 @@ import { canonicalizeLocale, localeRegistry } from "$lib/i18n/locales";
 export { locales, baseLocale, isLocale, type Locale };
 
 export const languageNames: Record<Locale, string> = Object.fromEntries(
-  locales.map((locale) => [locale, localeRegistry[locale].name]),
+  locales?.map((locale) => [locale, localeRegistry[locale].name]),
 ) as Record<Locale, string>;
 
 export function rememberLanguage(locale: Locale): void {

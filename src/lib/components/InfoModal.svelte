@@ -1,7 +1,12 @@
 <script lang="ts">
   import tippy from "tippy.js";
   import "tippy.js/dist/tippy.css";
-  import { getCache, setCache } from "$lib/store";
+  import { escapeInfoTextHtml, fetchInfoText } from "$lib/i18n/info-text";
+  import {
+    common_close,
+    stock_detail_financials_error_loading,
+    stock_detail_financials_loading,
+  } from "$lib/paraglide/messages";
   import { onMount } from "svelte";
 
   export let title: string;
@@ -20,32 +25,12 @@
 
     isLoading = true;
     try {
-      const cachedData = getCache(parameter, "getInfoText");
-      if (cachedData) {
-        content = cachedData?.text || "No content available";
-        equation = cachedData?.equation || "";
-      } else {
-        const postData = { parameter };
-        const response = await fetch("/api/info-text", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        content = result?.text || "No content available";
-        equation = result?.equation || "";
-        setCache(parameter, result, "getInfoText");
-      }
+      const result = await fetchInfoText(parameter);
+      content = result?.text || stock_detail_financials_error_loading();
+      equation = result?.equation || "";
     } catch (error) {
       console.error("Error fetching info text:", error);
-      content = "Error loading content";
+      content = stock_detail_financials_error_loading();
     } finally {
       isLoading = false;
     }
@@ -70,7 +55,7 @@
   // Initialize tippy only for desktop when infoIcon is available
   $: if (infoIcon && !isMobile && !infoIcon._tippy) {
     tippy(infoIcon, {
-      content: "Loading...",
+      content: stock_detail_financials_loading(),
       allowHTML: true,
       placement: "bottom",
       theme: "minimal",
@@ -85,8 +70,8 @@
           // Show loading state immediately
           instance.setContent(`
             <div class="info-tooltip">
-              <div class="info-tooltip__title ${title ? "" : "hidden"}">${title}</div>
-              <div class="info-tooltip__body">Loading...</div>
+              <div class="info-tooltip__title ${title ? "" : "hidden"}">${escapeInfoTextHtml(title)}</div>
+              <div class="info-tooltip__body">${stock_detail_financials_loading()}</div>
             </div>
           `);
 
@@ -94,9 +79,9 @@
             // Update tooltip content after API call completes
             instance.setContent(`
               <div class="info-tooltip">
-                <div class="info-tooltip__title ${title ? "" : "hidden"}">${title}</div>
-                <div class="info-tooltip__body">${content}</div>
-                ${equation ? `<div class="info-tooltip__equation">${equation}</div>` : ""}
+                <div class="info-tooltip__title ${title ? "" : "hidden"}">${escapeInfoTextHtml(title)}</div>
+                <div class="info-tooltip__body">${escapeInfoTextHtml(content)}</div>
+                ${equation ? `<div class="info-tooltip__equation">${escapeInfoTextHtml(equation)}</div>` : ""}
               </div>
             `);
           });
@@ -179,7 +164,7 @@
       <label
         for={id}
         class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
-        aria-label="Close modal"
+        aria-label={common_close()}
       >
         <svg
           class="w-6 h-6 sm:w-7 sm:h-7"
@@ -204,16 +189,24 @@
         {/if}
         <div class="text-sm leading-relaxed text-muted dark:text-zinc-200">
           {#if isLoading}
-            Loading...
+            {stock_detail_financials_loading()}
           {:else}
-            {@html content}
+            {#if callAPI}
+              {content}
+            {:else}
+              {@html content}
+            {/if}
           {/if}
         </div>
         {#if equation}
           <div
             class="mt-4 pt-4 border-t border-gray-300 dark:border-zinc-700 text-sm"
           >
-            {@html equation}
+            {#if callAPI}
+              {equation}
+            {:else}
+              {@html equation}
+            {/if}
           </div>
         {/if}
       </div>
@@ -223,7 +216,7 @@
           for={id}
           class="mt-2 inline-flex w-full justify-center rounded-full border border-gray-300 dark:border-zinc-700 px-4 py-2 text-sm font-semibold text-muted dark:text-zinc-200 hover:text-violet-700 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-700/80 transition cursor-pointer"
         >
-          Close
+          {common_close()}
         </label>
       </div>
     </div>

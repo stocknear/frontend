@@ -1,3 +1,8 @@
+import {
+  localeRegistry,
+  supportedLocales,
+} from "$lib/i18n/locales";
+
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ setHeaders }) {
   setHeaders({
@@ -7,6 +12,15 @@ export async function GET({ setHeaders }) {
 
   const website = "https://stocknear.com";
   const now = new Date().toISOString();
+  const stockSitemaps = supportedLocales
+    ?.map((locale) => localeRegistry[locale].slug ?? locale)
+    ?.map(
+      (slug) => `  <sitemap>
+    <loc>${website}/sitemaps/stocks/${slug}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>`,
+    )
+    ?.join("\n") ?? "";
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -14,30 +28,7 @@ export async function GET({ setHeaders }) {
     <loc>${website}/sitemap-static.xml</loc>
     <lastmod>${now}</lastmod>
   </sitemap>
-  <sitemap>
-    <loc>${website}/sitemaps/stocks/en</loc>
-    <lastmod>${now}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${website}/sitemaps/stocks/de</loc>
-    <lastmod>${now}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${website}/sitemaps/stocks/zh-cn</loc>
-    <lastmod>${now}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${website}/sitemaps/stocks/zh-tw</loc>
-    <lastmod>${now}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${website}/sitemaps/stocks/es</loc>
-    <lastmod>${now}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${website}/sitemaps/stocks/fr</loc>
-    <lastmod>${now}</lastmod>
-  </sitemap>
+${stockSitemaps}
   <sitemap>
     <loc>${website}/sitemap-articles.xml</loc>
     <lastmod>${now}</lastmod>

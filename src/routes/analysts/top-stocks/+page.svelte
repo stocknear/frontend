@@ -118,7 +118,11 @@
               {defaultList}
               {excludedRules}
               {hideLastRow}
-              title={analysts_top_stocks_count({ count: rawData?.length })}
+              title={analysts_top_stocks_count({
+                count: ["Pro", "Plus"]?.includes(data?.user?.tier)
+                  ? rawData?.length
+                  : rawData?.at(0)?.rank,
+              })}
             />
           </div>
           <UpgradeToPro {data} />

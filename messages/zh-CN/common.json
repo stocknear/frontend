@@ -45,5 +45,6 @@
   "common_language_suggestion": "Stocknear 支持{language}。",
   "common_language_switch": "切换语言",
   "common_language_keep_english": "继续使用英语",
-  "common_language_close": "关闭语言建议"
+  "common_language_close": "关闭语言建议",
+  "common_close": "关闭"
 }

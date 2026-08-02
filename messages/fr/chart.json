@@ -175,7 +175,7 @@
   "chart_analyst_target_consensus": "Consensus",
   "chart_oi_total": "Total OI",
   "chart_oi_call": "OI des calls",
-  "chart_oi_put": "Mets OI",
+  "chart_oi_put": "OI des puts",
   "chart_hottest_open_interest": "Intérêt ouvert",
   "chart_hottest_last_price": "Dernier prix",
   "chart_hottest_iv": "IV",

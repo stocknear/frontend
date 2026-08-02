@@ -1,6 +1,11 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { deLocalizeUrl, getLocale, type Locale } from "$lib/paraglide/runtime.js";
+  import {
+    baseLocale,
+    deLocalizeUrl,
+    extractLocaleFromUrl,
+    type Locale,
+  } from "$lib/paraglide/runtime.js";
   import { hrefForLocale } from "$lib/i18n/navigation";
   import { getLocaleDefinition, supportedLocales } from "$lib/i18n/locales";
   import { jsonLdScript } from "$lib/seo/json-ld";
@@ -18,7 +23,10 @@
   export let contentLocales: readonly Locale[] | null = null;
 
   const baseURL = "https://stocknear.com";
-  $: currentLocale = ($page.url.pathname, getLocale());
+  // The URL is the canonical locale source for both SSR and hydration. Reading
+  // the browser runtime here can expose a stale cookie locale before startup
+  // finishes and change the serialized JSON-LD between server and client.
+  $: currentLocale = extractLocaleFromUrl($page.url) ?? baseLocale;
   $: localeDefinition = getLocaleDefinition(currentLocale);
   $: pathname = $page?.url?.pathname || "";
   $: delocalizedPathname = deLocalizeUrl($page.url).pathname;
@@ -26,7 +34,7 @@
   $: alternateLocales = contentLocales
     ? ([...contentLocales] as Locale[])
     : ([...supportedLocales] as Locale[]);
-  $: shouldNoIndex = noindex || !alternateLocales.includes(currentLocale);
+  $: shouldNoIndex = noindex || !alternateLocales?.includes(currentLocale);
 
   const siteName = "Stocknear";
   const twitterHandle = "@stocknear";
@@ -52,7 +60,7 @@
     locale: Locale,
   ): unknown {
     if (Array.isArray(value)) {
-      return value.map((item) => localizeStructuredDataUrls(item, locale));
+      return value?.map((item) => localizeStructuredDataUrls(item, locale));
     }
     if (!value || typeof value !== "object") return value;
 
@@ -60,14 +68,14 @@
     const schemaTypes = Array.isArray(record["@type"])
       ? record["@type"]
       : [record["@type"]];
-    const isGlobalIdentity = schemaTypes.every(
+    const isGlobalIdentity = schemaTypes?.every(
       (schemaType) =>
         typeof schemaType === "string" &&
         GLOBAL_IDENTITY_TYPES.has(schemaType),
     );
 
     return Object.fromEntries(
-      Object.entries(record).map(([key, item]) => {
+      Object.entries(record)?.map(([key, item]) => {
         if (
           typeof item === "string" &&
           PAGE_URL_PROPERTIES.has(key) &&
@@ -89,7 +97,7 @@
     : [structuredData]
   )
     ?.filter(Boolean)
-    .map((schema) => prepareStructuredData(schema));
+    ?.map((schema) => prepareStructuredData(schema));
 
   // Global Organization + WebSite schema (rendered once on every page)
   $: globalSchemas = [

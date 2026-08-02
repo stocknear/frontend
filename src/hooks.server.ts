@@ -5,18 +5,17 @@ import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
 import {
   type Locale,
-  baseLocale,
   cookieMaxAge,
   cookieName,
 } from "$lib/paraglide/runtime.js";
 import { STOCKNEAR_API_KEY as BUILT_IN_API_KEY } from "$env/static/private";
 import { env } from "$env/dynamic/private";
-import { isLocalizableHref, hrefForLocale } from "$lib/i18n/navigation";
-import {
-  canonicalizeLocale,
-  getLocaleDefinition,
-} from "$lib/i18n/locales";
 import { getRouteLocaleAssets } from "$lib/i18n/delivery/generated/manifest.js";
+import {
+  localizeInternalRedirect,
+  resolveLocaleRequest,
+  type LocaleRedirect,
+} from "$lib/server/locale-routing";
 
 // $env/static/private is inlined at build time, so editing .env and reloading pm2 changes
 // nothing - the running build keeps the value it was compiled with. That split-brain between a
@@ -24,43 +23,6 @@ import { getRouteLocaleAssets } from "$lib/i18n/delivery/generated/manifest.js";
 // Prefer the runtime value so rotation is a restart, and fall back to the compiled-in one so
 // hosts that do not export the variable behave exactly as before.
 const STOCKNEAR_API_KEY = env.STOCKNEAR_API_KEY || BUILT_IN_API_KEY;
-
-function canonicalLocaleRedirect(url: URL): Response | null {
-  const firstSegment = url.pathname.split("/")?.[1];
-  if (!firstSegment) return null;
-
-  const locale = canonicalizeLocale(firstSegment);
-  if (!locale) return null;
-
-  const canonicalSlug = getLocaleDefinition(locale).slug;
-  if (canonicalSlug && firstSegment === canonicalSlug) return null;
-
-  // Collapse leading slash/backslash runs in the suffix so a locale redirect
-  // can never produce a protocol-relative Location header.
-  const suffix = url.pathname
-    .slice(firstSegment.length + 1)
-    .replace(/^[\\/]+/, "");
-  const localizedRoot = canonicalSlug ? `/${canonicalSlug}` : "";
-  const pathname = suffix
-    ? `${localizedRoot}/${suffix}`
-    : `${localizedRoot}/`;
-  const location = `${pathname}${url.search}`;
-  return new Response(null, { status: 308, headers: { location } });
-}
-
-function canonicalizeLocaleCookie(event: RequestEvent): void {
-  const rawLocale = event.cookies.get(cookieName);
-  const locale = canonicalizeLocale(rawLocale);
-  if (!rawLocale || !locale || rawLocale === locale) return;
-
-  event.cookies.set(cookieName, locale, {
-    path: "/",
-    httpOnly: false,
-    sameSite: "lax",
-    secure: event.url.protocol === "https:",
-    maxAge: cookieMaxAge,
-  });
-}
 
 const getClientIp = (event) => {
   const cfIp = event.request.headers.get("cf-connecting-ip");
@@ -102,6 +64,46 @@ const getForwardedHeader = (request: Request, headerName: string) => {
   return firstValue && firstValue.length > 0 ? firstValue : undefined;
 };
 
+function setLocaleCookie(event: RequestEvent, locale: Locale): string {
+  const forwardedProto = getForwardedHeader(
+    event.request,
+    "x-forwarded-proto",
+  )?.toLowerCase();
+  const options = {
+    path: "/",
+    httpOnly: false,
+    sameSite: "lax",
+    secure: event.url.protocol === "https:" || forwardedProto === "https",
+    maxAge: cookieMaxAge,
+  } as const;
+
+  event.cookies.set(cookieName, locale, options);
+  return event.cookies.serialize(cookieName, locale, options);
+}
+
+function localeRedirectResponse(redirect: LocaleRedirect): Response {
+  const headers = new Headers({ location: redirect.location });
+  // Canonical redirects also synchronize an explicit URL choice into a
+  // cookie. Prevent a browser/CDN-cached 308 from skipping that side effect.
+  headers.set("cache-control", "private, no-store");
+  if (redirect.variesByVisitor) {
+    headers.set("vary", "Cookie, CF-IPCountry");
+  } else {
+    headers.set("vary", "Cookie");
+  }
+
+  return new Response(null, { status: redirect.status, headers });
+}
+
+function appendVary(headers: Headers, value: string): void {
+  const current = headers.get("vary");
+  if (!current) {
+    headers.set("vary", value);
+  } else if (!current.toLowerCase().includes(value.toLowerCase())) {
+    headers.set("vary", `${current}, ${value}`);
+  }
+}
+
 const getPublicWsBaseUrl = (event) => {
   const forwardedProto = getForwardedHeader(
     event.request,
@@ -122,10 +124,22 @@ const getPublicWsBaseUrl = (event) => {
 };
 
 export const handle = sequence(async ({ event, resolve }) => {
-  const localeRedirect = canonicalLocaleRedirect(event.url);
-  if (localeRedirect) return localeRedirect;
+  const localeRouting = resolveLocaleRequest({
+    url: event.url,
+    cookieLocale: event.cookies.get(cookieName),
+    countryCode: event.request.headers.get("CF-IPCountry"),
+    method: event.request.method,
+  });
 
-  canonicalizeLocaleCookie(event);
+  const localeCookie = localeRouting.persistLocale
+    ? setLocaleCookie(event, localeRouting.locale)
+    : null;
+
+  if (localeRouting.redirect) {
+    const response = localeRedirectResponse(localeRouting.redirect);
+    if (localeCookie) response.headers.append("set-cookie", localeCookie);
+    return response;
+  }
 
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
   // API routes don't need locale handling and the middleware consumes the request body
@@ -162,7 +176,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       themeMode,
       clientIp,
       cookieConsent,
-      locale: canonicalizeLocale(event.cookies.get(cookieName)) ?? baseLocale,
+      locale: localeRouting.locale,
     };
 
     const authCookie = event?.request?.headers?.get("cookie") || "";
@@ -197,6 +211,12 @@ export const handle = sequence(async ({ event, resolve }) => {
 
   // Use Paraglide middleware for proper SSR locale handling with AsyncLocalStorage
   return paraglideMiddleware(event.request, async ({ request, locale }) => {
+    // Non-localized endpoints (notably the fixed OAuth callback) have no URL
+    // locale, so retain the saved locale selected by the request resolver.
+    const resolvedLocale = localeRouting.excluded
+      ? localeRouting.locale
+      : (locale as Locale);
+
     // Use a ternary operator instead of the logical OR for better compatibility
     const pbURL = import.meta.env.VITE_USEAST_POCKETBASE_URL;
     const apiURL = import.meta.env.VITE_USEAST_API_URL;
@@ -228,7 +248,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       themeMode,
       clientIp,
       cookieConsent,
-      locale: locale as Locale,
+      locale: resolvedLocale,
     };
 
     const authCookie = event?.request?.headers?.get("cookie") || "";
@@ -249,16 +269,16 @@ export const handle = sequence(async ({ event, resolve }) => {
     const response = await resolve(
       { ...event, request: isSafeMethod ? request : event.request },
       {
-      transformPageChunk: ({ html }) =>
-        html
-          .replace('data-theme=""', `data-theme="${themeMode}"`)
-          .replace(
-            "%stocknear.i18n%",
-            getRouteLocaleAssets(event.route.id ?? "/", locale as Locale)
-              .map((src) => `<script src="${src}"></script>`)
-              .join(""),
-          )
-          .replace('%lang%', locale),
+        transformPageChunk: ({ html }) =>
+          html
+            .replace('data-theme=""', `data-theme="${themeMode}"`)
+            .replace(
+              "%stocknear.i18n%",
+              getRouteLocaleAssets(event.route.id ?? "/", resolvedLocale)
+                ?.map((src) => `<script src="${src}"></script>`)
+                ?.join("") ?? "",
+            )
+            .replace("%lang%", resolvedLocale),
       },
     );
 
@@ -274,8 +294,27 @@ export const handle = sequence(async ({ event, resolve }) => {
     response.headers.append("set-cookie", cookieString);
 
     const redirectLocation = response.headers.get("location");
-    if (redirectLocation?.startsWith("/") && isLocalizableHref(redirectLocation)) {
-      response.headers.set("location", hrefForLocale(redirectLocation, locale as Locale));
+    if (redirectLocation) {
+      response.headers.set(
+        "location",
+        localizeInternalRedirect(redirectLocation, resolvedLocale),
+      );
+    }
+
+    const isOAuthCallback =
+      event.url.pathname === "/oauth" ||
+      event.url.pathname.startsWith("/oauth/");
+    if (!localeRouting.excluded && localeRouting.source !== "url") {
+      // A bare English response is still selected using Cookie/Country. Do
+      // not let a shared cache bypass that decision for the next visitor.
+      response.headers.set("cache-control", "private, no-store");
+      appendVary(response.headers, "Cookie");
+      appendVary(response.headers, "CF-IPCountry");
+    } else if (localeCookie || isOAuthCallback) {
+      // Explicit URL cookie synchronization and OAuth callback destinations
+      // are user-specific side effects even when their content is not.
+      response.headers.set("cache-control", "private, no-store");
+      appendVary(response.headers, "Cookie");
     }
 
     return response;

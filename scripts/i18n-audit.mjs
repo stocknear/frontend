@@ -18,7 +18,24 @@ const hardcodedBaseline = JSON.parse(
     "utf8",
   ),
 );
+const robotsText = fs.readFileSync(path.join(root, "static/robots.txt"), "utf8");
+const robotsRules = new Set(
+  robotsText.match(/^Disallow:\s+\S+/gm)?.map((rule) => rule.trim()) ?? [],
+);
+const localizedPrivatePaths = ["profile*", "settings*", "admin*", "auth/*"];
+for (const locale of targetLocales) {
+  const localeSlug = locale.toLowerCase();
+  for (const privatePath of localizedPrivatePaths) {
+    const expectedRule = `Disallow: /${localeSlug}/${privatePath}`;
+    if (!robotsRules.has(expectedRule)) {
+      failures.push(
+        `static/robots.txt: missing private-path rule for ${locale}: ${expectedRule}`,
+      );
+    }
+  }
+}
 const forbiddenTranslations = {
+  de: [/bullisch Tendenz/i, /bärisch Überzeugung/i],
   es: [
     /Mejores artistas/i,
     /Sobreventa ETFs/i,
@@ -43,8 +60,9 @@ const forbiddenTranslations = {
     /篩選器篩選器/,
     /篩網/,
     /股票代理/,
-    /AI 代理人/,
+    /AI 代理/,
     /專業代理商/,
+    /填寫你最喜歡的股票/,
     /選擇權費/,
     /符號/,
     /效能/,
@@ -58,6 +76,30 @@ const jsonFiles = (locale) =>
     .readdirSync(path.join(messagesRoot, locale))
     ?.filter((file) => file.endsWith(".json")) ?? [])
     .sort();
+
+const duplicateKeys = (rawCatalog) => {
+  const seen = new Set();
+  const duplicates = new Set();
+  for (const match of rawCatalog.matchAll(
+    /^\s*"((?:\\.|[^"\\])*)"\s*:/gm,
+  )) {
+    const key = JSON.parse(`"${match[1]}"`);
+    if (seen.has(key)) duplicates.add(key);
+    seen.add(key);
+  }
+  return [...duplicates];
+};
+
+for (const locale of settings.locales) {
+  const localePath = path.join(messagesRoot, locale);
+  if (!fs.existsSync(localePath)) continue;
+  for (const file of jsonFiles(locale)) {
+    const rawCatalog = fs.readFileSync(path.join(localePath, file), "utf8");
+    for (const key of duplicateKeys(rawCatalog)) {
+      failures.push(`${locale}/${file}:${key}: duplicate key`);
+    }
+  }
+}
 
 const readCatalog = (locale, file) =>
   JSON.parse(fs.readFileSync(path.join(messagesRoot, locale, file), "utf8"));

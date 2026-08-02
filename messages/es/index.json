@@ -16,7 +16,7 @@
   "index_detail_bid": "Precio de compra",
   "index_detail_ask": "Precio de venta",
   "index_detail_volume": "Volumen",
-  "index_detail_avg_volume_20d": "Promedio Volumen (20D)",
+  "index_detail_avg_volume_20d": "Volumen medio (20D)",
   "index_detail_50_day_ma": "50 días MA",
   "index_detail_200_day_ma": "MA de 200 días",
   "index_detail_eps_ttm": "EPS (ttm)",

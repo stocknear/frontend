@@ -1,6 +1,7 @@
 <script lang="ts">
   import notifySound from "$lib/audio/options-flow-reader.mp3";
-  import { getCache, setCache, isOpen } from "$lib/store";
+  import { isOpen } from "$lib/store";
+  import { fetchInfoText } from "$lib/i18n/info-text";
 
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
@@ -1105,21 +1106,10 @@
 
   async function getInfoText(parameter, title) {
     tooltipTitle = title;
-    const cachedData = getCache(parameter, "getInfoText");
-    if (cachedData) {
-      infoText = cachedData;
-    } else {
-      const postData = { parameter };
-      const response = await fetch("/api/info-text", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      infoText = await response.json();
-      setCache(parameter, infoText, "getInfoText");
+    try {
+      infoText = await fetchInfoText(parameter);
+    } catch {
+      infoText = {};
     }
   }
 

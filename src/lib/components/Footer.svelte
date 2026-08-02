@@ -2,9 +2,8 @@
   import { setMode, mode } from "mode-watcher";
   import { page } from "$app/stores";
   import AnimatedThemeToggler from "$lib/components/magic/AnimatedThemeToggler.svelte";
-  import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.ts";
   import {
-    rememberLanguage,
+    setLanguage,
     locales,
     languageNames,
     type Locale,
@@ -13,7 +12,10 @@
     baseLocale,
     extractLocaleFromUrl,
   } from "$lib/paraglide/runtime.js";
-  import { hrefForLocale, localizedHref } from "$lib/i18n/navigation";
+  import {
+    hrefForLanguageSwitch,
+    localizedHref,
+  } from "$lib/i18n/navigation";
   import {
     footer_tagline,
     footer_sections,
@@ -69,6 +71,14 @@
     } catch (error) {
       console.error("Failed to update theme:", error);
     }
+  }
+
+  function switchLanguage(locale: Locale) {
+    if (locale === currentLocale) return;
+    setLanguage(
+      locale,
+      `${$page.url.pathname}${$page.url.search}${$page.url.hash}`,
+    );
   }
 </script>
 
@@ -216,38 +226,33 @@
             </li>
 
             <li>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild let:builder>
-                  <button
-                    use:builder.action
-                    {...builder}
-                    aria-label={common_language_switch()}
-                    class="flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-900/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer"
+              <details class="group relative w-fit">
+                <summary
+                  aria-label={common_language_switch()}
+                  class="flex list-none items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-900/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer [&::-webkit-details-marker]:hidden"
+                >
+                  <span aria-hidden="true">{flagEmoji[currentLocale]}</span>
+                  <span class="uppercase font-medium">{currentLocale}</span>
+                  <svg
+                    class="size-3 opacity-60"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
                   >
-                    <span aria-hidden="true">{flagEmoji[currentLocale]}</span>
-                    <span class="uppercase font-medium">{currentLocale}</span>
-                    <svg
-                      class="size-3 opacity-60"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content
-                  side="top"
-                  align="start"
-                  sideOffset={8}
-                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200 min-w-[140px]"
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </summary>
+                <div
+                  role="menu"
+                  class="absolute bottom-full left-0 z-50 mb-2 min-w-[140px] rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
                 >
                   {#each locales as lang}
-                    <DropdownMenu.Item
-                      href={hrefForLocale(
+                    <a
+                      role="menuitem"
+                      href={hrefForLanguageSwitch(
                         `${$page.url.pathname}${$page.url.search}${$page.url.hash}`,
                         lang,
                       )}
@@ -256,14 +261,17 @@
                       lang
                         ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
                         : 'hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'} transition"
-                      on:click={() => rememberLanguage(lang)}
+                      on:click={(event) => {
+                        event?.preventDefault();
+                        switchLanguage(lang);
+                      }}
                     >
                       <span aria-hidden="true">{flagEmoji[lang]}</span>
                       <span>{languageNames?.[lang]}</span>
-                    </DropdownMenu.Item>
+                    </a>
                   {/each}
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
+                </div>
+              </details>
             </li>
           </ul>
         </nav>

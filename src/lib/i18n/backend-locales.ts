@@ -52,7 +52,7 @@ export function resolveBackendLocale(
     canonicalizeLocale(requestedLocale) ?? baseLocale;
   const supported = backendLocaleCapabilities[capability] as readonly BackendLocale[];
   const candidate = candidateByUiLocale[canonicalRequestedLocale];
-  const effectiveLocale = supported.includes(candidate) ? candidate : "en";
+  const effectiveLocale = supported?.includes(candidate) ? candidate : "en";
   return {
     requestedLocale: canonicalRequestedLocale,
     effectiveLocale,

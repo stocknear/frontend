@@ -15,7 +15,7 @@
   "insider_tracker_table_market_cap": "Capitalisation boursière",
   "insider_tracker_table_shares": "Actions",
   "insider_tracker_table_value": "Valeur marchande",
-  "insider_tracker_table_type": "Taper",
+  "insider_tracker_table_type": "Type",
   "insider_tracker_no_results": "Aucun résultat trouvé pour \"{query}\"",
   "insider_tracker_page_of": "Page {current} de {total}",
   "insider_tracker_rows": "Lignes",

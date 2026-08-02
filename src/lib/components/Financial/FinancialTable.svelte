@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatCompact, formatNumber } from "$lib/i18n/format";
   import { localizedHref } from "$lib/i18n/navigation";
-  import { getCache, setCache } from "$lib/store";
+  import { escapeInfoTextHtml, fetchInfoText } from "$lib/i18n/info-text";
   import { goto } from "$app/navigation";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
   import {
@@ -299,8 +299,8 @@
   function setInfoTooltipContent(instance: any, title: string, body: string) {
     instance.setContent(`
       <div class="info-tooltip">
-        <div class="info-tooltip__title">${title}</div>
-        <div class="info-tooltip__body">${body}</div>
+        <div class="info-tooltip__title">${escapeInfoTextHtml(title)}</div>
+        <div class="info-tooltip__body">${escapeInfoTextHtml(body)}</div>
       </div>
     `);
   }
@@ -312,11 +312,11 @@
   ) {
     instance.setContent(`
       <div class="info-tooltip">
-        <div class="info-tooltip__title">${title}</div>
-        <div class="info-tooltip__body">${content?.text || stock_detail_no_data()}</div>
+        <div class="info-tooltip__title">${escapeInfoTextHtml(title)}</div>
+        <div class="info-tooltip__body">${escapeInfoTextHtml(content?.text || stock_detail_no_data())}</div>
         ${
           content?.equation
-            ? `<div class="info-tooltip__equation">${content?.equation}</div>`
+            ? `<div class="info-tooltip__equation">${escapeInfoTextHtml(content?.equation)}</div>`
             : ""
         }
       </div>
@@ -576,23 +576,7 @@
   }
 
   async function getInfoText(parameter) {
-    const cachedData = getCache(parameter, "getInfoText");
-    if (cachedData) {
-      return cachedData;
-    }
-
-    const postData = { parameter };
-    const response = await fetch("/api/info-text", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
-
-    const infoText = await response.json();
-    setCache(parameter, infoText, "getInfoText");
-    return infoText;
+    return fetchInfoText(parameter);
   }
 
   onMount(() => {

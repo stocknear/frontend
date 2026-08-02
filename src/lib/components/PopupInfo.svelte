@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { getCache, setCache } from "$lib/store";
+  import { escapeInfoTextHtml, fetchInfoText } from "$lib/i18n/info-text";
+  import {
+    stock_detail_financials_error_loading,
+    stock_detail_financials_loading,
+  } from "$lib/paraglide/messages";
   import { onMount } from "svelte";
   import tippy from "tippy.js";
   import "tippy.js/dist/tippy.css";
@@ -10,24 +14,16 @@
 
   let labelEl: HTMLLabelElement;
 
-  let content = { text: "Loading..." };
+  let content = { text: stock_detail_financials_loading() };
 
   async function getInfoText() {
-    const cachedData = getCache(parameter, "getInfoText");
-    if (cachedData) {
-      content = cachedData;
-      return;
+    try {
+      content = (await fetchInfoText(parameter)) ?? {
+        text: stock_detail_financials_error_loading(),
+      };
+    } catch {
+      content = { text: stock_detail_financials_error_loading() };
     }
-
-    const postData = { parameter };
-    const response = await fetch("/api/info-text", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postData),
-    });
-
-    content = (await response.json()) ?? { text: "n/a" };
-    setCache(parameter, content, "getInfoText");
   }
 
   onMount(() => {
@@ -47,18 +43,18 @@
       onShow: async (instance) => {
         instance.setContent(`
           <div class="info-tooltip">
-            <div class="info-tooltip__title">${label || ""}</div>
-            <div class="info-tooltip__body">Loading...</div>
+            <div class="info-tooltip__title">${escapeInfoTextHtml(label)}</div>
+            <div class="info-tooltip__body">${stock_detail_financials_loading()}</div>
           </div>
         `);
         await getInfoText();
         instance.setContent(`
           <div class="info-tooltip">
-            <div class="info-tooltip__title">${label || ""}</div>
-            <div class="info-tooltip__body">${content?.text || "n/a"}</div>
+            <div class="info-tooltip__title">${escapeInfoTextHtml(label)}</div>
+            <div class="info-tooltip__body">${escapeInfoTextHtml(content?.text || "n/a")}</div>
             ${
               content?.equation
-                ? `<div class="info-tooltip__equation">${content?.equation}</div>`
+                ? `<div class="info-tooltip__equation">${escapeInfoTextHtml(content?.equation)}</div>`
                 : ""
             }
           </div>

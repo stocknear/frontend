@@ -1371,7 +1371,7 @@
   "stock_detail_hottest_trades_col_size_vol": "Taille / Vol",
   "stock_detail_hottest_trades_col_size_avg_vol": "Taille / Vol moyen",
   "stock_detail_hottest_trades_col_avg_paid": "Moy. Payé",
-  "stock_detail_hottest_trades_col_type": "Taper",
+  "stock_detail_hottest_trades_col_type": "Type",
   "stock_detail_hottest_trades_type_block": "Bloc",
   "stock_detail_hottest_trades_type_dark_pool": "Dark pool"
 }

@@ -16,7 +16,7 @@
   "unusual_order_flow_search_filters": "搜尋 {count} 項篩選條件...",
   "unusual_order_flow_select_filters_title": "選擇資金流篩選條件（共 {count} 項）",
   "unusual_order_flow_nothing_found": "沒有找到任何內容",
-  "unusual_order_flow_no_filters_found": "找不到可用的篩選器",
+  "unusual_order_flow_no_filters_found": "找不到可用的篩選條件",
   "unusual_order_flow_search_placeholder": "尋找...",
   "unusual_order_flow_search_input_placeholder": "搜尋...",
   "unusual_order_flow_full_width": "全寬",

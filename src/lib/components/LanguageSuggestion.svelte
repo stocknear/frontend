@@ -27,13 +27,15 @@
   export let initialLocale: Locale | null = null;
 
   function hasCookie(name: string): boolean {
-    return document.cookie.split(";").some((part) => part.trim().startsWith(`${name}=`));
+    return document?.cookie
+      ?.split(";")
+      ?.some((part) => part.trim().startsWith(`${name}=`)) ?? false;
   }
 
   function getCookie(name: string): string | null {
     const prefix = `${name}=`;
-    const value = document.cookie
-      .split(";")
+    const value = document?.cookie
+      ?.split(";")
       ?.map((part) => part.trim())
       ?.find((part) => part.startsWith(prefix))
       ?.slice(prefix.length);
