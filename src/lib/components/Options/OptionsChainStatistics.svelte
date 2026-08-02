@@ -5,6 +5,7 @@
   import { abbreviateNumber } from "$lib/utils";
   import InfoModal from "$lib/components/InfoModal.svelte";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import { getIntlLocale } from "$lib/i18n/format";
   import {
     stock_detail_options_call_oi,
     stock_detail_options_call_volume,
@@ -116,7 +117,7 @@
     const date = new Date(dateString);
     return isNaN(date.getTime())
       ? "n/a"
-      : date.toLocaleDateString("en-US", {
+      : date.toLocaleDateString(getIntlLocale(), {
           month: "short",
           day: "2-digit",
           year: "numeric",
@@ -838,7 +839,7 @@
             {/if}
             . {stock_detail_options_overview_volume_is()}
             {#if isSubscribed}
-              <strong>{overview?.totalVolume?.toLocaleString("en-US")}</strong>
+              <strong>{overview?.totalVolume?.toLocaleString(getIntlLocale())}</strong>
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
                 <svg
@@ -877,7 +878,7 @@
             {stock_detail_options_overview_of_avg_volume()}
             {#if isSubscribed}
               <strong
-                >{overview?.avgDailyVolume?.toLocaleString("en-US")}</strong
+                >{overview?.avgDailyVolume?.toLocaleString(getIntlLocale())}</strong
               >
             {:else}
               <a href="/pricing" class={lockLinkInlineClass}>
@@ -1204,7 +1205,7 @@
               </div>
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{oiData?.total?.toLocaleString("en-US")}</span
+                  >{oiData?.total?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1266,7 +1267,7 @@
 
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{oiData?.puts?.toLocaleString("en-US")}</span
+                  >{oiData?.puts?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1297,7 +1298,7 @@
 
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{oiData?.calls?.toLocaleString("en-US")}</span
+                  >{oiData?.calls?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1328,7 +1329,7 @@
 
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{oiData?.avgDaily?.toLocaleString("en-US")}</span
+                  >{oiData?.avgDaily?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1431,7 +1432,7 @@
               </div>
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{volData?.total?.toLocaleString("en-US")}</span
+                  >{volData?.total?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1493,7 +1494,7 @@
 
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{volData?.puts?.toLocaleString("en-US")}</span
+                  >{volData?.puts?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1524,7 +1525,7 @@
 
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{volData?.calls?.toLocaleString("en-US")}</span
+                  >{volData?.calls?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1555,7 +1556,7 @@
 
               {#if isSubscribed}
                 <span class="font-semibold text-sm sm:text-[1rem]"
-                  >{volData?.avgDaily?.toLocaleString("en-US")}</span
+                  >{volData?.avgDaily?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
                 <a href="/pricing" class={lockLinkClass}>
@@ -1687,11 +1688,11 @@
                         </td>
 
                         <td class="text-sm text-end">
-                          {item?.callVol?.toLocaleString("en-US")}
+                          {item?.callVol?.toLocaleString(getIntlLocale())}
                         </td>
 
                         <td class="text-sm text-end">
-                          {item?.putVol?.toLocaleString("en-US")}
+                          {item?.putVol?.toLocaleString(getIntlLocale())}
                         </td>
 
                         <td class="text-sm text-end">
@@ -1699,11 +1700,11 @@
                         </td>
 
                         <td class="text-sm text-end">
-                          {item?.callOI?.toLocaleString("en-US")}
+                          {item?.callOI?.toLocaleString(getIntlLocale())}
                         </td>
 
                         <td class="text-sm text-end">
-                          {item?.putOI?.toLocaleString("en-US")}
+                          {item?.putOI?.toLocaleString(getIntlLocale())}
                         </td>
 
                         <td class="text-sm text-end">

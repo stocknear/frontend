@@ -1,8 +1,13 @@
 <script lang="ts">
   import { onMount, onDestroy, tick } from "svelte";
-  import { abbreviateNumber } from "$lib/utils";
+  import { formatCompact, formatNumber, getIntlLocale } from "$lib/i18n/format";
+  import { localizedHref } from "$lib/i18n/navigation";
   import { mode } from "mode-watcher";
   import Maximize from "lucide-svelte/icons/maximize-2";
+  import {
+    stock_detail_no_data,
+    stock_detail_upgrade,
+  } from "$lib/paraglide/messages";
 
   export let metricKey: string;
   export let metricLabel: string;
@@ -81,7 +86,7 @@
 
     if (abs >= 1000) {
       const compactDigits = getCompactFractionDigits(abs, safeStep);
-      const compact = new Intl.NumberFormat("en-US", {
+      const compact = new Intl.NumberFormat(getIntlLocale(), {
         notation: "compact",
         maximumFractionDigits: compactDigits,
         minimumFractionDigits: 0,
@@ -97,7 +102,7 @@
     }
 
     const rounded = Number(safe.toFixed(fractionDigits));
-    const formatted = rounded.toLocaleString("en-US", {
+    const formatted = rounded.toLocaleString(getIntlLocale(), {
       maximumFractionDigits: fractionDigits,
       minimumFractionDigits: 0,
     });
@@ -607,7 +612,7 @@
       const suffix = isMargin ? "%" : "";
       const lines = seriesData.map((s) => {
         const val = s.values[barIndex];
-        return `${s.label}: ${val == null ? "n/a" : abbreviateNumber(val) + suffix}`;
+        return `${s.label}: ${val == null ? stock_detail_no_data() : formatCompact(val, { maximumFractionDigits: 2 }) + suffix}`;
       });
       tooltipData = { label, lines };
       tooltipX = event.clientX - rect.left;
@@ -705,8 +710,8 @@
           class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0"
         >
           {isMargin
-            ? `${abbreviateNumber(latestValue)}%`
-            : abbreviateNumber(latestValue)}
+            ? `${formatNumber(latestValue, { maximumFractionDigits: 2 })}%`
+            : formatCompact(latestValue, { maximumFractionDigits: 2 })}
         </span>
         {#if change !== null}
           <span
@@ -782,7 +787,7 @@
           ></div>
           <!-- Lock badge linking to /pricing -->
           <a
-            href="/pricing"
+            href={localizedHref("/pricing")}
             class="absolute inset-0 flex items-center justify-center z-10"
             on:click|stopPropagation
           >
@@ -801,9 +806,8 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              <span
-                class="text-[9px] font-semibold text-muted dark:text-white"
-                >Upgrade</span
+              <span class="text-[9px] font-semibold text-muted dark:text-white"
+                >{stock_detail_upgrade()}</span
               >
             </div>
           </a>

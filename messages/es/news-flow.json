@@ -1,0 +1,21 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Inicio",
+  "news_flow_breadcrumb_news_flow": "Flujo de noticias",
+  "news_flow_seo_title": "Flujo de noticias del mercado: catalizadores listos para el comercio en tiempo real",
+  "news_flow_seo_description": "Sigue las noticias del mercado en tiempo real y los catalizadores que mueven el precio. Creado para operadores de opciones que necesitan un contexto rápido para configuraciones a corto plazo.",
+  "news_flow_seo_keywords": "flujo de noticias del mercado, catalizadores comerciales, noticias de última hora del mercado, noticias de operadores de opciones, noticias de movimiento de precios, actualizaciones del mercado en tiempo real",
+  "news_flow_structured_name": "Flujo de noticias del mercado",
+  "news_flow_structured_description": "Noticias de mercado en tiempo real y catalizadores para la planificación comercial a corto plazo.",
+  "news_flow_main_title": "Flujo de noticias",
+  "news_flow_news_count": "{count} Noticias",
+  "news_flow_search_placeholder": "Encuentra...",
+  "news_flow_infobox": "Sigue las últimas noticias de última hora y comprenda por qué los precios de las acciones se movieron en tiempo real",
+  "news_flow_no_news": "Aún no hay noticias importantes del mercado de valores disponibles.",
+  "news_flow_sidebar_market_flow_title": "Flujo de mercado",
+  "news_flow_sidebar_market_flow_description": "Realiza un seguimiento del sentimiento de opciones en tiempo real.",
+  "news_flow_sidebar_options_flow_title": "Flujo de opciones",
+  "news_flow_sidebar_options_flow_description": "Supervisa la actividad de opciones inusuales y los patrones de flujo en tiempo real",
+  "news_flow_sidebar_dark_pool_title": "Flujo del dark pool",
+  "news_flow_sidebar_dark_pool_description": "Analiza el flujo institucional oculto y los datos comerciales del dark pool"
+}

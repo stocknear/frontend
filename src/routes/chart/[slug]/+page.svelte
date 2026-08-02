@@ -10159,8 +10159,6 @@
         url: "https://stocknear.com/favicon.png",
       },
     },
-    dateModified: new Date().toISOString(),
-    datePublished: new Date().toISOString(),
     about: {
       "@type": "FinancialProduct",
       name: `${companyName} Common Stock`,
@@ -10169,9 +10167,6 @@
         "@type": "Offer",
         price: seoPrice ?? undefined,
         priceCurrency: "USD",
-        priceValidUntil: new Date(
-          Date.now() + 24 * 60 * 60 * 1000,
-        ).toISOString(),
         availability: "https://schema.org/InStock",
       },
     },

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Creado para operadores activos que desean una ventaja.",
+  "upgrade_to_pro_subtitle": "No necesitas más titulares. Necesitas el flujo, los catalizadores y el contexto que mueven el precio. Pro reúne opciones en tiempo real, datos del dark pool, movimientos de analistas y un amplio historial en un solo lugar para que puedas planificar la operación en vez de perseguirla.",
+  "upgrade_to_pro_feature_data_title": "Desbloquea la pila de datos completa",
+  "upgrade_to_pro_feature_data_desc": "Obtén todos los conjuntos de datos y herramientas de Stocknear para poder examinar las configuraciones rápidamente y actuar con convicción.",
+  "upgrade_to_pro_feature_flow_title": "Opciones en vivo + flujo de dark pool",
+  "upgrade_to_pro_feature_flow_desc": "Detecta actividad inusual y grandes operaciones antes de que se mueva el resto del mercado.",
+  "upgrade_to_pro_feature_analyst_title": "Catalizadores de analistas que mueven el precio",
+  "upgrade_to_pro_feature_analyst_desc": "Realiza un seguimiento de las actualizaciones, rebajas y objetivos de precios sin buscar noticias.",
+  "upgrade_to_pro_feature_history_title": "Historia profunda para el backtesting",
+  "upgrade_to_pro_feature_history_desc": "Valida ideas con datos premium y hasta 30 años de historia.",
+  "upgrade_to_pro_cta": "Actualízate a Pro"
+}

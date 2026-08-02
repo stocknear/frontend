@@ -11,6 +11,8 @@
     augmentStatementsWithGrowth,
   } from "$lib/utils";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
+  import { getIntlLocale } from "$lib/i18n/format";
+  import { localizedHref } from "$lib/i18n/navigation";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import {
@@ -78,10 +80,11 @@
     HISTORY_RANGE_OPTIONS.map((o) => [o.value, o.label]),
   );
 
-  const fields = statementConfig.map((item) => ({
-    label: item.label,
-    key: item.propertyName,
-  }));
+  const fields =
+    statementConfig?.map((item) => ({
+      label: item.label,
+      key: item.propertyName,
+    })) ?? [];
   function toggleMode() {
     $coolMode = !$coolMode;
   }
@@ -199,9 +202,10 @@
     statements: any[] = [],
     extractor: (statement: any) => number | null,
   ) {
-    const values = statements
-      .map(extractor)
-      .filter((value): value is number => Number.isFinite(value));
+    const values =
+      statements
+        ?.map(extractor)
+        ?.filter((value): value is number => Number.isFinite(value)) ?? [];
     if (!values.length) {
       return "";
     }
@@ -222,7 +226,10 @@
       let properties = [
         {
           key: $selectedTimePeriod === "annual" ? "fiscalYear" : "date",
-          label: $selectedTimePeriod === "annual" ? "Year" : "Quarter",
+          label:
+            $selectedTimePeriod === "annual"
+              ? stock_detail_financials_fiscal_year()
+              : stock_detail_financials_fiscal_quarter(),
         },
       ];
 
@@ -287,9 +294,7 @@
       const year = statement.fiscalYear?.slice(-2);
       const quarter = statement.period;
       xList.push(
-        periodType === "annual"
-          ? "FY" + year
-          : "FY" + year + " " + quarter,
+        periodType === "annual" ? "FY" + year : "FY" + year + " " + quarter,
       );
     }
 
@@ -570,7 +575,7 @@
 
               {#if hasLockedData}
                 <a
-                  href="/pricing"
+                  href={localizedHref("/pricing")}
                   class="mt-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
                 >
                   <div
@@ -669,11 +674,15 @@
                           <td
                             class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
                           >
-                            {new Date(item?.date).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
+                            {new Date(item?.date).toLocaleDateString(
+                              getIntlLocale(),
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                                timeZone: "UTC",
+                              },
+                            )}
                           </td>
                         {/each}
                         {#if hasLockedData}

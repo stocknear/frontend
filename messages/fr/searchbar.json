@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Entreprise ou symbole boursier...",
+  "searchbar_aria_label": "Entreprise ou symbole boursier...",
+  "searchbar_search_label": "Recherche",
+  "searchbar_suggestions": "Suggestions",
+  "searchbar_recent": "Récent",
+  "searchbar_popular": "Populaire",
+  "searchbar_no_results": "Aucun résultat trouvé"
+}

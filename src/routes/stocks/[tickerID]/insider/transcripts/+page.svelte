@@ -14,6 +14,7 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { resolveBackendLocale } from "$lib/i18n/backend-locales";
   import {
     stock_detail_insider_ai_summarize,
     stock_detail_insider_copy,
@@ -48,6 +49,10 @@
 
   const SUMMARY_CREDIT_COST = 3;
   let currentLocale = getLocale();
+  const summaryLocale = resolveBackendLocale(
+    "transcriptSummary",
+    currentLocale,
+  ).effectiveLocale;
 
   let chats = [];
   let date;
@@ -97,7 +102,7 @@
 
   // LocalStorage cache helpers
   function getSummaryCacheKey(ticker: string, yr: number, qtr: number): string {
-    return `transcript-summary-${ticker}-${yr}-Q${qtr}-${currentLocale}`;
+    return `transcript-summary-${ticker}-${yr}-Q${qtr}-${summaryLocale}`;
   }
 
   function getCachedSummary(ticker: string, yr: number, qtr: number) {
@@ -264,7 +269,8 @@ ${summaryData.outlook}
         return;
       }
 
-      summaryData = await response.json();
+      const payload = await response.json();
+      summaryData = payload?.data;
 
       if (summaryData?.error) {
         summaryError = true;

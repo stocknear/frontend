@@ -669,9 +669,6 @@
           ? $currentPortfolioPrice
           : data?.getStockQuote?.price?.toFixed(2),
       priceCurrency: "USD",
-      priceValidUntil: new Date(Date.now() + 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split("T")[0],
     },
     provider: {
       "@type": "Organization",

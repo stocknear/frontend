@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "市場通訊：每天只需 2 分鐘即可了解最新資訊",
+  "newsletter_seo_description": "透過我們的專業新聞通訊保持市場領先地位！將最新更新、趨勢和見解直接發送到你的收件匣。",
+  "newsletter_label": "時事通訊",
+  "newsletter_title": "每天只需 2 分鐘即可了解最新情況",
+  "newsletter_description": "盤前報告是一份時事通訊，讓你可以超級輕鬆地了解金融市場。",
+  "newsletter_intro_1": "我們的摘要以簡短、要點的形式呈現，因此閱讀這份時事通訊永遠不會讓人覺得是一件苦差事。",
+  "newsletter_intro_2": "讓我們為你閱讀新聞並篩選掉噪音，然後我們將向你發送要點。你將得到以下結果：",
+  "newsletter_feature_1": "存取最新的分析師報告，其中包含使用 AI 提取的關鍵見解。",
+  "newsletter_feature_2": "快速了解最近和即將推出的財報發布。",
+  "newsletter_feature_3": "隨時了解可能對市場產生重大影響的重大經濟事件。",
+  "newsletter_feature_4": "受益於僅來自頂級商店的準確、最新的資訊。",
+  "newsletter_closing": "此時事通訊完全免費，將在週一至週五（假日除外）每天早上開市前發送到你的收件匣。",
+  "newsletter_signup_button": "免費註冊"
+}

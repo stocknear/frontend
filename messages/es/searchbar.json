@@ -1,0 +1,11 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Símbolo de empresa o de acciones...",
+  "searchbar_aria_label": "Símbolo de empresa o de acciones...",
+  "searchbar_search_label": "Buscar",
+  "searchbar_suggestions": "Sugerencias",
+  "searchbar_recent": "Reciente",
+  "searchbar_popular": "populares",
+  "searchbar_no_results": "No se encontraron resultados"
+}
+

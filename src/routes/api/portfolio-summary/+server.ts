@@ -1,7 +1,9 @@
 import type { RequestHandler } from "./$types";
+import { canonicalizeLocale } from "$lib/i18n/locales";
+import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb} = locals;
+  const { apiURL, apiKey, user, pb } = locals;
 
   if (!["Plus", "Pro"]?.includes(user?.tier)) {
     return new Response(
@@ -27,21 +29,20 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const { portfolioId, holdings, lang } = data;
 
-
-    const checkOwner = await pb.collection("portfolio").getOne(portfolioId, {
-      filter: `user="${user.id}"` 
-    });
-
-  if (user?.id !== checkOwner?.user) {
-     return new Response(
-      JSON.stringify({ error: "Not owner of the portfolio!" }),
+  if (!portfolioId) {
+    return new Response(
+      JSON.stringify({ error: "Portfolio ID is required" }),
       { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
 
-  if (!portfolioId) {
+  const checkOwner = await pb?.collection("portfolio")?.getOne(portfolioId, {
+    filter: `user="${user?.id}"`,
+  });
+
+  if (user?.id !== checkOwner?.user) {
     return new Response(
-      JSON.stringify({ error: "Portfolio ID is required" }),
+      JSON.stringify({ error: "Not owner of the portfolio!" }),
       { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
@@ -53,17 +54,22 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-   if (!lang  || lang?.length === 0 || !['en','de','zh']?.includes(lang)) {
+  const requestedLocale = canonicalizeLocale(lang);
+  if (!requestedLocale) {
     return new Response(
       JSON.stringify({ error: "Correct language are required" }),
       { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
+  const localeResolution = resolveBackendLocale(
+    "portfolioSummary",
+    requestedLocale,
+  );
 
   const postData = {
     portfolioId: portfolioId,
     holdings: holdings,
-    lang: lang,
+    lang: localeResolution.effectiveLocale,
   };
 
   try {
@@ -111,11 +117,18 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       credits: user?.credits - costOfCredit,
     });
 
-    return new Response(JSON.stringify(result), {
-      headers: {
-        "Content-Type": "application/json",
+    return new Response(
+      JSON.stringify({ data: result, ...localeResolution }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": localeResolution.effectiveLocale,
+          "X-Stocknear-Locale-Fallback": String(
+            localeResolution.fallbackApplied,
+          ),
+        },
       },
-    });
+    );
   } catch (err) {
     console.error("Handler error:", err);
     return new Response(

@@ -60,7 +60,6 @@
         description: portfolio_analysis_structured_description(),
         url: "https://stocknear.com/portfolio/analysis",
         isAccessibleForFree: true,
-        inLanguage: "en",
         operatingSystem: "Web",
         applicationCategory: "FinanceApplication",
         brand: {

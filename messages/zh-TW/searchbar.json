@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "公司或股票代號...",
+  "searchbar_aria_label": "公司或股票代號...",
+  "searchbar_search_label": "搜尋",
+  "searchbar_suggestions": "建議",
+  "searchbar_recent": "最近",
+  "searchbar_popular": "熱門",
+  "searchbar_no_results": "沒有找到結果"
+}

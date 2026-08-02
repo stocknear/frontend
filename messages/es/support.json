@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Obtén soporte",
+  "support_breadcrumb_home": "Inicio",
+  "support_breadcrumb_current": "Obtén soporte",
+  "support_title": "Obtén soporte",
+  "support_description_1": "Envía tu solicitud mediante el formulario y nos pondremos en contacto contigo lo antes posible. También puedes escribir directamente a",
+  "support_description_2": "Puedes encontrar respuestas a algunas preguntas comunes aquí:",
+  "support_faq_link": "Preguntas frecuentes",
+  "support_description_3": "Si necesitas ayuda con un error o una imprecisión en los datos, incluye la URL exacta de la página donde lo encontraste.",
+  "support_label_email": "Correo electrónico",
+  "support_label_subject": "Asunto",
+  "support_label_message": "Mensaje",
+  "support_button_send": "Enviar mensaje",
+  "support_button_processing": "Procesando...",
+  "support_success_message": "Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo pronto.",
+  "support_toast_error": "Algo salió mal. Por favor inténtalo de nuevo...",
+  "support_sidebar_pro_title": "Suscripción profesional",
+  "support_sidebar_pro_description": "Actualiza ahora para obtener acceso ilimitado a todos los datos, herramientas y sin anuncios.",
+  "support_sidebar_screener_title": "Evaluador de acciones",
+  "support_sidebar_screener_description": "Filtra, clasifica y analiza todas las acciones para encontrar tu próxima inversión.",
+  "support_sidebar_watchlist_title": "Listas de seguimiento",
+  "support_sidebar_watchlist_description": "Realiza un seguimiento de tus acciones favoritas en tiempo real."
+}

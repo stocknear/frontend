@@ -2,6 +2,7 @@
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { sectorNavigation } from "$lib/utils";
   import SEO from "$lib/components/SEO.svelte";
+  import { getIntlLocale } from "$lib/i18n/format";
   import {
     stock_detail_profile_address,
     stock_detail_profile_ceo,
@@ -39,6 +40,8 @@
     stock_detail_profile_ticker_symbol,
     stock_detail_profile_view_all_filings,
     stock_detail_profile_website,
+    layout_home,
+    layout_stocks,
   } from "$lib/paraglide/messages";
 
   export let data;
@@ -56,29 +59,12 @@
     return "/list/industry/" + formattedName?.toLowerCase();
   }
 
-  function textToParagraphs(text) {
-    // Split the text into sentences
-    const sentences = text.split(
-      /(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.)\s+(?=[A-Z])/,
-    );
-
-    // Wrap sentences in paragraphs
-    const paragraphs = sentences.map(
-      (sentence) => `<p class="mb-5">${sentence.trim()}</p>`,
-    );
-
-    // Wrap paragraphs in a div with additional classes
-    return `<div class="mb-5 md:text-lg [&>p]:mb-5">
-${paragraphs.join("\n")}
-</div>`;
-  }
-
-  $: formattedText = textToParagraphs(
-    rawData?.description || stock_detail_profile_no_description(),
-  );
+  $: profileDescription =
+    rawData?.description || stock_detail_profile_no_description();
 </script>
 
 <SEO
+  contentLocales={data?.contentLocales}
   title={stock_detail_profile_seo_title({
     company: $displayCompanyName,
     ticker: $stockTicker,
@@ -97,7 +83,10 @@ ${paragraphs.join("\n")}
     name: $displayCompanyName,
     alternateName: $stockTicker,
     tickerSymbol: $stockTicker,
-    description: `Company profile and business overview for ${$displayCompanyName} (${$stockTicker})`,
+    description: stock_detail_profile_seo_description({
+      company: $displayCompanyName,
+      ticker: $stockTicker,
+    }),
     url: `https://stocknear.com/stocks/${$stockTicker}/profile`,
     logo: `https://stocknear.com/logo/${$stockTicker}.png`,
     foundingDate: rawData?.ipoDate || undefined,
@@ -123,7 +112,7 @@ ${paragraphs.join("\n")}
     sameAs: [
       rawData?.website,
       `https://stocknear.com/stocks/${$stockTicker}`,
-    ].filter(Boolean),
+    ]?.filter(Boolean) ?? [],
     mainEntity: {
       "@type": "Corporation",
       name: $displayCompanyName,
@@ -135,13 +124,13 @@ ${paragraphs.join("\n")}
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: layout_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Stocks",
+          name: layout_stocks(),
           item: "https://stocknear.com/stocks",
         },
         {
@@ -153,7 +142,7 @@ ${paragraphs.join("\n")}
         {
           "@type": "ListItem",
           position: 4,
-          name: "Company Profile",
+          name: stock_detail_profile_company_description(),
           item: `https://stocknear.com/stocks/${$stockTicker}/profile`,
         },
       ],
@@ -174,7 +163,9 @@ ${paragraphs.join("\n")}
             <h1 class="text-xl sm:text-2xl font-bold mb-4 w-full">
               {stock_detail_profile_company_description()}
             </h1>
-            {@html formattedText}
+            <p class="mb-5 whitespace-pre-line md:text-lg">
+              {profileDescription}
+            </p>
           </div>
           <div class="lg:-mr-6 shrink-0 lg:float-right lg:w-[336px]">
             <div
@@ -212,11 +203,11 @@ ${paragraphs.join("\n")}
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       >{rawData?.ipoDate !== null &&
                       rawData?.ipoDate?.length > 0
-                        ? new Date(rawData?.ipoDate)?.toLocaleString("en-US", {
+                        ? new Date(rawData?.ipoDate)?.toLocaleString(getIntlLocale(), {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
-                            daySuffix: "2-digit",
+                            timeZone: "UTC",
                           })
                         : "n/a"}</td
                     ></tr

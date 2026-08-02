@@ -1,29 +1,31 @@
 <script lang="ts">
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
+  import { formatDate } from "$lib/i18n/format";
+  import * as m from "$lib/paraglide/messages";
 
   export let blogData = [
     {
-      label: "Forward dividend yield is below fasdf fasdfak",
+      label: m.blog_dividends_forward_yield_below(),
       value: -34.71,
       sentiment: "Very Bad",
     },
     {
-      label: "Dividends Per Share Increasing",
+      label: m.blog_dividends_dps_increasing(),
       value: 4.17,
       sentiment: "Average",
     },
     {
-      label: "5-Year Dividends Per Share increasing (CAGR)",
+      label: m.blog_dividends_five_year_dps_growth(),
       value: 14.87,
       sentiment: "Very Good",
     },
     {
-      label: "Payout Ratio",
+      label: m.blog_dividends_payout_ratio(),
       value: 14.87,
       sentiment: "Very Good",
     },
     {
-      label: "Free Cash Flow Payout Ratio",
+      label: m.blog_dividends_fcf_payout_ratio(),
       value: 14.65,
       sentiment: "Very Good",
     },
@@ -55,11 +57,15 @@
   ];
   let originalData = dividendList;
   let columns = [
-    { key: "date", label: "Ex-Dividend Date", align: "left" },
-    { key: "adjDividend", label: "Cash Amount", align: "right" },
-    { key: "declarationDate", label: "Declaration Date", align: "right" },
-    { key: "recordDate", label: "Record Date", align: "right" },
-    { key: "paymentDate", label: "Pay Date", align: "right" },
+    { key: "date", label: m.blog_dividends_ex_date(), align: "left" },
+    { key: "adjDividend", label: m.blog_dividends_cash_amount(), align: "right" },
+    {
+      key: "declarationDate",
+      label: m.blog_dividends_declaration_date(),
+      align: "right",
+    },
+    { key: "recordDate", label: m.blog_dividends_record_date(), align: "right" },
+    { key: "paymentDate", label: m.blog_dividends_pay_date(), align: "right" },
   ];
 
   let sortOrders = {
@@ -125,9 +131,28 @@
     // Sort using the generic comparison function
     dividendList = [...originalData].sort(compareValues)?.slice(0, 50);
   };
+
+  function sentimentLabel(sentiment) {
+    if (sentiment === "Very Good") return m.blog_sentiment_very_good();
+    if (sentiment === "Good") return m.blog_sentiment_good();
+    if (sentiment === "Average") return m.blog_sentiment_average();
+    if (sentiment === "Bad") return m.blog_sentiment_bad();
+    if (sentiment === "Very Bad") return m.blog_sentiment_very_bad();
+    return sentiment;
+  }
+
+  function formatBlogDate(value) {
+    if (!value) return m.blog_not_available();
+    return formatDate(new Date(`${value}T00:00:00Z`), {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  }
 </script>
 
-<h2 class="text-xl sm:text-3xl font-bold mt-8">Dividends</h2>
+<h2 class="text-xl sm:text-3xl font-bold mt-8">{m.blog_heading_dividends()}</h2>
 <div
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
@@ -153,7 +178,8 @@
                 ? 'bg-green-800 dark:bg-green-600'
                 : item?.sentiment === 'Average'
                   ? 'bg-orange-800 dark:bg-orange-600'
-                  : 'bg-red-800 dark:bg-red-600'}">{item?.sentiment}</label
+                  : 'bg-red-800 dark:bg-red-600'}"
+              >{sentimentLabel(item?.sentiment)}</label
             >
           </td>
         </tr>
@@ -163,32 +189,15 @@
 </div>
 
 <p class="mt-8 mb-4">
-  Apple's forward dividend yield currently stands at 0.47%, which is a decrease
-  from its 5-year average of 0.72%. This represents a significant drop of
-  approximately 34.71% from the historical norm, indicating that investors may
-  be receiving a lower income return on their investment compared to previous
-  years. Despite this, Apple has managed to maintain an upward trajectory in its
-  Dividends Per Share, with an increase of about 4.17% recently.
+  {m.blog_dividends_paragraph_one()}
 </p>
 
 <p class="mb-4">
-  Looking at the longer-term trend, Apple's Dividends Per Share have grown at a
-  Compound Annual Growth Rate (CAGR) of approximately 5.37% over the past five
-  years, demonstrating consistent growth in dividend payouts over time.
-  Additionally, Apple's Payout Ratio and Free Cash Flow Payout Ratio are both
-  favorable at around 14.87% and 14.65%, respectively. These ratios suggest that
-  Apple is using only a small portion of its earnings and free cash flow for
-  dividends, which implies potential for future dividend increases or other
-  shareholder-friendly activities without straining its financial resources.
+  {m.blog_dividends_paragraph_two()}
 </p>
 
 <p class="mb-4">
-  In summary, while Apple's current dividend yield is lower than its five-year
-  average, the company exhibits solid fundamentals in terms of increasing
-  dividends per share and sustainable payout ratios. With an overall average
-  Dividend score given by Stock Unlock at around 3.6/5 based on these metrics,
-  it suggests that Apple maintains a prudent approach towards growing and
-  managing its dividends for shareholders.
+  {m.blog_dividends_paragraph_three()}
 </p>
 
 <div
@@ -204,45 +213,19 @@
       {#each dividendList as item}
         <tr class=" dark:sm:hover:bg-[#245073]/10">
           <td class="text-start text-sm whitespace-nowrap">
-            {new Date(item?.date)?.toLocaleString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-              daySuffix: "2-digit",
-            })}
+            {formatBlogDate(item?.date)}
           </td>
           <td class="text-end text-sm whitespace-nowrap">
             ${item?.adjDividend?.toFixed(3)}
           </td>
           <td class="text-end text-sm whitespace-nowrap">
-            {item?.declarationDate?.length !== 0
-              ? new Date(item?.declarationDate)?.toLocaleString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                  daySuffix: "2-digit",
-                })
-              : "n/a"}
+            {formatBlogDate(item?.declarationDate)}
           </td>
           <td class="text-end text-sm whitespace-nowrap">
-            {item?.recordDate?.length !== 0
-              ? new Date(item?.recordDate)?.toLocaleString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                  daySuffix: "2-digit",
-                })
-              : "n/a"}
+            {formatBlogDate(item?.recordDate)}
           </td>
           <td class="text-end text-sm whitespace-nowrap">
-            {item?.paymentDate?.length !== 0
-              ? new Date(item?.paymentDate)?.toLocaleString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                  daySuffix: "2-digit",
-                })
-              : "n/a"}
+            {formatBlogDate(item?.paymentDate)}
           </td>
         </tr>
       {/each}
@@ -250,5 +233,5 @@
   </table>
 </div>
 <span class="text-gray-200 text-sm italic">
-  * Dividend amounts are adjusted for stock splits when applicable.
+  {m.blog_dividends_footnote()}
 </span>

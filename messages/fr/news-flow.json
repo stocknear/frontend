@@ -1,0 +1,21 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Accueil",
+  "news_flow_breadcrumb_news_flow": "Flux d’actualités",
+  "news_flow_seo_title": "Flux d’actualités du marché – Catalyseurs prêts à être négociés en temps réel",
+  "news_flow_seo_description": "Suis l’actualité du marché en temps réel et les catalyseurs qui font évoluer les prix. Conçu pour les traders d’options qui ont besoin d’un contexte rapide pour les configurations à court terme.",
+  "news_flow_seo_keywords": "Flux d’actualités du marché, catalyseurs commerciaux, dernières nouvelles du marché, actualités des traders d’options, actualités sur l’évolution des prix, mises à jour du marché en temps réel",
+  "news_flow_structured_name": "Flux d’actualités du marché",
+  "news_flow_structured_description": "Actualités du marché en temps réel et catalyseurs pour la planification commerciale à court terme",
+  "news_flow_main_title": "Flux d’actualités",
+  "news_flow_news_count": "{count} Actualités",
+  "news_flow_search_placeholder": "Trouver...",
+  "news_flow_infobox": "Suis les dernières nouvelles et comprends pourquoi les cours des actions ont évolué en temps réel",
+  "news_flow_no_news": "Il n’y a pas encore d’actualité boursière majeure.",
+  "news_flow_sidebar_market_flow_title": "Flux de marché",
+  "news_flow_sidebar_market_flow_description": "Suis le sentiment des options en temps réel.",
+  "news_flow_sidebar_options_flow_title": "flux d’options",
+  "news_flow_sidebar_options_flow_description": "Surveiller en temps réel l’activité inhabituelle des options et les modèles de flux",
+  "news_flow_sidebar_dark_pool_title": "Flux de dark pool",
+  "news_flow_sidebar_dark_pool_description": "Analyse les flux institutionnels cachés et les données de trading du dark pool"
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Iniciar sesión en Stocknear",
+  "login_seo_description": "Inicia sesión en tu cuenta de Stocknear utilizando tu correo electrónico y contraseña.",
+  "login_title": "Inicia sesión en tu cuenta",
+  "login_title_logged_in": "Has iniciado sesión",
+  "login_subtitle": "¡Te damos la bienvenida de nuevo!",
+  "login_email_label": "Correo electrónico",
+  "login_password_label": "Contraseña",
+  "login_forgot_password": "¿Has olvidado tu contraseña?",
+  "login_button": "Iniciar sesión",
+  "login_button_loading": "Iniciar sesión",
+  "login_divider": "O inicia sesión usando",
+  "login_no_account": "¿No tienes una cuenta?",
+  "login_signup_link": "Regístrate",
+  "login_logged_in_as": "Inicia sesión como {email}",
+  "login_logout_button": "Cerrar sesión",
+  "login_toast_verify_email": "Verifica primero tu correo electrónico",
+  "login_toast_success": "¡Has iniciado sesión correctamente!",
+  "login_toast_invalid": "Credenciales no válidas",
+  "login_toast_auth_failed": "Correo electrónico o contraseña no válidos. Por favor inténtalo de nuevo.",
+  "login_toast_rate_limited": "Demasiados intentos de inicio de sesión. Inténtelo de nuevo en {minutes} minutos."
+}

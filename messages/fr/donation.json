@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Deviens sponsor de Stocknear",
+  "donation_seo_description": "Ton sponsor nous aide à devenir la plateforme d’analyse boursière numéro 1 au monde avec les meilleurs plans tarifaires.",
+  "donation_title": "Parrainer",
+  "donation_intro_greeting": "Hé 👋,",
+  "donation_intro_paragraph_1": "Merci d’envisager de soutenir notre mission. En tant que seule personne derrière Stocknear, gérant tout, du développement back-end au service client, je m’engage à maintenir notre plateforme abordable et accessible à tous les investisseurs.",
+  "donation_intro_paragraph_2": "La tarification de nos plans garantit que des données boursières de haute qualité sont à la portée des investisseurs particuliers de tous horizons.",
+  "donation_support_paragraph_1": "Même si l’adhésion est conçue pour soutenir nos opérations de base, ton soutien supplémentaire peut nous aider à aller encore plus loin. En parrainant, tu ne fais pas que soutenir une plateforme ; tu investis dans une vision d’analyse financière ouverte, transparente et abordable.",
+  "donation_support_list_intro": "Ton soutien contribuera directement à :",
+  "donation_support_list_item_1": "Maintenir notre niveau de prix bas",
+  "donation_support_list_item_2": "Meilleure qualité des données et fonctionnalités",
+  "donation_support_list_item_3": "Poursuivre notre objectif de devenir la plateforme d’analyse boursière n°1 du secteur",
+  "donation_cta_title": "Deviens sponsor de Stocknear",
+  "donation_cta_paragraph_1": "Si tu crois en notre mission et souhaites nous soutenir au-delà de ton abonnement, tu peux le faire via GitHub Sponsors. Chaque contribution, quel que soit son montant, nous aide concrètement à mieux servir toute la communauté des investisseurs particuliers.",
+  "donation_cta_paragraph_2": "Ton soutien compte pour moi et contribue au bon fonctionnement de Stocknear.",
+  "donation_sidebar_about_title": "À propos de nous",
+  "donation_iframe_title": "Commanditaire Stocknear"
+}

@@ -8,6 +8,7 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 const config = {
   kit: {
     adapter: adapter({
+      out: process.env.STOCKNEAR_BUILD_OUT || "build",
       // Add the compression middleware to the adapter options
       middleware: (handler) => compression()(handler),
       worker: true, // Add this line if the adapter supports handling worker files

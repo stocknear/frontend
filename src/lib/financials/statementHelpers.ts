@@ -58,9 +58,11 @@ export const formatLockedRange = (
   statements: any[] = [],
   extractor: (statement: any) => number | null,
 ) => {
-  const values = statements
-    .map(extractor)
-    .filter((value): value is number => Number.isFinite(value as number));
+  const values =
+    statements
+      ?.map(extractor)
+      ?.filter((value): value is number => Number.isFinite(value as number)) ??
+    [];
   if (!values.length) return "";
   const min = Math.min(...values);
   const max = Math.max(...values);

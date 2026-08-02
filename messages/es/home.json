@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Flujo de opciones en tiempo real, barridos y actividad inusual",
+  "home_seo_description": "Las opciones en vivo fluyen, barridos, bloqueos y actividad inusual en las acciones EE. UU. y ETFs. Encuentra configuraciones comerciales a corto plazo más rápido con Stocknear.",
+  "home_seo_keywords": "flujo de opciones, actividad de opciones inusual, órdenes de barrido, operaciones en bloque, dark pool, volatilidad implícita, sesgo IV, interés abierto, cadena de opciones, configuraciones comerciales a corto plazo, stocknear",
+  "home_structured_name": "stockcerca",
+  "home_structured_description": "Flujo de opciones en tiempo real y actividad inusual para configuraciones comerciales a corto plazo",
+  "home_structured_feature_live_options_flow": "Flujo y barridos de opciones en vivo",
+  "home_structured_feature_unusual_options_activity": "Actividad de opciones inusuales",
+  "home_structured_feature_dark_pool_monitoring": "Monitoreo de piscinas oscuras",
+  "home_structured_feature_implied_volatility": "Volatilidad implícita y sesgo",
+  "home_structured_feature_options_chain": "Cadena de opciones e interés abierto",
+  "home_structured_feature_earnings_volatility": "Configuración de volatilidad de ganancias",
+  "home_structured_feature_market_catalysts": "Catalizadores de mercado",
+  "home_hero_title": "Ve el movimiento antes de que lo haga la multitud.",
+  "home_hero_subtitle": "Precios en tiempo real, flujo de opciones, pedidos de dark pool, noticias, estados financieros, pronósticos y gráficos para cada acción de EE. UU. y ETF. Actúe más rápido con una señal limpia.",
+  "home_promo_pill_label": "Oferta de verano",
+  "home_promo_pill_discount": "{percent} apagado",
+  "home_promo_pill_subtitle": "todos los planes anuales"
+}

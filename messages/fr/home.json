@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Flux d’options en temps réel, sweeps et activité inhabituelle",
+  "home_seo_description": "Suis les flux d’options, sweeps, blocs et activités inhabituelles sur les actions américaines et les ETF. Repère plus vite les configurations de court terme avec Stocknear.",
+  "home_seo_keywords": "flux d’options, activité d’options inhabituelle, sweeps, ordres de bloc, dark pool, volatilité implicite, biais IV, intérêt ouvert, chaîne d’options, configurations de trading à court terme, Stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Flux d’options en temps réel et activité inhabituelle pour les configurations de trading à court terme",
+  "home_structured_feature_live_options_flow": "Flux et balayages d’options en direct",
+  "home_structured_feature_unusual_options_activity": "Activité inhabituelle sur les options",
+  "home_structured_feature_dark_pool_monitoring": "Suivi des dark pools",
+  "home_structured_feature_implied_volatility": "Volatilité et asymétrie implicites",
+  "home_structured_feature_options_chain": "Chaîne d’options et intérêt ouvert",
+  "home_structured_feature_earnings_volatility": "Configurations autour de la volatilité des résultats",
+  "home_structured_feature_market_catalysts": "Catalyseurs de marché",
+  "home_hero_title": "Repère le mouvement avant les autres",
+  "home_hero_subtitle": "Cours en temps réel, flux d’options, ordres de dark pool, actualités, données financières, prévisions et graphiques pour chaque action américaine et chaque ETF. Agis plus vite grâce à des signaux clairs.",
+  "home_promo_pill_label": "Soldes d’été",
+  "home_promo_pill_discount": "{percent} de réduction",
+  "home_promo_pill_subtitle": "sur toutes les offres annuelles"
+}

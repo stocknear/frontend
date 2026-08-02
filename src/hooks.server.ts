@@ -1,10 +1,22 @@
+import type { RequestEvent } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
 import { paraglideMiddleware } from "$lib/paraglide/server.js";
-import { type Locale, locales, baseLocale, cookieName, cookieMaxAge, extractLocaleFromHeader } from "$lib/paraglide/runtime.js";
+import {
+  type Locale,
+  baseLocale,
+  cookieMaxAge,
+  cookieName,
+} from "$lib/paraglide/runtime.js";
 import { STOCKNEAR_API_KEY as BUILT_IN_API_KEY } from "$env/static/private";
 import { env } from "$env/dynamic/private";
+import { isLocalizableHref, hrefForLocale } from "$lib/i18n/navigation";
+import {
+  canonicalizeLocale,
+  getLocaleDefinition,
+} from "$lib/i18n/locales";
+import { getRouteLocaleAssets } from "$lib/i18n/delivery/generated/manifest.js";
 
 // $env/static/private is inlined at build time, so editing .env and reloading pm2 changes
 // nothing - the running build keeps the value it was compiled with. That split-brain between a
@@ -13,90 +25,41 @@ import { env } from "$env/dynamic/private";
 // hosts that do not export the variable behave exactly as before.
 const STOCKNEAR_API_KEY = env.STOCKNEAR_API_KEY || BUILT_IN_API_KEY;
 
-// Locale detection constants
-// Cloudflare ISO-3166 country code → locale. Used as fallback when
-// Accept-Language is missing (e.g. bots, privacy-stripped headers).
-const COUNTRY_LOCALE_MAP: Record<string, Locale> = {
-  DE: "de",
-  CN: "zh", TW: "zh", HK: "zh", SG: "zh", MO: "zh",
-};
+function canonicalLocaleRedirect(url: URL): Response | null {
+  const firstSegment = url.pathname.split("/")?.[1];
+  if (!firstSegment) return null;
 
-/**
- * Detects and injects locale cookie for first-time visitors based on Cloudflare IP geolocation.
- * Returns the locale and whether a new cookie needs to be set on the response.
- */
-function detectLocaleFromRequest(request: Request): { locale: Locale; needsToSetCookie: boolean; cookieHeader: string } {
-  const existingCookieHeader = request.headers.get("cookie") || "";
+  const locale = canonicalizeLocale(firstSegment);
+  if (!locale) return null;
 
-  // Check for existing valid locale cookie
-  const existingLocale = existingCookieHeader
-    ?.split("; ")
-    ?.find((c) => c.startsWith(cookieName + "="))
-    ?.split("=")[1];
+  const canonicalSlug = getLocaleDefinition(locale).slug;
+  if (canonicalSlug && firstSegment === canonicalSlug) return null;
 
-  // If valid cookie exists, use it
-  if (existingLocale && (locales as readonly string[])?.includes(existingLocale)) {
-    return {
-      locale: existingLocale as Locale,
-      needsToSetCookie: false,
-      cookieHeader: existingCookieHeader
-    };
-  }
-
-  // No valid cookie - detect locale using priority chain:
-  // 1. Browser's Accept-Language header (respects user's explicit language preference)
-  // 2. Cloudflare IP geolocation (fallback for bots/clients without Accept-Language)
-  // 3. Base locale "en" (ultimate fallback)
-  let detectedLocale: Locale = baseLocale;
-
-  const browserLocale = extractLocaleFromHeader(request);
-  if (browserLocale && (locales as readonly string[]).includes(browserLocale)) {
-    detectedLocale = browserLocale as Locale;
-  } else if (!browserLocale) {
-    const country = request.headers.get("CF-IPCountry");
-    const mapped = country ? COUNTRY_LOCALE_MAP[country] : undefined;
-    if (mapped && (locales as readonly string[]).includes(mapped)) {
-      detectedLocale = mapped;
-    }
-  }
-
-  // Inject cookie into header for paraglideMiddleware to pick up
-  const newCookie = `${cookieName}=${detectedLocale}`;
-  const updatedCookieHeader = existingCookieHeader
-    ? `${existingCookieHeader}; ${newCookie}`
-    : newCookie;
-
-  return {
-    locale: detectedLocale,
-    needsToSetCookie: true,
-    cookieHeader: updatedCookieHeader
-  };
+  // Collapse leading slash/backslash runs in the suffix so a locale redirect
+  // can never produce a protocol-relative Location header.
+  const suffix = url.pathname
+    .slice(firstSegment.length + 1)
+    .replace(/^[\\/]+/, "");
+  const localizedRoot = canonicalSlug ? `/${canonicalSlug}` : "";
+  const pathname = suffix
+    ? `${localizedRoot}/${suffix}`
+    : `${localizedRoot}/`;
+  const location = `${pathname}${url.search}`;
+  return new Response(null, { status: 308, headers: { location } });
 }
 
-/**
- * Creates a request with modified cookie header for locale detection.
- * Handles body cloning carefully to avoid "body already read" errors.
- */
-function createRequestWithCookie(originalRequest: Request, cookieHeader: string, isSafeMethod: boolean): Request {
-  const newHeaders = new Headers(originalRequest.headers);
-  newHeaders.set("cookie", cookieHeader);
+function canonicalizeLocaleCookie(event: RequestEvent): void {
+  const rawLocale = event.cookies.get(cookieName);
+  const locale = canonicalizeLocale(rawLocale);
+  if (!rawLocale || !locale || rawLocale === locale) return;
 
-  if (isSafeMethod) {
-    // Safe methods (GET/HEAD) - can clone with body
-    return new Request(originalRequest.url, {
-      method: originalRequest.method,
-      headers: newHeaders,
-      body: originalRequest.body,
-      // @ts-ignore - duplex is needed for streaming bodies
-      duplex: "half",
-    });
-  } else {
-    // Unsafe methods - create without body to avoid streaming issues
-    return new Request(originalRequest.url, {
-      method: originalRequest.method,
-      headers: newHeaders,
-    });
-  }
+  event.cookies.set(cookieName, locale, {
+    path: "/",
+    httpOnly: false,
+    sameSite: "lax",
+    secure: event.url.protocol === "https:",
+    maxAge: cookieMaxAge,
+  });
 }
 
 const getClientIp = (event) => {
@@ -159,9 +122,15 @@ const getPublicWsBaseUrl = (event) => {
 };
 
 export const handle = sequence(async ({ event, resolve }) => {
+  const localeRedirect = canonicalLocaleRedirect(event.url);
+  if (localeRedirect) return localeRedirect;
+
+  canonicalizeLocaleCookie(event);
+
   // Skip paraglideMiddleware for API routes to prevent "Body already read" errors
   // API routes don't need locale handling and the middleware consumes the request body
-  const isApiRoute = event.url.pathname.startsWith('/api/');
+  const isApiRoute =
+    event.url.pathname === "/api" || event.url.pathname.startsWith("/api/");
 
   if (isApiRoute) {
     // Handle API routes without paraglideMiddleware
@@ -193,7 +162,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       themeMode,
       clientIp,
       cookieConsent,
-      locale: "en" as Locale,
+      locale: canonicalizeLocale(event.cookies.get(cookieName)) ?? baseLocale,
     };
 
     const authCookie = event?.request?.headers?.get("cookie") || "";
@@ -226,24 +195,8 @@ export const handle = sequence(async ({ event, resolve }) => {
 
   const isSafeMethod = event.request.method === "GET" || event.request.method === "HEAD";
 
-  // Detect locale from cookie or Cloudflare IP geolocation
-  const { locale: detectedLocale, needsToSetCookie, cookieHeader } = detectLocaleFromRequest(event.request);
-
-  // Create request with injected cookie for paraglideMiddleware
-  let middlewareRequest: Request;
-  try {
-    middlewareRequest = needsToSetCookie
-      ? createRequestWithCookie(event.request, cookieHeader, isSafeMethod)
-      : (isSafeMethod ? event.request : new Request(event.request.url, {
-          method: event.request.method,
-          headers: event.request.headers,
-        }));
-  } catch {
-    middlewareRequest = event.request;
-  }
-
   // Use Paraglide middleware for proper SSR locale handling with AsyncLocalStorage
-  return paraglideMiddleware(middlewareRequest, async ({ request, locale }) => {
+  return paraglideMiddleware(event.request, async ({ request, locale }) => {
     // Use a ternary operator instead of the logical OR for better compatibility
     const pbURL = import.meta.env.VITE_USEAST_POCKETBASE_URL;
     const apiURL = import.meta.env.VITE_USEAST_API_URL;
@@ -299,6 +252,12 @@ export const handle = sequence(async ({ event, resolve }) => {
       transformPageChunk: ({ html }) =>
         html
           .replace('data-theme=""', `data-theme="${themeMode}"`)
+          .replace(
+            "%stocknear.i18n%",
+            getRouteLocaleAssets(event.route.id ?? "/", locale as Locale)
+              .map((src) => `<script src="${src}"></script>`)
+              .join(""),
+          )
           .replace('%lang%', locale),
       },
     );
@@ -314,11 +273,9 @@ export const handle = sequence(async ({ event, resolve }) => {
 
     response.headers.append("set-cookie", cookieString);
 
-    // Set locale cookie for first-time visitors (persists the IP-detected locale)
-    if (needsToSetCookie) {
-      const isSecure = event.url.protocol === "https:";
-      const localeCookie = `${cookieName}=${detectedLocale}; Path=/; Max-Age=${cookieMaxAge}; SameSite=Lax${isSecure ? "; Secure" : ""}`;
-      response.headers.append("set-cookie", localeCookie);
+    const redirectLocation = response.headers.get("location");
+    if (redirectLocation?.startsWith("/") && isLocalizableHref(redirectLocation)) {
+      response.headers.set("location", hrefForLocale(redirectLocation, locale as Locale));
     }
 
     return response;

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Contacta con nosotros",
+  "contact_breadcrumb": "Contacto",
+  "contact_hero_title": "Contacta con nosotros",
+  "contact_intro": "Nos encantará saber de ti. Envía un mensaje mediante el formulario y nos pondremos en contacto contigo lo antes posible. También puedes escribir directamente a {email}.",
+  "contact_email_label": "Correo electrónico",
+  "contact_subject_label": "Asunto",
+  "contact_message_label": "Mensaje",
+  "contact_send_button": "Enviar mensaje",
+  "contact_processing": "Procesando...",
+  "contact_success": "Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo pronto.",
+  "contact_sidebar_pro_title": "Suscripción profesional",
+  "contact_sidebar_pro_desc": "Actualiza ahora para obtener acceso ilimitado a todos los datos, herramientas y sin anuncios.",
+  "contact_sidebar_screener_title": "Evaluador de acciones",
+  "contact_sidebar_screener_desc": "Filtra, clasifica y analiza todas las acciones para encontrar tu próxima inversión.",
+  "contact_sidebar_watchlist_title": "Listas de seguimiento",
+  "contact_sidebar_watchlist_desc": "Realiza un seguimiento de tus acciones favoritas en tiempo real."
+}

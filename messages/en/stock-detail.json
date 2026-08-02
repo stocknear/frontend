@@ -15,6 +15,7 @@
 
   "stock_detail_watchlist": "Watchlist",
   "stock_detail_price_alert": "Alert",
+  "stock_detail_pro_chart": "Pro Chart",
   "stock_detail_add_to_watchlist": "Add to Watchlist",
   "stock_detail_companies": "Companies",
   "stock_detail_company": "Company",
@@ -202,6 +203,12 @@
   "stock_detail_financials_in_currency": "Financials in {currency}. Fiscal year is {range}.",
   "stock_detail_financials_fiscal_quarter": "Fiscal Quarter",
   "stock_detail_financials_fiscal_year": "Fiscal Year",
+  "stock_detail_financials_metric_definition": "Definition of {metric}",
+  "stock_detail_financials_show_growth": "Show growth for {metric}",
+  "stock_detail_financials_hide_growth": "Hide growth for {metric}",
+  "stock_detail_financials_expand_chart": "Expand chart",
+  "stock_detail_financials_add_favorite": "Add {metric} to favorites",
+  "stock_detail_financials_remove_favorite": "Remove {metric} from favorites",
   "stock_detail_financials_period_ending": "Period Ending",
   "stock_detail_financials_sec_filings": "SEC Filings:",
 
@@ -905,7 +912,6 @@
   "stock_detail_insider_nav_13f_institute": "13F Institute",
   "stock_detail_insider_nav_transcripts": "Transcripts",
   "stock_detail_insider_yaxis_label": "Stock Price ($)",
-  "stock_detail_insider_description": "We track <strong>{transactions}</strong> insider transactions spanning <strong>{purchases}</strong> purchases and <strong>{sales}</strong> sales, with a total transaction value of <strong>{value}</strong>. Recent activity shows <strong>{recent}</strong> transactions in the last 90 days, indicating <strong>{sentiment}</strong> among company executives and key stakeholders.",
 
   "stock_detail_shareholders_chart_title": "{company} Top Shareholders",
   "stock_detail_shareholders_others": "Others",

@@ -1,10 +1,20 @@
 <script lang="ts">
   import { abbreviateNumber } from "$lib/utils";
+  import * as m from "$lib/paraglide/messages";
 
   export let blogData = [];
+
+  const columns = [
+    m.blog_table_metric(),
+    m.blog_table_industry_value(),
+    m.blog_table_stock_value(),
+    m.blog_table_difference(),
+  ];
 </script>
 
-<h2 class="text-xl sm:text-3xl font-bold mt-8">Industry Comparison</h2>
+<h2 class="text-xl sm:text-3xl font-bold mt-8">
+  {m.blog_heading_industry_comparison()}
+</h2>
 <div
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
@@ -15,7 +25,7 @@
       <tr
         class="bg-white dark:bg-default border-b border-[#27272A] text-muted dark:text-white"
       >
-        {#each ["Metric", "Industry Value", "Stock Value", "Difference"] as column, index}
+        {#each columns as column, index}
           <th
             class="  font-semibold text-sm sm:text-[1rem] whitespace-nowrap {index ===
             0
@@ -62,7 +72,7 @@
       <tr
         class="bg-white dark:bg-default border-b border-[#27272A] text-muted dark:text-white"
       >
-        {#each ["Metric", "Industry Value", "Stock Value", "Difference"] as column, index}
+        {#each columns as column, index}
           <th
             class="  font-semibold text-sm sm:text-[1rem] whitespace-nowrap {index ===
             0
@@ -109,7 +119,7 @@
       <tr
         class="bg-white dark:bg-default border-b border-[#27272A] text-muted dark:text-white"
       >
-        {#each ["Metric", "Industry Value", "Stock Value", "Difference"] as column, index}
+        {#each columns as column, index}
           <th
             class="  font-semibold text-sm sm:text-[1rem] whitespace-nowrap {index ===
             0

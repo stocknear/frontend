@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "資料免責聲明 |財務資料來源與準確性",
+  "data_seo_description": "有關我們的財務資料來源、準確性標準以及股市資料、分析師估計和財務指標的使用指南的綜合資訊。",
+  "data_breadcrumb": "資料免責聲明",
+  "data_hero_title": "資料免責聲明",
+  "data_intro": "Stocknear 上提供的財務資料僅供參考和教育目的。該資訊不應被視為財務建議或用作交易或投資決策的唯一依據。",
+  "data_contact": "我們對資料準確性和品質保證保持嚴格的標準。如果你發現任何差異或需要澄清，請透過 {discordLink} 與我們聯繫，或透過 {email} 聯繫我們的支援團隊。",
+  "data_market_title": "市場資料與股票圖表",
+  "data_market_content": "我們全面的市場資料和即時股票圖表由領先的金融資料服務供應商 {fmpLink} 提供支援。這包括日內定價、歷史資料和技術指標。",
+  "data_coverage_title": "市場覆蓋範圍",
+  "data_coverage_content": "Stocknear 全面涵蓋美國主要交易所上市的證券，包括 NASDAQ、NYSE、NYSE American 和 NYSE Arca。我們的資料庫包括股票、ETF、ADR 和精選的 OTC 證券。我們正在積極擴大覆蓋範圍，以納入更多的全球交易所和金融工具。",
+  "data_fundamentals_title": "金融基礎知識",
+  "data_fundamentals_content": "我們的基本財務資料源自 {fmpLink}，並源自官方 SEC 申報（表格 10-K、10-Q 和 8-K）。雖然我們的系統每天都會更新此資訊，但由於標準 SEC 歸檔視窗和公司報告時間表，可能會存在固有的延遲。提供的所有財務資料均基於公司向監管機構提交的經過審計的正式申報。",
+  "data_business_title": "業務指標資料",
+  "data_business_content": "業務指標資料（包括營運 KPI 和非 GAAP 單位經濟效益）由我們的合作夥伴 {mainStreetLink} 提供。他們的研究團隊匯總、標準化並持續驗證公司申報、投資者演示和管理層評論中的這些披露，以確保我們平台上的高度誠信的業務績效覆蓋。",
+  "data_analyst_title": "分析師涵蓋範圍和市場預測",
+  "data_analyst_content": "我們的分析師報告整合了多個權威來源的資料。 目標價和分析師評等由 Benzinga 提供，代表了華爾街領先分析師的共識觀點。 營收預測和 EPS 預測是從 Benzinga 和 {fmpLink} 匯總的。雖然我們努力提供最準確的預測，但使用者應注意，市場預測本質上是不確定的，應將其視為更廣泛的投資研究過程的一部分。",
+  "data_etf_title": "ETF 分析",
+  "data_etf_content": "我們的 ETF 持股資料和分析是透過我們與 {fmpLink} 的合作提供的，確保有關基金組成、分配和績效指標的準確和及時的資訊。",
+  "data_options_title": "選擇權市場資料",
+  "data_options_content": "我們的選擇權市場資料基礎設施利用多個資料供應商，將他們的資料來源合併到統一的管道中，以提供全面的全流 OPR​​（選擇權價格報告機構）資料。透過匯總來自多個來源的即時選擇權資金流和單獨的選擇權鏈資料，我們確保完全涵蓋美國所有主要選擇權交易所的選擇權市場活動和定價。"
+}

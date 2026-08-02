@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Conviértete en patrocinador de Stocknear",
+  "donation_seo_description": "Tu patrocinio nos ayuda a convertir Stocknear en la mejor plataforma de análisis bursátil, con planes accesibles.",
+  "donation_title": "Patrocinador",
+  "donation_intro_greeting": "Hola 👋,",
+  "donation_intro_paragraph_1": "Gracias por considerar apoyar nuestra misión. Como única persona detrás de Stocknear, que se encarga de todo, desde el desarrollo backend hasta el servicio al cliente, me comprometo a mantener nuestra plataforma asequible y accesible para todos los inversores.",
+  "donation_intro_paragraph_2": "El precio de nuestros planes garantiza que los datos bursátiles de alta calidad estén al alcance de inversores minoristas de todos los orígenes.",
+  "donation_support_paragraph_1": "Aunque las suscripciones cubren nuestras operaciones básicas, tu apoyo adicional puede ayudarnos a llegar aún más lejos. Al patrocinarnos no solo apoyas una plataforma: inviertes en una visión de análisis financiero abierto, transparente y asequible.",
+  "donation_support_list_intro": "Tu apoyo contribuirá directamente a:",
+  "donation_support_list_item_1": "Manteniendo nuestro bajo precio",
+  "donation_support_list_item_2": "Mejor calidad de datos y características",
+  "donation_support_list_item_3": "Impulsando nuestro objetivo de convertirnos en la plataforma de análisis de acciones número uno del sector",
+  "donation_cta_title": "Conviértete en patrocinador de Stocknear",
+  "donation_cta_paragraph_1": "Si crees en nuestra misión y quieres apoyarnos más allá de tu suscripción, hazlo a través de GitHub Sponsors. Cada contribución, sin importar su tamaño, mejora nuestra capacidad para ayudarte a ti y a la comunidad de inversores minoristas.",
+  "donation_cta_paragraph_2": "Tu apoyo significa mucho para mí y ayuda a que Stocknear funcione sin problemas.",
+  "donation_sidebar_about_title": "Sobre nosotros",
+  "donation_iframe_title": "Patrocinador Stockcerca"
+}

@@ -9,16 +9,12 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     
-    <!-- Default SEO Meta Tags (will be overridden by page-specific ones) -->
+    <!-- Page-specific indexing directives are emitted by the SEO component. -->
     <meta name="author" content= "Stocknear" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="bingbot" content="index, follow" />
     
     <!-- Canonical URL is set dynamically per page via SEO component -->
     
     <!-- Language and Region -->
-    <meta name="language" content="English" />
     <meta name="geo.region" content="US" />
     <meta name="geo.placename" content="United States" />
     
@@ -44,6 +40,9 @@
     <!-- Third-party preconnects are injected only when consented marketing loads -->
 
     <!-- Marketing/Analytics scripts (GTM) loaded conditionally in +layout.svelte based on cookie consent -->
+
+    <!-- Route-scoped locale scripts must run before Svelte hydrates. -->
+    %stocknear.i18n%
 
     %sveltekit.head%
   </head>

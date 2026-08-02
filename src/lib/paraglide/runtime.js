@@ -1,7 +1,6 @@
 /* eslint-disable */
 
-/** @type {any} */
-const URLPattern = {}
+import "@inlang/paraglide-js/urlpattern-polyfill";
 
 /**
  * The project's base locale.
@@ -20,7 +19,7 @@ export const baseLocale = "en";
  *     throw new Error('Locale is not available');
  *   }
  */
-export const locales = /** @type {const} */ (["en", "de", "zh"]);
+export const locales = /** @type {const} */ (["en", "de", "zh-CN", "zh-TW", "es", "fr"]);
 /** @type {string} */
 export const cookieName = "PARAGLIDE_LOCALE";
 /** @type {number} */
@@ -33,8 +32,8 @@ export const localStorageKey = "PARAGLIDE_LOCALE";
  * @type {Array<"cookie" | "baseLocale" | "globalVariable" | "url" | "preferredLanguage" | "localStorage" | `custom-${string}`>}
  */
 export const strategy = [
+  "url",
   "cookie",
-  "globalVariable",
   "baseLocale"
 ];
 /**
@@ -51,8 +50,20 @@ export const urlPatterns = [
         ":protocol://:domain(.*)::port?/de/:path(.*)?"
       ],
       [
-        "zh",
-        ":protocol://:domain(.*)::port?/zh/:path(.*)?"
+        "zh-CN",
+        ":protocol://:domain(.*)::port?/zh-cn/:path(.*)?"
+      ],
+      [
+        "zh-TW",
+        ":protocol://:domain(.*)::port?/zh-tw/:path(.*)?"
+      ],
+      [
+        "es",
+        ":protocol://:domain(.*)::port?/es/:path(.*)?"
+      ],
+      [
+        "fr",
+        ":protocol://:domain(.*)::port?/fr/:path(.*)?"
       ],
       [
         "en",
@@ -101,10 +112,10 @@ export function overwriteServerAsyncLocalStorage(value) {
     serverAsyncLocalStorage = value;
 }
 const TREE_SHAKE_COOKIE_STRATEGY_USED = true;
-const TREE_SHAKE_URL_STRATEGY_USED = false;
-const TREE_SHAKE_GLOBAL_VARIABLE_STRATEGY_USED = true;
+const TREE_SHAKE_URL_STRATEGY_USED = true;
+const TREE_SHAKE_GLOBAL_VARIABLE_STRATEGY_USED = false;
 const TREE_SHAKE_PREFERRED_LANGUAGE_STRATEGY_USED = false;
-const TREE_SHAKE_DEFAULT_URL_PATTERN_USED = true;
+const TREE_SHAKE_DEFAULT_URL_PATTERN_USED = false;
 const TREE_SHAKE_LOCAL_STORAGE_STRATEGY_USED = false;
 
 globalThis.__paraglide = {}

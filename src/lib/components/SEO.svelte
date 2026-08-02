@@ -1,5 +1,9 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { deLocalizeUrl, getLocale, type Locale } from "$lib/paraglide/runtime.js";
+  import { hrefForLocale } from "$lib/i18n/navigation";
+  import { getLocaleDefinition, supportedLocales } from "$lib/i18n/locales";
+  import { jsonLdScript } from "$lib/seo/json-ld";
 
   export let title = "Real-Time Options Flow & Unusual Activity";
   export let description =
@@ -11,17 +15,84 @@
   export let article: any = null;
   export let twitterCard: string = "summary";
   export let noindex: boolean = false;
+  export let contentLocales: readonly Locale[] | null = null;
 
   const baseURL = "https://stocknear.com";
-  const pathname = $page?.url?.pathname || "";
-  const canonical = baseURL + pathname;
+  $: currentLocale = ($page.url.pathname, getLocale());
+  $: localeDefinition = getLocaleDefinition(currentLocale);
+  $: pathname = $page?.url?.pathname || "";
+  $: delocalizedPathname = deLocalizeUrl($page.url).pathname;
+  $: canonical = baseURL + pathname;
+  $: alternateLocales = contentLocales
+    ? ([...contentLocales] as Locale[])
+    : ([...supportedLocales] as Locale[]);
+  $: shouldNoIndex = noindex || !alternateLocales.includes(currentLocale);
 
   const siteName = "Stocknear";
   const twitterHandle = "@stocknear";
   const defaultImage = baseURL + "/pwa-512x512.png";
 
+  const PAGE_URL_PROPERTIES = new Set(["url", "item", "@id"]);
+  const GLOBAL_IDENTITY_TYPES = new Set(["Organization", "ImageObject"]);
+
+  function localizeStructuredUrl(value: string, locale: Locale): string {
+    try {
+      const url = new URL(value, baseURL);
+      if (url.origin !== baseURL) return value;
+
+      const path = deLocalizeUrl(url).pathname;
+      return `${baseURL}${hrefForLocale(path, locale)}${url.search}${url.hash}`;
+    } catch {
+      return value;
+    }
+  }
+
+  function localizeStructuredDataUrls(
+    value: unknown,
+    locale: Locale,
+  ): unknown {
+    if (Array.isArray(value)) {
+      return value.map((item) => localizeStructuredDataUrls(item, locale));
+    }
+    if (!value || typeof value !== "object") return value;
+
+    const record = value as Record<string, unknown>;
+    const schemaTypes = Array.isArray(record["@type"])
+      ? record["@type"]
+      : [record["@type"]];
+    const isGlobalIdentity = schemaTypes.every(
+      (schemaType) =>
+        typeof schemaType === "string" &&
+        GLOBAL_IDENTITY_TYPES.has(schemaType),
+    );
+
+    return Object.fromEntries(
+      Object.entries(record).map(([key, item]) => {
+        if (
+          typeof item === "string" &&
+          PAGE_URL_PROPERTIES.has(key) &&
+          !isGlobalIdentity
+        ) {
+          return [key, localizeStructuredUrl(item, locale)];
+        }
+        return [key, localizeStructuredDataUrls(item, locale)];
+      }),
+    );
+  }
+
+  function prepareStructuredData(value: unknown): unknown {
+    return localizeStructuredDataUrls(value, currentLocale);
+  }
+
+  $: pageSchemas = (Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  )
+    ?.filter(Boolean)
+    .map((schema) => prepareStructuredData(schema));
+
   // Global Organization + WebSite schema (rendered once on every page)
-  const globalSchemas = [
+  $: globalSchemas = [
     {
       "@context": "https://schema.org",
       "@type": "Organization",
@@ -35,19 +106,20 @@
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer support",
-        url: "https://stocknear.com/contact",
+        url: `${baseURL}${hrefForLocale("/contact", currentLocale)}`,
       },
     },
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: "Stocknear",
-      url: "https://stocknear.com",
+      url: `${baseURL}${hrefForLocale("/", currentLocale)}`,
+      inLanguage: localeDefinition.intlTag,
       potentialAction: {
         "@type": "SearchAction",
         target: {
           "@type": "EntryPoint",
-          urlTemplate: "https://stocknear.com/stocks/{search_term_string}",
+          urlTemplate: `${baseURL}${hrefForLocale("/stocks", currentLocale)}/{search_term_string}`,
         },
         "query-input": "required name=search_term_string",
       },
@@ -67,9 +139,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="robots"
-    content="{noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}"
+    content="{shouldNoIndex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}"
   />
-  {#if !noindex}
+  {#if !shouldNoIndex}
     <meta name="googlebot" content="index, follow" />
     <meta name="bingbot" content="index, follow" />
   {/if}
@@ -84,7 +156,7 @@
   <meta name="author" content={siteName} />
 
   <!-- Language and geo tags -->
-  <meta name="language" content="English" />
+  <meta name="language" content={localeDefinition.name} />
   <meta name="geo.region" content="US" />
 
   <!-- Favicons & theme -->
@@ -102,7 +174,10 @@
   />
 
   <!-- Open Graph -->
-  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale" content={localeDefinition.ogLocale} />
+  {#each alternateLocales?.filter((locale) => locale !== currentLocale) ?? [] as locale}
+    <meta property="og:locale:alternate" content={getLocaleDefinition(locale).ogLocale} />
+  {/each}
   <meta property="og:site_name" content={siteName} />
   <meta property="og:type" content={type} />
   <meta property="og:url" content={canonical} />
@@ -152,26 +227,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
   <!-- Hreflang for multilingual SEO -->
-  <link rel="alternate" hreflang="en" href={`${baseURL}${pathname}`} />
-  <link rel="alternate" hreflang="de" href={`${baseURL}/de${pathname}`} />
-  <link rel="alternate" hreflang="zh" href={`${baseURL}/zh${pathname}`} />
-  <link rel="alternate" hreflang="x-default" href={`${baseURL}${pathname}`} />
+  {#each alternateLocales as locale}
+    <link
+      rel="alternate"
+      hreflang={locale}
+      href={`${baseURL}${hrefForLocale(delocalizedPathname, locale)}`}
+    />
+  {/each}
+  <link rel="alternate" hreflang="x-default" href={`${baseURL}${hrefForLocale(delocalizedPathname, "en")}`} />
 
   <!-- Global Organization + WebSite Schema -->
   {#each globalSchemas as gs}
-    {@html `<script type="application/ld+json">${JSON.stringify(gs)}</script>`}
+    {@html jsonLdScript(gs)}
   {/each}
 
   <!-- Page-Specific Structured Data -->
-  {#if structuredData}
-    {#if Array.isArray(structuredData)}
-      {#each structuredData as sd}
-        {#if sd}
-          {@html `<script type="application/ld+json">${JSON.stringify(sd)}</script>`}
-        {/if}
-      {/each}
-    {:else}
-      {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
-    {/if}
-  {/if}
+  {#each pageSchemas as schema}
+    {@html jsonLdScript(schema)}
+  {/each}
 </svelte:head>

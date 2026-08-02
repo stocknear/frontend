@@ -19,6 +19,7 @@
   import { onDestroy } from "svelte";
   import WIIM from "$lib/components/WIIM.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { getIntlLocale } from "$lib/i18n/format";
 
   import News from "$lib/components/News.svelte";
   import NextEarnings from "$lib/components/NextEarnings.svelte";
@@ -371,7 +372,7 @@
         timeZone: "UTC",
       };
 
-      const formattedDate = date?.toLocaleString("en-US", options);
+      const formattedDate = date?.toLocaleString(getIntlLocale(), options);
 
       const safeFormattedDate =
         formattedDate === "Invalid Date"
@@ -714,8 +715,6 @@
         url: "https://stocknear.com/favicon.png",
       },
     },
-    dateModified: new Date().toISOString(),
-    datePublished: new Date().toISOString(),
     mainEntity: {
       "@type": "Corporation",
       name: data?.companyName,
@@ -739,9 +738,6 @@
             ? $currentPortfolioPrice
             : data?.getStockQuote?.price,
         priceCurrency: "USD",
-        priceValidUntil: new Date(
-          Date.now() + 24 * 60 * 60 * 1000,
-        ).toISOString(),
         availability: "https://schema.org/InStock",
       },
     },
@@ -1236,7 +1232,7 @@
                       >{stockDeck?.exDividendDate
                         ? new Date(
                             stockDeck?.exDividendDate,
-                          ).toLocaleDateString("en-US", {
+                          ).toLocaleDateString(getIntlLocale(), {
                             year: "numeric",
                             month: "short",
                             day: "numeric",

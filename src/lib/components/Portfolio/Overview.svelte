@@ -32,6 +32,7 @@
     import highcharts from "$lib/highcharts";
     import { screenWidth } from "$lib/store.ts";
     import { mode } from "mode-watcher";
+    import { getIntlLocale } from "$lib/i18n/format";
 
     export let data;
     export let portfolioData = [];
@@ -48,7 +49,7 @@
     // Format date to readable format (e.g., "Sep 22")
     function formatDate(dateString) {
         const date = new Date(dateString);
-        const month = date.toLocaleDateString("en-US", { month: "short" });
+        const month = date.toLocaleDateString(getIntlLocale(), { month: "short" });
         const day = date.getDate();
         return `${month} ${day}`;
     }
@@ -56,7 +57,7 @@
     // Format date with year for tooltip (e.g., "Sep 22, '22")
     function formatDateWithYear(dateString) {
         const date = new Date(dateString);
-        const month = date.toLocaleDateString("en-US", { month: "short" });
+        const month = date.toLocaleDateString(getIntlLocale(), { month: "short" });
         const day = date.getDate();
         const year = date.getFullYear().toString().slice(-2);
         return `${month} ${day}, '${year}`;
@@ -222,7 +223,7 @@
 
     // Format currency
     function formatCurrency(value) {
-        return new Intl.NumberFormat("en-US", {
+        return new Intl.NumberFormat(getIntlLocale(), {
             style: "currency",
             currency: "USD",
             minimumFractionDigits: 0,

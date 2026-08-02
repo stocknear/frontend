@@ -1,0 +1,6 @@
+{
+  "error_title": "Página no encontrada - {status}",
+  "error_body_prefix": "La página no fue encontrada. Si este error ocurre persistentemente, infórmenos a través de",
+  "error_body_suffix": "¡Lo arreglaremos lo antes posible!",
+  "error_back_home": "Volver a la página de inicio"
+}

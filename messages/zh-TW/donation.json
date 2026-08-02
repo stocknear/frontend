@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "成為 Stocknear 的贊助商",
+  "donation_seo_description": "你的贊助商幫助我們以最好的價格規劃成為世界第一的股票分析平台。",
+  "donation_title": "贊助商",
+  "donation_intro_greeting": "嘿👋，",
+  "donation_intro_paragraph_1": "感謝你考慮支持我們的使命。身為 Stocknear 背後的唯一負責人（負責處理從後端開發到客戶服務的所有事務），我致力於讓所有投資者都能負擔得起並使用我們的平台。",
+  "donation_intro_paragraph_2": "我們的計畫定價確保所有背景的散戶投資者都能獲得高品質的股票資料。",
+  "donation_support_paragraph_1": "會員資格用來維持基本營運，你的額外支援則能幫助我們走得更遠。贊助不只是支持一個平台，更是投資於開放、透明且人人負擔得起的財務分析願景。",
+  "donation_support_list_intro": "你的支持將直接有助於：",
+  "donation_support_list_item_1": "維持我們的低價點",
+  "donation_support_list_item_2": "更好的資料品質與功能",
+  "donation_support_list_item_3": "進一步推動我們成為業界第一股票分析平台的目標",
+  "donation_cta_title": "成為 Stocknear 的贊助商",
+  "donation_cta_paragraph_1": "如果你相信我們的使命並希望在訂閱之外支持我們，請透過 GitHub 贊助商支持我們。每一筆捐款，無論金額大小，都會對我們為你和散戶社群提供服務的能力產生重大影響。",
+  "donation_cta_paragraph_2": "你的支援對我來說意味著一切，並幫助 Stocknear 順利運行。",
+  "donation_sidebar_about_title": "關於我們",
+  "donation_iframe_title": "贊助商 Stocknear"
+}

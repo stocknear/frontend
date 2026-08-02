@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "登入 Stocknear",
+  "login_seo_description": "使用你的電子郵件和密碼登入你的 Stocknear 帳戶。",
+  "login_title": "登入你的帳戶",
+  "login_title_logged_in": "你已登入",
+  "login_subtitle": "歡迎回來！",
+  "login_email_label": "電子郵件",
+  "login_password_label": "密碼",
+  "login_forgot_password": "忘記密碼？",
+  "login_button": "登入",
+  "login_button_loading": "登入",
+  "login_divider": "或使用登入",
+  "login_no_account": "你沒有帳戶？",
+  "login_signup_link": "註冊",
+  "login_logged_in_as": "以 {email} 登入",
+  "login_logout_button": "退出",
+  "login_toast_verify_email": "請先驗證你的電子郵件",
+  "login_toast_success": "登入成功！",
+  "login_toast_invalid": "憑證無效",
+  "login_toast_auth_failed": "電子郵件或密碼無效。請再試一次。",
+  "login_toast_rate_limited": "登入嘗試次數過多。請在 {minutes} 分鐘後重試。"
+}

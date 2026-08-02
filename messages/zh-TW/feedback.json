@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "提供回饋",
+  "feedback_error_signin": "請先登入，然後再發送回饋。",
+  "feedback_error_description": "請描述你的問題或建議。",
+  "feedback_error_send_try_again": "發送回饋時出了點問題。請再試一次。",
+  "feedback_success": "謝謝！你的回饋已發送。",
+  "feedback_error_send_generic": "發送回饋時出了點問題。",
+  "feedback_description_label": "描述你的問題或建議：",
+  "feedback_page_label": "頁面回饋：",
+  "feedback_close_button": "關閉",
+  "feedback_cancel_button": "取消",
+  "feedback_send_button": "發送回饋"
+}

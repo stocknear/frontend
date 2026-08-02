@@ -907,7 +907,6 @@
     description: portfolio_structured_description(),
     url: "https://stocknear.com/portfolio/stocks",
     isAccessibleForFree: true,
-    inLanguage: "en",
     operatingSystem: "Web",
     applicationCategory: "FinanceApplication",
     brand: {

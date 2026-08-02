@@ -122,8 +122,6 @@
   }
 </script>
 
-<SEO title={seoTitle} description={seoDescription} {structuredData} />
-
 <section
   class="w-full overflow-hidden m-auto min-h-screen text-muted dark:text-zinc-200"
 >

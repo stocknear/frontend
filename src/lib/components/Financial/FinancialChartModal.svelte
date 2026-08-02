@@ -11,9 +11,9 @@
     stock_detail_financials_chart_line,
     stock_detail_financials_chart_bar,
     stock_detail_financials_fy_prefix,
+    stock_detail_no_data,
   } from "$lib/paraglide/messages";
   import {
-    abbreviateNumber,
     calculatePeriodCAGRs,
     formatCAGRValue,
     getCAGRColorClass,
@@ -33,6 +33,7 @@
   import LineChart from "lucide-svelte/icons/chart-spline";
   import X from "lucide-svelte/icons/x";
   import { goto } from "$app/navigation";
+  import { formatCompact, formatNumber, getIntlLocale } from "$lib/i18n/format";
 
   export let isOpen: boolean = false;
   export let metricKey: string = "";
@@ -255,17 +256,17 @@
         abs,
         Math.abs(tickInterval),
       );
-      formatted = new Intl.NumberFormat("en-US", {
+      formatted = new Intl.NumberFormat(getIntlLocale(), {
         notation: "compact",
         maximumFractionDigits: compactDigits,
         minimumFractionDigits: 0,
       }).format(safeValue);
     } else if (abs >= 10) {
-      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", {
+      formatted = Number(safeValue.toFixed(1)).toLocaleString(getIntlLocale(), {
         maximumFractionDigits: 1,
       });
     } else {
-      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", {
+      formatted = Number(safeValue.toFixed(2)).toLocaleString(getIntlLocale(), {
         maximumFractionDigits: 2,
       });
     }
@@ -350,7 +351,7 @@
         borderRadius: 8,
         formatter: function () {
           const categoryName = this.points?.[0]?.key ?? this.x;
-          // Iterate ALL series so null values show as "n/a"
+          // Iterate all series so missing points are visible in the tooltip.
           const allSeries = this.points?.[0]?.series?.chart?.series || [];
           const xIdx = typeof this.x === "number" ? this.x : 0;
           let html = `<div class="px-1 py-1"><div class="font-semibold mb-1">${categoryName}</div>`;
@@ -360,9 +361,9 @@
             const formatted =
               val != null
                 ? Math.abs(val) < 1000
-                  ? val?.toFixed(2)
-                  : abbreviateNumber(val)
-                : "n/a";
+                  ? formatNumber(val, { maximumFractionDigits: 2 })
+                  : formatCompact(val, { maximumFractionDigits: 2 })
+                : stock_detail_no_data();
             const suffix = val != null && isMarginMetric ? "%" : "";
             html += `<div class="flex items-center gap-2">
               <span style="color: ${s.color}">${s.name}:</span>
@@ -718,7 +719,7 @@
           <div
             class="h-[400px] flex flex-col items-center justify-center text-muted dark:text-white"
           >
-            <span class="text-sm">No data available for this metric.</span>
+            <span class="text-sm">{stock_detail_no_data()}</span>
           </div>
         {:else}
           <div class="h-[400px] flex items-center justify-center">

@@ -1,6 +1,8 @@
 <script lang="ts">
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { abbreviateNumber } from "$lib/utils";
+  import { formatDate } from "$lib/i18n/format";
+  import * as m from "$lib/paraglide/messages";
   export let data;
 
   export let blogData = {};
@@ -24,28 +26,36 @@
     if (minutes1 < minutes2) return -1;
     return 0;
   }
+
+  function marketTimingLabel(time) {
+    if (compareTimes(time, "16:00") > 0) return m.blog_intro_timing_after();
+    if (compareTimes(time, "09:30") < 0) return m.blog_intro_timing_before();
+    return m.blog_intro_timing_during();
+  }
+
+  $: releaseDate = blogData?.date
+    ? formatDate(
+        new Date(blogData.date),
+        {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          timeZone: "Europe/Berlin",
+        },
+      )
+    : m.blog_not_available();
 </script>
 
 <div
   class="mb-6 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3"
 >
   <p class="mb-2">
-    {$displayCompanyName} is scheduled to release its earnings on {new Date(
-      blogData?.date ?? null,
-    )?.toLocaleString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      timeZone: "Europe/Berlin",
-    })},
-    {#if compareTimes(blogData?.time, "16:00") > 0}
-      after market closes.
-    {:else if compareTimes(blogData?.time, "09:30") < 0}
-      before market opens.
-    {:else}
-      during market hours.
-    {/if}
-    <br />Analysts project revenue of
+    {m.blog_intro_release({
+      company: $displayCompanyName,
+      date: releaseDate,
+      timing: marketTimingLabel(blogData?.time),
+    })}
+    <br />{m.blog_intro_analysts_project_revenue()}
 
     <span class=""
       >{@html abbreviateNumber(blogData?.revenueEst, true, true)}</span
@@ -58,20 +68,29 @@
           : 'text-muted dark:text-white'} "
       >{revenueRatio !== "Infinity"
         ? abbreviateNumber(revenueRatio) + "%"
-        : "n/a"}</span
+        : m.blog_not_available()}</span
     >
-    YoY {revenueRatio > 0 ? "growth" : revenueRatio < 0 ? "shrinking" : ""}
+    {m.blog_intro_reflecting()}
+    {revenueRatio > 0
+      ? m.blog_intro_yoy_growth()
+      : revenueRatio < 0
+        ? m.blog_intro_yoy_contraction()
+        : m.blog_intro_yoy_unchanged()}
     {#if epsRatio !== null}
-      and earnings per share of
-      <span class="">{blogData?.epsEst}</span>, making a
+      {m.blog_intro_and_eps()}
+      <span class="">{blogData?.epsEst}</span>, {m.blog_intro_representing()}
       <span
         class="{epsRatio > 0
           ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
           : 'text-rose-800 dark:text-rose-400'} ">{epsRatio}%</span
       >
-      {epsRatio > 0 ? "increase" : epsRatio < 0 ? "decrease" : ""} YoY.
+      {epsRatio > 0
+        ? m.blog_intro_yoy_increase()
+        : epsRatio < 0
+          ? m.blog_intro_yoy_decrease()
+          : m.blog_intro_yoy_no_change()}
     {:else}
-      and earnings per share of
+      {m.blog_intro_and_eps()}
       <span class="">{blogData?.epsEst}</span>.
     {/if}
   </p>

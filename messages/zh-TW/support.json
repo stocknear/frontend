@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "取得支援",
+  "support_breadcrumb_home": "首頁",
+  "support_breadcrumb_current": "取得支援",
+  "support_title": "取得支援",
+  "support_description_1": "請使用下面的表格提交你的支援請求，我們會盡快回覆你。你也可以直接發送電子郵件至",
+  "support_description_2": "你可以在這裡找到一些常見問題的答案：",
+  "support_faq_link": "常見問題解答",
+  "support_description_3": "如果你需要有關錯誤或資料不準確的協助，請提供你找到該錯誤或資料的頁面的確切 URL。",
+  "support_label_email": "電子郵件",
+  "support_label_subject": "主題",
+  "support_label_message": "留言",
+  "support_button_send": "傳送訊息",
+  "support_button_processing": "處理中...",
+  "support_success_message": "你的訊息已成功傳送。我們會盡快回覆你。",
+  "support_toast_error": "出了點問題。請再試一次...",
+  "support_sidebar_pro_title": "專業訂閱",
+  "support_sidebar_pro_description": "立即升級即可無限制地存取所有資料、工具且無廣告。",
+  "support_sidebar_screener_title": "股票篩選器",
+  "support_sidebar_screener_description": "篩選、排序和分析所有股票以找到你的下一個投資。",
+  "support_sidebar_watchlist_title": "自選清單",
+  "support_sidebar_watchlist_description": "即時追蹤你最喜歡的股票。"
+}

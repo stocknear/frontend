@@ -1,5 +1,12 @@
 import { convertToSlug, checkPreMarketHourSSR } from "$lib/utils";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
+import { cookieName, type Locale } from "$lib/paraglide/runtime.js";
+import {
+  LANGUAGE_SUGGESTION_DISMISS_COOKIE,
+  canonicalizeLocale,
+  matchBrowserLocale,
+  parseAcceptLanguage,
+} from "$lib/i18n/locales";
 
 let cachedDaily: { hasDailyBriefing: boolean; dailyBriefingSlug: string | null; cachedAt: number } | null = null;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -59,7 +66,7 @@ async function getDailyBriefing(pb: any) {
   return cachedDaily;
 }
 
-export const load = async ({ locals, cookies }) => {
+export const load = async ({ locals, cookies, request }) => {
   // Check for signup conversion flag (httpOnly — set by registration handlers)
   let signupConversion = false;
   if (cookies.get(SIGNUP_COOKIE)) {
@@ -73,6 +80,19 @@ export const load = async ({ locals, cookies }) => {
     const isPreMarket = checkPreMarketHourSSR();
     const dailyBriefing = await getDailyBriefing(pb);
     const { hasDailyBriefing, dailyBriefingSlug } = dailyBriefing;
+    const matchedBrowserLocale = matchBrowserLocale(
+      parseAcceptLanguage(request.headers.get("accept-language")),
+    );
+    const hasLocalePreference =
+      canonicalizeLocale(cookies.get(cookieName)) !== null;
+    const suggestedLocale: Locale | null =
+      locale === "en" &&
+      !hasLocalePreference &&
+      !cookies.get(LANGUAGE_SUGGESTION_DISMISS_COOKIE) &&
+      matchedBrowserLocale !== null &&
+      matchedBrowserLocale !== "en"
+        ? matchedBrowserLocale
+        : null;
 
     return {
       user: user || undefined,
@@ -83,6 +103,7 @@ export const load = async ({ locals, cookies }) => {
       isPreMarket,
       hasDailyBriefing,
       dailyBriefingSlug,
+      suggestedLocale,
       signupConversion,
     };
   } catch {
@@ -95,6 +116,7 @@ export const load = async ({ locals, cookies }) => {
       isPreMarket: false,
       hasDailyBriefing: false,
       dailyBriefingSlug: null,
+      suggestedLocale: null,
       signupConversion,
     };
   }

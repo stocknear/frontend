@@ -1,4 +1,6 @@
 import type { RequestHandler } from "./$types";
+import { canonicalizeLocale } from "$lib/i18n/locales";
+import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { apiURL, apiKey, user, pb } = locals;
@@ -27,17 +29,22 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const data = await request.json();
   const { ticker, insiderData, lang } = data;
 
-  if (!lang || !["en", "de", "zh"].includes(lang)) {
+  const requestedLocale = canonicalizeLocale(lang);
+  if (!requestedLocale) {
     return new Response(
       JSON.stringify({ error: "Valid language is required" }),
       { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
+  const localeResolution = resolveBackendLocale(
+    "insiderSummary",
+    requestedLocale,
+  );
 
   const postData = {
     ticker,
     insiderData,
-    lang,
+    lang: localeResolution.effectiveLocale,
   };
 
   try {
@@ -63,11 +70,18 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       credits: user?.credits - costOfCredit,
     });
 
-    return new Response(JSON.stringify(result), {
-      headers: {
-        "Content-Type": "application/json",
+    return new Response(
+      JSON.stringify({ data: result, ...localeResolution }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": localeResolution.effectiveLocale,
+          "X-Stocknear-Locale-Fallback": String(
+            localeResolution.fallbackApplied,
+          ),
+        },
       },
-    });
+    );
   } catch (err) {
     console.error("Handler error:", err);
     return new Response(

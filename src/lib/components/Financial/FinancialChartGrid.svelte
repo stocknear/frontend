@@ -1,6 +1,7 @@
 <script lang="ts">
   import FinancialChartCard from "$lib/components/Financial/FinancialChartCard.svelte";
   import { MARGIN_KEYS as marginKeys } from "$lib/financials/constants";
+  import { stock_detail_no_data } from "$lib/paraglide/messages";
 
   export let processedData: Record<
     string,
@@ -42,7 +43,7 @@
     <div
       class="flex items-center justify-center py-12 text-muted dark:text-white"
     >
-      <p>No chart data available</p>
+      <p>{stock_detail_no_data()}</p>
     </div>
   {:else}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -1,8 +1,21 @@
 <script lang="ts">
+  import * as m from "$lib/paraglide/messages";
+
   export let blogData = [];
+
+  function sentimentLabel(sentiment) {
+    if (sentiment === "Very Good") return m.blog_sentiment_very_good();
+    if (sentiment === "Good") return m.blog_sentiment_good();
+    if (sentiment === "Average") return m.blog_sentiment_average();
+    if (sentiment === "Bad") return m.blog_sentiment_bad();
+    if (sentiment === "Very Bad") return m.blog_sentiment_very_bad();
+    return sentiment;
+  }
 </script>
 
-<h2 class="text-xl sm:text-3xl font-bold mt-8 mb-3">Growth</h2>
+<h2 class="text-xl sm:text-3xl font-bold mt-8 mb-3">
+  {m.blog_heading_growth()}
+</h2>
 
 <div
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
@@ -29,7 +42,8 @@
                 ? 'bg-green-800 dark:bg-green-600'
                 : item?.sentiment === 'Average'
                   ? 'bg-orange-800 dark:bg-orange-600'
-                  : 'bg-red-800 dark:bg-red-600'}">{item?.sentiment}</label
+                  : 'bg-red-800 dark:bg-red-600'}"
+              >{sentimentLabel(item?.sentiment)}</label
             >
           </td>
         </tr>

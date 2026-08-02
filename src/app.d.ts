@@ -2,9 +2,6 @@
 // for information about these interfaces
 // and what to do when importing types
 
-// Locale type from Paraglide
-type Locale = "en" | "de" | "zh";
-
 declare namespace App {
   // interface Error {}
   interface Locals {
@@ -21,7 +18,7 @@ declare namespace App {
       marketing: boolean;
       timestamp?: number;
     } | null;
-    locale: Locale;
+    locale: import("$lib/paraglide/runtime.js").Locale;
   }
   // interface PageData {}
   // interface Platform {}

@@ -28,6 +28,7 @@
   } from "$lib/websocket";
 
   import { convertTimestamp } from "$lib/utils";
+  import { localizedHref } from "$lib/i18n/navigation";
   import TickerHeader from "$lib/components/TickerHeader.svelte";
   import StockPriceExport from "$lib/components/StockPriceExport.svelte";
   import WatchlistButton from "$lib/components/WatchlistButton.svelte";
@@ -46,6 +47,7 @@
     stock_detail_nav_statistics,
     stock_detail_nav_unusual_orders,
     stock_detail_price_alert,
+    stock_detail_pro_chart,
   } from "$lib/paraglide/messages";
 
   export let data;
@@ -683,17 +685,17 @@
                                   <path d="M9.5 13h5M12 10.5v5" />
                                 </g>
                               </svg>
-                              <span>Alert</span>
+                              <span>{stock_detail_price_alert()}</span>
                             </label>
                             <div
                               class="w-px h-5 bg-gray-300 dark:bg-zinc-700"
                             ></div>
                             <a
-                              href="/chart/{$stockTicker}"
+                              href={localizedHref(`/chart/${$stockTicker}`)}
                               class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
                             >
                               <ChartNoAxes class="size-4 flex-shrink-0" />
-                              <span>Pro Chart</span>
+                              <span>{stock_detail_pro_chart()}</span>
                             </a>
                           </div>
 
@@ -733,15 +735,15 @@
                               >
                             </label>
                             <a
-                              href="/chart/{$stockTicker}"
+                              href={localizedHref(`/chart/${$stockTicker}`)}
                               class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
-                              title="Pro Chart"
+                              title={stock_detail_pro_chart()}
                             >
                               <ChartNoAxes class="size-5 flex-shrink-0" />
 
                               <span
                                 class="text-sm overflow-hidden max-w-0 group-hover:max-w-24 group-hover:ml-1.5 transition-all duration-700 ease-out"
-                                >Pro Chart</span
+                                >{stock_detail_pro_chart()}</span
                               >
                             </a>
                             <StockPriceExport

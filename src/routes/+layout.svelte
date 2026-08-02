@@ -11,14 +11,28 @@
   import Footer from "$lib/components/Footer.svelte";
   import Searchbar from "$lib/components/Searchbar.svelte";
   import NotificationBell from "$lib/components/NotificationBell.svelte";
+  import LanguageSuggestion from "$lib/components/LanguageSuggestion.svelte";
 
   //import DiscountBanner from '$lib/components/DiscountBanner.svelte';
 
   import { beforeNavigate, afterNavigate } from "$app/navigation";
+  import { goto } from "$app/navigation";
   import { onMount, onDestroy } from "svelte";
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
   import { registerServiceWorker } from "$lib/registerServiceWorker";
+  import {
+    baseLocale,
+    deLocalizeUrl,
+    extractLocaleFromUrl,
+    type Locale,
+  } from "$lib/paraglide/runtime.js";
+  import { localizedHref } from "$lib/i18n/navigation";
+  import { getLocaleFromSlug } from "$lib/i18n/locales";
+  import {
+    hasRouteMessages,
+    loadRouteMessages,
+  } from "$lib/i18n/delivery/client";
 
   import {
     clearCache,
@@ -112,6 +126,7 @@
     layout_unusual_order_flow,
     layout_watchlist,
     layout_start_new_chat,
+    layout_chat,
     layout_income_strategy,
     layout_covered_call_screener,
     layout_cash_secured_put_screener,
@@ -137,6 +152,7 @@
     path === prefix || path.startsWith(`${prefix}/`);
 
   let isLandingPage = false;
+  let currentLocale: Locale = data?.locale ?? baseLocale;
   let bottomNavState = {
     home: false,
     portfolio: false,
@@ -144,6 +160,13 @@
     priceAlert: false,
     chat: false,
   };
+  let translationNavigationRetry = false;
+
+  $: currentLocale =
+    extractLocaleFromUrl($page.url) ?? data?.locale ?? baseLocale;
+
+  let localHref: (href: string) => string;
+  $: localHref = (href: string) => localizedHref(href, currentLocale);
 
   function handleScroll() {
     if (!browser) return;
@@ -399,7 +422,60 @@
     clearCache();
   });
 
-  beforeNavigate(() => {
+  beforeNavigate((navigation) => {
+    if (
+      navigation.to?.url &&
+      (navigation.type === "link" || navigation.type === "goto")
+    ) {
+      const destination = navigation.to.url;
+      if (destination.origin === window.location.origin) {
+        const [firstSegment] = destination.pathname.split("/")?.filter(Boolean) ?? [];
+        const destinationHasLocale = Boolean(
+          firstSegment && getLocaleFromSlug(firstSegment),
+        );
+        if (!destinationHasLocale) {
+          const currentUrlLocale = extractLocaleFromUrl(window.location.href);
+          const localized = localizedHref(
+            `${destination.pathname}${destination.search}${destination.hash}`,
+            currentUrlLocale,
+          );
+          const expected = new URL(localized, window.location.origin);
+          if (expected.pathname !== destination.pathname) {
+            navigation.cancel();
+            void goto(`${expected.pathname}${expected.search}${expected.hash}`);
+            return;
+          }
+        }
+
+        const destinationLocale = extractLocaleFromUrl(destination);
+        const activeLocale = extractLocaleFromUrl(window.location.href);
+        if (destinationLocale !== activeLocale) {
+          navigation.cancel();
+          window.location.assign(destination.href);
+          return;
+        }
+
+        const targetRouteId = navigation.to.route.id;
+        if (
+          !translationNavigationRetry &&
+          targetRouteId &&
+          !hasRouteMessages(targetRouteId)
+        ) {
+          navigation.cancel();
+          const target = `${destination.pathname}${destination.search}${destination.hash}`;
+          void loadRouteMessages(targetRouteId)
+            .then(async () => {
+              translationNavigationRetry = true;
+              await goto(target);
+            })
+            .catch(() => window.location.assign(target))
+            .finally(() => {
+              translationNavigationRetry = false;
+            });
+          return;
+        }
+      }
+    }
     BProgress?.start();
   });
 
@@ -409,12 +485,12 @@
   });
 
   $: isLandingPage =
-    ($page.url.pathname === "/" && !data?.user) ||
-    $page.url.pathname === "/register" ||
-    $page.url.pathname === "/login";
+    (deLocalizeUrl($page.url).pathname === "/" && !data?.user) ||
+    deLocalizeUrl($page.url).pathname === "/register" ||
+    deLocalizeUrl($page.url).pathname === "/login";
 
   $: {
-    const path = $page.url.pathname;
+    const path = deLocalizeUrl($page.url).pathname;
     bottomNavState = {
       home: path === "/",
       portfolio: routeStartsWith(path, "/portfolio"),
@@ -431,7 +507,7 @@
       if ($loginData !== nextLoginData) {
         $loginData = nextLoginData;
       }
-      const path = $page.url.pathname;
+      const path = deLocalizeUrl($page.url).pathname;
       isChartRoute = routePrefixes?.some(
         (p) => path === p || path?.startsWith(p + "/"),
       );
@@ -569,7 +645,7 @@
                   class="-ml-4 mr-auto bg-transparent dark:bg-[#131214]"
                 >
                   <a
-                    href="/"
+                    href={localHref("/")}
                     class="flex items-center gap-4 px-0.5 text-muted dark:text-white text-lg sm:text-xl font-semibold tracking-tight"
                   >
                     <img
@@ -589,7 +665,7 @@
                 >
                   <a
                     class="cursor-pointer w-full flex justify-start items-start"
-                    href="/chat"
+                    href={localHref("/chat")}
                   >
                     <div
                       class="flex flex-row items-center justify-start w-full"
@@ -610,7 +686,7 @@
                   class="w-full -ml-4 mr-auto bg-transparent dark:bg-[#131214]"
                 >
                   <a
-                    href="/"
+                    href={localHref("/")}
                     class="w-full group flex flex-row items-center mr-auto mt-5"
                   >
                     <div
@@ -650,7 +726,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/industry"
+                              href={localHref("/industry")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_by_industry()}</a
                             >
@@ -662,7 +738,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/market-mover/gainers"
+                              href={localHref("/market-mover/gainers")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_mover()}</a
                             >
@@ -674,7 +750,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/stocks/heatmap"
+                              href={localHref("/stocks/heatmap")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_heatmap()}</a
                             >
@@ -686,7 +762,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/stocks/compare"
+                              href={localHref("/stocks/compare")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
@@ -698,7 +774,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/list"
+                              href={localHref("/list")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
                             >
@@ -732,7 +808,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/etf/etf-providers"
+                              href={localHref("/etf/etf-providers")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
                             >
@@ -743,7 +819,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/etf/heatmap"
+                              href={localHref("/etf/heatmap")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
@@ -754,7 +830,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/etf/compare"
+                              href={localHref("/etf/compare")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_comparison_tool()}</a
                             >
@@ -765,7 +841,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/etf/new-launches"
+                              href={localHref("/etf/new-launches")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_new_launches()}</a
                             >
@@ -799,7 +875,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/analysts"
+                              href={localHref("/analysts")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_top_analysts()}</a
                             >
@@ -810,7 +886,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/analysts/top-stocks"
+                              href={localHref("/analysts/top-stocks")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_top_analyst_stocks()}</a
                             >
@@ -822,7 +898,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/analysts/analyst-flow"
+                              href={localHref("/analysts/analyst-flow")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_analyst_live_flow()}</a
                             >
@@ -856,7 +932,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/dividends-calendar"
+                              href={localHref("/dividends-calendar")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_dividends_calendar()}</a
                             >
@@ -867,7 +943,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/earnings-calendar"
+                              href={localHref("/earnings-calendar")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_earnings_calendar()}</a
                             >
@@ -879,7 +955,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/ipos"
+                              href={localHref("/ipos")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_ipo_calendar()}</a
                             >
@@ -891,7 +967,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/economic-calendar"
+                              href={localHref("/economic-calendar")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_economic_calendar()}</a
                             >
@@ -903,7 +979,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/economic-indicator"
+                              href={localHref("/economic-indicator")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Economic Indicator</a
                             >
@@ -916,7 +992,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/stock-splits-calendar"
+                              href={localHref("/stock-splits-calendar")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >Stock Splits Calendar</a
                             >
@@ -952,7 +1028,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/politicians/flow-data"
+                              href={localHref("/politicians/flow-data")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_congress_flow()}</a
                             >
@@ -963,7 +1039,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/politicians"
+                              href={localHref("/politicians")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_all_politicians()}</a
                             >
@@ -997,7 +1073,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/market-flow"
+                              href={localHref("/market-flow")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_market_flow()}</a
                             >
@@ -1009,7 +1085,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/news-flow"
+                              href={localHref("/news-flow")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
                               >{layout_news_flow()}</a
                             >
@@ -1021,7 +1097,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/options-flow"
+                              href={localHref("/options-flow")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_flow()}</a
                             >
@@ -1032,7 +1108,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/unusual-order-flow"
+                              href={localHref("/unusual-order-flow")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_unusual_order_flow()}</a
                             >
@@ -1066,7 +1142,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/stocks/screener"
+                              href={localHref("/stocks/screener")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_screener()}</a
                             >
@@ -1081,7 +1157,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/etf/screener"
+                              href={localHref("/etf/screener")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >
@@ -1096,7 +1172,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/options-screener"
+                              href={localHref("/options-screener")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_screener()}</a
                             >
@@ -1118,7 +1194,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/covered-call-screener"
+                              href={localHref("/covered-call-screener")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_covered_call_screener()}</a
                             >
@@ -1133,7 +1209,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/cash-secured-put-screener"
+                              href={localHref("/cash-secured-put-screener")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_cash_secured_put_screener()}</a
                             >
@@ -1167,7 +1243,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/options-calculator"
+                              href={localHref("/options-calculator")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_calculator()}</a
                             >
@@ -1183,7 +1259,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/potus-tracker"
+                              href={localHref("/potus-tracker")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_potus_tracker()}</a
                             >
@@ -1199,7 +1275,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/insider-tracker"
+                              href={localHref("/insider-tracker")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_insider_tracker()}</a
                             >
@@ -1215,7 +1291,7 @@
                             class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
                           >
                             <a
-                              href="/reddit-tracker"
+                              href={localHref("/reddit-tracker")}
                               class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_reddit_tracker()}</a
                             >
@@ -1234,7 +1310,7 @@
                   class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
-                    href="/hedge-funds"
+                    href={localHref("/hedge-funds")}
                     class="group flex flex-row items-center w-full -mt-2"
                   >
                     <div class="flex flex-row items-center mr-auto">
@@ -1261,7 +1337,7 @@
                   class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
-                    href="/chart/NVDA"
+                    href={localHref("/chart/NVDA")}
                     class="group flex flex-row items-center w-full -mt-4"
                   >
                     <div class="flex flex-row items-center mr-auto">
@@ -1288,7 +1364,7 @@
                   class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
-                    href="/market-news"
+                    href={localHref("/market-news")}
                     class="group flex flex-row items-center w-full -mt-8"
                   >
                     <div class="flex flex-row items-center mr-auto">
@@ -1315,11 +1391,13 @@
                   class="-ml-4 w-full bg-transparent dark:bg-[#131214]"
                 >
                   <a
-                    href={data?.hasDailyBriefing &&
-                    data?.isPreMarket &&
-                    data?.dailyBriefingSlug
-                      ? `/learning-center/article/${data.dailyBriefingSlug}`
-                      : "/learning-center"}
+                    href={localHref(
+                      data?.hasDailyBriefing &&
+                      data?.isPreMarket &&
+                      data?.dailyBriefingSlug
+                        ? `/learning-center/article/${data.dailyBriefingSlug}`
+                        : "/learning-center",
+                    )}
                     class="group flex flex-row items-center w-full -mt-8"
                   >
                     <div class="flex flex-row items-center mr-auto">
@@ -1354,7 +1432,7 @@
           </Sheet.Content>
         </Sheet.Root>
 
-        <a href="/" class="-ml-2 flex flex-row items-center shrink-0">
+        <a href={localHref("/")} class="-ml-2 flex flex-row items-center shrink-0">
           <img
             class="avatar w-9 3xl:w-10 rounded-full"
             src="/pwa-192x192.png"
@@ -1379,7 +1457,7 @@
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier) && !data?.user}
             <div class="hidden shrink-0 sm:inline-flex">
               <a
-                href="/register"
+                href={localHref("/register")}
                 class="inline-flex items-center whitespace-nowrap justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {layout_start_trial()}
@@ -1415,7 +1493,7 @@
                   alignOffset={0}
                   class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200 shadow-none"
                 >
-                  <a href="/profile" class="cursor-pointer">
+                  <a href={localHref("/profile")} class="cursor-pointer">
                     <DropdownMenu.Item
                       class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
                     >
@@ -1457,7 +1535,7 @@
               </DropdownMenu.Root>
             {:else}
               <a
-                href="/login"
+                href={localHref("/login")}
                 class="inline-flex items-center justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {layout_login()}
@@ -1477,7 +1555,7 @@
                   class="flex flex-col items-center mr-auto gap-y-4 3xl:py-5 w-full"
                 >
                   <a
-                    href="/chat"
+                    href={localHref("/chat")}
                     class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                   >
                     <div
@@ -1491,7 +1569,7 @@
                   </a>
 
                   <a
-                    href="/"
+                    href={localHref("/")}
                     class="group flex flex-row items-center ml-9 w-full"
                   >
                     <div
@@ -1525,31 +1603,31 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/industry"
+                              href={localHref("/industry")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_by_industry()}</a
                             >
 
                             <a
-                              href="/market-mover/gainers"
+                              href={localHref("/market-mover/gainers")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_mover()}</a
                             >
 
                             <a
-                              href="/stocks/heatmap"
+                              href={localHref("/stocks/heatmap")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_heatmap()}</a
                             >
 
                             <a
-                              href="/stocks/compare"
+                              href={localHref("/stocks/compare")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
 
                             <a
-                              href="/list"
+                              href={localHref("/list")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
                             >
@@ -1579,22 +1657,22 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/etf/etf-providers"
+                              href={localHref("/etf/etf-providers")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
                             >
                             <a
-                              href="/etf/heatmap"
+                              href={localHref("/etf/heatmap")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
                             <a
-                              href="/etf/compare"
+                              href={localHref("/etf/compare")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
                             <a
-                              href="/etf/new-launches"
+                              href={localHref("/etf/new-launches")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_new_launches()}</a
                             >
@@ -1624,18 +1702,18 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/analysts"
+                              href={localHref("/analysts")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_top_analysts()}</a
                             >
                             <a
-                              href="/analysts/top-stocks"
+                              href={localHref("/analysts/top-stocks")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_top_analyst_stocks()}</a
                             >
 
                             <a
-                              href="/analysts/analyst-flow"
+                              href={localHref("/analysts/analyst-flow")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_analyst_live_flow()}</a
                             >
@@ -1665,30 +1743,30 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/dividends-calendar"
+                              href={localHref("/dividends-calendar")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_dividends_calendar()}</a
                             >
                             <a
-                              href="/earnings-calendar"
+                              href={localHref("/earnings-calendar")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_earnings_calendar()}</a
                             >
                             <!--
                           <a
-                            href="/fda-calendar"
+                            href={localHref("/fda-calendar")}
                             class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                             >FDA Calendar</a
                           >
                             -->
 
                             <a
-                              href="/ipos"
+                              href={localHref("/ipos")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_ipo_calendar()}</a
                             >
                             <a
-                              href="/economic-calendar"
+                              href={localHref("/economic-calendar")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_economic_calendar()}</a
                             >
@@ -1720,12 +1798,12 @@
                           <div class="flex flex-col items-start">
                             <div class="flex flex-col items-start">
                               <a
-                                href="/politicians/flow-data"
+                                href={localHref("/politicians/flow-data")}
                                 class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                                 >{layout_congress_flow()}</a
                               >
                               <a
-                                href="/politicians"
+                                href={localHref("/politicians")}
                                 class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                                 >{layout_all_politicians()}</a
                               >
@@ -1756,24 +1834,24 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/market-flow"
+                              href={localHref("/market-flow")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_market_flow()}</a
                             >
 
                             <a
-                              href="/news-flow"
+                              href={localHref("/news-flow")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_news_flow()}</a
                             >
 
                             <a
-                              href="/options-flow"
+                              href={localHref("/options-flow")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_flow()}</a
                             >
                             <a
-                              href="/unusual-order-flow"
+                              href={localHref("/unusual-order-flow")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_unusual_order_flow()}</a
                             >
@@ -1803,19 +1881,19 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/stocks/screener"
+                              href={localHref("/stocks/screener")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_stock_screener()}</a
                             >
 
                             <a
-                              href="/etf/screener"
+                              href={localHref("/etf/screener")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >
 
                             <a
-                              href="/options-screener"
+                              href={localHref("/options-screener")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_screener()}</a
                             >
@@ -1826,12 +1904,12 @@
                             >
 
                             <a
-                              href="/covered-call-screener"
+                              href={localHref("/covered-call-screener")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_covered_call_screener()}</a
                             >
                             <a
-                              href="/cash-secured-put-screener"
+                              href={localHref("/cash-secured-put-screener")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_cash_secured_put_screener()}</a
                             >
@@ -1861,23 +1939,23 @@
                         >
                           <div class="flex flex-col items-start">
                             <a
-                              href="/options-calculator"
+                              href={localHref("/options-calculator")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_options_calculator()}</a
                             >
 
                             <a
-                              href="/potus-tracker"
+                              href={localHref("/potus-tracker")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_potus_tracker()}</a
                             >
                             <a
-                              href="/insider-tracker"
+                              href={localHref("/insider-tracker")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_insider_tracker()}</a
                             >
                             <a
-                              href="/reddit-tracker"
+                              href={localHref("/reddit-tracker")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_reddit_tracker()}</a
                             >
@@ -1888,7 +1966,7 @@
                   </div>
 
                   <a
-                    href="/hedge-funds"
+                    href={localHref("/hedge-funds")}
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
@@ -1903,7 +1981,7 @@
                   </a>
 
                   <a
-                    href="/chart/NVDA"
+                    href={localHref("/chart/NVDA")}
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
@@ -1918,7 +1996,7 @@
                   </a>
 
                   <a
-                    href="/market-news"
+                    href={localHref("/market-news")}
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
@@ -1933,11 +2011,13 @@
                   </a>
 
                   <a
-                    href={data?.hasDailyBriefing &&
-                    data?.isPreMarket &&
-                    data?.dailyBriefingSlug
-                      ? `/learning-center/article/${data.dailyBriefingSlug}`
-                      : "/learning-center"}
+                    href={localHref(
+                      data?.hasDailyBriefing &&
+                      data?.isPreMarket &&
+                      data?.dailyBriefingSlug
+                        ? `/learning-center/article/${data.dailyBriefingSlug}`
+                        : "/learning-center",
+                    )}
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
@@ -2034,7 +2114,7 @@
       class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
     >
       <a
-        href="/"
+        href={localHref("/")}
         aria-current={bottomNavState.home ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
@@ -2051,7 +2131,7 @@
         >
       </a>
       <a
-        href="/portfolio"
+        href={localHref("/portfolio")}
         aria-current={bottomNavState.portfolio ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
@@ -2068,7 +2148,7 @@
         >
       </a>
       <a
-        href="/watchlist/stocks"
+        href={localHref("/watchlist/stocks")}
         aria-current={bottomNavState.watchlist ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
@@ -2085,7 +2165,7 @@
         >
       </a>
       <a
-        href="/alerts"
+        href={localHref("/alerts")}
         aria-current={bottomNavState.priceAlert ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
@@ -2118,7 +2198,7 @@
         >
       </a>
       <a
-        href="/chat"
+        href={localHref("/chat")}
         aria-current={bottomNavState.chat ? "page" : undefined}
         class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
                text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
@@ -2131,12 +2211,14 @@
           <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
         </span>
         <span class={bottomNavState.chat ? "opacity-100" : "opacity-90"}
-          >Chat</span
+          >{layout_chat()}</span
         >
       </a>
     </div>
   </nav>
 {/if}
+
+<LanguageSuggestion initialLocale={data?.suggestedLocale ?? null} />
 
 <!-- Cookie Consent Banner -->
 {#if showCookieConsentAfterDelay}

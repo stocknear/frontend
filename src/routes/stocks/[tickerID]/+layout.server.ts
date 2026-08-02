@@ -2,6 +2,7 @@ import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
 import { fetchFollowedAnalysts } from "$lib/server/followedAnalysts";
 import { postAPI } from "$lib/server/api";
+import { resolveBackendLocale, type BackendLocale } from "$lib/i18n/backend-locales";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -76,7 +77,7 @@ class LRUCache {
 const dataCache = new LRUCache();
 
 // Main data fetching function
-const fetchData = async (locals, ticker, lang = "en") => {
+const fetchData = async (locals, ticker, lang: BackendLocale = "en") => {
   const cacheKey = `/bulk-data-${ticker}-${lang}`;
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
@@ -94,6 +95,7 @@ const fetchData = async (locals, ticker, lang = "en") => {
 export const load = async ({ params, locals }) => {
   const { pb, user, locale } = locals;
   const { tickerID } = params;
+  const { effectiveLocale } = resolveBackendLocale("stockBulkData", locale);
 
   if (!tickerID) {
     return { error: 'Invalid ticker ID' };
@@ -101,7 +103,7 @@ export const load = async ({ params, locals }) => {
 
   try {
     const [stockData, userWatchlist, followedAnalysts] = await Promise.all([
-      fetchData(locals, tickerID, locale ?? "en"),
+      fetchData(locals, tickerID, effectiveLocale),
       fetchWatchlist(pb, user?.id),
       fetchFollowedAnalysts(pb, user)
     ]);

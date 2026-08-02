@@ -41,5 +41,9 @@
   "common_tab_financials": "Financials",
   "common_tab_analysts": "Analysts",
   "common_tab_dividends": "Dividends",
-  "common_tab_indicators": "Indicators"
+  "common_tab_indicators": "Indicators",
+  "common_language_suggestion": "Stocknear is available in {language}.",
+  "common_language_switch": "Switch language",
+  "common_language_keep_english": "Keep English",
+  "common_language_close": "Close language suggestion"
 }

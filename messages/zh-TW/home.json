@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "即時選擇權資金流、掃單和異常活動",
+  "home_seo_description": "直播選擇權資金流，美股和 ETF 的掃單、封殺、異常活動。使用 Stocknear 更快找到短期交易設定。",
+  "home_seo_keywords": "選擇權資金流、異常選擇權交易、掃單、大單交易、暗池、隱含波動率、IV 偏斜、未平倉量、選擇權鏈、短線交易布局、Stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "即時選擇權資金流和短期交易設定的異常活動",
+  "home_structured_feature_live_options_flow": "直播選擇權資金流和掃頻",
+  "home_structured_feature_unusual_options_activity": "異常選擇權交易",
+  "home_structured_feature_dark_pool_monitoring": "暗池監控",
+  "home_structured_feature_implied_volatility": "隱含波動率和偏斜",
+  "home_structured_feature_options_chain": "選擇權鏈 & 未平倉量",
+  "home_structured_feature_earnings_volatility": "獲利波動設定",
+  "home_structured_feature_market_catalysts": "市場催化劑",
+  "home_hero_title": "在人群行動之前先睹為快",
+  "home_hero_subtitle": "每隻美國股票和 ETF 的即時價格、選擇權資金流、暗池訂單、新聞、財務、預測和圖表。透過乾淨的訊號更快地行動。",
+  "home_promo_pill_label": "夏季促銷",
+  "home_promo_pill_discount": "{percent} 關閉",
+  "home_promo_pill_subtitle": "所有年度方案"
+}

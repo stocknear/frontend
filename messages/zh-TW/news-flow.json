@@ -1,0 +1,21 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "首頁",
+  "news_flow_breadcrumb_news_flow": "新聞流",
+  "news_flow_seo_title": "市場新聞流 - 即時貿易就緒催化劑",
+  "news_flow_seo_description": "關注即時市場新聞和影響價格的催化劑。專為需要快速背景進行短期設定的選擇權交易者而設計。",
+  "news_flow_seo_keywords": "市場新聞流、交易催化劑、突發市場新聞、選擇權交易者新聞、價格走勢新聞、即時市場更新",
+  "news_flow_structured_name": "市場新聞流",
+  "news_flow_structured_description": "即時市場新聞與短期交易計畫的催化劑",
+  "news_flow_main_title": "新聞流",
+  "news_flow_news_count": "{count}新聞",
+  "news_flow_search_placeholder": "找到...",
+  "news_flow_infobox": "追蹤最新突發新聞並了解股價即時變動的原因",
+  "news_flow_no_news": "目前尚無重大股市消息。",
+  "news_flow_sidebar_market_flow_title": "市場流向",
+  "news_flow_sidebar_market_flow_description": "追蹤即時選擇權情緒。",
+  "news_flow_sidebar_options_flow_title": "選擇權資金流",
+  "news_flow_sidebar_options_flow_description": "監控即時異常選擇權交易和流量模式",
+  "news_flow_sidebar_dark_pool_title": "暗池流程",
+  "news_flow_sidebar_dark_pool_description": "分析隱藏的機構流向和暗池交易資料"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "dar retroalimentación",
+  "feedback_error_signin": "Inicia sesión antes de enviar comentarios.",
+  "feedback_error_description": "Describe tu problema o sugerencia.",
+  "feedback_error_send_try_again": "Algo salió mal al enviar comentarios. Por favor inténtalo de nuevo.",
+  "feedback_success": "¡Gracias! Tus comentarios se han enviado.",
+  "feedback_error_send_generic": "Algo salió mal al enviar comentarios.",
+  "feedback_description_label": "Describe tu problema o sugerencia:",
+  "feedback_page_label": "Comentarios para la página:",
+  "feedback_close_button": "Cerrar",
+  "feedback_cancel_button": "Cancelar",
+  "feedback_send_button": "Enviar comentarios"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "專為想要優勢的活躍交易者而設計。",
+  "upgrade_to_pro_subtitle": "你不需要更多的頭條新聞。你需要推動價格的流動、催化劑和背景。 Pro 將即時選擇權和暗池資料、分析師走勢和深厚歷史記錄集中在一處，以便你可以規劃交易，而不是追逐交易。",
+  "upgrade_to_pro_feature_data_title": "解鎖完整的資料堆疊",
+  "upgrade_to_pro_feature_data_desc": "取得 Stocknear 中的每個資料集和工具，以便你可以快速審查設定並堅定地採取行動。",
+  "upgrade_to_pro_feature_flow_title": "即時選擇權+暗池流程",
+  "upgrade_to_pro_feature_flow_desc": "發現不尋常的活動和大成交紀錄品，因為它們恰好在人群面前移動。",
+  "upgrade_to_pro_feature_analyst_title": "影響價格趨勢的分析師催化劑",
+  "upgrade_to_pro_feature_analyst_desc": "追蹤升級、降級和目標價，無需追逐新聞。",
+  "upgrade_to_pro_feature_history_title": "回測測試的深厚歷史",
+  "upgrade_to_pro_feature_history_desc": "使用優質資料和長達 30 年的歷史來驗證想法。",
+  "upgrade_to_pro_cta": "升級到專業版"
+}

@@ -3,6 +3,8 @@
   import { stockTicker, displayCompanyName } from "$lib/store";
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
+  import { formatDate } from "$lib/i18n/format";
+  import * as m from "$lib/paraglide/messages";
 
   export let blogData = {};
 
@@ -25,7 +27,7 @@
         height: 360,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 ">Returns vs SPY</h3>`,
+        text: `<h3 class="mt-3 mb-1 ">${m.blog_overview_returns_vs_spy()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -48,7 +50,7 @@
           distance: 10, // Increases space between label and axis
           formatter: function () {
             const date = new Date(this.value);
-            return date.toLocaleDateString("en-US", {
+            return formatDate(date, {
               month: "short",
               year: "numeric",
             });
@@ -93,13 +95,14 @@
         borderRadius: 4,
         formatter: function () {
           // Format the x value to display time in a custom format
-          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${new Date(
-            this?.x,
-          ).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}</span><br>`;
+          let tooltipContent = `<span class="m-auto text-[1rem] font-[501]">${formatDate(
+            new Date(this?.x),
+            {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            },
+          )}</span><br>`;
 
           // Loop through each point in the shared tooltip
           this.points.forEach((point) => {
@@ -138,7 +141,7 @@
       },
       series: [
         {
-          name: `Cumulative Return ${$stockTicker}`,
+          name: m.blog_overview_cumulative_return({ symbol: $stockTicker }),
           type: "spline",
           data: tickerData,
           color: "#4681f4",
@@ -148,7 +151,7 @@
           },
         },
         {
-          name: `Cumulative Return SPY`,
+          name: m.blog_overview_cumulative_return({ symbol: "SPY" }),
           type: "spline",
           data: spyData,
           color: "#37F713",
@@ -166,7 +169,7 @@
   let config = plotData();
 </script>
 
-<h2 class="text-xl sm:text-3xl font-bold mt-8">Overview</h2>
+<h2 class="text-xl sm:text-3xl font-bold mt-8">{m.blog_heading_overview()}</h2>
 <div class="mt-4">
   <div class=" border-[#2C6288] dark:border-gray-600 border-b">
     {$stockTicker} - {$displayCompanyName}
@@ -180,13 +183,17 @@
             lg:grid-cols-4"
   >
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Market Cap</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_market_cap()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {abbreviateNumber(blogData?.marketCap)}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Sector</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_sector()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         <a
           href={sectorNavigation?.find(
@@ -199,42 +206,50 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">EPS (TTM)</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_eps_ttm()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.epsTTM}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">P/E (TTM)</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_pe_ttm()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.peTTM}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Div & Yield</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_dividend_and_yield()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
-        {blogData?.annualDividend ?? "n/a"} ({blogData?.dividendYield
+        {blogData?.annualDividend ?? m.blog_not_available()} ({blogData?.dividendYield
           ? blogData?.dividendYield + "%"
-          : "n/a"})
+          : m.blog_not_available()})
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">P/S</div>
+      <div class="text-muted dark:text-gray-300 text-sm">{m.blog_overview_ps()}</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.priceToSalesRatio}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">P/B</div>
+      <div class="text-muted dark:text-gray-300 text-sm">{m.blog_overview_pb()}</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.priceToBookRatio}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Next Earnings</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_next_earnings()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.nextEarning}
       </div>
@@ -242,27 +257,33 @@
 
     <div class="flex flex-col">
       <div class="text-muted dark:text-gray-300 text-sm">
-        Shares Outstanding
+        {m.blog_overview_shares_outstanding()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {abbreviateNumber(blogData?.sharesOutstanding)}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Short % Float</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_short_float()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.shortFloatPercent + "%"}
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Short % Out</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_short_outstanding()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.shortOutstandingPercent?.toFixed(2) + "%"}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">Forward P/E</div>
+      <div class="text-muted dark:text-gray-300 text-sm">
+        {m.blog_overview_forward_pe()}
+      </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.forwardPE}
       </div>
@@ -270,7 +291,9 @@
   </div>
 </div>
 
-<h2 class="text-xl sm:text-2xl font-bold mt-6 mb-2">Description</h2>
+<h2 class="text-xl sm:text-2xl font-bold mt-6 mb-2">
+  {m.blog_heading_description()}
+</h2>
 <p class="mb-4">
   {blogData?.description}
 </p>

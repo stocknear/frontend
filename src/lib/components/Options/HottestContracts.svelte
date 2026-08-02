@@ -30,6 +30,7 @@
   import highcharts from "$lib/highcharts.ts";
   import { mode } from "mode-watcher";
   import DownloadData from "$lib/components/DownloadData.svelte";
+  import { getIntlLocale } from "$lib/i18n/format";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { page } from "$app/stores";
@@ -398,7 +399,7 @@
               textOutline: "none",
             },
             formatter: function () {
-              return this.y?.toLocaleString("en-US");
+              return this.y?.toLocaleString(getIntlLocale());
             },
           },
           borderWidth: 0,
@@ -426,7 +427,7 @@
         formatter: function () {
           const originalItem = this.point.originalData;
           let tooltipContent = `<span class="m-auto text-xs">${ticker} ${convertDateFormat(originalItem?.date_expiration)} ${originalItem.strike_price}${originalItem.option_type}</span><br>`;
-          tooltipContent += `<span class="font-normal text-sm">${type === "oi" ? "OI" : "Volume"}: ${this.y?.toLocaleString("en-US")}</span><br>`;
+          tooltipContent += `<span class="font-normal text-sm">${type === "oi" ? "OI" : "Volume"}: ${this.y?.toLocaleString(getIntlLocale())}</span><br>`;
           return tooltipContent;
         },
       },
@@ -471,7 +472,7 @@
               ? stock_detail_options_hottest_intro_oi({
                   count: Math.max(
                     ...rawData?.map((item) => item?.open_interest || 0),
-                  )?.toLocaleString("en-US"),
+                  )?.toLocaleString(getIntlLocale()),
                   strike: rawData?.find(
                     (item) =>
                       item?.open_interest ===
@@ -495,7 +496,7 @@
               : stock_detail_options_hottest_intro_volume({
                   count: Math.max(
                     ...rawData?.map((item) => item?.volume || 0),
-                  )?.toLocaleString("en-US"),
+                  )?.toLocaleString(getIntlLocale()),
                   strike: rawData?.find(
                     (item) =>
                       item?.volume ===
@@ -534,7 +535,7 @@
               class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-full"
             >
               {stock_detail_options_hottest_contracts_count({
-                count: (rawData?.length || 0)?.toLocaleString("en-US"),
+                count: (rawData?.length || 0)?.toLocaleString(getIntlLocale()),
               })}
             </h2>
             <div
@@ -601,19 +602,19 @@
                       {/if}
                     </td>
                     <td class="text-sm text-end whitespace-nowrap">
-                      {item?.volume?.toLocaleString("en-US")}
+                      {item?.volume?.toLocaleString(getIntlLocale())}
                     </td>
                     <td class="text-sm text-end whitespace-nowrap">
-                      {item?.open_interest?.toLocaleString("en-US")}
+                      {item?.open_interest?.toLocaleString(getIntlLocale())}
                     </td>
                     <td class="text-sm text-end whitespace-nowrap">
                       {#if item?.changeOI >= 0}
                         <span class="text-emerald-800 dark:text-emerald-400"
-                          >+{item?.changeOI?.toLocaleString("en-US")}</span
+                          >+{item?.changeOI?.toLocaleString(getIntlLocale())}</span
                         >
                       {:else if item?.changeOI < 0}
                         <span class="text-rose-800 dark:text-rose-400"
-                          >{item?.changeOI?.toLocaleString("en-US")}</span
+                          >{item?.changeOI?.toLocaleString(getIntlLocale())}</span
                         >
                       {:else}
                         n/a
@@ -623,7 +624,7 @@
                       {item?.iv ? item?.iv + "%" : "n/a"}
                     </td>
                     <td class="text-sm text-end whitespace-nowrap">
-                      ${item?.total_premium?.toLocaleString("en-US")}
+                      ${item?.total_premium?.toLocaleString(getIntlLocale())}
                     </td>
 
                     <td class="text-sm text-end whitespace-nowrap">

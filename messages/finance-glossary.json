@@ -1,0 +1,61 @@
+{
+  "preserve": ["ETF", "IPO", "EPS", "EBITDA", "P/E", "IV", "OI", "SEC", "CUSIP", "ISIN"],
+  "terms": {
+    "market cap": {
+      "de": "Marktkapitalisierung",
+      "zh-CN": "市值",
+      "zh-TW": "市值",
+      "es": "capitalización bursátil",
+      "fr": "capitalisation boursière"
+    },
+    "earnings": {
+      "de": "Quartalszahlen",
+      "zh-CN": "财报",
+      "zh-TW": "財報",
+      "es": "resultados",
+      "fr": "résultats"
+    },
+    "revenue": {
+      "de": "Umsatz",
+      "zh-CN": "营收",
+      "zh-TW": "營收",
+      "es": "ingresos",
+      "fr": "chiffre d’affaires"
+    },
+    "options flow": {
+      "de": "Options-Flow",
+      "zh-CN": "期权资金流",
+      "zh-TW": "選擇權資金流",
+      "es": "flujo de opciones",
+      "fr": "flux d’options"
+    },
+    "dark pool": {
+      "de": "Dark Pool",
+      "zh-CN": "暗池",
+      "zh-TW": "暗池",
+      "es": "dark pool",
+      "fr": "dark pool"
+    },
+    "technical indicators": {
+      "de": "technische Indikatoren",
+      "zh-CN": "技术指标",
+      "zh-TW": "技術指標",
+      "es": "indicadores técnicos",
+      "fr": "indicateurs techniques"
+    },
+    "performance": {
+      "de": "Performance",
+      "zh-CN": "表现",
+      "zh-TW": "績效",
+      "es": "rendimiento",
+      "fr": "performance"
+    },
+    "profit margin": {
+      "de": "Gewinnmarge",
+      "zh-CN": "利润率",
+      "zh-TW": "利潤率",
+      "es": "margen de beneficio",
+      "fr": "marge bénéficiaire"
+    }
+  }
+}

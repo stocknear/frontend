@@ -194,7 +194,7 @@
   const latestPostDateISO = latestPostDate?.toISOString() ?? null;
 
   const MS_IN_DAY = 24 * 60 * 60 * 1000;
-  const now = new Date();
+  const now = new Date(data?.generatedAt);
   const ordersLast30Days = ordersSorted.filter((order) => {
     const date = parseDate(order?.date);
     return date && now.getTime() - date.getTime() <= 30 * MS_IN_DAY;
@@ -217,13 +217,13 @@
     latestScheduleDate,
     latestOrderDate,
     latestPostDate,
-  ].filter((date): date is Date => Boolean(date));
+  ]?.filter((date): date is Date => Boolean(date)) ?? [];
   const datasetUpdatedISO =
     candidateDates.length > 0
       ? new Date(
           Math.max(...candidateDates.map((date) => date.getTime())),
         ).toISOString()
-      : new Date().toISOString();
+      : null;
   const datasetUpdatedLabel = formatFootnote(datasetUpdatedISO);
   const latestOrderDateLabel = formatFootnote(latestOrderDateISO);
   const latestScheduleDateLabel = formatFootnote(latestScheduleDateISO);
@@ -346,8 +346,7 @@
           name: "Stocknear POTUS Tracker Research Notes",
           description: researchNotesDatasetDescription,
           url: potusPageUrl,
-          inLanguage: "en",
-          dateModified: datasetUpdatedISO,
+          dateModified: datasetUpdatedISO ?? undefined,
           creator: {
             "@type": "Organization",
             name: "Stocknear",

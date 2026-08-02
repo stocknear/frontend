@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "聯絡我們",
+  "contact_breadcrumb": "聯絡我們",
+  "contact_hero_title": "聯絡我們",
+  "contact_intro": "我們很樂意聽取你的意見。請使用下面的聯絡表提交訊息，我們會盡快回覆你。你也可以直接發送電子郵件至{email}。",
+  "contact_email_label": "電子郵件",
+  "contact_subject_label": "主題",
+  "contact_message_label": "留言",
+  "contact_send_button": "發送訊息",
+  "contact_processing": "處理中...",
+  "contact_success": "你的訊息已成功傳送。我們會盡快回覆你。",
+  "contact_sidebar_pro_title": "專業訂閱",
+  "contact_sidebar_pro_desc": "立即升級即可無限制地存取所有資料、工具且無廣告。",
+  "contact_sidebar_screener_title": "股票篩選器",
+  "contact_sidebar_screener_desc": "篩選、排序和分析所有股票以找到你的下一個投資。",
+  "contact_sidebar_watchlist_title": "自選清單",
+  "contact_sidebar_watchlist_desc": "即時追蹤你最喜歡的股票。"
+}

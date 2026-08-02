@@ -15,7 +15,27 @@ export async function GET({ setHeaders }) {
     <lastmod>${now}</lastmod>
   </sitemap>
   <sitemap>
-    <loc>${website}/sitemap-stocks.xml</loc>
+    <loc>${website}/sitemaps/stocks/en</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${website}/sitemaps/stocks/de</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${website}/sitemaps/stocks/zh-cn</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${website}/sitemaps/stocks/zh-tw</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${website}/sitemaps/stocks/es</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${website}/sitemaps/stocks/fr</loc>
     <lastmod>${now}</lastmod>
   </sitemap>
   <sitemap>

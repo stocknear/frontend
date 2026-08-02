@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Boletín de mercado: Mantente informado en sólo 2 minutos al día",
+  "newsletter_seo_description": "¡Adelántate al mercado con nuestro boletín profesional! Recibe las últimas novedades, tendencias y análisis directamente en tu bandeja de entrada.",
+  "newsletter_label": "Boletín",
+  "newsletter_title": "Mantente informado en sólo 2 minutos por día",
+  "newsletter_description": "El informe de premercado es un boletín que te permite seguir los mercados financieros de forma sencilla.",
+  "newsletter_intro_1": "Nuestros resúmenes se presentan en formato breve con viñetas, por lo que leer este boletín nunca será una tarea ardua.",
+  "newsletter_intro_2": "Leemos las noticias por ti, filtramos el ruido y te enviamos los puntos clave. Esto es lo que recibirás:",
+  "newsletter_feature_1": "Accede a los informes de analistas más recientes, con información clave extraída mediante IA.",
+  "newsletter_feature_2": "Obtén una instantánea rápida de las publicaciones de resultados recientes y futuras.",
+  "newsletter_feature_3": "Mantente actualizado sobre los principales acontecimientos económicos que pueden tener un impacto significativo en el mercado.",
+  "newsletter_feature_4": "Benefíciese de información precisa y actualizada obtenida exclusivamente de puntos de venta de primer nivel.",
+  "newsletter_closing": "El boletín es completamente gratuito y se enviará a tu bandeja de entrada todas las mañanas antes de la apertura del mercado, de lunes a viernes (excepto festivos).",
+  "newsletter_signup_button": "Regístrate gratis"
+}

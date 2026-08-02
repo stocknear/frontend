@@ -1,14 +1,19 @@
 <script lang="ts">
   import { setMode, mode } from "mode-watcher";
+  import { page } from "$app/stores";
   import AnimatedThemeToggler from "$lib/components/magic/AnimatedThemeToggler.svelte";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.ts";
   import {
-    setLanguage,
+    rememberLanguage,
     locales,
     languageNames,
     type Locale,
   } from "$lib/i18n.svelte";
-  import { getLocale } from "$lib/paraglide/runtime.js";
+  import {
+    baseLocale,
+    extractLocaleFromUrl,
+  } from "$lib/paraglide/runtime.js";
+  import { hrefForLocale, localizedHref } from "$lib/i18n/navigation";
   import {
     footer_tagline,
     footer_sections,
@@ -34,27 +39,23 @@
     common_contact_us,
     common_privacy_policy,
     common_imprint,
+    common_language_switch,
   } from "$lib/paraglide/messages.js";
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
 
-  // Language flag country codes for flagsapi.com
-  const flagCodes: Record<Locale, string> = {
-    en: "US",
-    de: "DE",
-    zh: "CN",
+  const flagEmoji: Record<Locale, string> = {
+    en: "🇺🇸",
+    de: "🇩🇪",
+    "zh-CN": "🇨🇳",
+    "zh-TW": "🇹🇼",
+    es: "🇪🇸",
+    fr: "🇫🇷",
   };
 
-  const getFlagUrl = (locale: Locale) =>
-    `https://flagsapi.com/${flagCodes[locale]}/shiny/64.png`;
-
-  let currentLocale = $derived(getLocale());
-
-  function switchLanguage(newLocale: Locale) {
-    if (newLocale === currentLocale) return;
-    setLanguage(newLocale);
-    window.location.reload();
-  }
+  let currentLocale = $derived(
+    extractLocaleFromUrl($page.url) ?? baseLocale,
+  );
 
   async function handleModeChange(newMode: "light" | "dark") {
     setMode(newMode);
@@ -104,31 +105,31 @@
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/stocks/">{footer_stocks()}</a
+                href={localizedHref("/stocks/", currentLocale)}>{footer_stocks()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/ipos/">{footer_ipos()}</a
+                href={localizedHref("/ipos/", currentLocale)}>{footer_ipos()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/etf/">{footer_etfs()}</a
+                href={localizedHref("/etf/", currentLocale)}>{footer_etfs()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/portfolio/">{footer_portfolio()}</a
+                href={localizedHref("/portfolio/", currentLocale)}>{footer_portfolio()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/learning-center/">{footer_learning_center()}</a
+                href={localizedHref("/learning-center/", currentLocale)}>{footer_learning_center()}</a
               >
             </li>
           </ul>
@@ -143,21 +144,21 @@
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/pricing/">{footer_pricing_plan()}</a
+                href={localizedHref("/pricing/", currentLocale)}>{footer_pricing_plan()}</a
               >
             </li>
 
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/support/">{footer_get_support()}</a
+                href={localizedHref("/support/", currentLocale)}>{footer_get_support()}</a
               >
             </li>
 
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/app/">{footer_install_app()}</a
+                href={localizedHref("/app/", currentLocale)}>{footer_install_app()}</a
               >
             </li>
             <!--
@@ -180,20 +181,20 @@
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/login/">{footer_login()}</a
+                href={localizedHref("/login/", currentLocale)}>{footer_login()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/faq/">{footer_faq()}</a
+                href={localizedHref("/faq/", currentLocale)}>{footer_faq()}</a
               >
             </li>
 
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/sitemap/">{footer_sitemap()}</a
+                href={localizedHref("/sitemap/", currentLocale)}>{footer_sitemap()}</a
               >
             </li>
 
@@ -220,13 +221,10 @@
                   <button
                     use:builder.action
                     {...builder}
+                    aria-label={common_language_switch()}
                     class="flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-900/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer"
                   >
-                    <img
-                      class="size-4 object-cover rounded-sm"
-                      src={getFlagUrl(currentLocale)}
-                      alt={languageNames[currentLocale]}
-                    />
+                    <span aria-hidden="true">{flagEmoji[currentLocale]}</span>
                     <span class="uppercase font-medium">{currentLocale}</span>
                     <svg
                       class="size-3 opacity-60"
@@ -249,18 +247,19 @@
                 >
                   {#each locales as lang}
                     <DropdownMenu.Item
+                      href={hrefForLocale(
+                        `${$page.url.pathname}${$page.url.search}${$page.url.hash}`,
+                        lang,
+                      )}
+                      data-sveltekit-reload
                       class="flex items-center gap-3 px-3 py-2 text-sm rounded-lg cursor-pointer {currentLocale ===
                       lang
                         ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
                         : 'hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'} transition"
-                      on:click={() => switchLanguage(lang)}
+                      on:click={() => rememberLanguage(lang)}
                     >
-                      <img
-                        class="size-4 object-cover rounded-sm"
-                        src={getFlagUrl(lang)}
-                        alt={languageNames[lang]}
-                      />
-                      <span>{languageNames[lang]}</span>
+                      <span aria-hidden="true">{flagEmoji[lang]}</span>
+                      <span>{languageNames?.[lang]}</span>
                     </DropdownMenu.Item>
                   {/each}
                 </DropdownMenu.Content>
@@ -278,37 +277,37 @@
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/about/">{footer_about()}</a
+                href={localizedHref("/about/", currentLocale)}>{footer_about()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/contact/">{common_contact_us()}</a
+                href={localizedHref("/contact/", currentLocale)}>{common_contact_us()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/terms-of-use/">{footer_terms_of_use()}</a
+                href={localizedHref("/terms-of-use/", currentLocale)}>{footer_terms_of_use()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/privacy-policy/">{common_privacy_policy()}</a
+                href={localizedHref("/privacy-policy/", currentLocale)}>{common_privacy_policy()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/data-disclaimer/">{footer_data_disclaimer()}</a
+                href={localizedHref("/data-disclaimer/", currentLocale)}>{footer_data_disclaimer()}</a
               >
             </li>
             <li>
               <a
                 class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
-                href="/imprint/">{common_imprint()}</a
+                href={localizedHref("/imprint/", currentLocale)}>{common_imprint()}</a
               >
             </li>
           </ul>

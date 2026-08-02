@@ -879,8 +879,6 @@
     }),
     url: `https://stocknear.com/stocks/${$stockTicker}/forecast`,
 
-    dateModified: new Date().toISOString(),
-    datePublished: new Date().toISOString(),
     author: {
       "@type": "Organization",
       name: "Stocknear",

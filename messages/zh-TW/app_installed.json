@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "取得應用程式以獲得更好的體驗。",
+  "app_installed_button_install": "安裝",
+  "app_installed_modal_title": "安裝步驟",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "安卓",
+  "app_installed_ios_step_1": "點選 Safari 分享按鈕。",
+  "app_installed_ios_step_2": "點選「新增到主畫面」。",
+  "app_installed_ios_step_3": "點選「新增」。",
+  "app_installed_ios_note": "請注意，iOS 上的網路應用程式只能使用 Safari 安裝。",
+  "app_installed_android_step_1": "在 Chrome 中開啟 Stocknear。",
+  "app_installed_android_step_2": "點選右上角的三點選單。",
+  "app_installed_android_step_3": "按一下「安裝應用程式」或「新增至主畫面」。",
+  "app_installed_android_step_4": "確認安裝。",
+  "app_installed_close": "關閉"
+}

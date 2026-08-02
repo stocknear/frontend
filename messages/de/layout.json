@@ -2,6 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "layout_toggle_menu": "Menü umschalten",
   "layout_start_new_chat": "Neuen Chat starten",
+  "layout_chat": "Chat",
   "layout_home": "Startseite",
   "layout_stocks": "Aktien",
   "layout_by_industry": "Nach Branche",

@@ -23,21 +23,37 @@ mkdir -p builds
 
 # Build to timestamped directory
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-npx @inlang/paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide
-npm run build
-mv build "builds/build_$TIMESTAMP"
+STAGING_DIR="builds/.staging_$TIMESTAMP"
+FINAL_DIR="builds/build_$TIMESTAMP"
+TEMP_LINK=".build-link-$TIMESTAMP"
+trap 'if [ -d "$STAGING_DIR" ]; then rm -r -- "$STAGING_DIR"; fi; if [ -L "$TEMP_LINK" ]; then unlink "$TEMP_LINK"; fi' EXIT
 
-# Sourcemaps are emitted by adapter-node regardless of vite's sourcemap:false and contain
-# every private env value in plaintext. They are not needed to serve the app.
-find "builds/build_$TIMESTAMP" -name '*.map' -delete
+npm run i18n:audit
+STOCKNEAR_BUILD_OUT="$STAGING_DIR" npm run build
 
-# Atomic symlink update
-ln -sfn "builds/build_$TIMESTAMP" build
+# Adapter output can include server sourcemaps even though Vite client sourcemaps are disabled.
+find "$STAGING_DIR" -name '*.map' -delete
+npm run verify:production -- "$STAGING_DIR"
+
+mv "$STAGING_DIR" "$FINAL_DIR"
+
+# Preserve a pre-symlink deployment recoverably, then atomically activate the verified build.
+if [ -e build ] && [ ! -L build ]; then
+  mv build "builds/legacy_build_$TIMESTAMP"
+fi
+ln -s "$FINAL_DIR" "$TEMP_LINK"
+mv -Tf "$TEMP_LINK" build
+
+if [ "$(readlink build)" != "$FINAL_DIR" ]; then
+  echo "❌ Failed to activate $FINAL_DIR - aborting before PM2 reload"
+  exit 1
+fi
 
 # Reload PM2
 pm2 reload frontend
 
 # Cleanup (keep last 3 builds)
-cd builds && ls -t | grep "build_" | tail -n +4 | xargs -r rm -rf && cd ..
+cd builds && ls -t | grep '^build_' | tail -n +4 | xargs -r rm -rf && cd ..
 
+trap - EXIT
 echo "✅ Deployment complete!"

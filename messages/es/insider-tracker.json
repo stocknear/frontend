@@ -1,0 +1,26 @@
+{
+  "insider_tracker_seo_title": "Rastreador de información privilegiada: compras y ventas de información privilegiada corporativa en tiempo real",
+  "insider_tracker_seo_description": "Realiza un seguimiento de la actividad de uso de información privilegiada en tiempo real por parte de ejecutivos corporativos, directores e inversores institucionales. Supervisa las compras, ventas y cambios de propiedad de información privilegiada en todas las acciones de EE. UU.. Rastreador gratuito de información privilegiada con alertas.",
+  "insider_tracker_seo_keywords": "rastreador de uso de información privilegiada, datos de uso de información privilegiada, compras de información privilegiada, ventas de información privilegiada, uso de información privilegiada corporativa, comercio ejecutivo, transacciones con información privilegiada, propiedad de información privilegiada, alertas de uso de información privilegiada",
+  "insider_tracker_breadcrumb_home": "Inicio",
+  "insider_tracker_breadcrumb_current": "Rastreador de información privilegiada",
+  "insider_tracker_title": "Rastreador de información privilegiada",
+  "insider_tracker_infobox": "Actualizamos nuestros datos en tiempo real para brindarle los últimos conocimientos sobre uso de información privilegiada inusual, provenientes de presentaciones SEC con un valor de transacción mínimo de 1 millón de dólares.",
+  "insider_tracker_stocks": "Acciones",
+  "insider_tracker_search_placeholder": "Encuentra...",
+  "insider_tracker_reset_columns": "Restablecer orden de columnas",
+  "insider_tracker_table_symbol": "Símbolo",
+  "insider_tracker_table_name": "Nombre",
+  "insider_tracker_table_member": "Miembro",
+  "insider_tracker_table_market_cap": "Capitalización de mercado",
+  "insider_tracker_table_shares": "Acciones",
+  "insider_tracker_table_value": "Valor de mercado",
+  "insider_tracker_table_type": "Tipo",
+  "insider_tracker_no_results": "No se han encontrado resultados para \"{query}\"",
+  "insider_tracker_page_of": "Página {current} de {total}",
+  "insider_tracker_rows": "Filas",
+  "insider_tracker_previous": "Anterior",
+  "insider_tracker_next": "Siguiente",
+  "insider_tracker_back_to_top": "Volver al principio"
+}
+

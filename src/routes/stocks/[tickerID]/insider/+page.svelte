@@ -8,6 +8,8 @@
   import { page } from "$app/stores";
   import { toast } from "svelte-sonner";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getIntlLocale } from "$lib/i18n/format";
+  import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
   import { onMount } from "svelte";
 
@@ -67,6 +69,10 @@
 
   const SUMMARY_CREDIT_COST = 3;
   let currentLocale = getLocale();
+  const summaryLocale = resolveBackendLocale(
+    "insiderSummary",
+    currentLocale,
+  ).effectiveLocale;
 
   // AI Summarize feature states
   let showSummary = false;
@@ -86,7 +92,7 @@
 
   // LocalStorage cache helpers
   function getSummaryCacheKey(ticker: string): string {
-    return `insider-summary-${ticker}-${currentLocale}`;
+    return `insider-summary-${ticker}-${summaryLocale}`;
   }
 
   function getCachedSummary(ticker: string) {
@@ -245,7 +251,8 @@ ${summaryData.outlook}
         return;
       }
 
-      summaryData = await response.json();
+      const payload = await response.json();
+      summaryData = payload?.data;
 
       if (summaryData?.error) {
         summaryError = true;
@@ -308,7 +315,7 @@ ${summaryData.outlook}
   let searchWorker: Worker | undefined;
   let totalTransaction = (
     rawData?.filter((item) => item?.price > 0)?.length || 0
-  )?.toLocaleString("en-US");
+  )?.toLocaleString(getIntlLocale());
 
   let inputValue = "";
   let transactionList = [
@@ -479,7 +486,7 @@ ${summaryData.outlook}
           style: { color: $mode === "light" ? "#545454" : "white" },
           formatter: function () {
             const date = new Date(this.value);
-            return `<span class="text-xs">${date.toLocaleDateString("en-US", { month: "short", year: "numeric" })}</span>`;
+            return `<span class="text-xs">${date.toLocaleDateString(getIntlLocale(), { month: "short", year: "numeric" })}</span>`;
           },
         },
       },
@@ -517,7 +524,7 @@ ${summaryData.outlook}
         borderRadius: 4,
         formatter: function () {
           const date = new Date(this.x);
-          const formattedDate = date.toLocaleDateString("en-US", {
+          const formattedDate = date.toLocaleDateString(getIntlLocale(), {
             month: "short",
             day: "numeric",
             year: "numeric",
@@ -530,8 +537,8 @@ ${summaryData.outlook}
        <span class="text-white text-sm font-[501]">${this.series.name}</span><br>
        <span class="text-white text-sm">Insider: ${this.point.name}</span><br>
        <span class="text-white text-sm">Price: $${this.point.price?.toFixed(2)}</span><br>
-       <span class="text-white text-sm">Shares: ${this.point.shares?.toLocaleString("en-US")}</span><br>
-       <span class="text-white text-sm">Value: $${this.point.value?.toLocaleString("en-US")}</span>
+       <span class="text-white text-sm">Shares: ${this.point.shares?.toLocaleString(getIntlLocale())}</span><br>
+       <span class="text-white text-sm">Value: $${this.point.value?.toLocaleString(getIntlLocale())}</span>
       `;
           } else {
             return `
@@ -965,8 +972,6 @@ ${summaryData.outlook}
         url: "https://stocknear.com/favicon.png",
       },
     },
-    dateModified: new Date().toISOString(),
-    datePublished: new Date().toISOString(),
     mainEntity: {
       "@type": "Corporation",
       name: $displayCompanyName,
@@ -1029,10 +1034,10 @@ ${summaryData.outlook}
             transactions: totalTransaction,
             purchases: rawData
               ?.filter((item) => item?.transactionType?.includes("P"))
-              ?.length?.toLocaleString("en-US"),
+              ?.length?.toLocaleString(getIntlLocale()),
             sales: rawData
               ?.filter((item) => item?.transactionType?.includes("S"))
-              ?.length?.toLocaleString("en-US"),
+              ?.length?.toLocaleString(getIntlLocale()),
             value:
               "$" +
               abbreviateNumber(
@@ -1500,13 +1505,13 @@ ${summaryData.outlook}
                       </td>
 
                       <td class="text-end text-sm whitespace-nowrap">
-                        {item?.securitiesTransacted?.toLocaleString("en-US")}
+                        {item?.securitiesTransacted?.toLocaleString(getIntlLocale())}
                       </td>
                       <td class="text-end text-sm whitespace-nowrap">
                         ${item?.price?.toFixed(2)}
                       </td>
                       <td class="text-end text-sm whitespace-nowrap">
-                        ${item?.value?.toLocaleString("en-US")}
+                        ${item?.value?.toLocaleString(getIntlLocale())}
                       </td>
                       <td class="text-end text-sm whitespace-nowrap">
                         {item?.transactionType}

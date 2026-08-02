@@ -66,8 +66,6 @@
         url: "https://stocknear.com/favicon.png",
       },
     },
-    dateModified: new Date().toISOString(),
-    datePublished: new Date().toISOString(),
     mainEntity: {
       "@type": "Corporation",
       name: $displayCompanyName,

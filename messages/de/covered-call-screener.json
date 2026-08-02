@@ -75,7 +75,6 @@
   "covered_call_screener_modal_delete_cancel": "Abbrechen",
   "covered_call_screener_modal_delete_confirm": "Löschen",
 
-  "covered_call_screener_toast_pro_only": "Nur für Pro-Mitglieder verfügbar",
   "covered_call_screener_toast_deleting": "Screener wird gelöscht...",
   "covered_call_screener_toast_deleted": "Screener erfolgreich gelöscht!",
   "covered_call_screener_toast_delete_failed": "Löschen fehlgeschlagen. Bitte erneut versuchen.",

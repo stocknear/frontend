@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Newsletter du marché : reste informé en seulement 2 minutes par jour",
+  "newsletter_seo_description": "Garde une longueur d’avance sur le marché grâce à notre newsletter professionnelle ! Reçois les dernières mises à jour, tendances et informations directement dans ta boîte de réception.",
+  "newsletter_label": "Bulletin",
+  "newsletter_title": "Reste informé en seulement 2 minutes par jour",
+  "newsletter_description": "Le briefing de préouverture est une newsletter conçue pour suivre facilement l’évolution des marchés financiers.",
+  "newsletter_intro_1": "Nos résumés sont présentés sous forme de puces courtes, donc la lecture de ce bulletin ne te semblera jamais une corvée.",
+  "newsletter_intro_2": "Lais-nous lire les nouvelles pour toi et filtrer le bruit, puis nous t’enverrons les puces. Voici ce que tu obtiendras :",
+  "newsletter_feature_1": "Accède aux derniers rapports d’analystes, avec des informations clés extraites à l’aide d’IA.",
+  "newsletter_feature_2": "Obtiens un aperçu rapide des publications de résultats récentes et à venir.",
+  "newsletter_feature_3": "Reste informé des événements économiques majeurs susceptibles d’avoir un impact significatif sur le marché.",
+  "newsletter_feature_4": "Bénéficie d’informations précises et à jour provenant exclusivement de points de vente de premier plan.",
+  "newsletter_closing": "La newsletter est entièrement gratuite et te sera livrée dans ta boîte mail tous les matins avant l’ouverture du marché, du lundi au vendredi (sauf jours fériés).",
+  "newsletter_signup_button": "Inscris-toi gratuitement"
+}

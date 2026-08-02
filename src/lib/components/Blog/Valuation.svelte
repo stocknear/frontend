@@ -2,6 +2,7 @@
   import highcharts from "$lib/highcharts.ts";
   import { abbreviateNumber } from "$lib/utils";
   import { mode } from "mode-watcher";
+  import * as m from "$lib/paraglide/messages";
   export let blogData = {};
 
   let peData = blogData?.data?.priceToEarningsRatio;
@@ -9,31 +10,69 @@
   let psData = blogData?.data?.priceToSalesRatio;
   let pegData = blogData?.data?.priceToEarningsGrowthRatio;
 
+  function positionLabel(isAbove) {
+    return isAbove ? m.blog_valuation_above() : m.blog_valuation_below();
+  }
+
+  function sentimentLabel(sentiment) {
+    if (sentiment === "Very Good") return m.blog_sentiment_very_good();
+    if (sentiment === "Good") return m.blog_sentiment_good();
+    if (sentiment === "Average") return m.blog_sentiment_average();
+    if (sentiment === "Bad") return m.blog_sentiment_bad();
+    if (sentiment === "Very Bad") return m.blog_sentiment_very_bad();
+    return sentiment;
+  }
+
   let fundamentalData = [
     {
-      label: `P/E of ${peData?.value} is ${peData?.value > peData?.fiveYearAvg ? "above" : "below"} 5-Year Avg ${peData?.fiveYearAvg}`,
+      label: m.blog_valuation_ratio_comparison({
+        ratio: m.blog_valuation_pe_ratio(),
+        value: peData?.value,
+        position: positionLabel(peData?.value > peData?.fiveYearAvg),
+        average: peData?.fiveYearAvg,
+      }),
       value: peData?.upside,
       sentiment: peData?.sentiment,
     },
     {
-      label: `P/FCF of ${pFCFData?.value} is ${pFCFData?.value > pFCFData?.fiveYearAvg ? "above" : "below"} 5-Year Avg ${pFCFData?.fiveYearAvg}`,
+      label: m.blog_valuation_ratio_comparison({
+        ratio: m.blog_valuation_pfcf_ratio(),
+        value: pFCFData?.value,
+        position: positionLabel(pFCFData?.value > pFCFData?.fiveYearAvg),
+        average: pFCFData?.fiveYearAvg,
+      }),
       value: pFCFData?.upside,
       sentiment: pFCFData?.sentiment,
     },
     {
-      label: `P/S of ${psData?.value} is  ${psData?.value > psData?.fiveYearAvg ? "above" : "below"} 5-Year Avg ${psData?.fiveYearAvg}`,
+      label: m.blog_valuation_ratio_comparison({
+        ratio: m.blog_valuation_ps_ratio(),
+        value: psData?.value,
+        position: positionLabel(psData?.value > psData?.fiveYearAvg),
+        average: psData?.fiveYearAvg,
+      }),
       value: psData?.upside,
       sentiment: psData?.sentiment,
     },
     {
-      label: `PEG Ratio of ${pegData?.value} is  ${pegData?.value > pegData?.fiveYearAvg ? "above" : "below"} 5-Year Avg ${pegData?.fiveYearAvg}`,
+      label: m.blog_valuation_ratio_comparison({
+        ratio: m.blog_valuation_peg_ratio(),
+        value: pegData?.value,
+        position: positionLabel(pegData?.value > pegData?.fiveYearAvg),
+        average: pegData?.fiveYearAvg,
+      }),
       value: pegData?.upside,
       sentiment: pegData?.sentiment,
     },
   ];
 
   function plotData() {
-    const categories = ["P/E Ratio", "P/FCF Ratio", "P/S Ratio", "PEG Ratio"];
+    const categories = [
+      m.blog_valuation_pe_ratio(),
+      m.blog_valuation_pfcf_ratio(),
+      m.blog_valuation_ps_ratio(),
+      m.blog_valuation_peg_ratio(),
+    ];
     const values = fundamentalData.map((d) => d.value);
     const barColor = "#fff"; // blue fill color
 
@@ -46,7 +85,7 @@
         height: 360,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1 ">Current vs 5 Year Avg Upside</h3>`,
+        text: `<h3 class="mt-3 mb-1 ">${m.blog_valuation_chart_title()}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -117,7 +156,7 @@
       },
       series: [
         {
-          name: "Upside",
+          name: m.blog_valuation_upside(),
           data: values,
         },
       ],
@@ -129,7 +168,9 @@
   let config = plotData();
 </script>
 
-<h2 class="text-xl sm:text-3xl font-bold mt-8">Valuation</h2>
+<h2 class="text-xl sm:text-3xl font-bold mt-8">
+  {m.blog_heading_valuation()}
+</h2>
 
 <div
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
@@ -156,7 +197,8 @@
                 ? 'bg-green-800 dark:bg-green-600'
                 : item?.sentiment === 'Average'
                   ? 'bg-orange-800 dark:bg-orange-600'
-                  : 'bg-red-800 dark:bg-red-600'}">{item?.sentiment}</label
+                  : 'bg-red-800 dark:bg-red-600'}"
+              >{sentimentLabel(item?.sentiment)}</label
             >
           </td>
         </tr>

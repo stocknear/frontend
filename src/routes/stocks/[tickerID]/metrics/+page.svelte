@@ -7,6 +7,7 @@
   import { removeCompanyStrings, abbreviateNumber } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { getIntlLocale } from "$lib/i18n/format";
   import DownloadData from "$lib/components/DownloadData.svelte";
   import { mode } from "mode-watcher";
   import highcharts from "$lib/highcharts.ts";
@@ -85,17 +86,17 @@
         abs,
         Math.abs(tickInterval),
       );
-      formatted = new Intl.NumberFormat("en-US", {
+      formatted = new Intl.NumberFormat(getIntlLocale(), {
         notation: "compact",
         maximumFractionDigits: compactDigits,
         minimumFractionDigits: 0,
       }).format(safeValue);
     } else if (abs >= 10) {
-      formatted = Number(safeValue.toFixed(1)).toLocaleString("en-US", {
+      formatted = Number(safeValue.toFixed(1)).toLocaleString(getIntlLocale(), {
         maximumFractionDigits: 1,
       });
     } else {
-      formatted = Number(safeValue.toFixed(2)).toLocaleString("en-US", {
+      formatted = Number(safeValue.toFixed(2)).toLocaleString(getIntlLocale(), {
         maximumFractionDigits: 2,
       });
     }
@@ -360,7 +361,7 @@
     const date = new Date(dateStr);
     const formatted = isNaN(date.getTime())
       ? "n/a"
-      : date.toLocaleString("en-US", {
+      : date.toLocaleString(getIntlLocale(), {
           day: "2-digit",
           month: "short",
           year: "numeric",
@@ -497,7 +498,7 @@
     const date = new Date(dateStr);
     const formatted = isNaN(date.getTime())
       ? "n/a"
-      : date.toLocaleDateString("en-US", {
+      : date.toLocaleDateString(getIntlLocale(), {
           day: "2-digit",
           month: "short",
           year: "numeric",

@@ -1,5 +1,6 @@
 import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
+import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
 /// Constants
 const CACHE_DURATION = 60 * 1000; // 60 seconds
@@ -41,15 +42,15 @@ const dashboardCache = new LRUCache();
 
 export async function load({ locals }) {
   const { locale } = locals;
-  
+  const { effectiveLocale } = resolveBackendLocale("dashboardInfo", locale);
 
   // Logged-in user — fetch dashboard data inline (no redirect)
-  const cacheKey = `dashboard:${locale}`;
+  const cacheKey = `dashboard:${effectiveLocale}`;
   let dashboardData = dashboardCache.get(cacheKey);
 
   if (!dashboardData) {
     try {
-      dashboardData = await postAPI(locals, "/dashboard-info", { lang: locale ?? 'en' });
+      dashboardData = await postAPI(locals, "/dashboard-info", { lang: effectiveLocale });
       dashboardCache.set(cacheKey, dashboardData);
     } catch (err) {
       console.error('Dashboard fetch error', err);

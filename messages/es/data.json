@@ -1,0 +1,24 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Descargo de responsabilidad de datos | Fuentes y precisión de datos financieros",
+  "data_seo_description": "Información completa sobre nuestras fuentes de datos financieros, estándares de precisión y pautas de uso para datos del mercado de valores, estimaciones de analistas y métricas financieras.",
+  "data_breadcrumb": "Descargo de responsabilidad de datos",
+  "data_hero_title": "Descargo de responsabilidad de datos",
+  "data_intro": "Los datos financieros presentados en Stocknear se proporcionan únicamente con fines informativos y educativos. Esta información no debe interpretarse como asesoramiento financiero ni utilizarse como base única para decisiones comerciales o de inversión.",
+  "data_contact": "Mantenemos estándares rigurosos para la precisión de los datos y el aseguramiento de la calidad. Si identificas alguna discrepancia o necesitas una aclaración, ponte en contacto con nosotros a través de {discordLink} o ponte en contacto con nuestro equipo de soporte en {email}.",
+  "data_market_title": "Datos de mercado y gráficos de acciones",
+  "data_market_content": "Nuestros completos datos de mercado y gráficos de acciones en tiempo real están impulsados ​​por {fmpLink}, un proveedor líder de servicios de datos financieros. Esto incluye precios intradía, datos históricos e indicadores técnicos.",
+  "data_coverage_title": "Cobertura de mercado",
+  "data_coverage_content": "Stocknear ofrece una cobertura integral de los valores que cotizan en las principales bolsas EE. UU. intercambios, incluidos NASDAQ, NYSE, NYSE American y NYSE Arca. Nuestra base de datos abarca acciones, ETFs, ADR y valores seleccionados de OTC. Estamos ampliando activamente nuestra cobertura para incluir intercambios e instrumentos financieros globales adicionales.",
+  "data_fundamentals_title": "Fundamentos financieros",
+  "data_fundamentals_content": "Nuestros datos financieros fundamentales provienen de {fmpLink} y se derivan de presentaciones oficiales SEC (formularios 10-K, 10-Q y 8-K). Si bien nuestros sistemas actualizan esta información diariamente, puede haber retrasos inherentes debido a los plazos de presentación estándar SEC y los cronogramas de informes corporativos. Todos los datos financieros presentados se basan en presentaciones oficiales y auditadas de la empresa a las autoridades reguladoras.",
+  "data_business_title": "Datos de métricas comerciales",
+  "data_business_content": "Los datos de métricas comerciales, incluidos los KPI operativos y las unidades económicas que no son GAAP, se proporcionan a través de nuestro socio {mainStreetLink}. Su equipo de investigación agrega, normaliza y valida continuamente estas divulgaciones a partir de presentaciones de empresas, presentaciones de inversores y comentarios de la gerencia para garantizar una cobertura de desempeño comercial de alta integridad en toda nuestra plataforma.",
+  "data_analyst_title": "Cobertura de analistas y proyecciones de mercado",
+  "data_analyst_content": "Nuestra cobertura de analistas integra datos de múltiples fuentes autorizadas. Benzinga proporciona los objetivos de precios y las calificaciones de los analistas, que representan opiniones de consenso de los principales analistas de Wall Street. Las proyecciones de ingresos y los pronósticos EPS se agregan tanto de Benzinga como de {fmpLink}. Si bien nos esforzamos por presentar los pronósticos más precisos, los usuarios deben tener en cuenta que las predicciones del mercado son inherentemente inciertas y deben considerarse como parte de un proceso de investigación de inversiones más amplio.",
+  "data_etf_title": "Análisis ETF",
+  "data_etf_content": "Nuestros datos y análisis de tenencias de ETF se proporcionan a través de nuestra asociación con {fmpLink}, lo que garantiza información precisa y oportuna sobre la composición de los fondos, las asignaciones y las métricas de rendimiento.",
+  "data_options_title": "Datos del mercado de opciones",
+  "data_options_content": "Nuestra infraestructura de datos del mercado de opciones aprovecha múltiples proveedores de datos, combinando sus fuentes en un canal unificado para ofrecer datos OPRA (Autoridad de informes de precios de opciones) completos e integrales. Al agregar el flujo de opciones en tiempo real y los datos de la cadena de opciones individuales de varias fuentes, garantizamos una cobertura completa de la actividad del mercado de opciones y los precios en todos los principales EE. UU. intercambios de opciones."
+}
+

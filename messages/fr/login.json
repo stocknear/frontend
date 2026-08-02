@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Connecte-toi à Stocknear",
+  "login_seo_description": "Connecte-toi à ton compte Stocknear en utilisant ton e-mail et ton mot de passe.",
+  "login_title": "Connecte-toi à ton compte",
+  "login_title_logged_in": "Tu es connecté",
+  "login_subtitle": "Bon retour parmi nous !",
+  "login_email_label": "E-mail",
+  "login_password_label": "Mot de passe",
+  "login_forgot_password": "Mot de passe oublié ?",
+  "login_button": "Se connecter",
+  "login_button_loading": "Connexion",
+  "login_divider": "Ou connecte-toi en utilisant",
+  "login_no_account": "Tu n’as pas de compte ?",
+  "login_signup_link": "S’inscrire",
+  "login_logged_in_as": "Connecté sous le nom {email}",
+  "login_logout_button": "Se déconnecter",
+  "login_toast_verify_email": "Vérifie d’abord ton e-mail",
+  "login_toast_success": "Connecte-toi avec succès !",
+  "login_toast_invalid": "Identifiants invalides",
+  "login_toast_auth_failed": "E-mail ou mot de passe invalide. Réessaie.",
+  "login_toast_rate_limited": "Trop de tentatives de connexion. Réessaie dans {minutes} minutes."
+}

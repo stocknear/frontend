@@ -28,6 +28,8 @@
   import { mode } from "mode-watcher";
   import { invalidateAll } from "$app/navigation";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getIntlLocale } from "$lib/i18n/format";
+  import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
   export let data: any = null;
   export let tickers: any[] = [];
@@ -35,6 +37,10 @@
   export let portfolioId: string = "";
 
   let currentLocale = getLocale();
+  const summaryLocale = resolveBackendLocale(
+    "portfolioSummary",
+    currentLocale,
+  ).effectiveLocale;
 
   const SUMMARY_CREDIT_COST = 3;
   const CACHE_TTL = 1 * 24 * 60 * 60 * 1000; // 1 day in milliseconds
@@ -71,7 +77,7 @@
     if (typeof window === "undefined") return null;
     try {
       const cached = localStorage.getItem(
-        getCacheKey(id, holdings, currentLocale),
+        getCacheKey(id, holdings, summaryLocale),
       );
       if (!cached) return null;
 
@@ -79,7 +85,7 @@
       const age = Date.now() - timestamp;
 
       if (age > CACHE_TTL) {
-        localStorage.removeItem(getCacheKey(id, holdings, currentLocale));
+        localStorage.removeItem(getCacheKey(id, holdings, summaryLocale));
         return null;
       }
 
@@ -134,7 +140,7 @@
   function generateMarkdown() {
     if (!summaryData) return "";
 
-    const date = new Date().toLocaleDateString("en-US", {
+    const date = new Date().toLocaleDateString(getIntlLocale(), {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -265,7 +271,8 @@
         return;
       }
 
-      summaryData = await response.json();
+      const payload = await response.json();
+      summaryData = payload?.data;
 
       if (summaryData?.error) {
         summaryError = true;
@@ -275,7 +282,7 @@
         showSummary = false;
       } else {
         // Save to localStorage cache (includes holdings hash for invalidation)
-        saveSummaryToCache(portfolioId, tickers, summaryData, currentLocale);
+        saveSummaryToCache(portfolioId, tickers, summaryData, summaryLocale);
         // Deduct credits on successful generation
         data.user.credits -= SUMMARY_CREDIT_COST;
         summaryGenerated = true;

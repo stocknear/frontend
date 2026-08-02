@@ -1,8 +1,10 @@
 import { postAPI } from "$lib/server/api";
+import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
 export const load = async ({ locals, params }) => {
   const { user } = locals;
   const ticker = params.tickerID;
+  const { effectiveLocale } = resolveBackendLocale("analystInsight", locals.locale);
 
   if (!ticker) {
     return { error: 'Invalid ticker ID' };
@@ -17,7 +19,7 @@ export const load = async ({ locals, params }) => {
         "/analyst-insight",
         "/top-analyst-summary-rating"
       ],
-      lang: "en" //locale ?? 'en'
+      lang: effectiveLocale,
     });
 
     // Plus and Pro both unlock the full analyst history table.
