@@ -22,7 +22,9 @@ const robotsText = fs.readFileSync(path.join(root, "static/robots.txt"), "utf8")
 const robotsRules = new Set(
   robotsText.match(/^Disallow:\s+\S+/gm)?.map((rule) => rule.trim()) ?? [],
 );
-const localizedPrivatePaths = ["profile*", "settings*", "admin*", "auth/*"];
+// Only paths that actually resolve to a route belong here — robots.txt rules for
+// routes that do not exist are dead weight. /settings and /admin were removed.
+const localizedPrivatePaths = ["profile*", "auth/*"];
 for (const locale of targetLocales) {
   const localeSlug = locale.toLowerCase();
   for (const privatePath of localizedPrivatePaths) {
