@@ -25,8 +25,10 @@ import {
 // hosts that do not export the variable behave exactly as before.
 const STOCKNEAR_API_KEY = env.STOCKNEAR_API_KEY || BUILT_IN_API_KEY;
 
+// Note: /alerts is deliberately absent — it is a public feature page with its own
+// SEO copy and is listed in sitemap-static.xml. Adding it here would noindex a page
+// we actively submit for indexing.
 const PRIVATE_INDEX_PATHS = [
-  "/alerts",
   "/chat",
   "/login",
   "/notifications",

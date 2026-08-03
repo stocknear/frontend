@@ -53,7 +53,14 @@
   });
 
   function checkIfYoutubeVideo(link) {
-    const url = new URL(link);
+    let url;
+    try {
+      url = new URL(link);
+    } catch {
+      // Feed items occasionally carry an empty or relative link; a bad URL here
+      // used to throw during SSR and 500 the whole page.
+      return null;
+    }
     if (url.hostname === "www.youtube.com") {
       const searchParams = url.searchParams;
       searchParams?.delete("t"); // Remove the "t" parameter

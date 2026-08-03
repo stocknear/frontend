@@ -87,7 +87,7 @@
     description: hedge_funds_slug_structured_description({
       companyName: formatString(companyName),
     }),
-    url: "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
+    url: `https://stocknear.com/hedge-funds/${data?.getHedgeFundsData?.cik}`,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -107,7 +107,7 @@
           "@type": "ListItem",
           position: 3,
           name: formatString(companyName),
-          item: "https://stocknear.com/hedge-funds/{data?.getHedgeFundsData?.cik}",
+          item: `https://stocknear.com/hedge-funds/${data?.getHedgeFundsData?.cik}`,
         },
       ],
     },

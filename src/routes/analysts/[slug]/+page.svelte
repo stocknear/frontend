@@ -533,7 +533,7 @@
     },
     description:
       "Wall Street equity research analyst specializing in stock analysis and recommendations",
-    url: "https://stocknear.com/analysts/{data?.getData?.analystId}",
+    url: `https://stocknear.com/analysts/${data?.getData?.analystId}`,
     hasCredential: {
       "@type": "EducationalOccupationalCredential",
       credentialCategory: "Financial Analysis",

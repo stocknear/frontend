@@ -645,7 +645,7 @@
   structuredData={[
     {
       "@context": "https://schema.org",
-      "@type": "EducationalArticle",
+      "@type": ["Article", "LearningResource"],
       headline: article?.title,
       description: article?.abstract,
       image: article?.cover

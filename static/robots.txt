@@ -4,37 +4,50 @@ Allow: /
 
 # Disallow user-specific and private areas
 Disallow: /profile*
-Disallow: /settings*
-Disallow: /admin*
 Disallow: /api/*
 Disallow: /auth/*
 Disallow: /de/profile*
-Disallow: /de/settings*
-Disallow: /de/admin*
 Disallow: /de/auth/*
 Disallow: /zh-cn/profile*
-Disallow: /zh-cn/settings*
-Disallow: /zh-cn/admin*
 Disallow: /zh-cn/auth/*
 Disallow: /zh-tw/profile*
-Disallow: /zh-tw/settings*
-Disallow: /zh-tw/admin*
 Disallow: /zh-tw/auth/*
 Disallow: /es/profile*
-Disallow: /es/settings*
-Disallow: /es/admin*
 Disallow: /es/auth/*
 Disallow: /fr/profile*
-Disallow: /fr/settings*
-Disallow: /fr/admin*
 Disallow: /fr/auth/*
-Disallow: /*?*utm*
-Disallow: /*?*ref*
-Disallow: /*?*tracking*
+# utm/ref/tracking params are handled by rel=canonical, not blocked here:
+# blocking them would stop crawlers reading the canonical tag.
 Disallow: /*?*session*
 Disallow: /*?*token*
 Disallow: /chat/*/edit*
 Disallow: /chat/*/delete*
+
+# AI search crawlers - explicitly allowed so Stocknear stays citable in
+# ChatGPT, Claude, Perplexity and Google AI answers.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 # Block non-essential crawlers to save bandwidth
 User-agent: AhrefsBot
@@ -49,8 +62,8 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-# Sitemap index (contains sitemap-static, sitemap-stocks, sitemap-articles)
+# Sitemap index (contains sitemap-static, the per-family page shards, and sitemap-articles)
 Sitemap: https://stocknear.com/sitemap.xml
 
-# Host directive for canonical domain
-Host: https://stocknear.com
+# Machine-readable site guide for LLMs
+# https://stocknear.com/llms.txt

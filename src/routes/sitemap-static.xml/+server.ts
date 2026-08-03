@@ -45,7 +45,6 @@ const pages = [
 
   // IPOs
   { path: "/ipos", priority: 0.7, changefreq: "daily" },
-  { path: "/ipos/news", priority: 0.65, changefreq: "daily" },
   { path: "/ipos/statistics", priority: 0.6, changefreq: "weekly" },
 
   // Market movers

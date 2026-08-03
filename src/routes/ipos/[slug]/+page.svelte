@@ -62,20 +62,20 @@
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "{data?.getYear} IPOs Directory",
-    description: "Complete list of initial public offerings in {data?.getYear}",
-    url: "https://stocknear.com/ipos/{data?.getYear}",
+    name: `${data?.getYear} IPOs Directory`,
+    description: `Complete list of initial public offerings in ${data?.getYear}`,
+    url: `https://stocknear.com/ipos/${data?.getYear}`,
     about: {
       "@type": "Thing",
-      name: "Initial Public Offerings {data?.getYear}",
+      name: `Initial Public Offerings ${data?.getYear}`,
     },
     mainEntity: {
       "@type": "ItemList",
-      name: "{data?.getYear} IPO List",
-      description: "List of companies that went public in {data?.getYear}",
+      name: `${data?.getYear} IPO List`,
+      description: `List of companies that went public in ${data?.getYear}`,
       numberOfItems: rawData?.length || 0,
     },
-    temporalCoverage: "{data?.getYear}",
+    temporalCoverage: `${data?.getYear}`,
     spatialCoverage: "United States",
   }}
 />

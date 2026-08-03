@@ -1,158 +1,101 @@
-# Stocknear Site Navigation
+# Stocknear
 
-## Main Pages
-- `/` - Homepage
-- `/about` - About Stocknear
-- `/pricing` - Subscription plans
-- `/contact` - Contact us
-- `/support` - Support center
-- `/faq` - Frequently asked questions
-- `/faq/ai-agents` - AI features guide
+> Free stock, ETF and options research for US markets. Stocknear provides real-time and
+> historical market data — financial statements, analyst forecasts, dividends, insider and
+> institutional activity, options flow, dark pool orders, congressional trading and market
+> screeners — for every listed US stock and ETF. Data is sourced from SEC filings, FINRA,
+> exchange feeds and market data vendors.
 
-## Stock Analysis
-- `/stocks` - Stock discovery
-- `/stocks/[ticker]` - Individual stock analysis (e.g., /stocks/AAPL)
-- `/stocks/[ticker]/profile` - Company profile
-- `/stocks/[ticker]/statistics` - Stock statistics
-- `/stocks/[ticker]/financials` - Financial statements
-- `/stocks/[ticker]/financials/balance-sheet` - Balance sheet
-- `/stocks/[ticker]/financials/cash-flow` - Cash flow statement
-- `/stocks/[ticker]/financials/ratios` - Financial ratios
-- `/stocks/[ticker]/metrics` - Stock metrics
-- `/stocks/[ticker]/forecast` - Stock forecast
-- `/stocks/[ticker]/forecast/ai` - AI predictions
-- `/stocks/[ticker]/forecast/analyst` - Analyst forecasts
-- `/stocks/[ticker]/history` - Price history
-- `/stocks/[ticker]/dividends` - Dividend history
-- `/stocks/[ticker]/dark-pool` - Dark pool activity
-- `/stocks/[ticker]/insider` - Insider trading
-- `/stocks/[ticker]/insider/congress-trading` - Congressional trades
-- `/stocks/[ticker]/insider/institute` - Institutional holdings
-- `/stocks/[ticker]/insider/transcripts` - Earnings transcripts
+Ticker paths use the uppercase symbol, e.g. `/stocks/AAPL`, `/etf/SPY`, `/index/^SPX`.
+Market data may be delayed; see the data disclaimer for coverage, sources and limitations.
 
-## Stock Options
-- `/stocks/[ticker]/options` - Options chain
-- `/stocks/[ticker]/options/unusual-activity` - Unusual options
-- `/stocks/[ticker]/options/hottest-contracts` - Most active contracts
-- `/stocks/[ticker]/options/max-pain` - Max pain analysis
-- `/stocks/[ticker]/options/gex` - Gamma exposure
-- `/stocks/[ticker]/options/dex` - Delta exposure
-- `/stocks/[ticker]/options/oi` - Open interest
-- `/stocks/[ticker]/options/volatility` - Implied volatility
-- `/stocks/[ticker]/options/contract-lookup` - Contract details
+## Core
 
-## ETF Analysis
-- `/etf` - ETF screener
-- `/etf/[ticker]` - ETF analysis
-- `/etf/[ticker]/holdings` - ETF holdings
-- `/etf/[ticker]/dividends` - ETF dividends
-- `/etf/[ticker]/history` - ETF price history
-- `/etf/[ticker]/dark-pool` - ETF dark pool
-- `/etf/[ticker]/insider` - ETF insider activity
-- `/etf/[ticker]/options` - ETF options
-- `/etf/new-launches` - New ETF listings
-- `/etf/etf-providers` - ETF providers list
+- [Stocks directory](https://stocknear.com/stocks): browse and search all US listed stocks
+- [ETF directory](https://stocknear.com/etf): browse all US listed ETFs
+- [Stock screener](https://stocknear.com/stocks/screener): filter stocks on fundamentals and technicals
+- [ETF screener](https://stocknear.com/etf/screener): filter ETFs by holdings, expense ratio and performance
+- [Learning center](https://stocknear.com/learning-center): tutorials, financial term definitions and daily market briefings
+- [Pricing](https://stocknear.com/pricing): subscription plans
+- [Data disclaimer](https://stocknear.com/data-disclaimer): data sources, coverage and methodology
 
-## Index Tracking
-- `/index/[ticker]` - Index analysis (e.g., /index/SPY)
-- `/index/[ticker]/holdings` - Index components
-- `/index/[ticker]/history` - Index history
-- `/index/[ticker]/options` - Index options
+## Per-stock analysis
 
-## Discovery Tools
-- `/stock-screener` - Advanced stock screener
-- `/options-screener` - Options scanner
-- `/options-flow` - Options flow tracker
-- `/market-flow` - Market flow analysis
-- `/unusual-order-flow` - Dark pool tracker
+Replace `AAPL` with any US ticker symbol.
 
-## Market Movers
-- `/market-mover/gainers` - Top gainers
-- `/market-mover/losers` - Top losers  
-- `/market-mover/active` - Most active stocks
-- `/market-mover/premarket/gainers` - Pre-market gainers
-- `/market-mover/premarket/losers` - Pre-market losers
-- `/market-mover/afterhours/gainers` - After-hours gainers
-- `/market-mover/afterhours/losers` - After-hours losers
+- [Overview](https://stocknear.com/stocks/AAPL): quote, key metrics and company summary
+- [Financials](https://stocknear.com/stocks/AAPL/financials): income statement, plus [balance sheet](https://stocknear.com/stocks/AAPL/financials/balance-sheet), [cash flow](https://stocknear.com/stocks/AAPL/financials/cash-flow) and [ratios](https://stocknear.com/stocks/AAPL/financials/ratios)
+- [Statistics](https://stocknear.com/stocks/AAPL/statistics): market cap, revenue, short interest and fail-to-deliver history
+- [Forecast](https://stocknear.com/stocks/AAPL/forecast): price targets, plus [analyst forecasts](https://stocknear.com/stocks/AAPL/forecast/analyst)
+- [Price history](https://stocknear.com/stocks/AAPL/history): historical OHLCV data
+- [Dividends](https://stocknear.com/stocks/AAPL/dividends): dividend history and yield
+- [Profile](https://stocknear.com/stocks/AAPL/profile): company profile and employee count history
+- [Insider trading](https://stocknear.com/stocks/AAPL/insider): plus [institutional holders](https://stocknear.com/stocks/AAPL/insider/institute) and [earnings transcripts](https://stocknear.com/stocks/AAPL/insider/transcripts)
+- [Options](https://stocknear.com/stocks/AAPL/options): chain, plus [open interest](https://stocknear.com/stocks/AAPL/options/oi), [implied volatility](https://stocknear.com/stocks/AAPL/options/volatility), [max pain](https://stocknear.com/stocks/AAPL/options/max-pain), [gamma exposure](https://stocknear.com/stocks/AAPL/options/gex), [delta exposure](https://stocknear.com/stocks/AAPL/options/dex), [greeks](https://stocknear.com/stocks/AAPL/options/greeks), [expected move](https://stocknear.com/stocks/AAPL/options/expected-move), [unusual activity](https://stocknear.com/stocks/AAPL/options/unusual-activity) and [hottest contracts](https://stocknear.com/stocks/AAPL/options/hottest-contracts)
+
+## Per-ETF and per-index analysis
+
+- [ETF overview](https://stocknear.com/etf/SPY), [holdings](https://stocknear.com/etf/SPY/holdings), [dividends](https://stocknear.com/etf/SPY/dividends), [price history](https://stocknear.com/etf/SPY/history), [options](https://stocknear.com/etf/SPY/options)
+- [Index overview](https://stocknear.com/index/%5ESPX), [components](https://stocknear.com/index/%5ESPX/holdings), [history](https://stocknear.com/index/%5ESPX/history), [options](https://stocknear.com/index/%5ESPX/options)
+- [ETF providers](https://stocknear.com/etf/etf-providers) and [new ETF launches](https://stocknear.com/etf/new-launches)
+
+## Options and order flow
+
+- [Options screener](https://stocknear.com/options-screener): scan contracts across the market
+- [Options flow](https://stocknear.com/options-flow): live options order flow
+- [Unusual order flow](https://stocknear.com/unusual-order-flow): dark pool and block orders
+- [Market flow](https://stocknear.com/market-flow): aggregate market order flow
+- [Covered call screener](https://stocknear.com/covered-call-screener) and [cash secured put screener](https://stocknear.com/cash-secured-put-screener)
+- [Options calculator](https://stocknear.com/options-calculator): option pricing and payoff
+
+## Market activity
+
+- [Market news](https://stocknear.com/market-news), [general news](https://stocknear.com/market-news/general), [press releases](https://stocknear.com/market-news/press-releases)
+- [Top gainers](https://stocknear.com/market-mover/gainers), [losers](https://stocknear.com/market-mover/losers), [most active](https://stocknear.com/market-mover/active)
+- Premarket [gainers](https://stocknear.com/market-mover/premarket/gainers) / [losers](https://stocknear.com/market-mover/premarket/losers), after-hours [gainers](https://stocknear.com/market-mover/afterhours/gainers) / [losers](https://stocknear.com/market-mover/afterhours/losers)
+- [Stock heatmap](https://stocknear.com/stocks/heatmap) and [ETF heatmap](https://stocknear.com/etf/heatmap)
+- [Compare stocks](https://stocknear.com/stocks/compare) and [compare ETFs](https://stocknear.com/etf/compare)
 
 ## Calendars
-- `/earnings-calendar` - Earnings schedule
-- `/dividends-calendar` - Dividend calendar
-- `/economic-calendar` - Economic events
-- `/ipos` - IPO calendar
-- `/ipos/news` - IPO news
-- `/ipos/statistics` - IPO statistics
 
-## Trackers
-- `/insider-tracker` - Insider trading tracker
-- `/politicians` - Politicians trading
-- `/politicians/flow-data` - Political trade flow
-- `/potus-tracker` - Presidential portfolio
-- `/reddit-tracker` - Reddit mentions
+- [Earnings calendar](https://stocknear.com/earnings-calendar)
+- [Dividends calendar](https://stocknear.com/dividends-calendar)
+- [Economic calendar](https://stocknear.com/economic-calendar)
+- [IPO calendar](https://stocknear.com/ipos) and [IPO statistics](https://stocknear.com/ipos/statistics)
 
-## Institutional
-- `/hedge-funds` - Hedge fund holdings
-- `/hedge-funds/[fund]` - Individual fund portfolio
-- `/analysts` - Analyst ratings
-- `/analysts/top-stocks` - Top analyst picks
-- `/analysts/analyst-flow` - Rating changes
+## Institutional and insider tracking
 
-## Lists & Categories
-- `/list` - Stock lists directory
-- `/list/magnificent-seven` - Tech giants
-- `/list/bitcoin-etfs` - Bitcoin ETFs
-- `/list/ethereum-etfs` - Ethereum ETFs
-- `/list/monthly-dividend-stocks` - Monthly dividend stocks
-- `/list/penny-stocks` - Penny stocks
-- `/list/most-shorted-stocks` - Most shorted
-- `/list/overbought-stocks` - Overbought stocks
-- `/list/oversold-stocks` - Oversold stocks
-- `/list/dividend/[type]` - Dividend lists
-- `/list/sector/[sector]` - Sector lists
-- `/list/industry/[industry]` - Industry lists
-- `/list/country/[country]` - Country lists
+- [Insider tracker](https://stocknear.com/insider-tracker): market-wide insider transactions
+- [Hedge funds](https://stocknear.com/hedge-funds): 13F holdings by fund
+- [Analysts](https://stocknear.com/analysts), [top analyst stocks](https://stocknear.com/analysts/top-stocks), [rating changes](https://stocknear.com/analysts/analyst-flow)
+- [Politicians](https://stocknear.com/politicians) and [political trade flow](https://stocknear.com/politicians/flow-data)
+- [POTUS tracker](https://stocknear.com/potus-tracker)
+- [Reddit tracker](https://stocknear.com/reddit-tracker): retail sentiment by mentions
 
-## Analysis Tools
-- `/heatmap` - Market heatmap
-- `/compare` - Stock comparison
-- `/backtesting` - Strategy backtesting
-- `/options-calculator` - Options calculator
-- `/industry` - Industry overview
-- `/industry/sectors` - Sector analysis
+## Curated stock lists
 
-## AI & Chat
-- `/chat` - AI chat assistant
-- `/chat/[conversation]` - Chat conversation
+- [All lists](https://stocknear.com/list)
+- [Magnificent Seven](https://stocknear.com/list/magnificent-seven), [most shorted](https://stocknear.com/list/most-shorted-stocks), [penny stocks](https://stocknear.com/list/penny-stocks)
+- [Overbought](https://stocknear.com/list/overbought-stocks), [oversold](https://stocknear.com/list/oversold-stocks), [most buybacks](https://stocknear.com/list/most-buybacks)
+- Dividends: [monthly](https://stocknear.com/list/monthly-dividend-stocks), [growth](https://stocknear.com/list/dividend-growth-stocks), [safe](https://stocknear.com/list/safe-dividend-stocks), [kings](https://stocknear.com/list/dividend/dividend-kings), [aristocrats](https://stocknear.com/list/dividend/dividend-aristocrats)
+- Value and quality: [high FCF yield](https://stocknear.com/list/high-free-cash-flow-yield-stocks), [undervalued growth](https://stocknear.com/list/undervalued-growth-stocks), [low PE high ROE](https://stocknear.com/list/low-pe-high-roe-stocks), [strong balance sheet](https://stocknear.com/list/strong-balance-sheet-stocks), [Piotroski 8-9](https://stocknear.com/list/piotroski-8-9-stocks), [net cash](https://stocknear.com/list/net-cash-stocks)
+- Market cap: [mega](https://stocknear.com/list/market-cap/mega-cap-stocks), [large](https://stocknear.com/list/market-cap/large-cap-stocks), [mid](https://stocknear.com/list/market-cap/mid-cap-stocks), [small](https://stocknear.com/list/market-cap/small-cap-stocks), [micro](https://stocknear.com/list/market-cap/micro-cap-stocks), [nano](https://stocknear.com/list/market-cap/nano-cap-stocks)
+- Options lists: [highest open interest](https://stocknear.com/list/highest-open-interest), [OI change](https://stocknear.com/list/highest-open-interest-change), [IV rank](https://stocknear.com/list/highest-option-iv-rank), [premium](https://stocknear.com/list/highest-option-premium), [call volume](https://stocknear.com/list/highest-call-volume), [put volume](https://stocknear.com/list/highest-put-volume)
+- ETF lists: [bitcoin](https://stocknear.com/list/bitcoin-etfs), [ethereum](https://stocknear.com/list/ethereum-etfs), [crypto](https://stocknear.com/list/crypto-etfs), [covered call](https://stocknear.com/list/covered-call-etfs), [monthly dividend](https://stocknear.com/list/monthly-dividend-etfs)
 
-## Educational
-- `/learning-center` - Education hub with tutorials, guides, and financial terms
-- `/learning-center/article/[topic]` - Educational articles and term definitions
+## Sectors and industries
 
-## User Account
-- `/login` - Login page
-- `/register` - Sign up
-- `/profile` - User profile
-- `/profile/verification` - Account verification
-- `/watchlist/stocks` - Stock watchlist
-- `/watchlist/options` - Options watchlist
-- `/alerts` - Alerts
-- `/notifications` - Notifications
-- `/customize` - Dashboard customization
-- `/reset-password` - Password reset
-- `/update-password` - Update password
+- [Industry overview](https://stocknear.com/industry), [sectors](https://stocknear.com/industry/sectors), [all industries](https://stocknear.com/industry/all)
 
-## Market News
-- `/market-news` - Latest news
-- `/market-news/general` - General news
-- `/market-news/press-releases` - Press releases
+## About
 
-## Legal & Company
-- `/privacy-policy` - Privacy policy
-- `/terms-of-use` - Terms of service  
-- `/data-disclaimer` - Data disclaimer
-- `/imprint` - Legal imprint
-- `/advertise` - Advertising
-- `/affiliate-program` - Affiliate program
-- `/donation` - Support us
-- `/newsletter` - Newsletter signup
-- `/sitemap` - Site map
+- [About Stocknear](https://stocknear.com/about)
+- [FAQ](https://stocknear.com/faq) and [AI agents guide](https://stocknear.com/faq/ai-agents)
+- [Contact](https://stocknear.com/contact) and [support](https://stocknear.com/support)
+- [Terms of use](https://stocknear.com/terms-of-use), [privacy policy](https://stocknear.com/privacy-policy), [imprint](https://stocknear.com/imprint)
+
+## Optional
+
+- [Newsletter](https://stocknear.com/newsletter)
+- [Advertise](https://stocknear.com/advertise) and [affiliate program](https://stocknear.com/affiliate-program)
+- [Price alerts](https://stocknear.com/alerts)
