@@ -1,8 +1,21 @@
+import { error, redirect } from "@sveltejs/kit";
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
 import { fetchFollowedAnalysts } from "$lib/server/followedAnalysts";
 import { postAPI } from "$lib/server/api";
-import { resolveBackendLocale, type BackendLocale } from "$lib/i18n/backend-locales";
+import {
+  getNativeContentLocales,
+  resolveBackendLocale,
+  type BackendLocale,
+} from "$lib/i18n/backend-locales";
+import {
+  canonicalizeSymbolInUrl,
+  createSeoEligibility,
+  hasEntityIdentity,
+  hasFiniteMarketPrice,
+  isUpstreamNotFound,
+  resolveEntitySymbol,
+} from "$lib/seo/eligibility";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -92,52 +105,77 @@ const fetchData = async (locals, ticker, lang: BackendLocale = "en") => {
 };
 
 // Main load function with parallel fetching
-export const load = async ({ params, locals }) => {
+export const load = async ({ params, locals, url }) => {
   const { pb, user, locale } = locals;
-  const { tickerID } = params;
+  const requestedTicker = params.tickerID;
+  const symbolResolution = resolveEntitySymbol(requestedTicker);
+  if (!symbolResolution.valid) error(404, "Stock not found");
+
+  const tickerID = symbolResolution.canonicalSymbol;
+  const canonicalRedirect = canonicalizeSymbolInUrl(
+    url,
+    requestedTicker,
+    tickerID,
+  );
+  if (canonicalRedirect) redirect(308, canonicalRedirect);
+
   const { effectiveLocale } = resolveBackendLocale("stockBulkData", locale);
 
-  if (!tickerID) {
-    return { error: 'Invalid ticker ID' };
-  }
-
+  let stockData;
+  let userWatchlist;
+  let followedAnalysts;
   try {
-    const [stockData, userWatchlist, followedAnalysts] = await Promise.all([
+    [stockData, userWatchlist, followedAnalysts] = await Promise.all([
       fetchData(locals, tickerID, effectiveLocale),
-      fetchWatchlist(pb, user?.id),
-      fetchFollowedAnalysts(pb, user)
+      fetchWatchlist(pb, user?.id).catch(() => []),
+      fetchFollowedAnalysts(pb, user).catch(() => [])
     ]);
-
-    const {
-      '/stockdeck': getStockDeck = {},
-      '/analyst-summary-rating': getAnalystSummary = {},
-      '/stock-quote': getStockQuote = {},
-      '/pre-post-quote': fetchedPrePostQuote = {},
-      '/wiim': getWhyPriceMoved = {},
-      '/one-day-price': getOneDayPrice = {},
-      '/next-earnings': getNextEarnings = {},
-      '/earnings-surprise': getEarningsSurprise = {},
-      '/stock-news': getNews = {}
-    } = stockData;
-
-    // Decide based on market hours
-    const getPrePostQuote = checkMarketHourSSR() ?  {} : fetchedPrePostQuote;
-    return {
-      getStockDeck,
-      getAnalystSummary,
-      getStockQuote,
-      getPrePostQuote,
-      getWhyPriceMoved,
-      getOneDayPrice,
-      getNextEarnings,
-      getEarningsSurprise,
-      getNews,
-      getUserWatchlist: userWatchlist,
-      getFollowedAnalysts: followedAnalysts,
-      companyName: cleanString(getStockDeck?.companyName),
-      getParams: tickerID
-    };
-  } catch (error) {
-    return { error: 'Failed to load stock data' };
+  } catch (cause) {
+    if (isUpstreamNotFound(cause)) error(404, "Stock not found");
+    error(503, "Stock data is temporarily unavailable");
   }
+
+  const {
+    '/stockdeck': getStockDeck = {},
+    '/analyst-summary-rating': getAnalystSummary = {},
+    '/stock-quote': getStockQuote = {},
+    '/pre-post-quote': fetchedPrePostQuote = {},
+    '/wiim': getWhyPriceMoved = {},
+    '/one-day-price': getOneDayPrice = {},
+    '/next-earnings': getNextEarnings = {},
+    '/earnings-surprise': getEarningsSurprise = {},
+    '/stock-news': getNews = {}
+  } = stockData;
+
+  const hasIdentity = hasEntityIdentity(getStockDeck, [
+    "companyName",
+    "symbol",
+    "ticker",
+  ]);
+  const hasPartialQuote = hasFiniteMarketPrice(getStockQuote);
+  if (!hasIdentity && !hasPartialQuote) error(404, "Stock not found");
+
+  // Decide based on market hours
+  const getPrePostQuote = checkMarketHourSSR() ?  {} : fetchedPrePostQuote;
+  return {
+    getStockDeck,
+    getAnalystSummary,
+    getStockQuote,
+    getPrePostQuote,
+    getWhyPriceMoved,
+    getOneDayPrice,
+    getNextEarnings,
+    getEarningsSurprise,
+    getNews,
+    getUserWatchlist: userWatchlist,
+    getFollowedAnalysts: followedAnalysts,
+    companyName: cleanString(getStockDeck?.companyName),
+    getParams: tickerID,
+    seoEligibility: createSeoEligibility({
+      canonicalPath: url.pathname,
+      availableLocales: getNativeContentLocales("stockBulkData"),
+      indexable: hasIdentity,
+      reason: hasIdentity ? "eligible" : "insufficient-data",
+    }),
+  };
 };

@@ -15,7 +15,7 @@
   keywords={`${$indexTicker} implied volatility, IV rank, IV percentile, options volatility, ${$indexTicker} options IV`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "AnalysisNewsArticle",
+    "@type": "WebPage",
     headline: `${$displayCompanyName} (${$indexTicker}) Index Volatility Analysis`,
     description: "Index volatility tracking and market risk analysis",
     about: {

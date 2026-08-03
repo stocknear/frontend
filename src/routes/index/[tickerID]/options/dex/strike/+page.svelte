@@ -29,7 +29,7 @@
     ticker: $indexTicker,
   })}
   type="website"
-  url={`https://stocknear.com/stocks/${$indexTicker}/options/dex/strike`}
+  url={`https://stocknear.com/index/${$indexTicker}/options/dex/strike`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
@@ -40,7 +40,7 @@
       company: $displayCompanyName,
       ticker: $indexTicker,
     }),
-    url: `https://stocknear.com/stocks/${$indexTicker}/options/dex/strike`,
+    url: `https://stocknear.com/index/${$indexTicker}/options/dex/strike`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Delta exposure by strike tracking",

@@ -51,6 +51,7 @@
   export let date = null;
   export let bulkDownload = false;
   export let includePrePostData = false;
+  export let crawlablePagination = false;
   export let excludedRules = new Set([
     "volume",
     "price",
@@ -822,7 +823,11 @@
   }
 
   // Pagination state
-  let currentPage = 1;
+  const requestedPage = Number($page?.url?.searchParams?.get("page") ?? "1");
+  let currentPage =
+    crawlablePagination && Number.isInteger(requestedPage) && requestedPage > 0
+      ? requestedPage
+      : 1;
   let rowsPerPage = 20;
   let rowsPerPageOptions = [20, 50, 100];
   let totalPages = 1;
@@ -1925,6 +1930,16 @@
     saveRowsPerPage(); // Save to localStorage
   }
 
+  function pageHref(targetPage: number): string {
+    const url = new URL($page?.url);
+    if (targetPage <= 1) {
+      url.searchParams.delete("page");
+    } else {
+      url.searchParams.set("page", String(targetPage));
+    }
+    return `${url.pathname}${url.search}`;
+  }
+
   // Save rows per page preference to localStorage
   function saveRowsPerPage() {
     if (!pagePathName || typeof localStorage === "undefined") return;
@@ -1939,6 +1954,10 @@
 
   // Load rows per page preference from localStorage
   function loadRowsPerPage() {
+    if (crawlablePagination) {
+      rowsPerPage = 20;
+      return;
+    }
     const currentPath = pagePathName || $page?.url?.pathname;
 
     if (!currentPath || typeof localStorage === "undefined") {
@@ -2153,6 +2172,16 @@
     loadRowsPerPage(); // Load pagination preference for new page
     loadColumnOrder(undefined, true); // Load column order preference for new page
     updatePaginatedData(); // Update display with loaded preference
+  }
+
+  $: if (crawlablePagination && $page?.url?.searchParams) {
+    const queryPage = Number($page.url.searchParams.get("page") ?? "1");
+    const nextPage =
+      Number.isInteger(queryPage) && queryPage > 0 ? queryPage : 1;
+    if (nextPage !== currentPage) {
+      currentPage = nextPage;
+      updatePaginatedData();
+    }
   }
 
   let isInitialLoad = true;
@@ -3354,6 +3383,8 @@
     {totalPages}
     {rowsPerPage}
     {rowsPerPageOptions}
+    pageHref={crawlablePagination ? pageHref : null}
+    showRowsPerPage={!crawlablePagination}
     on:pageChange={handlePageChange}
     on:rowsPerPageChange={handleRowsPerPageChange}
   />

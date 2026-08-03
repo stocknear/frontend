@@ -4,6 +4,10 @@
   import { onDestroy, onMount } from "svelte";
   import Search from "lucide-svelte/icons/search";
   import { goto } from "$app/navigation";
+  import {
+    GTM_EVENT_TICKER_SEARCH,
+    trackProductEvent,
+  } from "$lib/constants/tracking";
   import { Combobox } from "bits-ui";
   import {
     searchbar_aria_label,
@@ -99,6 +103,11 @@
     if (prevRoot === "chart") {
       const newPath = `/chart/${upperSymbol}`;
       await goto(newPath, { replaceState: true });
+      trackProductEvent(GTM_EVENT_TICKER_SEARCH, {
+        symbol: upperSymbol,
+        asset_type: assetType?.toLowerCase(),
+        destination: "chart",
+      });
       clearSearchInput();
       isNavigatingWithSpinner = false;
 
@@ -199,6 +208,11 @@
 
     // Navigate and wait for completion
     await goto(newPath, { replaceState: true });
+    trackProductEvent(GTM_EVENT_TICKER_SEARCH, {
+      symbol: upperSymbol,
+      asset_type: type,
+      destination: root,
+    });
 
     clearSearchInput();
     isNavigatingWithSpinner = false; // Hide spinner after navigation

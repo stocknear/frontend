@@ -13,13 +13,8 @@ function escapeXml(str: string) {
 }
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ locals, setHeaders }) {
+export async function GET({ locals }) {
   const { pb } = locals;
-
-  setHeaders({
-    "Content-Type": "application/xml; charset=utf-8",
-    "Cache-Control": "public, max-age=3600, s-maxage=7200",
-  });
 
   try {
     const tutorials = await pb.collection("tutorials").getFullList({
@@ -28,16 +23,31 @@ export async function GET({ locals, setHeaders }) {
       requestKey: "sitemap-articles",
     });
 
-    const urls = tutorials
+    const seenSlugs = new Set<string>();
+    const eligibleTutorials = tutorials
+      .map((item) => ({ item, slug: convertToSlug(item?.title) }))
+      .filter(({ slug }) => {
+        if (!slug || seenSlugs.has(slug)) return false;
+        seenSlugs.add(slug);
+        return true;
+      });
+    if (eligibleTutorials.length === 0) {
+      throw new Error(
+        "The article sitemap source returned no eligible articles",
+      );
+    }
+
+    const urls = eligibleTutorials
       .map((item) => {
-        const slug = convertToSlug(item?.title);
-        const lastmod = item.updated || item.created;
-        const lastmodTag = lastmod
-          ? `\n    <lastmod>${new Date(lastmod).toISOString()}</lastmod>`
-          : "";
+        const lastmod = item.item?.updated || item.item?.created;
+        const date = lastmod ? new Date(lastmod) : null;
+        const lastmodTag =
+          date && !Number.isNaN(date.getTime())
+            ? `\n    <lastmod>${date.toISOString()}</lastmod>`
+            : "";
 
         return `  <url>
-    <loc>${escapeXml(`${website}/learning-center/article/${slug}`)}</loc>${lastmodTag}
+    <loc>${escapeXml(`${website}/learning-center/article/${item.slug}`)}</loc>${lastmodTag}
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>`;
@@ -50,13 +60,20 @@ ${urls}
 </urlset>`;
 
     return new Response(body, {
-      headers: { "Content-Type": "application/xml; charset=utf-8" },
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, s-maxage=7200",
+      },
     });
   } catch (error) {
     console.error("Articles sitemap error:", error);
-    return new Response(
-      '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>',
-      { headers: { "Content-Type": "application/xml; charset=utf-8" } }
-    );
+    return new Response("Sitemap temporarily unavailable", {
+      status: 503,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+        "Retry-After": "300",
+      },
+    });
   }
 }

@@ -29,10 +29,10 @@ export const PLAN_PRICING: Record<
 
 const PROMOTIONS: Promotion[] = [
   {
-    id: "summer-sale-2026",
-    percentOff: 40,
+    id: "summer-sale-2026-08",
+    percentOff: 75,
     scope: ["annual"],
-    endsAt: "2026-06-22T23:59:59+02:00",
+    endsAt: "2026-08-10T23:59:59+02:00",
   },
 ];
 

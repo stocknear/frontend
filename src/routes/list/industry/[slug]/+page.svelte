@@ -2,6 +2,7 @@
   import { abbreviateNumber } from "$lib/utils";
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
+  import SEO from "$lib/components/SEO.svelte";
   import {
     list_count_stocks,
     list_industry_infobox,
@@ -21,7 +22,29 @@
     (total, stock) => total + stock?.revenue,
     0,
   );
+
+  $: industryName = data?.getParams
+    ?.split("-")
+    ?.map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
+    ?.join(" ");
 </script>
+
+<SEO
+  title={`${industryName} Stocks: Companies, Market Cap & Revenue`}
+  description={`Compare ${rawData?.length?.toLocaleString("en-US") ?? "0"} ${industryName} stocks by market capitalization, revenue, valuation, performance, and analyst data.`}
+  contentLocales={["en"]}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${industryName} Stocks`,
+    description: `Publicly traded companies in the ${industryName} industry`,
+    url: `https://stocknear.com/list/industry/${data?.getParams}`,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: rawData?.length ?? 0,
+    },
+  }}
+/>
 
 <section class="w-full overflow-hidden m-auto min-h-screen">
   <Infobox

@@ -14,13 +14,13 @@
   description={`Monitor options Greeks for ${$displayCompanyName} (${$indexTicker}) to manage risk on short-term trades.`}
   keywords={`${$indexTicker} options Greeks, delta gamma theta vega, options exposure`}
   type="website"
-  url={`https://stocknear.com/stocks/${$indexTicker}/options/greeks`}
+  url={`https://stocknear.com/index/${$indexTicker}/options/greeks`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Options Greeks Analysis`,
     description: `Options Greeks for ${$displayCompanyName} (${$indexTicker})`,
-    url: `https://stocknear.com/stocks/${$indexTicker}/options/greeks`,
+    url: `https://stocknear.com/index/${$indexTicker}/options/greeks`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Delta sensitivity to stock price changes",

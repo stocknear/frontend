@@ -2,6 +2,10 @@
   import { page } from "$app/stores";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
+  import {
+    GTM_EVENT_WATCHLIST_ADD,
+    trackProductEvent,
+  } from "$lib/constants/tracking";
 
   // Import all localization messages
   import {
@@ -121,7 +125,15 @@
         });
 
         const output = await response.json();
+        if (!response.ok) {
+          throw new Error(output?.error || "Failed to update watchlist");
+        }
         userWatchList = [output];
+        trackProductEvent(GTM_EVENT_WATCHLIST_ADD, {
+          symbol: ticker,
+          asset_type: assetType,
+          watchlist_state: "created",
+        });
 
         toast.success(msg.added(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
@@ -175,11 +187,21 @@
         });
 
         const output = await response.json();
+        if (!response.ok) {
+          throw new Error(output?.error || "Failed to update watchlist");
+        }
 
         // Update local state based on API response (single source of truth)
         userWatchList = userWatchList.map((item) =>
           item.id === watchListId ? output : item,
         );
+        if (!tickerExists) {
+          trackProductEvent(GTM_EVENT_WATCHLIST_ADD, {
+            symbol: ticker,
+            asset_type: assetType,
+            watchlist_state: "updated",
+          });
+        }
       } else {
         // If watchlist doesn't exist, create a new entry
         const response = await fetch("/api/update-watchlist", {
@@ -193,7 +215,15 @@
         });
 
         const output = await response.json();
+        if (!response.ok) {
+          throw new Error(output?.error || "Failed to update watchlist");
+        }
         userWatchList = [...userWatchList, output];
+        trackProductEvent(GTM_EVENT_WATCHLIST_ADD, {
+          symbol: ticker,
+          asset_type: assetType,
+          watchlist_state: "updated",
+        });
       }
     } catch (error) {
       console.error("An error occurred:", error);

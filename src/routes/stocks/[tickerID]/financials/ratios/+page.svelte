@@ -26,7 +26,7 @@
     keywords={formatCopy(seo.keywords, copyValues)}
     structuredData={{
       "@context": "https://schema.org",
-      "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
+      "@type": "WebPage",
       inLanguage: data?.financialRatiosLanguage,
       name: formatCopy(seo.name, copyValues),
       headline: formatCopy(seo.headline, copyValues),

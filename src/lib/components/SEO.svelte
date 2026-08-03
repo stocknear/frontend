@@ -9,6 +9,7 @@
   import { hrefForLocale } from "$lib/i18n/navigation";
   import { getLocaleDefinition, supportedLocales } from "$lib/i18n/locales";
   import { jsonLdScript } from "$lib/seo/json-ld";
+  import type { SeoEligibility } from "$lib/seo/eligibility";
 
   export let title = "Real-Time Options Flow & Unusual Activity";
   export let description =
@@ -21,6 +22,8 @@
   export let twitterCard: string = "summary";
   export let noindex: boolean = false;
   export let contentLocales: readonly Locale[] | null = null;
+  export let seoEligibility: SeoEligibility | null = null;
+  export let canonicalPath: string | null = null;
 
   const baseURL = "https://stocknear.com";
   // The URL is the canonical locale source for both SSR and hydration. Reading
@@ -29,12 +32,26 @@
   $: currentLocale = extractLocaleFromUrl($page.url) ?? baseLocale;
   $: localeDefinition = getLocaleDefinition(currentLocale);
   $: pathname = $page?.url?.pathname || "";
-  $: delocalizedPathname = deLocalizeUrl($page.url).pathname;
-  $: canonical = baseURL + pathname;
-  $: alternateLocales = contentLocales
-    ? ([...contentLocales] as Locale[])
-    : ([...supportedLocales] as Locale[]);
-  $: shouldNoIndex = noindex || !alternateLocales?.includes(currentLocale);
+  $: inheritedEligibility = ($page?.data as { seoEligibility?: SeoEligibility })
+    ?.seoEligibility;
+  $: effectiveEligibility = seoEligibility ?? inheritedEligibility ?? null;
+  $: requestedCanonicalUrl = resolveCanonicalUrl(
+    canonicalPath ?? effectiveEligibility?.canonicalPath ?? pathname,
+  );
+  $: delocalizedCanonicalUrl = deLocalizeUrl(requestedCanonicalUrl);
+  $: alternateLocales = normalizeAlternateLocales(
+    contentLocales ?? effectiveEligibility?.availableLocales ?? supportedLocales,
+  );
+  $: canonicalLocale = alternateLocales?.includes(currentLocale)
+    ? currentLocale
+    : alternateLocales?.includes(baseLocale)
+      ? baseLocale
+      : alternateLocales?.at(0) ?? baseLocale;
+  $: canonical = alternateHref(canonicalLocale);
+  $: shouldNoIndex =
+    noindex ||
+    effectiveEligibility?.indexable === false ||
+    !alternateLocales?.includes(currentLocale);
 
   const siteName = "Stocknear";
   const twitterHandle = "@stocknear";
@@ -134,11 +151,26 @@
     },
   ];
 
-  // Default keywords for stock analysis
-  const defaultKeywords =
-    "stocknear, options flow, unusual options activity, sweep orders, block trades, dark pool, implied volatility, IV skew, open interest, options chain, short-term trade setups";
-  const finalKeywords = keywords || defaultKeywords;
   const finalImage = image || defaultImage;
+
+  function resolveCanonicalUrl(value: string): URL {
+    try {
+      const resolved = new URL(value, baseURL);
+      if (resolved.origin !== baseURL) return new URL(pathname || "/", baseURL);
+      resolved.hash = "";
+      return resolved;
+    } catch {
+      return new URL(pathname || "/", baseURL);
+    }
+  }
+
+  function normalizeAlternateLocales(locales: readonly Locale[]): Locale[] {
+    return [...new Set(locales?.filter((locale) => supportedLocales?.includes(locale)) ?? [])];
+  }
+
+  function alternateHref(locale: Locale): string {
+    return `${baseURL}${hrefForLocale(delocalizedCanonicalUrl.pathname, locale)}${delocalizedCanonicalUrl.search}`;
+  }
 </script>
 
 <svelte:head>
@@ -160,7 +192,6 @@
   <!-- Title & description -->
   <title>{title} - {siteName}</title>
   <meta name="description" content={description} />
-  <meta name="keywords" content={finalKeywords} />
   <meta name="author" content={siteName} />
 
   <!-- Language and geo tags -->
@@ -235,22 +266,24 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
   <!-- Hreflang for multilingual SEO -->
-  {#each alternateLocales as locale}
-    <link
-      rel="alternate"
-      hreflang={locale}
-      href={`${baseURL}${hrefForLocale(delocalizedPathname, locale)}`}
-    />
-  {/each}
-  <link rel="alternate" hreflang="x-default" href={`${baseURL}${hrefForLocale(delocalizedPathname, "en")}`} />
+  {#if !shouldNoIndex}
+    {#each alternateLocales as locale}
+      <link rel="alternate" hreflang={locale} href={alternateHref(locale)} />
+    {/each}
+    {#if alternateLocales?.includes("en")}
+      <link rel="alternate" hreflang="x-default" href={alternateHref("en")} />
+    {/if}
+  {/if}
 
-  <!-- Global Organization + WebSite Schema -->
-  {#each globalSchemas as gs}
-    {@html jsonLdScript(gs)}
-  {/each}
+  {#if !shouldNoIndex}
+    <!-- Global Organization + WebSite Schema -->
+    {#each globalSchemas as gs}
+      {@html jsonLdScript(gs)}
+    {/each}
 
-  <!-- Page-Specific Structured Data -->
-  {#each pageSchemas as schema}
-    {@html jsonLdScript(schema)}
-  {/each}
+    <!-- Page-Specific Structured Data -->
+    {#each pageSchemas as schema}
+      {@html jsonLdScript(schema)}
+    {/each}
+  {/if}
 </svelte:head>

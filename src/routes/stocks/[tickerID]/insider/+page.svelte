@@ -944,7 +944,7 @@ ${summaryData.outlook}
   })}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
+    "@type": "WebPage",
     name: stock_detail_insider_structured_name({
       company: $displayCompanyName,
       ticker: $stockTicker,

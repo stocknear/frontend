@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { indexTicker, displayCompanyName } from "$lib/store";
+  import { etfTicker, displayCompanyName } from "$lib/store";
 
   import Infobox from "$lib/components/Infobox.svelte";
   import GreekByExpiry from "$lib/components/Options/GreekByExpiry.svelte";
@@ -21,17 +21,17 @@
 <SEO
   title={stock_detail_options_dex_expiry_seo_title({
     company: $displayCompanyName,
-    ticker: $indexTicker,
+    ticker: $etfTicker,
   })}
   description={stock_detail_options_dex_expiry_seo_description({
     company: $displayCompanyName,
-    ticker: $indexTicker,
+    ticker: $etfTicker,
   })}
   keywords={stock_detail_options_dex_expiry_seo_keywords({
-    ticker: $indexTicker,
+    ticker: $etfTicker,
   })}
   type="website"
-  url={`https://stocknear.com/stocks/${$indexTicker}/options/dex/expiry`}
+  url={`https://stocknear.com/etf/${$etfTicker}/options/dex/expiry`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
@@ -40,9 +40,9 @@
     }),
     description: stock_detail_options_dex_expiry_structured_desc({
       company: $displayCompanyName,
-      ticker: $indexTicker,
+      ticker: $etfTicker,
     }),
-    url: `https://stocknear.com/stocks/${$indexTicker}/options/dex/expiry`,
+    url: `https://stocknear.com/etf/${$etfTicker}/options/dex/expiry`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Delta exposure by expiry tracking",
@@ -62,7 +62,7 @@
     mainEntity: {
       "@type": "Corporation",
       name: $displayCompanyName,
-      tickerSymbol: $indexTicker,
+      tickerSymbol: $etfTicker,
     },
   }}
 />
@@ -76,7 +76,7 @@
         <GreekByExpiry
           {data}
           title={stock_detail_options_dex_title_delta()}
-          ticker={$indexTicker?.toUpperCase()}
+          ticker={$etfTicker?.toUpperCase()}
         />
       {:else}
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">

@@ -28,6 +28,7 @@
     pricing_monthly,
     pricing_annual,
     pricing_save,
+    pricing_discount_off,
     pricing_per_month,
     pricing_basic_title,
     pricing_basic_subtitle,
@@ -415,7 +416,11 @@
       <span
         class="rounded-full px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em]"
       >
-        {pricing_save()}
+        {#if annualPromo && eligible}
+          {annualPromo.percentOff}% {pricing_discount_off()}
+        {:else}
+          {pricing_save()}
+        {/if}
       </span>
     </div>
 
@@ -1248,7 +1253,9 @@
               {formatPrice(PLAN_PRICING.Plus.annualPerMonth)}
             </span>
             <span class="text-4xl font-semibold">
-              {formatPrice(discounted(PLAN_PRICING.Plus.annualPerMonth, annualPromo))}
+              {formatPrice(
+                discounted(PLAN_PRICING.Plus.annualPerMonth, annualPromo),
+              )}
             </span>
           {:else}
             <span class="text-4xl font-semibold">
@@ -1864,7 +1871,9 @@
               {formatPrice(PLAN_PRICING.Pro.annualPerMonth)}
             </span>
             <span class="text-4xl font-semibold">
-              {formatPrice(discounted(PLAN_PRICING.Pro.annualPerMonth, annualPromo))}
+              {formatPrice(
+                discounted(PLAN_PRICING.Pro.annualPerMonth, annualPromo),
+              )}
             </span>
           {:else}
             <span class="text-4xl font-semibold">
@@ -2150,7 +2159,7 @@
         </div>
       </div>
     </div>
-
+    <!--
     {#if !data?.user?.lifetime}
       <div
         class="mt-8 rounded-2xl border border-violet-300/70 dark:border-violet-800/60 bg-gradient-to-br from-violet-50/70 to-[rgb(var(--pricing-card)/0.92)] dark:from-violet-950/20 dark:to-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6 ring-1 ring-violet-500/0 hover:ring-violet-500/20 transition"
@@ -2171,20 +2180,20 @@
 
           <div class="">
             <div class="flex items-end justify-center gap-2">
-              <!--
+              
               <span class="text-base text-muted dark:text-white line-through"
                 >$599</span
               >
-                -->
+              
               <span class="text-3xl font-semibold">$599</span>
             </div>
-            <!--
+            
             <p
               class="mt-1 text-center text-xs font-medium text-emerald-600 dark:text-emerald-400"
             >
               {pricing_lifetime_offer_savings()}
             </p>
-            -->
+          
 
             <label
               for={!data?.user ? "userLogin" : ""}
@@ -2197,6 +2206,7 @@
         </div>
       </div>
     {/if}
+    -->
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div

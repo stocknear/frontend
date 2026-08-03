@@ -161,9 +161,10 @@
     chat: false,
   };
   let translationNavigationGeneration = 0;
-  let translationNavigationRetry:
-    | { target: string; generation: number }
-    | null = null;
+  let translationNavigationRetry: {
+    target: string;
+    generation: number;
+  } | null = null;
 
   $: currentLocale =
     extractLocaleFromUrl($page.url) ?? data?.locale ?? baseLocale;
@@ -244,6 +245,7 @@
   let marketingScriptTimer: ReturnType<typeof setTimeout> | undefined =
     undefined;
   let workerLoadTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+  let hasMarketingConsent = data?.cookieConsent?.marketing === true;
 
   // GTM loading delay in milliseconds (3 seconds for better PageSpeed scores)
   const GTM_LOAD_DELAY = 3000;
@@ -304,8 +306,9 @@
     }>,
   ) {
     const consent = event.detail;
+    hasMarketingConsent = consent?.marketing === true;
 
-    if (consent.marketing) {
+    if (hasMarketingConsent) {
       loadMarketingScripts();
     }
   }
@@ -340,7 +343,7 @@
     // Use optimized service worker registration
     registerServiceWorker();
 
-    // User interaction events that trigger early GTM loading
+    // User interaction events that trigger early GTM loading after consent.
     const interactionEvents = [
       "scroll",
       "click",
@@ -363,26 +366,33 @@
         marketingScriptTimer = undefined;
       }
 
-      // Load marketing scripts immediately on user interaction
-      loadMarketingScripts();
+      if (hasMarketingConsent) {
+        loadMarketingScripts();
+      }
     };
 
-    // Add interaction listeners (passive for scroll/touch to not block)
-    interactionEvents.forEach((event) => {
-      window.addEventListener(event, handleUserInteraction, {
-        capture: true,
-        passive: true,
-        once: true,
+    if (hasMarketingConsent) {
+      // Add interaction listeners (passive for scroll/touch to not block)
+      interactionEvents.forEach((event) => {
+        window.addEventListener(event, handleUserInteraction, {
+          capture: true,
+          passive: true,
+          once: true,
+        });
       });
-    });
 
-    deferFunction(() => {
-      // Delay GTM loading to 3 seconds after page load for better PageSpeed scores
-      // If user interacts before this, GTM loads immediately via interaction handler
-      marketingScriptTimer = setTimeout(() => {
-        loadMarketingScripts();
-      }, GTM_LOAD_DELAY);
-    });
+      deferFunction(() => {
+        // Delay GTM loading to 3 seconds after page load for better PageSpeed scores.
+        // If the user interacts first, the same consent-gated path loads it early.
+        marketingScriptTimer = setTimeout(() => {
+          /*if (hasMarketingConsent) {
+            loadMarketingScripts();
+          }
+          */
+          loadMarketingScripts();
+        }, GTM_LOAD_DELAY);
+      });
+    }
 
     // Notifications are independent from marketing and should load lazily.
     if (data?.user?.id) {
@@ -433,7 +443,8 @@
       const destination = navigation.to.url;
       if (destination.origin === window.location.origin) {
         const navigationGeneration = ++translationNavigationGeneration;
-        const [firstSegment] = destination.pathname.split("/")?.filter(Boolean) ?? [];
+        const [firstSegment] =
+          destination.pathname.split("/")?.filter(Boolean) ?? [];
         const destinationHasLocale = Boolean(
           firstSegment && canonicalizeLocale(firstSegment),
         );
@@ -472,7 +483,8 @@
           navigation.cancel();
           void loadRouteMessages(targetRouteId, activeLocale)
             ?.then(async () => {
-              if (navigationGeneration !== translationNavigationGeneration) return;
+              if (navigationGeneration !== translationNavigationGeneration)
+                return;
               translationNavigationRetry = {
                 target,
                 generation: navigationGeneration,
@@ -616,15 +628,17 @@
 <ModeWatcher defaultMode={data?.themeMode} />
 
 <!-- Google Tag Manager (noscript) -->
-<noscript>
-  <iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
-    height="0"
-    width="0"
-    style="display:none;visibility:hidden"
-    title="Google Tag Manager"
-  ></iframe>
-</noscript>
+{#if data?.cookieConsent?.marketing === true}
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"
+      title="Google Tag Manager"
+    ></iframe>
+  </noscript>
+{/if}
 
 {#if isStandalonePWA}
   {#await import("$lib/components/PullToRefresh.svelte") then { default: PullToRefresh }}
@@ -1412,8 +1426,8 @@
                   <a
                     href={localHref(
                       data?.hasDailyBriefing &&
-                      data?.isPreMarket &&
-                      data?.dailyBriefingSlug
+                        data?.isPreMarket &&
+                        data?.dailyBriefingSlug
                         ? `/learning-center/article/${data.dailyBriefingSlug}`
                         : "/learning-center",
                     )}
@@ -1451,7 +1465,10 @@
           </Sheet.Content>
         </Sheet.Root>
 
-        <a href={localHref("/")} class="-ml-2 flex flex-row items-center shrink-0">
+        <a
+          href={localHref("/")}
+          class="-ml-2 flex flex-row items-center shrink-0"
+        >
           <img
             class="avatar w-9 3xl:w-10 rounded-full"
             src="/pwa-192x192.png"
@@ -2032,8 +2049,8 @@
                   <a
                     href={localHref(
                       data?.hasDailyBriefing &&
-                      data?.isPreMarket &&
-                      data?.dailyBriefingSlug
+                        data?.isPreMarket &&
+                        data?.dailyBriefingSlug
                         ? `/learning-center/article/${data.dailyBriefingSlug}`
                         : "/learning-center",
                     )}

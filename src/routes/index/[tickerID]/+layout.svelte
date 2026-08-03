@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { localizedHref } from "$lib/i18n/navigation";
   import {
     wsBidPrice,
     wsAskPrice,
@@ -745,7 +746,7 @@
                         class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
                       >
                         <a
-                          href={`/index/${$indexTicker}`}
+                          href={localizedHref(`/index/${$indexTicker}`)}
                           on:click={() => changeSection("overview")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
@@ -756,7 +757,7 @@
                         </a>
 
                         <a
-                          href={`/index/${$indexTicker}/holdings`}
+                          href={localizedHref(`/index/${$indexTicker}/holdings`)}
                           on:click={() => changeSection("holdings")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'holdings'
@@ -767,7 +768,7 @@
                         </a>
 
                         <a
-                          href={`/index/${$indexTicker}/options`}
+                          href={localizedHref(`/index/${$indexTicker}/options`)}
                           on:click={() => changeSection("options")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
@@ -778,7 +779,7 @@
                         </a>
 
                         <a
-                          href={`/index/${$indexTicker}/history`}
+                          href={localizedHref(`/index/${$indexTicker}/history`)}
                           on:click={() => changeSection("history")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'

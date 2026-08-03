@@ -646,29 +646,20 @@
 </script>
 
 <SEO
-  title={`${$indexTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% - Market Index Analysis`}
-  description={`Complete ${data?.companyName} (${$indexTicker}) index analysis with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)}, market cap weighting, index constituents, and sector allocation. Track index performance, volatility patterns, and market representation for strategic asset allocation.`}
+  title={`${data?.companyName || $indexTicker} (${$indexTicker}) Index Price & Holdings`}
+  description={`Research ${data?.companyName || $indexTicker} (${$indexTicker}) with current performance, historical prices, constituent holdings, and available options data.`}
   keywords={`${$indexTicker} index, ${data?.companyName}, market index analysis, index constituents, market cap weighted index, sector allocation, index performance, market representation, benchmark analysis, index tracking`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     "@id": `https://stocknear.com/index/${$indexTicker}`,
     name: `${data?.companyName} (${$indexTicker})`,
     description: "Stock market index representing a basket of securities",
-    category: "Market Index",
     url: `https://stocknear.com/index/${$indexTicker}`,
-    identifier: {
-      "@type": "PropertyValue",
-      propertyID: "Index Symbol",
-      value: $indexTicker,
-    },
-    offers: {
-      "@type": "Offer",
-      price:
-        $currentPortfolioPrice !== null && $currentPortfolioPrice !== 0
-          ? $currentPortfolioPrice
-          : data?.getStockQuote?.price?.toFixed(2),
-      priceCurrency: "USD",
+    mainEntity: {
+      "@type": "Thing",
+      name: `${data?.companyName} (${$indexTicker})`,
+      identifier: $indexTicker,
     },
     provider: {
       "@type": "Organization",

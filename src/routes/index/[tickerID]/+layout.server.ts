@@ -1,7 +1,16 @@
+import { error, redirect } from "@sveltejs/kit";
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
 import { postAPI } from "$lib/server/api";
 import { getIndexProxyTicker, INDEX_HOLDINGS_PROXY_TICKERS } from "$lib/server/indexTickers";
+import {
+  canonicalizeSymbolInUrl,
+  createSeoEligibility,
+  hasEntityIdentity,
+  hasFiniteMarketPrice,
+  isUpstreamNotFound,
+  resolveEntitySymbol,
+} from "$lib/seo/eligibility";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -93,49 +102,36 @@ const fetchData = async (locals, endpoint, ticker) => {
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
 
-  try {
-    const requestBody =
-      endpoint === "/etf-holdings"
-        ? { ticker: effectiveTicker, assetType: "etf" }
-        : { ticker: effectiveTicker };
-    const data = await postAPI(locals, endpoint, requestBody);
-    dataCache.set(cacheKey, data);
-    return data;
-  } catch (error) {
-    console.error(`Error fetching ${endpoint}:`, error);
-    return [];
-  }
+  const requestBody =
+    endpoint === "/etf-holdings"
+      ? { ticker: effectiveTicker, assetType: "etf" }
+      : { ticker: effectiveTicker };
+  const data = await postAPI(locals, endpoint, requestBody);
+  dataCache.set(cacheKey, data);
+  return data;
 };
 
-// Helper function to generate default response
-const getDefaultResponse = (tickerID) => ({
-  getIndexProfile: [],
-  getIndexHolding: [],
-  getIndexSectorWeighting: [],
-  getStockQuote: [],
-  getPrePostQuote: [],
-  getWhyPriceMoved: [],
-  getOneDayPrice: [],
-  getNews: [],
-  getUserWatchlist: [],
-  companyName: '',
-  getParams: tickerID
-});
-
 // Main load function with parallel fetching
-export const load = async ({ params, locals }) => {
+export const load = async ({ params, locals, url }) => {
   const { pb, user } = locals;
-  const { tickerID } = params;
+  const requestedTicker = params.tickerID;
+  const symbolResolution = resolveEntitySymbol(requestedTicker);
+  if (!symbolResolution.valid) error(404, "Index not found");
 
-  if (!tickerID) {
-    return getDefaultResponse(tickerID);
-  }
+  const tickerID = symbolResolution.canonicalSymbol;
+  const canonicalRedirect = canonicalizeSymbolInUrl(
+    url,
+    requestedTicker,
+    tickerID,
+  );
+  if (canonicalRedirect) redirect(308, canonicalRedirect);
 
   try {
-    const promises = ENDPOINTS.map(endpoint =>
-      fetchData(locals, endpoint, tickerID)
-    );
-    promises.push(fetchWatchlist(pb, user?.id));
+    const promises = ENDPOINTS.map((endpoint) => {
+      const request = fetchData(locals, endpoint, tickerID);
+      return endpoint === "/index-profile" ? request : request.catch(() => []);
+    });
+    promises.push(fetchWatchlist(pb, user?.id).catch(() => []));
 
     const [
       getIndexProfile,
@@ -151,6 +147,10 @@ export const load = async ({ params, locals }) => {
 
     const getPrePostQuote = (checkMarketHourSSR() || {} ) ? {} : fetchedPrePostQuote;
     
+    const hasIdentity = hasEntityIdentity(getIndexProfile, ["name", "symbol", "ticker"]);
+    const hasPartialQuote = hasFiniteMarketPrice(getStockQuote);
+    if (!hasIdentity && !hasPartialQuote) error(404, "Index not found");
+
     return {
       getIndexProfile: getIndexProfile || [],
       getIndexHolding: getIndexHolding || [],
@@ -162,10 +162,16 @@ export const load = async ({ params, locals }) => {
       getNews: getNews || [],
       getUserWatchlist: getUserWatchlist || [],
       companyName: cleanString(getIndexProfile?.at(0)?.name),
-      getParams: tickerID
+      getParams: tickerID,
+      seoEligibility: createSeoEligibility({
+        canonicalPath: url.pathname,
+        availableLocales: ["en"],
+        indexable: hasIdentity,
+        reason: hasIdentity ? "eligible" : "insufficient-data",
+      }),
     };
-  } catch (error) {
-    console.error('Error in load function:', error);
-    return getDefaultResponse(tickerID);
+  } catch (cause) {
+    if (isUpstreamNotFound(cause)) error(404, "Index not found");
+    error(503, "Index data is temporarily unavailable");
   }
 };

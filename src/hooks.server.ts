@@ -8,6 +8,7 @@ import {
   cookieMaxAge,
   cookieName,
 } from "$lib/paraglide/runtime.js";
+import { canonicalizeLocale } from "$lib/i18n/locales";
 import { STOCKNEAR_API_KEY as BUILT_IN_API_KEY } from "$env/static/private";
 import { env } from "$env/dynamic/private";
 import { getRouteLocaleAssets } from "$lib/i18n/delivery/generated/manifest.js";
@@ -23,6 +24,31 @@ import {
 // Prefer the runtime value so rotation is a restart, and fall back to the compiled-in one so
 // hosts that do not export the variable behave exactly as before.
 const STOCKNEAR_API_KEY = env.STOCKNEAR_API_KEY || BUILT_IN_API_KEY;
+
+const PRIVATE_INDEX_PATHS = [
+  "/alerts",
+  "/chat",
+  "/login",
+  "/notifications",
+  "/portfolio",
+  "/profile",
+  "/register",
+  "/reset-password",
+  "/update-password",
+  "/watchlist",
+  "/welcome",
+  "/workspace",
+] as const;
+
+function isPrivateIndexPath(pathname: string): boolean {
+  const segments = pathname?.split("/")?.filter(Boolean) ?? [];
+  const hasLocalePrefix = canonicalizeLocale(segments?.[0]) !== null;
+  const normalizedPath = `/${(hasLocalePrefix ? segments?.slice(1) : segments)?.join("/")}`;
+
+  return PRIVATE_INDEX_PATHS?.some(
+    (path) => normalizedPath === path || normalizedPath?.startsWith(`${path}/`),
+  );
+}
 
 const getClientIp = (event) => {
   const cfIp = event.request.headers.get("cf-connecting-ip");
@@ -315,6 +341,10 @@ export const handle = sequence(async ({ event, resolve }) => {
       // are user-specific side effects even when their content is not.
       response.headers.set("cache-control", "private, no-store");
       appendVary(response.headers, "Cookie");
+    }
+
+    if (isPrivateIndexPath(event?.url?.pathname)) {
+      response.headers.set("x-robots-tag", "noindex, nofollow");
     }
 
     return response;

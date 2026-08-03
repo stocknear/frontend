@@ -246,7 +246,7 @@
   keywords={`${$stockTicker} balance sheet, ${$displayCompanyName} assets, ${$stockTicker} liabilities, balance sheet analysis, shareholders equity, debt analysis, working capital, financial position, asset quality, cash position, debt-to-equity ratio, book value`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$stockTicker}) Balance Sheet Analysis`,
     headline: `${$displayCompanyName} Financial Position - Balance Sheet & Asset Analysis`,
     description: `Detailed balance sheet analysis for ${$displayCompanyName} (${$stockTicker}) including assets, liabilities, equity, and financial position metrics`,

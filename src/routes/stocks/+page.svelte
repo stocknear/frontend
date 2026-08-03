@@ -2,6 +2,7 @@
   import Table from "$lib/components/Table/Table.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import { page } from "$app/stores";
   import {
     stocks_breadcrumb_current,
     stocks_breadcrumb_home,
@@ -24,12 +25,19 @@
   ];
 
   const excludedRules = new Set(["industry", "revenue", "marketCap"]);
+
+  $: directoryPage = Number($page?.url?.searchParams?.get("page") ?? "1");
+  $: canonicalPath =
+    directoryPage > 1
+      ? `${$page?.url?.pathname}?page=${directoryPage}`
+      : $page?.url?.pathname;
 </script>
 
 <SEO
   title={stocks_seo_title()}
   description={stocks_seo_description()}
   keywords={stocks_seo_keywords()}
+  {canonicalPath}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -122,6 +130,7 @@
               title={rawData?.length?.toLocaleString("en-US") +
                 " " +
                 stocks_table_title()}
+              crawlablePagination={true}
             />
           </div>
         </main>

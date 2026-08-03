@@ -866,7 +866,7 @@
   type="article"
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["Article", "FinancialProduct", "AnalysisNewsArticle"],
+    "@type": "WebPage",
     headline: stock_detail_forecast_structured_name({
       company: $displayCompanyName,
     }),

@@ -1,41 +1,47 @@
 import {
-  localeRegistry,
-  supportedLocales,
-} from "$lib/i18n/locales";
+  getSitemapShardDescriptors,
+  loadSitemapSecurities,
+  sitemapUnavailableResponse,
+} from "$lib/server/stockSitemap";
+
+const WEBSITE = "https://stocknear.com";
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ setHeaders }) {
-  setHeaders({
-    "Content-Type": "application/xml; charset=utf-8",
-    "Cache-Control": "public, max-age=3600, s-maxage=7200",
-  });
+export async function GET({ locals }) {
+  try {
+    const securities = await loadSitemapSecurities(locals);
+    if (securities.length === 0) {
+      throw new Error(
+        "The sitemap security source returned no eligible securities",
+      );
+    }
 
-  const website = "https://stocknear.com";
-  const now = new Date().toISOString();
-  const stockSitemaps = supportedLocales
-    ?.map((locale) => localeRegistry[locale].slug ?? locale)
-    ?.map(
-      (slug) => `  <sitemap>
-    <loc>${website}/sitemaps/stocks/${slug}</loc>
-    <lastmod>${now}</lastmod>
+    const pageFamilySitemaps = getSitemapShardDescriptors(securities)
+      .map(
+        ({ family, shard }) => `  <sitemap>
+    <loc>${WEBSITE}/sitemaps/pages/${family}/${shard}.xml</loc>
   </sitemap>`,
-    )
-    ?.join("\n") ?? "";
+      )
+      .join("\n");
 
-  const body = `<?xml version="1.0" encoding="UTF-8"?>
+    const body = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>${website}/sitemap-static.xml</loc>
-    <lastmod>${now}</lastmod>
+    <loc>${WEBSITE}/sitemap-static.xml</loc>
   </sitemap>
-${stockSitemaps}
+${pageFamilySitemaps}
   <sitemap>
-    <loc>${website}/sitemap-articles.xml</loc>
-    <lastmod>${now}</lastmod>
+    <loc>${WEBSITE}/sitemap-articles.xml</loc>
   </sitemap>
 </sitemapindex>`;
 
-  return new Response(body, {
-    headers: { "Content-Type": "application/xml; charset=utf-8" },
-  });
+    return new Response(body, {
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, max-age=3600, s-maxage=7200",
+      },
+    });
+  } catch (error) {
+    return sitemapUnavailableResponse(error);
+  }
 }

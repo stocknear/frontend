@@ -29,7 +29,7 @@
     ticker: $indexTicker,
   })}
   type="website"
-  url={`https://stocknear.com/stocks/${$indexTicker}/options/gex/strike`}
+  url={`https://stocknear.com/index/${$indexTicker}/options/gex/strike`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
@@ -40,7 +40,7 @@
       company: $displayCompanyName,
       ticker: $indexTicker,
     }),
-    url: `https://stocknear.com/stocks/${$indexTicker}/options/gex/strike`,
+    url: `https://stocknear.com/index/${$indexTicker}/options/gex/strike`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Gamma exposure by strike tracking",

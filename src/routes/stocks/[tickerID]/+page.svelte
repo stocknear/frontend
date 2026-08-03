@@ -687,73 +687,23 @@
 </script>
 
 <SEO
-  title={`${$stockTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% Live Trading Data`}
-  description={`Complete ${data?.companyName} (${$stockTicker}) stock analysis with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)}, earnings forecasts, financial statements, options flow analysis, and technical indicators. Market cap ${data?.getStockQuote?.marketCap ? "$" + (data.getStockQuote.marketCap / 1e9).toFixed(1) + "B" : "N/A"}. Professional-grade investment research and trading insights for ${$stockTicker} stock.`}
+  title={`${data?.companyName || $stockTicker} (${$stockTicker}) Stock Price, Financials & Forecast`}
+  description={`Research ${data?.companyName || $stockTicker} (${$stockTicker}) with financial statements, earnings, analyst forecasts, valuation, ownership, and options data.`}
   keywords={`${$stockTicker} stock analysis, ${data?.companyName} stock price, ${$stockTicker} real-time quotes, ${$stockTicker} earnings forecast, ${$stockTicker} financial data, ${$stockTicker} options analysis, ${$stockTicker} technical analysis, ${$stockTicker} investment research, stock market analysis, equity research, financial statements analysis, earnings reports, options flow`}
-  type="article"
+  type="website"
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Article", "WebPage"],
+    "@type": "WebPage",
+    "@id": `https://stocknear.com/stocks/${$stockTicker}`,
     name: `${data?.companyName} (${$stockTicker}) Stock Analysis`,
-    identifier: $stockTicker,
-    headline: `${data?.companyName} (${$stockTicker}) - Complete Stock Analysis & Real-Time Data`,
     description: `Comprehensive stock analysis for ${data?.companyName} (${$stockTicker}) including real-time price data, financial statements, earnings forecasts, and technical indicators`,
     url: `https://stocknear.com/stocks/${$stockTicker}`,
-
-    author: {
-      "@type": "Organization",
-      name: "Stocknear",
-      url: "https://stocknear.com",
-      description: "Professional stock market analysis platform",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Stocknear",
-      url: "https://stocknear.com",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://stocknear.com/favicon.png",
-      },
-    },
     mainEntity: {
       "@type": "Corporation",
       name: data?.companyName,
       tickerSymbol: $stockTicker,
       url: data?.website,
       description: `Publicly traded corporation listed under ticker symbol ${$stockTicker}`,
-    },
-    about: {
-      "@type": "FinancialProduct",
-      name: `${data?.companyName} Common Stock`,
-      category: "Equity Security",
-      identifier: $stockTicker,
-      provider: {
-        "@type": "Organization",
-        name: data?.companyName,
-      },
-      offers: {
-        "@type": "Offer",
-        price:
-          $currentPortfolioPrice !== null && $currentPortfolioPrice !== 0
-            ? $currentPortfolioPrice
-            : data?.getStockQuote?.price,
-        priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
-      },
-    },
-    financialData: {
-      "@type": "MonetaryAmount",
-      currency: "USD",
-      value: {
-        marketCap: data?.getStockQuote?.marketCap,
-        price:
-          $currentPortfolioPrice !== null && $currentPortfolioPrice !== 0
-            ? $currentPortfolioPrice
-            : data?.getStockQuote?.price,
-        eps: data?.getStockQuote?.eps,
-        peRatio: data?.getStockQuote?.pe,
-        volume: data?.getStockQuote?.volume,
-      },
     },
     breadcrumb: {
       "@type": "BreadcrumbList",

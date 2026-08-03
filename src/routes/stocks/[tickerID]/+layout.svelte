@@ -781,7 +781,7 @@
                         class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
                       >
                         <a
-                          href={`/stocks/${$stockTicker}`}
+                          href={localizedHref(`/stocks/${$stockTicker}`)}
                           on:click={() => changeSection("overview")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
@@ -791,7 +791,7 @@
                           {stock_detail_nav_overview()}
                         </a>
                         <a
-                          href={`/stocks/${$stockTicker}/financials`}
+                          href={localizedHref(`/stocks/${$stockTicker}/financials`)}
                           on:click={() => changeSection("financials")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'financials'
@@ -801,7 +801,7 @@
                           {stock_detail_nav_financials()}
                         </a>
                         <a
-                          href={`/stocks/${$stockTicker}/statistics`}
+                          href={localizedHref(`/stocks/${$stockTicker}/statistics`)}
                           on:click={() => changeSection("statistics")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'statistics'
@@ -811,7 +811,7 @@
                         >
 
                         <a
-                          href={`/stocks/${$stockTicker}/metrics`}
+                          href={localizedHref(`/stocks/${$stockTicker}/metrics`)}
                           on:click={() => changeSection("metrics")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'metrics'
@@ -821,7 +821,7 @@
                         >
 
                         <a
-                          href={`/stocks/${$stockTicker}/forecast`}
+                          href={localizedHref(`/stocks/${$stockTicker}/forecast`)}
                           on:click={() => changeSection("forecast")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'forecast'
@@ -832,7 +832,7 @@
                         </a>
 
                         <a
-                          href={`/stocks/${$stockTicker}/unusual-orders`}
+                          href={localizedHref(`/stocks/${$stockTicker}/unusual-orders`)}
                           on:click={() => changeSection("unusual-orders")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'unusual-orders'
@@ -842,7 +842,7 @@
                           {stock_detail_nav_unusual_orders()}
                         </a>
                         <a
-                          href={`/stocks/${$stockTicker}/options`}
+                          href={localizedHref(`/stocks/${$stockTicker}/options`)}
                           on:click={() => changeSection("options")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
@@ -853,7 +853,7 @@
                         </a>
 
                         <a
-                          href={`/stocks/${$stockTicker}/insider`}
+                          href={localizedHref(`/stocks/${$stockTicker}/insider`)}
                           on:click={() => changeSection("insider")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'insider'
@@ -864,7 +864,7 @@
                         </a>
                         {#if data?.getStockDeck?.annualDividend !== null}
                           <a
-                            href={`/stocks/${$stockTicker}/dividends`}
+                            href={localizedHref(`/stocks/${$stockTicker}/dividends`)}
                             on:click={() => changeSection("dividends")}
                             class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                             'dividends'
@@ -875,7 +875,7 @@
                           </a>
                         {/if}
                         <a
-                          href={`/stocks/${$stockTicker}/history`}
+                          href={localizedHref(`/stocks/${$stockTicker}/history`)}
                           on:click={() => changeSection("history")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'
@@ -885,7 +885,7 @@
                           {stock_detail_nav_history()}
                         </a>
                         <a
-                          href={`/stocks/${$stockTicker}/profile`}
+                          href={localizedHref(`/stocks/${$stockTicker}/profile`)}
                           on:click={() => changeSection("profile")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'profile'

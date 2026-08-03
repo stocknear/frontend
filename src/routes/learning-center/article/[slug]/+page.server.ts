@@ -1,4 +1,6 @@
+import { error } from "@sveltejs/kit";
 import { convertToSlug } from "$lib/utils";
+import { createSeoEligibility } from "$lib/seo/eligibility";
 
 export const load = async ({ locals, params }) => {
   const { pb } = locals;
@@ -17,7 +19,7 @@ export const load = async ({ locals, params }) => {
     );
 
     if (!match) {
-      return { article: null, relatedArticles: [] };
+      error(404, "Article not found");
     }
 
     // Step 2: Fetch the full article by ID
@@ -73,5 +75,11 @@ export const load = async ({ locals, params }) => {
     getArticle: article,
     getRelatedArticles: relatedArticles,
     getParams: params?.slug,
+    seoEligibility: createSeoEligibility({
+      canonicalPath: `/learning-center/article/${params.slug}`,
+      availableLocales: ["en"],
+      lastModified: article?.updated ?? article?.created ?? null,
+      source: "Stocknear",
+    }),
   };
 };

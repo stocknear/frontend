@@ -13,7 +13,7 @@
   keywords={`${$etfTicker} DEX, delta exposure, dealer hedging, options delta`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "AnalysisNewsArticle",
+    "@type": "WebPage",
     headline: `${$displayCompanyName} (${$etfTicker}) ETF Delta Exposure Analysis`,
     description: "Daily delta exposure analysis for ETF options trading",
     about: {

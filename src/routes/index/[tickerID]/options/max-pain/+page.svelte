@@ -15,7 +15,7 @@
   keywords={`${$indexTicker} max pain, options pin, pin risk, max pain level`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "AnalysisNewsArticle",
+    "@type": "WebPage",
     headline: `${$displayCompanyName} (${$indexTicker?.toUpperCase()}) Index Options Max Pain Analysis`,
     description:
       "Max pain analysis for index options and market sentiment tracking",

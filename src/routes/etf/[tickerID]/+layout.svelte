@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { localizedHref } from "$lib/i18n/navigation";
   import {
     wsBidPrice,
     wsAskPrice,
@@ -754,7 +755,7 @@
                         class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
                       >
                         <a
-                          href={`/etf/${$etfTicker}`}
+                          href={localizedHref(`/etf/${$etfTicker}`)}
                           on:click={() => changeSection("overview")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
@@ -765,7 +766,7 @@
                         </a>
 
                         <a
-                          href={`/etf/${$etfTicker}/holdings`}
+                          href={localizedHref(`/etf/${$etfTicker}/holdings`)}
                           on:click={() => changeSection("holdings")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'holdings'
@@ -776,7 +777,7 @@
                         </a>
 
                         <a
-                          href={`/etf/${$etfTicker}/unusual-orders`}
+                          href={localizedHref(`/etf/${$etfTicker}/unusual-orders`)}
                           on:click={() => changeSection("unusual-orders")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'unusual-orders'
@@ -786,7 +787,7 @@
                           {etf_detail_nav_unusual_orders()}
                         </a>
                         <a
-                          href={`/etf/${$etfTicker}/options`}
+                          href={localizedHref(`/etf/${$etfTicker}/options`)}
                           on:click={() => changeSection("options")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
@@ -797,7 +798,7 @@
                         </a>
 
                         <a
-                          href={`/etf/${$etfTicker}/dividends`}
+                          href={localizedHref(`/etf/${$etfTicker}/dividends`)}
                           on:click={() => changeSection("dividends")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'dividends'
@@ -807,7 +808,7 @@
                           {etf_detail_nav_dividends()}
                         </a>
                         <a
-                          href={`/etf/${$etfTicker}/history`}
+                          href={localizedHref(`/etf/${$etfTicker}/history`)}
                           on:click={() => changeSection("history")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'

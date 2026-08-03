@@ -15,6 +15,8 @@
   export let rowsPerPage = 20;
   export let rowsPerPageOptions = [20, 50, 100];
   export let showBackToTop = true;
+  export let pageHref: ((page: number) => string) | null = null;
+  export let showRowsPerPage = true;
 
   const dispatch = createEventDispatcher();
 
@@ -37,11 +39,33 @@
 <div class="flex flex-row items-center justify-between mt-8 sm:mt-5">
   <!-- Previous button -->
   <div class="flex items-center gap-2">
-    <Button
-      on:click={() => goToPage(currentPage - 1)}
-      disabled={currentPage === 1}
-      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-    >
+    {#if pageHref && currentPage > 1}
+      <a
+        href={pageHref(currentPage - 1)}
+        rel="prev"
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+      >
+        <svg
+          class="h-5 w-5 inline-block shrink-0 rotate-90"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span class="hidden sm:inline">{list_pagination_previous()}</span>
+      </a>
+    {:else}
+      <Button
+        on:click={() => goToPage(currentPage - 1)}
+        disabled={currentPage === 1}
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+      >
       <svg
         class="h-5 w-5 inline-block shrink-0 rotate-90"
         viewBox="0 0 20 20"
@@ -56,7 +80,8 @@
         ></path>
       </svg>
       <span class="hidden sm:inline">{list_pagination_previous()}</span>
-    </Button>
+      </Button>
+    {/if}
   </div>
 
   <!-- Page info and rows selector in center -->
@@ -68,7 +93,8 @@
       })}
     </span>
 
-    <DropdownMenu.Root>
+    {#if showRowsPerPage}
+      <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
         <Button
           builders={[builder]}
@@ -116,16 +142,39 @@
           {/each}
         </DropdownMenu.Group>
       </DropdownMenu.Content>
-    </DropdownMenu.Root>
+      </DropdownMenu.Root>
+    {/if}
   </div>
 
   <!-- Next button -->
   <div class="flex items-center gap-2">
-    <Button
-      on:click={() => goToPage(currentPage + 1)}
-      disabled={currentPage === totalPages}
-      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
-    >
+    {#if pageHref && currentPage < totalPages}
+      <a
+        href={pageHref(currentPage + 1)}
+        rel="next"
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+      >
+        <span class="hidden sm:inline">{list_pagination_next()}</span>
+        <svg
+          class="h-5 w-5 inline-block shrink-0 -rotate-90"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          style="max-width:40px"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </a>
+    {:else}
+      <Button
+        on:click={() => goToPage(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+      >
       <span class="hidden sm:inline">{list_pagination_next()}</span>
       <svg
         class="h-5 w-5 inline-block shrink-0 -rotate-90"
@@ -140,7 +189,8 @@
           clip-rule="evenodd"
         ></path>
       </svg>
-    </Button>
+      </Button>
+    {/if}
   </div>
 </div>
 

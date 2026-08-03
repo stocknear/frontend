@@ -181,7 +181,7 @@
   keywords={`${$stockTicker} cash flow, ${$displayCompanyName} free cash flow, ${$stockTicker} operating cash flow, cash flow statement, capital expenditures, cash flow analysis, free cash flow yield, working capital, cash generation, investing activities, financing activities`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$stockTicker}) Cash Flow Statement Analysis`,
     headline: `${$displayCompanyName} Cash Generation - Cash Flow Statement & Free Cash Flow Analysis`,
     description: `Detailed cash flow statement analysis for ${$displayCompanyName} (${$stockTicker}) including operating, investing, and financing cash flows`,

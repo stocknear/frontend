@@ -29,7 +29,7 @@
     ticker: $etfTicker,
   })}
   type="website"
-  url={`https://stocknear.com/stocks/${$etfTicker}/options/gex/strike`}
+  url={`https://stocknear.com/etf/${$etfTicker}/options/gex/strike`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
@@ -40,7 +40,7 @@
       company: $displayCompanyName,
       ticker: $etfTicker,
     }),
-    url: `https://stocknear.com/stocks/${$etfTicker}/options/gex/strike`,
+    url: `https://stocknear.com/etf/${$etfTicker}/options/gex/strike`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Gamma exposure by strike tracking",

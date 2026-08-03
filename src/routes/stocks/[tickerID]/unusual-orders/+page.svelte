@@ -39,7 +39,7 @@
   })}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "AnalysisNewsArticle", "WebPage"],
+    "@type": "WebPage",
     name: stock_detail_unusual_orders_structured_name({
       company: $displayCompanyName,
       ticker: $stockTicker,

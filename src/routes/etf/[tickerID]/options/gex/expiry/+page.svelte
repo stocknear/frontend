@@ -31,7 +31,7 @@
     ticker: $etfTicker,
   })}
   type="website"
-  url={`https://stocknear.com/stocks/${$etfTicker}/options/gex/expiry`}
+  url={`https://stocknear.com/etf/${$etfTicker}/options/gex/expiry`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
@@ -42,7 +42,7 @@
       company: $displayCompanyName,
       ticker: $etfTicker,
     }),
-    url: `https://stocknear.com/stocks/${$etfTicker}/options/gex/expiry`,
+    url: `https://stocknear.com/etf/${$etfTicker}/options/gex/expiry`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Gamma exposure by expiry tracking",

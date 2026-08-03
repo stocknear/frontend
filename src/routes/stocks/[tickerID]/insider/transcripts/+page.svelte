@@ -413,7 +413,7 @@ ${summaryData.outlook}
   url={`https://stocknear.com/stocks/${$stockTicker}/insider/transcripts`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Article"],
+    "@type": "WebPage",
     name: stock_detail_transcripts_structured_name({
       company: $displayCompanyName,
     }),

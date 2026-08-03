@@ -1,6 +1,15 @@
+import { error, redirect } from "@sveltejs/kit";
 import { checkMarketHourSSR} from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
 import { postAPI } from "$lib/server/api";
+import {
+  canonicalizeSymbolInUrl,
+  createSeoEligibility,
+  hasEntityIdentity,
+  hasFiniteMarketPrice,
+  isUpstreamNotFound,
+  resolveEntitySymbol,
+} from "$lib/seo/eligibility";
 
 // Pre-compile regex pattern and substrings for cleaning
 const REMOVE_PATTERNS = {
@@ -80,77 +89,75 @@ const fetchData = async (locals, ticker) => {
   const cachedData = dataCache.get(cacheKey);
   if (cachedData) return cachedData;
 
-  try {
-    const data = await postAPI(locals, "/bulk-data", { ticker, endpoints: ENDPOINTS });
-    dataCache.set(cacheKey, data);
-    return data;
-  } catch (error) {
-    return [];
-  }
+  const data = await postAPI(locals, "/bulk-data", { ticker, endpoints: ENDPOINTS });
+  dataCache.set(cacheKey, data);
+  return data;
 };
 
 // Main load function with parallel fetching
-export const load = async ({ params, locals }) => {
+export const load = async ({ params, locals, url }) => {
   const { pb, user } = locals;
-  const { tickerID } = params;
+  const requestedTicker = params.tickerID;
+  const symbolResolution = resolveEntitySymbol(requestedTicker);
+  if (!symbolResolution.valid) error(404, "ETF not found");
 
-  if (!tickerID) {
-    return getDefaultResponse(tickerID);
-  }
+  const tickerID = symbolResolution.canonicalSymbol;
+  const canonicalRedirect = canonicalizeSymbolInUrl(
+    url,
+    requestedTicker,
+    tickerID,
+  );
+  if (canonicalRedirect) redirect(308, canonicalRedirect);
 
+  let bulkData;
+  let userWatchlist;
   try {
-    const [bulkData, userWatchlist] = await Promise.all([
+    [bulkData, userWatchlist] = await Promise.all([
       fetchData(locals, tickerID),
-      fetchWatchlist(pb, user?.id)
+      fetchWatchlist(pb, user?.id).catch(() => [])
     ]);
-
-    const {
-      '/etf-profile': getETFProfile = [],
-      '/etf-holdings': getETFHoldings = [],
-      '/etf-sector-weighting': getETFSectorWeighting = [],
-      '/stock-dividend': getStockDividend = [],
-      '/stock-quote': getStockQuote = [],
-      '/pre-post-quote': fetchedPrePostQuote = {},
-      '/wiim': getWhyPriceMoved = [],
-      '/one-day-price': getOneDayPrice = [],
-      '/stock-news': getNews = []
-    } = bulkData;
-
-    // override if market is closed
-    const getPrePostQuote = checkMarketHourSSR() ?  {} : fetchedPrePostQuote;
-
-    return {
-      getETFProfile,
-      getETFHoldings,
-      getETFSectorWeighting,
-      getStockDividend,
-      getStockQuote,
-      getPrePostQuote,
-      getWhyPriceMoved,
-      getOneDayPrice,
-      getNews,
-      getUserWatchlist: userWatchlist,
-      companyName: cleanString(getETFProfile?.at(0)?.name),
-      getParams: tickerID
-    };
-  } catch (error) {
-    return getDefaultResponse(tickerID);
+  } catch (cause) {
+    if (isUpstreamNotFound(cause)) error(404, "ETF not found");
+    error(503, "ETF data is temporarily unavailable");
   }
+
+  const {
+    '/etf-profile': getETFProfile = [],
+    '/etf-holdings': getETFHoldings = [],
+    '/etf-sector-weighting': getETFSectorWeighting = [],
+    '/stock-dividend': getStockDividend = [],
+    '/stock-quote': getStockQuote = [],
+    '/pre-post-quote': fetchedPrePostQuote = {},
+    '/wiim': getWhyPriceMoved = [],
+    '/one-day-price': getOneDayPrice = [],
+    '/stock-news': getNews = []
+  } = bulkData;
+
+  const hasIdentity = hasEntityIdentity(getETFProfile, ["name", "symbol", "ticker"]);
+  const hasPartialQuote = hasFiniteMarketPrice(getStockQuote);
+  if (!hasIdentity && !hasPartialQuote) error(404, "ETF not found");
+
+  // override if market is closed
+  const getPrePostQuote = checkMarketHourSSR() ?  {} : fetchedPrePostQuote;
+
+  return {
+    getETFProfile,
+    getETFHoldings,
+    getETFSectorWeighting,
+    getStockDividend,
+    getStockQuote,
+    getPrePostQuote,
+    getWhyPriceMoved,
+    getOneDayPrice,
+    getNews,
+    getUserWatchlist: userWatchlist,
+    companyName: cleanString(getETFProfile?.at(0)?.name),
+    getParams: tickerID,
+    seoEligibility: createSeoEligibility({
+      canonicalPath: url.pathname,
+      availableLocales: ["en"],
+      indexable: hasIdentity,
+      reason: hasIdentity ? "eligible" : "insufficient-data",
+    }),
+  };
 };
-
-
-// Helper function to generate default response
-const getDefaultResponse = (tickerID) => ({
-  getETFProfile: [],
-  getETFHoldings: [],
-  getETFSectorWeighting: [],
-  getStockDividend: [],
-  getStockQuote: [],
-  getPrePostQuote: [],
-  getWhyPriceMoved: [],
-  getOneDayPrice: [],
-  getNews: [],
-  getUserWatchlist: [],
-  companyName: '',
-  getParams: tickerID
-});

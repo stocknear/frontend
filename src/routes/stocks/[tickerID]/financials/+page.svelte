@@ -113,7 +113,7 @@
   keywords={`${$stockTicker} income statement, ${$displayCompanyName} revenue, ${$stockTicker} earnings, income statement analysis, profitability metrics, EPS growth, operating margin, net income, revenue analysis, financial performance, earnings quality, EBITDA analysis`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$stockTicker}) Income Statement Analysis`,
     headline: `${$displayCompanyName} Financial Performance - Income Statement & Profitability Analysis`,
     description: `Detailed income statement analysis for ${$displayCompanyName} (${$stockTicker}) including revenue trends, earnings growth, and profitability metrics`,

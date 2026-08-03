@@ -1,6 +1,3 @@
-import { hrefForLocale } from "$lib/i18n/navigation";
-import { supportedLocales } from "$lib/i18n/locales";
-
 const website = "https://stocknear.com";
 
 // All static pages - deduplicated, organized by priority
@@ -10,21 +7,25 @@ const pages = [
   { path: "/stocks", priority: 0.95, changefreq: "daily" },
   { path: "/etf", priority: 0.95, changefreq: "daily" },
   { path: "/stocks/screener", priority: 0.9, changefreq: "daily" },
+  { path: "/etf/screener", priority: 0.85, changefreq: "daily" },
   { path: "/options-screener", priority: 0.9, changefreq: "daily" },
+  { path: "/covered-call-screener", priority: 0.85, changefreq: "daily" },
+  { path: "/cash-secured-put-screener", priority: 0.85, changefreq: "daily" },
 
   // Real-time data pages
   { path: "/market-news", priority: 0.9, changefreq: "hourly" },
   { path: "/market-news/general", priority: 0.7, changefreq: "hourly" },
+  { path: "/market-news/press-releases", priority: 0.7, changefreq: "hourly" },
   { path: "/news-flow", priority: 0.8, changefreq: "hourly" },
   { path: "/options-flow", priority: 0.85, changefreq: "hourly" },
   { path: "/unusual-order-flow", priority: 0.85, changefreq: "hourly" },
   { path: "/market-flow", priority: 0.85, changefreq: "hourly" },
   { path: "/stocks/heatmap", priority: 0.8, changefreq: "hourly" },
+  { path: "/etf/heatmap", priority: 0.75, changefreq: "hourly" },
 
   // Analysis and research tools
   { path: "/stocks/compare", priority: 0.8, changefreq: "weekly" },
   { path: "/etf/compare", priority: 0.8, changefreq: "weekly" },
-  { path: "/backtesting", priority: 0.85, changefreq: "weekly" },
 
   // Financial calendars
   { path: "/earnings-calendar", priority: 0.85, changefreq: "daily" },
@@ -89,11 +90,17 @@ const pages = [
   { path: "/list/highest-open-interest-change", priority: 0.6, changefreq: "daily" },
   { path: "/list/highest-option-iv-rank", priority: 0.6, changefreq: "daily" },
   { path: "/list/highest-option-premium", priority: 0.6, changefreq: "daily" },
+  { path: "/list/highest-open-interest-by-contract", priority: 0.6, changefreq: "daily" },
+  { path: "/list/highest-volume-by-contract", priority: 0.6, changefreq: "daily" },
+  { path: "/list/highest-call-volume", priority: 0.6, changefreq: "daily" },
+  { path: "/list/highest-put-volume", priority: 0.6, changefreq: "daily" },
 
   // Crypto/ETF lists
   { path: "/list/bitcoin-etfs", priority: 0.7, changefreq: "daily" },
   { path: "/list/ethereum-etfs", priority: 0.65, changefreq: "daily" },
   { path: "/list/crypto-etfs", priority: 0.65, changefreq: "daily" },
+  { path: "/list/covered-call-etfs", priority: 0.65, changefreq: "daily" },
+  { path: "/list/monthly-dividend-etfs", priority: 0.65, changefreq: "daily" },
 
   // Industry and sector pages
   { path: "/industry", priority: 0.6, changefreq: "weekly" },
@@ -139,24 +146,15 @@ export async function GET({ setHeaders }) {
   });
 
   const urls = pages
-    .flatMap((page) => supportedLocales.map((locale) => {
-      const localizedPath = hrefForLocale(page.path, locale);
-      const alternates = supportedLocales
-        .map((alternateLocale) => `    <xhtml:link rel="alternate" hreflang="${alternateLocale}" href="${escapeXml(`${website}${hrefForLocale(page.path, alternateLocale)}`)}" />`)
-        .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${website}${hrefForLocale(page.path, "en")}`)}" />`)
-        .join("\n");
-      return `  <url>
-    <loc>${escapeXml(`${website}${localizedPath}`)}</loc>
-${alternates}
+    .map((page) => `  <url>
+    <loc>${escapeXml(`${website}${page.path}`)}</loc>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`;
-    }))
+  </url>`)
     .join("\n");
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>`;
 

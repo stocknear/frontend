@@ -2,6 +2,10 @@
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import {
+    GTM_EVENT_ALERT_CREATE,
+    trackProductEvent,
+  } from "$lib/constants/tracking";
+  import {
     stock_detail_above,
     stock_detail_alert_created,
     stock_detail_alert_failed,
@@ -154,6 +158,11 @@
       const createdPriceAlertData = await promise;
       // Update reactive store or state as needed.
       newPriceAlertData.set(createdPriceAlertData);
+      trackProductEvent(GTM_EVENT_ALERT_CREATE, {
+        symbol: ticker,
+        asset_type: assetType,
+        alert_type: alertType,
+      });
       closeAlertModal();
     } catch (error) {
       // The error is already handled by toast.promise, but you can log it here.

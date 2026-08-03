@@ -12,13 +12,13 @@
   description={`Track gamma exposure by strike and expiry for ${$displayCompanyName} (${$indexTicker}) to spot pin levels and volatility pressure.`}
   keywords={`${$indexTicker} GEX, gamma exposure, options gamma, pin risk`}
   type="website"
-  url={`https://stocknear.com/stocks/${$indexTicker}/options/gex`}
+  url={`https://stocknear.com/index/${$indexTicker}/options/gex`}
   structuredData={{
     "@context": "https://schema.org",
     "@type": ["FinancialProduct", "DataVisualization"],
     name: `${$displayCompanyName} Gamma Exposure Analysis`,
     description: `Gamma exposure for ${$displayCompanyName} (${$indexTicker}) options`,
-    url: `https://stocknear.com/stocks/${$indexTicker}/options/gex`,
+    url: `https://stocknear.com/index/${$indexTicker}/options/gex`,
     applicationCategory: "FinanceApplication",
     featureList: [
       "Real-time gamma exposure tracking",

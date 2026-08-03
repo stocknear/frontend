@@ -22,7 +22,7 @@
   keywords={stock_detail_options_seo_keywords({ ticker: $stockTicker, company: $displayCompanyName })}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage", "AnalysisNewsArticle"],
+    "@type": "WebPage",
     name: stock_detail_options_structured_name({ company: $displayCompanyName, ticker: $stockTicker }),
     headline: stock_detail_options_structured_headline({ company: $displayCompanyName }),
     description: stock_detail_options_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),

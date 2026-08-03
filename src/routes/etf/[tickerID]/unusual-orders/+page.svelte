@@ -23,7 +23,7 @@
   keywords={`${$etfTicker} unusual orders, ${$etfTicker} block trades, ${$etfTicker} dark pool, ${$displayCompanyName} institutional flow, block trade data, dark liquidity, hidden trading volume, ATS trading, off-exchange trades, market impact`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "AnalysisNewsArticle", "WebPage"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$etfTicker}) Unusual Orders Analysis`,
     headline: `${$displayCompanyName} — Unusual Orders: Block Trades (≥10,000 shares) & Dark Pool Activity`,
     description: `Analysis of unusual orders for ${$displayCompanyName} (${$etfTicker}): on-exchange block trades (10,000+ shares) and off-exchange dark pool executions, showing institutional positioning, hidden volume, and potential market impact.`,

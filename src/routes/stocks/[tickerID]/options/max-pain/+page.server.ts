@@ -1,7 +1,8 @@
 import { postAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
+import { createDataPageSeoEligibility } from "$lib/seo/eligibility";
 
-export const load = async ({ locals, params }) => {
+export const load = async ({ locals, params, url }) => {
   const isPro = locals.user?.tier === "Pro";
 
   let output = await postAPI(locals, "/max-pain", { ticker: params.tickerID });
@@ -18,7 +19,10 @@ export const load = async ({ locals, params }) => {
     });
   }
 
-  return { getData: output };
+  return {
+    getData: output,
+    seoEligibility: createDataPageSeoEligibility(url?.pathname, output),
+  };
 };
 
 export const actions = {
