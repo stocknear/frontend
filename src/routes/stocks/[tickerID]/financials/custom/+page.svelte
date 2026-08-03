@@ -350,7 +350,7 @@
   keywords={`${$stockTicker} financials, ${$displayCompanyName} custom financials, ${$stockTicker} revenue, earnings, cash flow, margins, financial charts`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebPage"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$stockTicker}) Custom Financials`,
     description: `Custom financial charts for ${$displayCompanyName} (${$stockTicker})`,
     url: `https://stocknear.com/stocks/${$stockTicker}/financials/custom`,

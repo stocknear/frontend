@@ -667,12 +667,12 @@
 </script>
 
 <SEO
-  title={`${$etfTicker} ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : data?.getStockQuote?.price?.toFixed(2)} ${displayLegend?.change >= 0 ? "▲" : "▼"} ${displayLegend?.change}% - Fund Analysis & Holdings`}
-  description={`Complete analysis of ${data?.companyName} (${$etfTicker}) ETF with real-time price ${$currentPortfolioPrice !== null && $currentPortfolioPrice !== 0 ? $currentPortfolioPrice : "$" + data?.getStockQuote?.price?.toFixed(2)}, expense ratio ${stockDeck?.expenseRatio ? stockDeck.expenseRatio.toFixed(2) + "%" : ""}, AUM ${stockDeck?.aum ? abbreviateNumber(stockDeck.aum) : ""}, and ${stockDeck?.holdingsCount ? abbreviateNumber(stockDeck.holdingsCount) : ""} holdings. Track ETF performance, dividend yield, and portfolio diversification metrics.`}
+  title={`${data?.companyName} (${$etfTicker}) ETF Price, Holdings & Performance`}
+  description={`Analyze ${data?.companyName} (${$etfTicker}) with holdings, expense ratio, assets under management, dividend yield and long-term performance. Track portfolio diversification and compare the fund against its peers.`}
   keywords={`${$etfTicker} ETF, ${data?.companyName}, ETF analysis, exchange-traded fund, expense ratio, assets under management, ETF holdings, portfolio diversification, passive investing, fund performance, dividend yield, tracking error, ETF price`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     "@id": `https://stocknear.com/etf/${$etfTicker}`,
     name: `${data?.companyName} (${$etfTicker})`,
     description: `Exchange-traded fund offering diversified investment exposure`,
@@ -682,14 +682,6 @@
       "@type": "PropertyValue",
       propertyID: "Ticker Symbol",
       value: $etfTicker,
-    },
-    offers: {
-      "@type": "Offer",
-      price:
-        $currentPortfolioPrice !== null && $currentPortfolioPrice !== 0
-          ? $currentPortfolioPrice
-          : data?.getStockQuote?.price?.toFixed(2),
-      priceCurrency: "USD",
     },
     provider: {
       "@type": "Organization",

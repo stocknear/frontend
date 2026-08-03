@@ -10140,7 +10140,7 @@
   type="article"
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["WebPage", "FinancialProduct"],
+    "@type": "WebPage",
     name: `${companyName} (${ticker}) Stock Chart`,
     headline: `${companyName} (${ticker}) Live Stock Chart`,
     description: `Real-time ${companyName} (${ticker}) chart with price, volume, and technical indicators`,
@@ -10160,15 +10160,9 @@
       },
     },
     about: {
-      "@type": "FinancialProduct",
-      name: `${companyName} Common Stock`,
-      identifier: ticker,
-      offers: {
-        "@type": "Offer",
-        price: seoPrice ?? undefined,
-        priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
-      },
+      "@type": "Corporation",
+      name: companyName,
+      tickerSymbol: ticker,
     },
     financialData: {
       "@type": "MonetaryAmount",

@@ -294,7 +294,7 @@
   keywords={`${$etfTicker} holdings, ${$displayCompanyName} portfolio, ETF composition, ETF sector allocation, top ETF holdings, fund holdings analysis, ETF diversification, asset allocation, sector weightings, portfolio analysis, ETF breakdown`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$etfTicker}) Holdings Analysis`,
     description: "Complete breakdown of ETF holdings and sector allocation",
     category: "Exchange-Traded Fund",

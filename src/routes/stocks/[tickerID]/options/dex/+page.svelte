@@ -15,7 +15,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/options/dex`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} Delta Exposure Analysis`,
     description: `Delta exposure for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/dex`,

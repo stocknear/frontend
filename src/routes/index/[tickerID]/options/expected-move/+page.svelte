@@ -33,7 +33,7 @@
   url={`https://stocknear.com/index/${$indexTicker}/options/expected-move`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: stock_detail_options_expected_move_structured_name({
       company: $displayCompanyName,
     }),

@@ -25,7 +25,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/options/oi`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: stock_detail_options_oi_strike_structured_name({ company: $displayCompanyName }),
     description: stock_detail_options_oi_strike_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/oi`,

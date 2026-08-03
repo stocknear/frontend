@@ -17,7 +17,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/options/volatility`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} Volatility Analysis`,
     description: `Implied volatility and IV rank for ${$displayCompanyName} (${$stockTicker}) options`,
     url: `https://stocknear.com/stocks/${$stockTicker}/options/volatility`,

@@ -85,7 +85,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/fail-to-deliver`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Dataset"],
+    "@type": "WebPage",
     name: stock_detail_stats_ftd_structured_name({ company: $displayCompanyName }),
     description: stock_detail_stats_ftd_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/statistics/fail-to-deliver`,

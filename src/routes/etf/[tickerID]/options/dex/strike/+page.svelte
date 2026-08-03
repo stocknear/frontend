@@ -32,7 +32,7 @@
   url={`https://stocknear.com/etf/${$etfTicker}/options/dex/strike`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: stock_detail_options_dex_strike_structured_name({
       company: $displayCompanyName,
     }),

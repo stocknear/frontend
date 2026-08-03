@@ -15,7 +15,7 @@
   url={`https://stocknear.com/index/${$indexTicker}/options/gex`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} Gamma Exposure Analysis`,
     description: `Gamma exposure for ${$displayCompanyName} (${$indexTicker}) options`,
     url: `https://stocknear.com/index/${$indexTicker}/options/gex`,

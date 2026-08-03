@@ -110,7 +110,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/price-reaction`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataAnalysis"],
+    "@type": "WebPage",
     name: stock_detail_stats_price_reaction_structured_name({
       company: $displayCompanyName,
     }),

@@ -302,7 +302,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/short-interest`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Dataset"],
+    "@type": "WebPage",
     name: stock_detail_stats_short_interest_structured_name({
       company: $displayCompanyName,
     }),

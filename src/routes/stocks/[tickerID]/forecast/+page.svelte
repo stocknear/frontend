@@ -895,24 +895,13 @@
       },
     },
     mainEntity: {
-      "@type": "FinancialProduct",
+      "@type": "Thing",
       name: `${$displayCompanyName} Stock Forecast Analysis`,
       description: `Professional stock price forecast and predictions for ${$displayCompanyName} (${$stockTicker}) with analyst consensus and earnings estimates`,
-      category: "Stock Market Analysis",
       provider: {
         "@type": "Organization",
         name: "Stocknear",
       },
-      offers:
-        numOfAnalyst > 0
-          ? {
-              "@type": "Offer",
-              price: avgPriceTarget || 0,
-              priceCurrency: "USD",
-              description: `Average analyst price target: $${avgPriceTarget || 0}`,
-              priceRange: `$${lowPriceTarget || 0} - $${highPriceTarget || 0}`,
-            }
-          : undefined,
     },
     about: {
       "@type": "Corporation",

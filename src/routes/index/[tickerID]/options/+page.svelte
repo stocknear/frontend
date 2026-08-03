@@ -13,7 +13,7 @@
   keywords={`${$indexTicker} options flow, ${$displayCompanyName} options chain, unusual options activity, implied volatility, open interest, options sweeps`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$indexTicker}) Index Options`,
     description: `Index options flow and chain data for ${$displayCompanyName} (${$indexTicker})`,
     category: "Index Options",

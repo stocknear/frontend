@@ -284,7 +284,7 @@
   keywords={`${$indexTicker} constituents, ${$displayCompanyName} holdings, index components, market cap weighted index, sector allocation, index composition, benchmark analysis, constituent weightings, index breakdown`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$indexTicker}) Index Constituents`,
     description: "Complete breakdown of index holdings and sector allocation",
     category: "Market Index",

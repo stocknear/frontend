@@ -17,7 +17,7 @@
   url={`https://stocknear.com/etf/${$etfTicker}/options/unusual-activity`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataFeed"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} Unusual Options Activity`,
     description: `Unusual options activity for ${$displayCompanyName} (${$etfTicker})`,
     url: `https://stocknear.com/etf/${$etfTicker}/options/unusual-activity`,

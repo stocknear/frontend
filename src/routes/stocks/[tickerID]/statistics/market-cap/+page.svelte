@@ -707,7 +707,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/market-cap`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Dataset"],
+    "@type": "WebPage",
     name: stock_detail_stats_market_cap_structured_name({
       company: $displayCompanyName,
     }),

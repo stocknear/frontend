@@ -12,7 +12,7 @@
   keywords={`${$etfTicker} dividend, ${$displayCompanyName} dividend yield, ETF distributions, ETF dividend history, dividend paying ETF, income ETF, ETF yield, distribution dates, ex-dividend date, dividend calendar, income investing, yield investing`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$etfTicker}) Dividend Analysis`,
     description: "ETF dividend yield analysis and distribution history",
     category: "Exchange-Traded Fund",

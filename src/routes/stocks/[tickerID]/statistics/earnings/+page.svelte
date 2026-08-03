@@ -747,7 +747,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/statistics/earnings`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataAnalysis"],
+    "@type": "WebPage",
     name: stock_detail_stats_earnings_structured_name({
       company: $displayCompanyName,
     }),

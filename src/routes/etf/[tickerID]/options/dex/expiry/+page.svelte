@@ -34,7 +34,7 @@
   url={`https://stocknear.com/etf/${$etfTicker}/options/dex/expiry`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: stock_detail_options_dex_expiry_structured_name({
       company: $displayCompanyName,
     }),

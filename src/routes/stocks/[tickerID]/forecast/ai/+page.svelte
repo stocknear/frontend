@@ -610,7 +610,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/forecast/ai`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "SoftwareApplication"],
+    "@type": "WebPage",
     name: stock_detail_forecast_ai_structured_name({
       company: $displayCompanyName,
     }),

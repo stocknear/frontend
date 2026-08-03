@@ -25,7 +25,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts/volume`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataFeed"],
+    "@type": "WebPage",
     name: stock_detail_options_hottest_vol_structured_name({ company: $displayCompanyName }),
     description: stock_detail_options_hottest_vol_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/hottest-contracts/volume`,

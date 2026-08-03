@@ -32,7 +32,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/insider/institute`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Dataset"],
+    "@type": "WebPage",
     name: stock_detail_institute_structured_name({
       company: $displayCompanyName,
     }),

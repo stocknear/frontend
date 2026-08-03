@@ -25,7 +25,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/options/unusual-activity`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataFeed"],
+    "@type": "WebPage",
     name: stock_detail_options_unusual_structured_name({ company: $displayCompanyName }),
     description: stock_detail_options_unusual_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/unusual-activity`,

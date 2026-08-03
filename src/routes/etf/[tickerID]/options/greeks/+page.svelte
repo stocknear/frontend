@@ -17,7 +17,7 @@
   url={`https://stocknear.com/etf/${$etfTicker}/options/greeks`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: `${$displayCompanyName} Options Greeks Analysis`,
     description: `Options Greeks for ${$displayCompanyName} (${$etfTicker})`,
     url: `https://stocknear.com/etf/${$etfTicker}/options/greeks`,

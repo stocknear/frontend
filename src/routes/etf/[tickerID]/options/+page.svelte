@@ -15,7 +15,7 @@
   keywords={`${$etfTicker} options flow, ${$displayCompanyName} options chain, unusual options activity, implied volatility, open interest, options sweeps`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": "FinancialProduct",
+    "@type": "WebPage",
     name: `${$displayCompanyName} (${$etfTicker}) ETF Options`,
     description: `ETF options flow and chain data for ${$displayCompanyName} (${$etfTicker})`,
     category: "ETF Options",

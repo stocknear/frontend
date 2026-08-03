@@ -550,7 +550,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/profile/employees`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "Dataset"],
+    "@type": "WebPage",
     name: stock_detail_employees_structured_name({
       company: $displayCompanyName,
     }),

@@ -24,7 +24,7 @@
   url={`https://stocknear.com/stocks/${$stockTicker}/options/contract-lookup`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "WebApplication"],
+    "@type": "WebPage",
     name: stock_detail_options_contract_lookup_structured_name({ company: $displayCompanyName }),
     description: stock_detail_options_contract_lookup_structured_desc({ company: $displayCompanyName, ticker: $stockTicker }),
     url: `https://stocknear.com/stocks/${$stockTicker}/options/contract-lookup`,

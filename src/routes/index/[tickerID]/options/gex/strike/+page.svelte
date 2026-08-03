@@ -32,7 +32,7 @@
   url={`https://stocknear.com/index/${$indexTicker}/options/gex/strike`}
   structuredData={{
     "@context": "https://schema.org",
-    "@type": ["FinancialProduct", "DataVisualization"],
+    "@type": "WebPage",
     name: stock_detail_options_gex_strike_structured_name({
       company: $displayCompanyName,
     }),
