@@ -5,15 +5,24 @@
     error_back_home,
     error_body_prefix,
     error_body_suffix,
+    error_server_body_prefix,
+    error_server_title,
     error_title,
   } from "$lib/paraglide/messages";
 
   const emailAddress = "support@stocknear.com";
+
+  // A 5xx is an outage, not a missing page. Labelling both "Page not found" made
+  // every backend hiccup look like a broken link and hid real incidents.
+  $: status = $page?.status ?? 404;
+  $: isServerError = status >= 500;
 </script>
 
 <SEO
-  title="Page Not Found"
-  description="The page you're looking for doesn't exist or has been moved."
+  title={isServerError ? "Temporarily Unavailable" : "Page Not Found"}
+  description={isServerError
+    ? "We're having trouble loading this page right now. Please try again shortly."
+    : "The page you're looking for doesn't exist or has been moved."}
   noindex={true}
 />
 
@@ -22,8 +31,9 @@
     <div class="lg:flex">
       <div class="mt-10 mb-5 m-auto">
         <h1 class=" text-center text-2xl sm:text-4xl font-bold mb-5">
-          {error_title({ status: $page?.status })}
-          <!--Server Maintenance-->
+          {isServerError
+            ? error_server_title({ status })
+            : error_title({ status })}
         </h1>
         <a href="/" class="flex justify-center items-center">
           <img
@@ -39,7 +49,7 @@
                 -->
 
         <div class="mt-4 text-md w-11/12 sm:w-full m-auto text-center">
-          {error_body_prefix()}
+          {isServerError ? error_server_body_prefix() : error_body_prefix()}
           {" "}
           <a
             href={`mailto:${emailAddress}`}

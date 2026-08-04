@@ -43,6 +43,9 @@ export type EntitySymbolResolution =
 
 const ENTITY_SYMBOL_PATTERN = /^\^?[A-Z0-9][A-Z0-9.\-]{0,19}$/;
 
+// Route segments whose NEXT segment is the ticker symbol.
+const ENTITY_PATH_SEGMENTS = new Set(["stocks", "etf", "index"]);
+
 export function createSeoEligibility({
   status = 200,
   indexable = true,
@@ -93,19 +96,30 @@ export function canonicalizeSymbolInUrl(
 ): string | null {
   if (requestedSymbol === canonicalSymbol) return null;
 
-  const segments = url.pathname.split("/");
-  const symbolIndex = segments.findIndex((segment) => {
-    try {
-      return decodeURIComponent(segment) === requestedSymbol;
-    } catch {
-      return false;
-    }
-  });
+  const segments = url?.pathname?.split("/") ?? [];
 
-  if (symbolIndex === -1) return null;
+  // The ticker is always the segment directly after /stocks, /etf or /index.
+  // Scanning for the first segment that equals the symbol matched a locale prefix
+  // of the same name instead — /de/stocks/de (DE = Deere) rewrote the locale and
+  // redirected to /DE/stocks/de, which matches no route and hard-404s.
+  const entityIndex = segments?.findIndex((segment) =>
+    ENTITY_PATH_SEGMENTS?.has(segment?.toLowerCase()),
+  );
+  if (entityIndex === -1) return null;
+
+  const symbolIndex = entityIndex + 1;
+  if (symbolIndex >= (segments?.length ?? 0)) return null;
+
+  try {
+    if (decodeURIComponent(segments?.[symbolIndex]) !== requestedSymbol) {
+      return null;
+    }
+  } catch {
+    return null;
+  }
 
   segments[symbolIndex] = encodeURIComponent(canonicalSymbol);
-  return `${segments.join("/")}${url.search}`;
+  return `${segments?.join("/")}${url?.search}`;
 }
 
 export function hasEntityIdentity(
@@ -122,9 +136,31 @@ export function hasEntityIdentity(
 }
 
 export function hasFiniteMarketPrice(value: unknown): boolean {
-  if (!value || typeof value !== "object") return false;
-  const price = (value as Record<string, unknown>).price;
+  // Unwrap arrays exactly as hasEntityIdentity does — this is the last-resort
+  // fallback that keeps a page alive when stockdeck data is missing, and it
+  // silently failed on an array-wrapped quote.
+  const record = Array.isArray(value) ? value?.at(0) : value;
+  if (!record || typeof record !== "object") return false;
+  const price = (record as Record<string, unknown>).price;
   return typeof price === "number" && Number.isFinite(price);
+}
+
+/**
+ * True when a /bulk-data style payload carries at least some real data.
+ *
+ * The backend answers 200 with every endpoint empty when an internal fetch fails,
+ * so an empty payload means "something broke", not "this ticker does not exist".
+ * Callers use this to avoid caching a failure and to avoid 404ing a live ticker.
+ */
+export function isUsableEntityPayload(payload: unknown): boolean {
+  if (!payload || typeof payload !== "object") return false;
+  return (
+    Object.entries(payload as Record<string, unknown>)
+      // Underscore keys are transport metadata (e.g. _degraded), not page data —
+      // a payload carrying only metadata is still an empty payload.
+      ?.filter(([key]) => !key?.startsWith("_"))
+      ?.some(([, value]) => hasMeaningfulSeoData(value)) ?? false
+  );
 }
 
 export function hasMeaningfulSeoData(value: unknown): boolean {

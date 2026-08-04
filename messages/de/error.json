@@ -2,5 +2,7 @@
   "error_title": "Seite nicht gefunden - {status}",
   "error_body_prefix": "Die Seite wurde nicht gefunden. Wenn dieser Fehler dauerhaft auftritt, melde ihn bitte per",
   "error_body_suffix": "Wir beheben es asap!",
-  "error_back_home": "Zur Startseite"
+  "error_back_home": "Zur Startseite",
+  "error_server_title": "Da ist etwas schiefgelaufen - {status}",
+  "error_server_body_prefix": "Das liegt an uns, die Seite fehlt nicht. Bitte versuche es gleich noch einmal. Wenn es weiterhin auftritt, melde dich bei uns unter"
 }

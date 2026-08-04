@@ -1,37 +1,17 @@
-import { error, redirect } from "@sveltejs/kit";
-import { checkMarketHourSSR} from "$lib/utils";
+import { checkMarketHourSSR } from "$lib/utils";
 import { fetchWatchlist } from "$lib/server/watchlist";
 import { postAPI } from "$lib/server/api";
-import { getIndexProxyTicker, INDEX_HOLDINGS_PROXY_TICKERS } from "$lib/server/indexTickers";
 import {
-  canonicalizeSymbolInUrl,
-  createSeoEligibility,
-  hasEntityIdentity,
-  hasFiniteMarketPrice,
-  isUpstreamNotFound,
-  resolveEntitySymbol,
-} from "$lib/seo/eligibility";
+  getIndexProxyTicker,
+  INDEX_HOLDINGS_PROXY_TICKERS,
+} from "$lib/server/indexTickers";
+import { isUsableEntityPayload } from "$lib/seo/eligibility";
+import {
+  TtlCache,
+  cleanCompanyName,
+  createEntityPageLoader,
+} from "$lib/server/entityPage";
 
-// Pre-compile regex pattern and substrings for cleaning
-const REMOVE_PATTERNS = {
-  pattern: new RegExp(`\\b(${[
-    "Depositary",
-    "Inc.",
-    "Incorporated",
-    "Holdings",
-    "Corporations",
-    "LLC",
-    "Holdings plc American Depositary Shares",
-    "Holding Corporation",
-    "Oyj",
-    "Company",
-    "The",
-    "plc"
-  ].join("|")})\\b|,`, "gi")
-};
-
-// Constants
-const CACHE_DURATION = 30 * 1000;
 const ENDPOINTS = Object.freeze([
   "/index-profile",
   "/etf-holdings",
@@ -40,138 +20,88 @@ const ENDPOINTS = Object.freeze([
   "/pre-post-quote",
   "/wiim",
   "/one-day-price",
-  "/stock-news"
+  "/stock-news",
 ]);
 
+// Indices have no holdings feed of their own, so these read from a proxy ETF.
 const SPY_PROXY_ENDPOINTS = Object.freeze([
   "/etf-holdings",
   "/etf-sector-weighting",
   "/wiim",
-  "/stock-news"
+  "/stock-news",
 ]);
 
-// Memoized string cleaning function
-const cleanString = (() => {
-  const cache = new Map();
-  return (input) => {
-    if (!input) return '';
-    if (cache.has(input)) return cache.get(input);
-    const cleaned = input.replace(REMOVE_PATTERNS.pattern, '').trim();
-    cache.set(input, cleaned);
-    return cleaned;
-  };
-})();
+// The endpoints the 404/503 gate depends on. A failure in either must surface as
+// an upstream error; swallowing the quote into [] removed the only fallback and
+// 404'd legitimate indices.
+const GATE_ENDPOINTS = new Set(["/index-profile", "/stock-quote"]);
 
-// LRU Cache implementation with automatic cleanup
-class LRUCache {
-  constructor(maxSize = 100) {
-    this.cache = new Map();
-    this.maxSize = maxSize;
-  }
+const dataCache = new TtlCache();
 
-  get(key) {
-    const item = this.cache.get(key);
-    if (!item) return null;
-    if (Date.now() - item.timestamp >= CACHE_DURATION) {
-      this.cache.delete(key);
-      return null;
-    }
-    return item.data;
-  }
-
-  set(key, data) {
-    if (this.cache.size >= this.maxSize) {
-      const oldestKey = this.cache.keys().next().value;
-      this.cache.delete(oldestKey);
-    }
-    this.cache.set(key, { data, timestamp: Date.now() });
-  }
-}
-
-const dataCache = new LRUCache();
-
-// Main data fetching function with SPX/SPY handling
-const fetchData = async (locals, endpoint, ticker) => {
+const fetchEndpoint = async (locals, endpoint: string, tickerID: string) => {
   const useProxyTicker =
-    ticker?.toLowerCase() in INDEX_HOLDINGS_PROXY_TICKERS &&
-    SPY_PROXY_ENDPOINTS.includes(endpoint);
-
-  const effectiveTicker = useProxyTicker ? getIndexProxyTicker(ticker) : ticker;
+    tickerID?.toLowerCase() in INDEX_HOLDINGS_PROXY_TICKERS &&
+    SPY_PROXY_ENDPOINTS?.includes(endpoint);
+  const effectiveTicker = useProxyTicker
+    ? getIndexProxyTicker(tickerID)
+    : tickerID;
 
   const cacheKey = `${endpoint}-${effectiveTicker}`;
-  const cachedData = dataCache.get(cacheKey);
-  if (cachedData) return cachedData;
+  const cached = dataCache.get(cacheKey);
+  if (cached) return cached;
 
-  const requestBody =
+  const data = await postAPI(
+    locals,
+    endpoint,
     endpoint === "/etf-holdings"
       ? { ticker: effectiveTicker, assetType: "etf" }
-      : { ticker: effectiveTicker };
-  const data = await postAPI(locals, endpoint, requestBody);
-  dataCache.set(cacheKey, data);
+      : { ticker: effectiveTicker },
+  );
+  // Never cache an empty payload — that is a backend failure, and caching it
+  // served the failure to every visitor of this ticker for the whole window.
+  if (isUsableEntityPayload(data)) dataCache.set(cacheKey, data);
   return data;
 };
 
-// Main load function with parallel fetching
-export const load = async ({ params, locals, url }) => {
-  const { pb, user } = locals;
-  const requestedTicker = params.tickerID;
-  const symbolResolution = resolveEntitySymbol(requestedTicker);
-  if (!symbolResolution.valid) error(404, "Index not found");
-
-  const tickerID = symbolResolution.canonicalSymbol;
-  const canonicalRedirect = canonicalizeSymbolInUrl(
-    url,
-    requestedTicker,
-    tickerID,
+// Unlike stocks and ETFs there is no /bulk-data for indices, so the endpoints are
+// fetched individually and reassembled into the same endpoint→data shape.
+const fetchPayload = async (locals, tickerID: string) => {
+  const values = await Promise.all(
+    ENDPOINTS?.map((endpoint) => {
+      const request = fetchEndpoint(locals, endpoint, tickerID);
+      // Optional endpoints degrade; gate endpoints propagate.
+      return GATE_ENDPOINTS?.has(endpoint) ? request : request.catch(() => []);
+    }),
   );
-  if (canonicalRedirect) redirect(308, canonicalRedirect);
-
-  try {
-    const promises = ENDPOINTS.map((endpoint) => {
-      const request = fetchData(locals, endpoint, tickerID);
-      return endpoint === "/index-profile" ? request : request.catch(() => []);
-    });
-    promises.push(fetchWatchlist(pb, user?.id).catch(() => []));
-
-    const [
-      getIndexProfile,
-      getIndexHolding,
-      getIndexSectorWeighting,
-      getStockQuote,
-      fetchedPrePostQuote,
-      getWhyPriceMoved,
-      getOneDayPrice,
-      getNews,
-      getUserWatchlist,
-    ] = await Promise.all(promises);
-
-    const getPrePostQuote = (checkMarketHourSSR() || {} ) ? {} : fetchedPrePostQuote;
-    
-    const hasIdentity = hasEntityIdentity(getIndexProfile, ["name", "symbol", "ticker"]);
-    const hasPartialQuote = hasFiniteMarketPrice(getStockQuote);
-    if (!hasIdentity && !hasPartialQuote) error(404, "Index not found");
-
-    return {
-      getIndexProfile: getIndexProfile || [],
-      getIndexHolding: getIndexHolding || [],
-      getIndexSectorWeighting: getIndexSectorWeighting || [],
-      getStockQuote: getStockQuote || [],
-      getPrePostQuote,
-      getWhyPriceMoved: getWhyPriceMoved || [],
-      getOneDayPrice: getOneDayPrice || [],
-      getNews: getNews || [],
-      getUserWatchlist: getUserWatchlist || [],
-      companyName: cleanString(getIndexProfile?.at(0)?.name),
-      getParams: tickerID,
-      seoEligibility: createSeoEligibility({
-        canonicalPath: url.pathname,
-        availableLocales: ["en"],
-        indexable: hasIdentity,
-        reason: hasIdentity ? "eligible" : "insufficient-data",
-      }),
-    };
-  } catch (cause) {
-    if (isUpstreamNotFound(cause)) error(404, "Index not found");
-    error(503, "Index data is temporarily unavailable");
-  }
+  return Object.fromEntries(
+    ENDPOINTS?.map((endpoint, position) => [endpoint, values?.[position]]),
+  );
 };
+
+export const load = createEntityPageLoader({
+  entity: "index",
+  label: "Index",
+  identityKey: "/index-profile",
+  identityFields: ["name", "symbol", "ticker"],
+  availableLocales: ["en"],
+  fetchPayload,
+  extras: async (locals) => ({
+    getUserWatchlist: await fetchWatchlist(locals?.pb, locals?.user?.id).catch(
+      () => [],
+    ),
+  }),
+  shape: (payload, { extras }) => ({
+    getIndexProfile: payload?.["/index-profile"] ?? [],
+    getIndexHolding: payload?.["/etf-holdings"] ?? [],
+    getIndexSectorWeighting: payload?.["/etf-sector-weighting"] ?? [],
+    getStockQuote: payload?.["/stock-quote"] ?? [],
+    getPrePostQuote: checkMarketHourSSR()
+      ? {}
+      : (payload?.["/pre-post-quote"] ?? {}),
+    getWhyPriceMoved: payload?.["/wiim"] ?? [],
+    getOneDayPrice: payload?.["/one-day-price"] ?? [],
+    getNews: payload?.["/stock-news"] ?? [],
+    getUserWatchlist: extras?.getUserWatchlist ?? [],
+    companyName: cleanCompanyName(payload?.["/index-profile"]?.at(0)?.name),
+  }),
+});

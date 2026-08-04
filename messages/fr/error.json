@@ -2,5 +2,7 @@
   "error_title": "Page introuvable - {status}",
   "error_body_prefix": "Page introuvable. Si l’erreur persiste, signale-la-nous via",
   "error_body_suffix": "Nous allons le réparer dès que possible !",
-  "error_back_home": "Retour à la page d’accueil"
+  "error_back_home": "Retour à la page d’accueil",
+  "error_server_title": "Une erreur est survenue - {status}",
+  "error_server_body_prefix": "Le problème vient de nous, la page n'a pas disparu. Réessaie dans un instant. Si cela persiste, écris-nous à"
 }

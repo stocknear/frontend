@@ -52,3 +52,22 @@ export async function getAPI(
 
   return response.json();
 }
+
+/**
+ * Log why an entity page is about to fail, before the cause is converted into an
+ * HTTP error.
+ *
+ * SvelteKit's handleError hook only fires for *unexpected* errors — an explicit
+ * error(503, ...) is "expected" and is never logged. Without this, every 503 we
+ * raise on purpose would vanish silently, which is exactly how the mass
+ * "Page Not Found" incident stayed undiagnosed.
+ */
+export function logUpstreamFailure(
+  entity: string,
+  ticker: string,
+  cause: unknown,
+): void {
+  const detail =
+    cause instanceof Error ? cause?.stack || cause?.message : String(cause);
+  console.error(`[upstream] ${entity} ${ticker} failed — ${detail}`);
+}

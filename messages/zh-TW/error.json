@@ -2,5 +2,7 @@
   "error_title": "找不到頁面 - {status}",
   "error_body_prefix": "找不到該頁面。如果此錯誤持續出現，請透過以下方式向我們報告",
   "error_body_suffix": "我們會盡快修復！",
-  "error_back_home": "返回首頁"
+  "error_back_home": "返回首頁",
+  "error_server_title": "發生錯誤 - {status}",
+  "error_server_body_prefix": "這是我們這邊的問題，並非頁面不存在。請稍後再試。如果問題持續出現，請聯絡我們"
 }

@@ -1,4 +1,4 @@
-import type { RequestEvent } from "@sveltejs/kit";
+import type { HandleServerError, RequestEvent } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 import PocketBase from "pocketbase";
 import { serializeNonPOJOs } from "$lib/utils";
@@ -352,3 +352,32 @@ export const handle = sequence(async ({ event, resolve }) => {
     return response;
   });
 });
+
+/**
+ * Log every server-side error with enough context to tell an outage from a dead link.
+ *
+ * Nothing logged errors before this, which is why a backend hiccup rendering as
+ * "Page not found" went undiagnosed: 5xx responses were indistinguishable from
+ * genuine 404s in both the UI and the logs.
+ */
+export const handleError: HandleServerError = ({
+  error,
+  event,
+  status,
+  message,
+}) => {
+  const path = event?.url?.pathname ?? "unknown";
+  const cause = error instanceof Error ? error?.stack || error?.message : error;
+
+  // 404s are routine (crawlers, stale links) — one line. 5xx means something broke.
+  if (status >= 500) {
+    console.error(
+      `[${status}] ${event?.request?.method ?? "GET"} ${path} — ${message}`,
+      cause,
+    );
+  } else {
+    console.warn(`[${status}] ${path} — ${message}`);
+  }
+
+  return { message };
+};

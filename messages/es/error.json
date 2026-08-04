@@ -2,5 +2,7 @@
   "error_title": "Página no encontrada - {status}",
   "error_body_prefix": "La página no fue encontrada. Si este error ocurre persistentemente, infórmenos a través de",
   "error_body_suffix": "¡Lo arreglaremos lo antes posible!",
-  "error_back_home": "Volver a la página de inicio"
+  "error_back_home": "Volver a la página de inicio",
+  "error_server_title": "Algo salió mal - {status}",
+  "error_server_body_prefix": "Es un problema nuestro, no una página que falte. Inténtalo de nuevo en un momento. Si sigue ocurriendo, escríbenos a"
 }
