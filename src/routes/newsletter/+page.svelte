@@ -26,7 +26,7 @@
 />
 
 <div
-  class="w-full min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
+  class="w-full min-h-screen bg-surface-page text-fg"
 >
   <main id="main" class="mx-auto max-w-5xl px-6 py-12 md:py-16">
     <div class="grid items-start gap-10 lg:grid-cols-[1.2fr,0.8fr]">

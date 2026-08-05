@@ -264,7 +264,7 @@
 <SEO title={register_seo_title()} description={register_seo_description()} />
 
 <div
-  class="min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
+  class="min-h-screen bg-surface-page text-fg"
 >
   <div
     class="mx-auto {currentStep === 2

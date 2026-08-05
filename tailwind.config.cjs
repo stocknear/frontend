@@ -27,43 +27,56 @@ module.exports = {
           "sans-serif",
         ],
       },
+      // These were `hsl(var(--border))` etc. against CSS variables that were
+      // never declared, so every one of them compiled to an invalid value and
+      // was dropped — which is why popovers and dialogs rendered transparent.
+      // They now point at the semantic tokens in app.css, so the existing
+      // markup starts working without touching a component.
       colors: {
-        border: "hsl(var(--border) / <alpha-value>)",
-        input: "hsl(var(--input) / <alpha-value>)",
-        ring: "hsl(var(--ring) / <alpha-value>)",
-        background: "hsl(var(--background) / <alpha-value>)",
-        foreground: "hsl(var(--foreground) / <alpha-value>)",
+        border: "var(--line)",
+        input: "var(--line)",
+        ring: "var(--accent)",
+        // shadcn's `background` means the app background, not a card — mapping
+        // it to the card surface made inputs invisible on white cards.
+        background: "var(--surface-page)",
+        foreground: "var(--fg)",
         primary: "#1E222D",
         secondary: "#2A2E39",
         odd: "#121217",
         table: "#18181D",
         default: "#09090B",
-        positive: "#00FC50",
-        negative: "#FF2F1F",
+        positive: "var(--up)",
+        negative: "var(--down)",
         neutral: "#FFA838",
-        muted: "#111827",
-        destructive: {
-          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
-          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
+        // `text-muted` is the global body colour (4,755 uses); as a token it
+        // now follows the theme instead of being a fixed dark navy.
+        muted: {
+          DEFAULT: "var(--fg)",
+          foreground: "var(--fg-muted)",
         },
+        destructive: {
+          DEFAULT: "var(--down)",
+          foreground: "var(--accent-fg)",
+        },
+        // shadcn's `accent` is the hover/highlight surface, not the brand
+        // accent — that one is `--accent` / `text-accent`.
         accent: {
-          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
-          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
+          DEFAULT: "var(--surface-raised)",
+          foreground: "var(--fg)",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover) / <alpha-value>)",
-          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
+          DEFAULT: "var(--surface-card)",
+          foreground: "var(--fg)",
         },
         card: {
-          DEFAULT: "hsl(var(--card) / <alpha-value>)",
-          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
+          DEFAULT: "var(--surface-card)",
+          foreground: "var(--fg)",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+      // borderRadius intentionally not overridden: mapping lg/md/sm onto an
+      // undefined `--radius` made all three compile to an invalid value, so
+      // ~200 elements rendered with square corners. Tailwind v4 supplies
+      // --radius-sm/md/lg itself once this block is absent.
       fraction: {
         32: "1/32",
       },

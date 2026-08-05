@@ -98,7 +98,7 @@
 <SEO title={login_seo_title()} description={login_seo_description()} />
 
 <div
-  class="min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
+  class="min-h-screen bg-surface-page text-fg"
 >
   <div class="mx-auto max-w-lg px-4 sm:px-6 py-8 sm:py-16">
     <!-- Logo -->

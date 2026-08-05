@@ -205,8 +205,8 @@
     sizes="64x64"
     href={baseURL + "/apple-touch-icon.png"}
   />
-  <meta name="theme-color" content="#1f2937" />
-  <meta name="msapplication-navbutton-color" content="#1f2937" />
+  <!-- theme-color / navbutton-color are set in app.html per request so they
+       follow the active theme; duplicating them here would override that. -->
   <meta
     name="apple-mobile-web-app-status-bar-style"
     content="black-translucent"

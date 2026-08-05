@@ -4,7 +4,7 @@
   import { init, dispose, registerOverlay } from "klinecharts";
   import type { KLineData, Chart } from "klinecharts";
   import { DateTime } from "luxon";
-  import { mode, setMode } from "mode-watcher";
+  import { mode, setMode, setTheme } from "mode-watcher";
   import { toast } from "svelte-sonner";
   import { Splitpanes, Pane } from "svelte-splitpanes";
   import {
@@ -8298,6 +8298,8 @@
 
     const applyMode = async () => {
       setMode(newMode);
+      // Keeps daisyUI's data-theme in step; without it the attribute is blanked.
+      setTheme(newMode);
 
       try {
         await fetch("/api/theme-mode", {

@@ -45,7 +45,7 @@
 <SEO title={advertise_seo_title()} description={advertise_seo_description()} />
 
 <section
-  class="w-full min-h-screen bg-white dark:bg-zinc-950 text-muted dark:text-zinc-200"
+  class="w-full min-h-screen bg-surface-page text-fg"
 >
   <div class="mx-auto w-full max-w-6xl px-6 py-10 lg:py-14">
     <BreadCrumb

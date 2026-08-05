@@ -180,9 +180,11 @@ export const handle = sequence(async ({ event, resolve }) => {
     const apiURL = import.meta.env.VITE_USEAST_API_URL;
     const wsURL = getPublicWsBaseUrl(event);
 
-    const rawThemeMode = event?.cookies?.get("theme-mode") || "light";
+    // Must match the page branch below, or an API request and a page request
+    // disagree about the theme for the same visitor.
+    const rawThemeMode = event?.cookies?.get("theme-mode") || "dark";
     const VALID_THEMES = ["dark", "light"];
-    const themeMode = VALID_THEMES?.includes(rawThemeMode) ? rawThemeMode : "light";
+    const themeMode = VALID_THEMES?.includes(rawThemeMode) ? rawThemeMode : "dark";
 
     let cookieConsent: { necessary: boolean; analytics: boolean; marketing: boolean } | null = null;
     const cookieConsentRaw = event?.cookies?.get("cookie-consent");
@@ -221,7 +223,15 @@ export const handle = sequence(async ({ event, resolve }) => {
       }
     }
 
-    const response = await resolve(event);
+    // API routes answer JSON, but an error here still renders app.html — so the
+    // placeholder has to be substituted on this path too or it leaks as text.
+    const response = await resolve(event, {
+      transformPageChunk: ({ html }) =>
+        html?.replace(
+          /%stocknear\.themeColor%/g,
+          themeMode === "light" ? "#f7f7f9" : "#09090b",
+        ),
+    });
 
     const cookieString = event?.locals?.pb?.authStore?.exportToCookie({
       httpOnly: true,
@@ -299,14 +309,19 @@ export const handle = sequence(async ({ event, resolve }) => {
       {
         transformPageChunk: ({ html }) =>
           html
-            .replace('data-theme=""', `data-theme="${themeMode}"`)
-            .replace(
+            ?.replace('data-theme=""', `data-theme="${themeMode}"`)
+            // Must track --surface-page in app.css.
+            ?.replace(
+              /%stocknear\.themeColor%/g,
+              themeMode === "light" ? "#f7f7f9" : "#09090b",
+            )
+            ?.replace(
               "%stocknear.i18n%",
-              getRouteLocaleAssets(event.route.id ?? "/", resolvedLocale)
+              getRouteLocaleAssets(event?.route?.id ?? "/", resolvedLocale)
                 ?.map((src) => `<script src="${src}"></script>`)
                 ?.join("") ?? "",
             )
-            .replace("%lang%", resolvedLocale),
+            ?.replace("%lang%", resolvedLocale),
       },
     );
 

@@ -19,9 +19,11 @@
     <meta name="geo.placename" content="United States" />
     
     <!-- Additional SEO Tags -->
-    <meta name="theme-color" content="#1f2937" />
+    <!-- %stocknear.themeColor% is substituted per request in hooks.server.ts so
+         the browser chrome matches the active theme's page surface. -->
+    <meta name="theme-color" content="%stocknear.themeColor%" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="msapplication-navbutton-color" content="#1f2937" />
+    <meta name="msapplication-navbutton-color" content="%stocknear.themeColor%" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <link

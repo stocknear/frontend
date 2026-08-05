@@ -626,7 +626,11 @@
   on:scroll|passive={handleScroll}
 />
 
-<ModeWatcher defaultMode={data?.themeMode} />
+<!-- defaultTheme keeps daisyUI's `data-theme` in step with the mode. Without it
+     mode-watcher writes `data-theme=""`, and because the attribute is still
+     present that defeats both `[data-theme=dark]` and daisyUI's
+     `:root:not([data-theme])` fallback — freezing daisyUI on its light theme. -->
+<ModeWatcher defaultMode={data?.themeMode} defaultTheme={data?.themeMode} />
 
 <!-- Google Tag Manager (noscript) -->
 {#if data?.cookieConsent?.marketing === true}
@@ -649,11 +653,11 @@
   {/await}
 {/if}
 
-<div class="app text-muted dark:text-zinc-200">
-  <div class="flex min-h-screen w-full flex-col bg-white dark:bg-zinc-950">
+<div class="app text-fg">
+  <div class="flex min-h-screen w-full flex-col bg-surface-page">
     <div class="w-full">
       <div
-        class="w-full navbar sticky top-0 z-40 bg-white dark:bg-[#131214] border-b border-gray-300 dark:border-zinc-700 flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
+        class="w-full navbar sticky top-0 z-40 bg-surface-card border-b border-line flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
       >
         <Sheet.Root>
           <Sheet.Trigger asChild let:builder>

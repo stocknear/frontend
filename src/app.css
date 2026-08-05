@@ -4,6 +4,66 @@
 
 @config '../tailwind.config.cjs';
 
+/* Semantic colour tokens — the single source of truth for both themes.
+ *
+ * `inline` is load-bearing: it makes the generated utilities reference
+ * `var(--surface-card)` directly, so the value resolves at the point of use and
+ * the `.dark` overrides below apply. Without it Tailwind resolves the value
+ * once against `:root` and dark mode silently stops working.
+ *
+ * Names describe the role, not the appearance, so a repaint never has to touch
+ * a component. Values are OKLCH so the neutral ladder is one perceptual
+ * lightness scale rather than a set of independently picked greys.
+ */
+@theme inline {
+  --color-surface-page: var(--surface-page);
+  --color-surface-card: var(--surface-card);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+}
+
+:root {
+  --surface-page: oklch(0.977 0.002 265);
+  --surface-card: oklch(1 0 0);
+  --surface-raised: oklch(0.956 0.003 265);
+  --surface-sunken: oklch(0.94 0.0035 265);
+  --line: oklch(0.91 0.004 265);
+  --line-strong: oklch(0.84 0.006 265);
+  /* Exactly the values already rendering, so migration shifts no pixel. */
+  --fg: oklch(0.2101 0.0318 264.66);
+  --fg-muted: oklch(0.49 0.018 265);
+  --fg-subtle: oklch(0.62 0.015 265);
+  --up: oklch(0.4336 0.0901 165.87);
+  --down: oklch(0.4591 0.1835 14.56);
+  --accent: oklch(0.432 0.2106 292.76);
+  --accent-fg: oklch(1 0 0);
+}
+
+.dark {
+  --surface-page: oklch(0.1408 0.0044 285.82);
+  --surface-card: oklch(0.195 0.005 285.8);
+  --surface-raised: oklch(0.235 0.006 285.8);
+  --surface-sunken: oklch(0.17 0.005 285.8);
+  --line: oklch(0.29 0.006 285.8);
+  --line-strong: oklch(0.37 0.008 285.8);
+  --fg: oklch(0.9197 0.004 286.32);
+  --fg-muted: oklch(0.705 0.013 286);
+  --fg-subtle: oklch(0.552 0.014 286);
+  --up: oklch(0.7688 0.1687 161.95);
+  --down: oklch(0.7057 0.19 12.98);
+  --accent: oklch(0.709 0.1592 293.54);
+  --accent-fg: oklch(0.1408 0.0044 285.82);
+}
+
 @font-face {
   font-family: "Space Grotesk";
   src: url("/fonts/space-grotesk.woff2") format("woff2");
@@ -18,7 +78,9 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    /* Was hardcoded to gray-200, which is near-white in dark mode — the reason
+     * ~2,500 elements have to repeat `border-gray-300 dark:border-zinc-700`. */
+    border-color: var(--line, currentColor);
   }
 }
 
@@ -37,17 +99,17 @@
 
   .scrollbar::-webkit-scrollbar-track {
     border-radius: 100vh;
-    background: #f7f4ed;
+    background: var(--surface-sunken);
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #e0cbcb;
+    background: var(--line-strong);
     border-radius: 100vh;
-    border: 3px solid #f6f7ed;
+    border: 3px solid var(--surface-sunken);
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #c0a0b9;
+    background: var(--fg-subtle);
   }
 
   /* Elegant shimmer text effect - reusable across the website */

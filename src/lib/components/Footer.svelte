@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setMode, mode } from "mode-watcher";
+  import { setMode, setTheme, mode } from "mode-watcher";
   import { page } from "$app/stores";
   import AnimatedThemeToggler from "$lib/components/magic/AnimatedThemeToggler.svelte";
   import {
@@ -61,6 +61,8 @@
 
   async function handleModeChange(newMode: "light" | "dark") {
     setMode(newMode);
+    // Keeps daisyUI's data-theme in step; without it the attribute is blanked.
+    setTheme(newMode);
 
     try {
       await fetch("/api/theme-mode", {
