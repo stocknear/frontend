@@ -7,36 +7,41 @@
     ipos_breadcrumb_home,
     ipos_main_name_recent,
     ipos_main_name_statistics,
+    ipos_tab_latest,
+    ipos_tab_recent,
+    ipos_tab_statistics,
   } from "$lib/paraglide/messages";
 
   export let data;
 
-  let navigation: { title: number; link: string }[] = [];
   let displaySection = "Latest";
 
-  const startYear = 2019;
-  const currentYear = new Date().getFullYear();
+  // The rail is driven by the calendar itself. It used to be a literal
+  // ["Latest", "2026", … "2019"] array plus a hardcoded startYear, which meant
+  // a manual edit every January and a floor that no longer matched the data.
+  $: availableYears = [
+    ...new Set(
+      (data?.getIPOCalendar ?? [])
+        .map((item) => item?.ipoDate?.slice(0, 4))
+        .filter(Boolean),
+    ),
+  ].sort((a, b) => b.localeCompare(a));
 
-  for (let year = currentYear; year >= startYear; year--) {
-    navigation.push({ title: year, link: `/ipos/${year}` });
-  }
-
-  // Get year from URL if it looks like /ipos/2024 etc.
+  // Get year from URL if it looks like /ipos/2024 etc. Matching any four-digit
+  // segment keeps this working under a /de/ prefix.
   $: {
-    const parts = $page.url.pathname.split("/");
-    const maybeYear = parts?.find((p) => /^\d{4}$/.test(p));
+    const maybeYear = $page.url.pathname
+      .split("/")
+      ?.find((p) => /^\d{4}$/.test(p));
 
-    const yearNum = maybeYear ? Number(maybeYear) : null;
-
-    displaySection =
-      yearNum && yearNum >= startYear && yearNum <= currentYear
-        ? String(yearNum)
-        : "Latest";
+    displaySection = availableYears.includes(maybeYear) ? maybeYear : "Latest";
   }
 
+  // These messages already existed in the catalog; the rail was rendering
+  // hardcoded English over the top of them.
   const tabs = [
-    { title: "Recent", path: "/ipos" },
-    { title: "Statistics", path: "/ipos/statistics" },
+    { title: ipos_tab_recent(), path: "/ipos" },
+    { title: ipos_tab_statistics(), path: "/ipos/statistics" },
   ];
 
   let activeIdx = 0;
@@ -107,7 +112,7 @@
               <ul
                 class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
               >
-                {#each ["Latest", "2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019"] as item}
+                {#each ["Latest", ...availableYears] as item}
                   {#if item !== "Latest"}
                     <a
                       href={`/ipos/${item}`}
@@ -128,7 +133,7 @@
                         ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
                         : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                     >
-                      {item}
+                      {ipos_tab_latest()}
                     </a>
                   {/if}
                 {/each}

@@ -42,5 +42,6 @@
   "market_flow_stat_put_volume": "Volumen de puts",
   "market_flow_stat_call_volume": "Volumen de calls",
   "market_flow_modal_title": "Interés y volumen abiertos intradía",
-  "market_flow_modal_description": "Totales de intervalo con cambio acumulado desde la apertura del mercado."
+  "market_flow_modal_description": "Volumen e interés abierto por intervalo, con volumen acumulado desde la apertura del mercado.",
+  "market_flow_data_unavailable": "Los datos de flujo del mercado no están disponibles temporalmente. Volverán a aparecer con la próxima actualización."
 }

@@ -42,5 +42,6 @@
   "market_flow_stat_put_volume": "賣權成交量",
   "market_flow_stat_call_volume": "買權成交量",
   "market_flow_modal_title": "日內未平倉量與成交量",
-  "market_flow_modal_description": "自開市以來累積變化的區間總計。"
+  "market_flow_modal_description": "區間成交量與未平倉合約，並顯示自開市以來的累計成交量。",
+  "market_flow_data_unavailable": "市場資金流數據暫時無法顯示，下次更新後將重新出現。"
 }

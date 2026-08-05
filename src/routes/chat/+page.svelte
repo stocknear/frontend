@@ -44,7 +44,11 @@
   let isLoading = false;
 
   const allDefaultChats = data?.allDefaultChats || [];
-  let displayedChats = shuffle(allDefaultChats).slice(0, 4);
+  // Must be deterministic at init: this runs once on the server and again during
+  // hydration, and a random order there produces a hydration mismatch, which makes
+  // Svelte rebuild the DOM and orphan the ProseMirror editor bound in onMount.
+  // The shuffle happens in onMount instead, once the client owns the DOM.
+  let displayedChats = allDefaultChats.slice(0, 4);
 
   function shuffle(arr) {
     return [...arr].sort(() => 0.5 - Math.random());
@@ -149,6 +153,9 @@
   }
 
   onMount(() => {
+    // Randomize only once the client owns the DOM, so SSR and hydration agree.
+    displayedChats = shuffle(allDefaultChats).slice(0, 4);
+
     editorView = new EditorView(editorDiv, {
       state: EditorState.create({
         schema,
@@ -279,11 +286,19 @@
       return;
     }
 
-    if (editorText?.trim()?.length > 0) {
+    // Read from the editor itself rather than the mirrored variable: if the view is
+    // ever re-created the mirror can go stale, and an empty query here fails silently.
+    const query = (
+      editorView?.state?.doc?.textContent ??
+      editorText ??
+      ""
+    ).trim();
+
+    if (query.length > 0) {
       const response = await fetch("/api/create-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: editorText }),
+        body: JSON.stringify({ query }),
       });
 
       const output = await response.json();

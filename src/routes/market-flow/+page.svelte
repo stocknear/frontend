@@ -23,6 +23,7 @@
     market_flow_card_net_call_prem,
     market_flow_card_net_put_prem,
     market_flow_card_net_volume,
+    market_flow_data_unavailable,
     market_flow_last_update,
     market_flow_modal_description,
     market_flow_modal_title,
@@ -320,15 +321,20 @@
     }
 
     for (let i = dataArray.length - 1; i >= 0; i--) {
-      if (
-        dataArray[i]?.net_call_premium !== null &&
-        dataArray[i]?.net_call_premium !== undefined
-      ) {
+      if (dataArray[i]?.[key] != null) {
         return dataArray[i][key];
       }
     }
     return null; // Return null if no non-null value is found.
   }
+
+  // `undefined + undefined` is NaN, and NaN.toLocaleString() returns the truthy string "NaN",
+  // so the `|| "n/a"` fallbacks below never fired on a failed fetch.
+  $: totalVolume =
+    Number.isFinite(overview?.putVol) && Number.isFinite(overview?.callVol)
+      ? overview.putVol + overview.callVol
+      : null;
+  $: hasFlowData = marketTideData?.length > 0 && totalVolume !== null;
 </script>
 
 <SEO
@@ -390,6 +396,13 @@
       >
         <main class="w-full">
           <div class="w-full m-auto">
+            {#if !hasFlowData}
+              <div
+                class="mb-6 rounded-container border border-line bg-surface-card p-4 text-sm text-fg-muted"
+              >
+                {market_flow_data_unavailable()}
+              </div>
+            {:else}
             <p
               class="mb-5 text-sm sm:text-base leading-6 text-fg-muted"
             >
@@ -402,9 +415,7 @@
               >, {market_flow_overview_total_volume()}
               <strong class="font-semibold text-fg">
                 {#if isPro}
-                  {(overview?.putVol + overview?.callVol)?.toLocaleString(
-                    "en-US",
-                  ) || "n/a"}
+                  {totalVolume?.toLocaleString("en-US") ?? "n/a"}
                 {:else}
                   <a
                     href="/pricing"
@@ -427,12 +438,8 @@
               {market_flow_overview_contracts()}
               <strong class="font-semibold text-fg">
                 {#if isPro}
-                  {overview?.avg30Vol && overview?.avg30Vol > 0
-                    ? (
-                        ((overview?.callVol + overview?.putVol) /
-                          overview?.avg30Vol) *
-                        100
-                      )?.toFixed(2) + "%"
+                  {overview?.avg30Vol > 0 && totalVolume !== null
+                    ? ((totalVolume / overview.avg30Vol) * 100)?.toFixed(2) + "%"
                     : "n/a"}
                 {:else}
                   <a
@@ -770,8 +777,10 @@
                 </div>
               </div>
             </div>
+            {/if}
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {#if hasFlowData}
               <div class="lg:col-span-2">
                 <h2
                   class="mb-2 type-h2 text-fg"
@@ -807,6 +816,7 @@
                   </div>
                 {/if}
               </div>
+              {/if}
 
               <div class="">
                 <div class="flex items-center justify-between mb-2">
@@ -835,6 +845,7 @@
                 </div>
               </div>
 
+              {#if hasFlowData}
               <div class="">
                 <h2
                   class="mb-2 type-h2 text-fg"
@@ -870,6 +881,7 @@
                   </div>
                 {/if}
               </div>
+              {/if}
             </div>
 
             {#if Object?.keys(overview)?.length > 0}

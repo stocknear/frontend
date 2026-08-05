@@ -14,16 +14,23 @@
   "ipos_tab_latest": "Neueste",
 
   "ipos_statistics_seo_title": "IPO-Statistiken & Historische Charts - Börsengang-Marktdaten",
-  "ipos_statistics_seo_description": "Umfassende IPO-Statistiken und interaktive Charts für US-Aktienmarkt-Börsengänge. Verfolge jährliche und monatliche IPO-Trends von 2015-2025, analysiere Marktzyklen und entdecke IPO-Performance-Muster.",
+  "ipos_statistics_seo_description": "Umfassende IPO-Statistiken und interaktive Charts für Börsengänge am US-Aktienmarkt. Verfolge jährliche und monatliche IPO-Trends von {startYear} bis {endYear}, analysiere Marktzyklen und entdecke IPO-Performance-Muster.",
   "ipos_statistics_seo_keywords": "IPO-Statistiken, Börsengang-Charts, IPO-Marktdaten, IPO-Trends, IPO-Analyse, historische IPO-Daten, IPO-Performance, jährliche IPO-Statistiken, monatliche IPO-Daten",
-  "ipos_statistics_infobox": "Diese Seite bietet Statistiken und Charts zu Börsengängen (IPOs) am US-Aktienmarkt. Jahresdaten sind von 2015 bis 2025 verfügbar, monatliche Daten ab 2019.",
+  "ipos_statistics_infobox": "Diese Seite bietet Statistiken und Charts zu Börsengängen (IPOs) am US-Aktienmarkt. Jahres- und Monatsdaten sind von {startYear} bis {endYear} verfügbar.",
   "ipos_statistics_title": "Anzahl der IPOs nach Jahr",
-  "ipos_statistics_description": "Es gab {count} IPOs zwischen 2015 und 2025. Am wenigsten waren es in {minYear} mit nur {minCount}. Das Gesamtjahr {maxYear} war mit {maxCount} IPOs ein Allzeitrekord.",
+  "ipos_statistics_description": "Zwischen {startYear} und {endYear} gab es {count} IPOs. Am wenigsten waren es {minYear} mit nur {minCount}. Das Gesamtjahr {maxYear} war mit {maxCount} IPOs ein Allzeitrekord.",
   "ipos_statistics_stock_news": "Aktien-News",
   "ipos_statistics_more_news": "Mehr Aktien-News",
 
   "ipos_year_seo_title": "{year} IPOs Liste - Vollständiges Börsengang-Verzeichnis",
   "ipos_year_seo_description": "Umfassende Liste aller {year} Börsengänge (IPOs) am US-Aktienmarkt. Verfolge IPO-Performance, Preise, Renditen seit Börsengang und Marktdebüts mit detaillierten Unternehmensinformationen und historischen Daten.",
   "ipos_year_seo_keywords": "{year} IPOs, Börsengänge {year}, IPO-Liste {year}, {year} IPO-Performance, aktuelle IPOs, IPO-Kalender {year}, neue börsennotierte Unternehmen {year}",
-  "ipos_year_empty": "Keine IPOs gefunden. Bitte passe deinen Suchzeitraum für die neuesten {year} IPOs an."
+  "ipos_year_empty": "Keine IPOs gefunden. Bitte passe deinen Suchzeitraum für die neuesten {year} IPOs an.",
+
+  "ipos_statistics_chart_title": "IPOs pro Jahr, {startYear}-{endYear}",
+  "ipos_chart_series": "IPOs",
+  "ipos_year_heading": "Börsengänge {year}",
+  "ipos_year_summary": "Im Jahr {year} gab es {count} IPOs.",
+  "ipos_year_extremes": "Der stärkste Monat war {maxMonth} mit {maxCount}, der ruhigste {minMonth} mit {minCount}.",
+  "ipos_year_none": "Im Jahr {year} gab es keine IPOs."
 }

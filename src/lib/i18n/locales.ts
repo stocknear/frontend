@@ -142,7 +142,14 @@ export function canonicalizeLocale(value: unknown): Locale | null {
 }
 
 export function getLocaleDefinition(locale: Locale): LocaleDefinition {
-  return localeRegistry[locale];
+  // Paraglide's extractLocaleFromUrl() hands back the URL's own casing, so a
+  // request for /zh-cn/... yields "zh-cn" while this registry is keyed on the
+  // canonical "zh-CN". The raw lookup returned undefined and every caller then
+  // read .intlTag off it — a 500 on every page in both Chinese locales.
+  return (
+    localeRegistry[locale] ??
+    localeRegistry[canonicalizeLocale(locale) ?? baseLocale]
+  );
 }
 
 export function getLocaleFromSlug(slug: string): Locale | undefined {

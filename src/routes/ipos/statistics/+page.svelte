@@ -5,6 +5,8 @@
   import IPOChart from "$lib/components/IPOChart.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import {
+    ipos_chart_series,
+    ipos_statistics_chart_title,
     ipos_statistics_description,
     ipos_statistics_infobox,
     ipos_statistics_more_news,
@@ -27,6 +29,7 @@
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
+  import { getLocale } from "$lib/paraglide/runtime.js";
 
   export let data;
 
@@ -60,65 +63,43 @@
   let isLoaded = false;
   let config = null;
 
-  const startYear = 2019;
   const currentYear = new Date().getFullYear();
-  const yearList = Array.from(
-    { length: currentYear - startYear + 1 },
-    (_, i) => currentYear - i,
+
+  // ipoDate is a plain YYYY-MM-DD string. Reading the year back out of a Date
+  // shifts a 1 January listing into the previous year for anyone west of
+  // Greenwich, so slice the string instead.
+  $: ipoYearCounts = (data?.getIPOCalendar ?? []).reduce((acc, ipo) => {
+    const year = ipo?.ipoDate?.slice(0, 4);
+    if (year) acc[year] = (acc[year] || 0) + 1;
+    return acc;
+  }, {});
+
+  // The year range comes from the data, not from a hardcoded floor that has to
+  // be edited every January.
+  $: coveredYears = Object.keys(ipoYearCounts)
+    .map(Number)
+    .sort((a, b) => a - b);
+  $: startYear = coveredYears[0] ?? currentYear;
+  $: endYear = coveredYears[coveredYears.length - 1] ?? currentYear;
+  $: filteredYearList = [...coveredYears].reverse();
+
+  // Busiest and quietest completed year — the current one is still running, so
+  // comparing it against full years would be misleading.
+  $: completedYears = coveredYears.filter((year) => year !== currentYear);
+  $: maxYear = completedYears.reduce(
+    (best, year) => (ipoYearCounts[year] > ipoYearCounts[best] ? year : best),
+    completedYears[0],
   );
-  let ipoYearCounts = {};
-  let filteredYearList = [];
-
-  function findMinMax() {
-    const rawData = data?.getIPOCalendar || [];
-    const currentYear = new Date().getFullYear();
-
-    // Count IPOs per year, excluding the current year
-    const ipoCounts = rawData?.reduce((acc, { ipoDate }) => {
-      const year = new Date(ipoDate).getFullYear();
-      if (year !== currentYear) {
-        acc[year] = (acc[year] || 0) + 1;
-      }
-      return acc;
-    }, {});
-
-    // Find the years with the most and least IPOs
-    const years = Object.keys(ipoCounts);
-    if (years.length === 0) {
-      console.log("No valid IPOs found (excluding current year).");
-      return { maxYear: null, minYear: null, maxCount: 0, minCount: 0 };
-    }
-
-    const maxYear = years.reduce((a, b) =>
-      ipoCounts[a] > ipoCounts[b] ? a : b,
-    );
-    const minYear = years.reduce((a, b) =>
-      ipoCounts[a] < ipoCounts[b] ? a : b,
-    );
-
-    return {
-      maxYear: Number(maxYear),
-      minYear: Number(minYear),
-      maxCount: ipoCounts[maxYear],
-      minCount: ipoCounts[minYear],
-    };
-  }
-
-  // Proper destructuring assignment
-  const { maxYear, minYear, maxCount, minCount } = findMinMax();
+  $: minYear = completedYears.reduce(
+    (worst, year) => (ipoYearCounts[year] < ipoYearCounts[worst] ? year : worst),
+    completedYears[0],
+  );
+  $: maxCount = ipoYearCounts[maxYear] ?? 0;
+  $: minCount = ipoYearCounts[minYear] ?? 0;
 
   function plotData() {
-    const rawData = data?.getIPOCalendar ?? [];
-    // Group the IPOs by year
-    const yearCounts = rawData.reduce((acc, ipo) => {
-      const year = new Date(ipo?.ipoDate).getFullYear();
-      acc[year] = (acc[year] || 0) + 1;
-      return acc;
-    }, {});
-
-    // Sort the years and extract count values
-    const years = Object.keys(yearCounts).sort((a, b) => a - b);
-    const counts = years.map((year) => yearCounts[year]);
+    const years = coveredYears.map(String);
+    const counts = years.map((year) => ipoYearCounts[year]);
 
     // Build Highcharts options
     const options = {
@@ -133,7 +114,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1">Annual IPOs, 2015-2025</h3>`,
+        text: `<h3 class="mt-3 mb-1">${ipos_statistics_chart_title({ startYear, endYear })}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -173,7 +154,7 @@
             tooltipContent += `
             <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
             <span class="font-semibold text-sm text-fg">${point.series.name}:</span> 
-            <span class="font-normal text-sm text-fg">${point.y?.toLocaleString("en-US")}</span><br>`;
+            <span class="font-normal text-sm text-fg">${point.y?.toLocaleString(getLocale())}</span><br>`;
           });
           return tooltipContent;
         },
@@ -200,7 +181,7 @@
       },
       series: [
         {
-          name: "IPOs",
+          name: ipos_chart_series(),
           data: counts,
           color: $mode === "light" ? "#2C6288" : "white",
         },
@@ -218,26 +199,11 @@
 
     isLoaded = true;
   });
-
-  $: {
-    const rawData = data?.getIPOCalendar || [];
-    ipoYearCounts = rawData.reduce((acc, ipo) => {
-      if (!ipo?.ipoDate) return acc;
-      const year = new Date(ipo.ipoDate).getFullYear();
-      if (Number.isNaN(year)) return acc;
-      acc[year] = (acc[year] || 0) + 1;
-      return acc;
-    }, {});
-
-    filteredYearList = yearList.filter(
-      (year) => year !== currentYear || (ipoYearCounts[year] ?? 0) > 0,
-    );
-  }
 </script>
 
 <SEO
   title={ipos_statistics_seo_title()}
-  description={ipos_statistics_seo_description()}
+  description={ipos_statistics_seo_description({ startYear, endYear })}
   keywords={ipos_statistics_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
@@ -250,7 +216,7 @@
       "@type": "Organization",
       name: "Stocknear",
     },
-    temporalCoverage: "2015/2025",
+    temporalCoverage: `${startYear}/${endYear}`,
     spatialCoverage: "United States",
     variableMeasured: ["Number of IPOs", "IPO Performance", "Market Trends"],
     distribution: {
@@ -269,23 +235,26 @@
       <main class="w-full lg:w-3/4 lg:pr-10">
         <div class="w-full m-auto">
           <div class="grid grid-cols-1 gap-y-3">
-            <Infobox text={ipos_statistics_infobox()} />
+            <Infobox text={ipos_statistics_infobox({ startYear, endYear })} />
 
-            <h1
+            <!-- The layout already renders the page's <h1>; this is its section. -->
+            <h2
               class="type-h2 text-fg mb-2 sm:mb-0 mt-2"
             >
               {ipos_statistics_title()}
-            </h1>
+            </h2>
 
             <div
               class="mb-2 text-sm sm:text-base text-fg-muted"
             >
               {ipos_statistics_description({
-                count: data?.getIPOCalendar?.length?.toLocaleString("en-US"),
+                count: data?.getIPOCalendar?.length?.toLocaleString(getLocale()),
+                startYear,
+                endYear,
                 minYear,
-                minCount,
+                minCount: minCount?.toLocaleString(getLocale()),
                 maxYear,
-                maxCount: maxCount?.toLocaleString("en-US"),
+                maxCount: maxCount?.toLocaleString(getLocale()),
               })}
             </div>
 

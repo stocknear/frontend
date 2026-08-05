@@ -58,15 +58,13 @@
 
 <div class="space-y-3 overflow-hidden text-fg">
   <!--Start Content-->
-  <div class="w-auto lg:w-full p-1 flex flex-col m-auto">
+  <div class="w-auto lg:w-full flex flex-col m-auto">
     <div class="flex flex-col items-center w-full mb-3">
       <div class="flex flex-row justify-start mr-auto items-center">
         <!--<img class="h-10 inline-block mr-2" src={copilotIcon} />-->
 
         <div class="flex flex-row items-center">
-          <h3
-            class="mr-1 flex flex-row items-center type-h2 text-fg"
-          >
+          <h3 class="mr-1 flex flex-row items-center type-h2 text-fg">
             {stock_detail_earnings_surprise()}
           </h3>
           <label
@@ -80,7 +78,7 @@
     </div>
 
     <div
-      class="text-[1rem] {latestInfoDate(rawData?.date)
+      class="text-[1rem] p-3 {latestInfoDate(rawData?.date)
         ? 'bg-surface-card '
         : ' pl-1'} "
     >

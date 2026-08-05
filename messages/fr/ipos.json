@@ -11,15 +11,22 @@
   "ipos_tab_statistics": "Statistiques",
   "ipos_tab_latest": "Dernier",
   "ipos_statistics_seo_title": "IPO Statistiques et graphiques historiques - Données sur le marché de l’offre publique initiale",
-  "ipos_statistics_seo_description": "Statistiques complètes sur les IPO et graphiques interactifs pour les introductions en bourse aux États-Unis. Suis les tendances annuelles et mensuelles de l’IPO de 2015 à 2025, analyse les cycles du marché et découvre les modèles de performances de l’IPO.",
+  "ipos_statistics_seo_description": "Statistiques complètes sur les IPO et graphiques interactifs pour les introductions en bourse aux États-Unis. Suis les tendances annuelles et mensuelles des IPO de {startYear} à {endYear}, analyse les cycles du marché et découvre les modèles de performance.",
   "ipos_statistics_seo_keywords": "Statistiques IPO, graphiques d’introduction en bourse, données de marché IPO, tendances IPO, analyse IPO, données historiques IPO, performances IPO, statistiques annuelles IPO, données mensuelles IPO",
-  "ipos_statistics_infobox": "Cette page fournit des statistiques et des graphiques sur les introductions en bourse (IPO) sur le marché boursier américain. Les données annuelles sont disponibles de 2015 à 2025, et les données mensuelles à partir de 2019.",
+  "ipos_statistics_infobox": "Cette page fournit des statistiques et des graphiques sur les introductions en bourse (IPO) du marché américain. Les données annuelles et mensuelles sont disponibles de {startYear} à {endYear}.",
   "ipos_statistics_title": "Nombre d’IPO par année",
-  "ipos_statistics_description": "Il y a eu des {count} IPO entre 2015 et 2025. Le moins était en {minYear} avec seulement {minCount}. L’année complète {maxYear} a été un record absolu avec {maxCount} IPO.",
+  "ipos_statistics_description": "Il y a eu {count} IPO entre {startYear} et {endYear}. Le creux a été en {minYear} avec seulement {minCount}. L’année complète {maxYear} a battu tous les records avec {maxCount} IPO.",
   "ipos_statistics_stock_news": "Actualités boursières",
   "ipos_statistics_more_news": "Plus d’actualités sur les actions",
   "ipos_year_seo_title": "Liste {year} IPO - Répertoire complet de l’offre publique initiale",
   "ipos_year_seo_description": "Liste complète de toutes les introductions en bourse de {year} (IPO) à la bourse américaine. Suis les performances, les prix, les rendements depuis la cotation et les débuts sur le marché de l’IPO avec des informations détaillées sur l’entreprise et des données historiques.",
   "ipos_year_seo_keywords": "{year} IPO, introductions en bourse {year}, liste IPO {year}, {year} Performances IPO, récentes IPO, calendrier IPO {year}, nouvelles sociétés publiques {year}",
-  "ipos_year_empty": "Aucun IPO trouvé. Ajuste ta période de recherche pour le dernier {year} IPO."
+  "ipos_year_empty": "Aucun IPO trouvé. Ajuste ta période de recherche pour le dernier {year} IPO.",
+
+  "ipos_statistics_chart_title": "IPO par an, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Introductions en bourse {year}",
+  "ipos_year_summary": "Il y a eu {count} IPO en {year}.",
+  "ipos_year_extremes": "Le mois le plus actif a été {maxMonth} avec {maxCount}, le plus calme {minMonth} avec {minCount}.",
+  "ipos_year_none": "Il n’y a eu aucune IPO en {year}."
 }

@@ -4,102 +4,62 @@
   import { deferFunction } from "$lib/utils";
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
+  import { getLocale } from "$lib/paraglide/runtime.js";
+  import {
+    ipos_chart_series,
+    ipos_year_extremes,
+    ipos_year_heading,
+    ipos_year_none,
+    ipos_year_summary,
+  } from "$lib/paraglide/messages";
 
   export let data;
   export let year;
 
-  const currentYear = new Date()?.getFullYear();
-  const filteredData = data?.getIPOCalendar?.filter((item) => {
-    const ipoYear = new Date(item?.ipoDate)?.getFullYear();
-    return ipoYear === year;
-  });
+  // ipoDate is a plain YYYY-MM-DD string. new Date("2024-03-01") is parsed as
+  // UTC midnight but read back in local time, so getMonth()/getFullYear() land
+  // one month — or one year — early for anyone west of Greenwich. Slice the
+  // string instead of round-tripping through a Date.
+  const yearOf = (ipoDate) => Number(ipoDate?.slice(0, 4));
+  const monthIndexOf = (ipoDate) => Number(ipoDate?.slice(5, 7)) - 1;
+
+  const filteredData =
+    data?.getIPOCalendar?.filter((item) => yearOf(item?.ipoDate) === year) ?? [];
 
   let config = null;
   let isLoaded = false;
 
-  const monthDict = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December",
-  };
+  const monthFormatter = new Intl.DateTimeFormat(getLocale(), {
+    month: "long",
+    timeZone: "UTC",
+  });
+  const shortMonthFormatter = new Intl.DateTimeFormat(getLocale(), {
+    month: "short",
+    timeZone: "UTC",
+  });
+  const monthLabels = Array.from({ length: 12 }, (_, index) =>
+    shortMonthFormatter.format(Date.UTC(2000, index, 1)),
+  );
 
-  function findMinMaxMonths(year) {
-    const rawData = data?.getIPOCalendar || [];
-
-    // Count IPOs per month for the given year
-    const ipoCounts = rawData.reduce((acc, { ipoDate }) => {
-      const date = new Date(ipoDate);
-      const ipoYear = date.getFullYear();
-      const month = date.getMonth() + 1; // Get month (1-12)
-
-      if (ipoYear === year) {
-        acc[month] = (acc[month] || 0) + 1;
-      }
-      return acc;
-    }, {});
-
-    const months = Object.keys(ipoCounts);
-    if (months.length === 0) {
-      console.log(`No valid IPOs found for ${year}.`);
-      return { maxMonth: null, minMonth: null, maxCount: 0, minCount: 0 };
-    }
-
-    // Find the month with the most and least IPOs
-    const maxMonth = months.reduce((a, b) =>
-      ipoCounts[a] > ipoCounts[b] ? a : b,
-    );
-    const minMonth = months.reduce((a, b) =>
-      ipoCounts[a] < ipoCounts[b] ? a : b,
-    );
-
-    return {
-      maxMonth: Number(maxMonth), // Convert string to number
-      minMonth: Number(minMonth),
-      maxCount: ipoCounts[maxMonth],
-      minCount: ipoCounts[minMonth],
-    };
+  // One source of truth for the chart and the sentence above it. Counting only
+  // the months that appear in the data meant the prose named the smallest
+  // non-empty month and could never report a month with zero IPOs, while the
+  // chart plotted all twelve.
+  const monthlyCounts = Array(12).fill(0);
+  for (const item of filteredData) {
+    const monthIndex = monthIndexOf(item?.ipoDate);
+    if (monthIndex >= 0 && monthIndex < 12) monthlyCounts[monthIndex] += 1;
   }
 
-  // Example Usage
-  const { maxMonth, minMonth, maxCount, minCount } = findMinMaxMonths(year);
+  const total = filteredData?.length ?? 0;
+  const maxCount = total ? Math.max(...monthlyCounts) : 0;
+  const minCount = total ? Math.min(...monthlyCounts) : 0;
+  const maxMonth = total ? monthlyCounts.indexOf(maxCount) : -1;
+  const minMonth = total ? monthlyCounts.indexOf(minCount) : -1;
 
   function plotData(year) {
-    const rawData = filteredData || [];
-
-    // Initialize an array with 12 months, all set to 0
-    const ipoCounts = Array(12).fill(0);
-
-    // Count IPOs per month for the given year
-    rawData.forEach(({ ipoDate }) => {
-      const date = new Date(ipoDate);
-      const month = date.getMonth(); // Month index (0-11)
-      ipoCounts[month]++;
-    });
-
-    // Define month names for the x-axis
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
+    const ipoCounts = monthlyCounts;
+    const months = monthLabels;
 
     // Build Highcharts options
     const options = {
@@ -114,7 +74,7 @@
         animation: false,
       },
       title: {
-        text: `<h3 class="mt-3 mb-1">${year} IPOs</h3>`,
+        text: `<h3 class="mt-3 mb-1">${ipos_year_heading({ year })}</h3>`,
         style: {
           color: $mode === "light" ? "black" : "white",
         },
@@ -150,8 +110,8 @@
         borderRadius: 4,
         formatter: function () {
           return `<span class="m-auto text-[1rem] font-[501]">${this.x}</span><br>
-                        <span class="font-semibold text-sm text-fg">IPOs:</span> 
-                        <span class="font-normal text-sm text-fg">${this.y?.toLocaleString("en-US")}</span>`;
+                        <span class="font-semibold text-sm text-fg">${ipos_chart_series()}:</span>
+                        <span class="font-normal text-sm text-fg">${this.y?.toLocaleString(getLocale())}</span>`;
         },
       },
       plotOptions: {
@@ -176,7 +136,7 @@
       },
       series: [
         {
-          name: "IPOs",
+          name: ipos_chart_series(),
           data: ipoCounts,
           color: $mode === "light" ? "#2C6288" : "white",
         },
@@ -197,18 +157,20 @@
 </script>
 
 <h2 class="type-h2 text-fg mt-2">
-  {year} Initial Public Offerings
+  {ipos_year_heading({ year })}
 </h2>
 
 <div class="mb-2">
-  {#if year === currentYear}
-    There have been 64 IPOs so far in {year}.
+  {#if total === 0}
+    {ipos_year_none({ year })}
   {:else}
-    There have been {filteredData?.length?.toLocaleString("en-US")} IPOs in {year}.
-    The most was in {monthDict[maxMonth]} with {maxCount?.toLocaleString(
-      "en-US",
-    )}, the least was in {monthDict[minMonth]} with
-    {minCount}.
+    {ipos_year_summary({ count: total?.toLocaleString(getLocale()), year })}
+    {ipos_year_extremes({
+      maxMonth: monthFormatter.format(Date.UTC(2000, maxMonth, 1)),
+      maxCount: maxCount?.toLocaleString(getLocale()),
+      minMonth: monthFormatter.format(Date.UTC(2000, minMonth, 1)),
+      minCount: minCount?.toLocaleString(getLocale()),
+    })}
   {/if}
 </div>
 

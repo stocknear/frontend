@@ -8,6 +8,8 @@
   ipos_seo_keywords,
   ipos_seo_title,
 } from "$lib/paraglide/messages";
+  import { getLocale } from "$lib/paraglide/runtime.js";
+
   export let data;
 
   let marketNews = data?.getNews;
@@ -82,7 +84,7 @@
       <main class="w-full">
         <div class="w-full overflow-x-auto">
           <Table
-            title={ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
+            title={ipos_count({ count: rawData?.length?.toLocaleString(getLocale()) })}
             {data}
             {rawData}
             {excludedRules}

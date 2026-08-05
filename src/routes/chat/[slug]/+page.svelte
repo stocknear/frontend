@@ -5,6 +5,7 @@
   import Square from "lucide-svelte/icons/square";
 
   import { getCreditFromQuery, agentOptions, agentCategory } from "$lib/utils";
+  import { getLocale } from "$lib/paraglide/runtime.js";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { goto, beforeNavigate } from "$app/navigation";
@@ -578,6 +579,7 @@
           query: userQuery,
           chatId: streamChatId,
           reasoning: $chatReasoning,
+          lang: getLocale(),
         }),
         signal: runAbortController.signal,
       });
@@ -633,8 +635,14 @@
           try {
             const json = JSON?.parse(line);
 
-            if (json.error) {
-              console.error("Stream error:", json.error);
+            if (json?.event === "error") {
+              const streamError =
+                json?.message || json?.error || "Unknown error";
+              console.error("Stream error:", streamError);
+              if (messages[idx]) {
+                messages[idx].content = assistantText || streamError;
+                messages = [...messages];
+              }
               break;
             }
 

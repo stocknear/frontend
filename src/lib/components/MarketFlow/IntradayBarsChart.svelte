@@ -32,9 +32,6 @@
     const volumeSinceOpen = bars.map((item) =>
       Number(item?.volumeSinceOpen ?? 0),
     );
-    const oiSinceOpen = bars.map((item) =>
-      Number(item?.openInterestSinceOpen ?? 0),
-    );
 
     return {
       bars,
@@ -42,7 +39,6 @@
       volumeSeries,
       oiSeries,
       volumeSinceOpen,
-      oiSinceOpen,
     };
   };
 
@@ -53,7 +49,6 @@
       volumeSeries,
       oiSeries,
       volumeSinceOpen,
-      oiSinceOpen,
     } = getSeriesData();
 
     return {
@@ -178,9 +173,13 @@
           color: $mode === "light" ? "#6366f1" : "#818cf8",
         },
         {
+          // Open interest is a level, not a per-interval flow, and it sits ~17x above the
+          // volume columns — on the same axis it flattens them to nothing. Own axis, and a
+          // line rather than a column so the two encodings stay distinguishable.
           name: "Open Interest",
-          type: "column",
+          type: "spline",
           data: oiSeries,
+          yAxis: 1,
           color: $mode === "light" ? "#22c55e" : "#4ade80",
         },
         {
@@ -190,14 +189,6 @@
           yAxis: 1,
           dashStyle: "ShortDot",
           color: $mode === "light" ? "#1f2937" : "#e5e7eb",
-        },
-        {
-          name: "OI Since Open",
-          type: "spline",
-          data: oiSinceOpen,
-          yAxis: 1,
-          dashStyle: "ShortDot",
-          color: $mode === "light" ? "#0f766e" : "#14b8a6",
         },
       ],
     };

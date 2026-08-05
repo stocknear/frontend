@@ -42,5 +42,6 @@
   "market_flow_stat_put_volume": "Volume des puts",
   "market_flow_stat_call_volume": "Volume des calls",
   "market_flow_modal_title": "Intérêt et volume ouverts intrajournaliers",
-  "market_flow_modal_description": "Totaux d’intervalle avec changement cumulé depuis l’ouverture du marché."
+  "market_flow_modal_description": "Volume et positions ouvertes par intervalle, avec volume cumulé depuis l’ouverture du marché.",
+  "market_flow_data_unavailable": "Les données de flux de marché sont momentanément indisponibles. Elles réapparaîtront à la prochaine mise à jour."
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
+  import { deLocalizeHref, getLocale } from "$lib/paraglide/runtime.js";
   import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   import { slide, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
@@ -436,6 +436,7 @@
           query: userQuery,
           chatId: chatId,
           reasoning: $chatReasoning,
+          lang: getLocale(),
         }),
       });
 
@@ -473,8 +474,13 @@
           try {
             const json = JSON.parse(line);
 
-            if (json.error) {
-              console.error("Stream error:", json.error);
+            if (json?.event === "error") {
+              const streamError = json?.message || json?.error || "Unknown error";
+              console.error("Stream error:", streamError);
+              if (messages[idx]) {
+                messages[idx].content = assistantText || streamError;
+                messages = [...messages];
+              }
               break;
             }
 

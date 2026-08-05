@@ -1,5 +1,6 @@
 import type { RequestHandler } from "./$types";
 import { getCreditFromQuery, agentOptions } from "$lib/utils";
+import { baseLocale, canonicalizeLocale } from "$lib/i18n/locales";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import {
   CHAT_ID_REGEX,
@@ -170,7 +171,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  let requestData: { query?: unknown; chatId?: unknown; reasoning?: unknown } = {};
+  let requestData: {
+    query?: unknown;
+    chatId?: unknown;
+    reasoning?: unknown;
+    lang?: unknown;
+  } = {};
   try {
     requestData = await request.json();
   } catch {
@@ -201,6 +207,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
 
   const reasoning = requestData.reasoning === true;
+  // Chat is generated, not pre-translated, so the model can answer in any UI locale.
+  // Pass the locale straight through rather than through the backend-content capability map.
+  const lang = canonicalizeLocale(requestData.lang) ?? baseLocale;
   const multiplier = reasoning ? 2 : 1;
   const costOfCredit = getCreditFromQuery(query, agentOptions) * multiplier;
 
@@ -244,7 +253,15 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         "Content-Type": "application/json",
         "X-API-KEY": apiKey,
       },
-      body: JSON.stringify({ query, messages: messagesForModel, reasoning }),
+      body: JSON.stringify({
+        query,
+        messages: messagesForModel,
+        reasoning,
+        lang,
+      }),
+      // The provider can queue before inference starts; fail loudly rather than at an
+      // undici default we didn't choose. The backend pings to keep this connection alive.
+      signal: AbortSignal.timeout(15 * 60 * 1000),
     });
 
     if (!upstream.ok || !upstream.body) {

@@ -14,16 +14,23 @@
   "ipos_tab_latest": "最新",
 
   "ipos_statistics_seo_title": "IPO 统计与历史图表 - 美股 IPO 市场数据",
-  "ipos_statistics_seo_description": "完整的美股 IPO 统计与交互式图表。追踪 2015–2025 年的年度与月度 IPO 趋势，分析市场周期并发现 IPO 表现规律。",
+  "ipos_statistics_seo_description": "完整的美股 IPO 统计与交互式图表。追踪 {startYear}–{endYear} 年的年度与月度 IPO 趋势，分析市场周期，发现 IPO 表现规律。",
   "ipos_statistics_seo_keywords": "IPO 统计, 首次公开募股图表, IPO 市场数据, IPO 趋势, IPO 分析, 历史 IPO 数据, IPO 表现, 年度 IPO 统计, 月度 IPO 数据",
-  "ipos_statistics_infobox": "本页提供美股首次公开募股（IPO）的统计与图表。年度数据覆盖 2015–2025 年，月度数据自 2019 年起。",
+  "ipos_statistics_infobox": "本页提供美股首次公开募股（IPO）的统计与图表。年度与月度数据覆盖 {startYear}–{endYear} 年。",
   "ipos_statistics_title": "各年 IPO 数量",
-  "ipos_statistics_description": "2015–2025 年间共有 {count} 只 IPO，其中 {minYear} 年最少，仅 {minCount} 只；{maxYear} 年则以 {maxCount} 只创下历史纪录。",
+  "ipos_statistics_description": "{startYear}–{endYear} 年间共有 {count} 家公司完成 IPO，其中 {minYear} 年最少，仅 {minCount} 家；{maxYear} 年则以 {maxCount} 家创下历史纪录。",
   "ipos_statistics_stock_news": "股票新闻",
   "ipos_statistics_more_news": "更多股票新闻",
 
   "ipos_year_seo_title": "{year} 年 IPO 列表 - 完整首次公开募股名录",
   "ipos_year_seo_description": "{year} 年美股全部 IPO 的完整列表。追踪 IPO 表现、发行价、上市以来回报与市场首秀，附详细公司信息与历史数据。",
   "ipos_year_seo_keywords": "{year} IPO, 首次公开募股 {year}, IPO 列表 {year}, {year} IPO 表现, 最近 IPO, IPO 日历 {year}, {year} 新上市公司",
-  "ipos_year_empty": "未找到 IPO。请调整搜索时间范围以查看最新的 {year} 年 IPO。"
+  "ipos_year_empty": "未找到 IPO。请调整搜索时间范围以查看最新的 {year} 年 IPO。",
+
+  "ipos_statistics_chart_title": "各年 IPO 数量，{startYear}–{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "{year} 年首次公开募股",
+  "ipos_year_summary": "{year} 年共有 {count} 家公司完成 IPO。",
+  "ipos_year_extremes": "最活跃的月份是 {maxMonth}，共 {maxCount} 家；最冷清的是 {minMonth}，共 {minCount} 家。",
+  "ipos_year_none": "{year} 年没有 IPO。"
 }

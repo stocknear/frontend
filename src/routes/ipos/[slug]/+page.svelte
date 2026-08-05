@@ -12,13 +12,21 @@
   ipos_year_seo_title,
 } from "$lib/paraglide/messages";
 
+  import { getLocale } from "$lib/paraglide/runtime.js";
+
   export let data;
 
-  let rawData = data?.getIPOCalendar?.filter(
-    (item) => new Date(item?.ipoDate).getFullYear() >= data?.getYear,
-  );
+  // SSR used to filter with >= (every year at or after this one) while the
+  // reactive block below used ==, so hydration silently swapped the table out
+  // from under the server-rendered markup. One reactive definition, one rule.
+  // ipoDate is a YYYY-MM-DD string; slicing it avoids the UTC-to-local shift
+  // that pushes a 1 January listing into the previous year.
+  $: rawData =
+    data?.getIPOCalendar?.filter(
+      (item) => Number(item?.ipoDate?.slice(0, 4)) === data?.getYear,
+    ) ?? [];
 
-  let year = data?.getYear;
+  $: year = data?.getYear;
   let marketNews = data?.getNews;
 
   const excludedRules = new Set([
@@ -45,14 +53,6 @@
     { name: "Current Price", rule: "currentPrice", type: "float" },
   ];
 
-  $: {
-    if ($page?.url?.pathname) {
-      rawData = data?.getIPOCalendar?.filter(
-        (item) => new Date(item?.ipoDate).getFullYear() == data?.getYear,
-      );
-      year = data?.getYear;
-    }
-  }
 </script>
 
 <SEO
@@ -95,7 +95,7 @@
                 {excludedRules}
                 {defaultList}
                 {specificRows}
-                title={ipos_count({ count: rawData?.length?.toLocaleString("en-US") })}
+                title={ipos_count({ count: rawData?.length?.toLocaleString(getLocale()) })}
               />
             </div>
           {:else}
