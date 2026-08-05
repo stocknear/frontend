@@ -4,6 +4,43 @@ set -e
 
 echo "🚀 Starting deployment..."
 
+mkdir -p builds
+
+# One deploy at a time. Two concurrent runs would delete each other's staging dir (see the
+# prune below) and race on the `build` symlink. The fd is released when this shell exits.
+exec 9>builds/.deploy.lock
+flock -n 9 || { echo "❌ Another deploy is already running - aborting"; exit 1; }
+
+# Reclaim BEFORE building, not after. Cleanup used to be the last line of the script, so an
+# out-of-space build failure skipped it entirely and the disk stayed just as full for every
+# retry. It also only matched build_*, so legacy_build_* and aborted .staging_* grew forever.
+# Keep the live build plus one rollback; never delete what the `build` symlink points at.
+ACTIVE=$(readlink build 2>/dev/null || true); ACTIVE=${ACTIVE##*/}
+rm -rf -- builds/.staging_*
+# -x is load-bearing: when $ACTIVE is empty, `grep -Fv ""` drops every line and prunes nothing.
+(cd builds && ls -t | grep -E '^(build|legacy_build)_' | grep -Fxv "$ACTIVE" | tail -n +2 | xargs -r rm -rf)
+
+# npm ci wipes and reinstalls node_modules, so a near-full disk dies mid-install or mid-build
+# with a bare ENOSPC. Fail here, where the message says what to do. Real footprint is ~800MB
+# (node_modules + two kept builds + staging); 2GB leaves room for npm's cache churn.
+AVAIL_MB=$(df -Pm . | awk 'NR==2 {print $4}')
+if [ "${AVAIL_MB:-0}" -lt 2000 ]; then
+  echo "❌ Only ${AVAIL_MB}MB free, need ~2GB for npm ci + build - aborting"
+  df -h .
+  du -sh builds/* builds/.[!.]* 2>/dev/null | sort -h | tail -5
+  echo "   Try: pm2 flush && npm cache clean --force"
+  exit 1
+fi
+
+# Anything else parked in builds/ is invisible to the prune above, so surface it rather than
+# letting it silently eat the disk (two orphaned 85MB build outputs were found this way).
+# `cmd && echo` would abort the deploy under `set -e` on the common path where there is no
+# stray, so this has to be an if.
+STRAY=$(cd builds && ls -A | grep -vE "^(build_|legacy_build_|\.deploy\.lock$)" | head -5)
+if [ -n "$STRAY" ]; then
+  echo "⚠️  Unmanaged entries in builds/ (never auto-pruned): $(echo "$STRAY" | tr '\n' ' ')"
+fi
+
 # Your original commands
 git pull
 npm ci
@@ -17,9 +54,6 @@ for VAR in STOCKNEAR_API_KEY VAPID_PRIVATE_KEY VITE_VAPID_PUBLIC_KEY; do
     exit 1
   fi
 done
-
-# Create builds directory
-mkdir -p builds
 
 # Build to timestamped directory
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
@@ -51,9 +85,6 @@ fi
 
 # Reload PM2
 pm2 reload frontend
-
-# Cleanup (keep last 3 builds)
-cd builds && ls -t | grep '^build_' | tail -n +4 | xargs -r rm -rf && cd ..
 
 trap - EXIT
 echo "✅ Deployment complete!"
