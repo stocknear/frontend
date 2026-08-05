@@ -10,7 +10,7 @@
   import { de, enUS } from "date-fns/locale";
   import { getLocale } from "$lib/paraglide/runtime.js";
   import { screenWidth } from "$lib/store";
-  import { abbreviateNumber } from "$lib/utils";
+  import { abbreviateNumber, getMarketToday } from "$lib/utils";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -65,12 +65,12 @@
   let customColumnOrder: string[] = [];
   let lastAppliedColumnKeys = "";
 
-  let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
+  let currentWeek = startOfWeek(getMarketToday(), { weekStartsOn: 1 });
   let earningsCalendar = data?.getEarningsCalendar;
   const maxWeeksChange = 4; // Maximum allowed week change
   let previousMax = false;
   let nextMax = false;
-  const today = new Date();
+  const today = getMarketToday();
   $: tabs = $screenWidth < 640 ? ["Details", "Compact"] : ["Daily", "Weekly"];
   let releaseTime = "anytime";
 
@@ -309,7 +309,7 @@
     },
   ];
 
-  let currentDate = new Date();
+  let currentDate = getMarketToday();
   let currentWeekday = Math.min((currentDate.getDay() + 6) % 7, 4);
   let selectedWeekday = currentWeekday;
 

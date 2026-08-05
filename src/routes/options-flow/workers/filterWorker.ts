@@ -78,7 +78,10 @@ function isAny(value: string | string[]): boolean {
 
 
 function createRuleCheck(rule, ruleName, ruleValue) {
-  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+  // now.getTime() is compared against a real epoch below, so this must be a real epoch.
+  // Formatting to a zone-less string and re-parsing shifted it by the host's offset,
+  // giving the wrong days-to-expiry for anyone outside New York.
+  const now = new Date();
 
 
 if (ruleName === 'flowtype') {

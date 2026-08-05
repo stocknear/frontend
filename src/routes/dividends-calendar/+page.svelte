@@ -10,7 +10,7 @@
   import { de, enUS } from "date-fns/locale";
   import { getLocale } from "$lib/paraglide/runtime.js";
   import { screenWidth } from "$lib/store";
-  import { abbreviateNumber } from "$lib/utils";
+  import { abbreviateNumber, getMarketToday } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import SEO from "$lib/components/SEO.svelte";
@@ -83,19 +83,19 @@
   const navigationButtonClasses =
     "h-16 w-48 cursor-pointer border m-auto flex bg-surface-card text-fg mb-3";
 
-  let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
+  let currentWeek = startOfWeek(getMarketToday(), { weekStartsOn: 1 });
   let dividendCalendar = data?.getDividendCalendar;
   const maxWeeksChange = 4; // Maximum allowed week change
   let previousMax = false;
   let nextMax = false;
-  const today = new Date();
+  const today = getMarketToday();
 
   let formattedWeekday = [];
   let weekday = [];
   let rawWeekday = [];
   let daysOfWeek = [];
 
-  let currentDate = new Date();
+  let currentDate = getMarketToday();
   let currentWeekday = Math.min((currentDate.getDay() + 6) % 7, 4);
   let selectedWeekday = currentWeekday;
 

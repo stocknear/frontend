@@ -1019,6 +1019,7 @@
                             day: "2-digit", // Include day number
                             month: "short", // Display short month name
                             year: "numeric", // Include year
+                            timeZone: "UTC",
                           })}
                         </td>
 

@@ -82,6 +82,7 @@
               day: "numeric",
               year: "numeric",
               daySuffix: "2-digit",
+              timeZone: "UTC",
             })
           : "n/a";
 
@@ -368,6 +369,7 @@
                       day: "numeric",
                       year: "numeric",
                       daySuffix: "2-digit",
+                      timeZone: "UTC",
                     })}
                   </td>
 

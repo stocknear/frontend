@@ -445,6 +445,7 @@
           month: "short",
           day: "numeric",
           year: "numeric",
+          timeZone: "UTC",
         },
       );
       const formattedChangeRate = new Intl.NumberFormat("en").format(
@@ -476,6 +477,7 @@
           month: "short",
           day: "numeric",
           year: "numeric",
+          timeZone: "UTC",
         },
       );
 

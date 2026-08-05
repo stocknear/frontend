@@ -255,6 +255,7 @@
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
+          timeZone: "America/New_York",
         }) + " Uhr"
       );
     }
@@ -262,6 +263,7 @@
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
+      timeZone: "America/New_York",
     });
   }
 

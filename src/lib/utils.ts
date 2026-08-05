@@ -1706,37 +1706,6 @@ export function validateReturnUrl(returnUrl: string, origin: string) {
 }
 
 
-/*
-function convertNYTimeToLocalTime(nyTimeString) {
-    // New York Time Zone
-    const nyTimeZone = 'America/New_York';
-    
-    // Parse the New York time string
-    let nyTime = new Date(nyTimeString);
-    if (isNaN(nyTime)) {
-        throw new Error('Invalid date format');
-    }
-    
-    // Convert New York time to UTC
-    let utcTime = new Date(nyTime.toLocaleString('en-US', { timeZone: nyTimeZone }));
-    
-    // Create an Intl.DateTimeFormat object for local time zone
-    const localTimeFormatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        hour12: false,  // Use 24-hour format
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-    
-    // Format the UTC time as local time
-    const localFormattedTime = localTimeFormatter.format(utcTime);
-    return localFormattedTime;
-}
-*/
 export function convertPeriodString(interval) {
   const mapping = {
     "1D": common_period_1_day(),
@@ -2186,31 +2155,62 @@ export const monthNames = [
 
 export const holidays = ["2026-01-01","2026-01-19","2026-02-16","2026-04-03","2026-05-25","2026-06-19","2026-07-03","2026-09-07","2026-11-26","2026-12-25"]
 
+/**
+ * The New York calendar Y/M/D for an instant.
+ *
+ * Read from `formatToParts` rather than by splitting a formatted string: a locale's pattern
+ * is not guaranteed, and on a small-ICU runtime `en-CA` falls back to `MM/DD/YYYY`, which a
+ * `.split("-")` would silently turn into NaN.
+ */
+function newYorkDateParts(when: Date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(when);
+
+  const part = (type: string) =>
+    Number(parts.find((entry) => entry.type === type)?.value);
+
+  return { year: part("year"), month: part("month"), day: part("day") };
+}
+
+/**
+ * Today's New York calendar date, as a Date whose *local* fields are that date.
+ *
+ * Components must not call `new Date()` at init to mean "today": SSR and hydration run on
+ * different machines in different zones, so the server and the client can land on different
+ * calendar days and render a different week or day tab — a structural mismatch that makes
+ * Svelte rebuild the DOM. Deriving Y/M/D from a fixed zone makes both passes agree, and
+ * returning local-midnight keeps date-fns helpers (which read local fields) working.
+ *
+ * Note this is the *market's* today, not the viewer's: east of New York the two differ for
+ * part of the day, which is intended for a US-market calendar.
+ */
+export const getMarketToday = () => {
+  const { year, month, day } = newYorkDateParts();
+  return new Date(year, month - 1, day);
+};
+
 export const getLastTradingDay = () => {
-  const etTimeZone = "America/New_York";
+  // The previous version formatted a Date to a zone-less string and re-parsed it, which
+  // yields an instant shifted by the host's own offset — so an SSR server and a client in a
+  // different zone disagreed about which day it was (a Pacific host returned 2026-08-06
+  // where UTC returned 2026-08-05).
+  const { year, month, day } = newYorkDateParts();
 
-  // Helper function to check if a date (in NY time) is a holiday
-  const isHoliday = (date) => {
-    return holidays.includes(date.toISOString().split("T")[0]);
-  };
-  let date = new Date();
-
-  // Convert current date to NY timezone
-  const nyDate = new Date(
-    date.toLocaleString("en-US", { timeZone: etTimeZone }),
-  );
-
-  // Loop backwards to find the most recent trading day
+  // Walk the calendar in UTC: no DST, no dependence on the host zone, and no string parsing.
+  const cursor = new Date(Date.UTC(year, month - 1, day));
   while (true) {
-    const dayOfWeek = nyDate.getUTCDay();
+    const dayOfWeek = cursor.getUTCDay();
+    const isoDate = cursor.toISOString().split("T")[0];
 
-    // Check if it's a weekday and not a holiday
-    if (dayOfWeek !== 0 && dayOfWeek !== 6 && !isHoliday(nyDate)) {
-      return nyDate.toISOString().split("T")[0];
+    if (dayOfWeek !== 0 && dayOfWeek !== 6 && !holidays.includes(isoDate)) {
+      return isoDate;
     }
 
-    // Move back one day
-    nyDate.setDate(nyDate.getDate() - 1);
+    cursor.setUTCDate(cursor.getUTCDate() - 1);
   }
 };
 

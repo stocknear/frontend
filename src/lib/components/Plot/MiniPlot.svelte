@@ -150,10 +150,13 @@
 
     const updateBarSpace = () => {
         if (!chart || !chartContainer || currentBarCount <= 0) return;
-        const paneWidth = chart.getSize("candle_pane", "main")?.width;
+        // The series is drawn across the whole canvas, but "candle_pane"/"main"
+        // reports a width short by the y-axis gutter (164 -> 133 on a phone).
+        // Sizing the bars to that number left the series right-anchored with a
+        // 32px hole on the left of every card. Measure what actually gets drawn.
         const containerWidth = chartContainer.clientWidth || undefined;
         const chartWidth = chart.getSize()?.width;
-        const width = paneWidth ?? containerWidth ?? chartWidth ?? 0;
+        const width = containerWidth ?? chartWidth ?? 0;
         if (!width) return;
         const desired = width / currentBarCount;
         const clamped = Math.max(1, desired);
@@ -471,22 +474,30 @@
 
         <div class="border-t border-line bg-surface-sunken px-3 py-2.5">
             <div class="mb-1.5 flex items-baseline justify-between gap-2">
-                <span class="type-th">Option Flow</span>
-                <span class="type-meta text-fg-subtle tabular-nums">
+                <span class="type-th whitespace-nowrap"
+                    ><span class="hidden sm:inline">Option&nbsp;</span>Flow</span
+                >
+                <span
+                    class="type-meta whitespace-nowrap text-fg-subtle tabular-nums"
+                >
                     RVOL {relativeVolume ? relativeVolume.toFixed(2) : "\u2014"}
                 </span>
             </div>
 
             {#if hasFlow}
                 <div class="flex items-baseline justify-between gap-2">
-                    <span class="type-data-em text-up tabular-nums">
+                    <span
+                        class="type-data-em whitespace-nowrap text-up tabular-nums"
+                    >
                         {bullPercentage}%
-                        <span class="type-meta text-fg-subtle"
+                        <span class="type-meta hidden text-fg-subtle sm:inline"
                             >({abbreviateNumber(bullPrem)})</span
                         >
                     </span>
-                    <span class="type-data-em text-down tabular-nums">
-                        <span class="type-meta text-fg-subtle"
+                    <span
+                        class="type-data-em whitespace-nowrap text-down tabular-nums"
+                    >
+                        <span class="type-meta hidden text-fg-subtle sm:inline"
                             >({abbreviateNumber(bearPrem)})</span
                         >
                         {bearPercentage}%

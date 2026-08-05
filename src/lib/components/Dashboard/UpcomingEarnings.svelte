@@ -55,6 +55,7 @@
                 : ["Monday", "Tuesday", "Wednesday", "Thursday"].includes(
                       new Date().toLocaleDateString("en-US", {
                         weekday: "long",
+                        timeZone: "America/New_York",
                       }),
                     )
                   ? dashboard_upcoming_earnings_tomorrow()

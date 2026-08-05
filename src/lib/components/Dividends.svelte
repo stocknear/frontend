@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { displayCompanyName } from "$lib/store";
   import Infobox from "$lib/components/Infobox.svelte";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
@@ -144,7 +145,13 @@
     }
   }
 
+  let hydrated = false;
+
   function loadRowsPerPage() {
+    // Read the saved preference only after hydration: letting localStorage change
+    // rowsPerPage during the first render makes the client emit a different number
+    // of rows than the server, which forces Svelte to rebuild the table.
+    if (!hydrated) return;
     if (typeof localStorage !== "undefined") {
       const savedRowsPerPage = localStorage.getItem(
         `dividends_rowsPerPage_${pagePathName}`,
@@ -325,6 +332,13 @@
   dividendGrowth = rawData?.dividendGrowth;
 
   htmlOutput = generateDividendInfoHTML();
+
+  onMount(() => {
+    hydrated = true;
+    loadRowsPerPage();
+    updatePaginatedData();
+  });
+
 </script>
 
 <section class="w-full overflow-hidden h-full">
@@ -387,6 +401,7 @@
                   day: "numeric",
                   year: "numeric",
                   daySuffix: "2-digit",
+                  timeZone: "UTC",
                 })}
               </div>
             </div>
@@ -474,6 +489,7 @@
                             day: "numeric",
                             year: "numeric",
                             daySuffix: "2-digit",
+                            timeZone: "UTC",
                           })}
                         </td>
                         <td class="text-end text-sm whitespace-nowrap">

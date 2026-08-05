@@ -20,11 +20,7 @@
 
   const formatDate = (dateString) => {
     const inputDate = new Date(dateString);
-    const nycTime = new Date().toLocaleString("en-US", {
-      timeZone: "America/New_York",
-    });
-    const currentNYCDate = new Date(nycTime);
-    const difference = inputDate.getTime() - currentNYCDate.getTime();
+    const difference = inputDate.getTime() - Date.now();
     const minutes = Math.abs(Math.round(difference / (1000 * 60)));
 
     if (minutes < 60) {

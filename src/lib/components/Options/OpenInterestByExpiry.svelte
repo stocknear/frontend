@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import {
     stock_detail_options_chart_type_column,
     stock_detail_options_chart_type_line,
@@ -144,7 +145,13 @@
   }
 
   // Load rows per page preference from localStorage
+  let hydrated = false;
+
   function loadRowsPerPage() {
+    // Read the saved preference only after hydration: letting localStorage change
+    // rowsPerPage during the first render makes the client emit a different number
+    // of rows than the server, which forces Svelte to rebuild the table.
+    if (!hydrated) return;
     const currentPath = pagePathName || $page?.url?.pathname;
 
     if (!currentPath || typeof localStorage === "undefined") {
@@ -477,6 +484,13 @@
     loadRowsPerPage(); // Load pagination preference for new page
     updatePaginatedData(); // Update display with loaded preference
   }
+
+  onMount(() => {
+    hydrated = true;
+    loadRowsPerPage();
+    updatePaginatedData();
+  });
+
 </script>
 
 <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
@@ -589,6 +603,7 @@
                   month: "short", // Abbreviated month (e.g., Jan)
                   day: "numeric", // Numeric day (e.g., 10)
                   year: "numeric", // Full year (e.g., 2025)
+                  timeZone: "UTC",
                 })}
               </td>
               <td class="text-sm text-end whitespace-nowrap">

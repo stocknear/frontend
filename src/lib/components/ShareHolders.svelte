@@ -230,7 +230,13 @@
     }
   }
 
+  let hydrated = false;
+
   function loadRowsPerPage() {
+    // Read the saved preference only after hydration: letting localStorage change
+    // rowsPerPage during the first render makes the client emit a different number
+    // of rows than the server, which forces Svelte to rebuild the table.
+    if (!hydrated) return;
     if (typeof localStorage !== "undefined") {
       const savedRowsPerPage = localStorage.getItem(
         `shareholders_rowsPerPage_${pagePathName}`,
@@ -295,6 +301,10 @@
   }
 
   onMount(async () => {
+    // The client owns the DOM from here, so the stored preference can safely change the
+    // row count without diverging from what the server rendered.
+    hydrated = true;
+
     // Load pagination preference
     loadRowsPerPage();
 
@@ -432,6 +442,7 @@
       config = plotData();
     }
   }
+
 </script>
 
 <section class="overflow-hidden h-full pb-8">

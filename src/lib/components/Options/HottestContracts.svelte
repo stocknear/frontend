@@ -57,9 +57,9 @@
   let totalPages = 1;
   let pagePathName = $page?.url?.pathname;
 
-  const currentTime = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-  )?.getTime();
+  // Formatting to a zone-less string and re-parsing it shifts the instant by the host's
+  // own offset, so this disagreed between the SSR server and the client.
+  const currentTime = Date.now();
 
   function convertDateFormat(dateString) {
     if (!dateString || typeof dateString !== "string") {

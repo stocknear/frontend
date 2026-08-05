@@ -3471,10 +3471,14 @@
                     {item[column.key]}
                   {/if}
                 {:else if column?.type === "date"}
+                  <!-- Backend dates are UTC-anchored (YYYY-MM-DD parses as UTC midnight).
+                       Without timeZone the server and any client west of it print
+                       different calendar days. -->
                   {new Date(item[column.key]).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
+                    timeZone: "UTC",
                   })}
                 {:else if column?.type === "dollarInt"}
                   {@html item[column.key] == null

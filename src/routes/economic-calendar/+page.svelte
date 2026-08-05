@@ -31,7 +31,11 @@
     economic_structured_name,
   } from "$lib/paraglide/messages";
   import { screenWidth } from "$lib/store";
-  import { abbreviateNumber, listOfRelevantCountries } from "$lib/utils";
+  import {
+    abbreviateNumber,
+    listOfRelevantCountries,
+    getMarketToday,
+  } from "$lib/utils";
 
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
@@ -91,7 +95,7 @@
   $: pagePathName = $page?.url?.pathname || "";
 
   const maxWeeksChange = 6;
-  const today = new Date();
+  const today = getMarketToday();
   let currentWeek = startOfWeek(today, { weekStartsOn: 1 });
   let previousMax = false;
   let nextMax = false;
@@ -154,7 +158,7 @@
     nextMax = currentWeek >= endBoundary;
   }
 
-  let currentDate = new Date();
+  let currentDate = getMarketToday();
   let selectedWeekday = Math.min((currentDate.getDay() + 6) % 7, 4);
 
   // Returns an array of weekdays (Monday - Friday) for a given week.

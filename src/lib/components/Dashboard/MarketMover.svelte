@@ -101,7 +101,7 @@
                 <th class="type-th px-4 py-2 text-left"
                   >{dashboard_table_symbol()}</th
                 >
-                <th class="type-th px-4 py-2 text-left"
+                <th class="type-th hidden px-4 py-2 text-left sm:table-cell"
                   >{dashboard_table_name()}</th
                 >
                 <th class="type-th px-4 py-2 text-right"
@@ -127,7 +127,7 @@
                     >
                   </td>
                   <td
-                    class="type-data max-w-[220px] truncate px-4 py-2.5 text-fg-muted"
+                    class="type-data hidden max-w-[220px] truncate px-4 py-2.5 text-fg-muted sm:table-cell"
                     title={removeCompanyStrings(item?.name)}
                   >
                     <!-- CSS truncation only. A JS slice(0, 30) used to cut the

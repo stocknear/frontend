@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import {
     stockTicker,
     etfTicker,
@@ -161,7 +162,13 @@
   }
 
   // Load rows per page preference from localStorage
+  let hydrated = false;
+
   function loadRowsPerPage() {
+    // Read the saved preference only after hydration: letting localStorage change
+    // rowsPerPage during the first render makes the client emit a different number
+    // of rows than the server, which forces Svelte to rebuild the table.
+    if (!hydrated) return;
     const currentPath = pagePathName || $page?.url?.pathname;
 
     if (!currentPath || typeof localStorage === "undefined") {
@@ -227,6 +234,13 @@
   function handlePlayClick(index: number) {
     showVideo = { ...showVideo, [index]: true };
   }
+
+  onMount(() => {
+    hydrated = true;
+    loadRowsPerPage();
+    updatePaginatedData();
+  });
+
 </script>
 
 <div class="space-y-3 overflow-hidden text-fg">

@@ -408,6 +408,7 @@
                 month: "short",
                 day: "numeric",
                 year: "numeric",
+                timeZone: "UTC",
               })}
             </div>
             <a
@@ -625,6 +626,7 @@
                     day: "numeric",
                     month: "long",
                     year: "numeric",
+                    timeZone: "UTC",
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "On Trial"}
@@ -646,6 +648,7 @@
                     day: "numeric",
                     month: "long",
                     year: "numeric",
+                    timeZone: "UTC",
                   })}
                 </span>
               {/if}

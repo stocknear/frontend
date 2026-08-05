@@ -10,7 +10,6 @@
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { screenWidth } from "$lib/store";
   import { page } from "$app/stores";
-  import { browser } from "$app/environment";
   import {
     login_popup_sign_in_title,
     login_popup_welcome_back,
@@ -191,13 +190,12 @@
 
   let displaySection = "login";
 
-  $: returnUrl = browser
-    ? encodeURIComponent($page.url.pathname + $page.url.search)
-    : "";
+  // $page.url is populated during SSR too, so guarding on `browser` only made the server
+  // render an empty returnUrl that the client then replaced - a divergence in a rendered
+  // attribute, and a broken return path for anyone submitting before hydration.
+  $: returnUrl = encodeURIComponent($page.url.pathname + $page.url.search);
 
-  $: currentPathWithSearch = browser
-    ? $page.url.pathname + $page.url.search
-    : "/";
+  $: currentPathWithSearch = $page.url.pathname + $page.url.search;
 </script>
 
 <input type="checkbox" id="userLogin" class="modal-toggle" />
@@ -249,7 +247,7 @@
 
         <div class="relative">
           <form
-            action="?/login&returnUrl={browser ? returnUrl : ''}"
+            action="?/login&returnUrl={returnUrl}"
             method="POST"
             use:enhance={submitLogin}
             class="flex flex-col text-start items-center space-y-3 w-full max-w-md md:ml-auto md:mr-auto"
@@ -332,7 +330,7 @@
         <div class="relative">
           <form
             method="POST"
-            action="?/register&returnUrl={browser ? returnUrl : ''}"
+            action="?/register&returnUrl={returnUrl}"
             use:enhance={submitRegistration}
             class="flex flex-col text-start items-center space-y-3 w-full max-w-md pt-2 md:ml-auto md:mr-auto"
           >

@@ -185,7 +185,7 @@
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-surface-raised"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
@@ -213,7 +213,7 @@
             </div>
             {#each popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-surface-raised"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
@@ -372,7 +372,7 @@
             </div>
             {#each searchBarData as item}
               <li
-                class="cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-surface-raised transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
@@ -398,7 +398,7 @@
             </div>
             {#each popularList as item}
               <li
-                class="gap-y-1.5 cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
+                class="gap-y-1.5 cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-surface-raised transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">

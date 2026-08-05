@@ -1508,6 +1508,7 @@
                 month: "short",
                 day: "numeric",
                 year: "numeric",
+                timeZone: "UTC",
               }),
             })}
           </p>

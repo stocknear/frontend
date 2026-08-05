@@ -48,14 +48,8 @@
     // Create a date object for the input dateString
     const inputDate = new Date(dateString);
 
-    // Create a date object for the current time in New York City
-    const nycTime = new Date().toLocaleString("en-US", {
-      timeZone: "America/New_York",
-    });
-    const currentNYCDate = new Date(nycTime);
-
-    // Calculate the difference in milliseconds
-    const difference = inputDate.getTime() - currentNYCDate.getTime();
+    // Difference from now, in milliseconds
+    const difference = inputDate.getTime() - Date.now();
 
     // Convert the difference to minutes
     const minutes = Math.abs(Math.round(difference / (1000 * 60)));

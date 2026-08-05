@@ -57,9 +57,10 @@
   export let ticker = null;
   export let assetType = "stocks";
 
-  const currentTime = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-  )?.getTime();
+  // Formatting to a zone-less string and re-parsing it shifts the instant by the host's
+  // own offset, so this disagreed between the SSR server and the client. Date.now() is
+  // already the epoch and needs no conversion.
+  const currentTime = Date.now();
 
   let rawData = data?.getData
     ?.map((item) => ({

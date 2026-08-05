@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import {
     displayCompanyName,
     stockTicker,
@@ -118,7 +119,13 @@
     return `ftd_rows_${ticker || "global"}`;
   }
 
+  let hydrated = false;
+
   function loadRowsPerPage() {
+    // Read the saved preference only after hydration: letting localStorage change
+    // rowsPerPage during the first render makes the client emit a different number
+    // of rows than the server, which forces Svelte to rebuild the table.
+    if (!hydrated) return;
     if (typeof localStorage === "undefined") return;
     try {
       const stored = localStorage?.getItem(getPaginationStorageKey());
@@ -496,6 +503,13 @@
       }
     }
   }
+
+  onMount(() => {
+    hydrated = true;
+    loadRowsPerPage();
+    updatePagination();
+  });
+
 </script>
 
 <section class="overflow-hidden h-full pb-8">
@@ -509,7 +523,12 @@
         As of <strong
           >{new Date(rawData?.slice(-1)?.at(0)?.date).toLocaleDateString(
             "en-US",
-            { month: "short", day: "numeric", year: "numeric" },
+            {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              timeZone: "UTC",
+            },
           )}</strong
         >,
         <strong>{$displayCompanyName}</strong> has

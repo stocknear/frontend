@@ -2035,9 +2035,10 @@
     }
   }
 
-  const currentTime = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
-  )?.getTime();
+  // daysLeft() subtracts this from a real epoch, so it must be a real epoch. The old
+  // format-then-reparse shifted it by the host's offset, so the server and client
+  // disagreed about how many days were left on a contract.
+  const currentTime = Date.now();
 
   const initialFeed = data?.getOptionsFlowFeed?.items ?? [];
   const initialStats = data?.getOptionsFlowFeed?.stats ?? null;

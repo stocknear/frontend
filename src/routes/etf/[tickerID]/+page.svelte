@@ -939,6 +939,7 @@
                               day: "numeric",
                               year: "numeric",
                               daySuffix: "2-digit",
+                              timeZone: "UTC",
                             },
                           )
                         : etf_detail_na()}</td

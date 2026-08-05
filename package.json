@@ -13,6 +13,7 @@
     "test:unit": "vitest run",
     "i18n:audit": "node scripts/i18n-audit.mjs",
     "color:audit": "node scripts/color-audit.mjs",
+    "hydration:audit": "node scripts/hydration-audit.mjs",
     "color:accept": "node scripts/color-audit.mjs --write",
     "i18n:accept-source": "node scripts/i18n-audit.mjs --write-source-state",
     "i18n:delivery": "node scripts/generate-i18n-delivery.mjs",
