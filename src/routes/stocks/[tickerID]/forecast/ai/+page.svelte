@@ -671,7 +671,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                    class="text-fg hover:text-accent text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -698,7 +698,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                    class="text-fg hover:text-accent text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -723,7 +723,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                    class="text-fg hover:text-accent text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -742,9 +742,9 @@
               {stock_detail_forecast_ai_based_on()}
               <strong
                 class={avgReturn >= 0 && isSubscribed
-                  ? "text-emerald-800 dark:text-emerald-400"
+                  ? "text-up"
                   : avgReturn < 0 && isSubscribed
-                    ? "text-rose-800 dark:text-rose-400"
+                    ? "text-down"
                     : ""}
               >
                 {#if isSubscribed}
@@ -752,7 +752,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                    class="text-fg hover:text-accent text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -778,7 +778,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                    class="text-fg hover:text-accent text-sm"
                   >
                     {stock_detail_forecast_ai_upgrade()}
                     <svg
@@ -806,18 +806,18 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-300 dark:border-zinc-700 rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded"
                         use:highcharts={configScore}
                       ></div>
                     {/if}
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !isSubscribed}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-zinc-300"
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-fg-muted"
                       >
                         <a
                           href="/pricing"
-                          class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row items-center"
+                          class="text-fg hover:text-accent flex flex-row items-center"
                         >
                           <span>{stock_detail_forecast_ai_upgrade()}</span>
                           <svg
@@ -842,16 +842,16 @@
                     >
                       <thead>
                         <tr
-                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm whitespace-nowrap"
+                          class="border-b border-line font-normal text-sm whitespace-nowrap"
                         >
                           <th
-                            class="py-[3px] text-left font-semibold lg:py-0.5 text-muted dark:text-zinc-300"
+                            class="py-[3px] text-left font-semibold lg:py-0.5 text-fg-muted"
                           >
                             {stock_detail_forecast_ai_date()}
                           </th>
                           {#each tableDates as item}
                             <th
-                              class="py-[3px] text-left font-semibold lg:py-0.5 text-muted dark:text-zinc-300"
+                              class="py-[3px] text-left font-semibold lg:py-0.5 text-fg-muted"
                             >
                               {item}
                             </th>
@@ -861,7 +861,7 @@
                       <tbody>
                         <!-- Score Row -->
                         <tr
-                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm whitespace-nowrap"
+                          class="border-b border-line font-normal text-sm whitespace-nowrap"
                         >
                           <td class="py-[3px] text-left lg:py-0.5 text-sm"
                             >{stock_detail_forecast_ai_score()}</td
@@ -878,7 +878,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                  class="text-fg hover:text-accent text-sm"
                                 >
                                   {stock_detail_forecast_ai_upgrade()}
                                   <svg
@@ -910,7 +910,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-sm text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+                                  class="text-sm text-fg hover:text-accent"
                                 >
                                   {stock_detail_forecast_ai_upgrade()}
                                   <svg
@@ -939,8 +939,8 @@
                               {#if isSubscribed}
                                 <span
                                   class={item?.change > 0
-                                    ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                    : "text-rose-800 dark:text-rose-400"}
+                                    ? "before:content-['+'] text-up"
+                                    : "text-down"}
                                 >
                                   {item?.change && item?.change !== null
                                     ? item?.change + "%"
@@ -949,7 +949,7 @@
                               {:else}
                                 <a
                                   href="/pricing"
-                                  class="text-sm text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+                                  class="text-sm text-fg hover:text-accent"
                                 >
                                   {stock_detail_forecast_ai_upgrade()}
                                   <svg
@@ -992,7 +992,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                      class="text-fg hover:text-accent text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1014,7 +1014,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                      class="text-fg hover:text-accent text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1037,7 +1037,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                      class="text-fg hover:text-accent text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1055,9 +1055,9 @@
                 </strong>, {stock_detail_forecast_ai_indicating()}
                 <strong
                   class={medianChange >= 0 && isSubscribed
-                    ? "text-emerald-800 dark:text-emerald-400"
+                    ? "text-up"
                     : medianChange < 0 && isSubscribed
-                      ? "text-rose-800 dark:text-rose-400"
+                      ? "text-down"
                       : ""}
                 >
                   {#if isSubscribed}
@@ -1069,7 +1069,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                      class="text-fg hover:text-accent text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1092,7 +1092,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                      class="text-fg hover:text-accent text-sm"
                     >
                       {stock_detail_forecast_ai_upgrade()}
                       <svg
@@ -1118,18 +1118,18 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-300 dark:border-zinc-700 rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded"
                         use:highcharts={config}
                       ></div>
                     {/if}
                     <!-- Overlay with "Upgrade to Pro" -->
                     {#if !isSubscribed}
                       <div
-                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-muted dark:text-zinc-300"
+                        class="font-bold text-lg sm:text-xl absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center text-fg-muted"
                       >
                         <a
                           href="/pricing"
-                          class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row items-center"
+                          class="text-fg hover:text-accent flex flex-row items-center"
                         >
                           <span>{stock_detail_forecast_ai_upgrade()}</span>
                           <svg
@@ -1152,7 +1152,7 @@
                     <table class="w-full text-right text-xs sm:text-sm">
                       <thead
                         ><tr
-                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm"
+                          class="border-b border-line font-normal text-sm"
                           ><th
                             class="py-[3px] text-left font-semibold lg:py-0.5"
                             >{stock_detail_forecast_target()}</th
@@ -1173,7 +1173,7 @@
                       >
                       <tbody
                         ><tr
-                          class="border-b border-gray-300 dark:border-zinc-700 font-normal text-sm"
+                          class="border-b border-line font-normal text-sm"
                         >
                           <td class="py-[3px] text-left lg:py-0.5"
                             >{stock_detail_forecast_price()}</td
@@ -1182,7 +1182,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1199,7 +1199,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1216,7 +1216,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1233,7 +1233,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1255,7 +1255,7 @@
                           {/if}
                         </tr>
 
-                        <tr class="text-sm text-muted dark:text-zinc-300">
+                        <tr class="text-sm text-fg-muted">
                           <td class="py-[3px] text-left lg:py-0.5"
                             >{stock_detail_forecast_change()}</td
                           >
@@ -1263,7 +1263,7 @@
                             <td class="whitespace-nowrap">
                               <a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                               >
                                 Upgrade
                                 <svg
@@ -1281,7 +1281,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1298,7 +1298,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1315,7 +1315,7 @@
                             <td class="whitespace-nowrap"
                               ><a
                                 href="/pricing"
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 text-sm"
+                                class="text-fg hover:text-accent text-sm"
                                 >{stock_detail_forecast_ai_upgrade()}
                                 <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -1332,26 +1332,26 @@
                           {:else}
                             <td
                               class={lowChange > 0
-                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "before:content-['+'] text-up"
+                                : "text-down"}
                               >{lowChange}%</td
                             >
                             <td
                               class={avgChange > 0
-                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "before:content-['+'] text-up"
+                                : "text-down"}
                               >{avgChange}%</td
                             >
                             <td
                               class={medianChange > 0
-                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "before:content-['+'] text-up"
+                                : "text-down"}
                               >{medianChange}%</td
                             >
                             <td
                               class={highChange > 0
-                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "before:content-['+'] text-up"
+                                : "text-down"}
                               >{highChange}%</td
                             >
                           {/if}

@@ -79,7 +79,7 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-5 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full">
           <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
           >
             {stock_detail_institute_title()}
           </h1>

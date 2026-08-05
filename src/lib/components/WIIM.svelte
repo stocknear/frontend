@@ -11,12 +11,12 @@
   const getDirectionClass = (text) => {
     const normalized = text?.toLowerCase?.() ?? "";
     if (normalized.includes("higher")) {
-      return "text-emerald-800 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/40";
+      return "text-up border-emerald-200 dark:border-emerald-500/40";
     }
     if (normalized.includes("lower")) {
-      return "text-rose-800 dark:text-rose-400 border-rose-200 dark:border-rose-500/40";
+      return "text-down border-rose-200 dark:border-rose-500/40";
     }
-    return "text-muted dark:text-zinc-200 border-gray-300 dark:border-zinc-700";
+    return "text-fg border-line";
   };
 
   function latestInfoDate(inputDate) {
@@ -52,12 +52,12 @@
   }
 </script>
 
-<section class="overflow-hidden text-muted dark:text-zinc-200 h-full mt-5">
+<section class="overflow-hidden text-fg h-full mt-5">
   <main class="overflow-hidden">
     <div class="flex flex-row items-center">
       <label
         for="whyPriceMovedInfo"
-        class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+        class="mr-1 cursor-pointer flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg"
       >
         <h2>Why Price Moved</h2>
       </label>
@@ -95,7 +95,7 @@
                     <div class="w-full h-full">
                       <div class="flex flex-col items-start">
                         <div class="flex flex-row items-start w-full">
-                          <span class="text-sm text-muted dark:text-zinc-300"
+                          <span class="text-sm text-fg-muted"
                             >{formatDate(item?.date)}
                             <!--
                             &#183;
@@ -109,7 +109,7 @@
                           </span>
                           {#if latestInfoDate(item?.date)}
                             <label
-                              class={`bg-[#f8fbfb] dark:bg-zinc-900/50 border shadow rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3 ${getDirectionClass(
+                              class={`bg-surface-raised/50 border shadow rounded-full font-semibold text-[0.7rem] px-2 py-0.5 ml-3 ${getDirectionClass(
                                 item?.text,
                               )}`}>New</label
                             >
@@ -117,12 +117,12 @@
                           <div class="text-sm ml-auto">
                             {#if item?.changesPercentage >= 0}
                               <span
-                                class="text-emerald-800 dark:text-emerald-400 inline-block"
+                                class="text-up inline-block"
                                 >+{item?.changesPercentage}%</span
                               >
                             {:else if item?.changesPercentage < 0}
                               <span
-                                class="text-rose-800 dark:text-rose-400 inline-block"
+                                class="text-down inline-block"
                                 >{item?.changesPercentage}%
                               </span>
                             {/if}
@@ -135,7 +135,7 @@
                               {item?.text?.slice(0, 50) + "..."}
 
                               <a
-                                class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                class="inline-block ml-0.5 text-fg-muted hover:text-accent"
                                 href="/pricing"
                                 >Upgrade <svg
                                   class="w-4 h-4 mb-1 inline-block"
@@ -149,7 +149,7 @@
                               </a>
                             </span>
                           {:else}
-                            <span class="text-sm text-muted dark:text-zinc-300">
+                            <span class="text-sm text-fg-muted">
                               {item?.text}
                             </span>
                           {/if}
@@ -171,7 +171,7 @@
           class="cursor-pointer flex justify-center items-center mt-5"
         >
           <svg
-            class="w-10 h-10 transform text-muted dark:text-white {showFullHistory
+            class="w-10 h-10 transform text-fg {showFullHistory
               ? 'rotate-180'
               : ''} "
             xmlns="http://www.w3.org/2000/svg"

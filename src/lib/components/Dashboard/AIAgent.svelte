@@ -61,7 +61,7 @@
                   pos + match.index,
                   pos + match.index + match[0]?.length,
                   {
-                    class: "text-violet-800 dark:text-violet-400",
+                    class: "text-accent",
                   },
                 ),
               );
@@ -387,7 +387,7 @@
   class="w-full flex flex-col justify-center items-center bg-white dark:bg-[#2A2E39]"
 >
   <div
-    class="block p-3 w-full border border-gray-300 dark:border-gray-600 shadow-sm rounded-[8px] overflow-hidden"
+    class="block p-3 w-full border border-line-strong shadow-sm rounded-[8px] overflow-hidden"
   >
     <div
       bind:this={editorDiv}
@@ -398,7 +398,7 @@
     <!-- Suggestions Dropdown -->
     {#if showSuggestions}
       <ul
-        class="absolute bg-white dark:bg-default rounded shadow border border-gray-300 dark:border-gray-600 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="absolute bg-white dark:bg-default rounded shadow border border-line-strong mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}
@@ -472,7 +472,7 @@
                     {/if}
                     <!--
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                     >
                    
                       <label
@@ -670,7 +670,7 @@
               on:click={() => (data?.user ? createChat() : "")}
               class="{editorText?.trim()?.length > 0
                 ? 'cursor-pointer'
-                : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded border border-gray-300 dark:border-gray-700 bg-black dark:bg-white px-3 transition-colors duration-200"
+                : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded border border-line bg-black dark:bg-white px-3 transition-colors duration-200"
             >
               {#if isLoading}
                 <span
@@ -703,7 +703,7 @@
           closePopup?.dispatchEvent(new MouseEvent("click"));
         }
       }}
-      class="flex flex-col border border-gray-300 dark:border-gray-700 sm:hover:bg-gray-100 dark:sm:hover:bg-secondary bg-white dark:bg-[#1C1E22] shadow-sm"
+      class="flex flex-col border border-line sm:hover:bg-gray-100 dark:sm:hover:bg-secondary bg-white dark:bg-[#1C1E22] shadow-sm"
     >
       <div class="block flex-grow">
         <button

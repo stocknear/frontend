@@ -184,7 +184,7 @@
               <table class="w-full">
                 <tbody
                   ><tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_country()}</td
                     >
@@ -196,7 +196,7 @@
                   >
 
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_ipo_date()}</td
                     >
@@ -213,7 +213,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_industry()}</td
                     >
@@ -222,13 +222,13 @@
                         href={rawData?.industry
                           ? getIndustryHref(rawData?.industry)
                           : "#"}
-                        class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition underline underline-offset-4"
+                        class="text-fg hover:text-accent transition underline underline-offset-4"
                         >{rawData?.industry ?? "n/a"}</a
                       ></td
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_sector()}</td
                     >
@@ -237,19 +237,19 @@
                         href={sectorNavigation?.find(
                           (item) => item?.title === rawData?.sector,
                         )?.link}
-                        class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition underline underline-offset-4"
+                        class="text-fg hover:text-accent transition underline underline-offset-4"
                         >{rawData?.sector ? rawData?.sector : "n/a"}</a
                       ></td
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_employees()}</td
                     >
                     <td class="px-1 py-1.5 text-right lg:py-2"
                       ><a
-                        class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition underline underline-offset-4"
+                        class="text-fg hover:text-accent transition underline underline-offset-4"
                         href={`/stocks/${$stockTicker}/profile/employees`}
                         >{rawData?.fullTimeEmployees
                           ? new Intl.NumberFormat("en")?.format(
@@ -260,7 +260,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_ceo()}</td
                     >
@@ -281,7 +281,7 @@
               <table class="w-full">
                 <tbody
                   ><tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td colspan="2" class="pb-3"
                       ><div class="mb-2 text-lg font-bold">
                         {stock_detail_profile_address()}
@@ -302,14 +302,14 @@
                   >
 
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-0.5 py-2 font-semibold"
                       >{stock_detail_profile_website()}</td
                     >
                     <td class="px-0.5 py-2 text-right">
                       <a
                         href={rawData?.website}
-                        class="truncate text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                        class="truncate text-fg hover:text-accent transition"
                         target="_blank">{rawData?.website ?? "n/a"}</a
                       ></td
                     ></tr
@@ -326,7 +326,7 @@
               <table class="w-full">
                 <tbody
                   ><tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_ticker_symbol()}</td
                     >
@@ -335,7 +335,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_exchange()}</td
                     >
@@ -344,7 +344,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_fiscal_year()}</td
                     >
@@ -353,7 +353,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_reporting_currency()}</td
                     >
@@ -362,7 +362,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_cik_code()}</td
                     >
@@ -371,7 +371,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_cusip_number()}</td
                     >
@@ -380,7 +380,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_isin_number()}</td
                     >
@@ -389,7 +389,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_employer_id()}</td
                     >
@@ -398,7 +398,7 @@
                     ></tr
                   >
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+                    class="border-b border-line last:border-0"
                     ><td class="px-1 py-1.5 font-semibold lg:py-2"
                       >{stock_detail_profile_sic_code()}</td
                     >
@@ -418,8 +418,8 @@
             {#if rawData?.executives?.length > 0}
               <table class="mb-6 w-full xs:mb-8">
                 <thead
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
-                  ><tr class="border-y border-gray-300 dark:border-zinc-700"
+                  class="text-xs uppercase tracking-wide text-fg"
+                  ><tr class="border-y border-line"
                     ><th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
                       >{stock_detail_profile_col_name()}</th
@@ -433,7 +433,7 @@
                 <tbody>
                   {#each rawData?.executives as item}
                     <tr
-                      class="border-b border-gray-300 dark:border-zinc-700 text-sm"
+                      class="border-b border-line text-sm"
                       ><td
                         class="px-2 py-2.5 align-top font-semibold xs:px-3 xs:py-3 sm:px-4"
                         >{item?.name}</td
@@ -454,8 +454,8 @@
             {#if rawData?.filings?.length > 0}
               <table class="w-full">
                 <thead
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
-                  ><tr class="border-y border-gray-300 dark:border-zinc-700"
+                  class="text-xs uppercase tracking-wide text-fg"
+                  ><tr class="border-y border-line"
                     ><th
                       class="px-2 py-2.5 text-left font-semibold xs:px-3 xs:py-3 sm:px-4"
                       >{stock_detail_profile_col_date()}</th
@@ -474,7 +474,7 @@
                 <tbody>
                   {#each rawData?.filings as item}
                     <tr
-                      class="border-b border-gray-300 dark:border-zinc-700 text-sm"
+                      class="border-b border-line text-sm"
                       ><td
                         class="px-2 py-2.5 align-top font-semibold xs:px-3 xs:py-3 sm:px-4"
                         >{item?.date}</td
@@ -486,7 +486,7 @@
                       <td
                         class="px-2 py-2.5 align-top font-semibold xs:px-3 xs:py-3 sm:px-4"
                         ><a
-                          class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition sm:hover:underline sm:hover:underline-offset-4"
+                          class="text-fg hover:text-accent transition sm:hover:underline sm:hover:underline-offset-4"
                           href={item?.link}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -503,10 +503,10 @@
               {stock_detail_profile_no_filings()}
             {/if}
             <div
-              class="border-b border-gray-300 dark:border-zinc-700 py-3 text-lg sm:text-xl font-semibold"
+              class="border-b border-line py-3 text-lg sm:text-xl font-semibold"
             >
               <a
-                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition sm:hover:underline sm:hover:underline-offset-4"
+                class="text-fg hover:text-accent transition sm:hover:underline sm:hover:underline-offset-4"
                 href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${rawData?.cik}&amp;count=100`}
                 target="_blank"
                 rel="noopener noreferrer"

@@ -10,7 +10,7 @@
 
 <CalendarPrimitive.Header
   class={cn(
-    "relative flex w-full items-center justify-between pb-2 mb-2 border-b border-gray-300 dark:border-zinc-700",
+    "relative flex w-full items-center justify-between pb-2 mb-2 border-b border-line",
     className,
   )}
   {...$$restProps}

@@ -511,27 +511,27 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{politicians_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/politicians"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{politicians_breadcrumb_politicians()}</a
       >
     </li>
 
-    <li class="text-muted dark:text-zinc-300">{name}</li>
+    <li class="text-fg-muted">{name}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto">
@@ -543,7 +543,7 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b border-gray-300 dark:border-zinc-700 pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-line pb-3 lg:border-none lg:pb-0"
               >
                 <div class="shrink-0">
                   <div
@@ -564,11 +564,11 @@
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                   >
                     {formatString(name)}
                   </h1>
-                  <p class="mb-0.5 text-sm text-muted dark:text-zinc-300">
+                  <p class="mb-0.5 text-sm text-fg-muted">
                     {politicianParty ?? "n/a"} / {politicianCongress}
                     {#if politicianDistrict !== undefined && politicianDistrict?.length !== 0}
                       / {politicianDistrict}
@@ -591,7 +591,7 @@
                           </svg>
                         {:else}
                           <svg
-                            class="w-5 h-5 text-muted dark:text-zinc-300"
+                            class="w-5 h-5 text-fg-muted"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
@@ -604,7 +604,7 @@
                         {/if}
                       {/each}
                     </div>
-                    <span class="ml-1 text-sm text-muted dark:text-zinc-300"
+                    <span class="ml-1 text-sm text-fg-muted"
                       >({performanceScore ?? "n/a"})</span
                     >
                   </div>
@@ -615,12 +615,12 @@
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     # {performanceRank ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {politicians_detail_stats_rank()}
                   </div>
@@ -630,7 +630,7 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {performanceTrades !== undefined &&
                     performanceTrades !== null
@@ -640,7 +640,7 @@
                         : "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {politicians_detail_stats_trades_scored()}
                   </div>
@@ -650,18 +650,18 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={performanceSuccessRate >= 0 &&
                         performanceSuccessRate !== undefined &&
                         performanceSuccessRate !== null
-                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                          ? "before:content-['+'] text-up"
                           : performanceSuccessRate < 0 &&
                               performanceSuccessRate !== undefined &&
                               performanceSuccessRate !== null
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                         >{performanceSuccessRate !== undefined &&
                         performanceSuccessRate !== null
@@ -687,7 +687,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {politicians_detail_stats_success_rate()}
                   </div>
@@ -696,18 +696,18 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={performanceAvgReturn >= 0 &&
                         performanceAvgReturn !== undefined &&
                         performanceAvgReturn !== null
-                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                          ? "before:content-['+'] text-up"
                           : performanceAvgReturn < 0 &&
                               performanceAvgReturn !== undefined &&
                               performanceAvgReturn !== null
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                         >{performanceAvgReturn !== undefined &&
                         performanceAvgReturn !== null
@@ -733,7 +733,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {politicians_detail_stats_avg_return()}
                   </div>
@@ -746,7 +746,7 @@
             >
               <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                 >
                   ${new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
@@ -754,7 +754,7 @@
                   }).format(totalAmountTraded)}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-fg-muted"
                 >
                   {politicians_detail_stats_total_amount()}
                 </div>
@@ -764,12 +764,12 @@
                 class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
               >
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                 >
                   {numOfTrades?.toLocaleString("en-US")}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-fg-muted"
                 >
                   {politicians_detail_stats_transaction()}
                 </div>
@@ -779,7 +779,7 @@
                 class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
               >
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                 >
                   {lastTradedDate?.length !== undefined
                     ? new Date(lastTradedDate)?.toLocaleString("en-US", {
@@ -791,7 +791,7 @@
                     : "n/a"}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-fg-muted"
                 >
                   {politicians_detail_stats_last_transaction()}
                 </div>
@@ -800,12 +800,12 @@
                 class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
               >
                 <div
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg tabular-nums"
                 >
                   {buySellRatio?.toFixed(2)}
                 </div>
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                  class="text-xs uppercase tracking-wide text-fg-muted"
                 >
                   {politicians_detail_stats_buy_sell()}
                 </div>
@@ -833,7 +833,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -854,7 +854,7 @@
                       {#each mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -867,10 +867,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-6">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {politicians_detail_count_stocks({
                     count: originalData?.length?.toLocaleString("en-US"),
@@ -908,7 +908,7 @@
                       on:input={search}
                       type="text"
                       placeholder={politicians_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -924,7 +924,7 @@
                     <button
                       on:click={resetColumnOrder}
                       title="Reset column order"
-                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                     >
                       <svg
                         class="w-4 h-4"
@@ -950,7 +950,7 @@
                 <div class="mt-4 mb-4 space-y-3">
                   {#each stockList as item, index}
                     <div
-                      class="rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-hidden"
+                      class="rounded-2xl border border-line overflow-hidden"
                     >
                       <!-- Header -->
                       <div
@@ -962,7 +962,7 @@
                             assetType={item?.assetType}
                           />
                           <p
-                            class="mt-0.5 text-[13px] text-muted dark:text-zinc-300 truncate"
+                            class="mt-0.5 text-[13px] text-fg-muted truncate"
                           >
                             {item?.name?.length > 28
                               ? item?.name?.slice(0, 28) + "..."
@@ -970,7 +970,7 @@
                           </p>
                         </div>
                         <span
-                          class="ml-3 text-[13px] tabular-nums text-muted dark:text-zinc-300 whitespace-nowrap"
+                          class="ml-3 text-[13px] tabular-nums text-fg-muted whitespace-nowrap"
                         >
                           {new Date(item?.transactionDate)?.toLocaleString(
                             "en-US",
@@ -989,12 +989,12 @@
                           <div class="flex items-center gap-1.5 text-[13px]">
                             {#if item?.type === "Bought"}
                               <span
-                                class="font-medium text-emerald-800 dark:text-emerald-500"
+                                class="font-medium text-up"
                                 >Bought</span
                               >
                             {:else if item?.type === "Sold"}
                               <span
-                                class="font-medium text-rose-800 dark:text-rose-500"
+                                class="font-medium text-down"
                                 >Sold</span
                               >
                             {:else if item?.type === "Exchange"}
@@ -1003,11 +1003,11 @@
                                 >Exchange</span
                               >
                             {/if}
-                            <span class="text-gray-600 dark:text-zinc-400"
+                            <span class="text-fg-muted"
                               >·</span
                             >
                             <span
-                              class="tabular-nums text-muted dark:text-zinc-300"
+                              class="tabular-nums text-fg-muted"
                             >
                               {item?.transaction?.toLocaleString("en-US")} trade{item?.transaction >
                               1
@@ -1016,10 +1016,10 @@
                             </span>
                           </div>
                           <p
-                            class="text-[13px] text-gray-600 dark:text-zinc-400"
+                            class="text-[13px] text-fg-muted"
                           >
                             <span
-                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1"
+                              class="uppercase text-[10px] tracking-wide text-fg-muted mr-1"
                               >Amt</span
                             >
                             <span class="font-medium tabular-nums"
@@ -1029,12 +1029,12 @@
                         </div>
                         <div class="text-right">
                           <p
-                            class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mb-0.5"
+                            class="uppercase text-[10px] tracking-wide text-fg-muted mb-0.5"
                           >
                             {politicians_detail_mobile_filed()}
                           </p>
                           <p
-                            class="text-[13px] tabular-nums text-muted dark:text-zinc-300"
+                            class="text-[13px] tabular-nums text-fg-muted"
                           >
                             {new Date(item?.disclosureDate)?.toLocaleString(
                               "en-US",
@@ -1051,7 +1051,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.ticker)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-line px-4 py-3 text-[13px] text-fg-muted hover:text-accent transition-colors"
                       >
                         <span>{politicians_detail_mobile_view_chart()}</span>
                         <svg
@@ -1073,7 +1073,7 @@
                       <!-- Chart -->
                       {#if checkedSymbol === (item?.ticker ?? item?.symbol)}
                         <div
-                          class="border-t border-gray-300 dark:border-zinc-700 pb-3"
+                          class="border-t border-line pb-3"
                         >
                           <div class="relative h-[300px]">
                             <div class="absolute inset-x-0 top-0">
@@ -1109,7 +1109,7 @@
                   class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact w-full m-auto mt-0 text-muted dark:text-zinc-200 tabular-nums"
+                    class="table table-sm table-compact w-full m-auto mt-0 text-fg tabular-nums"
                   >
                     <thead>
                       <TableHeader
@@ -1133,7 +1133,7 @@
                                   on:click={() => openGraph(item?.ticker)}
                                   class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                                   ><svg
-                                    class="w-5 h-5 text-muted dark:text-zinc-300 transition {(checkedSymbol ===
+                                    class="w-5 h-5 text-fg-muted transition {(checkedSymbol ===
                                       item?.ticker ?? item?.symbol)
                                       ? 'rotate-180'
                                       : ''}"
@@ -1150,7 +1150,7 @@
                               >
                             {:else if column.key === "ticker"}
                               <td
-                                class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                class="text-left text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                               >
                                 <HoverStockChart
                                   symbol={item?.symbol ?? item?.ticker}
@@ -1159,7 +1159,7 @@
                               </td>
                             {:else if column.key === "name"}
                               <td
-                                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
+                                class="text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted"
                               >
                                 {item?.name?.length > 20
                                   ? item?.name?.slice(0, 20) + "..."
@@ -1167,17 +1167,17 @@
                               </td>
                             {:else if column.key === "type"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 <span class="">
                                   {#if item?.type === "Bought"}
                                     <span
-                                      class="text-emerald-800 dark:text-emerald-400"
+                                      class="text-up"
                                       >Buy</span
                                     >
                                   {:else if item?.type === "Sold"}
                                     <span
-                                      class="text-rose-800 dark:text-rose-400"
+                                      class="text-down"
                                       >Sell</span
                                     >
                                   {:else if item?.type === "Exchange"}
@@ -1190,19 +1190,19 @@
                               >
                             {:else if column.key === "amount"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {item?.amount}</td
                               >
                             {:else if column.key === "transaction"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {item?.transaction?.toLocaleString("en-US")}</td
                               >
                             {:else if column.key === "transactionDate"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {new Date(
                                   item?.transactionDate,
@@ -1215,7 +1215,7 @@
                               </td>
                             {:else if column.key === "disclosureDate"}
                               <td
-                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-right text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {new Date(item?.disclosureDate)?.toLocaleString(
                                   "en-US",
@@ -1290,7 +1290,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1313,7 +1313,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-muted dark:text-zinc-300">
+                  <span class="text-sm text-fg-muted">
                     {politicians_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1324,7 +1324,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{politicians_pagination_rows({
@@ -1352,13 +1352,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -1382,7 +1382,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{politicians_pagination_next()}</span
@@ -1408,7 +1408,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                 >
                   {politicians_back_to_top()}
                   <svg

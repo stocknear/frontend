@@ -16,17 +16,17 @@
   export let optionsFlowList;
 </script>
 
-<section class="text-muted dark:text-zinc-200">
+<section class="text-fg">
   <a
     href="/options-flow"
-    class="inline-flex items-center gap-1 text-muted dark:text-white group"
+    class="inline-flex items-center gap-1 text-fg group"
     ><h2
       class="mb-2 text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
       {dashboard_options_flow_title()}
     </h2>
     <svg
-      class="h-5 w-5 text-muted dark:text-zinc-300 transition group-hover:text-muted dark:group-hover:text-zinc-200"
+      class="h-5 w-5 text-fg-muted transition group-hover:text-muted dark:group-hover:text-zinc-200"
       viewBox="0 0 20 20"
       fill="currentColor"
       style="max-width:40px"
@@ -40,11 +40,11 @@
   </a>
   {#if optionsFlowList?.length > 0}
     <table
-      class="w-full text-sm sm:text-[0.95rem] border-t border-gray-300 dark:border-zinc-700"
+      class="w-full text-sm sm:text-[0.95rem] border-t border-line"
     >
       <thead>
         <tr
-          class="text-xs uppercase tracking-widest text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-widest text-fg-muted"
         >
           <th class="py-2 text-left font-semibold">
             {dashboard_table_symbol()}
@@ -65,37 +65,37 @@
       </thead>
       <tbody>
         {#each optionsFlowList as item}
-          <tr class="border-b border-gray-300 dark:border-zinc-700">
+          <tr class="border-b border-line">
             <td class="py-3 text-left whitespace-nowrap">
               <a
                 href={`/${item?.underlying_type === "stock" ? "stocks" : "etf"}/${item?.ticker}/options/unusual-activity`}
-                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+                class="font-medium text-fg transition-colors hover:text-accent"
                 >{item?.ticker}</a
               >
             </td>
-            <td class="py-3 text-left text-muted dark:text-zinc-300">
+            <td class="py-3 text-left text-fg-muted">
               {abbreviateNumber(item?.cost_basis)}
             </td>
-            <td class="py-3 text-left text-muted dark:text-zinc-300">
+            <td class="py-3 text-left text-fg-muted">
               {item?.strike_price}
             </td>
             <td class="py-3 text-left">
               {#if item?.put_call === "Calls"}
                 <span
-                  class="text-emerald-800 dark:text-emerald-400 font-semibold"
+                  class="text-up font-semibold"
                   >{dashboard_options_flow_calls()}</span
                 >
               {:else if item?.put_call === "Puts"}
-                <span class="text-rose-800 dark:text-rose-400 font-semibold"
+                <span class="text-down font-semibold"
                   >{dashboard_options_flow_puts()}
                 </span>
               {:else}
-                <span class="text-rose-800 dark:text-rose-400 font-semibold"
+                <span class="text-down font-semibold"
                   >{item?.put_call}
                 </span>
               {/if}
             </td>
-            <td class="py-3 text-left text-muted dark:text-zinc-300">
+            <td class="py-3 text-left text-fg-muted">
               {item?.option_activity_type}
             </td>
           </tr>

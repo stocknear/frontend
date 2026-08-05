@@ -49,7 +49,7 @@
 </script>
 
 <button
-  class="font-semibold cursor-pointer flex flex-row items-center shrink-0 sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+  class="font-semibold cursor-pointer flex flex-row items-center shrink-0 font-medium text-fg transition-colors hover:text-accent transition"
   on:click={handleTutorialClick}
 >
   Tutorial

@@ -39,7 +39,14 @@
     $: bullPrem = plotData?.bullPrem || 0;
     $: bearPrem = plotData?.bearPrem || 0;
 
-    $: isPositive = changesPercentage >= 0;
+    // Guarded once, here, so every consumer inherits it. With the market closed
+    // both percentages are 0, and the bar's always-rose track then rendered a
+    // solid pink fill that reads as unanimous bearish flow. It means "no data".
+    $: hasFlow = bullPercentage + bearPercentage > 0 || bullPrem + bearPrem > 0;
+
+    // Zero is flat, not up: `>= 0` painted a 0.00% session green with a + sign.
+    $: isPositive = changesPercentage > 0;
+    $: isFlat = changesPercentage === 0;
 
     const toNumber = (value: unknown): number | null => {
         const n =
@@ -145,24 +152,35 @@
         chart.setBarSpace(clamped);
     };
 
+    // The chart used to hardcode #16a34a/#dc2626, so the green in the card
+    // disagreed with the green in the table directly beneath it. Reading the
+    // tokens keeps one definition of "up" for the whole product. Re-read on
+    // every theme change, because the variables are redefined by `.dark`.
+    const cssVar = (name: string, fallback: string) => {
+        if (typeof window === "undefined") return fallback;
+        const value = getComputedStyle(document.documentElement)
+            ?.getPropertyValue(name)
+            ?.trim();
+        return value || fallback;
+    };
+
     const applyMiniStyles = (isLight: boolean, isNegative: boolean) => {
         if (!chart) return;
-        const upColor = isLight ? "#16a34a" : "#22c55e";
-        const downColor = isLight ? "#dc2626" : "#ef4444";
-        const axisText = isLight ? "#64748b" : "#94a3b8";
-        const gridColor = isLight
-            ? "rgba(148, 163, 184, 0.35)"
-            : "rgba(148, 163, 184, 0.25)";
+        const upColor = cssVar("--up", "#006045");
+        const downColor = cssVar("--down", "#a50036");
+        const axisText = cssVar("--fg-subtle", isLight ? "#64748b" : "#94a3b8");
+        const gridColor = cssVar("--line", "rgba(148, 163, 184, 0.3)");
         const chartFont = "Space Grotesk";
-        const lastPriceMarker = "#111112";
-        const lastPriceText = "#ffffff";
+        // Was a hardcoded black pill, which disappeared against the dark chart
+        // and left the white value floating over the plot.
+        const lastPriceMarker = cssVar("--fg", isLight ? "#111827" : "#e4e4e7");
+        const lastPriceText = cssVar(
+            "--surface-card",
+            isLight ? "#ffffff" : "#151517",
+        );
         const lineColor = isNegative ? downColor : upColor;
-        const fillColorStart = isNegative
-            ? "rgba(220, 38, 38, 0.18)"
-            : "rgba(22, 163, 74, 0.16)";
-        const fillColorEnd = isNegative
-            ? "rgba(220, 38, 38, 0.02)"
-            : "rgba(22, 163, 74, 0.02)";
+        const fillColorStart = `color-mix(in oklch, ${lineColor} 16%, transparent)`;
+        const fillColorEnd = `color-mix(in oklch, ${lineColor} 2%, transparent)`;
         chart.setStyles({
             grid: {
                 show: true,
@@ -357,9 +375,12 @@
         chart.setPaneOptions({
             id: "candle_pane",
             axis: {
-                gap: { top: 0.02, bottom: 0.02 },
+                gap: { top: 0.08, bottom: 0.08 },
                 position: "right",
-                inside: true,
+                // `inside: true` drew the price labels on top of the area fill,
+                // where they collided with the last-price pill (DOW showed
+                // 520.00 underneath 519.26). Outside, the gutter is theirs.
+                inside: false,
                 scrollZoomEnabled: false,
             },
         });
@@ -421,123 +442,74 @@
     }
 </script>
 
-<div
-    class=" bg-white/60 dark:bg-zinc-950/40 overflow-hidden text-muted dark:text-zinc-200"
->
-    <div
-        class="flex items-center justify-between px-2 py-1.5 sm:px-3 sm:py-2 border-b border-gray-300 dark:border-zinc-700"
-    >
-        <div class="flex items-center gap-1 sm:gap-2">
-            <span
-                class="text-xs sm:text-sm font-semibold tracking-tight text-muted dark:text-white"
-                >{nameDict[symbol]}</span
-            >
-        </div>
-        <div
-            class="text-[10px] sm:text-xs font-semibold tabular-nums {isPositive
-                ? 'text-emerald-800 dark:text-emerald-400'
-                : 'text-rose-800 dark:text-rose-400'}"
+<div class="overflow-hidden text-fg">
+    <div class="flex items-center justify-between px-3 py-2.5">
+        <span class="type-h3 text-fg">{nameDict[symbol]}</span>
+        <span
+            class="type-data-em {isFlat
+                ? 'text-fg-muted'
+                : isPositive
+                  ? 'text-up'
+                  : 'text-down'}"
         >
-            ({isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%)
-        </div>
+            {isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%
+        </span>
     </div>
 
     <div class="flex flex-col">
-        <div class="flex flex-row items-stretch pt-2">
-            <div class="flex flex-col items-center -mr-6">
-                <div class="-ml-5 flex flex-row items-stretch h-[90px]">
-                    <div
-                        class="flex flex-col justify-between pr-1 text-[0.55rem] text-muted dark:text-zinc-300 select-none text-right w-4"
-                    >
-                        <div>2</div>
-                        <div>1</div>
-                        <div>0</div>
-                    </div>
-                    <div
-                        class="relative w-1.5 bg-gray-200/70 dark:bg-zinc-800/70 overflow-hidden"
-                    >
-                        <div
-                            class="absolute bottom-0 left-0 right-0 bg-gray-800/70 dark:bg-zinc-200/30 transition-all duration-500"
-                            style="height: {Math.min(
-                                relativeVolume * 50,
-                                100,
-                            )}%;"
-                        ></div>
-                    </div>
-                </div>
-                <div
-                    class="ml-1 mb-1 mt-1 text-[0.4rem] sm:text-[0.5rem] uppercase tracking-wide text-muted dark:text-zinc-300 font-semibold"
-                >
-                    Relative Vol
-                </div>
+        <!-- The relative-volume 2/1/0 axis used to sit immediately left of the
+             price chart, where it read as the price axis. It is a number, not a
+             chart, so it now lives in the footer as a labelled value. -->
+        <div
+            class="h-[96px] pointer-events-none"
+            bind:this={chartContainer}
+        ></div>
+
+        <div class="border-t border-line bg-surface-sunken px-3 py-2.5">
+            <div class="mb-1.5 flex items-baseline justify-between gap-2">
+                <span class="type-th">Option Flow</span>
+                <span class="type-meta text-fg-subtle tabular-nums">
+                    RVOL {relativeVolume ? relativeVolume.toFixed(2) : "\u2014"}
+                </span>
             </div>
 
-            <div
-                class="flex-1 h-[90px] px-1 pointer-events-none bg-gradient-to-b from-white/40 to-transparent dark:from-zinc-900/40"
-                bind:this={chartContainer}
-            ></div>
-        </div>
-
-        <div
-            class="h-[40px] sm:h-[50px] px-2 pt-1 pb-2 border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-900/40"
-        >
-            <!-- top row -->
-            <div
-                class="grid grid-cols-3 items-start gap-2 w-full h-5 sm:h-6 mb-1.5"
-            >
-                <!-- left -->
-                <div
-                    class="min-w-0 text-[0.6rem] sm:text-[0.65rem] leading-none"
-                >
-                    <span
-                        class="py-0.5 block uppercase font-semibold text-muted dark:text-zinc-300 tracking-wide"
-                        >Bull</span
-                    >
-                    <span
-                        class="font-semibold text-emerald-800 dark:text-emerald-400 whitespace-nowrap tabular-nums"
-                    >
+            {#if hasFlow}
+                <div class="flex items-baseline justify-between gap-2">
+                    <span class="type-data-em text-up tabular-nums">
                         {bullPercentage}%
-                        <span class="hidden sm:inline-block"
+                        <span class="type-meta text-fg-subtle"
                             >({abbreviateNumber(bullPrem)})</span
                         >
                     </span>
-                </div>
-
-                <!-- center -->
-                <div
-                    class="min-w-0 text-center text-[0.6rem] font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 leading-tight whitespace-nowrap"
-                >
-                    Option Flow
-                </div>
-
-                <!-- right -->
-                <div
-                    class="min-w-0 text-[0.6rem] sm:text-[0.65rem] leading-none text-right"
-                >
-                    <span
-                        class="py-0.5 block uppercase font-semibold text-muted dark:text-zinc-300 tracking-wide"
-                        >Bear</span
-                    >
-                    <span
-                        class="font-semibold text-rose-800 dark:text-rose-400 whitespace-nowrap sm:-ml-4 tabular-nums"
-                    >
-                        <span class="hidden sm:inline-block"
+                    <span class="type-data-em text-down tabular-nums">
+                        <span class="type-meta text-fg-subtle"
                             >({abbreviateNumber(bearPrem)})</span
                         >
                         {bearPercentage}%
                     </span>
                 </div>
-            </div>
 
-            <!-- bar -->
-            <div
-                class="relative w-full h-1.5 bg-rose-500/30 dark:bg-rose-500/25 rounded-full overflow-hidden"
-            >
                 <div
-                    class="h-full bg-emerald-500/40 dark:bg-emerald-500/35 transition-all duration-700"
-                    style="width: {bullPercentage}%"
-                ></div>
-            </div>
+                    class="mt-1.5 flex h-1 w-full overflow-hidden rounded-full"
+                >
+                    <div
+                        class="h-full bg-up transition-all duration-700"
+                        style="width: {bullPercentage}%"
+                    ></div>
+                    <div
+                        class="h-full flex-1 bg-down transition-all duration-700"
+                    ></div>
+                </div>
+            {:else}
+                <!-- No flow is not the same as 100% bearish. The old markup had
+                     an always-rose track, so a closed market painted every card
+                     solid pink. Neutral hairline plus an explicit label. -->
+                <div class="flex items-baseline justify-between gap-2">
+                    <span class="type-data-em text-fg-subtle">&mdash;</span>
+                    <span class="type-meta text-fg-subtle">No flow</span>
+                </div>
+                <div class="mt-1.5 h-1 w-full rounded-full bg-line"></div>
+            {/if}
         </div>
     </div>
 </div>

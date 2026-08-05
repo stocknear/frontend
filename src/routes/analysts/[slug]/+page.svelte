@@ -549,27 +549,27 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{analysts_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/analysts"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{analysts_breadcrumb_analysts()}</a
       >
     </li>
 
-    <li class="text-muted dark:text-white">
+    <li class="text-fg">
       {analystName ?? "n/a"}
     </li>
   </BreadCrumb>
@@ -583,7 +583,7 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b border-gray-300 dark:border-zinc-700 pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-line pb-3 lg:border-none lg:pb-0"
               >
                 <div class="shrink-0">
                   <svg
@@ -600,12 +600,12 @@
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                   >
                     {analystName ?? "n/a"}
                   </h1>
                   <p
-                    class="mb-0.5 text-sm font-medium text-muted dark:text-zinc-300"
+                    class="mb-0.5 text-sm font-medium text-fg-muted"
                   >
                     {analysts_detail_stock_analyst_at({
                       companyName: companyName ?? "n/a",
@@ -641,7 +641,7 @@
                         {/if}
                       {/each}
                     </div>
-                    <span class="ml-1 text-sm text-muted dark:text-white"
+                    <span class="ml-1 text-sm text-fg"
                       >({analystScore ?? "n/a"})</span
                     >
                   </div>
@@ -660,12 +660,12 @@
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     # {rank ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {analysts_detail_out_of_analysts({
                       count: numOfAnalysts ?? "n/a",
@@ -676,12 +676,12 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {totalRatings ?? "n/a"}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {analysts_detail_total_ratings()}
                   </div>
@@ -690,14 +690,14 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={successRate >= 0 && successRate !== undefined
-                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                          ? "before:content-['+'] text-up"
                           : successRate < 0 && successRate !== undefined
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                         >{successRate !== undefined
                           ? successRate?.toFixed(2) + "%"
@@ -722,7 +722,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {analysts_detail_success_rate()}
                   </div>
@@ -731,14 +731,14 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={avgReturn >= 0 && avgReturn !== undefined
-                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                          ? "before:content-['+'] text-up"
                           : avgReturn < 0 && avgReturn !== undefined
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                         >{avgReturn !== undefined
                           ? avgReturn?.toFixed(2) + "%"
@@ -763,7 +763,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {analysts_detail_average_return()}
                   </div>
@@ -792,7 +792,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -813,7 +813,7 @@
                       {#each data?.getData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -826,10 +826,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {analysts_detail_count({
                     count: rawData?.length?.toLocaleString("en-US"),
@@ -865,7 +865,7 @@
                       on:input={search}
                       type="text"
                       placeholder={analysts_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -881,7 +881,7 @@
                     <button
                       on:click={resetColumnOrder}
                       title="Reset column order"
-                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                     >
                       <svg
                         class="w-4 h-4"
@@ -908,7 +908,7 @@
                 <div class="mt-4 mb-4 space-y-3">
                   {#each stockList as item, index}
                     <div
-                      class="rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-hidden"
+                      class="rounded-2xl border border-line overflow-hidden"
                     >
                       <!-- Header -->
                       <div
@@ -917,7 +917,7 @@
                         <div class="min-w-0 flex-1">
                           <HoverStockChart symbol={item?.ticker} />
                           <p
-                            class="mt-0.5 text-[13px] text-muted dark:text-zinc-300 truncate"
+                            class="mt-0.5 text-[13px] text-fg-muted truncate"
                           >
                             {item?.name?.length > 28
                               ? item?.name?.slice(0, 28) + "..."
@@ -925,7 +925,7 @@
                           </p>
                         </div>
                         <span
-                          class="ml-3 text-[13px] tabular-nums text-muted dark:text-zinc-300 whitespace-nowrap"
+                          class="ml-3 text-[13px] tabular-nums text-fg-muted whitespace-nowrap"
                         >
                           {new Date(item?.date)?.toLocaleString("en-US", {
                             month: "short",
@@ -939,51 +939,51 @@
                       <div class="flex items-end justify-between px-4 pb-4">
                         <div class="space-y-1">
                           <div class="flex items-center gap-1.5 text-[13px]">
-                            <span class="text-gray-600 dark:text-zinc-400"
+                            <span class="text-fg-muted"
                               >{item?.action_company}:</span
                             >
                             <span
-                              class="font-medium text-muted dark:text-zinc-200"
+                              class="font-medium text-fg"
                               >{item?.rating_current}</span
                             >
                           </div>
                           <p
-                            class="text-[13px] text-gray-600 dark:text-zinc-400"
+                            class="text-[13px] text-fg-muted"
                           >
                             <span
-                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1"
+                              class="uppercase text-[10px] tracking-wide text-fg-muted mr-1"
                               >PT</span
                             >
                             {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
-                              <span class="text-muted dark:text-white"
+                              <span class="text-fg"
                                 >{Math?.ceil(item?.adjusted_pt_prior)}</span
                               >
                               <span class="mx-1">→</span>
                               <span
-                                class="font-medium tabular-nums text-muted dark:text-zinc-200"
+                                class="font-medium tabular-nums text-fg"
                                 >${Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else if Math?.ceil(item?.adjusted_pt_current) !== 0}
                               <span
-                                class="font-medium tabular-nums text-muted dark:text-zinc-200"
+                                class="font-medium tabular-nums text-fg"
                                 >${Math?.ceil(item?.adjusted_pt_current)}</span
                               >
                             {:else}
-                              <span class="text-muted dark:text-white">n/a</span
+                              <span class="text-fg">n/a</span
                               >
                             {/if}
                           </p>
                         </div>
                         <div class="text-right">
                           <p
-                            class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5"
+                            class="text-[13px] text-fg-muted mb-0.5"
                           >
                             <span
                               class="uppercase text-[10px] tracking-wide mr-1"
                               >Current</span
                             >
                             <span
-                              class="tabular-nums text-muted dark:text-zinc-200"
+                              class="tabular-nums text-fg"
                               >{item?.price !== null
                                 ? "$" + item?.price
                                 : "n/a"}</span
@@ -991,16 +991,16 @@
                           </p>
                           <p class="text-[13px]">
                             <span
-                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400 mr-1"
+                              class="uppercase text-[10px] tracking-wide text-fg-muted mr-1"
                               >Upside</span
                             >
                             <span
                               class="font-medium tabular-nums {item?.upside >=
                                 0 && item?.upside !== null
-                                ? 'text-emerald-800 dark:text-emerald-500'
+                                ? 'text-up'
                                 : item?.upside < 0 && item?.upside !== null
-                                  ? 'text-rose-800 dark:text-rose-500'
-                                  : 'text-muted dark:text-white'}"
+                                  ? 'text-down'
+                                  : 'text-fg'}"
                             >
                               {item?.upside !== null
                                 ? (item?.upside >= 0 ? "+" : "") +
@@ -1015,7 +1015,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.ticker)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-line px-4 py-3 text-[13px] text-fg-muted hover:text-accent transition-colors"
                       >
                         <span
                           >{item?.ratings}
@@ -1045,7 +1045,7 @@
                       <!-- Chart -->
                       {#if checkedSymbol === item?.ticker}
                         <div
-                          class="border-t border-gray-300 dark:border-zinc-700 pb-3"
+                          class="border-t border-line pb-3"
                         >
                           <div class="relative h-[300px]">
                             <div class="absolute inset-x-0 top-0">
@@ -1081,7 +1081,7 @@
                     class="w-full m-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
                   >
                     <table
-                      class="table table-sm table-compact w-full m-auto mt-0 text-muted dark:text-zinc-200 tabular-nums"
+                      class="table table-sm table-compact w-full m-auto mt-0 text-fg tabular-nums"
                     >
                       <thead>
                         <TableHeader
@@ -1105,7 +1105,7 @@
                                     on:click={() => openGraph(item?.ticker)}
                                     class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                                     ><svg
-                                      class="w-5 h-5 text-muted dark:text-zinc-300 {checkedSymbol ===
+                                      class="w-5 h-5 text-fg-muted {checkedSymbol ===
                                       item?.ticker
                                         ? 'rotate-180'
                                         : ''}"
@@ -1122,13 +1122,13 @@
                                 >
                               {:else if column.key === "ticker"}
                                 <td
-                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-muted dark:text-zinc-200"
+                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-fg"
                                 >
                                   <HoverStockChart symbol={item?.ticker} />
                                 </td>
                               {:else if column.key === "name"}
                                 <td
-                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-muted dark:text-zinc-200"
+                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-fg"
                                 >
                                   {item?.name?.length > charNumber
                                     ? item?.name?.slice(0, charNumber) + "..."
@@ -1136,7 +1136,7 @@
                                 </td>
                               {:else if column.key === "rating_current"}
                                 <td
-                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-muted dark:text-zinc-200"
+                                  class="text-[0.85rem] sm:text-sm text-start whitespace-nowrap text-fg"
                                 >
                                   <div
                                     class="flex flex-col sm:flex-row items-start"
@@ -1151,14 +1151,14 @@
                                 </td>
                               {:else if column.key === "adjusted_pt_current"}
                                 <td
-                                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                  class="text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                                 >
                                   <div
                                     class="flex flex-row items-center justify-end"
                                   >
                                     {#if Math?.ceil(item?.adjusted_pt_prior) !== 0}
                                       <span
-                                        class="text-muted dark:text-white font-normal"
+                                        class="text-fg font-normal"
                                         >{Math?.ceil(
                                           item?.adjusted_pt_prior,
                                         )}</span
@@ -1195,7 +1195,7 @@
                                 </td>
                               {:else if column.key === "price"}
                                 <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                                 >
                                   {item?.price !== null ? item?.price : "n/a"}
                                 </td>
@@ -1203,9 +1203,9 @@
                                 <td
                                   class="{item?.upside >= 0 &&
                                   item?.upside !== null
-                                    ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                                    ? "before:content-['+'] text-up"
                                     : item?.upside < 0 && item?.upside !== null
-                                      ? 'text-rose-800 dark:text-rose-400'
+                                      ? 'text-down'
                                       : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap"
                                 >
                                   {item?.upside !== null
@@ -1214,7 +1214,7 @@
                                 </td>
                               {:else if column.key === "ratings"}
                                 <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                                 >
                                   {item?.ratings !== null
                                     ? item?.ratings
@@ -1222,7 +1222,7 @@
                                 </td>
                               {:else if column.key === "date"}
                                 <td
-                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
+                                  class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted"
                                 >
                                   {new Date(item?.date).toLocaleString(
                                     "en-US",
@@ -1238,7 +1238,7 @@
                             {/each}
                           </tr>
                           {#if checkedSymbol === item?.ticker}
-                            <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60"
+                            <tr class="bg-surface-page/60"
                               ><td colspan="9" class="px-0"
                                 ><div class="-mt-0.5 px-0 pb-2">
                                   <div class="relative h-[350px]">
@@ -1285,7 +1285,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1308,7 +1308,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-muted dark:text-zinc-300">
+                  <span class="text-sm text-fg-muted">
                     {analysts_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1319,7 +1319,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{analysts_pagination_rows({
@@ -1347,13 +1347,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -1377,7 +1377,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{analysts_pagination_next()}</span
@@ -1403,7 +1403,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                 >
                   {analysts_back_to_top()}
                   <svg

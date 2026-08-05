@@ -85,7 +85,7 @@
 </script>
 
 <footer
-  class="w-full mt-auto bg-[#1e2837] dark:bg-[#131214] border-t border-gray-300 dark:border-zinc-700"
+  class="w-full mt-auto bg-[#1e2837] dark:bg-[#131214] border-t border-line"
 >
   <div class="mx-auto max-w-7xl px-5 pt-12 sm:px-6 lg:px-8 lg:pb-8">
     <div
@@ -231,7 +231,7 @@
               <details class="group relative w-fit">
                 <summary
                   aria-label={common_language_switch()}
-                  class="flex list-none items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white dark:bg-zinc-900/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer [&::-webkit-details-marker]:hidden"
+                  class="flex list-none items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-card/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer [&::-webkit-details-marker]:hidden"
                 >
                   <span aria-hidden="true">{flagEmoji[currentLocale]}</span>
                   <span class="uppercase font-medium">{currentLocale}</span>
@@ -249,7 +249,7 @@
                 </summary>
                 <div
                   role="menu"
-                  class="absolute bottom-full left-0 z-50 mb-2 min-w-[140px] rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
+                  class="absolute bottom-full left-0 z-50 mb-2 min-w-[140px] rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
                 >
                   {#each locales as lang}
                     <a
@@ -261,7 +261,7 @@
                       data-sveltekit-reload
                       class="flex items-center gap-3 px-3 py-2 text-sm rounded-lg cursor-pointer {currentLocale ===
                       lang
-                        ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
+                        ? 'bg-violet-100 dark:bg-violet-900/30 text-accent'
                         : 'hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'} transition"
                       on:click={(event) => {
                         event?.preventDefault();

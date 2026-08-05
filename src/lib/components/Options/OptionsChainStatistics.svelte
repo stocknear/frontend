@@ -102,9 +102,9 @@
 
   let isSubscribed = ["Plus", "Pro"].includes(data?.user?.tier) || false;
   const lockLinkClass =
-    "mt-1 inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition";
+    "mt-1 inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition";
   const lockLinkInlineClass =
-    "inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition";
+    "inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition";
 
   let configIV;
   let configOI;
@@ -971,7 +971,7 @@
               {:else}
                 <a
                   href="/pricing"
-                  class="mt-1 inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="mt-1 inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                 >
                   <svg
                     class="w-4 h-4 mb-1 inline-block"
@@ -1616,7 +1616,7 @@
                 class="col-span-2 flex flex-row items-center lg:order-2 lg:grow py-1"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 w-full"
                 >
                   {stock_detail_options_chain_statistics()}
                 </h2>
@@ -1636,7 +1636,7 @@
             </div>
 
             <p
-              class="text-sm text-muted dark:text-zinc-300 leading-relaxed mt-2"
+              class="text-sm text-fg-muted leading-relaxed mt-2"
             >
               {@html stock_detail_options_chain_desc({ ticker })}
             </p>
@@ -1646,10 +1646,10 @@
             >
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead
-                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                    class="text-[11px] uppercase tracking-wide text-fg"
                   >
                     <tr>
                       <td class="text-start"

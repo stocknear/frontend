@@ -256,7 +256,7 @@ export function createHighchartsRangeSelector(
         ? `${formatRangeTimestamp(t1, range)}–${formatRangeTimestamp(t2, range)}`
         : "";
 
-    const labelText = `<div class="bg-[#000] p-2 border border-gray-300 dark:border-gray-700 rounded">${deltaText} (${pctText})${arrow ? ` ${arrow}` : ""}${
+    const labelText = `<div class="bg-[#000] p-2 border border-line rounded">${deltaText} (${pctText})${arrow ? ` ${arrow}` : ""}${
       rangeText ? `  ${rangeText}` : ""
     }</div>`;
 

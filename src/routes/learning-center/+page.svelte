@@ -365,18 +365,18 @@
   <!-- Header -->
   <div class="mb-8">
     <h1
-      class="text-2xl sm:text-3xl font-semibold text-muted dark:text-white mb-1"
+      class="text-2xl sm:text-3xl font-semibold text-fg mb-1"
     >
       {learning_center_title()}
     </h1>
-    <p class="text-muted dark:text-white">
+    <p class="text-fg">
       {learning_center_subtitle()}
     </p>
   </div>
 
   <!-- Category Tabs and Tag Filter -->
   <div
-    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-300 dark:border-zinc-700 pb-4 mb-8"
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-4 mb-8"
   >
     <!-- Category Tabs -->
     <nav class="overflow-x-auto whitespace-nowrap">
@@ -387,8 +387,8 @@
             on:click={() => setCategory(category.id)}
             class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition
               {activeCategory === category.id
-              ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-              : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+              ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+              : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
           >
             {category.name}
           </button>
@@ -425,7 +425,7 @@
             type="text"
             maxlength={MAX_SEARCH_LENGTH}
             placeholder="Find..."
-            class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
+            class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
           />
         </div>
       {/if}
@@ -434,7 +434,7 @@
         <DropdownMenu.Trigger asChild let:builder>
           <Button
             builders={[builder]}
-            class="w-full sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+            class="w-full sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
           >
             <span class="text-sm"
               >{learning_center_tag_prefix()} | {selectedTagName}</span
@@ -458,7 +458,7 @@
           side="bottom"
           align="end"
           sideOffset={10}
-          class="min-w-40 w-auto max-w-60 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-lg"
+          class="min-w-40 w-auto max-w-60 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-lg"
         >
           <DropdownMenu.Group>
             {#each availableTags as tag}
@@ -466,12 +466,12 @@
                 on:click={() => setTag(tag.id)}
                 class="{activeTag === tag.id
                   ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                  : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                  : ''} cursor-pointer hover:text-accent rounded-lg px-2 py-1.5"
               >
                 <span>{tag.name}</span>
                 {#if activeTag === tag.id}
                   <svg
-                    class="ml-auto h-4 w-4 text-violet-800 dark:text-violet-400"
+                    class="ml-auto h-4 w-4 text-accent"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -494,7 +494,7 @@
   {#if activeCategory !== "all"}
     {@const activeCat = categories.find((c) => c.id === activeCategory)}
     {#if activeCat?.description}
-      <p class="mb-6 text-sm text-muted dark:text-white">
+      <p class="mb-6 text-sm text-fg">
         {activeCat.description}
       </p>
     {/if}
@@ -509,10 +509,10 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-muted dark:text-white">
+            <h2 class="text-lg font-semibold text-fg">
               {learning_center_category_features()}
             </h2>
-            <p class="text-sm text-muted dark:text-white">
+            <p class="text-sm text-fg">
               {learning_center_category_desc_features()}
             </p>
           </div>
@@ -520,7 +520,7 @@
             <button
               type="button"
               on:click={() => setCategory("Features")}
-              class="cursor-pointer text-sm text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+              class="cursor-pointer text-sm text-fg hover:text-gray-900 dark:hover:text-white transition"
             >
               {learning_center_view_all()}
             </button>
@@ -530,7 +530,7 @@
           {#each sections.Features.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
             >
               {#if item?.cover}
                 <div class="h-40 overflow-hidden">
@@ -542,19 +542,19 @@
                   />
                 </div>
               {:else}
-                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+                <div class="h-40 bg-surface-raised"></div>
               {/if}
               <div class="flex flex-col flex-1 p-4">
                 <h3
-                  class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                  class="font-medium text-fg group-hover:text-accent transition line-clamp-2 mb-2"
                 >
                   {item?.title}
                 </h3>
-                <p class="text-sm text-muted dark:text-white line-clamp-2 mb-3">
+                <p class="text-sm text-fg line-clamp-2 mb-3">
                   {item?.abstract}
                 </p>
                 <div
-                  class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
+                  class="flex items-center gap-3 text-xs text-fg mt-auto"
                 >
                   <span
                     >{learning_center_min_read({
@@ -574,10 +574,10 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-muted dark:text-white">
+            <h2 class="text-lg font-semibold text-fg">
               {learning_center_category_fundamentals()}
             </h2>
-            <p class="text-sm text-muted dark:text-white">
+            <p class="text-sm text-fg">
               {learning_center_category_desc_fundamentals()}
             </p>
           </div>
@@ -585,7 +585,7 @@
             <button
               type="button"
               on:click={() => setCategory("Fundamentals")}
-              class="cursor-pointer text-sm text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+              class="cursor-pointer text-sm text-fg hover:text-gray-900 dark:hover:text-white transition"
             >
               {learning_center_view_all()}
             </button>
@@ -595,7 +595,7 @@
           {#each sections.Fundamentals.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+              class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
             >
               {#if item?.cover}
                 <div class="h-40 overflow-hidden">
@@ -607,19 +607,19 @@
                   />
                 </div>
               {:else}
-                <div class="h-40 bg-gray-100 dark:bg-zinc-800"></div>
+                <div class="h-40 bg-surface-raised"></div>
               {/if}
               <div class="flex flex-col flex-1 p-4">
                 <h3
-                  class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                  class="font-medium text-fg group-hover:text-accent transition line-clamp-2 mb-2"
                 >
                   {item?.title}
                 </h3>
-                <p class="text-sm text-muted dark:text-white line-clamp-2 mb-3">
+                <p class="text-sm text-fg line-clamp-2 mb-3">
                   {item?.abstract}
                 </p>
                 <div
-                  class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
+                  class="flex items-center gap-3 text-xs text-fg mt-auto"
                 >
                   <span
                     >{learning_center_min_read({
@@ -639,10 +639,10 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-muted dark:text-white">
+            <h2 class="text-lg font-semibold text-fg">
               {learning_center_category_terms()}
             </h2>
-            <p class="text-sm text-muted dark:text-white">
+            <p class="text-sm text-fg">
               {learning_center_category_desc_terms()}
             </p>
           </div>
@@ -650,7 +650,7 @@
             <button
               type="button"
               on:click={() => setCategory("Terms")}
-              class="cursor-pointer text-sm text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+              class="cursor-pointer text-sm text-fg hover:text-gray-900 dark:hover:text-white transition"
             >
               {learning_center_view_all_count({
                 count: String(sections.Terms.totalItems),
@@ -662,17 +662,17 @@
           {#each sections.Terms.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex items-center gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+              class="group flex items-center gap-3 p-3 rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
             >
               <div class="flex-1 min-w-0">
                 <h3
-                  class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition truncate"
+                  class="font-medium text-fg group-hover:text-accent transition truncate"
                 >
                   {item?.title}
                 </h3>
               </div>
               <svg
-                class="w-4 h-4 text-muted dark:text-white group-hover:text-violet-500 transition flex-shrink-0"
+                class="w-4 h-4 text-fg group-hover:text-violet-500 transition flex-shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -693,13 +693,13 @@
     <!-- Empty state when tag filter has no results -->
     {#if activeTag !== "all" && !sections?.Fundamentals?.items?.length && !sections?.Features?.items?.length && !sections?.Terms?.items?.length}
       <div class="text-center py-12">
-        <p class="text-muted dark:text-white">
+        <p class="text-fg">
           {learning_center_no_articles_tag({ tag: selectedTagName })}
         </p>
         <button
           type="button"
           on:click={() => setTag("all")}
-          class="cursor-pointer mt-4 text-sm text-violet-800 dark:text-violet-400 hover:underline"
+          class="cursor-pointer mt-4 text-sm text-accent hover:underline"
         >
           {learning_center_clear_tag_filter()}
         </button>
@@ -712,20 +712,20 @@
         {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
-            class="group flex items-center gap-3 p-4 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+            class="group flex items-center gap-3 p-4 rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
           >
             <div class="flex-1 min-w-0">
               <h3
-                class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                class="font-medium text-fg group-hover:text-accent transition"
               >
                 {item?.title}
               </h3>
-              <p class="text-sm text-muted dark:text-white line-clamp-1 mt-1">
+              <p class="text-sm text-fg line-clamp-1 mt-1">
                 {item?.abstract}
               </p>
             </div>
             <svg
-              class="w-4 h-4 text-muted dark:text-white group-hover:text-violet-500 transition flex-shrink-0"
+              class="w-4 h-4 text-fg group-hover:text-violet-500 transition flex-shrink-0"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -748,7 +748,7 @@
           <Button
             on:click={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg
               class="h-5 w-5 rotate-90"
@@ -768,7 +768,7 @@
 
           <!-- Page info and items per page -->
           <div class="flex items-center gap-4">
-            <span class="text-sm text-muted dark:text-zinc-300">
+            <span class="text-sm text-fg-muted">
               {learning_center_page_of({
                 currentPage: String(currentPage),
                 totalPages: String(totalPages),
@@ -779,7 +779,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700  text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                  class="transition-all duration-150 border border-line  text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm"
                     >{learning_center_items_count({
@@ -804,7 +804,7 @@
                 side="bottom"
                 align="center"
                 sideOffset={10}
-                class="min-w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200"
+                class="min-w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg"
               >
                 <DropdownMenu.Group>
                   {#each itemsPerPageOptions as option}
@@ -812,7 +812,7 @@
                       on:click={() => changeItemsPerPage(option)}
                       class="{itemsPerPage === option
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                        : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                        : ''} cursor-pointer hover:text-accent rounded-lg px-2 py-1.5"
                     >
                       <span class="text-sm"
                         >{learning_center_items_count({
@@ -830,7 +830,7 @@
           <Button
             on:click={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg
@@ -851,7 +851,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
           >
             {learning_center_back_to_top()}
             <svg
@@ -871,18 +871,18 @@
     {:else}
       <div class="text-center py-12">
         {#if activeSearch}
-          <p class="text-muted dark:text-white">
+          <p class="text-fg">
             {learning_center_no_search_results({ query: activeSearch })}
           </p>
           <button
             type="button"
             on:click={clearSearch}
-            class="cursor-pointer mt-4 text-sm text-violet-800 dark:text-violet-400 hover:underline"
+            class="cursor-pointer mt-4 text-sm text-accent hover:underline"
           >
             {learning_center_clear_search()}
           </button>
         {:else}
-          <p class="text-muted dark:text-white">
+          <p class="text-fg">
             {learning_center_no_terms_yet()}
           </p>
         {/if}
@@ -895,7 +895,7 @@
         {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
-            class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
           >
             {#if item?.cover}
               <div class="h-40 overflow-hidden">
@@ -907,7 +907,7 @@
                 />
               </div>
             {:else}
-              <div class="h-40 bg-gray-100 dark:bg-zinc-800">
+              <div class="h-40 bg-surface-raised">
                 <img
                   src="/img/premarket-news-cover.webp"
                   alt="Premarket News Report"
@@ -918,15 +918,15 @@
             {/if}
             <div class="flex flex-col flex-1 p-4">
               <h3
-                class="font-medium text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-2"
+                class="font-medium text-fg group-hover:text-accent transition line-clamp-2 mb-2"
               >
                 {item?.title}
               </h3>
-              <p class="text-sm text-muted dark:text-white line-clamp-2 mb-3">
+              <p class="text-sm text-fg line-clamp-2 mb-3">
                 {item?.abstract}
               </p>
               <div
-                class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
+                class="flex items-center gap-3 text-xs text-fg mt-auto"
               >
                 <div class="flex items-center gap-1">
                   <Calendar class="w-3.5 h-3.5" />
@@ -953,7 +953,7 @@
           <Button
             on:click={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg
               class="h-5 w-5 rotate-90"
@@ -973,7 +973,7 @@
 
           <!-- Page info and items per page -->
           <div class="flex items-center gap-4">
-            <span class="text-sm text-muted dark:text-zinc-300">
+            <span class="text-sm text-fg-muted">
               {learning_center_page_of({
                 currentPage: String(currentPage),
                 totalPages: String(totalPages),
@@ -984,7 +984,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                  class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm"
                     >{learning_center_items_count({
@@ -1009,7 +1009,7 @@
                 side="bottom"
                 align="center"
                 sideOffset={10}
-                class="min-w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200"
+                class="min-w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg"
               >
                 <DropdownMenu.Group>
                   {#each itemsPerPageOptions as option}
@@ -1017,7 +1017,7 @@
                       on:click={() => changeItemsPerPage(option)}
                       class="{itemsPerPage === option
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                        : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-lg px-2 py-1.5"
+                        : ''} cursor-pointer hover:text-accent rounded-lg px-2 py-1.5"
                     >
                       <span class="text-sm"
                         >{learning_center_items_count({
@@ -1035,7 +1035,7 @@
           <Button
             on:click={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg
@@ -1056,7 +1056,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
           >
             {learning_center_back_to_top()}
             <svg
@@ -1076,18 +1076,18 @@
     {:else}
       <div class="text-center py-12">
         {#if activeSearch}
-          <p class="text-muted dark:text-white">
+          <p class="text-fg">
             {learning_center_no_search_results({ query: activeSearch })}
           </p>
           <button
             type="button"
             on:click={clearSearch}
-            class="cursor-pointer mt-4 text-sm text-violet-800 dark:text-violet-400 hover:underline"
+            class="cursor-pointer mt-4 text-sm text-accent hover:underline"
           >
             {learning_center_clear_search()}
           </button>
         {:else}
-          <p class="text-muted dark:text-white">
+          <p class="text-fg">
             {learning_center_no_articles_category()}
           </p>
         {/if}

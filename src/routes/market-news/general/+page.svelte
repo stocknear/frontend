@@ -258,7 +258,7 @@
                     {/if}
                     <div class="mt-3 w-full">
                       <h3
-                        class="text-xs font-medium uppercase tracking-wide text-muted dark:text-white truncate mb-2"
+                        class="text-xs font-medium uppercase tracking-wide text-fg truncate mb-2"
                       >
                         {formatDate(item?.publishedDate)} &#183; {item?.site}
                       </h3>
@@ -269,11 +269,11 @@
                         class="group"
                       >
                         <span
-                          class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
+                          class="text-lg sm:text-xl font-semibold tracking-tight text-fg transition group-hover:text-accent"
                         >
                           {item?.title}
                         </span>
-                        <p class="mt-2 text-sm text-muted dark:text-zinc-300">
+                        <p class="mt-2 text-sm text-fg-muted">
                           {item?.text?.length > 200
                             ? item?.text?.slice(0, 200) + "..."
                             : item?.text}
@@ -300,7 +300,7 @@
                       </a>
                       <div class="mt-3 sm:mt-0 w-full">
                         <h3
-                          class="text-xs font-medium uppercase tracking-wide text-muted dark:text-white truncate mb-2"
+                          class="text-xs font-medium uppercase tracking-wide text-fg truncate mb-2"
                         >
                           {formatDate(item?.publishedDate)} &#183; {item?.site}
                         </h3>
@@ -311,11 +311,11 @@
                           class="group"
                         >
                           <span
-                            class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
+                            class="text-lg sm:text-xl font-semibold tracking-tight text-fg transition group-hover:text-accent"
                           >
                             {item?.title}
                           </span>
-                          <p class="mt-2 text-sm text-muted dark:text-zinc-300">
+                          <p class="mt-2 text-sm text-fg-muted">
                             {item?.text?.length > 200
                               ? item?.text?.slice(0, 200) + "..."
                               : item?.text}
@@ -338,7 +338,7 @@
               <Button
                 on:click={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -360,7 +360,7 @@
             </div>
 
             <div class="flex flex-row items-center gap-4">
-              <span class="text-sm text-muted dark:text-zinc-300">
+              <span class="text-sm text-fg-muted">
                 {market_news_pagination_page_of({
                   currentPage,
                   totalPages,
@@ -371,7 +371,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
                       {rowsPerPage}
@@ -398,12 +398,12 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                 >
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                       >
                         <label
                           on:click={() => changeRowsPerPage(item)}
@@ -425,7 +425,7 @@
               <Button
                 on:click={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="hidden sm:inline">
                   {market_news_pagination_next()}
@@ -450,7 +450,7 @@
           <div class="flex justify-center mt-4">
             <button
               on:click={scrollToTop}
-              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+              class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
             >
               {market_news_back_to_top()}
               <svg
@@ -477,16 +477,16 @@
           >
             <a href="/pricing" class="group flex flex-col gap-2">
               <span
-                class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-white"
+                class="text-xs font-semibold uppercase tracking-wide text-fg"
               >
                 {market_news_upgrade_label()}
               </span>
               <h2
-                class="text-lg font-semibold tracking-tight text-muted dark:text-white transition group-hover:text-violet-800 dark:group-hover:text-violet-400"
+                class="text-lg font-semibold tracking-tight text-fg transition group-hover:text-accent"
               >
                 {market_news_pro_subscription_title()}
               </h2>
-              <p class="text-sm text-muted dark:text-zinc-300">
+              <p class="text-sm text-fg-muted">
                 {market_news_upgrade_description()}
               </p>
             </a>
@@ -499,18 +499,18 @@
           >
             <div class="p-4 text-sm">
               <h3
-                class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-white mb-3"
+                class="text-xs font-semibold uppercase tracking-wide text-fg mb-3"
               >
                 {market_news_stock_news_label()}
               </h3>
-              <ul class="text-sm text-muted dark:text-zinc-300">
+              <ul class="text-sm text-fg-muted">
                 {#each stockNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
                     {market_news_time_ago({
                       time: formatDate(item?.publishedDate),
                     })} -
                     <a
-                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                      class="font-medium text-fg transition-colors hover:text-accent transition"
                       href={item?.url}
                       target="_blank"
                       rel="noopener noreferrer nofollow">{item?.title}</a

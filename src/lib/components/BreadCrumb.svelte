@@ -8,11 +8,11 @@
   export let tag: keyof HTMLElementTagNameMap = "div";
   export let ariaLabel: string | undefined;
   export let containerClass =
-    "text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300";
+    "text-xs sm:text-sm breadcrumbs text-fg-muted";
   export let listClass = "";
   export let linkClass =
-    "text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition";
-  export let itemClass = "text-muted dark:text-zinc-300";
+    "text-fg-muted hover:text-accent transition";
+  export let itemClass = "text-fg-muted";
 </script>
 
 {#if items?.length}

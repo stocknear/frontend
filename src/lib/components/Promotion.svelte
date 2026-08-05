@@ -24,11 +24,11 @@
   <div
     class="modal-box w-full {$screenWidth < 640
       ? 'min-h-screen'
-      : ''} relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="promotionModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -44,7 +44,7 @@
     <div class="grid grid-cols-1 animate-fade-in-once">
       <div class="flex justify-center pt-6 sm:pt-3">
         <div
-          class="h-12 w-12 rounded-full bg-gray-300/80 dark:bg-zinc-900/60 flex items-center justify-center text-muted dark:text-white"
+          class="h-12 w-12 rounded-full bg-gray-300/80 dark:bg-zinc-900/60 flex items-center justify-center text-fg"
         >
           <svg
             class="h-6 w-6"
@@ -63,15 +63,15 @@
       </div>
 
       <h2
-        class="text-center text-2xl sm:text-3xl pt-4 font-semibold tracking-tight text-muted dark:text-white"
+        class="text-center text-2xl sm:text-3xl pt-4 font-semibold tracking-tight text-fg"
       >
         {title}
       </h2>
-      <p class="text-muted dark:text-white text-center text-sm pb-5 pt-3">
+      <p class="text-fg text-center text-sm pb-5 pt-3">
         {subtitle}
       </p>
 
-      <ul class="space-y-3 text-sm sm:text-base text-muted dark:text-zinc-200">
+      <ul class="space-y-3 text-sm sm:text-base text-fg">
         {#each features as feature}
           <li class="flex items-start gap-3">
             <span
@@ -108,7 +108,7 @@
         </label>
       </div>
 
-      <p class="mt-5 text-center text-xs text-muted dark:text-zinc-300">
+      <p class="mt-5 text-center text-xs text-fg-muted">
         Cancel anytime. We are a small team and your support means everything.
       </p>
     </div>

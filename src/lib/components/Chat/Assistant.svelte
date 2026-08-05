@@ -160,7 +160,7 @@
                   pos + match.index,
                   pos + match.index + match[0]?.length,
                   {
-                    class: "text-violet-800 dark:text-violet-400 font-medium",
+                    class: "text-accent font-medium",
                   },
                 ),
               );
@@ -1000,7 +1000,7 @@
     aria-modal="true"
     class="hidden lg:flex fixed right-5 bottom-10 w-full md:w-[480px] lg:w-[600px] {isFullscreen
       ? 'h-full max-h-[90%]'
-      : 'h-[600px]'} max-w-full z-50 bg-white dark:bg-default border border-gray-300 dark:border-gray-700 shadow-2xl flex-col transition-all duration-300 {isFullscreen
+      : 'h-[600px]'} max-w-full z-50 bg-white dark:bg-default border border-line shadow-2xl flex-col transition-all duration-300 {isFullscreen
       ? 'rounded-none'
       : 'rounded-l-2xl'}"
     style="transform-origin: bottom center;"
@@ -1009,7 +1009,7 @@
     <!-- Header -->
     <header
       role="banner"
-      class="flex items-center justify-between px-6 py-4 border-b border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-default/50 cursor-default select-none"
+      class="flex items-center justify-between px-6 py-4 border-b border-line bg-gray-50 dark:bg-default/50 cursor-default select-none"
       on:mousedown={startDrag}
     >
       <div class="flex items-center gap-3 min-w-0">
@@ -1022,7 +1022,7 @@
         </div>
         <div class="min-w-0">
           <div
-            class="text-base font-semibold text-muted dark:text-white truncate"
+            class="text-base font-semibold text-fg truncate"
           >
             AI Assistant
           </div>
@@ -1053,11 +1053,11 @@
 
           {#if showChatHistory}
             <div
-              class="absolute top-full right-0 mt-3 w-80 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-xl z-50 max-h-96 overflow-y-auto"
+              class="absolute top-full right-0 mt-3 w-80 bg-white dark:bg-gray-800 border border-line-strong rounded shadow-xl z-50 max-h-96 overflow-y-auto"
               transition:fly={{ y: -10, duration: 200 }}
             >
-              <div class="p-4 border-b border-gray-300 dark:border-gray-600">
-                <h3 class="text-sm font-semibold text-muted dark:text-white">
+              <div class="p-4 border-b border-line-strong">
+                <h3 class="text-sm font-semibold text-fg">
                   Recent Conversations
                 </h3>
               </div>
@@ -1165,7 +1165,7 @@
       <!-- messages -->
       <div
         bind:this={chatContainer}
-        class="flex-1 px-6 py-6 space-y-6 overflow-y-auto overflow-x-hidden scroll-smooth bg-white dark:bg-default text-muted dark:text-white"
+        class="flex-1 px-6 py-6 space-y-6 overflow-y-auto overflow-x-hidden scroll-smooth bg-white dark:bg-default text-fg"
         style="will-change: scroll-position; contain: layout style paint;"
       >
         {#each messages as message, index (`${chatId || "temp"}-${index}-${message.role}`)}
@@ -1221,10 +1221,10 @@
 
       <!-- Input area -->
       <div
-        class="px-6 py-4 border-t border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-default/50"
+        class="px-6 py-4 border-t border-line bg-gray-50 dark:bg-default/50"
       >
         <div
-          class="block p-4 w-full border border-gray-300 dark:border-gray-600 rounded overflow-hidden bg-gray-50 dark:bg-[#2A2E39] shadow-sm"
+          class="block p-4 w-full border border-line-strong rounded overflow-hidden bg-gray-50 dark:bg-[#2A2E39] shadow-sm"
         >
           <div
             bind:this={editorDiv}
@@ -1238,7 +1238,7 @@
           <!-- Suggestions Dropdown -->
           {#if showSuggestions}
             <ul
-              class="absolute bg-white dark:bg-default rounded-[5px] shadow border border-gray-300 dark:border-gray-600 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+              class="absolute bg-white dark:bg-default rounded-[5px] shadow border border-line-strong mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
               style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
             >
               {#each suggestions as suggestion, i}
@@ -1310,7 +1310,7 @@
                           {/if}
                           <!--
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                           
                             <label

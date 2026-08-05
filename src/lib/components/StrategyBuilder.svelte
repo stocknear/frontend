@@ -315,7 +315,7 @@
         </h3>
         <div class="flex gap-2 ml-auto sm:ml-0">
             <button
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-2 border border-gray-300 dark:border-gray-600 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded text-sm font-medium transition-colors"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-2 border border-line-strong text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded text-sm font-medium transition-colors"
                 on:click={() => {
                     addBlock(BLOCK_TYPES.CONDITION);
                 }}
@@ -324,7 +324,7 @@
                 <span class="mr-1">Add Block</span>
             </button>
             <button
-                class="cursor-pointer inline-flex items-center text-sm gap-1 px-3 py-2 border border-gray-300 dark:border-gray-600 text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded font-medium transition-colors"
+                class="cursor-pointer inline-flex items-center text-sm gap-1 px-3 py-2 border border-line-strong text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded font-medium transition-colors"
                 on:click={() => {
                     dispatch("runBacktest");
                 }}
@@ -349,7 +349,7 @@
 
     {#if strategyBlocks?.length > 0}
         <div
-            class="overflow-x-auto border border-gray-300 dark:border-zinc-700 rounded bg-[#F8F9FA] dark:bg-secondary"
+            class="overflow-x-auto border border-line rounded bg-[#F8F9FA] dark:bg-secondary"
         >
             <table
                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
@@ -585,7 +585,7 @@
 
     {#if strategyBlocks.length === 0}
         <div
-            class="border border-gray-300 dark:border-gray-600 rounded bg-[#F8F9FA] dark:bg-default p-10 min-h-40 m-auto flex justify-center items-center w-full"
+            class="border border-line-strong rounded bg-[#F8F9FA] dark:bg-default p-10 min-h-40 m-auto flex justify-center items-center w-full"
         >
             <div class="text-center">
                 <p class="">No conditions added yet</p>
@@ -612,11 +612,11 @@
         ></label>
 
         <div
-            class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+            class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
         >
             <button
                 on:click={closeIndicatorModal}
-                class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+                class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
                 aria-label="Close modal"
             >
                 <svg
@@ -633,7 +633,7 @@
             <div class="relative flex flex-col w-full">
                 <!-- Sticky Header -->
                 <div
-                    class="fixed w-full h-fit sticky -top-6 z-40 bg-white dark:bg-primary opacity-100 pb-6 pt-5 border-gray-300 dark:border-gray-600 border-b"
+                    class="fixed w-full h-fit sticky -top-6 z-40 bg-white dark:bg-primary opacity-100 pb-6 pt-5 border-line-strong border-b"
                 >
                     <div
                         class="flex flex-row items-center justify-between mb-2"
@@ -704,7 +704,7 @@
                             <input
                                 autocomplete="off"
                                 id="search"
-                                class="focus:outline-none placeholder-gray-800 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-secondary border border-blue-500"
+                                class="focus:outline-none placeholder-gray-800 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm border border-line-strong rounded bg-gray-100 dark:bg-secondary border border-blue-500"
                                 placeholder="Search..."
                                 bind:value={searchTerm}
                             />

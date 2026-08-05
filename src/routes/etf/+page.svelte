@@ -323,19 +323,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{etf_breadcrumb_current()}</li>
+    <li class="text-fg-muted">{etf_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -346,11 +346,11 @@
         <main class="w-full">
           <div class="mb-2 border-b-[2px]">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {etf_main_title()}
             </h1>
-            <p class="mb-3 px-1 text-sm text-muted dark:text-zinc-300 sm:px-0">
+            <p class="mb-3 px-1 text-sm text-fg-muted sm:px-0">
               {etf_main_description({
                 count: originalData?.length?.toLocaleString("en-US"),
               })}
@@ -361,10 +361,10 @@
             <!-- Search functionality -->
             <div class="items-center lg:overflow-visible px-1 py-1">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {etf_main_table_title({
                     count: originalData?.length?.toLocaleString("en-US"),
@@ -374,7 +374,7 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -402,7 +402,7 @@
                       on:input={search}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-fg placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -419,7 +419,7 @@
                 class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -434,13 +434,13 @@
                         <td class="text-[0.85rem] sm:text-sm text-start">
                           <a
                             href={`/etf/${item?.symbol}`}
-                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                            class="font-medium text-fg transition-colors hover:text-accent transition"
                           >
                             {item?.symbol}
                           </a>
                         </td>
                         <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-muted dark:text-zinc-300"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-fg-muted"
                         >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
@@ -448,19 +448,19 @@
                         </td>
 
                         <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate text-muted dark:text-zinc-300"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate text-fg-muted"
                         >
                           {item?.assetClass}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                         >
                           {abbreviateNumber(item?.aum)}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                         >
                           {item?.expenseRatio
                             ? item?.expenseRatio?.toFixed(2) + "%"
@@ -482,7 +482,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -505,7 +505,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {etf_pagination_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -516,7 +516,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{etf_pagination_rows({ count: rowsPerPage })}</span
@@ -542,13 +542,13 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -570,7 +570,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{etf_pagination_next()}</span
@@ -596,7 +596,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                   >
                     {etf_back_to_top()}
                     <svg

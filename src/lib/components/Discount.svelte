@@ -68,24 +68,24 @@
 {#if promo && !expired && isEligibleUser(user)}
 <div class="w-full max-w-lg mx-auto mb-8 mt-4">
   <div
-    class="rounded-2xl border border-gray-200 dark:border-zinc-800 bg-gradient-to-br from-violet-50 to-gray-50 dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
+    class="rounded-2xl border border-line bg-gradient-to-br from-violet-50 to-gray-50 dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
   >
     <div class="flex flex-col items-center gap-4">
       <!-- Discount badge -->
       <div class="flex items-center gap-3">
         <span
-          class="text-4xl sm:text-5xl font-bold text-violet-800 dark:text-violet-400"
+          class="text-4xl sm:text-5xl font-bold text-accent"
         >
           {promo.percentOff}%
         </span>
-        <span class="text-lg sm:text-xl font-medium text-muted dark:text-white">
+        <span class="text-lg sm:text-xl font-medium text-fg">
           {pricing_discount_off()}
         </span>
       </div>
 
       <!-- Description -->
       <div
-        class="flex flex-col items-center -mt-2 text-center text-sm text-muted dark:text-white"
+        class="flex flex-col items-center -mt-2 text-center text-sm text-fg"
       >
         <div class="uppercase font-semibold">
           {pricing_discount_promo_title()}
@@ -94,7 +94,7 @@
       </div>
 
       <!-- Countdown timer -->
-      <div class="w-full border-t border-gray-200 dark:border-zinc-800 pt-4">
+      <div class="w-full border-t border-line pt-4">
         <p
           class="text-center text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-zinc-400 mb-3"
         >
@@ -104,16 +104,16 @@
         <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
           <div class="text-center">
             <div
-              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
             >
               <span
-                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+                class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
               >
                 <span style="--value:{days};"></span>
               </span>
             </div>
             <span
-              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[10px] uppercase tracking-wider text-fg-subtle"
             >
               {pricing_discount_days()}
             </span>
@@ -121,16 +121,16 @@
 
           <div class="text-center">
             <div
-              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
             >
               <span
-                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+                class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
               >
                 <span style="--value:{hours};"></span>
               </span>
             </div>
             <span
-              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[10px] uppercase tracking-wider text-fg-subtle"
             >
               {pricing_discount_hours()}
             </span>
@@ -138,16 +138,16 @@
 
           <div class="text-center">
             <div
-              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
             >
               <span
-                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+                class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
               >
                 <span style="--value:{minutes};"></span>
               </span>
             </div>
             <span
-              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[10px] uppercase tracking-wider text-fg-subtle"
             >
               {pricing_discount_min()}
             </span>
@@ -155,16 +155,16 @@
 
           <div class="text-center">
             <div
-              class="bg-white dark:bg-zinc-900/70 rounded-lg px-2 py-3 border border-gray-200 dark:border-zinc-800"
+              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
             >
               <span
-                class="countdown font-mono text-lg sm:text-xl font-bold text-violet-800 dark:text-violet-400"
+                class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
               >
                 <span style="--value:{seconds};"></span>
               </span>
             </div>
             <span
-              class="mt-2 block text-[10px] uppercase tracking-wider text-gray-500 dark:text-zinc-500"
+              class="mt-2 block text-[10px] uppercase tracking-wider text-fg-subtle"
             >
               {pricing_discount_sec()}
             </span>
@@ -177,14 +177,14 @@
       <button
         on:click={copyPromoCode}
         type="button"
-        class="cursor-pointer inline-flex items-center gap-2.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2 text-sm transition hover:border-violet-400 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950/30"
+        class="cursor-pointer inline-flex items-center gap-2.5 rounded-full border border-line bg-surface-card px-4 py-2 text-sm transition hover:border-violet-400 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-950/30"
       >
         <span
-          class="font-mono text-sm font-semibold text-muted dark:text-white tracking-wider"
+          class="font-mono text-sm font-semibold text-fg tracking-wider"
         >
           SAVE50
         </span>
-        <span class="text-gray-500 dark:text-zinc-500">
+        <span class="text-fg-subtle">
           {#if copied}
             <svg
               class="w-4 h-4 text-emerald-500"
@@ -216,7 +216,7 @@
           {/if}
         </span>
       </button>
-      <p class="text-xs text-gray-500 dark:text-zinc-500">
+      <p class="text-xs text-fg-subtle">
         {#if copied}
           {pricing_discount_copied()}
         {:else}

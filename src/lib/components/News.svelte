@@ -229,7 +229,7 @@
   }
 </script>
 
-<div class="space-y-3 overflow-hidden text-muted dark:text-zinc-200">
+<div class="space-y-3 overflow-hidden text-fg">
   <div class="w-auto lg:w-full p-1 flex flex-col m-auto news-section-container">
     <div class="flex flex-col items-center w-full mb-1">
       <div class="flex flex-row justify-start mr-auto items-center">
@@ -245,7 +245,7 @@
 
     <div class=" mt-1 sm:mt-0">
       <div
-        class="hflex flex-row items-center justify-between overflow-x-auto border-b border-gray-300 dark:border-zinc-700 py-1.5"
+        class="hflex flex-row items-center justify-between overflow-x-auto border-b border-line py-1.5"
       >
         <ul
           class="mb-0.5 flex flex-row overflow-x-auto whitespace-nowrap text-sm"
@@ -253,9 +253,9 @@
           <li>
             <button
               on:click={showAllNews}
-              class="cursor-pointer rounded-full px-3 py-1 text-sm text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
+              class="cursor-pointer rounded-full px-3 py-1 text-sm text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
               'all'
-                ? 'bg-gray-100/70 text-muted dark:text-white dark:bg-zinc-900/60 font-semibold'
+                ? 'bg-gray-100/70 text-fg dark:bg-zinc-900/60 font-semibold'
                 : ''}">{stock_detail_news_all()}</button
             >
           </li>
@@ -263,9 +263,9 @@
             <li>
               <button
                 on:click={() => getNewsVideos()}
-                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
+                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'videos'
-                  ? 'bg-gray-100/70 text-muted dark:text-white dark:bg-zinc-900/60 font-semibold'
+                  ? 'bg-gray-100/70 text-fg dark:bg-zinc-900/60 font-semibold'
                   : ''}">{stock_detail_news_videos()}</button
               >
             </li>
@@ -274,9 +274,9 @@
             <li>
               <button
                 on:click={() => getPressRelease()}
-                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
+                class="ml-1 cursor-pointer rounded-full px-3 py-1 text-sm text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/60 {displaySection ===
                 'press-releases'
-                  ? 'bg-gray-100/70 text-muted dark:text-white dark:bg-zinc-900/60 font-semibold'
+                  ? 'bg-gray-100/70 text-fg dark:bg-zinc-900/60 font-semibold'
                   : ''}"
                 ><span class="inline sm:hidden"
                   >{stock_detail_news_press()}</span
@@ -325,7 +325,7 @@
                   </div>
                 {/if}
                 <div class="mt-3 w-full">
-                  <h3 class="text-sm text-muted dark:text-white truncate mb-2">
+                  <h3 class="text-sm text-fg truncate mb-2">
                     {formatDate(item?.publishedDate)} &#183; {item?.site}
                   </h3>
                   <a
@@ -362,7 +362,7 @@
                   </a>
                   <div class="mt-3 sm:mt-0 w-full">
                     <h3
-                      class="text-sm text-muted dark:text-white truncate mb-2"
+                      class="text-sm text-fg truncate mb-2"
                     >
                       {formatDate(item?.publishedDate)} &#183; {item?.site}
                     </h3>
@@ -384,7 +384,7 @@
               {/if}
             </div>
             <hr
-              class="border-gray-300 dark:border-zinc-700 w-full m-auto mt-5 mb-5"
+              class="border-line w-full m-auto mt-5 mb-5"
             />
           {/each}
         </div>
@@ -427,7 +427,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -448,7 +448,7 @@
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-muted dark:text-zinc-300">
+            <span class="text-sm text-fg-muted">
               {stock_detail_page_of({
                 current: currentPage,
                 total: totalPages,
@@ -459,7 +459,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -485,13 +485,13 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}
@@ -513,7 +513,7 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">{stock_detail_next()}</span>
               <svg
@@ -537,7 +537,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
           >
             {stock_detail_back_to_top()}
             <svg

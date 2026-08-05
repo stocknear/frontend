@@ -49,23 +49,23 @@
 >
   <div class="mx-auto w-full max-w-6xl px-6 py-10 lg:py-14">
     <BreadCrumb
-      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
     >
       <li>
         <a
           href="/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="text-fg-muted hover:text-accent transition"
           >{advertise_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-muted dark:text-zinc-300">
+      <li class="text-fg-muted">
         {advertise_breadcrumb_current()}
       </li>
     </BreadCrumb>
 
     <div class="mt-8 border-b border-gray-300/70 pb-4 dark:border-zinc-700">
       <h1
-        class="mt-2 text-3xl font-semibold tracking-tight text-muted dark:text-white sm:text-4xl"
+        class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl"
       >
         {advertise_title()}
       </h1>
@@ -73,7 +73,7 @@
 
     <div class="mt-10 grid gap-10 lg:grid-cols-[1.1fr,0.9fr]">
       <main
-        class="space-y-6 text-[0.95rem] leading-relaxed text-muted dark:text-zinc-300"
+        class="space-y-6 text-[0.95rem] leading-relaxed text-fg-muted"
       >
         <p>
           {advertise_intro_1()}
@@ -85,7 +85,7 @@
 
         <div class="space-y-4">
           <h2
-            class="text-lg font-semibold tracking-tight text-muted dark:text-white"
+            class="text-lg font-semibold tracking-tight text-fg"
           >
             {advertise_newsletter_title()}
           </h2>
@@ -94,24 +94,24 @@
           </p>
           <ul class="ml-5 list-disc space-y-3">
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_newsletter_subscribers()}</strong
               >
               {advertise_newsletter_subscribers_detail()}
             </li>
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_newsletter_open_rate()}</strong
               >{advertise_newsletter_open_rate_detail()}
             </li>
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_newsletter_daily_reach()}</strong
               >
               {advertise_newsletter_daily_reach_detail()}
             </li>
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_newsletter_premium_audience()}</strong
               >
               {advertise_newsletter_premium_audience_detail()}
@@ -121,31 +121,31 @@
 
         <div class="space-y-4">
           <h2
-            class="text-lg font-semibold tracking-tight text-muted dark:text-white"
+            class="text-lg font-semibold tracking-tight text-fg"
           >
             {advertise_why_choose_title()}
           </h2>
           <ul class="ml-5 list-disc space-y-3">
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_why_targeted()}</strong
               >
               {advertise_why_targeted_detail()}
             </li>
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_why_trusted()}</strong
               >
               {advertise_why_trusted_detail()}
             </li>
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_why_growing()}</strong
               >
               {advertise_why_growing_detail()}
             </li>
             <li>
-              <strong class="text-muted dark:text-zinc-200"
+              <strong class="text-fg"
                 >{advertise_why_flexible()}</strong
               >
               {advertise_why_flexible_detail()}
@@ -155,7 +155,7 @@
 
         <div class="space-y-3">
           <h2
-            class="text-lg font-semibold tracking-tight text-muted dark:text-white"
+            class="text-lg font-semibold tracking-tight text-fg"
           >
             {advertise_cta_title()}
           </h2>
@@ -163,12 +163,12 @@
             {advertise_cta_description_1()}
           </p>
           <p>
-            <strong class="text-muted dark:text-zinc-200"
+            <strong class="text-fg"
               >{advertise_cta_contact()}</strong
             >
             <br />{advertise_cta_email_intro()}
             <a
-              class="font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="font-semibold text-fg hover:text-accent transition"
               href="mailto:contact@stocknear.com">contact@stocknear.com</a
             >
             {advertise_cta_email_outro()}
@@ -183,12 +183,12 @@
           <a href="/donation" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-semibold tracking-tight text-muted dark:text-white"
+                class="text-lg font-semibold tracking-tight text-fg"
               >
                 {advertise_sidebar_sponsor_title()}
               </h2>
             </div>
-            <p class="text-[0.9rem] text-muted dark:text-zinc-300">
+            <p class="text-[0.9rem] text-fg-muted">
               {advertise_sidebar_sponsor_description()}
             </p>
           </a>
@@ -200,12 +200,12 @@
           <a href="/contact" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-semibold tracking-tight text-muted dark:text-white"
+                class="text-lg font-semibold tracking-tight text-fg"
               >
                 {advertise_sidebar_contact_title()}
               </h2>
             </div>
-            <p class="text-[0.9rem] text-muted dark:text-zinc-300">
+            <p class="text-[0.9rem] text-fg-muted">
               {advertise_sidebar_contact_description()}
             </p>
           </a>

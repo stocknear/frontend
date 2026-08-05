@@ -216,11 +216,11 @@
   <div
     class="modal-box w-full {$screenWidth < 640
       ? 'min-h-screen'
-      : ''} relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="userLogin"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -243,7 +243,7 @@
           </h2>
         </div>
 
-        <span class="text-muted dark:text-white text-center text-sm pb-5">
+        <span class="text-fg text-center text-sm pb-5">
           {login_popup_welcome_back()}
         </span>
 
@@ -270,7 +270,7 @@
             <div class="text-start w-full max-w-lg">
               <a
                 href="/reset-password"
-                class="text-start text-sm text-muted dark:text-white cursor-pointer sm:hover:text-gray-900 dark:sm:hover:text-white transition"
+                class="text-start text-sm text-fg cursor-pointer sm:hover:text-gray-900 dark:sm:hover:text-white transition"
                 >{login_popup_forgot_password()}</a
               >
             </div>
@@ -293,7 +293,7 @@
             </div>
           </form>
 
-          <div class="divider text-muted dark:text-zinc-300 py-6">
+          <div class="divider text-fg-muted py-6">
             <span class="text-[11px] uppercase tracking-[0.3em] z-10"
               >{login_popup_or_login_using()}</span
             >
@@ -304,12 +304,12 @@
             on:click={() => (oauthLoading = !oauthLoading)}
           />
           <p
-            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-muted dark:text-white"
+            class="pb-1 text-sm w-full max-w-lg flex justify-center items-center text-fg"
           >
             {login_popup_no_account()}
             <label
               on:click={() => (displaySection = "register")}
-              class="text-muted dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
+              class="text-fg sm:hover:text-violet-500 ml-1 cursor-pointer transition"
               >{login_popup_sign_up_link()}</label
             >
           </p>
@@ -325,7 +325,7 @@
           </h2>
         </div>
 
-        <span class="text-muted dark:text-white text-center text-sm pb-5">
+        <span class="text-fg text-center text-sm pb-5">
           {register_popup_subtitle()}
         </span>
 
@@ -357,16 +357,16 @@
             />
 
             <div
-              class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
+              class="form-control w-full max-w-2xl mb-2 text-fg"
             >
               <label for="passwordConfirm" class="label pb-1">
-                <span class="text-muted dark:text-white"
+                <span class="text-fg"
                   >{register_popup_confirm_password_label()}</span
                 >
               </label>
               <div class="relative">
                 <input
-                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-surface-page/60 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
                   type="password"
                   id="passwordConfirm"
                   name="passwordConfirm"
@@ -449,7 +449,7 @@
             {/if}
           </form>
 
-          <div class="divider text-muted dark:text-zinc-300 py-6">
+          <div class="divider text-fg-muted py-6">
             <span class="text-[11px] uppercase tracking-[0.3em] z-10"
               >{register_popup_or_register_using()}</span
             >
@@ -459,28 +459,28 @@
             {returnUrl}
             on:click={() => (oauthLoading = !oauthLoading)}
           />
-          <p class="pb-1 text-xs text-center text-muted dark:text-zinc-300">
+          <p class="pb-1 text-xs text-center text-fg-muted">
             {register_popup_terms_prefix()}
             <a
               href="/terms-of-use"
-              class="text-muted dark:text-zinc-200 sm:hover:text-violet-500 transition"
+              class="text-fg sm:hover:text-violet-500 transition"
               >{register_popup_terms_link()}</a
             >
             {register_popup_privacy_middle()}
             <a
               href="/privacy-policy"
-              class="text-muted dark:text-zinc-200 sm:hover:text-violet-500 transition"
+              class="text-fg sm:hover:text-violet-500 transition"
               >{register_popup_privacy_link()}</a
             >.
           </p>
 
           <p
-            class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-muted dark:text-white"
+            class="pt-3 pb-1 text-sm w-full max-w-lg flex justify-center items-center text-fg"
           >
             {register_popup_has_account()}
             <label
               on:click={() => (displaySection = "login")}
-              class="text-muted dark:text-white sm:hover:text-violet-500 ml-1 cursor-pointer transition"
+              class="text-fg sm:hover:text-violet-500 ml-1 cursor-pointer transition"
               >{register_popup_sign_in_link()}</label
             >
           </p>
@@ -495,7 +495,7 @@
             class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <span
-              class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+              class="loading loading-spinner loading-md text-fg"
             ></span>
           </label>
         </div>

@@ -116,16 +116,16 @@
             />
 
             <div
-              class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
+              class="form-control w-full max-w-2xl mb-2 text-fg"
             >
               <label for="passwordConfirm" class="label pb-1">
-                <span class="text-muted dark:text-white"
+                <span class="text-fg"
                   >{update_password_confirm_label()}</span
                 >
               </label>
               <div class="relative">
                 <input
-                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+                  class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-surface-page/60 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
                   type="password"
                   id="passwordConfirm"
                   name="passwordConfirm"

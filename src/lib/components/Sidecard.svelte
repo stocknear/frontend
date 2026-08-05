@@ -113,9 +113,9 @@
         animation: false,
       },
       title: {
-        text: `<div class="text-muted dark:text-zinc-300 mt-3 text-center font-normal text-2xl">${stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-emerald-800 dark:text-emerald-400" : "text-rose-800 dark:text-rose-400"}">$${priceTarget}</span></div>
-        <div class="text-muted dark:text-zinc-300 mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? stock_detail_upside() : stock_detail_downside()})</div>
-        <div class="text-muted dark:text-zinc-300 text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-emerald-800 dark:text-emerald-400" : consensusRating === "Sell" ? "text-rose-800 dark:text-rose-400" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-muted dark:text-white"}">${consensusRating ?? "n/a"}</span></div>`,
+        text: `<div class="text-fg-muted mt-3 text-center font-normal text-2xl">${stock_detail_price_target_label()} <span class="${priceTargetUpside >= 0 ? "text-up" : "text-down"}">$${priceTarget}</span></div>
+        <div class="text-fg-muted mb-2 text-center font-normal text-xl">(${priceTargetUpside}% ${priceTargetUpside >= 0 ? stock_detail_upside() : stock_detail_downside()})</div>
+        <div class="text-fg-muted text-center font-normal text-xl flex justify-center items-center">${stock_detail_analyst_consensus()} <span class="ml-1 ${consensusRating === "Buy" ? "text-up" : consensusRating === "Sell" ? "text-down" : consensusRating === "Hold" ? "text-amber-500 dark:text-amber-400" : "text-fg"}">${consensusRating ?? "n/a"}</span></div>`,
         style: {
           color: "white",
           // Using inline CSS for margin-top and margin-bottom
@@ -385,91 +385,91 @@
     <!--Start Content-->
     <div class="w-auto lg:w-full flex flex-col m-auto">
       <h2
-        class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+        class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
       >
         {stock_detail_about({ ticker: $stockTicker })}
       </h2>
-      <p class="text-sm text-muted dark:text-zinc-300">
+      <p class="text-sm text-fg-muted">
         {snippet}
       </p>
       <div class="inline-block">
         <a
           href={`/stocks/${$stockTicker}/profile`}
-          class="w-full text-sm mt-1 cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="w-full text-sm mt-1 cursor-pointer text-fg-muted hover:text-accent transition"
         >
           {stock_detail_read_more()}
         </a>
       </div>
 
       <div class="mt-3 grid grid-cols-2 gap-3 w-full">
-        <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+        <div class="col-span-1 text-sm text-fg-muted">
           <span
-            class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+            class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
             >{stock_detail_industry()}</span
           >
           <a
             href={getIndustryHref(industry)}
-            class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
+            class="hover:text-accent underline underline-offset-4"
             >{industry}</a
           >
         </div>
-        <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+        <div class="col-span-1 text-sm text-fg-muted">
           <span
-            class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+            class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
             >{stock_detail_sector()}</span
           >
           <a
             href={sectorNavigation?.find((item) => item?.title === sector)
               ?.link}
-            class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
+            class="hover:text-accent underline underline-offset-4"
             >{sector}</a
           >
         </div>
-        <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+        <div class="col-span-1 text-sm text-fg-muted">
           <span
-            class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+            class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
             >{stock_detail_ipo_date()}</span
           >
           <span>{ipoDate}</span>
         </div>
-        <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+        <div class="col-span-1 text-sm text-fg-muted">
           <span
-            class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+            class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
             >{stock_detail_employees()}</span
           >
           <a
             href={`/stocks/${$stockTicker}/profile/employees`}
-            class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
+            class="hover:text-accent underline underline-offset-4"
             >{employees && employees !== "n/a"
               ? Number(employees)?.toLocaleString("en-US")
               : "n/a"}</a
           >
         </div>
-        <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+        <div class="col-span-1 text-sm text-fg-muted">
           <span
-            class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+            class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
             >{stock_detail_stock_exchange()}</span
           >
           <span>{exchange ?? "n/a"}</span>
         </div>
-        <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+        <div class="col-span-1 text-sm text-fg-muted">
           <span
-            class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+            class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
             >{stock_detail_ticker_symbol()}</span
           >
           <span>{$stockTicker}</span>
         </div>
         {#if website}
           <div
-            class="col-span-1 whitespace-nowrap text-sm text-muted dark:text-zinc-300"
+            class="col-span-1 whitespace-nowrap text-sm text-fg-muted"
           >
             <span
-              class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+              class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
               >{stock_detail_website()}</span
             >
             <a
               href={website}
-              class="truncate text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+              class="truncate text-fg hover:text-accent"
               target="_blank">{website}</a
             >
           </div>
@@ -477,7 +477,7 @@
       </div>
       <a
         href={`/stocks/${$stockTicker}/profile`}
-        class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
+        class="inline-flex items-center justify-center rounded-full border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
       >
         {stock_detail_full_company_profile()}
       </a>
@@ -496,11 +496,11 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2
-          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
         >
           {stock_detail_financial_performance()}
         </h2>
-        <p class="text-sm text-muted dark:text-zinc-300">
+        <p class="text-sm text-fg-muted">
           {stock_detail_financial_text_part1({
             year: financialPerformance?.history?.at(-1)?.date?.slice(0, 4),
             company: removeCompanyStrings($displayCompanyName),
@@ -536,18 +536,18 @@
 
         {#if configFinancial}
           <div
-            class="mt-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+            class="mt-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
             use:highcharts={configFinancial}
           ></div>
         {/if}
         {#if currency !== "USD"}
-          <span class="text-sm text-muted dark:text-white mt-2"
+          <span class="text-sm text-fg mt-2"
             >{stock_detail_financial_numbers_in({ currency })}</span
           >
         {/if}
         <a
           href={`/stocks/${$stockTicker}/financials`}
-          class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
+          class="inline-flex items-center justify-center rounded-full border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
           {stock_detail_financial_statements()}
         </a>
@@ -567,11 +567,11 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto pb-10">
         <h2
-          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
         >
           {stock_detail_analyst_forecast()}
         </h2>
-        <p class="text-sm text-muted dark:text-zinc-300">
+        <p class="text-sm text-fg-muted">
           {stock_detail_analyst_forecast_text({
             numAnalysts: numOfAnalyst,
             ticker: $stockTicker,
@@ -587,14 +587,14 @@
 
         {#if configAnalyst}
           <div
-            class="mt-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+            class="mt-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
             use:highcharts={configAnalyst}
           ></div>
         {/if}
 
         <a
           href={`/stocks/${$stockTicker}/forecast/analyst`}
-          class="inline-flex items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
+          class="inline-flex items-center justify-center rounded-full border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition w-full m-auto py-2 mt-6 text-sm font-semibold"
         >
           {stock_detail_stock_forecasts()}
         </a>

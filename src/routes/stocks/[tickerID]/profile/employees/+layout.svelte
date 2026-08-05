@@ -101,17 +101,17 @@
                 {stock_detail_stats_related_stocks()}
               </h3>
               <table
-                class="table table-sm table-compact w-full text-sm text-muted dark:text-zinc-200 tabular-nums"
+                class="table table-sm table-compact w-full text-sm text-fg tabular-nums"
               >
                 <thead
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                  class="text-xs uppercase tracking-wide text-fg"
                   ><tr
                     ><th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white font-semibold text-left px-2"
+                      class="whitespace-nowrap border-b border-line text-xs uppercase tracking-wide text-fg font-semibold text-left px-2"
                       >{stock_detail_stats_company()}</th
                     >
                     <th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white font-semibold text-right px-2"
+                      class="whitespace-nowrap border-b border-line text-xs uppercase tracking-wide text-fg font-semibold text-right px-2"
                       >{stock_detail_employees()}</th
                     ></tr
                   ></thead
@@ -120,14 +120,14 @@
                   {#each similarStocks?.slice(0, 8) as item, index}
                     {#if item?.name}
                       <tr
-                        class="border-gray-300 dark:border-zinc-700 {index !==
+                        class="border-line {index !==
                         similarStocks?.slice(0, 8).length - 1
                           ? 'border-b'
                           : ''}"
                         ><td class="text-left px-2"
                           ><a
                             href={`/stocks/${item?.symbol}/profile/employees`}
-                            class="text-sm text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                            class="text-sm text-fg hover:text-accent transition"
                             >{item?.name?.length > 30
                               ? item?.name?.slice(0, 30) + "..."
                               : item?.name}</a
@@ -174,7 +174,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} -
                       <a
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                        class="font-medium text-fg transition-colors hover:text-accent transition"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

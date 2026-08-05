@@ -31,7 +31,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} &#183;
                       <a
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+                        class="font-medium text-fg transition-colors hover:text-accent"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

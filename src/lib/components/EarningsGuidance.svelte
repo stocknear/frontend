@@ -254,13 +254,13 @@
 </script>
 
 {#if shouldRender}
-  <div class="space-y-3 overflow-hidden text-muted dark:text-zinc-200">
+  <div class="space-y-3 overflow-hidden text-fg">
     <div
-      class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
+      class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-line py-2"
     >
       <div class="inline-flex flex-row items-center gap-1">
         <h2
-          class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+          class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
         >
           {stock_detail_stats_management_guidance_title()}
         </h2>
@@ -273,14 +273,14 @@
     </div>
 
     <div class="w-auto lg:w-full flex flex-col m-auto">
-      <div class="text-sm text-muted dark:text-zinc-300">
+      <div class="text-sm text-fg-muted">
         {@html publishedGuidanceHtml}
         <br />
 
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           {stock_detail_stats_management_guidance_premium_desc()}
           <a
-            class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+            class="inline-block ml-0.5 text-fg-muted hover:text-accent"
             href="/pricing"
             >{stock_detail_upgrade()}
             <svg

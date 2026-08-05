@@ -297,11 +297,11 @@
       Options:
         "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
       Sentiment:
-        "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
+        "bg-violet-100 dark:bg-violet-900/30 text-accent",
     };
     return (
       colors[tag] ||
-      "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300"
+      "bg-surface-raised text-fg-muted"
     );
   }
 
@@ -709,12 +709,12 @@
             {#if tableOfContents.length > 0}
               <div>
                 <h4
-                  class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider mb-4"
+                  class="text-xs font-semibold text-fg uppercase tracking-wider mb-4"
                 >
                   {learning_center_table_of_contents()}
                 </h4>
                 <ul
-                  class="space-y-2.5 text-sm border-l border-gray-200 dark:border-zinc-800 pl-4"
+                  class="space-y-2.5 text-sm border-l border-line pl-4"
                 >
                   {#each tableOfContents as item}
                     <li>
@@ -723,8 +723,8 @@
                         on:click={() => scrollToSection(item.id)}
                         class="cursor-pointer block w-full text-left leading-relaxed transition-colors duration-150 {activeSection ===
                         item.id
-                          ? 'text-violet-800 dark:text-violet-400 font-medium'
-                          : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                          ? 'text-accent font-medium'
+                          : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                       >
                         {item.text}
                       </button>
@@ -735,9 +735,9 @@
             {/if}
 
             <!-- Share This Post -->
-            <div class="pt-6 border-t border-gray-200 dark:border-zinc-800">
+            <div class="pt-6 border-t border-line">
               <h4
-                class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider mb-4"
+                class="text-xs font-semibold text-fg uppercase tracking-wider mb-4"
               >
                 {learning_center_share_this_post()}
               </h4>
@@ -746,7 +746,7 @@
                 <button
                   type="button"
                   on:click={shareOnTwitter}
-                  class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+                  class="cursor-pointer p-2 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg hover:text-gray-900 dark:hover:text-white transition"
                   title="Share on Twitter"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -760,7 +760,7 @@
                 <button
                   type="button"
                   on:click={shareOnFacebook}
-                  class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-white hover:text-[#1877F2] transition"
+                  class="cursor-pointer p-2 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg hover:text-[#1877F2] transition"
                   title="Share on Facebook"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -774,7 +774,7 @@
                 <button
                   type="button"
                   on:click={shareOnLinkedIn}
-                  class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-white hover:text-[#0A66C2] transition"
+                  class="cursor-pointer p-2 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg hover:text-[#0A66C2] transition"
                   title="Share on LinkedIn"
                 >
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -788,7 +788,7 @@
                 <button
                   type="button"
                   on:click={copyLink}
-                  class="cursor-pointer p-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="cursor-pointer p-2 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg hover:text-accent transition"
                   title="Copy link"
                 >
                   {#if linkCopied}
@@ -808,7 +808,7 @@
         <!-- Back Link -->
         <a
           href={backUrl}
-          class="inline-flex items-center gap-2 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition mb-6"
+          class="inline-flex items-center gap-2 text-fg hover:text-accent transition mb-6"
         >
           <ArrowLeft class="w-4 h-4" />
           <span class="text-sm font-medium"
@@ -864,21 +864,21 @@
 
           <!-- Title -->
           <h1
-            class="text-3xl sm:text-4xl lg:text-5xl font-bold text-muted dark:text-white mb-4 leading-tight"
+            class="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg mb-4 leading-tight"
           >
             {article?.title}
           </h1>
 
           <!-- Abstract -->
           {#if article?.abstract}
-            <p class="text-lg text-muted dark:text-white leading-relaxed">
+            <p class="text-lg text-fg leading-relaxed">
               {article?.abstract}
             </p>
           {/if}
 
           <!-- Meta Info -->
           <div
-            class="flex items-center gap-4 mt-6 text-sm text-gray-500 dark:text-zinc-500"
+            class="flex items-center gap-4 mt-6 text-sm text-fg-subtle"
           >
             <div class="flex items-center gap-1.5">
               <Calendar class="w-4 h-4" />
@@ -916,11 +916,11 @@
           <!-- CTA Section -->
           <div class="text-center pt-8 pb-4">
             <h2
-              class="text-2xl sm:text-3xl font-bold text-muted dark:text-white mb-4"
+              class="text-2xl sm:text-3xl font-bold text-fg mb-4"
             >
               {learning_center_sign_in_to_read()}
             </h2>
-            <p class="text-muted dark:text-white mb-8 max-w-md mx-auto">
+            <p class="text-fg mb-8 max-w-md mx-auto">
               {learning_center_briefing_description()}
             </p>
             <div
@@ -934,7 +934,7 @@
               </a>
               <a
                 href="/login"
-                class="w-full sm:w-auto px-8 py-3 rounded-full border border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300 hover:border-violet-400 dark:hover:border-violet-500 font-semibold text-sm transition"
+                class="w-full sm:w-auto px-8 py-3 rounded-full border border-line text-fg-muted hover:border-violet-400 dark:hover:border-violet-500 font-semibold text-sm transition"
               >
                 {learning_center_sign_in()}
               </a>
@@ -952,9 +952,9 @@
 
         <!-- Bottom Share Section -->
         {#if !isDailyLocked}
-          <div class="border-t border-gray-200 dark:border-zinc-800 mt-12 pt-8">
+          <div class="border-t border-line mt-12 pt-8">
             <div class="flex flex-col items-center gap-4">
-              <span class="text-sm font-medium text-muted dark:text-white"
+              <span class="text-sm font-medium text-fg"
                 >{learning_center_share_this_article()}</span
               >
               <div class="flex items-center gap-3">
@@ -962,7 +962,7 @@
                 <button
                   type="button"
                   on:click={shareOnTwitter}
-                  class="cursor-pointer p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-white transition"
+                  class="cursor-pointer p-3 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
                   title="Share on Twitter"
                 >
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -976,7 +976,7 @@
                 <button
                   type="button"
                   on:click={shareOnReddit}
-                  class="cursor-pointer p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-[#FF4500] transition"
+                  class="cursor-pointer p-3 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg-muted hover:text-[#FF4500] transition"
                   title="Share on Reddit"
                 >
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -990,7 +990,7 @@
                 <button
                   type="button"
                   on:click={shareOnLinkedIn}
-                  class="cursor-pointer p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-[#0A66C2] transition"
+                  class="cursor-pointer p-3 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg-muted hover:text-[#0A66C2] transition"
                   title="Share on LinkedIn"
                 >
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -1004,7 +1004,7 @@
                 <button
                   type="button"
                   on:click={shareOnFacebook}
-                  class="cursor-pointer p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-[#1877F2] transition"
+                  class="cursor-pointer p-3 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg-muted hover:text-[#1877F2] transition"
                   title="Share on Facebook"
                 >
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -1018,7 +1018,7 @@
                 <button
                   type="button"
                   on:click={copyLink}
-                  class="cursor-pointer p-3 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="cursor-pointer p-3 rounded-full bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg-muted hover:text-accent transition"
                   title="Copy link"
                 >
                   {#if linkCopied}
@@ -1038,7 +1038,7 @@
         <div class="sticky top-28">
           <nav>
             <h4
-              class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider mb-4"
+              class="text-xs font-semibold text-fg uppercase tracking-wider mb-4"
             >
               {learning_center_quick_start()}
             </h4>
@@ -1046,7 +1046,7 @@
               <li>
                 <a
                   href="/market-mover/gainers"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_top_gainers()}
                 </a>
@@ -1054,7 +1054,7 @@
               <li>
                 <a
                   href="/market-mover/losers"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_top_losers()}
                 </a>
@@ -1062,7 +1062,7 @@
               <li>
                 <a
                   href="/analysts"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_analysts()}
                 </a>
@@ -1070,7 +1070,7 @@
               <li>
                 <a
                   href="/stocks/screener"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_stock_screener()}
                 </a>
@@ -1078,7 +1078,7 @@
               <li>
                 <a
                   href="/options-flow"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_options_flow()}
                 </a>
@@ -1086,7 +1086,7 @@
               <li>
                 <a
                   href="/earnings-calendar"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_earnings_calendar()}
                 </a>
@@ -1094,7 +1094,7 @@
               <li>
                 <a
                   href="/dividends-calendar"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_dividends_calendar()}
                 </a>
@@ -1102,7 +1102,7 @@
               <li>
                 <a
                   href="/ipos"
-                  class="block text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="block text-fg hover:text-accent transition"
                 >
                   {learning_center_sidebar_ipo_calendar()}
                 </a>
@@ -1117,9 +1117,9 @@
   <!-- Related Articles Section -->
   {#if relatedArticles && relatedArticles.length > 0}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-      <div class="border-t border-gray-200 dark:border-zinc-800 pt-12">
+      <div class="border-t border-line pt-12">
         <h2
-          class="text-xl sm:text-2xl font-semibold text-muted dark:text-white mb-8"
+          class="text-xl sm:text-2xl font-semibold text-fg mb-8"
         >
           {learning_center_related_articles()}
         </h2>
@@ -1128,7 +1128,7 @@
           {#each relatedArticles as related}
             <a
               href="/learning-center/article/{convertToSlug(related?.title)}"
-              class="group flex flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-zinc-800 bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
+              class="group flex flex-col overflow-hidden rounded-xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
             >
               <!-- Cover Image -->
               {#if related?.cover}
@@ -1168,14 +1168,14 @@
               <div class="flex flex-col flex-1 p-4">
                 <!-- Title -->
                 <h3
-                  class="font-semibold text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition line-clamp-2 mb-3"
+                  class="font-semibold text-fg group-hover:text-accent transition line-clamp-2 mb-3"
                 >
                   {related?.title}
                 </h3>
 
                 <!-- Meta -->
                 <div
-                  class="flex items-center gap-3 text-xs text-muted dark:text-white mt-auto"
+                  class="flex items-center gap-3 text-xs text-fg mt-auto"
                 >
                   <div class="flex items-center gap-1">
                     <Calendar class="w-3.5 h-3.5" />
@@ -1199,7 +1199,7 @@
         <div class="mt-8 text-center">
           <a
             href="/learning-center"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:border-violet-300 dark:hover:border-violet-700 transition"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-line text-sm font-medium text-fg-muted hover:text-accent hover:border-violet-300 dark:hover:border-violet-700 transition"
           >
             {learning_center_view_all_articles()}
             <svg

@@ -67,7 +67,7 @@
                         class="flex flex-row items-center cursor-pointer"
                       >
                         <div class="flex flex-col w-full">
-                          <span class="text-sm text-muted dark:text-zinc-300"
+                          <span class="text-sm text-fg-muted"
                             >{item?.symbol}</span
                           >
                           <span class="text-white text-sm">

@@ -124,7 +124,7 @@
     if (sentiment === "Bullish")
       return "text-emerald-600 dark:text-emerald-400";
     if (sentiment === "Bearish") return "text-rose-600 dark:text-rose-400";
-    return "text-muted dark:text-white";
+    return "text-fg";
   }
 
   function handleKeydown(e: KeyboardEvent) {
@@ -142,16 +142,16 @@
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-lg max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 sm:rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-2xl animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-lg max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-2xl border border-line shadow-2xl animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4 flex items-start justify-between"
+        class="sticky top-0 z-10 bg-surface-card border-b border-line px-4 sm:px-6 py-4 flex items-start justify-between"
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
+            class="text-lg sm:text-xl font-semibold text-fg"
           >
             {item.ticker}
             <span
@@ -162,13 +162,13 @@
               {item.put_call}
             </span>
           </h3>
-          <span class="text-sm text-gray-600 dark:text-zinc-400">
+          <span class="text-sm text-fg-muted">
             ${item.strike_price} Strike · Exp {formatDate(item.date_expiration)}
           </span>
         </div>
         <button
           on:click={onClose}
-          class="cursor-pointer p-1 rounded-full text-muted dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+          class="cursor-pointer p-1 rounded-full text-fg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
         >
           <svg
             class="w-5 h-5"
@@ -195,18 +195,18 @@
                   class="h-4 w-16 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
                 ></div>
                 <div
-                  class="h-5 w-12 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                  class="h-5 w-12 bg-surface-raised rounded animate-pulse"
                 ></div>
               </div>
             {/each}
           </div>
           <div
-            class="mt-4 h-2 w-full bg-gray-100 dark:bg-zinc-800 rounded-full animate-pulse"
+            class="mt-4 h-2 w-full bg-surface-raised rounded-full animate-pulse"
           ></div>
           <div class="mt-6 space-y-3">
             {#each Array(5) as _}
               <div
-                class="h-4 w-full bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                class="h-4 w-full bg-surface-raised rounded animate-pulse"
               ></div>
             {/each}
           </div>
@@ -223,7 +223,7 @@
           >
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
           </svg>
-          <p class="text-muted dark:text-white text-sm">
+          <p class="text-fg text-sm">
             No flow activity found for this contract today.
           </p>
         </div>
@@ -232,26 +232,26 @@
         <div class="px-4 sm:px-6 py-4">
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <span class="text-xs font-medium text-muted dark:text-white"
+              <span class="text-xs font-medium text-fg"
                 >Trades</span
               >
-              <div class="text-sm font-semibold text-muted dark:text-white">
+              <div class="text-sm font-semibold text-fg">
                 {contractStats.tradeCount?.toLocaleString("en-US") ?? "0"}
               </div>
             </div>
             <div>
-              <span class="text-xs font-medium text-muted dark:text-white"
+              <span class="text-xs font-medium text-fg"
                 >Total Premium</span
               >
-              <div class="text-sm font-semibold text-muted dark:text-white">
+              <div class="text-sm font-semibold text-fg">
                 ${abbreviateNumber(contractStats.totalPremium, false, true)}
               </div>
             </div>
             <div>
-              <span class="text-xs font-medium text-muted dark:text-white"
+              <span class="text-xs font-medium text-fg"
                 >Volume</span
               >
-              <div class="text-sm font-semibold text-muted dark:text-white">
+              <div class="text-sm font-semibold text-fg">
                 {contractStats.totalSize?.toLocaleString("en-US") ?? "0"}
               </div>
             </div>
@@ -267,13 +267,13 @@
             <span class="text-rose-600 dark:text-rose-400">
               Bearish: {contractStats.bearishCount ?? 0}
             </span>
-            <span class="text-muted dark:text-white">
+            <span class="text-fg">
               Neutral: {contractStats.neutralCount ?? 0}
             </span>
           </div>
           {#if totalSentiment > 0}
             <div
-              class="flex h-2 rounded-full overflow-hidden mt-1.5 bg-gray-100 dark:bg-zinc-800"
+              class="flex h-2 rounded-full overflow-hidden mt-1.5 bg-surface-raised"
             >
               {#if bullPct > 0}
                 <div class="bg-emerald-500" style="width: {bullPct}%"></div>
@@ -294,10 +294,10 @@
         <!-- Recent Trades -->
         {#if recentTrades.length > 0}
           <div
-            class="px-4 sm:px-6 pb-4 border-t border-gray-200 dark:border-zinc-800 pt-4"
+            class="px-4 sm:px-6 pb-4 border-t border-line pt-4"
           >
             <span
-              class="text-xs font-medium text-muted dark:text-white mb-2 block"
+              class="text-xs font-medium text-fg mb-2 block"
             >
               Recent Trades
             </span>
@@ -305,7 +305,7 @@
               <table class="w-full text-xs">
                 <thead>
                   <tr
-                    class="text-muted dark:text-white border-b border-gray-200 dark:border-zinc-800"
+                    class="text-fg border-b border-line"
                   >
                     <th class="text-left py-1.5 pr-2 font-medium">Time</th>
                     <th class="text-right py-1.5 px-2 font-medium">Size</th>
@@ -319,22 +319,22 @@
                   {#each recentTrades as trade}
                     <tr>
                       <td
-                        class="py-1.5 pr-2 text-gray-600 dark:text-zinc-400 whitespace-nowrap"
+                        class="py-1.5 pr-2 text-fg-muted whitespace-nowrap"
                       >
                         {formatTradeTime(trade.time)}
                       </td>
                       <td
-                        class="py-1.5 px-2 text-right text-muted dark:text-white"
+                        class="py-1.5 px-2 text-right text-fg"
                       >
                         {trade.size?.toLocaleString("en-US")}
                       </td>
                       <td
-                        class="py-1.5 px-2 text-right text-muted dark:text-white whitespace-nowrap"
+                        class="py-1.5 px-2 text-right text-fg whitespace-nowrap"
                       >
                         ${trade.price?.toFixed(2)}
                       </td>
                       <td
-                        class="py-1.5 px-2 text-right text-muted dark:text-white whitespace-nowrap"
+                        class="py-1.5 px-2 text-right text-fg whitespace-nowrap"
                       >
                         ${abbreviateNumber(trade.cost_basis, false, true)}
                       </td>
@@ -346,7 +346,7 @@
                         {trade.sentiment}
                       </td>
                       <td
-                        class="py-1.5 pl-2 text-gray-600 dark:text-zinc-400 whitespace-nowrap"
+                        class="py-1.5 pl-2 text-fg-muted whitespace-nowrap"
                       >
                         {trade.option_activity_type}
                       </td>

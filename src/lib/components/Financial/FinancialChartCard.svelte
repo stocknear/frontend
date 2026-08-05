@@ -693,7 +693,7 @@
 
 <div
   bind:this={cardElement}
-  class="group relative shadow bg-white dark:bg-zinc-950/60 border border-gray-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 cursor-pointer"
+  class="group relative shadow bg-surface-card/60 border border-line rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 cursor-pointer"
   role="button"
   tabindex="0"
   on:click={handleExpand}
@@ -702,12 +702,12 @@
   <!-- Header -->
   <div class="flex items-center justify-between px-3 pt-3 pb-1">
     <div class="flex items-center gap-2 min-w-0">
-      <h3 class="text-sm font-medium text-muted dark:text-zinc-200 truncate">
+      <h3 class="text-sm font-medium text-fg truncate">
         {metricLabel}
       </h3>
       {#if latestValue !== null}
         <span
-          class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0"
+          class="text-xs font-semibold text-fg-muted shrink-0"
         >
           {isMargin
             ? `${formatNumber(latestValue, { maximumFractionDigits: 2 })}%`
@@ -731,7 +731,7 @@
       on:click|stopPropagation={handleExpand}
       aria-label="Expand chart"
     >
-      <Maximize class="w-4 h-4 text-muted dark:text-white" />
+      <Maximize class="w-4 h-4 text-fg" />
     </button>
   </div>
 
@@ -744,7 +744,7 @@
             class="w-2 h-2 rounded-full"
             style="background-color: {getSeriesColor(i)}"
           ></div>
-          <span class="text-[10px] text-muted dark:text-white">{s.label}</span>
+          <span class="text-[10px] text-fg">{s.label}</span>
         </div>
       {/each}
     </div>
@@ -792,10 +792,10 @@
             on:click|stopPropagation
           >
             <div
-              class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
+              class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
             >
               <svg
-                class="w-4 h-4 text-muted dark:text-white"
+                class="w-4 h-4 text-fg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 style="max-width:40px"
@@ -806,7 +806,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              <span class="text-[9px] font-semibold text-muted dark:text-white"
+              <span class="text-[9px] font-semibold text-fg"
                 >{stock_detail_upgrade()}</span
               >
             </div>

@@ -92,25 +92,25 @@
 
 <SEO title={welcome_seo_title()} description="" />
 
-<main class="text-muted dark:text-zinc-200 w-full min-h-screen pb-20">
+<main class="text-fg w-full min-h-screen pb-20">
   <section
-    class="border-b border-gray-300 dark:border-zinc-700 sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
+    class="border-b border-line sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
   >
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-12 md:px-8">
       <div class="text-center">
         <img
-          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-gray-300 dark:border-zinc-700"
+          class="m-auto w-20 sm:w-24 rounded-full mb-5 mt-3 border border-line"
           src="/pwa-192x192.png"
           alt="Stocknear Logo"
           loading="lazy"
         />
         <h1
-          class="mt-1 text-3xl sm:text-4xl font-semibold tracking-tight text-muted dark:text-white"
+          class="mt-1 text-3xl sm:text-4xl font-semibold tracking-tight text-fg"
         >
           {welcome_title({ tier })}
         </h1>
         <p
-          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-muted dark:text-zinc-300"
+          class="mx-auto mt-5 max-w-3xl text-base sm:text-lg leading-relaxed md:mt-7 mb-10 text-fg-muted"
         >
           {welcome_subtitle()}
         </p>
@@ -120,24 +120,24 @@
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
     <h2
-      class="text-xl font-semibold mb-5 tracking-tight text-muted dark:text-white"
+      class="text-xl font-semibold mb-5 tracking-tight text-fg"
     >
       {welcome_greeting()}
     </h2>
 
     <p
-      class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
+      class="mb-5 text-sm sm:text-base leading-relaxed text-fg-muted"
     >
       {@html welcome_thanks()}
     </p>
 
     <p
-      class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
+      class="mb-5 text-sm sm:text-base leading-relaxed text-fg-muted"
     >
       {welcome_access_info()}
       <a
         href="mailto:{emailAddress}"
-        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+        class="font-medium text-fg transition-colors hover:text-accent transition"
       >
         {emailAddress}
       </a>.
@@ -145,12 +145,12 @@
 
     {#if ["Pro", "Lifetime"]?.includes(tier)}
       <p
-        class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
+        class="mb-5 text-sm sm:text-base leading-relaxed text-fg-muted"
       >
         {welcome_pro_unlocks_title()}
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-fg-muted marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>{welcome_pro_feature_1()}</li>
         <li>{welcome_pro_feature_2()}</li>
@@ -160,12 +160,12 @@
       </ul>
     {:else if tier === "Plus"}
       <p
-        class="mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300"
+        class="mb-5 text-sm sm:text-base leading-relaxed text-fg-muted"
       >
         {welcome_plus_unlocks_title()}
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-muted dark:text-zinc-300 marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-fg-muted marker:text-gray-400 dark:marker:text-zinc-600"
       >
         <li>{welcome_plus_feature_1()}</li>
         <li>{welcome_plus_feature_2()}</li>

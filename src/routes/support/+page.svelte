@@ -92,19 +92,19 @@
 
 {#key messageSent}
   <section
-    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+    class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pt-6 px-4 lg:px-6 text-fg"
   >
     <BreadCrumb
-      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
     >
       <li>
         <a
           href="/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="text-fg-muted hover:text-accent transition"
           >{support_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-muted dark:text-zinc-300">
+      <li class="text-fg-muted">
         {support_breadcrumb_current()}
       </li>
     </BreadCrumb>
@@ -115,9 +115,9 @@
           class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
         >
           <main class="w-full lg:w-3/4 lg:pr-10">
-            <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+            <div class="mb-6 border-b border-line">
               <h1
-                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
               >
                 {support_title()}
               </h1>
@@ -128,7 +128,7 @@
                 {support_description_1()}
                 <a
                   href={`mailto:${emailAddress}`}
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                  class="font-medium text-fg transition-colors hover:text-accent transition"
                   >{emailAddress}</a
                 >.
               </p>
@@ -137,7 +137,7 @@
                 {support_description_2()}
                 <a
                   href="/faq"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                  class="font-medium text-fg transition-colors hover:text-accent transition"
                   >{support_faq_link()}</a
                 >.
               </p>
@@ -253,7 +253,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-fg-muted"
                 >
                   {support_sidebar_pro_description()}
                 </span>
@@ -273,7 +273,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-fg-muted"
                 >
                   {support_sidebar_screener_description()}
                 </span>
@@ -293,7 +293,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-fg-muted"
                   >{support_sidebar_watchlist_description()}
                 </span>
               </a>

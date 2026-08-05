@@ -62,19 +62,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{faq_breadcrumb()}</li>
+    <li class="text-fg-muted">{faq_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -83,9 +83,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {faq_hero_title()}
             </h1>
@@ -94,125 +94,125 @@
           <div class="w-full m-auto">
             <div>
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q1_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html faq_q1_answer({
-                  learningCenterLink: `<a href="/learning-center" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_learning_center()}</a>`,
+                  learningCenterLink: `<a href="/learning-center" class="font-medium text-fg transition-colors hover:text-accent transition">${footer_learning_center()}</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q2_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q2_answer()}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q3_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q3_answer_1()}
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q3_answer_2()}
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html faq_q3_answer_3({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
+                  email: `<a href="mailto:${emailAddress}" class="font-medium text-fg transition-colors hover:text-accent transition">${emailAddress}</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q4_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html faq_q4_answer({
-                  optionsFlowLink: `<a href="/options-flow" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Options Flow</a>`,
+                  optionsFlowLink: `<a href="/options-flow" class="font-medium text-fg transition-colors hover:text-accent transition">Options Flow</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q5_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q5_answer()}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q6_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q6_answer()}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q7_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html faq_q7_answer_1({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
+                  email: `<a href="mailto:${emailAddress}" class="font-medium text-fg transition-colors hover:text-accent transition">${emailAddress}</a>`,
                 })}
               </p>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q7_answer_2()}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q8_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html faq_q8_answer({
-                  discordLink: `<a href="${discordURL}" rel="noopener noreferrer" target="_blank" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Discord</a>`,
+                  discordLink: `<a href="${discordURL}" rel="noopener noreferrer" target="_blank" class="font-medium text-fg transition-colors hover:text-accent transition">Discord</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-1 text-lg sm:text-xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-lg sm:text-xl font-semibold text-fg"
               >
                 {faq_q9_title()}
               </h2>
               <p
-                class="mb-5 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {faq_q9_answer()}
               </p>
@@ -233,7 +233,7 @@
                   {faq_sidebar_pro_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {faq_sidebar_pro_desc()}
               </span>
             </a>
@@ -251,7 +251,7 @@
                   {faq_sidebar_about_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -269,7 +269,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_let_me_know()}
               </span>
             </a>

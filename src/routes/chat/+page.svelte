@@ -77,7 +77,7 @@
                   pos + match.index,
                   pos + match.index + match[0]?.length,
                   {
-                    class: "text-violet-800 dark:text-violet-400",
+                    class: "text-accent",
                   },
                 ),
               );
@@ -129,7 +129,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-muted dark:text-white pointer-events-none text-sm sm:text-[1rem]";
+            "text-fg pointer-events-none text-sm sm:text-[1rem]";
           span.textContent = chat_placeholder();
           return span;
         });
@@ -476,7 +476,7 @@
 />
 
 <div
-  class="w-full overflow-hidden m-auto min-h-[80vh] flex flex-col justify-center text-muted dark:text-zinc-200 mt-10 sm:mt-0"
+  class="w-full overflow-hidden m-auto min-h-[80vh] flex flex-col justify-center text-fg mt-10 sm:mt-0"
 >
   <div class="flex flex-col m-auto justify-center items-center w-full px-4">
     <div
@@ -489,7 +489,7 @@
           alt="Stocknear Logo"
         />
         <h1
-          class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-muted dark:text-white text-center"
+          class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-fg text-center"
         >
           {chat_title()}
         </h1>
@@ -507,12 +507,12 @@
         <!-- Suggestions Dropdown -->
         {#if showSuggestions}
           <ul
-            class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+            class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
             style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
           >
             {#each suggestions as suggestion, i}
               <li
-                class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-muted dark:text-zinc-200 {i ===
+                class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-fg {i ===
                 selectedSuggestion
                   ? ' bg-gray-100 dark:bg-zinc-900'
                   : ''}"
@@ -540,7 +540,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-fg border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -567,12 +567,12 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
                           <DropdownMenu.Label
-                            class="text-muted dark:text-white font-semibold text-xs"
+                            class="text-fg font-semibold text-xs"
                           >
                             {data?.user?.credits}
                             {chat_credits_left()}
@@ -580,7 +580,7 @@
                         {/if}
                         <!--
                               <DropdownMenu.Item
-                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                               >
                                 <label
                                   on:click|capture={(event) => {
@@ -616,7 +616,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -667,7 +667,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -694,7 +694,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -743,7 +743,7 @@
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -798,16 +798,16 @@
       </div>
 
       <div
-        class="w-full rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden"
+        class="w-full rounded-2xl border border-line bg-surface-card overflow-hidden"
       >
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
-          <span class="text-sm font-semibold text-muted dark:text-white"
+          <span class="text-sm font-semibold text-fg"
             >Suggested questions</span
           >
           <button
             type="button"
             on:click={refreshSuggestions}
-            class="cursor-pointer p-1.5 rounded-lg text-muted dark:text-white sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
+            class="cursor-pointer p-1.5 rounded-lg text-fg sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
             aria-label="Refresh suggestions"
           >
             <svg
@@ -839,14 +839,14 @@
                 closePopup?.dispatchEvent(new MouseEvent("click"));
               }
             }}
-            class="cursor-pointer flex items-center gap-3 w-full px-5 py-3.5 text-left text-sm text-muted dark:text-zinc-300 sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/50 transition-colors {i <
+            class="cursor-pointer flex items-center gap-3 w-full px-5 py-3.5 text-left text-sm text-fg-muted sm:hover:bg-gray-50 dark:sm:hover:bg-zinc-900/50 transition-colors {i <
             displayedChats.length - 1
               ? 'border-b border-gray-100 dark:border-zinc-800'
               : ''}"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 shrink-0 text-muted dark:text-white"
+              class="w-5 h-5 shrink-0 text-fg"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

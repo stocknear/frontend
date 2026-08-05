@@ -358,20 +358,20 @@
 <SEO title={profile_seo_title()} description={profile_seo_description()} />
 
 <section
-  class="text-muted dark:text-zinc-200 w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
+  class="text-fg w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
   <BreadCrumb
-    containerClass="text-sm sm:text-[1rem] breadcrumbs text-muted dark:text-white"
+    containerClass="text-sm sm:text-[1rem] breadcrumbs text-fg"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg hover:text-accent transition"
       >
         {profile_breadcrumb_home()}
       </a>
     </li>
-    <li class="text-muted dark:text-white">
+    <li class="text-fg">
       {profile_breadcrumb_label()}
     </li>
   </BreadCrumb>
@@ -382,27 +382,27 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:mr-auto">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700 pb-2">
+          <div class="mb-6 border-b border-line pb-2">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {profile_page_title()}
             </h1>
           </div>
 
           <div
-            class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
             >
               {profile_user_info_title()}
             </h2>
-            <div class="mt-1 text-sm text-muted dark:text-zinc-300">
+            <div class="mt-1 text-sm text-fg-muted">
               <strong>{profile_user_email()}</strong>
               {data?.user?.email}
             </div>
-            <div class="mt-1 mb-5 text-sm text-muted dark:text-zinc-300">
+            <div class="mt-1 mb-5 text-sm text-fg-muted">
               <strong>{profile_user_registered()}</strong>
               {new Date(data?.user?.created ?? null)?.toLocaleString("en-US", {
                 month: "short",
@@ -412,20 +412,20 @@
             </div>
             <a
               href="/update-password"
-              class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+              class="cursor-pointer border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
               >{profile_update_password()}</a
             >
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 pb-4"
+            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 pb-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
             >
               {profile_discord_title()}
             </h2>
-            <p class="text-sm text-muted dark:text-zinc-300 leading-relaxed">
+            <p class="text-sm text-fg-muted leading-relaxed">
               {profile_discord_description()}
             </p>
 
@@ -433,14 +433,14 @@
               {#if data?.getDiscordAccount}
                 {#if data?.user?.discord?.access}
                   <button
-                    class="flex flex-row items-center w-fit border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white text-sm px-4 py-2 rounded-full mt-5"
+                    class="flex flex-row items-center w-fit border border-line bg-white/90 dark:bg-zinc-950/70 text-fg text-sm px-4 py-2 rounded-full mt-5"
                   >
                     {profile_discord_access_granted()}
                   </button>
                 {:else}
                   <button
                     on:click={handlePremiumAccess}
-                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                    class="flex flex-row items-center w-fit cursor-pointer border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Crown class="w-4 h-4 inline-block mr-1.5" />
                     {profile_discord_premium_access()}
@@ -451,7 +451,7 @@
                   <input class="hidden" name="provider" value="discord" />
                   <button
                     aria-label="Discord Login"
-                    class="flex flex-row items-center w-fit cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                    class="flex flex-row items-center w-fit cursor-pointer border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                   >
                     <Link class="w-4 h-4 inline-block mr-1.5" />
                     {profile_discord_link_account()}
@@ -462,34 +462,34 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 pb-6"
+            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 pb-6"
           >
             <h3
-              class="text-xl font-semibold tracking-tight text-muted dark:text-white mb-2"
+              class="text-xl font-semibold tracking-tight text-fg mb-2"
             >
               {profile_push_title()}
             </h3>
             {#if pwaInstalled}
               <div class="mt-3">
                 {#if notificationPermissionState === null}
-                  <p class="text-sm text-muted dark:text-zinc-300">
+                  <p class="text-sm text-fg-muted">
                     {profile_push_checking()}
                   </p>
                 {:else if notificationPermissionState === "granted" && isPushSubscribed}
-                  <p class="mb-3 text-sm text-muted dark:text-zinc-300">
+                  <p class="mb-3 text-sm text-fg-muted">
                     {profile_push_active()}
                   </p>
                   <div class="mt-3">
                     {#if !loading}
                       <button
-                        class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
+                        class="border border-line w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-fg text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                         type="button"
                         on:click={handlePushUnsubscribe}
                         >{profile_push_disable()}</button
                       >
                     {:else}
                       <button
-                        class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
+                        class="cursor-not-allowed border border-line w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-fg text-sm font-semibold rounded-full transition"
                         disabled
                       >
                         <div class="flex flex-row m-auto items-center">
@@ -525,23 +525,23 @@
                   </div>
                 {:else if notificationPermissionState === "granted" || notificationPermissionState === "default"}
                   {#if isPushSubscribed}
-                    <p class="mb-3 text-sm text-muted dark:text-zinc-300">
+                    <p class="mb-3 text-sm text-fg-muted">
                       {profile_push_active()}
                     </p>
                   {/if}
-                  <p class="mb-3 text-sm text-muted dark:text-zinc-300">
+                  <p class="mb-3 text-sm text-fg-muted">
                     {profile_push_description()}
                   </p>
                   {#if !loading}
                     <button
-                      class="border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
+                      class="border border-line w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-fg text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                       type="button"
                       on:click={handlePushSubscribe}
                       >{profile_push_enable()}</button
                     >
                   {:else}
                     <button
-                      class="cursor-not-allowed border border-gray-300 dark:border-zinc-700 w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-muted dark:text-white text-sm font-semibold rounded-full transition"
+                      class="cursor-not-allowed border border-line w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-fg text-sm font-semibold rounded-full transition"
                       ><div class="flex flex-row m-auto items-center">
                         <span class="loading loading-infinity"></span>
                         <span class=" ml-1.5"
@@ -551,19 +551,19 @@
                     >
                   {/if}
                 {:else}
-                  <p class="text-sm text-muted dark:text-zinc-300">
+                  <p class="text-sm text-fg-muted">
                     {profile_push_enable_settings()}
                   </p>
                 {/if}
               </div>
             {:else}
               <div class="mt-2">
-                <p class="mb-5 text-sm text-muted dark:text-zinc-300">
+                <p class="mb-5 text-sm text-fg-muted">
                   {profile_push_install_required()}
                 </p>
                 <label
                   for="installModal"
-                  class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                  class="cursor-pointer border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                 >
                   {profile_push_install_app()}
                 </label>
@@ -572,16 +572,16 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
             >
               {profile_subscription_title()}
             </h2>
             <div class="flex flex-row items-center">
               <span
-                class="text-sm sm:text-[1rem] text-muted dark:text-zinc-300"
+                class="text-sm sm:text-[1rem] text-fg-muted"
               >
                 {profile_subscription_status()}
               </span>
@@ -606,7 +606,7 @@
                   ></span>
                 </span>
 
-                <span class="ml-2 text-sm text-muted dark:text-zinc-200">
+                <span class="ml-2 text-sm text-fg">
                   {#if data?.user?.lifetime === true}
                     {profile_subscription_active()}
                   {:else}
@@ -618,7 +618,7 @@
             </div>
             {#if !data?.user?.lifetime}
               {#if subscriptionData?.status_formatted === "Active"}
-                <span class="text-sm text-muted dark:text-zinc-300 pr-5">
+                <span class="text-sm text-fg-muted pr-5">
                   Your subscription will automatically renew on {new Date(
                     subscriptionData?.renews_at,
                   )?.toLocaleDateString("en-GB", {
@@ -628,7 +628,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "On Trial"}
-                <span class="text-sm text-muted dark:text-zinc-300 pr-5">
+                <span class="text-sm text-fg-muted pr-5">
                   Your subscription will automatically billed on {new Date(
                     subscriptionData?.trial_ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -639,7 +639,7 @@
                   })}
                 </span>
               {:else if subscriptionData?.status_formatted === "Cancelled"}
-                <span class="text-sm text-muted dark:text-zinc-300">
+                <span class="text-sm text-fg-muted">
                   Your subscription will remain active until {new Date(
                     subscriptionData?.ends_at,
                   )?.toLocaleDateString("en-GB", {
@@ -652,10 +652,10 @@
             {/if}
 
             <div class="flex flex-col justify-start items-start mt-4 mb-3">
-              <span class="mr-2 text-sm text-muted dark:text-zinc-300">
+              <span class="mr-2 text-sm text-fg-muted">
                 {profile_subscription_current_plan()}
               </span>
-              <span class="text-sm text-muted dark:text-zinc-200">
+              <span class="text-sm text-fg">
                 {#if data?.user?.lifetime}
                   {profile_subscription_lifetime()}
                 {:else if ["Plus", "Pro"]?.includes(data?.user?.tier)}
@@ -673,7 +673,7 @@
             </div>
 
             <div class="flex flex-col justify-start items-start mb-3">
-              <span class="mr-2 text-sm text-muted dark:text-zinc-300">
+              <span class="mr-2 text-sm text-fg-muted">
                 {profile_subscription_credits({
                   credits: data?.user?.credits?.toLocaleString("en-US") ?? "0",
                 })}
@@ -683,12 +683,12 @@
             {#if ["Plus", "Pro"].includes(data?.user?.tier)}
               <div class="mx-auto w-full mt-6 mb-2">
                 <div class="flex items-center mt-3">
-                  <p class="text-sm text-muted dark:text-zinc-300">
+                  <p class="text-sm text-fg-muted">
                     <a
                       href="https://app.lemonsqueezy.com/my-orders"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
+                      class="cursor-pointer border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full mt-5 transition"
                       >{profile_subscription_manage()}</a
                     >
                   </p>
@@ -703,21 +703,21 @@
                 >
                   <label
                     for="cancelSubscriptionModal"
-                    class="cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                    class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
                   >
                     Cancel Subscription
                   </label>
                   {#if subscriptionData?.product_name === "Plus Subscription (Monthly)"}
                     <label
                       for="changeSubscriptionPlusAnnualModal"
-                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-line-strong dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
                     >
                       Upgrade to Plus (Annual Plan)
                     </label>
                   {:else if subscriptionData?.product_name === "Plus Subscription (Annually)" || subscriptionData?.product_name === "Pro Subscription (Monthly)"}
                     <label
                       for="changeSubscriptionProAnnualModal"
-                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-line-strong dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
                     >
                       Upgrade to Pro (Annual Plan)
                     </label>
@@ -729,7 +729,7 @@
                 >
                   <label
                     for="cancelSubscriptionModal"
-                    class="cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                    class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
                   >
                     Cancel Subscription
                   </label>
@@ -737,7 +737,7 @@
               {:else if subscriptionData?.status_formatted === "Cancelled"}
                 <label
                   for="reactivateSubscriptionModal"
-                  class="cursor-pointer border border-gray-300 dark:border-gray-300 dark:border-gray-600 transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
+                  class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
                 >
                   Reactivate Subscription
                 </label>
@@ -748,7 +748,7 @@
               {:else}
                 <a
                   href="/pricing"
-                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+                  class="font-medium text-fg transition-colors hover:text-accent"
                 >
                   Get Full Access with our Subscription.
                 </a>
@@ -758,23 +758,23 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
             >
               {profile_help_title()}
             </h2>
-            <div class="mt-1 text-sm text-muted dark:text-zinc-300">
+            <div class="mt-1 text-sm text-fg-muted">
               <strong>{profile_help_how_to()}</strong>
             </div>
-            <div class="mt-2 mb-1 text-sm text-muted dark:text-zinc-300">
+            <div class="mt-2 mb-1 text-sm text-fg-muted">
               <ul class="list-disc pl-5">
                 <li>
                   {profile_help_email()}
                   <a
                     href={`mailto:${emailAddress}`}
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                    class="font-medium text-fg transition-colors hover:text-accent transition"
                     >{emailAddress}</a
                   >
                 </li>
@@ -784,7 +784,7 @@
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://www.reddit.com/r/stocknear/"
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                    class="font-medium text-fg transition-colors hover:text-accent transition"
                   >
                     r/stocknear</a
                   >.
@@ -795,7 +795,7 @@
                     rel="noopener noreferrer"
                     target="_blank"
                     href="https://discord.com/invite/hCwZMMZ2MT"
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                    class="font-medium text-fg transition-colors hover:text-accent transition"
                     >{profile_help_discord_channel()}</a
                   >.
                 </li>
@@ -804,20 +804,20 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
             >
               Sign Out
             </h2>
-            <p class="text-sm text-muted dark:text-zinc-300 mb-4">
+            <p class="text-sm text-fg-muted mb-4">
               Sign out of your account on this device.
             </p>
             <form action="/logout" method="POST">
               <button
                 type="submit"
-                class="cursor-pointer border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full transition inline-flex items-center gap-2"
+                class="cursor-pointer border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 text-sm px-4 py-2 rounded-full transition inline-flex items-center gap-2"
               >
                 <svg
                   class="w-4 h-4 transform scale-x-[-1]"
@@ -861,11 +861,11 @@
     method="POST"
     action="?/cancelSubscription"
     use:enhance={submitCancellation}
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="cancelSubscriptionModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -880,11 +880,11 @@
     </label>
     <div class=" mb-5 text-center">
       <h3
-        class="font-semibold tracking-tight text-2xl text-muted dark:text-white mb-5"
+        class="font-semibold tracking-tight text-2xl text-fg mb-5"
       >
         {profile_modal_cancel_title()}
       </h3>
-      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
+      <span class="text-sm text-fg-muted font-normal">
         {profile_modal_cancel_description()}
       </span>
     </div>
@@ -934,11 +934,11 @@
     method="POST"
     action="?/reactivateSubscription"
     use:enhance={submitReactivate}
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="reactivateSubscriptionModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -953,11 +953,11 @@
     </label>
     <div class=" mb-5 text-center">
       <h3
-        class="font-semibold tracking-tight text-2xl text-muted dark:text-white mb-5"
+        class="font-semibold tracking-tight text-2xl text-fg mb-5"
       >
         {profile_modal_reactivate_title()}
       </h3>
-      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
+      <span class="text-sm text-fg-muted font-normal">
         {profile_modal_reactivate_description()}
       </span>
     </div>
@@ -1013,11 +1013,11 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="changeSubscriptionPlusAnnualModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1032,11 +1032,11 @@
     </label>
     <div class=" mb-5 text-center">
       <h3
-        class="font-semibold tracking-tight text-2xl text-muted dark:text-white mb-5"
+        class="font-semibold tracking-tight text-2xl text-fg mb-5"
       >
         {profile_modal_upgrade_plus_title()}
       </h3>
-      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
+      <span class="text-sm text-fg-muted font-normal">
         {profile_modal_upgrade_plus_description()}
       </span>
     </div>
@@ -1090,11 +1090,11 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="changeSubscriptionProAnnualModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1109,11 +1109,11 @@
     </label>
     <div class=" mb-5 text-center">
       <h3
-        class="font-semibold tracking-tight text-2xl text-muted dark:text-white mb-5"
+        class="font-semibold tracking-tight text-2xl text-fg mb-5"
       >
         {profile_modal_upgrade_pro_title()}
       </h3>
-      <span class="text-sm text-muted dark:text-zinc-300 font-normal">
+      <span class="text-sm text-fg-muted font-normal">
         {profile_modal_upgrade_pro_description()}
       </span>
     </div>
@@ -1154,11 +1154,11 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="installModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1173,7 +1173,7 @@
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
-        class="mb-3 text-2xl font-semibold tracking-tight text-muted dark:text-white text-center m-auto"
+        class="mb-3 text-2xl font-semibold tracking-tight text-fg text-center m-auto"
       >
         {profile_install_title()}
       </h4>
@@ -1181,7 +1181,7 @@
 
     <div class="flex flex-col justify-center items-center text-xl h-full">
       <div
-        class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
+        class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
       >
         <button
           type="button"
@@ -1189,7 +1189,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'ios'
             ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
         >
           {profile_install_ios()}
         </button>
@@ -1199,7 +1199,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'android'
             ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
         >
           {profile_install_android()}
         </button>
@@ -1207,18 +1207,18 @@
 
       {#if installPlatform === "ios"}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-fg-muted"
         >
           <li class="mb-2">{profile_install_ios_step1()}</li>
           <li class="mb-2">{profile_install_ios_step2()}</li>
           <li class="mb-4">{profile_install_ios_step3()}</li>
-          <p class="text-sm mb-4 text-muted dark:text-zinc-300">
+          <p class="text-sm mb-4 text-fg-muted">
             {profile_install_ios_note()}
           </p>
         </ul>
       {:else}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-fg-muted"
         >
           <li class="mb-2">{profile_install_android_step1()}</li>
           <li class="mb-2">{profile_install_android_step2()}</li>
@@ -1228,10 +1228,10 @@
       {/if}
     </div>
 
-    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2">
+    <div class="border-t border-line mt-2">
       <label
         for="installModal"
-        class="mt-4 font-semibold text-lg text-muted dark:text-white m-auto flex justify-center cursor-pointer"
+        class="mt-4 font-semibold text-lg text-fg m-auto flex justify-center cursor-pointer"
       >
         {profile_install_close()}
       </label>

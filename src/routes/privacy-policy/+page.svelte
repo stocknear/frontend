@@ -66,19 +66,19 @@
 <SEO title={privacy_seo_title()} description={privacy_seo_description()} />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{privacy_breadcrumb()}</li>
+    <li class="text-fg-muted">{privacy_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -87,30 +87,30 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {privacy_hero_title()}
             </h1>
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-muted dark:text-zinc-300"
+            class="w-full m-auto text-sm sm:text-base text-fg-muted"
           >
             <div class="">
-              <p class="italic mb-2 text-xs text-muted dark:text-zinc-300">
+              <p class="italic mb-2 text-xs text-fg-muted">
                 {privacy_last_updated()}
               </p>
 
               <p class=" mb-10">
                 {@html privacy_intro({
-                  termsLink: `<a href="/terms-of-use" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${footer_terms_of_use()}</a>`,
+                  termsLink: `<a href="/terms-of-use" class="font-medium text-fg transition-colors hover:text-accent transition">${footer_terms_of_use()}</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_cookies_title()}
               </h2>
@@ -148,7 +148,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_links_title()}
               </h2>
@@ -158,7 +158,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_security_title()}
               </h2>
@@ -168,7 +168,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_gdpr_title()}
               </h2>
@@ -176,7 +176,7 @@
               <div class=" mb-10">
                 {privacy_gdpr_intro()}<br /><br />
                 {@html privacy_gdpr_contact({
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
+                  email: `<a href="mailto:${emailAddress}" class="font-medium text-fg transition-colors hover:text-accent transition">${emailAddress}</a>`,
                 })}<br /><br />
                 {privacy_gdpr_rights_intro()}
                 <ol class="list-decimal ml-8 mt-2">
@@ -193,7 +193,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_caloppa_title()}
               </h2>
@@ -207,7 +207,7 @@
                   <li>{privacy_caloppa_3()}</li>
                   <li>
                     {@html privacy_caloppa_4({
-                      email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
+                      email: `<a href="mailto:${emailAddress}" class="font-medium text-fg transition-colors hover:text-accent transition">${emailAddress}</a>`,
                     })}
                   </li>
                 </ol>
@@ -216,7 +216,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_children_title()}
               </h2>
@@ -226,7 +226,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {privacy_changes_title()}
               </h2>
@@ -251,7 +251,7 @@
                   {common_sponsor_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -269,7 +269,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_let_me_know()}
               </span>
             </a>

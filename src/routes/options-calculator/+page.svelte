@@ -1346,19 +1346,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{options_calculator_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-white">
+    <li class="text-fg">
       {options_calculator_breadcrumb_current()}
     </li>
   </BreadCrumb>
@@ -1372,9 +1372,9 @@
       >
         <div class="w-full mt-5">
           <div class="w-full">
-            <div class="border-b border-gray-300 dark:border-zinc-700">
+            <div class="border-b border-line">
               <h1
-                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
               >
                 {options_calculator_title()}
               </h1>
@@ -1415,19 +1415,19 @@
 
                     <Combobox.Input
                       on:input={search}
-                      class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                      class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder={options_calculator_search_placeholder()}
                       aria-label={options_calculator_search_placeholder()}
                     />
                   </div>
                   <Combobox.Content
-                    class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none outline-hidden"
+                    class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0 && inputValue !== selectedTicker}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => changeTicker(searchItem)}
@@ -1435,27 +1435,27 @@
                           <div
                             class="flex flex-col sm:flex-row items-start sm:items-center"
                           >
-                            <span class="text-sm text-muted dark:text-white"
+                            <span class="text-sm text-fg"
                               >{searchItem?.symbol}</span
                             >
                             <span
-                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-muted dark:text-white"
+                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-fg"
                               >{searchItem?.name}</span
                             >
                           </div>
                         </Combobox.Item>
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-muted dark:text-white"
+                          class="block px-5 py-2 text-sm text-fg"
                         >
                           {options_calculator_no_results()}
                         </span>
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class="text-sm text-muted dark:text-white">
+                        <span class="text-sm text-fg">
                           {inputValue?.length > 0
                             ? options_calculator_no_results()
                             : options_calculator_start_searching()}
@@ -1468,21 +1468,21 @@
                 <button
                   type="button"
                   on:click={() => handleAddOptionLeg()}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_add_option_leg()}
                 </button>
                 <button
                   type="button"
                   on:click={handleAddShareLeg}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Add Shares
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_save_strategy()}
                 </button>
@@ -1493,7 +1493,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate"
                           >{options_calculator_custom_strategy()}</span
@@ -1518,18 +1518,18 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each prebuiltStrategy as strategy}
                           <DropdownMenu.Item
                             on:click={() => changeStrategy(strategy)}
-                            class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <span>{strategy.name}</span>
                             {#if strategy?.sentiment}
                               <span
-                                class="ml-3 inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-[0.7rem] font-semibold text-muted dark:text-zinc-300"
+                                class="ml-3 inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-[0.7rem] font-semibold text-fg-muted"
                                 >{strategy.sentiment}</span
                               >
                             {/if}
@@ -1567,7 +1567,7 @@
                     </span>
                   </div>
                   <span
-                    class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap"
+                    class="text-xs font-semibold text-accent whitespace-nowrap"
                   >
                     Upgrade &rarr;
                   </span>
@@ -1595,50 +1595,50 @@
                 class="overflow-x-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
               >
                 <table
-                  class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-muted dark:text-zinc-200 tabular-nums"
+                  class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-fg tabular-nums"
                 >
                   <!-- Table head -->
                   <thead class="bg-gray-50/80 dark:bg-zinc-900/60">
                     <tr class="">
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_symbol()}
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_action()}
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_quantity()}
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_expiration()}
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_strike()}
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_type()}
                       </th>
                       <th
                         scope="col"
-                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                       >
                         {options_calculator_table_price()}
                       </th>
@@ -1656,7 +1656,7 @@
                         class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                       >
                         <td
-                          class="px-4 whitespace-nowrap font-semibold text-muted dark:text-white"
+                          class="px-4 whitespace-nowrap font-semibold text-fg"
                         >
                           {selectedTicker}
                         </td>
@@ -1673,7 +1673,7 @@
                             value={userStrategy[index]?.quantity}
                             min="0"
                             on:input={(e) => handleQuantityInput(e, index)}
-                            class=" border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class=" border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
@@ -1681,13 +1681,13 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                               >
                                 <span class="truncate text-sm"
                                   >{formatDate(userStrategy[index]?.date)}
                                   {#if formatDteLabel(userStrategy[index]?.date)}
                                     <span
-                                      class="ml-1 text-xs text-muted dark:text-white"
+                                      class="ml-1 text-xs text-fg"
                                     >
                                       {formatDteLabel(
                                         userStrategy[index]?.date,
@@ -1716,7 +1716,7 @@
                               align="end"
                               sideOffset={10}
                               alignOffset={0}
-                              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2"
@@ -1732,22 +1732,22 @@
                                       class="{userStrategy[index]?.date ===
                                       expirationItem
                                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                                        : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                                        : ''} cursor-pointer hover:text-accent"
                                     >
                                       <span>{formatDate(expirationItem)}</span>
                                       <span
-                                        class="ml-2 text-xs text-muted dark:text-white"
+                                        class="ml-2 text-xs text-fg"
                                         >{formatDteLabel(expirationItem)}</span
                                       >
                                     </DropdownMenu.Item>
                                   {:else}
                                     <DropdownMenu.Item
                                       on:click={() => goto("/pricing")}
-                                      class="cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                                      class="cursor-pointer hover:text-accent"
                                     >
                                       <span>{formatDate(expirationItem)}</span>
                                       <span
-                                        class="ml-2 text-xs text-muted dark:text-white"
+                                        class="ml-2 text-xs text-fg"
                                         >{formatDteLabel(expirationItem)}</span
                                       >
                                       <svg
@@ -1774,7 +1774,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-muted dark:text-zinc-200"
+                                class="mb-1 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-fg"
                               >
                                 <span class="truncate text-sm"
                                   >{userStrategy[index]?.strike}</span
@@ -1796,7 +1796,7 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2">
@@ -1806,7 +1806,7 @@
                                     on:click={() => {
                                       handleStrikePrice(item, index);
                                     }}
-                                    class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                    class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                                   >
                                     {item}
                                   </DropdownMenu.Item>
@@ -1829,7 +1829,7 @@
                             min="0"
                             value={userStrategy[index]?.optionPrice}
                             on:input={(e) => handleOptionPriceInput(e, index)}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2 select-none">
@@ -1837,14 +1837,14 @@
                             class="flex flex-row items-center m-auto text-center justify-center"
                           >
                             <a
-                              class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-accent transition"
                               href={`${getTickerBasePath()}/options/contract-lookup?contract=${userStrategy[index]?.optionSymbol}`}
                             >
                               <Link class="w-4 h-4 mt-0.5" />
                             </a>
                             <label
                               on:click={() => handleDeleteOptionLeg(index)}
-                              class="ml-3 inline-flex items-center cursor-pointer text-gray-500 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="ml-3 inline-flex items-center cursor-pointer text-gray-500 dark:text-zinc-300 hover:text-accent transition"
                             >
                               <Trash class="w-4 h-4" />
                             </label>
@@ -1858,7 +1858,7 @@
 
               {#if shareStrategy?.length > 0}
                 <h3
-                  class="mt-6 mb-2 text-base sm:text-lg font-semibold tracking-tight text-muted dark:text-white"
+                  class="mt-6 mb-2 text-base sm:text-lg font-semibold tracking-tight text-fg"
                 >
                   Shares
                 </h3>
@@ -1866,31 +1866,31 @@
                   class="overflow-x-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4"
                 >
                   <table
-                    class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-muted dark:text-zinc-200 tabular-nums"
+                    class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-fg tabular-nums"
                   >
                     <thead class="bg-gray-50/80 dark:bg-zinc-900/60">
                       <tr>
                         <th
                           scope="col"
-                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                         >
                           {options_calculator_table_symbol()}
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                         >
                           {options_calculator_table_action()}
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                         >
                           {options_calculator_table_quantity()}
                         </th>
                         <th
                           scope="col"
-                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                          class="px-4 py-2 text-left text-[0.7rem] sm:text-xs font-semibold uppercase tracking-wide text-fg-muted"
                         >
                           {options_calculator_table_price()}
                         </th>
@@ -1906,7 +1906,7 @@
                           class="transition-colors hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                         >
                           <td
-                            class="px-4 whitespace-nowrap font-semibold text-muted dark:text-white"
+                            class="px-4 whitespace-nowrap font-semibold text-fg"
                           >
                             {selectedTicker}
                           </td>
@@ -1924,7 +1924,7 @@
                               value={shareItem?.quantity}
                               on:input={(e) =>
                                 handleShareQuantityInput(e, shareIndex)}
-                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
+                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
                             />
                           </td>
                           <td class="px-4 whitespace-nowrap py-2">
@@ -1935,13 +1935,13 @@
                               value={shareItem?.sharePrice}
                               on:input={(e) =>
                                 handleSharePriceInput(e, shareIndex)}
-                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-28 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
+                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-28 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
                             />
                           </td>
                           <td class="px-4 whitespace-nowrap py-2 select-none">
                             <div class="flex flex-row items-center">
                               <a
-                                class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                                class="inline-flex items-center text-gray-500 dark:text-zinc-300 hover:text-accent transition"
                                 href={getTickerBasePath()}
                               >
                                 <Link class="w-4 h-4 mt-0.5" />
@@ -1949,7 +1949,7 @@
                               <label
                                 on:click={() =>
                                   handleDeleteShareLeg(shareIndex)}
-                                class="ml-3 inline-flex items-center cursor-pointer text-gray-500 dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                                class="ml-3 inline-flex items-center cursor-pointer text-gray-500 dark:text-zinc-300 hover:text-accent transition"
                               >
                                 <Trash class="w-4 h-4" />
                               </label>
@@ -1964,7 +1964,7 @@
 
               {#if isLoaded && config}
                 <h2
-                  class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-fg"
                 >
                   {options_calculator_profit_loss_chart()}
                 </h2>
@@ -1982,7 +1982,7 @@
                       class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
-                        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                        class="loading loading-spinner loading-md text-fg"
                       ></span>
                     </label>
                   </div>
@@ -1991,7 +1991,7 @@
 
               <div class="mt-10">
                 <h2
-                  class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-3"
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
                 >
                   {options_calculator_trade_information()}
                 </h2>
@@ -2006,8 +2006,8 @@
                     </div>
                     <div
                       class="{item?.action === 'Buy'
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : 'text-rose-800 dark:text-rose-400'} font-semibold"
+                        ? 'text-up'
+                        : 'text-down'} font-semibold"
                     >
                       {item?.action?.toUpperCase()} +{item?.quantity}
                       {selectedTicker}
@@ -2022,8 +2022,8 @@
                     </div>
                     <div
                       class="{shareItem?.action === 'Buy'
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : 'text-rose-800 dark:text-rose-400'} font-semibold"
+                        ? 'text-up'
+                        : 'text-down'} font-semibold"
                     >
                       {shareItem?.action?.toUpperCase()} +{shareItem?.quantity}
                       {selectedTicker}
@@ -2034,19 +2034,19 @@
 
                 <!-- Stock Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4"
                 >
                   {options_calculator_stock()}
                 </h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 mb-6">
                   <div>
-                    <div class="text-muted dark:text-zinc-300 text-sm">
+                    <div class="text-fg-muted text-sm">
                       {selectedTicker}
                       {options_calculator_current_price()}
                     </div>
                     <div class="flex items-baseline">
                       <span
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                         >${currentStockPrice
                           ? currentStockPrice?.toFixed(2)
                           : "n/a"}</span
@@ -2056,7 +2056,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {selectedTicker}
                       {options_calculator_breakeven_price()}
@@ -2068,7 +2068,7 @@
                     </div>
                     <div class="flex items-baseline">
                       <span
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                         >{breakEvenPrices?.length > 0
                           ? breakEvenPrices
                               .map((price) => `$${price.toFixed(2)}`)
@@ -2081,7 +2081,7 @@
 
                 <!-- Trade Details Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4"
                 >
                   {options_calculator_trade_details()}
                 </h2>
@@ -2090,7 +2090,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_cost_of_trade()}
                       <InfoModal
@@ -2101,7 +2101,7 @@
                     </div>
                     <div class="flex items-baseline">
                       <span
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                         >{totalPremium >= 0 ? "$" : "-$"}{Math.abs(
                           totalPremium,
                         )?.toLocaleString("en-US", {
@@ -2114,7 +2114,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_max_profit()}
                       <InfoModal
@@ -2124,7 +2124,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-emerald-800 dark:text-emerald-400"
+                      class="text-lg font-semibold text-up"
                     >
                       {metrics?.maxProfit}
                     </div>
@@ -2132,7 +2132,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_max_loss()}
                       <InfoModal
@@ -2142,7 +2142,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-rose-800 dark:text-rose-400"
+                      class="text-lg font-semibold text-down"
                     >
                       {metrics?.maxLoss}
                     </div>
@@ -2151,7 +2151,7 @@
 
                 <!-- Probability Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4 mt-6"
                 >
                   {options_calculator_probability_analysis()}
                 </h2>
@@ -2160,7 +2160,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_pop()}
                       <InfoModal
@@ -2171,8 +2171,8 @@
                     </div>
                     <div
                       class="text-lg font-semibold {probabilities?.pop >= 0.5
-                        ? 'text-emerald-800 dark:text-emerald-400'
-                        : 'text-rose-800 dark:text-rose-400'}"
+                        ? 'text-up'
+                        : 'text-down'}"
                     >
                       {(probabilities?.pop * 100)?.toFixed(1)}%
                     </div>
@@ -2180,7 +2180,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_pop_max_profit()}
                       <InfoModal
@@ -2190,7 +2190,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-emerald-800 dark:text-emerald-400"
+                      class="text-lg font-semibold text-up"
                     >
                       {(probabilities?.popMaxProfit * 100)?.toFixed(1)}%
                     </div>
@@ -2198,7 +2198,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_pop_max_loss()}
                       <InfoModal
@@ -2208,7 +2208,7 @@
                       />
                     </div>
                     <div
-                      class="text-lg font-semibold text-rose-800 dark:text-rose-400"
+                      class="text-lg font-semibold text-down"
                     >
                       {(probabilities?.popMaxLoss * 100)?.toFixed(1)}%
                     </div>
@@ -2217,7 +2217,7 @@
 
                 <!-- Risk Reward Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4 mt-6"
                 >
                   {options_calculator_risk_reward()}
                 </h2>
@@ -2226,7 +2226,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_ev()}
                       <InfoModal
@@ -2240,8 +2240,8 @@
                       <div
                         class="text-lg font-semibold {riskRewardMetrics?.expectedValue >=
                         0
-                          ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'}"
+                          ? 'text-up'
+                          : 'text-down'}"
                       >
                         {riskRewardMetrics?.expectedValue >= 0
                           ? ""
@@ -2273,7 +2273,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_expected_return()}
                       <InfoModal
@@ -2287,8 +2287,8 @@
                       <div
                         class="text-lg font-semibold {riskRewardMetrics?.expectedReturn !==
                           null && riskRewardMetrics?.expectedReturn >= 0
-                          ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'}"
+                          ? 'text-up'
+                          : 'text-down'}"
                       >
                         {riskRewardMetrics?.expectedReturn !== null
                           ? `${riskRewardMetrics?.expectedReturn >= 0 ? "" : ""}${riskRewardMetrics?.expectedReturn?.toFixed(1)}%`
@@ -2315,7 +2315,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_reward_risk()}
                       <InfoModal
@@ -2327,7 +2327,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                       >
                         {riskRewardMetrics?.rewardRisk !== null
                           ? `${riskRewardMetrics?.rewardRisk?.toFixed(1)}%`
@@ -2355,7 +2355,7 @@
 
                 <!-- Position Greeks Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-4 mt-6"
+                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4 mt-6"
                 >
                   {options_calculator_greeks()}
                 </h2>
@@ -2364,7 +2364,7 @@
                 >
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_delta()}
                       <InfoModal
@@ -2376,7 +2376,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                       >
                         {positionGreeks?.delta?.toFixed(2)}
                       </div>
@@ -2401,7 +2401,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_gamma()}
                       <InfoModal
@@ -2413,7 +2413,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                       >
                         {positionGreeks?.gamma?.toFixed(4)}
                       </div>
@@ -2438,7 +2438,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_theta()}
                       <InfoModal
@@ -2450,8 +2450,8 @@
                     {#if isPro}
                       <div
                         class="text-lg font-semibold {positionGreeks?.theta >= 0
-                          ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'}"
+                          ? 'text-up'
+                          : 'text-down'}"
                       >
                         {positionGreeks?.theta >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.theta?.toFixed(2),
@@ -2480,7 +2480,7 @@
 
                   <div>
                     <div
-                      class="flex items-center text-muted dark:text-zinc-300 text-sm"
+                      class="flex items-center text-fg-muted text-sm"
                     >
                       {options_calculator_vega()}
                       <InfoModal
@@ -2492,7 +2492,7 @@
 
                     {#if isPro}
                       <div
-                        class="text-lg font-semibold text-muted dark:text-white"
+                        class="text-lg font-semibold text-fg"
                       >
                         {positionGreeks?.vega >= 0 ? "" : "-"}${Math.abs(
                           positionGreeks?.vega,

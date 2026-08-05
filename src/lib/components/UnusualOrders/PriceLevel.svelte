@@ -354,7 +354,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-1.5">
-        <h3 class="text-xl sm:text-2xl font-bold text-muted dark:text-white">
+        <h3 class="text-xl sm:text-2xl font-bold text-fg">
           {stock_detail_price_levels_title()}
         </h3>
         <InfoModal
@@ -370,13 +370,13 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <!-- Support Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
+          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_price_levels_key_support()}</span>
             {#if keySupport?.strength && !showLocked}
               <span
-                class="ml-auto text-xs tabular-nums text-muted dark:text-zinc-300"
+                class="ml-auto text-xs tabular-nums text-fg-muted"
               >
                 {stock_detail_price_levels_strength({
                   pct:
@@ -390,7 +390,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-fg hover:text-accent transition"
             >
               <svg
                 class="size-5"
@@ -409,7 +409,7 @@
           {:else if keySupport}
             <div class="flex items-baseline">
               <span
-                class="text-xl font-semibold tabular-nums text-emerald-800 dark:text-emerald-400"
+                class="text-xl font-semibold tabular-nums text-up"
               >
                 ${keySupport.price?.toFixed(2)}
               </span>
@@ -423,13 +423,13 @@
 
         <!-- Resistance Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4"
+          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_price_levels_key_resistance()}</span>
             {#if keyResistance?.strength && !showLocked}
               <span
-                class="ml-auto text-xs tabular-nums text-muted dark:text-zinc-300"
+                class="ml-auto text-xs tabular-nums text-fg-muted"
               >
                 {stock_detail_price_levels_strength({
                   pct:
@@ -443,7 +443,7 @@
           {#if showLocked}
             <a
               href="/pricing"
-              class="inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="inline-flex items-center text-fg hover:text-accent transition"
             >
               <svg
                 class="size-5"
@@ -478,11 +478,11 @@
 
     {#if showLocked}
       <div
-        class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-[300px] flex flex-col items-center justify-center"
+        class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 h-[300px] flex flex-col items-center justify-center"
       >
         <a
           href="/pricing"
-          class="flex flex-col items-center gap-3 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="flex flex-col items-center gap-3 text-fg hover:text-accent transition"
         >
           <svg
             class="size-10"
@@ -503,7 +503,7 @@
       <!-- Chart Controls -->
       <div class="flex items-center justify-between mb-3">
         <div
-          class="flex items-center gap-3 text-xs text-muted dark:text-zinc-300"
+          class="flex items-center gap-3 text-xs text-fg-muted"
         >
           <span class="flex items-center gap-1.5">
             <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
@@ -518,7 +518,7 @@
         <!-- Chart Type Switcher -->
         <div class="flex items-center">
           <div
-            class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 p-1"
+            class="w-fit flex text-sm items-center gap-1 rounded-full border border-line p-1"
           >
             {#each chartTypes as item}
               <button
@@ -526,7 +526,7 @@
                 class="cursor-pointer rounded-full p-1.5 focus:z-10 focus:outline-none transition-all
                   {chartType === item.type
                   ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                  : 'text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white'}"
+                  : 'text-fg-muted hover:text-gray-900 dark:hover:text-white'}"
                 title={item.label}
               >
                 <svelte:component this={item.icon} class="w-4 h-4" />
@@ -538,13 +538,13 @@
 
       <!-- Chart - MaxPain Style -->
       <div
-        class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+        class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
       >
         <div use:highcharts={config}></div>
       </div>
 
       <!-- Note -->
-      <p class="text-xs text-muted dark:text-zinc-300 text-center mt-3">
+      <p class="text-xs text-fg-muted text-center mt-3">
         {stock_detail_price_levels_note()}
       </p>
     {/if}

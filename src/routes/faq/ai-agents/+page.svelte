@@ -60,13 +60,13 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-fg"
 >
   <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >Home</a
       >
     </li>
@@ -94,7 +94,7 @@
 
             <div>
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @StockScreener Agent
                 </h2>
                 <p class="mb-4">
@@ -138,7 +138,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @Analyst Agent
                 </h2>
                 <div class="mb-2">
@@ -181,7 +181,7 @@
               <!-- Improved sections continue with same pattern -->
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @BullvsBear
                 </h2>
                 <div class="mb-2">
@@ -221,7 +221,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @CompareStocks
                 </h2>
                 <div class="mb-2">
@@ -260,7 +260,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @DarkPoolData Agent
                 </h2>
                 <div class="mb-2">
@@ -300,7 +300,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @FundamentalData Agent
                 </h2>
                 <div class="mb-2">
@@ -341,7 +341,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @OptionsData Agent
                 </h2>
                 <div class="mb-2">
@@ -379,7 +379,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @OptionsFlowFeed Agent
                 </h2>
                 <div class="mb-2">
@@ -420,7 +420,7 @@
               </section>
 
               <section class="mb-6">
-                <h2 class="mb-2 text-2xl font-bold text-muted dark:text-white">
+                <h2 class="mb-2 text-2xl font-bold text-fg">
                   @Investor Agent
                 </h2>
                 <p class="mb-4">
@@ -482,7 +482,7 @@
         <aside class="hidden lg:block relative fixed w-1/4 mt-4">
           {#if !["Plus", "Pro"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full border border-line-strong rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
             >
               <a
                 href="/pricing"
@@ -502,7 +502,7 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-line-strong rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
           >
             <a
               href="/about"
@@ -518,7 +518,7 @@
           </div>
 
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-line-strong rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
           >
             <a
               href="/contact"

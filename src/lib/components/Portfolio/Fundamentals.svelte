@@ -310,12 +310,12 @@
                                     : "n/a";
                             return `<div class="flex justify-center space-x-8 text-xs sm:text-sm">
                         <div class="flex flex-col items-center">
-                            <span class="text-muted dark:text-zinc-300 font-semibold">${gaugeData.label}</span>
-                            <span class="text-muted dark:text-white text-base sm:text-lg font-bold">${displayValue}</span>
+                            <span class="text-fg-muted font-semibold">${gaugeData.label}</span>
+                            <span class="text-fg text-base sm:text-lg font-bold">${displayValue}</span>
                         </div>
                         <div class="flex flex-col items-center">
-                            <span class="text-muted dark:text-zinc-300 font-semibold">${gaugeData.compareLabel}</span>
-                            <span class="text-muted dark:text-zinc-200 text-base sm:text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
+                            <span class="text-fg-muted font-semibold">${gaugeData.compareLabel}</span>
+                            <span class="text-fg text-base sm:text-lg font-bold">${gaugeData.compareValue}${suffix}</span>
                         </div>
                     </div>`;
                         },
@@ -418,7 +418,7 @@
 
 <div class="w-full" bind:this={componentElement}>
     <h2
-        class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white w-fit"
+        class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-fg w-fit"
     >
         {displayTitle}
     </h2>
@@ -445,7 +445,7 @@
                 {#each gaugeData.stats as stat}
                     <div class="flex flex-col">
                         <div
-                            class="text-muted dark:text-zinc-300 text-sm flex flex-row items-center gap-x-2"
+                            class="text-fg-muted text-sm flex flex-row items-center gap-x-2"
                         >
                             <span>{stat.label}</span>
                             <InfoModal
@@ -456,7 +456,7 @@
                             />
                         </div>
                         <span
-                            class="font-semibold text-sm text-muted dark:text-white"
+                            class="font-semibold text-sm text-fg"
                         >
                             {stat?.value}
                         </span>

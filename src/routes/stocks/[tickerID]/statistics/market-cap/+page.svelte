@@ -809,7 +809,7 @@
                     <span class="text-xl font-semibold"
                       >{#if capCategory}
                         <a
-                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="font-medium text-fg transition-colors hover:text-accent transition"
                           href={capCategory.link}
                         >
                           {capCategory.name}
@@ -840,10 +840,10 @@
                         <span
                           class="text-sm {changePercentageYearAgo >= 0 &&
                           changePercentageYearAgo !== null
-                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                            ? "before:content-['+'] text-up"
                             : changePercentageYearAgo < 0 &&
                                 changePercentageYearAgo !== null
-                              ? 'text-rose-800 dark:text-rose-400'
+                              ? 'text-down'
                               : ''}"
                         >
                           {changePercentageYearAgo >= 0
@@ -857,7 +857,7 @@
               </div>
 
               <div
-                class="flex flex-col sm:flex-row items-start sm:items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+                class="flex flex-col sm:flex-row items-start sm:items-center w-full border-t border-b border-line py-2"
               >
                 <h2 class="mb-3 sm:mb-0 text-xl sm:text-2xl font-bold">
                   {stock_detail_stats_market_cap_chart()}
@@ -873,7 +873,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-xs sm:text-sm"
                             >{timePeriod}</span
@@ -901,7 +901,7 @@
                         class="w-56 h-fit max-h-72 overflow-y-auto scroller"
                       >
                         <DropdownMenu.Label
-                          class="text-muted dark:text-white font-normal"
+                          class="text-fg font-normal"
                         >
                           {stock_detail_stats_select_time_frame()}
                         </DropdownMenu.Label>
@@ -909,43 +909,43 @@
                         <DropdownMenu.Group>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("1M")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_1_month()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("6M")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_6_months()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("1Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_1_year()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("3Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_3_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("5Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_5_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("10Y")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_10_years()}
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
                             on:click={() => changeStatement("Max")}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {stock_detail_stats_max()}
                           </DropdownMenu.Item>
@@ -967,7 +967,7 @@
               ></div>
 
               <div
-                class=" flex flex-row items-center w-full justify-between mt-2 border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+                class=" flex flex-row items-center w-full justify-between mt-2 border-t border-b border-line py-2"
               >
                 <h3 class="history-driver text-xl sm:text-2xl font-bold">
                   {stock_detail_stats_history()}
@@ -989,7 +989,7 @@
                               class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                                 ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                                : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                                : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                             >
                               {i === 0
                                 ? stock_detail_stats_annual()
@@ -1005,7 +1005,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -1030,8 +1030,8 @@
                           {#if item?.changesPercentage}
                             <span
                               class={item?.changesPercentage >= 0
-                                ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "text-up before:content-['+']"
+                                : "text-down"}
                             >
                               {item?.changesPercentage
                                 ? item?.changesPercentage + "%"
@@ -1053,7 +1053,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1074,7 +1074,7 @@
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {stock_detail_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -1085,7 +1085,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -1111,12 +1111,12 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="text-fg-muted hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -1136,7 +1136,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

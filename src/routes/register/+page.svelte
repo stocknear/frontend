@@ -298,11 +298,11 @@
 
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
         >
           {register_step1_title()}
         </h1>
-        <p class="text-center text-sm text-muted dark:text-white mt-2 mb-8">
+        <p class="text-center text-sm text-fg mt-2 mb-8">
           {register_step1_subtitle()}
         </p>
 
@@ -315,7 +315,7 @@
         </div>
 
         <!-- Divider -->
-        <div class="divider text-muted dark:text-zinc-300 py-4">
+        <div class="divider text-fg-muted py-4">
           <span class="text-[11px] uppercase tracking-[0.3em] z-10">
             {register_step1_email_divider()}
           </span>
@@ -349,15 +349,15 @@
           />
 
           <div
-            class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
+            class="form-control w-full max-w-2xl mb-2 text-fg"
           >
             <label for="passwordConfirm" class="label pb-1">
-              <span class="text-muted dark:text-white"
+              <span class="text-fg"
                 >{register_confirm_password_label()}</span
               >
             </label>
             <input
-              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-surface-page/60 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
               type="password"
               id="passwordConfirm"
               name="passwordConfirm"
@@ -405,23 +405,23 @@
         </form>
 
         <!-- Terms -->
-        <p class="text-xs text-center text-muted dark:text-white mt-4">
+        <p class="text-xs text-center text-fg mt-4">
           {register_terms_prefix()}
           <a
             href="/terms-of-use"
-            class="text-muted dark:text-zinc-300 hover:text-violet-500 transition"
+            class="text-fg-muted hover:text-violet-500 transition"
             >{register_terms_link()}</a
           >
           {register_terms_middle()}
           <a
             href="/privacy-policy"
-            class="text-muted dark:text-zinc-300 hover:text-violet-500 transition"
+            class="text-fg-muted hover:text-violet-500 transition"
             >{register_privacy_link()}</a
           >.
         </p>
 
         <!-- Sign in link -->
-        <p class="text-sm text-center text-muted dark:text-white mt-6">
+        <p class="text-sm text-center text-fg mt-6">
           {register_has_account()}
           <a
             href="/login"
@@ -446,11 +446,11 @@
 
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
         >
           {register_step2_title()}
         </h1>
-        <p class="text-center text-sm text-muted dark:text-white mt-2 mb-8">
+        <p class="text-center text-sm text-fg mt-2 mb-8">
           {data?.user?.freeTrial
             ? register_step2_subtitle_no_trial()
             : register_step2_subtitle()}
@@ -462,8 +462,8 @@
         >
           <span
             class={pricingAnnual
-              ? "text-muted dark:text-white"
-              : "text-muted dark:text-white"}
+              ? "text-fg"
+              : "text-fg"}
           >
             {register_step2_monthly()}
           </span>
@@ -484,8 +484,8 @@
           </label>
           <span
             class={pricingAnnual
-              ? "text-muted dark:text-white"
-              : "text-muted dark:text-white"}
+              ? "text-fg"
+              : "text-fg"}
           >
             {register_step2_annual()}
           </span>
@@ -501,40 +501,40 @@
         <div class="grid gap-6 sm:grid-cols-2">
           <!-- Plus (highlighted) -->
           <div
-            class="rounded-2xl border-2 border-violet-500 dark:border-violet-400 bg-white dark:bg-zinc-900/60 p-6 flex flex-col relative"
+            class="rounded-2xl border-2 border-accent bg-surface-card/60 p-6 flex flex-col relative"
           >
             <div
               class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider"
             >
               {register_step2_popular()}
             </div>
-            <h3 class="text-xl font-semibold text-muted dark:text-white">
+            <h3 class="text-xl font-semibold text-fg">
               {register_step2_plus_title()}
             </h3>
-            <p class="mt-1 text-xs text-muted dark:text-white">
+            <p class="mt-1 text-xs text-fg">
               {register_step2_plus_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
               {#if pricingAnnual && annualPromo && eligible}
-                <span class="text-xl text-muted dark:text-white line-through">
+                <span class="text-xl text-fg line-through">
                   {formatPrice(PLAN_PRICING.Plus.annualPerMonth)}
                 </span>
-                <span class="text-3xl font-semibold text-muted dark:text-white"
+                <span class="text-3xl font-semibold text-fg"
                   >{formatPrice(
                     discounted(PLAN_PRICING.Plus.annualPerMonth, annualPromo),
                   )}</span
                 >
               {:else if pricingAnnual}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
+                <span class="text-3xl font-semibold text-fg"
                   >{formatPrice(PLAN_PRICING.Plus.annualPerMonth)}</span
                 >
               {:else}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
+                <span class="text-3xl font-semibold text-fg"
                   >{formatPrice(PLAN_PRICING.Plus.monthly)}</span
                 >
               {/if}
 
-              <span class="text-sm text-muted dark:text-white"
+              <span class="text-sm text-fg"
                 >{register_step2_per_month()}</span
               >
             </div>
@@ -558,7 +558,7 @@
               {#each [pricing_feature_credits_150(), pricing_feature_watchlist_unlimited(), pricing_feature_portfolio_unlimited(), pricing_feature_alerts_unlimited(), pricing_feature_screener_unlimited(), pricing_feature_download_unlimited(), pricing_feature_notification(), pricing_feature_hedgefund(), pricing_feature_congress(), pricing_feature_no_ads()] as feature}
                 <li class="flex items-start gap-2">
                   <svg
-                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-muted dark:text-zinc-300"
+                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-fg-muted"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -570,7 +570,7 @@
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span class="text-muted dark:text-zinc-300">{feature}</span>
+                  <span class="text-fg-muted">{feature}</span>
                 </li>
               {/each}
             </ul>
@@ -599,35 +599,35 @@
 
           <!-- Pro -->
           <div
-            class="rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900/60 p-6 flex flex-col"
+            class="rounded-2xl border border-line bg-surface-card/60 p-6 flex flex-col"
           >
-            <h3 class="text-xl font-semibold text-muted dark:text-white">
+            <h3 class="text-xl font-semibold text-fg">
               {register_step2_pro_title()}
             </h3>
-            <p class="mt-1 text-xs text-muted dark:text-white">
+            <p class="mt-1 text-xs text-fg">
               {register_step2_pro_subtitle()}
             </p>
             <div class="mt-4 flex items-baseline gap-2">
               {#if pricingAnnual && annualPromo && eligible}
-                <span class="text-xl text-muted dark:text-white line-through">
+                <span class="text-xl text-fg line-through">
                   {formatPrice(PLAN_PRICING.Pro.annualPerMonth)}
                 </span>
-                <span class="text-3xl font-semibold text-muted dark:text-white"
+                <span class="text-3xl font-semibold text-fg"
                   >{formatPrice(
                     discounted(PLAN_PRICING.Pro.annualPerMonth, annualPromo),
                   )}</span
                 >
               {:else if pricingAnnual}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
+                <span class="text-3xl font-semibold text-fg"
                   >{formatPrice(PLAN_PRICING.Pro.annualPerMonth)}</span
                 >
               {:else}
-                <span class="text-3xl font-semibold text-muted dark:text-white"
+                <span class="text-3xl font-semibold text-fg"
                   >{formatPrice(PLAN_PRICING.Pro.monthly)}</span
                 >
               {/if}
 
-              <span class="text-sm text-muted dark:text-white"
+              <span class="text-sm text-fg"
                 >{register_step2_per_month()}</span
               >
             </div>
@@ -651,7 +651,7 @@
               {#each [pricing_feature_credits_1000(), pricing_feature_everything_plus(), pricing_feature_watchlist_pro(), pricing_feature_portfolio_pro(), pricing_feature_options_realtime(), pricing_feature_options_flow(), pricing_feature_unusual_orders(), pricing_feature_pro_chart_unlimited(), pricing_feature_discord()] as feature}
                 <li class="flex items-start gap-2">
                   <svg
-                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-muted dark:text-zinc-300"
+                    class="w-4 h-4 mt-0.5 flex-shrink-0 text-fg-muted"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -663,7 +663,7 @@
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span class="text-muted dark:text-zinc-300">{feature}</span>
+                  <span class="text-fg-muted">{feature}</span>
                 </li>
               {/each}
             </ul>
@@ -695,7 +695,7 @@
         <div class="text-center mt-8">
           <a
             href="/"
-            class="text-sm text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 transition"
+            class="text-sm text-fg hover:text-muted dark:hover:text-zinc-200 transition"
           >
             {register_step2_skip()}
             <svg
@@ -723,10 +723,10 @@
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm"
   >
     <div
-      class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
+      class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
     >
       <span
-        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+        class="loading loading-spinner loading-md text-fg"
       ></span>
     </div>
   </div>

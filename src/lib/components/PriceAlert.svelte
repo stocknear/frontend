@@ -210,12 +210,12 @@
   ></label>
 
   <div
-    class="modal-box w-full min-h-fit h-auto max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain sm:h-[560px] sm:max-h-[560px] p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full min-h-fit h-auto max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain sm:h-[560px] sm:max-h-[560px] p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="priceAlertModal"
       on:click|preventDefault={closeAlertModal}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -230,7 +230,7 @@
     </label>
     <div class="flex flex-col w-full">
       <h2
-        class="font-semibold text-lg text-start mb-5 tracking-tight text-muted dark:text-white"
+        class="font-semibold text-lg text-start mb-5 tracking-tight text-fg"
       >
         {stock_detail_price_alert_on({ ticker })}
       </h2>
@@ -239,12 +239,12 @@
         class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-5 font-medium"
       >
         <label
-          class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+          class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
           >{stock_detail_symbol()}</label
         >
 
         <label
-          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200"
+          class="rounded-full w-full sm:w-[80%] py-2 px-3 text-sm border border-line bg-surface-page/60 text-fg"
         >
           <!--
           <img
@@ -263,13 +263,13 @@
       <div class="flex flex-col gap-4 mt-5 font-medium">
         <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <label
-            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+            class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
             >Alert Type</label
           >
           <div class="relative w-full sm:w-[80%]">
             <select
               bind:value={alertType}
-              class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+              class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
             >
               <option value="price">Price target</option>
               <option value="movingAverage">Moving average cross</option>
@@ -290,26 +290,26 @@
         {#if alertType === "price"}
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >{stock_detail_condition()}</label
             >
             <input
               type="text"
               value={stock_detail_price()}
-              class="select-none w-full sm:w-[80%] border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3"
+              class="select-none w-full sm:w-[80%] border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 px-3"
               readonly
             />
           </div>
 
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >{stock_detail_crossing()}</label
             >
             <div class="relative w-full sm:w-[80%]">
               <select
                 bind:value={condition}
-                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+                class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="above">{stock_detail_above()}</option>
                 <option value="below">{stock_detail_below()}</option>
@@ -326,14 +326,14 @@
 
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >{stock_detail_value()}</label
             >
 
             <div class="relative w-full sm:w-[80%]">
               <input
                 bind:value={targetPrice}
-                class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-16"
+                class="w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 px-3 pr-16"
               />
               <div
                 class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-x-1.5"
@@ -376,13 +376,13 @@
         {:else if alertType === "movingAverage"}
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >{stock_detail_crossing()}</label
             >
             <div class="relative w-full sm:w-[80%]">
               <select
                 bind:value={condition}
-                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+                class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="above">{stock_detail_above()}</option>
                 <option value="below">{stock_detail_below()}</option>
@@ -399,13 +399,13 @@
 
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >Moving Avg</label
             >
             <div class="relative w-full sm:w-[80%]">
               <select
                 bind:value={movingAveragePeriod}
-                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+                class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="20">20 MA</option>
                 <option value="50">50 MA</option>
@@ -429,13 +429,13 @@
         {:else if alertType === "percentMove"}
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >Direction</label
             >
             <div class="relative w-full sm:w-[80%]">
               <select
                 bind:value={percentMoveDirection}
-                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+                class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="up">Up</option>
                 <option value="down">Down</option>
@@ -452,7 +452,7 @@
 
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >Percent</label
             >
             <div class="relative w-full sm:w-[80%]">
@@ -461,7 +461,7 @@
                 min="0"
                 step="0.1"
                 bind:value={percentMoveValue}
-                class="w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 px-3 pr-10"
+                class="w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 px-3 pr-10"
               />
               <span
                 class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 dark:text-zinc-400"
@@ -478,13 +478,13 @@
         {:else if alertType === "volumeSpike"}
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >Volume</label
             >
             <div class="relative w-full sm:w-[80%]">
               <select
                 bind:value={volumeSpikeMultiplier}
-                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+                class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="1.5">1.5x avg</option>
                 <option value="2">2x avg</option>
@@ -502,13 +502,13 @@
 
           <div class="flex flex-col sm:flex-row items-start sm:items-center">
             <label
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0"
+              class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0"
               >Price Filter</label
             >
             <div class="relative w-full sm:w-[80%]">
               <select
                 bind:value={volumeSpikePriceFilter}
-                class="cursor-pointer w-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
+                class="cursor-pointer w-full border border-line bg-surface-page/60 text-fg text-sm rounded-full py-2 pl-3 pr-9 appearance-none"
               >
                 <option value="any">Any move</option>
                 <option value="up">Only if above alert price</option>
@@ -534,7 +534,7 @@
 
         <div class="flex flex-col sm:flex-row items-start sm:items-start pb-5">
           <label
-            class="text-[11px] uppercase tracking-wide text-muted dark:text-white w-[20%] mb-1 sm:mb-0 sm:mt-2"
+            class="text-[11px] uppercase tracking-wide text-fg w-[20%] mb-1 sm:mb-0 sm:mt-2"
             >Note</label
           >
           <div class="w-full sm:w-[80%]">
@@ -543,10 +543,10 @@
               maxlength={NOTE_MAX_LENGTH}
               rows="4"
               placeholder="Note down why this alert level matters and what you plan to do when it triggers"
-              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
+              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-line bg-surface-page/60 text-fg text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
             ></textarea>
             <div
-              class="mt-1 flex items-center justify-between text-[11px] text-muted dark:text-white"
+              class="mt-1 flex items-center justify-between text-[11px] text-fg"
             >
               <span class="tabular-nums">{note.length}/{NOTE_MAX_LENGTH}</span>
             </div>
@@ -561,7 +561,7 @@
             <label
               for="priceAlertModal"
               on:click|preventDefault={closeAlertModal}
-              class="cursor-pointer border border-gray-300 dark:border-zinc-700 py-2 px-4 rounded-full text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="cursor-pointer border border-line py-2 px-4 rounded-full text-sm bg-surface-page/60 text-fg hover:text-accent transition"
             >
               {stock_detail_cancel()}
             </label>

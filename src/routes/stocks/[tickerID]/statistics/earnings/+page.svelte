@@ -786,7 +786,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden h-full text-muted dark:text-zinc-200">
+<section class="w-full overflow-hidden h-full text-fg">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -796,7 +796,7 @@
           {#if data?.getNextEarnings && Object.keys(data.getNextEarnings).length > 0 && data?.getEarningsSurprise?.date !== data.getNextEarnings?.date}
             <div class="w-full flex flex-col sm:flex-row justify-between">
               <h1
-                class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
               >
                 {stock_detail_stats_earnings_surprise()}
               </h1>
@@ -814,10 +814,10 @@
               <EarningsGuidance {data} />
 
               <div
-                class="mt-3 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-gray-300 dark:border-zinc-700 py-2"
+                class="mt-3 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-line py-2"
               >
                 <h2
-                  class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                 >
                   {stock_detail_stats_earnings_chart()}
                 </h2>
@@ -832,7 +832,7 @@
                           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {timeIdx === i
                             ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                         >
                           {i === 0
                             ? stock_detail_stats_eps_surprise()
@@ -847,7 +847,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate">{timeFrame}</span>
                           <svg
@@ -870,21 +870,21 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group>
                           {#each ["3Y", "5Y", "MAX"] as item, index}
                             {#if ["Plus", "Pro"]?.includes(data?.user?.tier) || index === 0}
                               <DropdownMenu.Item
                                 on:click={() => (timeFrame = item)}
-                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                class="cursor-pointer text-fg-muted hover:text-accent"
                               >
                                 {item}
                               </DropdownMenu.Item>
                             {:else}
                               <DropdownMenu.Item
                                 on:click={() => goto("/pricing")}
-                                class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                class="cursor-pointer text-fg-muted hover:text-accent"
                               >
                                 {item}
                                 <svg
@@ -923,10 +923,10 @@
 
               <div class="items-center lg:overflow-visible px-1 py-1">
                 <div
-                  class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                  class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
                 >
                   <h3
-                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 w-full"
+                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 w-full"
                   >
                     {stock_detail_stats_history()}
                   </h3>
@@ -946,10 +946,10 @@
               <div class=" w-full m-auto mb-4 overflow-x-auto">
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                    class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                   >
                     <thead
-                      class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                      class="text-[11px] uppercase tracking-wide text-fg"
                     >
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
@@ -989,7 +989,7 @@
                               {:else if item?.epsGuidanceDisplay}
                                 <a
                                   href="/pricing"
-                                  class="inline-flex items-center text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                  class="inline-flex items-center text-fg-muted hover:text-accent"
                                   aria-label="Upgrade to unlock EPS guidance"
                                 >
                                   <svg
@@ -1026,7 +1026,7 @@
                               {:else if item?.revGuidanceDisplay}
                                 <a
                                   href="/pricing"
-                                  class="inline-flex items-center text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                                  class="inline-flex items-center text-fg-muted hover:text-accent"
                                   aria-label="Upgrade to unlock revenue guidance"
                                 >
                                   <svg
@@ -1059,7 +1059,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1080,7 +1080,7 @@
                   </Button>
 
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {stock_detail_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -1091,7 +1091,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm">
                             {stock_detail_rows({ count: rowsPerPage })}
@@ -1117,12 +1117,12 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="text-fg-muted hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -1142,7 +1142,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

@@ -53,7 +53,7 @@
 </script>
 
 {#if Object?.keys(rawData)?.length !== 0}
-  <div class="space-y-3 overflow-hidden text-muted dark:text-zinc-200">
+  <div class="space-y-3 overflow-hidden text-fg">
     <!--Start Content-->
     <div class="w-auto lg:w-full flex flex-col m-auto">
       {#if !hideTitle}
@@ -62,10 +62,10 @@
             <!--<img class="h-10 inline-block mr-2" src={copilotIcon} />-->
             <a
               href="/stocks/{$stockTicker}/statistics/earnings"
-              class="flex flex-row items-center hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="flex flex-row items-center hover:text-accent transition"
             >
               <h3
-                class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg"
               >
                 {stock_detail_next_earnings_release()}
               </h3>
@@ -86,7 +86,7 @@
         </div>
       {/if}
 
-      <div class="text-sm text-muted dark:text-zinc-300">
+      <div class="text-sm text-fg-muted">
         {stock_detail_earnings_scheduled({ company: $displayCompanyName })}
         <strong
           >{new Date(rawData?.date ?? null)?.toLocaleString("en-US", {
@@ -107,7 +107,7 @@
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           ...
           <a
-            class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+            class="inline-block ml-0.5 text-fg-muted hover:text-accent"
             href="/pricing"
             >{stock_detail_upgrade()}
             <svg
@@ -126,10 +126,10 @@
           >, {stock_detail_reflecting_a()}
           <span
             class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+              ? "before:content-['+'] text-up"
               : revenueRatio < 0 && revenueRatio !== 'Infinity'
-                ? 'text-rose-800 dark:text-rose-400'
-                : 'text-muted dark:text-white'} font-semibold"
+                ? 'text-down'
+                : 'text-fg'} font-semibold"
             >{revenueRatio !== "Infinity"
               ? abbreviateNumber(revenueRatio) + "%"
               : "n/a"}</span
@@ -145,8 +145,8 @@
             <span class="font-bold">{rawData?.epsEst}</span>, {stock_detail_making_a()}
             <span
               class="{epsRatio > 0
-                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                : 'text-rose-800 dark:text-rose-400'} font-semibold"
+                ? "before:content-['+'] text-up"
+                : 'text-down'} font-semibold"
               >{epsRatio}%</span
             >
             {epsRatio > 0

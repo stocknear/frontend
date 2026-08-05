@@ -41,7 +41,7 @@
 <div class="w-full">
   {#if validMetrics.length === 0}
     <div
-      class="flex items-center justify-center py-12 text-muted dark:text-white"
+      class="flex items-center justify-center py-12 text-fg"
     >
       <p>{stock_detail_no_data()}</p>
     </div>

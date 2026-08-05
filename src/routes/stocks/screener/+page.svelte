@@ -3449,7 +3449,7 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-muted dark:text-zinc-200 transition-all duration-300 {isFullWidth
+  class="w-full overflow-hidden min-h-screen pt-5 pb-40 px-3 text-fg transition-all duration-300 {isFullWidth
     ? 'max-w-full'
     : 'max-w-3xl sm:max-w-(--breakpoint-xl)'}"
 >
@@ -3457,12 +3457,12 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg hover:text-accent transition"
         >{stock_screener_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <span class="text-muted dark:text-white"
+      <span class="text-fg"
         >{stock_screener_breadcrumb_stock_screener()}</span
       >
     </li>
@@ -3473,12 +3473,12 @@
     <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
       <div class="w-full flex flex-row items-center sm:mt-4">
         <h1
-          class="text-3xl font-semibold tracking-tight text-muted dark:text-white"
+          class="text-3xl font-semibold tracking-tight text-fg"
         >
           {stock_screener_main_title()}
         </h1>
         <span
-          class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-muted dark:text-white"
+          class="inline-block text-xs sm:text-sm font-medium ml-2 mt-3 text-fg"
         >
           {stock_screener_matches_found({
             count: totalItems?.toLocaleString("en-US"),
@@ -3489,7 +3489,7 @@
       <div class="flex flex-row items-center w-full mt-5">
         <div class="flex w-full sm:w-[50%] md:block md:w-auto sm:ml-auto">
           <div
-            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-muted dark:text-white"
+            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-fg"
           >
             {stock_screener_popular_screens()}
           </div>
@@ -3498,7 +3498,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-full transition-all duration-150 border border-line text-gray-900 dark:text-zinc-200 bg-surface-page/60 hover:text-accent flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate"
                     >{selectedPopularStrategy?.length !== 0
@@ -3525,10 +3525,10 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-muted dark:text-white font-normal"
+                  class="text-fg font-normal"
                 >
                   {stock_screener_popular_strategies()}
                 </DropdownMenu.Label>
@@ -3537,7 +3537,7 @@
                   {#each popularStrategyList as item}
                     <DropdownMenu.Item
                       on:click={() => popularStrategy(item?.key)}
-                      class="cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                      class="cursor-pointer sm:hover:text-accent"
                     >
                       {item?.label}
                     </DropdownMenu.Item>
@@ -3550,7 +3550,7 @@
 
         <div class="flex w-full sm:w-[50%] sm:ml-3 md:block md:w-auto ml-3">
           <div
-            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-muted dark:text-white"
+            class="hidden text-xs uppercase tracking-wide font-semibold md:block sm:mb-1 text-fg"
           >
             {stock_screener_saved_screens()}
           </div>
@@ -3559,7 +3559,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="min-w-[110px] w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="min-w-[110px] w-full transition-all duration-150 border border-line text-gray-900 dark:text-zinc-200 bg-surface-page/60 hover:text-accent flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate max-w-48"
                     >{selectedStrategy?.length !== 0
@@ -3588,10 +3588,10 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-muted dark:text-white font-normal"
+                  class="text-fg font-normal"
                 >
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
@@ -3600,7 +3600,7 @@
                         handleCreateStrategy();
                       }}
                       builders={[builder]}
-                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition focus:outline-hidden"
+                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap text-fg hover:text-accent transition focus:outline-hidden"
                     >
                       <svg
                         class="h-4 w-4"
@@ -3629,8 +3629,8 @@
                         switchStrategy(item);
                       }}
                       class=" {item?.id === selectedStrategy
-                        ? 'text-violet-800 dark:text-violet-400'
-                        : ''} cursor-pointer sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                        ? 'text-accent'
+                        : ''} cursor-pointer sm:hover:text-accent"
                     >
                       {item?.title?.length > 20
                         ? item?.title?.slice(0, 20) + "..."
@@ -3671,15 +3671,15 @@
     </div>
 
     <div
-      class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-3"
+      class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-3"
     >
-      <div class="items-end border-b border-gray-300 dark:border-zinc-700">
+      <div class="items-end border-b border-line">
         <div
-          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-gray-300 dark:border-zinc-700 mt-1.5"
+          class="mr-1 flex items-center justify-between lg:mr-2 pb-1.5 border-b border-line mt-1.5"
         >
           <button
             on:click={() => (showFilters = !showFilters)}
-            class="flex cursor-pointer items-center text-base font-semibold text-muted dark:text-white"
+            class="flex cursor-pointer items-center text-base font-semibold text-fg"
             title="Hide Filter Area"
           >
             <svg
@@ -3752,7 +3752,7 @@
                 on:keydown={handleQuickSearchKeydown}
                 on:focus={() => updateQuickSearchResults(quickSearchTerm)}
                 on:blur={closeQuickSearchDropdown}
-                class="block w-full lg:w-64 py-2.5 bg-[#f8fbfb] dark:bg-zinc-950/60 placeholder:text-muted dark:placeholder:text-zinc-300 pl-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                class="block w-full lg:w-64 py-2.5 bg-surface-page/60 placeholder:text-muted dark:placeholder:text-zinc-300 pl-10 text-sm border border-line rounded-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
               />
 
               <!-- Clear button -->
@@ -3786,7 +3786,7 @@
             <!-- Quick Search Dropdown -->
             {#if showQuickSearchDropdown && quickSearchResults?.length > 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none max-h-64 overflow-y-auto"
+                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-line rounded-2xl shadow-none max-h-64 overflow-y-auto"
                 in:scale={{
                   start: 0.98,
                   duration: 140,
@@ -3797,9 +3797,9 @@
               >
                 {#each quickSearchResults as result, index}
                   <button
-                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-muted dark:text-zinc-200 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 {index ===
+                    class="cursor-pointer w-full px-2 py-2 flex flex-row items-center text-fg sm:hover:text-accent {index ===
                     selectedQuickSearchIndex
-                      ? 'text-violet-800 dark:text-violet-400'
+                      ? 'text-accent'
                       : ''}"
                     type="button"
                     on:click={() => selectQuickSearchRule(result)}
@@ -3843,7 +3843,7 @@
             <!-- No results message -->
             {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-none p-4 text-center text-sm text-muted dark:text-white"
+                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-line rounded-2xl shadow-none p-4 text-center text-sm text-fg"
               >
                 No available filters found
               </div>
@@ -3875,7 +3875,7 @@
                 on:click={() => {
                   handleCreateStrategy();
                 }}
-                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-violet-800 dark:hover:text-violet-400 focus:outline-hidden"
+                class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-line bg-surface-page/60 text-fg py-2 pl-3 pr-4 font-semibold transition hover:text-accent focus:outline-hidden"
               >
                 <Copy class="w-4 h-4 inline-block mr-2" />
                 <div>{stock_screener_save_as_new()}</div>
@@ -3886,7 +3886,7 @@
           {#if ruleOfList?.length !== 0}
             <label
               on:click={handleResetAll}
-              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-line bg-surface-page/60 text-fg py-2 pl-3 pr-4 font-semibold transition hover:text-rose-800 dark:hover:text-rose-400 focus:outline-hidden"
             >
               <svg
                 class="h-4 w-4"
@@ -3910,7 +3910,7 @@
         </div>
 
         <div
-          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-gray-300 dark:border-zinc-700"
+          class="sm:grid sm:gap-x-2.5 md:grid-cols-2 lg:grid-cols-3 w-full mt-3 border-t border-b border-line"
         >
           {#each displayRules as row (row?.rule)}
             <!--Start Added Rules-->
@@ -3939,7 +3939,7 @@
               <div class="flex items-center">
                 <button
                   on:click={() => handleDeleteRule(row?.rule)}
-                  class="mr-1.5 cursor-pointer text-muted dark:text-zinc-300 hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
+                  class="mr-1.5 cursor-pointer text-fg-muted hover:text-rose-800 dark:hover:text-rose-400 transition focus:outline-hidden"
                   title="Remove filter"
                   >{#if ruleOfList?.find((item) => item.name === row?.rule)?.value !== "any"}
                     <svg
@@ -3977,7 +3977,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="border border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="border border-line text-fg bg-surface-page/60 h-[35px] flex flex-row justify-between items-center w-[140px] xs:w-[130px] sm:w-[140px] px-3 rounded-full truncate hover:text-accent transition"
                         >
                           <span class="truncate ml-2 text-sm">
                             {#if row?.rule === "excludeTickers"}
@@ -4031,7 +4031,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1.5 text-muted dark:text-zinc-200 shadow-none {row?.rule ===
+                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none {row?.rule ===
                           'excludeTickers' || row?.rule === 'includeTickers'
                           ? 'w-64 max-w-64'
                           : 'w-fit'}"
@@ -4045,7 +4045,7 @@
                                 class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                               >
                                 <svg
-                                  class="h-3.5 w-3.5 text-muted dark:text-white"
+                                  class="h-3.5 w-3.5 text-fg"
                                   fill="none"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -4074,7 +4074,7 @@
                                 }}
                                 on:click|stopPropagation
                                 placeholder="Search ticker..."
-                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-muted dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                class="w-full text-sm border border-line bg-surface-page/60 rounded-2xl text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
                           </DropdownMenu.Label>
@@ -4087,7 +4087,7 @@
                                 class="absolute inset-y-0 left-0 flex items-center pl-2.5"
                               >
                                 <svg
-                                  class="h-3.5 w-3.5 text-muted dark:text-white"
+                                  class="h-3.5 w-3.5 text-fg"
                                   fill="none"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -4116,13 +4116,13 @@
                                 }}
                                 on:click|stopPropagation
                                 placeholder="Search ticker..."
-                                class="w-full text-sm border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl text-muted dark:text-zinc-200 placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                class="w-full text-sm border border-line bg-surface-page/60 rounded-2xl text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
                           </DropdownMenu.Label>
                         {:else if !checkedRules.includes(row?.rule)}
                           <DropdownMenu.Label
-                            class="absolute mt-2 h-11 border-gray-300 dark:border-zinc-700 border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
+                            class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
                           >
                             <div
                               class="flex items-center justify-start gap-x-1"
@@ -4135,7 +4135,7 @@
                                   <DropdownMenu.Trigger asChild let:builder
                                     ><Button
                                       builders={[builder]}
-                                      class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                                      class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-fg hover:text-accent transition"
                                     >
                                       <span class="truncate ml-2 text-sm">
                                         {ruleCondition[ruleName]
@@ -4159,7 +4159,7 @@
                                     </Button>
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content
-                                    class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-2xl"
+                                    class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-line rounded-2xl"
                                   >
                                     <DropdownMenu.Group>
                                       {#each ["Over", "Under", "Between", "Exactly"] as item}
@@ -4190,7 +4190,7 @@
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 0)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-surface-page/60 border border-line"
                                   />
                                   <span class=" text-[1rem] font-normal mt-1">
                                     &
@@ -4205,7 +4205,7 @@
                                       : ""}
                                     on:input={(e) =>
                                       handleValueInput(e, row?.rule, 1)}
-                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                    class="ios-zoom-fix block max-w-[3.5rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-surface-page/60 border border-line"
                                   />
                                 </div>
                               {:else}
@@ -4217,7 +4217,7 @@
                                     : ""}
                                   on:input={(e) =>
                                     handleValueInput(e, row?.rule)}
-                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 dark:border-zinc-700"
+                                  class="ios-zoom-fix block max-w-[4.8rem] rounded-full placeholder-gray-500 dark:placeholder:text-zinc-400 font-normal p-1 text-sm bg-surface-page/60 border border-line"
                                 />
                               {/if}
 
@@ -4291,7 +4291,7 @@
                                 'country',
                               ].includes(row?.rule)
                                 ? 'hidden'
-                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-[#f8fbfb] dark:bg-zinc-950/60 border-b border-gray-300 dark:border-zinc-700
+                                : ''} text-sm p-2 absolute fixed sticky w-full border-0 bg-surface-page/60 border-b border-line
                                       focus:outline-none placeholder:text-muted dark:placeholder:text-zinc-300"
                               placeholder={stock_screener_search_input_placeholder()}
                             />
@@ -4302,7 +4302,7 @@
                             {#if excludeTickerInput.trim().length > 0 && excludeTickerResults.length > 0}
                               {#each excludeTickerResults as result}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                  class="sm:hover:text-accent"
                                 >
                                   <div
                                     class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
@@ -4315,7 +4315,7 @@
                                       >{result?.symbol}</span
                                     >
                                     <span
-                                      class="ml-2 text-xs text-muted dark:text-white truncate"
+                                      class="ml-2 text-xs text-fg truncate"
                                       >{result?.name}</span
                                     >
                                   </div>
@@ -4323,7 +4323,7 @@
                               {/each}
                             {:else if excludeTickerInput.trim().length > 0 && excludeTickerResults.length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-muted dark:text-white"
+                                class="px-3 py-2 text-xs text-fg"
                               >
                                 No results
                               </div>
@@ -4331,11 +4331,11 @@
                             {#if excludeTickerList.length > 0}
                               {#if excludeTickerInput.trim().length > 0}
                                 <div
-                                  class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                  class="border-t border-line my-1.5"
                                 ></div>
                               {/if}
                               <div
-                                class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-muted dark:text-white uppercase"
+                                class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-fg uppercase"
                               >
                                 Excluded Tickers
                               </div>
@@ -4352,7 +4352,7 @@
                                   >
                                     <span class="font-medium">{ticker}</span>
                                     <svg
-                                      class="w-4 h-4 text-muted dark:text-white"
+                                      class="w-4 h-4 text-fg"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -4368,7 +4368,7 @@
                               {/each}
                             {:else if excludeTickerInput.trim().length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-muted dark:text-white"
+                                class="px-3 py-2 text-xs text-fg"
                               >
                                 Search and add tickers to exclude
                               </div>
@@ -4377,7 +4377,7 @@
                             {#if includeTickerInput.trim().length > 0 && includeTickerResults.length > 0}
                               {#each includeTickerResults as result}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                  class="sm:hover:text-accent"
                                 >
                                   <div
                                     class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
@@ -4390,7 +4390,7 @@
                                       >{result?.symbol}</span
                                     >
                                     <span
-                                      class="ml-2 text-xs text-muted dark:text-white truncate"
+                                      class="ml-2 text-xs text-fg truncate"
                                       >{result?.name}</span
                                     >
                                   </div>
@@ -4398,7 +4398,7 @@
                               {/each}
                             {:else if includeTickerInput.trim().length > 0 && includeTickerResults.length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-muted dark:text-white"
+                                class="px-3 py-2 text-xs text-fg"
                               >
                                 No results
                               </div>
@@ -4406,11 +4406,11 @@
                             {#if includeTickerList.length > 0}
                               {#if includeTickerInput.trim().length > 0}
                                 <div
-                                  class="border-t border-gray-200 dark:border-zinc-700 my-1.5"
+                                  class="border-t border-line my-1.5"
                                 ></div>
                               {/if}
                               <div
-                                class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-muted dark:text-white uppercase"
+                                class="px-2 py-1 text-[0.7rem] tracking-wide font-semibold text-fg uppercase"
                               >
                                 Included Tickers
                               </div>
@@ -4427,7 +4427,7 @@
                                   >
                                     <span class="font-medium">{ticker}</span>
                                     <svg
-                                      class="w-4 h-4 text-muted dark:text-white"
+                                      class="w-4 h-4 text-fg"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -4443,7 +4443,7 @@
                               {/each}
                             {:else if includeTickerInput.trim().length === 0}
                               <div
-                                class="px-3 py-2 text-xs text-muted dark:text-white"
+                                class="px-3 py-2 text-xs text-fg"
                               >
                                 Search and add tickers to include
                               </div>
@@ -4453,7 +4453,7 @@
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
                                   <DropdownMenu.Item
-                                    class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                    class="sm:hover:text-accent"
                                   >
                                     <button
                                       on:click={() => {
@@ -4462,7 +4462,7 @@
                                           row?.step[index + 1],
                                         ]);
                                       }}
-                                      class="cursor-pointer block w-full border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                      class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded last:border-0"
                                     >
                                       {ruleCondition[row?.rule]?.replace(
                                         "between",
@@ -4476,13 +4476,13 @@
                                 {/if}
                               {:else}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                  class="sm:hover:text-accent"
                                 >
                                   <button
                                     on:click={() => {
                                       handleChangeValue(newValue);
                                     }}
-                                    class="cursor-pointer block w-full border-b border-gray-300 dark:border-zinc-700 px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                    class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded last:border-0"
                                   >
                                     {ruleCondition[row?.rule]
                                       ?.replace("under", "Under")
@@ -4501,7 +4501,7 @@
                                 ? []
                                 : row?.step ?? []) as item}
                               <DropdownMenu.Item
-                                class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                class="sm:hover:text-accent"
                               >
                                 <div
                                   class="flex items-center cursor-pointer"
@@ -4544,7 +4544,7 @@
                                           ]
                                         : []) as item}
                               <DropdownMenu.Item
-                                class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                                class="sm:hover:text-accent"
                               >
                                 <div
                                   class="flex items-center cursor-pointer"
@@ -4583,7 +4583,7 @@
     class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-gray-300 dark:border-zinc-700 text-muted dark:text-white"
+      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-line text-fg"
     >
       {#if isDataLoading && totalItems === 0}
         <span
@@ -4596,10 +4596,10 @@
       {/if}
     </h2>
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-gray-300 dark:border-zinc-700"
+      class="col-span-2 flex flex-col lg:flex-row items-center lg:order-2 lg:grow py-1.5 border-t border-b border-line"
     >
       <div
-        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-gray-300 dark:border-zinc-700 lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
+        class="w-full flex flex-row lg:flex order-1 items-center ml-auto border-b border-line lg:border-none pb-2 sm:pt-0 lg:pb-0 w-full order-0 lg:order-1"
       >
         <div class="relative lg:ml-auto w-full lg:w-fit">
           <div
@@ -4625,7 +4625,7 @@
             on:input={search}
             type="text"
             placeholder={stock_screener_search_placeholder()}
-            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -4646,7 +4646,7 @@
         <button
           on:click={toggleFullWidth}
           title={isFullWidth ? "Exit full width" : "Expand to full width"}
-          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-violet-800 dark:hover:text-violet-400 flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
             ? 'border-violet-400 dark:border-violet-500'
             : ''}"
         >
@@ -4692,7 +4692,7 @@
           <button
             on:click={resetColumnOrder}
             title="Reset column order"
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -4721,8 +4721,8 @@
               on:click={() => changeTab("general")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 rounded-full border text-sm font-medium transition {displayTableTab ===
               'general'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_general()}
             </button>
@@ -4732,13 +4732,13 @@
               on:click={() => changeTab("filters")}
               class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'filters'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               <span>Filters</span>
               {#if ruleOfList?.length > 0}
                 <div
-                  class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-muted dark:text-zinc-200 rounded-full text-xs font-semibold"
+                  class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-fg rounded-full text-xs font-semibold"
                 >
                   {ruleOfList?.length}
                 </div>
@@ -4750,8 +4750,8 @@
               on:click={() => changeTab("performance")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'performance'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_performance()}
             </button>
@@ -4761,8 +4761,8 @@
               on:click={() => changeTab("analysts")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'analysts'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_analysts()}
             </button>
@@ -4772,8 +4772,8 @@
               on:click={() => changeTab("dividends")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'dividends'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_dividends()}
             </button>
@@ -4783,8 +4783,8 @@
               on:click={() => changeTab("financials")}
               class="cursor-pointer text-sm sm:text-[0.95rem] block rounded-full px-3 py-1 border text-sm font-medium transition {displayTableTab ===
               'financials'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {common_tab_financials()}
             </button>
@@ -4799,10 +4799,10 @@
     {#if totalItems !== 0 || isDataLoading}
       {#if displayTableTab === "general"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
-            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-muted dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
           >
             <thead>
               <TableHeader
@@ -4816,7 +4816,7 @@
               {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                    class="border-b border-line last:border-none"
                   >
                     {#each columns as column}
                       <td
@@ -4839,14 +4839,14 @@
               {/if}
               {#each displayedData as item}
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class="border-b border-line last:border-none"
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -4871,13 +4871,13 @@
                     {:else if column.key === "changesPercentage"}
                       <td class=" text-end text-sm sm:text-[0.95rem]">
                         {#if item?.changesPercentage >= 0}
-                          <span class="text-emerald-800 dark:text-emerald-400"
+                          <span class="text-up"
                             >+{item?.changesPercentage >= 1000
                               ? abbreviateNumber(item?.changesPercentage)
                               : item?.changesPercentage?.toFixed(2)}%</span
                           >
                         {:else}
-                          <span class="text-rose-800 dark:text-rose-400"
+                          <span class="text-down"
                             >{item?.changesPercentage <= -1000
                               ? abbreviateNumber(item?.changesPercentage)
                               : item?.changesPercentage?.toFixed(2)}%
@@ -4917,10 +4917,10 @@
         </div>
       {:else if displayTableTab === "filters"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
-            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-muted dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
           >
             <thead>
               <TableHeader
@@ -4934,7 +4934,7 @@
               {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                    class="border-b border-line last:border-none"
                   >
                     {#each columns as column}
                       <td
@@ -4957,14 +4957,14 @@
               {/if}
               {#each displayedData as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class="border-b border-line last:border-none"
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5022,8 +5022,8 @@
                           {#if column.key in item}
                             <span
                               class={item[column.key] >= 0
-                                ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "before:content-['+'] text-up"
+                                : "text-down"}
                             >
                               {abbreviateNumber(item[column.key])}%
                             </span>
@@ -5043,11 +5043,11 @@
                         {:else if ["score", "analystRating", "topAnalystRating"].includes(column.key)}
                           {#if ["Strong Buy", "Buy"].includes(item[column.key])}
                             <span
-                              class=" text-emerald-800 dark:text-emerald-400"
+                              class=" text-up"
                               >{item[column.key]}</span
                             >
                           {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
-                            <span class=" text-rose-800 dark:text-rose-400"
+                            <span class=" text-down"
                               >{item[column.key]}</span
                             >
                           {:else if item[column.key] === "Hold"}
@@ -5078,10 +5078,10 @@
         </div>
       {:else if displayTableTab === "performance"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
-            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-muted dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
           >
             <thead>
               <TableHeader
@@ -5095,7 +5095,7 @@
               {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                    class="border-b border-line last:border-none"
                   >
                     {#each columns as column}
                       <td
@@ -5118,14 +5118,14 @@
               {/if}
               {#each displayedData as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class="border-b border-line last:border-none"
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5146,13 +5146,13 @@
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if item[column.key] > 0}
-                          <span class="text-emerald-800 dark:text-emerald-400"
+                          <span class="text-up"
                             >+{abbreviateNumber(
                               item[column.key]?.toFixed(2),
                             )}%</span
                           >
                         {:else if item[column.key] < 0}
-                          <span class="text-rose-800 dark:text-rose-400"
+                          <span class="text-down"
                             >{abbreviateNumber(
                               item[column.key]?.toFixed(2),
                             )}%</span
@@ -5174,10 +5174,10 @@
         </div>
       {:else if displayTableTab === "analysts"}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
-            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-muted dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
           >
             <thead>
               <TableHeader
@@ -5191,7 +5191,7 @@
               {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                    class="border-b border-line last:border-none"
                   >
                     {#each columns as column}
                       <td
@@ -5214,14 +5214,14 @@
               {/if}
               {#each displayedData as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class="border-b border-line last:border-none"
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5256,11 +5256,11 @@
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if item[column.key] > 0}
-                          <span class="text-emerald-800 dark:text-emerald-400"
+                          <span class="text-up"
                             >+{item[column.key]?.toFixed(2)}%</span
                           >
                         {:else if item[column.key] < 0}
-                          <span class="text-rose-800 dark:text-rose-400"
+                          <span class="text-down"
                             >{item[column.key]?.toFixed(2)}%</span
                           >
                         {:else if !(column.key in item)}
@@ -5276,11 +5276,11 @@
                         class="whitespace-nowrap text-sm sm:text-[0.95rem] text-end"
                       >
                         {#if ["Strong Buy", "Buy"].includes(item[column.key])}
-                          <span class=" text-emerald-800 dark:text-emerald-400"
+                          <span class=" text-up"
                             >{item[column.key]}</span
                           >
                         {:else if ["Strong Sell", "Sell"].includes(item[column.key])}
-                          <span class=" text-rose-800 dark:text-rose-400"
+                          <span class=" text-down"
                             >{item[column.key]}</span
                           >
                         {:else if item[column.key] === "Hold"}
@@ -5316,10 +5316,10 @@
         </div>
       {:else if ["dividends", "financials"].includes(displayTableTab)}
         <div
-          class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
         >
           <table
-            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-muted dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
           >
             <thead>
               <TableHeader
@@ -5333,7 +5333,7 @@
               {#if isDataLoading && displayedData?.length === 0}
                 {#each Array(10) as _}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                    class="border-b border-line last:border-none"
                   >
                     {#each columns as column}
                       <td
@@ -5356,14 +5356,14 @@
               {/if}
               {#each displayedData as item (item?.symbol)}
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                  class="border-b border-line last:border-none"
                 >
                   {#each columns as column}
                     {#if column.key === "symbol"}
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5423,7 +5423,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-page/60 hover:text-accent flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -5446,7 +5446,7 @@
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-muted dark:text-zinc-300">
+            <span class="text-sm text-fg-muted">
               {stock_screener_pagination_page_of({
                 current: currentPage,
                 total: totalPages,
@@ -5457,7 +5457,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-page/60 hover:text-accent flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{stock_screener_rows_label({ rows: rowsPerPage })}</span
@@ -5483,13 +5483,13 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                      class="sm:hover:text-accent transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}
@@ -5511,7 +5511,7 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:text-violet-800 dark:hover:text-violet-400 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-page/60 hover:text-accent flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline"
                 >{stock_screener_pagination_next()}</span
@@ -5537,7 +5537,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
           >
             {stock_screener_back_to_top()}
             <svg
@@ -5605,23 +5605,23 @@
   ></label>
 
   <div
-    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
 
       <div
-        class="fixed w-full h-fit sticky -top-6 z-40 bg-white dark:bg-zinc-900 pb-6 pt-5 border-gray-300 dark:border-zinc-700 border-b"
+        class="fixed w-full h-fit sticky -top-6 z-40 bg-surface-card pb-6 pt-5 border-line border-b"
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class=" text-[1rem] sm:text-xl font-semibold text-muted dark:text-white"
+            class=" text-[1rem] sm:text-xl font-semibold text-fg"
           >
             {stock_screener_select_filters_title({ count: allRows?.length })}
           </h2>
           <label
             for="ruleModal"
-            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
             aria-label="Close modal"
           >
             <svg
@@ -5671,7 +5671,7 @@
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-accent transition"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -5692,7 +5692,7 @@
             <input
               autocomplete="off"
               id="search"
-              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-[#f8fbfb] dark:bg-zinc-950/60"
+              class="focus:outline-none placeholder-gray-500 dark:placeholder:text-zinc-400 block w-full p-2 ps-10 text-sm border border-line rounded-full bg-surface-page/60"
               placeholder={stock_screener_search_input_placeholder()}
               bind:value={searchTerm}
             />
@@ -5705,7 +5705,7 @@
       <div class="">
         {#each searchTerm?.length !== 0 ? Object.entries(filteredGroupedRules) : Object.entries(groupedRules) as [category, rules]}
           <h4
-            class="mb-1 font-semibold text-lg mt-5 text-muted dark:text-white"
+            class="mb-1 font-semibold text-lg mt-5 text-fg"
           >
             {category}
           </h4>
@@ -5744,7 +5744,7 @@
                     checked={ruleOfList?.find(
                       (rule) => rule?.name === row?.rule,
                     )}
-                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 lg:h-4 lg:w-4"
+                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-surface-card lg:h-4 lg:w-4"
                   />
                   <div class="-mt-0.5">
                     <label for={row?.rule} class="cursor-pointer text-[1rem]"
@@ -5782,7 +5782,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -5790,7 +5790,7 @@
       on:click={() => {
         removeList = false;
       }}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -5804,7 +5804,7 @@
       >
     </label>
     <h1
-      class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
+      class="text-2xl font-semibold tracking-tight text-fg"
     >
       {stock_screener_modal_new_title()}
     </h1>
@@ -5848,7 +5848,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -5856,7 +5856,7 @@
       on:click={() => {
         deleteTargetId = "";
       }}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -5869,10 +5869,10 @@
         /></svg
       >
     </label>
-    <h3 class="text-lg font-medium mb-2 text-muted dark:text-white">
+    <h3 class="text-lg font-medium mb-2 text-fg">
       {stock_screener_modal_delete_title()}
     </h3>
-    <p class="text-sm mb-6 text-muted dark:text-zinc-300">
+    <p class="text-sm mb-6 text-fg-muted">
       {stock_screener_modal_delete_message()}
     </p>
     <div class="flex justify-end space-x-3">
@@ -5883,7 +5883,7 @@
           deleteTargetId = "";
         }}
         class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium
-            transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+            transition-colors duration-100 border border-line bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0">{stock_screener_modal_delete_cancel()}</label
       ><label
         for="deleteStrategy"
@@ -5928,11 +5928,11 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="mobileTooltip"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -5946,26 +5946,26 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3 class="font-semibold text-2xl mb-5 text-muted dark:text-white">
+      <h3 class="font-semibold text-2xl mb-5 text-fg">
         {tooltipTitle}
       </h3>
-      <span class=" text-[1rem] font-normal text-muted dark:text-zinc-300"
+      <span class=" text-[1rem] font-normal text-fg-muted"
         >{infoText?.text ?? "n/a"}</span
       >
       {#if infoText?.equation !== undefined}
         <div class="w-5/6 m-auto mt-5"></div>
         <div
-          class="text-[1rem] w-full pt-3 pb-3 m-auto text-muted dark:text-zinc-300"
+          class="text-[1rem] w-full pt-3 pb-3 m-auto text-fg-muted"
         >
           {infoText?.equation}
         </div>
       {/if}
     </div>
 
-    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
+    <div class="border-t border-line mt-2 w-full">
       <label
         for="mobileTooltip"
-        class="cursor-pointer mt-4 font-semibold text-xl m-auto flex justify-center text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="cursor-pointer mt-4 font-semibold text-xl m-auto flex justify-center text-fg hover:text-accent transition"
       >
         Close
       </label>

@@ -1611,19 +1611,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{compare_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-white">Compare ETFs</li>
+    <li class="text-fg">Compare ETFs</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -1632,9 +1632,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {tickerList?.length === 0
                 ? "Compare ETFs"
@@ -1679,7 +1679,7 @@
                       disabled={tickerList?.length > 10 ? true : false}
                       class="{tickerList?.length > 10
                         ? 'cursor-not-allowed'
-                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                        : ''} text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder={compare_search_placeholder()}
                       aria-label={compare_search_placeholder()}
                     />
@@ -1688,13 +1688,13 @@
                   <Combobox.Content
                     class="z-10 w-full {inputValue?.length > 0
                       ? ''
-                      : 'hidden'} rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none outline-hidden"
+                      : 'hidden'} rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => addTicker(searchItem)}
@@ -1702,27 +1702,27 @@
                           <div
                             class="flex flex-col sm:flex-row items-start sm:items-center"
                           >
-                            <span class="text-sm text-muted dark:text-white"
+                            <span class="text-sm text-fg"
                               >{searchItem?.symbol}</span
                             >
                             <span
-                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-muted dark:text-white"
+                              class="ml-0 sm:ml-2 text-xs sm:text-sm text-fg"
                               >{searchItem?.name}</span
                             >
                           </div>
                         </Combobox.Item>
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-muted dark:text-white"
+                          class="block px-5 py-2 text-sm text-fg"
                         >
                           {compare_no_results()}
                         </span>
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class="text-sm text-muted dark:text-white">
+                        <span class="text-sm text-fg">
                           {inputValue?.length > 0
                             ? compare_no_results()
                             : compare_start_searching()}
@@ -1739,7 +1739,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full min-w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full min-w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-sm"
                           >{selectedPlotCategory?.name}</span
@@ -1764,15 +1764,15 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-full max-w-80 sm:w-64 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-full max-w-80 sm:w-64 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each categoryList as item}
                           <DropdownMenu.Item
                             on:click={() => changeCategory(item)}
                             class="{selectedPlotCategory?.name === item?.name
-                              ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-muted dark:text-white'
-                              : ''} cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-fg'
+                              : ''} cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             {item?.name}
                           </DropdownMenu.Item>
@@ -1785,7 +1785,7 @@
               <div class="w-full">
                 {#each tickerList as t, i}
                   <span
-                    class="inline-flex items-center gap-x-2 mb-1.5 sm:mt-0 mr-2 px-2 py-1 text-xs sm:text-sm font-semibold rounded-full border border-gray-300 shadow dark:border-zinc-700 border-l-4 bg-[#f8fbfb] dark:bg-zinc-900/50"
+                    class="inline-flex items-center gap-x-2 mb-1.5 sm:mt-0 mr-2 px-2 py-1 text-xs sm:text-sm font-semibold rounded-full border border-gray-300 shadow dark:border-zinc-700 border-l-4 bg-surface-raised/50"
                     style="border-left-color: {colorPairs[
                       i % colorPairs?.length
                     ][$mode ? 'dark' : 'light']}"
@@ -1825,7 +1825,7 @@
               <div class="relative mt-2">
                 <div class="absolute left-4 top-3.5 z-10">
                   <div
-                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40"
                   >
                     {#each ["1Y", "3Y", "5Y", "Max"] as item}
                       <button
@@ -1833,7 +1833,7 @@
                         class="cursor-pointer font-medium rounded-full px-3 py-1 text-xs focus:z-10 focus:outline-none transition-all {selectedPlotPeriod ===
                         item
                           ? 'bg-black shadow-sm dark:bg-zinc-800 text-white'
-                          : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                          : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                       >
                         {item}
                       </button>
@@ -1854,7 +1854,7 @@
                     class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
-                      class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                      class="loading loading-spinner loading-md text-fg"
                     ></span>
                   </label>
                 </div>
@@ -1882,7 +1882,7 @@
             {#if configReturn && isLoaded && tickerList?.length > 0}
               <div class="mt-8 -mb-2 flex items-center gap-x-1">
                 <h2
-                  class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                 >
                   {compare_average_return()}
                 </h2>
@@ -1902,7 +1902,7 @@
                   <table class="w-full">
                     <thead
                       ><tr
-                        class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="border-b border-line text-left *:px-2 *:py-1 *:font-semibold text-xs uppercase tracking-wide text-fg-muted"
                         ><th class="text-left">{compare_table_symbol()}</th>
                         <th>{compare_table_1month()}</th>
                         <th>{compare_table_ytd()}</th>
@@ -1914,7 +1914,7 @@
                     <tbody>
                       {#each tickerList as ticker, idx}
                         <tr
-                          class="border-b border-gray-300 dark:border-zinc-700 text-left *:px-2 *:py-1 last:border-0 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+                          class="border-b border-line text-left *:px-2 *:py-1 last:border-0 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                         >
                           <td class="flex items-center gap-x-1">
                             <div
@@ -1925,7 +1925,7 @@
                             ></div>
                             <a
                               href={`/etf/${ticker}/`}
-                              class="font-semibold text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                              class="font-semibold text-fg hover:text-accent"
                             >
                               {ticker}
                             </a>
@@ -1952,7 +1952,7 @@
                     class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
-                      class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                      class="loading loading-spinner loading-md text-fg"
                     ></span>
                   </label>
                 </div>
@@ -1963,7 +1963,7 @@
               <div class="mt-8">
                 <div class="flex items-center">
                   <h2
-                    class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                    class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                   >
                     Overlapping Holdings
                   </h2>
@@ -1982,10 +1982,10 @@
                     class="items-center lg:overflow-visible px-1 py-1 mt-2 mb-2"
                   >
                     <div
-                      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
                     >
                       <h2
-                        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
                       >
                         {overlapFilteredRows?.length?.toLocaleString("en-US")}
                         Stocks
@@ -2021,7 +2021,7 @@
                             on:input={overlapSearch}
                             type="text"
                             placeholder="Find..."
-                            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                           />
                         </div>
 
@@ -2033,7 +2033,7 @@
                               if (overlapViewMode === "chart")
                                 overlapChartConfig = buildOverlapChartConfig();
                             }}
-                            class="sm:ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                            class="sm:ml-2 shrink-0 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                           >
                             {#if overlapViewMode === "chart"}
                               <TableIcon class="w-4 h-4" />
@@ -2057,7 +2057,7 @@
                             <button
                               on:click={resetOverlapColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -2095,7 +2095,7 @@
                             class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                           >
                             <span
-                              class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                              class="loading loading-spinner loading-md text-fg"
                             ></span>
                           </label>
                         </div>
@@ -2121,21 +2121,21 @@
                             {#if overlapPaginatedRows.length > 0}
                               {#each overlapPaginatedRows as row, rowIndex}
                                 <tr
-                                  class="border-b text-sm border-gray-300 dark:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
+                                  class="border-b text-sm border-line hover:bg-gray-50/80 dark:hover:bg-zinc-900/60"
                                 >
                                   {#each overlapColumns as column}
                                     {#if column.key === "symbol"}
                                       <td>
                                         <a
                                           href={`/stocks/${row?.symbol}/`}
-                                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                          class="font-medium text-fg transition-colors hover:text-accent transition"
                                         >
                                           {row?.symbol}
                                         </a>
                                       </td>
                                     {:else if column.key === "name"}
                                       <td
-                                        class="max-w-[250px] truncate text-muted dark:text-zinc-200"
+                                        class="max-w-[250px] truncate text-fg"
                                         title={row?.name}
                                       >
                                         {row?.name || "-"}
@@ -2162,7 +2162,7 @@
                               <tr>
                                 <td
                                   colspan={overlapColumns.length}
-                                  class="px-4 py-5 text-sm text-center text-muted dark:text-white"
+                                  class="px-4 py-5 text-sm text-center text-fg"
                                 >
                                   {overlapSearchValue?.length > 0
                                     ? "No results found."
@@ -2193,7 +2193,7 @@
 
             <div class="mt-6 md:mt-10">
               <h3
-                class="font-semibold tracking-tight text-muted dark:text-white text-xl md:text-2xl"
+                class="font-semibold tracking-tight text-fg text-xl md:text-2xl"
               >
                 {compare_etfs_popular_comparisons()}
               </h3>
@@ -2201,7 +2201,7 @@
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
                   {#each popularComparisons as pair}
                     <a
-                      class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                      class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                       on:click={() => presetStrategy(pair)}
                       >{pair[0]} vs. {pair[1]}</a
                     >
@@ -2224,7 +2224,7 @@
 
             <div class="mt-6 md:mt-10">
               <h3
-                class="font-semibold tracking-tight text-muted dark:text-white text-xl md:text-2xl"
+                class="font-semibold tracking-tight text-fg text-xl md:text-2xl"
               >
                 {compare_etfs_popular_comparisons()}
               </h3>
@@ -2232,7 +2232,7 @@
                 <div class="grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-4">
                   {#each popularComparisons as pair}
                     <a
-                      class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
+                      class="cursor-pointer flex justify-center rounded-full border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 px-2 py-2 text-sm font-semibold hover:bg-white dark:hover:bg-zinc-900 transition md:text-base"
                       on:click={() => presetStrategy(pair)}
                       >{pair[0]} vs. {pair[1]}</a
                     >

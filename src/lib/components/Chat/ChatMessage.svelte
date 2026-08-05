@@ -202,7 +202,7 @@
 </script>
 
 <div
-  class="flex m-auto mb-6 w-full max-w-[1000px] text-muted dark:text-zinc-200 {assistant
+  class="flex m-auto mb-6 w-full max-w-[1000px] text-fg {assistant
     ? 'text-sm'
     : 'text-sm sm:text-[1rem]'}"
   class:justify-end={message.role === "user"}
@@ -225,12 +225,12 @@
           : 'ml-auto group/turn-messages max-w-[80%]'
         : message?.role === 'system'
           ? 'mr-auto w-full bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5'
-          : 'mr-auto w-fit border-b rounded-none border-gray-300 dark:border-zinc-700'}"
+          : 'mr-auto w-fit border-b rounded-none border-line'}"
     >
       {#if isLoading}
         <div class="py-3">
           <div
-            class="text-sm sm:text-[1rem] text-muted dark:text-white shimmer-text"
+            class="text-sm sm:text-[1rem] text-fg shimmer-text"
           >
             {$chatReasoning
               ? "Thinking very hard..."
@@ -241,12 +241,12 @@
         <div class="w-full {message?.role === 'system' ? 'space-y-4' : ''}">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-[#f8fbfb] dark:bg-zinc-950/60"
+              class="p-3 border border-line rounded-2xl bg-surface-page/60"
             >
               <textarea
                 bind:this={textareaElement}
                 bind:value={editedContent}
-                class="w-full min-w-[240px] h-auto resize-none border-0 bg-transparent text-sm text-muted dark:text-zinc-200 placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none overflow-hidden transition-[height] duration-150"
+                class="w-full min-w-[240px] h-auto resize-none border-0 bg-transparent text-sm text-fg placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none overflow-hidden transition-[height] duration-150"
                 placeholder="Edit your message..."
                 on:input={(e) => autoResize(e.target)}
                 use:focus
@@ -257,7 +257,7 @@
                     dispatch("cancel-edit");
                     editedContent = "";
                   }}
-                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-line bg-white/70 dark:bg-zinc-950/40 text-fg transition sm:hover:text-accent"
                   >Cancel</button
                 >
                 <button
@@ -269,7 +269,7 @@
                       });
                     }
                   }}
-                  class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition hover:opacity-90"
+                  class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-line bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition hover:opacity-90"
                   >Save & Regenerate</button
                 >
               </div>
@@ -347,7 +347,7 @@
               <!-- Copy button -->
               <button
                 on:click={handleCopyPrompt}
-                class="cursor-pointer rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-white transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-violet-800 dark:hover:text-violet-400"
+                class="cursor-pointer rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
                 aria-label="Copy"
                 aria-selected="false"
                 data-testid="copy-turn-action-button"
@@ -378,7 +378,7 @@
                     dispatch("start-edit", { index });
                     editedContent = message?.content || "";
                   }}
-                  class="cursor-pointer rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-white transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
                   aria-label="Edit message"
                   aria-selected="false"
                   data-state="closed"

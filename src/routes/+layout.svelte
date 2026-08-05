@@ -664,17 +664,17 @@
             <Button
               builders={[builder]}
               size="icon"
-              class="group rounded-full bg-transparent dark:bg-[#131214] text-muted dark:text-zinc-300 sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
+              class="group rounded-full bg-transparent dark:bg-[#131214] text-fg-muted sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
             >
               <Menu
-                class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-muted dark:text-zinc-300 transition group-hover:text-violet-500 dark:group-hover:text-violet-400"
+                class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-fg-muted transition group-hover:text-accent"
               />
               <span class="sr-only">{layout_toggle_menu()}</span>
             </Button>
           </Sheet.Trigger>
           <Sheet.Content
             side="left"
-            class="max-w-screen w-full sm:max-w-xs bg-white/95 dark:bg-[#131214] backdrop-blur overflow-y-auto text-muted dark:text-zinc-200"
+            class="max-w-screen w-full sm:max-w-xs bg-white/95 dark:bg-[#131214] backdrop-blur overflow-y-auto text-fg"
           >
             <nav class=" grid gap-6 text-lg">
               <Sheet.Close asChild let:builder>
@@ -684,7 +684,7 @@
                 >
                   <a
                     href={localHref("/")}
-                    class="flex items-center gap-4 px-0.5 text-muted dark:text-white text-lg sm:text-xl font-semibold tracking-tight"
+                    class="flex items-center gap-4 px-0.5 text-fg text-lg sm:text-xl font-semibold tracking-tight"
                   >
                     <img
                       class="avatar w-9 sm:w-10 rounded-full"
@@ -699,7 +699,7 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="rounded-full w-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 transition"
+                  class="rounded-full w-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 transition"
                 >
                   <a
                     class="cursor-pointer w-full flex justify-start items-start"
@@ -728,14 +728,14 @@
                     class="w-full group flex flex-row items-center mr-auto mt-5"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <Home
-                        class="h-6 w-6 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                        class="h-6 w-6 mr-3 text-fg group-hover:text-accent transition ml-1"
                       />
                     </div>
                     <span
-                      class="ml-1 mr-auto text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-1 mr-auto text-sm font-semibold tracking-tight text-fg group-hover:text-accent transition"
                       >{layout_home()}</span
                     >
                   </a>
@@ -746,15 +746,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Stock
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_stocks()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -765,7 +765,7 @@
                           >
                             <a
                               href={localHref("/industry")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_by_industry()}</a
                             >
                           </Button>
@@ -777,7 +777,7 @@
                           >
                             <a
                               href={localHref("/market-mover/gainers")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_market_mover()}</a
                             >
                           </Button>
@@ -789,7 +789,7 @@
                           >
                             <a
                               href={localHref("/stocks/heatmap")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_market_heatmap()}</a
                             >
                           </Button>
@@ -801,7 +801,7 @@
                           >
                             <a
                               href={localHref("/stocks/compare")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
                           </Button>
@@ -813,7 +813,7 @@
                           >
                             <a
                               href={localHref("/list")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
                             >
                           </Button>
@@ -828,15 +828,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Layers
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_etfs()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -847,7 +847,7 @@
                           >
                             <a
                               href={localHref("/etf/etf-providers")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
                             >
                           </Button>
@@ -858,7 +858,7 @@
                           >
                             <a
                               href={localHref("/etf/heatmap")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
                           </Button>
@@ -869,7 +869,7 @@
                           >
                             <a
                               href={localHref("/etf/compare")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_comparison_tool()}</a
                             >
                           </Button>
@@ -880,7 +880,7 @@
                           >
                             <a
                               href={localHref("/etf/new-launches")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_new_launches()}</a
                             >
                           </Button>
@@ -895,15 +895,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Analyst
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_analyst()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -914,7 +914,7 @@
                           >
                             <a
                               href={localHref("/analysts")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_top_analysts()}</a
                             >
                           </Button>
@@ -925,7 +925,7 @@
                           >
                             <a
                               href={localHref("/analysts/top-stocks")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_top_analyst_stocks()}</a
                             >
                           </Button>
@@ -937,7 +937,7 @@
                           >
                             <a
                               href={localHref("/analysts/analyst-flow")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_analyst_live_flow()}</a
                             >
                           </Button>
@@ -952,15 +952,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Calendar
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_calendar()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -971,7 +971,7 @@
                           >
                             <a
                               href={localHref("/dividends-calendar")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_dividends_calendar()}</a
                             >
                           </Button>
@@ -982,7 +982,7 @@
                           >
                             <a
                               href={localHref("/earnings-calendar")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_earnings_calendar()}</a
                             >
                           </Button>
@@ -994,7 +994,7 @@
                           >
                             <a
                               href={localHref("/ipos")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_ipo_calendar()}</a
                             >
                           </Button>
@@ -1006,7 +1006,7 @@
                           >
                             <a
                               href={localHref("/economic-calendar")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_economic_calendar()}</a
                             >
                           </Button>
@@ -1018,7 +1018,7 @@
                           >
                             <a
                               href={localHref("/economic-indicator")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >Economic Indicator</a
                             >
                           </Button>
@@ -1031,7 +1031,7 @@
                           >
                             <a
                               href={localHref("/stock-splits-calendar")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >Stock Splits Calendar</a
                             >
                              
@@ -1048,15 +1048,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <HandShake
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_congress()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -1067,7 +1067,7 @@
                           >
                             <a
                               href={localHref("/politicians/flow-data")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_congress_flow()}</a
                             >
                           </Button>
@@ -1078,7 +1078,7 @@
                           >
                             <a
                               href={localHref("/politicians")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_all_politicians()}</a
                             >
                           </Button>
@@ -1093,15 +1093,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Flow
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_flow_feed()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -1112,7 +1112,7 @@
                           >
                             <a
                               href={localHref("/market-flow")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_market_flow()}</a
                             >
                           </Button>
@@ -1124,7 +1124,7 @@
                           >
                             <a
                               href={localHref("/news-flow")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-2"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-2"
                               >{layout_news_flow()}</a
                             >
                           </Button>
@@ -1136,7 +1136,7 @@
                           >
                             <a
                               href={localHref("/options-flow")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_options_flow()}</a
                             >
                           </Button>
@@ -1147,7 +1147,7 @@
                           >
                             <a
                               href={localHref("/unusual-order-flow")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_unusual_order_flow()}</a
                             >
                           </Button>
@@ -1162,15 +1162,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Screener
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_screener()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -1181,7 +1181,7 @@
                           >
                             <a
                               href={localHref("/stocks/screener")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_stock_screener()}</a
                             >
                           </Button>
@@ -1196,7 +1196,7 @@
                           >
                             <a
                               href={localHref("/etf/screener")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >
                           </Button>
@@ -1211,7 +1211,7 @@
                           >
                             <a
                               href={localHref("/options-screener")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_options_screener()}</a
                             >
                           </Button>
@@ -1220,7 +1220,7 @@
 
                       <div class="ml-4 mt-5">
                         <span
-                          class="text-xs font-semibold uppercase tracking-wider text-muted dark:text-white"
+                          class="text-xs font-semibold uppercase tracking-wider text-fg"
                           >{layout_income_strategy()}</span
                         >
                       </div>
@@ -1233,7 +1233,7 @@
                           >
                             <a
                               href={localHref("/covered-call-screener")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_covered_call_screener()}</a
                             >
                           </Button>
@@ -1248,7 +1248,7 @@
                           >
                             <a
                               href={localHref("/cash-secured-put-screener")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_cash_secured_put_screener()}</a
                             >
                           </Button>
@@ -1263,15 +1263,15 @@
                 <Accordion.Root class="w-full">
                   <Accordion.Item value="item-1">
                     <Accordion.Trigger
-                      class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="group text-sm font-semibold tracking-tight text-fg hover:text-accent transition"
                     >
                       <Tools
-                        class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                        class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                       />
                       <span class="ml-1 mr-auto">{layout_tools()}</span>
                     </Accordion.Trigger>
                     <Accordion.Content
-                      class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                      class="border-l border-line ml-2 mt-5"
                     >
                       <Sheet.Close asChild let:builder>
                         <div class="flex flex-col items-start">
@@ -1282,7 +1282,7 @@
                           >
                             <a
                               href={localHref("/options-calculator")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_options_calculator()}</a
                             >
                           </Button>
@@ -1298,7 +1298,7 @@
                           >
                             <a
                               href={localHref("/potus-tracker")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_potus_tracker()}</a
                             >
                           </Button>
@@ -1314,7 +1314,7 @@
                           >
                             <a
                               href={localHref("/insider-tracker")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_insider_tracker()}</a
                             >
                           </Button>
@@ -1330,7 +1330,7 @@
                           >
                             <a
                               href={localHref("/reddit-tracker")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_reddit_tracker()}</a
                             >
                           </Button>
@@ -1346,7 +1346,7 @@
                           >
                             <a
                               href={localHref("/etf-reverse-lookup")}
-                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-start w-full text-[0.95rem] text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_reverse_lookup()}</a
                             >
                           </Button>
@@ -1369,14 +1369,14 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <Boxes
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                          class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-fg group-hover:text-accent transition"
                         >{layout_hedge_funds()}</span
                       >
                     </div>
@@ -1396,14 +1396,14 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <ChartNoAxes
-                          class="size-6 mr-3 flex-shrink-0 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1"
+                          class="size-6 mr-3 flex-shrink-0 text-fg group-hover:text-accent transition ml-1"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-fg group-hover:text-accent transition"
                         >Pro Chart</span
                       >
                     </div>
@@ -1423,14 +1423,14 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <Newspaper
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                          class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auot text-sm font-semibold tracking-tight text-fg group-hover:text-accent transition"
                         >{layout_market_news()}</span
                       >
                     </div>
@@ -1456,14 +1456,14 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <BookOpen
-                          class="h-5.5 w-5.5 mr-3 text-muted dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition ml-1 flex-shrink-0"
+                          class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
                         />
                       </div>
                       <span
-                        class="ml-1 mr-auto text-sm font-semibold tracking-tight text-muted dark:text-zinc-200 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                        class="ml-1 mr-auto text-sm font-semibold tracking-tight text-fg group-hover:text-accent transition"
                         >{data?.hasDailyBriefing && data?.isPreMarket
                           ? layout_daily_briefing()
                           : layout_learning_center()}</span
@@ -1496,7 +1496,7 @@
             alt={layout_logo_alt()}
           />
           <span
-            class="text-muted dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition font-semibold tracking-tight ml-2 text-xl"
+            class="text-fg sm:hover:text-accent transition font-semibold tracking-tight ml-2 text-xl"
             >Stocknear</span
           >
         </a>
@@ -1515,7 +1515,7 @@
             <div class="hidden shrink-0 sm:inline-flex">
               <a
                 href={localHref("/register")}
-                class="inline-flex items-center whitespace-nowrap justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-control bg-accent px-4 text-sm font-medium text-accent-fg transition-colors hover:bg-accent-hover"
               >
                 {layout_start_trial()}
               </a>
@@ -1533,7 +1533,7 @@
                     builders={[builder]}
                   >
                     <svg
-                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-muted dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                      class="h-[28px] w-[28px] overflow-hidden rounded-full text-fg sm:hover:text-accent"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       ><path
@@ -1548,11 +1548,11 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200 shadow-none"
+                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-fg shadow-none"
                 >
                   <a href={localHref("/profile")} class="cursor-pointer">
                     <DropdownMenu.Item
-                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition cursor-pointer"
                     >
                       {layout_my_account()}
                     </DropdownMenu.Item>
@@ -1567,7 +1567,7 @@
                       class="w-full text-start cursor-pointer"
                     >
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition cursor-pointer"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition cursor-pointer"
                       >
                         <svg
                           class="lucide lucide-log-out mr-2 w-3.5 h-3.5 transform scale-x-[-1]"
@@ -1593,7 +1593,7 @@
             {:else}
               <a
                 href={localHref("/login")}
-                class="inline-flex items-center justify-center rounded-full bg-gray-900 text-white px-4 py-2 text-sm font-semibold transition hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="inline-flex h-9 items-center justify-center rounded-control px-3 text-sm font-medium text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg"
               >
                 {layout_login()}
               </a>
@@ -1616,7 +1616,7 @@
                     class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                   >
                     <div
-                      class="shadow px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 transition"
+                      class="shadow px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-line bg-white/70 dark:bg-zinc-900/50 transition"
                     >
                       <Plus class="w-4 h-4 inline-block mr-2" />
                       <span class="font-semibold">
@@ -1630,12 +1630,12 @@
                     class="group flex flex-row items-center ml-9 w-full"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <Home class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-accent transition"
                       >{layout_home()}</span
                     >
                   </a>
@@ -1644,11 +1644,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Stock class="h-5.5 w-5.5" />
                             </div>
@@ -1656,36 +1656,36 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/industry")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_by_industry()}</a
                             >
 
                             <a
                               href={localHref("/market-mover/gainers")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_market_mover()}</a
                             >
 
                             <a
                               href={localHref("/stocks/heatmap")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_market_heatmap()}</a
                             >
 
                             <a
                               href={localHref("/stocks/compare")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
 
                             <a
                               href={localHref("/list")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_stock_lists()}</a
                             >
                           </div>
@@ -1698,11 +1698,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Layers class="h-5.5 w-5.5" />
                             </div>
@@ -1710,27 +1710,27 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/etf/etf-providers")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_providers()}</a
                             >
                             <a
                               href={localHref("/etf/heatmap")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_heatmap()}</a
                             >
                             <a
                               href={localHref("/etf/compare")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_comparison_tool()}</a
                             >
                             <a
                               href={localHref("/etf/new-launches")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_new_launches()}</a
                             >
                           </div>
@@ -1743,11 +1743,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Analyst class="h-5.5 w-5.5" />
                             </div>
@@ -1755,23 +1755,23 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/analysts")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_top_analysts()}</a
                             >
                             <a
                               href={localHref("/analysts/top-stocks")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_top_analyst_stocks()}</a
                             >
 
                             <a
                               href={localHref("/analysts/analyst-flow")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_analyst_live_flow()}</a
                             >
                           </div>
@@ -1784,11 +1784,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Calendar class="h-5.5 w-5.5" />
                             </div>
@@ -1796,35 +1796,35 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/dividends-calendar")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_dividends_calendar()}</a
                             >
                             <a
                               href={localHref("/earnings-calendar")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_earnings_calendar()}</a
                             >
                             <!--
                           <a
                             href={localHref("/fda-calendar")}
-                            class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                            class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                             >FDA Calendar</a
                           >
                             -->
 
                             <a
                               href={localHref("/ipos")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_ipo_calendar()}</a
                             >
                             <a
                               href={localHref("/economic-calendar")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_economic_calendar()}</a
                             >
                           </div>
@@ -1837,11 +1837,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <HandShake class="h-5.5 w-5.5" />
                             </div>
@@ -1850,18 +1850,18 @@
                         </Accordion.Trigger>
 
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <div class="flex flex-col items-start">
                               <a
                                 href={localHref("/politicians/flow-data")}
-                                class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                                class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                                 >{layout_congress_flow()}</a
                               >
                               <a
                                 href={localHref("/politicians")}
-                                class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                                class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                                 >{layout_all_politicians()}</a
                               >
                             </div>
@@ -1875,11 +1875,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Flow class="h-5.5 w-5.5" />
                             </div>
@@ -1887,29 +1887,29 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/market-flow")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_market_flow()}</a
                             >
 
                             <a
                               href={localHref("/news-flow")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_news_flow()}</a
                             >
 
                             <a
                               href={localHref("/options-flow")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_options_flow()}</a
                             >
                             <a
                               href={localHref("/unusual-order-flow")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_unusual_order_flow()}</a
                             >
                           </div>
@@ -1922,11 +1922,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Screener class="h-5.5 w-5.5" />
                             </div>
@@ -1934,40 +1934,40 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/stocks/screener")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_stock_screener()}</a
                             >
 
                             <a
                               href={localHref("/etf/screener")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_screener()}</a
                             >
 
                             <a
                               href={localHref("/options-screener")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_options_screener()}</a
                             >
 
                             <span
-                              class="text-xs font-semibold uppercase tracking-wider text-muted dark:text-white ml-4 mt-6"
+                              class="text-xs font-semibold uppercase tracking-wider text-fg ml-4 mt-6"
                               >{layout_income_strategy()}</span
                             >
 
                             <a
                               href={localHref("/covered-call-screener")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_covered_call_screener()}</a
                             >
                             <a
                               href={localHref("/cash-secured-put-screener")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_cash_secured_put_screener()}</a
                             >
                           </div>
@@ -1980,11 +1980,11 @@
                     <Accordion.Root class="w-full">
                       <Accordion.Item value="item-1">
                         <Accordion.Trigger
-                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="group text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 hover:text-accent transition"
                         >
                           <div class="flex items-center mr-auto">
                             <div
-                              class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                              class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                             >
                               <Tools class="h-5.5 w-5.5" />
                             </div>
@@ -1992,33 +1992,33 @@
                           </div>
                         </Accordion.Trigger>
                         <Accordion.Content
-                          class="border-l border-gray-300 dark:border-zinc-700 ml-2 mt-5"
+                          class="border-l border-line ml-2 mt-5"
                         >
                           <div class="flex flex-col items-start">
                             <a
                               href={localHref("/options-calculator")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_options_calculator()}</a
                             >
 
                             <a
                               href={localHref("/potus-tracker")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_potus_tracker()}</a
                             >
                             <a
                               href={localHref("/insider-tracker")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_insider_tracker()}</a
                             >
                             <a
                               href={localHref("/reddit-tracker")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_reddit_tracker()}</a
                             >
                             <a
                               href={localHref("/etf-reverse-lookup")}
-                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              class="text-[0.95rem] font-medium text-fg-muted hover:text-accent transition ml-4 mt-4"
                               >{layout_etf_reverse_lookup()}</a
                             >
                           </div>
@@ -2032,12 +2032,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <Boxes class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-accent transition"
                       >{layout_hedge_funds()}</span
                     >
                   </a>
@@ -2047,12 +2047,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <ChartNoAxes class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-accent transition"
                       >Pro Chart</span
                     >
                   </a>
@@ -2062,12 +2062,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <Newspaper class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-accent transition"
                       >{layout_market_news()}</span
                     >
                   </a>
@@ -2083,12 +2083,12 @@
                     class="group flex flex-row items-center ml-9 w-full mt-3"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-100 group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <BookOpen class="h-5.5 w-5.5" />
                     </div>
                     <span
-                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+                      class="ml-3 text-sm font-semibold tracking-tight text-muted dark:text-zinc-100 group-hover:text-accent transition"
                       >{data?.hasDailyBriefing && data?.isPreMarket
                         ? layout_daily_briefing()
                         : layout_learning_center()}</span

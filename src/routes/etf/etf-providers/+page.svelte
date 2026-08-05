@@ -361,15 +361,15 @@
   }}
 />
 
-<section class="w-full overflow-hidden m-auto text-muted dark:text-zinc-200">
+<section class="w-full overflow-hidden m-auto text-fg">
   <Infobox text={etf_providers_infobox()} />
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-300 dark:border-zinc-700"
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
       >
         {etf_providers_count({
           count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -402,7 +402,7 @@
             bind:value={inputValue}
             on:input={search}
             placeholder={etf_search_placeholder()}
-            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -414,7 +414,7 @@
           <button
             on:click={resetColumnOrder}
             title="Reset column order"
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -456,41 +456,41 @@
               {#each etfProviderList as item}
                 <!-- row -->
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                  class="border-b border-line hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                 >
                   {#each columns as column}
                     {#if column.key === "name"}
                       <td
-                        class="text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
+                        class="text-sm text-fg whitespace-nowrap"
                       >
                         <a
                           href={"/etf/etf-providers/" + item?.name}
-                          class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {formatETFName(item?.name)}
                         </a>
                       </td>
                     {:else if column.key === "totalAssets"}
                       <td
-                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                       >
                         {abbreviateNumber(item?.totalAssets)}
                       </td>
                     {:else if column.key === "funds"}
                       <td
-                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                       >
                         {item?.funds}
                       </td>
                     {:else if column.key === "avgExpenseRatio"}
                       <td
-                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                       >
                         {item?.avgExpenseRatio}%
                       </td>
                     {:else if column.key === "avgHoldings"}
                       <td
-                        class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                        class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                       >
                         {item?.avgHoldings}
                       </td>

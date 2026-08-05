@@ -474,7 +474,7 @@ ${summaryData.investorTakeaway}
     >
       <!-- Modal Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-[#09090B] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-300 dark:border-zinc-700"
+        class="sticky top-0 z-10 bg-white dark:bg-[#09090B] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-line"
       >
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
@@ -498,7 +498,7 @@ ${summaryData.investorTakeaway}
             </div>
             <div class="min-w-0 flex-1">
               <h2
-                class="text-base sm:text-lg md:text-xl font-semibold text-muted dark:text-white truncate"
+                class="text-base sm:text-lg md:text-xl font-semibold text-fg truncate"
               >
                 {stock_detail_ai_financial_analysis()}
               </h2>
@@ -540,16 +540,16 @@ ${summaryData.investorTakeaway}
         {#if isLoadingSummary}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
             <label
-              class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
+              class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
             >
               <span
-                class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                class="loading loading-spinner loading-md text-fg"
               ></span>
             </label>
-            <p class="text-sm text-muted dark:text-zinc-200 font-medium">
+            <p class="text-sm text-fg font-medium">
               {stock_detail_ai_analyzing_data()}
             </p>
-            <p class="text-xs text-muted dark:text-white">
+            <p class="text-xs text-fg">
               {stock_detail_ai_extracting_insights({
                 statement: getStatementLabel(statementType).toLowerCase(),
               })}
@@ -611,7 +611,7 @@ ${summaryData.investorTakeaway}
                       ></div>
                     </div>
                     <span
-                      class="text-lg sm:text-xl font-bold text-muted dark:text-white"
+                      class="text-lg sm:text-xl font-bold text-fg"
                     >
                       {summaryData.healthScore}%
                     </span>
@@ -621,7 +621,7 @@ ${summaryData.investorTakeaway}
               <div class="flex items-center gap-2">
                 <button
                   on:click={copyToClipboard}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-line-strong rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -640,7 +640,7 @@ ${summaryData.investorTakeaway}
                 </button>
                 <button
                   on:click={downloadMarkdown}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-line-strong rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -683,7 +683,7 @@ ${summaryData.investorTakeaway}
                 </svg>
               </div>
               <h4
-                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                class="text-sm sm:text-base font-semibold text-fg"
               >
                 {stock_detail_ai_executive_summary()}
               </h4>
@@ -719,7 +719,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     {sectionLabels.section1}
                   </h5>
@@ -803,7 +803,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     {sectionLabels.section2}
                   </h5>
@@ -873,7 +873,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     {sectionLabels.section3}
                   </h5>
@@ -939,7 +939,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     {sectionLabels.section4}
                   </h5>
@@ -1004,7 +1004,7 @@ ${summaryData.investorTakeaway}
                   </svg>
                 </div>
                 <h5
-                  class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                  class="text-sm sm:text-base font-semibold text-fg"
                 >
                   {stock_detail_ai_key_strengths()}
                 </h5>
@@ -1053,7 +1053,7 @@ ${summaryData.investorTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     {stock_detail_ai_red_flags()}
                   </h5>
@@ -1102,7 +1102,7 @@ ${summaryData.investorTakeaway}
                 </svg>
               </div>
               <h5
-                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                class="text-sm sm:text-base font-semibold text-fg"
               >
                 {stock_detail_ai_investor_takeaway()}
               </h5>

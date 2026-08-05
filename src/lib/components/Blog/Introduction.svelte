@@ -62,10 +62,10 @@
     >, reflecting a
     <span
       class="{revenueRatio >= 0 && revenueRatio !== 'Infinity'
-        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+        ? "before:content-['+'] text-up"
         : revenueRatio < 0 && revenueRatio !== 'Infinity'
-          ? 'text-rose-800 dark:text-rose-400'
-          : 'text-muted dark:text-white'} "
+          ? 'text-down'
+          : 'text-fg'} "
       >{revenueRatio !== "Infinity"
         ? abbreviateNumber(revenueRatio) + "%"
         : m.blog_not_available()}</span
@@ -81,8 +81,8 @@
       <span class="">{blogData?.epsEst}</span>, {m.blog_intro_representing()}
       <span
         class="{epsRatio > 0
-          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-          : 'text-rose-800 dark:text-rose-400'} ">{epsRatio}%</span
+          ? "before:content-['+'] text-up"
+          : 'text-down'} ">{epsRatio}%</span
       >
       {epsRatio > 0
         ? m.blog_intro_yoy_increase()

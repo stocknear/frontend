@@ -97,8 +97,8 @@
                 on:click={() => changeSubSection("insider")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'insider'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_insider_nav_insider_trading()}
               </a>
@@ -108,8 +108,8 @@
                 on:click={() => changeSubSection("institute")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'institute'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_insider_nav_13f_institute()}
               </a>
@@ -119,8 +119,8 @@
                 on:click={() => changeSubSection("congress-trading")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'congress-trading'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 Congress Trading
               </a>
@@ -130,8 +130,8 @@
                 on:click={() => changeSubSection("transcripts")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'transcripts'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_insider_nav_transcripts()}
               </a>
@@ -175,7 +175,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} &#183;
                       <a
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+                        class="font-medium text-fg transition-colors hover:text-accent"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

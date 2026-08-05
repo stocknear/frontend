@@ -346,7 +346,7 @@
 <div class="w-full">
   <!-- Header with Generate Button -->
   <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <h2 class="text-xl font-semibold text-muted dark:text-white">
+    <h2 class="text-xl font-semibold text-fg">
       {portfolio_bullbear_title()}
     </h2>
 
@@ -395,22 +395,22 @@
   {:else if showSummary}
     <!-- AI Summary Panel -->
     <div
-      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200"
+      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 bg-white/70 dark:bg-zinc-950/40 text-fg"
     >
       {#if isGeneratingSummary}
         <!-- Loading State -->
         <div class="flex flex-col items-center justify-center py-8">
           <label
-            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
+            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
           >
             <span
-              class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+              class="loading loading-spinner loading-md text-fg"
             ></span>
           </label>
-          <p class="mt-4 text-sm text-muted dark:text-zinc-200 font-medium">
+          <p class="mt-4 text-sm text-fg font-medium">
             {portfolio_bullbear_loading()}
           </p>
-          <p class="mt-1 text-xs text-muted dark:text-white text-center">
+          <p class="mt-1 text-xs text-fg text-center">
             {portfolio_bullbear_loading_description()}
           </p>
         </div>
@@ -423,7 +423,7 @@
           >
             <div class="flex items-center gap-2">
               <svg
-                class="w-5 h-5 text-muted dark:text-zinc-300"
+                class="w-5 h-5 text-fg-muted"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -435,12 +435,12 @@
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                 />
               </svg>
-              <h3 class="text-lg font-semibold text-muted dark:text-white">
+              <h3 class="text-lg font-semibold text-fg">
                 {portfolio_bullbear_ai_summary()}
               </h3>
             </div>
             <div class="flex items-center gap-3">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{portfolio_bullbear_sentiment()}</span
               >
               <div class="flex items-center gap-2">
@@ -458,7 +458,7 @@
                       style="width: {summaryData?.sentimentScore ?? 50}%"
                     ></div>
                   </div>
-                  <span class="text-xs text-muted dark:text-white"
+                  <span class="text-xs text-fg"
                     >{summaryData?.sentimentScore ?? 50}%</span
                   >
                 </div>
@@ -468,12 +468,12 @@
 
           <!-- Export Actions -->
           <div
-            class="flex flex-wrap items-center justify-end gap-2 pb-4 border-b border-gray-300 dark:border-zinc-700"
+            class="flex flex-wrap items-center justify-end gap-2 pb-4 border-b border-line"
           >
             <div class="flex items-center gap-2">
               <button
                 on:click={copyToClipboard}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -492,7 +492,7 @@
               </button>
               <button
                 on:click={downloadMarkdown}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -515,10 +515,10 @@
           <!-- Key Highlights -->
           <div>
             <h4
-              class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
+              class="text-sm font-semibold text-fg mb-3 flex items-center gap-2"
             >
               <svg
-                class="w-4 h-4 text-muted dark:text-zinc-300"
+                class="w-4 h-4 text-fg-muted"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -531,10 +531,10 @@
             <ul class="space-y-2">
               {#each summaryData?.keyHighlights ?? [] as highlight}
                 <li
-                  class="flex items-start gap-2 text-sm text-muted dark:text-zinc-200"
+                  class="flex items-start gap-2 text-sm text-fg"
                 >
                   <svg
-                    class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                    class="w-4 h-4 text-fg-muted mt-0.5 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -554,10 +554,10 @@
           {#if summaryData?.risks?.length}
             <div>
               <h4
-                class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-fg mb-3 flex items-center gap-2"
               >
                 <svg
-                  class="w-4 h-4 text-muted dark:text-zinc-300"
+                  class="w-4 h-4 text-fg-muted"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -574,10 +574,10 @@
               <ul class="space-y-2">
                 {#each summaryData?.risks ?? [] as risk}
                   <li
-                    class="flex items-start gap-2 text-sm text-muted dark:text-zinc-200"
+                    class="flex items-start gap-2 text-sm text-fg"
                   >
                     <svg
-                      class="w-4 h-4 text-muted dark:text-zinc-300 mt-0.5 flex-shrink-0"
+                      class="w-4 h-4 text-fg-muted mt-0.5 flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -597,10 +597,10 @@
           <!-- Outlook -->
           <div>
             <h4
-              class="text-sm font-semibold text-muted dark:text-zinc-200 mb-3 flex items-center gap-2"
+              class="text-sm font-semibold text-fg mb-3 flex items-center gap-2"
             >
               <svg
-                class="w-4 h-4 text-muted dark:text-zinc-300"
+                class="w-4 h-4 text-fg-muted"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -621,7 +621,7 @@
               {portfolio_bullbear_outlook()}
             </h4>
             <p
-              class="text-sm text-muted dark:text-zinc-200 bg-white/70 dark:bg-zinc-950/40 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+              class="text-sm text-fg bg-white/70 dark:bg-zinc-950/40 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
             >
               {summaryData?.outlook ?? portfolio_bullbear_no_outlook()}
             </p>
@@ -629,7 +629,7 @@
 
           <!-- Disclaimer -->
           <p
-            class="text-xs text-muted dark:text-white italic border-t border-gray-300 dark:border-zinc-700 pt-4"
+            class="text-xs text-fg italic border-t border-line pt-4"
           >
             {portfolio_bullbear_disclaimer()}
           </p>

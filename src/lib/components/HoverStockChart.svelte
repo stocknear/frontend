@@ -85,7 +85,11 @@
 <a
   href={getHref(symbol)}
   class={!/^\d/.test((symbol || "").replace(/^\^/, ""))
-    ? "sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+    ? // Tickers are the most repeated element in the product; spending the
+      // loudest colour on them left nothing for actual affordances, and
+      // violet-800 is the browser's canonical visited-link colour, so every
+      // live ticker read as already visited. Accent is a hover reveal now.
+      "font-medium text-fg transition-colors hover:text-accent hover:underline hover:underline-offset-2"
     : ""}
 >
   {#if symbol}

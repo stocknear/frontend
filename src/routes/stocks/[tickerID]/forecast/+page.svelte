@@ -438,7 +438,7 @@
                 ratingClass = "text-[#31B800]";
               }
 
-              const prefixClass = `${labelPrefixClass} font-semibold text-muted dark:text-zinc-300`;
+              const prefixClass = `${labelPrefixClass} font-semibold text-fg-muted`;
               const valueClass = `${labelValueClass} font-semibold ${ratingClass}`;
 
               return `
@@ -528,7 +528,7 @@
     const markerRadius = isCompact ? 3 : 4;
     const historicalLineWidth = isCompact ? 2 : 3;
     const titleWidthClass = isCompact ? "w-[200px]" : "w-[500px]";
-    const titleTextClass = `${titleWidthClass} grid grid-cols-2 text-xs font-semibold text-muted dark:text-zinc-300`;
+    const titleTextClass = `${titleWidthClass} grid grid-cols-2 text-xs font-semibold text-fg-muted`;
 
     const formatTarget = (value) => {
       if (value === null || value === undefined || Number.isNaN(value)) {
@@ -684,7 +684,7 @@
             allowOverlap: true,
             formatter: makeLabelFormatter(
               "High",
-              "text-emerald-800 dark:text-emerald-400",
+              "text-up",
             ),
           },
         },
@@ -716,7 +716,7 @@
             allowOverlap: true,
             formatter: makeLabelFormatter(
               "Avg",
-              "text-muted dark:text-zinc-300",
+              "text-fg-muted",
             ),
           },
         },
@@ -748,7 +748,7 @@
             allowOverlap: true,
             formatter: makeLabelFormatter(
               "Low",
-              "text-rose-800 dark:text-rose-400",
+              "text-down",
             ),
           },
         },
@@ -975,7 +975,7 @@
                 
                           {activeIdx === i
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                              : 'bg-[#f8fbfb] border-gray-300 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
+                              : 'bg-[#f8fbfb] border-gray-300 text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
                             <span class="relative text-sm block font-semibold">
                               {item}
@@ -996,7 +996,7 @@
                             class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                               ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                              : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                              : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                           >
                             {item}
                           </button>
@@ -1068,11 +1068,11 @@
                   class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
-                    class="w-full text-right text-xs sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                    class="w-full text-right text-xs sm:text-sm text-fg-muted tabular-nums"
                   >
                     <thead
                       ><tr
-                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
+                        class="border-b border-line text-xs uppercase tracking-wide text-fg"
                         ><th class="py-[3px] text-left font-semibold lg:py-0.5"
                           >{stock_detail_forecast_target()}</th
                         >
@@ -1107,39 +1107,39 @@
                         <td>{highPriceTarget > 0 ? highPriceTarget : "n/a"}</td
                         ></tr
                       >
-                      <tr class="text-sm text-muted dark:text-zinc-300">
+                      <tr class="text-sm text-fg-muted">
                         <td class="py-[3px] text-left lg:py-0.5"
                           >{stock_detail_forecast_change()}</td
                         >
                         <td
                           class={lowChange > 0
-                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                            ? "before:content-['+'] text-up"
                             : lowChange < 0
-                              ? "text-rose-800 dark:text-rose-400"
+                              ? "text-down"
                               : ""}
                           >{lowChange !== 0 ? lowChange + "%" : "n/a"}</td
                         >
                         <td
                           class={avgChange > 0
-                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                            ? "before:content-['+'] text-up"
                             : avgChange < 0
-                              ? "text-rose-800 dark:text-rose-400"
+                              ? "text-down"
                               : ""}
                           >{avgChange !== 0 ? avgChange + "%" : "n/a"}</td
                         >
                         <td
                           class={medianChange > 0
-                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                            ? "before:content-['+'] text-up"
                             : medianChange < 0
-                              ? "text-rose-800 dark:text-rose-400"
+                              ? "text-down"
                               : ""}
                           >{medianChange !== 0 ? medianChange + "%" : "n/a"}</td
                         >
                         <td
                           class={highChange > 0
-                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                            ? "before:content-['+'] text-up"
                             : highChange < 0
-                              ? "text-rose-800 dark:text-rose-400"
+                              ? "text-down"
                               : ""}
                           >{highChange !== 0 ? highChange + "%" : "n/a"}</td
                         ></tr
@@ -1162,7 +1162,7 @@
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
-                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-muted dark:text-zinc-300 font-semibold text-xs px-2 py-0.5 ml-3"
+                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-fg-muted font-semibold text-xs px-2 py-0.5 ml-3"
                       >{stock_detail_forecast_new()}</label
                     >
                   {/if}
@@ -1183,10 +1183,10 @@
                       <span class="mt-3">
                         {stock_detail_forecast_unlock_pro()}
                         <a
-                          class="inline-block ml-0.5 text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                          class="inline-block ml-0.5 text-fg-muted hover:text-accent transition"
                           href="/pricing"
                           ><svg
-                            class="w-4 h-4 mb-1 inline-block text-muted dark:text-zinc-300"
+                            class="w-4 h-4 mb-1 inline-block text-fg-muted"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             ><path
@@ -1246,11 +1246,11 @@
                   class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
                 >
                   <table
-                    class="w-full text-right text-xs sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                    class="w-full text-right text-xs sm:text-sm text-fg-muted tabular-nums"
                   >
                     <thead
                       ><tr
-                        class="border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
+                        class="border-b border-line text-xs uppercase tracking-wide text-fg"
                         ><th
                           class="whitespace-nowrap px-1 py-[3px] text-left font-semibold"
                           >{stock_detail_forecast_rating()}</th
@@ -1308,10 +1308,10 @@
               class="mb-4 grid grid-cols-1 overflow-hidden rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 divide-gray-200/70 dark:divide-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
             >
               <div
-                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-gray-300 dark:border-zinc-700"
+                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-line"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                  class="text-xs uppercase tracking-wide text-fg"
                 >
                   {stock_detail_forecast_revenue_this_year()}
                 </div>
@@ -1387,7 +1387,7 @@
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b md:border-l lg:border-b-0"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                  class="text-xs uppercase tracking-wide text-fg"
                 >
                   {stock_detail_forecast_revenue_next_year()}
                 </div>
@@ -1459,7 +1459,7 @@
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b-0 lg:border-l"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                  class="text-xs uppercase tracking-wide text-fg"
                 >
                   {stock_detail_forecast_eps_this_year()}
                 </div>
@@ -1513,10 +1513,10 @@
                 </div>
               </div>
               <div
-                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-gray-300 dark:border-zinc-700"
+                class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-l border-line"
               >
                 <div
-                  class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                  class="text-xs uppercase tracking-wide text-fg"
                 >
                   {stock_detail_forecast_eps_next_year()}
                 </div>

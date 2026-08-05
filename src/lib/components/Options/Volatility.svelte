@@ -494,11 +494,11 @@
 
 <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
   <h2
-    class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-fit"
+    class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
   >
     {ticker} Volatility Exposure
   </h2>
-  <div class="w-full mt-2 text-sm text-muted dark:text-zinc-300">
+  <div class="w-full mt-2 text-sm text-fg-muted">
     {removeCompanyStrings($displayCompanyName)} has experienced an average implied
     volatility of {avgIV?.toFixed(2)} and an average realized volatility of {avgRV?.toFixed(
       2,
@@ -509,7 +509,7 @@
     {#if config}
       <div class="flex justify-end pt-5 pb-2 space-x-2 ml-auto z-10">
         <div
-          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
+          class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
         >
           {#each ["3M", "6M", "1Y"] as item, index}
             {#if data?.user?.tier === "Pro" || index === 0}
@@ -518,14 +518,14 @@
                 class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
               {timePeriod === item
                   ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                  : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                  : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
               >
                 {item}
               </button>
             {:else if data?.user?.tier !== "Pro"}
               <a
                 href="/pricing"
-                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white flex items-center"
+                class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all text-fg-muted hover:text-gray-900 dark:hover:text-white flex items-center"
               >
                 {item}
                 <svg
@@ -543,7 +543,7 @@
         </div>
       </div>
       <div
-        class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
+        class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 w-full"
         use:highcharts={config}
       ></div>
     {/if}
@@ -551,10 +551,10 @@
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-10">
     <div
-      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+      class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg w-full"
       >
         Volatility History
       </h2>
@@ -575,10 +575,10 @@
   <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
     <div class="w-full overflow-x-auto">
       <table
-        class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+        class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
       >
         <thead
-          class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+          class="text-[11px] uppercase tracking-wide text-fg"
         >
           <TableHeader {columns} {sortOrders} {sortData} />
         </thead>
@@ -597,13 +597,13 @@
 
               <td class=" text-sm sm:text-[1rem] text-end">
                 {#if item?.changesPercentage >= 0 && item?.changesPercentage !== null}
-                  <span class="text-emerald-800 dark:text-emerald-400"
+                  <span class="text-up"
                     >+{item?.changesPercentage >= 1000
                       ? abbreviateNumber(item?.changesPercentage)
                       : item?.changesPercentage?.toFixed(2)}%</span
                   >
                 {:else if item?.changesPercentage < 0 && item?.changesPercentage !== null}
-                  <span class="text-rose-800 dark:text-rose-400"
+                  <span class="text-down"
                     >{item?.changesPercentage <= -1000
                       ? abbreviateNumber(item?.changesPercentage)
                       : item?.changesPercentage?.toFixed(2)}%
@@ -623,13 +623,13 @@
 
               <td class=" text-sm sm:text-[1rem] text-end">
                 {#if item?.changesPercentageOI >= 0 && item?.changesPercentageOI !== null}
-                  <span class="text-emerald-800 dark:text-emerald-400"
+                  <span class="text-up"
                     >+{item?.changesPercentageOI >= 1000
                       ? abbreviateNumber(item?.changesPercentageOI)
                       : item?.changesPercentageOI?.toFixed(2)}%</span
                   >
                 {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== null}
-                  <span class="text-rose-800 dark:text-rose-400"
+                  <span class="text-down"
                     >{item?.changesPercentageOI <= -1000
                       ? abbreviateNumber(item?.changesPercentageOI)
                       : item?.changesPercentageOI?.toFixed(2)}%
@@ -660,7 +660,7 @@
         <Button
           on:click={() => goToPage(currentPage - 1)}
           disabled={currentPage === 1}
-          class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <svg
             class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -681,7 +681,7 @@
 
       <!-- Page info and rows selector in center -->
       <div class="flex flex-row items-center gap-4">
-        <span class="text-sm text-muted dark:text-zinc-300">
+        <span class="text-sm text-fg-muted">
           Page {currentPage} of {totalPages}
         </span>
 
@@ -689,7 +689,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
                 >{rowsPerPage} Rows</span
@@ -715,13 +715,13 @@
             align="end"
             sideOffset={10}
             alignOffset={0}
-            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
           >
             <!-- Dropdown items -->
             <DropdownMenu.Group class="pb-2">
               {#each rowsPerPageOptions as item}
                 <DropdownMenu.Item
-                  class="hover:text-violet-800 dark:hover:text-violet-400 transition"
+                  class="hover:text-accent transition"
                 >
                   <label
                     on:click={() => changeRowsPerPage(item)}
@@ -741,7 +741,7 @@
         <Button
           on:click={() => goToPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="hidden sm:inline">Next</span>
           <svg
@@ -765,7 +765,7 @@
     <div class="flex justify-center mt-4">
       <button
         on:click={scrollToTop}
-        class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
       >
         Back to Top <svg
           class="h-5 w-5 inline-block shrink-0 rotate-180"

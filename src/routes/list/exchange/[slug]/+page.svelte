@@ -65,12 +65,12 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-fg-muted"
         >
           {list_label_total_stocks()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-fg tabular-nums"
         >
           {new Intl.NumberFormat("en")?.format(rawData?.length)}
         </div>
@@ -79,12 +79,12 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-fg-muted"
         >
           {list_label_total_market_cap()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-fg tabular-nums"
         >
           {abbreviateNumber(totalMarketCap)}
         </div>
@@ -93,12 +93,12 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-fg-muted"
         >
           {list_label_total_revenue()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-fg tabular-nums"
         >
           {abbreviateNumber(totalRevenue)}
         </div>

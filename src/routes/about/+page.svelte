@@ -30,20 +30,20 @@
 
 <SEO title={about_seo_title()} description={about_seo_description()} />
 
-<div class="text-muted dark:text-zinc-200 w-full">
+<div class="text-fg w-full">
   <!-- Hero -->
   <section
-    class="border-b border-gray-300 dark:border-zinc-700 w-full bg-white dark:bg-zinc-950/60"
+    class="border-b border-line w-full bg-surface-card/60"
   >
     <div class="mx-auto max-w-4xl px-6 py-16 sm:py-24 md:px-8">
       <div class="text-center">
         <h1
-          class="text-4xl font-semibold tracking-tight text-muted dark:text-white sm:text-5xl lg:text-6xl leading-tight"
+          class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl lg:text-6xl leading-tight"
         >
           {about_hero_title()}
         </h1>
         <p
-          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-muted dark:text-zinc-300"
+          class="mx-auto mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-fg-muted"
         >
           {about_hero_description()}
         </p>
@@ -52,24 +52,24 @@
   </section>
 
   <!-- Our Story -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
+  <section class="border-t border-line">
     <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
       <div class="lg:grid lg:grid-cols-3 lg:gap-12">
         <div>
           <p
-            class="text-xs font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300 mb-4"
+            class="text-xs font-semibold uppercase tracking-[0.2em] text-fg-muted mb-4"
           >
             {about_story_label()}
           </p>
           <h2
-            class="text-3xl font-semibold tracking-tight text-muted dark:text-white sm:text-4xl"
+            class="text-3xl font-semibold tracking-tight text-fg sm:text-4xl"
           >
             {about_story_title()}
           </h2>
         </div>
         <div class="lg:col-span-2 mt-10 lg:mt-0">
           <div
-            class="text-muted dark:text-zinc-300 space-y-4 text-lg leading-relaxed"
+            class="text-fg-muted space-y-4 text-lg leading-relaxed"
           >
             <p>{about_story_paragraph_1()}</p>
             <p>{about_story_paragraph_2()}</p>
@@ -82,60 +82,60 @@
 
   <!-- Stats -->
   <section
-    class="border-t border-gray-300 dark:border-zinc-700 bg-gray-50/60 dark:bg-zinc-950/50"
+    class="border-t border-line bg-gray-50/60 dark:bg-zinc-950/50"
   >
     <div class="mx-auto max-w-7xl px-6 py-16 lg:py-20">
       <dl class="grid grid-cols-2 gap-8 sm:grid-cols-4">
         <div class="text-center">
           <dt
-            class="text-4xl font-semibold tracking-tight text-muted dark:text-white sm:text-5xl"
+            class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl"
           >
             {about_stats_investors()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-fg-muted uppercase tracking-[0.1em]"
           >
             {about_stats_investors_label()}
           </dd>
         </div>
         <div class="text-center">
           <dt
-            class="text-4xl font-semibold tracking-tight text-muted dark:text-white sm:text-5xl"
+            class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl"
           >
             {about_stats_stocks()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-fg-muted uppercase tracking-[0.1em]"
           >
             {about_stats_stocks_label()}
           </dd>
         </div>
         <div class="text-center">
           <dt
-            class="text-4xl font-semibold tracking-tight text-muted dark:text-white sm:text-5xl"
+            class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl"
           >
             {about_stats_data_points()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-fg-muted uppercase tracking-[0.1em]"
           >
             {about_stats_data_points_label()}
           </dd>
         </div>
         <div class="text-center">
           <dt
-            class="text-4xl font-semibold tracking-tight text-muted dark:text-white sm:text-5xl"
+            class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl"
           >
             {about_stats_trustpilot()}
           </dt>
           <dd
-            class="mt-2 text-sm font-medium text-muted dark:text-zinc-300 uppercase tracking-[0.1em]"
+            class="mt-2 text-sm font-medium text-fg-muted uppercase tracking-[0.1em]"
           >
             <a
               href="https://www.trustpilot.com/review/stocknear.com"
               target="_blank"
               rel="noopener noreferrer"
-              class="hover:text-violet-800 dark:hover:text-violet-400 transition-colors underline underline-offset-4"
+              class="hover:text-accent transition-colors underline underline-offset-4"
             >
               {about_stats_trustpilot_label()}
             </a>
@@ -146,19 +146,19 @@
   </section>
 
   <!-- CTA -->
-  <section class="border-t border-gray-300 dark:border-zinc-700">
+  <section class="border-t border-line">
     <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20 text-center">
       <p
-        class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-800 dark:text-violet-400 mb-4"
+        class="text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4"
       >
         {about_cta_badge()}
       </p>
       <h2
-        class="text-3xl font-semibold tracking-tight text-muted dark:text-white sm:text-4xl"
+        class="text-3xl font-semibold tracking-tight text-fg sm:text-4xl"
       >
         {about_cta_title()}
       </h2>
-      <p class="mt-4 text-lg text-muted dark:text-zinc-300 max-w-2xl mx-auto">
+      <p class="mt-4 text-lg text-fg-muted max-w-2xl mx-auto">
         {about_cta_description()}
       </p>
       <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -170,7 +170,7 @@
         </a>
         <a
           href="/pricing"
-          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-muted dark:text-zinc-200 bg-white dark:bg-zinc-900/60 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-fg bg-surface-card/60 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
         >
           {about_cta_button_secondary()}
         </a>

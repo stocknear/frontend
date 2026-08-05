@@ -990,10 +990,10 @@
   {#if isLoading}
     <div class="absolute inset-0 flex items-center justify-center z-10">
       <div
-        class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex items-center justify-center shadow-sm"
+        class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex items-center justify-center shadow-sm"
       >
         <span
-          class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+          class="loading loading-spinner loading-md text-fg"
         ></span>
       </div>
     </div>

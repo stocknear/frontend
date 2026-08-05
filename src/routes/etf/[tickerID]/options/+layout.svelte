@@ -89,8 +89,8 @@
                 on:click={() => changeSubSection("overview")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'overview'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_overview()}
               </a>
@@ -100,8 +100,8 @@
                 on:click={() => changeSubSection("contract-lookup")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'contract-lookup'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_contract_lookup()}
               </a>
@@ -110,8 +110,8 @@
                 on:click={() => changeSubSection("unusual-activity")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'unusual-activity'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_unusual_activity()}
               </a>
@@ -121,8 +121,8 @@
                 on:click={() => changeSubSection("hottest-contracts")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'hottest-contracts'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_hottest_contracts()}
               </a>
@@ -131,8 +131,8 @@
                 on:click={() => changeSubSection("max-pain")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'max-pain'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_max_pain()}
               </a>
@@ -141,8 +141,8 @@
                 on:click={() => changeSubSection("greeks")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'greeks'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_greeks()}
               </a>
@@ -151,8 +151,8 @@
                 on:click={() => changeSubSection("expected-move")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'expected-move'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_expected_move()}
               </a>
@@ -162,8 +162,8 @@
                 on:click={() => changeSubSection("volatility")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'volatility'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 Volatility
               </a>
@@ -173,8 +173,8 @@
                 on:click={() => changeSubSection("oi")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'oi'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_oi()}
               </a>
@@ -184,8 +184,8 @@
                 on:click={() => changeSubSection("gex")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'gex'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_gex()}
               </a>
@@ -194,8 +194,8 @@
                 on:click={() => changeSubSection("dex")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                 'dex'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {stock_detail_options_nav_dex()}
               </a>

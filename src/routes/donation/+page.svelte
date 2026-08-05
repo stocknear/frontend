@@ -30,19 +30,19 @@
 <SEO title={donation_seo_title()} description={donation_seo_description()} />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{donation_title()}</li>
+    <li class="text-fg-muted">{donation_title()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -51,20 +51,20 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {donation_title()}
             </h1>
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-muted dark:text-zinc-300"
+            class="w-full m-auto text-sm sm:text-base text-fg-muted"
           >
             <div class="">
               <h2
-                class="text-lg sm:text-xl font-semibold text-muted dark:text-white mb-5"
+                class="text-lg sm:text-xl font-semibold text-fg mb-5"
               >
                 {donation_intro_greeting()}
               </h2>
@@ -90,7 +90,7 @@
               </div>
 
               <h2
-                class="text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="text-xl sm:text-2xl font-semibold text-fg"
               >
                 {donation_cta_title()}
               </h2>
@@ -125,7 +125,7 @@
                   {donation_sidebar_about_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -143,7 +143,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_let_me_know()}
               </span>
             </a>

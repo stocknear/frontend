@@ -989,12 +989,12 @@ ${insightData.traderTakeaway}
   class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
     aria-busy={isLoading}
   >
     <thead>
       <tr
-        class="bg-white/60 dark:bg-zinc-950/40 text-muted dark:text-white font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+        class="bg-white/60 dark:bg-zinc-950/40 text-fg font-semibold text-[11px] uppercase tracking-wide border-b border-line"
       >
         {#each columns as column, i}
           <th
@@ -1039,7 +1039,7 @@ ${insightData.traderTakeaway}
         <tr>
           <td
             colspan={columns.length}
-            class="py-6 text-center text-sm text-muted dark:text-zinc-300"
+            class="py-6 text-center text-sm text-fg-muted"
           >
             {isLoading ? "Loading..." : "No data available"}
           </td>
@@ -1089,10 +1089,10 @@ ${insightData.traderTakeaway}
                         side="bottom"
                         align="end"
                         sideOffset={5}
-                        class="w-44 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
+                        class="w-44 rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
                       >
                         <DropdownMenu.Item
-                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                           on:click={() => onOpenChart?.(item)}
                         >
                           <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
@@ -1102,7 +1102,7 @@ ${insightData.traderTakeaway}
                           class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition
                             {isTracked
                             ? 'text-violet-700 dark:text-violet-400 font-medium'
-                            : 'text-muted dark:text-zinc-300'}"
+                            : 'text-fg-muted'}"
                           on:click={() => {
                             if (!isTracked && data?.user?.tier !== "Pro") {
                               toast.error(
@@ -1120,7 +1120,7 @@ ${insightData.traderTakeaway}
                           {isTracked ? "Untrack Contract" : "Track Contract"}
                         </DropdownMenu.Item>
                         <DropdownMenu.Item
-                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                          class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                           on:click={() => optionsInsight(item)}
                         >
                           <Spark class="w-4 h-4 shrink-0" />
@@ -1185,8 +1185,8 @@ ${insightData.traderTakeaway}
                 <td
                   class="text-end text-sm whitespace-nowrap {item?.put_call ===
                   'Calls'
-                    ? 'text-emerald-800 dark:text-emerald-400'
-                    : 'text-rose-800 dark:text-rose-400'}"
+                    ? 'text-up'
+                    : 'text-down'}"
                 >
                   {item?.put_call}
                 </td>
@@ -1194,9 +1194,9 @@ ${insightData.traderTakeaway}
                 <td
                   class="text-end text-sm whitespace-nowrap {item?.sentiment ===
                   'Bullish'
-                    ? 'text-emerald-800 dark:text-emerald-400'
+                    ? 'text-up'
                     : item?.sentiment === 'Bearish'
-                      ? 'text-rose-800 dark:text-rose-400'
+                      ? 'text-down'
                       : 'text-orange-800 dark:text-[#C6A755]'}"
                 >
                   {item?.sentiment}
@@ -1307,14 +1307,14 @@ ${insightData.traderTakeaway}
     tabindex="-1"
   >
     <div
-      class="relative w-full max-w-5xl max-h-[95vh] sm:max-h-[92vh] bg-white/95 dark:bg-zinc-950/95 rounded-2xl border border-gray-300 dark:border-zinc-700 shadow-none overflow-hidden animate-slideUp"
+      class="relative w-full max-w-5xl max-h-[95vh] sm:max-h-[92vh] bg-white/95 dark:bg-zinc-950/95 rounded-2xl border border-line shadow-none overflow-hidden animate-slideUp"
       on:click|stopPropagation
       on:keydown|stopPropagation
       role="document"
     >
       <!-- Modal Header -->
       <div
-        class="sticky top-0 z-10 bg-[#f8fbfb] dark:bg-zinc-950/70 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-gray-300 dark:border-zinc-700"
+        class="sticky top-0 z-10 bg-surface-page/70 px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-5 border-b border-line"
       >
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
@@ -1322,17 +1322,17 @@ ${insightData.traderTakeaway}
               class="p-1.5 sm:p-2 md:p-2.5 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
             >
               <Spark
-                class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-muted dark:text-zinc-300"
+                class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-fg-muted"
               />
             </div>
             <div class="min-w-0 flex-1">
               <h2
-                class="text-base sm:text-lg md:text-xl font-semibold text-muted dark:text-white truncate"
+                class="text-base sm:text-lg md:text-xl font-semibold text-fg truncate"
               >
                 Options Flow Insight
               </h2>
               <p
-                class="text-xs sm:text-sm text-muted dark:text-white mt-0.5 truncate"
+                class="text-xs sm:text-sm text-fg mt-0.5 truncate"
               >
                 {selectedOptionData?.option_symbol}
                 • DTE {selectedOptionData?.dte}
@@ -1341,10 +1341,10 @@ ${insightData.traderTakeaway}
           </div>
           <button
             on:click={closeInsightModal}
-            class="cursor-pointer p-2 rounded-full border border-transparent text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-800/80 transition-colors flex-shrink-0"
+            class="cursor-pointer p-2 rounded-full border border-transparent text-fg hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-800/80 transition-colors flex-shrink-0"
           >
             <svg
-              class="w-5 h-5 text-muted dark:text-white"
+              class="w-5 h-5 text-fg"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -1368,16 +1368,16 @@ ${insightData.traderTakeaway}
         {#if isLoadingInsight}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
             <label
-              class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center"
+              class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
             >
               <span
-                class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                class="loading loading-spinner loading-md text-fg"
               ></span>
             </label>
-            <p class="text-sm text-muted dark:text-zinc-200 font-medium">
+            <p class="text-sm text-fg font-medium">
               Analyzing options flow...
             </p>
-            <p class="text-xs text-muted dark:text-white">
+            <p class="text-xs text-fg">
               Extracting trade insights and signals
             </p>
           </div>
@@ -1405,7 +1405,7 @@ ${insightData.traderTakeaway}
         {:else if insightData}
           <!-- Trade Score Card -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
           >
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -1413,7 +1413,7 @@ ${insightData.traderTakeaway}
               <div class="flex-1">
                 <div class="mb-3 sm:mb-4">
                   <span
-                    class="text-xs font-semibold text-muted dark:text-white uppercase tracking-wider"
+                    class="text-xs font-semibold text-fg uppercase tracking-wider"
                     >Trade Signal Score</span
                   >
                 </div>
@@ -1447,7 +1447,7 @@ ${insightData.traderTakeaway}
                       ></div>
                     </div>
                     <span
-                      class="text-lg sm:text-xl font-bold text-muted dark:text-white"
+                      class="text-lg sm:text-xl font-bold text-fg"
                     >
                       {insightData.tradeScore}%
                     </span>
@@ -1457,7 +1457,7 @@ ${insightData.traderTakeaway}
               <div class="flex items-center gap-2">
                 <button
                   on:click={copyInsightToClipboard}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-300 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700/70 rounded-full hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-muted bg-white/70 dark:bg-zinc-950/40 border border-line/70 rounded-full hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -1476,7 +1476,7 @@ ${insightData.traderTakeaway}
                 </button>
                 <button
                   on:click={downloadInsightMarkdown}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-zinc-300 bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700/70 rounded-full hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg-muted bg-white/70 dark:bg-zinc-950/40 border border-line/70 rounded-full hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-600/80 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -1499,14 +1499,14 @@ ${insightData.traderTakeaway}
 
           <!-- Executive Summary -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
           >
             <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-3">
               <div
                 class="p-1.5 sm:p-2 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
               >
                 <svg
-                  class="w-4 h-4 sm:w-5 sm:h-5 text-muted dark:text-zinc-300"
+                  class="w-4 h-4 sm:w-5 sm:h-5 text-fg-muted"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -1519,13 +1519,13 @@ ${insightData.traderTakeaway}
                 </svg>
               </div>
               <h4
-                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                class="text-sm sm:text-base font-semibold text-fg"
               >
                 Executive Summary
               </h4>
             </div>
             <p
-              class="text-sm sm:text-base text-muted dark:text-zinc-300 leading-relaxed"
+              class="text-sm sm:text-base text-fg-muted leading-relaxed"
             >
               {insightData.executiveSummary}
             </p>
@@ -1535,7 +1535,7 @@ ${insightData.traderTakeaway}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <!-- Order Analysis -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1543,7 +1543,7 @@ ${insightData.traderTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-zinc-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -1555,7 +1555,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     Order Analysis
                   </h5>
@@ -1563,32 +1563,32 @@ ${insightData.traderTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     insightData.orderAnalysis?.assessment,
-                  )} bg-gray-100/70 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-700/70 rounded-full flex-shrink-0"
+                  )} bg-gray-100/70 dark:bg-zinc-900/50 border border-line/70 rounded-full flex-shrink-0"
                 >
                   {insightData.orderAnalysis?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-gray-300 dark:border-zinc-700/70 rounded-xl"
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-line/70 rounded-xl"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-muted dark:text-zinc-300"
+                      class="text-xs font-medium text-fg-muted"
                       >Type</span
                     >
                     <span
-                      class="text-sm font-semibold text-muted dark:text-white"
+                      class="text-sm font-semibold text-fg"
                       >{insightData.orderAnalysis?.orderType}</span
                     >
                   </div>
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-muted dark:text-zinc-300"
+                      class="text-xs font-medium text-fg-muted"
                       >Execution</span
                     >
                     <span
-                      class="text-xs sm:text-sm text-muted dark:text-zinc-300"
+                      class="text-xs sm:text-sm text-fg-muted"
                       >{insightData.orderAnalysis?.executionContext}</span
                     >
                   </div>
@@ -1597,7 +1597,7 @@ ${insightData.traderTakeaway}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-muted dark:text-zinc-300 leading-relaxed"
+                      class="text-xs sm:text-sm text-fg-muted leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -1608,7 +1608,7 @@ ${insightData.traderTakeaway}
 
             <!-- Sentiment Analysis -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1616,7 +1616,7 @@ ${insightData.traderTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-zinc-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -1628,7 +1628,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     Sentiment
                   </h5>
@@ -1643,21 +1643,21 @@ ${insightData.traderTakeaway}
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-gray-300 dark:border-zinc-700/70 rounded-xl"
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-line/70 rounded-xl"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-muted dark:text-zinc-300"
+                      class="text-xs font-medium text-fg-muted"
                       >Intent</span
                     >
                     <span
-                      class="text-sm font-semibold text-muted dark:text-white"
+                      class="text-sm font-semibold text-fg"
                       >{insightData.sentimentAnalysis?.buyerIntent}</span
                     >
                   </div>
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-muted dark:text-zinc-300"
+                      class="text-xs font-medium text-fg-muted"
                       >Urgency</span
                     >
                     <span
@@ -1671,7 +1671,7 @@ ${insightData.traderTakeaway}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-muted dark:text-zinc-300 leading-relaxed"
+                      class="text-xs sm:text-sm text-fg-muted leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -1682,7 +1682,7 @@ ${insightData.traderTakeaway}
 
             <!-- Risk Profile -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1690,7 +1690,7 @@ ${insightData.traderTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-zinc-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -1702,7 +1702,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     Risk Profile
                   </h5>
@@ -1710,32 +1710,32 @@ ${insightData.traderTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     insightData.riskProfile?.assessment,
-                  )} bg-gray-100/70 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-700/70 rounded-full flex-shrink-0"
+                  )} bg-gray-100/70 dark:bg-zinc-900/50 border border-line/70 rounded-full flex-shrink-0"
                 >
                   {insightData.riskProfile?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-gray-300 dark:border-zinc-700/70 rounded-xl"
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-line/70 rounded-xl"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-muted dark:text-zinc-300"
+                      class="text-xs font-medium text-fg-muted"
                       >Moneyness</span
                     >
                     <span
-                      class="text-sm font-semibold text-muted dark:text-white"
+                      class="text-sm font-semibold text-fg"
                       >{insightData.riskProfile?.moneyness}</span
                     >
                   </div>
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-muted dark:text-zinc-300"
+                      class="text-xs font-medium text-fg-muted"
                       >Theta Risk</span
                     >
                     <span
-                      class="text-xs sm:text-sm font-semibold text-muted dark:text-zinc-300"
+                      class="text-xs sm:text-sm font-semibold text-fg-muted"
                       >{insightData.riskProfile?.timeDecayRisk}</span
                     >
                   </div>
@@ -1744,7 +1744,7 @@ ${insightData.traderTakeaway}
                   <div class="flex items-start gap-2">
                     <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-muted dark:text-zinc-300 leading-relaxed"
+                      class="text-xs sm:text-sm text-fg-muted leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -1755,7 +1755,7 @@ ${insightData.traderTakeaway}
 
             <!-- Trade Setup -->
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
@@ -1763,7 +1763,7 @@ ${insightData.traderTakeaway}
                     class="p-1.5 sm:p-2 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-zinc-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -1775,7 +1775,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     Trade Setup
                   </h5>
@@ -1783,34 +1783,34 @@ ${insightData.traderTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     insightData.tradeSetup?.assessment,
-                  )} bg-gray-100/70 dark:bg-zinc-900/50 border border-gray-300 dark:border-zinc-700/70 rounded-full flex-shrink-0"
+                  )} bg-gray-100/70 dark:bg-zinc-900/50 border border-line/70 rounded-full flex-shrink-0"
                 >
                   {insightData.tradeSetup?.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-gray-300 dark:border-zinc-700/70 rounded-xl"
+                  class="p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-line/70 rounded-xl"
                 >
                   <span
-                    class="text-xs font-medium text-muted dark:text-zinc-300"
+                    class="text-xs font-medium text-fg-muted"
                     >Entry Strategy</span
                   >
                   <p
-                    class="text-xs sm:text-sm text-muted dark:text-zinc-300 mt-1"
+                    class="text-xs sm:text-sm text-fg-muted mt-1"
                   >
                     {insightData.tradeSetup?.entryStrategy}
                   </p>
                 </div>
                 <div
-                  class="p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-gray-300 dark:border-zinc-700/70 rounded-xl"
+                  class="p-2 sm:p-2.5 bg-gray-50/70 dark:bg-zinc-900/40 border border-line/70 rounded-xl"
                 >
                   <span
-                    class="text-xs font-medium text-muted dark:text-zinc-300"
+                    class="text-xs font-medium text-fg-muted"
                     >Risk Consideration</span
                   >
                   <p
-                    class="text-xs sm:text-sm text-muted dark:text-zinc-300 mt-1"
+                    class="text-xs sm:text-sm text-fg-muted mt-1"
                   >
                     {insightData.tradeSetup?.riskConsideration}
                   </p>
@@ -1822,7 +1822,7 @@ ${insightData.traderTakeaway}
           <!-- Bullish Signals & Red Flags -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 shadow-none"
             >
               <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
                 <div
@@ -1841,7 +1841,7 @@ ${insightData.traderTakeaway}
                   </svg>
                 </div>
                 <h5
-                  class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                  class="text-sm sm:text-base font-semibold text-fg"
                 >
                   Bullish Signals
                 </h5>
@@ -1861,7 +1861,7 @@ ${insightData.traderTakeaway}
                       />
                     </svg>
                     <span
-                      class="text-xs sm:text-sm text-muted dark:text-zinc-300 leading-relaxed"
+                      class="text-xs sm:text-sm text-fg-muted leading-relaxed"
                       >{signal}</span
                     >
                   </li>
@@ -1871,7 +1871,7 @@ ${insightData.traderTakeaway}
 
             {#if insightData.redFlags?.length > 0}
               <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 shadow-none"
+                class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 shadow-none"
               >
                 <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
                   <div
@@ -1890,7 +1890,7 @@ ${insightData.traderTakeaway}
                     </svg>
                   </div>
                   <h5
-                    class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                    class="text-sm sm:text-base font-semibold text-fg"
                   >
                     Red Flags
                   </h5>
@@ -1910,7 +1910,7 @@ ${insightData.traderTakeaway}
                         />
                       </svg>
                       <span
-                        class="text-xs sm:text-sm text-muted dark:text-zinc-300 leading-relaxed"
+                        class="text-xs sm:text-sm text-fg-muted leading-relaxed"
                         >{flag}</span
                       >
                     </li>
@@ -1922,14 +1922,14 @@ ${insightData.traderTakeaway}
 
           <!-- Trader Takeaway -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4 sm:p-5 md:p-6 shadow-none"
           >
             <div class="flex items-center gap-2 sm:gap-2.5 mb-3">
               <div
                 class="p-1.5 sm:p-2 bg-gray-100/70 dark:bg-zinc-900/50 rounded-full flex-shrink-0"
               >
                 <svg
-                  class="w-4 h-4 sm:w-5 sm:h-5 text-muted dark:text-zinc-300"
+                  class="w-4 h-4 sm:w-5 sm:h-5 text-fg-muted"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -1939,13 +1939,13 @@ ${insightData.traderTakeaway}
                 </svg>
               </div>
               <h5
-                class="text-sm sm:text-base font-semibold text-muted dark:text-white"
+                class="text-sm sm:text-base font-semibold text-fg"
               >
                 Trader Takeaway
               </h5>
             </div>
             <p
-              class="text-xs sm:text-sm md:text-base text-muted dark:text-zinc-300 leading-relaxed"
+              class="text-xs sm:text-sm md:text-base text-fg-muted leading-relaxed"
             >
               {insightData.traderTakeaway}
             </p>
@@ -1953,9 +1953,9 @@ ${insightData.traderTakeaway}
 
           <!-- Disclaimer -->
           <div
-            class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 dark:border-zinc-700 rounded-2xl p-3 sm:p-4 shadow-none"
+            class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-3 sm:p-4 shadow-none"
           >
-            <p class="text-xs text-muted dark:text-white italic">
+            <p class="text-xs text-fg italic">
               This analysis was generated by AI based on order flow data and may
               not capture all market factors. Always conduct your own research
               before making trading decisions.

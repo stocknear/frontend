@@ -92,7 +92,7 @@
 
 <SEO title={affiliate_seo_title()} description={affiliate_seo_description()} />
 
-<main class="text-muted dark:text-white w-full">
+<main class="text-fg w-full">
   <section
     class="border-b border-gray-300 dark:border-none shadow dark:border-zinc-700 sm:rounded w-full bg-gray-100 dark:bg-gray-500/20"
   >

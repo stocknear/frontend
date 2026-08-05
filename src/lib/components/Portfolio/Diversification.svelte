@@ -104,9 +104,9 @@
     }
 
     function getScoreColor(score: string) {
-        if (score === "good") return "text-emerald-800 dark:text-emerald-400";
+        if (score === "good") return "text-up";
         if (score === "moderate") return "text-yellow-800 dark:text-yellow-400";
-        return "text-rose-800 dark:text-rose-400";
+        return "text-down";
     }
 
     function getScoreLabel(score: string) {
@@ -310,7 +310,7 @@
 <div class="w-full">
     <div class="mb-3 sm:mb-5">
         <h2
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-2"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-2"
         >
             {portfolio_diversification_title()}
         </h2>
@@ -322,12 +322,12 @@
             class="flex flex-col sm:flex-row sm:items-center justify-between mb-4"
         >
             <div class="flex items-center gap-3 mb-3 sm:mb-0">
-                <h3 class="text-lg font-semibold text-muted dark:text-white">
+                <h3 class="text-lg font-semibold text-fg">
                     {portfolio_diversification_concentration()}
                 </h3>
                 {#if portfolioData?.length > 0}
                     <span
-                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 {getScoreColor(
+                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 {getScoreColor(
                             diversificationMetrics?.hhiScore,
                         )}"
                     >
@@ -344,7 +344,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
+                    class="text-fg text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_hhi_score()}</span>
                     <InfoModal
@@ -373,7 +373,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
+                    class="text-fg text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_sectors_industries()}</span
                     >
@@ -398,7 +398,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
+                    class="text-fg text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_largest_position()}</span>
                     <InfoModal
@@ -427,7 +427,7 @@
                 class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
             >
                 <div
-                    class="text-muted dark:text-white text-sm mb-2 flex items-center"
+                    class="text-fg text-sm mb-2 flex items-center"
                 >
                     <span>{portfolio_diversification_top5()}</span>
                     <InfoModal
@@ -453,7 +453,7 @@
 
     <!-- Column headers -->
     <div
-        class="grid grid-cols-4 gap-2 sm:gap-4 mb-3 text-xs sm:text-sm font-medium text-muted dark:text-white"
+        class="grid grid-cols-4 gap-2 sm:gap-4 mb-3 text-xs sm:text-sm font-medium text-fg"
     >
         <div class="text-left">{portfolio_diversification_col_portfolio()}</div>
         <div class="text-center">{portfolio_diversification_col_sector()}</div>
@@ -467,7 +467,7 @@
     <div class="w-full">
         {#if portfolioData?.length === 0}
             <div
-                class="flex items-center justify-center h-[300px] text-muted dark:text-white"
+                class="flex items-center justify-center h-[300px] text-fg"
             >
                 <div class="text-center">
                     <p class="text-lg font-medium mb-2">
@@ -482,7 +482,7 @@
             <div use:highcharts={sankeyConfig}></div>
         {:else}
             <div
-                class="flex items-center justify-center h-[500px] sm:h-[650px] text-muted dark:text-white"
+                class="flex items-center justify-center h-[500px] sm:h-[650px] text-fg"
             >
                 <p class="text-sm">{portfolio_diversification_loading()}</p>
             </div>

@@ -154,16 +154,16 @@
     }}
   />
 
-  <dialog {id} class="modal p-3 sm:p-0 text-muted dark:text-white">
+  <dialog {id} class="modal p-3 sm:p-0 text-fg">
     <label for={id} class="cursor-pointer modal-backdrop bg-black/30"></label>
 
     <!-- Mobile modal content -->
     <div
-      class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
     >
       <label
         for={id}
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
         aria-label={common_close()}
       >
         <svg
@@ -187,7 +187,7 @@
             {title}
           </h3>
         {/if}
-        <div class="text-sm leading-relaxed text-muted dark:text-zinc-200">
+        <div class="text-sm leading-relaxed text-fg">
           {#if isLoading}
             {stock_detail_financials_loading()}
           {:else}
@@ -200,7 +200,7 @@
         </div>
         {#if equation}
           <div
-            class="mt-4 pt-4 border-t border-gray-300 dark:border-zinc-700 text-sm"
+            class="mt-4 pt-4 border-t border-line text-sm"
           >
             {#if callAPI}
               {equation}
@@ -214,7 +214,7 @@
       <div class="w-full">
         <label
           for={id}
-          class="mt-2 inline-flex w-full justify-center rounded-full border border-gray-300 dark:border-zinc-700 px-4 py-2 text-sm font-semibold text-muted dark:text-zinc-200 hover:text-violet-700 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-700/80 transition cursor-pointer"
+          class="mt-2 inline-flex w-full justify-center rounded-full border border-line px-4 py-2 text-sm font-semibold text-fg hover:text-violet-700 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-700/80 transition cursor-pointer"
         >
           {common_close()}
         </label>

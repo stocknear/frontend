@@ -370,20 +370,20 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
     <li>
-      <a class="text-muted dark:text-zinc-300"
+      <a class="text-fg-muted"
         >{etf_breadcrumb_new_launches()}</a
       >
     </li>
@@ -395,9 +395,9 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {etf_new_launches_main_name()}
             </h1>
@@ -407,10 +407,10 @@
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-300 dark:border-zinc-700"
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
               >
                 {etf_new_launches_count({
                   count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -442,14 +442,14 @@
                   </div>
 
                   <div
-                    class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 px-3 flex items-center"
+                    class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 px-3 flex items-center"
                   >
                     <input
                       bind:value={inputValue}
                       on:input={search}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="w-full bg-transparent text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
+                      class="w-full bg-transparent text-[0.85rem] sm:text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 pr-8 leading-none"
                     />
                   </div>
                 </div>
@@ -466,7 +466,7 @@
                   <button
                     on:click={resetColumnOrder}
                     title="Reset column order"
-                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                   >
                     <svg
                       class="w-4 h-4"
@@ -506,12 +506,12 @@
                     <tbody>
                       {#each stockList as item}
                         <tr
-                          class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                          class="border-b border-line hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                         >
                           {#each columns as column}
                             {#if column.key === "inceptionDate"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                                class="text-sm text-fg-muted whitespace-nowrap tabular-nums"
                               >
                                 {new Date(item?.inceptionDate)?.toLocaleString(
                                   "en-US",
@@ -525,18 +525,18 @@
                               </td>
                             {:else if column.key === "symbol"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
+                                class="text-sm text-fg whitespace-nowrap"
                               >
                                 <a
                                   href={"/etf/" + item?.symbol}
-                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                  class="font-medium text-fg transition-colors hover:text-accent transition"
                                 >
                                   {item?.symbol}
                                 </a>
                               </td>
                             {:else if column.key === "name"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
+                                class="text-sm text-fg-muted whitespace-nowrap"
                               >
                                 {item?.name?.length > charNumber
                                   ? item?.name?.slice(0, charNumber) + "..."
@@ -544,7 +544,7 @@
                               </td>
                             {:else if column.key === "price"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                               >
                                 {item?.price !== null && item?.price !== 0
                                   ? item?.price
@@ -552,17 +552,17 @@
                               </td>
                             {:else if column.key === "changesPercentage"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                               >
                                 {#if item?.changesPercentage >= 0}
                                   <span
-                                    class="text-emerald-800 dark:text-emerald-400"
+                                    class="text-up"
                                     >+{item?.changesPercentage?.toFixed(
                                       2,
                                     )}%</span
                                   >
                                 {:else}
-                                  <span class="text-rose-800 dark:text-rose-400"
+                                  <span class="text-down"
                                     >{item?.changesPercentage?.toFixed(
                                       2,
                                     )}%</span
@@ -571,7 +571,7 @@
                               </td>
                             {:else if column.key === "numberOfHoldings"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                               >
                                 {item?.numberOfHoldings !== null &&
                                 item?.numberOfHoldings !== 0
@@ -582,7 +582,7 @@
                               </td>
                             {:else if column.key === "totalAssets"}
                               <td
-                                class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                                class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                               >
                                 {item?.totalAssets !== 0 &&
                                 item?.totalAssets !== null

@@ -74,9 +74,9 @@
   // Common CSS classes
   const borderClasses = "border border-gray-300 shadow dark:border-zinc-700";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 mb-3";
+    "h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-fg mb-3";
   const dropdownButtonClasses =
-    "border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
+    "border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
 
   // Importance levels for dropdown
   const importanceLevels = [1, 2, 3];
@@ -705,19 +705,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{economic_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {economic_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
@@ -728,9 +728,9 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {economic_main_name()}
             </h1>
@@ -742,7 +742,7 @@
             <div class="relative flex flex-col flex-1 overflow-hidden">
               <!-- Header Dates - Desktop: grid with all days, Mobile: only selected day -->
               <div
-                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
+                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
               >
                 {#each displayWeekData as day, index (formattedWeekday[index])}
                   <div
@@ -750,7 +750,7 @@
                     class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
                     selectedWeekday
                       ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                      : 'text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400'}"
+                      : 'text-fg hover:text-accent'}"
                   >
                     <span class="text-[1rem]">{formattedWeekday[index]}</span>
                     <span class="text-sm"
@@ -759,7 +759,7 @@
                     {#if index === 0}
                       <button
                         on:click|stopPropagation={() => changeWeek("previous")}
-                        class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                         aria-label="Previous week"
                         disabled={previousMax}
                       >
@@ -775,7 +775,7 @@
                     {#if index === 4}
                       <button
                         on:click|stopPropagation={() => changeWeek("next")}
-                        class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                         aria-label="Next week"
                         disabled={nextMax}
                       >
@@ -877,10 +877,10 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <div
-                        class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justify-between p-3 bg-white/95 dark:bg-zinc-950/95 border-b border-gray-300 dark:border-zinc-700"
+                        class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justify-between p-3 bg-white/95 dark:bg-zinc-950/95 border-b border-line"
                         tabindex="0"
                         role="menu"
                       >
@@ -888,7 +888,7 @@
                           bind:value={searchQuery}
                           on:input={handleInput}
                           autocomplete="off"
-                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 bg-transparent"
+                          class="focus:outline-none text-sm absolute sticky w-full border-0 focus:border-gray-300 focus:ring-0 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 bg-transparent"
                           placeholder={economic_filter_search()}
                         />
                         {#if searchQuery?.length > 0}
@@ -912,7 +912,7 @@
                       <DropdownMenu.Group>
                         {#each searchQuery.length > 0 ? testList : listOfRelevantCountries as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <div class="flex items-center">
                               <label
@@ -930,7 +930,7 @@
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             {economic_filter_no_country()}
                           </DropdownMenu.Item>
@@ -968,7 +968,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <div
                         class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -978,7 +978,7 @@
                       <DropdownMenu.Group>
                         {#each importanceLevels as i}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <div class="flex items-center">
                               <label
@@ -1016,7 +1016,7 @@
                   {#if filterList.length !== 0}
                     <Button
                       on:click={handleReset}
-                      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1049,7 +1049,7 @@
                       >
                         <div class="flex flex-row items-center gap-3">
                           <h2
-                            class="font-semibold text-xl text-muted dark:text-white"
+                            class="font-semibold text-xl text-fg"
                           >
                             {formattedWeekday[index]?.split(", ")[1]} · {economic_count_events(
                               { count: day?.length },
@@ -1057,11 +1057,11 @@
                           </h2>
                           {#if filterList.length !== 0}
                             <div
-                              class="text-sm flex flex-row items-center text-muted dark:text-zinc-300"
+                              class="text-sm flex flex-row items-center text-fg-muted"
                             >
                               <span>{economic_filters_label()}</span>
                               <span
-                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-[#f8fbfb] dark:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-zinc-200"
+                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-surface-raised/70 border border-gray-300 shadow dark:border-zinc-700 text-fg"
                               >
                                 {filterList.length}
                               </span>
@@ -1100,7 +1100,7 @@
                               on:input={tableSearch}
                               type="text"
                               placeholder={economic_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -1118,7 +1118,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -1140,7 +1140,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-2xl w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-muted dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-2xl w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-fg tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1160,13 +1160,13 @@
                                 {#each columns as column}
                                   {#if column.key === "time"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                                     >
                                       {item?.time}
                                     </td>
                                   {:else if column.key === "country"}
                                     <td
-                                      class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                      class="flex flex-row items-center text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                                     >
                                       {#if item?.country === "EU"}
                                         <svg
@@ -1237,7 +1237,7 @@
                                     </td>
                                   {:else if column.key === "event"}
                                     <td
-                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted"
                                     >
                                       {item?.event?.length > 60
                                         ? item?.event.slice(0, 60) + "..."
@@ -1245,7 +1245,7 @@
                                     </td>
                                   {:else if column.key === "actual"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                                     >
                                       {item?.actual !== null &&
                                       item?.actual !== ""
@@ -1254,7 +1254,7 @@
                                     </td>
                                   {:else if column.key === "consensus"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                                     >
                                       {item?.consensus !== null &&
                                       item?.consensus !== ""
@@ -1263,7 +1263,7 @@
                                     </td>
                                   {:else if column.key === "prior"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                                     >
                                       {item?.prior !== null &&
                                       item?.prior !== ""
@@ -1272,7 +1272,7 @@
                                     </td>
                                   {:else if column.key === "importance"}
                                     <td
-                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted"
                                     >
                                       <div
                                         class="flex flex-row items-center justify-end"
@@ -1322,7 +1322,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1344,7 +1344,7 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm text-muted dark:text-zinc-300">
+                            <span class="text-sm text-fg-muted">
                               {economic_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
@@ -1355,7 +1355,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -1384,12 +1384,12 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
                                     <DropdownMenu.Item
-                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                                     >
                                       <label
                                         on:click={() =>
@@ -1414,7 +1414,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
                                 >{economic_pagination_next()}</span
@@ -1439,7 +1439,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                           >
                             {economic_back_to_top()}
                             <svg
@@ -1464,7 +1464,7 @@
                   {/if}
                 {/each}
                 <div
-                  class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-300 p-3 mt-6"
+                  class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-fg-muted p-3 mt-6"
                 >
                   <strong>{economic_source_label()}</strong>
                   {economic_source_text()}
@@ -1472,7 +1472,7 @@
                     href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear"
                     target="_blank"
                     rel="noopener"
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                    class="font-medium text-fg transition-colors hover:text-accent transition"
                     >{economic_source_provider()}</a
                   >
                   {economic_source_times()}

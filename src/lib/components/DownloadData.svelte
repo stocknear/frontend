@@ -297,7 +297,7 @@
       <Button
         builders={[builder]}
         on:click={() => (showBulkOptions = false)}
-        class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+        class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
       >
         <span class="truncate text-[0.85rem] sm:text-sm">
           {common_download()}
@@ -324,11 +324,11 @@
       alignOffset={0}
       class="{showBulkOptions && bulkDownload
         ? 'w-auto min-w-64 max-w-80'
-        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
     >
       {#if showBulkOptions && bulkDownload}
         <DropdownMenu.Label
-          class="text-muted dark:text-white font-semibold dark:font-normal text-xs"
+          class="text-fg font-semibold dark:font-normal text-xs"
         >
           {common_credits_left({ count: data?.user?.credits })}
         </DropdownMenu.Label>
@@ -356,7 +356,7 @@
 
           {#each bulkData as item}
             <DropdownMenu.Item
-              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
             >
               <label
                 on:click|capture={(event) => {
@@ -389,16 +389,16 @@
         </DropdownMenu.Group>
 
         <div
-          class="sticky -bottom-1 bg-white/90 dark:bg-zinc-950/90 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
+          class="sticky -bottom-1 bg-white/90 dark:bg-zinc-950/90 z-50 p-2 border-t border-line w-full flex justify-between items-center"
         >
           <span
-            class="w-full text-muted dark:text-white bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
+            class="w-full text-fg bg-white/0 font-semibold dark:font-normal text-start text-xs select-none"
           >
             {common_credit_cost_total({ count: totalCreditCost })}
           </span>
           <button
             on:click={handleBulkDownload}
-            class="whitespace-nowrap w-full flex justify-end text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
+            class="whitespace-nowrap w-full flex justify-end text-fg hover:text-muted dark:hover:text-zinc-200 text-start text-sm cursor-pointer"
           >
             {common_bulk_download()}
           </button>
@@ -407,7 +407,7 @@
         <DropdownMenu.Group>
           <DropdownMenu.Item
             on:click={() => download("csv")}
-            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
           >
             <span>{common_download_csv()}</span>
             {#if !isSubscribed}
@@ -429,7 +429,7 @@
 
           <DropdownMenu.Item
             on:click={() => download("excel")}
-            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
           >
             <span>{common_download_excel()}</span>
             {#if !isSubscribed}
@@ -455,7 +455,7 @@
                 event.preventDefault();
                 showBulkOptions = true;
               }}
-              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
             >
               <div class="flex flex-row items-center w-full">
                 <span>{common_bulk_download()}</span>

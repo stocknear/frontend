@@ -105,18 +105,18 @@
           >
             <span
               class="tabular-nums {displayLegend?.change >= 0
-                ? 'text-emerald-800 dark:text-emerald-400'
+                ? 'text-up'
                 : displayLegend?.change < 0
-                  ? 'text-rose-800 dark:text-rose-400'
+                  ? 'text-down'
                   : ''}"
             >
               {formatChange(displayLegend?.change)}
             </span>
             <span
               class="tabular-nums {displayLegend?.changesPercentage >= 0
-                ? 'text-emerald-800 dark:text-emerald-400'
+                ? 'text-up'
                 : displayLegend?.changesPercentage < 0
-                  ? 'text-rose-800 dark:text-rose-400'
+                  ? 'text-down'
                   : ''}"
             >
               ({formatPercent(displayLegend?.changesPercentage)})
@@ -149,8 +149,8 @@
             <div
               class="mt-1.5 block sm:mt-0 sm:inline text-lg tabular-nums {prePostData?.changesPercentage >=
               0
-                ? 'text-emerald-800 dark:text-emerald-400'
-                : 'text-rose-800 dark:text-rose-400'}"
+                ? 'text-up'
+                : 'text-down'}"
             >
               {formatChange(prePostData?.changesPercentage)}%
             </div>

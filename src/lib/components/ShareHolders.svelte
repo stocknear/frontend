@@ -437,7 +437,7 @@
 <section class="overflow-hidden h-full pb-8">
   <main class="overflow-hidden">
     {#if shareholderList?.length !== 0}
-      <div class="mt-3 text-sm text-muted dark:text-zinc-300 leading-relaxed">
+      <div class="mt-3 text-sm text-fg-muted leading-relaxed">
         <p>
           {@html stock_detail_shareholders_description({
             count: rawData?.investorsHolding?.toLocaleString("en-US"),
@@ -486,12 +486,12 @@
 
       {#if putCallRatio !== 0}
         <h1
-          class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white mb-3 mt-6"
+          class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-3 mt-6"
         >
           {stock_detail_shareholders_options_activity()}
         </h1>
 
-        <div class="mt-2 text-sm text-muted dark:text-zinc-300">
+        <div class="mt-2 text-sm text-fg-muted">
           {stock_detail_shareholders_options_holding()}
           {callPercentage > 55
             ? stock_detail_shareholders_options_bullish()
@@ -506,14 +506,14 @@
           >
             <!--Start Put/Call-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                   >{stock_detail_shareholders_put_call()}</span
                 >
-                <span class="text-start text-sm text-muted dark:text-zinc-200">
+                <span class="text-start text-sm text-fg">
                   {putCallRatio?.toFixed(3)}
                 </span>
               </div>
@@ -554,7 +554,7 @@
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
                   <span
-                    class="text-center text-sm text-muted dark:text-zinc-200"
+                    class="text-center text-sm text-fg"
                     >{putCallRatio?.toFixed(2)}</span
                   >
                 </div>
@@ -564,14 +564,14 @@
             <!--End Put/Call-->
             <!--Start Call Flow-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                   >{stock_detail_shareholders_call_flow()}</span
                 >
-                <span class="text-start text-sm text-muted dark:text-zinc-200">
+                <span class="text-start text-sm text-fg">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
@@ -613,7 +613,7 @@
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
                   <span
-                    class="text-center text-sm text-muted dark:text-zinc-200"
+                    class="text-center text-sm text-fg"
                     >{callPercentage?.toFixed(0)}%</span
                   >
                 </div>
@@ -624,14 +624,14 @@
 
             <!--Start Put Flow-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-3 sm:px-5 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 rounded-2xl h-20"
             >
               <div class="flex flex-col items-start">
                 <span
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                   >{stock_detail_shareholders_put_flow()}</span
                 >
-                <span class="text-start text-sm text-muted dark:text-zinc-200">
+                <span class="text-start text-sm text-fg">
                   {new Intl.NumberFormat("en", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
@@ -673,7 +673,7 @@
                   class="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2"
                 >
                   <span
-                    class="text-center text-sm text-muted dark:text-zinc-200"
+                    class="text-center text-sm text-fg"
                     >{putPercentage?.toFixed(0)}%</span
                   >
                 </div>
@@ -687,10 +687,10 @@
 
       <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
         <div
-          class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+          class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
         >
           <h2
-            class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+            class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
           >
             {stock_detail_shareholders_top_shareholders()}
           </h2>
@@ -724,7 +724,7 @@
                 on:input={search}
                 type="text"
                 placeholder={stock_detail_shareholders_find()}
-                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
               />
             </div>
 
@@ -742,10 +742,10 @@
       <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
         <div class="w-full">
           <table
-            class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+            class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
           >
             <thead
-              class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+              class="text-[11px] uppercase tracking-wide text-fg"
             >
               <TableHeader {columns} {sortOrders} {sortData} />
             </thead>
@@ -756,7 +756,7 @@
                     <td class="text-sm whitespace-nowrap">
                       <a
                         href={"/hedge-funds/" + item?.cik}
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                        class="font-medium text-fg transition-colors hover:text-accent transition"
                       >
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
@@ -778,13 +778,13 @@
 
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item?.changeInSharesNumberPercentage >= 0}
-                        <span class="text-emerald-800 dark:text-emerald-400"
+                        <span class="text-up"
                           >+{abbreviateNumber(
                             item?.changeInSharesNumberPercentage?.toFixed(2),
                           )}%</span
                         >
                       {:else if item?.changeInSharesNumberPercentage < 0}
-                        <span class="text-rose-800 dark:text-rose-400"
+                        <span class="text-down"
                           >{abbreviateNumber(
                             item?.changeInSharesNumberPercentage?.toFixed(2),
                           )}%</span
@@ -830,7 +830,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -851,7 +851,7 @@
 
           <!-- Page info and rows selector in center -->
           <div class="flex flex-row items-center gap-4">
-            <span class="text-sm text-muted dark:text-zinc-300">
+            <span class="text-sm text-fg-muted">
               {stock_detail_page_of({
                 current: currentPage,
                 total: totalPages,
@@ -862,7 +862,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -888,13 +888,13 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
                     <DropdownMenu.Item
-                      class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="text-fg-muted hover:text-accent transition"
                     >
                       <label
                         on:click={() => changeRowsPerPage(item)}
@@ -916,7 +916,7 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">{stock_detail_next()}</span>
               <svg
@@ -940,7 +940,7 @@
         <div class="flex justify-center mt-4">
           <button
             on:click={scrollToTop}
-            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
           >
             {stock_detail_back_to_top()}
             <svg

@@ -70,13 +70,13 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] min-h-screen overflow-hidden pb-20 pt-5 px-3 text-muted dark:text-white"
+  class="w-full max-w-3xl sm:max-w-[1400px] min-h-screen overflow-hidden pb-20 pt-5 px-3 text-fg"
 >
   <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs">
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{portfolio_breadcrumb_home()}</a
       >
     </li>
@@ -96,7 +96,7 @@
           </h1>
 
           <nav
-            class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap mt-3"
+            class="border-b border-line overflow-x-auto whitespace-nowrap mt-3"
           >
             <ul
               class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
@@ -108,8 +108,8 @@
                 on:click={() => changeSection("overview")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                 'overview'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {portfolio_tab_overview()}
               </a>
@@ -120,8 +120,8 @@
                 on:click={() => changeSection("analysis")}
                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                 'analysis'
-                  ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                  : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                  ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                  : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
               >
                 {portfolio_tab_analysis()}
               </a>

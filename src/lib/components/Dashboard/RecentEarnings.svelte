@@ -25,10 +25,10 @@
     <div class="flex flex-col items-start w-full">
       <div class="flex flex-row w-full items-center">
         <Card.Title
-          class="text-xl sm:text-2xl text-muted dark:text-white font-semibold"
+          class="text-xl sm:text-2xl text-fg font-semibold"
           ><a
             href="/earnings-calendar"
-            class="text-xl sm:text-2xl text-muted dark:text-white font-semibold cursor-pointer sm:hover:underline sm:hover:underline-offset-4"
+            class="text-xl sm:text-2xl text-fg font-semibold cursor-pointer sm:hover:underline sm:hover:underline-offset-4"
           >
             {dashboard_recent_earnings_title()}
             <svg
@@ -54,12 +54,12 @@
         {#each recentEarnings as item}
           <strong>{item?.name}</strong> (<a
             href={`/stocks/${item?.symbol}`}
-            class="text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
+            class="text-accent dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
             >{item?.symbol}</a
           >) {dashboard_recent_earnings_after_time({ time: formatTime(item?.time) })}
 
           <li
-            class="text-sm sm:text-[1rem] text-muted dark:text-white"
+            class="text-sm sm:text-[1rem] text-fg"
             style="margin-top:10px; margin-left: 30px; margin-bottom: 10px; list-style-type: disc;"
           >
             {dashboard_recent_earnings_revenue({
@@ -77,7 +77,7 @@
             })}
           </li>
           <li
-            class="text-muted dark:text-white"
+            class="text-fg"
             style="line-height: 22px; margin-top:0px; margin-left: 30px; margin-bottom: 30px; list-style-type: disc;"
           >
             {dashboard_recent_earnings_eps({

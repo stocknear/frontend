@@ -240,7 +240,7 @@
 <!-- Watchlist Button -->
 <button
   on:click={handleWatchlistButtonClick}
-  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-700 ease-out whitespace-nowrap text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-[#f8fbfb] sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
+  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-700 ease-out whitespace-nowrap text-fg hover:text-accent px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-[#f8fbfb] sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
   title={msg.watchlist()}
 >
   <svg
@@ -277,11 +277,11 @@
   <div class="modal-backdrop" on:click={closeModal}></div>
 
   <div
-    class="modal-box max-h-96 w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box max-h-96 w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="watchlistModal-{ticker}"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -297,7 +297,7 @@
     <div
       class="mb-5 flex flex-row justify-between items-center border-b pb-2 border-gray-200/70 dark:border-zinc-800"
     >
-      <h3 class="font-semibold text-lg sm:text-xl text-muted dark:text-white">
+      <h3 class="font-semibold text-lg sm:text-xl text-fg">
         {msg.addTo()}
       </h3>
     </div>
@@ -315,10 +315,10 @@
                 ticker,
               )
                 ? 'border-gray-200/70 dark:border-zinc-700/80 bg-gray-50/60 dark:bg-zinc-900/50'
-                : 'border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40'}"
+                : 'border-line bg-white/70 dark:bg-zinc-950/40'}"
             >
               <div class="flex flex-col items-center w-full">
-                <span class="ml-1 mr-auto text-muted dark:text-zinc-200">
+                <span class="ml-1 mr-auto text-fg">
                   {item?.title}
                 </span>
                 <span
@@ -330,11 +330,11 @@
               </div>
 
               <div
-                class="rounded-full w-8 h-8 relative border border-gray-300 dark:border-zinc-700"
+                class="rounded-full w-8 h-8 relative border border-line"
               >
                 {#if tickerExistsInWatchlist(item?.ticker, ticker)}
                   <svg
-                    class="w-full h-full rounded-full text-muted dark:text-zinc-200"
+                    class="w-full h-full rounded-full text-fg"
                     viewBox="0 0 48 48"
                     version="1.1"
                     xmlns="http://www.w3.org/2000/svg"

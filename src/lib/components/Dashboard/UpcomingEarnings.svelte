@@ -17,17 +17,17 @@
   export let upcomingEarnings = [];
 </script>
 
-<section class="mx-auto w-full text-muted dark:text-zinc-200">
+<section class="mx-auto w-full text-fg">
   <a
     href="/earnings-calendar/"
-    class="inline-flex items-center gap-1 text-left w-full text-muted dark:text-white group"
+    class="inline-flex items-center gap-1 text-left w-full text-fg group"
     ><h2
       class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
       {dashboard_upcoming_earnings_title()}
     </h2>
     <svg
-      class="h-5 w-5 text-muted dark:text-zinc-300 transition group-hover:text-muted dark:group-hover:text-zinc-200"
+      class="h-5 w-5 text-fg-muted transition group-hover:text-muted dark:group-hover:text-zinc-200"
       viewBox="0 0 20 20"
       fill="currentColor"
       style="max-width:40px"
@@ -41,13 +41,13 @@
   </a>
   {#if upcomingEarnings?.length !== 0}
     <table
-      class="w-full border-t border-gray-300 dark:border-zinc-700 text-sm sm:text-[0.95rem]"
+      class="w-full border-t border-line text-sm sm:text-[0.95rem]"
     >
       <tbody>
         {#each upcomingEarnings as item}
-          <tr class="border-b border-gray-300 dark:border-zinc-700">
-            <td class="py-3 sm:pl-2 leading-6 text-muted dark:text-zinc-200">
-              <strong class="font-semibold text-muted dark:text-white"
+          <tr class="border-b border-line">
+            <td class="py-3 sm:pl-2 leading-6 text-fg">
+              <strong class="font-semibold text-fg"
                 >{item?.name}</strong
               >
               {item?.isToday === true
@@ -86,7 +86,7 @@
 
               <a
                 href={`/stocks/${item?.symbol}`}
-                class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
+                class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
                 >{item?.symbol}</a
               >
             </td>

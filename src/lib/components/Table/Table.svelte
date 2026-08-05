@@ -2919,20 +2919,20 @@
 <!-- Content area -->
 
 <div
-  class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-muted dark:text-zinc-200 sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+  class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-fg sm:pt-3 sm:pb-3 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
 >
   {#if title}
     <div
       class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
     >
       <h2
-        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
       >
         {title}
       </h2>
       {#if date}
         <span
-          class="text-xs sm:text-sm text-muted dark:text-white font-medium ml-5 mt-1"
+          class="text-xs sm:text-sm text-fg font-medium ml-5 mt-1"
         >
           {date ? `Updated ${date}` : ""}
         </span>
@@ -2940,7 +2940,7 @@
     </div>
   {/if}
   <div
-    class="flex flex-col sm:flex-row sm:items-center w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
+    class="flex flex-col sm:flex-row sm:items-center w-full border-t border-b border-line sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
   >
     <!-- Row 1 on mobile: Find... (full width) -->
     <div
@@ -2968,7 +2968,7 @@
         on:input={search}
         type="text"
         placeholder={list_search_placeholder()}
-        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
       />
     </div>
 
@@ -2979,13 +2979,13 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+              class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
             >
               <span
                 class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0 {Number(
                   quickFilterValues?.[quickFilter?.key] ?? 0,
                 ) > 0
-                  ? 'text-violet-800 dark:text-violet-400 font-semibold'
+                  ? 'text-accent font-semibold'
                   : ''}"
               >
                 {activeQuickFilterLabel(quickFilter, quickFilterValues)}
@@ -3009,18 +3009,18 @@
             side="bottom"
             align="end"
             sideOffset={10}
-            class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+            class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
           >
             <DropdownMenu.Group>
               {#each quickFilter?.options ?? [] as option}
                 <DropdownMenu.Item
                   on:click={() => setQuickFilter(quickFilter?.key, option?.value)}
-                  class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                  class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                 >
                   <span
                     class="text-sm {(quickFilterValues?.[quickFilter?.key] ?? 0) ===
                     option?.value
-                      ? 'text-violet-800 dark:text-violet-400 font-semibold'
+                      ? 'text-accent font-semibold'
                       : ''}"
                   >
                     {option?.label}
@@ -3036,7 +3036,7 @@
         <Button
           on:click={resetQuickFilters}
           title={common_reset_title()}
-          class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center gap-x-1 px-2 sm:px-3 py-2 rounded-full truncate"
+          class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center gap-x-1 px-2 sm:px-3 py-2 rounded-full truncate"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -3068,7 +3068,7 @@
           <Button
             builders={[builder]}
             on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
-            class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0"
               >{list_indicators_label()}</span
@@ -3094,11 +3094,11 @@
           align="end"
           sideOffset={10}
           alignOffset={0}
-          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
         >
           <!-- Search Input -->
           <div
-            class="sticky fixed -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-gray-300 dark:border-zinc-700"
+            class="sticky fixed -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-line"
           >
             <div class="relative w-full">
               <!-- Input Field -->
@@ -3107,7 +3107,7 @@
                 on:input={handleInput}
                 autocomplete="off"
                 autofocus=""
-                class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-muted dark:text-zinc-200 pr-8"
+                class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
                 type="text"
                 placeholder={list_search_indicators_placeholder()}
               />
@@ -3122,7 +3122,7 @@
                   class="absolute right-2 top-1/2 transform -translate-y-1/2"
                 >
                   <svg
-                    class="h-5 w-5 text-muted dark:text-white cursor-pointer"
+                    class="h-5 w-5 text-fg cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -3141,7 +3141,7 @@
           <!-- Dropdown items -->
           <DropdownMenu.Group class="pb-2">
             {#if searchQuery?.length !== 0 && testList?.length === 0}
-              <div class="px-2 py-1 text-xs text-muted dark:text-white">
+              <div class="px-2 py-1 text-xs text-fg">
                 No indicators found
               </div>
             {/if}
@@ -3192,7 +3192,7 @@
                   {:else}
                     <a href="/pricing" class="cursor-pointer">
                       <svg
-                        class="h-[18px] w-[18px] inline-block text-muted dark:text-white"
+                        class="h-[18px] w-[18px] inline-block text-fg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         style="max-width:40px"
@@ -3212,17 +3212,17 @@
           </DropdownMenu.Group>
           <!-- Reset Selection button -->
           <div
-            class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
+            class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-line w-full flex justify-between items-center"
           >
             <label
               on:click={handleResetAll}
-              class="w-full hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="w-full hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
             >
               Reset Selection
             </label>
             <label
               on:click={handleSelectAll}
-              class="w-full flex justify-end hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="w-full flex justify-end hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
             >
               Select All
             </label>
@@ -3234,7 +3234,7 @@
         <button
           on:click={resetColumnOrder}
           title={list_reset_column_order()}
-          class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+          class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
         >
           <svg
             class="w-4 h-4"
@@ -3267,13 +3267,13 @@
           on:click={() => changeTab(tab?.key)}
           class="cursor-pointer text-sm sm:text-[0.95rem] flex flex-row items-center rounded-full px-3 py-1 border font-medium transition {displayTableTab ===
           tab?.key
-            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+            ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+            : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
         >
           <span>{tab?.label}</span>
           {#if (tab?.showCount || tab?.key === "indicators") && tab?.key === "indicators" && indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
             <div
-              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-muted dark:text-zinc-200 rounded-full text-xs font-semibold"
+              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-fg rounded-full text-xs font-semibold"
             >
               {indicatorsTabRules.length - activeIndicatorDefaultRows.length}
             </div>
@@ -3287,10 +3287,10 @@
 
 {#if stockList?.length > 0}
   <div
-    class="w-full overflow-x-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 mt-2"
+    class="w-full overflow-x-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg mt-2"
   >
     <table
-      class="table table-sm table-compact w-full m-auto mt-0 text-muted dark:text-zinc-200 tabular-nums"
+      class="table table-sm table-compact w-full m-auto mt-0 text-fg tabular-nums"
     >
       <thead>
         <TableHeader
@@ -3301,7 +3301,9 @@
           leadingLabel={expandable ? "" : null}
         />
       </thead>
-      <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
+      <!-- Dividers come from the single `.table tr` rule in app.css; a local
+           divide-y here stacked a second line in a different colour. -->
+      <tbody>
         {#each stockList as item, index}
           <tr
             class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {index +
@@ -3322,7 +3324,7 @@
                   class="cursor-pointer p-1"
                 >
                   <svg
-                    class="h-4 w-4 transition-transform text-muted dark:text-zinc-300 {expandedRowSymbol ===
+                    class="h-4 w-4 transition-transform text-fg-muted {expandedRowSymbol ===
                     item?.symbol
                       ? 'rotate-180'
                       : ''}"
@@ -3341,7 +3343,7 @@
             {/if}
             {#each columns as column}
               <td
-                class="text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
+                class="text-[0.85rem] sm:text-sm text-fg whitespace-nowrap"
                 class:text-left={column.align === "left"}
                 class:text-right={column.align === "right"}
               >
@@ -3368,7 +3370,7 @@
                       on:blur={(event) =>
                         handleInlineCellBlur(item, index, column.key, event)}
                       use:inlineInputAction={cellKey}
-                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
+                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
                     />
                   {:else}
                     <button
@@ -3419,11 +3421,11 @@
                         on:click={() =>
                           onToggleDeleteTicker &&
                           onToggleDeleteTicker(item[column.key])}
-                        class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white accent-gray-900 dark:accent-white mr-3"
+                        class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-fg accent-gray-900 dark:accent-white mr-3"
                       />
                       <label
                         for={`delete-ticker-${item[column.key]}-${index}`}
-                        class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 cursor-pointer"
+                        class="text-fg hover:text-accent cursor-pointer"
                       >
                         {item[column.key]}
                       </label>
@@ -3448,7 +3450,7 @@
                             )}
                           class="cursor-pointer ml-auto transition-all duration-200 {item?.hasNote
                             ? 'text-violet-500 dark:text-violet-400'
-                            : 'text-muted dark:text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                            : 'text-fg opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                           title={item?.hasNote ? "Edit note" : "Add note"}
                         >
                           <Pencil class="h-3.5 w-3.5" />
@@ -3480,16 +3482,21 @@
                 {:else if column?.type === "float"}
                   {item[column.key]?.toFixed(2)}
                 {:else if column?.type === "decimal"}
+                  <!-- maximumFractionDigits defaults to 3, which shipped share
+                       volumes like "1,928,982.743". Every column using this type
+                       (Volume, Avg. Volume, Employees, FTD Shares) is a count. -->
                   {typeof item[column.key] === "number"
-                    ? item[column.key]?.toLocaleString("en-US")
+                    ? item[column.key]?.toLocaleString("en-US", {
+                        maximumFractionDigits: 0,
+                      })
                     : "-"}
                 {:else if column?.type === "decimalSign"}
                   {#if item[column.key] >= 0}
-                    <span class="text-emerald-800 dark:text-emerald-400"
+                    <span class="text-up"
                       >+{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="text-rose-800 dark:text-rose-400"
+                    <span class="text-down"
                       >{item[column.key]?.toLocaleString("en-US")}</span
                     >
                   {/if}
@@ -3514,8 +3521,8 @@
                         class="tabular-nums transition-colors duration-300 {item[
                           column?.key
                         ] > item.previous
-                          ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'}"
+                          ? 'text-up'
+                          : 'text-down'}"
                         >{item[column.key] != null
                           ? item[column.key].toFixed(2)
                           : "-"}</span
@@ -3537,11 +3544,11 @@
                     <span>-</span>
                   {:else if item[column.key] > 0}
                     <span
-                      class="tabular-nums text-emerald-800 dark:text-emerald-400"
+                      class="tabular-nums text-up"
                       >+{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else if item[column.key] < 0}
-                    <span class="tabular-nums text-rose-800 dark:text-rose-400"
+                    <span class="tabular-nums text-down"
                       >{abbreviateNumber(item[column.key].toFixed(2))}%</span
                     >
                   {:else}
@@ -3554,13 +3561,13 @@
                     class={["Bullish", "Buy", "Strong Buy"]?.includes(
                       item[column.key],
                     )
-                      ? "text-emerald-800 dark:text-emerald-400"
+                      ? "text-up"
                       : ["Neutral", "Hold"]?.includes(item[column.key])
                         ? "text-[#E57C34] dark:text-yellow-500"
                         : ["Bearish", "Sell", "Strong Sell"]?.includes(
                               item[column.key],
                             )
-                          ? "text-rose-800 dark:text-rose-400"
+                          ? "text-down"
                           : ""}
                   >
                     {item[column.key]}
@@ -3573,7 +3580,7 @@
           </tr>
 
           {#if expandable && item?.symbol && expandedRowSymbol === item?.symbol}
-            <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60">
+            <tr class="bg-surface-page/60">
               <td colspan={(columns?.length ?? 0) + 1} class="px-0">
                 <slot name="rowDetail" {item} />
               </td>

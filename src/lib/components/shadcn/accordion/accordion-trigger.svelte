@@ -22,7 +22,7 @@
   >
     <slot />
     <ChevronDown
-      class="text-muted dark:text-white h-4 w-4 sm:absolute sm:right-5 shrink-0 transition-transform duration-200"
+      class="text-fg h-4 w-4 sm:absolute sm:right-5 shrink-0 transition-transform duration-200"
     />
   </AccordionPrimitive.Trigger>
 </AccordionPrimitive.Header>

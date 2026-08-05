@@ -33,7 +33,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-fg-muted"
                 >
                   Upgrade now for unlimited access to all data, tools and no
                   ads.
@@ -44,18 +44,18 @@
 
           {#if similarStocks?.length > 0 && similarStocks?.at(0)?.dividendYield}
             <div
-              class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded h-fit pb-4 mt-4"
+              class="w-full p-2 border border-line-strong rounded h-fit pb-4 mt-4"
             >
               <h3 class="p-2 pt-4 text-xl font-semibold">Related Stocks</h3>
               <table class="table table-sm table-compact w-full">
-                <thead class="text-muted dark:text-white"
+                <thead class="text-fg"
                   ><tr
                     ><th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-gray-600 font-semibold text-[1rem] text-left px-2"
+                      class="whitespace-nowrap border-b border-line-strong font-semibold text-[1rem] text-left px-2"
                       >Company</th
                     >
                     <th
-                      class="whitespace-nowrap border-b border-gray-300 dark:border-gray-600 font-semibold text-[1rem] text-right px-2"
+                      class="whitespace-nowrap border-b border-line-strong font-semibold text-[1rem] text-right px-2"
                       >Dividend Yield</th
                     ></tr
                   ></thead
@@ -64,14 +64,14 @@
                   {#each similarStocks?.slice(0, 8) as item, index}
                     {#if item?.dividendYield > 0}
                       <tr
-                        class="border-gray-300 dark:border-zinc-700 text-[1rem] {index !==
+                        class="border-line text-[1rem] {index !==
                         similarStocks?.slice(0, 8).length - 1
                           ? 'border-b'
                           : ''}"
                         ><td class="text-left text-[1rem] px-2"
                           ><a
                             href={`/stocks/${item?.symbol}/dividends`}
-                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                            class="font-medium text-fg transition-colors hover:text-accent transition"
                             >{removeCompanyStrings(item?.name)}</a
                           ></td
                         >
@@ -109,7 +109,7 @@
                     <li class="mb-3 last:mb-1">
                       {formatDate(item?.publishedDate)} &#183;
                       <a
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+                        class="font-medium text-fg transition-colors hover:text-accent"
                         href={item?.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow">{item?.title}</a

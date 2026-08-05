@@ -216,10 +216,10 @@
   };
 
   const getChangeClass = (value: number | null) => {
-    if (value === null) return "text-muted dark:text-white";
+    if (value === null) return "text-fg";
     return value >= 0
-      ? "text-emerald-800 dark:text-emerald-400"
-      : "text-rose-800 dark:text-rose-400";
+      ? "text-up"
+      : "text-down";
   };
 
   const normalizeGroupKey = (type: unknown): string => {
@@ -981,7 +981,7 @@
 >
   <!-- Header title row -->
   <div
-    class="flex items-center gap-1.5 px-3 py-1.5 border-b border-gray-200 dark:border-zinc-800 text-[11px] font-semibold text-muted dark:text-zinc-200"
+    class="flex items-center gap-1.5 px-3 py-1.5 border-b border-line text-[11px] font-semibold text-fg"
   >
     {#if activeTab === "alerts"}
       <svg
@@ -1029,7 +1029,7 @@
         class="flex flex-col items-center justify-center gap-3 px-4 py-8 text-center"
       >
         <svg
-          class="w-8 h-8 text-muted dark:text-white"
+          class="w-8 h-8 text-fg"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -1039,10 +1039,10 @@
           />
         </svg>
         <div>
-          <p class="text-sm font-semibold text-muted dark:text-zinc-200">
+          <p class="text-sm font-semibold text-fg">
             {chart_rsb_pro_feature()}
           </p>
-          <p class="mt-1 text-xs text-muted dark:text-white">
+          <p class="mt-1 text-xs text-fg">
             {chart_rsb_pro_watchlist_gate()}
           </p>
         </div>
@@ -1053,7 +1053,7 @@
         </span>
       </a>
     {:else}
-      <div class="px-3 py-0 border-b border-gray-200 dark:border-zinc-800">
+      <div class="px-3 py-0 border-b border-line">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild let:builder>
             <Button
@@ -1085,7 +1085,7 @@
           >
             <DropdownMenu.Item
               on:click={() => (isCreateModalOpen = true)}
-              class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition text-sm text-muted dark:text-zinc-200"
+              class="flex flex-row items-center cursor-pointer hover:text-accent transition text-sm text-fg"
             >
               <svg
                 class="h-4 w-4 mr-1"
@@ -1111,8 +1111,8 @@
                     handleWatchlistChange();
                   }}
                   class="text-xs cursor-pointer {list.id === activeWatchlistId
-                    ? 'text-violet-800 dark:text-violet-400'
-                    : 'text-muted dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+                    ? 'text-accent'
+                    : 'text-fg-muted sm:hover:text-accent'}"
                 >
                   {list.title ?? "Watchlist"} ({Array.isArray(list.ticker)
                     ? list.ticker.length
@@ -1140,14 +1140,14 @@
               {/each}
             </DropdownMenu.Group>
             {#if watchlists.length === 0}
-              <div class="px-3 py-2 text-xs text-muted dark:text-white">
+              <div class="px-3 py-2 text-xs text-fg">
                 {chart_rsb_no_watchlists()}
               </div>
             {/if}
             <DropdownMenu.Separator />
             <DropdownMenu.Item
               on:click={() => goto("/watchlist/stocks")}
-              class="flex items-center gap-2 text-xs cursor-pointer text-muted dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+              class="flex items-center gap-2 text-xs cursor-pointer text-fg-muted sm:hover:text-accent"
             >
               <svg
                 class="size-4"
@@ -1172,7 +1172,7 @@
     <!-- Add stocks search input and Edit button in same row -->
     {#if activeTab === "watchlist" && activeWatchlistId}
       <div
-        class="flex items-center gap-2 px-3 py-2 border-b border-gray-200 dark:border-zinc-800"
+        class="flex items-center gap-2 px-3 py-2 border-b border-line"
       >
         <!-- Add stocks input -->
         <div class="flex-1">
@@ -1184,7 +1184,7 @@
             <div class="relative w-full">
               <Combobox.Input
                 on:input={searchStocks}
-                class="py-1.5 text-xs border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
+                class="py-1.5 text-xs border bg-surface-page/60 border-line rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-400 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full"
                 placeholder={chart_rsb_add_stocks_placeholder()}
                 aria-label={chart_rsb_add_stocks_aria()}
               />
@@ -1197,23 +1197,23 @@
               {#if searchInputValue?.length > 0}
                 {#each searchBarData as item}
                   <Combobox.Item
-                    class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
+                    class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
                     value={item?.symbol}
                     label={item?.name}
                     on:click={() => handleAddTicker(item?.symbol)}
                   >
                     <div class="flex flex-col items-start">
-                      <span class="text-xs text-muted dark:text-zinc-200"
+                      <span class="text-xs text-fg"
                         >{item?.symbol}</span
                       >
-                      <span class="text-[10px] text-muted dark:text-white"
+                      <span class="text-[10px] text-fg"
                         >{item?.name}</span
                       >
                     </div>
                   </Combobox.Item>
                 {:else}
                   <span
-                    class="block px-3 py-2 text-xs text-muted dark:text-white"
+                    class="block px-3 py-2 text-xs text-fg"
                   >
                     No results found
                   </span>
@@ -1222,7 +1222,7 @@
                 <Combobox.Item
                   class="cursor-pointer flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-3 pr-1.5 text-xs capitalize outline-hidden"
                 >
-                  <span class="text-xs text-muted dark:text-white">
+                  <span class="text-xs text-fg">
                     No results found
                   </span>
                 </Combobox.Item>
@@ -1237,7 +1237,7 @@
             {#if editMode}
               <label
                 on:click={handleDeleteTickers}
-                class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                class="border text-xs border-line cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-full py-1 px-2 bg-surface-page/60 text-fg transition hover:text-rose-800 dark:hover:text-rose-400"
               >
                 <svg
                   class="inline-block w-3.5 h-3.5"
@@ -1254,7 +1254,7 @@
             {/if}
             <label
               on:click={handleEditMode}
-              class="border text-xs border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+              class="border text-xs border-line cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-1 px-2 bg-surface-page/60 text-fg transition hover:text-accent"
             >
               <svg
                 class="inline-block w-4 h-4"
@@ -1286,9 +1286,9 @@
 
   <div class="flex-1 overflow-y-auto">
     {#if activeTab === "alerts"}
-      <div class="px-4 py-6 text-sm text-muted dark:text-white">
+      <div class="px-4 py-6 text-sm text-fg">
         <div
-          class="flex items-center gap-2 text-muted dark:text-zinc-200 font-semibold"
+          class="flex items-center gap-2 text-fg font-semibold"
         >
           {chart_rsb_header_price_alerts()}
         </div>
@@ -1297,7 +1297,7 @@
         </p>
         <button
           type="button"
-          class="mt-4 w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-muted dark:text-white cursor-not-allowed"
+          class="mt-4 w-full rounded-md border border-line bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-fg cursor-not-allowed"
           disabled
         >
           {chart_rsb_create_alert()}
@@ -1306,20 +1306,20 @@
     {:else if !isPro}
       <!-- Pro gate handled in dropdown section above -->
     {:else if isLoading}
-      <div class="px-4 py-6 text-xs text-muted dark:text-white">
+      <div class="px-4 py-6 text-xs text-fg">
         {chart_rsb_loading_watchlist()}
       </div>
     {:else if errorMessage}
-      <div class="px-4 py-6 text-sm text-rose-800 dark:text-rose-400">
+      <div class="px-4 py-6 text-sm text-destructive">
         {errorMessage}
       </div>
     {:else if watchlistItems.length === 0}
-      <div class="px-4 py-6 text-xs text-muted dark:text-white">
+      <div class="px-4 py-6 text-xs text-fg">
         {chart_rsb_add_tickers_hint()}
       </div>
     {:else}
       <div
-        class="px-3 py-2 text-[10px] uppercase tracking-wide text-muted dark:text-white grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2"
+        class="px-3 py-2 text-[10px] uppercase tracking-wide text-fg grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-2"
       >
         <span>{chart_rsb_col_symbol()}</span>
         <span class="text-right whitespace-nowrap">{chart_rsb_col_price()}</span>
@@ -1358,7 +1358,7 @@
               )}
               <button
                 type="button"
-                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-muted dark:text-zinc-200 {item?.symbol?.toUpperCase() ===
+                class="cursor-pointer group w-full text-left grid grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.7fr)] gap-1 px-3 py-1.5 text-[11px] transition relative border-b border-gray-200/40 dark:border-zinc-800/50 hover:bg-gray-50/80 dark:hover:bg-[#14161a] text-fg {item?.symbol?.toUpperCase() ===
                 currentSymbol?.toUpperCase()
                   ? 'bg-violet-50/70 dark:bg-violet-950/30 border-l-2 border-l-violet-500 dark:border-l-violet-400'
                   : ''}"
@@ -1397,7 +1397,7 @@
                     />
                   {/if}
                   <span
-                    class=" truncate sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                    class=" truncate font-medium text-fg transition-colors hover:text-accent transition"
                     >{item?.symbol ?? "-"}</span
                   >
                 </span>
@@ -1407,9 +1407,9 @@
                   class="text-right tabular-nums transition-colors duration-300 {item?.previous !=
                   null
                     ? toNumber(item?.price) > item.previous
-                      ? 'text-emerald-800 dark:text-emerald-400'
+                      ? 'text-up'
                       : toNumber(item?.price) < item.previous
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''
                     : ''}">{formatPrice(item?.price)}</span
                 >
@@ -1419,7 +1419,7 @@
                   class="text-right tabular-nums transition-colors duration-300 {item?.previous !=
                   null
                     ? toNumber(item?.price) > item.previous
-                      ? 'text-emerald-800 dark:text-emerald-400'
+                      ? 'text-up'
                       : toNumber(item?.price) < item.previous
                         ? 'text-rose-600 dark:text-rose-400'
                         : getChangeClass(toNumber(item?.changesPercentage))
@@ -1430,7 +1430,7 @@
 
                 <!-- Volume -->
                 <span
-                  class="text-right tabular-nums text-muted dark:text-white"
+                  class="text-right tabular-nums text-fg"
                 >
                   {formatVolume(item?.volume)}
                 </span>
@@ -1443,7 +1443,7 @@
       <!-- Pagination Controls -->
       {#if totalPages > 1}
         <div
-          class="flex items-center justify-between px-3 py-2 border-t border-gray-200 dark:border-zinc-800 bg-[#f8fbfb] dark:bg-[#0b0b0d] sticky bottom-0"
+          class="flex items-center justify-between px-3 py-2 border-t border-line bg-[#f8fbfb] dark:bg-[#0b0b0d] sticky bottom-0"
         >
           <!-- Previous button -->
           <button
@@ -1462,7 +1462,7 @@
           </button>
 
           <!-- Page info -->
-          <span class="text-[10px] text-muted dark:text-white">
+          <span class="text-[10px] text-fg">
             {currentPage} / {totalPages}
           </span>
 
@@ -1500,11 +1500,11 @@
   ></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="createWatchlistModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label={chart_rsb_aria_close_modal()}
     >
       <svg
@@ -1524,10 +1524,10 @@
 
       <form on:submit={handleCreateWatchlist} class="space-y-2 w-full m-auto">
         <div
-          class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white"
+          class="form-control w-full max-w-2xl mb-2 text-fg"
         >
           <label for="watchlistTitle" class="label pb-1">
-            <span class="text-muted dark:text-white">{chart_rsb_list_name()}</span>
+            <span class="text-fg">{chart_rsb_list_name()}</span>
           </label>
           <div class="relative">
             <input
@@ -1535,7 +1535,7 @@
               type="text"
               name="title"
               bind:value={newWatchlistTitle}
-              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
+              class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-surface-page/60 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal"
               required
               autocomplete="off"
             />
@@ -1567,11 +1567,11 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteWatchlistModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label={chart_rsb_aria_close_modal()}
     >
       <svg
@@ -1596,7 +1596,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlistModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0"
       >
         {chart_rsb_cancel()}

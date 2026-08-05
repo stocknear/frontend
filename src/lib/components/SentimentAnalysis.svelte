@@ -77,9 +77,9 @@
                     r="16"
                     fill="none"
                     class="stroke-current {oneYearResult > 5
-                      ? 'text-emerald-800 dark:text-emerald-400'
+                      ? 'text-up'
                       : oneYearResult < 5
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : 'text-white'} text-opacity-[0.7]"
                     stroke-width="3.5"
                     stroke-dasharray="100"
@@ -114,9 +114,9 @@
                         r="16"
                         fill="none"
                         class="stroke-current {oneMonthResult > 5
-                          ? 'text-emerald-800 dark:text-emerald-400'
+                          ? 'text-up'
                           : oneMonthResult < 5
-                            ? 'text-rose-800 dark:text-rose-400'
+                            ? 'text-down'
                             : 'text-white'} "
                         stroke-width="4"
                         stroke-dasharray="100"

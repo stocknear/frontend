@@ -53,7 +53,7 @@
             total: blogData?.data?.totalReports,
           })}
         </span>
-        <span class="text-xs text-rose-800 dark:text-rose-400">
+        <span class="text-xs text-down">
           {blogData?.data?.positiveRevenueSurprises >
           blogData?.data?.totalReports / 2
             ? m.blog_price_above_average()

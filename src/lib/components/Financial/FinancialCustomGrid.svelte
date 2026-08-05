@@ -186,7 +186,7 @@
 <div class="w-full">
   {#if preparedCharts.length === 0}
     <div
-      class="flex items-center justify-center py-12 text-muted dark:text-white"
+      class="flex items-center justify-center py-12 text-fg"
     >
       <p>{stock_detail_no_data()}</p>
     </div>
@@ -206,13 +206,13 @@
           />
         {:else}
           <div
-            class="flex flex-col items-center justify-center rounded-xl border border-gray-200 dark:border-zinc-700/70 bg-white dark:bg-zinc-950/60 p-6 min-h-[220px]"
+            class="flex flex-col items-center justify-center rounded-xl border border-line/70 bg-surface-card/60 p-6 min-h-[220px]"
           >
             <span
-              class="text-sm font-semibold text-muted dark:text-zinc-200 mb-2"
+              class="text-sm font-semibold text-fg mb-2"
               >{chart.config.label}</span
             >
-            <span class="text-xs text-muted dark:text-white text-center"
+            <span class="text-xs text-fg text-center"
               >{stock_detail_no_data()}</span
             >
           </div>

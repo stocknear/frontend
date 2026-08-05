@@ -54,13 +54,13 @@
   }
 </script>
 
-<div class="form-control w-full max-w-2xl mb-2 text-muted dark:text-white">
+<div class="form-control w-full max-w-2xl mb-2 text-fg">
   <label for={id} class="label pb-1">
-    <span class="text-muted dark:text-white">{label}</span>
+    <span class="text-fg">{label}</span>
   </label>
   <div class="relative">
     <input
-      class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
+      class="input input-lg input-bordered border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-surface-page/60 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 rounded-full whitespace-normal pr-12"
       type="password"
       {id}
       name={id}
@@ -142,7 +142,7 @@
         <span
           class={hasMinLength
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-muted dark:text-white"}
+            : "text-fg"}
         >
           {register_password_min_length()}
         </span>
@@ -173,7 +173,7 @@
         <span
           class={hasLetter
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-muted dark:text-white"}
+            : "text-fg"}
         >
           {register_password_has_letter()}
         </span>
@@ -204,7 +204,7 @@
         <span
           class={hasNumber
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-muted dark:text-white"}
+            : "text-fg"}
         >
           {register_password_has_number()}
         </span>
@@ -235,7 +235,7 @@
         <span
           class={hasSpecial
             ? "text-emerald-600 dark:text-emerald-400"
-            : "text-muted dark:text-white"}
+            : "text-fg"}
         >
           {register_password_has_special()}
         </span>

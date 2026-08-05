@@ -462,9 +462,9 @@
               growth = (growthNum > 0 ? "+" : "") + growthNum.toFixed(2) + "%";
               growthClass =
                 growthNum > 0
-                  ? "text-emerald-800 dark:text-emerald-400"
+                  ? "text-up"
                   : growthNum < 0
-                    ? "text-rose-800 dark:text-rose-400"
+                    ? "text-down"
                     : "";
             }
           }
@@ -656,7 +656,7 @@
                                 class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                                   ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                                  : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                                  : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                               >
                                 {item}
                               </button>
@@ -682,20 +682,20 @@
                 class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums m-auto"
                 >
                   <thead
-                    class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                    class="text-xs uppercase tracking-wide text-fg"
                   >
                     <tr>
                       <th
-                        class="border-b border-r border-gray-300 dark:border-zinc-700 font-semibold text-xs text-start"
+                        class="border-b border-r border-line font-semibold text-xs text-start"
                       >
                         {stock_detail_metrics_period_ending()}
                       </th>
                       {#each tableData.formattedDates as formattedDate (formattedDate)}
                         <th
-                          class="z-20 border-b border-r min-w-[120px] border-gray-300 dark:border-zinc-700 font-semibold text-xs text-end"
+                          class="z-20 border-b border-r min-w-[120px] border-line font-semibold text-xs text-end"
                         >
                           {formattedDate}
                         </th>
@@ -708,7 +708,7 @@
                     {#each tableData.rows as row (row.name)}
                       <tr class="w-full transition-colors">
                         <th
-                          class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200"
+                          class="whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-line text-fg"
                         >
                           {row.name}
                           <button
@@ -738,7 +738,7 @@
                         </th>
                         {#each row.cells as cell}
                           <td
-                            class="whitespace-nowrap text-sm text-end border-b border-r border-gray-300 dark:border-zinc-700"
+                            class="whitespace-nowrap text-sm text-end border-b border-r border-line"
                           >
                             {#if cell?.isPremium && cell?.value !== null}
                               <a
@@ -767,7 +767,7 @@
                       </tr>
                       <tr>
                         <td
-                          class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-gray-300 dark:border-zinc-700"
+                          class="min-w-auto md:min-w-96 w-full whitespace-nowrap flex flex-row justify-between items-center text-sm font-normal text-start border-r border-line"
                         >
                           <span class="ml-2 mr-5 md:mr-0"
                             >{row.name} {stock_detail_metrics_growth()}</span
@@ -799,12 +799,12 @@
                         </td>
                         {#each row.cells as cell}
                           <td
-                            class="text-sm text-end border-b border-r border-gray-300 dark:border-zinc-700 {cell.growthClass}"
+                            class="text-sm text-end border-b border-r border-line {cell.growthClass}"
                           >
                             {#if cell.isPremium && cell.growth !== "-"}
                               <a
                                 href="/pricing"
-                                class="inline-flex items-center justify-end text-sm font-semibold text-muted dark:text-zinc-300"
+                                class="inline-flex items-center justify-end text-sm font-semibold text-fg-muted"
                               >
                                 {stock_detail_metrics_upgrade()}
                                 <svg
@@ -838,7 +838,7 @@
           >
             <strong>Source:</strong>
             {@html stock_detail_metrics_source({
-              link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>`,
+              link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="font-medium text-fg transition-colors hover:text-accent transition">Main Street Data</a>`,
             })}
           </div>
         {:else}
@@ -864,22 +864,22 @@
     aria-labelledby="metrics-modal-title"
   >
     <div
-      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200 dark:border-zinc-800 animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-surface-card rounded-t-2xl sm:rounded-2xl shadow-2xl border border-line animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4"
+        class="sticky top-0 z-10 bg-surface-card border-b border-line px-4 sm:px-6 py-4"
       >
         <div class="flex items-start justify-between">
           <div>
             <h2
               id="metrics-modal-title"
-              class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
+              class="text-lg sm:text-xl font-semibold text-fg"
             >
               {modalLabel}
             </h2>
-            <p class="text-sm text-muted dark:text-white mt-0.5">
+            <p class="text-sm text-fg mt-0.5">
               {$stockTicker} - {$selectedTimePeriod === "quarterly"
                 ? "Quarterly"
                 : "TTM"}
@@ -891,7 +891,7 @@
             on:click={handleCloseModal}
             aria-label="Close modal"
           >
-            <X class="w-5 h-5 text-muted dark:text-white" />
+            <X class="w-5 h-5 text-fg" />
           </button>
         </div>
 
@@ -899,7 +899,7 @@
         <div class="flex flex-wrap items-center gap-2 mt-4">
           <Button
             on:click={toggleMode}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />

@@ -64,9 +64,9 @@
   });
 </script>
 
-<tr class="border-b border-gray-300 dark:border-zinc-700 last:border-b-0">
+<tr class="border-b border-line last:border-b-0">
   <td
-    class="px-2.5 py-2 text-sm text-muted dark:text-zinc-200 relative flex flex-row items-center"
+    class="px-2.5 py-2 text-sm text-fg relative flex flex-row items-center"
   >
     <label bind:this={labelEl} for="" class="cursor-text">
       {label}
@@ -74,7 +74,7 @@
   </td>
 
   <td
-    class="px-2.5 py-2 text-right text-xs sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+    class="px-2.5 py-2 text-right text-xs sm:text-sm text-fg-muted tabular-nums"
   >
     {value}
   </td>

@@ -78,7 +78,7 @@
                     formatter: function () {
                         // 'this.value' contains the label text (e.g., "SPY")
                         // We apply the blue color (#3b82f6) directly to the <a> tag
-                        return `<a href="/etf/${this.value}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400">${this.value}</a>`;
+                        return `<a href="/etf/${this.value}" class="font-medium text-fg transition-colors hover:text-accent">${this.value}</a>`;
                     },
                 },
             },
@@ -139,6 +139,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl"
+    class="border border-line rounded-2xl"
     use:highcharts={config}
 ></div>

@@ -435,10 +435,10 @@
 
   <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-300 dark:border-zinc-700"
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
       >
         {list_count_monthly_dividend_etfs({
           count: originalData?.length?.toLocaleString("en-US") ?? "0",
@@ -471,7 +471,7 @@
             on:input={search}
             type="text"
             placeholder={list_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
 
@@ -483,7 +483,7 @@
           <button
             on:click={resetColumnOrder}
             title={list_reset_column_order()}
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -529,13 +529,13 @@
                   {#each columns as column}
                     {#if column.key === "rank"}
                       <td
-                        class="text-center text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200 tabular-nums"
+                        class="text-center text-[0.85rem] sm:text-sm text-fg tabular-nums"
                       >
                         {item?.rank}
                       </td>
                     {:else if column.key === "symbol"}
                       <td
-                        class="text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200"
+                        class="text-[0.85rem] sm:text-sm text-fg"
                       >
                         <HoverStockChart
                           symbol={item?.symbol}
@@ -544,7 +544,7 @@
                       </td>
                     {:else if column.key === "name"}
                       <td
-                        class="text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
+                        class="text-[0.85rem] sm:text-sm text-fg-muted whitespace-nowrap"
                       >
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
@@ -552,7 +552,7 @@
                       </td>
                     {:else if column.key === "price"}
                       <td
-                        class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                        class="text-end text-[0.85rem] sm:text-sm text-fg-muted tabular-nums"
                       >
                         {item?.price}
                       </td>
@@ -561,24 +561,24 @@
                         class="text-end text-[0.85rem] sm:text-sm tabular-nums"
                       >
                         {#if item?.changesPercentage >= 0}
-                          <span class="text-emerald-800 dark:text-emerald-400"
+                          <span class="text-up"
                             >+{item.changesPercentage?.toFixed(2)}%</span
                           >
                         {:else}
-                          <span class="text-rose-800 dark:text-rose-400"
+                          <span class="text-down"
                             >{item.changesPercentage?.toFixed(2)}%</span
                           >
                         {/if}
                       </td>
                     {:else if column.key === "dividendYield"}
                       <td
-                        class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                        class="text-end text-[0.85rem] sm:text-sm text-fg-muted tabular-nums"
                       >
                         {item?.dividendYield}%
                       </td>
                     {:else if column.key === "marketCap"}
                       <td
-                        class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                        class="text-end text-[0.85rem] sm:text-sm text-fg-muted whitespace-nowrap tabular-nums"
                       >
                         {abbreviateNumber(item?.marketCap)}
                       </td>

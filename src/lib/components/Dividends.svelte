@@ -335,7 +335,7 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full mb-6">
           <h2
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white mb-4 w-full"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-4 w-full"
           >
             {stock_detail_dividends_heading()}
           </h2>
@@ -345,42 +345,42 @@
 
         {#if rawData?.history?.length > 0}
           <div
-            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-fg"
               >
                 {stock_detail_dividends_yield()}
               </label>
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-fg"
               >
                 {dividendYield !== "0.00" ? dividendYield : "0"}%
               </div>
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-fg"
               >
                 {stock_detail_dividends_annual()}
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-fg"
               >
                 {annualDividend !== "0.00" ? annualDividend : "0"}
               </div>
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-fg"
               >
                 {stock_detail_dividends_ex_date()}
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-fg"
               >
                 {new Date(exDividendDate)?.toLocaleString("en-US", {
                   month: "short",
@@ -393,26 +393,26 @@
 
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-fg"
               >
                 {stock_detail_dividends_payout_frequency()}
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-fg"
               >
                 {payoutFrequency ? payoutFrequency : "n/a"}
               </div>
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-fg"
               >
                 {stock_detail_dividends_payout_ratio()}
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-fg"
               >
                 {payoutRatio !== "0.00" && payoutRatio !== null
                   ? payoutRatio + "%"
@@ -421,13 +421,13 @@
             </div>
             <div class="p-4 bp:p-5 sm:p-6">
               <label
-                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                class="mr-1 cursor-pointer flex flex-row items-center text-[11px] uppercase tracking-wide text-fg"
               >
                 {stock_detail_dividends_growth()}
               </label>
 
               <div
-                class="mt-2 break-words font-semibold leading-8 text-xl text-muted dark:text-white"
+                class="mt-2 break-words font-semibold leading-8 text-xl text-fg"
               >
                 {dividendGrowth ? dividendGrowth + "%" : "n/a"}
               </div>
@@ -435,10 +435,10 @@
           </div>
 
           <div
-            class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+            class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-line py-2"
           >
             <h3
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
             >
               {stock_detail_dividends_history()}
             </h3>
@@ -458,10 +458,10 @@
             >
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                 >
                   <thead
-                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                    class="text-[11px] uppercase tracking-wide text-fg"
                   >
                     <TableHeader {columns} {sortOrders} {sortData} />
                   </thead>
@@ -535,7 +535,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -558,7 +558,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-muted dark:text-zinc-300">
+                  <span class="text-sm text-fg-muted">
                     {stock_detail_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -569,7 +569,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -595,13 +595,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="hover:text-violet-800 dark:hover:text-violet-400 transition"
+                            class="hover:text-accent transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -623,7 +623,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg
@@ -647,7 +647,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                 >
                   {stock_detail_dividends_back_to_top()}
                   <svg
@@ -667,7 +667,7 @@
               </div>
             {/if}
 
-            <div class="text-muted dark:text-zinc-300 text-sm italic mt-7">
+            <div class="text-fg-muted text-sm italic mt-7">
               {stock_detail_dividends_adjusted_note()}
             </div>
           {:else}

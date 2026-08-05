@@ -153,19 +153,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{news_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {news_flow_breadcrumb_news_flow()}
     </li>
   </BreadCrumb>
@@ -178,7 +178,7 @@
         <main class="w-full lg:w-3/4 lg:pr-5">
           <div class="mb-3">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {news_flow_main_title()}
             </h1>
@@ -188,10 +188,10 @@
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
             >
               <h2
-                class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-lg sm:text-xl font-semibold text-fg py-1 border-b border-line lg:border-none w-full"
               >
                 {news_flow_news_count({
                   count: data?.getData?.totalItems?.toLocaleString("en-US"),
@@ -228,7 +228,7 @@
                     on:input={search}
                     type="text"
                     placeholder={news_flow_search_placeholder()}
-                    class="py-[7px] text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-[7px] text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-gray-500 dark:placeholder:text-zinc-500 px-3 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -241,7 +241,7 @@
 
           {#if stockList?.length > 0}
             <table
-              class="border-t border-gray-300 dark:border-zinc-700 text-sm mt-6 w-full"
+              class="border-t border-line text-sm mt-6 w-full"
             >
               <tbody>
                 {#each stockList as item, index (item?.id ?? index)}
@@ -256,7 +256,7 @@
                     item?.text?.toLowerCase()?.includes("lower") &&
                     item?.changesPercentage < 0}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 transition-all duration-200 w-full
+                    class="border-b border-line transition-all duration-200 w-full
         {index === list.length - 1 && data?.user?.tier !== 'Pro'
                       ? 'opacity-10'
                       : ''}"
@@ -283,13 +283,13 @@
                     })()}"
                   >
                     <td
-                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-muted dark:text-zinc-300"
+                      class="hidden sm:inline-block pr-2 pt-3.5 align-top text-xs whitespace-nowrap font-medium text-fg-muted"
                     >
                       {formatDate(item?.date, true)}
                     </td>
-                    <td class="py-3 pl-2 text-muted dark:text-zinc-300">
+                    <td class="py-3 pl-2 text-fg-muted">
                       <span
-                        class="sm:hidden text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                        class="sm:hidden text-xs uppercase tracking-wide text-fg-muted"
                         >{formatDate(item?.date, true)} ago -</span
                       >
                       {item?.text}
@@ -298,7 +298,7 @@
                         {#each item?.symbolList as symbol}
                           <a
                             href={`/${item?.assetType}/${symbol}`}
-                            class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+                            class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
                           >
                             {symbol}
                           </a>
@@ -306,7 +306,7 @@
                       {:else if item?.symbol}
                         <a
                           href={`/${item?.assetType}/${item?.symbol}`}
-                          class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+                          class="inline-flex items-center mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
                         >
                           {item?.symbol}
                         </a>
@@ -347,7 +347,7 @@
                   {news_flow_sidebar_market_flow_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {news_flow_sidebar_market_flow_description()}
               </span>
             </a>
@@ -365,7 +365,7 @@
                   {news_flow_sidebar_options_flow_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {news_flow_sidebar_options_flow_description()}
               </span>
             </a>
@@ -382,7 +382,7 @@
                   {news_flow_sidebar_dark_pool_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {news_flow_sidebar_dark_pool_description()}
               </span>
             </a>

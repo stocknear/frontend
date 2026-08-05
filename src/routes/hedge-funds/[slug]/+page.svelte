@@ -125,27 +125,27 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{hedge_funds_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/hedge-funds"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{hedge_funds_breadcrumb_hedge_fund()}</a
       >
     </li>
 
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {formatString(companyName)}
     </li>
   </BreadCrumb>
@@ -159,12 +159,12 @@
           <div class="w-full m-auto mt-12">
             <div class="items-center justify-between lg:flex">
               <div
-                class="flex space-x-3 border-b border-gray-300 dark:border-zinc-700 pb-3 lg:border-none lg:pb-0"
+                class="flex space-x-3 border-b border-line pb-3 lg:border-none lg:pb-0"
               >
                 <div class="flex space-x-3 pb-3 lg:border-none lg:pb-0">
                   <div class="shrink-0">
                     <svg
-                      class="h-16 w-16 sm:h-20 sm:w-20 text-muted dark:text-zinc-300"
+                      class="h-16 w-16 sm:h-20 sm:w-20 text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                       style="max-width:100px"
@@ -179,11 +179,11 @@
 
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                    class="mb-0 text-2xl font-semibold tracking-tight text-fg"
                   >
                     {formatString(companyName)}
                   </h1>
-                  <p class="mb-0.5 text-sm text-muted dark:text-zinc-300">
+                  <p class="mb-0.5 text-sm text-fg-muted">
                     {hedge_funds_slug_cik_number()}
                     {data?.getHedgeFundsData?.cik}
                   </p>
@@ -194,12 +194,12 @@
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
-                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {abbreviateNumber(hedgeFundStats?.marketValue)}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {hedge_funds_slug_market_value()}
                   </div>
@@ -209,13 +209,13 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {hedgeFundStats?.averageHoldingPeriod}
                     {hedge_funds_slug_months()}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {hedge_funds_slug_avg_holding_period()}
                   </div>
@@ -225,13 +225,13 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.winRate >= 0
-                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}
+                          ? "before:content-['+'] text-up"
+                          : "text-down"}
                         >{hedgeFundStats?.winRate?.toFixed(2)}%</span
                       >
                     {:else}
@@ -253,7 +253,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {hedge_funds_slug_win_rate()}
                   </div>
@@ -262,13 +262,13 @@
                   class="flex flex-col px-4 py-2 bp:px-6 sm:border-l border-gray-300 dark:sm:border-zinc-800/80 md:py-6"
                 >
                   <div
-                    class="text-2xl font-semibold tracking-tight text-muted dark:text-white tabular-nums"
+                    class="text-2xl font-semibold tracking-tight text-fg tabular-nums"
                   >
                     {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                       <span
                         class={hedgeFundStats?.performancePercentage3Year >= 0
-                          ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}
+                          ? "before:content-['+'] text-up"
+                          : "text-down"}
                         >{hedgeFundStats?.performancePercentage3Year?.toFixed(
                           2,
                         )}%</span
@@ -292,7 +292,7 @@
                     {/if}
                   </div>
                   <div
-                    class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+                    class="text-xs uppercase tracking-wide text-fg-muted"
                   >
                     {hedge_funds_slug_performance_3year()}
                   </div>
@@ -321,7 +321,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -342,7 +342,7 @@
                       {#each data?.getHedgeFundsData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-3 py-1 text-xs font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>

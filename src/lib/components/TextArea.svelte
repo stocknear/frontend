@@ -40,12 +40,12 @@
 
 <div class="form-control w-full h-auto {hidden ? 'hidden' : ''}">
   <label for={id} class="label pb-1">
-    <span class="text-muted dark:text-white">{label}</span>
+    <span class="text-fg">{label}</span>
   </label>
 
   <textarea
     input="text"
-    class="min-h-[290px] p-3 h-auto text-sm border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 whitespace-normal w-full resize-none focus-none ring-none rounded-2xl"
+    class="min-h-[290px] p-3 h-auto text-sm border border-gray-300/80 dark:border-zinc-700/80 focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 w-full bg-surface-page/60 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 whitespace-normal w-full resize-none focus-none ring-none rounded-2xl"
     {type}
     {placeholder}
     {required}

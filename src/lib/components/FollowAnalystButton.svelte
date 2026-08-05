@@ -116,8 +116,8 @@
   disabled={isToggling}
   title={isFollowing ? analysts_following() : analysts_follow()}
   class="inline-flex items-center gap-1 cursor-pointer rounded-full border font-medium whitespace-nowrap shadow-sm transition-all duration-150 active:scale-95 disabled:opacity-60 {sizeClass} {isFollowing
-    ? 'border-violet-500/40 text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-500/15 hover:bg-violet-100 dark:hover:bg-violet-500/25'
-    : 'border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-zinc-300 bg-white dark:bg-zinc-900/60 hover:border-violet-400 hover:text-violet-700 dark:hover:border-violet-500/70 dark:hover:text-violet-300 hover:bg-violet-50/60 dark:hover:bg-violet-500/10'}"
+    ? 'border-violet-500/40 text-accent bg-violet-50 dark:bg-violet-500/15 hover:bg-violet-100 dark:hover:bg-violet-500/25'
+    : 'border-line text-gray-700 dark:text-zinc-300 bg-surface-card/60 hover:border-violet-400 hover:text-violet-700 dark:hover:border-violet-500/70 dark:hover:text-violet-300 hover:bg-violet-50/60 dark:hover:bg-violet-500/10'}"
 >
   {#if isFollowing}
     <!-- check -->

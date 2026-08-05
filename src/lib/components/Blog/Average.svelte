@@ -19,11 +19,11 @@
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
   >
     <thead>
       <tr
-        class="bg-white dark:bg-default border-b border-[#27272A] text-muted dark:text-white"
+        class="bg-white dark:bg-default border-b border-[#27272A] text-fg"
       >
         {#each columns as column, index}
           <th
@@ -66,11 +66,11 @@
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
   >
     <thead>
       <tr
-        class="bg-white dark:bg-default border-b border-[#27272A] text-muted dark:text-white"
+        class="bg-white dark:bg-default border-b border-[#27272A] text-fg"
       >
         {#each columns as column, index}
           <th
@@ -113,11 +113,11 @@
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
   >
     <thead>
       <tr
-        class="bg-white dark:bg-default border-b border-[#27272A] text-muted dark:text-white"
+        class="bg-white dark:bg-default border-b border-[#27272A] text-fg"
       >
         {#each columns as column, index}
           <th

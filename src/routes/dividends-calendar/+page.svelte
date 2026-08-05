@@ -81,7 +81,7 @@
   const tableBorderClasses =
     "border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 mb-3";
+    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-fg mb-3";
 
   let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
   let dividendCalendar = data?.getDividendCalendar;
@@ -622,19 +622,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{dividends_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {dividends_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
@@ -645,12 +645,12 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <div
               class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2"
             >
               <h1
-                class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+                class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
               >
                 {dividends_main_name()}
               </h1>
@@ -668,7 +668,7 @@
                       class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                         {timeframe === item
                         ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                        : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                        : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                     >
                       {getTabLabel(item)}
                     </button>
@@ -687,7 +687,7 @@
                 <!-- Cards -->
                 {#if timeframe === "Daily"}
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -695,7 +695,7 @@
                         class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
                         selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                          : 'text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400'}"
+                          : 'text-fg hover:text-accent'}"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
@@ -707,7 +707,7 @@
                           <button
                             on:click|stopPropagation={() =>
                               changeWeek("previous")}
-                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Previous week"
                             disabled={previousMax}
                           >
@@ -723,7 +723,7 @@
                         {#if index === 4}
                           <button
                             on:click|stopPropagation={() => changeWeek("next")}
-                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Next week"
                             disabled={nextMax}
                           >
@@ -769,7 +769,7 @@
                           class=" m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                            : 'bg-surface-page/60 text-fg'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -842,7 +842,7 @@
                         class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5"
                       >
                         <h2
-                          class="font-semibold text-xl text-muted dark:text-white"
+                          class="font-semibold text-xl text-fg"
                         >
                           {formattedWeekday[index]?.split(", ")[1]} · {dividends_count(
                             { count: day?.length },
@@ -880,7 +880,7 @@
                               on:input={search}
                               type="text"
                               placeholder={dividends_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -898,7 +898,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -920,7 +920,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full {tableBorderClasses} m-auto text-muted dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-none sm:rounded w-full {tableBorderClasses} m-auto text-fg tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -941,13 +941,13 @@
                                 {#each columns as column}
                                   {#if column.key === "symbol"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                                     >
                                       <HoverStockChart symbol={item?.symbol} />
                                     </td>
                                   {:else if column.key === "name"}
                                     <td
-                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300"
+                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-fg-muted"
                                     >
                                       {item?.name.length > 20
                                         ? item?.name.slice(0, 20) + "..."
@@ -955,7 +955,7 @@
                                     </td>
                                   {:else if column.key === "marketCap"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-fg-muted tabular-nums"
                                     >
                                       {@html item?.marketCap !== null
                                         ? abbreviateNumber(
@@ -967,7 +967,7 @@
                                     </td>
                                   {:else if column.key === "revenue"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-fg-muted tabular-nums"
                                     >
                                       {item?.revenue !== null
                                         ? abbreviateNumber(item?.revenue)
@@ -975,7 +975,7 @@
                                     </td>
                                   {:else if column.key === "adjDividend"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-fg-muted tabular-nums"
                                     >
                                       {item?.adjDividend !== null
                                         ? item?.adjDividend?.toFixed(3)
@@ -983,7 +983,7 @@
                                     </td>
                                   {:else if column.key === "date"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-fg-muted tabular-nums"
                                     >
                                       {item?.date !== null
                                         ? new Date(item?.date)?.toLocaleString(
@@ -1000,7 +1000,7 @@
                                     </td>
                                   {:else if column.key === "paymentDate"}
                                     <td
-                                      class="text-[0.85rem] sm:text-sm text-end text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-[0.85rem] sm:text-sm text-end text-fg-muted tabular-nums"
                                     >
                                       {item?.paymentDate !== null
                                         ? new Date(
@@ -1030,7 +1030,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1052,7 +1052,7 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm text-muted dark:text-zinc-300">
+                            <span class="text-sm text-fg-muted">
                               {dividends_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
@@ -1063,7 +1063,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -1092,12 +1092,12 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
                                     <DropdownMenu.Item
-                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                                     >
                                       <label
                                         on:click={() =>
@@ -1122,7 +1122,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
                                 >{dividends_pagination_next()}</span
@@ -1147,7 +1147,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                           >
                             {dividends_back_to_top()}
                             <svg
@@ -1177,12 +1177,12 @@
                 <!-- Weekly View Container -->
                 <div class="flex flex-col w-full">
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
                         on:click={() => switchToDailyView(index)}
-                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-fg transition hover:text-accent"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
@@ -1194,7 +1194,7 @@
                           <button
                             on:click|stopPropagation={() =>
                               changeWeek("previous")}
-                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Previous week"
                             disabled={previousMax}
                           >
@@ -1210,7 +1210,7 @@
                         {#if index === 4}
                           <button
                             on:click|stopPropagation={() => changeWeek("next")}
-                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Next week"
                             disabled={nextMax}
                           >
@@ -1274,12 +1274,12 @@
                                 {#if isExpanded}
                                   <div class="px-3 pb-2 pt-1">
                                     <div
-                                      class="border-t border-gray-300 dark:border-zinc-700"
+                                      class="border-t border-line"
                                     >
                                       <table class="w-full text-sm">
                                         <tbody>
                                           <tr
-                                            class="border-b border-gray-300 dark:border-zinc-700"
+                                            class="border-b border-line"
                                           >
                                             <td class="py-1.5 text-sm"
                                               >{dividends_expanded_ex_date()}</td
@@ -1301,7 +1301,7 @@
                                           </tr>
                                           {#if item?.marketCap !== null}
                                             <tr
-                                              class="border-b border-gray-300 dark:border-zinc-700"
+                                              class="border-b border-line"
                                             >
                                               <td class="py-1.5 text-sm"
                                                 >{dividends_expanded_market_cap()}</td
@@ -1318,7 +1318,7 @@
                                             </tr>
                                           {/if}
                                           <tr
-                                            class="border-b border-gray-300 dark:border-zinc-700"
+                                            class="border-b border-line"
                                           >
                                             <td class="py-1.5 text-sm"
                                               >{dividends_expanded_amount()}</td
@@ -1331,7 +1331,7 @@
                                             </td>
                                           </tr>
                                           <tr
-                                            class="border-b border-gray-300 dark:border-zinc-700"
+                                            class="border-b border-line"
                                           >
                                             <td class="py-1.5 text-sm"
                                               >{dividends_expanded_revenue()}</td
@@ -1415,7 +1415,7 @@
                           class=" m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
+                            : 'bg-surface-page/60 text-fg'} rounded-full sm:rounded-none flex {borderClasses} mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -1514,12 +1514,12 @@
                           {#if isExpanded}
                             <div class="px-3 pb-2 pt-1">
                               <div
-                                class="border-t border-gray-300 dark:border-zinc-700"
+                                class="border-t border-line"
                               >
                                 <table class="w-full text-sm">
                                   <tbody>
                                     <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700"
+                                      class="border-b border-line"
                                     >
                                       <td class="py-1.5 text-sm">Date</td>
                                       <td class="text-right font-semibold">
@@ -1533,7 +1533,7 @@
                                       </td>
                                     </tr>
                                     <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700"
+                                      class="border-b border-line"
                                     >
                                       <td class="py-1.5 text-sm"
                                         >{dividends_expanded_dividend()}</td
@@ -1544,7 +1544,7 @@
                                       </td>
                                     </tr>
                                     <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700"
+                                      class="border-b border-line"
                                     >
                                       <td class="py-1.5 text-sm"
                                         >{dividends_expanded_revenue()}</td
@@ -1556,7 +1556,7 @@
                                       </td>
                                     </tr>
                                     <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700"
+                                      class="border-b border-line"
                                     >
                                       <td class="py-1.5 text-sm"
                                         >{dividends_expanded_ex_date()}</td

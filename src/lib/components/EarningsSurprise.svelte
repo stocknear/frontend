@@ -56,7 +56,7 @@
   }
 </script>
 
-<div class="space-y-3 overflow-hidden text-muted dark:text-zinc-200">
+<div class="space-y-3 overflow-hidden text-fg">
   <!--Start Content-->
   <div class="w-auto lg:w-full p-1 flex flex-col m-auto">
     <div class="flex flex-col items-center w-full mb-3">
@@ -65,14 +65,14 @@
 
         <div class="flex flex-row items-center">
           <h3
-            class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+            class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg"
           >
             {stock_detail_earnings_surprise()}
           </h3>
           <label
             class="{latestInfoDate(rawData?.date)
               ? 'border border-gray-300 shadow dark:border-zinc-700'
-              : 'hidden'} bg-[#f8fbfb] dark:bg-zinc-900/50 text-muted dark:text-zinc-200 ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
+              : 'hidden'} bg-surface-raised/50 text-fg ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
             >{stock_detail_new()}</label
           >
         </div>
@@ -109,8 +109,8 @@
         {abbreviateNumber(Math.abs(rawData?.revenueSurprise), true)}, {stock_detail_with()}
         <span
           class=" {revenueRatio > 0
-            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-            : 'text-rose-800 dark:text-rose-400'}">{revenueRatio}%</span
+            ? "before:content-['+'] text-up"
+            : 'text-down'}">{revenueRatio}%</span
         >
 
         {revenueRatio < 0
@@ -130,8 +130,8 @@
           class=" {epsRatio === null
             ? ''
             : epsRatio > 0
-              ? 'text-emerald-800 dark:text-emerald-400'
-              : 'text-rose-800 dark:text-rose-400'}"
+              ? 'text-up'
+              : 'text-down'}"
         >
           {epsRatio === null ? "n/a" : `${epsRatio}%`}
         </span>

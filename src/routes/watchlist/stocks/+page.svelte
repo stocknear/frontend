@@ -1026,7 +1026,7 @@
 />
 
 <div
-  class="w-full overflow-hidden min-h-screen mt-1 text-muted dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen mt-1 text-fg"
 >
   <div class="w-full">
     {#if isLoaded}
@@ -1076,11 +1076,11 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-muted dark:text-zinc-200"
+                      class="p-0 -mb-2 -mt-2 text-sm inline-flex cursor-pointer items-center justify-center space-x-1 bg-transparent whitespace-nowrap focus:outline-hidden text-fg"
                     >
                       <label
                         for="addWatchlist"
-                        class="flex flex-row items-center cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 transition"
+                        class="flex flex-row items-center cursor-pointer hover:text-accent transition"
                       >
                         <svg
                           class="h-4 w-4 mr-1"
@@ -1109,8 +1109,8 @@
                       on:click={() => changeWatchList(item)}
                       class="text-sm cursor-pointer {item?.id ===
                       displayWatchList?.id
-                        ? 'text-violet-800 dark:text-violet-400 '
-                        : 'text-muted dark:text-zinc-300 sm:hover:text-violet-800 dark:sm:hover:text-violet-400'}"
+                        ? 'text-accent '
+                        : 'text-fg-muted sm:hover:text-accent'}"
                     >
                       {item?.title} ({item?.ticker?.length})
                       <label
@@ -1156,7 +1156,7 @@
               <div class="relative sm:ml-3 w-full">
                 <Combobox.Input
                   on:input={search}
-                  class="py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
+                  class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                   placeholder={watchlist_add_stock_placeholder()}
                   aria-label={watchlist_add_stock_placeholder()}
                 />
@@ -1169,17 +1169,17 @@
                 {#if inputValue?.length > 0}
                   {#each searchBarData as item}
                     <Combobox.Item
-                      class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
+                      class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
                       value={item?.symbol}
                       label={item?.name}
                       on:click={(e) => handleAddTicker(e, item?.symbol)}
                     >
                       <div class="flex flex-col items-start">
-                        <span class="text-sm text-muted dark:text-zinc-200"
+                        <span class="text-sm text-fg"
                           >{item?.symbol}</span
                         >
                         <span
-                          class="text-xs sm:text-sm text-muted dark:text-white"
+                          class="text-xs sm:text-sm text-fg"
                           >{item?.name}</span
                         >
                       </div>
@@ -1187,16 +1187,16 @@
                     <!--This else is related to for loop-->
                   {:else}
                     <span
-                      class="block px-5 py-2 text-sm text-muted dark:text-white"
+                      class="block px-5 py-2 text-sm text-fg"
                     >
                       {watchlist_no_results()}
                     </span>
                   {/each}
                 {:else}
                   <Combobox.Item
-                    class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                    class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                   >
-                    <span class=" text-sm text-muted dark:text-white">
+                    <span class=" text-sm text-fg">
                       {watchlist_no_results()}
                     </span>
                   </Combobox.Item>
@@ -1215,7 +1215,7 @@
               {#if editMode}
                 <label
                   on:click={handleDeleteTickers}
-                  class="w-full border text-sm border-gray-300 dark:border-zinc-700 mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                  class="w-full border text-sm border-line mr-2 sm:ml-3 sm:mr-0 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-surface-page/60 text-fg transition hover:text-rose-800 dark:hover:text-rose-400"
                 >
                   <svg
                     class="inline-block w-5 h-5"
@@ -1234,7 +1234,7 @@
               {/if}
               <label
                 on:click={handleEditMode}
-                class=" w-full border text-sm border-gray-300 dark:border-zinc-700 sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class=" w-full border text-sm border-line sm:ml-3 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="inline-block w-5 h-5"
@@ -1332,7 +1332,7 @@
               />
 
               <div
-                class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
+                class="w-full m-auto border-b border-line mt-10 mb-5"
               ></div>
 
               <div class=" ">
@@ -1353,7 +1353,7 @@
                               class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                                     {activeIdx === i
                                 ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                                : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                                : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                             >
                               {getTabLabel(item)}
                             </button>
@@ -1367,7 +1367,7 @@
                   {#if groupedNews?.length > 0}
                     {#each displayList as [date, titleGroups]}
                       <h3
-                        class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
+                        class="mb-1.5 mt-3 font-semibold text-fg"
                       >
                         {date}
                       </h3>
@@ -1381,7 +1381,7 @@
                               : ''} dark:border-zinc-700 text-sm"
                           >
                             <div
-                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
+                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-fg lg:flex"
                             >
                               {formatTimeLocale(items[0].publishedDate)}
                             </div>
@@ -1399,7 +1399,7 @@
                                   {#each symbols as symbol}
                                     <a
                                       href={`/${items[0].type}/${symbol}`}
-                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                      class="font-medium text-fg transition-colors hover:text-accent transition"
                                     >
                                       {symbol}
                                     </a>
@@ -1420,7 +1420,7 @@
                 {:else if groupedEarnings?.length > 0}
                   {#each displayList as [date, titleGroups]}
                     <h3
-                      class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
+                      class="mb-1.5 mt-3 font-semibold text-fg"
                     >
                       {date}
                     </h3>
@@ -1429,17 +1429,17 @@
                     >
                       {#each titleGroups as item, index}
                         <div
-                          class="flex border-gray-300 dark:border-zinc-700 text-sm"
+                          class="flex border-line text-sm"
                         >
                           <div
-                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
+                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-fg lg:flex"
                           >
                             {formatTime(item?.time)}
                           </div>
                           <div
                             class="grow px-3 py-2 lg:py-1 {index > 0
                               ? 'border-t'
-                              : ''} border-gray-300 dark:border-zinc-700"
+                              : ''} border-line"
                           >
                             <div>
                               {removeCompanyStrings(item?.name)}
@@ -1534,11 +1534,11 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="addWatchlist"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1590,11 +1590,11 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteWatchlist"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
       on:click={() => {
         deleteTargetWatchlist = null;
@@ -1620,7 +1620,7 @@
         on:click={() => {
           deleteTargetWatchlist = null;
         }}
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0">{watchlist_cancel()}</label
       ><label
         for="deleteWatchlist"
@@ -1670,7 +1670,7 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}

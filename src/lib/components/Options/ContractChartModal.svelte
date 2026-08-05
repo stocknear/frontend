@@ -532,16 +532,16 @@
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 sm:rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-2xl animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-2xl border border-line shadow-2xl animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4 flex items-start justify-between"
+        class="sticky top-0 z-10 bg-surface-card border-b border-line px-4 sm:px-6 py-4 flex items-start justify-between"
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
+            class="text-lg sm:text-xl font-semibold text-fg"
           >
             {item.ticker}
             <span
@@ -552,13 +552,13 @@
               {item.put_call}
             </span>
           </h3>
-          <span class="text-sm text-gray-600 dark:text-zinc-400">
+          <span class="text-sm text-fg-muted">
             ${item.strike_price} Strike · Exp {formatDate(item.date_expiration)}
           </span>
         </div>
         <button
           on:click={onClose}
-          class="cursor-pointer p-1 rounded-full text-muted dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+          class="cursor-pointer p-1 rounded-full text-fg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
         >
           <svg
             class="w-5 h-5"
@@ -579,12 +579,12 @@
         <!-- Loading skeleton -->
         <div class="px-4 sm:px-6 py-4">
           <div
-            class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse"
+            class="w-full bg-surface-raised/60 rounded-lg animate-pulse"
             style="height: {$screenWidth < 640 ? 240 : 360}px"
           ></div>
         </div>
         <div
-          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+          class="px-4 sm:px-6 pb-6 border-t border-line pt-4"
         >
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-6">
             {#each Array(8) as _}
@@ -593,7 +593,7 @@
                   class="h-4 w-20 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
                 ></div>
                 <div
-                  class="h-4 w-14 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                  class="h-4 w-14 bg-surface-raised rounded animate-pulse"
                 ></div>
               </div>
             {/each}
@@ -615,7 +615,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          <p class="text-muted dark:text-white text-sm">
+          <p class="text-fg text-sm">
             No contract data available for this option.
           </p>
         </div>
@@ -630,7 +630,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
                 >
                   <span class="truncate text-xs sm:text-sm"
                     >{selectGraphType}</span
@@ -655,10 +655,10 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-xs font-medium text-muted dark:text-white"
+                  class="text-xs font-medium text-fg"
                 >
                   Chart Type
                 </DropdownMenu.Label>
@@ -667,7 +667,7 @@
                   {#each chartTypes as type}
                     <DropdownMenu.Item
                       on:click={() => (selectGraphType = type)}
-                      class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                      class="cursor-pointer text-fg hover:text-accent"
                     >
                       {type}
                     </DropdownMenu.Item>
@@ -683,7 +683,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
                 >
                   <span class="truncate text-xs sm:text-sm"
                     >{selectedTimePeriod}</span
@@ -708,10 +708,10 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
               >
                 <DropdownMenu.Label
-                  class="text-xs font-medium text-muted dark:text-white"
+                  class="text-xs font-medium text-fg"
                 >
                   Time Period
                 </DropdownMenu.Label>
@@ -720,7 +720,7 @@
                   {#each Object.entries(timePeriodLabels) as [key, label]}
                     <DropdownMenu.Item
                       on:click={() => (selectedTimePeriod = key)}
-                      class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                      class="cursor-pointer text-fg hover:text-accent"
                     >
                       {label}
                     </DropdownMenu.Item>
@@ -737,12 +737,12 @@
             {#key selectGraphType}
               <div
                 use:highcharts={chartConfig}
-                class="rounded-2xl border border-gray-300 dark:border-zinc-700"
+                class="rounded-2xl border border-line"
               ></div>
             {/key}
           {:else}
             <div
-              class="flex items-center justify-center rounded-2xl border border-gray-300 dark:border-zinc-700 text-muted dark:text-white text-sm"
+              class="flex items-center justify-center rounded-2xl border border-line text-fg text-sm"
               style="height: {$screenWidth < 640 ? 240 : 360}px"
             >
               No data for selected period
@@ -753,105 +753,105 @@
         <!-- Stats Grid -->
         {#if latestStats}
           <div
-            class="px-4 sm:px-6 pb-4 border-t border-gray-200 dark:border-zinc-800 pt-4"
+            class="px-4 sm:px-6 pb-4 border-t border-line pt-4"
           >
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-6">
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Last Price</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   ${(latestStats?.close ?? latestStats?.mark)?.toFixed(2) ??
                     "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Volume</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.volume?.toLocaleString("en-US") ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Open Interest</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.open_interest?.toLocaleString("en-US") ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >IV</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.implied_volatility != null
                     ? (latestStats.implied_volatility * 100).toFixed(2) + "%"
                     : "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Delta</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.delta?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Gamma</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.gamma?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Theta</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.theta?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Vega</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.vega?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Rho</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.rho?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Charm</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.charm?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Vanna</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.vanna?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
               <div>
-                <span class="text-xs font-medium text-muted dark:text-white"
+                <span class="text-xs font-medium text-fg"
                   >Vomma</span
                 >
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {latestStats?.vomma?.toFixed(4) ?? "n/a"}
                 </div>
               </div>
@@ -861,11 +861,11 @@
 
         <!-- Footer link -->
         <div
-          class="px-4 sm:px-6 pb-4 pt-2 border-t border-gray-200 dark:border-zinc-800"
+          class="px-4 sm:px-6 pb-4 pt-2 border-t border-line"
         >
           <a
             href="/stocks/{item.ticker}/options/contract-lookup?contract={item.option_symbol}"
-            class="text-sm text-violet-800 dark:text-violet-400 hover:underline inline-flex items-center gap-1"
+            class="text-sm text-accent hover:underline inline-flex items-center gap-1"
           >
             View Full Contract History
             <svg

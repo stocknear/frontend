@@ -28,13 +28,13 @@
   }
 </script>
 
-<div class="px-0.5 lg:px-0 text-muted dark:text-zinc-200">
+<div class="px-0.5 lg:px-0 text-fg">
   <h2
-    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
   >
     {index_sidecard_about({ ticker: $indexTicker })}
   </h2>
-  <p class="text-sm text-muted dark:text-zinc-300">
+  <p class="text-sm text-fg-muted">
     {description}
   </p>
 </div>
@@ -45,7 +45,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-muted dark:text-white"
+          <span class="font-semibold tracking-tight text-fg"
             >{index_sidecard_top_sectors()}</span
           >
         </h2>
@@ -54,15 +54,15 @@
           <table class="w-full">
             <thead>
               <tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="border-y border-line text-xs uppercase tracking-wide text-fg"
               >
                 <th
-                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-fg"
                   >{index_sidecard_sector()}</th
                 >
 
                 <th
-                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-fg"
                   >{index_sidecard_weight_percent()}</th
                 >
               </tr>
@@ -71,14 +71,14 @@
               {#each topSectorList?.slice(0, 5) as item}
                 {#if item?.weightPercentage > 0}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 text-sm text-muted dark:text-zinc-300"
+                    class="border-b border-line text-sm text-fg-muted"
                   >
                     <td class="px-1 py-1.5 text-left xs:px-2">
                       <a
                         href={sectorNavigation?.find(
                           (listItem) => listItem?.title === item?.sector,
                         )?.link}
-                        class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4 truncate text-muted dark:text-white"
+                        class="hover:text-accent underline underline-offset-4 truncate text-fg"
                       >
                         {item?.sector}
                       </a>

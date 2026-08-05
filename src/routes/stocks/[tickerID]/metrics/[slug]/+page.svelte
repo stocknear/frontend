@@ -699,7 +699,7 @@
                           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
           {activeIdx === i
                             ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                         >
                           {item}
                         </button>
@@ -714,7 +714,7 @@
                             builders={[builder]}
                             class="flex-shrink-0 transition-all border border-gray-300 shadow dark:border-zinc-700
                  bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900
-                 text-muted dark:text-white rounded-full px-3 py-1.5 text-xs
+                 text-fg rounded-full px-3 py-1.5 text-xs
                  flex flex-row items-center gap-2 truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate">{selectedInterval}</span>
@@ -742,14 +742,14 @@
                           <DropdownMenu.Group>
                             <DropdownMenu.Item
                               on:click={() => changeStatement("5Y")}
-                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                              class="cursor-pointer text-fg-muted hover:text-accent"
                             >
                               5Y
                             </DropdownMenu.Item>
 
                             <DropdownMenu.Item
                               on:click={() => changeStatement("10Y")}
-                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 flex items-center"
+                              class="cursor-pointer text-fg-muted hover:text-accent flex items-center"
                             >
                               10Y
                               {#if !isSubscribed}
@@ -769,7 +769,7 @@
 
                             <DropdownMenu.Item
                               on:click={() => changeStatement("MAX")}
-                              class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 flex items-center"
+                              class="cursor-pointer text-fg-muted hover:text-accent flex items-center"
                             >
                               Max
                               {#if !isSubscribed}
@@ -799,7 +799,7 @@
                   <div class="grow">
                     <div class="relative">
                       <div
-                        class="mt-5 shadow-none sm:mt-0 sm:border sm:border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                         use:highcharts={config}
                       ></div>
                     </div>
@@ -808,7 +808,7 @@
               {/if}
 
               <div
-                class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-gray-300 dark:border-zinc-700 py-2"
+                class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-line py-2"
               >
                 <h3 class="text-xl sm:text-2xl font-bold">
                   {stock_detail_metrics_history()}
@@ -824,11 +824,11 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums m-auto mt-4"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums m-auto mt-4"
                 >
                   <thead>
                     <tr
-                      class="bg-white/60 dark:bg-zinc-950/40 border-b border-gray-300 dark:border-zinc-700 text-muted dark:text-white"
+                      class="bg-white/60 dark:bg-zinc-950/40 border-b border-line text-fg"
                     >
                       <th
                         on:click={() => sortData("date")}
@@ -886,7 +886,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -909,7 +909,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {insider_tracker_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -920,7 +920,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} {insider_tracker_rows()}</span
@@ -946,13 +946,13 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -974,7 +974,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{insider_tracker_next()}</span
@@ -1000,7 +1000,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                   >
                     {insider_tracker_back_to_top()}
                     <svg
@@ -1025,7 +1025,7 @@
               >
                 <strong>Source:</strong>
                 {@html stock_detail_metrics_source({
-                  link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>`,
+                  link: `<a href="https://mainstreetdata.com/" target="_blank" rel="noopener" class="font-medium text-fg transition-colors hover:text-accent transition">Main Street Data</a>`,
                 })}
               </div>
             {:else}

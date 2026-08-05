@@ -470,19 +470,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{reddit_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-white">
+    <li class="text-fg">
       {reddit_tracker_breadcrumb_current()}
     </li>
   </BreadCrumb>
@@ -493,9 +493,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-3 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-3 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {reddit_tracker_title()}
             </h1>
@@ -506,7 +506,7 @@
           <!-- Time Period Tabs -->
 
           <nav
-            class="mt-5 border-t border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
+            class="mt-5 border-t border-b border-line overflow-x-auto whitespace-nowrap"
           >
             <ul
               class="flex flex-row items-center w-full gap-1 py-2 text-sm sm:text-base"
@@ -516,8 +516,8 @@
                   on:click={() => changeTimePeriod(i)}
                   class="cursor-pointer px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   i
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item?.title}
                 </button>
@@ -530,7 +530,7 @@
               class="-mb-2 pt-3 overflow-x-auto whitespace-nowrap flex flex-row items-center justify-between sm:justify-start w-full"
             >
               <h2
-                class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-fg"
               >
                 {reddit_tracker_subreddit_label()}
               </h2>
@@ -538,7 +538,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full "
+                    class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full "
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
                       r/{currentSubreddit}
@@ -563,13 +563,13 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                  class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
                 >
                   <DropdownMenu.Group>
                     {#each availableSubreddits as subreddit}
                       <DropdownMenu.Item
                         on:click={() => changeSubreddit(subreddit.name)}
-                        class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                        class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-fg transition-colors"
                       >
                         <span>{subreddit.name}</span>
                       </DropdownMenu.Item>
@@ -588,7 +588,7 @@
                 <div class="mb-4 space-y-3">
                   {#each stockList as item, index}
                     <div
-                      class="rounded-2xl border border-gray-300 dark:border-zinc-700 overflow-hidden"
+                      class="rounded-2xl border border-line overflow-hidden"
                     >
                       <!-- Header -->
                       <div
@@ -597,7 +597,7 @@
                         <div class="min-w-0 flex-1">
                           <HoverStockChart symbol={item?.symbol} />
                           <p
-                            class="mt-0.5 text-[13px] text-muted dark:text-zinc-300 truncate"
+                            class="mt-0.5 text-[13px] text-fg-muted truncate"
                           >
                             {item?.name?.length > 28
                               ? item?.name?.slice(0, 28) + "..."
@@ -610,14 +610,14 @@
                             'Buy',
                             'Strong Buy',
                           ]?.includes(item?.sentiment)
-                            ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400'
+                            ? 'bg-emerald-100 dark:bg-emerald-900/40 text-up'
                             : ['Neutral', 'Hold']?.includes(item?.sentiment)
                               ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-yellow-500'
                               : ['Bearish', 'Sell', 'Strong Sell']?.includes(
                                     item?.sentiment,
                                   )
-                                ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-400'
-                                : 'bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300'}"
+                                ? 'bg-rose-100 dark:bg-rose-900/40 text-down'
+                                : 'bg-surface-raised text-fg-muted'}"
                         >
                           {item?.sentiment || "-"}
                         </span>
@@ -627,32 +627,32 @@
                       <div class="flex items-end justify-between px-4 pb-4">
                         <div class="space-y-1">
                           <div class="flex items-center gap-1.5 text-[13px]">
-                            <span class="text-gray-600 dark:text-zinc-400"
+                            <span class="text-fg-muted"
                               >{reddit_tracker_mobile_mentions_label()}</span
                             >
                             <span
-                              class="font-medium text-muted dark:text-zinc-200 tabular-nums"
+                              class="font-medium text-fg tabular-nums"
                               >{item?.mentions?.toLocaleString("en-US") ||
                                 "0"}</span
                             >
                           </div>
                           <div class="flex items-center gap-1.5 text-[13px]">
                             <span
-                              class="uppercase text-[10px] tracking-wide text-gray-600 dark:text-zinc-400"
+                              class="uppercase text-[10px] tracking-wide text-fg-muted"
                               >{reddit_tracker_mobile_mktcap_label()}</span
                             >
                             <span
-                              class="tabular-nums text-muted dark:text-zinc-200"
+                              class="tabular-nums text-fg"
                               >{abbreviateNumber(item?.marketCap)}</span
                             >
                           </div>
                         </div>
                         <div class="text-right">
                           <p
-                            class="text-[13px] text-gray-600 dark:text-zinc-400 mb-0.5"
+                            class="text-[13px] text-fg-muted mb-0.5"
                           >
                             <span
-                              class="tabular-nums text-muted dark:text-zinc-200"
+                              class="tabular-nums text-fg"
                               >{item?.price !== undefined &&
                               item?.price !== null
                                 ? "$" + item.price.toFixed(2)
@@ -663,11 +663,11 @@
                             <span
                               class="font-medium tabular-nums {item?.changesPercentage >=
                                 0 && item?.changesPercentage !== null
-                                ? 'text-emerald-800 dark:text-emerald-400'
+                                ? 'text-up'
                                 : item?.changesPercentage < 0 &&
                                     item?.changesPercentage !== null
-                                  ? 'text-rose-800 dark:text-rose-400'
-                                  : 'text-muted dark:text-white'}"
+                                  ? 'text-down'
+                                  : 'text-fg'}"
                             >
                               {item?.changesPercentage !== undefined &&
                               item?.changesPercentage !== null
@@ -683,7 +683,7 @@
                       <!-- Expand Button -->
                       <button
                         on:click={() => openGraph(item?.symbol)}
-                        class="flex w-full items-center justify-between border-t border-gray-300 dark:border-zinc-700 px-4 py-3 text-[13px] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                        class="flex w-full items-center justify-between border-t border-line px-4 py-3 text-[13px] text-fg-muted hover:text-accent transition-colors"
                       >
                         <span>{reddit_tracker_mobile_view_posts()}</span>
                         <svg
@@ -705,13 +705,13 @@
                       <!-- Expanded: Reddit Posts -->
                       {#if checkedSymbol === item?.symbol}
                         <div
-                          class="border-t border-gray-300 dark:border-zinc-700 p-4"
+                          class="border-t border-line p-4"
                         >
                           {#if loadingPosts}
                             <div class="flex justify-center items-center h-40">
                               <div class="relative">
                                 <label
-                                  class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                  class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                                 >
                                   <span
                                     class="loading loading-spinner loading-md text-white dark:text-white"
@@ -721,7 +721,7 @@
                             </div>
                           {:else if expandedPosts?.length === 0}
                             <p
-                              class="text-center py-8 text-muted dark:text-white text-sm"
+                              class="text-center py-8 text-fg text-sm"
                             >
                               {reddit_tracker_posts_empty({
                                 ticker: item?.symbol,
@@ -736,14 +736,14 @@
                                   href="https://reddit.com{post.permalink}"
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  class="block rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-3 transition"
+                                  class="block rounded-xl border border-line bg-white/60 dark:bg-zinc-950/40 p-3 transition"
                                 >
                                   <div
-                                    class="flex flex-wrap items-center gap-1.5 mb-1.5 text-xs text-muted dark:text-white"
+                                    class="flex flex-wrap items-center gap-1.5 mb-1.5 text-xs text-fg"
                                   >
                                     {#if post.link_flair_text}
                                       <span
-                                        class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300 text-[11px] font-medium"
+                                        class="px-2 py-0.5 rounded-full bg-surface-raised text-fg-muted text-[11px] font-medium"
                                       >
                                         {post.link_flair_text}
                                       </span>
@@ -755,19 +755,19 @@
                                     </span>
                                   </div>
                                   <h3
-                                    class="text-sm font-medium text-muted dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
+                                    class="text-sm font-medium text-fg mb-1.5 line-clamp-2 whitespace-normal"
                                   >
                                     {post.title}
                                   </h3>
                                   {#if post.selftext}
                                     <p
-                                      class="text-xs text-gray-600 dark:text-zinc-400 line-clamp-2 mb-2 whitespace-normal"
+                                      class="text-xs text-fg-muted line-clamp-2 mb-2 whitespace-normal"
                                     >
                                       {post.selftext}
                                     </p>
                                   {/if}
                                   <div
-                                    class="flex flex-wrap items-center gap-2 text-xs text-muted dark:text-white"
+                                    class="flex flex-wrap items-center gap-2 text-xs text-fg"
                                   >
                                     <span
                                       >{reddit_tracker_posts_upvote({
@@ -810,7 +810,7 @@
                   class="w-full m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                    class="table table-sm table-compact w-full m-auto text-fg tabular-nums"
                   >
                     <thead>
                       <TableHeader
@@ -835,7 +835,7 @@
                                   class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                                 >
                                   <svg
-                                    class="w-5 h-5 text-muted dark:text-zinc-300 {checkedSymbol ===
+                                    class="w-5 h-5 text-fg-muted {checkedSymbol ===
                                     item?.symbol
                                       ? 'rotate-180'
                                       : ''}"
@@ -854,26 +854,26 @@
                             {:else if column.key === "symbol"}
                               <!-- svelte-ignore a11y-click-events-have-key-events -->
                               <td
-                                class="text-[0.85rem] sm:text-sm text-start text-muted dark:text-zinc-200"
+                                class="text-[0.85rem] sm:text-sm text-start text-fg"
                                 on:click|stopPropagation
                               >
                                 <HoverStockChart symbol={item?.symbol} />
                               </td>
                             {:else if column.key === "mentions"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg tabular-nums"
                               >
                                 {item?.mentions?.toLocaleString("en-US") || "0"}
                               </td>
                             {:else if column.key === "marketCap"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg tabular-nums"
                               >
                                 {abbreviateNumber(item?.marketCap)}
                               </td>
                             {:else if column.key === "price"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg tabular-nums"
                               >
                                 {item?.price !== undefined &&
                                 item?.price !== null
@@ -887,8 +887,8 @@
                                 {#if item?.changesPercentage !== undefined && item?.changesPercentage !== null}
                                   <span
                                     class={item.changesPercentage >= 0
-                                      ? "text-emerald-800 dark:text-emerald-400"
-                                      : "text-rose-800 dark:text-rose-400"}
+                                      ? "text-up"
+                                      : "text-down"}
                                   >
                                     {item.changesPercentage >= 0
                                       ? "+"
@@ -908,7 +908,7 @@
                                     "Buy",
                                     "Strong Buy",
                                   ]?.includes(item?.sentiment)
-                                    ? "text-emerald-800 dark:text-emerald-400"
+                                    ? "text-up"
                                     : ["Neutral", "Hold"]?.includes(
                                           item?.sentiment,
                                         )
@@ -918,7 +918,7 @@
                                             "Sell",
                                             "Strong Sell",
                                           ]?.includes(item?.sentiment)
-                                        ? "text-rose-800 dark:text-rose-400"
+                                        ? "text-down"
                                         : ""}
                                 >
                                   {item?.sentiment || "-"}
@@ -930,7 +930,7 @@
 
                         <!-- Expanded Row: Reddit Posts -->
                         {#if checkedSymbol === item?.symbol}
-                          <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60">
+                          <tr class="bg-surface-page/60">
                             <td colspan={columns.length} class="px-0">
                               <div class="p-4 sm:p-5">
                                 <!-- Header -->
@@ -938,7 +938,7 @@
                                   class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4"
                                 >
                                   <span
-                                    class="text-lg font-semibold text-muted dark:text-white"
+                                    class="text-lg font-semibold text-fg"
                                     >{item?.symbol}</span
                                   >
                                   <span
@@ -947,7 +947,7 @@
                                       'Buy',
                                       'Strong Buy',
                                     ]?.includes(item?.sentiment)
-                                      ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-400'
+                                      ? 'bg-emerald-100 dark:bg-emerald-900/40 text-up'
                                       : ['Neutral', 'Hold']?.includes(
                                             item?.sentiment,
                                           )
@@ -957,13 +957,13 @@
                                               'Sell',
                                               'Strong Sell',
                                             ]?.includes(item?.sentiment)
-                                          ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-400'
-                                          : 'bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300'}"
+                                          ? 'bg-rose-100 dark:bg-rose-900/40 text-down'
+                                          : 'bg-surface-raised text-fg-muted'}"
                                   >
                                     {item?.sentiment || "N/A"}
                                   </span>
                                   <span
-                                    class="text-sm text-muted dark:text-white"
+                                    class="text-sm text-fg"
                                   >
                                     {reddit_tracker_mentions_suffix({
                                       count:
@@ -981,7 +981,7 @@
                                   >
                                     <div class="relative">
                                       <label
-                                        class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                        class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                                       >
                                         <span
                                           class="loading loading-spinner loading-md text-white dark:text-white"
@@ -993,7 +993,7 @@
                                   <!-- Empty state -->
                                 {:else if expandedPosts?.length === 0}
                                   <p
-                                    class="text-center py-8 text-muted dark:text-white text-sm"
+                                    class="text-center py-8 text-fg text-sm"
                                   >
                                     {reddit_tracker_posts_empty({
                                       ticker: item?.symbol,
@@ -1010,15 +1010,15 @@
                                         href="https://reddit.com{post.permalink}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="block rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-zinc-900/60 transition"
+                                        class="block rounded-xl border border-line bg-white/60 dark:bg-zinc-950/40 p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-zinc-900/60 transition"
                                       >
                                         <!-- Flair + author + date -->
                                         <div
-                                          class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 text-xs text-muted dark:text-white"
+                                          class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 text-xs text-fg"
                                         >
                                           {#if post.link_flair_text}
                                             <span
-                                              class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300 text-[11px] font-medium"
+                                              class="px-2 py-0.5 rounded-full bg-surface-raised text-fg-muted text-[11px] font-medium"
                                             >
                                               {post.link_flair_text}
                                             </span>
@@ -1033,21 +1033,21 @@
                                         </div>
                                         <!-- Title -->
                                         <h3
-                                          class="text-sm font-medium text-muted dark:text-white mb-1.5 line-clamp-2 whitespace-normal"
+                                          class="text-sm font-medium text-fg mb-1.5 line-clamp-2 whitespace-normal"
                                         >
                                           {post.title}
                                         </h3>
                                         <!-- Selftext snippet -->
                                         {#if post.selftext}
                                           <p
-                                            class="text-xs text-gray-600 dark:text-zinc-400 line-clamp-2 mb-2 whitespace-normal"
+                                            class="text-xs text-fg-muted line-clamp-2 mb-2 whitespace-normal"
                                           >
                                             {post.selftext}
                                           </p>
                                         {/if}
                                         <!-- Stats row -->
                                         <div
-                                          class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted dark:text-white"
+                                          class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-fg"
                                         >
                                           <span
                                             >{reddit_tracker_posts_upvote({
@@ -1101,7 +1101,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1124,7 +1124,7 @@
 
                   <!-- Page info + rows selector -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {reddit_tracker_page_of({
                         current: String(currentPage),
                         total: String(totalPages),
@@ -1135,7 +1135,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} {reddit_tracker_rows()}</span
@@ -1161,12 +1161,12 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as rpp}
                             <DropdownMenu.Item
-                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(rpp)}
@@ -1188,7 +1188,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{reddit_tracker_next()}</span
@@ -1214,7 +1214,7 @@
               <div class="flex justify-center items-center h-80">
                 <div class="relative">
                   <label
-                    class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
                       class="loading loading-spinner loading-md text-white dark:text-white"

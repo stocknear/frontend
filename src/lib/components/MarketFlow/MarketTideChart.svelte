@@ -392,6 +392,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl"
+    class="border border-line rounded-2xl"
     use:highcharts={config}
 ></div>

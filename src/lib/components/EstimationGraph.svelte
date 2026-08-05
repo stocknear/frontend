@@ -41,10 +41,10 @@
               class="absolute inset-0 flex items-center justify-center z-10"
             >
               <div
-                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
               >
                 <svg
-                  class="w-4 h-4 text-muted dark:text-white"
+                  class="w-4 h-4 text-fg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -55,7 +55,7 @@
                   />
                 </svg>
                 <span
-                  class="text-[9px] font-semibold text-muted dark:text-white"
+                  class="text-[9px] font-semibold text-fg"
                   >Upgrade</span
                 >
               </div>
@@ -67,7 +67,7 @@
         <table class="w-full text-right">
           <thead
             ><tr
-              class="border-b border-gray-300 dark:border-zinc-700 align-bottom font-normal"
+              class="border-b border-line align-bottom font-normal"
               ><th class="p-1 text-left font-semibold text-sm sm:text-[1rem]"
                 >{title}</th
               >
@@ -80,7 +80,7 @@
           >
           <tbody
             ><tr
-              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+              class="border-b border-line last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">High</td>
               {#each highDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -104,7 +104,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+              class="border-b border-line last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
               {#each avgDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -128,7 +128,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+              class="border-b border-line last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Low</td>
               {#each lowDataList as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -182,10 +182,10 @@
               class="absolute inset-0 flex items-center justify-center z-10"
             >
               <div
-                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-gray-300 dark:border-gray-700 shadow-lg cursor-pointer hover:scale-105"
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
               >
                 <svg
-                  class="w-4 h-4 text-muted dark:text-white"
+                  class="w-4 h-4 text-fg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -196,7 +196,7 @@
                   />
                 </svg>
                 <span
-                  class="text-[9px] font-semibold text-muted dark:text-white"
+                  class="text-[9px] font-semibold text-fg"
                   >Upgrade</span
                 >
               </div>
@@ -208,7 +208,7 @@
         <table class="w-full text-right">
           <thead
             ><tr
-              class="border-b border-gray-300 dark:border-zinc-700 align-bottom font-normal whitespace-nowrap"
+              class="border-b border-line align-bottom font-normal whitespace-nowrap"
               ><th class="p-1 text-left font-semibold text-sm sm:text-[1rem]"
                 >{title}</th
               >
@@ -221,7 +221,7 @@
           >
           <tbody
             ><tr
-              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+              class="border-b border-line last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">High</td>
               {#each computeGrowthSingleList(highDataList, avgDataList) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -241,9 +241,9 @@
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
-                          ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
+                          ? "text-up before:content-['+']"
                           : item?.growth < 0
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                       >
                         {item?.growth !== null && Math.abs(item?.growth - 0) > 0
@@ -255,7 +255,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+              class="border-b border-line last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Avg</td>
               {#each avgGrowthList?.filter((item) => item?.FY >= thisYear) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -275,9 +275,9 @@
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
-                          ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
+                          ? "text-up before:content-['+']"
                           : item?.growth < 0
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                       >
                         {item?.growth !== null && Math.abs(item?.growth - 0) > 0
@@ -289,7 +289,7 @@
                 </td>
               {/each}
             </tr><tr
-              class="border-b border-gray-300 dark:border-zinc-700 last:border-0"
+              class="border-b border-line last:border-0"
               ><td class="whitespace-nowrap px-1 py-[3px] text-left">Low</td>
               {#each computeGrowthSingleList(lowDataList, avgDataList) as item, index}
                 <td class="px-1 py-[3px] text-sm sm:text-[1rem]">
@@ -309,9 +309,9 @@
                     {:else}
                       <span
                         class={item?.growth !== null && item?.growth > 0
-                          ? "text-emerald-800 dark:text-emerald-400 before:content-['+']"
+                          ? "text-up before:content-['+']"
                           : item?.growth < 0
-                            ? "text-rose-800 dark:text-rose-400"
+                            ? "text-down"
                             : ""}
                       >
                         {item?.growth !== null && Math.abs(item?.growth - 0) > 0

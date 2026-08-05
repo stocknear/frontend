@@ -86,11 +86,11 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="installModal"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -105,7 +105,7 @@
     </label>
     <div class="flex flex-row items-center pt-5">
       <h4
-        class="mb-3 text-2xl font-semibold tracking-tight text-muted dark:text-white text-center m-auto"
+        class="mb-3 text-2xl font-semibold tracking-tight text-fg text-center m-auto"
       >
         {app_installed_modal_title()}
       </h4>
@@ -127,7 +127,7 @@
 
     <div class="flex flex-col justify-center items-center text-xl h-full">
       <div
-        class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
+        class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
       >
         <button
           type="button"
@@ -135,7 +135,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'ios'
             ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
         >
           {app_installed_platform_ios()}
         </button>
@@ -145,7 +145,7 @@
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {installPlatform ===
           'android'
             ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
         >
           {app_installed_platform_android()}
         </button>
@@ -153,18 +153,18 @@
 
       {#if installPlatform === "ios"}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-fg-muted"
         >
           <li class="mb-2">{app_installed_ios_step_1()}</li>
           <li class="mb-2">{app_installed_ios_step_2()}</li>
           <li class="mb-4">{app_installed_ios_step_3()}</li>
-          <p class="text-sm mb-4 text-muted dark:text-zinc-300">
+          <p class="text-sm mb-4 text-fg-muted">
             {app_installed_ios_note()}
           </p>
         </ul>
       {:else}
         <ul
-          class="list-decimal list-inside text-left mt-5 text-sm text-muted dark:text-zinc-300"
+          class="list-decimal list-inside text-left mt-5 text-sm text-fg-muted"
         >
           <li class="mb-2">{app_installed_android_step_1()}</li>
           <li class="mb-2">{app_installed_android_step_2()}</li>
@@ -174,10 +174,10 @@
       {/if}
     </div>
 
-    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2">
+    <div class="border-t border-line mt-2">
       <label
         for="installModal"
-        class="mt-4 font-semibold text-lg text-muted dark:text-white m-auto flex justify-center cursor-pointer"
+        class="mt-4 font-semibold text-lg text-fg m-auto flex justify-center cursor-pointer"
       >
         {app_installed_close()}
       </label>

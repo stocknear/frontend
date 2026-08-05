@@ -249,7 +249,7 @@
 
   // Reusable CSS classes
   const weekArrowClasses =
-    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 mb-3";
+    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-fg border border-gray-300 shadow dark:border-zinc-700 mb-3";
   const mobileArrowClasses = "w-6 h-6 inline-block";
   const weekdayClasses =
     "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3";
@@ -749,19 +749,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{earnings_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {earnings_breadcrumb_calendar()}
     </li>
   </BreadCrumb>
@@ -772,12 +772,12 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <div
               class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2"
             >
               <h1
-                class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+                class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
               >
                 {earnings_main_name()}
               </h1>
@@ -787,7 +787,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
+                      class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate">{earnings_time_of_day()}</span>
                       <svg
@@ -810,13 +810,13 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each timeOptions as option}
                         <DropdownMenu.Item
                           on:click={() => handleTimeOptionClick(option)}
-                          class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:hover:text-violet-400 transition flex items-center justify-between"
+                          class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition flex items-center justify-between"
                         >
                           <span
                             class="flex items-center justify-between w-full"
@@ -837,7 +837,7 @@
                           </span>
                           {#if releaseTime === option.value}
                             <CheckMark
-                              class="w-4 h-4 text-muted dark:text-zinc-200 ml-2"
+                              class="w-4 h-4 text-fg ml-2"
                             />
                           {/if}
                         </DropdownMenu.Item>
@@ -855,7 +855,7 @@
                       class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                         {timeframe === item
                         ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                        : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                        : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                     >
                       {getTabLabel(item)}
                     </button>
@@ -872,7 +872,7 @@
                 <!-- Daily View -->
                 {#if timeframe === "Daily"}
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -880,7 +880,7 @@
                         class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 transition {index ===
                         selectedWeekday
                           ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                          : 'text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400'}"
+                          : 'text-fg hover:text-accent'}"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
@@ -892,7 +892,7 @@
                           <button
                             on:click|stopPropagation={() =>
                               changeWeek("previous")}
-                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Previous week"
                             disabled={previousMax}
                           >
@@ -908,7 +908,7 @@
                         {#if index === 4}
                           <button
                             on:click|stopPropagation={() => changeWeek("next")}
-                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Next week"
                             disabled={nextMax}
                           >
@@ -953,7 +953,7 @@
                           on:click={() => toggleDate(index)}
                           class="{weekdayClasses} {index === selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200'}"
+                            : 'bg-surface-page/60 text-fg'}"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -1026,7 +1026,7 @@
                         class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-5"
                       >
                         <h2
-                          class="font-semibold text-xl text-muted dark:text-white"
+                          class="font-semibold text-xl text-fg"
                         >
                           {formattedWeekday[index]?.split(", ")[1]} · {earnings_count(
                             { count: day?.length },
@@ -1064,7 +1064,7 @@
                               on:input={search}
                               type="text"
                               placeholder={earnings_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -1082,7 +1082,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -1104,7 +1104,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-muted dark:text-zinc-200 tabular-nums"
+                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-fg tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1125,13 +1125,13 @@
                                 {#each columns as column}
                                   {#if column.key === "symbol"}
                                     <td
-                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                                      class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                                     >
                                       <HoverStockChart symbol={item?.symbol} />
                                     </td>
                                   {:else if column.key === "name"}
                                     <td
-                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300"
+                                      class="whitespace-nowrap text-[0.85rem] sm:text-sm text-fg-muted"
                                     >
                                       {item?.name?.length > 20
                                         ? item?.name?.slice(0, 20) + "..."
@@ -1139,7 +1139,7 @@
                                     </td>
                                   {:else if column.key === "marketCap"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm text-fg-muted tabular-nums"
                                     >
                                       {@html item?.marketCap !== null
                                         ? abbreviateNumber(
@@ -1151,7 +1151,7 @@
                                     </td>
                                   {:else if column.key === "revenueEst"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm text-fg-muted tabular-nums"
                                     >
                                       <div
                                         class="flex flex-row items-center justify-end"
@@ -1173,8 +1173,8 @@
                                             )}
                                           <span
                                             class="ml-1 {revenueChange >= 0
-                                              ? 'text-emerald-800 dark:text-emerald-400'
-                                              : 'text-rose-800 dark:text-rose-400'}"
+                                              ? 'text-up'
+                                              : 'text-down'}"
                                           >
                                             {revenueChange >= 0
                                               ? "+"
@@ -1185,7 +1185,7 @@
                                     </td>
                                   {:else if column.key === "epsEst"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                                      class="text-end text-[0.85rem] sm:text-sm text-fg-muted tabular-nums"
                                     >
                                       <div
                                         class="flex flex-row items-center justify-end"
@@ -1203,8 +1203,8 @@
                                             )}
                                           <span
                                             class="ml-1 {epsChange >= 0
-                                              ? 'text-emerald-800 dark:text-emerald-400'
-                                              : 'text-rose-800 dark:text-rose-400'}"
+                                              ? 'text-up'
+                                              : 'text-down'}"
                                           >
                                             {epsChange >= 0
                                               ? "+"
@@ -1215,11 +1215,11 @@
                                     </td>
                                   {:else if column.key === "release"}
                                     <td
-                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
+                                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted"
                                     >
                                       {#if item?.release === "amc"}
                                         <svg
-                                          class="w-4 h-4 inline-block mr-1 text-muted dark:text-white"
+                                          class="w-4 h-4 inline-block mr-1 text-fg"
                                           xmlns="http://www.w3.org/2000/svg"
                                           viewBox="0 0 256 256"
                                           ><path
@@ -1231,7 +1231,7 @@
                                         {earnings_time_after_close()}
                                       {:else}
                                         <svg
-                                          class="w-4 h-4 inline-block mr-1 text-muted dark:text-white"
+                                          class="w-4 h-4 inline-block mr-1 text-fg"
                                           xmlns="http://www.w3.org/2000/svg"
                                           viewBox="0 0 256 256"
                                           ><g fill="currentColor"
@@ -1263,7 +1263,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1285,7 +1285,7 @@
                           </div>
 
                           <div class="flex flex-row items-center gap-4">
-                            <span class="text-sm text-muted dark:text-zinc-300">
+                            <span class="text-sm text-fg-muted">
                               {earnings_pagination_page_of({
                                 current: dailyCurrentPage,
                                 total: dailyTotalPages,
@@ -1296,7 +1296,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -1325,12 +1325,12 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
                                     <DropdownMenu.Item
-                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                      class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                                     >
                                       <label
                                         on:click={() =>
@@ -1355,7 +1355,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
                                 >{earnings_pagination_next()}</span
@@ -1380,7 +1380,7 @@
                         <div class="flex justify-center mt-4">
                           <button
                             on:click={scrollToTop}
-                            class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                           >
                             {earnings_back_to_top()}
                             <svg
@@ -1409,12 +1409,12 @@
               {:else if timeframe === "Weekly"}
                 <div class="flex flex-col w-full">
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-[#f8fbfb] dark:bg-zinc-950/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
                         on:click={() => switchToDailyView(index)}
-                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                        class="relative flex h-16 cursor-pointer flex-col items-center justify-center px-8 text-fg transition hover:text-accent"
                       >
                         <span class="text-[1rem]"
                           >{formattedWeekday[index]}</span
@@ -1426,7 +1426,7 @@
                           <button
                             on:click|stopPropagation={() =>
                               changeWeek("previous")}
-                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Previous week"
                             disabled={previousMax}
                           >
@@ -1442,7 +1442,7 @@
                         {#if index === 4}
                           <button
                             on:click|stopPropagation={() => changeWeek("next")}
-                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted dark:text-white transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                            class="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-fg transition hover:text-muted dark:hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
                             aria-label="Next week"
                             disabled={nextMax}
                           >
@@ -1506,12 +1506,12 @@
                                 {#if isExpanded}
                                   <div class="px-3 pb-2 pt-1">
                                     <div
-                                      class="border-t border-gray-300 dark:border-zinc-700"
+                                      class="border-t border-line"
                                     >
                                       <table class="w-full text-sm">
                                         <tbody>
                                           <tr
-                                            class="border-b border-gray-300 dark:border-zinc-700"
+                                            class="border-b border-line"
                                           >
                                             <td class="py-1.5 text-sm"
                                               >{earnings_expanded_reports()}</td
@@ -1524,7 +1524,7 @@
                                               >
                                                 {#if item?.release === "amc"}
                                                   <svg
-                                                    class="h-4 w-4 mr-1 text-muted dark:text-white"
+                                                    class="h-4 w-4 mr-1 text-fg"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -1539,7 +1539,7 @@
                                                   {earnings_time_after_close()}
                                                 {:else}
                                                   <svg
-                                                    class="h-4 w-4 mr-1 text-muted dark:text-white"
+                                                    class="h-4 w-4 mr-1 text-fg"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke="currentColor"
@@ -1558,7 +1558,7 @@
                                           </tr>
                                           {#if item?.marketCap !== null}
                                             <tr
-                                              class="border-b border-gray-300 dark:border-zinc-700"
+                                              class="border-b border-line"
                                             >
                                               <td class="py-1.5 text-sm">
                                                 {earnings_expanded_market_cap()}
@@ -1575,7 +1575,7 @@
                                             </tr>
                                           {/if}
                                           <tr
-                                            class="border-b border-gray-300 dark:border-zinc-700"
+                                            class="border-b border-line"
                                           >
                                             <td
                                               class="py-1.5 text-sm"
@@ -1604,8 +1604,8 @@
                                                     )}
                                                   <span
                                                     class={revenueChange >= 0
-                                                      ? "text-emerald-800 dark:text-emerald-400"
-                                                      : "text-rose-800 dark:text-rose-400"}
+                                                      ? "text-up"
+                                                      : "text-down"}
                                                   >
                                                     {revenueChange >= 0
                                                       ? "+"
@@ -1637,7 +1637,7 @@
                                               {#if item?.epsEst !== null && item?.epsPrior !== null && item?.epsPrior !== 0}
                                                 {#if item?.epsEst / item?.epsPrior - 1 >= 0}
                                                   <span
-                                                    class="text-emerald-800 dark:text-emerald-400"
+                                                    class="text-up"
                                                   >
                                                     +{(
                                                       (item?.epsEst /
@@ -1648,7 +1648,7 @@
                                                   </span>
                                                 {:else}
                                                   <span
-                                                    class="text-rose-800 dark:text-rose-400"
+                                                    class="text-down"
                                                   >
                                                     {(
                                                       (item?.epsEst /
@@ -1671,7 +1671,7 @@
                           </div>
                         {:else}
                           <div
-                            class="text-center text-sm text-muted dark:text-white py-8"
+                            class="text-center text-sm text-fg py-8"
                           >
                             {earnings_empty_scheduled()}
                           </div>
@@ -1715,7 +1715,7 @@
                           class="m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3"
+                            : 'bg-surface-page/60 text-fg'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -1814,12 +1814,12 @@
                           {#if isExpanded}
                             <div class="px-3 pb-2">
                               <div
-                                class="border-t border-gray-300 dark:border-zinc-700 pt-2"
+                                class="border-t border-line pt-2"
                               >
                                 <table class="w-full text-sm">
                                   <tbody>
                                     <tr
-                                      class=" border-b border-gray-300 dark:border-zinc-700"
+                                      class=" border-b border-line"
                                     >
                                       <td class="py-1.5 text-sm"
                                         >{earnings_expanded_reports()}</td
@@ -1830,7 +1830,7 @@
                                         >
                                           {#if item?.release === "amc"}
                                             <svg
-                                              class="h-4 w-4 mr-1 text-muted dark:text-white"
+                                              class="h-4 w-4 mr-1 text-fg"
                                               fill="none"
                                               viewBox="0 0 24 24"
                                               stroke="currentColor"
@@ -1845,7 +1845,7 @@
                                             {earnings_time_after_close()}
                                           {:else}
                                             <svg
-                                              class="h-4 w-4 mr-1 text-muted dark:text-white"
+                                              class="h-4 w-4 mr-1 text-fg"
                                               fill="none"
                                               viewBox="0 0 24 24"
                                               stroke="currentColor"
@@ -1864,7 +1864,7 @@
                                     </tr>
                                     {#if item?.marketCap !== null}
                                       <tr
-                                        class="border-b border-gray-300 dark:border-zinc-700"
+                                        class="border-b border-line"
                                       >
                                         <td class="py-1.5 text-sm"
                                           >{earnings_expanded_market_cap()}</td
@@ -1879,7 +1879,7 @@
                                       </tr>
                                     {/if}
                                     <tr
-                                      class="border-b border-gray-300 dark:border-zinc-700"
+                                      class="border-b border-line"
                                     >
                                       <td
                                         class="py-1.5 text-sm"
@@ -1901,7 +1901,7 @@
                                             <span></span>
                                           {:else if item?.revenueEst / item?.revenuePrior - 1 >= 0}
                                             <span
-                                              class="text-emerald-800 dark:text-emerald-400"
+                                              class="text-up"
                                             >
                                               +{(
                                                 (item?.revenueEst /
@@ -1912,7 +1912,7 @@
                                             </span>
                                           {:else}
                                             <span
-                                              class="text-rose-800 dark:text-rose-400"
+                                              class="text-down"
                                             >
                                               {(
                                                 (item?.revenueEst /
@@ -1938,7 +1938,7 @@
                                         {#if item?.epsEst !== null && item?.epsPrior !== null && item?.epsPrior !== 0}
                                           {#if item?.epsEst / item?.epsPrior - 1 >= 0}
                                             <span
-                                              class="text-emerald-800 dark:text-emerald-400"
+                                              class="text-up"
                                             >
                                               +{(
                                                 (item?.epsEst / item?.epsPrior -
@@ -1948,7 +1948,7 @@
                                             </span>
                                           {:else}
                                             <span
-                                              class="text-rose-800 dark:text-rose-400"
+                                              class="text-down"
                                             >
                                               {(
                                                 (item?.epsEst / item?.epsPrior -
@@ -1969,7 +1969,7 @@
                       {/each}
                     {:else}
                       <div
-                        class="text-center text-sm text-muted dark:text-white py-8"
+                        class="text-center text-sm text-fg py-8"
                       >
                         {earnings_empty_scheduled()}
                       </div>

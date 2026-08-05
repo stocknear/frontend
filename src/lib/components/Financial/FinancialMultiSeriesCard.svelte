@@ -364,7 +364,7 @@
 
 <div
   bind:this={cardElement}
-  class="group relative bg-white dark:bg-zinc-950/60 border border-gray-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 transition-all duration-200 hover:shadow-md cursor-pointer"
+  class="group relative bg-surface-card/60 border border-line rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 transition-all duration-200 hover:shadow-md cursor-pointer"
   role="button"
   tabindex="0"
   on:click={onExpand}
@@ -373,11 +373,11 @@
   <!-- Header -->
   <div class="flex items-center justify-between px-3 pt-3 pb-1">
     <div class="flex items-center gap-2 min-w-0">
-      <h3 class="text-sm font-medium text-muted dark:text-zinc-200 truncate">
+      <h3 class="text-sm font-medium text-fg truncate">
         {metricLabel}
       </h3>
       <span
-        class="text-xs font-semibold text-gray-600 dark:text-zinc-400 shrink-0"
+        class="text-xs font-semibold text-fg-muted shrink-0"
       >
         {isMargin
           ? `${abbreviateNumber(primaryLatest)}%`
@@ -400,7 +400,7 @@
       on:click|stopPropagation={onExpand}
       aria-label="Expand chart"
     >
-      <Maximize class="w-4 h-4 text-muted dark:text-white" />
+      <Maximize class="w-4 h-4 text-fg" />
     </button>
   </div>
 
@@ -413,7 +413,7 @@
             class="w-2 h-2 rounded-full"
             style="background-color: {getSeriesColor(s)}"
           ></span>
-          <span class="text-[10px] text-muted dark:text-white">{s.label}</span>
+          <span class="text-[10px] text-fg">{s.label}</span>
         </div>
       {/each}
     </div>

@@ -870,9 +870,9 @@
                 <div
                   class="mt-0.5 text-lg bp:text-xl sm:mt-1.5 sm:text-2xl font-bold flex flex-row items-center {marginOfSafety >
                   0
-                    ? 'text-emerald-800 dark:text-emerald-400'
+                    ? 'text-up'
                     : marginOfSafety < 0
-                      ? 'text-rose-800 dark:text-rose-400'
+                      ? 'text-down'
                       : ''}"
                 >
                   {presentValue && presentValue > 0
@@ -898,7 +898,7 @@
                       "%"
                     : "n/a"}
                 </div>
-                <p class="text-xs text-muted dark:text-white mt-1">
+                <p class="text-xs text-fg mt-1">
                   {stock_detail_forecast_dcf_market_expects()}
                 </p>
               </div>
@@ -912,21 +912,21 @@
                   ? 'border-emerald-300 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-950/30'
                   : valuationStatus === 'overvalued'
                     ? 'border-rose-300 dark:border-rose-700 bg-rose-50/80 dark:bg-rose-950/30'
-                    : 'border-gray-300 dark:border-zinc-700 bg-gray-50/80 dark:bg-zinc-950/30'}"
+                    : 'border-line bg-gray-50/80 dark:bg-zinc-950/30'}"
               >
                 <div class="flex items-center justify-between">
                   <div>
                     <span
-                      class="text-sm font-medium text-gray-600 dark:text-zinc-400"
+                      class="text-sm font-medium text-fg-muted"
                       >{stock_detail_forecast_dcf_valuation_status()}</span
                     >
                     <div
                       class="text-lg font-bold {valuationStatus ===
                       'undervalued'
-                        ? 'text-emerald-800 dark:text-emerald-400'
+                        ? 'text-up'
                         : valuationStatus === 'overvalued'
-                          ? 'text-rose-800 dark:text-rose-400'
-                          : 'text-muted dark:text-zinc-200'}"
+                          ? 'text-down'
+                          : 'text-fg'}"
                     >
                       {valuationStatus === "undervalued"
                         ? stock_detail_forecast_dcf_undervalued()
@@ -936,12 +936,12 @@
                     </div>
                   </div>
                   <div class="text-right">
-                    <span class="text-sm text-gray-600 dark:text-zinc-400"
+                    <span class="text-sm text-fg-muted"
                       >{stock_detail_forecast_dcf_buy_below()}</span
                     >
                     <div class="flex gap-3 mt-1">
                       <div class="text-center">
-                        <div class="text-xs text-gray-500 dark:text-zinc-500">
+                        <div class="text-xs text-fg-subtle">
                           30%
                         </div>
                         <div class="font-semibold text-sm">
@@ -949,7 +949,7 @@
                         </div>
                       </div>
                       <div class="text-center">
-                        <div class="text-xs text-gray-500 dark:text-zinc-500">
+                        <div class="text-xs text-fg-subtle">
                           20%
                         </div>
                         <div class="font-semibold text-sm">
@@ -957,7 +957,7 @@
                         </div>
                       </div>
                       <div class="text-center">
-                        <div class="text-xs text-gray-500 dark:text-zinc-500">
+                        <div class="text-xs text-fg-subtle">
                           10%
                         </div>
                         <div class="font-semibold text-sm">
@@ -973,7 +973,7 @@
             <div class="flex items-center justify-between mb-4">
               <label
                 for="showSteps"
-                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 {stock_detail_forecast_dcf_show_steps()}
               </label>
@@ -1025,27 +1025,27 @@
                     />
                   </div>
                 </h2>
-                <p class="text-sm text-muted dark:text-white mb-4">
+                <p class="text-sm text-fg mb-4">
                   Fair values at different growth and discount rate combinations
                 </p>
 
                 <div class="overflow-x-auto">
                   <div
-                    class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+                    class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
                   >
                     <table class="w-full text-sm">
                       <thead>
                         <tr
-                          class="border-b border-gray-300 dark:border-zinc-700"
+                          class="border-b border-line"
                         >
                           <th
-                            class="p-3 text-left font-semibold text-gray-600 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-900/50"
+                            class="p-3 text-left font-semibold text-fg-muted bg-gray-50/50 dark:bg-zinc-900/50"
                           >
                             Growth / Discount
                           </th>
                           {#each sensitivityDiscountRates as discount}
                             <th
-                              class="p-3 text-center font-semibold text-gray-600 dark:text-zinc-400 bg-gray-50/50 dark:bg-zinc-900/50 {discount ===
+                              class="p-3 text-center font-semibold text-fg-muted bg-gray-50/50 dark:bg-zinc-900/50 {discount ===
                               discountRate
                                 ? 'bg-violet-100 dark:bg-violet-900/30'
                                 : ''}"
@@ -1058,10 +1058,10 @@
                       <tbody>
                         {#each sensitivityMatrix as row, rowIndex}
                           <tr
-                            class="border-b border-gray-300 dark:border-zinc-700 last:border-b-0 transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                            class="border-b border-line last:border-b-0 transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                           >
                             <td
-                              class="p-3 font-medium text-muted dark:text-zinc-300 {sensitivityGrowthRates[
+                              class="p-3 font-medium text-fg-muted {sensitivityGrowthRates[
                                 rowIndex
                               ] === Math.round(metricGrowthRate)
                                 ? 'bg-violet-100 dark:bg-violet-900/30'
@@ -1086,15 +1086,15 @@
                                   ? 'bg-violet-200 dark:bg-violet-800/50 ring-2 ring-violet-500 ring-inset'
                                   : ''}
                                 {!isCurrentCell && isUndervalued
-                                  ? 'text-emerald-800 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20'
+                                  ? 'text-up bg-emerald-50/50 dark:bg-emerald-900/20'
                                   : ''}
                                 {!isCurrentCell && isOvervalued
-                                  ? 'text-rose-800 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-900/20'
+                                  ? 'text-down bg-rose-50/50 dark:bg-rose-900/20'
                                   : ''}
                                 {!isCurrentCell &&
                                 !isUndervalued &&
                                 !isOvervalued
-                                  ? 'text-muted dark:text-zinc-300'
+                                  ? 'text-fg-muted'
                                   : ''}
                               "
                               >
@@ -1109,7 +1109,7 @@
                 </div>
 
                 <div
-                  class="flex flex-wrap gap-4 mt-3 text-xs text-muted dark:text-white"
+                  class="flex flex-wrap gap-4 mt-3 text-xs text-fg"
                 >
                   <div class="flex items-center gap-1">
                     <span
@@ -1148,7 +1148,7 @@
 
           <aside class="inline-block relative w-full lg:w-1/4 mt-3">
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-muted dark:text-zinc-200"
+              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-fg"
             >
               <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold">
@@ -1170,7 +1170,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm">{metricLabel}</span>
                         <svg
@@ -1191,7 +1191,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={10}
-                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         <DropdownMenu.Item
@@ -1200,8 +1200,8 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'freeCashFlow'
-                            ? 'text-muted dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                            ? 'text-fg font-medium'
+                            : 'text-fg-muted'} cursor-pointer hover:text-accent"
                         >
                           {stock_detail_forecast_dcf_fcf()}
                         </DropdownMenu.Item>
@@ -1211,8 +1211,8 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'operatingIncome'
-                            ? 'text-muted dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                            ? 'text-fg font-medium'
+                            : 'text-fg-muted'} cursor-pointer hover:text-accent"
                         >
                           {stock_detail_forecast_dcf_operating_income()}
                         </DropdownMenu.Item>
@@ -1222,8 +1222,8 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'operatingCashFlow'
-                            ? 'text-muted dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                            ? 'text-fg font-medium'
+                            : 'text-fg-muted'} cursor-pointer hover:text-accent"
                         >
                           {stock_detail_forecast_dcf_ocf()}
                         </DropdownMenu.Item>
@@ -1233,8 +1233,8 @@
                             onMetricChange();
                           }}
                           class="{selectedMetric === 'bookValue'
-                            ? 'text-muted dark:text-white font-medium'
-                            : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                            ? 'text-fg font-medium'
+                            : 'text-fg-muted'} cursor-pointer hover:text-accent"
                         >
                           {stock_detail_forecast_dcf_book_value()}
                         </DropdownMenu.Item>
@@ -1256,7 +1256,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm"
                           >{yearsToProject} Years</span
@@ -1279,7 +1279,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={10}
-                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each [3, 5, 10] as year}
@@ -1289,8 +1289,8 @@
                               userHasModifiedInputs = true;
                             }}
                             class="{yearsToProject === year
-                              ? 'text-muted dark:text-white font-medium'
-                              : 'text-muted dark:text-zinc-300'} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                              ? 'text-fg font-medium'
+                              : 'text-fg-muted'} cursor-pointer hover:text-accent"
                           >
                             {year} Years
                           </DropdownMenu.Item>
@@ -1324,7 +1324,7 @@
                       id="metric-growth"
                       bind:value={metricGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
+                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1360,7 +1360,7 @@
                       id="shares-growth"
                       bind:value={sharesGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
+                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1392,7 +1392,7 @@
                       id="dividend-growth"
                       bind:value={dividendGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
+                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                 </div>
@@ -1414,7 +1414,7 @@
                     id="price-ratio"
                     bind:value={priceRatioAvg}
                     on:input={() => (userHasModifiedInputs = true)}
-                    class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-muted dark:text-zinc-200"
+                    class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-fg"
                   />
                   <p class="mt-2 text-xs">
                     {stock_detail_forecast_dcf_avg_ratio({
@@ -1446,7 +1446,7 @@
                       id="discount-rate"
                       bind:value={discountRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-[#f8fbfb] dark:bg-zinc-950/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-muted dark:text-zinc-200"
+                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1468,16 +1468,16 @@
 
 <input type="checkbox" id="showSteps" class="modal-toggle" />
 
-<dialog id="showSteps" class="modal p-3 sm:p-0 text-muted dark:text-zinc-300">
+<dialog id="showSteps" class="modal p-3 sm:p-0 text-fg-muted">
   <label for="showSteps" class="cursor-pointer modal-backdrop bg-[#000]/30"
   ></label>
 
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="showSteps"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1629,7 +1629,7 @@
       </div>
     </div>
 
-    <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
+    <div class="border-t border-line mt-2 w-full">
       <label
         for="showSteps"
         class="mt-4 font-semibold text-xl m-auto flex justify-center cursor-pointer"

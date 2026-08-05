@@ -97,10 +97,10 @@
         <main class="w-full">
           <div class="m-auto">
             <nav
-              class=" sm:ml-4 pt-2 text-sm whitespace-nowrap overflow-x-auto sm:border-none border-b border-gray-300 dark:border-zinc-700"
+              class=" sm:ml-4 pt-2 text-sm whitespace-nowrap overflow-x-auto sm:border-none border-b border-line"
             >
               <ul
-                class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base border-b border-gray-300 dark:border-zinc-700"
+                class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base border-b border-line"
               >
                 <a
                   href={$selectedTimePeriod !== "annual" && $selectedTimePeriod
@@ -109,8 +109,8 @@
                   on:click={() => changeSubSection("income")}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'income'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_income()}
                 </a>
@@ -122,8 +122,8 @@
                   on:click={() => changeSubSection("balance-sheet")}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'balance-sheet'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_balance_sheet()}
                 </a>
@@ -134,8 +134,8 @@
                   on:click={() => changeSubSection("cash-flow")}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'cash-flow'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_cashflow()}
                 </a>
@@ -146,8 +146,8 @@
                   on:click={() => changeSubSection("ratios")}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'ratios'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_ratios()}
                 </a>
@@ -158,8 +158,8 @@
                   on:click={() => changeSubSection("custom")}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                   'custom'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_custom()}
                 </a>
@@ -169,8 +169,8 @@
                   on:click|preventDefault={() => updateQuery("annual")}
                   class="hidden sm:block ml-auto px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'annual'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_annual()}
                 </a>
@@ -179,8 +179,8 @@
                   on:click|preventDefault={() => updateQuery("quarterly")}
                   class="hidden sm:block px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'quarterly'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_quarterly()}
                 </a>
@@ -189,8 +189,8 @@
                   on:click|preventDefault={() => updateQuery("ttm")}
                   class="hidden sm:block px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'ttm'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_ttm()}
                 </a>
@@ -204,8 +204,8 @@
                   on:click|preventDefault={() => updateQuery("annual")}
                   class="px-2.5 py-1.5 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'annual'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_annual()}
                 </a>
@@ -214,8 +214,8 @@
                   on:click|preventDefault={() => updateQuery("quarterly")}
                   class="px-2.5 py-1.5 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'quarterly'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_quarterly()}
                 </a>
@@ -224,8 +224,8 @@
                   on:click|preventDefault={() => updateQuery("ttm")}
                   class="px-2.5 py-1.5 rounded-full border text-sm font-medium transition {$selectedTimePeriod ===
                   'ttm'
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {stock_detail_financials_ttm()}
                 </a>

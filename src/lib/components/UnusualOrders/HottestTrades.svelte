@@ -211,7 +211,7 @@
     {#if rawData?.length !== 0}
       <div class="w-full m-auto rounded mb-4 overflow-x-auto mt-4">
         <table
-          class="table table-sm table-compact w-full border border-gray-300 dark:border-zinc-700 m-auto"
+          class="table table-sm table-compact w-full border border-line m-auto"
         >
           <thead>
             <TableHeader {columns} {sortOrders} {sortData} />

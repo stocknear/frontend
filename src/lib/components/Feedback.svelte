@@ -117,11 +117,11 @@
     <label
       for="feedbackModalToggle"
       aria-label={feedback_title()}
-      class="group flex fixed bottom-20 sm:bottom-8 right-5 sm:right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
+      class="group flex fixed bottom-20 sm:bottom-8 right-5 sm:right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-fg hover:text-accent hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
       style="position: fixed !important; z-index: 99999 !important;"
     >
       <Question
-        class="size-5 text-muted dark:text-white group-hover:text-violet-800 dark:group-hover:text-violet-400 transition"
+        class="size-5 text-fg group-hover:text-accent transition"
       />
       <span class="hidden sm:inline text-sm font-semibold"
         >{feedback_title()}</span
@@ -141,17 +141,17 @@
 <!-- Modal -->
 <dialog
   id="feedbackModal"
-  class="modal modal-middle overflow-hidden p-3 sm:p-0 bg-black/40 text-muted dark:text-zinc-200"
+  class="modal modal-middle overflow-hidden p-3 sm:p-0 bg-black/40 text-fg"
 >
   <label for="feedbackModalToggle" class="cursor-pointer modal-backdrop"
   ></label>
 
   <div
-    class="modal-box w-full max-w-4xl relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-4xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="feedbackModalToggle"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -167,7 +167,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h1
-        class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
+        class="text-2xl font-semibold tracking-tight text-fg"
       >
         {feedback_title()}
       </h1>
@@ -178,11 +178,11 @@
       <!-- Describe your issue or suggestion -->
       <div class="space-y-2">
         <label
-          class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
           >{feedback_description_label()}</label
         >
         <textarea
-          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 p-3 text-sm text-muted dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 p-3 text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
           placeholder=""
           bind:value={description}
         />
@@ -191,12 +191,12 @@
       <!-- Feedback for page -->
       <div class="space-y-2">
         <label
-          class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
           >{feedback_page_label()}</label
         >
         <input
           type="text"
-          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 px-3 text-sm text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
+          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 px-3 text-sm text-fg focus:outline-none focus:ring-0"
           bind:value={pageUrl}
           readonly
         />
@@ -208,7 +208,7 @@
     <div class="mt-6 flex justify-end gap-2">
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-sm text-muted dark:text-zinc-200 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
+        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-sm text-fg hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
         on:click={closeModal}
         disabled={isSubmitting}
       >

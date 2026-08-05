@@ -328,7 +328,7 @@
               const priceFormatted =
                 rawPrice !== null ? ` ${currency.format(rawPrice)}` : "";
 
-              content += `<div style="color: ${point.series.color}; margin-bottom: 4px;">${point.series.name} ${priceFormatted} (<span class="${point?.y > 0 ? "text-emerald-800 dark:text-emerald-400" : point?.y < 0 ? "text-rose-800 dark:text-rose-400" : ""}">${point.y >= 0 ? "+" : ""}${point.y?.toFixed(2)}%</span>)</div>`;
+              content += `<div style="color: ${point.series.color}; margin-bottom: 4px;">${point.series.name} ${priceFormatted} (<span class="${point?.y > 0 ? "text-up" : point?.y < 0 ? "text-down" : ""}">${point.y >= 0 ? "+" : ""}${point.y?.toFixed(2)}%</span>)</div>`;
             }
           });
           content += `<div style="color: ${$mode === "light" ? "#6b7280" : "#fff"}; font-size: 12px; margin-top: 4px;">${formattedTime}</div></div>`;
@@ -439,13 +439,13 @@
 </script>
 
 {#if tickerList?.length > 0}
-  <div class="w-full border-t border-gray-300 dark:border-zinc-700 pt-10">
+  <div class="w-full border-t border-line pt-10">
     <div
-      class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-6 sm:p-7"
+      class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-6 sm:p-7"
     >
       <!-- Header -->
       <div class="flex items-center gap-2 mb-6">
-        <div class="ml-auto text-xs text-muted dark:text-white tabular-nums">
+        <div class="ml-auto text-xs text-fg tabular-nums">
           {#if displayTickerList?.length > 0}
             {@const firstTicker = displayTickerList[0]}
             {@const firstQuote = stockQuotes[firstTicker]}
@@ -465,7 +465,7 @@
               <div>
                 <div class="flex items-center gap-2 mb-3">
                   <div
-                    class="size-8 rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-100/80 dark:bg-zinc-900/60 flex items-center justify-center overflow-hidden"
+                    class="size-8 rounded-full border border-line bg-gray-100/80 dark:bg-zinc-900/60 flex items-center justify-center overflow-hidden"
                   >
                     <img
                       src={`https://financialmodelingprep.com/image-stock/${ticker}.png`}
@@ -490,8 +490,8 @@
                   <span
                     class={`text-sm sm:text-base font-semibold tabular-nums ${
                       (quote?.changesPercentage || 0) >= 0
-                        ? "text-emerald-800 dark:text-emerald-400"
-                        : "text-rose-800 dark:text-rose-400"
+                        ? "text-up"
+                        : "text-down"
                     }`}
                   >
                     {(quote?.changesPercentage || 0) >= 0 ? "+" : "-"}{Math.abs(
@@ -518,7 +518,7 @@
               <div class="">
                 <div class="flex justify-between items-center mb-4">
                   <h3
-                    class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-muted dark:text-white"
+                    class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-fg"
                   >
                     {ticker?.toUpperCase()}
                   </h3>
@@ -526,7 +526,7 @@
                 <div class="grid grid-cols-3 gap-x-8 gap-y-3 text-sm">
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >Prev Close</span
                     >
                     <span
@@ -537,7 +537,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >Day Range</span
                     >
                     <span
@@ -550,7 +550,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >P/E Ratio</span
                     >
                     <span
@@ -561,7 +561,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >Open</span
                     >
                     <span
@@ -572,7 +572,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >52W Range</span
                     >
                     <span
@@ -585,7 +585,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >Dividend Yield</span
                     >
                     <span
@@ -597,7 +597,7 @@
                   </div>
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >Volume</span
                     >
                     <span
@@ -608,7 +608,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >Market Cap</span
                     >
                     <span
@@ -619,7 +619,7 @@
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
-                      class="text-[0.65rem] uppercase tracking-[0.2em] text-gray-500 dark:text-zinc-500 whitespace-nowrap"
+                      class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
                       >EPS</span
                     >
                     <span
@@ -633,7 +633,7 @@
                   <div class="mt-6 font-sans">
                     <a
                       href={tickerUrlMap[ticker]}
-                      class="text-xs sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                      class="text-xs font-medium text-fg transition-colors hover:text-accent transition"
                     >
                       More about {ticker?.toUpperCase()}
                     </a>
@@ -649,7 +649,7 @@
           <div class="flex justify-center mb-6">
             <button
               on:click={() => (isExpanded = !isExpanded)}
-              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-gray-600 dark:text-zinc-400 transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-fg-muted transition sm:hover:text-accent"
             >
               {#if isExpanded}
                 <span class="flex items-center gap-2">
@@ -696,7 +696,7 @@
         <div class="flex justify-center items-center h-96">
           <div class="relative">
             <label
-              class="rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              class="rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
               <span
                 class="loading loading-spinner loading-md text-gray-500 dark:text-zinc-300"

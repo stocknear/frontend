@@ -14,7 +14,7 @@
 </script>
 
 <section
-  class="overflow-hidden bg-white dark:bg-default text-muted dark:text-white"
+  class="overflow-hidden bg-white dark:bg-default text-fg"
 >
   <main class="overflow-hidden">
     <div class="w-full">
@@ -59,10 +59,10 @@
                   r="16"
                   fill="none"
                   class="stroke-current {score >= 7
-                    ? 'text-emerald-800 dark:text-emerald-400'
+                    ? 'text-up'
                     : score >= 4
                       ? 'text-blue-800 dark:text-[#fff]'
-                      : 'text-rose-800 dark:text-rose-400'}"
+                      : 'text-down'}"
                   stroke-width="3"
                   stroke-dasharray="100.48"
                   stroke-dashoffset={100.48 -

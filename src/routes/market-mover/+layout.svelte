@@ -53,19 +53,19 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{layout_market_mover()}</li>
+    <li class="text-fg-muted">{layout_market_mover()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -74,16 +74,16 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:pr-5">
-          <div class="mb-2 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-2 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {layout_market_mover()}
             </h1>
           </div>
 
           <nav
-            class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
+            class="border-b border-line overflow-x-auto whitespace-nowrap"
           >
             <ul
               class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
@@ -93,8 +93,8 @@
                   href={item?.path}
                   class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {activeIdx ===
                   index
-                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                 >
                   {item.title()}
                 </a>

@@ -599,19 +599,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{politicians_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {politicians_breadcrumb_politicians()}
     </li>
   </BreadCrumb>
@@ -623,18 +623,18 @@
       >
         <main class="w-full">
           <h1
-            class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+            class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
           >
             {politicians_main_title()}
           </h1>
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-muted dark:text-zinc-300 sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between w-full mt-5 text-fg-muted sm:pt-2 sm:pb-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
           >
             <div
               class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
             >
               <h2
-                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
               >
                 {politicians_count_members({
                   count: originalData?.length?.toLocaleString("en-US"),
@@ -643,7 +643,7 @@
             </div>
 
             <div
-              class="flex flex-row items-center ml-auto border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
+              class="flex flex-row items-center ml-auto border-t border-b border-line sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 w-full"
             >
               <div
                 class="relative ml-auto flex-1 min-w-0 sm:flex-none sm:min-w-56 sm:max-w-14 mr-2"
@@ -674,7 +674,7 @@
                   bind:value={inputValue}
                   on:input={search}
                   placeholder={politicians_search_placeholder()}
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full"
                 />
               </div>
 
@@ -683,7 +683,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate">{politicians_filter_party()}</span>
                       <svg
@@ -706,12 +706,12 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each ["Democratic", "Republican", "Other"] as item}
                         <DropdownMenu.Item
-                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                         >
                           <div class="flex items-center">
                             <label
@@ -737,7 +737,7 @@
                 <button
                   on:click={resetColumnOrder}
                   title="Reset column order"
-                  class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                  class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                 >
                   <svg
                     class="w-4 h-4"
@@ -763,7 +763,7 @@
                 class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
                 >
                   <thead>
                     <TableHeader
@@ -783,7 +783,7 @@
                         {#each columns as column}
                           {#if column.key === "performanceScore"}
                             <td
-                              class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row items-center text-muted dark:text-zinc-200 tabular-nums"
+                              class="text-[0.85rem] sm:text-sm whitespace-nowrap flex flex-row items-center text-fg tabular-nums"
                             >
                               {#if item?.performanceScore !== null && item?.performanceScore !== undefined}
                                 <div>
@@ -806,11 +806,11 @@
                             </td>
                           {:else if column.key === "representative"}
                             <td
-                              class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                              class="text-start text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                             >
                               <a
                                 href={`/politicians/${item?.id}`}
-                                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                class="font-medium text-fg transition-colors hover:text-accent transition"
                                 >{item?.representative?.replace("_", " ")}</a
                               >
                             </td>
@@ -843,20 +843,20 @@
                             </td>
                           {:else if column.key === "party"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted"
                             >
                               {item?.party}
                             </td>
                           {:else if column.key === "successRate"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                             >
                               {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                                 {#if item?.successRate === null || item?.successRate === undefined}
                                   <span class="">n/a</span>
                                 {:else}
                                   <span
-                                    class="font-medium text-emerald-800 dark:text-emerald-400"
+                                    class="font-medium text-up"
                                     >+{Number(item?.successRate)?.toFixed(
                                       2,
                                     )}%</span
@@ -879,21 +879,21 @@
                             </td>
                           {:else if column.key === "avgReturn"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                             >
                               {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                                 {#if item?.avgReturn === null || item?.avgReturn === undefined}
                                   <span class="">n/a</span>
                                 {:else if Number(item?.avgReturn) >= 0}
                                   <span
-                                    class="font-medium text-emerald-800 dark:text-emerald-400"
+                                    class="font-medium text-up"
                                     >+{Number(item?.avgReturn)?.toFixed(
                                       2,
                                     )}%</span
                                   >
                                 {:else}
                                   <span
-                                    class="font-medium text-rose-800 dark:text-rose-400"
+                                    class="font-medium text-down"
                                     >{Number(item?.avgReturn)?.toFixed(
                                       2,
                                     )}%</span
@@ -916,13 +916,13 @@
                             </td>
                           {:else if column.key === "totalTrades"}
                             <td
-                              class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-muted dark:text-zinc-300 tabular-nums"
+                              class="text-end whitespace-nowrap text-[0.85rem] sm:text-sm text-fg-muted tabular-nums"
                             >
                               {item?.totalTrades?.toLocaleString("en-US")}
                             </td>
                           {:else if column.key === "lastTrade"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                             >
                               {new Date(item?.lastTrade)?.toLocaleString(
                                 "en-US",
@@ -957,7 +957,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -980,7 +980,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-muted dark:text-zinc-300">
+                  <span class="text-sm text-fg-muted">
                     {politicians_pagination_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -991,7 +991,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{politicians_pagination_rows({
@@ -1019,13 +1019,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -1049,7 +1049,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{politicians_pagination_next()}</span
@@ -1075,7 +1075,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                 >
                   {politicians_back_to_top()}
                   <svg

@@ -121,7 +121,7 @@
                       <!-- Show the YouTube iframe when the user clicks play -->
                       <div class="w-full aspect-video mb-4">
                         <iframe
-                          class="w-full h-full rounded border border-gray-300 dark:border-zinc-700"
+                          class="w-full h-full rounded border border-line"
                           src={`https://www.youtube.com/embed/${checkIfYoutubeVideo(item?.link)}`}
                           frameborder="0"
                           allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -147,7 +147,7 @@
                     {/if}
                     <div class="mt-3 w-full">
                       <h3
-                        class="text-sm text-muted dark:text-white/80 truncate mb-2"
+                        class="text-sm text-fg/80 truncate mb-2"
                       >
                         {item?.timestamp}
                       </h3>
@@ -172,7 +172,7 @@
                         href={item?.link}
                         rel="noopener noreferrer"
                         target="_blank"
-                        class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-gray-300 dark:border-zinc-700 rounded"
+                        class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-line rounded"
                       >
                         <div class="shrink-0 m-auto">
                           <img
@@ -185,7 +185,7 @@
                       </a>
                       <div class="mt-3 sm:mt-0 w-full">
                         <h3
-                          class="text-sm text-muted dark:text-white/80 truncate mb-2"
+                          class="text-sm text-fg/80 truncate mb-2"
                         >
                           {item?.timestamp}
                         </h3>
@@ -207,7 +207,7 @@
                   {/if}
                 </div>
                 <hr
-                  class="border-gray-300 dark:border-gray-600 w-full m-auto mt-5 mb-5"
+                  class="border-line-strong w-full m-auto mt-5 mb-5"
                 />
               {/each}
             {/if}
@@ -217,7 +217,7 @@
       <aside class="inline-block relative w-full lg:w-1/4 mt-3">
         {#if marketNews?.length !== 0}
           <div
-            class="w-full border border-gray-300 dark:border-gray-600 rounded-2xl h-fit pb-4 mt-4 cursor-pointer bg-inherit"
+            class="w-full border border-line-strong rounded-2xl h-fit pb-4 mt-4 cursor-pointer bg-inherit"
           >
             <div class="p-4 text-sm">
               <h3 class="text-xl font-bold mb-3">Stock News</h3>
@@ -226,7 +226,7 @@
                   <li class="mb-3 last:mb-1">
                     {formatDate(item?.publishedDate)} ago -
                     <a
-                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                      class="font-medium text-fg transition-colors hover:text-accent transition"
                       href={item?.url}
                       target="_blank"
                       rel="noopener noreferrer nofollow">{item?.title}</a

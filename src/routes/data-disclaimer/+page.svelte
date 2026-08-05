@@ -34,26 +34,26 @@
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
   const emailAddress = "support@stocknear.com";
-  const fmpLink = `<a href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear" target="_blank" rel="noopener noreferrer" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Financial Modeling Prep (FMP)</a>`;
-  const mainStreetLink = `<a href="https://mainstreetdata.com" target="_blank" rel="noopener noreferrer" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Main Street Data</a>`;
+  const fmpLink = `<a href="https://site.financialmodelingprep.com/pricing-plans?couponCode=stocknear" target="_blank" rel="noopener noreferrer" class="font-medium text-fg transition-colors hover:text-accent transition">Financial Modeling Prep (FMP)</a>`;
+  const mainStreetLink = `<a href="https://mainstreetdata.com" target="_blank" rel="noopener noreferrer" class="font-medium text-fg transition-colors hover:text-accent transition">Main Street Data</a>`;
 </script>
 
 <SEO title={data_seo_title()} description={data_seo_description()} />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{data_breadcrumb()}</li>
+    <li class="text-fg-muted">{data_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -62,9 +62,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {data_hero_title()}
             </h1>
@@ -73,89 +73,89 @@
           <div class="w-full m-auto">
             <div>
               <p
-                class="mb-5 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-5 text-sm sm:text-base text-fg-muted"
               >
                 {data_intro()}
                 <br />
                 {@html data_contact({
-                  discordLink: `<a href="${discordURL}" target="_blank" rel="noopener noreferrer" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">Discord</a>`,
-                  email: `<a href="mailto:${emailAddress}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${emailAddress}</a>`,
+                  discordLink: `<a href="${discordURL}" target="_blank" rel="noopener noreferrer" class="font-medium text-fg transition-colors hover:text-accent transition">Discord</a>`,
+                  email: `<a href="mailto:${emailAddress}" class="font-medium text-fg transition-colors hover:text-accent transition">${emailAddress}</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_market_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html data_market_content({ fmpLink })}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_coverage_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {data_coverage_content()}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_fundamentals_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html data_fundamentals_content({ fmpLink })}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_business_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html data_business_content({ mainStreetLink })}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_analyst_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html data_analyst_content({ fmpLink })}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_etf_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {@html data_etf_content({ fmpLink })}
               </p>
 
               <h2
-                class="mb-1 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-1 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {data_options_title()}
               </h2>
               <p
-                class="mb-10 mt-4 text-sm sm:text-base text-muted dark:text-zinc-300"
+                class="mb-10 mt-4 text-sm sm:text-base text-fg-muted"
               >
                 {data_options_content()}
               </p>
@@ -176,7 +176,7 @@
                   {faq_sidebar_pro_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {faq_sidebar_pro_desc()}
               </span>
             </a>
@@ -194,7 +194,7 @@
                   {faq_sidebar_about_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -212,7 +212,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_let_me_know()}
               </span>
             </a>

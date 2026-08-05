@@ -349,7 +349,7 @@
         </div>
 
         <div
-          class="mt-4 shadow mb-4 grid grid-cols-2 grid-rows-1 divide-gray-300 dark:divide-gray-600 rounded border border-gray-300 dark:border-gray-600 md:grid-cols-3 md:grid-rows-1 divide-x"
+          class="mt-4 shadow mb-4 grid grid-cols-2 grid-rows-1 divide-gray-300 dark:divide-gray-600 rounded border border-line-strong md:grid-cols-3 md:grid-rows-1 divide-x"
         >
           <div class="p-4 bp:p-5 sm:p-6">
             <label
@@ -362,7 +362,7 @@
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-b border-gray-300 dark:border-gray-600"
+            class="p-4 bp:p-5 sm:p-6 border-b border-line-strong"
           >
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-[1rem]"
@@ -399,7 +399,7 @@
                 </h2>
 
                 <div
-                  class=" sm:p-3 shadow border border-gray-300 dark:border-zinc-700 rounded"
+                  class=" sm:p-3 shadow border border-line rounded"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}

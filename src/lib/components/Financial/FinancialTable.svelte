@@ -560,10 +560,10 @@
       return "";
     }
     return numericValue > 0
-      ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+      ? "before:content-['+'] text-up"
       : numericValue < 0
-        ? "text-rose-800 dark:text-rose-400"
-        : "text-muted dark:text-zinc-300";
+        ? "text-down"
+        : "text-fg-muted";
   };
 
   function goToUpgrade(event?: Event) {
@@ -598,7 +598,7 @@
       class="whitespace-nowrap transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
     >
       <td
-        class="text-start min-w-72 max-w-72 sm:min-w-96 sm:max-w-96 text-sm sm:text-[0.95rem] border-r border-gray-300 dark:border-zinc-700 w-full flex flex-row items-center justify-between text-muted dark:text-zinc-200"
+        class="text-start min-w-72 max-w-72 sm:min-w-96 sm:max-w-96 text-sm sm:text-[0.95rem] border-r border-line w-full flex flex-row items-center justify-between text-fg"
       >
         <div class="flex items-center gap-2">
           {#if enableFavorites && !field.isGrowth}
@@ -711,17 +711,17 @@
       </td>
       {#each data as item}
         <td
-          class={`text-sm sm:text-[0.95rem] text-end border-r border-gray-300 dark:border-zinc-700  tabular-nums ${field.isGrowth ? getGrowthDeltaClass(item[field.key]) : ""}`}
+          class={`text-sm sm:text-[0.95rem] text-end border-r border-line  tabular-nums ${field.isGrowth ? getGrowthDeltaClass(item[field.key]) : ""}`}
         >
           {formatValue(item[field.key], field.isMargin)}
         </td>
       {/each}
       {#if showUpgradeColumn}
         <td
-          class="text-xs sm:text-sm text-end border-r border-gray-300 dark:border-zinc-700"
+          class="text-xs sm:text-sm text-end border-r border-line"
         >
           <a
-            class="inline-flex w-full items-center justify-end gap-1 font-semibold text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+            class="inline-flex w-full items-center justify-end gap-1 font-semibold text-fg-muted hover:text-accent transition-colors"
             href={localizedHref(upgradeHref)}
             on:click|preventDefault={goToUpgrade}
           >

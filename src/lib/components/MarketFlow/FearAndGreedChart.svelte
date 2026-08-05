@@ -238,6 +238,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl h-[280px] sm:h-[360px] overflow-hidden"
+    class="border border-line rounded-2xl h-[280px] sm:h-[360px] overflow-hidden"
     use:highcharts={config}
 ></div>

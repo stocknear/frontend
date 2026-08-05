@@ -285,7 +285,7 @@
                   pos + match.index,
                   pos + match.index + match[0]?.length,
                   {
-                    class: "text-violet-800 dark:text-violet-400",
+                    class: "text-accent",
                   },
                 ),
               );
@@ -339,7 +339,7 @@
 
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
-          span.className = "text-muted dark:text-white pointer-events-none";
+          span.className = "text-fg pointer-events-none";
           span.textContent = editable
             ? chat_placeholder_editable()
             : chat_placeholder_readonly();
@@ -1099,7 +1099,7 @@
 />
 
 <section
-  class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0 text-muted dark:text-zinc-200"
+  class="w-full max-w-[1400px] mx-auto min-h-[80vh] pt-5 px-4 lg:px-0 text-fg"
 >
   <!-- Header bar -->
   <div
@@ -1109,7 +1109,7 @@
       <!-- Mobile: sidebar toggle -->
       <button
         on:click={() => ($chatSidebarOpen = true)}
-        class="cursor-pointer inline-flex lg:hidden p-2 text-muted dark:text-white"
+        class="cursor-pointer inline-flex lg:hidden p-2 text-fg"
         aria-label="Open chat history"
       >
         <svg
@@ -1130,7 +1130,7 @@
       <!-- Desktop: back arrow -->
       <a
         href="/chat"
-        class="hidden lg:block p-2 text-muted dark:text-white"
+        class="hidden lg:block p-2 text-fg"
         aria-label="Back to chat"
       >
         <svg
@@ -1149,7 +1149,7 @@
     {/if}
 
     <h1
-      class="flex-1 text-sm font-medium text-muted dark:text-zinc-300 truncate mx-3 text-center"
+      class="flex-1 text-sm font-medium text-fg-muted truncate mx-3 text-center"
     >
       {chatTitle}
     </h1>
@@ -1157,7 +1157,7 @@
     <div class="flex items-center gap-1">
       <button
         on:click={handleHeaderShare}
-        class="cursor-pointer p-2 text-muted dark:text-white"
+        class="cursor-pointer p-2 text-fg"
         aria-label="Share chat"
       >
         <svg
@@ -1179,7 +1179,7 @@
       {#if editable}
         <button
           on:click={handleHeaderDelete}
-          class="cursor-pointer p-2 text-muted dark:text-white sm:hover:text-red-500 dark:sm:hover:text-red-400"
+          class="cursor-pointer p-2 text-fg sm:hover:text-red-500 dark:sm:hover:text-red-400"
           aria-label="Delete chat"
         >
           <svg
@@ -1255,7 +1255,7 @@
       {#if userScrolledUp && isStreaming}
         <button
           on:click={scrollToBottom}
-          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-white dark:bg-zinc-900 text-muted dark:text-zinc-300 rounded-full p-2 shadow-lg border border-gray-300 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors {$chatSidebarOpen
+          class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-surface-card text-fg-muted rounded-full p-2 shadow-lg border border-line hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors {$chatSidebarOpen
             ? 'lg:left-[calc(50%+164px)]'
             : 'lg:left-[calc(50%+24px)]'}"
           aria-label="Scroll to bottom"
@@ -1276,13 +1276,13 @@
       {/if}
 
       <div
-        class="bg-white dark:bg-zinc-950 fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden {$chatSidebarOpen
+        class="bg-surface-card fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden {$chatSidebarOpen
           ? 'lg:left-[calc(50%+164px)] lg:max-w-[min(48rem,calc(100vw-360px))]'
           : 'lg:left-[calc(50%+24px)] lg:max-w-[min(48rem,calc(100vw-80px))]'}"
       >
         <div
           bind:this={editorDiv}
-          class="ml-2 bg-white dark:bg-zinc-950 w-full min-h-[60px] max-h-[40vh] overflow-y-auto {!editable
+          class="ml-2 bg-surface-card w-full min-h-[60px] max-h-[40vh] overflow-y-auto {!editable
             ? 'cursor-not-allowed'
             : ''}"
           on:keydown={handleKeyDown}
@@ -1305,7 +1305,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-11 w-11 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-11 w-11 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-fg border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -1332,12 +1332,12 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
                           <DropdownMenu.Label
-                            class="text-muted dark:text-white font-semibold text-xs"
+                            class="text-fg font-semibold text-xs"
                           >
                             {data?.user?.credits}
                             {chat_credits_left()}
@@ -1345,7 +1345,7 @@
                         {/if}
                         <!--
                         <DropdownMenu.Item
-                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                         >
                           <label
                             on:click|capture={(event) => {
@@ -1381,7 +1381,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1432,7 +1432,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -1459,7 +1459,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1508,7 +1508,7 @@
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-muted dark:text-zinc-200 transition-colors"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -1580,12 +1580,12 @@
     </main>
     {#if showSuggestions}
       <ul
-        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}
           <li
-            class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-muted dark:text-zinc-200 {i ===
+            class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-fg {i ===
             selectedSuggestion
               ? 'bg-gray-100 dark:bg-zinc-900'
               : ''}"

@@ -1114,7 +1114,7 @@
 />
 
 <div
-  class="w-full overflow-hidden min-h-screen mt-1 text-muted dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen mt-1 text-fg"
 >
   <div class="w-full">
     {#if isLoaded}
@@ -1181,19 +1181,19 @@
       {:else}
         <!-- Table Header Row (like Table component's header: title + find + download) -->
         <div
-          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-muted dark:text-zinc-200 pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+          class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between text-fg pt-2 pb-2 sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
         >
           <div
             class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
             >
               {watchList.length} Trade{watchList.length !== 1 ? "s" : ""}
             </h2>
           </div>
           <div
-            class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
+            class="flex flex-col sm:flex-row items-center sm:justify-end w-full border-t border-b border-line sm:border-none pt-2 pb-2 sm:pt-0 sm:pb-0 gap-2 sm:gap-0"
           >
             <!-- Mobile Row 1: Find input -->
             <div class="w-full sm:w-fit">
@@ -1222,7 +1222,7 @@
                   bind:value={searchQuery}
                   type="text"
                   placeholder="Find..."
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
             </div>
@@ -1234,7 +1234,7 @@
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -1266,7 +1266,7 @@
                 {#if editMode}
                   <label
                     on:click={handleDeleteItems}
-                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-surface-page/60 text-fg transition hover:text-rose-800 dark:hover:text-rose-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1286,7 +1286,7 @@
                 <!-- Edit Watchlist Button -->
                 <label
                   on:click={handleEditMode}
-                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
                 >
                   <svg
                     class="inline-block w-5 h-5"
@@ -1321,7 +1321,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 hover:bg-white dark:hover:bg-zinc-900 text-muted dark:text-zinc-200 flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-violet-800 dark:hover:text-violet-400"
+                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 hover:bg-white dark:hover:bg-zinc-900 text-fg flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-accent"
                     >
                       <span>Indicators</span>
                       <svg
@@ -1342,11 +1342,11 @@
                     side="bottom"
                     align="end"
                     sideOffset={10}
-                    class="w-60 max-h-[400px] overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200"
+                    class="w-60 max-h-[400px] overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg"
                   >
                     <!-- Sticky search header -->
                     <div
-                      class="sticky -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-gray-300 dark:border-zinc-700"
+                      class="sticky -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-line"
                     >
                       <div class="relative w-full">
                         <input
@@ -1355,7 +1355,7 @@
                           autocomplete="off"
                           type="text"
                           placeholder="Search indicators..."
-                          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-muted dark:text-zinc-200 pr-8"
+                          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
                         />
                         {#if indicatorSearch.length > 0}
                           <button
@@ -1366,7 +1366,7 @@
                             class="absolute right-2 top-1/2 -translate-y-1/2"
                           >
                             <svg
-                              class="h-5 w-5 text-muted dark:text-white cursor-pointer"
+                              class="h-5 w-5 text-fg cursor-pointer"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -1387,7 +1387,7 @@
                     <DropdownMenu.Group class="pb-2">
                       {#if indicatorSearch.length > 0 && indicatorSearchResults.length === 0}
                         <div
-                          class="px-2 py-1 text-xs text-muted dark:text-white"
+                          class="px-2 py-1 text-xs text-fg"
                         >
                           No indicators found
                         </div>
@@ -1414,17 +1414,17 @@
 
                     <!-- Sticky footer -->
                     <div
-                      class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 flex justify-between"
+                      class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-line flex justify-between"
                     >
                       <label
                         on:click={resetColumns}
-                        class="hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
+                        class="hover:text-accent text-fg-muted text-sm cursor-pointer"
                       >
                         Reset All
                       </label>
                       <label
                         on:click={selectAllColumns}
-                        class="hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 text-sm cursor-pointer"
+                        class="hover:text-accent text-fg-muted text-sm cursor-pointer"
                       >
                         Select All
                       </label>
@@ -1438,7 +1438,7 @@
                 <button
                   on:click={resetColumnOrder}
                   title="Reset column order"
-                  class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                  class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                 >
                   <svg
                     class="w-4 h-4"
@@ -1477,28 +1477,28 @@
             >
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                 >
                   Win Rate
                 </div>
                 <div
                   class="text-sm font-semibold {Number(scorecard.winRate) >= 50
-                    ? 'text-emerald-800 dark:text-emerald-400'
-                    : 'text-rose-800 dark:text-rose-400'}"
+                    ? 'text-up'
+                    : 'text-down'}"
                 >
                   {scorecard.winRate}%
                 </div>
               </div>
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                 >
                   Avg Return
                 </div>
                 <div
                   class="text-sm font-semibold {Number(scorecard.avgReturn) >= 0
-                    ? 'text-emerald-800 dark:text-emerald-400'
-                    : 'text-rose-800 dark:text-rose-400'}"
+                    ? 'text-up'
+                    : 'text-down'}"
                 >
                   {Number(scorecard.avgReturn) >= 0
                     ? "+"
@@ -1507,11 +1507,11 @@
               </div>
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                 >
                   Put/Call Ratio
                 </div>
-                <div class="text-sm font-semibold text-muted dark:text-white">
+                <div class="text-sm font-semibold text-fg">
                   {scorecard.putCallRatio !== null
                     ? scorecard.putCallRatio
                     : "-"}
@@ -1519,16 +1519,16 @@
               </div>
               <div>
                 <div
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                  class="text-[11px] uppercase tracking-wide text-fg"
                 >
                   Bull / Bear
                 </div>
                 <div class="text-sm font-semibold">
-                  <span class="text-emerald-800 dark:text-emerald-400"
+                  <span class="text-up"
                     >{scorecard.bulls}</span
                   >
-                  <span class="text-muted dark:text-white"> / </span>
-                  <span class="text-rose-800 dark:text-rose-400"
+                  <span class="text-fg"> / </span>
+                  <span class="text-down"
                     >{scorecard.bears}</span
                   >
                 </div>
@@ -1536,15 +1536,15 @@
               {#if scorecard.best}
                 <div>
                   <div
-                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                    class="text-[11px] uppercase tracking-wide text-fg"
                   >
                     Best
                   </div>
                   <div
                     class="text-sm font-semibold truncate {scorecard.bestPct >=
                     0
-                      ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-800 dark:text-rose-400'}"
+                      ? 'text-up'
+                      : 'text-down'}"
                   >
                     {scorecard.bestPct >= 0
                       ? "+"
@@ -1556,15 +1556,15 @@
               {#if scorecard.worst}
                 <div>
                   <div
-                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                    class="text-[11px] uppercase tracking-wide text-fg"
                   >
                     Worst
                   </div>
                   <div
                     class="text-sm font-semibold truncate {scorecard.worstPct >=
                     0
-                      ? 'text-emerald-800 dark:text-emerald-400'
-                      : 'text-rose-800 dark:text-rose-400'}"
+                      ? 'text-up'
+                      : 'text-down'}"
                   >
                     {scorecard.worstPct >= 0
                       ? "+"
@@ -1582,11 +1582,11 @@
           class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
         >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+            class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
           >
             <thead>
               <tr
-                class="bg-white/60 dark:bg-zinc-950/40 text-muted dark:text-white font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+                class="bg-white/60 dark:bg-zinc-950/40 text-fg font-semibold text-[11px] uppercase tracking-wide border-b border-line"
               >
                 {#if editMode}
                   <th class="p-2 text-center w-8"></th>
@@ -1646,7 +1646,7 @@
                     </td>
                   {/if}
                   <td
-                    class="text-start text-xs whitespace-nowrap text-muted dark:text-white"
+                    class="text-start text-xs whitespace-nowrap text-fg"
                   >
                     {formatTradeTime(item?.time)} · {formatDate(item?.date)}
                   </td>
@@ -1676,17 +1676,17 @@
                           side="bottom"
                           align="end"
                           sideOffset={5}
-                          class="w-44 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
+                          class="w-44 rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
                         >
                           <DropdownMenu.Item
-                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                             on:click={() => openContractChart(item)}
                           >
                             <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
                             View Chart
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
-                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-muted dark:text-zinc-300 hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                             on:click={() => openContractActivity(item)}
                           >
                             <Activity class="w-4 h-4 shrink-0" />
@@ -1705,7 +1705,7 @@
                           handleNoteHover(item.id, item?.hasNote || false)}
                         class="ml-1 cursor-pointer transition-all duration-200 {item?.hasNote
                           ? 'text-violet-500 dark:text-violet-400'
-                          : 'text-muted dark:text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                          : 'text-fg opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                         title={item?.hasNote ? "Edit note" : "Add note"}
                       >
                         <Pencil class="h-3.5 w-3.5" />
@@ -1717,8 +1717,8 @@
                       <td
                         class="text-end text-sm whitespace-nowrap {item?.put_call ===
                         'Calls'
-                          ? 'text-emerald-800 dark:text-emerald-400'
-                          : 'text-rose-800 dark:text-rose-400'}"
+                          ? 'text-up'
+                          : 'text-down'}"
                       >
                         {item?.put_call}
                       </td>
@@ -1735,7 +1735,7 @@
                         {#if item?.dte === null}
                           -
                         {:else if item.dte < 0}
-                          <span class="text-muted dark:text-white">expired</span
+                          <span class="text-fg">expired</span
                           >
                         {:else}
                           {item.dte}d
@@ -1745,9 +1745,9 @@
                       <td
                         class="text-end text-sm whitespace-nowrap {item?.sentiment ===
                         'Bullish'
-                          ? 'text-emerald-800 dark:text-emerald-400'
+                          ? 'text-up'
                           : item?.sentiment === 'Bearish'
-                            ? 'text-rose-800 dark:text-rose-400'
+                            ? 'text-down'
                             : 'text-orange-800 dark:text-[#C6A755]'}"
                       >
                         {item?.sentiment}
@@ -1764,7 +1764,7 @@
                         {:else if enriched?.status === "done" && enriched.currentPrice !== null}
                           {enriched.currentPrice.toFixed(2)}
                         {:else}
-                          <span class="text-muted dark:text-white">-</span>
+                          <span class="text-fg">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "price"}
@@ -1779,7 +1779,7 @@
                             bind:value={editingPriceValue}
                             on:keydown={handlePriceInputKeydown}
                             on:blur={handlePriceBlur}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-zinc-200 focus:outline-none focus:ring-0"
+                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
                           />
                         {:else}
                           <button
@@ -1816,8 +1816,8 @@
                         class="text-end text-sm whitespace-nowrap {enriched?.pctChange !=
                         null
                           ? enriched.pctChange >= 0
-                            ? 'text-emerald-800 dark:text-emerald-400'
-                            : 'text-rose-800 dark:text-rose-400'
+                            ? 'text-up'
+                            : 'text-down'
                           : ''}"
                       >
                         {#if enriched?.status === "done" && enriched.pctChange !== null}
@@ -1828,7 +1828,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-muted dark:text-white">-</span>
+                          <span class="text-fg">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "iv"}
@@ -1839,7 +1839,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-muted dark:text-white">-</span>
+                          <span class="text-fg">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "delta"}
@@ -1850,7 +1850,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-muted dark:text-white">-</span>
+                          <span class="text-fg">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "cost_basis"}
@@ -1921,8 +1921,8 @@
                         class="text-end text-sm whitespace-nowrap {enriched?.volChange !=
                         null
                           ? enriched.volChange >= 0
-                            ? 'text-emerald-800 dark:text-emerald-400'
-                            : 'text-rose-800 dark:text-rose-400'
+                            ? 'text-up'
+                            : 'text-down'
                           : ''}"
                       >
                         {#if enriched?.status === "done" && enriched.volChange !== null}
@@ -1933,7 +1933,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-muted dark:text-white">-</span>
+                          <span class="text-fg">-</span>
                         {/if}
                       </td>
                     {:else if col.key === "openInterest"}
@@ -1956,8 +1956,8 @@
                         class="text-end text-sm whitespace-nowrap {enriched?.oiChange !=
                         null
                           ? enriched.oiChange >= 0
-                            ? 'text-emerald-800 dark:text-emerald-400'
-                            : 'text-rose-800 dark:text-rose-400'
+                            ? 'text-up'
+                            : 'text-down'
                           : ''}"
                       >
                         {#if enriched?.status === "done" && enriched.oiChange !== null}
@@ -1968,7 +1968,7 @@
                           <span class="loading loading-spinner loading-xs"
                           ></span>
                         {:else}
-                          <span class="text-muted dark:text-white">-</span>
+                          <span class="text-fg">-</span>
                         {/if}
                       </td>
                     {/if}
@@ -1994,7 +1994,7 @@
 
         <!-- Divider -->
         <div
-          class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
+          class="w-full m-auto border-b border-line mt-10 mb-5"
         ></div>
 
         <!-- News / Earnings Tabs -->
@@ -2014,7 +2014,7 @@
                         class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                               {activeIdx === i
                           ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                          : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                          : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                       >
                         {item}
                       </button>
@@ -2029,7 +2029,7 @@
             {#if groupedNews?.length > 0}
               {#each displayList as [date, titleGroups]}
                 <h3
-                  class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
+                  class="mb-1.5 mt-3 font-semibold text-fg"
                 >
                   {date}
                 </h3>
@@ -2043,7 +2043,7 @@
                         : ''} dark:border-zinc-700 text-sm"
                     >
                       <div
-                        class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
+                        class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-fg lg:flex"
                       >
                         {formatTimeLocale(items[0].publishedDate)}
                       </div>
@@ -2061,7 +2061,7 @@
                             {#each symbols as symbol}
                               <a
                                 href={`/stocks/${symbol}`}
-                                class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                class="font-medium text-fg transition-colors hover:text-accent transition"
                               >
                                 {symbol}
                               </a>
@@ -2081,7 +2081,7 @@
             {/if}
           {:else if groupedEarnings?.length > 0}
             {#each displayList as [date, titleGroups]}
-              <h3 class="mb-1.5 mt-3 font-semibold text-muted dark:text-white">
+              <h3 class="mb-1.5 mt-3 font-semibold text-fg">
                 {date}
               </h3>
               <div
@@ -2089,17 +2089,17 @@
               >
                 {#each titleGroups as item, index}
                   <div
-                    class="flex border-gray-300 dark:border-zinc-700 text-sm"
+                    class="flex border-line text-sm"
                   >
                     <div
-                      class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
+                      class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-fg lg:flex"
                     >
                       {formatTime(item?.time)}
                     </div>
                     <div
                       class="grow px-3 py-2 lg:py-1 {index > 0
                         ? 'border-t'
-                        : ''} border-gray-300 dark:border-zinc-700"
+                        : ''} border-line"
                     >
                       <div>
                         {removeCompanyStrings(item?.name)}
@@ -2182,7 +2182,7 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}

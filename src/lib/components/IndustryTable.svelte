@@ -96,7 +96,7 @@
   class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
   >
     <thead>
       <TableHeader {columns} {sortOrders} {sortData} />
@@ -108,11 +108,11 @@
           class="transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
         >
           <td
-            class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+            class="text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
           >
             <a
               href={`/list/industry/${item?.industry?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-              class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+              class="font-medium text-fg transition-colors hover:text-accent transition"
             >
               {item?.industry?.length > charNumber
                 ? item?.industry?.slice(0, charNumber) + "..."
@@ -121,42 +121,42 @@
           </td>
 
           <td
-            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
           >
             {item?.numStocks}
           </td>
 
           <td
-            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
           >
             {abbreviateNumber(item?.totalMarketCap) ?? "n/a"}
           </td>
 
           <td
-            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
           >
             {item?.avgDividendYield?.toFixed(2) ?? "n/a"}%
           </td>
 
           <td
-            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+            class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
           >
             {item?.pe?.toFixed(2) ?? "n/a"}
           </td>
 
           <td
             class="{item?.profitMargin >= 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-              : 'text-rose-800 dark:text-rose-400'}  text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
+              ? "before:content-['+'] text-up"
+              : 'text-down'}  text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
           >
             {abbreviateNumber(item?.profitMargin)}%
           </td>
 
           <td
             class="{item?.avgChange1D && item?.avgChange1D > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+              ? "before:content-['+'] text-up"
               : item?.avgChange1D && item?.avgChange1D < 0
-                ? 'text-rose-800 dark:text-rose-400'
+                ? 'text-down'
                 : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
           >
             {item?.avgChange1D ? item?.avgChange1D?.toFixed(2) + "%" : "n/a"}
@@ -164,9 +164,9 @@
 
           <td
             class="{item?.avgChange1W && item?.avgChange1W > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+              ? "before:content-['+'] text-up"
               : item?.avgChange1W && item?.avgChange1W < 0
-                ? 'text-rose-800 dark:text-rose-400'
+                ? 'text-down'
                 : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
           >
             {item?.avgChange1W ? item?.avgChange1W?.toFixed(2) + "%" : "n/a"}
@@ -174,9 +174,9 @@
 
           <td
             class="{item?.avgChange1M && item?.avgChange1M > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+              ? "before:content-['+'] text-up"
               : item?.avgChange1M && item?.avgChange1M < 0
-                ? 'text-rose-800 dark:text-rose-400'
+                ? 'text-down'
                 : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
           >
             {item?.avgChange1M ? item?.avgChange1M?.toFixed(2) + "%" : "n/a"}
@@ -184,9 +184,9 @@
 
           <td
             class="{item?.avgChange1Y && item?.avgChange1Y > 0
-              ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+              ? "before:content-['+'] text-up"
               : item?.avgChange1Y && item?.avgChange1Y < 0
-                ? 'text-rose-800 dark:text-rose-400'
+                ? 'text-down'
                 : ''} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
           >
             {item?.avgChange1Y ? item?.avgChange1Y?.toFixed(2) + "%" : "n/a"}

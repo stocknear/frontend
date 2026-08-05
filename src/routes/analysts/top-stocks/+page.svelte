@@ -88,7 +88,7 @@
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{analysts_breadcrumb_home()}</a
       >
     </li>

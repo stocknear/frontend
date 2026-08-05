@@ -33,14 +33,14 @@
 </script>
 
 {#if sources && sources?.length > 0}
-  <div class="w-full mt-6 pt-4 border-t border-gray-300 dark:border-zinc-700">
+  <div class="w-full mt-6 pt-4 border-t border-line">
     <div class="flex items-center gap-2 mb-3">
       <h3
         class="text-[0.9rem] sm:text-base font-semibold tracking-tight text-gray-900 dark:text-zinc-100"
       >
         Sources
       </h3>
-      <span class="text-xs text-muted dark:text-white tabular-nums">
+      <span class="text-xs text-fg tabular-nums">
         ({sources?.length})
       </span>
     </div>
@@ -51,7 +51,7 @@
         {#each tickersWithUrls as { ticker, url }}
           <a
             href={url}
-            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/50 px-2 py-0.5 text-xs font-semibold text-violet-800 dark:text-violet-400 transition sm:hover:text-muted dark:sm:hover:text-white"
+            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
           >
             {ticker}
           </a>
@@ -66,7 +66,7 @@
       {#each displayedSources as source, index}
         <a
           href={source.url || "#"}
-          class="flex items-start gap-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 transition sm:hover:border-violet-300/60 dark:sm:hover:border-violet-500/40"
+          class="flex items-start gap-3 rounded-xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 transition sm:hover:border-violet-300/60 dark:sm:hover:border-violet-500/40"
           class:cursor-pointer={source.url}
           class:cursor-default={!source.url}
         >
@@ -88,7 +88,7 @@
             >
               {source.name}
             </h5>
-            <p class="text-[0.72rem] text-gray-600 dark:text-zinc-400 mt-1">
+            <p class="text-[0.72rem] text-fg-muted mt-1">
               {source.description || "Live data from Stocknear"}
             </p>
           </div>
@@ -100,7 +100,7 @@
     {#if hasMoreSources}
       <button
         on:click={() => (isExpanded = !isExpanded)}
-        class="cursor-pointer group mt-4 inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+        class="cursor-pointer group mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent"
       >
         <span class="relative">
           {#if !isExpanded}

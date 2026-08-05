@@ -143,7 +143,7 @@
 </script>
 
 <section
-  class="w-full overflow-hidden m-auto min-h-screen text-muted dark:text-zinc-200"
+  class="w-full overflow-hidden m-auto min-h-screen text-fg"
 >
   <div class="flex justify-center w-full m-auto overflow-hidden">
     <div
@@ -153,7 +153,7 @@
         <!--Start Top Winners/Losers-->
 
         <nav
-          class="border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
+          class="border-b border-line overflow-x-auto whitespace-nowrap"
         >
           <ul
             class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
@@ -162,8 +162,8 @@
               href="/market-mover/gainers"
               class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {timePeriod ===
               'gainers'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {market_mover_period_today()}
             </a>
@@ -171,8 +171,8 @@
               href="/market-mover/gainers/week"
               class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {timePeriod ===
               'week'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {market_mover_period_week()}
             </a>
@@ -180,8 +180,8 @@
               href="/market-mover/gainers/month"
               class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {timePeriod ===
               'month'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {market_mover_period_month()}
             </a>
@@ -189,8 +189,8 @@
               href="/market-mover/gainers/year"
               class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {timePeriod ===
               'year'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {market_mover_period_year()}
             </a>
@@ -198,8 +198,8 @@
               href="/market-mover/gainers/3Y"
               class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {timePeriod ===
               '3Y'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {market_mover_period_label_3y()}
             </a>
@@ -207,8 +207,8 @@
               href="/market-mover/gainers/5Y"
               class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {timePeriod ===
               '5Y'
-                ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
             >
               {market_mover_period_label_5y()}
             </a>

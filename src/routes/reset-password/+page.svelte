@@ -76,7 +76,7 @@
 />
 
 <div
-  class="text-muted dark:text-zinc-200 relative w-full max-w-3xl mx-auto min-h-screen"
+  class="text-fg relative w-full max-w-3xl mx-auto min-h-screen"
 >
   <div class="grid grid-cols-1 gap-4">
     <div class="relative">
@@ -90,13 +90,13 @@
       </a>
 
       <h1
-        class="text-center text-2xl sm:text-3xl pt-5 font-semibold tracking-tight text-muted dark:text-white"
+        class="text-center text-2xl sm:text-3xl pt-5 font-semibold tracking-tight text-fg"
       >
         {reset_password_title()}
       </h1>
     </div>
 
-    <span class="text-sm text-muted dark:text-white text-center">
+    <span class="text-sm text-fg text-center">
       {reset_password_description()}
     </span>
 

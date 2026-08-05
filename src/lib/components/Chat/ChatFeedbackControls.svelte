@@ -140,7 +140,7 @@
 <div class="flex flex-row sm:gap-1 items-center">
   <button
     type="button"
-    class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+    class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center gap-1 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
     aria-label="Rewrite response"
     disabled={isStreaming || isSubmitting}
@@ -172,7 +172,7 @@
   {#if !selectedRating}
     <button
       type="button"
-      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
       on:click={handleLike}
       aria-label="Like response"
       disabled={isStreaming || isSubmitting}
@@ -186,7 +186,7 @@
 
     <button
       type="button"
-      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
       on:click={openDislikeModal}
       aria-label="Dislike response"
       disabled={isStreaming || isSubmitting}
@@ -199,7 +199,7 @@
     </button>
   {:else}
     <div
-      class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-300 dark:border-zinc-700 bg-gray-50/80 dark:bg-zinc-900/50 text-xs font-semibold text-muted dark:text-white"
+      class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-gray-50/80 dark:bg-zinc-900/50 text-xs font-semibold text-fg"
     >
       <div class="flex items-center justify-center size-4">
         {#if selectedRating === "like"}
@@ -218,7 +218,7 @@
 
 {#if isModalOpen}
   <dialog
-    class="modal modal-open overflow-hidden p-3 sm:p-0 bg-black/40 text-muted dark:text-zinc-200"
+    class="modal modal-open overflow-hidden p-3 sm:p-0 bg-black/40 text-fg"
     aria-modal="true"
     role="dialog"
   >
@@ -230,11 +230,11 @@
     ></button>
 
     <div
-      class="modal-box w-full max-w-lg relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box w-full max-w-lg relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
     >
       <button
         type="button"
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
         on:click={closeModal}
         aria-label="Close modal"
         disabled={isSubmitting}
@@ -258,11 +258,11 @@
       </div>
 
       <div class="mt-3 space-y-3">
-        <p class="text-xs text-gray-600 dark:text-zinc-400">
+        <p class="text-xs text-fg-muted">
           Help us improve by sharing what could be better with this response.
         </p>
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical rounded-xl border border-gray-300 dark:border-zinc-700 bg-gray-50/80 dark:bg-zinc-900/60 text-sm text-muted dark:text-zinc-200 placeholder-gray-400 dark:placeholder-zinc-500 focus-visible:outline-none focus-visible:border-violet-400/60"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical rounded-xl border border-line bg-gray-50/80 dark:bg-zinc-900/60 text-sm text-fg placeholder-gray-400 dark:placeholder-zinc-500 focus-visible:outline-none focus-visible:border-violet-400/60"
           placeholder="Tell us what could be improved..."
           bind:value={description}
           disabled={isSubmitting}
@@ -272,7 +272,7 @@
       <div class="mt-6 flex justify-end gap-2">
         <button
           type="button"
-          class="cursor-pointer inline-flex items-center rounded-full border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 py-2 text-xs font-semibold text-muted dark:text-white transition sm:hover:text-violet-800 dark:sm:hover:text-violet-400 disabled:opacity-60"
+          class="cursor-pointer inline-flex items-center rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-4 py-2 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:opacity-60"
           on:click={closeModal}
           disabled={isSubmitting}
         >

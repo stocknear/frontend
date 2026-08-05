@@ -43,25 +43,18 @@
         href="/pricing"
         class="group relative cursor-pointer flex items-center gap-3 px-5 py-3 text-sm font-medium rounded-xl
                bg-gradient-to-r from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-800
-               border border-gray-200 dark:border-zinc-700/50
+               border border-line/50
                shadow-sm hover:shadow-md dark:shadow-none
                transition-all duration-300"
         tabindex="0"
       >
         <div
-          class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-accent-soft to-transparent"
         ></div>
         <span class="flex items-center gap-1.5">
-          <span class="relative flex h-1.5 w-1.5">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"
-            ></span>
-            <span
-              class="relative inline-flex rounded-full h-1.5 w-1.5 bg-violet-500"
-            ></span>
-          </span>
+          <span class="inline-flex h-1.5 w-1.5 rounded-full bg-accent"></span>
           <span
-            class="text-violet-600 dark:text-violet-400 font-semibold tracking-wide"
+            class="text-accent font-semibold tracking-wide"
             >{home_promo_pill_label()}</span
           >
         </span>
@@ -93,7 +86,7 @@
         on:click={dismiss}
         type="button"
         aria-label="Dismiss"
-        class="absolute -top-2 -right-2 cursor-pointer flex h-5 w-5 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-200 transition"
+        class="absolute -top-2 -right-2 cursor-pointer flex h-5 w-5 items-center justify-center rounded-full border border-line bg-white dark:bg-zinc-800 text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-200 transition"
       >
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

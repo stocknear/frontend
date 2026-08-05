@@ -430,7 +430,7 @@
   }}
 />
 
-<section class="w-full overflow-hidden m-auto text-muted dark:text-zinc-200">
+<section class="w-full overflow-hidden m-auto text-fg">
   {#if originalData?.length !== 0}
     <div class="mb-5 mt-5 sm:mt-0">
       <Infobox text={htmlOutput} />
@@ -443,12 +443,12 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-fg-muted"
         >
           {etf_stats_listed_funds()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-fg tabular-nums"
         >
           {originalData?.length}
         </div>
@@ -457,12 +457,12 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-fg-muted"
         >
           {etf_stats_total_assets()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-fg tabular-nums"
         >
           {abbreviateNumber(totalAssets)}
         </div>
@@ -471,12 +471,12 @@
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
         <div
-          class="text-xs uppercase tracking-wide text-muted dark:text-zinc-300"
+          class="text-xs uppercase tracking-wide text-fg-muted"
         >
           {etf_stats_average_cost()}
         </div>
         <div
-          class="mt-1 break-words text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+          class="mt-1 break-words text-lg sm:text-xl font-semibold text-fg tabular-nums"
         >
           {avgExpenseRatio?.toFixed(2)}%
         </div>
@@ -487,10 +487,10 @@
   {#if originalData?.length !== 0}
     <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
       <div
-        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-gray-300 dark:border-zinc-700"
+        class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
       >
         <h2
-          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+          class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
         >
           {etf_provider_detail_count({
             count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -526,7 +526,7 @@
               bind:value={inputValue}
               on:input={search}
               placeholder={etf_search_placeholder()}
-              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
             />
           </div>
 
@@ -542,7 +542,7 @@
             <button
               on:click={resetColumnOrder}
               title="Reset column order"
-              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
             >
               <svg
                 class="w-4 h-4"
@@ -584,12 +584,12 @@
                 {#each etfProviderData as item, index}
                   <!-- row -->
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                    class="border-b border-line hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
                   >
                     {#each columns as column}
                       {#if column.key === "symbol"}
                         <td
-                          class="text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
+                          class="text-sm text-fg whitespace-nowrap"
                         >
                           <HoverStockChart
                             symbol={item?.symbol}
@@ -598,7 +598,7 @@
                         </td>
                       {:else if column.key === "name"}
                         <td
-                          class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap"
+                          class="text-sm text-fg-muted whitespace-nowrap"
                         >
                           {item?.name?.length > charNumber
                             ? item?.name?.slice(0, charNumber) + "..."
@@ -606,22 +606,22 @@
                         </td>
                       {:else if column.key === "price"}
                         <td
-                          class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                          class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                         >
                           {item?.price}
                         </td>
                       {:else if column.key === "changesPercentage"}
                         <td
-                          class="text-sm text-muted dark:text-zinc-300 whitespace-nowrap text-end tabular-nums"
+                          class="text-sm text-fg-muted whitespace-nowrap text-end tabular-nums"
                         >
                           {#if item?.changesPercentage >= 0}
-                            <span class="text-emerald-800 dark:text-emerald-400"
+                            <span class="text-up"
                               >+{item?.changesPercentage >= 1000
                                 ? abbreviateNumber(item?.changesPercentage)
                                 : item?.changesPercentage?.toFixed(2)}%</span
                             >
                           {:else if item?.changesPercentage < 0}
-                            <span class="text-rose-800 dark:text-rose-400"
+                            <span class="text-down"
                               >{item?.changesPercentage <= -1000
                                 ? abbreviateNumber(item?.changesPercentage)
                                 : item?.changesPercentage?.toFixed(2)}%
@@ -632,19 +632,19 @@
                         </td>
                       {:else if column.key === "totalAssets"}
                         <td
-                          class="text-end text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          class="text-end text-sm text-fg-muted whitespace-nowrap tabular-nums"
                         >
                           {abbreviateNumber(item?.totalAssets)}
                         </td>
                       {:else if column.key === "numberOfHoldings"}
                         <td
-                          class="text-end text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          class="text-end text-sm text-fg-muted whitespace-nowrap tabular-nums"
                         >
                           {item?.numberOfHoldings}
                         </td>
                       {:else if column.key === "expenseRatio"}
                         <td
-                          class="text-end text-sm text-muted dark:text-zinc-300 whitespace-nowrap tabular-nums"
+                          class="text-end text-sm text-fg-muted whitespace-nowrap tabular-nums"
                         >
                           {item?.expenseRatio}%
                         </td>
@@ -663,7 +663,7 @@
               <Button
                 on:click={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -685,7 +685,7 @@
 
             <!-- Page info and rows selector in center -->
             <div class="flex flex-row items-center gap-4">
-              <span class="text-sm text-muted dark:text-zinc-300">
+              <span class="text-sm text-fg-muted">
                 {etf_pagination_page_of({
                   current: String(currentPage),
                   total: String(totalPages),
@@ -696,7 +696,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm"
                       >{etf_pagination_rows({
@@ -724,13 +724,13 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                 >
                   <!-- Dropdown items -->
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
                       <DropdownMenu.Item
-                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                        class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                       >
                         <label
                           on:click={() => changeRowsPerPage(item)}
@@ -754,7 +754,7 @@
               <Button
                 on:click={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="hidden sm:inline">{etf_pagination_next()}</span>
                 <svg
@@ -778,7 +778,7 @@
           <div class="flex justify-center mt-4">
             <button
               on:click={scrollToTop}
-              class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+              class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
             >
               {etf_back_to_top()}
               <svg
@@ -803,7 +803,7 @@
     </div>
   {:else}
     <div
-      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-muted dark:text-zinc-300"
+      class="mt-10 w-full flex justify-center items-center m-auto text-lg font-semibold text-fg-muted"
     >
       {etf_provider_detail_no_data()}
     </div>

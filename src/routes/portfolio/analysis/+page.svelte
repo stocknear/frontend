@@ -125,11 +125,11 @@
     <!--Fundamentals section-->
     <div class="w-full m-auto mt-10">
         <h2
-            class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-fit"
+            class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
         >
             {portfolio_analysis_vs_market_title()}
         </h2>
-        <p class="mb-4 text-sm text-muted dark:text-zinc-300 max-w-3xl">
+        <p class="mb-4 text-sm text-fg-muted max-w-3xl">
             {portfolio_analysis_vs_market_description()}
         </p>
 

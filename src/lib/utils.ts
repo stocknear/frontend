@@ -123,6 +123,21 @@ export const deferFunction = (
 
 
 
+/**
+ * The one place that decides what colour a change value gets.
+ *
+ * Zero is flat, not up: the `>= 0` test used across the app painted `0.00%`
+ * green and gave it a `+` sign, which claims a move that did not happen.
+ */
+export function changeClass(value: number | null | undefined): string {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "text-fg-muted";
+  return value > 0 ? "text-up" : value < 0 ? "text-down" : "text-fg-muted";
+}
+
+export function changeSign(value: number | null | undefined): string {
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? "+" : "";
+}
+
 export function removeCompanyStrings(name) {
   const wordsToRemove = ["ETF Trust", "Technologies", "AG", ", Inc.","Inc.","Corp.","Corporation","Holding","Limited","Group","N.V.","Co. Ltd.","Co.", "Ltd."];
 if (!name) return "";
@@ -1278,8 +1293,8 @@ export function abbreviateNumberWithColor(number, addDollarSign = false, color =
   const isGerman = locale === "de";
 
   // Locale-specific suffixes: German uses Mio/Mrd with space
-  const suffixesEn = ["", "K", "M", "B", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
-  const suffixesDe = ["", "K", " Mio", " Mrd", " Mrd", " Bio", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixesEn = ["", "K", "M", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixesDe = ["", "K", " Mio", " Mrd", " Bio", "Q", "Qu", "S", "O", "N", "D"];
   const suffixes = isGerman ? suffixesDe : suffixesEn;
 
   // Handle special case for exactly 1000
@@ -1298,10 +1313,8 @@ export function abbreviateNumberWithColor(number, addDollarSign = false, color =
     const magnitude = Math.floor(Math.log10(Math.abs(number)));
     let index = Math.min(Math.floor(magnitude / 3), suffixes.length - 1);
 
-    // Special case to keep numbers in trillions formatted as billions
-    if (index >= 4) {
-      index = 3; // Keep the suffix at "B" / "Mrd"
-    }
+    // Trillions used to be clamped down to billions, which rendered NVDA's
+    // $4.74T as "4,741B" beside a 4-digit share price. Let T through.
 
     let abbreviation = Math.abs(number) / Math.pow(10, index * 3);
 
@@ -1372,8 +1385,8 @@ export function abbreviateNumber(
   const isGerman = locale === "de";
 
   // Locale-specific suffixes: German uses Mio/Mrd with space
-  const suffixesEn = ["", "K", "M", "B", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
-  const suffixesDe = ["", "K", " Mio", " Mrd", " Mrd", " Bio", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixesEn = ["", "K", "M", "B", "T", "Q", "Qu", "S", "O", "N", "D"];
+  const suffixesDe = ["", "K", " Mio", " Mrd", " Bio", "Q", "Qu", "S", "O", "N", "D"];
   const suffixes = isGerman ? suffixesDe : suffixesEn;
 
   // Handle special case for exactly 1000
@@ -1391,10 +1404,8 @@ export function abbreviateNumber(
     const magnitude = Math.floor(Math.log10(Math.abs(number)));
     let index = Math.min(Math.floor(magnitude / 3), suffixes.length - 1);
 
-    // Special case to keep numbers in trillions formatted as billions
-    if (index >= 4) {
-      index = 3; // Keep the suffix at "B" / "Mrd"
-    }
+    // Trillions used to be clamped down to billions, which rendered NVDA's
+    // $4.74T as "4,741B" beside a 4-digit share price. Let T through.
 
     let abbreviation = Math.abs(number) / Math.pow(10, index * 3);
 
@@ -2870,8 +2881,8 @@ export function formatCAGRValue(value: number | null): string {
  * Get CSS class for CAGR value based on positive/negative
  */
 export function getCAGRColorClass(value: number | null): string {
-  if (value === null) return 'text-muted dark:text-white';
+  if (value === null) return 'text-fg';
   if (value > 0) return 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30';
   if (value < 0) return 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30';
-  return 'text-muted dark:text-zinc-300 bg-gray-100 dark:bg-zinc-800';
+  return 'text-fg-muted bg-surface-raised';
 }

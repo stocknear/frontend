@@ -338,14 +338,14 @@
 
     $: healthStatusColor = (() => {
         if (overallHealthStatus === portfolio_overview_status_excellent())
-            return "text-emerald-800 dark:text-emerald-400";
+            return "text-up";
         if (overallHealthStatus === portfolio_overview_status_healthy())
-            return "text-emerald-800 dark:text-emerald-400";
+            return "text-up";
         if (overallHealthStatus === portfolio_overview_status_neutral())
             return "text-yellow-800 dark:text-yellow-400";
         if (overallHealthStatus === portfolio_overview_status_bad())
-            return "text-rose-800 dark:text-rose-400";
-        return "text-rose-800 dark:text-rose-400";
+            return "text-down";
+        return "text-down";
     })();
 
     // --- Charts (reactive configs) ---
@@ -695,7 +695,7 @@
             <div class="w-full">
                 <!-- Header -->
                 <div
-                    class="rounded-2xl border border-gray-300 dark:border-zinc-700 p-5"
+                    class="rounded-2xl border border-line p-5"
                 >
                     <div class="w-full overflow-hidden">
                         <header class="relative">
@@ -767,8 +767,8 @@
                                             <p
                                                 class="m-0 text-xl font-semibold tracking-tight {unrealizedReturns >=
                                                 0
-                                                    ? 'text-emerald-800 dark:text-emerald-400'
-                                                    : 'text-rose-800 dark:text-rose-400'}"
+                                                    ? 'text-up'
+                                                    : 'text-down'}"
                                                 data-testid="roi-value"
                                             >
                                                 {formatCurrency(
@@ -789,8 +789,8 @@
                                                     aria-label="Return percentage"
                                                     class={unrealizedReturns >=
                                                     0
-                                                        ? "text-emerald-800 dark:text-emerald-400"
-                                                        : "text-rose-800 dark:text-rose-400"}
+                                                        ? "text-up"
+                                                        : "text-down"}
                                                     >{unrealizedReturns >= 0
                                                         ? "+"
                                                         : ""}{unrealizedReturnsPercentage}%</span
@@ -878,7 +878,7 @@
             <div class="w-full sm:w-[40%]">
                 <!-- Health + Radar -->
                 <div
-                    class="rounded-2xl border border-gray-300 dark:border-zinc-700 p-5"
+                    class="rounded-2xl border border-line p-5"
                 >
                     {#if portfolioData.length > 0}
                         <h3 class="text-[1rem] font-semibold">

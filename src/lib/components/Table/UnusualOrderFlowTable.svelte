@@ -355,12 +355,12 @@
   class="w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
     aria-busy={isLoading}
   >
     <thead>
       <tr
-        class="bg-white/60 dark:bg-zinc-950/40 text-muted dark:text-white font-semibold text-[11px] uppercase tracking-wide border-b border-gray-300 dark:border-zinc-700"
+        class="bg-white/60 dark:bg-zinc-950/40 text-fg font-semibold text-[11px] uppercase tracking-wide border-b border-line"
       >
         {#each columns as column, i}
           <th
@@ -403,7 +403,7 @@
         <tr>
           <td
             colspan={columns.length}
-            class="py-6 text-center text-sm text-muted dark:text-zinc-300"
+            class="py-6 text-center text-sm text-fg-muted"
           >
             {isLoading ? "Loading..." : "No data available"}
           </td>
@@ -426,7 +426,7 @@
             {#each columns as column (column.key)}
               {#if column.key === "date"}
                 <td
-                  class="text-left text-sm whitespace-nowrap text-muted dark:text-white tabular-nums"
+                  class="text-left text-sm whitespace-nowrap text-fg tabular-nums"
                 >
                   {formatToNewYorkTime(item?.date)}
                 </td>

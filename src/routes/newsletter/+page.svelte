@@ -33,22 +33,22 @@
       <div class="space-y-6">
         <div class="space-y-3">
           <p
-            class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-muted dark:text-zinc-300"
+            class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-fg-muted"
           >
             {newsletter_label()}
           </p>
           <h1
-            class="text-3xl md:text-4xl font-semibold tracking-tight text-muted dark:text-white"
+            class="text-3xl md:text-4xl font-semibold tracking-tight text-fg"
           >
             {newsletter_title()}
           </h1>
-          <p class="text-[0.95rem] text-muted dark:text-zinc-300">
+          <p class="text-[0.95rem] text-fg-muted">
             {newsletter_description()}
           </p>
         </div>
 
         <div
-          class="space-y-4 text-[0.95rem] leading-relaxed text-muted dark:text-zinc-300"
+          class="space-y-4 text-[0.95rem] leading-relaxed text-fg-muted"
         >
           <p>
             {newsletter_intro_1()}

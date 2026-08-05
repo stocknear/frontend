@@ -154,7 +154,7 @@
       ?.slice(0, 5)
       ?.map((item) => {
         const weight = item?.weightPercentage ?? 0;
-        return `<a href="/etf/${item?.symbol}" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${item?.symbol}</a> at ${weight.toFixed(2)}%`;
+        return `<a href="/etf/${item?.symbol}" class="font-medium text-fg transition-colors hover:text-accent transition">${item?.symbol}</a> at ${weight.toFixed(2)}%`;
       })
       ?.join(", ")
       ?.replace(/, ([^,]*)$/, ", and $1");
@@ -544,12 +544,12 @@
 
   function getSignedPercentClass(value: number | null): string {
     if (value == null || value === 0) {
-      return "text-muted dark:text-zinc-300";
+      return "text-fg-muted";
     }
 
     return value > 0
-      ? "text-emerald-800 dark:text-emerald-400"
-      : "text-rose-800 dark:text-rose-400";
+      ? "text-up"
+      : "text-down";
   }
 
   function getRealtimeSymbols(): string[] {
@@ -946,7 +946,7 @@
 />
 
 <section
-  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-muted dark:text-zinc-200"
+  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-fg"
 >
   <div class="flex justify-center m-auto h-full overflow-hidden w-full">
     <div
@@ -955,7 +955,7 @@
       <div class="mt-5 sm:mt-0 sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
         <div class="mb-4">
           <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
           >
             ETF Holdings
           </h1>
@@ -967,53 +967,53 @@
 
         {#if summaryData.length > 0}
           <div
-            class="mt-4 mb-6 grid grid-cols-2 divide-x divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4"
+            class="mt-4 mb-6 grid grid-cols-2 divide-x divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4"
           >
             <div class="p-4 bp:p-5 sm:p-6">
-              <label class="text-sm text-muted dark:text-white">
+              <label class="text-sm text-fg">
                 Total ETFs
               </label>
               <div
-                class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+                class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
               >
                 {summaryData.length.toLocaleString("en-US")}
               </div>
             </div>
 
             <div class="p-4 bp:p-5 sm:p-6">
-              <label class="text-sm text-muted dark:text-white">
+              <label class="text-sm text-fg">
                 Top 10 Weight
               </label>
               <div
-                class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+                class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
               >
                 {topTenWeight.toFixed(2)}%
               </div>
             </div>
 
             <div class="p-4 bp:p-5 sm:p-6">
-              <label class="text-sm text-muted dark:text-white">
+              <label class="text-sm text-fg">
                 Total Market Value
               </label>
               <div
-                class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+                class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
               >
                 {abbreviateNumber(totalMarketValue)}
               </div>
             </div>
 
             <div class="p-4 bp:p-5 sm:p-6 flex flex-col items-start">
-              <label class="text-sm text-muted dark:text-white">
+              <label class="text-sm text-fg">
                 Largest ETF
               </label>
               <a
                 href="/etf/{largestExposure?.symbol}"
-                class="mt-1 break-words font-semibold leading-7 text-base sm:text-lg sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                class="mt-1 break-words font-semibold leading-7 text-base sm:text-lg font-medium text-fg transition-colors hover:text-accent transition"
               >
                 {largestExposure?.symbol}
               </a>
 
-              <div class="text-sm text-muted dark:text-white">
+              <div class="text-sm text-fg">
                 {(largestExposure?.weightPercentage ?? 0).toFixed(2)}%
               </div>
             </div>
@@ -1023,13 +1023,13 @@
             <div class="mt-5">
               <div class="relative">
                 <h2
-                  class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                 >
                   Market Value Allocation
                 </h2>
 
                 <div
-                  class="sm:p-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="sm:p-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}
@@ -1041,10 +1041,10 @@
           <div class="w-full m-auto mt-5">
             <div class="items-center lg:overflow-visible px-1 py-1">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {etf_detail_holdings_stocks_count({
                     count: summaryData.length.toLocaleString("en-US"),
@@ -1055,7 +1055,7 @@
                   class="mt-1 w-full flex flex-row lg:flex items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -1084,7 +1084,7 @@
                       on:input={() => (currentPage = 1)}
                       type="text"
                       placeholder={etf_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-fg placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -1104,7 +1104,7 @@
                 class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -1119,14 +1119,14 @@
                         <td class="text-[0.85rem] sm:text-sm text-start">
                           <a
                             href={`/etf/${item?.symbol}`}
-                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                            class="font-medium text-fg transition-colors hover:text-accent transition"
                           >
                             {item?.symbol || "-"}
                           </a>
                         </td>
 
                         <td
-                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-muted dark:text-zinc-300"
+                          class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start truncate w-fit text-fg-muted"
                         >
                           {#if item?.name?.length > charNumber}
                             {item.name.slice(0, charNumber) + "..."}
@@ -1136,7 +1136,7 @@
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                         >
                           {formatPrice(item?.price)}
                         </td>
@@ -1150,19 +1150,19 @@
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                         >
                           {formatLargeNumber(item?.marketValue)}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                         >
                           {formatLargeNumber(item?.sharesNumber)}
                         </td>
 
                         <td
-                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                          class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                         >
                           {formatWeight(item?.weightPercentage)}
                         </td>
@@ -1179,7 +1179,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1201,7 +1201,7 @@
                 </div>
 
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-muted dark:text-zinc-300">
+                  <span class="text-sm text-fg-muted">
                     {stock_detail_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -1212,7 +1212,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm">
                           {stock_detail_rows({ count: rowsPerPage })}
@@ -1238,12 +1238,12 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -1264,7 +1264,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg
@@ -1287,7 +1287,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                 >
                   {stock_detail_back_to_top()}
                   <svg

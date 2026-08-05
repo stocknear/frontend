@@ -30,7 +30,7 @@
 
 <div class="w-full transition-all duration-200">
   <div
-    class="block w-full border border-gray-300 dark:border-gray-600 shadow-sm rounded overflow-hidden"
+    class="block w-full border border-line-strong shadow-sm rounded overflow-hidden"
   >
     <form
       class="grow rounded relative flex items-center w-full overflow-hidden"
@@ -61,7 +61,7 @@
               Ask
             </button>
             <button
-              class="cursor-pointer text-sm opacity-80 rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-default px-3 py-1 transition-colors duration-50"
+              class="cursor-pointer text-sm opacity-80 rounded border border-line bg-gray-100 dark:bg-default px-3 py-1 transition-colors duration-50"
               type="button"
               on:click={() =>
                 toast?.info("Feature is coming soon 🔥", {
@@ -80,7 +80,7 @@
 
             </button>
             <button
-              class="cursor-pointer text-black text-[1rem] rounded border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-white px-3 py-1 transition-colors duration-200"
+              class="cursor-pointer text-black text-[1rem] rounded border border-line bg-gray-100 dark:bg-white px-3 py-1 transition-colors duration-200"
               type="button"
             >
               <Arrow class="w-4 h-4" />

@@ -150,26 +150,26 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-fg"
 >
-  <BreadCrumb containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white">
+  <BreadCrumb containerClass="text-xs sm:text-sm breadcrumbs text-fg">
     <li>
       <a
         href={localizedHref("/")}
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{etf_reverse_lookup_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-white">{etf_reverse_lookup_breadcrumb_current()}</li>
+    <li class="text-fg">{etf_reverse_lookup_breadcrumb_current()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
     <div class="sm:p-0 flex justify-center w-full m-auto overflow-hidden">
       <div class="relative flex justify-center items-start overflow-hidden w-full">
         <main class="w-full">
-          <div class="mb-3 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-3 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {etf_reverse_lookup_title()}
             </h1>
@@ -188,7 +188,7 @@
           <div class="mt-5 max-w-xl">
             <label
               for="etf-reverse-lookup-search"
-              class="mb-1 block text-sm font-medium text-muted dark:text-zinc-300"
+              class="mb-1 block text-sm font-medium text-fg-muted"
             >
               {etf_reverse_lookup_search_label()}
             </label>
@@ -218,43 +218,43 @@
                 <Combobox.Input
                   id="etf-reverse-lookup-search"
                   on:input={search}
-                  class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                  class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                   placeholder={etf_reverse_lookup_search_placeholder()}
                   aria-label={etf_reverse_lookup_search_placeholder()}
                 />
               </div>
               <Combobox.Content
-                class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none outline-hidden"
+                class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none outline-hidden"
                 sideOffset={8}
               >
                 {#if inputValue?.length !== 0 && inputValue !== symbol}
                   {#each searchBarData as searchItem}
                     <Combobox.Item
-                      class="py-2.5 cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                      class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                       value={searchItem?.symbol}
                       label={searchItem?.symbol}
                     >
                       <div class="flex flex-col sm:flex-row items-start sm:items-center">
-                        <span class="text-sm text-muted dark:text-white">
+                        <span class="text-sm text-fg">
                           {searchItem?.symbol}
                         </span>
                         <span
-                          class="ml-0 sm:ml-2 text-xs sm:text-sm text-muted dark:text-white"
+                          class="ml-0 sm:ml-2 text-xs sm:text-sm text-fg"
                         >
                           {searchItem?.name}
                         </span>
                       </div>
                     </Combobox.Item>
                   {:else}
-                    <span class="block px-5 py-2 text-sm text-muted dark:text-white">
+                    <span class="block px-5 py-2 text-sm text-fg">
                       {etf_reverse_lookup_search_no_matches()}
                     </span>
                   {/each}
                 {:else}
                   <Combobox.Item
-                    class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                    class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                   >
-                    <span class="text-sm text-muted dark:text-white">
+                    <span class="text-sm text-fg">
                       {etf_reverse_lookup_search_start()}
                     </span>
                   </Combobox.Item>
@@ -265,12 +265,12 @@
 
           {#if !symbol}
             <div
-              class="mt-6 flex h-[clamp(320px,60vh,720px)] flex-col items-center justify-center rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-8 text-center"
+              class="mt-6 flex h-[clamp(320px,60vh,720px)] flex-col items-center justify-center rounded-xl border border-line bg-white/70 dark:bg-zinc-950/40 p-8 text-center"
             >
-              <p class="text-xl xs:text-2xl font-semibold text-muted dark:text-white">
+              <p class="text-xl xs:text-2xl font-semibold text-fg">
                 {etf_reverse_lookup_empty_headline()}
               </p>
-              <p class="mt-2 max-w-lg text-muted dark:text-zinc-300">
+              <p class="mt-2 max-w-lg text-fg-muted">
                 {etf_reverse_lookup_intro()}
               </p>
               <div class="mt-6 flex flex-col items-center">
@@ -282,7 +282,7 @@
                     <li>
                       <a
                         href={localizedHref(`/etf-reverse-lookup?symbol=${example}`)}
-                        class="block rounded-md border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 px-4 py-2 text-sm font-medium text-muted dark:text-zinc-200 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 hover:bg-gray-50 dark:hover:bg-zinc-900 transition"
+                        class="block rounded-md border border-line bg-white/90 dark:bg-zinc-950/70 px-4 py-2 text-sm font-medium text-fg sm:hover:text-accent hover:bg-gray-50 dark:hover:bg-zinc-900 transition"
                       >
                         {example}
                       </a>
@@ -298,11 +298,11 @@
               </div>
             {:else if rows?.length}
               <div
-                class="mt-6 grid grid-cols-1 divide-y divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+                class="mt-6 grid grid-cols-1 divide-y divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
               >
                 <div class="p-4 sm:p-6">
                   <div class="flex flex-row items-center gap-1">
-                    <span class="text-sm text-muted dark:text-white">
+                    <span class="text-sm text-fg">
                       {etf_reverse_lookup_summary_exposure()}
                     </span>
                     <InfoModal
@@ -312,7 +312,7 @@
                     />
                   </div>
                   <div
-                    class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+                    class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
                   >
                     {summary?.totalExposure !== null
                       ? abbreviateNumber(summary?.totalExposure, true)
@@ -322,7 +322,7 @@
 
                 <div class="p-4 sm:p-6">
                   <div class="flex flex-row items-center gap-1">
-                    <span class="text-sm text-muted dark:text-white">
+                    <span class="text-sm text-fg">
                       {etf_reverse_lookup_summary_avg_weight()}
                     </span>
                     <InfoModal
@@ -332,7 +332,7 @@
                     />
                   </div>
                   <div
-                    class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+                    class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
                   >
                     {summary?.averageWeight !== null
                       ? `${summary?.averageWeight?.toFixed(2)}%`
@@ -342,7 +342,7 @@
 
                 <div class="p-4 sm:p-6">
                   <div class="flex flex-row items-center gap-1">
-                    <span class="text-sm text-muted dark:text-white">
+                    <span class="text-sm text-fg">
                       {etf_reverse_lookup_summary_aum()}
                     </span>
                     <InfoModal
@@ -352,7 +352,7 @@
                     />
                   </div>
                   <div
-                    class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+                    class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
                   >
                     {summary?.combinedAssets !== null
                       ? abbreviateNumber(summary?.combinedAssets, true)

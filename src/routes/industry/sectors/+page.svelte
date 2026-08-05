@@ -363,10 +363,10 @@
   <!-- Page wrapper -->
   <div class="items-center lg:overflow-visible px-1">
     <div
-      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-gray-300 dark:border-zinc-700"
+      class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
       >
         {industry_sectors_heading({
           count: rawData?.length?.toLocaleString("en-US") ?? "0",
@@ -399,7 +399,7 @@
             on:input={search}
             type="text"
             placeholder={industry_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -415,7 +415,7 @@
           <button
             on:click={resetColumnOrder}
             title={industry_reset_column_order()}
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -443,7 +443,7 @@
         class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
       >
         <table
-          class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+          class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
         >
           <thead>
             <TableHeader
@@ -462,13 +462,13 @@
                 {#each columns as column}
                   {#if column.key === "industry"}
                     <td
-                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                      class="text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                     >
                       <a
                         href={sectorNavigation?.find(
                           (listItem) => listItem?.title === item?.name,
                         )?.link}
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                        class="font-medium text-fg transition-colors hover:text-accent transition"
                       >
                         {item?.name?.length > charNumber
                           ? item?.name?.slice(0, charNumber) + "..."
@@ -477,65 +477,65 @@
                     </td>
                   {:else if column.key === "numStocks"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                     >
                       {item?.numStocks}
                     </td>
                   {:else if column.key === "totalMarketCap"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                     >
                       {abbreviateNumber(item?.totalMarketCap) ?? "n/a"}
                     </td>
                   {:else if column.key === "avgDividendYield"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                     >
                       {item?.avgDividendYield?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "pe"}
                     <td
-                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                      class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                     >
                       {item?.pe?.toFixed(2) ?? "n/a"}
                     </td>
                   {:else if column.key === "profitMargin"}
                     <td
                       class=" {item?.profitMargin >= 0
-                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                        : 'text-rose-800 dark:text-rose-400'}   text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
+                        ? "before:content-['+'] text-up"
+                        : 'text-down'}   text-[0.85rem] sm:text-sm whitespace-nowrap text-end tabular-nums"
                     >
                       {abbreviateNumber(item?.profitMargin)}%
                     </td>
                   {:else if column.key === "avgChange1D"}
                     <td
                       class="{item?.avgChange1D >= 0
-                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-up"
+                        : 'text-down'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1D?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "avgChange1W"}
                     <td
                       class="{item?.avgChange1W >= 0
-                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-up"
+                        : 'text-down'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1W?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "avgChange1M"}
                     <td
                       class="{item?.avgChange1M >= 0
-                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-up"
+                        : 'text-down'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1M?.toFixed(2) ?? "n/a"}%
                     </td>
                   {:else if column.key === "avgChange1Y"}
                     <td
                       class="{item?.avgChange1Y >= 0
-                        ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
-                        : 'text-rose-800 dark:text-rose-400'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
+                        ? "before:content-['+'] text-up"
+                        : 'text-down'} text-end text-[0.85rem] sm:text-sm whitespace-nowrap tabular-nums"
                     >
                       {item?.avgChange1Y?.toFixed(2) ?? "n/a"}%
                     </td>
@@ -561,7 +561,7 @@
         <Button
           on:click={() => goToPage(currentPage - 1)}
           disabled={currentPage === 1}
-          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <svg
             class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -583,7 +583,7 @@
 
       <!-- Page info and rows selector in center -->
       <div class="flex flex-row items-center gap-4">
-        <span class="text-sm text-muted dark:text-zinc-300">
+        <span class="text-sm text-fg-muted">
           {industry_pagination_page_of({
             current: currentPage,
             total: totalPages,
@@ -594,7 +594,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
                 >{industry_rows_label({ rows: rowsPerPage })}</span
@@ -620,13 +620,13 @@
             align="end"
             sideOffset={10}
             alignOffset={0}
-            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
           >
             <!-- Dropdown items -->
             <DropdownMenu.Group class="pb-2">
               {#each rowsPerPageOptions as item}
                 <DropdownMenu.Item
-                  class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                  class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                 >
                   <label
                     on:click={() => changeRowsPerPage(item)}
@@ -648,7 +648,7 @@
         <Button
           on:click={() => goToPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="hidden sm:inline">{industry_pagination_next()}</span>
           <svg
@@ -672,7 +672,7 @@
     <div class="flex justify-center mt-4">
       <button
         on:click={scrollToTop}
-        class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
       >
         {industry_back_to_top()}
         <svg

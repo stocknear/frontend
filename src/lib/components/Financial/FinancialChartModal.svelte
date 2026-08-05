@@ -578,22 +578,22 @@
   >
     <!-- Modal Content -->
     <div
-      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200 dark:border-zinc-800 animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-surface-card rounded-t-2xl sm:rounded-2xl shadow-2xl border border-line animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4"
+        class="sticky top-0 z-10 bg-surface-card border-b border-line px-4 sm:px-6 py-4"
       >
         <div class="flex items-start justify-between">
           <div>
             <h2
               id="modal-title"
-              class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
+              class="text-lg sm:text-xl font-semibold text-fg"
             >
               {metricLabel}
             </h2>
-            <p class="text-sm text-muted dark:text-white mt-0.5">
+            <p class="text-sm text-fg mt-0.5">
               {$stockTicker} - {periodType === "annual"
                 ? "Annual"
                 : periodType === "quarterly"
@@ -607,7 +607,7 @@
             on:click={handleClose}
             aria-label="Close modal"
           >
-            <X class="w-5 h-5 text-muted dark:text-white" />
+            <X class="w-5 h-5 text-fg" />
           </button>
         </div>
 
@@ -618,7 +618,7 @@
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
               >
                 <span>{RANGE_LABEL_MAP[selectedRange] || selectedRange}</span>
                 <svg
@@ -640,7 +640,7 @@
               side="bottom"
               align="start"
               sideOffset={8}
-              class="min-w-[100px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2 text-muted dark:text-zinc-200 shadow-lg"
+              class="min-w-[100px] rounded-2xl border border-line bg-white dark:bg-zinc-800 p-2 text-fg shadow-lg"
             >
               <DropdownMenu.Group>
                 {#each RANGE_OPTIONS as option}
@@ -653,14 +653,14 @@
                       }
                     }}
                     class="{selectedRange === option.value
-                      ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 font-medium'
-                      : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-xl"
+                      ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-accent font-medium'
+                      : ''} cursor-pointer hover:text-accent rounded-xl"
                   >
                     <div class="flex items-center justify-between w-full gap-2">
                       <span>{option.label}</span>
                       {#if !isPremiumUser}
                         <svg
-                          class="w-3.5 h-3.5 text-muted dark:text-white"
+                          class="w-3.5 h-3.5 text-fg"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                         >
@@ -680,7 +680,7 @@
           <!-- Chart Mode Toggle -->
           <Button
             on:click={toggleChartMode}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />
@@ -700,8 +700,8 @@
                 type="button"
                 class="cursor-pointer px-3 py-1 text-xs font-medium rounded-full border transition {selectedOverlay ===
                 overlay.key
-                  ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300'
-                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                  ? 'border-violet-500 bg-violet-100 dark:bg-violet-900/30 text-accent'
+                  : 'border-line text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800'}"
                 on:click={() => handleOverlaySelect(overlay.key)}
               >
                 {overlay.label}
@@ -717,7 +717,7 @@
           <div class="w-full" use:highcharts={config}></div>
         {:else if data?.length > 0}
           <div
-            class="h-[400px] flex flex-col items-center justify-center text-muted dark:text-white"
+            class="h-[400px] flex flex-col items-center justify-center text-fg"
           >
             <span class="text-sm">{stock_detail_no_data()}</span>
           </div>
@@ -732,10 +732,10 @@
       <!-- CAGR Footer (hidden for stacked/grouped-stacked charts) -->
       {#if !hideCAGR}
         <div
-          class="px-4 sm:px-6 py-4 border-t border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl"
+          class="px-4 sm:px-6 py-4 border-t border-line bg-gray-50 dark:bg-zinc-950/50 rounded-b-2xl"
         >
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-sm font-medium text-muted dark:text-zinc-300 mr-2"
+            <span class="text-sm font-medium text-fg-muted mr-2"
               >{stock_detail_financials_cagr_label()}</span
             >
             {#if isPremiumUser}
@@ -745,7 +745,7 @@
                     value,
                   )}"
                 >
-                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span
+                  <span class="text-fg-muted">{period}:</span
                   >
                   <span>{formatCAGRValue(value)}</span>
                 </div>
@@ -755,12 +755,12 @@
                 <button
                   type="button"
                   on:click={() => goto("/pricing")}
-                  class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 transition"
+                  class="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 transition"
                 >
-                  <span class="text-gray-600 dark:text-zinc-400">{period}:</span
+                  <span class="text-fg-muted">{period}:</span
                   >
                   <svg
-                    class="w-3.5 h-3.5 text-muted dark:text-white"
+                    class="w-3.5 h-3.5 text-fg"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                   >
@@ -773,7 +773,7 @@
               {/each}
             {/if}
           </div>
-          <p class="text-xs text-gray-500 dark:text-zinc-500 mt-2">
+          <p class="text-xs text-fg-subtle mt-2">
             {stock_detail_financials_cagr_description()}
           </p>
         </div>

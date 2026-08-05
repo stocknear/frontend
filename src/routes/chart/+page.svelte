@@ -136,7 +136,7 @@
           class="relative w-full"
         >
           <div
-            class="absolute inset-y-0 left-0 flex items-center pl-4 text-muted dark:text-zinc-300"
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-fg-muted"
           >
             <svg
               class="h-5 w-5"
@@ -154,11 +154,11 @@
           </div>
           <Combobox.Input
             on:click={() => (inputValue = "")}
-            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-muted dark:text-zinc-200 bg-[#f8fbfb] dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 rounded-xl shadow focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-zinc-500 transition"
+            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-fg bg-surface-raised/60 border border-line rounded-xl shadow focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-zinc-500 transition"
             placeholder="Company or stock symbol..."
           />
           <div
-            class="absolute inset-y-0 right-0 flex items-center pr-4 text-muted dark:text-zinc-300"
+            class="absolute inset-y-0 right-0 flex items-center pr-4 text-fg-muted"
           >
             {#if isLoading}
               <span class="loading loading-spinner loading-sm"></span>
@@ -174,32 +174,32 @@
           </div>
         </div>
         <Combobox.Content
-          class="w-full z-40 mt-2 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-1.5 py-2 shadow-xl outline-hidden"
+          class="w-full z-40 mt-2 rounded-xl border border-line bg-surface-card px-1.5 py-2 shadow-xl outline-hidden"
           sideOffset={8}
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 w-full"
+              class="pl-2 pb-2 border-b border-line text-xs font-semibold uppercase tracking-wide text-fg-muted w-full"
             >
               Suggestions
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-muted dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm font-semibold text-muted dark:text-zinc-200"
+                    class="text-sm font-semibold text-fg"
                     >{item?.symbol}</span
                   >
                   <span
-                    class="ml-3 text-sm text-muted dark:text-zinc-300 truncate"
+                    class="ml-3 text-sm text-fg-muted truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-muted dark:text-white"
+                  <span class="ml-auto text-sm text-fg"
                     >{item?.type}</span
                   >
                 </div>
@@ -207,34 +207,34 @@
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 w-full"
+              class="pl-2 pb-2 border-b border-line text-xs font-semibold uppercase tracking-wide text-fg-muted w-full"
             >
               Popular
             </div>
             {#each popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-muted dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm font-semibold text-muted dark:text-zinc-200"
+                    class="text-sm font-semibold text-fg"
                     >{item?.symbol}</span
                   >
                   <span
-                    class="ml-3 text-sm text-muted dark:text-zinc-300 truncate"
+                    class="ml-3 text-sm text-fg-muted truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-muted dark:text-white"
+                  <span class="ml-auto text-sm text-fg"
                     >{item?.type}</span
                   >
                 </div>
               </Combobox.Item>
             {/each}
           {:else}
-            <span class="block px-5 py-2 text-sm text-muted dark:text-zinc-300">
+            <span class="block px-5 py-2 text-sm text-fg-muted">
               No results found
             </span>
           {/if}
@@ -246,10 +246,10 @@
     <div class="sm:hidden flex justify-center px-3">
       <label
         for="chartSearchModal"
-        class="flex items-center gap-3 px-3 py-2 w-full rounded-xl border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-900/60 text-gray-500 dark:text-zinc-500 cursor-pointer shadow transition"
+        class="flex items-center gap-3 px-3 py-2 w-full rounded-xl border border-line bg-surface-raised/60 text-fg-subtle cursor-pointer shadow transition"
       >
         <svg
-          class="w-4 h-4 text-muted dark:text-zinc-300"
+          class="w-4 h-4 text-fg-muted"
           fill="currentColor"
           viewBox="0 0 16 16"
         >
@@ -278,11 +278,11 @@
       <label for="chartSearchModal" class="cursor-pointer modal-backdrop"
       ></label>
       <div
-        class="modal-box min-h-96 overflow-hidden m-auto w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+        class="modal-box min-h-96 overflow-hidden m-auto w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
       >
         <label
           for="chartSearchModal"
-          class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+          class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
           aria-label="Close modal"
         >
           <svg
@@ -335,7 +335,7 @@
               {/if}
             </div>
             <input
-              class="w-full py-3 pl-10 pr-12 rounded-xl bg-[#f8fbfb] dark:bg-zinc-900/60 border border-gray-300 dark:border-zinc-700 shadow text-sm text-muted dark:text-zinc-200 placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700"
+              class="w-full py-3 pl-10 pr-12 rounded-xl bg-surface-raised/60 border border-line shadow text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700"
               placeholder="Company or stock symbol..."
               bind:value={inputValue}
               bind:this={inputElement}
@@ -346,7 +346,7 @@
             />
             <button class="absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
-                class="w-4 h-4 text-muted dark:text-zinc-300"
+                class="w-4 h-4 text-fg-muted"
                 fill="currentColor"
                 viewBox="0 0 16 16"
               >
@@ -362,29 +362,29 @@
         </div>
 
         <div
-          class="mt-3 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-1.5 py-2"
+          class="mt-3 rounded-xl border border-line bg-surface-card px-1.5 py-2"
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 w-full"
+              class="pl-2 pb-2 border-b border-line text-xs font-semibold uppercase tracking-wide text-fg-muted w-full"
             >
               Suggestions
             </div>
             {#each searchBarData as item}
               <li
-                class="cursor-pointer text-muted dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm font-semibold text-muted dark:text-zinc-200"
+                    class="text-sm font-semibold text-fg"
                     >{item?.symbol}</span
                   >
                   <span
-                    class="whitespace-nowrap ml-3 mr-6 text-sm text-muted dark:text-zinc-300 truncate"
+                    class="whitespace-nowrap ml-3 mr-6 text-sm text-fg-muted truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-muted dark:text-white"
+                  <span class="ml-auto text-sm text-fg"
                     >{item?.type}</span
                   >
                 </div>
@@ -392,32 +392,32 @@
             {/each}
           {:else if inputValue?.length === 0 || !showSuggestions}
             <div
-              class="pl-2 pb-2 border-b border-gray-300 dark:border-zinc-700 text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300 w-full"
+              class="pl-2 pb-2 border-b border-line text-xs font-semibold uppercase tracking-wide text-fg-muted w-full"
             >
               Popular
             </div>
             {#each popularList as item}
               <li
-                class="gap-y-1.5 cursor-pointer text-muted dark:text-zinc-200 border-b border-gray-300 dark:border-zinc-700 last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
+                class="gap-y-1.5 cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
                   <span
-                    class="text-sm font-semibold text-muted dark:text-zinc-200"
+                    class="text-sm font-semibold text-fg"
                     >{item?.symbol}</span
                   >
                   <span
-                    class="whitespace-nowrap ml-3 mr-6 text-sm text-muted dark:text-zinc-300 truncate"
+                    class="whitespace-nowrap ml-3 mr-6 text-sm text-fg-muted truncate"
                     >{item?.name}</span
                   >
-                  <span class="ml-auto text-sm text-muted dark:text-white"
+                  <span class="ml-auto text-sm text-fg"
                     >{item?.type}</span
                   >
                 </div>
               </li>
             {/each}
           {:else}
-            <span class="block px-5 py-2 text-sm text-muted dark:text-zinc-300">
+            <span class="block px-5 py-2 text-sm text-fg-muted">
               No results found
             </span>
           {/if}

@@ -561,7 +561,7 @@
                       class="px-3 py-1 rounded-full text-xs font-medium border transition ease-out duration-100 cursor-pointer {plotPeriod ===
                       item
                         ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-gray-900/80 dark:border-white'
-                        : 'bg-white/70 dark:bg-zinc-950/50 text-muted dark:text-zinc-300 border-gray-300 dark:border-zinc-700 hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
+                        : 'bg-white/70 dark:bg-zinc-950/50 text-fg-muted border-line hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
                     >
                       {item}
                     </label>
@@ -569,14 +569,14 @@
                 </div>
               </div>
               <div
-                class="border border-gray-300 dark:border-zinc-700 rounded-2xl w-full"
+                class="border border-line rounded-2xl w-full"
                 use:highcharts={config}
               ></div>
             {/if}
 
             {#if rawData?.length > 0}
               <div
-                class="mt-5 border-t border-b pt-2 pb-2 border-gray-300 dark:border-zinc-700 flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
+                class="mt-5 border-t border-b pt-2 pb-2 border-line flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
               >
                 <h2 class="text-xl sm:text-2xl font-bold">
                   {stock_detail_history_historical_data()}
@@ -587,7 +587,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate px-1"
                             >{getTimePeriodLabel(timePeriod)}</span
@@ -612,7 +612,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-56 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-muted dark:text-zinc-200 shadow-lg shadow-black/5 p-2"
+                        class="w-auto min-w-56 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
                       >
                         <DropdownMenu.Label
                           class="text-muted dark:text-gray-400 font-normal"
@@ -623,7 +623,7 @@
                         <DropdownMenu.Group>
                           <DropdownMenu.Item
                             on:click={() => (timePeriod = "Daily")}
-                            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             {stock_detail_history_daily()}
                           </DropdownMenu.Item>
@@ -632,7 +632,7 @@
                             {#each ["Weekly", "Monthly", "Quarterly", "Annual"] as entry}
                               <DropdownMenu.Item
                                 on:click={() => goto("/pricing")}
-                                class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                                class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                               >
                                 {getTimePeriodLabel(entry)}
                                 <svg
@@ -649,19 +649,19 @@
                           {:else}
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Monthly")}
-                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               {stock_detail_history_monthly()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Quarterly")}
-                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               {stock_detail_history_quarterly()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (timePeriod = "Annual")}
-                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               {stock_detail_history_annual()}
                             </DropdownMenu.Item>
@@ -684,7 +684,7 @@
                   class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
                   >
                     <thead>
                       <TableHeader {columns} {sortOrders} {sortData} />
@@ -740,10 +740,10 @@
                           <td
                             class="text-sm sm:text-[1rem] {item?.changesPercentage >=
                               0 && item?.changesPercentage !== null
-                              ? "text-emerald-800 dark:text-emerald-400 before:content-['+'] "
+                              ? "text-up before:content-['+'] "
                               : item?.changesPercentage < 0 &&
                                   item?.changesPercentage !== null
-                                ? 'text-rose-800 dark:text-rose-400'
+                                ? 'text-down'
                                 : ''} text-end"
                           >
                             {item?.changesPercentage !== null

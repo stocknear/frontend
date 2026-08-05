@@ -80,7 +80,7 @@
           <a
             href={sectorNavigation?.find((item) => item?.title === sector)
               ?.link}
-            class="cursor-pointer font-semibold tracking-tight text-base sm:text-lg text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+            class="cursor-pointer font-semibold tracking-tight text-base sm:text-lg text-fg hover:text-accent transition"
           >
             {industry_sector_label({ sector })}
             <svg
@@ -97,10 +97,10 @@
           </a>
         </div>
 
-        <div class="border-t border-gray-300 dark:border-zinc-700 mt-5" />
+        <div class="border-t border-line mt-5" />
 
         <IndustryTable {charNumber} industryList={rawData[sector]} />
-        <div class="border-t border-gray-300 dark:border-zinc-700 mt-5" />
+        <div class="border-t border-line mt-5" />
       {/each}
     </div>
   </div>

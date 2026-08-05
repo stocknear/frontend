@@ -2219,7 +2219,7 @@
     `shrink-0 transition cursor-pointer p-1.5 -m-1 rounded-lg active:bg-gray-200 dark:active:bg-zinc-700 ${
       isFavorite
         ? "opacity-100 text-amber-400"
-        : "opacity-40 sm:opacity-0 sm:group-hover:opacity-100 text-muted dark:text-white hover:text-amber-400"
+        : "opacity-40 sm:opacity-0 sm:group-hover:opacity-100 text-fg hover:text-amber-400"
     }`;
   let favoriteIndicators: typeof indicatorItems = [];
   // In Favorites tab, sort alphabetically
@@ -9758,8 +9758,8 @@
 
   $: changeClass =
     change !== null && change < 0
-      ? "text-rose-800 dark:text-rose-400"
-      : "text-emerald-800 dark:text-emerald-400";
+      ? "text-down"
+      : "text-up";
 
   $: companyName = data?.companyName || ticker;
   // SEO uses same values as UI for consistency
@@ -10202,7 +10202,7 @@
 />
 
 <main
-  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0b0b0d] text-muted dark:text-zinc-200 overflow-hidden"
+  class="chart-tv h-[calc(100dvh-56px-60px)] sm:h-[calc(100dvh-56px)] w-full bg-white dark:bg-[#0b0b0d] text-fg overflow-hidden"
 >
   <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- TradingView Style Navbar -->
@@ -10215,7 +10215,7 @@
       >
         <!-- Hamburger Menu to Toggle Drawing Tools Sidebar -->
         <button
-          class="hidden sm:flex cursor-pointer items-center justify-center w-9 h-9 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
+          class="hidden sm:flex cursor-pointer items-center justify-center w-9 h-9 text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
@@ -10242,15 +10242,15 @@
             loading="lazy"
             decoding="async"
           />
-          <span class="font-semibold text-muted dark:text-white text-sm"
+          <span class="font-semibold text-fg text-sm"
             >{ticker}</span
           >
-          <span class="text-gray-500 dark:text-zinc-500">·</span>
-          <span class="text-gray-600 dark:text-zinc-400 text-sm"
+          <span class="text-fg-subtle">·</span>
+          <span class="text-fg-muted text-sm"
             >{activeRange}</span
           >
-          <span class="text-gray-500 dark:text-zinc-500 text-sm">·</span>
-          <span class="text-gray-600 dark:text-zinc-400 text-sm"
+          <span class="text-fg-subtle text-sm">·</span>
+          <span class="text-fg-muted text-sm"
             >{data?.getStockQuote?.exchange?.toUpperCase() || ""}</span
           >
         </button>
@@ -10258,7 +10258,7 @@
         <!-- Back to Asset Button -->
         <a
           href="/{assetType}/{ticker}"
-          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
           title="Back to {ticker}"
         >
           <ArrowLeft class="h-4 w-4 flex-shrink-0" />
@@ -10296,7 +10296,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
               >
                 <AlarmClockPlus class="h-4 w-4 flex-shrink-0" />
                 <span>{activeRange}</span>
@@ -10307,15 +10307,15 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
+              class="w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
             >
               <DropdownMenu.Group>
                 {#each timeframes as frame}
                   <DropdownMenu.Item
                     class={`flex items-center px-2 py-1.5 text-sm rounded cursor-pointer transition ${
                       activeRange === frame
-                        ? "text-violet-800 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                        ? "text-accent bg-surface-raised"
+                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
                     }`}
                     on:click={() => setRange(frame)}
                   >
@@ -10339,7 +10339,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
               >
                 <svelte:component
                   this={currentChartType?.icon}
@@ -10352,15 +10352,15 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
+              class="w-44 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
             >
               <DropdownMenu.Group>
                 {#each chartTypeOptions as option}
                   <DropdownMenu.Item
                     class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer transition ${
                       chartType === option.id
-                        ? "text-violet-800 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                        ? "text-accent bg-surface-raised"
+                        : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
                     }`}
                     on:click={() => setChartType(option.id)}
                   >
@@ -10381,7 +10381,7 @@
         <label
           for="indicatorModal"
           on:click={openIndicatorModal}
-          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -10414,7 +10414,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -10434,7 +10434,7 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-auto min-w-40 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
+              class="w-auto min-w-40 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
             >
               <DropdownMenu.Group>
                 <DropdownMenu.Item
@@ -10479,7 +10479,7 @@
                         <button
                           type="button"
                           on:click|stopPropagation={() => goto("/pricing")}
-                          class="text-gray-500 dark:text-zinc-500 hover:text-muted dark:hover:text-zinc-300 transition"
+                          class="text-fg-subtle hover:text-muted dark:hover:text-zinc-300 transition"
                         >
                           <svg
                             class="w-4 h-4"
@@ -10538,7 +10538,7 @@
                         <button
                           type="button"
                           on:click|stopPropagation={() => goto("/pricing")}
-                          class="text-gray-500 dark:text-zinc-500 hover:text-muted dark:hover:text-zinc-300 transition"
+                          class="text-fg-subtle hover:text-muted dark:hover:text-zinc-300 transition"
                         >
                           <svg
                             class="w-4 h-4"
@@ -10597,7 +10597,7 @@
                         <button
                           type="button"
                           on:click|stopPropagation={() => goto("/pricing")}
-                          class="text-gray-500 dark:text-zinc-500 hover:text-muted dark:hover:text-zinc-300 transition"
+                          class="text-fg-subtle hover:text-muted dark:hover:text-zinc-300 transition"
                         >
                           <svg
                             class="w-4 h-4"
@@ -10630,7 +10630,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
             >
               <DatabaseZap class="h-4 w-4 flex-shrink-0" />
               <span class="truncate max-w-24">
@@ -10645,13 +10645,13 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
+            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
           >
             {#if isSubscribed}
               <label
                 for={!data?.user ? "userLogin" : "addChartStrategy"}
                 on:click={() => (strategyMenuOpen = false)}
-                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-fg hover:text-accent transition"
               >
                 <svg
                   class="h-3.5 w-3.5"
@@ -10672,7 +10672,7 @@
                   strategyMenuOpen = false;
                   goto("/pricing");
                 }}
-                class="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer text-muted dark:text-white sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                class="flex items-center gap-2 px-2 py-1.5 text-sm cursor-pointer text-fg sm:hover:text-accent transition"
               >
                 <svg
                   class="w-4 h-4"
@@ -10699,20 +10699,20 @@
                     }}
                     class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer {item?.id ===
                     selectedStrategy
-                      ? 'text-violet-800 dark:text-violet-400'
+                      ? 'text-accent'
                       : ''}"
                   >
                     <span class="truncate">
                       {item?.title?.length > 18
                         ? item?.title?.slice(0, 18) + "..."
                         : item?.title}
-                      <span class="text-muted dark:text-white ml-1"
+                      <span class="text-fg ml-1"
                         >({item?.rules?.length ?? 0})</span
                       >
                     </span>
                     <label
                       for="deleteChartStrategy"
-                      class="ml-2 flex items-center justify-center cursor-pointer text-muted dark:text-white hover:text-red-500 transition"
+                      class="ml-2 flex items-center justify-center cursor-pointer text-fg hover:text-red-500 transition"
                       on:click|stopPropagation
                     >
                       <Trash2 class="h-3.5 w-3.5" />
@@ -10720,7 +10720,7 @@
                   </DropdownMenu.Item>
                 {/each}
               {:else}
-                <div class="px-2 py-1.5 text-sm text-muted dark:text-white">
+                <div class="px-2 py-1.5 text-sm text-fg">
                   {chart_strategy_none_saved()}
                 </div>
               {/if}
@@ -10733,7 +10733,7 @@
 
           <button
             on:click={() => handleSave(true)}
-            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -10751,7 +10751,7 @@
           {#if strategyList?.length > 0}
             <label
               for="addChartStrategy"
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -10770,7 +10770,7 @@
           {#if ruleOfList?.length > 0}
             <button
               on:click={clearIndicators}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 class="h-4 w-4"
@@ -10798,7 +10798,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
             >
               {#if $mode === "dark"}
                 <Moon class="size-4" />
@@ -10813,14 +10813,14 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-32 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-muted dark:text-zinc-200"
+            class="w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
           >
             <DropdownMenu.Group>
               <DropdownMenu.Item
                 class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
                   $mode === "light"
-                    ? "text-violet-800 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                    : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                    ? "text-accent bg-surface-raised"
+                    : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
                 }`}
                 on:click={(e) =>
                   handleModeChange("light", e.currentTarget as HTMLElement)}
@@ -10830,8 +10830,8 @@
               <DropdownMenu.Item
                 class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
                   $mode === "dark"
-                    ? "text-violet-800 dark:text-violet-400 bg-gray-100 dark:bg-zinc-800"
-                    : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400"
+                    ? "text-accent bg-surface-raised"
+                    : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
                 }`}
                 on:click={(e) =>
                   handleModeChange("dark", e.currentTarget as HTMLElement)}
@@ -10875,7 +10875,7 @@
         <Splitpanes class="chart-splitpanes h-full w-full">
           <Pane minSize={50}>
             <div
-              class="relative flex-1 min-h-0 h-full bg-white dark:bg-zinc-950"
+              class="relative flex-1 min-h-0 h-full bg-surface-card"
             >
               <div
                 class="absolute inset-0 z-[1] touch-manipulation"
@@ -10888,7 +10888,7 @@
                   class="bg-white/70 dark:bg-zinc-900/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[5]"
                 >
                   <span
-                    class="loading loading-spinner loading-md text-muted dark:text-white"
+                    class="loading loading-spinner loading-md text-fg"
                   ></span>
                 </div>
               {/if}
@@ -10899,7 +10899,7 @@
                   class="absolute left-1/2 -translate-x-1/2 top-12 z-[20] pointer-events-auto"
                 >
                   <div
-                    class="flex items-center gap-1.5 px-2 py-1.5 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-xl"
+                    class="flex items-center gap-1.5 px-2 py-1.5 bg-surface-card border border-line rounded-2xl shadow-xl"
                     role="toolbar"
                   >
                     <!-- Color Picker -->
@@ -10916,7 +10916,7 @@
                       ></button>
                       {#if showColorPicker}
                         <div
-                          class="absolute top-full left-0 mt-2 p-2 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                          class="absolute top-full left-0 mt-2 p-2 bg-surface-card border border-line rounded-xl shadow-xl z-30"
                         >
                           <div class="grid grid-cols-5 gap-1.5">
                             {#each DRAWING_COLORS as color}
@@ -10948,7 +10948,7 @@
 
                       <div class="relative">
                         <button
-                          class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-muted dark:text-zinc-300"
+                          class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-fg-muted"
                           on:click={() => {
                             showThicknessPicker = !showThicknessPicker;
                             showColorPicker = false;
@@ -10962,7 +10962,7 @@
                         </button>
                         {#if showThicknessPicker}
                           <div
-                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-surface-card border border-line rounded-xl shadow-xl z-30"
                           >
                             <div class="flex items-center gap-1">
                               {#each LINE_THICKNESSES as t}
@@ -11000,7 +11000,7 @@
                           title={chart_drawing_line_style()}
                         >
                           <svg
-                            class="w-5 h-5 text-gray-600 dark:text-zinc-400"
+                            class="w-5 h-5 text-fg-muted"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -11015,7 +11015,7 @@
                         </button>
                         {#if showStylePicker}
                           <div
-                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-1 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-xl z-30"
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-1 bg-surface-card border border-line rounded-xl shadow-xl z-30"
                           >
                             <button
                               class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-lg transition {getCurrentLineStyle() ===
@@ -11064,7 +11064,7 @@
                     <button
                       class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg transition {selectedOverlay.lock
                         ? 'text-amber-500 bg-amber-100 dark:bg-amber-900/30'
-                        : 'text-muted dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800'}"
+                        : 'text-fg hover:bg-gray-100 dark:hover:bg-zinc-800'}"
                       on:click={toggleSelectedOverlayLock}
                       title={selectedOverlay.lock ? chart_drawing_unlock() : chart_drawing_lock()}
                     >
@@ -11087,7 +11087,7 @@
 
                     <!-- Delete -->
                     <button
-                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg text-muted dark:text-white hover:text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition"
+                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg text-fg hover:text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition"
                       on:click={deleteSelectedOverlay}
                       title={chart_drawing_delete()}
                     >
@@ -11211,17 +11211,17 @@
                     : undefined}
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
-                      <h3 class="text-muted dark:text-white font-semibold">
+                      <h3 class="text-fg font-semibold">
                         {selectedEarningsIsFuture
                           ? chart_earnings_upcoming()
                           : chart_earnings_and_revenue()}
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition"
                         on:click={closeEarningsPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -11243,10 +11243,10 @@
 
                     <!-- Date info -->
                     <div
-                      class="text-sm text-muted dark:text-zinc-300 mb-3 space-y-1"
+                      class="text-sm text-fg-muted mb-3 space-y-1"
                     >
                       <div class="flex justify-between">
-                        <span class="text-muted dark:text-white">{chart_earnings_date()}</span>
+                        <span class="text-fg">{chart_earnings_date()}</span>
                         <span class="flex items-center gap-1">
                           {DateTime.fromISO(selectedEarnings.date, {
                             zone,
@@ -11278,7 +11278,7 @@
                       </div>
                       {#if selectedEarnings.period && selectedEarnings.period_year}
                         <div class="flex justify-between">
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_earnings_period_ending()}</span
                           >
                           <span
@@ -11293,17 +11293,17 @@
 
                     <!-- Earnings section -->
                     <div
-                      class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
+                      class="border-t border-line pt-3 mb-3"
                     >
                       <div
-                        class="text-xs text-muted dark:text-white uppercase mb-2"
+                        class="text-xs text-fg uppercase mb-2"
                       >
                         {selectedEarningsIsFuture ? chart_earnings_eps_estimate() : chart_earnings_section()}
                       </div>
                       <div class="text-sm space-y-1">
                         {#if !selectedEarningsIsFuture}
                           <div
-                            class="flex justify-between text-muted dark:text-zinc-300"
+                            class="flex justify-between text-fg-muted"
                           >
                             <span>{chart_earnings_reported()}</span>
                             <span
@@ -11314,7 +11314,7 @@
                           </div>
                         {/if}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
                           <span>{chart_earnings_estimate()}</span>
                           <span
@@ -11331,14 +11331,14 @@
                           <div class="flex justify-between">
                             <span
                               class={surprise?.positive
-                                ? "text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "text-up"
+                                : "text-down"}
                               >{chart_earnings_surprise()}</span
                             >
                             <span
                               class={surprise?.positive
-                                ? "text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "text-up"
+                                : "text-down"}
                             >
                               {surprise?.positive
                                 ? "+"
@@ -11355,13 +11355,13 @@
                           )}
                           {#if yoy}
                             <div class="flex justify-between">
-                              <span class="text-gray-600 dark:text-zinc-400"
+                              <span class="text-fg-muted"
                                 >{chart_earnings_yoy_change()}</span
                               >
                               <span
                                 class={yoy.positive
-                                  ? "text-emerald-800 dark:text-emerald-400"
-                                  : "text-rose-800 dark:text-rose-400"}
+                                  ? "text-up"
+                                  : "text-down"}
                               >
                                 {yoy.positive ? "+" : ""}{yoy.percent.toFixed(
                                   2,
@@ -11375,10 +11375,10 @@
 
                     <!-- Revenue section -->
                     <div
-                      class="border-t border-gray-300 dark:border-zinc-700 pt-3 mb-3"
+                      class="border-t border-line pt-3 mb-3"
                     >
                       <div
-                        class="text-xs text-muted dark:text-white uppercase mb-2"
+                        class="text-xs text-fg uppercase mb-2"
                       >
                         {selectedEarningsIsFuture
                           ? chart_earnings_revenue_estimate()
@@ -11387,7 +11387,7 @@
                       <div class="text-sm space-y-1">
                         {#if !selectedEarningsIsFuture}
                           <div
-                            class="flex justify-between text-muted dark:text-zinc-300"
+                            class="flex justify-between text-fg-muted"
                           >
                             <span>{chart_earnings_reported()}</span>
                             <span
@@ -11398,7 +11398,7 @@
                           </div>
                         {/if}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
                           <span>{chart_earnings_estimate()}</span>
                           <span
@@ -11415,14 +11415,14 @@
                           <div class="flex justify-between">
                             <span
                               class={surprise?.positive
-                                ? "text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "text-up"
+                                : "text-down"}
                               >{chart_earnings_surprise()}</span
                             >
                             <span
                               class={surprise?.positive
-                                ? "text-emerald-800 dark:text-emerald-400"
-                                : "text-rose-800 dark:text-rose-400"}
+                                ? "text-up"
+                                : "text-down"}
                             >
                               {surprise?.positive ? "+" : ""}{abbreviateNumber(
                                 surprise?.value ?? 0,
@@ -11439,13 +11439,13 @@
                           )}
                           {#if yoy}
                             <div class="flex justify-between">
-                              <span class="text-gray-600 dark:text-zinc-400"
+                              <span class="text-fg-muted"
                                 >{chart_earnings_yoy_change()}</span
                               >
                               <span
                                 class={yoy.positive
-                                  ? "text-emerald-800 dark:text-emerald-400"
-                                  : "text-rose-800 dark:text-rose-400"}
+                                  ? "text-up"
+                                  : "text-down"}
                               >
                                 {yoy.positive ? "+" : ""}{yoy.percent.toFixed(
                                   2,
@@ -11460,7 +11460,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/stocks/{ticker}/statistics/earnings"
-                      class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-2 px-4 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-sm font-medium rounded-lg transition"
                     >
                       {chart_earnings_more_financials({ ticker })}
                     </a>
@@ -11529,15 +11529,15 @@
                     : undefined}
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
-                      <h3 class="text-muted dark:text-white font-semibold">
+                      <h3 class="text-fg font-semibold">
                         {chart_dividend_header()}
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition"
                         on:click={closeDividendPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -11559,13 +11559,13 @@
 
                     <!-- Dividend info -->
                     <div
-                      class="text-sm text-muted dark:text-zinc-300 mb-3 space-y-1"
+                      class="text-sm text-fg-muted mb-3 space-y-1"
                     >
                       <div class="flex justify-between">
-                        <span class="text-muted dark:text-white"
+                        <span class="text-fg"
                           >{chart_dividend_ex_date()}</span
                         >
-                        <span class="text-muted dark:text-white">
+                        <span class="text-fg">
                           {new Date(selectedDividend.date).toLocaleDateString(
                             "en-US",
                             { month: "short", day: "numeric", year: "numeric" },
@@ -11573,14 +11573,14 @@
                         </span>
                       </div>
                       <div class="flex justify-between">
-                        <span class="text-muted dark:text-white">{chart_dividend_amount()}</span>
+                        <span class="text-fg">{chart_dividend_amount()}</span>
                         <span class="text-blue-400 font-semibold">
                           ${selectedDividend.adjDividend?.toFixed(4)}
                         </span>
                       </div>
                       {#if selectedDividend.declarationDate}
                         <div class="flex justify-between">
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_dividend_declaration_date()}</span
                           >
                           <span>
@@ -11596,7 +11596,7 @@
                       {/if}
                       {#if selectedDividend.recordDate}
                         <div class="flex justify-between">
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_dividend_record_date()}</span
                           >
                           <span>
@@ -11612,7 +11612,7 @@
                       {/if}
                       {#if selectedDividend.paymentDate}
                         <div class="flex justify-between">
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_dividend_payment_date()}</span
                           >
                           <span>
@@ -11631,7 +11631,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/stocks/{ticker}/dividends"
-                      class="block w-full text-center py-2 px-4 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-2 px-4 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-sm font-medium rounded-lg transition"
                     >
                       {chart_dividend_more_details({ ticker })}
                     </a>
@@ -11699,11 +11699,11 @@
                     : undefined}
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
+                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
                   >
                     <!-- Header -->
                     <div class="flex items-center justify-between gap-2 mb-3">
-                      <h3 class="text-muted dark:text-white font-semibold">
+                      <h3 class="text-fg font-semibold">
                         Why Price Moved
                       </h3>
                       <span
@@ -11713,10 +11713,10 @@
                               ? "text-emerald-400"
                               : selectedNews.changesPercentage < 0
                                 ? "text-red-400"
-                                : "text-gray-600 dark:text-zinc-400"
+                                : "text-fg-muted"
                             : selectedNews.changesPercentage === "-" ||
                                 selectedNews.changesPercentage === null
-                              ? "text-gray-600 dark:text-zinc-400"
+                              ? "text-fg-muted"
                               : parseFloat(
                                     String(selectedNews.changesPercentage),
                                   ) > 0
@@ -11725,7 +11725,7 @@
                                       String(selectedNews.changesPercentage),
                                     ) < 0
                                   ? "text-red-400"
-                                  : "text-gray-600 dark:text-zinc-400"
+                                  : "text-fg-muted"
                         }`}
                       >
                         {#if typeof selectedNews.changesPercentage === "number"}
@@ -11744,7 +11744,7 @@
                     </div>
 
                     <!-- Date -->
-                    <div class="text-xs text-muted dark:text-white mb-2">
+                    <div class="text-xs text-fg mb-2">
                       {new Date(selectedNews.date).toLocaleDateString("en-US", {
                         weekday: "short",
                         month: "short",
@@ -11755,7 +11755,7 @@
 
                     <!-- News Text -->
                     <p
-                      class="text-muted dark:text-zinc-200 text-sm leading-relaxed"
+                      class="text-fg text-sm leading-relaxed"
                     >
                       {selectedNews.text}
                     </p>
@@ -11806,7 +11806,7 @@
                           aria-label="GEX label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border ${
                               level.isPositive
                                 ? "text-emerald-200 border-emerald-500/30"
                                 : "text-rose-200 border-rose-500/30"
@@ -11859,7 +11859,7 @@
                           aria-label="DEX label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border ${
                               level.isPositive
                                 ? "text-sky-200 border-sky-500/30"
                                 : "text-orange-200 border-orange-500/30"
@@ -11892,7 +11892,7 @@
                   style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -11907,12 +11907,12 @@
                             : '#f97316'}"
                       ></div>
                       <h3
-                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-fg font-semibold text-sm sm:text-base truncate"
                       >
                         {isGex ? chart_gex_gamma() : chart_dex_delta()}
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeGexDexPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -11935,40 +11935,40 @@
                     <!-- Strike info -->
                     <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_strike()}</span>
+                        <span class="text-fg">{chart_label_strike()}</span>
                         <span class="font-medium"
                           >${level?.strike.toFixed(2)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white"
+                        <span class="text-fg"
                           >{isGex ? chart_exposure_net_gamma() : chart_exposure_net_delta()}</span
                         >
                         <span
                           class="font-medium {level?.isPositive
-                            ? 'text-emerald-800 dark:text-emerald-400'
-                            : 'text-rose-800 dark:text-rose-400'}"
+                            ? 'text-up'
+                            : 'text-down'}"
                         >
                           {formatSignedExposure(level?.value ?? 0)}
                         </span>
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_call()}</span>
-                        <span class="text-emerald-800 dark:text-emerald-400"
+                        <span class="text-fg">{chart_label_call()}</span>
+                        <span class="text-up"
                           >{formatExposureValue(level?.callValue ?? 0)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_put()}</span>
-                        <span class="text-rose-800 dark:text-rose-400"
+                        <span class="text-fg">{chart_label_put()}</span>
+                        <span class="text-down"
                           >{formatExposureValue(level?.putValue ?? 0)}</span
                         >
                       </div>
@@ -11976,7 +11976,7 @@
 
                     <!-- Explanation -->
                     <div
-                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-line text-[10px] sm:text-xs text-fg-muted leading-relaxed"
                     >
                       {#if isGex}
                         {#if level?.isPositive}
@@ -11996,7 +11996,7 @@
                       href="/{assetType}/{ticker}/options/{isGex
                         ? 'gex'
                         : 'dex'}/strike"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
                     >
                       {chart_exposure_view_all_levels()}
                     </a>
@@ -12036,7 +12036,7 @@
                         aria-label="Max pain label at ${level.price}"
                       >
                         <span
-                          class="px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] text-amber-200 border border-amber-500/30"
+                          class="px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] text-amber-200 border border-amber-500/30"
                         >
                           MP {formatExpiration(level.expiration)}
                           {#if level.dte !== null}
@@ -12080,7 +12080,7 @@
                         aria-label="Analyst target label {level.label} at ${level.price}"
                       >
                         <span
-                          class="px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border"
+                          class="px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border"
                           style="color: {level.color}; border-color: {level.color}55;"
                         >
                           PT {level.label}
@@ -12117,7 +12117,7 @@
                   style="left: {maxPainPopupPosition.x}px; top: {maxPainPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12126,12 +12126,12 @@
                         style="background: #f59e0b"
                       ></div>
                       <h3
-                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-fg font-semibold text-sm sm:text-base truncate"
                       >
                         {chart_max_pain_header()}
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeMaxPainPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -12154,9 +12154,9 @@
                     <!-- Max pain info -->
                     <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white"
+                        <span class="text-fg"
                           >{chart_label_expiration()}</span
                         >
                         <span class="font-medium"
@@ -12166,9 +12166,9 @@
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_dte()}</span>
+                        <span class="text-fg">{chart_label_dte()}</span>
                         <span class="font-medium"
                           >{selectedMaxPainLevel.dte !== null
                             ? `${selectedMaxPainLevel.dte}d`
@@ -12176,23 +12176,23 @@
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_max_pain_price()}</span>
+                        <span class="text-fg">{chart_max_pain_price()}</span>
                         <span class="font-medium text-amber-200"
                           >{formatPrice(selectedMaxPainLevel.price)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_spot()}</span>
+                        <span class="text-fg">{chart_label_spot()}</span>
                         <span class="font-medium">{formatPrice(refPrice)}</span>
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_max_pain_distance()}</span>
+                        <span class="text-fg">{chart_max_pain_distance()}</span>
                         <span
                           class="font-medium {diff !== null && diff >= 0
                             ? 'text-emerald-400'
@@ -12205,7 +12205,7 @@
 
                     <!-- Explanation -->
                     <div
-                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-line text-[10px] sm:text-xs text-fg-muted leading-relaxed"
                     >
                       <p>
                         Max pain is the strike where option buyers lose the
@@ -12216,7 +12216,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/{assetType}/{ticker}/options/max-pain"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
                     >
                       View All Max Pain
                     </a>
@@ -12260,7 +12260,7 @@
                   style="left: {analystTargetPopupPosition.x}px; top: {analystTargetPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12269,12 +12269,12 @@
                         style="background: #22c55e"
                       ></div>
                       <h3
-                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-fg font-semibold text-sm sm:text-base truncate"
                       >
                         Analyst Targets
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeAnalystTargetPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -12297,9 +12297,9 @@
                     <!-- Targets info -->
                     <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_spot()}</span>
+                        <span class="text-fg">{chart_label_spot()}</span>
                         <span class="font-medium">{formatPrice(refPrice)}</span>
                       </div>
                       {#each targetRows as row (row.key)}
@@ -12310,9 +12310,9 @@
                             ? (diff / refPrice) * 100
                             : null}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{row.key}</span
                           >
                           <span class="font-medium" style="color: {row.color}">
@@ -12330,9 +12330,9 @@
                       {/each}
                       {#if analystTargetSummary.numAnalysts !== null}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_analyst_target_analysts()}</span
                           >
                           <span class="font-medium">
@@ -12342,9 +12342,9 @@
                       {/if}
                       {#if analystTargetSummary.consensus}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_analyst_target_consensus()}</span
                           >
                           <span class="font-medium">
@@ -12356,7 +12356,7 @@
 
                     <!-- Explanation -->
                     <div
-                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-line text-[10px] sm:text-xs text-fg-muted leading-relaxed"
                     >
                       <p>
                         Targets are 12-month analyst estimates. Use them as
@@ -12367,7 +12367,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/stocks/{ticker}/forecast"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
                     >
                       View forecast
                     </a>
@@ -12396,8 +12396,8 @@
                       >
                       <span
                         class={infoLineData.priceChange >= 0
-                          ? "text-emerald-800 dark:text-emerald-400"
-                          : "text-rose-800 dark:text-rose-400"}
+                          ? "text-up"
+                          : "text-down"}
                       >
                         {Math.abs(infoLineData.priceChange).toFixed(2)} ({Math.abs(
                           infoLineData.priceChangePercent,
@@ -12470,7 +12470,7 @@
                           aria-label="OI label at ${level.strike}"
                         >
                           <span
-                            class="px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] text-purple-200 border border-purple-500/30"
+                            class="px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] text-purple-200 border border-purple-500/30"
                           >
                             OI {formatPrice(level.strike)}
                             {formatCount(level.totalOi)}
@@ -12495,7 +12495,7 @@
                   style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12504,12 +12504,12 @@
                         style="background: #a855f7"
                       ></div>
                       <h3
-                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-fg font-semibold text-sm sm:text-base truncate"
                       >
                         {chart_indicator_oi()}
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeOiPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -12532,18 +12532,18 @@
                     <!-- Strike info -->
                     <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_strike()}</span>
+                        <span class="text-fg">{chart_label_strike()}</span>
                         <span class="font-medium"
                           >{formatPrice(selectedOiLevel.strike)}</span
                         >
                       </div>
                       {#if selectedOiLevel.expiration}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
-                          <span class="text-muted dark:text-white"
+                          <span class="text-fg"
                             >{chart_label_expiration()}</span
                           >
                           <span class="font-medium"
@@ -12555,47 +12555,47 @@
                       {/if}
                       {#if selectedOiLevel.dte !== null}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
-                          <span class="text-muted dark:text-white">{chart_label_dte()}</span>
+                          <span class="text-fg">{chart_label_dte()}</span>
                           <span class="font-medium">{selectedOiLevel.dte}d</span
                           >
                         </div>
                       {/if}
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_oi_total()}</span>
+                        <span class="text-fg">{chart_oi_total()}</span>
                         <span class="font-medium text-purple-400">
                           {formatCount(selectedOiLevel.totalOi)}
                         </span>
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_oi_call()}</span>
-                        <span class="text-emerald-800 dark:text-emerald-400"
+                        <span class="text-fg">{chart_oi_call()}</span>
+                        <span class="text-up"
                           >{formatCount(selectedOiLevel.callOi)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_oi_put()}</span>
-                        <span class="text-rose-800 dark:text-rose-400"
+                        <span class="text-fg">{chart_oi_put()}</span>
+                        <span class="text-down"
                           >{formatCount(selectedOiLevel.putOi)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">P/C Ratio</span
+                        <span class="text-fg">P/C Ratio</span
                         >
                         <span
                           class="font-medium {selectedOiLevel.callOi > 0 &&
                           selectedOiLevel.putOi / selectedOiLevel.callOi > 1
-                            ? 'text-rose-800 dark:text-rose-400'
-                            : 'text-emerald-800 dark:text-emerald-400'}"
+                            ? 'text-down'
+                            : 'text-up'}"
                         >
                           {selectedOiLevel.callOi > 0
                             ? (
@@ -12608,7 +12608,7 @@
 
                     <!-- Explanation -->
                     <div
-                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-line text-[10px] sm:text-xs text-fg-muted leading-relaxed"
                     >
                       <p>
                         High OI here indicates significant positioning. May act
@@ -12619,7 +12619,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/{assetType}/{ticker}/options/oi"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
                     >
                       {chart_exposure_view_all_levels()}
                     </a>
@@ -12665,7 +12665,7 @@
                           aria-label="Hottest contract label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-[#f8fbfb] dark:bg-zinc-900/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border ${
                               level.optionType === "C"
                                 ? "text-emerald-200 border-emerald-500/30"
                                 : "text-rose-200 border-rose-500/30"
@@ -12695,7 +12695,7 @@
                   style="left: {hottestPopupPosition.x}px; top: {hottestPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12707,7 +12707,7 @@
                           : '#f43f5e'}"
                       ></div>
                       <h3
-                        class="text-muted dark:text-white font-semibold text-sm sm:text-base truncate"
+                        class="text-fg font-semibold text-sm sm:text-base truncate"
                       >
                         {selectedHottestLevel.optionType === "C"
                           ? chart_label_call()
@@ -12715,7 +12715,7 @@
                         {formatPrice(selectedHottestLevel.strike)}
                       </h3>
                       <button
-                        class="cursor-pointer ml-auto text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
+                        class="cursor-pointer ml-auto text-fg hover:text-gray-900 dark:hover:text-white transition flex-shrink-0"
                         on:click={closeHottestPopup}
                         aria-label={chart_aria_close()}
                       >
@@ -12738,9 +12738,9 @@
                     <!-- Contract info -->
                     <div class="text-xs sm:text-sm space-y-1.5 sm:space-y-2">
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white"
+                        <span class="text-fg"
                           >{chart_label_expiration()}</span
                         >
                         <span class="font-medium"
@@ -12751,26 +12751,26 @@
                       </div>
                       {#if selectedHottestLevel.dte !== null}
                         <div
-                          class="flex justify-between text-muted dark:text-zinc-300"
+                          class="flex justify-between text-fg-muted"
                         >
-                          <span class="text-muted dark:text-white">{chart_label_dte()}</span>
+                          <span class="text-fg">{chart_label_dte()}</span>
                           <span class="font-medium"
                             >{selectedHottestLevel.dte}d</span
                           >
                         </div>
                       {/if}
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_label_volume()}</span>
+                        <span class="text-fg">{chart_label_volume()}</span>
                         <span class="font-medium text-amber-400">
                           {formatCount(selectedHottestLevel.volume)}
                         </span>
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white"
+                        <span class="text-fg"
                           >{chart_hottest_open_interest()}</span
                         >
                         <span class="text-purple-400"
@@ -12780,30 +12780,30 @@
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white"
+                        <span class="text-fg"
                           >{chart_hottest_last_price()}</span
                         >
                         <span
                           class={selectedHottestLevel.optionType === "C"
-                            ? "text-emerald-800 dark:text-emerald-400"
-                            : "text-rose-800 dark:text-rose-400"}
+                            ? "text-up"
+                            : "text-down"}
                           >{formatPrice(selectedHottestLevel.last)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_hottest_iv()}</span>
+                        <span class="text-fg">{chart_hottest_iv()}</span>
                         <span class="font-medium"
                           >{formatIvPercent(selectedHottestLevel.iv)}</span
                         >
                       </div>
                       <div
-                        class="flex justify-between text-muted dark:text-zinc-300"
+                        class="flex justify-between text-fg-muted"
                       >
-                        <span class="text-muted dark:text-white">{chart_hottest_premium()}</span>
+                        <span class="text-fg">{chart_hottest_premium()}</span>
                         <span class="font-medium"
                           >${formatCount(selectedHottestLevel.premium)}</span
                         >
@@ -12812,7 +12812,7 @@
 
                     <!-- Explanation -->
                     <div
-                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-zinc-700 text-[10px] sm:text-xs text-gray-600 dark:text-zinc-400 leading-relaxed"
+                      class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-line text-[10px] sm:text-xs text-fg-muted leading-relaxed"
                     >
                       <p>{chart_hottest_explanation()}</p>
                     </div>
@@ -12820,7 +12820,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/{assetType}/{ticker}/options/hottest-contracts/volume"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 text-muted dark:text-zinc-200 text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
                     >
                       {chart_hottest_view_all()}
                     </a>
@@ -12835,7 +12835,7 @@
                       class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
-                        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+                        class="loading loading-spinner loading-md text-fg"
                       ></span>
                     </label>
                   </div>
@@ -12871,8 +12871,8 @@
                   <button
                     class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                       rightSidebarOpen && rightSidebarTab === "watchlist"
-                        ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
-                        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+                        ? "bg-surface-raised text-fg"
+                        : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
                     }`}
                     on:click={() => toggleRightSidebar("watchlist")}
                     title={chart_sidebar_watchlist()}
@@ -12898,8 +12898,8 @@
                   <button
                     class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
                       rightSidebarOpen && rightSidebarTab === "alerts"
-                        ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
-                        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+                        ? "bg-surface-raised text-fg"
+                        : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
                     }`}
                     on:click={() => toggleRightSidebar("alerts")}
                     title={chart_sidebar_price_alerts()}
@@ -12927,7 +12927,7 @@
 
                   <div class="mt-auto flex flex-col items-center pb-2">
                     <button
-                      class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+                      class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
                       on:click={() => toggleRightSidebar()}
                       title={rightSidebarOpen ? chart_sidebar_hide() : chart_sidebar_show()}
                     >
@@ -13009,21 +13009,21 @@
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="relative flex flex-col w-full h-full">
       <div
-        class="sticky top-0 z-40 bg-white dark:bg-zinc-900 pb-6 pt-5 border-b border-gray-300 dark:border-zinc-700"
+        class="sticky top-0 z-40 bg-surface-card pb-6 pt-5 border-b border-line"
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class="text-[1rem] sm:text-xl font-semibold text-muted dark:text-white"
+            class="text-[1rem] sm:text-xl font-semibold text-fg"
           >
             {chart_modal_indicators_title()}
           </h2>
           <label
             for="indicatorModal"
-            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+            class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
             on:click={closeIndicatorModal}
             aria-label={chart_aria_close_indicators()}
           >
@@ -13049,7 +13049,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-muted dark:text-white"
+                class="w-4 h-4 text-fg"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -13073,7 +13073,7 @@
             >
               <button
                 on:click={() => (indicatorSearchTerm = "")}
-                class="cursor-pointer text-muted dark:text-white hover:text-muted dark:text-zinc-200 transition"
+                class="cursor-pointer text-fg hover:text-fg transition"
                 tabindex="0"
                 aria-label={chart_aria_clear_search()}
               >
@@ -13096,7 +13096,7 @@
             <input
               autocomplete="off"
               id="indicator-search"
-              class="focus:outline-none placeholder:text-muted dark:text-white block w-full p-2.5 ps-10 text-sm border border-gray-300 dark:border-zinc-700 rounded-full bg-gray-100 dark:bg-zinc-800"
+              class="focus:outline-none placeholder:text-fg block w-full p-2.5 ps-10 text-sm border border-line rounded-full bg-surface-raised"
               placeholder={chart_modal_search_placeholder()}
               bind:value={indicatorSearchTerm}
             />
@@ -13106,10 +13106,10 @@
 
       <div class="flex flex-1 gap-6 pt-6 overflow-hidden min-h-0">
         <aside
-          class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-gray-300 dark:border-zinc-700"
+          class="hidden md:flex w-48 flex-col gap-2 pr-4 border-r border-line"
         >
           <div
-            class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+            class="text-[11px] uppercase tracking-wide text-fg"
           >
             {chart_modal_section_personal()}
           </div>
@@ -13118,7 +13118,7 @@
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Selected'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Selected")}
           >
             <svg
@@ -13140,7 +13140,7 @@
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Favorites'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Favorites")}
           >
             <svg
@@ -13154,7 +13154,7 @@
           </button>
 
           <div
-            class="mt-3 text-[11px] uppercase tracking-wide text-muted dark:text-white"
+            class="mt-3 text-[11px] uppercase tracking-wide text-fg"
           >
             {chart_modal_section_builtin()}
           </div>
@@ -13163,7 +13163,7 @@
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Technicals'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Technicals")}
           >
             <svg
@@ -13188,7 +13188,7 @@
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Fundamentals'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Fundamentals")}
           >
             <svg
@@ -13213,7 +13213,7 @@
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Options'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Options")}
           >
             <svg
@@ -13236,7 +13236,7 @@
             class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
             'Statistics'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
-              : 'text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
+              : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
             on:click={() => (indicatorModalSection = "Statistics")}
           >
             <svg
@@ -13265,8 +13265,8 @@
                 type="button"
                 class="cursor-pointer px-3 py-1.5 rounded-full text-sm border transition {indicatorModalSection ===
                 section
-                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                  ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                  : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                 on:click={() => (indicatorModalSection = section)}
               >
                 {section}
@@ -13276,21 +13276,21 @@
 
           {#if filteredIndicators.length === 0}
             <div
-              class="mt-5 font-semibold text-[1rem] sm:text-lg text-muted dark:text-zinc-200"
+              class="mt-5 font-semibold text-[1rem] sm:text-lg text-fg"
             >
               {chart_modal_nothing_found()}
             </div>
           {:else if isSearchActive}
             {#if technicalGroups.length}
               <div
-                class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="text-xs uppercase tracking-wide text-fg"
               >
                 Technicals
               </div>
               {#each technicalGroups as [category, indicators]}
                 <div class="mt-4">
                   <div
-                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white/80"
+                    class="text-[11px] uppercase tracking-wide text-fg/80"
                   >
                     {category}
                   </div>
@@ -13323,7 +13323,7 @@
                           id={indicator.id}
                           type="checkbox"
                           checked={isIndicatorEnabled(indicator.id)}
-                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
@@ -13334,7 +13334,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13357,7 +13357,7 @@
 
             {#if optionsIndicators.length > 0}
               <div
-                class="mt-6 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="mt-6 text-xs uppercase tracking-wide text-fg"
               >
                 Options
               </div>
@@ -13391,7 +13391,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -13402,7 +13402,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13438,7 +13438,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -13462,7 +13462,7 @@
 
             {#if statisticsIndicators.length > 0}
               <div
-                class="mt-6 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="mt-6 text-xs uppercase tracking-wide text-fg"
               >
                 Statistics
               </div>
@@ -13496,7 +13496,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -13507,7 +13507,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13543,7 +13543,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -13567,7 +13567,7 @@
 
             {#if groupedIndicators["Fundamentals"]}
               <div
-                class="mt-6 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="mt-6 text-xs uppercase tracking-wide text-fg"
               >
                 Fundamentals
               </div>
@@ -13577,8 +13577,8 @@
                     type="button"
                     class="cursor-pointer px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
-                      ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                      ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                      : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                     on:click={() => (fundamentalsTab = tab.id)}
                   >
                     {tab.label}
@@ -13586,7 +13586,7 @@
                 {/each}
               </div>
               {#if fundamentalsIndicators.length === 0}
-                <div class="mt-4 text-sm text-muted dark:text-white">
+                <div class="mt-4 text-sm text-fg">
                   {chart_modal_no_indicators_section()}
                 </div>
               {/if}
@@ -13621,7 +13621,7 @@
                           id={indicator.id}
                           type="checkbox"
                           checked={isIndicatorEnabled(indicator.id)}
-                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
@@ -13632,7 +13632,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13658,8 +13658,8 @@
                                 class="cursor-pointer px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
-                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                                  ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
@@ -13694,7 +13694,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -13718,14 +13718,14 @@
           {:else if indicatorModalSection === "Selected"}
             <div class="flex items-center justify-between">
               <div
-                class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="text-xs uppercase tracking-wide text-fg"
               >
                 {chart_modal_selected_indicators()}
               </div>
               {#if selectedIndicators.length > 0}
                 <button
                   type="button"
-                  class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white transition cursor-pointer"
+                  class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded border border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white transition cursor-pointer"
                   on:click={clearIndicators}
                 >
                   <svg
@@ -13749,7 +13749,7 @@
               {/if}
             </div>
             {#if selectedIndicators.length === 0}
-              <div class="mt-4 text-sm text-muted dark:text-white">
+              <div class="mt-4 text-sm text-fg">
                 {chart_modal_none_selected()}
               </div>
             {:else}
@@ -13786,7 +13786,7 @@
                           id={`selected-${indicator.id}`}
                           type="checkbox"
                           checked={isIndicatorEnabled(indicator.id)}
-                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={`selected-${indicator.id}`}
@@ -13797,7 +13797,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13823,8 +13823,8 @@
                                 class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
-                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                                  ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
@@ -13844,12 +13844,12 @@
             {/if}
           {:else if indicatorModalSection === "Favorites"}
             <div
-              class="text-xs uppercase tracking-wide text-muted dark:text-white"
+              class="text-xs uppercase tracking-wide text-fg"
             >
               My Indicators
             </div>
             {#if favoriteIndicators.length === 0}
-              <div class="mt-4 text-sm text-muted dark:text-white">
+              <div class="mt-4 text-sm text-fg">
                 No favorites yet.
               </div>
             {:else}
@@ -13883,7 +13883,7 @@
                             id={`favorite-${indicator.id}`}
                             type="checkbox"
                             checked={isIndicatorEnabled(indicator.id)}
-                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                           />
                           <label
                             for={`favorite-${indicator.id}`}
@@ -13894,7 +13894,7 @@
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
-                              class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                              class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                               aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
@@ -13911,7 +13911,7 @@
                         {:else}
                           <button
                             on:click={() => goto("/pricing")}
-                            class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                            class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                           >
                             <svg
                               class="w-4 h-4 mr-1.5"
@@ -13940,8 +13940,8 @@
                                 class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
-                                  ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                  : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                                  ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                  : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                                 on:click|stopPropagation={() =>
                                   setFinancialIndicatorPeriod(
                                     indicator.id,
@@ -13962,7 +13962,7 @@
           {:else if indicatorModalSection === "Fundamentals"}
             {#if groupedIndicators["Fundamentals"]}
               <div
-                class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="text-xs uppercase tracking-wide text-fg"
               >
                 Fundamentals
               </div>
@@ -13972,8 +13972,8 @@
                     type="button"
                     class="px-3 py-1.5 rounded-full text-xs border transition {fundamentalsTab ===
                     tab.id
-                      ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                      : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                      ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                      : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                     on:click={() => (fundamentalsTab = tab.id)}
                   >
                     {tab.label}
@@ -13981,7 +13981,7 @@
                 {/each}
               </div>
               {#if fundamentalsIndicators.length === 0}
-                <div class="mt-4 text-sm text-muted dark:text-white">
+                <div class="mt-4 text-sm text-fg">
                   {chart_modal_no_indicators_section()}
                 </div>
               {/if}
@@ -14019,7 +14019,7 @@
                             id={indicator.id}
                             type="checkbox"
                             checked={isIndicatorEnabled(indicator.id)}
-                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                           />
                           <label
                             for={indicator.id}
@@ -14030,7 +14030,7 @@
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
-                              class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                              class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                               aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
@@ -14056,8 +14056,8 @@
                                   class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                     indicator.id,
                                   ) === option.id
-                                    ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                    : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                                    ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                    : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                                   on:click|stopPropagation={() =>
                                     setFinancialIndicatorPeriod(
                                       indicator.id,
@@ -14097,7 +14097,7 @@
                           </button>
                           <button
                             on:click={() => goto("/pricing")}
-                            class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                            class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                           >
                             <svg
                               class="w-4 h-4 mr-1.5"
@@ -14125,8 +14125,8 @@
                                   class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
                                     indicator.id,
                                   ) === option.id
-                                    ? 'border-violet-500 dark:border-violet-400 text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
-                                    : 'border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
+                                    ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
+                                    : 'border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white'}"
                                   on:click|stopPropagation={() =>
                                     setFinancialIndicatorPeriod(
                                       indicator.id,
@@ -14148,7 +14148,7 @@
           {:else if indicatorModalSection === "Options"}
             {#if optionsIndicators.length > 0}
               <div
-                class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="text-xs uppercase tracking-wide text-fg"
               >
                 Options
               </div>
@@ -14182,7 +14182,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -14193,7 +14193,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -14229,7 +14229,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -14253,7 +14253,7 @@
           {:else if indicatorModalSection === "Statistics"}
             {#if statisticsIndicators.length > 0}
               <div
-                class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="text-xs uppercase tracking-wide text-fg"
               >
                 Statistics
               </div>
@@ -14287,7 +14287,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -14298,7 +14298,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -14334,7 +14334,7 @@
                       </button>
                       <button
                         on:click={() => goto("/pricing")}
-                        class="flex items-center cursor-pointer text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors"
+                        class="flex items-center cursor-pointer text-fg hover:text-gray-900 dark:hover:text-white transition-colors"
                       >
                         <svg
                           class="w-4 h-4 mr-1.5"
@@ -14357,14 +14357,14 @@
             {/if}
           {:else if technicalGroups.length}
             <div
-              class="text-xs uppercase tracking-wide text-muted dark:text-white"
+              class="text-xs uppercase tracking-wide text-fg"
             >
               Technicals
             </div>
             {#each technicalGroups as [category, indicators]}
               <div class="mt-4">
                 <div
-                  class="text-[11px] uppercase tracking-wide text-muted dark:text-white/80"
+                  class="text-[11px] uppercase tracking-wide text-fg/80"
                 >
                   {category}
                 </div>
@@ -14397,7 +14397,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-gray-300 dark:border-zinc-700 bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -14408,7 +14408,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -14445,7 +14445,7 @@
       tabindex="-1"
     ></div>
     <div
-      class="modal-box z-20 mx-0 sm:mx-2 w-full max-w-md overflow-hidden relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box z-20 mx-0 sm:mx-2 w-full max-w-md overflow-hidden relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
     >
       <!-- Header -->
       <div class="flex flex-row items-center justify-between mb-4 pt-5 px-5">
@@ -14454,7 +14454,7 @@
         </h2>
         <button
           type="button"
-          class="cursor-pointer text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+          class="cursor-pointer text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
           on:click={closeParamModal}
           aria-label={chart_aria_close_param_modal()}
         >
@@ -14482,7 +14482,7 @@
             <div class="flex flex-wrap gap-2">
               {#if paramModalTempValues.length === 0}
                 <span
-                  class="text-xs text-muted dark:text-zinc-400 border border-dashed border-gray-300 dark:border-zinc-700 px-2 py-1 rounded-lg"
+                  class="text-xs text-muted dark:text-zinc-400 border border-dashed border-line px-2 py-1 rounded-lg"
                 >
                   No lines selected
                 </span>
@@ -14512,7 +14512,7 @@
                   type="button"
                   class="cursor-pointer px-2.5 py-1 rounded-full border text-xs font-medium transition {paramModalTempValues.includes(period)
                     ? 'border-violet-500 bg-violet-600 text-white dark:bg-violet-500 dark:text-white'
-                    : 'border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-200 hover:border-violet-400 dark:hover:border-violet-500'}"
+                    : 'border-line text-fg hover:border-violet-400 dark:hover:border-violet-500'}"
                   on:click={() =>
                     paramModalTempValues.includes(period)
                       ? removePeriodFromParamModal(period)
@@ -14527,7 +14527,7 @@
           <div class="space-y-2">
             <label
               for="custom-period"
-              class="text-sm font-medium text-muted dark:text-zinc-300"
+              class="text-sm font-medium text-fg-muted"
             >
               Custom Period
             </label>
@@ -14538,7 +14538,7 @@
                 min={paramModalIndicator?.minPeriod ?? PERIOD_LIST_MIN}
                 max={paramModalIndicator?.maxPeriod ?? PERIOD_LIST_MAX}
                 step="1"
-                class="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-muted dark:text-white"
+                class="flex-1 px-3 py-2 text-sm bg-surface-raised border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-fg"
                 bind:value={paramModalCustomPeriod}
                 on:keydown={(e) => {
                   if (e.key === "Enter") {
@@ -14564,7 +14564,7 @@
             <div class="flex flex-col gap-1.5">
               <label
                 for="param-{index}"
-                class="text-sm font-medium text-muted dark:text-zinc-300"
+                class="text-sm font-medium text-fg-muted"
               >
                 {paramModalLabels[index] ?? `Parameter ${index + 1}`}
               </label>
@@ -14574,7 +14574,7 @@
                   type="number"
                   min="0"
                   step="any"
-                  class="flex-1 px-3 py-2 text-sm bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-muted dark:text-white"
+                  class="flex-1 px-3 py-2 text-sm bg-surface-raised border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-fg"
                   {value}
                   on:change={(e) => {
                     const parsed = parseFloat(e.currentTarget.value);
@@ -14587,7 +14587,7 @@
                   }}
                 />
                 <span
-                  class="text-xs text-muted dark:text-white whitespace-nowrap"
+                  class="text-xs text-fg whitespace-nowrap"
                 >
                   Default: {paramModalDefaults[index]}
                 </span>
@@ -14598,11 +14598,11 @@
       </div>
       <!-- Footer -->
       <div
-        class="flex items-center justify-between gap-3 px-5 pt-5 border-t border-gray-200 dark:border-zinc-700"
+        class="flex items-center justify-between gap-3 px-5 pt-5 border-t border-line"
       >
         <button
           type="button"
-          class="px-2 sm:px-4 py-2 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition cursor-pointer rounded-2xl"
+          class="px-2 sm:px-4 py-2 whitespace-nowrap text-xs sm:text-sm font-medium text-fg-muted hover:text-accent transition cursor-pointer rounded-2xl"
           on:click={resetParamToDefaults}
         >
           Reset to Defaults
@@ -14610,7 +14610,7 @@
         <div class="flex items-center gap-2">
           <button
             type="button"
-            class="px-4 py-2 text-xs sm:text-sm font-medium border border-gray-300 dark:border-zinc-700 rounded-2xl text-muted dark:text-zinc-200 hover:border-gray-400 dark:hover:border-zinc-600 transition cursor-pointer"
+            class="px-4 py-2 text-xs sm:text-sm font-medium border border-line rounded-2xl text-fg hover:border-gray-400 dark:hover:border-zinc-600 transition cursor-pointer"
             on:click={closeParamModal}
           >
             Cancel
@@ -14634,11 +14634,11 @@
   <label for="addChartStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="addChartStrategy"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label={chart_aria_close_new_strategy()}
     >
       <svg
@@ -14652,7 +14652,7 @@
       >
     </label>
     <h1
-      class="text-2xl font-semibold tracking-tight text-muted dark:text-white"
+      class="text-2xl font-semibold tracking-tight text-fg"
     >
       {chart_strategy_new_modal_title()}
     </h1>
@@ -14687,11 +14687,11 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteChartStrategy"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label={chart_aria_close_delete_strategy()}
     >
       <svg
@@ -14704,16 +14704,16 @@
         /></svg
       >
     </label>
-    <h3 class="text-lg font-medium mb-2 text-muted dark:text-white">
+    <h3 class="text-lg font-medium mb-2 text-fg">
       {chart_strategy_delete_modal_title()}
     </h3>
-    <p class="text-sm mb-6 text-muted dark:text-zinc-300">
+    <p class="text-sm mb-6 text-fg-muted">
       {chart_strategy_delete_confirm()}
     </p>
     <div class="flex justify-end space-x-3">
       <label
         for="deleteChartStrategy"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-line bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0">{chart_strategy_cancel()}</label
       ><label
         for="deleteChartStrategy"
@@ -14762,15 +14762,15 @@
     tabindex="-1"
   >
     <div
-      class="w-full max-w-2xl max-h-[85vh] overflow-y-auto mx-4 p-6 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-2xl shadow-2xl"
+      class="w-full max-w-2xl max-h-[85vh] overflow-y-auto mx-4 p-6 bg-surface-card border border-line rounded-2xl shadow-2xl"
     >
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold text-muted dark:text-white">
+        <h2 class="text-xl font-semibold text-fg">
           {chart_shortcuts_title()}
         </h2>
         <button
-          class="p-2 rounded-lg text-muted dark:text-white hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
+          class="p-2 rounded-lg text-fg hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
           on:click={() => (showKeyboardShortcutsModal = false)}
           aria-label={chart_aria_close_shortcuts()}
         >
@@ -14787,78 +14787,78 @@
         <!-- Drawing Tools -->
         <div>
           <h3
-            class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide mb-3"
+            class="text-sm font-medium text-fg uppercase tracking-wide mb-3"
           >
             {chart_shortcuts_section_drawing()}
           </h3>
           <div class="space-y-2">
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_horizontal_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >L</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_vertical_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >V</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_trend_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >T</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_rectangle()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >R</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_circle()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_circle()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >C</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_fibonacci()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >F</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_price_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >P</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_exit_drawing()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >Esc</kbd
               >
             </div>
@@ -14868,79 +14868,79 @@
         <!-- Actions -->
         <div>
           <h3
-            class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide mb-3"
+            class="text-sm font-medium text-fg uppercase tracking-wide mb-3"
           >
             {chart_shortcuts_section_actions()}
           </h3>
           <div class="space-y-2">
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_undo()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_undo()}</span>
               <div class="flex gap-1">
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                   >Ctrl</kbd
                 >
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                   >Z</kbd
                 >
               </div>
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_redo()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_redo()}</span>
               <div class="flex gap-1">
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                   >Ctrl</kbd
                 >
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                   >Shift</kbd
                 >
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                   >Z</kbd
                 >
               </div>
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_delete_drawing()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >Delete</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_zoom_in()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_zoom_in()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >+</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_zoom_out()}</span
+              <span class="text-sm text-fg-muted">{chart_shortcuts_zoom_out()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >-</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_pan_left()}</span
+              <span class="text-sm text-fg-muted">{chart_shortcuts_pan_left()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >&larr;</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
-              <span class="text-sm text-muted dark:text-zinc-300"
+              <span class="text-sm text-fg-muted"
                 >{chart_shortcuts_pan_right()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >&rarr;</kbd
               >
             </div>
@@ -14950,7 +14950,7 @@
         <!-- Timeframes -->
         <div class="md:col-span-2">
           <h3
-            class="text-sm font-medium text-muted dark:text-white uppercase tracking-wide mb-3"
+            class="text-sm font-medium text-fg uppercase tracking-wide mb-3"
           >
             {chart_shortcuts_section_timeframe()}
           </h3>
@@ -14958,81 +14958,81 @@
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_1min()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_1min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >1</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_5min()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_5min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >2</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_15min()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_15min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >3</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_30min()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_30min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >4</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_1hour()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_1hour()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >5</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_4hour()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_4hour()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >6</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_daily()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_daily()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >7</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_weekly()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_weekly()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >8</kbd
               >
             </div>
             <div
               class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
             >
-              <span class="text-sm text-muted dark:text-zinc-300">{chart_shortcuts_monthly()}</span>
+              <span class="text-sm text-fg-muted">{chart_shortcuts_monthly()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-muted dark:text-zinc-300"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
                 >9</kbd
               >
             </div>
@@ -15041,8 +15041,8 @@
       </div>
 
       <!-- Footer -->
-      <div class="mt-6 pt-4 border-t border-gray-200 dark:border-zinc-700">
-        <p class="text-xs text-gray-500 dark:text-zinc-500 text-center">
+      <div class="mt-6 pt-4 border-t border-line">
+        <p class="text-xs text-fg-subtle text-center">
           {chart_shortcuts_help_text()}
         </p>
       </div>

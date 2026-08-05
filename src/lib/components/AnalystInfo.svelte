@@ -13,17 +13,17 @@
   } from "$lib/paraglide/messages";
 </script>
 
-<div class="mt-6 py-8 xl:mt-10 border-t border-gray-300 dark:border-zinc-700">
+<div class="mt-6 py-8 xl:mt-10 border-t border-line">
   <div
-    class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8 text-muted dark:text-zinc-200"
+    class="mx-auto max-w-7xl px-3 xs:px-6 lg:px-8 text-fg"
   >
     <div class="mx-auto max-w-2xl text-center">
       <h3
-        class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+        class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
       >
         {analysts_info_title()}
       </h3>
-      <p class="mt-3 text-base sm:text-lg text-muted dark:text-zinc-300">
+      <p class="mt-3 text-base sm:text-lg text-fg-muted">
         {analysts_info_subtitle()}
       </p>
     </div>
@@ -33,7 +33,7 @@
       >
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-muted dark:text-white"
+            class="text-lg font-semibold leading-6 text-fg"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -54,13 +54,13 @@
             </div>
             {analysts_info_success_rate_title()}
           </dt>
-          <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
+          <dd class="mt-2 leading-7 text-fg-muted">
             {analysts_info_success_rate_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-muted dark:text-white"
+            class="text-lg font-semibold leading-6 text-fg"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -81,13 +81,13 @@
             </div>
             {analysts_info_avg_return_title()}
           </dt>
-          <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
+          <dd class="mt-2 leading-7 text-fg-muted">
             {analysts_info_avg_return_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-muted dark:text-white"
+            class="text-lg font-semibold leading-6 text-fg"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -108,13 +108,13 @@
             </div>
             {analysts_info_rating_count_title()}
           </dt>
-          <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
+          <dd class="mt-2 leading-7 text-fg-muted">
             {analysts_info_rating_count_desc()}
           </dd>
         </div>
         <div class="relative pl-14">
           <dt
-            class="text-lg font-semibold leading-6 text-muted dark:text-white"
+            class="text-lg font-semibold leading-6 text-fg"
           >
             <div
               class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
@@ -135,7 +135,7 @@
             </div>
             {analysts_info_recency_title()}
           </dt>
-          <dd class="mt-2 leading-7 text-muted dark:text-zinc-300">
+          <dd class="mt-2 leading-7 text-fg-muted">
             {analysts_info_recency_desc()}
           </dd>
         </div>

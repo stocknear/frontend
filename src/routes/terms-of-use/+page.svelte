@@ -66,19 +66,19 @@
 <SEO title={terms_seo_title()} description={terms_seo_description()} />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">{terms_breadcrumb()}</li>
+    <li class="text-fg-muted">{terms_breadcrumb()}</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -87,30 +87,30 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-5">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {terms_hero_title()}
             </h1>
           </div>
 
           <div
-            class="w-full m-auto text-sm sm:text-base text-muted dark:text-zinc-300"
+            class="w-full m-auto text-sm sm:text-base text-fg-muted"
           >
             <div class="">
-              <p class="italic mb-2 text-xs text-muted dark:text-zinc-300">
+              <p class="italic mb-2 text-xs text-fg-muted">
                 {terms_last_updated()}
               </p>
 
               <p class=" mb-10">
                 {@html terms_intro({
-                  privacyLink: `<a href="/privacy-policy" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_privacy_policy()}</a>`,
+                  privacyLink: `<a href="/privacy-policy" class="font-medium text-fg transition-colors hover:text-accent transition">${common_privacy_policy()}</a>`,
                 })}
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_noadvice_title()}
               </h2>
@@ -125,7 +125,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_accuracy_title()}
               </h2>
@@ -135,7 +135,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_content_title()}
               </h2>
@@ -145,7 +145,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_fairuse_title()}
               </h2>
@@ -156,7 +156,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_liability_title()}
               </h2>
@@ -167,7 +167,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_copyright_title()}
               </h2>
@@ -175,13 +175,13 @@
               <p class=" mb-10">
                 {terms_copyright_content_1()}<br /><br />
                 {@html terms_copyright_content_2({
-                  email: `<a href="mailto:contact@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">contact@stocknear.com</a>`,
+                  email: `<a href="mailto:contact@stocknear.com" class="font-medium text-fg transition-colors hover:text-accent transition">contact@stocknear.com</a>`,
                 })}<br /><br />
                 {terms_copyright_content_3()}
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_subscriptions_title()}
               </h2>
@@ -190,14 +190,14 @@
                 {terms_subscriptions_content_1()}<br /><br />
                 {terms_subscriptions_content_2()}<br /><br />
                 {@html terms_subscriptions_content_3({
-                  email: `<a href="mailto:support@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">support@stocknear.com</a>`,
+                  email: `<a href="mailto:support@stocknear.com" class="font-medium text-fg transition-colors hover:text-accent transition">support@stocknear.com</a>`,
                 })}<br /><br />
                 {terms_subscriptions_content_4()}<br /><br />
                 {terms_subscriptions_content_5()}
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_pricing_title()}
               </h2>
@@ -207,7 +207,7 @@
               </p>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_lifetime_title()}
               </h2>
@@ -219,7 +219,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_termination_title()}
               </h2>
@@ -231,7 +231,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_amendments_title()}
               </h2>
@@ -241,7 +241,7 @@
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_data_title()}
               </h2>
@@ -249,20 +249,20 @@
               <div class=" mb-10">
                 {terms_data_content_1()}<br /><br />
                 {@html terms_data_content_2({
-                  email: `<a href="mailto:support@stocknear.com" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">support@stocknear.com</a>`,
+                  email: `<a href="mailto:support@stocknear.com" class="font-medium text-fg transition-colors hover:text-accent transition">support@stocknear.com</a>`,
                 })}
               </div>
 
               <h2
-                class="mb-3 text-xl sm:text-2xl font-semibold text-muted dark:text-white"
+                class="mb-3 text-xl sm:text-2xl font-semibold text-fg"
               >
                 {terms_complete_title()}
               </h2>
 
               <p class=" mb-10">
                 {@html terms_complete_content_1({
-                  privacyLink: `<a href="/privacy-policy" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_privacy_policy()}</a>`,
-                  imprintLink: `<a href="/imprint" class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition">${common_imprint()}</a>`,
+                  privacyLink: `<a href="/privacy-policy" class="font-medium text-fg transition-colors hover:text-accent transition">${common_privacy_policy()}</a>`,
+                  imprintLink: `<a href="/imprint" class="font-medium text-fg transition-colors hover:text-accent transition">${common_imprint()}</a>`,
                 })}
                 <br /><br />
                 {terms_complete_content_2()}
@@ -284,7 +284,7 @@
                   {common_sponsor_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_learn_more_sponsor()}
               </span>
             </a>
@@ -302,7 +302,7 @@
                   {common_contact_us()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {common_let_me_know()}
               </span>
             </a>

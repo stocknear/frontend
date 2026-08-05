@@ -12,7 +12,7 @@
         in:fade={{ duration: 200 }}
     >
         <div
-            class="rounded-[5px] py-5 pt-4 pb-0 border border-gray-300 dark:border-gray-700 max-h-[300px] flex flex-col relative transition-all duration-300"
+            class="rounded-[5px] py-5 pt-4 pb-0 border border-line max-h-[300px] flex flex-col relative transition-all duration-300"
         >
             <div class="flex items-center justify-between px-5 mb-2">
                 <div class="flex items-center gap-x-2">

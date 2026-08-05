@@ -98,71 +98,71 @@
   }
 </script>
 
-<div class="px-0.5 lg:px-0 text-muted dark:text-zinc-200">
+<div class="px-0.5 lg:px-0 text-fg">
   <h2
-    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
   >
     {etf_sidecard_about({ ticker: $etfTicker })}
   </h2>
-  <p class="text-sm text-muted dark:text-zinc-300">
+  <p class="text-sm text-fg-muted">
     {description}
   </p>
 
   <div
-    class="mt-3 grid grid-cols-2 gap-3 w-full border-b border-gray-300 dark:border-zinc-700 lg:border-none pb-8 lg:pb-0"
+    class="mt-3 grid grid-cols-2 gap-3 w-full border-b border-line lg:border-none pb-8 lg:pb-0"
   >
-    <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+    <div class="col-span-1 text-sm text-fg-muted">
       <span
-        class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+        class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
         >{etf_sidecard_asset_class()}</span
       >
       <span>{assetClass ?? etf_detail_na()}</span>
     </div>
-    <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+    <div class="col-span-1 text-sm text-fg-muted">
       <span
-        class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+        class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
         >{etf_sidecard_ticker_symbol()}</span
       >
       {$etfTicker}
     </div>
-    <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+    <div class="col-span-1 text-sm text-fg-muted">
       <span
-        class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+        class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
         >{etf_sidecard_inception_date()}</span
       >
       <span>{ipoDate}</span>
     </div>
-    <div class="col-span-1 text-sm text-muted dark:text-zinc-300">
+    <div class="col-span-1 text-sm text-fg-muted">
       <span
-        class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+        class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
         >{etf_sidecard_provider()}</span
       >
       <a
         href={`/etf/etf-providers/${provider}`}
-        class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
+        class="hover:text-accent underline underline-offset-4"
         >{provider ? formatETFName(provider) : etf_detail_na()}</a
       >
     </div>
 
     <div
-      class="col-span-1 whitespace-nowrap text-sm text-muted dark:text-zinc-300"
+      class="col-span-1 whitespace-nowrap text-sm text-fg-muted"
     >
       <span
-        class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+        class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
         >{etf_sidecard_website()}</span
       >
       <a
         href={website}
-        class="hover:text-violet-800 dark:hover:text-violet-400 underline underline-offset-4"
+        class="hover:text-accent underline underline-offset-4"
         target="_blank">{etf_sidecard_fund_home_page()}</a
       >
     </div>
 
     <div
-      class="col-span-1 whitespace-nowrap text-sm text-muted dark:text-zinc-300"
+      class="col-span-1 whitespace-nowrap text-sm text-fg-muted"
     >
       <span
-        class="block text-xs font-bold uppercase tracking-wide text-muted dark:text-zinc-300"
+        class="block text-xs font-bold uppercase tracking-wide text-fg-muted"
         >{etf_sidecard_exchange()}</span
       >
       <span>{data?.getStockQuote?.exchange ?? etf_detail_na()}</span>
@@ -176,7 +176,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-muted dark:text-white"
+          <span class="font-semibold tracking-tight text-fg"
             >{etf_sidecard_top_sectors()}</span
           >
         </h2>
@@ -185,15 +185,15 @@
           <table class="w-full">
             <thead>
               <tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="border-y border-line text-xs uppercase tracking-wide text-fg"
               >
                 <th
-                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_sector()}</th
                 >
 
                 <th
-                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_weight_percent()}</th
                 >
               </tr>
@@ -202,14 +202,14 @@
               {#each topSectorList?.slice(0, 5) as item}
                 {#if item?.weightPercentage > 0}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 text-sm text-muted dark:text-zinc-300"
+                    class="border-b border-line text-sm text-fg-muted"
                   >
                     <td class="px-1 py-1.5 text-left xs:px-2">
                       <a
                         href={sectorNavigation?.find(
                           (listItem) => listItem?.title === item?.sector,
                         )?.link}
-                        class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400"
+                        class="font-medium text-fg transition-colors hover:text-accent"
                       >
                         {item?.sector}
                       </a>
@@ -246,11 +246,11 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-muted dark:text-white"
+          <span class="font-semibold tracking-tight text-fg"
             >{etf_sidecard_top_holdings()}</span
           >
           <span
-            class="font-semibold ml-auto text-sm text-muted dark:text-white"
+            class="font-semibold ml-auto text-sm text-fg"
           >
             {etf_sidecard_assets_percent({ percent: totalAssetPercentage })}
           </span>
@@ -260,17 +260,17 @@
           <table class="w-full">
             <thead
               ><tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="border-y border-line text-xs uppercase tracking-wide text-fg"
                 ><th
-                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_name()}</th
                 >
                 <th
-                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_symbol()}</th
                 >
                 <th
-                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_weight()}</th
                 ></tr
               ></thead
@@ -279,7 +279,7 @@
               {#each topHoldingList?.slice(0, 10) as item}
                 {#if item?.symbol !== null}
                   <tr
-                    class="border-b border-gray-300 dark:border-zinc-700 text-sm text-muted dark:text-zinc-300"
+                    class="border-b border-line text-sm text-fg-muted"
                   >
                     <td class="px-1 py-1.5 text-left xs:px-2">
                       {#if typeof item?.name !== "undefined"}
@@ -327,11 +327,11 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2 class="mb-2 text-xl sm:text-2xl flex flex-row items-center">
-          <span class="font-semibold tracking-tight text-muted dark:text-white"
+          <span class="font-semibold tracking-tight text-fg"
             >{etf_sidecard_dividends()}</span
           >
           <span
-            class="font-semibold ml-auto text-sm text-muted dark:text-white"
+            class="font-semibold ml-auto text-sm text-fg"
           >
             {etf_sidecard_dividend_yield({ yield: dividendYield ?? "0" })}
           </span>
@@ -341,17 +341,17 @@
           <table class="w-full">
             <thead
               ><tr
-                class="border-y border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white"
+                class="border-y border-line text-xs uppercase tracking-wide text-fg"
                 ><th
-                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_ex_dividend()}</th
                 >
                 <th
-                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-left xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_amount()}</th
                 >
                 <th
-                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-muted dark:text-white"
+                  class="px-1 py-1.5 text-right xs:px-2 font-semibold text-fg"
                   >{etf_sidecard_payment_date()}</th
                 ></tr
               ></thead
@@ -360,7 +360,7 @@
             <tbody>
               {#each dividendHistoryList?.slice(0, 5) as item}
                 <tr
-                  class="border-b border-gray-300 dark:border-zinc-700 text-sm text-muted dark:text-zinc-300"
+                  class="border-b border-line text-sm text-fg-muted"
                 >
                   <td class="px-1 py-1.5 text-left xs:px-2">
                     {new Date(item?.date)?.toLocaleString("en-US", {

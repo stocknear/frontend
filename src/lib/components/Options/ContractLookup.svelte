@@ -242,7 +242,7 @@
   };
 
   const getOptionTypePillClass = (optionType: string | undefined) =>
-    `mb-1 px-3 py-1 border border-gray-300 dark:border-gray-700 inline-flex items-center rounded-full border shadow  text-sm font-semibold cursor-pointer select-none transition-colors`;
+    `mb-1 px-3 py-1 border border-line inline-flex items-center rounded-full border shadow  text-sm font-semibold cursor-pointer select-none transition-colors`;
 
   async function toggleOptionType() {
     selectedOptionType = selectedOptionType === "Call" ? "Put" : "Call";
@@ -1305,14 +1305,14 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <div class="flex flex-row items-center justify-between gap-3 mb-3">
           <h2
-            class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+            class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg"
           >
             {stock_detail_options_contract_lookup_title()}
           </h2>
           <Button
             on:click={copyContractLink}
             disabled={!optionSymbol}
-            class="w-fit shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            class="w-fit shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2.5 sm:px-3 py-1.5 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {copyLabel}
           </Button>
@@ -1346,7 +1346,7 @@
               </span>
             </div>
             <span
-              class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap"
+              class="text-xs font-semibold text-accent whitespace-nowrap"
             >
               Upgrade &rarr;
             </span>
@@ -1354,7 +1354,7 @@
         {/if}
 
         <div
-          class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-4 mt-5"
+          class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 mt-5"
         >
           <div class="items-end">
             <div
@@ -1362,7 +1362,7 @@
             >
               <!--Start Added Rules-->
               <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
+                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-line"
               >
                 <div class="flex flex-row items-center">
                   {stock_detail_options_contract_lookup_date_expiration()}
@@ -1380,7 +1380,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 shadow border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{formatDate(selectedDate)}</span
@@ -1406,7 +1406,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                    class="min-w-48 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2"
@@ -1417,14 +1417,14 @@
                               selectedDate = item;
                               loadData("default");
                             }}
-                            class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg-muted hover:text-accent"
                           >
                             {formatDate(item)}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                            class="cursor-pointer text-fg hover:text-accent"
                           >
                             <div class="flex flex-row items-center gap-x-2">
                               <span> {formatDate(item)}</span>
@@ -1450,7 +1450,7 @@
                 </DropdownMenu.Root>
               </div>
               <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
+                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-line"
               >
                 <div class="flex flex-row items-center">
                   {stock_detail_options_contract_lookup_strike_price()}
@@ -1468,7 +1468,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="mb-1 shadow border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
+                      class="mb-1 shadow border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate"
                     >
                       <span class="truncate text-sm"
                         >{selectedStrike ?? "n/a"}</span
@@ -1494,7 +1494,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                    class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
@@ -1505,7 +1505,7 @@
                             selectedStrike = item;
                             loadData("default");
                           }}
-                          class="cursor-pointer text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400"
+                          class="cursor-pointer text-fg-muted hover:text-accent"
                         >
                           {item}
                         </DropdownMenu.Item>
@@ -1515,7 +1515,7 @@
                 </DropdownMenu.Root>
               </div>
               <div
-                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-gray-300 dark:border-zinc-700"
+                class="flex items-center justify-between space-x-2 px-1 py-1.5 leading-tight sm:py-0 border-b border-line"
               >
                 <div class="flex flex-row items-center">
                   {stock_detail_options_contract_lookup_option_type()}
@@ -1544,7 +1544,7 @@
 
         {#if Object?.keys(optionData)?.length > 0}
           <h3
-            class="flex flex-row items-center text-xl sm:text-xl font-semibold tracking-tight text-muted dark:text-white mt-10"
+            class="flex flex-row items-center text-xl sm:text-xl font-semibold tracking-tight text-fg mt-10"
           >
             {ticker}
             {formatDate(selectedDate)}
@@ -1552,7 +1552,7 @@
             {selectedOptionType}
           </h3>
           <h3
-            class="text-muted dark:text-zinc-300 flex flex-row items-center text-sm mb-2 sm:mb-0"
+            class="text-fg-muted flex flex-row items-center text-sm mb-2 sm:mb-0"
           >
             {optionSymbol}
           </h3>
@@ -1563,7 +1563,7 @@
               <table class="w-[50%] text-sm sm:text-[1rem] xl:min-w-[300px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Last</td
@@ -1575,7 +1575,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Bid</td
@@ -1589,7 +1589,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Mid</td
@@ -1601,7 +1601,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Ask</td
@@ -1615,7 +1615,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Open
@@ -1628,7 +1628,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Volume
@@ -1641,7 +1641,7 @@
                     ></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Open Interest
@@ -1673,7 +1673,7 @@
               <table class="w-[50%] text-sm xl:min-w-[300px]">
                 <tbody
                   ><tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Delta</td
@@ -1682,14 +1682,14 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.delta ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                       >{rawDataHistory?.at(0)?.delta?.toFixed(3) ?? "n/a"}</td
                     ></tr
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Gamma</td
@@ -1698,14 +1698,14 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.gamma ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                       >{rawDataHistory?.at(0)?.gamma?.toFixed(3) ?? "n/a"}</td
                     ></tr
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Theta</td
@@ -1714,14 +1714,14 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.theta ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                     >
                       {rawDataHistory?.at(0)?.theta?.toFixed(3) ?? "n/a"}
                     </td></tr
                   >
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Vega</td
@@ -1730,7 +1730,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.vega ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                     >
                       {rawDataHistory?.at(0)?.vega?.toFixed(3) ?? "n/a"}
@@ -1738,7 +1738,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Rho</td
@@ -1747,7 +1747,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.rho ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                     >
                       {rawDataHistory?.at(0)?.rho?.toFixed(3) ?? "n/a"}
@@ -1755,7 +1755,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Charm</td
@@ -1764,7 +1764,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.charm ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                     >
                       {rawDataHistory?.at(0)?.charm?.toFixed(3) ?? "n/a"}
@@ -1772,7 +1772,7 @@
                   >
 
                   <tr
-                    class="flex flex-col border-b border-gray-300 dark:border-zinc-700 py-1 sm:table-row sm:py-0"
+                    class="flex flex-col border-b border-line py-1 sm:table-row sm:py-0"
                     ><td
                       class="whitespace-nowrap px-0.5 py-[1px] xs:px-1 sm:py-2 text-[1rem]"
                       >Vanna</td
@@ -1781,7 +1781,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.vanna ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                     >
                       {rawDataHistory?.at(0)?.vanna?.toFixed(3) ?? "n/a"}
@@ -1797,7 +1797,7 @@
                       class="whitespace-nowrap px-0.5 py-[1px] text-left text-sm xs:px-1 sm:py-2 sm:text-right {(rawDataHistory?.at(
                         0,
                       )?.vomma ?? 0) < 0
-                        ? 'text-rose-800 dark:text-rose-400'
+                        ? 'text-down'
                         : ''}"
                     >
                       {rawDataHistory?.at(0)?.vomma?.toFixed(3) ?? "n/a"}
@@ -1809,10 +1809,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
               <div
-                class="flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                class="flex flex-row items-center grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-full"
+                  class="text-start hidden sm:block whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg w-full"
                 >
                   {stock_detail_options_contract_lookup_contract_chart()}
                 </h2>
@@ -1825,7 +1825,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectGraphType}</span
@@ -1850,10 +1850,10 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                         >
                           <DropdownMenu.Label
-                            class="text-xs font-medium text-muted dark:text-white"
+                            class="text-xs font-medium text-fg"
                           >
                             Chart Type
                           </DropdownMenu.Label>
@@ -1863,7 +1863,7 @@
                               {#if !["Pro"]?.includes(data?.user?.tier) && i > 1}
                                 <DropdownMenu.Item
                                   on:click={() => goto("/pricing")}
-                                  class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                                  class="cursor-pointer text-fg hover:text-accent"
                                 >
                                   <div
                                     class="flex flex-row items-center gap-x-2"
@@ -1887,7 +1887,7 @@
                               {:else}
                                 <DropdownMenu.Item
                                   on:click={() => (selectGraphType = item)}
-                                  class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                                  class="cursor-pointer text-fg hover:text-accent"
                                 >
                                   {item}
                                 </DropdownMenu.Item>
@@ -1902,7 +1902,7 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="w-full shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                            class="w-full shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
                             <span class="truncate text-xs sm:text-sm"
                               >{selectedTimePeriod}</span
@@ -1927,10 +1927,10 @@
                           align="end"
                           sideOffset={10}
                           alignOffset={0}
-                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                          class="w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                         >
                           <DropdownMenu.Label
-                            class="text-xs font-medium text-muted dark:text-white"
+                            class="text-xs font-medium text-fg"
                           >
                             {stock_detail_options_contract_lookup_select_time()}
                           </DropdownMenu.Label>
@@ -1938,31 +1938,31 @@
                           <DropdownMenu.Group>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1W")}
-                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                              class="cursor-pointer text-fg hover:text-accent"
                             >
                               {stock_detail_options_contract_lookup_1_week()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1M")}
-                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                              class="cursor-pointer text-fg hover:text-accent"
                             >
                               {stock_detail_options_contract_lookup_1_month()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "3M")}
-                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                              class="cursor-pointer text-fg hover:text-accent"
                             >
                               {stock_detail_options_contract_lookup_3_months()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "6M")}
-                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                              class="cursor-pointer text-fg hover:text-accent"
                             >
                               {stock_detail_options_contract_lookup_6_months()}
                             </DropdownMenu.Item>
                             <DropdownMenu.Item
                               on:click={() => (selectedTimePeriod = "1Y")}
-                              class="cursor-pointer text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+                              class="cursor-pointer text-fg hover:text-accent"
                             >
                               {stock_detail_options_contract_lookup_1_year()}
                             </DropdownMenu.Item>
@@ -1980,7 +1980,7 @@
                       <div class="relative">
                         <!-- Apply the blur class to the chart -->
                         <div
-                          class="mt-5 sm:mt-0 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                          class="mt-5 sm:mt-0 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                           use:highcharts={config}
                         ></div>
                       </div>
@@ -1993,10 +1993,10 @@
             {#if displayList?.length > 0}
               <div class="items-center lg:overflow-visible px-1 py-1 mt-5">
                 <div
-                  class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                  class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-line"
                 >
                   <h2
-                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-full"
+                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg w-full"
                   >
                     {stock_detail_options_contract_lookup_history()}
                   </h2>
@@ -2019,10 +2019,10 @@
               >
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact w-full text-muted dark:text-zinc-200 tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                    class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
                   >
                     <thead
-                      class="text-[11px] uppercase tracking-wide text-muted dark:text-white"
+                      class="text-[11px] uppercase tracking-wide text-fg"
                     >
                       <TableHeader {columns} {sortOrders} {sortData} />
                     </thead>
@@ -2048,13 +2048,13 @@
                           <td class="text-sm text-end">
                             {#if item?.changeOI > 0 && item?.changeOI !== null}
                               <span
-                                class="text-emerald-800 dark:text-emerald-400"
+                                class="text-up"
                                 >+{item?.changeOI?.toLocaleString(
                                   "en-US",
                                 )}</span
                               >
                             {:else if item?.changeOI < 0 && item?.changeOI !== null}
-                              <span class="text-rose-800 dark:text-rose-400"
+                              <span class="text-down"
                                 >{item?.changeOI?.toLocaleString("en-US")}</span
                               >
                             {:else if item?.changeOI === 0 && item?.changeOI !== null}
@@ -2067,11 +2067,11 @@
                           <td class="text-sm text-end">
                             {#if item?.changesPercentageOI > 0 && item?.changesPercentageOI !== undefined}
                               <span
-                                class="text-emerald-800 dark:text-emerald-400"
+                                class="text-up"
                                 >+{item?.changesPercentageOI + "%"}</span
                               >
                             {:else if item?.changesPercentageOI < 0 && item?.changesPercentageOI !== undefined}
-                              <span class="text-rose-800 dark:text-rose-400"
+                              <span class="text-down"
                                 >{item?.changesPercentageOI + "%"}</span
                               >
                             {:else if item?.changesPercentageOI === 0 && item?.changesPercentageOI !== undefined}
@@ -2122,7 +2122,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -2145,7 +2145,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {stock_detail_options_common_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -2156,7 +2156,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{stock_detail_options_common_rows({
@@ -2184,13 +2184,13 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -2214,7 +2214,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{stock_detail_options_common_next()}</span
@@ -2240,7 +2240,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                   >
                     {stock_detail_options_common_back_to_top()}
                     <svg
@@ -2266,7 +2266,7 @@
             <div class="flex justify-center items-center h-80">
               <div class="relative">
                 <label
-                  class="border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
                   <span
                     class="loading loading-spinner loading-md text-white dark:text-white"
@@ -2295,11 +2295,11 @@
 
     <!-- Desktop modal content -->
     <div
-      class="modal-box w-full flex flex-col items-center relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
     >
       <label
         for="mobileTooltip"
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
         aria-label="Close modal"
       >
         <svg
@@ -2314,27 +2314,27 @@
       </label>
       <div class=" mb-5 text-center">
         <h3
-          class="font-semibold tracking-tight text-2xl text-muted dark:text-white mb-5"
+          class="font-semibold tracking-tight text-2xl text-fg mb-5"
         >
           {tooltipTitle}
         </h3>
-        <span class="text-sm text-muted dark:text-zinc-300 font-normal"
+        <span class="text-sm text-fg-muted font-normal"
           >{infoText?.text ?? "n/a"}</span
         >
         {#if infoText?.equation !== undefined}
           <div class="w-5/6 m-auto mt-5"></div>
           <div
-            class="text-sm w-full pt-3 pb-3 m-auto text-muted dark:text-zinc-300"
+            class="text-sm w-full pt-3 pb-3 m-auto text-fg-muted"
           >
             {infoText?.equation}
           </div>
         {/if}
       </div>
 
-      <div class="border-t border-gray-300 dark:border-zinc-700 mt-2 w-full">
+      <div class="border-t border-line mt-2 w-full">
         <label
           for="mobileTooltip"
-          class="cursor-pointer mt-4 font-semibold text-lg text-muted dark:text-white m-auto flex justify-center"
+          class="cursor-pointer mt-4 font-semibold text-lg text-fg m-auto flex justify-center"
         >
           {stock_detail_options_common_close()}
         </label>

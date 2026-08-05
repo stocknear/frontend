@@ -490,19 +490,19 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-white"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400"
+        class="text-fg hover:text-accent"
         >{insider_tracker_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-white">
+    <li class="text-fg">
       {insider_tracker_breadcrumb_current()}
     </li>
   </BreadCrumb>
@@ -513,9 +513,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {insider_tracker_title()}
             </h1>
@@ -525,10 +525,10 @@
 
           <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
             <div
-              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+              class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
               >
                 {originalData?.length?.toLocaleString("en-US")}
                 {insider_tracker_stocks()}
@@ -563,7 +563,7 @@
                     on:input={search}
                     type="text"
                     placeholder={insider_tracker_search_placeholder()}
-                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                    class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                   />
                 </div>
 
@@ -579,7 +579,7 @@
                   <button
                     on:click={resetColumnOrder}
                     title={insider_tracker_reset_columns()}
-                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                   >
                     <svg
                       class="w-4 h-4"
@@ -606,7 +606,7 @@
                 class="w-full m-auto rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact w-full m-auto text-fg tabular-nums"
                 >
                   <thead>
                     <TableHeader
@@ -631,7 +631,7 @@
                                 class="cursor-pointer h-full pl-2 pr-2 align-middle lg:pl-3"
                               >
                                 <svg
-                                  class="w-5 h-5 text-muted dark:text-zinc-300 {checkedSymbol ===
+                                  class="w-5 h-5 text-fg-muted {checkedSymbol ===
                                   item?.symbol
                                     ? 'rotate-180'
                                     : ''}"
@@ -649,13 +649,13 @@
                             </td>
                           {:else if column.key === "symbol"}
                             <td
-                              class="text-[0.85rem] sm:text-sm text-start text-muted dark:text-zinc-200"
+                              class="text-[0.85rem] sm:text-sm text-start text-fg"
                             >
                               <HoverStockChart symbol={item?.symbol} />
                             </td>
                           {:else if column.key === "name"}
                             <td
-                              class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-muted dark:text-zinc-200"
+                              class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-fg"
                             >
                               {item?.name?.length > charNumber
                                 ? item?.name?.slice(0, charNumber) + "..."
@@ -663,7 +663,7 @@
                             </td>
                           {:else if column.key === "reportingName"}
                             <td
-                              class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-muted dark:text-zinc-200"
+                              class="whitespace-nowrap text-[0.85rem] sm:text-sm text-start text-fg"
                             >
                               {item?.reportingName?.length > charNumber
                                 ? item?.reportingName?.slice(0, charNumber) +
@@ -672,25 +672,25 @@
                             </td>
                           {:else if column.key === "marketCap"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg tabular-nums"
                             >
                               {abbreviateNumber(item?.marketCap)}
                             </td>
                           {:else if column.key === "shares"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg tabular-nums"
                             >
                               {item?.shares?.toLocaleString("en-US")}
                             </td>
                           {:else if column.key === "value"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200 tabular-nums"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg tabular-nums"
                             >
                               {abbreviateNumber(item?.value)}
                             </td>
                           {:else if column.key === "transactionType"}
                             <td
-                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-200"
+                              class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg"
                             >
                               {item?.transactionType}
                             </td>
@@ -733,7 +733,7 @@
                       </tr>
 
                       {#if checkedSymbol === item?.symbol}
-                        <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60"
+                        <tr class="bg-surface-page/60"
                           ><td colspan="10" class="px-0"
                             ><div class="-mt-0.5 px-0 pb-2">
                               <div class="relative h-[350px]">
@@ -790,7 +790,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -813,7 +813,7 @@
 
                 <!-- Page info and rows selector in center -->
                 <div class="flex flex-row items-center gap-4">
-                  <span class="text-sm text-muted dark:text-zinc-300">
+                  <span class="text-sm text-fg-muted">
                     {insider_tracker_page_of({
                       current: currentPage,
                       total: totalPages,
@@ -824,7 +824,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{rowsPerPage} {insider_tracker_rows()}</span
@@ -850,13 +850,13 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <label
                               on:click={() => changeRowsPerPage(item)}
@@ -878,7 +878,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{insider_tracker_next()}</span
@@ -904,7 +904,7 @@
               <div class="flex justify-center mt-4">
                 <button
                   on:click={scrollToTop}
-                  class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                  class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                 >
                   {insider_tracker_back_to_top()}
                   <svg

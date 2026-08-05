@@ -59,8 +59,8 @@
   <button
     class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
       activeTool === "cursor"
-        ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
-        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+        ? "bg-surface-raised text-fg"
+        : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
     }`}
     on:click={() => dispatch("setCursorMode")}
     title={chart_ct_cursor()}
@@ -76,10 +76,10 @@
         <button
           class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
             drawingsLocked
-              ? "cursor-not-allowed opacity-40 text-gray-500 dark:text-zinc-500"
+              ? "cursor-not-allowed opacity-40 text-fg-subtle"
               : group.options.some((o) => o.id === activeTool)
-                ? "cursor-pointer bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
-                : "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+                ? "cursor-pointer bg-surface-raised text-fg"
+                : "cursor-pointer text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
           }`}
           on:click={() => {
             if (drawingsLocked) return;
@@ -135,15 +135,15 @@
           side="right"
           align="start"
           sideOffset={4}
-          class="w-52 max-h-80 overflow-y-auto scroller rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
+          class="w-52 max-h-80 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
         >
           <DropdownMenu.Group>
             {#each group.options as option}
               <DropdownMenu.Item
                 class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
                   selectedToolByGroup[group.id] === option.id
-                    ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white font-medium"
-                    : "text-muted dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+                    ? "bg-surface-raised text-fg font-medium"
+                    : "text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
                 }`}
                 on:click={() => {
                   dispatch("activateDrawingTool", {
@@ -178,8 +178,8 @@
       <button
         class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
           drawingMode !== "normal"
-            ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white"
-            : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-muted dark:text-zinc-200"
+            ? "bg-surface-raised text-fg"
+            : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-fg"
         }`}
         on:click={() => {
           if (drawingMode === "normal") {
@@ -222,14 +222,14 @@
         side="right"
         align="start"
         sideOffset={4}
-        class="w-44 rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
+        class="w-44 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
       >
         <DropdownMenu.Group>
           <DropdownMenu.Item
             class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
               drawingMode === "weak_magnet"
-                ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white font-medium"
-                : "text-muted dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+                ? "bg-surface-raised text-fg font-medium"
+                : "text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
             }`}
             on:click={() => {
               dispatch("setDrawingMode", { mode: "weak_magnet" });
@@ -247,8 +247,8 @@
           <DropdownMenu.Item
             class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
               drawingMode === "strong_magnet"
-                ? "bg-gray-100 dark:bg-zinc-800 text-muted dark:text-white font-medium"
-                : "text-muted dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
+                ? "bg-surface-raised text-fg font-medium"
+                : "text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
             }`}
             on:click={() => {
               dispatch("setDrawingMode", { mode: "strong_magnet" });
@@ -272,8 +272,8 @@
   <button
     class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
       !drawingsVisible
-        ? "bg-gray-100 dark:bg-zinc-800 text-rose-400"
-        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-muted dark:text-zinc-200"
+        ? "bg-surface-raised text-rose-400"
+        : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-fg"
     }`}
     on:click={() => dispatch("toggleDrawingsVisibility")}
     title={drawingsVisible ? chart_ct_hide_drawings() : chart_ct_show_drawings()}
@@ -287,8 +287,8 @@
   <button
     class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
       drawingsLocked
-        ? "bg-gray-100 dark:bg-zinc-800 text-amber-500 dark:text-amber-400"
-        : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+        ? "bg-surface-raised text-amber-500 dark:text-amber-400"
+        : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
     }`}
     on:click={() => dispatch("toggleDrawingsLock")}
     title={drawingsLocked ? chart_ct_unlock_drawings() : chart_ct_lock_drawings()}
@@ -305,7 +305,7 @@
   <button
     class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
       canUndo
-        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+        ? "cursor-pointer text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
         : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
     }`}
     on:click={() => canUndo && dispatch("undo")}
@@ -317,7 +317,7 @@
   <button
     class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
       canRedo
-        ? "cursor-pointer text-gray-600 dark:text-zinc-400 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+        ? "cursor-pointer text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
         : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
     }`}
     on:click={() => canRedo && dispatch("redo")}
@@ -332,14 +332,14 @@
 
   <!-- Zoom Tools -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
     on:click={() => dispatch("zoomIn")}
     title={chart_ct_zoom_in()}
   >
     <ZoomIn class="size-5" />
   </button>
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
     on:click={() => dispatch("zoomOut")}
     title={chart_ct_zoom_out()}
   >
@@ -348,7 +348,7 @@
 
   <!-- Screenshot -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
     on:click={() => dispatch("downloadChart")}
     title={chart_ct_screenshot()}
   >
@@ -372,7 +372,7 @@
 
   <!-- Keyboard Shortcuts Help -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-violet-800 dark:hover:text-violet-400 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
     on:click={() => dispatch("showKeyboardShortcuts")}
     title={chart_ct_shortcuts_tooltip()}
   >
@@ -381,7 +381,7 @@
 
   <!-- Remove All -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-gray-600 dark:text-zinc-400 transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-rose-500 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-rose-500 mt-1"
     on:click={() => dispatch("removeAllDrawings")}
     title={chart_ct_remove_all()}
   >

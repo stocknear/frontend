@@ -279,7 +279,7 @@
         distancePct: null,
         progressPct: 0,
         label: "-",
-        textClass: "text-muted dark:text-white",
+        textClass: "text-fg",
         barClass: "bg-gray-400 dark:bg-zinc-500",
       };
     }
@@ -303,7 +303,7 @@
         distancePct: null,
         progressPct: 0,
         label: "-",
-        textClass: "text-muted dark:text-white",
+        textClass: "text-fg",
         barClass: "bg-gray-400 dark:bg-zinc-500",
       };
     }
@@ -1042,17 +1042,17 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-3 text-fg"
 >
-  <BreadCrumb containerClass="text-sm  breadcrumbs text-muted dark:text-white">
+  <BreadCrumb containerClass="text-sm  breadcrumbs text-fg">
     <li>
       <a
         href="/"
-        class="text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg hover:text-accent transition"
         >{price_alert_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-white">
+    <li class="text-fg">
       {price_alert_breadcrumb_price_alert()}
     </li>
   </BreadCrumb>
@@ -1063,9 +1063,9 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {price_alert_main_title()}
             </h1>
@@ -1078,7 +1078,7 @@
                   {#if editMode}
                     <label
                       on:click={handleDeleteTickers}
-                      class="border text-sm border-gray-300 dark:border-zinc-700 mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-rose-800 dark:hover:text-rose-400"
+                      class="border text-sm border-line mr-2 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 pl-3 pr-4 font-semibold bg-surface-page/60 text-fg transition hover:text-rose-800 dark:hover:text-rose-400"
                     >
                       <svg
                         class="inline-block w-5 h-5"
@@ -1097,7 +1097,7 @@
                   {/if}
                   <label
                     on:click={handleEditMode}
-                    class="border text-sm border-gray-300 dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-[#f8fbfb] dark:bg-zinc-950/60 text-muted dark:text-zinc-200 transition hover:text-violet-800 dark:hover:text-violet-400"
+                    class="border text-sm border-line cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1134,37 +1134,37 @@
                   <div class="relative w-full">
                     <Combobox.Input
                       on:input={search}
-                      class="py-2 text-[0.85rem] sm:text-sm border bg-[#f8fbfb] dark:bg-zinc-950/60 border-gray-300 dark:border-zinc-700 rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
+                      class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56"
                       placeholder={price_alert_search_placeholder()}
                       aria-label={price_alert_search_placeholder()}
                     />
                   </div>
                   <Combobox.Content
-                    class="w-auto z-10 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
+                    class="w-auto z-10 rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length > 0}
                       {#each searchBarData as item}
                         <Combobox.Item
-                          class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-2 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
+                          class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-button py-2 pl-5 pr-1.5 text-sm capitalize outline-hidden transition-all duration-75 data-[highlighted]:text-violet-800 dark:data-[highlighted]:text-violet-400"
                           value={item.symbol}
                           label={item.name}
                           on:click={(e) =>
                             handleAddAlert(e, item?.symbol, item?.type)}
                         >
                           <div class="flex flex-col items-start">
-                            <span class="text-sm text-muted dark:text-zinc-200"
+                            <span class="text-sm text-fg"
                               >{item?.symbol}</span
                             >
                             <span
-                              class="text-xs sm:text-sm text-muted dark:text-white"
+                              class="text-xs sm:text-sm text-fg"
                               >{item?.name}</span
                             >
                           </div>
                         </Combobox.Item>
                       {:else}
                         <span
-                          class="block px-5 py-2 text-sm text-muted dark:text-white"
+                          class="block px-5 py-2 text-sm text-fg"
                         >
                           {price_alert_no_results()}
                         </span>
@@ -1172,9 +1172,9 @@
                     {:else}
                       <Combobox.Item
                         value=""
-                        class="cursor-pointer border-b border-gray-300 dark:border-zinc-700 last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-button py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
-                        <span class=" text-sm text-muted dark:text-white">
+                        <span class=" text-sm text-fg">
                           {price_alert_no_results()}
                         </span>
                       </Combobox.Item>
@@ -1186,16 +1186,16 @@
             <!--Start Table-->
             {#if priceAlertList?.length > 0}
               <div
-                class="w-full rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
+                class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
               >
                 <table
-                  class="table table-sm table-compact w-full m-auto text-sm text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact w-full m-auto text-sm text-fg tabular-nums"
                 >
                   <!-- head -->
                   <thead
-                    class="text-[11px] uppercase tracking-wide text-muted dark:text-white bg-white/60 dark:bg-zinc-950/30"
+                    class="text-[11px] uppercase tracking-wide text-fg bg-white/60 dark:bg-zinc-950/30"
                   >
-                    <tr class="border-b border-gray-300 dark:border-zinc-700">
+                    <tr class="border-b border-line">
                       <th class=" font-semibold text-xs text-left">Symbol</th>
                       <th class=" font-semibold text-xs text-left">Company</th>
                       <th class=" font-semibold text-xs text-left"
@@ -1216,7 +1216,7 @@
                       {@const toTarget = getToTargetStats(item)}
                       <!-- row -->
                       <tr
-                        class="group border-b border-gray-300 dark:border-zinc-700 last:border-none"
+                        class="group border-b border-line last:border-none"
                       >
                         <td
                           on:click={() => editMode && handleFilter(item?.id)}
@@ -1229,10 +1229,10 @@
                                 checked={deletePriceAlertList?.includes(
                                   item?.id,
                                 ) ?? false}
-                                class="h-[18px] w-[18px] rounded-sm border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 ring-offset-0 mr-3 cursor-pointer"
+                                class="h-[18px] w-[18px] rounded-sm border border-line bg-surface-card ring-offset-0 mr-3 cursor-pointer"
                               />
                               <label
-                                class="text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 cursor-pointer transition"
+                                class="text-fg hover:text-accent cursor-pointer transition"
                               >
                                 {item?.symbol}
                               </label>
@@ -1249,7 +1249,7 @@
                                 on:mouseenter={() => handleNoteHover(item)}
                                 class="cursor-pointer ml-auto transition-all duration-200 {item?.hasNote
                                   ? 'text-violet-500 dark:text-violet-400'
-                                  : 'text-muted dark:text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
+                                  : 'text-fg opacity-100 sm:opacity-0 sm:group-hover:opacity-100'}"
                                 title={item?.hasNote ? "Edit note" : "Add note"}
                               >
                                 <Pencil class="h-3.5 w-3.5" />
@@ -1288,7 +1288,7 @@
                                   {toTarget.label}
                                 </span>
                                 <span
-                                  class="text-[11px] text-muted dark:text-white tabular-nums"
+                                  class="text-[11px] text-fg tabular-nums"
                                 >
                                   {toTarget.progressPct.toFixed(0)}%
                                 </span>
@@ -1303,7 +1303,7 @@
                               </div>
                             </div>
                           {:else}
-                            <span class="text-muted dark:text-white">-</span>
+                            <span class="text-fg">-</span>
                           {/if}
                         </td>
                         <td class=" text-sm whitespace-nowrap text-end">
@@ -1312,11 +1312,11 @@
 
                         <td class=" text-sm whitespace-nowrap text-end">
                           {#if item?.changesPercentage >= 0}
-                            <span class="text-emerald-800 dark:text-emerald-400"
+                            <span class="text-up"
                               >+{item?.changesPercentage?.toFixed(2)}%</span
                             >
                           {:else}
-                            <span class="text-rose-800 dark:text-rose-400"
+                            <span class="text-down"
                               >{item?.changesPercentage?.toFixed(2)}%
                             </span>
                           {/if}
@@ -1331,7 +1331,7 @@
               </div>
 
               <div
-                class="w-full m-auto border-b border-gray-300 dark:border-zinc-700 mt-10 mb-5"
+                class="w-full m-auto border-b border-line mt-10 mb-5"
               ></div>
 
               <div class=" ">
@@ -1352,7 +1352,7 @@
                               class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                                     {activeIdx === i
                                 ? 'bg-black  shadow-sm dark:bg-zinc-800 text-white'
-                                : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+                                : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
                             >
                               {getTabLabel(item)}
                             </button>
@@ -1366,12 +1366,12 @@
                   {#if groupedNews?.length > 0}
                     {#each displayList as [date, titleGroups]}
                       <h3
-                        class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
+                        class="mb-1.5 mt-3 font-semibold text-fg"
                       >
                         {date}
                       </h3>
                       <div
-                        class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                       >
                         {#each titleGroups as { title, items, symbols }, index}
                           <div
@@ -1380,7 +1380,7 @@
                               : ''} dark:border-zinc-700 text-sm"
                           >
                             <div
-                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
+                              class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-fg lg:flex"
                             >
                               {formatTimeLocale(items[0].publishedDate)}
                             </div>
@@ -1398,7 +1398,7 @@
                                   {#each symbols as symbol}
                                     <a
                                       href={`/${items[0].type}/${symbol}`}
-                                      class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                      class="font-medium text-fg transition-colors hover:text-accent transition"
                                     >
                                       {symbol}
                                     </a>
@@ -1419,26 +1419,26 @@
                 {:else if groupedEarnings?.length > 0}
                   {#each displayList as [date, titleGroups]}
                     <h3
-                      class="mb-1.5 mt-3 font-semibold text-muted dark:text-white"
+                      class="mb-1.5 mt-3 font-semibold text-fg"
                     >
                       {date}
                     </h3>
                     <div
-                      class="border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                     >
                       {#each titleGroups as item, index}
                         <div
-                          class="flex border-gray-300 dark:border-zinc-700 text-sm"
+                          class="flex border-line text-sm"
                         >
                           <div
-                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-muted dark:text-white lg:flex"
+                            class="hidden min-w-[100px] items-center justify-center bg-gray-50/80 dark:bg-zinc-900/60 p-1 text-xs text-fg lg:flex"
                           >
                             {formatTime(item?.time)}
                           </div>
                           <div
                             class="grow px-3 py-2 lg:py-1 {index > 0
                               ? 'border-t'
-                              : ''} border-gray-300 dark:border-zinc-700"
+                              : ''} border-line"
                           >
                             <div>
                               <strong>{item?.name}</strong>
@@ -1499,7 +1499,7 @@
               </span>
 
               <span
-                class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-muted dark:text-zinc-300"
+                class=" text-sm sm:text-[1rem] m-auto p-4 text-center text-fg-muted"
               >
                 {price_alert_empty_description()}
               </span>
@@ -1553,7 +1553,7 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}

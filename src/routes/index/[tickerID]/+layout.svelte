@@ -619,7 +619,7 @@
                         >
                           <!-- Mobile: Unified button group -->
                           <div
-                            class="flex items-center w-full shadow rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 sm:hidden"
+                            class="flex items-center w-full shadow rounded-full border border-line bg-white/90 dark:bg-zinc-950/70 sm:hidden"
                           >
                             <WatchlistButton
                               ticker={$indexTicker}
@@ -632,7 +632,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-fg hover:text-accent px-2 py-2.5 text-xs font-medium"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -658,7 +658,7 @@
                             ></div>
                             <a
                               href="/chart/{$indexTicker}"
-                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 px-2 py-2.5 text-xs font-medium"
+                              class="flex-1 inline-flex items-center justify-center gap-1.5 cursor-pointer transition-all text-fg hover:text-accent px-2 py-2.5 text-xs font-medium"
                             >
                               <ChartNoAxes class="size-4 flex-shrink-0" />
                               <span>Pro Chart</span>
@@ -675,7 +675,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-line bg-white/90 dark:bg-zinc-950/70 text-fg hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title={index_detail_price_alert()}
                             >
                               <svg
@@ -702,7 +702,7 @@
                             </label>
                             <a
                               href="/chart/{$indexTicker}"
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-line bg-white/90 dark:bg-zinc-950/70 text-fg hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title="Pro Chart"
                             >
                               <ChartNoAxes class="size-5 flex-shrink-0" />
@@ -740,7 +740,7 @@
                     <!--Start Ticker Section-->
 
                     <nav
-                      class="sm:ml-4 border-b border-gray-300 dark:border-zinc-700 overflow-x-auto whitespace-nowrap"
+                      class="sm:ml-4 border-b border-line overflow-x-auto whitespace-nowrap"
                     >
                       <ul
                         class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
@@ -750,8 +750,8 @@
                           on:click={() => changeSection("overview")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'overview'
-                            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                            : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_overview()}
                         </a>
@@ -761,8 +761,8 @@
                           on:click={() => changeSection("holdings")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'holdings'
-                            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                            : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_holdings()}
                         </a>
@@ -772,8 +772,8 @@
                           on:click={() => changeSection("options")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'options'
-                            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                            : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_options()}
                         </a>
@@ -783,8 +783,8 @@
                           on:click={() => changeSection("history")}
                           class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySection ===
                           'history'
-                            ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                            : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                            ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                            : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300/70 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                         >
                           {index_detail_nav_history()}
                         </a>

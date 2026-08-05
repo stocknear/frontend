@@ -11,7 +11,7 @@
 <div class="relative w-full overflow-auto">
   <table
     class={cn(
-      "w-full caption-bottom text-sm text-muted dark:text-white",
+      "w-full caption-bottom text-sm text-fg",
       className,
     )}
     {...$$restProps}

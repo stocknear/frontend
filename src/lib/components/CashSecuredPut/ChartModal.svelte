@@ -198,29 +198,29 @@
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-white dark:bg-zinc-900 sm:rounded-t-2xl sm:rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-2xl"
+      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-t-2xl sm:rounded-2xl border border-line shadow-2xl"
       on:click|stopPropagation
     >
       <!-- Header -->
       <div
-        class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 sm:px-6 py-4 flex items-start justify-between"
+        class="sticky top-0 z-10 bg-surface-card border-b border-line px-4 sm:px-6 py-4 flex items-start justify-between"
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-muted dark:text-white"
+            class="text-lg sm:text-xl font-semibold text-fg"
           >
             {cash_secured_put_screener_chart_modal_title({
               symbol: item.symbol,
             })}
           </h3>
-          <span class="text-sm text-gray-600 dark:text-zinc-400">
+          <span class="text-sm text-fg-muted">
             {item.symbol} @ {item.stockPrice?.toFixed(2)}
             &nbsp;&nbsp;{formatDate(item.expiration)} (DTE: {item.dte})
           </span>
         </div>
         <button
           on:click={onClose}
-          class="cursor-pointer p-1 rounded-full text-muted dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+          class="cursor-pointer p-1 rounded-full text-fg hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
         >
           <svg
             class="w-5 h-5"
@@ -241,12 +241,12 @@
         <!-- Loading skeleton -->
         <div class="px-4 sm:px-6 py-4">
           <div
-            class="w-full bg-gray-100 dark:bg-zinc-800/60 rounded-lg animate-pulse"
+            class="w-full bg-surface-raised/60 rounded-lg animate-pulse"
             style="height: {$screenWidth < 640 ? 240 : 360}px"
           ></div>
         </div>
         <div
-          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+          class="px-4 sm:px-6 pb-6 border-t border-line pt-4"
         >
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             {#each Array(6) as _}
@@ -255,7 +255,7 @@
                   class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
                 ></div>
                 <div
-                  class="h-4 w-16 bg-gray-100 dark:bg-zinc-800 rounded animate-pulse"
+                  class="h-4 w-16 bg-surface-raised rounded animate-pulse"
                 ></div>
               </div>
             {/each}
@@ -272,17 +272,17 @@
 
         <!-- Trade Info -->
         <div
-          class="px-4 sm:px-6 pb-6 border-t border-gray-200 dark:border-zinc-800 pt-4"
+          class="px-4 sm:px-6 pb-6 border-t border-line pt-4"
         >
           <div class="mb-4">
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
             >
               <div>
-                <span class="text-sm font-semibold text-muted dark:text-white"
+                <span class="text-sm font-semibold text-fg"
                   >{cash_secured_put_screener_chart_trade_setup()}</span
                 >
-                <div class="text-sm text-muted dark:text-zinc-300">
+                <div class="text-sm text-fg-muted">
                   {cash_secured_put_screener_chart_sell_put({
                     strike: item.strike,
                   })}
@@ -294,10 +294,10 @@
                 </div>
               </div>
               <div class="text-right">
-                <span class="text-sm font-semibold text-muted dark:text-white"
+                <span class="text-sm font-semibold text-fg"
                   >{cash_secured_put_screener_chart_net_credit()}</span
                 >
-                <div class="text-sm text-muted dark:text-zinc-300">
+                <div class="text-sm text-fg-muted">
                   ${(item.bid * 100)?.toFixed(0)}
                 </div>
               </div>
@@ -306,10 +306,10 @@
 
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-6">
             <div>
-              <span class="text-sm font-semibold text-muted dark:text-white"
+              <span class="text-sm font-semibold text-fg"
                 >{cash_secured_put_screener_chart_breakeven()}</span
               >
-              <div class="text-sm text-muted dark:text-zinc-300">
+              <div class="text-sm text-fg-muted">
                 {cash_secured_put_screener_chart_below()}
                 {item.breakeven?.toFixed(2)}
                 <span
@@ -322,15 +322,15 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-muted dark:text-white"
+              <span class="text-sm font-semibold text-fg"
                 >{cash_secured_put_screener_chart_last_price()}</span
               >
-              <div class="text-sm text-muted dark:text-zinc-300">
+              <div class="text-sm text-fg-muted">
                 {item.stockPrice?.toFixed(2)}
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-muted dark:text-white"
+              <span class="text-sm font-semibold text-fg"
                 >{cash_secured_put_screener_chart_moneyness()}</span
               >
               <div
@@ -342,16 +342,16 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-muted dark:text-white"
+              <span class="text-sm font-semibold text-fg"
                 >{cash_secured_put_screener_chart_return_if_flat()}</span
               >
-              <div class="text-sm text-muted dark:text-zinc-300">
+              <div class="text-sm text-fg-muted">
                 {item.returnVal}% ({cash_secured_put_screener_chart_annualized_abbr()}
                 {item.annualizedReturn}%)
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-muted dark:text-white"
+              <span class="text-sm font-semibold text-fg"
                 >{cash_secured_put_screener_chart_discount()}</span
               >
               <div class="text-sm text-emerald-700 dark:text-emerald-400">
@@ -359,10 +359,10 @@
               </div>
             </div>
             <div>
-              <span class="text-sm font-semibold text-muted dark:text-white"
+              <span class="text-sm font-semibold text-fg"
                 >{cash_secured_put_screener_chart_probability_of_profit()}</span
               >
-              <div class="text-sm text-muted dark:text-zinc-300">
+              <div class="text-sm text-fg-muted">
                 {item.profitProb}%
               </div>
             </div>

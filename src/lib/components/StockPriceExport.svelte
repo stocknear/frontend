@@ -181,7 +181,7 @@
 <div class={`flex items-center ${className}`}>
   <Button
     on:click={openModal}
-    class="group shadow transition-all duration-700 ease-out border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
+    class="group shadow transition-all duration-700 ease-out border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
   >
     <DownloadIcon class="size-5 flex-shrink-0" />
     <span
@@ -206,11 +206,11 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-lg relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-lg relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for={`intraday-export-${ticker}`}
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -228,26 +228,26 @@
     >
       {stock_detail_export_intraday_title()}
     </h3>
-    <p class="mt-2 text-sm leading-relaxed text-muted dark:text-zinc-300">
+    <p class="mt-2 text-sm leading-relaxed text-fg-muted">
       {stock_detail_export_intraday_desc()}
     </p>
 
     <div class="mt-4 grid gap-3 sm:grid-cols-2">
-      <label class="text-sm text-muted dark:text-zinc-200">
+      <label class="text-sm text-fg">
         {stock_detail_start_date()}
         <input
           type="date"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
+          class="mt-1 w-full rounded-lg border border-line bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
           bind:value={startDate}
           max={maxDate}
           disabled={isExporting}
         />
       </label>
-      <label class="text-sm text-muted dark:text-zinc-200">
+      <label class="text-sm text-fg">
         {stock_detail_end_date()}
         <input
           type="date"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
+          class="mt-1 w-full rounded-lg border border-line bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
           bind:value={endDate}
           max={maxDate}
           disabled={isExporting}
@@ -255,10 +255,10 @@
       </label>
     </div>
     <div class="mt-3">
-      <label class="text-sm text-muted dark:text-zinc-200">
+      <label class="text-sm text-fg">
         {stock_detail_interval()}
         <select
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
+          class="mt-1 w-full rounded-lg border border-line bg-white/90 dark:bg-zinc-900/70 px-3 py-2 text-sm"
           bind:value={selectedInterval}
           disabled={isExporting}
         >
@@ -271,7 +271,7 @@
       </label>
     </div>
 
-    <div class="mt-3 text-xs text-muted dark:text-white">
+    <div class="mt-3 text-xs text-fg">
       <div>
         {stock_detail_estimated_cost({
           cost: creditCost.toString(),
@@ -285,18 +285,18 @@
           {user?.tier ? `(${user?.tier})` : ""}
         </div>
         {#if !isEligible}
-          <div class="text-rose-800 dark:text-rose-400">
+          <div class="text-down">
             {stock_detail_plus_pro_only()}
           </div>
         {/if}
       {:else}
-        <div class="text-rose-800 dark:text-rose-400">
+        <div class="text-down">
           {stock_detail_plus_pro_only()}
         </div>
         <div>
           <a
             href="/register"
-            class="text-violet-800 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
+            class="text-accent hover:text-violet-700 dark:hover:text-violet-300"
             >{stock_detail_sign_in()}</a
           >
           {stock_detail_to_use_credits()}
@@ -305,12 +305,12 @@
     </div>
 
     {#if statusMessage}
-      <div class="mt-3 text-sm text-muted dark:text-zinc-300">
+      <div class="mt-3 text-sm text-fg-muted">
         {statusMessage}
       </div>
     {/if}
     {#if errorMessage}
-      <div class="mt-3 text-sm text-rose-800 dark:text-rose-400">
+      <div class="mt-3 text-sm text-destructive">
         {errorMessage}
       </div>
     {/if}
@@ -318,14 +318,14 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class=" border border-gray-300 dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
+        class=" border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
         disabled={isExporting}
       >
         {stock_detail_close()}
       </Button>
       <Button
         on:click={startExport}
-        class="border border-gray-300 dark:border-zinc-700 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 px-4 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+        class="border border-line bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 px-4 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
         disabled={isExporting || !isEligible}
       >
         {isExporting ? stock_detail_preparing() : stock_detail_start_export()}

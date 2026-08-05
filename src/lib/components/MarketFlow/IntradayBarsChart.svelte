@@ -215,17 +215,17 @@
 </script>
 
 <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-  <div class="text-sm font-semibold text-muted dark:text-zinc-200">
+  <div class="text-sm font-semibold text-fg">
     Interval Bars
   </div>
   <div
-    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 dark:border-zinc-700"
+    class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
   >
     {#each intervalOptions as item, i}
       {#if !isPro && item !== 30}
         <button
           on:click={() => goto("/pricing")}
-          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all bg-[#f8fbfb] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60"
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all bg-[#f8fbfb] text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60"
         >
           <span class="relative text-sm block font-semibold">
             {item}m
@@ -245,8 +245,8 @@
           on:click={() => (selectedInterval = item)}
           class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
                             {selectedInterval === item
-            ? 'bg-white text-gray-900 shadow-sm border border-gray-300 dark:border-gray-700 dark:bg-zinc-800 dark:text-white'
-            : 'text-muted dark:text-white hover:text-gray-900 dark:hover:text-white'}"
+            ? 'bg-white text-gray-900 shadow-sm border border-line dark:bg-zinc-800 dark:text-white'
+            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
         >
           {item}m
         </button>
@@ -259,7 +259,7 @@
   <div class="" use:highcharts={config}></div>
 {:else}
   <div
-    class="border border-dashed border-gray-300 dark:border-zinc-700 rounded-2xl py-10 text-center text-sm text-muted dark:text-zinc-300"
+    class="border border-dashed border-line rounded-2xl py-10 text-center text-sm text-fg-muted"
   >
     No intraday bar data available yet.
   </div>

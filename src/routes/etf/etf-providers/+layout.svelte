@@ -26,27 +26,27 @@
 </script>
 
 <section
-  class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-(--breakpoint-2xl) overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{etf_breadcrumb_home()}</a
       >
     </li>
     <li>
       <a
         href="/etf/etf-providers"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{etf_breadcrumb_providers()}</a
       >
     </li>
     {#if currentPath?.length !== 0 && typeof currentPath !== undefined}
-      <li class="text-muted dark:text-zinc-300">{currentPath}</li>
+      <li class="text-fg-muted">{currentPath}</li>
     {/if}
   </BreadCrumb>
 
@@ -56,9 +56,9 @@
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class=" border-b border-gray-300 dark:border-zinc-700">
+          <div class=" border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {etf_providers_main_name()}
             </h1>

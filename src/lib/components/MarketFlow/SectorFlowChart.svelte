@@ -168,6 +168,6 @@
 </script>
 
 <div
-    class="border border-gray-300 dark:border-zinc-700 rounded-2xl h-[360px]"
+    class="border border-line rounded-2xl h-[360px]"
     use:highcharts={config}
 ></div>

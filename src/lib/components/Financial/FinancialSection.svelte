@@ -416,7 +416,7 @@
   }
 </script>
 
-<section class="w-full overflow-hidden h-full text-muted dark:text-zinc-200">
+<section class="w-full overflow-hidden h-full text-fg">
   <div class="w-full flex justify-center w-full sm-auto h-full overflow-hidden">
     <div
       class="w-full relative flex justify-center items-center overflow-hidden"
@@ -427,7 +427,7 @@
             class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between"
           >
             <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
             >
               {removeCompanyStrings($displayCompanyName)}
               {title}
@@ -438,7 +438,7 @@
             {#if financialData?.length > 0}
               <div class="flex flex-col md:flex-row items-end justify-between">
                 <span
-                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-muted dark:text-zinc-300 w-full"
+                  class="text-xs sm:text-sm order-1 sm:order-0 mt-5 sm:mt-0 text-fg-muted w-full"
                 >
                   {stock_detail_financials_in_currency({
                     currency: financialData?.at(0)?.reportedCurrency,
@@ -454,7 +454,7 @@
                     <!-- Chart Mode / Table Mode Toggle -->
                     <Button
                       on:click={toggleMode}
-                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {#if $coolMode}
                         <Table class="w-4 h-4" />
@@ -474,7 +474,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                          class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                         >
                           <span class="text-sm"
                             >{RANGE_LABEL_MAP[$financialHistoryRange] ||
@@ -498,7 +498,7 @@
                         side="bottom"
                         align="start"
                         sideOffset={8}
-                        class="min-w-[90px] rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 p-2 text-muted dark:text-zinc-200 shadow-lg"
+                        class="min-w-[90px] rounded-2xl border border-line bg-surface-card p-2 text-fg shadow-lg"
                       >
                         <DropdownMenu.Group>
                           {#each HISTORY_RANGE_OPTIONS as option}
@@ -506,8 +506,8 @@
                               on:click={() =>
                                 ($financialHistoryRange = option.value)}
                               class="{$financialHistoryRange === option.value
-                                ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400 font-medium'
-                                : ''} cursor-pointer hover:text-violet-800 dark:hover:text-violet-400 rounded-xl"
+                                ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-accent font-medium'
+                                : ''} cursor-pointer hover:text-accent rounded-xl"
                             >
                               {option.label}
                             </DropdownMenu.Item>
@@ -519,7 +519,7 @@
                     <!-- Sort Order Toggle -->
                     <Button
                       on:click={() => (switchDate = !switchDate)}
-                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                       title={switchDate
                         ? stock_detail_financials_newest_first()
                         : stock_detail_financials_oldest_first()}
@@ -545,7 +545,7 @@
                     <!-- Download Button -->
                     <Button
                       on:click={() => exportFundamentalData("csv")}
-                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="text-sm"
                         >{stock_detail_financials_download()}</span
@@ -607,7 +607,7 @@
                     </span>
                   </div>
                   <span
-                    class="text-xs font-semibold text-violet-700 dark:text-violet-300 whitespace-nowrap"
+                    class="text-xs font-semibold text-accent whitespace-nowrap"
                   >
                     {stock_detail_financials_upgrade_arrow()} &rarr;
                   </span>
@@ -628,14 +628,14 @@
                   class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-muted dark:text-zinc-200 tabular-nums"
+                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums"
                   >
                     <thead
-                      class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                      class="text-xs uppercase tracking-wide text-fg"
                     >
-                      <tr class="border-b border-gray-300 dark:border-zinc-700">
+                      <tr class="border-b border-line">
                         <td
-                          class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
+                          class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-line"
                           >{$selectedTimePeriod !== "annual"
                             ? stock_detail_financials_fiscal_quarter()
                             : stock_detail_financials_fiscal_year()}</td
@@ -643,7 +643,7 @@
                         {#each financialData as item, index}
                           {#if $selectedTimePeriod === "annual"}
                             <td
-                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
+                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-line text-fg-muted"
                             >
                               {stock_detail_financials_fy_prefix() +
                                 " " +
@@ -651,7 +651,7 @@
                             </td>
                           {:else}
                             <td
-                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
+                              class="font-semibold text-xs uppercase tracking-wide text-end border-l border-line text-fg-muted"
                             >
                               {item?.period + " " + item?.fiscalYear}
                             </td>
@@ -659,20 +659,20 @@
                         {/each}
                         {#if hasLockedData}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-center text-muted dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
+                            class="font-semibold text-xs uppercase tracking-wide text-center text-fg-muted border-l border-line"
                           >
                             {lockedFiscalYearRange || stock_detail_upgrade()}
                           </td>
                         {/if}
                       </tr>
-                      <tr class="border-b border-gray-300 dark:border-zinc-700">
+                      <tr class="border-b border-line">
                         <td
-                          class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-gray-300 dark:border-zinc-700"
+                          class="text-start text-xs font-semibold uppercase tracking-wide w-96 border-r border-line"
                           >{stock_detail_financials_period_ending()}</td
                         >
                         {#each financialData as item, index}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-gray-300 dark:border-zinc-700 text-muted dark:text-zinc-300"
+                            class="font-semibold text-xs uppercase tracking-wide text-end border-l border-line text-fg-muted"
                           >
                             {new Date(item?.date).toLocaleDateString(
                               getIntlLocale(),
@@ -687,7 +687,7 @@
                         {/each}
                         {#if hasLockedData}
                           <td
-                            class="font-semibold text-xs uppercase tracking-wide text-center text-muted dark:text-zinc-300 border-l border-gray-300 dark:border-zinc-700"
+                            class="font-semibold text-xs uppercase tracking-wide text-center text-fg-muted border-l border-line"
                           >
                             {lockedPeriodRange || stock_detail_upgrade()}
                           </td>
@@ -716,12 +716,12 @@
 
               <!-- SEC Filings Links -->
               <div
-                class="sm:flex sm:justify-between text-sm text-muted dark:text-zinc-300"
+                class="sm:flex sm:justify-between text-sm text-fg-muted"
               >
                 <div class="mt-2 flex ml-auto items-center gap-x-2">
                   {stock_detail_financials_sec_filings()}
                   <a
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
+                    class="font-medium text-fg transition-colors hover:text-accent transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-K`}
@@ -741,7 +741,7 @@
                   </a>
                   ·
                   <a
-                    class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition flex items-center"
+                    class="font-medium text-fg transition-colors hover:text-accent transition flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                     href={`https://www.sec.gov/cgi-bin/browse-edgar?CIK=${data?.getProfileData?.cik}&amp;type=10-Q`}

@@ -77,11 +77,14 @@
     }}
 />
 
-<div class="w-full max-w-8xl overflow-hidden m-auto min-h-screen mb-16">
+<!-- `max-w-8xl` does not exist in Tailwind v4, so this shell had no max width at
+     all and ran 2228px wide at 2560px. `page-shell` is the one content frame. -->
+<div class="page-shell overflow-hidden min-h-screen mb-16">
     <main id="main">
-        <div
-            class="border-b border-gray-100/80 dark:border-zinc-700 px-4 pt-8 sm:pt-12 pb-24"
-        >
+        <!-- The border-b used to be drawn straight through the index cards: pb-24
+             minus the grid's -mt-16 put the rule 64px below the card tops. Both
+             magic numbers are gone along with the border. -->
+        <div class="pt-8 sm:pt-12 pb-8">
             <PromoBanner user={data?.user} />
 
             <!--
@@ -89,7 +92,7 @@
                 <div class=" flex justify-center lg:mb-3">
                     <a href="/stocks/AMD/statistics/earnings"
                         ><div
-                            class="flex items-center justify-center sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                            class="flex items-center justify-center font-medium text-fg transition-colors hover:text-accent transition"
                         >
                             <div class="text-lg sm:text-xl font-semibold">
                                 Earnings Guidance
@@ -105,47 +108,34 @@
             </div>
             -->
 
-            <div class="mx-auto max-w-3xl text-center">
-                <h1
-                    class="mb-3 text-3xl font-semibold tracking-tight text-muted dark:text-white sm:mb-5 sm:text-4xl lg:mb-6 lg:text-[42px]"
-                >
+            <div class="mx-auto max-w-2xl text-center">
+                <h1 class="type-display mb-4 text-fg">
                     {home_hero_title()}
                 </h1>
-                <p
-                    class="text-sm text-muted dark:text-zinc-300 sm:text-base md:text-lg lg:text-xl lg:leading-8"
-                >
+                <p class="type-body text-fg-muted sm:text-base">
                     {home_hero_subtitle()}
                 </p>
             </div>
         </div>
 
-        <div>
-            <div class="mb-4 flex justify-center px-2 sm:px-4">
-                <div
-                    class="-mt-16 grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 w-full max-w-[400px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[1150px]"
+        <!-- Full width, so this row shares its left edge with everything below.
+             It used to be max-w-[1150px] against the content grid's 1200px,
+             which put the cards 5px right of the tables beneath them. -->
+        <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {#each Object.keys(plotData) as symbol}
+                <a
+                    href="/etf/{symbol}"
+                    class="block overflow-hidden rounded-container border border-line bg-surface-card transition-colors hover:border-line-strong"
                 >
-                    {#each Object.keys(plotData) as symbol}
-                        <a
-                            href="/etf/{symbol}"
-                            class="block shadow-sm rounded overflow-hidden hover:shadow-md transition-shadow bg-white dark:bg-[#121214] border border-gray-300 shadow dark:border-gray-700"
-                        >
-                            <MiniPlot plotData={plotData[symbol]} {symbol} />
-                        </a>
-                    {/each}
-                </div>
-            </div>
+                    <MiniPlot plotData={plotData[symbol]} {symbol} />
+                </a>
+            {/each}
         </div>
-        <div class="mb-8 pb-3 pt-6 md:pt-8 lg:pt-10">
-            <MarketMover
-                {gainersList}
-                {losersList}
-                {marketStatus}
-                {charNumber}
-            />
+        <!-- One section rhythm (48px) instead of six different gaps. -->
+        <div class="pt-12">
+            <MarketMover {gainersList} {losersList} {marketStatus} />
 
-            <div
-                class="mx-auto flex flex-col px-3 pt-6 xs:px-4 sm:px-5 md:pt-8 lg:grid lg:max-w-[1200px] lg:grid-cols-3 lg:justify-evenly lg:gap-8 lg:pt-10"
-            >
+            <div class="flex flex-col pt-12 lg:grid lg:grid-cols-3 lg:gap-8">
                 <MarketNews {wiim} />
 
                 <div class="flex flex-col space-y-6 pt-6 lg:space-y-8 lg:pt-0">

@@ -466,15 +466,15 @@
 </script>
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{common_home()}</a
       >
     </li>
@@ -482,7 +482,7 @@
       <li>
         <a
           href="/industry"
-          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="text-fg-muted hover:text-accent transition"
           >{list_breadcrumb_industry()}</a
         >
       </li>
@@ -490,14 +490,14 @@
       <li>
         <a
           href="/list/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="text-fg-muted hover:text-accent transition"
           >{list_breadcrumb_lists()}</a
         >
       </li>
     {/if}
     {#if $page.url.pathname.startsWith("/list/")}
       <li>
-        <span class="text-muted dark:text-zinc-300">
+        <span class="text-fg-muted">
           {combinedNavigation?.find((item) => item?.link === $page.url.pathname)
             ?.title}
         </span>
@@ -512,7 +512,7 @@
         {#each navigation as item}
           {#if item?.link === $page.url.pathname}
             <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
             >
               {item?.title}
             </h1>
@@ -520,7 +520,7 @@
         {/each}
       </div>
 
-      <div class="border-b border-gray-300 dark:border-zinc-700 w-full" />
+      <div class="border-b border-line w-full" />
       <div
         class="relative flex flex-col lg:flex-row justify-center items-start overflow-hidden w-full"
       >
@@ -543,7 +543,7 @@
                   </h2>
                 </div>
                 <span
-                  class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300"
+                  class="p-3 ml-3 mr-3 text-sm text-fg-muted"
                 >
                   {list_sidebar_pro_description()}
                 </span>
@@ -563,7 +563,7 @@
                   {list_sidebar_watchlist_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {list_sidebar_watchlist_description()}
               </span>
             </a>
@@ -581,7 +581,7 @@
                   {list_sidebar_screener_title()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {list_sidebar_screener_description()}
               </span>
             </a>

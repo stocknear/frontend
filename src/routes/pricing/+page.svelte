@@ -358,7 +358,7 @@
           rel="noopener noreferrer"
           target="_blank"
           href="https://www.trustpilot.com/review/stocknear.com"
-          class="underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="underline underline-offset-4 hover:text-accent transition"
         >
           {pricing_reviews()}
         </a>
@@ -1249,7 +1249,7 @@
         <p class="mt-2 text-sm">{pricing_plus_subtitle()}</p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           {#if mode && annualPromo && eligible}
-            <span class="text-xl text-muted dark:text-white line-through">
+            <span class="text-xl text-fg line-through">
               {formatPrice(PLAN_PRICING.Plus.annualPerMonth)}
             </span>
             <span class="text-4xl font-semibold">
@@ -1274,7 +1274,7 @@
         >
           {#if annualPromo && eligible}
             <span
-              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-fg flex justify-center items-center w-full m-auto"
             >
               {@html pricing_billed_annually_plus_promo({
                 originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Plus.annualTotal)}</span>`,
@@ -1285,7 +1285,7 @@
             </span>
           {:else}
             <span
-              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-fg flex justify-center items-center w-full m-auto"
               >{pricing_billed_annually_plus()}</span
             >
           {/if}
@@ -1855,19 +1855,19 @@
         </div>
       </div>
       <div
-        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-muted dark:text-white"
+        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-fg"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">
             {pricing_pro_title()}
           </h3>
         </div>
-        <p class="text-sm mt-2 text-muted dark:text-zinc-300">
+        <p class="text-sm mt-2 text-fg-muted">
           {pricing_pro_subtitle()}
         </p>
         <div class="mt-5 flex items-baseline justify-center gap-2">
           {#if mode && annualPromo && eligible}
-            <span class="text-xl text-muted dark:text-white line-through">
+            <span class="text-xl text-fg line-through">
               {formatPrice(PLAN_PRICING.Pro.annualPerMonth)}
             </span>
             <span class="text-4xl font-semibold">
@@ -1883,7 +1883,7 @@
             </span>
           {/if}
 
-          <span class="text-sm text-muted dark:text-white"
+          <span class="text-sm text-fg"
             >{pricing_per_month()}</span
           >
         </div>
@@ -1894,7 +1894,7 @@
         >
           {#if annualPromo && eligible}
             <span
-              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-fg flex justify-center items-center w-full m-auto"
             >
               {@html pricing_billed_annually_pro_promo({
                 originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Pro.annualTotal)}</span>`,
@@ -1905,7 +1905,7 @@
             </span>
           {:else}
             <span
-              class="text-muted dark:text-zinc-200 flex justify-center items-center w-full m-auto"
+              class="text-fg flex justify-center items-center w-full m-auto"
             >
               {pricing_billed_annually_pro()}</span
             >
@@ -1929,7 +1929,7 @@
             >
             <span class="mr-2">{pricing_feature_credits_1000()}</span>
           </li>
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1946,7 +1946,7 @@
             <span class="">{pricing_feature_everything_plus()}</span>
           </li>
 
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1963,7 +1963,7 @@
             <span class="">{pricing_feature_watchlist_pro()}</span>
           </li>
 
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1980,7 +1980,7 @@
             <span class="">{pricing_feature_portfolio_pro()}</span>
           </li>
 
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -1997,7 +1997,7 @@
             <span class="">{pricing_feature_analysts_unlimited()}</span>
           </li>
 
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2015,7 +2015,7 @@
             <span class="">{pricing_feature_options_realtime()}</span>
           </li>
 
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2032,7 +2032,7 @@
 
             <span class="">{pricing_feature_options_flow()}</span>
           </li>
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2049,7 +2049,7 @@
 
             <span class="">{pricing_feature_unusual_orders()}</span>
           </li>
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2066,7 +2066,7 @@
 
             <span class="">{pricing_feature_pro_chart_unlimited()}</span>
           </li>
-          <li class="flex items-start text-muted dark:text-zinc-200">
+          <li class="flex items-start text-fg">
             <svg
               class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
               fill="none"
@@ -2095,11 +2095,11 @@
         -->
 
         <div
-          class="mt-auto pt-6 border-t border-gray-300 dark:border-zinc-700 mx-2"
+          class="mt-auto pt-6 border-t border-line mx-2"
         >
           {#if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 font-semibold text-muted dark:text-white flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 font-semibold text-fg flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -2119,7 +2119,7 @@
           {:else if data?.user?.tier === "Plus"}
             <label
               for="upgradeProModal"
-              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-muted dark:text-white transition hover:text-violet-800 dark:hover:text-violet-400 flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-fg transition hover:text-accent flex items-center justify-center"
               >{pricing_upgrade_pro()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -2172,7 +2172,7 @@
               {pricing_lifetime_offer_title()}
             </h3>
             <p
-              class="mt-2 text-sm sm:text-[1rem] font-medium text-muted dark:text-zinc-300"
+              class="mt-2 text-sm sm:text-[1rem] font-medium text-fg-muted"
             >
               {pricing_lifetime_offer_subtitle()}
             </p>
@@ -2181,7 +2181,7 @@
           <div class="">
             <div class="flex items-end justify-center gap-2">
               
-              <span class="text-base text-muted dark:text-white line-through"
+              <span class="text-base text-fg line-through"
                 >$599</span
               >
               
@@ -2232,7 +2232,7 @@
               href="https://app.lemonsqueezy.com/my-orders"
               target="_blank"
               rel="noopener noreferrer"
-              class="underline underline-offset-2 font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+              class="underline underline-offset-2 font-medium text-fg-muted hover:text-accent transition"
               >{pricing_manage_subscription()}</a
             >
           </p>
@@ -2448,7 +2448,7 @@
                     class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
                   >
                     {@html pricing_faq_q7_answer({
-                      email: `<a href="mailto:${emailAddress}" class="text-muted dark:text-zinc-300 underline hover:text-violet-800 dark:hover:text-violet-400 transition">${emailAddress}</a>`,
+                      email: `<a href="mailto:${emailAddress}" class="text-fg-muted underline hover:text-accent transition">${emailAddress}</a>`,
                     })}
                   </p>
                 </div>
@@ -2489,11 +2489,11 @@
   <label for="upgradeProModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="flex flex-row items-center pt-5">
       <h4
-        class="mb-3 text-2xl font-semibold tracking-tight text-muted dark:text-white text-center m-auto"
+        class="mb-3 text-2xl font-semibold tracking-tight text-fg text-center m-auto"
       >
         {pricing_upgrade_modal_title()}
       </h4>
@@ -2516,7 +2516,7 @@
     <div
       class="flex flex-col justify-center items-center text-center px-4 pb-6"
     >
-      <p class="text-sm text-muted dark:text-zinc-300 mt-4">
+      <p class="text-sm text-fg-muted mt-4">
         {pricing_upgrade_modal_content()}
       </p>
 
@@ -2537,7 +2537,7 @@
         {pricing_upgrade_modal_button()}
       </a>
 
-      <p class="text-xs text-gray-500 dark:text-zinc-500 mt-4">
+      <p class="text-xs text-fg-subtle mt-4">
         {pricing_upgrade_modal_response_time()}
       </p>
     </div>

@@ -341,7 +341,7 @@
 />
 
 <section
-  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-muted dark:text-zinc-200"
+  class="overflow-hidden h-full min-h-screen mb-20 sm:mb-0 w-full mt-2 sm:mt-0 text-fg"
 >
   <div class="flex justify-center m-auto h-full overflow-hidden w-full">
     <div
@@ -350,7 +350,7 @@
       <div class="mt-5 sm:mt-0 sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
         <div class="flex flex-row items-center md:space-x-4 md:border-0">
           <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
           >
             {etf_detail_holdings_title({ ticker: $etfTicker })}
           </h1>
@@ -368,7 +368,7 @@
         </div>
 
         <div
-          class="mt-4 mb-4 grid grid-cols-2 grid-rows-1 divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-3 md:grid-rows-1 divide-x"
+          class="mt-4 mb-4 grid grid-cols-2 grid-rows-1 divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 md:grid-cols-3 md:grid-rows-1 divide-x"
         >
           <div class="p-4 bp:p-5 sm:p-6">
             <label
@@ -377,13 +377,13 @@
               {etf_detail_holdings_total()}
             </label>
             <div
-              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
             >
               {rawData?.length?.toLocaleString("en-US")}
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-b border-gray-300 dark:border-zinc-700"
+            class="p-4 bp:p-5 sm:p-6 border-b border-line"
           >
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
@@ -392,7 +392,7 @@
             </label>
 
             <div
-              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
             >
               {rawData
                 ?.slice(0, 10)
@@ -408,7 +408,7 @@
             </label>
 
             <div
-              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
             >
               {data?.getETFProfile?.at(0)?.assetClass}
             </div>
@@ -422,7 +422,7 @@
             </label>
 
             <div
-              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
             >
               {abbreviateNumber(data?.getETFProfile?.at(0)?.aum)}
             </div>
@@ -435,13 +435,13 @@
             </label>
 
             <div
-              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
             >
               {data?.getStockQuote?.pe?.toFixed(2) ?? etf_detail_na()}
             </div>
           </div>
           <div
-            class="p-4 bp:p-5 sm:p-6 border-t border-gray-300 dark:border-zinc-700"
+            class="p-4 bp:p-5 sm:p-6 border-t border-line"
           >
             <label
               class="mr-1 cursor-pointer flex flex-row items-center text-sm text-muted dark:text-zinc-400"
@@ -450,7 +450,7 @@
             </label>
 
             <div
-              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-muted dark:text-white"
+              class="mt-1 break-words font-semibold leading-8 text-lg sm:text-xl text-fg"
             >
               {data?.getETFProfile?.at(0)?.expenseRatio?.toFixed(4) + "%"}
             </div>
@@ -462,13 +462,13 @@
             <div class="grow mt-5">
               <div class="relative">
                 <h2
-                  class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
                 >
                   {etf_detail_holdings_sector_allocation()}
                 </h2>
 
                 <div
-                  class="sm:p-3 border border-gray-300 dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="sm:p-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}

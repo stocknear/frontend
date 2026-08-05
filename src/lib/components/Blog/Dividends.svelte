@@ -157,7 +157,7 @@
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
   >
     <tbody class="">
       {#each blogData as item}
@@ -204,7 +204,7 @@
   class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-2"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 dark:border-zinc-700 m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
   >
     <thead>
       <TableHeader {columns} {sortOrders} {sortData} />

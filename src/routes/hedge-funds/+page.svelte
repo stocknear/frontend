@@ -549,20 +549,20 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-6 text-fg"
 >
   <div class="w-full overflow-hidden m-auto">
     <BreadCrumb
-      containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+      containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
     >
       <li>
         <a
           href="/"
-          class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+          class="text-fg-muted hover:text-accent transition"
           >{hedge_funds_breadcrumb_home()}</a
         >
       </li>
-      <li class="text-muted dark:text-zinc-300">
+      <li class="text-fg-muted">
         {hedge_funds_breadcrumb_hedge_funds()}
       </li>
     </BreadCrumb>
@@ -573,9 +573,9 @@
           class="relative flex justify-center items-center overflow-hidden w-full"
         >
           <main class="w-full">
-            <div class="mb-6 border-b border-gray-300 dark:border-zinc-700">
+            <div class="mb-6 border-b border-line">
               <h1
-                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
               >
                 {hedge_funds_main_title()}
               </h1>
@@ -585,10 +585,10 @@
 
             <div class="items-center lg:overflow-visible px-1 py-1 mt-4">
               <div
-                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-gray-300 dark:border-zinc-700"
+                class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white py-1 border-b border-gray-300 dark:border-zinc-700 lg:border-none w-full"
+                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {hedge_funds_count_institutes({
                     count: totalItems?.toLocaleString("en-US"),
@@ -598,7 +598,7 @@
                   class="mt-1 w-full flex flex-row lg:flex order-1 items-center ml-auto pb-1 pt-1 sm:pt-0 w-full order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-[#f8fbfb] dark:bg-zinc-950/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -626,7 +626,7 @@
                       on:input={search}
                       type="text"
                       placeholder={hedge_funds_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-muted dark:text-zinc-200 placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
+                      class="py-2 text-[0.85rem] sm:text-sm border-0 bg-transparent text-fg placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0 grow w-full sm:min-w-56 lg:max-w-14 px-3 pr-8"
                     />
                   </div>
 
@@ -643,7 +643,7 @@
                     <button
                       on:click={resetColumnOrder}
                       title="Reset column order"
-                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-zinc-400 hover:text-violet-800 dark:hover:text-violet-400 transition-colors"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                     >
                       <svg
                         class="w-4 h-4"
@@ -676,7 +676,7 @@
                   ></div>
                 {/if}
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-muted dark:text-zinc-200 tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
                   aria-busy={isLoading}
                 >
                   <thead>
@@ -695,7 +695,7 @@
                       <tr>
                         <td
                           colspan={columns.length}
-                          class="py-6 text-center text-sm text-muted dark:text-zinc-300"
+                          class="py-6 text-center text-sm text-fg-muted"
                         >
                           {isLoading
                             ? hedge_funds_loading()
@@ -710,7 +710,7 @@
                           {#each columns as column}
                             {#if column.key === "rank"}
                               <td
-                                class="text-[0.85rem] sm:text-sm text-center text-muted dark:text-zinc-200 tabular-nums"
+                                class="text-[0.85rem] sm:text-sm text-center text-fg tabular-nums"
                               >
                                 {item?.rank}
                               </td>
@@ -720,19 +720,19 @@
                               >
                                 <a
                                   href={"/hedge-funds/" + item?.cik}
-                                  class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                  class="font-medium text-fg transition-colors hover:text-accent transition"
                                   >{formatString(item?.name)}
                                 </a>
                               </td>
                             {:else if column.key === "marketValue"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {abbreviateNumber(item?.marketValue)}
                               </td>
                             {:else if column.key === "numberOfStocks"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {new Intl.NumberFormat("en", {
                                   minimumFractionDigits: 0,
@@ -741,7 +741,7 @@
                               </td>
                             {:else if column.key === "turnover"}
                               <td
-                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-muted dark:text-zinc-300 tabular-nums"
+                                class="text-end text-[0.85rem] sm:text-sm whitespace-nowrap text-fg-muted tabular-nums"
                               >
                                 {item?.turnover?.toFixed(2)}
                               </td>
@@ -752,7 +752,7 @@
                                 {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                                   {#if item?.performancePercentage3Year >= 0}
                                     <span
-                                      class="text-emerald-800 dark:text-emerald-400"
+                                      class="text-up"
                                       >+{abbreviateNumber(
                                         item?.performancePercentage3Year?.toFixed(
                                           2,
@@ -761,7 +761,7 @@
                                     >
                                   {:else}
                                     <span
-                                      class="text-rose-800 dark:text-rose-400"
+                                      class="text-down"
                                       >{abbreviateNumber(
                                         item?.performancePercentage3Year?.toFixed(
                                           2,
@@ -791,14 +791,14 @@
                                 {#if ["Plus", "Pro"]?.includes(data?.user?.tier)}
                                   {#if item?.winRate >= 0}
                                     <span
-                                      class="text-emerald-800 dark:text-emerald-400"
+                                      class="text-up"
                                       >+{abbreviateNumber(
                                         item?.winRate?.toFixed(2),
                                       )}%</span
                                     >
                                   {:else}
                                     <span
-                                      class="text-rose-800 dark:text-rose-400"
+                                      class="text-down"
                                       >{abbreviateNumber(
                                         item?.winRate?.toFixed(2),
                                       )}%
@@ -838,7 +838,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1 || isLoading}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -861,7 +861,7 @@
 
                   <!-- Page info and rows selector in center -->
                   <div class="flex flex-row items-center gap-4">
-                    <span class="text-sm text-muted dark:text-zinc-300">
+                    <span class="text-sm text-fg-muted">
                       {hedge_funds_pagination_page_of({
                         current: currentPage,
                         total: totalPages,
@@ -872,7 +872,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{hedge_funds_rows_label({
@@ -900,13 +900,13 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
                             <DropdownMenu.Item
-                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                             >
                               <label
                                 on:click={() => changeRowsPerPage(item)}
@@ -930,7 +930,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages || isLoading}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{hedge_funds_pagination_next()}</span
@@ -956,7 +956,7 @@
                 <div class="flex justify-center mt-4">
                   <button
                     on:click={scrollToTop}
-                    class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                    class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
                   >
                     {hedge_funds_back_to_top()}
                     <svg

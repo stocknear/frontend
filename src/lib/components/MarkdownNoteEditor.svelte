@@ -446,7 +446,7 @@
 <div class="flex flex-col h-full max-h-[80vh]">
   <!-- Header -->
   <div
-    class="flex items-start justify-between pb-4 border-b border-gray-300 dark:border-zinc-700"
+    class="flex items-start justify-between pb-4 border-b border-line"
   >
     <div class="flex items-center gap-3">
       <div>
@@ -455,7 +455,7 @@
         </h3>
         <div class="flex items-center gap-2 mt-0.5">
           <span
-            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-800 text-muted dark:text-zinc-300"
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-raised text-fg-muted"
           >
             {symbol}
           </span>
@@ -466,7 +466,7 @@
       <!-- Preview/Edit Toggle -->
       <button
         on:click={togglePreview}
-        class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-2xl transition-colors bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-zinc-700"
+        class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-2xl transition-colors bg-surface-raised text-fg-muted hover:bg-gray-200 dark:hover:bg-zinc-700"
       >
         {#if isPreviewMode}
           <Pencil class="w-4 h-4" />
@@ -488,19 +488,19 @@
   <!-- Toolbar (only in edit mode) -->
   {#if !isPreviewMode}
     <div
-      class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-gray-300 dark:border-zinc-700 overflow-x-hidden"
+      class="flex flex-wrap items-center gap-1 py-2 px-1 border-b border-line overflow-x-hidden"
     >
       <div class="flex items-center gap-0.5">
         <button
           on:click={toggleBold}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Bold (Ctrl+B)"
         >
           <Bold class="w-4 h-4" />
         </button>
         <button
           on:click={toggleItalic}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Italic (Ctrl+I)"
         >
           <Italic class="w-4 h-4" />
@@ -512,21 +512,21 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={() => setHeading(1)}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Heading 1"
         >
           <Heading1 class="w-4 h-4" />
         </button>
         <button
           on:click={() => setHeading(2)}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Heading 2"
         >
           <Heading2 class="w-4 h-4" />
         </button>
         <button
           on:click={() => setHeading(3)}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Heading 3"
         >
           <Heading3 class="w-4 h-4" />
@@ -538,14 +538,14 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={toggleBulletList}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Bullet List"
         >
           <List class="w-4 h-4" />
         </button>
         <button
           on:click={toggleOrderedList}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Numbered List"
         >
           <ListOrdered class="w-4 h-4" />
@@ -557,21 +557,21 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={insertLink}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Insert Link (Ctrl+K)"
         >
           <Link class="w-4 h-4" />
         </button>
         <button
           on:click={toggleCode}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Inline Code (Ctrl+`)"
         >
           <Code class="w-4 h-4" />
         </button>
         <button
           on:click={toggleBlockquote}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Blockquote"
         >
           <Quote class="w-4 h-4" />
@@ -581,14 +581,14 @@
       <div class="flex items-center gap-0.5 ml-auto">
         <button
           on:click={execUndo}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Undo (Ctrl+Z)"
         >
           <Undo2 class="w-4 h-4" />
         </button>
         <button
           on:click={execRedo}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-zinc-400 transition-colors"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Redo (Ctrl+Y)"
         >
           <Redo2 class="w-4 h-4" />
@@ -609,7 +609,7 @@
         {#if previewHtml}
           {@html previewHtml}
         {:else}
-          <p class="text-muted dark:text-white italic">No content yet...</p>
+          <p class="text-fg italic">No content yet...</p>
         {/if}
       </div>
     {:else}
@@ -620,11 +620,11 @@
 
   <!-- Footer -->
   <div
-    class="flex items-center justify-end gap-3 pt-4 border-t border-gray-300 dark:border-zinc-700"
+    class="flex items-center justify-end gap-3 pt-4 border-t border-line"
   >
     <button
       on:click={onCancel}
-      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl border border-gray-300 dark:border-zinc-700 text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl border border-line text-fg-muted hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
     >
       Cancel
     </button>

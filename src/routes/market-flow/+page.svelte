@@ -368,13 +368,13 @@
 />
 
 <section
-  class="w-full overflow-hidden min-h-screen text-muted dark:text-zinc-200"
+  class="w-full overflow-hidden min-h-screen text-fg"
 >
   <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs mb-4">
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{market_flow_breadcrumb_home()}</a
       >
     </li>
@@ -391,16 +391,16 @@
         <main class="w-full">
           <div class="w-full m-auto">
             <p
-              class="mb-5 text-sm sm:text-base leading-6 text-muted dark:text-zinc-300"
+              class="mb-5 text-sm sm:text-base leading-6 text-fg-muted"
             >
               {market_flow_overview_intro()}
-              <strong class="font-semibold text-muted dark:text-white"
+              <strong class="font-semibold text-fg"
                 >S&P500</strong
               >. {market_flow_overview_as_of()}
-              <strong class="font-semibold text-muted dark:text-white"
+              <strong class="font-semibold text-fg"
                 >{marketFlowDate}</strong
               >, {market_flow_overview_total_volume()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {(overview?.putVol + overview?.callVol)?.toLocaleString(
                     "en-US",
@@ -408,7 +408,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -425,7 +425,7 @@
                 {/if}
               </strong>
               {market_flow_overview_contracts()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {overview?.avg30Vol && overview?.avg30Vol > 0
                     ? (
@@ -437,7 +437,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -454,13 +454,13 @@
                 {/if}
               </strong>
               {market_flow_overview_of_average()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {overview?.avg30Vol?.toLocaleString("en-US") || "n/a"}
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -478,13 +478,13 @@
               </strong>
               {market_flow_overview_contracts_period()}
               {market_flow_overview_volume_pc_ratio()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {overview?.pcVol?.toFixed(2) || "n/a"}
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -500,7 +500,7 @@
                   </a>
                 {/if}
               </strong>. {market_flow_overview_net_call_premium()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {abbreviateNumber(
                     findLastNonNull(marketTideData, "net_call_premium"),
@@ -508,7 +508,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -525,7 +525,7 @@
                 {/if}
               </strong>
               {market_flow_overview_net_put_premium()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {abbreviateNumber(
                     findLastNonNull(marketTideData, "net_put_premium"),
@@ -533,7 +533,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -549,7 +549,7 @@
                   </a>
                 {/if}
               </strong>, {market_flow_overview_indicating()}
-              <strong class="font-semibold text-muted dark:text-white">
+              <strong class="font-semibold text-fg">
                 {#if isPro}
                   {(() => {
                     const netCallPremium = findLastNonNull(
@@ -586,7 +586,7 @@
                 {:else}
                   <a
                     href="/pricing"
-                    class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                    class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                   >
                     {market_flow_upgrade()}
                     <svg
@@ -610,14 +610,14 @@
                 class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
                 >
                   <span>{market_flow_card_net_volume()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isPro}
                     <span
-                      class="text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+                      class="text-lg sm:text-xl font-semibold text-fg tabular-nums"
                     >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_volume"),
@@ -626,7 +626,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-fg hover:text-accent transition"
                     >
                       <svg
                         class="size-5"
@@ -650,14 +650,14 @@
                 class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
                 >
                   <span>{market_flow_card_net_call_prem()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isPro}
                     <span
-                      class="text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+                      class="text-lg sm:text-xl font-semibold text-fg tabular-nums"
                     >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_call_premium"),
@@ -666,7 +666,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-fg hover:text-accent transition"
                     >
                       <svg
                         class="size-5"
@@ -690,14 +690,14 @@
                 class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
                 >
                   <span>{market_flow_card_net_put_prem()}</span>
                 </div>
                 <div class="flex items-baseline">
                   {#if isPro}
                     <span
-                      class="text-lg sm:text-xl font-semibold text-muted dark:text-white tabular-nums"
+                      class="text-lg sm:text-xl font-semibold text-fg tabular-nums"
                     >
                       {abbreviateNumber(
                         findLastNonNull(marketTideData, "net_put_premium"),
@@ -706,7 +706,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-fg hover:text-accent transition"
                     >
                       <svg
                         class="size-5"
@@ -730,7 +730,7 @@
                 class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
               >
                 <div
-                  class="text-xs tracking-wide text-muted dark:text-zinc-300 mb-2 flex items-center"
+                  class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
                 >
                   <span>{market_flow_card_most_active_sector()}</span>
                 </div>
@@ -741,7 +741,7 @@
                         (listItem) =>
                           listItem?.title === sectorFlow?.at(0)?.sector,
                       )?.link}
-                      class="text-lg sm:text-xl font-semibold sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                      class="text-lg sm:text-xl font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                     >
                       {sectorFlow?.length > 0
                         ? sectorFlow?.at(0)?.sector
@@ -750,7 +750,7 @@
                   {:else}
                     <a
                       href="/pricing"
-                      class="mt-1 inline-flex items-center text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="mt-1 inline-flex items-center text-fg hover:text-accent transition"
                     >
                       <svg
                         class="size-5"
@@ -774,7 +774,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div class="lg:col-span-2">
                 <h2
-                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-fg"
                 >
                   {market_flow_section_sp500_flow()}
                 </h2>
@@ -784,11 +784,11 @@
                   </div>
                 {:else}
                   <div
-                    class="rounded-2xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 h-[360px] flex flex-col items-center justify-center"
+                    class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 h-[360px] flex flex-col items-center justify-center"
                   >
                     <a
                       href="/pricing"
-                      class="flex flex-col items-center gap-3 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="flex flex-col items-center gap-3 text-fg hover:text-accent transition"
                     >
                       <svg
                         class="size-10"
@@ -811,11 +811,11 @@
               <div class="">
                 <div class="flex items-center justify-between mb-2">
                   <h2
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
+                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg"
                   >
                     {market_flow_section_fear_greed()}
                   </h2>
-                  <span class="text-xs italic text-muted dark:text-zinc-300">
+                  <span class="text-xs italic text-fg-muted">
                     {market_flow_last_update()}
                     {new Date(
                       data?.getFearAndGreed?.current?.date,
@@ -837,7 +837,7 @@
 
               <div class="">
                 <h2
-                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
+                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-fg"
                 >
                   {market_flow_section_sector_flow()}
                 </h2>
@@ -847,11 +847,11 @@
                   </div>
                 {:else}
                   <div
-                    class="rounded-2xl h-[300px] border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center"
+                    class="rounded-2xl h-[300px] border border-line bg-white/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center"
                   >
                     <a
                       href="/pricing"
-                      class="flex flex-col items-center gap-3 text-muted dark:text-white hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="flex flex-col items-center gap-3 text-fg hover:text-accent transition"
                     >
                       <svg
                         class="size-10"
@@ -878,14 +878,14 @@
                   class="flex flex-col flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-fit"
+                    class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
                   >
                     {market_flow_section_open_interest()}
                   </h2>
                   <div class="flex items-center gap-2 mb-6">
                     <label
                       for="marketFlowBarsModal"
-                      class="order-0 sm:order-1 cursor-pointer text-md font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                      class="order-0 sm:order-1 cursor-pointer text-md font-semibold text-fg hover:text-accent transition"
                     >
                       <LineChart class="size-6 inline-block " />
                       {market_flow_view_intraday_bars()}
@@ -915,7 +915,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_todays_oi()}</span>
                           <InfoModal
@@ -926,7 +926,7 @@
                           />
                         </div>
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {(
@@ -935,7 +935,7 @@
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -954,7 +954,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_call_ratio()}</span>
                           <InfoModal
@@ -966,14 +966,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {overview?.pcOI?.toFixed(2)}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -992,7 +992,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_oi()}</span>
                           <InfoModal
@@ -1004,14 +1004,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {overview?.putOI?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1030,7 +1030,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_call_oi()}</span>
                           <InfoModal
@@ -1042,14 +1042,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {overview?.callOI?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1073,7 +1073,7 @@
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-muted dark:text-white w-fit"
+                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
                   >
                     {market_flow_section_volume()}
                   </h2>
@@ -1089,7 +1089,7 @@
                     >
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_todays_volume()}</span>
                           <InfoModal
@@ -1100,7 +1100,7 @@
                           />
                         </div>
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {(
@@ -1109,7 +1109,7 @@
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1128,7 +1128,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_call_ratio()}</span>
                           <InfoModal
@@ -1140,14 +1140,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {overview?.pcVol?.toFixed(2)}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1166,7 +1166,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_put_volume()}</span>
                           <InfoModal
@@ -1178,14 +1178,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {overview?.putVol?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1204,7 +1204,7 @@
 
                       <div class="flex flex-col">
                         <div
-                          class="text-xs sm:text-sm tracking-wide text-muted dark:text-zinc-300 flex items-center gap-x-2"
+                          class="text-xs sm:text-sm tracking-wide text-fg-muted flex items-center gap-x-2"
                         >
                           <span>{market_flow_stat_call_volume()}</span>
                           <InfoModal
@@ -1216,14 +1216,14 @@
                         </div>
 
                         <span
-                          class="font-semibold text-sm sm:text-base text-muted dark:text-zinc-200 tabular-nums"
+                          class="font-semibold text-sm sm:text-base text-fg tabular-nums"
                         >
                           {#if isPro}
                             {overview?.callVol?.toLocaleString("en-US")}
                           {:else}
                             <a
                               href="/pricing"
-                              class="inline-flex items-center gap-1 font-semibold text-muted dark:text-zinc-200 hover:text-violet-800 dark:hover:text-violet-400 transition"
+                              class="inline-flex items-center gap-1 font-semibold text-fg hover:text-accent transition"
                             >
                               <svg
                                 class="w-4 h-4 mb-1 inline-block"
@@ -1256,20 +1256,20 @@
   <label for="marketFlowBarsModal" class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box w-full max-w-5xl relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-5xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <div class="flex items-start justify-between gap-4 mb-4">
       <div>
-        <h3 class="text-lg sm:text-xl font-semibold text-muted dark:text-white">
+        <h3 class="text-lg sm:text-xl font-semibold text-fg">
           {market_flow_modal_title()}
         </h3>
-        <p class="text-xs sm:text-sm text-muted dark:text-zinc-300">
+        <p class="text-xs sm:text-sm text-fg-muted">
           {market_flow_modal_description()}
         </p>
       </div>
       <label
         for="marketFlowBarsModal"
-        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+        class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
         aria-label="Close modal"
       >
         <svg

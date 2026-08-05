@@ -25,7 +25,7 @@
         <Card.Title>
           <a
             href="/unusual-order-flow/"
-            class="text-xl sm:text-2xl text-muted dark:text-white font-semibold cursor-pointer sm:hover:underline sm:hover:underline-offset-4"
+            class="text-xl sm:text-2xl text-fg font-semibold cursor-pointer sm:hover:underline sm:hover:underline-offset-4"
           >
             {dashboard_dark_pool_title()}
             <svg
@@ -71,10 +71,10 @@
         <Table.Body>
           {#each darkPoolList as item}
             <Table.Row>
-              <Table.Cell class="text-sm text-muted dark:text-zinc-300">
+              <Table.Cell class="text-sm text-fg-muted">
                 <a
                   href={`/${item?.assetType === "Stock" ? "stocks" : "etf"}/${item?.ticker}`}
-                  class="text-violet-800 dark:text-violet-400 dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
+                  class="text-accent dark:sm:hover:text-white sm:hover:text-muted cursor-pointer"
                   >{item?.ticker}</a
                 >
               </Table.Cell>

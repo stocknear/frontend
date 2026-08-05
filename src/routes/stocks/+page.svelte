@@ -89,16 +89,16 @@
   class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
   <BreadCrumb
-    containerClass="text-xs sm:text-sm breadcrumbs text-muted dark:text-zinc-300"
+    containerClass="text-xs sm:text-sm breadcrumbs text-fg-muted"
   >
     <li>
       <a
         href="/"
-        class="text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition"
+        class="text-fg-muted hover:text-accent transition"
         >{stocks_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-zinc-300">
+    <li class="text-fg-muted">
       {stocks_breadcrumb_current()}
     </li>
   </BreadCrumb>
@@ -113,7 +113,7 @@
             <h1 class="mb-1 e text-2xl sm:text-3xl font-bold">
               {stocks_title()}
             </h1>
-            <p class="mb-3 px-1 text-sm text-muted dark:text-zinc-300 sm:px-0">
+            <p class="mb-3 px-1 text-sm text-fg-muted sm:px-0">
               {stocks_description({
                 count: rawData?.length?.toLocaleString("en-US"),
               })}

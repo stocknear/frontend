@@ -750,7 +750,7 @@
 />
 
 <section
-  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-muted dark:text-zinc-200"
+  class="w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-6 px-4 lg:px-3 text-fg"
 >
   <BreadCrumb
     items={[
@@ -765,19 +765,19 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
-          <div class="mb-4 border-b border-gray-300 dark:border-zinc-700">
+          <div class="mb-4 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
             >
               {notifications_main_title()}
             </h1>
           </div>
 
           <div
-            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-muted dark:text-zinc-200 sm:py-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
+            class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-fg sm:py-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-lg sm:text-xl font-semibold tracking-tight text-muted dark:text-white"
+              class="text-start w-full mb-2 sm:mb-0 text-lg sm:text-xl font-semibold tracking-tight text-fg"
             >
               {notifications_alerts_count({
                 count: totalItems?.toLocaleString(
@@ -786,13 +786,13 @@
               })}
             </h2>
             <div
-              class="flex items-center ml-auto border-t border-b border-gray-300 dark:border-zinc-700 sm:border-none py-1 sm:py-0 w-full"
+              class="flex items-center ml-auto border-t border-b border-line sm:border-none py-1 sm:py-0 w-full"
             >
               <div
                 class="flex items-center ml-auto pt-1 pb-1 sm:pt-0 sm:pb-0 w-fit"
               >
                 <Button
-                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   on:click={markAllAsRead}
                   disabled={markAllDisabled}
                   aria-disabled={markAllDisabled}
@@ -812,7 +812,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+                      class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >{notifications_settings()}</span
@@ -838,10 +838,10 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Label
-                      class="text-xs font-semibold uppercase tracking-wide text-muted dark:text-zinc-300"
+                      class="text-xs font-semibold uppercase tracking-wide text-fg-muted"
                     >
                       {notifications_customize()}
                     </DropdownMenu.Label>
@@ -850,7 +850,7 @@
                       {#if channelOptions.length > 0}
                         {#each channelOptions as option (option.key)}
                           <DropdownMenu.Item
-                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                            class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <label
                               class="inline-flex justify-between w-full items-center cursor-pointer"
@@ -881,7 +881,7 @@
                         {/each}
                       {:else}
                         <DropdownMenu.Item
-                          class="text-sm text-muted dark:text-white"
+                          class="text-sm text-fg"
                         >
                           {notifications_no_channels()}
                         </DropdownMenu.Item>
@@ -894,7 +894,7 @@
                 <div class="flex items-center ml-2 w-fit">
                   <label
                     for="deleteNotifications"
-                    class="cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+                    class="cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     on:click={() => {
                       deleteError = null;
                     }}
@@ -942,7 +942,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-fg-muted"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -950,7 +950,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 {getPriceAlertNotificationTitle(item?.liveResults)}
                                 <HoverStockChart
@@ -959,7 +959,7 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 {getPriceAlertNotificationMessage(
                                   item?.liveResults,
@@ -968,7 +968,7 @@
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-muted dark:text-zinc-300"
+                            class="text-xs mt-1 text-fg-muted"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -996,7 +996,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-fg-muted"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -1004,7 +1004,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_breaking_news()}</span
@@ -1015,14 +1015,14 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 {notifications_type_wiim_new_data()}
                               </div>
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-muted dark:text-zinc-300"
+                            class="text-xs mt-1 text-fg-muted"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1049,7 +1049,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-fg-muted"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -1057,7 +1057,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_top_analyst_new()}</span
@@ -1069,7 +1069,7 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 {notifications_type_top_analyst_rating({
                                   analyst: item?.liveResults?.analyst,
@@ -1082,7 +1082,7 @@
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-muted dark:text-zinc-300"
+                            class="text-xs mt-1 text-fg-muted"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1109,7 +1109,7 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-fg-muted"
                       >
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -1117,7 +1117,7 @@
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_earnings_release()}</span
@@ -1128,14 +1128,14 @@
                                 />
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 {notifications_type_earnings_surprise_new()}
                               </div>
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-muted dark:text-zinc-300"
+                            class="text-xs mt-1 text-fg-muted"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1163,13 +1163,13 @@
                       </a>
 
                       <div
-                        class="text-sm sm:text-[0.95rem] text-muted dark:text-zinc-300"
+                        class="text-sm sm:text-[0.95rem] text-fg-muted"
                       >
                         <div class="flex flex-col items-start">
                           <div>
                             <div class="flex flex-col items-start">
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 <span class="font-semibold"
                                   >{notifications_type_followed_analyst_new()}</span
@@ -1177,12 +1177,12 @@
                                 <a
                                   href={"/analysts/" +
                                     item?.liveResults?.analystId}
-                                  class="text-violet-800 dark:text-violet-400 sm:hover:text-muted dark:sm:hover:text-white transition"
+                                  class="text-accent sm:hover:text-muted dark:sm:hover:text-white transition"
                                   >{item?.liveResults?.analystName}</a
                                 >
                               </div>
                               <div
-                                class="text-sm sm:text-[0.95rem] mt-0.5 text-muted dark:text-zinc-300"
+                                class="text-sm sm:text-[0.95rem] mt-0.5 text-fg-muted"
                               >
                                 {notifications_type_followed_analyst_rating({
                                   symbol: item?.liveResults?.symbol,
@@ -1195,7 +1195,7 @@
                             </div>
                           </div>
                           <span
-                            class="text-xs mt-1 text-muted dark:text-zinc-300"
+                            class="text-xs mt-1 text-fg-muted"
                             >{formatDate(item?.created)}
                           </span>
                         </div>
@@ -1213,7 +1213,7 @@
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1235,7 +1235,7 @@
               </div>
 
               <div class="flex flex-row items-center gap-4">
-                <span class="text-sm text-muted dark:text-zinc-300">
+                <span class="text-sm text-fg-muted">
                   {notifications_pagination_page_of({
                     current: currentPage,
                     total: totalPages,
@@ -1246,7 +1246,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+                      class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >{notifications_pagination_rows({
@@ -1274,12 +1274,12 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
                         <DropdownMenu.Item
-                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                          class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                         >
                           <label
                             on:click={() => changeRowsPerPage(item)}
@@ -1302,7 +1302,7 @@
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline"
                     >{notifications_pagination_next()}</span
@@ -1327,7 +1327,7 @@
             <div class="flex justify-center mt-4 w-full">
               <button
                 on:click={scrollToTop}
-                class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+                class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
               >
                 {notifications_back_to_top()}
                 <svg
@@ -1365,7 +1365,7 @@
                   {notifications_sidebar_watchlist()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {notifications_sidebar_watchlist_description()}
               </span>
             </a>
@@ -1383,7 +1383,7 @@
                   {notifications_sidebar_portfolio()}
                 </h2>
               </div>
-              <span class="p-3 ml-3 mr-3 text-sm text-muted dark:text-zinc-300">
+              <span class="p-3 ml-3 mr-3 text-sm text-fg-muted">
                 {notifications_sidebar_portfolio_description()}
               </span>
             </a>
@@ -1401,11 +1401,11 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-white dark:bg-zinc-900 text-muted dark:text-white border border-gray-300 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
   >
     <label
       for="deleteNotifications"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-muted dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition"
+      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
       aria-label="Close modal"
     >
       <svg
@@ -1432,7 +1432,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteNotifications"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-muted dark:text-white hover:bg-white dark:hover:bg-zinc-900"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-fg hover:bg-white dark:hover:bg-zinc-900"
         tabindex="0"
         on:click={() => {
           deleteError = null;

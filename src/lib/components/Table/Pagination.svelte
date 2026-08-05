@@ -43,7 +43,7 @@
       <a
         href={pageHref(currentPage - 1)}
         rel="prev"
-        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
       >
         <svg
           class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -64,7 +64,7 @@
       <Button
         on:click={() => goToPage(currentPage - 1)}
         disabled={currentPage === 1}
-        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
       >
       <svg
         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -86,7 +86,7 @@
 
   <!-- Page info and rows selector in center -->
   <div class="flex flex-row items-center gap-4">
-    <span class="text-sm text-muted dark:text-zinc-300">
+    <span class="text-sm text-fg-muted">
       {list_pagination_page_of({
         current: currentPage,
         total: totalPages,
@@ -98,7 +98,7 @@
       <DropdownMenu.Trigger asChild let:builder>
         <Button
           builders={[builder]}
-          class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+          class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
         >
           <span class="truncate text-[0.85rem] sm:text-sm"
             >{list_rows_label({ rows: rowsPerPage })}</span
@@ -124,13 +124,13 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
       >
         <!-- Dropdown items -->
         <DropdownMenu.Group class="pb-2">
           {#each rowsPerPageOptions as item}
             <DropdownMenu.Item
-              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+              class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
             >
               <label
                 on:click={() => changeRowsPerPage(item)}
@@ -152,7 +152,7 @@
       <a
         href={pageHref(currentPage + 1)}
         rel="next"
-        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
       >
         <span class="hidden sm:inline">{list_pagination_next()}</span>
         <svg
@@ -173,7 +173,7 @@
       <Button
         on:click={() => goToPage(currentPage + 1)}
         disabled={currentPage === totalPages}
-        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+        class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
       >
       <span class="hidden sm:inline">{list_pagination_next()}</span>
       <svg
@@ -199,7 +199,7 @@
   <div class="flex justify-center mt-4">
     <button
       on:click={scrollToTop}
-      class="cursor-pointer text-sm font-medium text-muted dark:text-zinc-300 transition hover:text-violet-800 dark:hover:text-violet-400"
+      class="cursor-pointer text-sm font-medium text-fg-muted transition hover:text-accent"
     >
       {list_back_to_top()}
       <svg

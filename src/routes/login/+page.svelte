@@ -116,11 +116,11 @@
       <div>
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
         >
           {login_title()}
         </h1>
-        <p class="text-center text-sm text-muted dark:text-white mt-2 mb-8">
+        <p class="text-center text-sm text-fg mt-2 mb-8">
           {login_subtitle()}
         </p>
 
@@ -130,7 +130,7 @@
         </div>
 
         <!-- Divider -->
-        <div class="divider text-muted dark:text-zinc-300 py-4">
+        <div class="divider text-fg-muted py-4">
           <span class="text-[11px] uppercase tracking-[0.3em] z-10">
             {login_divider()}
           </span>
@@ -159,7 +159,7 @@
           <div class="w-full text-start">
             <a
               href="/reset-password"
-              class="text-sm text-muted dark:text-white hover:text-gray-900 dark:hover:text-white transition"
+              class="text-sm text-fg hover:text-gray-900 dark:hover:text-white transition"
               >{login_forgot_password()}</a
             >
           </div>
@@ -188,7 +188,7 @@
         </form>
 
         <!-- Sign up link -->
-        <p class="text-sm text-center text-muted dark:text-white mt-6">
+        <p class="text-sm text-center text-fg mt-6">
           {login_no_account()}
           <a
             href="/register"
@@ -201,11 +201,11 @@
       <!-- Already logged in -->
       <div class="text-center">
         <h1
-          class="text-2xl sm:text-3xl font-semibold tracking-tight text-muted dark:text-white"
+          class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
         >
           {login_title_logged_in()}
         </h1>
-        <p class="mt-3 text-sm text-muted dark:text-white">
+        <p class="mt-3 text-sm text-fg">
           {login_logged_in_as({ email: data?.user?.email })}
         </p>
         <form class="cursor-pointer" action="/logout" method="POST">
@@ -228,10 +228,10 @@
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm"
   >
     <div
-      class="bg-white/90 dark:bg-zinc-900/80 border border-gray-300 dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
+      class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
     >
       <span
-        class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+        class="loading loading-spinner loading-md text-fg"
       ></span>
     </div>
   </div>

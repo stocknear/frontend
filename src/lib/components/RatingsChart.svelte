@@ -341,7 +341,7 @@
                 on:click={() => (timePeriod = item)}
                 class="px-2 py-0.5 sm:py-1 text-xs {timePeriod === item
                   ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                  : 'text-gray-600 dark:text-zinc-400 bg-white/90 dark:bg-zinc-900/90 border border-gray-300/70 dark:border-zinc-700/70'} transition-colors rounded-full cursor-pointer"
+                  : 'text-fg-muted bg-white/90 dark:bg-zinc-900/90 border border-gray-300/70 dark:border-zinc-700/70'} transition-colors rounded-full cursor-pointer"
               >
                 {item}
               </label>
@@ -351,7 +351,7 @@
                 class="px-2 py-0.5 sm:py-1 text-xs flex items-center {timePeriod ===
                 item
                   ? 'bg-white text-gray-500'
-                  : 'text-muted dark:text-white bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-300/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-violet-800 dark:hover:text-violet-400"
+                  : 'text-fg bg-gray-100/90 dark:bg-zinc-800/90'} border border-gray-300/70 dark:border-zinc-700/70 transition-colors rounded-full cursor-pointer hover:text-accent"
               >
                 {item}
                 <svg
@@ -377,7 +377,7 @@
         <div
           class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300/70 dark:border-zinc-700/80 p-4 sm:p-6 text-center"
         >
-          <div class="text-gray-500 dark:text-zinc-500 text-sm sm:text-base">
+          <div class="text-fg-subtle text-sm sm:text-base">
             No chart data available for {symbol}
           </div>
         </div>
@@ -390,7 +390,7 @@
           class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
-            class="loading loading-spinner loading-md text-muted dark:text-zinc-200"
+            class="loading loading-spinner loading-md text-fg"
           ></span>
         </label>
       </div>

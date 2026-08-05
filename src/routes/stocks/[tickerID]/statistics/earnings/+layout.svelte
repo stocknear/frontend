@@ -66,7 +66,7 @@
                         : ''}"
                 >
                     <nav
-                        class="mb-5 sm:mb-0 sm:ml-4 sm:pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-gray-300 dark:border-zinc-700"
+                        class="mb-5 sm:mb-0 sm:ml-4 sm:pt-2 text-sm whitespace-nowrap overflow-x-auto border-b border-line"
                     >
                         <ul
                             class="flex flex-row items-center w-full gap-1 pb-2 text-sm sm:text-base"
@@ -76,8 +76,8 @@
                                 on:click={() => changeSubSection("surprise")}
                                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                                 'surprise'
-                                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                             >
                                 {stock_detail_stats_surprise()}
                             </a>
@@ -88,8 +88,8 @@
                                     changeSubSection("price-reaction")}
                                 class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full border text-sm font-medium transition {displaySubSection ===
                                 'price-reaction'
-                                    ? 'border-gray-300 dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-violet-800 dark:text-violet-400'
-                                    : 'border-transparent text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
+                                    ? 'border-line bg-gray-100/70 dark:bg-zinc-900/60 text-accent'
+                                    : 'border-transparent text-fg-muted hover:text-accent hover:border-gray-300 dark:hover:border-zinc-800/80 hover:bg-gray-100/60 dark:hover:bg-zinc-900/50'}"
                             >
                                 {stock_detail_stats_price_reaction()}
                             </a>
@@ -153,17 +153,17 @@
                                     {stock_detail_stats_related_stocks()}
                                 </h3>
                                 <table
-                                    class="table table-sm table-compact w-full text-sm text-muted dark:text-zinc-200 tabular-nums"
+                                    class="table table-sm table-compact w-full text-sm text-fg tabular-nums"
                                 >
                                     <thead
-                                        class="text-xs uppercase tracking-wide text-muted dark:text-white"
+                                        class="text-xs uppercase tracking-wide text-fg"
                                         ><tr
                                             ><th
-                                                class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white font-semibold text-left px-2"
+                                                class="whitespace-nowrap border-b border-line text-xs uppercase tracking-wide text-fg font-semibold text-left px-2"
                                                 >{stock_detail_company()}</th
                                             >
                                             <th
-                                                class="whitespace-nowrap border-b border-gray-300 dark:border-zinc-700 text-xs uppercase tracking-wide text-muted dark:text-white font-semibold text-right px-2"
+                                                class="whitespace-nowrap border-b border-line text-xs uppercase tracking-wide text-fg font-semibold text-right px-2"
                                                 >EPS Est Growth YoY</th
                                             ></tr
                                         ></thead
@@ -172,7 +172,7 @@
                                         {#each similarStocks?.slice(0, 8) as item, index}
                                             {#if item?.name}
                                                 <tr
-                                                    class="border-gray-300 dark:border-zinc-700 text-sm {index !==
+                                                    class="border-line text-sm {index !==
                                                     similarStocks?.slice(0, 8)
                                                         ?.length -
                                                         1
@@ -182,7 +182,7 @@
                                                         class="text-left text-sm px-2"
                                                         ><a
                                                             href={`/stocks/${item?.symbol}/statistics/short-interest`}
-                                                            class="sm:hover:text-muted dark:sm:hover:text-white text-violet-800 dark:text-violet-400 transition"
+                                                            class="font-medium text-fg transition-colors hover:text-accent transition"
                                                             >{removeCompanyStrings(
                                                                 item?.name,
                                                             )}</a
@@ -191,10 +191,10 @@
                                                     <td
                                                         class="text-right cursor-normal text-sm px-2 {item?.earningsEPSGrowthEst >
                                                         0
-                                                            ? "before:content-['+'] text-emerald-800 dark:text-emerald-400"
+                                                            ? "before:content-['+'] text-up"
                                                             : item?.earningsEPSGrowthEst <
                                                                 0
-                                                              ? 'text-rose-800 dark:text-rose-400'
+                                                              ? 'text-down'
                                                               : ''}"
                                                         >{item?.earningsEPSGrowthEst
                                                             ? item?.earningsEPSGrowthEst?.toFixed(

@@ -107,14 +107,14 @@
   <DropdownMenu.Trigger asChild let:builder>
     <Button
       builders={[builder]}
-      class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+      class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
       <span class="text-[0.85rem] sm:text-sm"
         >{stock_detail_financials_indicators()}</span
       >
       {#if totalSelected > 0}
         <div
-          class="ml-1.5 flex items-center justify-center h-4 min-w-[16px] px-1 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 dark:border-zinc-700/80 text-muted dark:text-zinc-200 rounded-full text-xs font-semibold"
+          class="ml-1.5 flex items-center justify-center h-4 min-w-[16px] px-1 bg-gray-200/70 dark:bg-zinc-800/80 border border-line/80 text-fg rounded-full text-xs font-semibold"
         >
           {totalSelected}
         </div>
@@ -140,11 +140,11 @@
     align="end"
     sideOffset={10}
     alignOffset={0}
-    class="w-72 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+    class="w-72 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
   >
     <!-- Sticky search input -->
     <div
-      class="sticky -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-gray-300 dark:border-zinc-700"
+      class="sticky -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-line"
     >
       <div class="relative w-full">
         <input
@@ -152,7 +152,7 @@
           bind:this={searchInputEl}
           on:keydown|stopPropagation
           autocomplete="off"
-          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-muted dark:text-zinc-200 pr-8"
+          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
           type="text"
           placeholder={stock_detail_financials_search_indicators()}
         />
@@ -164,7 +164,7 @@
             class="absolute right-2 top-1/2 transform -translate-y-1/2"
           >
             <svg
-              class="h-5 w-5 text-muted dark:text-white cursor-pointer"
+              class="h-5 w-5 text-fg cursor-pointer"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -184,7 +184,7 @@
     <!-- Presets section -->
     {#if filteredPresets.length > 0}
       <div
-        class="text-[10px] uppercase tracking-wider font-semibold text-muted dark:text-white px-2 pt-3 pb-1"
+        class="text-[10px] uppercase tracking-wider font-semibold text-fg px-2 pt-3 pb-1"
       >
         {stock_detail_financials_presets()}
       </div>
@@ -210,7 +210,7 @@
     <!-- Grouped indicators -->
     {#each filteredGroups as group}
       <div
-        class="text-[10px] uppercase tracking-wider font-semibold text-muted dark:text-white px-2 pt-3 pb-1"
+        class="text-[10px] uppercase tracking-wider font-semibold text-fg px-2 pt-3 pb-1"
       >
         {group.label}
       </div>
@@ -234,21 +234,21 @@
     {/each}
 
     {#if filteredGroups.length === 0 && filteredPresets.length === 0}
-      <div class="px-2 py-3 text-xs text-muted dark:text-white text-center">
+      <div class="px-2 py-3 text-xs text-fg text-center">
         {stock_detail_financials_no_indicators_found()}
       </div>
     {/if}
 
     <!-- Sticky footer -->
     <div
-      class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-gray-300 dark:border-zinc-700 w-full flex justify-between items-center"
+      class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-line w-full flex justify-between items-center"
     >
       <label
         on:click={() => {
           searchQuery = "";
           onReset();
         }}
-        class="w-full hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        class="w-full hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_reset_selection()}
       </label>
@@ -257,7 +257,7 @@
           searchQuery = "";
           onSelectAll();
         }}
-        class="w-full flex justify-end hover:text-violet-800 dark:hover:text-violet-400 text-muted dark:text-zinc-300 bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        class="w-full flex justify-end hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_select_all()}
       </label>
