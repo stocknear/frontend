@@ -42,5 +42,7 @@
   "common_language_switch": "Changer de langue",
   "common_language_keep_english": "Rester en anglais",
   "common_language_close": "Fermer la suggestion de langue",
-  "common_close": "Fermer"
+  "common_close": "Fermer",
+  "common_reset": "Réinitialiser",
+  "common_reset_title": "Réinitialiser les filtres, le tri et les colonnes"
 }

@@ -114,6 +114,7 @@
     layout_price_alert,
     layout_potus_tracker,
     layout_reddit_tracker,
+    layout_etf_reverse_lookup,
     layout_screener,
     layout_start_trial,
     layout_stock_lists,
@@ -1331,6 +1332,22 @@
                           </Button>
                         </div>
                       </Sheet.Close>
+
+                      <Sheet.Close asChild let:builder>
+                        <div class="flex flex-col items-start">
+                          <Button
+                            builders={[builder]}
+                            type="submit"
+                            class="w-full  cursor-pointer bg-transparent dark:bg-[#131214]"
+                          >
+                            <a
+                              href={localHref("/etf-reverse-lookup")}
+                              class="text-start w-full text-[0.95rem] text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_etf_reverse_lookup()}</a
+                            >
+                          </Button>
+                        </div>
+                      </Sheet.Close>
                     </Accordion.Content>
                   </Accordion.Item>
                 </Accordion.Root>
@@ -1994,6 +2011,11 @@
                               href={localHref("/reddit-tracker")}
                               class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
                               >{layout_reddit_tracker()}</a
+                            >
+                            <a
+                              href={localHref("/etf-reverse-lookup")}
+                              class="text-[0.95rem] font-medium text-muted dark:text-zinc-300 hover:text-violet-800 dark:hover:text-violet-400 transition ml-4 mt-4"
+                              >{layout_etf_reverse_lookup()}</a
                             >
                           </div>
                         </Accordion.Content>

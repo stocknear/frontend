@@ -7,7 +7,6 @@
   "common_sponsor_us": "Unterstütze uns",
   "common_learn_more_sponsor": "Erfahre mehr darüber, warum wir das tun",
   "common_let_me_know": "Lass mich wissen, wenn du etwas brauchst",
-
   "common_download": "Download",
   "common_download_csv": "Als CSV herunterladen",
   "common_download_excel": "Als Excel herunterladen",
@@ -15,7 +14,6 @@
   "common_credits_left": "{count} Credits übrig",
   "common_credits_cost": "({count} Credits)",
   "common_credit_cost_total": "= Credit-Kosten {count}",
-
   "common_toast_download_preparing": "Download konnte nicht vorbereitet werden",
   "common_toast_download_abusive": "Missbrauch erkannt. Bitte lies unsere Nutzungsbedingungen für weitere Informationen.",
   "common_toast_download_no_data": "Keine Daten zum Herunterladen verfügbar",
@@ -25,7 +23,6 @@
   "common_toast_select_bulk": "Wähle mindestens ein {type} zum Herunterladen",
   "common_toast_add_tickers": "Füge zuerst Aktien zu deiner Watchlist hinzu",
   "common_toast_not_enough_credits": "Nicht genügend Credits",
-
   "common_period_1_day": "1 Tag",
   "common_period_5_days": "5 Tage",
   "common_period_1_month": "1 Monat",
@@ -35,7 +32,6 @@
   "common_period_1_year": "1 Jahr",
   "common_period_5_years": "5 Jahre",
   "common_period_max": "Max",
-
   "common_tab_general": "Übersicht",
   "common_tab_performance": "Performance",
   "common_tab_financials": "Finanzen",
@@ -46,5 +42,7 @@
   "common_language_switch": "Sprache wechseln",
   "common_language_keep_english": "Englisch beibehalten",
   "common_language_close": "Sprachvorschlag schließen",
-  "common_close": "Schließen"
+  "common_close": "Schließen",
+  "common_reset": "Zurücksetzen",
+  "common_reset_title": "Filter, Sortierung und Spalten zurücksetzen"
 }

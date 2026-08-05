@@ -26,6 +26,7 @@ const pages = [
   // Analysis and research tools
   { path: "/stocks/compare", priority: 0.8, changefreq: "weekly" },
   { path: "/etf/compare", priority: 0.8, changefreq: "weekly" },
+  { path: "/etf-reverse-lookup", priority: 0.8, changefreq: "daily" },
 
   // Financial calendars
   { path: "/earnings-calendar", priority: 0.85, changefreq: "daily" },

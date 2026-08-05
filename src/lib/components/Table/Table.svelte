@@ -42,6 +42,8 @@
     common_tab_financials,
     common_tab_analysts,
     common_tab_dividends,
+    common_reset,
+    common_reset_title,
     common_tab_indicators,
   } from "$lib/paraglide/messages.js";
 
@@ -230,6 +232,87 @@
   }
 
   export let hideLastRow = false;
+  /**
+   * Opt-in "at least" dropdowns rendered left of Download, e.g.
+   * [{ key: "weightPercentage", label: "% Weight",
+   *    options: [{label: "Any", value: 0}, {label: "Over 1%", value: 1}] }].
+   * Empty by default, so no existing caller gains a control.
+   */
+  export let quickFilters: {
+    key: string;
+    label: string;
+    options: { label: string; value: number }[];
+  }[] = [];
+  let quickFilterValues: Record<string, number> = {};
+  // The rows the text search last produced, so a quick filter composes with it
+  // instead of replacing it.
+  let lastSearchOutput: any[] | null = null;
+
+  $: hasQuickFilter = Object.values(quickFilterValues ?? {})?.some(
+    (value) => Number(value) > 0,
+  );
+
+  function applyQuickFilters(rows) {
+    const active = Object.entries(quickFilterValues ?? {})?.filter(
+      ([, value]) => Number(value) > 0,
+    );
+    if (!active?.length) return rows ?? [];
+    return (
+      rows?.filter((row) =>
+        active?.every(([key, min]) => Number(row?.[key]) > Number(min)),
+      ) ?? []
+    );
+  }
+
+  // Does what the tooltip says: filters, sorting and column order. Resetting
+  // fewer things than the label claims is worse than not offering the button.
+  function resetQuickFilters() {
+    quickFilterValues = {};
+    lastSearchOutput = null;
+    inputValue = "";
+    rawData = sortByInitialOrder(originalData);
+    originalData = [...rawData];
+    sortOrders = generateSortOrders(rawData);
+    currentPage = 1;
+    if (customColumnOrder?.length > 0) resetColumnOrder();
+    updatePaginatedData();
+  }
+
+  function activeQuickFilterLabel(quickFilter, values) {
+    const current = Number(values?.[quickFilter?.key] ?? 0);
+    if (!(current > 0)) return quickFilter?.label;
+    // Show the choice itself, so the active constraint is readable without
+    // opening the menu.
+    return (
+      quickFilter?.options?.find((option) => Number(option?.value) === current)?.label ??
+      quickFilter?.label
+    );
+  }
+
+  function setQuickFilter(key: string, value: number) {
+    quickFilterValues = { ...quickFilterValues, [key]: value };
+    rawData = applyQuickFilters(lastSearchOutput ?? originalData);
+    currentPage = 1;
+    updatePaginatedData();
+  }
+
+  // Opt-in chrome. Both default on, so existing callers are unaffected; a page
+  // whose rows are not stocks can switch off the stock-metric tabs and picker.
+  export let showTabs = true;
+  export let showIndicators = true;
+  // Opt-in row expansion. Off by default; when on, a leading chevron column
+  // toggles the `rowDetail` slot for one row at a time.
+  export let expandable = false;
+  export let expandLabel: ((item: any) => string) | null = null;
+  let expandedRowSymbol = "";
+
+  function toggleExpandedRow(symbol: string) {
+    // A falsy symbol would match every symbol-less row and expand them all at
+    // once, each mounting its own detail panel.
+    if (!symbol) return;
+    // One open row at a time: the detail panel may fetch its own data.
+    expandedRowSymbol = expandedRowSymbol === symbol ? "" : symbol;
+  }
   export let editMode = false;
   export let deleteTickerList = [];
   export let onToggleDeleteTicker = null;
@@ -1913,7 +1996,8 @@
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
     // Use rawData for filtered results, originalData is the unfiltered full dataset
-    const dataSource = inputValue?.length > 0 ? rawData : originalData;
+    const dataSource =
+      inputValue?.length > 0 || hasQuickFilter ? rawData : originalData;
     stockList = dataSource?.slice(startIndex, endIndex) || [];
     totalPages = Math.ceil((dataSource?.length || 0) / rowsPerPage);
   }
@@ -2246,7 +2330,8 @@
         await loadSearchWorker();
       } else {
         // Reset to original data if filter is empty
-        rawData = originalData;
+        lastSearchOutput = null;
+        rawData = applyQuickFilters(originalData);
         currentPage = 1; // Reset to first page
         updatePaginatedData();
       }
@@ -2255,7 +2340,8 @@
 
   const handleSearchMessage = (event) => {
     if (event.data?.message === "success") {
-      rawData = event.data?.output ?? [];
+      lastSearchOutput = event.data?.output ?? [];
+      rawData = applyQuickFilters(lastSearchOutput);
       currentPage = 1; // Reset to first page after search
       updatePaginatedData();
     }
@@ -2805,7 +2891,8 @@
     };
 
     // Get the data to sort and sort it
-    const dataToSort = inputValue?.length > 0 ? rawData : originalData;
+    const dataToSort =
+      inputValue?.length > 0 || hasQuickFilter ? rawData : originalData;
     const sortedData = [...dataToSort].sort(compareValues);
 
     // Update the appropriate data source based on whether we're filtering or not
@@ -2885,8 +2972,89 @@
       />
     </div>
 
-    <!-- Row 2 on mobile: Download + Reset + Indicators -->
+    <!-- Row 2 on mobile: Filters + Download + Reset + Indicators -->
     <div class="flex items-center justify-end w-full sm:w-fit sm:ml-2 gap-2">
+      {#each quickFilters as quickFilter (quickFilter?.key)}
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button
+              builders={[builder]}
+              class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+            >
+              <span
+                class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0 {Number(
+                  quickFilterValues?.[quickFilter?.key] ?? 0,
+                ) > 0
+                  ? 'text-violet-800 dark:text-violet-400 font-semibold'
+                  : ''}"
+              >
+                {activeQuickFilterLabel(quickFilter, quickFilterValues)}
+              </span>
+              <svg
+                class="ml-0.5 mt-1 h-5 w-5 inline-block shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                style="max-width:40px"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={10}
+            class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-muted dark:text-zinc-200 shadow-none"
+          >
+            <DropdownMenu.Group>
+              {#each quickFilter?.options ?? [] as option}
+                <DropdownMenu.Item
+                  on:click={() => setQuickFilter(quickFilter?.key, option?.value)}
+                  class="cursor-pointer sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-violet-800 dark:sm:hover:text-violet-400 transition"
+                >
+                  <span
+                    class="text-sm {(quickFilterValues?.[quickFilter?.key] ?? 0) ===
+                    option?.value
+                      ? 'text-violet-800 dark:text-violet-400 font-semibold'
+                      : ''}"
+                  >
+                    {option?.label}
+                  </span>
+                </DropdownMenu.Item>
+              {/each}
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      {/each}
+
+      {#if hasQuickFilter}
+        <Button
+          on:click={resetQuickFilters}
+          title={common_reset_title()}
+          class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-muted dark:text-white bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center gap-x-1 px-2 sm:px-3 py-2 rounded-full truncate"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="h-3.5 w-3.5 shrink-0"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H4.598a.75.75 0 0 0-.75.75v3.634a.75.75 0 0 0 1.5 0v-2.033l.312.311a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.06-7.846a.75.75 0 0 0-1.5 0v2.033l-.312-.312a7 7 0 0 0-11.712 3.139.75.75 0 0 0 1.449.389 5.5 5.5 0 0 1 9.201-2.466l.312.311H11.38a.75.75 0 0 0 0 1.5h3.634a.75.75 0 0 0 .75-.75V3.578Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-[0.85rem] sm:text-sm">{common_reset()}</span>
+        </Button>
+      {/if}
+
       <DownloadData
         {data}
         rawData={exportViewData}
@@ -2894,6 +3062,7 @@
         {bulkDownload}
       />
 
+      {#if showIndicators}
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild let:builder>
           <Button
@@ -3060,6 +3229,7 @@
           </div>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
+      {/if}
       {#if customColumnOrder?.length > 0}
         <button
           on:click={resetColumnOrder}
@@ -3086,6 +3256,7 @@
 </div>
 
 <!-- Navigation Tabs -->
+{#if showTabs}
 <nav class="w-full flex flex-row items-center mt-3">
   <ul
     class="flex flex-row overflow-x-auto items-center space-x-2 whitespace-nowrap"
@@ -3112,6 +3283,7 @@
     {/each}
   </ul>
 </nav>
+{/if}
 
 {#if stockList?.length > 0}
   <div
@@ -3126,6 +3298,7 @@
           {sortOrders}
           {sortData}
           onColumnReorder={handleColumnReorder}
+          leadingLabel={expandable ? "" : null}
         />
       </thead>
       <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
@@ -3139,6 +3312,33 @@
               ? 'opacity-[0.1]'
               : ''}"
           >
+            {#if expandable}
+              <td class="text-start w-8">
+                <button
+                  type="button"
+                  aria-label={expandLabel?.(item) || undefined}
+                  aria-expanded={!!item?.symbol && expandedRowSymbol === item?.symbol}
+                  on:click={() => toggleExpandedRow(item?.symbol)}
+                  class="cursor-pointer p-1"
+                >
+                  <svg
+                    class="h-4 w-4 transition-transform text-muted dark:text-zinc-300 {expandedRowSymbol ===
+                    item?.symbol
+                      ? 'rotate-180'
+                      : ''}"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </td>
+            {/if}
             {#each columns as column}
               <td
                 class="text-[0.85rem] sm:text-sm text-muted dark:text-zinc-200 whitespace-nowrap"
@@ -3268,6 +3468,10 @@
                     day: "numeric",
                     year: "numeric",
                   })}
+                {:else if column?.type === "dollarInt"}
+                  {@html item[column.key] == null
+                    ? "-"
+                    : abbreviateNumber(item[column.key], true, true)}
                 {:else if column?.type === "int"}
                   {@html ["marketCap", "totalAssets"]?.includes(column.key) &&
                   item[column.key] === 0
@@ -3367,6 +3571,14 @@
               </td>
             {/each}
           </tr>
+
+          {#if expandable && item?.symbol && expandedRowSymbol === item?.symbol}
+            <tr class="bg-[#f8fbfb] dark:bg-zinc-950/60">
+              <td colspan={(columns?.length ?? 0) + 1} class="px-0">
+                <slot name="rowDetail" {item} />
+              </td>
+            </tr>
+          {/if}
         {/each}
       </tbody>
     </table>

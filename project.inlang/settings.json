@@ -29,6 +29,7 @@
       "./messages/{locale}/earnings.json",
       "./messages/{locale}/economic.json",
       "./messages/{locale}/etf.json",
+      "./messages/{locale}/etf-reverse-lookup.json",
       "./messages/{locale}/feedback.json",
       "./messages/{locale}/faq.json",
       "./messages/{locale}/footer.json",

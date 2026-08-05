@@ -7,7 +7,6 @@
   "common_sponsor_us": "Sponsor Us",
   "common_learn_more_sponsor": "Learn more about why we're doing this here",
   "common_let_me_know": "Let me know if you need something",
-
   "common_download": "Download",
   "common_download_csv": "Download to CSV",
   "common_download_excel": "Download to Excel",
@@ -15,7 +14,6 @@
   "common_credits_left": "{count} Credits left",
   "common_credits_cost": "({count} Credits)",
   "common_credit_cost_total": "= Credit Cost {count}",
-
   "common_toast_download_preparing": "Unable to prepare download",
   "common_toast_download_abusive": "Abusive usage detected. Please read our Terms of Service to understand more.",
   "common_toast_download_no_data": "No data available to download",
@@ -25,7 +23,6 @@
   "common_toast_select_bulk": "Select at least one {type} to download",
   "common_toast_add_tickers": "Add tickers first to your watchlist",
   "common_toast_not_enough_credits": "Not enough credits",
-
   "common_period_1_day": "1 Day",
   "common_period_5_days": "5 Days",
   "common_period_1_month": "1 Month",
@@ -35,7 +32,6 @@
   "common_period_1_year": "1 Year",
   "common_period_5_years": "5 Years",
   "common_period_max": "Max",
-
   "common_tab_general": "General",
   "common_tab_performance": "Performance",
   "common_tab_financials": "Financials",
@@ -46,5 +42,7 @@
   "common_language_switch": "Switch language",
   "common_language_keep_english": "Keep English",
   "common_language_close": "Close language suggestion",
-  "common_close": "Close"
+  "common_close": "Close",
+  "common_reset": "Reset",
+  "common_reset_title": "Reset filters, sorting and columns to defaults"
 }

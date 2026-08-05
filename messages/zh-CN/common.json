@@ -7,7 +7,6 @@
   "common_sponsor_us": "支持我们",
   "common_learn_more_sponsor": "点击这里了解我们为什么在做这件事",
   "common_let_me_know": "有任何需求请告诉我们",
-
   "common_download": "下载",
   "common_download_csv": "下载为 CSV",
   "common_download_excel": "下载为 Excel",
@@ -15,7 +14,6 @@
   "common_credits_left": "剩余 {count} 点积分",
   "common_credits_cost": "（{count} 点积分）",
   "common_credit_cost_total": "= 积分消耗 {count}",
-
   "common_toast_download_preparing": "无法准备下载",
   "common_toast_download_abusive": "检测到滥用行为，请阅读我们的服务条款了解更多。",
   "common_toast_download_no_data": "没有可下载的数据",
@@ -25,7 +23,6 @@
   "common_toast_select_bulk": "至少选择一个{type}进行下载",
   "common_toast_add_tickers": "请先将股票代码添加到自选列表",
   "common_toast_not_enough_credits": "积分不足",
-
   "common_period_1_day": "1 日",
   "common_period_5_days": "5 日",
   "common_period_1_month": "1 个月",
@@ -35,7 +32,6 @@
   "common_period_1_year": "1 年",
   "common_period_5_years": "5 年",
   "common_period_max": "全部",
-
   "common_tab_general": "总览",
   "common_tab_performance": "表现",
   "common_tab_financials": "财务",
@@ -46,5 +42,7 @@
   "common_language_switch": "切换语言",
   "common_language_keep_english": "继续使用英语",
   "common_language_close": "关闭语言建议",
-  "common_close": "关闭"
+  "common_close": "关闭",
+  "common_reset": "重置",
+  "common_reset_title": "将筛选、排序和列恢复为默认"
 }

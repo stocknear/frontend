@@ -12,6 +12,10 @@
   // When set, the extra column renders immediately AFTER the column with this
   // key (and moves with it on reorder) instead of at the very end.
   export let trailingAfterKey: string | null = null;
+  // Optional non-interactive leading column header, rendered before the first
+  // sortable column (e.g. a row-expand chevron). Null by default so existing
+  // tables are unaffected.
+  export let leadingLabel: string | null = null;
 
   // Drag and drop state
   let draggedIndex: number | null = null;
@@ -172,6 +176,13 @@
 <tr
   class="relative bg-white/60 dark:bg-zinc-950/40 border-b border-gray-300 dark:border-zinc-700 text-muted dark:text-white z-20"
 >
+  {#if leadingLabel !== null}
+    <th
+      class="select-none font-semibold text-[0.7rem] sm:text-xs uppercase tracking-wide whitespace-nowrap text-start w-8"
+    >
+      {leadingLabel}
+    </th>
+  {/if}
   {#each columns as column, index}
     <th
       draggable={onColumnReorder ? "true" : "false"}
