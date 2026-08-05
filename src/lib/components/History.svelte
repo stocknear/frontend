@@ -251,7 +251,8 @@
     const fillColorEnd = "rgb(70, 129, 244,0.001)";
     const options = {
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 360,
         events: {
@@ -548,9 +549,9 @@
         <main class="w-full">
           <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
             {#if config}
-              <h1 class="text-xl sm:text-2xl font-bold mb-3">
+              <h2 class="type-h2 text-fg mb-3">
                 {stock_detail_history_title({ ticker })}
-              </h1>
+              </h2>
               <div class="relative">
                 <div
                   class="hidden sm:flex justify-start space-x-2 w-full ml-2 absolute top-3.5 z-10"
@@ -560,7 +561,7 @@
                       on:click={() => (plotPeriod = item)}
                       class="px-3 py-1 rounded-full text-xs font-medium border transition ease-out duration-100 cursor-pointer {plotPeriod ===
                       item
-                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-gray-900/80 dark:border-white'
+                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 border-line/80 dark:border-white'
                         : 'bg-white/70 dark:bg-zinc-950/50 text-fg-muted border-line hover:text-violet-800 dark:hover:text-violet-300 hover:border-gray-300/70 dark:hover:border-zinc-700/80'}"
                     >
                       {item}
@@ -569,7 +570,7 @@
                 </div>
               </div>
               <div
-                class="border border-line rounded-2xl w-full"
+                class="border border-line rounded-container w-full"
                 use:highcharts={config}
               ></div>
             {/if}
@@ -578,7 +579,7 @@
               <div
                 class="mt-5 border-t border-b pt-2 pb-2 border-line flex flex-row items-center w-full sm:justify-between md:space-x-4 w-full mb-3"
               >
-                <h2 class="text-xl sm:text-2xl font-bold">
+                <h2 class="type-h2 text-fg">
                   {stock_detail_history_historical_data()}
                 </h2>
                 <div class="flex flex-row items-center ml-auto w-fit">
@@ -587,7 +588,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate px-1"
                             >{getTimePeriodLabel(timePeriod)}</span
@@ -612,10 +613,10 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-56 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
+                        class="w-auto min-w-56 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 p-2"
                       >
                         <DropdownMenu.Label
-                          class="text-muted dark:text-gray-400 font-normal"
+                          class="text-muted dark:text-fg-subtle font-normal"
                         >
                           {stock_detail_history_select_timeframe()}
                         </DropdownMenu.Label>
@@ -681,10 +682,10 @@
 
               <div class="w-full m-auto">
                 <div
-                  class="w-full m-auto rounded-none sm:rounded mb-4 overflow-x-auto"
+                  class="w-full m-auto rounded-none sm:rounded-control mb-4 overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+                    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
                   >
                     <thead>
                       <TableHeader {columns} {sortOrders} {sortData} />

@@ -133,7 +133,7 @@
               disabled
               class="w-full rounded-full py-2.5 px-4 font-semibold text-[1rem]
            bg-gray-900 text-white dark:bg-white dark:text-gray-900
-           opacity-60 cursor-not-allowed border border-gray-900/10 dark:border-white/10
+           opacity-60 cursor-not-allowed border border-line/10 dark:border-white/10
            flex items-center justify-center gap-1.5"
             >
               <span class="loading loading-infinity"></span>

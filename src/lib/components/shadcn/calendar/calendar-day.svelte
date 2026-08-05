@@ -23,13 +23,13 @@
 		// Today
 		"[&[data-today]:not([data-selected])]:ring-1 [&[data-today]:not([data-selected])]:ring-gray-300/70 dark:[&[data-today]:not([data-selected])]:ring-zinc-700/80",
 		// Selected
-		"data-selected:bg-gray-200/80 data-selected:text-gray-900 data-selected:hover:bg-gray-200/80 data-selected:focus:bg-gray-200/80 data-selected:font-semibold data-selected:opacity-100 dark:data-selected:bg-zinc-800/80 dark:data-selected:text-white dark:data-selected:hover:bg-zinc-800/80 dark:data-selected:focus:bg-zinc-800/80",
+		"data-selected:bg-gray-200/80 data-selected:text-gray-900 data-selected:hover:bg-gray-200/80 data-selected:focus:bg-gray-200/80 data-selected:font-semibold data-selected:opacity-100 dark:data-selected:bg-zinc-800/80 dark:data-selected:text-fg dark:data-selected:hover:bg-zinc-800/80 dark:data-selected:focus:bg-zinc-800/80",
 		// Disabled
-		"data-disabled:text-gray-400/70 dark:data-disabled:text-zinc-500/70 data-disabled:opacity-50",
+		"data-disabled:text-fg-subtle/70 dark:data-disabled:text-zinc-500/70 data-disabled:opacity-50",
 		// Unavailable
 		"data-unavailable:text-rose-500/70 data-unavailable:line-through",
 		// Outside months
-		"data-outside-month:text-gray-400/60 dark:data-outside-month:text-zinc-600/60 data-outside-month:pointer-events-none data-outside-month:opacity-40",
+		"data-outside-month:text-fg-subtle/60 dark:data-outside-month:text-zinc-600/60 data-outside-month:pointer-events-none data-outside-month:opacity-40",
 		className
 	)}
 	{...$$restProps}

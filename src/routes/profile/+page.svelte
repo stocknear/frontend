@@ -384,17 +384,17 @@
         <main class="w-full lg:w-3/4 lg:mr-auto">
           <div class="mb-6 border-b border-line pb-2">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-1 type-h1 text-fg"
             >
               {profile_page_title()}
             </h1>
           </div>
 
           <div
-            class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
+              class="type-h2 text-fg mb-3"
             >
               {profile_user_info_title()}
             </h2>
@@ -418,10 +418,10 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 pb-4"
+            class="mt-6 rounded-container border border-line bg-surface-card p-4 pb-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
+              class="type-h2 text-fg mb-3"
             >
               {profile_discord_title()}
             </h2>
@@ -433,7 +433,7 @@
               {#if data?.getDiscordAccount}
                 {#if data?.user?.discord?.access}
                   <button
-                    class="flex flex-row items-center w-fit border border-line bg-white/90 dark:bg-zinc-950/70 text-fg text-sm px-4 py-2 rounded-full mt-5"
+                    class="flex flex-row items-center w-fit border border-line bg-surface-card text-fg text-sm px-4 py-2 rounded-full mt-5"
                   >
                     {profile_discord_access_granted()}
                   </button>
@@ -462,10 +462,10 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 pb-6"
+            class="mt-6 rounded-container border border-line bg-surface-card p-4 pb-6"
           >
             <h3
-              class="text-xl font-semibold tracking-tight text-fg mb-2"
+              class="type-h2 text-fg tracking-tight text-fg mb-2"
             >
               {profile_push_title()}
             </h3>
@@ -482,7 +482,7 @@
                   <div class="mt-3">
                     {#if !loading}
                       <button
-                        class="border border-line w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-fg text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
+                        class="border border-line w-fit px-5 py-2 bg-surface-card text-fg text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                         type="button"
                         on:click={handlePushUnsubscribe}
                         >{profile_push_disable()}</button
@@ -534,7 +534,7 @@
                   </p>
                   {#if !loading}
                     <button
-                      class="border border-line w-fit px-5 py-2 bg-white/90 dark:bg-zinc-950/70 text-fg text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
+                      class="border border-line w-fit px-5 py-2 bg-surface-card text-fg text-sm font-semibold rounded-full hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 transition"
                       type="button"
                       on:click={handlePushSubscribe}
                       >{profile_push_enable()}</button
@@ -572,10 +572,10 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
+              class="type-h2 text-fg mb-3"
             >
               {profile_subscription_title()}
             </h2>
@@ -592,7 +592,7 @@
                       'Active' ||
                     subscriptionData?.status_formatted === 'Paid' ||
                     subscriptionData?.status_formatted === 'On Trial'
-                      ? 'bg-[#00FC50]'
+                      ? 'bg-up'
                       : 'bg-[#FF3131]'} opacity-75"
                   ></span>
                   <span
@@ -601,7 +601,7 @@
                     subscriptionData?.status_formatted === 'Active' ||
                     subscriptionData?.status_formatted === 'Paid' ||
                     subscriptionData?.status_formatted === 'On Trial'
-                      ? 'bg-[#00FC50]'
+                      ? 'bg-up'
                       : 'bg-[#FF3131]'}"
                   ></span>
                 </span>
@@ -703,21 +703,21 @@
                 >
                   <label
                     for="cancelSubscriptionModal"
-                    class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                    class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded-control"
                   >
                     Cancel Subscription
                   </label>
                   {#if subscriptionData?.product_name === "Plus Subscription (Monthly)"}
                     <label
                       for="changeSubscriptionPlusAnnualModal"
-                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-line-strong dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-line-strong dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded-control"
                     >
                       Upgrade to Plus (Annual Plan)
                     </label>
                   {:else if subscriptionData?.product_name === "Plus Subscription (Annually)" || subscriptionData?.product_name === "Pro Subscription (Monthly)"}
                     <label
                       for="changeSubscriptionProAnnualModal"
-                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-line-strong dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                      class="mt-3 sm:mt-0 sm:ml-3 cursor-pointer border border-gray-300 dark:border-line-strong dark:bg-default transition-all text-white bg-default sm:hover:bg-primary dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded-control"
                     >
                       Upgrade to Pro (Annual Plan)
                     </label>
@@ -729,7 +729,7 @@
                 >
                   <label
                     for="cancelSubscriptionModal"
-                    class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded"
+                    class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded-control"
                   >
                     Cancel Subscription
                   </label>
@@ -737,7 +737,7 @@
               {:else if subscriptionData?.status_formatted === "Cancelled"}
                 <label
                   for="reactivateSubscriptionModal"
-                  class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded mt-5"
+                  class="cursor-pointer border border-gray-300 dark:border-line-strong transition-all text-white bg-default sm:hover:bg-primary dark:bg-default dark:sm:hover:bg-primary text-sm sm:text-[1rem] px-4 py-2 rounded-control mt-5"
                 >
                   Reactivate Subscription
                 </label>
@@ -758,10 +758,10 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
+              class="type-h2 text-fg mb-3"
             >
               {profile_help_title()}
             </h2>
@@ -804,10 +804,10 @@
           </div>
 
           <div
-            class="mt-6 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 xs:p-4"
+            class="mt-6 rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
             <h2
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
+              class="type-h2 text-fg mb-3"
             >
               Sign Out
             </h2>
@@ -861,7 +861,7 @@
     method="POST"
     action="?/cancelSubscription"
     use:enhance={submitCancellation}
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="cancelSubscriptionModal"
@@ -934,7 +934,7 @@
     method="POST"
     action="?/reactivateSubscription"
     use:enhance={submitReactivate}
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="reactivateSubscriptionModal"
@@ -1013,7 +1013,7 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="changeSubscriptionPlusAnnualModal"
@@ -1090,7 +1090,7 @@
     method="POST"
     action="?/changeSubscription"
     use:enhance={submitChangePlan}
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="changeSubscriptionProAnnualModal"
@@ -1154,7 +1154,7 @@
   <label for="installModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="installModal"

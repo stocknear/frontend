@@ -21,7 +21,7 @@
     : 'hidden'}"
 >
   <div
-    class="sm:rounded shadow-lg bg-[#000] sm:bg-default sm:border sm:border-gray-600 h-auto {$screenWidth <
+    class="sm:rounded-control shadow-lg bg-[#000] sm:bg-default sm:border sm:border-line h-auto {$screenWidth <
     640
       ? 'w-screen pt-16'
       : ''} md:w-[420px] xl:w-[450px]"
@@ -55,7 +55,7 @@
               {#each similarTicker as item, index}
                 <tr
                   on:click={() => etfSelector(item?.symbol)}
-                  class="shake-ticker sm:hover:text-white text-blue-400 cursor-pointer sm:hover:bg-[#245073]/10 bg-[#000] sm:bg-default border-b border-[#000] sm:border-[#27272A]"
+                  class="shake-ticker sm:hover:text-white text-blue-400 cursor-pointer sm:hover:bg-[#245073]/10 bg-[#000] sm:bg-default border-b border-[#000] sm:border-line"
                 >
                   {#if index <= 6}
                     <td class="">
@@ -102,7 +102,7 @@
         </div>
       {:else}
         <h2
-          class=" mt-20 justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto"
+          class=" mt-20 justify-center items-center text-3xl font-bold text-fg-muted mb-20 m-auto"
         >
           No data available
           <svg
@@ -176,7 +176,7 @@
                 class="shake-ticker text-white cursor-pointer border-b border-[#000]"
               >
                 {#if index <= 6}
-                  <td class="text-gray-200 whitespace-nowrap">
+                  <td class="text-fg-muted whitespace-nowrap">
                     <div class="flex flex-row items-center">
                       <div
                         class="rounded-full w-10 h-10 relative flex items-center justify-center"
@@ -221,7 +221,7 @@
       </div>
     {:else}
       <h2
-        class="mt-20 flex justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto"
+        class="mt-20 flex justify-center items-center text-3xl font-bold text-fg-muted mb-20 m-auto"
       >
         No data available
         <svg

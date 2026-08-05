@@ -92,11 +92,11 @@
             class="flex flex-col space-y-5 xs:space-y-6 md:space-y-8 w-full max-w-96"
           >
             <div class="flex items-start justify-between">
-              <h1
-                class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              <h2
+                class="type-h1 text-fg"
               >
                 {stock_detail_stats_title()}
-              </h1>
+              </h2>
             </div>
 
             <div>
@@ -115,7 +115,7 @@
                 })}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -198,7 +198,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -251,7 +251,7 @@
               {/if}
 
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -302,7 +302,7 @@
               </table>
               <a
                 href={`/stocks/${$stockTicker}/financials/ratios`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_financial_ratio_history()}
               </a>
@@ -326,7 +326,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -373,7 +373,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -434,7 +434,7 @@
                 })}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -504,7 +504,7 @@
                 {stock_detail_stats_taxes()}
               </h2>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -542,7 +542,7 @@
                 })}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -606,7 +606,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -667,7 +667,7 @@
               </table>
               <a
                 href={`/stocks/${$stockTicker}/financials`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_full_income_statement()}
               </a>
@@ -697,7 +697,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -754,7 +754,7 @@
               </table>
               <a
                 href={`/stocks/${$stockTicker}/financials/balance-sheet`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_full_balance_sheet()}
               </a>
@@ -779,7 +779,7 @@
                 </p>
               {/if}
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -816,7 +816,7 @@
               </table>
               <a
                 href={`/stocks/${$stockTicker}/financials/cash-flow`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_full_cash_flow()}
               </a>
@@ -840,7 +840,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -932,7 +932,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -987,7 +987,7 @@
               </table>
               <a
                 href={`/stocks/${$stockTicker}/dividends`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_dividend_details()}
               </a>
@@ -1012,7 +1012,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -1047,7 +1047,7 @@
               </table>
               <a
                 href={`/stocks/${$stockTicker}/forecast/analyst`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stock_forecasts()}
               </a>
@@ -1071,7 +1071,7 @@
                 {/if}
               </p>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo
@@ -1133,7 +1133,7 @@
                   })}
                 </p>
                 <table
-                  class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                  class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
                 >
                   <tbody>
                     <PopupInfo
@@ -1173,7 +1173,7 @@
                 {stock_detail_stats_scores()}
               </h2>
               <table
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden text-sm text-fg tabular-nums"
+                class="w-full bg-surface-card border border-line rounded-container overflow-hidden text-sm text-fg tabular-nums"
               >
                 <tbody>
                   <PopupInfo

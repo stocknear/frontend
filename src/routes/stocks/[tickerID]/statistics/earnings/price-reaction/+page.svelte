@@ -157,9 +157,9 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pt-7 sm:pb-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between mb-3">
-            <h1 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-0">
+            <h2 class="type-h2 text-fg mb-3 sm:mb-0">
               {stock_detail_stats_price_reaction_title()}
-            </h1>
+            </h2>
           </div>
 
           <div class="mb-5 mt-5 w-full">
@@ -171,7 +171,7 @@
               class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
             >
               <div
-                class="eps-beats-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="eps-beats-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_eps_beats_estimate()}</span>
@@ -230,7 +230,7 @@
               </div>
 
               <div
-                class="revenue-beats-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="revenue-beats-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_revenue_beats_estimate()}</span>
@@ -289,7 +289,7 @@
               </div>
 
               <div
-                class="avg-price-impact-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="avg-price-impact-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_avg_price_impact()}</span>
@@ -343,7 +343,7 @@
               </div>
 
               <div
-                class="volatility-impact-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="volatility-impact-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_volatility_impact()}</span>
@@ -396,7 +396,7 @@
                 class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 w-full"
+                  class="text-start whitespace-nowrap type-h2 text-fg py-1 w-full"
                 >
                   {stock_detail_stats_history()}
                 </h2>
@@ -415,7 +415,7 @@
 
             <div class=" w-full overflow-x-auto">
               <table
-                class="earnings-table table-fixed leading-3 border-collapse border border-gray-300 shadow dark:border-zinc-700 font-sans tabular-nums w-full"
+                class="earnings-table table-fixed leading-3 border-collapse border border-line font-sans tabular-nums w-full"
               >
                 <thead class="historical-data-driver"
                   ><tr class=" text-sm"
@@ -651,11 +651,11 @@
                           )}%<span class="w-0 text-center"></span></span
                         ></td
                       ><td
-                        class="px-4 last:pr-11 w-17 last:w-24.5 border border-gray-300 shadow dark:border-zinc-700 px-3.5 py-0.5 px-1 text-center"
+                        class="px-4 last:pr-11 w-17 last:w-24.5 border border-line px-3.5 py-0.5 px-1 text-center"
                       ></td><td
                         class="px-4 last:pr-11 w-17 last:w-24.5 border-line px-3.5 py-0.5 dark:border-l-gray-800 px-1 text-center"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.open_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded-control text-sm {item?.open_change_percent &&
                           item?.open_change_percent >= 0
                             ? "bg-positive/60 before:content-['+'] "
                             : item?.open_change_percent < 0
@@ -669,7 +669,7 @@
                       ><td
                         class="px-4 last:pr-11 w-17 last:w-24.5 px-3.5 py-0.5 px-1 text-center border-l border-r border-line"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.high_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded-control text-sm {item?.high_change_percent &&
                           item?.high_change_percent >= 0
                             ? "bg-positive/60 before:content-['+'] "
                             : item?.high_change_percent < 0
@@ -683,7 +683,7 @@
                       ><td
                         class="px-4 last:pr-11 w-17 last:w-24.5 border-gray-300 px-3.5 py-0.5 px-1 text-center border-l border-r border-line"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.low_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded-control text-sm {item?.low_change_percent &&
                           item?.low_change_percent >= 0
                             ? "bg-positive/60 before:content-['+'] "
                             : item?.low_change_percent
@@ -697,7 +697,7 @@
                       ><td
                         class="px-4 last:pr-11 w-17 last:w-24.5 border-r border-line px-3.5 py-0.5 px-1 text-center"
                         ><div
-                          class="text-center w-full whitespace-nowrap rounded text-sm {item?.close_change_percent &&
+                          class="text-center w-full whitespace-nowrap rounded-control text-sm {item?.close_change_percent &&
                           item?.close_change_percent >= 0
                             ? "bg-positive/60 before:content-['+']  "
                             : item?.close_change_percent < 0

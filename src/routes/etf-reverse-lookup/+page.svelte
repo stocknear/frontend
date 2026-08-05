@@ -169,7 +169,7 @@
         <main class="w-full">
           <div class="mb-3 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-1 type-h1 text-fg"
             >
               {etf_reverse_lookup_title()}
             </h1>
@@ -218,19 +218,19 @@
                 <Combobox.Input
                   id="etf-reverse-lookup-search"
                   on:input={search}
-                  class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                  class="text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                   placeholder={etf_reverse_lookup_search_placeholder()}
                   aria-label={etf_reverse_lookup_search_placeholder()}
                 />
               </div>
               <Combobox.Content
-                class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none outline-hidden"
+                class="z-10 rounded-container border border-line bg-surface-card p-2 text-fg shadow-none outline-hidden"
                 sideOffset={8}
               >
                 {#if inputValue?.length !== 0 && inputValue !== symbol}
                   {#each searchBarData as searchItem}
                     <Combobox.Item
-                      class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                      class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-container px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                       value={searchItem?.symbol}
                       label={searchItem?.symbol}
                     >
@@ -252,7 +252,7 @@
                   {/each}
                 {:else}
                   <Combobox.Item
-                    class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                    class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-container py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                   >
                     <span class="text-sm text-fg">
                       {etf_reverse_lookup_search_start()}
@@ -265,7 +265,7 @@
 
           {#if !symbol}
             <div
-              class="mt-6 flex h-[clamp(320px,60vh,720px)] flex-col items-center justify-center rounded-xl border border-line bg-white/70 dark:bg-zinc-950/40 p-8 text-center"
+              class="mt-6 flex h-[clamp(320px,60vh,720px)] flex-col items-center justify-center rounded-container border border-line bg-surface-card p-8 text-center"
             >
               <p class="text-xl xs:text-2xl font-semibold text-fg">
                 {etf_reverse_lookup_empty_headline()}
@@ -282,7 +282,7 @@
                     <li>
                       <a
                         href={localizedHref(`/etf-reverse-lookup?symbol=${example}`)}
-                        class="block rounded-md border border-line bg-white/90 dark:bg-zinc-950/70 px-4 py-2 text-sm font-medium text-fg sm:hover:text-accent hover:bg-gray-50 dark:hover:bg-zinc-900 transition"
+                        class="block rounded-control border border-line bg-surface-card px-4 py-2 text-sm font-medium text-fg sm:hover:text-accent hover:bg-gray-50 dark:hover:bg-zinc-900 transition"
                       >
                         {example}
                       </a>
@@ -298,7 +298,7 @@
               </div>
             {:else if rows?.length}
               <div
-                class="mt-6 grid grid-cols-1 divide-y divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+                class="mt-6 grid grid-cols-1 divide-y divide-gray-200/70 dark:divide-zinc-800/80 rounded-container border border-line bg-surface-card sm:grid-cols-3 sm:divide-x sm:divide-y-0"
               >
                 <div class="p-4 sm:p-6">
                   <div class="flex flex-row items-center gap-1">

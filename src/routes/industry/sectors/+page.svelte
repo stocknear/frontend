@@ -366,7 +366,7 @@
       class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+        class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
       >
         {industry_sectors_heading({
           count: rawData?.length?.toLocaleString("en-US") ?? "0",
@@ -399,7 +399,7 @@
             on:input={search}
             type="text"
             placeholder={industry_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -415,7 +415,7 @@
           <button
             on:click={resetColumnOrder}
             title={industry_reset_column_order()}
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -440,10 +440,10 @@
     <div class="flex justify-center w-full m-auto h-full overflow-hidden">
       <!-- Content area -->
       <div
-        class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+        class="w-full m-auto mt-4 mb-4 rounded-container border border-line bg-surface-card overflow-x-auto"
       >
         <table
-          class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
+          class="table table-sm table-compact rounded-none sm:rounded-control w-full m-auto text-fg tabular-nums"
         >
           <thead>
             <TableHeader
@@ -561,7 +561,7 @@
         <Button
           on:click={() => goToPage(currentPage - 1)}
           disabled={currentPage === 1}
-          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <svg
             class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -594,7 +594,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="truncate text-[0.85rem] sm:text-sm"
                 >{industry_rows_label({ rows: rowsPerPage })}</span
@@ -620,7 +620,7 @@
             align="end"
             sideOffset={10}
             alignOffset={0}
-            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+            class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
           >
             <!-- Dropdown items -->
             <DropdownMenu.Group class="pb-2">
@@ -648,7 +648,7 @@
         <Button
           on:click={() => goToPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+          class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="hidden sm:inline">{industry_pagination_next()}</span>
           <svg

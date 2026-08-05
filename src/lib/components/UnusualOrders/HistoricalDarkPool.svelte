@@ -163,8 +163,8 @@
       credits: { enabled: false },
       chart: {
         type: "line",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         spacingTop: 5,
         animation: false,
@@ -594,7 +594,7 @@
           <div class="relative">
             <!-- Apply the blur class to the chart -->
             <div
-              class="mt-5 shadow sm:mt-0 border border-line rounded"
+              class="mt-5 sm:mt-0 border border-line rounded-control"
               use:highcharts={config}
             ></div>
           </div>
@@ -605,7 +605,7 @@
         class="mt-5 flex items-center justify-end w-full border-y border-line py-2"
       >
         <div
-          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+          class="w-fit text-sm flex items-center gap-1 rounded-full border border-line
            "
         >
           {#each tabs as item, i (item)}
@@ -631,7 +631,7 @@
 
       <div class="w-full overflow-x-auto mt-3">
         <table
-          class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+          class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
         >
           <thead>
             <TableHeader {columns} {sortOrders} {sortData} />
@@ -697,7 +697,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -730,7 +730,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{stock_detail_dark_pool_rows({ count: rowsPerPage })}</span
@@ -756,7 +756,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
@@ -782,7 +782,7 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline"
                 >{stock_detail_dark_pool_next()}</span

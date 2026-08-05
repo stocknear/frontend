@@ -92,7 +92,7 @@
         >{analysts_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">
+    <li class="text-muted dark:text-fg-muted">
       {analysts_top_stocks_breadcrumb()}
     </li>
   </BreadCrumb>
@@ -104,7 +104,7 @@
       >
         <main class="w-full lg:pr-5">
           <div class="mb-6 border-[#2C6288] dark:border-white border-b-[2px]">
-            <h1 class="mb-3 text-2xl sm:text-3xl font-bold">
+            <h1 class="mb-3 type-h1 text-fg">
               {analysts_top_stocks_title()}
             </h1>
           </div>

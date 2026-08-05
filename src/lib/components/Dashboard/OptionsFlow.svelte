@@ -21,7 +21,7 @@
     href="/options-flow"
     class="inline-flex items-center gap-1 text-fg group"
     ><h2
-      class="mb-2 text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
+      class="mb-2 type-h2 text-fg tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
       {dashboard_options_flow_title()}
     </h2>

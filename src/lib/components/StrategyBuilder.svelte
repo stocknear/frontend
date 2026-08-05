@@ -310,12 +310,12 @@
     <div
         class="flex flex-col sm:flex-row justify-start w-full sm:justify-between items-start sm:items-center mb-4"
     >
-        <h3 class="text-lg font-semibold capitalize mb-5 sm:mb-0">
+        <h3 class="type-h3 text-fg capitalize mb-5 sm:mb-0">
             Define {mode} conditions
         </h3>
         <div class="flex gap-2 ml-auto sm:ml-0">
             <button
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-2 border border-line-strong text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded text-sm font-medium transition-colors"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-2 border border-line-strong text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded-control text-sm font-medium transition-colors"
                 on:click={() => {
                     addBlock(BLOCK_TYPES.CONDITION);
                 }}
@@ -324,7 +324,7 @@
                 <span class="mr-1">Add Block</span>
             </button>
             <button
-                class="cursor-pointer inline-flex items-center text-sm gap-1 px-3 py-2 border border-line-strong text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded font-medium transition-colors"
+                class="cursor-pointer inline-flex items-center text-sm gap-1 px-3 py-2 border border-line-strong text-white bg-black sm:hover:bg-default dark:bg-primary dark:sm:hover:bg-secondary ease-out rounded-control font-medium transition-colors"
                 on:click={() => {
                     dispatch("runBacktest");
                 }}
@@ -349,7 +349,7 @@
 
     {#if strategyBlocks?.length > 0}
         <div
-            class="overflow-x-auto border border-line rounded bg-[#F8F9FA] dark:bg-secondary"
+            class="overflow-x-auto border border-line rounded-control bg-[#F8F9FA] dark:bg-secondary"
         >
             <table
                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
@@ -399,7 +399,7 @@
                                 <td class="px-4 py-2">
                                     <label
                                         for="indicatorModal"
-                                        class="w-60 justify-between inline-flex items-center border-none bg-black text-white sm:hover:bg-default px-3 py-2 text-sm h-[35px] rounded cursor-pointer"
+                                        class="w-60 justify-between inline-flex items-center border-none bg-black text-white sm:hover:bg-default px-3 py-2 text-sm h-[35px] rounded-control cursor-pointer"
                                         on:click={() => {
                                             currentEditingBlockId = block.id;
                                         }}
@@ -523,7 +523,7 @@
                                     {:else}
                                         <input
                                             type="number"
-                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-500 rounded text-sm bg-white dark:bg-inherit focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-line-strong rounded-control text-sm bg-white dark:bg-inherit focus:outline-none focus:ring-1 focus:ring-blue-500"
                                             value={block.value}
                                             min={getIndicatorConfig(
                                                 block.indicator,
@@ -545,7 +545,7 @@
                                 <td class="px-4 py-2">
                                     {#if block.logicOperator && index < strategyBlocks.length - 1}
                                         <button
-                                            class="cursor-pointer px-3 py-1 bg-black text-white dark:bg-white dark:text-black rounded text-xs font-semibold transition-all hover:bg-gray-800 dark:hover:bg-gray-200"
+                                            class="cursor-pointer px-3 py-1 bg-black text-white dark:bg-white dark:text-black rounded-control text-xs font-semibold transition-all hover:bg-gray-800 dark:hover:bg-gray-200"
                                             on:click={() => {
                                                 const newOp =
                                                     block.logicOperator ===
@@ -561,7 +561,7 @@
                                             {block.logicOperator}
                                         </button>
                                     {:else}
-                                        <span class="text-gray-400">-</span>
+                                        <span class="text-fg-subtle">-</span>
                                     {/if}
                                 </td>
 
@@ -585,7 +585,7 @@
 
     {#if strategyBlocks.length === 0}
         <div
-            class="border border-line-strong rounded bg-[#F8F9FA] dark:bg-default p-10 min-h-40 m-auto flex justify-center items-center w-full"
+            class="border border-line-strong rounded-control bg-[#F8F9FA] dark:bg-default p-10 min-h-40 m-auto flex justify-center items-center w-full"
         >
             <div class="text-center">
                 <p class="">No conditions added yet</p>
@@ -612,7 +612,7 @@
         ></label>
 
         <div
-            class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+            class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
         >
             <button
                 on:click={closeIndicatorModal}
@@ -638,7 +638,7 @@
                     <div
                         class="flex flex-row items-center justify-between mb-2"
                     >
-                        <h2 class="text-[1rem] sm:text-xl font-semibold">
+                        <h2 class="text-[1rem] sm:type-h2 text-fg">
                             Select Indicator ({totalIndicators} total)
                         </h2>
                     </div>
@@ -655,7 +655,7 @@
                                 class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
                             >
                                 <svg
-                                    class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                                    class="w-4 h-4 text-gray-600 dark:text-fg-muted"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -679,7 +679,7 @@
                             >
                                 <button
                                     on:click={() => (searchTerm = "")}
-                                    class="cursor-pointer text-gray-600 dark:text-gray-300"
+                                    class="cursor-pointer text-gray-600 dark:text-fg-muted"
                                     tabindex="0"
                                     type="button"
                                     aria-label="Clear search"
@@ -704,7 +704,7 @@
                             <input
                                 autocomplete="off"
                                 id="search"
-                                class="focus:outline-none placeholder-gray-800 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm border border-line-strong rounded bg-gray-100 dark:bg-secondary border border-blue-500"
+                                class="focus:outline-none placeholder-gray-800 dark:placeholder-gray-300 block w-full p-2 ps-10 text-sm border border-line-strong rounded-control bg-gray-100 dark:bg-secondary border border-blue-500"
                                 placeholder="Search..."
                                 bind:value={searchTerm}
                             />
@@ -731,7 +731,7 @@
                                             selectIndicator(indicator.key)}
                                         checked={localSelected ===
                                             indicator.key}
-                                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 lg:h-4 lg:w-4"
+                                        class="h-[18px] w-[18px] rounded-control ring-offset-0 lg:h-4 lg:w-4"
                                     />
                                     <div class="-mt-0.5">
                                         <label

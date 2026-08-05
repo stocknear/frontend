@@ -115,13 +115,13 @@
           <div class="grid grid-cols-1 gap-y-3">
             {#if news?.length !== 0}
               {#each news as item, index}
-                <div class="w-full flex flex-col rounded m-auto">
+                <div class="w-full flex flex-col rounded-control m-auto">
                   {#if checkIfYoutubeVideo(item?.link)}
                     {#if showVideo[index]}
                       <!-- Show the YouTube iframe when the user clicks play -->
                       <div class="w-full aspect-video mb-4">
                         <iframe
-                          class="w-full h-full rounded border border-line"
+                          class="w-full h-full rounded-control border border-line"
                           src={`https://www.youtube.com/embed/${checkIfYoutubeVideo(item?.link)}`}
                           frameborder="0"
                           allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -133,13 +133,13 @@
                       <div class="w-full aspect-video">
                         <div class="mb-3 sm:order-3 lg:pr-2">
                           <div
-                            class="group relative block cursor-pointer bg-black bg-cover bg-[center_50%] object-contain after:block after:pb-[56.25%] after:content-[''] rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-brand_light focus:ring-offset-2"
+                            class="group relative block cursor-pointer bg-black bg-cover bg-[center_50%] object-contain after:block after:pb-[56.25%] after:content-[''] rounded-control focus:outline-hidden focus:ring-2 focus:ring-blue-brand_light focus:ring-offset-2"
                             style="background-image: url({item?.image});"
                             tabindex="0"
                             on:click={() => handlePlayClick(index)}
                           >
                             <div
-                              class="absolute left-[50%] top-[50%] z-10 h-[46px] w-[70px] -translate-x-1/2 -translate-y-1/2 rounded bg-[#212121] opacity-80 transition-all before:absolute before:left-[50%] before:top-[50%] before:-translate-x-1/2 before:-translate-y-1/2 before:border-y-[11px] before:border-l-[19px] before:border-r-0 before:border-transparent before:border-l-white before:content-[''] group-hover:bg-[#ff0000] group-hover:opacity-100"
+                              class="absolute left-[50%] top-[50%] z-10 h-[46px] w-[70px] -translate-x-1/2 -translate-y-1/2 rounded-control bg-[#212121] opacity-80 transition-all before:absolute before:left-[50%] before:top-[50%] before:-translate-x-1/2 before:-translate-y-1/2 before:border-y-[11px] before:border-l-[19px] before:border-r-0 before:border-transparent before:border-l-white before:content-[''] group-hover:bg-[#ff0000] group-hover:opacity-100"
                             ></div>
                           </div>
                         </div>
@@ -172,12 +172,12 @@
                         href={item?.link}
                         rel="noopener noreferrer"
                         target="_blank"
-                        class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-line rounded"
+                        class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-line rounded-control"
                       >
                         <div class="shrink-0 m-auto">
                           <img
                             src={item?.img}
-                            class="h-auto w-full rounded"
+                            class="h-auto w-full rounded-control"
                             alt="news image"
                             loading="lazy"
                           />
@@ -217,10 +217,10 @@
       <aside class="inline-block relative w-full lg:w-1/4 mt-3">
         {#if marketNews?.length !== 0}
           <div
-            class="w-full border border-line-strong rounded-2xl h-fit pb-4 mt-4 cursor-pointer bg-inherit"
+            class="w-full border border-line-strong rounded-container h-fit pb-4 mt-4 cursor-pointer bg-inherit"
           >
             <div class="p-4 text-sm">
-              <h3 class="text-xl font-bold mb-3">Stock News</h3>
+              <h3 class="type-h2 text-fg mb-3">Stock News</h3>
               <ul class="">
                 {#each marketNews?.slice(0, 10) as item}
                   <li class="mb-3 last:mb-1">
@@ -237,7 +237,7 @@
               </ul>
               <a
                 href={`/market-news`}
-                class="flex justify-center items-center rounded cursor-pointer w-full py-2 mt-3 text-[1rem] text-center font-semibold text-white dark:text-black m-auto sm:hover:bg-muted dark:sm:hover:bg-gray-300 bg-black dark:bg-[#fff] transition duration-100"
+                class="flex justify-center items-center rounded-control cursor-pointer w-full py-2 mt-3 text-[1rem] text-center font-semibold text-white dark:text-black m-auto sm:hover:bg-muted dark:sm:hover:bg-gray-300 bg-black dark:bg-[#fff] transition duration-100"
               >
                 More Stocks News
               </a>

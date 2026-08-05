@@ -98,7 +98,7 @@
                                 Earnings Guidance
                             </div>
                             <div
-                                class="-mt-2 ml-1 -rotate-6 rounded-[3px] bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
+                                class="-mt-2 ml-1 -rotate-6 rounded-control bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
                             >
                                 New
                             </div>

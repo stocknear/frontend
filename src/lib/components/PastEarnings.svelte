@@ -103,7 +103,7 @@
           class=" flex justify-start items-center w-screen sm:w-full mt-3 m-auto overflow-x-auto pr-5 sm:pr-0"
         >
           <table
-            class="table table-sm table-pin-cols table-compact rounded-none sm:rounded w-full bg-table border border-gray-800"
+            class="table table-sm table-pin-cols table-compact rounded-none sm:rounded-control w-full bg-table border border-line"
           >
             <thead class="">
               <tr class="">
@@ -122,7 +122,7 @@
             <tbody class="shadow">
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   Reported Revenue
                 </th>
@@ -162,7 +162,7 @@
 
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   Est. Revenue
                 </th>
@@ -202,7 +202,7 @@
 
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   Revenue Surprise
                 </th>
@@ -231,9 +231,9 @@
                       {:else if item !== undefined && item !== null}
                         <span
                           class={item > 0
-                            ? "text-[#00FC50] before:content-['+']"
+                            ? "text-up before:content-['+']"
                             : item < 0
-                              ? "text-[#FF2F1F]"
+                              ? "text-down"
                               : ""}
                         >
                           {abbreviateNumber(item)}%
@@ -244,9 +244,9 @@
                     {:else}
                       <span
                         class={item > 0
-                          ? "text-[#00FC50] before:content-['+']"
+                          ? "text-up before:content-['+']"
                           : item < 0
-                            ? "text-[#FF2F1F]"
+                            ? "text-down"
                             : ""}
                       >
                         {abbreviateNumber(item)}%
@@ -258,7 +258,7 @@
 
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   Reported EPS
                 </th>
@@ -298,7 +298,7 @@
 
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   Est. EPS
                 </th>
@@ -338,7 +338,7 @@
 
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   EPS Surprise
                 </th>
@@ -367,9 +367,9 @@
                       {:else if item !== undefined && item !== null}
                         <span
                           class={item > 0
-                            ? "text-[#00FC50] before:content-['+']"
+                            ? "text-up before:content-['+']"
                             : item < 0
-                              ? "text-[#FF2F1F]"
+                              ? "text-down"
                               : ""}
                         >
                           {abbreviateNumber(item)}%
@@ -380,9 +380,9 @@
                     {:else}
                       <span
                         class={item > 0
-                          ? "text-[#00FC50] before:content-['+']"
+                          ? "text-up before:content-['+']"
                           : item < 0
-                            ? "text-[#FF2F1F]"
+                            ? "text-down"
                             : ""}
                       >
                         {abbreviateNumber(item)}%
@@ -394,7 +394,7 @@
 
               <tr class="bg-primary border-b-[#27272A]">
                 <th
-                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-[#27272A]"
+                  class="bg-primary whitespace-nowrap text-sm sm:text-[1rem] text-white text-start border-b border-line"
                 >
                   Volatility
                 </th>

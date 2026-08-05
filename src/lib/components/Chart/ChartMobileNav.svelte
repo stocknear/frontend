@@ -89,12 +89,12 @@
         side="top"
         align="center"
         sideOffset={8}
-        class="w-28 rounded-xl border border-line bg-surface-card p-1"
+        class="w-28 rounded-container border border-line bg-surface-card p-1"
       >
         <DropdownMenu.Group>
           {#each timeframes as frame}
             <DropdownMenu.Item
-              class={`px-3 py-2 text-sm rounded cursor-pointer transition ${
+              class={`px-3 py-2 text-sm rounded-control cursor-pointer transition ${
                 activeRange === frame
                   ? "text-violet-400 bg-surface-raised"
                   : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800"
@@ -124,12 +124,12 @@
         side="top"
         align="center"
         sideOffset={8}
-        class="w-36 rounded-xl border border-line bg-surface-card p-1"
+        class="w-36 rounded-container border border-line bg-surface-card p-1"
       >
         <DropdownMenu.Group>
           {#each chartTypeOptions as option}
             <DropdownMenu.Item
-              class={`flex items-center gap-2 px-3 py-2 text-sm rounded cursor-pointer transition ${
+              class={`flex items-center gap-2 px-3 py-2 text-sm rounded-control cursor-pointer transition ${
                 chartType === option.id
                   ? "text-violet-400 bg-surface-raised"
                   : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800"
@@ -189,11 +189,11 @@
         side="top"
         align="center"
         sideOffset={8}
-        class="w-44 rounded-xl border border-line bg-surface-card p-1"
+        class="w-44 rounded-container border border-line bg-surface-card p-1"
       >
         <DropdownMenu.Group>
           <DropdownMenu.Item
-            class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
+            class="flex items-center justify-between px-3 py-2.5 text-sm rounded-control hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
             on:click={(e) => e.preventDefault()}
           >
             <label
@@ -216,7 +216,7 @@
             </label>
           </DropdownMenu.Item>
           <DropdownMenu.Item
-            class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
+            class="flex items-center justify-between px-3 py-2.5 text-sm rounded-control hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
             on:click={(e) => e.preventDefault()}
           >
             <label
@@ -240,7 +240,7 @@
           </DropdownMenu.Item>
           {#if isSubscribed}
             <DropdownMenu.Item
-              class="flex items-center justify-between px-3 py-2.5 text-sm rounded hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded-control hover:bg-gray-100/60 dark:hover:bg-zinc-800 cursor-pointer"
               on:click={(e) => e.preventDefault()}
             >
               <label
@@ -297,7 +297,7 @@
     class="cursor-pointer modal-backdrop bg-black/30"
   ></label>
   <div
-    class="modal-box p-0 w-full max-h-[70vh] relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col"
+    class="modal-box p-0 w-full max-h-[70vh] relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl flex flex-col"
   >
     <label
       for="mobileToolsModal"
@@ -329,7 +329,7 @@
       <div class="flex items-center gap-2">
         <!-- Lock/Unlock -->
         <button
-          class={`p-2 rounded-lg transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-fg-muted hover:text-fg hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
+          class={`p-2 rounded-container transition ${drawingsLocked ? "text-amber-400 bg-amber-400/10" : "text-fg-muted hover:text-fg hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsLock")}
           title={drawingsLocked ? chart_ct_unlock_drawings() : chart_ct_lock_drawings()}
         >
@@ -339,7 +339,7 @@
         </button>
         <!-- Show/Hide -->
         <button
-          class={`p-2 rounded-lg transition ${!drawingsVisible ? "text-fg" : "text-fg-muted hover:text-fg hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
+          class={`p-2 rounded-container transition ${!drawingsVisible ? "text-fg" : "text-fg-muted hover:text-fg hover:bg-gray-100/60 dark:hover:bg-zinc-800"}`}
           on:click={() => dispatch("toggleDrawingsVisibility")}
           title={drawingsVisible ? chart_ct_hide_drawings() : chart_ct_show_drawings()}
         >
@@ -351,7 +351,7 @@
         </button>
         <!-- Undo -->
         <button
-          class={`p-2 rounded-lg transition ${canUndo ? "text-fg-muted hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
+          class={`p-2 rounded-container transition ${canUndo ? "text-fg-muted hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-fg-muted dark:text-zinc-600 cursor-not-allowed"}`}
           on:click={() => canUndo && dispatch("undo")}
           disabled={!canUndo}
           title={chart_shortcuts_undo()}
@@ -360,7 +360,7 @@
         </button>
         <!-- Redo -->
         <button
-          class={`p-2 rounded-lg transition ${canRedo ? "text-fg-muted hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-gray-300 dark:text-zinc-600 cursor-not-allowed"}`}
+          class={`p-2 rounded-container transition ${canRedo ? "text-fg-muted hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800" : "text-fg-muted dark:text-zinc-600 cursor-not-allowed"}`}
           on:click={() => canRedo && dispatch("redo")}
           disabled={!canRedo}
           title={chart_shortcuts_redo()}
@@ -369,7 +369,7 @@
         </button>
         <!-- Delete All -->
         <button
-          class="p-2 rounded-lg text-fg-muted hover:text-rose-400 hover:bg-rose-400/10 transition"
+          class="p-2 rounded-container text-fg-muted hover:text-rose-400 hover:bg-rose-400/10 transition"
           on:click={() => dispatch("removeAllDrawings")}
           title={chart_mnav_delete_all_drawings()}
         >
@@ -391,7 +391,7 @@
             {#each group.options as option}
               <label
                 for="mobileToolsModal"
-                class={`flex items-center gap-3 p-3 rounded-xl border transition cursor-pointer ${
+                class={`flex items-center gap-3 p-3 rounded-container border transition cursor-pointer ${
                   selectedToolByGroup[group.id] === option.id
                     ? "border-violet-500 bg-violet-500/10 text-violet-300"
                     : "border-line bg-gray-100/50 dark:bg-zinc-900/50 text-fg-muted hover:border-line hover:bg-gray-100/60 dark:hover:bg-zinc-800/50"
@@ -427,7 +427,7 @@
     >
       <label
         for="mobileToolsModal"
-        class="flex items-center justify-center gap-2 w-full p-3 rounded-xl border border-line bg-surface-raised/50 text-fg hover:bg-gray-200 dark:hover:bg-zinc-800 transition cursor-pointer"
+        class="flex items-center justify-center gap-2 w-full p-3 rounded-container border border-line bg-surface-raised/50 text-fg hover:bg-gray-200 dark:hover:bg-zinc-800 transition cursor-pointer"
         on:click={() => dispatch("setCursorMode")}
       >
         <MousePointer2 class="h-5 w-5" />

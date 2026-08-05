@@ -117,7 +117,7 @@
           <main class="w-full lg:w-3/4 lg:pr-10">
             <div class="mb-6 border-b border-line">
               <h1
-                class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+                class="mb-2 type-h1 text-fg"
               >
                 {support_title()}
               </h1>
@@ -208,7 +208,7 @@
                   {#if messageSent}
                     <div class="my-4 pt-4">
                       <div
-                        class="rounded-lg border border-green-200/70 bg-green-50/70 p-4 text-green-700 dark:border-green-900/60 dark:bg-green-950/60 dark:text-green-100"
+                        class="rounded-container border border-green-200/70 bg-green-50/70 p-4 text-green-700 dark:border-green-900/60 dark:bg-green-950/60 dark:text-green-100"
                       >
                         <div class="flex flex-row items-center">
                           <div class="shrink-0">
@@ -241,14 +241,14 @@
 
           <aside class="inline-block relative w-full lg:w-1/4 mt-4">
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/pricing"
                 class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-lg font-semibold ml-3">
+                  <h2 class="text-start type-h3 text-fg ml-3">
                     {support_sidebar_pro_title()}
                   </h2>
                 </div>
@@ -261,14 +261,14 @@
             </div>
 
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/stocks/screener"
                 class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-lg font-semibold ml-3">
+                  <h2 class="text-start type-h3 text-fg ml-3">
                     {support_sidebar_screener_title()}
                   </h2>
                 </div>
@@ -281,14 +281,14 @@
             </div>
 
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/watchlist/stocks"
                 class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-lg font-semibold ml-3">
+                  <h2 class="text-start type-h3 text-fg ml-3">
                     {support_sidebar_watchlist_title()}
                   </h2>
                 </div>

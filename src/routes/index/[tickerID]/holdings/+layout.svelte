@@ -20,10 +20,10 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if newsList?.length > 0}
             <div
-              class="w-full border border-line-strong rounded-2xl h-fit pb-4 mt-4 cursor-pointer bg-inherit"
+              class="w-full border border-line-strong rounded-container h-fit pb-4 mt-4 cursor-pointer bg-inherit"
             >
               <div class="p-4 text-sm">
-                <h3 class="text-lg font-semibold mb-3">
+                <h3 class="type-h3 text-fg mb-3">
                   {$indexTicker} News
                 </h3>
                 <ul class="">
@@ -44,10 +44,10 @@
             </div>
           {:else}
             <div
-              class="w-full border border-line-strong rounded h-fit pb-4 mt-4 bg-inherit"
+              class="w-full border border-line-strong rounded-control h-fit pb-4 mt-4 bg-inherit"
             >
               <div class="p-4 text-sm">
-                <h3 class="text-lg font-semibold mb-3">
+                <h3 class="type-h3 text-fg mb-3">
                   {$indexTicker} News
                 </h3>
                 <ul class="">No News article available right now.</ul>

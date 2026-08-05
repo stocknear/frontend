@@ -13,17 +13,17 @@
   {m.blog_heading_summary()}
 </h2>
 
-<h3 class="text-xl sm:text-2xl font-bold mt-3 mb-5">
+<h3 class="type-h2 text-fg mt-3 mb-5">
   {$stockTicker} - {$displayCompanyName}
 </h3>
 
 {@html blogData}
 
-<div class="bg-blue-100 dark:bg-[#2A2E39] p-6 rounded mt-8 text-center mb-8">
-  <h2 class="text-xl sm:text-2xl font-bold mb-4">{m.blog_summary_ready()}</h2>
+<div class="bg-blue-100 dark:bg-[#2A2E39] p-6 rounded-control mt-8 text-center mb-8">
+  <h2 class="type-h2 text-fg mb-4">{m.blog_summary_ready()}</h2>
   <p class="mb-4">{m.blog_summary_description()}</p>
   <a
-    class="bg-blue-600 text-white px-4 py-2 rounded sm:hover:bg-blue-700 inline-block text-sm sm:text-[1rem] font-semibold"
+    class="bg-blue-600 text-white px-4 py-2 rounded-control sm:hover:bg-blue-700 inline-block text-sm sm:text-[1rem] font-semibold"
     href={pricingHref}>{m.blog_summary_cta()}</a
   >
 </div>

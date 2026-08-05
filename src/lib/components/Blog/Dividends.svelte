@@ -154,10 +154,10 @@
 
 <h2 class="text-xl sm:text-3xl font-bold mt-8">{m.blog_heading_dividends()}</h2>
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <tbody class="">
       {#each blogData as item}
@@ -171,7 +171,7 @@
 
           <td class=" text-sm sm:text-[1rem] whitespace-nowrap text-end">
             <label
-              class="badge badge-lg w-24 rounded-[3px] {[
+              class="badge badge-lg w-24 rounded-control {[
                 'Very Good',
                 'Good',
               ]?.includes(item?.sentiment)
@@ -201,10 +201,10 @@
 </p>
 
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-2"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-2"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <thead>
       <TableHeader {columns} {sortOrders} {sortData} />
@@ -232,6 +232,6 @@
     </tbody>
   </table>
 </div>
-<span class="text-gray-200 text-sm italic">
+<span class="text-fg-muted text-sm italic">
   {m.blog_dividends_footnote()}
 </span>

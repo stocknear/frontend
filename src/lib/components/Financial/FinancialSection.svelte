@@ -426,12 +426,12 @@
           <div
             class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between"
           >
-            <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+            <h2
+              class="type-h2 text-fg"
             >
               {removeCompanyStrings($displayCompanyName)}
               {title}
-            </h1>
+            </h2>
           </div>
 
           <div class="grid grid-cols-1 gap-2">
@@ -454,7 +454,7 @@
                     <!-- Chart Mode / Table Mode Toggle -->
                     <Button
                       on:click={toggleMode}
-                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {#if $coolMode}
                         <Table class="w-4 h-4" />
@@ -474,7 +474,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                          class="cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                         >
                           <span class="text-sm"
                             >{RANGE_LABEL_MAP[$financialHistoryRange] ||
@@ -498,7 +498,7 @@
                         side="bottom"
                         align="start"
                         sideOffset={8}
-                        class="min-w-[90px] rounded-2xl border border-line bg-surface-card p-2 text-fg shadow-lg"
+                        class="min-w-[90px] rounded-container border border-line bg-surface-card p-2 text-fg shadow-lg"
                       >
                         <DropdownMenu.Group>
                           {#each HISTORY_RANGE_OPTIONS as option}
@@ -507,7 +507,7 @@
                                 ($financialHistoryRange = option.value)}
                               class="{$financialHistoryRange === option.value
                                 ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-accent font-medium'
-                                : ''} cursor-pointer hover:text-accent rounded-xl"
+                                : ''} cursor-pointer hover:text-accent rounded-container"
                             >
                               {option.label}
                             </DropdownMenu.Item>
@@ -519,7 +519,7 @@
                     <!-- Sort Order Toggle -->
                     <Button
                       on:click={() => (switchDate = !switchDate)}
-                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                       title={switchDate
                         ? stock_detail_financials_newest_first()
                         : stock_detail_financials_oldest_first()}
@@ -545,7 +545,7 @@
                     <!-- Download Button -->
                     <Button
                       on:click={() => exportFundamentalData("csv")}
-                      class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="text-sm"
                         >{stock_detail_financials_download()}</span
@@ -576,7 +576,7 @@
               {#if hasLockedData}
                 <a
                   href={localizedHref("/pricing")}
-                  class="mt-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
+                  class="mt-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-container text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
                 >
                   <div
                     class="flex items-center gap-2.5 text-violet-900 dark:text-violet-200"
@@ -625,10 +625,10 @@
               {:else}
                 <!-- Table Mode View -->
                 <div
-                  class="w-full rounded-none sm:rounded m-auto overflow-x-auto"
+                  class="w-full rounded-none sm:rounded-control m-auto overflow-x-auto"
                 >
                   <table
-                    class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums"
+                    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line bg-surface-card text-fg tabular-nums"
                   >
                     <thead
                       class="text-xs uppercase tracking-wide text-fg"

@@ -1276,7 +1276,7 @@
       {/if}
 
       <div
-        class="bg-surface-card fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-gray-300 shadow dark:border-zinc-700 shadow-lg shadow-black/5 rounded-2xl overflow-hidden {$chatSidebarOpen
+        class="bg-surface-card fixed bottom-10 sm:bottom-20 left-1/2 transform -translate-x-1/2 block p-3 min-w-[90vw] sm:min-w-0 sm:w-full sm:max-w-xl md:max-w-3xl border border-line shadow-lg shadow-black/5 rounded-container overflow-hidden {$chatSidebarOpen
           ? 'lg:left-[calc(50%+164px)] lg:max-w-[min(48rem,calc(100vw-360px))]'
           : 'lg:left-[calc(50%+24px)] lg:max-w-[min(48rem,calc(100vw-80px))]'}"
       >
@@ -1289,7 +1289,7 @@
         />
 
         <form
-          class="grow rounded relative flex items-center w-full overflow-hidden"
+          class="grow rounded-control relative flex items-center w-full overflow-hidden"
         >
           <div
             class="relative min-h-12 h-auto overflow-y-hidden w-full outline-none"
@@ -1305,7 +1305,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-11 w-11 mr-2 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-fg border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-11 w-11 mr-2 shrink-0 bg-surface-card text-fg border border-line hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -1332,7 +1332,7 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
@@ -1381,7 +1381,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1432,7 +1432,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -1459,7 +1459,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -1508,7 +1508,7 @@
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -1529,7 +1529,7 @@
                 <!--
             {#if data?.user}
               <label
-                class="ml-auto mr-2 whitespace-nowrap w-auto text-xs border-gray-300 font-semibold dark:font-normal dark:border-gray-600 border bg-white dark:bg-[#2A2E39] flex flex-row justify-between items-center px-3 rounded"
+                class="ml-auto mr-2 whitespace-nowrap w-auto text-xs border-gray-300 font-semibold dark:font-normal dark:border-line border bg-white dark:bg-[#2A2E39] flex flex-row justify-between items-center px-3 rounded-control"
               >
                 <div>
                   {data?.user?.credits?.toLocaleString("en-US")}
@@ -1554,7 +1554,7 @@
                     !isBackgroundLoading) ||
                   isStreaming
                     ? 'cursor-pointer'
-                    : 'cursor-not-allowed opacity-60'} h-11 w-11 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
+                    : 'cursor-not-allowed opacity-60'} h-11 w-11 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-line/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
                 >
                   {#if isLoading || isBackgroundLoading}
                     <span
@@ -1580,12 +1580,12 @@
     </main>
     {#if showSuggestions}
       <ul
-        class="fixed rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="fixed rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 z-[9999] w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}
           <li
-            class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-fg {i ===
+            class="px-2 py-1 rounded-container cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-fg {i ===
             selectedSuggestion
               ? 'bg-gray-100 dark:bg-zinc-900'
               : ''}"

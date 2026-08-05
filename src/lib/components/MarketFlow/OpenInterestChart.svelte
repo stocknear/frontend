@@ -23,8 +23,8 @@
 
             chart: {
                 type: "gauge",
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 280,
                 animation: false,
             },
@@ -44,7 +44,7 @@
                     {
                         outerRadius: "101%",
                         innerRadius: "100%",
-                        backgroundColor: "#000",
+                        backgroundColor: "transparent",
                         borderWidth: 0,
                         shape: "arc",
                     },
@@ -97,7 +97,7 @@
                         borderWidth: 0,
                         shadow: false,
                         formatter: function () {
-                            return `<span class="text-lg font-bold">${abbreviateNumber(this.y)}</span>`;
+                            return `<span class="text-lg font-bold text-fg">${abbreviateNumber(this.y)}</span>`;
                         },
                     },
                     dial: {
@@ -119,8 +119,8 @@
             },
             chart: {
                 type: "gauge",
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 280,
                 animation: false, // Disable initial animation
             },
@@ -142,7 +142,7 @@
                         // Outer circle (black line)
                         outerRadius: "101%",
                         innerRadius: "100%",
-                        backgroundColor: "#000",
+                        backgroundColor: "transparent",
                         borderWidth: 0,
                         shape: "arc",
                     },
@@ -223,7 +223,7 @@
                         shadow: false,
                         formatter: function () {
                             // Show actual value even if >2
-                            return `<span class="text-lg font-bold">${actualValue}</span>`;
+                            return `<span class="text-lg font-bold text-fg">${actualValue}</span>`;
                         },
                     },
                     dial: {

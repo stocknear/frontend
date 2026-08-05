@@ -144,14 +144,14 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 mt-4"
+              class="w-full bg-surface-card border border-line rounded-container mt-4"
             >
               <a
                 href="/pricing"
                 class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                  <h2 class="text-start type-h2 text-fg sm:ml-3">
                     {stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
@@ -164,10 +164,10 @@
 
           {#if newsList?.length !== 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full bg-surface-card border border-line rounded-container p-4 mt-4"
             >
               <div class="p-4 text-sm">
-                <h3 class="text-lg font-semibold mb-3">
+                <h3 class="type-h3 text-fg mb-3">
                   {stock_detail_stats_ticker_news({ ticker: $stockTicker })}
                 </h3>
                 <ul class="">

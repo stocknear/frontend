@@ -454,7 +454,8 @@ ${summaryData.outlook}
 
     const options = {
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 400,
       },
@@ -1022,11 +1023,11 @@ ${summaryData.outlook}
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full flex flex-row justify-between mb-5">
-          <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+          <h2
+            class="type-h2 text-fg"
           >
             {stock_detail_insider_title({ ticker: $stockTicker })}
-          </h1>
+          </h2>
         </div>
 
         <p class="mt-4 text-sm text-fg-muted leading-relaxed">
@@ -1076,7 +1077,7 @@ ${summaryData.outlook}
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="truncate"
                   >{stock_detail_insider_filter_type()}</span
@@ -1101,7 +1102,7 @@ ${summaryData.outlook}
               align="end"
               sideOffset={10}
               alignOffset={0}
-              class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+              class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
             >
               <DropdownMenu.Group>
                 {#each transactionList as item (item + "-" + checkedItems.has(item))}
@@ -1131,7 +1132,7 @@ ${summaryData.outlook}
           <button
             on:click={generateSummary}
             disabled={isGeneratingSummary || originalData?.length === 0}
-            class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
+            class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-line bg-surface-page/60 text-fg transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-line border ease-out disabled:opacity-60"
           >
             {#if isGeneratingSummary}
               <span class="loading loading-spinner loading-xs"></span>
@@ -1161,13 +1162,13 @@ ${summaryData.outlook}
         <!-- AI Summary Panel -->
         {#if showSummary}
           <div
-            class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 mb-4 bg-white/70 dark:bg-zinc-950/40 text-fg"
+            class="border border-line rounded-container p-4 sm:p-6 mb-4 bg-surface-card text-fg"
           >
             {#if isGeneratingSummary}
               <!-- Loading State -->
               <div class="flex flex-col items-center justify-center py-8">
                 <label
-                  class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
+                  class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
                 >
                   <span
                     class="loading loading-spinner loading-md text-fg"
@@ -1204,7 +1205,7 @@ ${summaryData.outlook}
                       />
                     </svg>
                     <h3
-                      class="text-lg font-semibold text-fg"
+                      class="type-h3 text-fg text-fg"
                     >
                       {stock_detail_insider_ai_title()}
                     </h3>
@@ -1243,7 +1244,7 @@ ${summaryData.outlook}
                   <div class="flex items-center gap-2">
                     <button
                       on:click={copyToClipboard}
-                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-accent"
+                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-line rounded-full transition hover:text-accent"
                     >
                       <svg
                         class="w-3.5 h-3.5"
@@ -1262,7 +1263,7 @@ ${summaryData.outlook}
                     </button>
                     <button
                       on:click={downloadMarkdown}
-                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-accent"
+                      class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-line rounded-full transition hover:text-accent"
                     >
                       <svg
                         class="w-3.5 h-3.5"
@@ -1389,7 +1390,7 @@ ${summaryData.outlook}
                     {stock_detail_insider_outlook()}
                   </h4>
                   <p
-                    class="text-sm text-fg bg-surface-page/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+                    class="text-sm text-fg bg-surface-page/60 rounded-container p-4 border border-line"
                   >
                     {summaryData?.outlook ?? stock_detail_insider_no_outlook()}
                   </p>
@@ -1409,7 +1410,7 @@ ${summaryData.outlook}
         <!-- Chart Section -->
         {#if chartConfig}
           <div
-            class=" border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 mb-4"
+            class=" bg-surface-card border border-line rounded-container mb-4"
             use:highcharts={chartConfig}
           ></div>
         {/if}
@@ -1419,7 +1420,7 @@ ${summaryData.outlook}
             class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
           >
             <h2
-              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+              class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
             >
               {stock_detail_insider_transactions_title({
                 count: totalTransaction,
@@ -1455,7 +1456,7 @@ ${summaryData.outlook}
                   on:input={search}
                   type="text"
                   placeholder={stock_detail_insider_find()}
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
 
@@ -1474,7 +1475,7 @@ ${summaryData.outlook}
           <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
             <div class="w-full overflow-x-auto">
               <table
-                class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
               >
                 <thead class="insider-table-driver">
                   <TableHeader {columns} {sortOrders} {sortData} />
@@ -1533,7 +1534,7 @@ ${summaryData.outlook}
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1566,9 +1567,9 @@ ${summaryData.outlook}
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <span class="truncate text-[0.85rem] sm:text-sm"
+                      <span class="truncate text-[0.85rem] sm:text-sm text-fg"
                         >{stock_detail_rows({ count: rowsPerPage })}</span
                       >
                       <svg
@@ -1592,7 +1593,7 @@ ${summaryData.outlook}
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <!-- Dropdown items -->
                     <DropdownMenu.Group class="pb-2">
@@ -1604,7 +1605,7 @@ ${summaryData.outlook}
                             on:click={() => changeRowsPerPage(item)}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="text-sm"
+                            <span class="text-sm text-fg"
                               >{stock_detail_rows({ count: item })}</span
                             >
                           </label>
@@ -1620,7 +1621,7 @@ ${summaryData.outlook}
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline">{stock_detail_next()}</span>
                   <svg

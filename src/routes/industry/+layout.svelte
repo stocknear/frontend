@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
@@ -31,11 +32,11 @@
   let activeIdx = 0;
 
   // Subscribe to the $page store to reactively update the activeIdx based on the URL
-  $: if ($page.url.pathname === "/industry") {
+  $: if (deLocalizeHref($page.url.pathname) === "/industry") {
     activeIdx = 0;
-  } else if ($page.url.pathname.startsWith("/industry/sectors")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/industry/sectors")) {
     activeIdx = 1;
-  } else if ($page.url.pathname.startsWith("/industry/all")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/industry/all")) {
     activeIdx = 2;
   }
 </script>
@@ -63,7 +64,7 @@
   <div class="mt-10 sm:mt-5 w-full m-auto mb-10 overflow-hidden">
     <div class="mb-2 border-b border-line">
       <h1
-        class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+        class="mb-2 type-h1 text-fg"
       >
         {industry_page_title()}
       </h1>

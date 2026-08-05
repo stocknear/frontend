@@ -1130,7 +1130,7 @@
             Sign in and save options flow trades to track them here.
           </span>
           <a
-            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
+            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
             href="/register"
           >
             Get Started
@@ -1143,7 +1143,7 @@
             Upgrade to Pro to save and track options flow trades.
           </span>
           <a
-            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
+            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out"
             href="/pricing"
           >
             Upgrade to Pro
@@ -1157,7 +1157,7 @@
           </span>
           <a
             href="/options-flow"
-            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
+            class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
           >
             Browse Options Flow
             <span
@@ -1187,7 +1187,7 @@
             class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+              class="text-start w-full mb-2 sm:mb-0 type-h2 text-fg"
             >
               {watchList.length} Trade{watchList.length !== 1 ? "s" : ""}
             </h2>
@@ -1222,7 +1222,7 @@
                   bind:value={searchQuery}
                   type="text"
                   placeholder="Find..."
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
             </div>
@@ -1234,7 +1234,7 @@
               <!-- Add Trades Button -->
               <a
                 href="/options-flow"
-                class="border text-sm border-gray-300 shadow dark:border-zinc-700 inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
+                class="border text-sm border-line inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="inline-block w-4 h-4"
@@ -1266,7 +1266,7 @@
                 {#if editMode}
                   <label
                     on:click={handleDeleteItems}
-                    class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-surface-page/60 text-fg transition hover:text-rose-800 dark:hover:text-rose-400"
+                    class="border text-sm border-line cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full py-1.5 pl-3 pr-4 font-semibold bg-surface-page/60 text-fg transition hover:text-rose-800 dark:hover:text-rose-400"
                   >
                     <svg
                       class="inline-block w-5 h-5"
@@ -1286,7 +1286,7 @@
                 <!-- Edit Watchlist Button -->
                 <label
                   on:click={handleEditMode}
-                  class="border text-sm border-gray-300 shadow dark:border-zinc-700 cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
+                  class="border text-sm border-line cursor-pointer inline-flex items-center justify-start space-x-1 whitespace-nowrap rounded-full py-2 px-3 bg-surface-page/60 text-fg transition hover:text-accent"
                 >
                   <svg
                     class="inline-block w-5 h-5"
@@ -1321,7 +1321,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-fit w-fit border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 hover:bg-white dark:hover:bg-zinc-900 text-fg flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-accent"
+                      class="min-w-fit w-fit border border-line bg-surface-page/60 hover:bg-white dark:hover:bg-zinc-900 text-fg flex items-center px-3 py-2 rounded-full text-[0.85rem] sm:text-sm transition hover:text-accent"
                     >
                       <span>Indicators</span>
                       <svg
@@ -1342,11 +1342,11 @@
                     side="bottom"
                     align="end"
                     sideOffset={10}
-                    class="w-60 max-h-[400px] overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg"
+                    class="w-60 max-h-[400px] overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg"
                   >
                     <!-- Sticky search header -->
                     <div
-                      class="sticky -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-line"
+                      class="sticky -top-1 z-40 bg-surface-card p-2 border-b border-line"
                     >
                       <div class="relative w-full">
                         <input
@@ -1355,7 +1355,7 @@
                           autocomplete="off"
                           type="text"
                           placeholder="Search indicators..."
-                          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
+                          class="text-sm w-full border-0 bg-surface-card focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
                         />
                         {#if indicatorSearch.length > 0}
                           <button
@@ -1394,7 +1394,7 @@
                       {/if}
                       {#each indicatorSearch.length > 0 ? indicatorSearchResults : orderedColumns as col}
                         <DropdownMenu.Item
-                          class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-lg"
+                          class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-container"
                         >
                           <label
                             on:click|capture|preventDefault={() =>
@@ -1404,7 +1404,7 @@
                             <input
                               type="checkbox"
                               checked={visibleColumns.has(col.key)}
-                              class="rounded checked:bg-blue-700 dark:checked:bg-blue-600 cursor-pointer"
+                              class="rounded-control checked:bg-blue-700 dark:checked:bg-blue-600 cursor-pointer"
                             />
                             <span class="ml-2">{col.name}</span>
                           </label>
@@ -1414,7 +1414,7 @@
 
                     <!-- Sticky footer -->
                     <div
-                      class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-line flex justify-between"
+                      class="sticky -bottom-1 bg-surface-card z-50 p-2 border-t border-line flex justify-between"
                     >
                       <label
                         on:click={resetColumns}
@@ -1438,7 +1438,7 @@
                 <button
                   on:click={resetColumnOrder}
                   title="Reset column order"
-                  class="shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                  class="shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                 >
                   <svg
                     class="w-4 h-4"
@@ -1470,7 +1470,7 @@
         <!-- Flow Scorecard -->
         {#if enrichmentDone && scorecard.count > 0}
           <div
-            class="w-full mt-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4"
+            class="w-full mt-4 rounded-container border border-line bg-surface-card p-3 sm:p-4"
           >
             <div
               class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
@@ -1579,14 +1579,14 @@
 
         <!-- Options Watchlist Table -->
         <div
-          class="w-full m-auto mt-5 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto relative"
+          class="w-full m-auto mt-5 mb-4 rounded-container border border-line bg-surface-card overflow-x-auto relative"
         >
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
+            class="table table-sm table-compact rounded-none sm:rounded-control w-full m-auto text-fg tabular-nums"
           >
             <thead>
               <tr
-                class="bg-white/60 dark:bg-zinc-950/40 text-fg font-semibold text-[11px] uppercase tracking-wide border-b border-line"
+                class="bg-surface-card text-fg font-semibold text-[11px] uppercase tracking-wide border-b border-line"
               >
                 {#if editMode}
                   <th class="p-2 text-center w-8"></th>
@@ -1641,7 +1641,7 @@
                         type="checkbox"
                         checked={deleteIdSet.has(item.id)}
                         on:click={() => toggleDeleteItem(item.id)}
-                        class="h-4 w-4 rounded border cursor-pointer"
+                        class="h-4 w-4 rounded-control border cursor-pointer"
                       />
                     </td>
                   {/if}
@@ -1676,17 +1676,17 @@
                           side="bottom"
                           align="end"
                           sideOffset={5}
-                          class="w-44 rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 shadow-lg z-50"
+                          class="w-44 rounded-container border border-line bg-surface-card p-1 shadow-lg z-50"
                         >
                           <DropdownMenu.Item
-                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-container cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                             on:click={() => openContractChart(item)}
                           >
                             <ChartNoAxesCombined class="w-4 h-4 shrink-0" />
                             View Chart
                           </DropdownMenu.Item>
                           <DropdownMenu.Item
-                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-2xl cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
+                            class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-container cursor-pointer text-fg-muted hover:bg-gray-100/70 dark:hover:bg-zinc-800/60 transition"
                             on:click={() => openContractActivity(item)}
                           >
                             <Activity class="w-4 h-4 shrink-0" />
@@ -1779,7 +1779,7 @@
                             bind:value={editingPriceValue}
                             on:keydown={handlePriceInputKeydown}
                             on:blur={handlePriceBlur}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
+                            class="border border-line rounded-control px-2 py-1 w-auto max-w-20 text-right bg-surface-card text-fg focus:outline-none focus:ring-0"
                           />
                         {:else}
                           <button
@@ -1999,14 +1999,14 @@
 
         <!-- News / Earnings Tabs -->
         <div>
-          <div class="inline-flex justify-center w-full rounded sm:w-auto mb-3">
+          <div class="inline-flex justify-center w-full rounded-control sm:w-auto mb-3">
             <div
               class="flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
             >
               <div>
                 <div class="inline-flex">
                   <div
-                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                   >
                     {#each tabs as item, i (item)}
                       <button
@@ -2034,7 +2034,7 @@
                   {date}
                 </h3>
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="bg-surface-card border border-line rounded-container"
                 >
                   {#each titleGroups as { title, items, symbols }, index}
                     <div
@@ -2085,7 +2085,7 @@
                 {date}
               </h3>
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                class="bg-surface-card border border-line rounded-container"
               >
                 {#each titleGroups as item, index}
                   <div
@@ -2182,12 +2182,12 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}
         <label
-          class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
             class="loading loading-spinner loading-md text-white dark:text-white"

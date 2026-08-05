@@ -207,7 +207,7 @@
       chart: {
         type: chartType,
         backgroundColor: isLightMode ? "#fff" : "#09090B",
-        plotBackgroundColor: isLightMode ? "#fff" : "#09090B",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 340,
         zoomType: "x",
@@ -401,7 +401,7 @@
       <!-- Header -->
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-1.5">
-          <h3 class="text-xl sm:text-2xl font-bold text-fg">
+          <h3 class="type-h2 text-fg text-fg">
             {stock_detail_exchange_breakdown_title()}
           </h3>
           <InfoModal
@@ -416,7 +416,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
         <!-- Dark Pool % Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
+          class="bg-surface-card border border-line rounded-container p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_exchange_dark_pool_activity()}</span>
@@ -463,7 +463,7 @@
 
         <!-- Top Exchange Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
+          class="bg-surface-card border border-line rounded-container p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_exchange_top_venue()}</span>
@@ -506,7 +506,7 @@
               })}
             </div>
           {:else}
-            <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
+            <div class="text-xl font-semibold text-fg-subtle dark:text-zinc-600">
               —
             </div>
           {/if}
@@ -514,7 +514,7 @@
 
         <!-- Volume Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
+          class="bg-surface-card border border-line rounded-container p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_exchange_latest_value()}</span>
@@ -555,7 +555,7 @@
 
       {#if showLocked}
         <div
-          class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 h-[300px] flex flex-col items-center justify-center"
+          class="rounded-container border border-line bg-surface-card h-[300px] flex flex-col items-center justify-center"
         >
           <a
             href="/pricing"
@@ -584,14 +584,14 @@
           >
             <span class="flex items-center gap-1.5">
               <span
-                class="w-2.5 h-2.5 rounded-sm"
+                class="w-2.5 h-2.5 rounded-control"
                 style="background-color: #E15759;"
               ></span>
               {stock_detail_exchange_off_exchange()}
             </span>
             <span class="flex items-center gap-1.5">
               <span
-                class="w-2.5 h-2.5 rounded-sm"
+                class="w-2.5 h-2.5 rounded-control"
                 style="background-color: #4E79A7;"
               ></span>
               {stock_detail_exchange_on_exchange()}
@@ -627,7 +627,7 @@
 
         <!-- Chart - MaxPain Style -->
         <div
-          class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+          class="border border-line rounded-container bg-surface-card overflow-hidden"
         >
           <div use:highcharts={config}></div>
         </div>

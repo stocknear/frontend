@@ -206,7 +206,7 @@
           />
         {:else}
           <div
-            class="flex flex-col items-center justify-center rounded-xl border border-line/70 bg-surface-card/60 p-6 min-h-[220px]"
+            class="flex flex-col items-center justify-center rounded-container border border-line/70 bg-surface-card/60 p-6 min-h-[220px]"
           >
             <span
               class="text-sm font-semibold text-fg mb-2"

@@ -17,7 +17,7 @@
 
 <input
   class={cn(
-    "flex h-10 w-full rounded border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file: placeholder:text-muted-foreground focus:border-transparent focus:ring-0 disabled:opacity-50",
+    "flex h-10 w-full rounded-control border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file: placeholder:text-muted-foreground focus:border-transparent focus:ring-0 disabled:opacity-50",
     className,
   )}
   bind:value

@@ -154,7 +154,7 @@
           </div>
           <Combobox.Input
             on:click={() => (inputValue = "")}
-            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-fg bg-surface-raised/60 border border-line rounded-xl shadow focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-zinc-500 transition"
+            class="w-full py-4 pl-12 pr-12 text-base sm:text-lg text-fg bg-surface-raised/60 border border-line rounded-container focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-zinc-500 transition"
             placeholder="Company or stock symbol..."
           />
           <div
@@ -174,7 +174,7 @@
           </div>
         </div>
         <Combobox.Content
-          class="w-full z-40 mt-2 rounded-xl border border-line bg-surface-card px-1.5 py-2 shadow-xl outline-hidden"
+          class="w-full z-40 mt-2 rounded-container border border-line bg-surface-card px-1.5 py-2 shadow-xl outline-hidden"
           sideOffset={8}
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
@@ -185,7 +185,7 @@
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
@@ -213,7 +213,7 @@
             </div>
             {#each popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-full select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => goToChart(item?.symbol)}
@@ -246,7 +246,7 @@
     <div class="sm:hidden flex justify-center px-3">
       <label
         for="chartSearchModal"
-        class="flex items-center gap-3 px-3 py-2 w-full rounded-xl border border-line bg-surface-raised/60 text-fg-subtle cursor-pointer shadow transition"
+        class="flex items-center gap-3 px-3 py-2 w-full rounded-container border border-line bg-surface-raised/60 text-fg-subtle cursor-pointer transition"
       >
         <svg
           class="w-4 h-4 text-fg-muted"
@@ -278,7 +278,7 @@
       <label for="chartSearchModal" class="cursor-pointer modal-backdrop"
       ></label>
       <div
-        class="modal-box min-h-96 overflow-hidden m-auto w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+        class="modal-box min-h-96 overflow-hidden m-auto w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
       >
         <label
           for="chartSearchModal"
@@ -335,7 +335,7 @@
               {/if}
             </div>
             <input
-              class="w-full py-3 pl-10 pr-12 rounded-xl bg-surface-raised/60 border border-line shadow text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700"
+              class="w-full py-3 pl-10 pr-12 rounded-container bg-surface-raised/60 border border-line text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700"
               placeholder="Company or stock symbol..."
               bind:value={inputValue}
               bind:this={inputElement}
@@ -362,7 +362,7 @@
         </div>
 
         <div
-          class="mt-3 rounded-xl border border-line bg-surface-card px-1.5 py-2"
+          class="mt-3 rounded-container border border-line bg-surface-card px-1.5 py-2"
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
             <div
@@ -372,7 +372,7 @@
             </div>
             {#each searchBarData as item}
               <li
-                class="cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">
@@ -398,7 +398,7 @@
             </div>
             {#each popularList as item}
               <li
-                class="gap-y-1.5 cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
+                class="gap-y-1.5 cursor-pointer text-fg border-b border-line last:border-none flex items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60 transition"
                 on:click={() => goToChart(item?.symbol)}
               >
                 <div class="flex flex-row items-center justify-between w-full">

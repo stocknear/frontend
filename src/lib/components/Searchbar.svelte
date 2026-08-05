@@ -1,6 +1,7 @@
 <script lang="ts">
   import { screenWidth } from "$lib/store";
   import { page } from "$app/stores";
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { onDestroy, onMount } from "svelte";
   import Search from "lucide-svelte/icons/search";
   import { goto } from "$app/navigation";
@@ -96,7 +97,8 @@
     const upperSymbol = symbol?.toUpperCase();
 
     // Pull current path's segments
-    const segments = $page.url.pathname.split("/").filter(Boolean);
+    // De-localize first: on /de/chart/AAPL segments[0] is "de", not "chart".
+    const segments = deLocalizeHref($page.url.pathname).split("/").filter(Boolean);
     const prevRoot = segments[0]?.toLowerCase() || "";
 
     // If we're on /chart/[slug], navigate to /chart/[newSymbol]
@@ -442,7 +444,7 @@
   >
     <div class="relative">
       <label
-        class=" rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-14 w-14 flex justify-center items-center"
+        class=" rounded-full border border-line bg-surface-card h-14 w-14 flex justify-center items-center"
       >
         <span
           class="loading loading-spinner loading-md text-fg"
@@ -489,7 +491,7 @@
           <Combobox.Input
             id="combobox-input"
             on:click={() => (inputValue = "")}
-            class="grow rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/60 py-2.5 pl-9 text-sm text-fg placeholder:text-gray-800 dark:placeholder:text-zinc-200 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
+            class="grow rounded-full border border-line bg-surface-raised/60 py-2.5 pl-9 text-sm text-fg placeholder:text-gray-800 dark:placeholder:text-zinc-200 focus:outline-none focus:ring-0 focus:border-gray-300 dark:focus:border-zinc-700 tiny:pl-8 xs:pl-10 w-full"
             placeholder={searchbar_placeholder()}
             aria-label={searchbar_aria_label()}
           />
@@ -515,11 +517,11 @@
                 class="pointer-events-none absolute end-6 top-2.5 gap-1 opacity-80 rtl:flex-row-reverse hidden lg:flex"
               >
                 <kbd
-                  class="kbd kbd-sm rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-fg"
+                  class="kbd kbd-sm rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60 text-fg"
                   >ctrl</kbd
                 >
                 <kbd
-                  class="kbd kbd-sm rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60 text-fg"
+                  class="kbd kbd-sm rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60 text-fg"
                   >K</kbd
                 >
               </div>
@@ -527,7 +529,7 @@
           </div>
         </div>
         <Combobox.Content
-          class="w-auto z-40 -mt-0.5 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-surface-card px-1.5 py-2 shadow-none outline-hidden"
+          class="w-auto z-40 -mt-0.5 rounded-container border border-line bg-surface-card px-1.5 py-2 shadow-none outline-hidden"
           sideOffset={8}
         >
           {#if inputValue?.length > 0 && searchBarData?.length > 0}
@@ -538,7 +540,7 @@
             </div>
             {#each searchBarData as item}
               <Combobox.Item
-                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => handleSearch(item?.symbol, item?.type)}
@@ -567,7 +569,7 @@
             </div>
             {#each searchHistory?.length > 0 ? searchHistory : popularList as item}
               <Combobox.Item
-                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-lg py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                class="cursor-pointer text-fg border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-container py-2.5 pl-2 pr-1.5 text-sm outline-hidden transition-colors duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                 value={item?.symbol}
                 label={item?.name}
                 on:click={() => handleSearch(item?.symbol, item?.type)}
@@ -599,7 +601,7 @@
 
 <label
   for="searchBarModal"
-  class="sm:hidden rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/60 text-fg hover:text-accent transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
+  class="sm:hidden rounded-full border border-line bg-surface-raised/60 text-fg hover:text-accent transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
 >
   <Search class="h-[20px] w-[20px]" />
 </label>
@@ -621,7 +623,7 @@
   ></label>
 
   <div
-    class="z-[2147483646] modal-box w-screen h-dvh min-h-dvh max-w-none max-h-none overflow-hidden m-0 sm:my-8 sm:mx-auto sm:w-3/4 lg:w-1/2 2xl:w-1/3 sm:h-auto sm:min-h-0 sm:max-h-[90vh] sm:max-w-[42rem] relative bg-surface-card text-fg border-0 sm:border border-line rounded-none sm:rounded-2xl shadow-none sm:shadow-2xl p-0"
+    class="z-[2147483646] modal-box w-screen h-dvh min-h-dvh max-w-none max-h-none overflow-hidden m-0 sm:my-8 sm:mx-auto sm:w-3/4 lg:w-1/2 2xl:w-1/3 sm:h-auto sm:min-h-0 sm:max-h-[90vh] sm:max-w-[42rem] relative bg-surface-card text-fg border-0 sm:border border-line rounded-none sm:rounded-container shadow-none sm:shadow-2xl p-0"
   >
     <!-- Mobile header -->
     <div
@@ -664,7 +666,7 @@
 
           <input
             id="modal-search"
-            class="focus:outline-none w-full rounded-2xl border border-line bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-[16px] sm:text-sm text-muted dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-200 focus:ring-0"
+            class="focus:outline-none w-full rounded-container border border-line bg-gray-100/90 dark:bg-zinc-800/80 py-2 pl-10 pr-10 text-[16px] sm:text-sm text-muted dark:text-zinc-100 placeholder:text-gray-500 dark:placeholder:text-zinc-200 focus:ring-0"
             placeholder={searchbar_placeholder()}
             bind:value={inputValue}
             bind:this={inputElement}

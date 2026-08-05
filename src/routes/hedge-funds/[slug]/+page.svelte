@@ -190,7 +190,7 @@
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-container border border-line bg-surface-card py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
@@ -237,7 +237,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-gray-400 dark:text-zinc-300"
+                          class="size-6 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -276,7 +276,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-gray-400 dark:text-zinc-300"
+                          class="size-6 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -303,7 +303,7 @@
             {#if data?.getHedgeFundsData?.mainSectors?.length > 0}
               <div class="mb-10 mt-10">
                 <div
-                  class="relative my-3 space-y-2 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
+                  class="relative my-3 space-y-2 rounded-container border border-line bg-surface-card sm:my-6 p-4"
                 >
                   <div
                     class="flex flex-col sm:flex-row items-start sm:items-center"
@@ -321,7 +321,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
+                          class="inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -342,7 +342,7 @@
                       {#each data?.getHedgeFundsData?.mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
+                          class="inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>

@@ -297,7 +297,7 @@
       <Button
         builders={[builder]}
         on:click={() => (showBulkOptions = false)}
-        class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+        class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
       >
         <span class="truncate text-[0.85rem] sm:text-sm">
           {common_download()}
@@ -324,7 +324,7 @@
       alignOffset={0}
       class="{showBulkOptions && bulkDownload
         ? 'w-auto min-w-64 max-w-80'
-        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
+        : 'min-w-36 w-auto max-w-60'} max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 p-2"
     >
       {#if showBulkOptions && bulkDownload}
         <DropdownMenu.Label

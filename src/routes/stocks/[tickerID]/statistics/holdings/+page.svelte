@@ -271,8 +271,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "bar",
         height: Math.max(360, categories.length * 34 + 40),
         animation: false,
@@ -954,11 +954,11 @@
     >
       <div class="mt-5 sm:mt-0 sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
         <div class="mb-4">
-          <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+          <h2
+            class="type-h2 text-fg"
           >
             ETF Holdings
-          </h1>
+          </h2>
         </div>
 
         <div class="mt-5">
@@ -967,7 +967,7 @@
 
         {#if summaryData.length > 0}
           <div
-            class="mt-4 mb-6 grid grid-cols-2 divide-x divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4"
+            class="mt-4 mb-6 grid grid-cols-2 divide-x divide-gray-200/70 dark:divide-zinc-800/80 rounded-container border border-line bg-surface-card md:grid-cols-4"
           >
             <div class="p-4 bp:p-5 sm:p-6">
               <label class="text-sm text-fg">
@@ -1023,13 +1023,13 @@
             <div class="mt-5">
               <div class="relative">
                 <h2
-                  class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                  class="mb-2 type-h2 text-fg"
                 >
                   Market Value Allocation
                 </h2>
 
                 <div
-                  class="sm:p-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="sm:p-3 border border-line rounded-container bg-surface-card"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}
@@ -1044,7 +1044,7 @@
                 class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+                  class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {etf_detail_holdings_stocks_count({
                     count: summaryData.length.toLocaleString("en-US"),
@@ -1055,7 +1055,7 @@
                   class="mt-1 w-full flex flex-row lg:flex items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
                 >
                   <div
-                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 overflow-hidden flex items-center"
+                    class="relative lg:ml-auto w-full lg:w-fit rounded-full border border-line bg-surface-page/60 overflow-hidden flex items-center"
                   >
                     <div
                       class="inline-block cursor-pointer absolute right-2 top-2 text-sm"
@@ -1101,10 +1101,10 @@
 
             {#if filteredTableData.length > 0}
               <div
-                class="mt-6 w-full m-auto mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+                class="mt-6 w-full m-auto mb-4 rounded-container border border-line bg-surface-card overflow-x-auto"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
+                  class="table table-sm table-compact rounded-none sm:rounded-control w-full m-auto text-fg tabular-nums"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -1179,7 +1179,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1212,9 +1212,9 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        <span class="truncate text-[0.85rem] sm:text-sm">
+                        <span class="truncate text-[0.85rem] sm:text-sm text-fg">
                           {stock_detail_rows({ count: rowsPerPage })}
                         </span>
                         <svg
@@ -1238,7 +1238,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
@@ -1249,7 +1249,7 @@
                               on:click={() => changeRowsPerPage(item)}
                               class="inline-flex justify-between w-full items-center cursor-pointer"
                             >
-                              <span class="text-sm">
+                              <span class="text-sm text-fg">
                                 {stock_detail_rows({ count: item })}
                               </span>
                             </label>
@@ -1264,7 +1264,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

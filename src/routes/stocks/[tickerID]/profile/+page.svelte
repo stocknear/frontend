@@ -160,16 +160,16 @@
       >
         <div class="sm:p-7 w-full mt-2 sm:mt-0">
           <div class="lg:float-left lg:w-[calc(100%-336px-20px)]">
-            <h1 class="text-xl sm:text-2xl font-bold mb-4 w-full">
+            <h2 class="type-h2 text-fg mb-4 w-full">
               {stock_detail_profile_company_description()}
-            </h1>
+            </h2>
             <p class="mb-5 whitespace-pre-line md:text-lg">
               {profileDescription}
             </p>
           </div>
           <div class="lg:-mr-6 shrink-0 lg:float-right lg:w-[336px]">
             <div
-              class="mt-7 rounded border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-3 pb-2 pt-3 xs:px-4 xs:pt-4 lg:mt-1"
+              class="mt-7 rounded-control border border-line bg-surface-card px-3 pb-2 pt-3 xs:px-4 xs:pt-4 lg:mt-1"
             >
               <div class="text-center text-2xl font-semibold">
                 {$displayCompanyName}
@@ -272,11 +272,11 @@
               </table>
             </div>
 
-            <h2 class="mt-6 xs:mt-8 font-bold text-2xl mb-2">
+            <h2 class="mt-6 xs:mt-8 type-h2 text-fg mb-2">
               {stock_detail_profile_contact_details()}
             </h2>
             <div
-              class="rounded border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-4 pb-2 pt-4"
+              class="rounded-control border border-line bg-surface-card px-4 pb-2 pt-4"
             >
               <table class="w-full">
                 <tbody
@@ -317,11 +317,11 @@
                 >
               </table>
             </div>
-            <h2 class="mt-6 xs:mt-8 font-bold text-2xl mb-2">
+            <h2 class="mt-6 xs:mt-8 type-h2 text-fg mb-2">
               {stock_detail_profile_stock_details()}
             </h2>
             <div
-              class="rounded border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 px-2 pb-2 pt-2 xs:px-4 xs:pt-2.5"
+              class="rounded-control border border-line bg-surface-card px-2 pb-2 pt-2 xs:px-4 xs:pt-2.5"
             >
               <table class="w-full">
                 <tbody
@@ -412,7 +412,7 @@
           </div>
 
           <div class=" mb-2 lg:float-left lg:w-[calc(100%-336px-40px)]">
-            <h2 class="mt-6 lg:mt-4 text-xl sm:text-2xl font-bold mb-5">
+            <h2 class="mt-6 lg:mt-4 type-h2 text-fg mb-5">
               {stock_detail_profile_key_executives()}
             </h2>
             {#if rawData?.executives?.length > 0}
@@ -448,7 +448,7 @@
             {:else}
               {stock_detail_profile_no_executives()}
             {/if}
-            <h2 class="mt-10 text-xl sm:text-2xl font-bold mb-5">
+            <h2 class="mt-10 type-h2 text-fg mb-5">
               {stock_detail_profile_sec_filings()}
             </h2>
             {#if rawData?.filings?.length > 0}

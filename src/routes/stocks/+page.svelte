@@ -110,7 +110,7 @@
       >
         <main class="w-full">
           <div class="mb-2 border-b-[2px]">
-            <h1 class="mb-1 e text-2xl sm:text-3xl font-bold">
+            <h1 class="mb-1 e type-h1 text-fg">
               {stocks_title()}
             </h1>
             <p class="mb-3 px-1 text-sm text-fg-muted sm:px-0">

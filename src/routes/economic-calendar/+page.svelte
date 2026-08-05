@@ -72,11 +72,11 @@
     "M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z";
 
   // Common CSS classes
-  const borderClasses = "border border-gray-300 shadow dark:border-zinc-700";
+  const borderClasses = "border border-line";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-fg mb-3";
+    "h-16 w-48 cursor-pointer m-auto flex bg-surface-card text-fg mb-3";
   const dropdownButtonClasses =
-    "border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
+    "border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate";
 
   // Importance levels for dropdown
   const importanceLevels = [1, 2, 3];
@@ -730,7 +730,7 @@
         <main class="w-full">
           <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-1 type-h1 text-fg"
             >
               {economic_main_name()}
             </h1>
@@ -742,7 +742,7 @@
             <div class="relative flex flex-col flex-1 overflow-hidden">
               <!-- Header Dates - Desktop: grid with all days, Mobile: only selected day -->
               <div
-                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
+                class="hidden sm:grid sm:grid-cols-5 mb-5 overflow-hidden rounded-container border border-line divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
               >
                 {#each displayWeekData as day, index (formattedWeekday[index])}
                   <div
@@ -797,7 +797,7 @@
                 {#each displayWeekData as day, index (formattedWeekday[index])}
                   {#if index === selectedWeekday}
                     <div
-                      class="w-full h-16 rounded-full flex items-center justify-center bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold border border-gray-300 shadow dark:border-zinc-700"
+                      class="w-full h-16 rounded-full flex items-center justify-center bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold border border-line"
                     >
                       <label
                         on:click={() => clickWeekday("previous", index)}
@@ -877,10 +877,10 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <div
-                        class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justify-between p-3 bg-white/95 dark:bg-zinc-950/95 border-b border-line"
+                        class="relative sticky z-40 focus:outline-hidden -top-1 flex flex-row items-center justify-between p-3 bg-surface-card border-b border-line"
                         tabindex="0"
                         role="menu"
                       >
@@ -968,7 +968,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <div
                         class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -1016,7 +1016,7 @@
                   {#if filterList.length !== 0}
                     <Button
                       on:click={handleReset}
-                      class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1061,7 +1061,7 @@
                             >
                               <span>{economic_filters_label()}</span>
                               <span
-                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-surface-raised/70 border border-gray-300 shadow dark:border-zinc-700 text-fg"
+                                class="ml-2 rounded-full avatar w-5 h-5 text-xs font-semibold text-center shrink-0 flex items-center justify-center bg-surface-raised/70 border border-line text-fg"
                               >
                                 {filterList.length}
                               </span>
@@ -1100,7 +1100,7 @@
                               on:input={tableSearch}
                               type="text"
                               placeholder={economic_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -1118,7 +1118,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -1140,7 +1140,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-2xl w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-fg tabular-nums"
+                          class="table table-sm table-compact rounded-container w-full border border-line bg-surface-card m-auto text-fg tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1292,7 +1292,7 @@
                                             </svg>
                                           {:else}
                                             <svg
-                                              class="w-4 h-4 text-gray-300 dark:text-zinc-600"
+                                              class="w-4 h-4 text-fg-muted dark:text-zinc-600"
                                               aria-hidden="true"
                                               xmlns="http://www.w3.org/2000/svg"
                                               fill="currentColor"
@@ -1322,7 +1322,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1355,7 +1355,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -1384,7 +1384,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -1414,7 +1414,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
                                 >{economic_pagination_next()}</span
@@ -1464,7 +1464,7 @@
                   {/if}
                 {/each}
                 <div
-                  class="text-sm border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 text-fg-muted p-3 mt-6"
+                  class="text-sm bg-surface-card border border-line rounded-container text-fg-muted p-3 mt-6"
                 >
                   <strong>{economic_source_label()}</strong>
                   {economic_source_text()}

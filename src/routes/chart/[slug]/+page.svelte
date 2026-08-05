@@ -2216,7 +2216,7 @@
   };
   const isIndicatorFavorite = (id: string) => indicatorFavorites.includes(id);
   const getFavoriteStarClass = (isFavorite: boolean) =>
-    `shrink-0 transition cursor-pointer p-1.5 -m-1 rounded-lg active:bg-gray-200 dark:active:bg-zinc-700 ${
+    `shrink-0 transition cursor-pointer p-1.5 -m-1 rounded-container active:bg-gray-200 dark:active:bg-zinc-700 ${
       isFavorite
         ? "opacity-100 text-amber-400"
         : "opacity-40 sm:opacity-0 sm:group-hover:opacity-100 text-fg hover:text-amber-400"
@@ -10215,7 +10215,7 @@
       >
         <!-- Hamburger Menu to Toggle Drawing Tools Sidebar -->
         <button
-          class="hidden sm:flex cursor-pointer items-center justify-center w-9 h-9 text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-lg transition-colors duration-200"
+          class="hidden sm:flex cursor-pointer items-center justify-center w-9 h-9 text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-container transition-colors duration-200"
           on:click={() => (toolbarExpanded = !toolbarExpanded)}
           title={toolbarExpanded ? "Hide drawing tools" : "Show drawing tools"}
         >
@@ -10258,7 +10258,7 @@
         <!-- Back to Asset Button -->
         <a
           href="/{assetType}/{ticker}"
-          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+          class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control transition"
           title="Back to {ticker}"
         >
           <ArrowLeft class="h-4 w-4 flex-shrink-0" />
@@ -10296,7 +10296,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control transition"
               >
                 <AlarmClockPlus class="h-4 w-4 flex-shrink-0" />
                 <span>{activeRange}</span>
@@ -10307,12 +10307,12 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
+              class="w-32 rounded-container border border-line bg-surface-card p-1 text-fg"
             >
               <DropdownMenu.Group>
                 {#each timeframes as frame}
                   <DropdownMenu.Item
-                    class={`flex items-center px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                    class={`flex items-center px-2 py-1.5 text-sm rounded-control cursor-pointer transition ${
                       activeRange === frame
                         ? "text-accent bg-surface-raised"
                         : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
@@ -10339,7 +10339,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded transition"
+                class="cursor-pointer flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control transition"
               >
                 <svelte:component
                   this={currentChartType?.icon}
@@ -10352,12 +10352,12 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-44 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
+              class="w-44 rounded-container border border-line bg-surface-card p-1 text-fg"
             >
               <DropdownMenu.Group>
                 {#each chartTypeOptions as option}
                   <DropdownMenu.Item
-                    class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded cursor-pointer transition ${
+                    class={`flex items-center gap-2 px-2 py-1.5 text-sm rounded-control cursor-pointer transition ${
                       chartType === option.id
                         ? "text-accent bg-surface-raised"
                         : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
@@ -10381,7 +10381,7 @@
         <label
           for="indicatorModal"
           on:click={openIndicatorModal}
-          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+          class="hidden sm:flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -10414,7 +10414,7 @@
               <button
                 use:builder.action
                 {...builder}
-                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+                class="flex items-center gap-1.5 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -10434,11 +10434,11 @@
               side="bottom"
               align="start"
               sideOffset={4}
-              class="w-auto min-w-40 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
+              class="w-auto min-w-40 rounded-container border border-line bg-surface-card p-1 text-fg"
             >
               <DropdownMenu.Group>
                 <DropdownMenu.Item
-                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded-control sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
                   on:click={(e) => e.preventDefault()}
                 >
                   <label
@@ -10497,7 +10497,7 @@
                   </label>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item
-                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded-control sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
                   on:click={(e) => e.preventDefault()}
                 >
                   <label
@@ -10556,7 +10556,7 @@
                   </label>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item
-                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
+                  class="flex items-center justify-between px-2 py-1.5 text-sm rounded-control sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer"
                   on:click={(e) => e.preventDefault()}
                 >
                   <label
@@ -10630,7 +10630,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition"
             >
               <DatabaseZap class="h-4 w-4 flex-shrink-0" />
               <span class="truncate max-w-24">
@@ -10645,13 +10645,13 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
+            class="w-auto min-w-48 max-h-64 overflow-y-auto rounded-container border border-line bg-surface-card p-1 text-fg"
           >
             {#if isSubscribed}
               <label
                 for={!data?.user ? "userLogin" : "addChartStrategy"}
                 on:click={() => (strategyMenuOpen = false)}
-                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-fg hover:text-accent transition"
+                class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-control sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer text-fg hover:text-accent transition"
               >
                 <svg
                   class="h-3.5 w-3.5"
@@ -10697,7 +10697,7 @@
                     on:click={() => {
                       switchStrategy(item);
                     }}
-                    class="flex items-center justify-between px-2 py-1.5 text-sm rounded sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer {item?.id ===
+                    class="flex items-center justify-between px-2 py-1.5 text-sm rounded-control sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 cursor-pointer {item?.id ===
                     selectedStrategy
                       ? 'text-accent'
                       : ''}"
@@ -10733,7 +10733,7 @@
 
           <button
             on:click={() => handleSave(true)}
-            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition"
+            class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -10751,7 +10751,7 @@
           {#if strategyList?.length > 0}
             <label
               for="addChartStrategy"
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -10770,7 +10770,7 @@
           {#if ruleOfList?.length > 0}
             <button
               on:click={clearIndicators}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition whitespace-nowrap"
             >
               <svg
                 class="h-4 w-4"
@@ -10798,7 +10798,7 @@
             <button
               use:builder.action
               {...builder}
-              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded cursor-pointer transition whitespace-nowrap"
+              class="flex items-center gap-1 px-2 py-1 text-sm font-medium text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800 rounded-control cursor-pointer transition whitespace-nowrap"
             >
               {#if $mode === "dark"}
                 <Moon class="size-4" />
@@ -10813,11 +10813,11 @@
             side="bottom"
             align="start"
             sideOffset={4}
-            class="w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
+            class="w-32 rounded-container border border-line bg-surface-card p-1 text-fg"
           >
             <DropdownMenu.Group>
               <DropdownMenu.Item
-                class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
+                class={`flex items-center px-2 py-1.5 text-xs rounded-control cursor-pointer transition ${
                   $mode === "light"
                     ? "text-accent bg-surface-raised"
                     : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
@@ -10828,7 +10828,7 @@
                 {chart_theme_light()}
               </DropdownMenu.Item>
               <DropdownMenu.Item
-                class={`flex items-center px-2 py-1.5 text-xs rounded cursor-pointer transition ${
+                class={`flex items-center px-2 py-1.5 text-xs rounded-control cursor-pointer transition ${
                   $mode === "dark"
                     ? "text-accent bg-surface-raised"
                     : "sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent"
@@ -10899,13 +10899,13 @@
                   class="absolute left-1/2 -translate-x-1/2 top-12 z-[20] pointer-events-auto"
                 >
                   <div
-                    class="flex items-center gap-1.5 px-2 py-1.5 bg-surface-card border border-line rounded-2xl shadow-xl"
+                    class="flex items-center gap-1.5 px-2 py-1.5 bg-surface-card border border-line rounded-container shadow-xl"
                     role="toolbar"
                   >
                     <!-- Color Picker -->
                     <div class="relative">
                       <button
-                        class="cursor-pointer w-7 h-7 rounded-lg border-2 border-gray-300 dark:border-zinc-600 hover:border-violet-500 transition"
+                        class="cursor-pointer w-7 h-7 rounded-container border-2 border-gray-300 dark:border-zinc-600 hover:border-violet-500 transition"
                         style="background-color: {currentOverlayColor};"
                         on:click={() => {
                           showColorPicker = !showColorPicker;
@@ -10916,12 +10916,12 @@
                       ></button>
                       {#if showColorPicker}
                         <div
-                          class="absolute top-full left-0 mt-2 p-2 bg-surface-card border border-line rounded-xl shadow-xl z-30"
+                          class="absolute top-full left-0 mt-2 p-2 bg-surface-card border border-line rounded-container shadow-xl z-30"
                         >
                           <div class="grid grid-cols-5 gap-1.5">
                             {#each DRAWING_COLORS as color}
                               <button
-                                class="cursor-pointer w-6 h-6 rounded-lg border-2 transition {currentOverlayColor ===
+                                class="cursor-pointer w-6 h-6 rounded-container border-2 transition {currentOverlayColor ===
                                 color
                                   ? 'border-violet-500'
                                   : 'border-transparent hover:border-gray-400'}"
@@ -10933,7 +10933,7 @@
                           </div>
                           <input
                             type="color"
-                            class="w-full h-7 mt-2 cursor-pointer rounded-lg"
+                            class="w-full h-7 mt-2 cursor-pointer rounded-container"
                             value={currentOverlayColor}
                             on:change={(e) =>
                               updateOverlayColor(e.currentTarget.value)}
@@ -10948,7 +10948,7 @@
 
                       <div class="relative">
                         <button
-                          class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-fg-muted"
+                          class="cursor-pointer flex items-center gap-1 px-2 py-1 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 transition text-sm text-fg-muted"
                           on:click={() => {
                             showThicknessPicker = !showThicknessPicker;
                             showColorPicker = false;
@@ -10962,12 +10962,12 @@
                         </button>
                         {#if showThicknessPicker}
                           <div
-                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-surface-card border border-line rounded-xl shadow-xl z-30"
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2 bg-surface-card border border-line rounded-container shadow-xl z-30"
                           >
                             <div class="flex items-center gap-1">
                               {#each LINE_THICKNESSES as t}
                                 <button
-                                  class="cursor-pointer w-8 h-8 rounded-lg transition flex items-center justify-center {currentOverlayThickness ===
+                                  class="cursor-pointer w-8 h-8 rounded-container transition flex items-center justify-center {currentOverlayThickness ===
                                   t
                                     ? 'bg-violet-100 dark:bg-violet-900/30'
                                     : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
@@ -10991,7 +10991,7 @@
                     {#if !["rect", "circle"].includes(selectedOverlay.name)}
                       <div class="relative">
                         <button
-                          class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                          class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
                           on:click={() => {
                             showStylePicker = !showStylePicker;
                             showColorPicker = false;
@@ -11015,10 +11015,10 @@
                         </button>
                         {#if showStylePicker}
                           <div
-                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-1 bg-surface-card border border-line rounded-xl shadow-xl z-30"
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 p-1 bg-surface-card border border-line rounded-container shadow-xl z-30"
                           >
                             <button
-                              class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-lg transition {getCurrentLineStyle() ===
+                              class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-container transition {getCurrentLineStyle() ===
                               'solid'
                                 ? 'bg-violet-100 dark:bg-violet-900/30'
                                 : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
@@ -11034,7 +11034,7 @@
                               <span class="text-sm">{chart_drawing_style_solid()}</span>
                             </button>
                             <button
-                              class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-lg transition {getCurrentLineStyle() ===
+                              class="cursor-pointer flex items-center gap-2 w-full px-3 py-2 rounded-container transition {getCurrentLineStyle() ===
                               'dashed'
                                 ? 'bg-violet-100 dark:bg-violet-900/30'
                                 : 'hover:bg-gray-100 dark:hover:bg-zinc-800'}"
@@ -11062,7 +11062,7 @@
 
                     <!-- Lock -->
                     <button
-                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg transition {selectedOverlay.lock
+                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-container transition {selectedOverlay.lock
                         ? 'text-amber-500 bg-amber-100 dark:bg-amber-900/30'
                         : 'text-fg hover:bg-gray-100 dark:hover:bg-zinc-800'}"
                       on:click={toggleSelectedOverlayLock}
@@ -11087,7 +11087,7 @@
 
                     <!-- Delete -->
                     <button
-                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-lg text-fg hover:text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition"
+                      class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-container text-fg hover:text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition"
                       on:click={deleteSelectedOverlay}
                       title={chart_drawing_delete()}
                     >
@@ -11211,7 +11211,7 @@
                     : undefined}
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-container shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
@@ -11460,7 +11460,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/stocks/{ticker}/statistics/earnings"
-                      class="block w-full text-center py-2 px-4 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-2 px-4 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-sm font-medium rounded-container transition"
                     >
                       {chart_earnings_more_financials({ ticker })}
                     </a>
@@ -11529,7 +11529,7 @@
                     : undefined}
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
+                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-container shadow-2xl p-4 w-full sm:min-w-[280px] sm:max-w-[320px]"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-3">
@@ -11631,7 +11631,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/stocks/{ticker}/dividends"
-                      class="block w-full text-center py-2 px-4 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-2 px-4 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-sm font-medium rounded-container transition"
                     >
                       {chart_dividend_more_details({ ticker })}
                     </a>
@@ -11699,7 +11699,7 @@
                     : undefined}
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-xl shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
+                    class="bg-surface-card border border-line rounded-t-xl sm:rounded-container shadow-2xl p-4 w-full sm:min-w-[300px] sm:max-w-[380px]"
                   >
                     <!-- Header -->
                     <div class="flex items-center justify-between gap-2 mb-3">
@@ -11806,7 +11806,7 @@
                           aria-label="GEX label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded-control bg-surface-raised/80 text-[10px] border ${
                               level.isPositive
                                 ? "text-emerald-200 border-emerald-500/30"
                                 : "text-rose-200 border-rose-500/30"
@@ -11859,7 +11859,7 @@
                           aria-label="DEX label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded-control bg-surface-raised/80 text-[10px] border ${
                               level.isPositive
                                 ? "text-sky-200 border-sky-500/30"
                                 : "text-orange-200 border-orange-500/30"
@@ -11892,7 +11892,7 @@
                   style="left: {gexDexPopupPosition.x}px; top: {gexDexPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-container shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -11996,7 +11996,7 @@
                       href="/{assetType}/{ticker}/options/{isGex
                         ? 'gex'
                         : 'dex'}/strike"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-container transition"
                     >
                       {chart_exposure_view_all_levels()}
                     </a>
@@ -12036,7 +12036,7 @@
                         aria-label="Max pain label at ${level.price}"
                       >
                         <span
-                          class="px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] text-amber-200 border border-amber-500/30"
+                          class="px-1.5 py-0.5 rounded-control bg-surface-raised/80 text-[10px] text-amber-200 border border-amber-500/30"
                         >
                           MP {formatExpiration(level.expiration)}
                           {#if level.dte !== null}
@@ -12080,7 +12080,7 @@
                         aria-label="Analyst target label {level.label} at ${level.price}"
                       >
                         <span
-                          class="px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border"
+                          class="px-1.5 py-0.5 rounded-control bg-surface-raised/80 text-[10px] border"
                           style="color: {level.color}; border-color: {level.color}55;"
                         >
                           PT {level.label}
@@ -12117,7 +12117,7 @@
                   style="left: {maxPainPopupPosition.x}px; top: {maxPainPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-container shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12216,7 +12216,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/{assetType}/{ticker}/options/max-pain"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-container transition"
                     >
                       View All Max Pain
                     </a>
@@ -12260,7 +12260,7 @@
                   style="left: {analystTargetPopupPosition.x}px; top: {analystTargetPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-container shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12367,7 +12367,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/stocks/{ticker}/forecast"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-container transition"
                     >
                       View forecast
                     </a>
@@ -12384,7 +12384,7 @@
                     : ""}
                 >
                   <div
-                    class="bg-gray-100 dark:bg-[#2a2e39]/95 border border-gray-300 dark:border-[#3c4150]/60 rounded-2xl shadow-lg py-1.5 sm:py-2 px-2.5 sm:px-3 min-w-[180px] sm:min-w-[220px]"
+                    class="bg-gray-100 dark:bg-[#2a2e39]/95 border border-gray-300 dark:border-[#3c4150]/60 rounded-container shadow-lg py-1.5 sm:py-2 px-2.5 sm:px-3 min-w-[180px] sm:min-w-[220px]"
                   >
                     <!-- Row 1: Price change -->
                     <div
@@ -12470,7 +12470,7 @@
                           aria-label="OI label at ${level.strike}"
                         >
                           <span
-                            class="px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] text-purple-200 border border-purple-500/30"
+                            class="px-1.5 py-0.5 rounded-control bg-surface-raised/80 text-[10px] text-purple-200 border border-purple-500/30"
                           >
                             OI {formatPrice(level.strike)}
                             {formatCount(level.totalOi)}
@@ -12495,7 +12495,7 @@
                   style="left: {oiPopupPosition.x}px; top: {oiPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-container shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12619,7 +12619,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/{assetType}/{ticker}/options/oi"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-container transition"
                     >
                       {chart_exposure_view_all_levels()}
                     </a>
@@ -12665,7 +12665,7 @@
                           aria-label="Hottest contract label at ${level.strike}"
                         >
                           <span
-                            class={`px-1.5 py-0.5 rounded bg-surface-raised/80 text-[10px] border ${
+                            class={`px-1.5 py-0.5 rounded-control bg-surface-raised/80 text-[10px] border ${
                               level.optionType === "C"
                                 ? "text-emerald-200 border-emerald-500/30"
                                 : "text-rose-200 border-rose-500/30"
@@ -12695,7 +12695,7 @@
                   style="left: {hottestPopupPosition.x}px; top: {hottestPopupPosition.y}px;"
                 >
                   <div
-                    class="bg-surface-card border border-line rounded-xl shadow-2xl p-3 sm:p-4 w-full"
+                    class="bg-surface-card border border-line rounded-container shadow-2xl p-3 sm:p-4 w-full"
                   >
                     <!-- Header -->
                     <div class="flex items-center gap-2 mb-2 sm:mb-3">
@@ -12820,7 +12820,7 @@
                     <!-- Link to more details -->
                     <a
                       href="/{assetType}/{ticker}/options/hottest-contracts/volume"
-                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-lg transition"
+                      class="block w-full text-center py-1.5 sm:py-2 px-3 mt-2 sm:mt-3 bg-surface-raised hover:bg-gray-200 dark:hover:bg-zinc-700 text-fg text-xs sm:text-sm font-medium rounded-container transition"
                     >
                       {chart_hottest_view_all()}
                     </a>
@@ -12832,7 +12832,7 @@
                 <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
                   <div class="relative">
                     <label
-                      class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-fg"
@@ -12869,7 +12869,7 @@
                   class="tv-right-rail flex h-full w-[54px] flex-col items-center border-l border-gray-300 dark:border-zinc-800 bg-white dark:bg-[#0b0b0d] py-2"
                 >
                   <button
-                    class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                    class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 ${
                       rightSidebarOpen && rightSidebarTab === "watchlist"
                         ? "bg-surface-raised text-fg"
                         : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
@@ -12896,7 +12896,7 @@
                   </button>
 
                   <button
-                    class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+                    class={`cursor-pointer group relative mt-1 flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 ${
                       rightSidebarOpen && rightSidebarTab === "alerts"
                         ? "bg-surface-raised text-fg"
                         : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
@@ -12927,7 +12927,7 @@
 
                   <div class="mt-auto flex flex-col items-center pb-2">
                     <button
-                      class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
+                      class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
                       on:click={() => toggleRightSidebar()}
                       title={rightSidebarOpen ? chart_sidebar_hide() : chart_sidebar_show()}
                     >
@@ -13009,7 +13009,7 @@
     class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-0 sm:mx-2 min-h-[50vh] h-[85dvh] sm:h-[800px] sm:max-h-[90vh] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-hidden relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <div class="relative flex flex-col w-full h-full">
       <div
@@ -13017,7 +13017,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class="text-[1rem] sm:text-xl font-semibold text-fg"
+            class="text-[1rem] sm:type-h2 text-fg text-fg"
           >
             {chart_modal_indicators_title()}
           </h2>
@@ -13115,7 +13115,7 @@
           </div>
           <button
             type="button"
-            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-container text-sm transition {indicatorModalSection ===
             'Selected'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
               : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
@@ -13137,7 +13137,7 @@
           </button>
           <button
             type="button"
-            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-container text-sm transition {indicatorModalSection ===
             'Favorites'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
               : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
@@ -13160,7 +13160,7 @@
           </div>
           <button
             type="button"
-            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-container text-sm transition {indicatorModalSection ===
             'Technicals'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
               : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
@@ -13185,7 +13185,7 @@
           </button>
           <button
             type="button"
-            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-container text-sm transition {indicatorModalSection ===
             'Fundamentals'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
               : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
@@ -13210,7 +13210,7 @@
           </button>
           <button
             type="button"
-            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-container text-sm transition {indicatorModalSection ===
             'Options'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
               : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
@@ -13233,7 +13233,7 @@
           </button>
           <button
             type="button"
-            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition {indicatorModalSection ===
+            class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-container text-sm transition {indicatorModalSection ===
             'Statistics'
               ? 'bg-violet-100 dark:bg-zinc-800 text-violet-700 dark:text-white'
               : 'text-fg-muted hover:text-violet-800 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-zinc-800/60'}"
@@ -13297,7 +13297,7 @@
                   <div class="mt-2 space-y-1">
                     {#each indicators as indicator}
                       <div
-                        class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                        class="group flex w-full items-center rounded-control px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                       >
                         <button
                           type="button"
@@ -13323,7 +13323,7 @@
                           id={indicator.id}
                           type="checkbox"
                           checked={isIndicatorEnabled(indicator.id)}
-                          class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
@@ -13334,7 +13334,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13364,7 +13364,7 @@
               <div class="mt-2 space-y-1">
                 {#each optionsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group flex w-full items-center rounded-control px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -13391,7 +13391,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -13402,7 +13402,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13469,7 +13469,7 @@
               <div class="mt-2 space-y-1">
                 {#each statisticsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group flex w-full items-center rounded-control px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -13496,7 +13496,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -13507,7 +13507,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -13593,7 +13593,7 @@
               <div class="mt-4 space-y-2 sm:space-y-1">
                 {#each fundamentalsIndicators as indicator}
                   <div
-                    class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group rounded-control px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <div class="flex items-center w-full">
@@ -13621,7 +13621,7 @@
                           id={indicator.id}
                           type="checkbox"
                           checked={isIndicatorEnabled(indicator.id)}
-                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] shrink-0 rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={indicator.id}
@@ -13632,7 +13632,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13655,7 +13655,7 @@
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
                                 type="button"
-                                class="cursor-pointer px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                class="cursor-pointer px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded-control border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
@@ -13725,7 +13725,7 @@
               {#if selectedIndicators.length > 0}
                 <button
                   type="button"
-                  class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded border border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white transition cursor-pointer"
+                  class="cursor-pointer flex items-center gap-1 px-2 py-1 text-xs rounded-control border border-line text-fg-muted hover:border-violet-500 dark:hover:border-violet-400 hover:text-violet-800 dark:hover:text-white transition cursor-pointer"
                   on:click={clearIndicators}
                 >
                   <svg
@@ -13756,7 +13756,7 @@
               <div class="mt-4 space-y-2 sm:space-y-1">
                 {#each selectedIndicators as indicator (indicator.id)}
                   <div
-                    class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group rounded-control px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     <div
                       class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0"
@@ -13786,7 +13786,7 @@
                           id={`selected-${indicator.id}`}
                           type="checkbox"
                           checked={isIndicatorEnabled(indicator.id)}
-                          class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                          class="h-[18px] w-[18px] shrink-0 rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                         />
                         <label
                           for={`selected-${indicator.id}`}
@@ -13797,7 +13797,7 @@
                         {#if hasCustomizableParams(indicator.id)}
                           <button
                             type="button"
-                            class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                            class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                             aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                             on:click|stopPropagation={() =>
                               openParamModal(indicator.id)}
@@ -13820,7 +13820,7 @@
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
                                 type="button"
-                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded-control border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
@@ -13856,7 +13856,7 @@
               <div class="mt-4 space-y-2 sm:space-y-1">
                 {#each favoriteIndicators as indicator}
                   <div
-                    class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group rounded-control px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     <div
                       class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-2 sm:gap-0"
@@ -13864,7 +13864,7 @@
                       <div class="flex items-center">
                         <button
                           type="button"
-                          class="shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300 mr-2 p-1.5 -m-1 rounded-lg active:bg-gray-200 dark:active:bg-zinc-700"
+                          class="shrink-0 transition cursor-pointer text-amber-400 hover:text-amber-300 mr-2 p-1.5 -m-1 rounded-container active:bg-gray-200 dark:active:bg-zinc-700"
                           aria-label={chart_aria_remove_favorite()}
                           on:click|stopPropagation={(event) =>
                             toggleIndicatorFavorite(event, indicator.id)}
@@ -13883,7 +13883,7 @@
                             id={`favorite-${indicator.id}`}
                             type="checkbox"
                             checked={isIndicatorEnabled(indicator.id)}
-                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                            class="h-[18px] w-[18px] shrink-0 rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                           />
                           <label
                             for={`favorite-${indicator.id}`}
@@ -13894,7 +13894,7 @@
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
-                              class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                              class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                               aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
@@ -13937,7 +13937,7 @@
                             {#each FINANCIAL_PERIOD_OPTIONS as option}
                               <button
                                 type="button"
-                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded-control border transition cursor-pointer {getFinancialIndicatorPeriod(
                                   indicator.id,
                                 ) === option.id
                                   ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
@@ -13988,7 +13988,7 @@
               <div class="mt-4 space-y-2 sm:space-y-1">
                 {#each fundamentalsIndicators as indicator}
                   <div
-                    class="group rounded-md px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group rounded-control px-2 py-2 sm:py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <div
@@ -14019,7 +14019,7 @@
                             id={indicator.id}
                             type="checkbox"
                             checked={isIndicatorEnabled(indicator.id)}
-                            class="h-[18px] w-[18px] shrink-0 rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                            class="h-[18px] w-[18px] shrink-0 rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                           />
                           <label
                             for={indicator.id}
@@ -14030,7 +14030,7 @@
                           {#if hasCustomizableParams(indicator.id)}
                             <button
                               type="button"
-                              class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                              class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                               aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                               on:click|stopPropagation={() =>
                                 openParamModal(indicator.id)}
@@ -14053,7 +14053,7 @@
                               {#each FINANCIAL_PERIOD_OPTIONS as option}
                                 <button
                                   type="button"
-                                  class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                  class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded-control border transition cursor-pointer {getFinancialIndicatorPeriod(
                                     indicator.id,
                                   ) === option.id
                                     ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
@@ -14122,7 +14122,7 @@
                               {#each FINANCIAL_PERIOD_OPTIONS as option}
                                 <button
                                   type="button"
-                                  class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded border transition cursor-pointer {getFinancialIndicatorPeriod(
+                                  class="px-2.5 sm:px-2 py-1 sm:py-0.5 text-xs sm:text-[11px] rounded-control border transition cursor-pointer {getFinancialIndicatorPeriod(
                                     indicator.id,
                                   ) === option.id
                                     ? 'border-accent text-violet-700 bg-violet-100 dark:text-white dark:bg-zinc-800'
@@ -14155,7 +14155,7 @@
               <div class="mt-2 space-y-1">
                 {#each optionsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group flex w-full items-center rounded-control px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -14182,7 +14182,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -14193,7 +14193,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -14260,7 +14260,7 @@
               <div class="mt-2 space-y-1">
                 {#each statisticsIndicators as indicator}
                   <div
-                    class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                    class="group flex w-full items-center rounded-control px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                   >
                     {#if isSubscribed}
                       <button
@@ -14287,7 +14287,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -14298,7 +14298,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -14371,7 +14371,7 @@
                 <div class="mt-2 space-y-1">
                   {#each indicators as indicator}
                     <div
-                      class="group flex w-full items-center rounded-md px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                      class="group flex w-full items-center rounded-control px-2 py-1.5 hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                     >
                       <button
                         type="button"
@@ -14397,7 +14397,7 @@
                         id={indicator.id}
                         type="checkbox"
                         checked={isIndicatorEnabled(indicator.id)}
-                        class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
+                        class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-gray-200 dark:bg-zinc-900 lg:h-4 lg:w-4"
                       />
                       <label
                         for={indicator.id}
@@ -14408,7 +14408,7 @@
                       {#if hasCustomizableParams(indicator.id)}
                         <button
                           type="button"
-                          class="ml-1 p-1 rounded transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
+                          class="ml-1 p-1 rounded-control transition cursor-pointer text-fg hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-800/60"
                           aria-label={`Customize ${getIndicatorLabel(indicator)} parameters`}
                           on:click|stopPropagation={() =>
                             openParamModal(indicator.id)}
@@ -14445,11 +14445,11 @@
       tabindex="-1"
     ></div>
     <div
-      class="modal-box z-20 mx-0 sm:mx-2 w-full max-w-md overflow-hidden relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box z-20 mx-0 sm:mx-2 w-full max-w-md overflow-hidden relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
     >
       <!-- Header -->
       <div class="flex flex-row items-center justify-between mb-4 pt-5 px-5">
-        <h2 class="text-[1rem] sm:text-xl font-semibold">
+        <h2 class="text-[1rem] sm:type-h2 text-fg">
           {paramModalIndicator?.label ?? "Settings"}
         </h2>
         <button
@@ -14482,7 +14482,7 @@
             <div class="flex flex-wrap gap-2">
               {#if paramModalTempValues.length === 0}
                 <span
-                  class="text-xs text-muted dark:text-zinc-400 border border-dashed border-line px-2 py-1 rounded-lg"
+                  class="text-xs text-muted dark:text-zinc-400 border border-dashed border-line px-2 py-1 rounded-container"
                 >
                   No lines selected
                 </span>
@@ -14538,7 +14538,7 @@
                 min={paramModalIndicator?.minPeriod ?? PERIOD_LIST_MIN}
                 max={paramModalIndicator?.maxPeriod ?? PERIOD_LIST_MAX}
                 step="1"
-                class="flex-1 px-3 py-2 text-sm bg-surface-raised border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-fg"
+                class="flex-1 px-3 py-2 text-sm bg-surface-raised border border-line rounded-container focus:outline-none focus:ring-2 focus:ring-violet-500 text-fg"
                 bind:value={paramModalCustomPeriod}
                 on:keydown={(e) => {
                   if (e.key === "Enter") {
@@ -14549,14 +14549,14 @@
               />
               <button
                 type="button"
-                class="cursor-pointer px-3 py-2 text-xs sm:text-sm font-medium bg-violet-600 hover:bg-violet-700 text-white rounded-xl transition"
+                class="cursor-pointer px-3 py-2 text-xs sm:text-sm font-medium bg-violet-600 hover:bg-violet-700 text-white rounded-container transition"
                 on:click={addCustomPeriodToParamModal}
               >
                 Add
               </button>
             </div>
             <p class="text-xs text-muted dark:text-zinc-400">
-              Periods are rounded to integers and kept unique.
+              Periods are rounded-control to integers and kept unique.
             </p>
           </div>
         {:else}
@@ -14574,7 +14574,7 @@
                   type="number"
                   min="0"
                   step="any"
-                  class="flex-1 px-3 py-2 text-sm bg-surface-raised border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-fg"
+                  class="flex-1 px-3 py-2 text-sm bg-surface-raised border border-line rounded-container focus:outline-none focus:ring-2 focus:ring-violet-500 text-fg"
                   {value}
                   on:change={(e) => {
                     const parsed = parseFloat(e.currentTarget.value);
@@ -14602,7 +14602,7 @@
       >
         <button
           type="button"
-          class="px-2 sm:px-4 py-2 whitespace-nowrap text-xs sm:text-sm font-medium text-fg-muted hover:text-accent transition cursor-pointer rounded-2xl"
+          class="px-2 sm:px-4 py-2 whitespace-nowrap text-xs sm:text-sm font-medium text-fg-muted hover:text-accent transition cursor-pointer rounded-container"
           on:click={resetParamToDefaults}
         >
           Reset to Defaults
@@ -14610,14 +14610,14 @@
         <div class="flex items-center gap-2">
           <button
             type="button"
-            class="px-4 py-2 text-xs sm:text-sm font-medium border border-line rounded-2xl text-fg hover:border-gray-400 dark:hover:border-zinc-600 transition cursor-pointer"
+            class="px-4 py-2 text-xs sm:text-sm font-medium border border-line rounded-container text-fg hover:border-gray-400 dark:hover:border-zinc-600 transition cursor-pointer"
             on:click={closeParamModal}
           >
             Cancel
           </button>
           <button
             type="button"
-            class="px-4 py-2 text-xs sm:text-sm font-medium bg-violet-600 hover:bg-violet-700 text-white rounded-2xl transition cursor-pointer"
+            class="px-4 py-2 text-xs sm:text-sm font-medium bg-violet-600 hover:bg-violet-700 text-white rounded-container transition cursor-pointer"
             on:click={applyParamChanges}
           >
             Apply
@@ -14634,7 +14634,7 @@
   <label for="addChartStrategy" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="addChartStrategy"
@@ -14687,7 +14687,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="deleteChartStrategy"
@@ -14762,15 +14762,15 @@
     tabindex="-1"
   >
     <div
-      class="w-full max-w-2xl max-h-[85vh] overflow-y-auto mx-4 p-6 bg-surface-card border border-line rounded-2xl shadow-2xl"
+      class="w-full max-w-2xl max-h-[85vh] overflow-y-auto mx-4 p-6 bg-surface-card border border-line rounded-container shadow-2xl"
     >
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold text-fg">
+        <h2 class="type-h2 text-fg text-fg">
           {chart_shortcuts_title()}
         </h2>
         <button
-          class="p-2 rounded-lg text-fg hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
+          class="p-2 rounded-container text-fg hover:text-muted dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 transition cursor-pointer"
           on:click={() => (showKeyboardShortcutsModal = false)}
           aria-label={chart_aria_close_shortcuts()}
         >
@@ -14797,7 +14797,7 @@
                 >{chart_shortcuts_horizontal_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >L</kbd
               >
             </div>
@@ -14806,7 +14806,7 @@
                 >{chart_shortcuts_vertical_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >V</kbd
               >
             </div>
@@ -14815,7 +14815,7 @@
                 >{chart_shortcuts_trend_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >T</kbd
               >
             </div>
@@ -14824,14 +14824,14 @@
                 >{chart_shortcuts_rectangle()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >R</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-fg-muted">{chart_shortcuts_circle()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >C</kbd
               >
             </div>
@@ -14840,7 +14840,7 @@
                 >{chart_shortcuts_fibonacci()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >F</kbd
               >
             </div>
@@ -14849,7 +14849,7 @@
                 >{chart_shortcuts_price_line()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >P</kbd
               >
             </div>
@@ -14858,7 +14858,7 @@
                 >{chart_shortcuts_exit_drawing()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >Esc</kbd
               >
             </div>
@@ -14877,11 +14877,11 @@
               <span class="text-sm text-fg-muted">{chart_shortcuts_undo()}</span>
               <div class="flex gap-1">
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                   >Ctrl</kbd
                 >
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                   >Z</kbd
                 >
               </div>
@@ -14890,15 +14890,15 @@
               <span class="text-sm text-fg-muted">{chart_shortcuts_redo()}</span>
               <div class="flex gap-1">
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                   >Ctrl</kbd
                 >
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                   >Shift</kbd
                 >
                 <kbd
-                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                  class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                   >Z</kbd
                 >
               </div>
@@ -14908,14 +14908,14 @@
                 >{chart_shortcuts_delete_drawing()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >Delete</kbd
               >
             </div>
             <div class="flex items-center justify-between py-1.5">
               <span class="text-sm text-fg-muted">{chart_shortcuts_zoom_in()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >+</kbd
               >
             </div>
@@ -14923,7 +14923,7 @@
               <span class="text-sm text-fg-muted">{chart_shortcuts_zoom_out()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >-</kbd
               >
             </div>
@@ -14931,7 +14931,7 @@
               <span class="text-sm text-fg-muted">{chart_shortcuts_pan_left()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >&larr;</kbd
               >
             </div>
@@ -14940,7 +14940,7 @@
                 >{chart_shortcuts_pan_right()}</span
               >
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >&rarr;</kbd
               >
             </div>
@@ -14956,83 +14956,83 @@
           </h3>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_1min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >1</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_5min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >2</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_15min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >3</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_30min()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >4</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_1hour()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >5</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_4hour()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >6</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_daily()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >7</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_weekly()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >8</kbd
               >
             </div>
             <div
-              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded"
+              class="flex items-center justify-between py-1.5 px-2 bg-gray-50 dark:bg-zinc-800/50 rounded-control"
             >
               <span class="text-sm text-fg-muted">{chart_shortcuts_monthly()}</span>
               <kbd
-                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded text-fg-muted"
+                class="px-2 py-1 text-xs font-mono bg-surface-raised border border-line rounded-control text-fg-muted"
                 >9</kbd
               >
             </div>

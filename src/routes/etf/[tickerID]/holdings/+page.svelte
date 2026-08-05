@@ -173,8 +173,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "bar",
         height: 500,
         animation: false,
@@ -349,11 +349,11 @@
     >
       <div class="mt-5 sm:mt-0 sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
         <div class="flex flex-row items-center md:space-x-4 md:border-0">
-          <h1
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+          <h2
+            class="type-h2 text-fg"
           >
             {etf_detail_holdings_title({ ticker: $etfTicker })}
-          </h1>
+          </h2>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
               class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-muted dark:text-zinc-400 md:ml-0"
@@ -368,7 +368,7 @@
         </div>
 
         <div
-          class="mt-4 mb-4 grid grid-cols-2 grid-rows-1 divide-gray-200/70 dark:divide-zinc-800/80 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 md:grid-cols-3 md:grid-rows-1 divide-x"
+          class="mt-4 mb-4 grid grid-cols-2 grid-rows-1 divide-gray-200/70 dark:divide-zinc-800/80 rounded-container border border-line bg-surface-card md:grid-cols-3 md:grid-rows-1 divide-x"
         >
           <div class="p-4 bp:p-5 sm:p-6">
             <label
@@ -462,13 +462,13 @@
             <div class="grow mt-5">
               <div class="relative">
                 <h2
-                  class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                  class="mb-2 type-h2 text-fg"
                 >
                   {etf_detail_holdings_sector_allocation()}
                 </h2>
 
                 <div
-                  class="sm:p-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="sm:p-3 border border-line rounded-container bg-surface-card"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}

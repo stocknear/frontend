@@ -65,13 +65,13 @@
 
         <div class="flex flex-row items-center">
           <h3
-            class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+            class="mr-1 flex flex-row items-center type-h2 text-fg"
           >
             {stock_detail_earnings_surprise()}
           </h3>
           <label
             class="{latestInfoDate(rawData?.date)
-              ? 'border border-gray-300 shadow dark:border-zinc-700'
+              ? 'border border-line'
               : 'hidden'} bg-surface-raised/50 text-fg ml-2 font-semibold not-italic text-[0.7rem] rounded-full px-2 py-0.5"
             >{stock_detail_new()}</label
           >
@@ -81,7 +81,7 @@
 
     <div
       class="text-[1rem] {latestInfoDate(rawData?.date)
-        ? 'bg-white/70 dark:bg-zinc-950/40 '
+        ? 'bg-surface-card '
         : ' pl-1'} "
     >
       <div class="mt-1">

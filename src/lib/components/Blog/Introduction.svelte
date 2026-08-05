@@ -47,7 +47,7 @@
 </script>
 
 <div
-  class="mb-6 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3"
+  class="mb-6 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3"
 >
   <p class="mb-2">
     {m.blog_intro_release({

@@ -72,8 +72,8 @@
       credits: { enabled: false },
       chart: {
         type: "area",
-        backgroundColor: $mode === "light" ? "#fff" : "#18191a",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#18191a",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: $screenWidth < 640 ? 240 : 360,
         animation: false,
       },
@@ -197,7 +197,7 @@
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-t-2xl sm:rounded-2xl border border-line shadow-2xl"
+      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-t-2xl sm:rounded-container border border-line shadow-2xl"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -206,7 +206,7 @@
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-fg"
+            class="text-lg sm:type-h2 text-fg text-fg"
           >
             {covered_call_screener_chart_modal_title({ symbol: item.symbol })}
           </h3>
@@ -238,7 +238,7 @@
         <!-- Loading skeleton -->
         <div class="px-4 sm:px-6 py-4">
           <div
-            class="w-full bg-surface-raised/60 rounded-lg animate-pulse"
+            class="w-full bg-surface-raised/60 rounded-container animate-pulse"
             style="height: {$screenWidth < 640 ? 240 : 360}px"
           ></div>
         </div>
@@ -249,10 +249,10 @@
             {#each Array(6) as _}
               <div class="space-y-2">
                 <div
-                  class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
+                  class="h-4 w-24 bg-gray-200 dark:bg-zinc-700 rounded-control animate-pulse"
                 ></div>
                 <div
-                  class="h-4 w-16 bg-surface-raised rounded animate-pulse"
+                  class="h-4 w-16 bg-surface-raised rounded-control animate-pulse"
                 ></div>
               </div>
             {/each}
@@ -263,7 +263,7 @@
         <div class="px-4 sm:px-6 py-4">
           <div
             use:highcharts={chartConfig}
-            class=" bg-white/70 dark:bg-zinc-950/40"
+            class=" bg-surface-card"
           ></div>
         </div>
 
@@ -282,7 +282,7 @@
                 <div class="text-sm text-fg-muted">
                   {covered_call_screener_chart_buy_stock()}
                   {item.stockPrice?.toFixed(2)}
-                  <span class="mx-1 text-gray-400">|</span>
+                  <span class="mx-1 text-fg-subtle">|</span>
                   {covered_call_screener_chart_sell_call({
                     strike: item.strike,
                   })}

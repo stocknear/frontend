@@ -174,7 +174,7 @@
 </script>
 
 <tr
-  class="relative bg-white/60 dark:bg-zinc-950/40 border-b border-line text-fg z-20"
+  class="relative bg-surface-card border-b border-line text-fg z-20"
 >
   {#if leadingLabel !== null}
     <th

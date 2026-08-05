@@ -157,6 +157,35 @@ for (const [name, count] of Object.entries(hardcodedCounts)) {
     );
   }
 }
+
+// Reading a fixed index out of a split pathname silently breaks on every
+// locale-prefixed route: /de/chat/<id> made `split("/")[1]` return "chat", so
+// the chat lookup threw and 302'd. Use the route param, or de-localize first.
+// Files that legitimately inspect the prefix (the locale detector, the SSR
+// hooks, the SEO canonicaliser) opt out by naming a locale helper nearby.
+for (const file of sourceFiles) {
+  const lines = fs.readFileSync(file, "utf8").split("\n");
+  lines.forEach((line, index) => {
+    const splitsPathname = /pathname[^;]*\.split\(/.test(line);
+    if (!splitsPathname) return;
+    const window = lines.slice(index, index + 12).join("\n");
+    // Files whose job IS the prefix opt out by naming a locale helper nearby.
+    if (/canonicalizeLocale|deLocalize|hasLocalePrefix/.test(window)) return;
+
+    // Two shapes to catch: indexing the split result inline on this line, and
+    // assigning it to a variable that is indexed within the next few lines.
+    const inline = /\.split\([^)]*\)[^;]*?\[\s*\d+\s*\]/.test(line);
+    const declaration = line.match(/(?:const|let)\s+(\w+)\s*=/);
+    const viaVariable =
+      declaration && new RegExp(`\\b${declaration[1]}\\s*\\??\\.?\\[\\s*\\d+\\s*\\]`).test(window);
+
+    if (inline || viaVariable) {
+      failures.push(
+        `${path.relative(root, file)}:${index + 1}: positional index into a split pathname is locale-fragile (a /de/ prefix shifts every segment) — use the route param or deLocalizeHref()`,
+      );
+    }
+  });
+}
 const sourceState = Object.fromEntries(
   baseFiles.map((file) => [
     file,

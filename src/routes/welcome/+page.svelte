@@ -94,7 +94,7 @@
 
 <main class="text-fg w-full min-h-screen pb-20">
   <section
-    class="border-b border-line sm:rounded-2xl w-full bg-white/70 dark:bg-zinc-950/40"
+    class="border-b border-line sm:rounded-container w-full bg-surface-card"
   >
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-12 md:px-8">
       <div class="text-center">
@@ -120,7 +120,7 @@
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
     <h2
-      class="text-xl font-semibold mb-5 tracking-tight text-fg"
+      class="type-h2 text-fg mb-5 tracking-tight text-fg"
     >
       {welcome_greeting()}
     </h2>
@@ -150,7 +150,7 @@
         {welcome_pro_unlocks_title()}
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-fg-muted marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-fg-muted marker:text-fg-subtle dark:marker:text-zinc-600"
       >
         <li>{welcome_pro_feature_1()}</li>
         <li>{welcome_pro_feature_2()}</li>
@@ -165,7 +165,7 @@
         {welcome_plus_unlocks_title()}
       </p>
       <ul
-        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-fg-muted marker:text-gray-400 dark:marker:text-zinc-600"
+        class="list-disc list-inside mb-5 text-sm sm:text-base leading-relaxed text-fg-muted marker:text-fg-subtle dark:marker:text-zinc-600"
       >
         <li>{welcome_plus_feature_1()}</li>
         <li>{welcome_plus_feature_2()}</li>
@@ -178,7 +178,7 @@
 
     <a
       href="/"
-      class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200"
+      class="flex justify-center items-center w-fit px-10 m-auto py-2.5 mt-10 rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200"
     >
       {welcome_cta_button()}
     </a>

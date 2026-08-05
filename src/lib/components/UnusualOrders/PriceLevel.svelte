@@ -183,8 +183,8 @@
       credits: { enabled: false },
       chart: {
         type: chartType,
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 300,
         zoomType: "x",
@@ -354,7 +354,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-1.5">
-        <h3 class="text-xl sm:text-2xl font-bold text-fg">
+        <h3 class="type-h2 text-fg text-fg">
           {stock_detail_price_levels_title()}
         </h3>
         <InfoModal
@@ -370,7 +370,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <!-- Support Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
+          class="bg-surface-card border border-line rounded-container p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_price_levels_key_support()}</span>
@@ -415,7 +415,7 @@
               </span>
             </div>
           {:else}
-            <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
+            <div class="text-xl font-semibold text-fg-subtle dark:text-zinc-600">
               —
             </div>
           {/if}
@@ -423,7 +423,7 @@
 
         <!-- Resistance Widget -->
         <div
-          class="bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl p-4"
+          class="bg-surface-card border border-line rounded-container p-4"
         >
           <div class="text-sm mb-2 flex items-center">
             <span>{stock_detail_price_levels_key_resistance()}</span>
@@ -468,7 +468,7 @@
               </span>
             </div>
           {:else}
-            <div class="text-xl font-semibold text-gray-400 dark:text-zinc-600">
+            <div class="text-xl font-semibold text-fg-subtle dark:text-zinc-600">
               —
             </div>
           {/if}
@@ -478,7 +478,7 @@
 
     {#if showLocked}
       <div
-        class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 h-[300px] flex flex-col items-center justify-center"
+        class="rounded-container border border-line bg-surface-card h-[300px] flex flex-col items-center justify-center"
       >
         <a
           href="/pricing"
@@ -506,11 +506,11 @@
           class="flex items-center gap-3 text-xs text-fg-muted"
         >
           <span class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500"></span>
+            <span class="w-2.5 h-2.5 rounded-control bg-emerald-500"></span>
             {stock_detail_price_levels_support()}
           </span>
           <span class="flex items-center gap-1.5">
-            <span class="w-2.5 h-2.5 rounded-sm bg-red-500"></span>
+            <span class="w-2.5 h-2.5 rounded-control bg-red-500"></span>
             {stock_detail_price_levels_resistance()}
           </span>
         </div>
@@ -538,7 +538,7 @@
 
       <!-- Chart - MaxPain Style -->
       <div
-        class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+        class="border border-line rounded-container bg-surface-card overflow-hidden"
       >
         <div use:highcharts={config}></div>
       </div>

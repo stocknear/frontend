@@ -397,7 +397,7 @@
         <main class="w-full">
           <div class="mb-6 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-2 type-h1 text-fg"
             >
               {etf_new_launches_main_name()}
             </h1>
@@ -410,7 +410,7 @@
               class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
             >
               <h2
-                class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+                class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
               >
                 {etf_new_launches_count({
                   count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -442,7 +442,7 @@
                   </div>
 
                   <div
-                    class="h-9 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 px-3 flex items-center"
+                    class="h-9 rounded-full border border-line bg-surface-page/60 px-3 flex items-center"
                   >
                     <input
                       bind:value={inputValue}
@@ -466,7 +466,7 @@
                   <button
                     on:click={resetColumnOrder}
                     title="Reset column order"
-                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                    class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                   >
                     <svg
                       class="w-4 h-4"
@@ -493,7 +493,7 @@
               <div class="flex flex-col justify-center items-center">
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
+                    class="table table-sm table-compact w-full border border-line rounded-container overflow-hidden bg-surface-card m-auto"
                   >
                     <thead>
                       <TableHeader

@@ -260,7 +260,7 @@
     >
       <div class="inline-flex flex-row items-center gap-1">
         <h2
-          class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+          class="type-h2 text-fg"
         >
           {stock_detail_stats_management_guidance_title()}
         </h2>
@@ -299,7 +299,7 @@
 
         {#if isStaleGuidance}
           <div
-            class=" mt-4 flex items-center px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30"
+            class=" mt-4 flex items-center px-4 py-2.5 rounded-container text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30"
           >
             <svg
               class="w-4 h-4 shrink-0 text-violet-500 dark:text-violet-400 mr-2"

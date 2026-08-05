@@ -107,7 +107,7 @@
   <DropdownMenu.Trigger asChild let:builder>
     <Button
       builders={[builder]}
-      class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+      class="cursor-pointer min-w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
       <span class="text-[0.85rem] sm:text-sm"
         >{stock_detail_financials_indicators()}</span
@@ -140,11 +140,11 @@
     align="end"
     sideOffset={10}
     alignOffset={0}
-    class="w-72 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+    class="w-72 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
   >
     <!-- Sticky search input -->
     <div
-      class="sticky -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-line"
+      class="sticky -top-1 z-40 bg-surface-card p-2 border-b border-line"
     >
       <div class="relative w-full">
         <input
@@ -152,7 +152,7 @@
           bind:this={searchInputEl}
           on:keydown|stopPropagation
           autocomplete="off"
-          class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
+          class="text-sm w-full border-0 bg-surface-card focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
           type="text"
           placeholder={stock_detail_financials_search_indicators()}
         />
@@ -190,7 +190,7 @@
       </div>
       {#each filteredPresets as preset}
         <DropdownMenu.Item
-          class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-lg"
+          class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-container"
         >
           <label
             on:click|capture|preventDefault={() => onTogglePreset(preset.key)}
@@ -198,7 +198,7 @@
           >
             <input
               type="checkbox"
-              class="rounded checked:bg-blue-700 dark:checked:bg-blue-600 cursor-pointer"
+              class="rounded-control checked:bg-blue-700 dark:checked:bg-blue-600 cursor-pointer"
               checked={selectedPresetKeys.has(preset.key)}
             />
             <span class="ml-2 text-sm">{preset.label}</span>
@@ -216,7 +216,7 @@
       </div>
       {#each group.items as indicator}
         <DropdownMenu.Item
-          class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-lg"
+          class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-container"
         >
           <label
             on:click|capture|preventDefault={() => onToggle(indicator.id)}
@@ -224,7 +224,7 @@
           >
             <input
               type="checkbox"
-              class="rounded checked:bg-blue-700 dark:checked:bg-blue-600 cursor-pointer"
+              class="rounded-control checked:bg-blue-700 dark:checked:bg-blue-600 cursor-pointer"
               checked={selectedIds.has(indicator.id)}
             />
             <span class="ml-2 text-sm">{indicator.label}</span>
@@ -241,14 +241,14 @@
 
     <!-- Sticky footer -->
     <div
-      class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-line w-full flex justify-between items-center"
+      class="sticky -bottom-1 bg-surface-card z-50 p-2 border-t border-line w-full flex justify-between items-center"
     >
       <label
         on:click={() => {
           searchQuery = "";
           onReset();
         }}
-        class="w-full hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        class="w-full hover:text-accent text-fg-muted bg-surface-card text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_reset_selection()}
       </label>
@@ -257,7 +257,7 @@
           searchQuery = "";
           onSelectAll();
         }}
-        class="w-full flex justify-end hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+        class="w-full flex justify-end hover:text-accent text-fg-muted bg-surface-card text-start text-sm cursor-pointer"
       >
         {stock_detail_financials_select_all()}
       </label>

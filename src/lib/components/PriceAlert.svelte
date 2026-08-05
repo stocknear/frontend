@@ -210,7 +210,7 @@
   ></label>
 
   <div
-    class="modal-box w-full min-h-fit h-auto max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain sm:h-[560px] sm:max-h-[560px] p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full min-h-fit h-auto max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain sm:h-[560px] sm:max-h-[560px] p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="priceAlertModal"
@@ -277,7 +277,7 @@
               <option value="volumeSpike">Volume spike</option>
             </select>
             <svg
-              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+              class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
@@ -315,7 +315,7 @@
                 <option value="below">{stock_detail_below()}</option>
               </select>
               <svg
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -340,7 +340,7 @@
               >
                 <button on:click={() => stepSizeValue("add")}>
                   <svg
-                    class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                    class="size-6 cursor-pointer text-fg-subtle hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -356,7 +356,7 @@
                 </button>
                 <button on:click={() => stepSizeValue("minus")}>
                   <svg
-                    class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                    class="size-6 cursor-pointer text-fg-subtle hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -388,7 +388,7 @@
                 <option value="below">{stock_detail_below()}</option>
               </select>
               <svg
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -412,7 +412,7 @@
                 <option value="200">200 MA</option>
               </select>
               <svg
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -441,7 +441,7 @@
                 <option value="down">Down</option>
               </select>
               <svg
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -491,7 +491,7 @@
                 <option value="3">3x avg</option>
               </select>
               <svg
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -515,7 +515,7 @@
                 <option value="down">Only if below alert price</option>
               </select>
               <svg
-                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-zinc-400"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-fg-subtle dark:text-zinc-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -543,7 +543,7 @@
               maxlength={NOTE_MAX_LENGTH}
               rows="4"
               placeholder="Note down why this alert level matters and what you plan to do when it triggers"
-              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-gray-400 border border-line bg-surface-page/60 text-fg text-sm rounded-2xl py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
+              class="w-full font-normal placeholder:text-gray-600 dark:placeholder:text-fg-subtle border border-line bg-surface-page/60 text-fg text-sm rounded-container py-2 px-3 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500"
             ></textarea>
             <div
               class="mt-1 flex items-center justify-between text-[11px] text-fg"

@@ -624,5 +624,5 @@
 
 <div
     bind:this={container}
-    class="w-full h-[500px] sm:h-[600px] lg:h-[900px] rounded-xl overflow-hidden border border-slate-200/90 bg-slate-50 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/40"
+    class="w-full h-[500px] sm:h-[600px] lg:h-[900px] rounded-container overflow-hidden border border-slate-200/90 bg-slate-50 dark:border-zinc-800 dark:bg-surface-card"
 ></div>

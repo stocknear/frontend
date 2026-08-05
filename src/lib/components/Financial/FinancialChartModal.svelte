@@ -284,7 +284,8 @@
     return {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#18181b",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 400,
         animation: false,
         spacing: [20, 10, 20, 10],
@@ -578,7 +579,7 @@
   >
     <!-- Modal Content -->
     <div
-      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-surface-card rounded-t-2xl sm:rounded-2xl shadow-2xl border border-line animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-surface-card rounded-t-2xl sm:rounded-container shadow-2xl border border-line animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -589,7 +590,7 @@
           <div>
             <h2
               id="modal-title"
-              class="text-lg sm:text-xl font-semibold text-fg"
+              class="text-lg sm:type-h2 text-fg text-fg"
             >
               {metricLabel}
             </h2>
@@ -618,7 +619,7 @@
             <DropdownMenu.Trigger asChild let:builder>
               <Button
                 builders={[builder]}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-container bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
               >
                 <span>{RANGE_LABEL_MAP[selectedRange] || selectedRange}</span>
                 <svg
@@ -640,7 +641,7 @@
               side="bottom"
               align="start"
               sideOffset={8}
-              class="min-w-[100px] rounded-2xl border border-line bg-white dark:bg-zinc-800 p-2 text-fg shadow-lg"
+              class="min-w-[100px] rounded-container border border-line bg-white dark:bg-zinc-800 p-2 text-fg shadow-lg"
             >
               <DropdownMenu.Group>
                 {#each RANGE_OPTIONS as option}
@@ -654,7 +655,7 @@
                     }}
                     class="{selectedRange === option.value
                       ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-accent font-medium'
-                      : ''} cursor-pointer hover:text-accent rounded-xl"
+                      : ''} cursor-pointer hover:text-accent rounded-container"
                   >
                     <div class="flex items-center justify-between w-full gap-2">
                       <span>{option.label}</span>
@@ -680,7 +681,7 @@
           <!-- Chart Mode Toggle -->
           <Button
             on:click={toggleChartMode}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-container bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />
@@ -723,7 +724,7 @@
           </div>
         {:else}
           <div class="h-[400px] flex items-center justify-center">
-            <span class="loading loading-spinner loading-md text-gray-400"
+            <span class="loading loading-spinner loading-md text-fg-subtle"
             ></span>
           </div>
         {/if}

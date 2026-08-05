@@ -107,8 +107,8 @@
     const options = {
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 250,
         animation: false,
       },
@@ -225,8 +225,8 @@
         },
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -385,7 +385,7 @@
     <!--Start Content-->
     <div class="w-auto lg:w-full flex flex-col m-auto">
       <h2
-        class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+        class="mb-2 type-h2 text-fg"
       >
         {stock_detail_about({ ticker: $stockTicker })}
       </h2>
@@ -496,7 +496,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto">
         <h2
-          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+          class="mb-2 type-h2 text-fg"
         >
           {stock_detail_financial_performance()}
         </h2>
@@ -536,7 +536,7 @@
 
         {#if configFinancial}
           <div
-            class="mt-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+            class="mt-3 border border-line rounded-container bg-surface-card"
             use:highcharts={configFinancial}
           ></div>
         {/if}
@@ -567,7 +567,7 @@
       <!--Start Content-->
       <div class="w-auto lg:w-full flex flex-col m-auto pb-10">
         <h2
-          class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+          class="mb-2 type-h2 text-fg"
         >
           {stock_detail_analyst_forecast()}
         </h2>
@@ -587,7 +587,7 @@
 
         {#if configAnalyst}
           <div
-            class="mt-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+            class="mt-3 border border-line rounded-container bg-surface-card"
             use:highcharts={configAnalyst}
           ></div>
         {/if}

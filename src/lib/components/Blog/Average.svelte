@@ -16,14 +16,14 @@
   {m.blog_heading_industry_comparison()}
 </h2>
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <thead>
       <tr
-        class="bg-white dark:bg-default border-b border-[#27272A] text-fg"
+        class="bg-white dark:bg-default border-b border-line text-fg"
       >
         {#each columns as column, index}
           <th
@@ -63,14 +63,14 @@
 {@html blogData?.textOne}
 
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <thead>
       <tr
-        class="bg-white dark:bg-default border-b border-[#27272A] text-fg"
+        class="bg-white dark:bg-default border-b border-line text-fg"
       >
         {#each columns as column, index}
           <th
@@ -110,14 +110,14 @@
 {@html blogData?.textTwo}
 
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <thead>
       <tr
-        class="bg-white dark:bg-default border-b border-[#27272A] text-fg"
+        class="bg-white dark:bg-default border-b border-line text-fg"
       >
         {#each columns as column, index}
           <th

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
@@ -39,15 +40,15 @@
   let activeIdx = 0;
 
   // Subscribe to the $page store to reactively update the activeIdx based on the URL
-  $: if ($page.url.pathname === "/market-mover/gainers") {
+  $: if (deLocalizeHref($page.url.pathname) === "/market-mover/gainers") {
     activeIdx = 0;
-  } else if ($page.url.pathname.startsWith("/market-mover/losers")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/market-mover/losers")) {
     activeIdx = 1;
-  } else if ($page.url.pathname.startsWith("/market-mover/active")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/market-mover/active")) {
     activeIdx = 2;
-  } else if ($page.url.pathname.startsWith("/market-mover/premarket")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/market-mover/premarket")) {
     activeIdx = 3;
-  } else if ($page.url.pathname.startsWith("/market-mover/afterhours")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/market-mover/afterhours")) {
     activeIdx = 4;
   }
 </script>
@@ -76,7 +77,7 @@
         <main class="w-full lg:pr-5">
           <div class="mb-2 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-2 type-h1 text-fg"
             >
               {layout_market_mover()}
             </h1>

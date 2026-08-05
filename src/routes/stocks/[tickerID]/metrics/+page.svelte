@@ -155,7 +155,8 @@
     const options = {
       chart: {
         type: chartMode === "bar" ? "column" : "spline",
-        backgroundColor: $mode === "light" ? "#fff" : "#18181b",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 400,
         animation: false,
         spacing: [20, 10, 20, 10],
@@ -637,7 +638,7 @@
                     class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
                   >
                     <h2
-                      class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
+                      class="text-start whitespace-nowrap type-h2 text-fg py-1 w-full"
                     >
                       {category}
                     </h2>
@@ -647,7 +648,7 @@
                       <div class="ml-auto">
                         <div class="inline-flex">
                           <div
-                            class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+                            class="w-fit flex text-sm items-center gap-1 rounded-full border border-line
            "
                           >
                             {#each tabs as item, i (item)}
@@ -675,14 +676,14 @@
                   </div>
                 </div>
               {:else}
-                <h2 class="mt-5 text-xl font-bold mb-4">{category}</h2>
+                <h2 class="mt-5 type-h2 text-fg mb-4">{category}</h2>
               {/if}
 
               <div
                 class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
               >
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums m-auto"
+                  class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line bg-surface-card text-fg tabular-nums m-auto"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-fg"
@@ -716,7 +717,7 @@
                             class="cursor-pointer inline-block border-none"
                           >
                             <svg
-                              class="w-5 h-5 text-gray-500 dark:text-gray-300"
+                              class="w-5 h-5 text-gray-500 dark:text-fg-muted"
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -777,7 +778,7 @@
                             class="cursor-pointer inline-block border-none"
                           >
                             <svg
-                              class="w-5 h-5 text-gray-500 dark:text-gray-300"
+                              class="w-5 h-5 text-gray-500 dark:text-fg-muted"
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -834,7 +835,7 @@
           {/each}
 
           <div
-            class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 -mt-5"
+            class="text-sm border border-line p-3 -mt-5"
           >
             <strong>Source:</strong>
             {@html stock_detail_metrics_source({
@@ -864,7 +865,7 @@
     aria-labelledby="metrics-modal-title"
   >
     <div
-      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-surface-card rounded-t-2xl sm:rounded-2xl shadow-2xl border border-line animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-surface-card rounded-t-2xl sm:rounded-container shadow-2xl border border-line animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -875,7 +876,7 @@
           <div>
             <h2
               id="metrics-modal-title"
-              class="text-lg sm:text-xl font-semibold text-fg"
+              class="text-lg sm:type-h2 text-fg text-fg"
             >
               {modalLabel}
             </h2>
@@ -899,7 +900,7 @@
         <div class="flex flex-wrap items-center gap-2 mt-4">
           <Button
             on:click={toggleMode}
-            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-2xl bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
+            class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border border-line rounded-container bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700"
           >
             {#if chartMode === "bar"}
               <LineChart class="w-4 h-4" />
@@ -918,7 +919,7 @@
           <div class="w-full" use:highcharts={config}></div>
         {:else}
           <div class="h-[400px] flex items-center justify-center">
-            <span class="loading loading-spinner loading-md text-gray-400"
+            <span class="loading loading-spinner loading-md text-fg-subtle"
             ></span>
           </div>
         {/if}

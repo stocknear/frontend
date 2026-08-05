@@ -2926,7 +2926,7 @@
       class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
     >
       <h2
-        class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+        class="text-start w-full mb-2 sm:mb-0 type-h2 text-fg"
       >
         {title}
       </h2>
@@ -2968,7 +2968,7 @@
         on:input={search}
         type="text"
         placeholder={list_search_placeholder()}
-        class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+        class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
       />
     </div>
 
@@ -2979,7 +2979,7 @@
           <DropdownMenu.Trigger asChild let:builder>
             <Button
               builders={[builder]}
-              class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+              class="min-w-fit w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
             >
               <span
                 class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0 {Number(
@@ -3009,7 +3009,7 @@
             side="bottom"
             align="end"
             sideOffset={10}
-            class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+            class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
           >
             <DropdownMenu.Group>
               {#each quickFilter?.options ?? [] as option}
@@ -3036,7 +3036,7 @@
         <Button
           on:click={resetQuickFilters}
           title={common_reset_title()}
-          class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center gap-x-1 px-2 sm:px-3 py-2 rounded-full truncate"
+          class="min-w-fit w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center gap-x-1 px-2 sm:px-3 py-2 rounded-full truncate"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -3068,7 +3068,7 @@
           <Button
             builders={[builder]}
             on:click={() => (allRows = sortIndicatorCheckMarks(allRows))}
-            class="min-w-fit w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+            class="min-w-fit w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="w-fit text-[0.85rem] sm:text-sm ml-1 sm:ml-0"
               >{list_indicators_label()}</span
@@ -3094,11 +3094,11 @@
           align="end"
           sideOffset={10}
           alignOffset={0}
-          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+          class="w-60 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
         >
           <!-- Search Input -->
           <div
-            class="sticky fixed -top-1 z-40 bg-white/95 dark:bg-zinc-950/95 p-2 border-b border-line"
+            class="sticky fixed -top-1 z-40 bg-surface-card p-2 border-b border-line"
           >
             <div class="relative w-full">
               <!-- Input Field -->
@@ -3107,7 +3107,7 @@
                 on:input={handleInput}
                 autocomplete="off"
                 autofocus=""
-                class="text-sm w-full border-0 bg-white/95 dark:bg-zinc-950/95 focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
+                class="text-sm w-full border-0 bg-surface-card focus:border-gray-300 focus:ring-0 focus:outline-none placeholder:text-gray-600 dark:placeholder:text-zinc-400 text-fg pr-8"
                 type="text"
                 placeholder={list_search_indicators_placeholder()}
               />
@@ -3148,7 +3148,7 @@
             <!-- Added padding to avoid overlapping with Reset button -->
             {#each searchQuery?.length !== 0 ? testList : indicatorRows as item}
               <DropdownMenu.Item
-                class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-lg"
+                class="hover:bg-surface-raised rounded-control"
               >
                 <div class="flex items-center">
                   {#if isRuleLocked(item?.rule)}
@@ -3161,7 +3161,7 @@
                       <input
                         disabled={true}
                         type="checkbox"
-                        class="cursor-pointer rounded checked:bg-gray-700 dark:checked:bg-zinc-600"
+                        class="cursor-pointer rounded-control checked:bg-fg-subtle"
                         checked={ruleOfList.some(
                           (listItem) => listItem.rule === item?.rule,
                         )}
@@ -3180,9 +3180,9 @@
                       <input
                         disabled={isRuleLocked(item?.rule)}
                         type="checkbox"
-                        class="rounded {isRuleLocked(item?.rule)
-                          ? 'checked:bg-gray-800 dark:checked:bg-zinc-600'
-                          : 'checked:bg-blue-700 dark:checked:bg-blue-600'}"
+                        class="rounded-control {isRuleLocked(item?.rule)
+                          ? 'checked:bg-fg-subtle'
+                          : 'checked:bg-accent'}"
                         checked={ruleOfList.some(
                           (listItem) => listItem.rule === item?.rule,
                         )}
@@ -3210,22 +3210,28 @@
               </DropdownMenu.Item>
             {/each}
           </DropdownMenu.Group>
-          <!-- Reset Selection button -->
+          <!-- Footer actions. Both labels used to be `w-full` inside a flex
+               row, so each took half the panel and "Reset Selection" wrapped
+               onto two lines against a right-aligned "Select All". They are
+               buttons, so they are <button>s now — a <label> with a click
+               handler is not reachable by keyboard. -->
           <div
-            class="sticky -bottom-1 bg-white/95 dark:bg-zinc-950/95 z-50 p-2 border-t border-line w-full flex justify-between items-center"
+            class="sticky -bottom-1 z-50 flex w-full items-center justify-between gap-2 border-t border-line bg-surface-sunken px-2 py-1.5"
           >
-            <label
+            <button
+              type="button"
               on:click={handleResetAll}
-              class="w-full hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="rounded-control px-2 py-1 type-meta whitespace-nowrap text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg"
             >
               Reset Selection
-            </label>
-            <label
+            </button>
+            <button
+              type="button"
               on:click={handleSelectAll}
-              class="w-full flex justify-end hover:text-accent text-fg-muted bg-white/95 dark:bg-zinc-950/95 text-start text-sm cursor-pointer"
+              class="rounded-control px-2 py-1 type-meta whitespace-nowrap text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg"
             >
               Select All
-            </label>
+            </button>
           </div>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
@@ -3234,7 +3240,7 @@
         <button
           on:click={resetColumnOrder}
           title={list_reset_column_order()}
-          class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+          class="cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
         >
           <svg
             class="w-4 h-4"
@@ -3273,7 +3279,7 @@
           <span>{tab?.label}</span>
           {#if (tab?.showCount || tab?.key === "indicators") && tab?.key === "indicators" && indicatorsTabRules?.length > activeIndicatorDefaultRows.length}
             <div
-              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-fg rounded-full text-xs font-semibold"
+              class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-line/80 text-fg rounded-full text-xs font-semibold"
             >
               {indicatorsTabRules.length - activeIndicatorDefaultRows.length}
             </div>
@@ -3287,7 +3293,7 @@
 
 {#if stockList?.length > 0}
   <div
-    class="w-full overflow-x-auto rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg mt-2"
+    class="w-full overflow-x-auto rounded-container border border-line bg-surface-card text-fg mt-2"
   >
     <table
       class="table table-sm table-compact w-full m-auto mt-0 text-fg tabular-nums"
@@ -3370,7 +3376,7 @@
                       on:blur={(event) =>
                         handleInlineCellBlur(item, index, column.key, event)}
                       use:inlineInputAction={cellKey}
-                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-md px-2 py-1 w-auto max-w-20 text-right bg-white/90 dark:bg-zinc-950/70 text-fg placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
+                      class="border border-line rounded-control px-2 py-1 w-auto max-w-20 text-right bg-surface-card text-fg placeholder:text-muted dark:placeholder:text-zinc-300 focus:outline-none focus:ring-0"
                     />
                   {:else}
                     <button
@@ -3405,7 +3411,7 @@
                 {:else if item[column.key] === null || item[column.key] === undefined}
                   {#if !(column.key in item)}
                     <span
-                      class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                      class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                     ></span>
                   {:else}
                     -
@@ -3421,7 +3427,7 @@
                         on:click={() =>
                           onToggleDeleteTicker &&
                           onToggleDeleteTicker(item[column.key])}
-                        class="h-4 w-4 rounded border border-gray-300/70 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-950/70 text-fg accent-gray-900 dark:accent-white mr-3"
+                        class="h-4 w-4 rounded-control border border-gray-300/70 dark:border-zinc-700/80 bg-surface-card text-fg accent-gray-900 dark:accent-white mr-3"
                       />
                       <label
                         for={`delete-ticker-${item[column.key]}-${index}`}
@@ -3513,7 +3519,7 @@
                         <span
                           class="inline-flex rounded-full h-1 w-1 {item.previous >
                           item[column?.key]
-                            ? 'bg-red-600 dark:bg-[#FF2F1F]'
+                            ? 'bg-red-600 dark:bg-down'
                             : 'bg-emerald-500 dark:bg-emerald-400'} pulse-animation"
                         ></span>
                       </span>

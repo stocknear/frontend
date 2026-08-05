@@ -568,7 +568,7 @@
         <main class="w-full">
           <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-1 type-h1 text-fg"
             >
               {etf_heatmap_heading({ period: selectedTimePeriod })}
             </h1>
@@ -579,7 +579,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   disabled={isLoading}
                 >
                   <span class="truncate">{heatmap_time_period_label()}</span>
@@ -603,7 +603,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="w-auto h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <div
                   class="relative sticky z-40 focus:outline-hidden -top-1"
@@ -627,7 +627,7 @@
             <button
               on:click={handleDownload}
               disabled={isLoading || !heatmapData?.data}
-              class="cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center justify-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+              class="cursor-pointer transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center justify-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
               title="Download ETF heatmap as PNG"
             >
               <Download class="h-5 w-5" />
@@ -641,7 +641,7 @@
               >
                 <div class="relative">
                   <label
-                    class="border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="border border-line bg-surface-card rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
                       class="loading loading-spinner loading-md text-fg-muted"

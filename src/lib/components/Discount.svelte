@@ -68,7 +68,7 @@
 {#if promo && !expired && isEligibleUser(user)}
 <div class="w-full max-w-lg mx-auto mb-8 mt-4">
   <div
-    class="rounded-2xl border border-line bg-gradient-to-br from-violet-50 to-gray-50 dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
+    class="rounded-container border border-line bg-gradient-to-br from-violet-50 to-gray-50 dark:from-violet-950/20 dark:to-zinc-950/60 px-6 py-6"
   >
     <div class="flex flex-col items-center gap-4">
       <!-- Discount badge -->
@@ -104,7 +104,7 @@
         <div class="grid grid-cols-4 gap-2 max-w-sm mx-auto">
           <div class="text-center">
             <div
-              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
+              class="bg-surface-card/70 rounded-container px-2 py-3 border border-line"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
@@ -121,7 +121,7 @@
 
           <div class="text-center">
             <div
-              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
+              class="bg-surface-card/70 rounded-container px-2 py-3 border border-line"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
@@ -138,7 +138,7 @@
 
           <div class="text-center">
             <div
-              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
+              class="bg-surface-card/70 rounded-container px-2 py-3 border border-line"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-bold text-accent"
@@ -155,7 +155,7 @@
 
           <div class="text-center">
             <div
-              class="bg-surface-card/70 rounded-lg px-2 py-3 border border-line"
+              class="bg-surface-card/70 rounded-container px-2 py-3 border border-line"
             >
               <span
                 class="countdown font-mono text-lg sm:text-xl font-bold text-accent"

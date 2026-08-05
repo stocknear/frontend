@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
     import { page } from "$app/stores";
     import { onMount } from "svelte";
     import BreadCrumb from "$lib/components/BreadCrumb.svelte";
@@ -19,9 +20,9 @@
 
     let activeIdx = 0;
 
-    $: if ($page.url.pathname === "/watchlist/stocks") {
+    $: if (deLocalizeHref($page.url.pathname) === "/watchlist/stocks") {
         activeIdx = 0;
-    } else if ($page.url.pathname.startsWith("/watchlist/options")) {
+    } else if (deLocalizeHref($page.url.pathname).startsWith("/watchlist/options")) {
         activeIdx = 1;
     }
 
@@ -73,7 +74,7 @@
                         class="mb-2 border-b border-line"
                     >
                         <h1
-                            class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+                            class="mb-2 type-h1 text-fg"
                         >
                             {activeIdx === 0
                                 ? "Watchlist"
@@ -105,7 +106,7 @@
                                 title={$watchlistFullWidth
                                     ? "Exit Full Width"
                                     : "Expand Full Width"}
-                                class="ml-auto hidden 3xl:flex cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-1.5 rounded-full gap-2 {$watchlistFullWidth
+                                class="ml-auto hidden 3xl:flex cursor-pointer transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-1.5 rounded-full gap-2 {$watchlistFullWidth
                                     ? 'border-violet-400 dark:border-violet-500'
                                     : ''}"
                             >

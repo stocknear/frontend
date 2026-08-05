@@ -85,7 +85,7 @@
 
         <div class="space-y-4">
           <h2
-            class="text-lg font-semibold tracking-tight text-fg"
+            class="type-h3 text-fg tracking-tight text-fg"
           >
             {advertise_newsletter_title()}
           </h2>
@@ -121,7 +121,7 @@
 
         <div class="space-y-4">
           <h2
-            class="text-lg font-semibold tracking-tight text-fg"
+            class="type-h3 text-fg tracking-tight text-fg"
           >
             {advertise_why_choose_title()}
           </h2>
@@ -155,7 +155,7 @@
 
         <div class="space-y-3">
           <h2
-            class="text-lg font-semibold tracking-tight text-fg"
+            class="type-h3 text-fg tracking-tight text-fg"
           >
             {advertise_cta_title()}
           </h2>
@@ -178,12 +178,12 @@
 
       <aside class="space-y-4">
         <div
-          class="rounded-2xl border border-gray-300/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-700 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
+          class="rounded-container border border-gray-300/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-700 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
         >
           <a href="/donation" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-semibold tracking-tight text-fg"
+                class="type-h3 text-fg tracking-tight text-fg"
               >
                 {advertise_sidebar_sponsor_title()}
               </h2>
@@ -195,12 +195,12 @@
         </div>
 
         <div
-          class="rounded-2xl border border-gray-300/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-700 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
+          class="rounded-container border border-gray-300/70 bg-white/70 p-5 transition hover:border-gray-300/80 hover:bg-gray-50/70 dark:border-zinc-700 dark:bg-zinc-900/40 dark:hover:border-zinc-700/80 dark:hover:bg-zinc-900/60"
         >
           <a href="/contact" class="group flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <h2
-                class="text-lg font-semibold tracking-tight text-fg"
+                class="type-h3 text-fg tracking-tight text-fg"
               >
                 {advertise_sidebar_contact_title()}
               </h2>

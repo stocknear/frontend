@@ -19,12 +19,12 @@
 
 <dialog
   id="promotionModal"
-  class="modal modal-bottom sm:modal-middle rounded-none sm:rounded"
+  class="modal modal-bottom sm:modal-middle rounded-none sm:rounded-control"
 >
   <div
     class="modal-box w-full {$screenWidth < 640
       ? 'min-h-screen'
-      : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="promotionModal"

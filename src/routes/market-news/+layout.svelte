@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import {
     market_news_breadcrumb_home,
     market_news_breadcrumb_market_news,
@@ -32,11 +33,11 @@
   let activeIdx = 0;
 
   // Subscribe to the $page store to reactively update the activeIdx based on the URL
-  $: if ($page.url.pathname === "/market-news") {
+  $: if (deLocalizeHref($page.url.pathname) === "/market-news") {
     activeIdx = 0;
-  } else if ($page.url.pathname.startsWith("/market-news/general")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/market-news/general")) {
     activeIdx = 1;
-  } else if ($page.url.pathname.startsWith("/market-news/press-releases")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/market-news/press-releases")) {
     activeIdx = 2;
   }
 </script>
@@ -67,7 +68,7 @@
         <main class="w-full lg:pr-5">
           <div class="mb-2 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-2 type-h1 text-fg"
             >
               {activeIdx === 0
                 ? market_news_title_all_stocks()

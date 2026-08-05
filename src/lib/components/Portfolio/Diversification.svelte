@@ -220,6 +220,7 @@
             credits: { enabled: false },
             chart: {
                 backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: chartHeight,
                 spacing: spacing,
                 animation: false,
@@ -310,7 +311,7 @@
 <div class="w-full">
     <div class="mb-3 sm:mb-5">
         <h2
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-2"
+            class="type-h2 text-fg mb-2"
         >
             {portfolio_diversification_title()}
         </h2>
@@ -322,12 +323,12 @@
             class="flex flex-col sm:flex-row sm:items-center justify-between mb-4"
         >
             <div class="flex items-center gap-3 mb-3 sm:mb-0">
-                <h3 class="text-lg font-semibold text-fg">
+                <h3 class="type-h3 text-fg text-fg">
                     {portfolio_diversification_concentration()}
                 </h3>
                 {#if portfolioData?.length > 0}
                     <span
-                        class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 {getScoreColor(
+                        class="px-3 py-1 rounded-full text-sm font-medium border border-line bg-surface-page/60 {getScoreColor(
                             diversificationMetrics?.hhiScore,
                         )}"
                     >
@@ -341,7 +342,7 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <!-- HHI Score -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="bg-surface-card border border-line rounded-container p-4"
             >
                 <div
                     class="text-fg text-sm mb-2 flex items-center"
@@ -370,7 +371,7 @@
 
             <!-- Sectors & Industries -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="bg-surface-card border border-line rounded-container p-4"
             >
                 <div
                     class="text-fg text-sm mb-2 flex items-center"
@@ -383,7 +384,7 @@
                     />
                 </div>
                 <div class="flex items-baseline">
-                    <span class="text-xl font-semibold">
+                    <span class="text-xl font-semibold text-fg">
                         {portfolioData?.length !== 0
                             ? diversificationMetrics.numSectors +
                               "/" +
@@ -395,7 +396,7 @@
 
             <!-- Largest Position -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="bg-surface-card border border-line rounded-container p-4"
             >
                 <div
                     class="text-fg text-sm mb-2 flex items-center"
@@ -424,7 +425,7 @@
 
             <!-- Top 5 Concentration -->
             <div
-                class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="bg-surface-card border border-line rounded-container p-4"
             >
                 <div
                     class="text-fg text-sm mb-2 flex items-center"

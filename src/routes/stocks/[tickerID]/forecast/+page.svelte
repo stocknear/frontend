@@ -182,8 +182,8 @@
     const options = {
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 360, // Add fixed height
         marginTop: 30, // Reduce top margin
@@ -302,8 +302,8 @@
       },
       chart: {
         type: "gauge",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: chartHeight,
         animation: false,
       },
@@ -395,7 +395,7 @@
           {
             outerRadius: "101%",
             innerRadius: "100%",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
             borderWidth: 0,
             shape: "arc",
           },
@@ -579,8 +579,8 @@
         },
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: chartHeight,
         spacingRight,
         animation: false,
@@ -953,18 +953,18 @@
         <div
           class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between mt-3"
         >
-          <h1 class="mb-px text-xl sm:text-2xl font-bold bp:text-3xl sm:pl-1">
+          <h2 class="mb-px type-h2 text-fg bp:text-3xl sm:pl-1">
             {stock_detail_forecast_title()}
-          </h1>
+          </h2>
           <div class="flex flex-col w-full sm:w-fit items-end justify-end">
-            <div class="inline-flex justify-center w-full rounded sm:w-auto">
+            <div class="inline-flex justify-center w-full rounded-control sm:w-auto">
               <div
                 class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
               >
                 <div class="ml-auto mt-3 sm:mt-0">
                   <div class="inline-flex">
                     <div
-                      class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+                      class="w-fit flex text-sm items-center gap-1 rounded-full border border-line
            "
                     >
                       {#each tabs as item, i (item)}
@@ -977,7 +977,7 @@
                               ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
                               : 'bg-[#f8fbfb] border-gray-300 text-fg-muted hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50 dark:bg-zinc-950/60 dark:border-zinc-700'}"
                           >
-                            <span class="relative text-sm block font-semibold">
+                            <span class="relative text-sm block font-semibold text-fg">
                               {item}
                               <svg
                                 class="inline-block ml-0.5 -mt-1 w-3.5 h-3.5"
@@ -1012,14 +1012,14 @@
 
         <div class="w-full mb-6 mt-3">
           <div
-            class="rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 p-0.5 xs:p-1 md:flex md:flex-col md:space-y-4 md:divide-y md:p-4 lg:flex-row lg:space-x-4 lg:space-y-0 lg:divide-x lg:divide-y-0 divide-gray-200/70 dark:divide-zinc-800/80"
+            class="bg-surface-card border border-line rounded-container p-0.5 xs:p-1 md:flex md:flex-col md:space-y-4 md:divide-y md:p-4 lg:flex-row lg:space-x-4 lg:space-y-0 lg:divide-x lg:divide-y-0 divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div
               class="p-3 md:flex md:space-x-4 md:p-0 lg:block lg:max-w-[32%] lg:space-x-0"
             >
               <div>
                 <div class="flex items-baseline justify-between">
-                  <h2 class="mb-1 text-xl font-bold">
+                  <h2 class="mb-1 type-h2 text-fg">
                     {stock_detail_forecast_price_title()}
                   </h2>
 
@@ -1051,12 +1051,12 @@
             <div class="grow md:pt-4 lg:pt-0">
               {#if numOfAnalyst > 0}
                 <div
-                  class=" bg-white/70 dark:bg-zinc-950/40"
+                  class=" bg-surface-card"
                   use:highcharts={config}
                 ></div>
               {:else}
                 <div
-                  class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
+                  class="mb-2 min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold shadow-none bg-surface-card border border-line rounded-container flex justify-center items-center"
                 >
                   {stock_detail_forecast_no_chart()}
                 </div>
@@ -1065,7 +1065,7 @@
                 class="mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
                 <div
-                  class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
+                  class="w-full overflow-hidden bg-surface-card"
                 >
                   <table
                     class="w-full text-right text-xs sm:text-sm text-fg-muted tabular-nums"
@@ -1152,17 +1152,17 @@
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-8 p-4 sm:p-5 divide-gray-200/70 dark:divide-zinc-800/80 lg:flex lg:space-x-4 lg:divide-x"
+            class="w-full bg-surface-card border border-line rounded-container mt-8 p-4 sm:p-5 divide-gray-200/70 dark:divide-zinc-800/80 lg:flex lg:space-x-4 lg:divide-x"
           >
             <div class="flex flex-col justify-between p-1 lg:max-w-[32%]">
               <div>
                 <div class="flex flex-row items-center">
-                  <h2 class="mb-1 text-xl font-bold">
+                  <h2 class="mb-1 type-h2 text-fg">
                     {stock_detail_forecast_analyst_insight()}
                   </h2>
                   {#if latestInfoDate(data?.getAnalystInsight?.date)}
                     <label
-                      class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-fg-muted font-semibold text-xs px-2 py-0.5 ml-3"
+                      class="rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/50 text-fg-muted font-semibold text-xs px-2 py-0.5 ml-3"
                       >{stock_detail_forecast_new()}</label
                     >
                   {/if}
@@ -1229,12 +1229,12 @@
             <div class="grow pt-2 md:pt-4 lg:pl-4 lg:pt-0">
               {#if optionsBarChart !== null && numOfAnalyst > 0}
                 <div
-                  class=" bg-white/70 dark:bg-zinc-950/40"
+                  class=" bg-surface-card"
                   use:highcharts={optionsBarChart}
                 ></div>
               {:else}
                 <div
-                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold bg-white/70 dark:bg-zinc-950/40 flex justify-center items-center"
+                  class="min-h-[200px] sm:min-h-[300px] text-lg sm:text-xl font-bold bg-surface-card flex justify-center items-center"
                 >
                   {stock_detail_forecast_no_chart()}
                 </div>
@@ -1243,7 +1243,7 @@
                 class="mb-1 mt-2 overflow-x-auto px-1.5 text-center md:mb-0 md:px-0 lg:mt-2"
               >
                 <div
-                  class="w-full overflow-hidden bg-white/70 dark:bg-zinc-950/40"
+                  class="w-full overflow-hidden bg-surface-card"
                 >
                   <table
                     class="w-full text-right text-xs sm:text-sm text-fg-muted tabular-nums"
@@ -1300,12 +1300,12 @@
             </div>
           </div>
 
-          <h2 class="mt-8 text-xl sm:text-2xl font-bold mb-4">
+          <h2 class="mt-8 type-h2 text-fg mb-4">
             {stock_detail_forecast_financial_forecast()}
           </h2>
           {#if data?.getAnalystEstimate?.length !== 0}
             <div
-              class="mb-4 grid grid-cols-1 overflow-hidden rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 divide-gray-200/70 dark:divide-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
+              class="mb-4 grid grid-cols-1 overflow-hidden bg-surface-card border border-line rounded-container divide-gray-200/70 dark:divide-zinc-800/80 md:grid-cols-2 lg:grid-cols-4"
             >
               <div
                 class="border-b px-3 py-5 last:border-b-0 xs:px-4 sm:p-6 md:border-b lg:border-b-0 border-line"
@@ -1584,7 +1584,7 @@
             </div>
           {:else}
             <div
-              class=" p-3 sm:p-5 mb-10 rounded sm:flex sm:flex-row sm:items-center border border-gray-300 shadow dark:border-zinc-700 text-sm"
+              class=" p-3 sm:p-5 mb-10 rounded-control sm:flex sm:flex-row sm:items-center border border-line text-sm"
             >
               <svg
                 class="w-6 h-6 shrink-0 inline-block sm:mr-2"

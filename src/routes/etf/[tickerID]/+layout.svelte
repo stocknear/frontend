@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { localizedHref } from "$lib/i18n/navigation";
   import {
     wsBidPrice,
@@ -572,7 +573,7 @@
   $: charNumber = $screenWidth < 640 ? 25 : 40;
 
   $: {
-    if ($etfTicker && $page.url.pathname === `/etf/${$etfTicker}`) {
+    if ($etfTicker && deLocalizeHref($page.url.pathname) === `/etf/${$etfTicker}`) {
       displaySection = "overview";
     }
   }
@@ -600,10 +601,10 @@
 <svelte:window bind:scrollY={y} />
 
 <div
-  class=" w-full max-w-screen sm:max-w-[1250px] min-h-screen overflow-hidden"
+  class="page-shell min-h-screen overflow-hidden"
 >
   <!-- Page wrapper -->
-  <div class=" flex flex-col w-full relative w-full sm:max-w-[1250px]">
+  <div class="flex flex-col w-full relative">
     <main class="sm:mt-2 grow w-full">
       <section class="">
         <div class="w-full">
@@ -628,7 +629,7 @@
                         >
                           <!-- Mobile: Unified button group -->
                           <div
-                            class="flex items-center w-full shadow rounded-full border border-line bg-white/90 dark:bg-zinc-950/70 sm:hidden"
+                            class="flex items-center w-full rounded-full border border-line bg-surface-card sm:hidden"
                           >
                             <WatchlistButton
                               ticker={$etfTicker}
@@ -684,7 +685,7 @@
                             <label
                               on:click={() => ($openPriceAlert = true)}
                               for={data?.user ? "priceAlertModal" : "userLogin"}
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-line bg-white/90 dark:bg-zinc-950/70 text-fg hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-line bg-surface-card text-fg hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title={etf_detail_price_alert()}
                             >
                               <svg
@@ -711,7 +712,7 @@
                             </label>
                             <a
                               href="/chart/{$etfTicker}"
-                              class="group shadow inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-line bg-white/90 dark:bg-zinc-950/70 text-fg hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
+                              class="group inline-flex items-center justify-center cursor-pointer transition-all duration-700 ease-out whitespace-nowrap rounded-full border border-line bg-surface-card text-fg hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 p-2.5 text-sm"
                               title="Pro Chart"
                             >
                               <ChartNoAxes class="size-5 flex-shrink-0" />

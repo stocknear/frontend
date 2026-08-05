@@ -496,7 +496,7 @@
       </div>
 
       <div
-        class="w-full p-3 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl overflow-hidden bg-white/90 dark:bg-zinc-950/70 shadow-sm"
+        class="w-full p-3 border border-line rounded-container overflow-hidden bg-surface-card"
       >
         <div
           bind:this={editorDiv}
@@ -507,12 +507,12 @@
         <!-- Suggestions Dropdown -->
         {#if showSuggestions}
           <ul
-            class="absolute rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+            class="absolute rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
             style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
           >
             {#each suggestions as suggestion, i}
               <li
-                class="px-2 py-1 rounded-lg cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-fg {i ===
+                class="px-2 py-1 rounded-container cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 text-sm text-fg {i ===
                 selectedSuggestion
                   ? ' bg-gray-100 dark:bg-zinc-900'
                   : ''}"
@@ -524,7 +524,7 @@
           </ul>
         {/if}
         <form
-          class="grow rounded relative flex items-center w-full overflow-hidden"
+          class="grow rounded-control relative flex items-center w-full overflow-hidden"
         >
           <div
             class="relative min-h-12 h-auto overflow-y-hidden w-full outline-none"
@@ -540,7 +540,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="h-9 w-9 shrink-0 bg-white/90 dark:bg-zinc-950/70 text-fg border border-gray-300 shadow dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
+                        class="h-9 w-9 shrink-0 bg-surface-card text-fg border border-line hover:bg-white dark:hover:bg-zinc-900 ease-out flex items-center justify-center rounded-full px-0 py-0"
                       >
                         <svg
                           class="size-4.5"
@@ -567,7 +567,7 @@
                       align="start"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
+                      class="w-64 h-fit max-h-56 overflow-y-auto scroller rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 p-2"
                     >
                       {#if selectedGroup === "overview"}
                         {#if data?.user}
@@ -616,7 +616,7 @@
                               e.preventDefault();
                               selectedGroup = "stockAgents";
                             }}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -667,7 +667,7 @@
                                 e.preventDefault();
                                 selectedGroup = option;
                               }}
-                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                              class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
@@ -694,7 +694,7 @@
                           {/each}
                           <DropdownMenu.Item
                             on:click={() => goto("/faq/ai-agents")}
-                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                            class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                           >
                             <div
                               class="flex flex-row items-center w-full text-sm"
@@ -743,7 +743,7 @@
                             {#if option?.group === selectedGroup}
                               <DropdownMenu.Item
                                 on:click={() => insertAgentOption(option?.name)}
-                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-lg text-fg transition-colors"
+                                class="cursor-pointer sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 rounded-container text-fg transition-colors"
                               >
                                 <div class="flex flex-row items-center w-full">
                                   <span>{option?.name} </span>
@@ -764,7 +764,7 @@
                 <!--
             {#if data?.user}
               <label
-                class="ml-auto mr-2 whitespace-nowrap w-auto text-xs border-gray-300 font-semibold dark:font-normal dark:border-gray-600 border bg-white dark:bg-[#2A2E39] flex flex-row justify-between items-center px-3 rounded"
+                class="ml-auto mr-2 whitespace-nowrap w-auto text-xs border-gray-300 font-semibold dark:font-normal dark:border-line border bg-white dark:bg-[#2A2E39] flex flex-row justify-between items-center px-3 rounded-control"
               >
                 <div>
                   {data?.user?.credits?.toLocaleString("en-US")}
@@ -779,7 +779,7 @@
                   on:click={() => (data?.user ? createChat() : "")}
                   class="{editorText?.trim()?.length > 0
                     ? 'cursor-pointer'
-                    : 'cursor-not-allowed opacity-60'} h-9 w-9 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-gray-900/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
+                    : 'cursor-not-allowed opacity-60'} h-9 w-9 shrink-0 text-white dark:text-gray-900 text-[0.95rem] rounded-full border border-line/10 dark:border-white/10 bg-gray-900 dark:bg-white transition-colors duration-200 hover:bg-gray-800 dark:hover:bg-gray-100 flex items-center justify-center px-0 py-0"
                 >
                   {#if isLoading}
                     <span
@@ -798,7 +798,7 @@
       </div>
 
       <div
-        class="w-full rounded-2xl border border-line bg-surface-card overflow-hidden"
+        class="w-full rounded-container border border-line bg-surface-card overflow-hidden"
       >
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <span class="text-sm font-semibold text-fg"
@@ -807,7 +807,7 @@
           <button
             type="button"
             on:click={refreshSuggestions}
-            class="cursor-pointer p-1.5 rounded-lg text-fg sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
+            class="cursor-pointer p-1.5 rounded-container text-fg sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
             aria-label="Refresh suggestions"
           >
             <svg

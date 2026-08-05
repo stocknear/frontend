@@ -187,7 +187,7 @@
 
 <Button
   on:click={openModal}
-  class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+  class="cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
   title="Download screener data"
 >
   <DownloadIcon class="w-4 h-4" />
@@ -208,7 +208,7 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-lg relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-lg relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="screener-export-modal-{screener}"
@@ -283,7 +283,7 @@
     <div class="mt-5 flex flex-row items-center justify-end gap-2">
       <Button
         on:click={closeModal}
-        class=" border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full shadow text-sm"
+        class="border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 px-3 py-2 rounded-full text-sm"
         disabled={isExporting}
       >
         Close

@@ -425,7 +425,7 @@
             type="text"
             maxlength={MAX_SEARCH_LENGTH}
             placeholder="Find..."
-            class="py-2 text-sm border border-gray-300 shadow-sm dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
+            class="py-2 text-sm border border-gray-300 dark:border-zinc-700 bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:w-48"
           />
         </div>
       {/if}
@@ -434,7 +434,7 @@
         <DropdownMenu.Trigger asChild let:builder>
           <Button
             builders={[builder]}
-            class="w-full sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+            class="w-full sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
           >
             <span class="text-sm"
               >{learning_center_tag_prefix()} | {selectedTagName}</span
@@ -458,7 +458,7 @@
           side="bottom"
           align="end"
           sideOffset={10}
-          class="min-w-40 w-auto max-w-60 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-lg"
+          class="min-w-40 w-auto max-w-60 rounded-container border border-line bg-surface-card p-2 text-fg shadow-lg"
         >
           <DropdownMenu.Group>
             {#each availableTags as tag}
@@ -466,7 +466,7 @@
                 on:click={() => setTag(tag.id)}
                 class="{activeTag === tag.id
                   ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                  : ''} cursor-pointer hover:text-accent rounded-lg px-2 py-1.5"
+                  : ''} cursor-pointer hover:text-accent rounded-container px-2 py-1.5"
               >
                 <span>{tag.name}</span>
                 {#if activeTag === tag.id}
@@ -509,7 +509,7 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-fg">
+            <h2 class="type-h3 text-fg text-fg">
               {learning_center_category_features()}
             </h2>
             <p class="text-sm text-fg">
@@ -530,7 +530,7 @@
           {#each sections.Features.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+              class="group flex flex-col overflow-hidden rounded-container border border-line bg-[#f9fafb] dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
             >
               {#if item?.cover}
                 <div class="h-40 overflow-hidden">
@@ -574,7 +574,7 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-fg">
+            <h2 class="type-h3 text-fg text-fg">
               {learning_center_category_fundamentals()}
             </h2>
             <p class="text-sm text-fg">
@@ -595,7 +595,7 @@
           {#each sections.Fundamentals.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+              class="group flex flex-col overflow-hidden rounded-container border border-line bg-[#f9fafb] dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
             >
               {#if item?.cover}
                 <div class="h-40 overflow-hidden">
@@ -639,7 +639,7 @@
       <div class="mb-12">
         <div class="flex items-baseline justify-between mb-4">
           <div>
-            <h2 class="text-lg font-semibold text-fg">
+            <h2 class="type-h3 text-fg text-fg">
               {learning_center_category_terms()}
             </h2>
             <p class="text-sm text-fg">
@@ -662,7 +662,7 @@
           {#each sections.Terms.items as item}
             <a
               href="/learning-center/article/{convertToSlug(item?.title)}"
-              class="group flex items-center gap-3 p-3 rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+              class="group flex items-center gap-3 p-3 rounded-container border border-line bg-[#f9fafb] dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
             >
               <div class="flex-1 min-w-0">
                 <h3
@@ -712,7 +712,7 @@
         {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
-            class="group flex items-center gap-3 p-4 rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
+            class="group flex items-center gap-3 p-4 rounded-container border border-line bg-[#f9fafb] dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors"
           >
             <div class="flex-1 min-w-0">
               <h3
@@ -748,7 +748,7 @@
           <Button
             on:click={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg
               class="h-5 w-5 rotate-90"
@@ -779,7 +779,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-line  text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                  class="transition-all duration-150 border border-line  text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm"
                     >{learning_center_items_count({
@@ -804,7 +804,7 @@
                 side="bottom"
                 align="center"
                 sideOffset={10}
-                class="min-w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg"
+                class="min-w-32 rounded-container border border-line bg-surface-card p-2 text-fg"
               >
                 <DropdownMenu.Group>
                   {#each itemsPerPageOptions as option}
@@ -812,7 +812,7 @@
                       on:click={() => changeItemsPerPage(option)}
                       class="{itemsPerPage === option
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                        : ''} cursor-pointer hover:text-accent rounded-lg px-2 py-1.5"
+                        : ''} cursor-pointer hover:text-accent rounded-container px-2 py-1.5"
                     >
                       <span class="text-sm"
                         >{learning_center_items_count({
@@ -830,7 +830,7 @@
           <Button
             on:click={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg
@@ -895,7 +895,7 @@
         {#each displayData.tutorials as item}
           <a
             href="/learning-center/article/{convertToSlug(item?.title)}"
-            class="group flex flex-col overflow-hidden rounded-2xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
+            class="group flex flex-col overflow-hidden rounded-container border border-line bg-[#f9fafb] dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 transition-colors"
           >
             {#if item?.cover}
               <div class="h-40 overflow-hidden">
@@ -953,7 +953,7 @@
           <Button
             on:click={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg
               class="h-5 w-5 rotate-90"
@@ -984,7 +984,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
+                  class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full"
                 >
                   <span class="text-sm"
                     >{learning_center_items_count({
@@ -1009,7 +1009,7 @@
                 side="bottom"
                 align="center"
                 sideOffset={10}
-                class="min-w-32 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg"
+                class="min-w-32 rounded-container border border-line bg-surface-card p-2 text-fg"
               >
                 <DropdownMenu.Group>
                   {#each itemsPerPageOptions as option}
@@ -1017,7 +1017,7 @@
                       on:click={() => changeItemsPerPage(option)}
                       class="{itemsPerPage === option
                         ? 'bg-gray-100/70 dark:bg-zinc-900/60'
-                        : ''} cursor-pointer hover:text-accent rounded-lg px-2 py-1.5"
+                        : ''} cursor-pointer hover:text-accent rounded-container px-2 py-1.5"
                     >
                       <span class="text-sm"
                         >{learning_center_items_count({
@@ -1035,7 +1035,7 @@
           <Button
             on:click={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+            class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span class="hidden sm:inline mr-1">{learning_center_next()}</span>
             <svg

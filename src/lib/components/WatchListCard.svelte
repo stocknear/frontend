@@ -55,7 +55,7 @@
       <div class="w-screen sm:w-full">
         <div class="w-full overflow-x-auto">
           <table
-            class="table table-sm table-compact rounded-none sm:rounded w-full bg-table border border-gray-800 m-auto mt-4"
+            class="table table-sm table-compact rounded-none sm:rounded-control w-full bg-table border border-line m-auto mt-4"
           >
             <!-- head -->
             <thead>
@@ -141,10 +141,10 @@
           </table>
         </div>
 
-        <div class="w-full m-auto border-b border-gray-600 mt-16 mb-16"></div>
+        <div class="w-full m-auto border-b border-line mt-16 mb-16"></div>
 
         <h2
-          class="text-start text-white ml-2 text-xl font-bold text-black mb-3"
+          class="text-start text-white ml-2 type-h2 text-fg text-black mb-3"
         >
           Latest News
         </h2>
@@ -159,7 +159,7 @@
                 <div class="shrink-0 float-left">
                   <img
                     src={item?.image}
-                    class="float-left w-36 sm:w-40 rounded-xl ml-2 mr-4 mb-2"
+                    class="float-left w-36 sm:w-40 rounded-container ml-2 mr-4 mb-2"
                     alt="news image"
                     loading="lazy"
                   />
@@ -218,7 +218,7 @@
     <div class="flex justify-center items-center h-80">
       <div class="relative">
         <label
-          class="bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class="bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span class="loading loading-spinner loading-md"></span>
         </label>

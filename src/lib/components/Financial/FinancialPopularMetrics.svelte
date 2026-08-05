@@ -93,7 +93,7 @@
   <DropdownMenu.Trigger asChild let:builder>
     <Button
       builders={[builder]}
-      class="cursor-pointer min-w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+      class="cursor-pointer min-w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
     >
       <span class="text-[0.85rem] sm:text-sm"
         >{stock_detail_financials_popular()}</span
@@ -119,11 +119,11 @@
     align="end"
     sideOffset={10}
     alignOffset={0}
-    class="w-56 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+    class="w-56 rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
   >
     {#each POPULAR_PRESETS as preset}
       <DropdownMenu.Item
-        class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-lg cursor-pointer"
+        class="hover:bg-gray-100 dark:hover:bg-zinc-800/80 rounded-container cursor-pointer"
         on:click={() => onApply(preset.presetKeys, preset.indicatorIds)}
       >
         <span class="text-sm">{preset.label}</span>

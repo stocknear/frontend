@@ -335,7 +335,7 @@
       chart: {
         type: "column",
         backgroundColor: bgColor,
-        plotBackgroundColor: bgColor,
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -398,12 +398,12 @@
           const earnings = sortedEarnings[pointIndex];
           const valueColor = this.y >= 0 ? "#22c55e" : "#ef4444";
 
-          let tooltipContent = `<span class="m-auto text-sm font-[501]">${categoryLabel}</span><br>`;
+          let tooltipContent = `<span class="m-auto text-sm font-[501] text-fg">${categoryLabel}</span><br>`;
 
           tooltipContent += `
             <span style="display:inline-block; width:10px; height:10px; background-color:${seriesColor}; border-radius:50%; margin-right:5px;"></span>
-            <span class="font-semibold text-sm">${seriesName}:</span> 
-            <span class="font-normal text-sm" style="color:${valueColor};">${this.y >= 0 ? "+" : ""}${this.y.toFixed(2)}%</span><br>`;
+            <span class="font-semibold text-sm text-fg">${seriesName}:</span> 
+            <span class="font-normal text-sm text-fg" style="color:${valueColor};">${this.y >= 0 ? "+" : ""}${this.y.toFixed(2)}%</span><br>`;
 
           // Add actual vs estimate details
           if (earnings) {
@@ -795,11 +795,11 @@
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           {#if data?.getNextEarnings && Object.keys(data.getNextEarnings).length > 0 && data?.getEarningsSurprise?.date !== data.getNextEarnings?.date}
             <div class="w-full flex flex-col sm:flex-row justify-between">
-              <h1
-                class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+              <h2
+                class="type-h2 text-fg"
               >
                 {stock_detail_stats_earnings_surprise()}
-              </h1>
+              </h2>
             </div>
           {/if}
 
@@ -817,14 +817,14 @@
                 class="mt-3 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:border-t sm:border-b border-line py-2"
               >
                 <h2
-                  class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                  class="type-h2 text-fg"
                 >
                   {stock_detail_stats_earnings_chart()}
                 </h2>
                 <div class="ml-auto">
                   <div class="inline-flex mt-3 sm:mt-0">
                     <div
-                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                     >
                       {#each tabs as item, i (item)}
                         <button
@@ -847,7 +847,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate">{timeFrame}</span>
                           <svg
@@ -870,7 +870,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                        class="h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group>
                           {#each ["3Y", "5Y", "MAX"] as item, index}
@@ -914,7 +914,7 @@
                 <div class="grow">
                   <div class="relative">
                     <div
-                      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="bg-surface-card border border-line rounded-container"
                       use:highcharts={config}
                     ></div>
                   </div>
@@ -926,7 +926,7 @@
                   class="flex flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
                 >
                   <h3
-                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 w-full"
+                    class="text-start whitespace-nowrap type-h2 text-fg py-1 w-full"
                   >
                     {stock_detail_stats_history()}
                   </h3>
@@ -946,7 +946,7 @@
               <div class=" w-full m-auto mb-4 overflow-x-auto">
                 <div class="w-full overflow-x-auto">
                   <table
-                    class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                    class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
                   >
                     <thead
                       class="text-[11px] uppercase tracking-wide text-fg"
@@ -1059,7 +1059,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1091,9 +1091,9 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          <span class="truncate text-[0.85rem] sm:text-sm">
+                          <span class="truncate text-[0.85rem] sm:text-sm text-fg">
                             {stock_detail_rows({ count: rowsPerPage })}
                           </span>
                           <svg
@@ -1117,7 +1117,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
@@ -1128,7 +1128,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm">
+                                <span class="text-sm text-fg">
                                   {stock_detail_rows({ count: item })}
                                 </span>
                               </label>
@@ -1142,7 +1142,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

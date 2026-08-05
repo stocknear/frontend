@@ -19,8 +19,8 @@
     return {
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -165,13 +165,13 @@
 
 {#if !isLoaded}
   <div
-    class="w-full h-[360px] flex justify-center items-center m-auto shadow border border-line rounded"
+    class="w-full h-[360px] flex justify-center items-center m-auto border border-line rounded-control"
   >
     <span class="loading loading-bars loading-sm"></span>
   </div>
 {:else}
   <div
-    class="shadow border border-line rounded w-full"
+    class="border border-line rounded-control w-full"
     use:highcharts={config}
     bind:this={chartElement}
   ></div>

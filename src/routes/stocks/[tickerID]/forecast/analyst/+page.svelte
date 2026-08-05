@@ -534,15 +534,15 @@
           <div
             class="mb-5 flex flex-col justify-between gap-y-2.5 sm:mb-2 sm:flex-row sm:items-end"
           >
-            <h1 class="mb-px text-xl font-bold sm:text-2xl sm:pl-1">
+            <h2 class="mb-px type-h2 text-fg sm:text-2xl sm:pl-1">
               {stock_detail_forecast_analyst_title()}
-            </h1>
+            </h2>
             <div>
               <div class="flex flex-col w-full sm:w-fit items-end justify-end">
                 <div class="">
                   <div class="inline-flex">
                     <div
-                      class="w-fit flex text-sm items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+                      class="w-fit flex text-sm items-center gap-1 rounded-full border border-line
            "
                     >
                       {#each tabs as item, i (item)}
@@ -589,7 +589,7 @@
         </div>
 
         <div
-          class="shadow-none mb-4 grid grid-cols-2 grid-rows-2 divide-contrast rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 md:grid-cols-4 md:grid-rows-1 md:divide-x"
+          class="shadow-none mb-4 grid grid-cols-2 grid-rows-2 divide-contrast bg-surface-card border border-line rounded-container md:grid-cols-4 md:grid-rows-1 md:divide-x"
         >
           <div
             class="p-4 bp:p-5 sm:p-6 border-r border-line"
@@ -666,7 +666,7 @@
             class="mt-10 mb-2 items-center justify-between py-0 md:mt-8 md:flex md:py-2"
           >
             <div class="flex justify-between md:block">
-              <h3 class="text-xl sm:text-2xl font-bold">
+              <h3 class="type-h2 text-fg">
                 {stock_detail_forecast_analyst_history()}
               </h3>
             </div>
@@ -674,7 +674,7 @@
 
           <div class=" w-full m-auto mb-4 overflow-x-auto lg:overflow-hidden">
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums m-auto"
+              class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line bg-surface-card text-fg tabular-nums m-auto"
             >
               <thead>
                 <TableHeader
@@ -748,7 +748,7 @@
                                   </svg>
                                 {:else}
                                   <svg
-                                    class="w-4 h-4 text-gray-400 dark:text-gray-500"
+                                    class="w-4 h-4 text-fg-subtle dark:text-gray-500"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor"
@@ -847,7 +847,7 @@
                           <div class="flex flex-col items-end">
                             {#if latestInfoDate(item?.date)}
                               <label
-                                class="rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/50 text-fg font-semibold text-xs px-2 py-0.5 mb-1"
+                                class="rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/50 text-fg font-semibold text-xs px-2 py-0.5 mb-1"
                               >
                                 {stock_detail_forecast_new()}
                               </label>
@@ -886,7 +886,7 @@
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -919,7 +919,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm">
                         {stock_detail_forecast_analyst_rows({
@@ -947,7 +947,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
@@ -975,7 +975,7 @@
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline"
                     >{stock_detail_forecast_analyst_next()}</span

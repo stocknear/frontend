@@ -48,6 +48,14 @@
     $: isPositive = changesPercentage > 0;
     $: isFlat = changesPercentage === 0;
 
+    // Hiding the chart axes also removed klinecharts' last-price pill, which was
+    // the one number on the card worth reading. It belongs in the header anyway,
+    // next to the change it explains. Explicit length-1, never [-1].
+    $: lastPrice =
+        priceData?.length > 0
+            ? toNumber(priceData[priceData.length - 1]?.close)
+            : null;
+
     const toNumber = (value: unknown): number | null => {
         const n =
             typeof value === "number"
@@ -156,52 +164,43 @@
     // disagreed with the green in the table directly beneath it. Reading the
     // tokens keeps one definition of "up" for the whole product. Re-read on
     // every theme change, because the variables are redefined by `.dark`.
-    const cssVar = (name: string, fallback: string) => {
-        if (typeof window === "undefined") return fallback;
+    // The chart only ever initialises in onMount, so the document is always
+    // present and every token is declared in app.css. One shared fallback keeps
+    // this from smuggling a second palette back into the codebase.
+    const CHART_FALLBACK = "#808080";
+    const cssVar = (name: string) => {
+        if (typeof window === "undefined") return CHART_FALLBACK;
         const value = getComputedStyle(document.documentElement)
             ?.getPropertyValue(name)
             ?.trim();
-        return value || fallback;
+        return value || CHART_FALLBACK;
     };
 
     const applyMiniStyles = (isLight: boolean, isNegative: boolean) => {
         if (!chart) return;
-        const upColor = cssVar("--up", "#006045");
-        const downColor = cssVar("--down", "#a50036");
-        const axisText = cssVar("--fg-subtle", isLight ? "#64748b" : "#94a3b8");
-        const gridColor = cssVar("--line", "rgba(148, 163, 184, 0.3)");
+        const upColor = cssVar("--up");
+        const downColor = cssVar("--down");
+        const axisText = cssVar("--fg-subtle");
+        const gridColor = cssVar("--line");
         const chartFont = "Space Grotesk";
-        // Was a hardcoded black pill, which disappeared against the dark chart
-        // and left the white value floating over the plot.
-        const lastPriceMarker = cssVar("--fg", isLight ? "#111827" : "#e4e4e7");
-        const lastPriceText = cssVar(
-            "--surface-card",
-            isLight ? "#ffffff" : "#151517",
-        );
+        // With the axes hidden these three colours drive only the last-price
+        // rule (the pill moved into the card header), so it should read as a
+        // reference line, not as the loudest mark on the card. `line.color` on
+        // its own is ignored by klinecharts — up/down/noChange win.
+        const lastPriceMarker = cssVar("--line-strong");
+        const lastPriceText = cssVar("--surface-card");
         const lineColor = isNegative ? downColor : upColor;
         const fillColorStart = `color-mix(in oklch, ${lineColor} 16%, transparent)`;
         const fillColorEnd = `color-mix(in oklch, ${lineColor} 2%, transparent)`;
         chart.setStyles({
-            grid: {
-                show: true,
-                horizontal: {
-                    show: true,
-                    style: "dashed",
-                    size: 1,
-                    color: gridColor,
-                    dashedValue: [3, 3],
-                },
-                vertical: {
-                    show: true,
-                    style: "dashed",
-                    size: 1,
-                    color: gridColor,
-                    dashedValue: [3, 3],
-                },
-            },
+            // A 96px card cannot carry two axes. The y ticks were colliding with
+            // the last-price pill (RUSSELL drew 298.81 across 299.40/298.20) and
+            // the first x label was clipped to "0AM". The pill is the only number
+            // that matters here; the rest was chart furniture.
+            grid: { show: false },
             xAxis: {
-                show: true,
-                size: "auto",
+                show: false,
+                size: 0,
                 axisLine: { show: false, color: "transparent", size: 0 },
                 tickLine: {
                     show: false,
@@ -209,19 +208,11 @@
                     size: 0,
                     length: 0,
                 },
-                tickText: {
-                    show: true,
-                    color: axisText,
-                    size: 9,
-                    family: chartFont,
-                    weight: 500,
-                    marginStart: 3,
-                    marginEnd: 1,
-                },
+                tickText: { show: false },
             },
             yAxis: {
-                show: true,
-                size: "auto",
+                show: false,
+                size: 0,
                 axisLine: { show: false, color: "transparent", size: 0 },
                 tickLine: {
                     show: false,
@@ -295,6 +286,9 @@
                             style: "dashed",
                             size: 1,
                             dashedValue: [4, 4],
+                            // Was klinecharts' default, which rendered a heavy
+                            // black rule louder than the price series itself.
+                            color: gridColor,
                         },
                         text: {
                             show: true,
@@ -443,7 +437,7 @@
 </script>
 
 <div class="overflow-hidden text-fg">
-    <div class="flex items-center justify-between px-3 py-2.5">
+    <div class="flex items-baseline justify-between gap-2 px-3 pt-2.5 pb-1">
         <span class="type-h3 text-fg">{nameDict[symbol]}</span>
         <span
             class="type-data-em {isFlat
@@ -453,6 +447,16 @@
                   : 'text-down'}"
         >
             {isPositive ? "+" : ""}{changesPercentage?.toFixed(2)}%
+        </span>
+    </div>
+    <div class="px-3 pb-1">
+        <span class="type-num text-fg">
+            {lastPrice !== null
+                ? lastPrice.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                  })
+                : "—"}
         </span>
     </div>
 

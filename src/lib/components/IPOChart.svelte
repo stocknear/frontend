@@ -108,8 +108,8 @@
       },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -150,8 +150,8 @@
         borderRadius: 4,
         formatter: function () {
           return `<span class="m-auto text-[1rem] font-[501]">${this.x}</span><br>
-                        <span class="font-semibold text-sm">IPOs:</span> 
-                        <span class="font-normal text-sm">${this.y?.toLocaleString("en-US")}</span>`;
+                        <span class="font-semibold text-sm text-fg">IPOs:</span> 
+                        <span class="font-normal text-sm text-fg">${this.y?.toLocaleString("en-US")}</span>`;
         },
       },
       plotOptions: {
@@ -196,7 +196,7 @@
   });
 </script>
 
-<h2 class="text-xl sm:text-2xl font-bold mt-2">
+<h2 class="type-h2 text-fg mt-2">
   {year} Initial Public Offerings
 </h2>
 
@@ -214,14 +214,14 @@
 
 {#if isLoaded && config}
   <div
-    class="shadow border border-line rounded"
+    class="border border-line rounded-control"
     use:highcharts={config}
   ></div>
 {:else}
   <div class="flex justify-center items-center h-80">
     <div class="relative">
       <label
-        class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       >
         <span
           class="loading loading-spinner loading-md text-white dark:text-white"

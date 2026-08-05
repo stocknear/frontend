@@ -170,7 +170,7 @@
         </a>
         <a
           href="/pricing"
-          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-fg bg-surface-card/60 border border-gray-300 shadow dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
+          class="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-full text-fg bg-surface-card/60 border border-line hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
         >
           {about_cta_button_secondary()}
         </a>

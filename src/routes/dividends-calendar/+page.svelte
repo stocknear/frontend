@@ -77,11 +77,11 @@
     "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z";
 
   // Common CSS classes
-  const borderClasses = "border border-gray-300 shadow dark:border-zinc-700";
+  const borderClasses = "border border-line";
   const tableBorderClasses =
-    "border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40";
+    "border border-line bg-surface-card";
   const navigationButtonClasses =
-    "h-16 w-48 cursor-pointer border m-auto flex bg-white/90 dark:bg-zinc-950/70 text-fg mb-3";
+    "h-16 w-48 cursor-pointer border m-auto flex bg-surface-card text-fg mb-3";
 
   let currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
   let dividendCalendar = data?.getDividendCalendar;
@@ -650,7 +650,7 @@
               class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2"
             >
               <h1
-                class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+                class="type-h1 text-fg"
               >
                 {dividends_main_name()}
               </h1>
@@ -658,7 +658,7 @@
               <div class="inline-flex sm:ml-auto">
                 <!-- Tab Selection -->
                 <div
-                  class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                  class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                   role="group"
                   aria-label="View Options"
                 >
@@ -687,7 +687,7 @@
                 <!-- Cards -->
                 {#if timeframe === "Daily"}
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-container {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -880,7 +880,7 @@
                               on:input={search}
                               type="text"
                               placeholder={dividends_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -898,7 +898,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -920,7 +920,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full {tableBorderClasses} m-auto text-fg tabular-nums"
+                          class="table table-sm table-compact rounded-none sm:rounded-control w-full {tableBorderClasses} m-auto text-fg tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1030,7 +1030,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1063,7 +1063,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -1092,7 +1092,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -1122,7 +1122,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
                                 >{dividends_pagination_next()}</span
@@ -1177,7 +1177,7 @@
                 <!-- Weekly View Container -->
                 <div class="flex flex-col w-full">
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-container {borderClasses} divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -1238,7 +1238,7 @@
                               {@const isExpanded =
                                 expandedItems[`${dayIndex}-${itemIndex}`]}
                               <div
-                                class="w-full rounded-lg {borderClasses} bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                                class="w-full rounded-container {borderClasses} bg-surface-card text-[0.9rem]"
                               >
                                 <div
                                   on:click={() =>
@@ -1373,7 +1373,7 @@
                           </div>
                         {:else}
                           <div
-                            class="text-center text-gray-500 dark:text-gray-400 py-8"
+                            class="text-center text-gray-500 dark:text-fg-subtle py-8"
                           >
                             {dividends_empty_none()}
                           </div>
@@ -1485,7 +1485,7 @@
                         {@const isExpanded =
                           expandedItems[`${selectedWeekday}-${itemIndex}`]}
                         <div
-                          class="w-full rounded-2xl {borderClasses} bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                          class="w-full rounded-container {borderClasses} bg-surface-card text-[0.9rem]"
                         >
                           <!-- Collapsible Header -->
                           <div
@@ -1598,7 +1598,7 @@
                       {/each}
                     {:else}
                       <div
-                        class="text-center text-sm text-gray-500 dark:text-gray-400 py-8"
+                        class="text-center text-sm text-gray-500 dark:text-fg-subtle py-8"
                       >
                         {dividends_empty_scheduled()}
                       </div>

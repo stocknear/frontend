@@ -378,7 +378,7 @@
         >{market_flow_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">
+    <li class="text-muted dark:text-fg-muted">
       {market_flow_breadcrumb_market_flow()}
     </li>
   </BreadCrumb>
@@ -607,7 +607,7 @@
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div
-                class="net-volume-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-volume-driver rounded-container border border-line bg-surface-card p-4"
               >
                 <div
                   class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
@@ -647,7 +647,7 @@
               </div>
 
               <div
-                class="net-call-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-call-premium-driver rounded-container border border-line bg-surface-card p-4"
               >
                 <div
                   class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
@@ -687,7 +687,7 @@
               </div>
 
               <div
-                class="net-put-premium-driver rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="net-put-premium-driver rounded-container border border-line bg-surface-card p-4"
               >
                 <div
                   class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
@@ -727,7 +727,7 @@
               </div>
 
               <div
-                class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 p-4"
+                class="rounded-container border border-line bg-surface-card p-4"
               >
                 <div
                   class="text-xs tracking-wide text-fg-muted mb-2 flex items-center"
@@ -774,7 +774,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div class="lg:col-span-2">
                 <h2
-                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-fg"
+                  class="mb-2 type-h2 text-fg"
                 >
                   {market_flow_section_sp500_flow()}
                 </h2>
@@ -784,7 +784,7 @@
                   </div>
                 {:else}
                   <div
-                    class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 h-[360px] flex flex-col items-center justify-center"
+                    class="rounded-container border border-line bg-surface-card h-[360px] flex flex-col items-center justify-center"
                   >
                     <a
                       href="/pricing"
@@ -811,7 +811,7 @@
               <div class="">
                 <div class="flex items-center justify-between mb-2">
                   <h2
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg"
+                    class="type-h2 text-fg"
                   >
                     {market_flow_section_fear_greed()}
                   </h2>
@@ -837,7 +837,7 @@
 
               <div class="">
                 <h2
-                  class="mb-2 text-lg sm:text-xl font-semibold tracking-tight text-fg"
+                  class="mb-2 type-h2 text-fg"
                 >
                   {market_flow_section_sector_flow()}
                 </h2>
@@ -847,7 +847,7 @@
                   </div>
                 {:else}
                   <div
-                    class="rounded-2xl h-[300px] border border-line bg-white/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center"
+                    class="rounded-container h-[300px] border border-line bg-surface-card flex flex-col items-center justify-center"
                   >
                     <a
                       href="/pricing"
@@ -878,7 +878,7 @@
                   class="flex flex-col flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="order-1 sm:order-0 mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
+                    class="order-1 sm:order-0 mb-6 type-h2 text-fg w-fit"
                   >
                     {market_flow_section_open_interest()}
                   </h2>
@@ -1073,7 +1073,7 @@
                   class="flex flex-wrap sm:flex-row items-center sm:justify-between mb-4"
                 >
                   <h2
-                    class="mb-6 text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
+                    class="mb-6 type-h2 text-fg w-fit"
                   >
                     {market_flow_section_volume()}
                   </h2>
@@ -1256,11 +1256,11 @@
   <label for="marketFlowBarsModal" class="cursor-pointer modal-backdrop"
   ></label>
   <div
-    class="modal-box w-full max-w-5xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-5xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <div class="flex items-start justify-between gap-4 mb-4">
       <div>
-        <h3 class="text-lg sm:text-xl font-semibold text-fg">
+        <h3 class="text-lg sm:type-h2 text-fg text-fg">
           {market_flow_modal_title()}
         </h3>
         <p class="text-xs sm:text-sm text-fg-muted">

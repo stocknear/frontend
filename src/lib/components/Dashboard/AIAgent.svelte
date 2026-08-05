@@ -113,7 +113,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-muted dark:text-gray-300 pointer-events-none text-sm sm:text-[1rem]";
+            "text-muted dark:text-fg-muted pointer-events-none text-sm sm:text-[1rem]";
           span.textContent = dashboard_ai_placeholder();
           return span;
         });
@@ -387,7 +387,7 @@
   class="w-full flex flex-col justify-center items-center bg-white dark:bg-[#2A2E39]"
 >
   <div
-    class="block p-3 w-full border border-line-strong shadow-sm rounded-[8px] overflow-hidden"
+    class="block p-3 w-full border border-line-strong rounded-container overflow-hidden"
   >
     <div
       bind:this={editorDiv}
@@ -398,7 +398,7 @@
     <!-- Suggestions Dropdown -->
     {#if showSuggestions}
       <ul
-        class="absolute bg-white dark:bg-default rounded shadow border border-line-strong mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+        class="absolute bg-white dark:bg-default rounded-control border border-line-strong mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
         style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
       >
         {#each suggestions as suggestion, i}
@@ -415,7 +415,7 @@
       </ul>
     {/if}
     <form
-      class="grow rounded relative flex items-center w-full overflow-hidden"
+      class="grow rounded-control relative flex items-center w-full overflow-hidden"
     >
       <div
         class="relative min-h-12 h-auto overflow-y-hidden w-full outline-none"
@@ -431,7 +431,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-full bg-white dark:bg-secondary text-muted sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
+                    class="w-full bg-white dark:bg-secondary text-muted sm:hover:text-black dark:text-fg-muted dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded-control truncate"
                   >
                     <svg
                       class="size-4.5"
@@ -463,7 +463,7 @@
                   {#if selectedGroup === "overview"}
                     {#if data?.user}
                       <DropdownMenu.Label
-                        class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                        class="text-muted dark:text-fg-subtle font-semibold dark:font-normal text-xs"
                       >
                         {dashboard_ai_credits_left({
                           credits: data?.user?.credits,
@@ -655,7 +655,7 @@
             <!--
             {#if data?.user}
               <label
-                class="ml-auto mr-2 whitespace-nowrap w-auto text-xs border-gray-300 font-semibold dark:font-normal dark:border-gray-600 border bg-white dark:bg-[#2A2E39] flex flex-row justify-between items-center px-3 rounded"
+                class="ml-auto mr-2 whitespace-nowrap w-auto text-xs border-gray-300 font-semibold dark:font-normal dark:border-line border bg-white dark:bg-[#2A2E39] flex flex-row justify-between items-center px-3 rounded-control"
               >
                 <div>
                   {data?.user?.credits?.toLocaleString("en-US")}
@@ -670,7 +670,7 @@
               on:click={() => (data?.user ? createChat() : "")}
               class="{editorText?.trim()?.length > 0
                 ? 'cursor-pointer'
-                : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded border border-line bg-black dark:bg-white px-3 transition-colors duration-200"
+                : 'cursor-not-allowed opacity-60'} py-2 text-white dark:text-black text-[1rem] rounded-control border border-line bg-black dark:bg-white px-3 transition-colors duration-200"
             >
               {#if isLoading}
                 <span
@@ -703,7 +703,7 @@
           closePopup?.dispatchEvent(new MouseEvent("click"));
         }
       }}
-      class="flex flex-col border border-line sm:hover:bg-gray-100 dark:sm:hover:bg-secondary bg-white dark:bg-[#1C1E22] shadow-sm"
+      class="flex flex-col border border-line sm:hover:bg-gray-100 dark:sm:hover:bg-secondary bg-white dark:bg-[#1C1E22]"
     >
       <div class="block flex-grow">
         <button

@@ -150,12 +150,12 @@
           <div
             class="mb-3 sm:mb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between"
           >
-            <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+            <h2
+              class="type-h2 text-fg"
             >
               {removeCompanyStrings($displayCompanyName)}
               {stock_detail_financials_custom_title()}
-            </h1>
+            </h2>
           </div>
 
           <div class="grid grid-cols-1 gap-2">
@@ -181,7 +181,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
+                        class="cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full"
                       >
                         <span class="text-sm"
                           >{RANGE_LABEL_MAP[$financialHistoryRange] ||
@@ -205,7 +205,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={8}
-                      class="min-w-[90px] rounded-2xl border border-line bg-surface-card p-2 text-fg shadow-lg"
+                      class="min-w-[90px] rounded-container border border-line bg-surface-card p-2 text-fg shadow-lg"
                     >
                       <DropdownMenu.Group>
                         {#each HISTORY_RANGE_OPTIONS as option}
@@ -214,7 +214,7 @@
                               ($financialHistoryRange = option.value)}
                             class="{$financialHistoryRange === option.value
                               ? 'bg-gray-100/70 dark:bg-zinc-900/60 text-accent font-medium'
-                              : ''} cursor-pointer hover:text-accent rounded-xl"
+                              : ''} cursor-pointer hover:text-accent rounded-container"
                           >
                             {option.label}
                           </DropdownMenu.Item>
@@ -226,7 +226,7 @@
                   <!-- Sort Order Toggle -->
                   <Button
                     on:click={() => (switchDate = !switchDate)}
-                    class="cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row items-center px-2 sm:px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
                     title={switchDate
                       ? stock_detail_financials_newest_first()
                       : stock_detail_financials_oldest_first()}
@@ -252,7 +252,7 @@
               {#if lockInfo.hasLockedData}
                 <a
                   href="/pricing"
-                  class="mt-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
+                  class="mt-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-container text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
                 >
                   <div
                     class="flex items-center gap-2.5 text-violet-900 dark:text-violet-200"

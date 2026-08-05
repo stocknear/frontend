@@ -95,7 +95,7 @@
       <div
         class="w-80 flex-shrink-0 flex flex-col sm:flex-row items-start space-x-4"
       >
-        <img src="/pwa-192x192.png" alt="logo" class="w-11 h-11 rounded-lg" />
+        <img src="/pwa-192x192.png" alt="logo" class="w-11 h-11 rounded-container" />
         <div>
           <span class="text-xl font-semibold text-white">Stocknear</span>
           <p class="mt-2 text-sm text-white dark:text-zinc-300">
@@ -116,31 +116,31 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/stocks/", currentLocale)}>{footer_stocks()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/ipos/", currentLocale)}>{footer_ipos()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/etf/", currentLocale)}>{footer_etfs()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/portfolio/", currentLocale)}>{footer_portfolio()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/learning-center/", currentLocale)}>{footer_learning_center()}</a
               >
             </li>
@@ -155,28 +155,28 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/pricing/", currentLocale)}>{footer_pricing_plan()}</a
               >
             </li>
 
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/support/", currentLocale)}>{footer_get_support()}</a
               >
             </li>
 
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/app/", currentLocale)}>{footer_install_app()}</a
               >
             </li>
             <!--
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-fg-muted hover:text-white dark:text-neutral-200 hover:dark:underline"
                 href="/advertise">Advertise</a
               >
             </li>
@@ -192,20 +192,20 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/login/", currentLocale)}>{footer_login()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/faq/", currentLocale)}>{footer_faq()}</a
               >
             </li>
 
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/sitemap/", currentLocale)}>{footer_sitemap()}</a
               >
             </li>
@@ -213,7 +213,7 @@
             <!--
             <li>
               <a
-                class="text-gray-300 hover:text-white dark:text-neutral-200 hover:dark:underline"
+                class="text-fg-muted hover:text-white dark:text-neutral-200 hover:dark:underline"
                 href="/affiliate-program/">Affiliate Program</a
               >
             </li>
@@ -231,7 +231,7 @@
               <details class="group relative w-fit">
                 <summary
                   aria-label={common_language_switch()}
-                  class="flex list-none items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-card/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer [&::-webkit-details-marker]:hidden"
+                  class="flex list-none items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-line bg-surface-card/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer [&::-webkit-details-marker]:hidden"
                 >
                   <span aria-hidden="true">{flagEmoji[currentLocale]}</span>
                   <span class="uppercase font-medium">{currentLocale}</span>
@@ -249,7 +249,7 @@
                 </summary>
                 <div
                   role="menu"
-                  class="absolute bottom-full left-0 z-50 mb-2 min-w-[140px] rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-fg"
+                  class="absolute bottom-full left-0 z-50 mb-2 min-w-[140px] rounded-container border border-line bg-surface-card p-1 text-fg"
                 >
                   {#each locales as lang}
                     <a
@@ -259,7 +259,7 @@
                         lang,
                       )}
                       data-sveltekit-reload
-                      class="flex items-center gap-3 px-3 py-2 text-sm rounded-lg cursor-pointer {currentLocale ===
+                      class="flex items-center gap-3 px-3 py-2 text-sm rounded-container cursor-pointer {currentLocale ===
                       lang
                         ? 'bg-violet-100 dark:bg-violet-900/30 text-accent'
                         : 'hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'} transition"
@@ -286,37 +286,37 @@
           <ul class="space-y-2">
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/about/", currentLocale)}>{footer_about()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/contact/", currentLocale)}>{common_contact_us()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/terms-of-use/", currentLocale)}>{footer_terms_of_use()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/privacy-policy/", currentLocale)}>{common_privacy_policy()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/data-disclaimer/", currentLocale)}>{footer_data_disclaimer()}</a
               >
             </li>
             <li>
               <a
-                class="text-sm text-gray-300 hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/imprint/", currentLocale)}>{common_imprint()}</a
               >
             </li>

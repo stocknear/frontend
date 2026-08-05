@@ -84,7 +84,7 @@
 </script>
 
 <div
-  class={`w-fit flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-card/60 p-0.5 ${className}`}
+  class={`w-fit flex items-center gap-1 rounded-full border border-line bg-surface-card/60 p-0.5 ${className}`}
 >
   <button
     bind:this={lightButtonRef}

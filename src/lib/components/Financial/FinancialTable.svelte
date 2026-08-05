@@ -610,7 +610,7 @@
                 metric: field.displayLabel ?? field.label,
               })}
               aria-pressed={favoriteSet.has(field.key)}
-              class={`cursor-pointer favorite-toggle w-5 h-5 inline-flex items-center justify-center transition-colors ${favoriteSet.has(field.key) ? "text-yellow-500 dark:text-[#FFA500]" : "text-gray-400 dark:text-gray-300"}`}
+              class={`cursor-pointer favorite-toggle w-5 h-5 inline-flex items-center justify-center transition-colors ${favoriteSet.has(field.key) ? "text-yellow-500 dark:text-[#FFA500]" : "text-fg-subtle dark:text-fg-muted"}`}
               on:click|stopPropagation={() => toggleFavorite(field.key)}
               title={(favoriteSet.has(field.key)
                 ? stock_detail_financials_remove_favorite
@@ -656,7 +656,7 @@
           {#if !field.isGrowth && hasGrowthChildren(field.key)}
             <button
               type="button"
-              class="cursor-pointer w-5 h-5 inline-flex items-center justify-center rounded border border-transparent transition-colors"
+              class="cursor-pointer w-5 h-5 inline-flex items-center justify-center rounded-control border border-transparent transition-colors"
               aria-label={(isGrowthActive(field.key)
                 ? stock_detail_financials_hide_growth
                 : stock_detail_financials_show_growth)({

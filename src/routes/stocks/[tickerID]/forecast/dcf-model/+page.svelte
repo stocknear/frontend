@@ -423,8 +423,8 @@
     const options = {
       credits: { enabled: false },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "spline",
         height: $screenWidth < 640 ? 360 : 450,
         animation: false,
@@ -597,8 +597,8 @@
     const options = {
       credits: { enabled: false },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "spline",
         height: $screenWidth < 640 ? 360 : 450,
         animation: false,
@@ -770,15 +770,15 @@
         {#if Object?.keys(valuationData || {})?.length > 0}
           <main class="w-full lg:w-3/4 lg:pr-5">
             <div class="mb-3">
-              <h1 class="mb-1 text-2xl sm:text-3xl font-bold">
+              <h2 class="mb-1 type-h2 text-fg">
                 {stock_detail_forecast_dcf_title()}
-              </h1>
+              </h2>
             </div>
 
             <!-- Warning Banners -->
             {#if showNegativeWarning}
               <div
-                class="mt-4 flex items-start gap-3 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200"
+                class="mt-4 flex items-start gap-3 rounded-container border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200"
               >
                 <div
                   class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900"
@@ -803,7 +803,7 @@
 
             {#if showGrowthWarning}
               <div
-                class="mt-4 flex items-start gap-3 rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200"
+                class="mt-4 flex items-start gap-3 rounded-container border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/30 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200"
               >
                 <div
                   class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900"
@@ -849,9 +849,9 @@
                   <span
                     class="ml-2 px-2 py-1 rounded-full font-medium text-sm {upsidePresentValue >=
                       0 && presentValue > 0
-                      ? "before:content-['+'] bg-green-200 text-green-800 dark:bg-green-900/20 dark:text-[#00FC50]"
+                      ? "before:content-['+'] bg-green-200 text-green-800 dark:bg-green-900/20 dark:text-up"
                       : upsidePresentValue < 0 && presentValue > 0
-                        ? 'bg-red-200 text-red-800 dark:bg-red-900/20 dark:text-[#FF2F1F]'
+                        ? 'bg-red-200 text-red-800 dark:bg-red-900/20 dark:text-down'
                         : 'hidden'}"
                   >
                     {upsidePresentValue}%
@@ -907,7 +907,7 @@
             <!-- Valuation Status Banner -->
             {#if presentValue && presentValue > 0}
               <div
-                class="mb-6 p-4 rounded-xl border {valuationStatus ===
+                class="mb-6 p-4 rounded-container border {valuationStatus ===
                 'undervalued'
                   ? 'border-emerald-300 dark:border-emerald-700 bg-emerald-50/80 dark:bg-emerald-950/30'
                   : valuationStatus === 'overvalued'
@@ -973,7 +973,7 @@
             <div class="flex items-center justify-between mb-4">
               <label
                 for="showSteps"
-                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="inline-flex items-center gap-2 cursor-pointer text-sm px-3 py-1.5 rounded-full border border-line bg-surface-page/60 text-fg transition hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 {stock_detail_forecast_dcf_show_steps()}
               </label>
@@ -984,7 +984,7 @@
                 <div class="grow">
                   <div class="relative">
                     <div
-                      class="sm:p-3 shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="sm:p-3 shadow-none bg-surface-card border border-line rounded-container"
                       use:highcharts={configHistoricalChart}
                     ></div>
                   </div>
@@ -993,7 +993,7 @@
             {/if}
 
             {#if valuationData?.[historyKey]?.length > 0}
-              <h2 class="text-xl sm:text-2xl font-bold text-start mr-auto mb-4">
+              <h2 class="type-h2 text-fg text-start mr-auto mb-4">
                 {stock_detail_forecast_dcf_historical_projected({
                   metric: metricLabel,
                 })}
@@ -1003,7 +1003,7 @@
                 <div class="grow">
                   <div class="relative">
                     <div
-                      class="sm:p-3 shadow-none border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="sm:p-3 shadow-none bg-surface-card border border-line rounded-container"
                       use:highcharts={configMetricChart}
                     ></div>
                   </div>
@@ -1015,7 +1015,7 @@
             {#if sensitivityMatrix.length > 0 && presentValue > 0}
               <div class="mb-8">
                 <h2
-                  class="text-xl sm:text-2xl font-bold text-start mr-auto mb-2 flex items-center"
+                  class="type-h2 text-fg text-start mr-auto mb-2 flex items-center"
                 >
                   {stock_detail_forecast_dcf_sensitivity()}
                   <div class="font-normal">
@@ -1031,7 +1031,7 @@
 
                 <div class="overflow-x-auto">
                   <div
-                    class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+                    class="border border-line rounded-container bg-surface-card overflow-hidden"
                   >
                     <table class="w-full text-sm">
                       <thead>
@@ -1148,10 +1148,10 @@
 
           <aside class="inline-block relative w-full lg:w-1/4 mt-3">
             <div
-              class="bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 p-6 rounded-2xl shadow-none text-fg"
+              class="bg-surface-card border border-line p-6 rounded-container shadow-none text-fg"
             >
               <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">
+                <h2 class="type-h2 text-fg">
                   {stock_detail_forecast_dcf_inputs()}
                 </h2>
               </div>
@@ -1170,7 +1170,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm">{metricLabel}</span>
                         <svg
@@ -1191,7 +1191,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={10}
-                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         <DropdownMenu.Item
@@ -1256,7 +1256,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
+                        class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-3 py-2 rounded-full"
                       >
                         <span class="truncate text-sm"
                           >{yearsToProject} Years</span
@@ -1279,7 +1279,7 @@
                       side="bottom"
                       align="start"
                       sideOffset={10}
-                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-56 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each [3, 5, 10] as year}
@@ -1324,7 +1324,7 @@
                       id="metric-growth"
                       bind:value={metricGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
+                      class="bg-surface-page/60 border border-line text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1360,7 +1360,7 @@
                       id="shares-growth"
                       bind:value={sharesGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
+                      class="bg-surface-page/60 border border-line text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1392,7 +1392,7 @@
                       id="dividend-growth"
                       bind:value={dividendGrowthRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
+                      class="bg-surface-page/60 border border-line text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                 </div>
@@ -1414,7 +1414,7 @@
                     id="price-ratio"
                     bind:value={priceRatioAvg}
                     on:input={() => (userHasModifiedInputs = true)}
-                    class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-fg"
+                    class="bg-surface-page/60 border border-line text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-3 py-1.5 text-fg"
                   />
                   <p class="mt-2 text-xs">
                     {stock_detail_forecast_dcf_avg_ratio({
@@ -1446,7 +1446,7 @@
                       id="discount-rate"
                       bind:value={discountRate}
                       on:input={() => (userHasModifiedInputs = true)}
-                      class="bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
+                      class="bg-surface-page/60 border border-line text-sm rounded-full focus:outline-none focus:border-gray-400/90 dark:focus:border-zinc-500/90 block w-full pl-7 py-1.5 text-fg"
                     />
                   </div>
                   <p class="mt-2 text-xs">
@@ -1473,7 +1473,7 @@
   ></label>
 
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="showSteps"
@@ -1492,7 +1492,7 @@
     </label>
     <div class="mx-auto h-1.5 w-20 shrink-0 rounded-full" />
     <div class="mb-5 text-center overflow-y-auto max-h-[80vh]">
-      <h3 class="font-bold text-xl sm:text-2xl mb-5 text-start">
+      <h3 class="type-h2 text-fg mb-5 text-start">
         {stock_detail_forecast_dcf_breakdown_title()}
       </h3>
       <div class="space-y-6 text-start">

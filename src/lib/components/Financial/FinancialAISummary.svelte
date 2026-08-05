@@ -417,7 +417,7 @@ ${summaryData.investorTakeaway}
 <Button
   on:click={generateSummary}
   disabled={isLoadingSummary}
-  class="ml-1 w-fit border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded-full truncate disabled:opacity-50"
+  class="ml-1 w-fit border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-line border ease-out flex flex-row justify-between items-center px-3 py-1.5 rounded-full truncate disabled:opacity-50"
 >
   {#if isLoadingSummary}
     <svg
@@ -469,7 +469,7 @@ ${summaryData.investorTakeaway}
     on:click={closeModal}
   >
     <div
-      class="relative w-full max-w-6xl max-h-[95vh] sm:max-h-[92vh] bg-white dark:bg-[#09090B] rounded-lg sm:rounded-xl shadow-2xl overflow-hidden border border-gray-300 shadow dark:border-zinc-700 animate-slideUp"
+      class="relative w-full max-w-6xl max-h-[95vh] sm:max-h-[92vh] bg-white dark:bg-[#09090B] rounded-container sm:rounded-container shadow-2xl overflow-hidden border border-line animate-slideUp"
       on:click|stopPropagation
     >
       <!-- Modal Header -->
@@ -479,7 +479,7 @@ ${summaryData.investorTakeaway}
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0 flex-1">
             <div
-              class="p-1.5 sm:p-2 md:p-2.5 bg-blue-50 dark:bg-blue-950/30 rounded-lg flex-shrink-0"
+              class="p-1.5 sm:p-2 md:p-2.5 bg-blue-50 dark:bg-blue-950/30 rounded-container flex-shrink-0"
             >
               <svg
                 class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-blue-600 dark:text-blue-400"
@@ -498,12 +498,12 @@ ${summaryData.investorTakeaway}
             </div>
             <div class="min-w-0 flex-1">
               <h2
-                class="text-base sm:text-lg md:text-xl font-semibold text-fg truncate"
+                class="text-base sm:text-lg md:type-h2 text-fg text-fg truncate"
               >
                 {stock_detail_ai_financial_analysis()}
               </h2>
               <p
-                class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 mt-0.5 truncate"
+                class="text-xs sm:text-sm text-gray-600 dark:text-fg-muted mt-0.5 truncate"
               >
                 {$stockTicker} • {getStatementLabel(statementType)} • {getPeriodLabel(
                   periodType,
@@ -513,10 +513,10 @@ ${summaryData.investorTakeaway}
           </div>
           <button
             on:click={closeModal}
-            class="cursor-pointer p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0"
+            class="cursor-pointer p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-container transition-colors flex-shrink-0"
           >
             <svg
-              class="w-5 h-5 text-muted dark:text-gray-400"
+              class="w-5 h-5 text-muted dark:text-fg-subtle"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -540,7 +540,7 @@ ${summaryData.investorTakeaway}
         {#if isLoadingSummary}
           <div class="flex flex-col items-center justify-center py-16 gap-4">
             <label
-              class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
+              class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
             >
               <span
                 class="loading loading-spinner loading-md text-fg"
@@ -557,7 +557,7 @@ ${summaryData.investorTakeaway}
           </div>
         {:else if errorMessage}
           <div
-            class="p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-lg"
+            class="p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 rounded-container"
           >
             <div class="flex items-start gap-3">
               <svg
@@ -579,7 +579,7 @@ ${summaryData.investorTakeaway}
         {:else if summaryData}
           <!-- Health Score Card -->
           <div
-            class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5 md:p-6"
+            class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5 md:p-6"
           >
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -587,7 +587,7 @@ ${summaryData.investorTakeaway}
               <div class="flex-1">
                 <div class="mb-3 sm:mb-4">
                   <span
-                    class="text-xs font-semibold text-muted dark:text-gray-400 uppercase tracking-wider"
+                    class="text-xs font-semibold text-muted dark:text-fg-subtle uppercase tracking-wider"
                   >
                     {summaryData.yearsAnalyzed}
                     {stock_detail_ai_overall_health()}
@@ -621,7 +621,7 @@ ${summaryData.investorTakeaway}
               <div class="flex items-center gap-2">
                 <button
                   on:click={copyToClipboard}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-line-strong rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-fg-muted bg-white dark:bg-gray-800 border border-line-strong rounded-control hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -640,7 +640,7 @@ ${summaryData.investorTakeaway}
                 </button>
                 <button
                   on:click={downloadMarkdown}
-                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-gray-300 bg-white dark:bg-gray-800 border border-line-strong rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted dark:text-fg-muted bg-white dark:bg-gray-800 border border-line-strong rounded-control hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   <svg
                     class="w-3.5 h-3.5"
@@ -663,14 +663,14 @@ ${summaryData.investorTakeaway}
 
           <!-- Executive Summary -->
           <div
-            class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5 md:p-6"
+            class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5 md:p-6"
           >
             <div class="flex items-center gap-2 sm:gap-2.5 md:gap-3 mb-3">
               <div
-                class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-container flex-shrink-0"
               >
                 <svg
-                  class="w-4 h-4 sm:w-5 sm:h-5 text-muted dark:text-gray-300"
+                  class="w-4 h-4 sm:w-5 sm:h-5 text-muted dark:text-fg-muted"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -689,7 +689,7 @@ ${summaryData.investorTakeaway}
               </h4>
             </div>
             <p
-              class="text-sm sm:text-base text-muted dark:text-gray-300 leading-relaxed"
+              class="text-sm sm:text-base text-muted dark:text-fg-muted leading-relaxed"
             >
               {summaryData.executiveSummary}
             </p>
@@ -699,15 +699,15 @@ ${summaryData.investorTakeaway}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <!-- Section 1 Analysis -->
             <div
-              class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+              class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   <div
-                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-container flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -727,18 +727,18 @@ ${summaryData.investorTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     summaryData.revenueAnalysis.assessment,
-                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                  )} bg-gray-100 dark:bg-gray-800 rounded-control flex-shrink-0"
                 >
                   {summaryData.revenueAnalysis.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded-control"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      class="text-xs font-medium text-gray-600 dark:text-fg-muted"
                       >{stock_detail_ai_cagr()}</span
                     >
                     <span
@@ -753,7 +753,7 @@ ${summaryData.investorTakeaway}
                   </div>
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      class="text-xs font-medium text-gray-600 dark:text-fg-muted"
                       >{stock_detail_ai_trend()}</span
                     >
                     <span
@@ -767,9 +767,9 @@ ${summaryData.investorTakeaway}
                 </div>
                 {#each summaryData.revenueAnalysis.keyInsights as insight}
                   <div class="flex items-start gap-2">
-                    <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
+                    <span class="text-fg-subtle mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                      class="text-xs sm:text-sm text-gray-600 dark:text-fg-muted leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -780,15 +780,15 @@ ${summaryData.investorTakeaway}
 
             <!-- Section 2 Analysis -->
             <div
-              class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+              class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   <div
-                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-container flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -811,18 +811,18 @@ ${summaryData.investorTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     summaryData.profitabilityAnalysis.assessment,
-                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                  )} bg-gray-100 dark:bg-gray-800 rounded-control flex-shrink-0"
                 >
                   {summaryData.profitabilityAnalysis.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded-control"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      class="text-xs font-medium text-gray-600 dark:text-fg-muted"
                       >{stock_detail_ai_margins()}</span
                     >
                     <span
@@ -836,9 +836,9 @@ ${summaryData.investorTakeaway}
                 </div>
                 {#each summaryData.profitabilityAnalysis.keyInsights as insight}
                   <div class="flex items-start gap-2">
-                    <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
+                    <span class="text-fg-subtle mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                      class="text-xs sm:text-sm text-gray-600 dark:text-fg-muted leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -849,15 +849,15 @@ ${summaryData.investorTakeaway}
 
             <!-- Section 3 Analysis -->
             <div
-              class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+              class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   <div
-                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-container flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -881,18 +881,18 @@ ${summaryData.investorTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     summaryData.expenseManagement.assessment,
-                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                  )} bg-gray-100 dark:bg-gray-800 rounded-control flex-shrink-0"
                 >
                   {summaryData.expenseManagement.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded-control"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      class="text-xs font-medium text-gray-600 dark:text-fg-muted"
                       >{stock_detail_ai_efficiency()}</span
                     >
                     <span
@@ -906,9 +906,9 @@ ${summaryData.investorTakeaway}
                 </div>
                 {#each summaryData.expenseManagement.keyInsights as insight}
                   <div class="flex items-start gap-2">
-                    <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
+                    <span class="text-fg-subtle mt-0.5 flex-shrink-0">•</span>
                     <p
-                      class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                      class="text-xs sm:text-sm text-gray-600 dark:text-fg-muted leading-relaxed"
                     >
                       {insight}
                     </p>
@@ -919,15 +919,15 @@ ${summaryData.investorTakeaway}
 
             <!-- Section 4 Analysis -->
             <div
-              class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+              class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
             >
               <div class="flex items-center justify-between mb-3 sm:mb-4 gap-2">
                 <div class="flex items-center gap-2 sm:gap-2.5 min-w-0">
                   <div
-                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex-shrink-0"
+                    class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-800 rounded-container flex-shrink-0"
                   >
                     <svg
-                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-gray-300"
+                      class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted dark:text-fg-muted"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -947,18 +947,18 @@ ${summaryData.investorTakeaway}
                 <span
                   class="px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold {getAssessmentColor(
                     summaryData.earningsQuality.assessment,
-                  )} bg-gray-100 dark:bg-gray-800 rounded flex-shrink-0"
+                  )} bg-gray-100 dark:bg-gray-800 rounded-control flex-shrink-0"
                 >
                   {summaryData.earningsQuality.assessment}
                 </span>
               </div>
               <div class="space-y-2 sm:space-y-3">
                 <div
-                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded"
+                  class="p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded-control"
                 >
                   <div class="flex items-center gap-2">
                     <span
-                      class="text-xs font-medium text-gray-600 dark:text-gray-200"
+                      class="text-xs font-medium text-gray-600 dark:text-fg-muted"
                       >{stock_detail_ai_consistency()}</span
                     >
                     <span
@@ -971,9 +971,9 @@ ${summaryData.investorTakeaway}
                   </div>
                 </div>
                 <div class="flex items-start gap-2">
-                  <span class="text-gray-400 mt-0.5 flex-shrink-0">•</span>
+                  <span class="text-fg-subtle mt-0.5 flex-shrink-0">•</span>
                   <p
-                    class="text-xs sm:text-sm text-gray-600 dark:text-gray-200 leading-relaxed"
+                    class="text-xs sm:text-sm text-gray-600 dark:text-fg-muted leading-relaxed"
                   >
                     {summaryData.earningsQuality.insight}
                   </p>
@@ -985,11 +985,11 @@ ${summaryData.investorTakeaway}
           <!-- Strengths & Red Flags -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div
-              class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5"
+              class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5"
             >
               <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
                 <div
-                  class="p-1.5 sm:p-2 bg-green-50 dark:bg-green-950/30 rounded-lg flex-shrink-0"
+                  class="p-1.5 sm:p-2 bg-green-50 dark:bg-green-950/30 rounded-container flex-shrink-0"
                 >
                   <svg
                     class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-500"
@@ -1024,7 +1024,7 @@ ${summaryData.investorTakeaway}
                       />
                     </svg>
                     <span
-                      class="text-xs sm:text-sm text-muted dark:text-gray-300 leading-relaxed"
+                      class="text-xs sm:text-sm text-muted dark:text-fg-muted leading-relaxed"
                       >{strength}</span
                     >
                   </li>
@@ -1034,11 +1034,11 @@ ${summaryData.investorTakeaway}
 
             {#if summaryData.redFlags?.length > 0}
               <div
-                class="bg-white dark:bg-[#09090B] border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-4 sm:p-5"
+                class="bg-white dark:bg-[#09090B] border border-line rounded-container p-4 sm:p-5"
               >
                 <div class="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4">
                   <div
-                    class="p-1.5 sm:p-2 bg-red-50 dark:bg-red-950/30 rounded-lg flex-shrink-0"
+                    class="p-1.5 sm:p-2 bg-red-50 dark:bg-red-950/30 rounded-container flex-shrink-0"
                   >
                     <svg
                       class="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-500"
@@ -1073,7 +1073,7 @@ ${summaryData.investorTakeaway}
                         />
                       </svg>
                       <span
-                        class="text-xs sm:text-sm text-muted dark:text-gray-300 leading-relaxed"
+                        class="text-xs sm:text-sm text-muted dark:text-fg-muted leading-relaxed"
                         >{flag}</span
                       >
                     </li>
@@ -1085,11 +1085,11 @@ ${summaryData.investorTakeaway}
 
           <!-- Investor Takeaway -->
           <div
-            class="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg p-4 sm:p-5 md:p-6"
+            class="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-container p-4 sm:p-5 md:p-6"
           >
             <div class="flex items-center gap-2 sm:gap-2.5 mb-3">
               <div
-                class="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg flex-shrink-0"
+                class="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900/40 rounded-container flex-shrink-0"
               >
                 <svg
                   class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400"
@@ -1108,7 +1108,7 @@ ${summaryData.investorTakeaway}
               </h5>
             </div>
             <p
-              class="text-xs sm:text-sm md:text-base text-muted dark:text-gray-300 leading-relaxed"
+              class="text-xs sm:text-sm md:text-base text-muted dark:text-fg-muted leading-relaxed"
             >
               {summaryData.investorTakeaway}
             </p>
@@ -1116,9 +1116,9 @@ ${summaryData.investorTakeaway}
 
           <!-- Disclaimer -->
           <div
-            class="bg-gray-50 dark:bg-gray-900/50 border border-gray-300 shadow dark:border-zinc-700 rounded-lg p-3 sm:p-4"
+            class="bg-gray-50 dark:bg-gray-900/50 border border-line rounded-container p-3 sm:p-4"
           >
-            <p class="text-xs text-muted dark:text-gray-200 italic">
+            <p class="text-xs text-muted dark:text-fg-muted italic">
               {stock_detail_ai_disclaimer()}
             </p>
           </div>

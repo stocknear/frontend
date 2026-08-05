@@ -375,8 +375,8 @@
       credits: { enabled: false },
       chart: {
         type: "area",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 400,
         animation: false,
       },
@@ -1374,7 +1374,7 @@
           <div class="w-full">
             <div class="border-b border-line">
               <h1
-                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+                class="mb-1 type-h1 text-fg"
               >
                 {options_calculator_title()}
               </h1>
@@ -1415,19 +1415,19 @@
 
                     <Combobox.Input
                       on:input={search}
-                      class="text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+                      class="text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 py-2 pl-8 xs:pl-10 grow w-full focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
                       placeholder={options_calculator_search_placeholder()}
                       aria-label={options_calculator_search_placeholder()}
                     />
                   </div>
                   <Combobox.Content
-                    class="z-10 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none outline-hidden"
+                    class="z-10 rounded-container border border-line bg-surface-card p-2 text-fg shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length !== 0 && inputValue !== selectedTicker}
                       {#each searchBarData as searchItem}
                         <Combobox.Item
-                          class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
+                          class="py-2.5 cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-container px-2 text-sm capitalize outline-hidden transition-all duration-75 data-highlighted:bg-gray-100/70 dark:data-highlighted:bg-zinc-900/60"
                           value={searchItem?.symbol}
                           label={searchItem?.symbol}
                           on:click={(e) => changeTicker(searchItem)}
@@ -1453,7 +1453,7 @@
                       {/each}
                     {:else}
                       <Combobox.Item
-                        class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-2xl py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
+                        class="cursor-pointer border-b border-line last:border-none flex h-fit w-auto select-none items-center rounded-container py-1.5 pl-5 pr-1.5 text-sm capitalize outline-hidden"
                       >
                         <span class="text-sm text-fg">
                           {inputValue?.length > 0
@@ -1468,21 +1468,21 @@
                 <button
                   type="button"
                   on:click={() => handleAddOptionLeg()}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_add_option_leg()}
                 </button>
                 <button
                   type="button"
                   on:click={handleAddShareLeg}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   Add Shares
                 </button>
                 <button
                   type="button"
                   on:click={handleSaveStrategy}
-                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
+                  class="cursor-pointer mt-3 sm:mt-0 sm:ml-3 align-middle inline-flex items-center gap-x-1.5 rounded-full px-3 py-2 text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition whitespace-nowrap"
                 >
                   {options_calculator_save_strategy()}
                 </button>
@@ -1493,7 +1493,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate"
                           >{options_calculator_custom_strategy()}</span
@@ -1518,18 +1518,18 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group>
                         {#each prebuiltStrategy as strategy}
                           <DropdownMenu.Item
                             on:click={() => changeStrategy(strategy)}
-                            class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
+                            class="cursor-pointer rounded-container sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             <span>{strategy.name}</span>
                             {#if strategy?.sentiment}
                               <span
-                                class="ml-3 inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-[0.7rem] font-semibold text-fg-muted"
+                                class="ml-3 inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-2 py-0.5 text-[0.7rem] font-semibold text-fg-muted"
                                 >{strategy.sentiment}</span
                               >
                             {/if}
@@ -1544,7 +1544,7 @@
               {#if data?.user?.tier !== "Pro"}
                 <a
                   href="/pricing"
-                  class="mt-3 mb-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-2xl text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
+                  class="mt-3 mb-3 flex items-center justify-between gap-3 px-4 py-2.5 rounded-container text-xs sm:text-sm border border-violet-200 dark:border-violet-800/50 bg-violet-50/80 dark:bg-violet-950/30 transition-colors hover:bg-violet-100/80 dark:hover:bg-violet-900/30"
                 >
                   <div
                     class="flex items-center gap-2.5 text-violet-900 dark:text-violet-200"
@@ -1576,7 +1576,7 @@
 
               {#if workerError}
                 <div
-                  class="mb-3 rounded-2xl border border-rose-300/70 bg-rose-50/70 px-3 py-2 text-sm text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-300"
+                  class="mb-3 rounded-container border border-rose-300/70 bg-rose-50/70 px-3 py-2 text-sm text-rose-900 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-300"
                 >
                   {workerError}
                 </div>
@@ -1584,7 +1584,7 @@
 
               {#if contractDataWarning}
                 <div
-                  class="mb-3 rounded-2xl border border-amber-300/70 bg-amber-50/70 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
+                  class="mb-3 rounded-container border border-amber-300/70 bg-amber-50/70 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
                 >
                   {contractDataWarning}
                 </div>
@@ -1592,7 +1592,7 @@
 
               <!-- Table container -->
               <div
-                class="overflow-x-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+                class="overflow-x-auto bg-surface-card border border-line rounded-container"
               >
                 <table
                   class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-fg tabular-nums"
@@ -1673,7 +1673,7 @@
                             value={userStrategy[index]?.quantity}
                             min="0"
                             on:input={(e) => handleQuantityInput(e, index)}
-                            class=" border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-20 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
+                            class=" border border-line rounded-container px-2 py-1 w-20 bg-surface-card text-fg focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2">
@@ -1681,7 +1681,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                class="min-w-[130px] max-w-[240px] sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                               >
                                 <span class="truncate text-sm"
                                   >{formatDate(userStrategy[index]?.date)}
@@ -1716,7 +1716,7 @@
                               align="end"
                               sideOffset={10}
                               alignOffset={0}
-                              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                              class="min-w-56 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2"
@@ -1774,7 +1774,7 @@
                             <DropdownMenu.Trigger asChild let:builder>
                               <Button
                                 builders={[builder]}
-                                class="mb-1 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-fg"
+                                class="mb-1 border border-line bg-surface-card h-[35px] flex flex-row justify-between items-center min-w-[130px] w-[140px] sm:w-auto px-3 rounded-full truncate text-fg"
                               >
                                 <span class="truncate text-sm"
                                   >{userStrategy[index]?.strike}</span
@@ -1796,7 +1796,7 @@
                             </DropdownMenu.Trigger>
 
                             <DropdownMenu.Content
-                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                              class="w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                             >
                               <!-- Dropdown items -->
                               <DropdownMenu.Group class="pb-2">
@@ -1806,7 +1806,7 @@
                                     on:click={() => {
                                       handleStrikePrice(item, index);
                                     }}
-                                    class="cursor-pointer rounded-2xl sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
+                                    class="cursor-pointer rounded-container sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                                   >
                                     {item}
                                   </DropdownMenu.Item>
@@ -1829,7 +1829,7 @@
                             min="0"
                             value={userStrategy[index]?.optionPrice}
                             on:input={(e) => handleOptionPriceInput(e, index)}
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
+                            class="border border-line rounded-container px-2 py-1 w-24 bg-surface-card text-fg focus:outline-none focus:ring-0"
                           />
                         </td>
                         <td class="px-4 whitespace-nowrap py-2 select-none">
@@ -1858,12 +1858,12 @@
 
               {#if shareStrategy?.length > 0}
                 <h3
-                  class="mt-6 mb-2 text-base sm:text-lg font-semibold tracking-tight text-fg"
+                  class="mt-6 mb-2 text-base sm:type-h3 text-fg tracking-tight text-fg"
                 >
                   Shares
                 </h3>
                 <div
-                  class="overflow-x-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4"
+                  class="overflow-x-auto bg-surface-card border border-line rounded-container mb-4"
                 >
                   <table
                     class="min-w-full divide-y divide-gray-200/70 dark:divide-zinc-800/80 text-fg tabular-nums"
@@ -1924,7 +1924,7 @@
                               value={shareItem?.quantity}
                               on:input={(e) =>
                                 handleShareQuantityInput(e, shareIndex)}
-                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-24 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
+                              class="border border-line rounded-container px-2 py-1 w-24 bg-surface-card text-fg focus:outline-none focus:ring-0"
                             />
                           </td>
                           <td class="px-4 whitespace-nowrap py-2">
@@ -1935,7 +1935,7 @@
                               value={shareItem?.sharePrice}
                               on:input={(e) =>
                                 handleSharePriceInput(e, shareIndex)}
-                              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl px-2 py-1 w-28 bg-white/90 dark:bg-zinc-950/70 text-fg focus:outline-none focus:ring-0"
+                              class="border border-line rounded-container px-2 py-1 w-28 bg-surface-card text-fg focus:outline-none focus:ring-0"
                             />
                           </td>
                           <td class="px-4 whitespace-nowrap py-2 select-none">
@@ -1964,13 +1964,13 @@
 
               {#if isLoaded && config}
                 <h2
-                  class="mt-5 mb-1 text-lg sm:text-xl font-semibold tracking-tight text-fg"
+                  class="mt-5 mb-1 type-h2 text-fg"
                 >
                   {options_calculator_profit_loss_chart()}
                 </h2>
 
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                  class="bg-surface-card border border-line rounded-container"
                   use:highcharts={config}
                 ></div>
               {:else}
@@ -1979,7 +1979,7 @@
                 >
                   <div class="relative">
                     <label
-                      class="bg-white/90 dark:bg-zinc-950/70 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="bg-surface-card border border-line rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-fg"
@@ -1991,14 +1991,14 @@
 
               <div class="mt-10">
                 <h2
-                  class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-3"
+                  class="type-h2 text-fg mb-3"
                 >
                   {options_calculator_trade_information()}
                 </h2>
 
                 <!-- Trade Information Card -->
                 <div
-                  class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-3 sm:p-4 mb-6 max-w-sm"
+                  class="bg-surface-card border border-line rounded-container p-3 sm:p-4 mb-6 max-w-sm"
                 >
                   {#each userStrategy as item, index}
                     <div>
@@ -2034,7 +2034,7 @@
 
                 <!-- Stock Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4"
+                  class="type-h2 text-fg mb-4"
                 >
                   {options_calculator_stock()}
                 </h2>
@@ -2081,7 +2081,7 @@
 
                 <!-- Trade Details Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4"
+                  class="type-h2 text-fg mb-4"
                 >
                   {options_calculator_trade_details()}
                 </h2>
@@ -2151,7 +2151,7 @@
 
                 <!-- Probability Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4 mt-6"
+                  class="type-h2 text-fg mb-4 mt-6"
                 >
                   {options_calculator_probability_analysis()}
                 </h2>
@@ -2217,7 +2217,7 @@
 
                 <!-- Risk Reward Analysis Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4 mt-6"
+                  class="type-h2 text-fg mb-4 mt-6"
                 >
                   {options_calculator_risk_reward()}
                 </h2>
@@ -2255,7 +2255,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2297,7 +2297,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2336,7 +2336,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2355,7 +2355,7 @@
 
                 <!-- Position Greeks Section -->
                 <h2
-                  class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-4 mt-6"
+                  class="type-h2 text-fg mb-4 mt-6"
                 >
                   {options_calculator_greeks()}
                 </h2>
@@ -2383,7 +2383,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2420,7 +2420,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2462,7 +2462,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -2501,7 +2501,7 @@
                     {:else}
                       <a href="/pricing" class="flex mt-2">
                         <svg
-                          class="size-5 text-gray-400 dark:text-zinc-300"
+                          class="size-5 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"

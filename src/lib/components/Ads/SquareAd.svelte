@@ -50,13 +50,13 @@
   class="max-h-[280px] mt-5 text-center xl:max-w-screen-xl px-3 sm:px-0 mb-6"
 >
   <h3
-    class="uppercase text-[9px] font-semibold text-gray-500 dark:text-gray-300"
+    class="uppercase text-[9px] font-semibold text-gray-500 dark:text-fg-muted"
   >
     Advertisement
   </h3>
 
   <div
-    class="ad-container mx-auto min-h-[280px] w-full border border-line rounded bg-gray-100 dark:bg-[#2A2E39]"
+    class="ad-container mx-auto min-h-[280px] w-full border border-line rounded-control bg-gray-100 dark:bg-[#2A2E39]"
   >
     <ins
       class="adsbygoogle"

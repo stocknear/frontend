@@ -209,7 +209,7 @@
     </div>
 
     {#if rawData?.length !== 0}
-      <div class="w-full m-auto rounded mb-4 overflow-x-auto mt-4">
+      <div class="w-full m-auto rounded-control mb-4 overflow-x-auto mt-4">
         <table
           class="table table-sm table-compact w-full border border-line m-auto"
         >

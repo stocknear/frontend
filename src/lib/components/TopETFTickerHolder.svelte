@@ -19,7 +19,7 @@
     : 'hidden'}"
 >
   <div
-    class="sm:rounded shadow-lg bg-[#000] sm:bg-default sm:border sm:border-gray-600 h-auto {$screenWidth <
+    class="sm:rounded-control shadow-lg bg-[#000] sm:bg-default sm:border sm:border-line h-auto {$screenWidth <
     640
       ? 'w-screen pt-16'
       : ''} md:w-[420px] xl:w-[450px]"
@@ -58,7 +58,7 @@
             <tbody>
               {#each topETFHolder as item, index}
                 <tr
-                  class="sm:hover:text-white text-blue-400 sm:hover:bg-[#245073]/10 bg-[#000] sm:bg-default border-b border-[#000] sm:border-[#27272A]"
+                  class="sm:hover:text-white text-blue-400 sm:hover:bg-[#245073]/10 bg-[#000] sm:bg-default border-b border-[#000] sm:border-line"
                 >
                   {#if index <= 6}
                     <td>
@@ -102,7 +102,7 @@
         </div>
       {:else}
         <div
-          class=" mt-20 flex justify-center items-center text-2xl font-bold text-slate-700 mb-20 m-auto"
+          class=" mt-20 flex justify-center items-center text-2xl font-bold text-fg-muted mb-20 m-auto"
         >
           No data available
         </div>
@@ -117,7 +117,7 @@
   <div class="bg-[#000] h-auto w-screen">
     <!--Start Header-->
     <div class="w-full p-1 flex flex-col items-center pb-5 h-auto">
-      <h2 class="text-center m-auto text-lg font-semibold text-white mt-5">
+      <h2 class="text-center m-auto type-h3 text-fg text-white mt-5">
         Top ETFs Holder
       </h2>
       <div class="flex flex-col items-center mt-10 mb-5 w-full px-8">
@@ -192,7 +192,7 @@
       </div>
     {:else}
       <div
-        class=" mt-20 flex justify-center items-center text-2xl font-bold text-slate-700 mb-20 m-auto"
+        class=" mt-20 flex justify-center items-center text-2xl font-bold text-fg-muted mb-20 m-auto"
       >
         No data available
       </div>

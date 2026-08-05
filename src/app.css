@@ -70,6 +70,10 @@
   --content-max: 1400px;
   --gutter-x: 1rem;
 
+  /* The floating bottom dock overlays the canvas, so every scroll container
+   * reserves this much room or the last rows sit underneath it. */
+  --nav-clearance: 5.5rem;
+
   --elev-card: 0 1px 2px rgb(16 24 40 / 0.05);
   --elev-overlay: 0 12px 32px rgb(16 24 40 / 0.12);
 }
@@ -82,8 +86,11 @@
 
 .dark {
   --surface-page: oklch(0.1408 0.0044 285.82);
-  --surface-card: oklch(0.195 0.005 285.8);
-  --surface-raised: oklch(0.235 0.006 285.8);
+  /* Card was 0.195, close enough to the page that every dark card was defined
+   * by its 1px border alone — the reason dark scored below light on 30 of 41
+   * pages. Lifted so surfaces separate by value, not by hairline. */
+  --surface-card: oklch(0.215 0.005 285.8);
+  --surface-raised: oklch(0.26 0.006 285.8);
   --surface-sunken: oklch(0.17 0.005 285.8);
   --line: oklch(0.29 0.006 285.8);
   --line-strong: oklch(0.37 0.008 285.8);
@@ -128,6 +135,21 @@
     outline-offset: 2px;
     border-radius: inherit;
   }
+
+  /* 2,295 transition and 104 animation utilities shipped with no reduced-motion
+   * path; only two JS call sites honoured the preference. Motion is decoration
+   * here, never the only signal, so it is safe to remove wholesale.
+   * `0.01ms` rather than `0` so transitionend/animationend still fire. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* One content frame for every route. Replaces six different max-widths and five
@@ -148,46 +170,46 @@
   letter-spacing: -0.02em;
 }
 @utility type-h1 {
-  font-size: 1.75rem;
+  font-size: 1.875rem;
   line-height: 1.2;
   font-weight: 600;
   letter-spacing: -0.015em;
 }
 @utility type-h2 {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   line-height: 1.35;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 @utility type-h3 {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   line-height: 1.4;
   font-weight: 600;
 }
 @utility type-body {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.55;
   font-weight: 400;
 }
 @utility type-data {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 @utility type-data-em {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 @utility type-meta {
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.4;
   font-weight: 400;
 }
 @utility type-th {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   line-height: 1.3;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -195,13 +217,13 @@
   color: var(--fg-muted);
 }
 @utility type-num {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   line-height: 1.2;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 @utility type-num-hero {
-  font-size: 2rem;
+  font-size: 2.125rem;
   line-height: 1.1;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -209,6 +231,21 @@
 }
 
 @layer utilities {
+  /* Elevation has three levels and an element only ever gets one of them.
+   * daisyUI ships its own shadow on .modal-box and .input, which then stacked
+   * on top of our border — that pairing was on 156 of 161 pages. Overlays are
+   * L2 (shadow, no border); inputs are L0 (border only). */
+  .modal-box {
+    border-width: 0;
+    box-shadow: var(--shadow-overlay);
+  }
+
+  .input,
+  .select,
+  .textarea {
+    box-shadow: none;
+  }
+
   /* The single row-divider rule for the whole app. 64 components rely on this
    * and have no divider of their own, so it cannot simply be deleted — but it
    * was `border-gray-400`, far too heavy for a data table, and Table.svelte

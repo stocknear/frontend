@@ -1065,7 +1065,7 @@
         <main class="w-full">
           <div class="mb-6 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-1 type-h1 text-fg"
             >
               {price_alert_main_title()}
             </h1>
@@ -1140,7 +1140,7 @@
                     />
                   </div>
                   <Combobox.Content
-                    class="w-auto z-10 rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 shadow-none outline-hidden"
+                    class="w-auto z-10 rounded-container border border-line bg-surface-card px-1 py-1.5 shadow-none outline-hidden"
                     sideOffset={8}
                   >
                     {#if inputValue?.length > 0}
@@ -1186,7 +1186,7 @@
             <!--Start Table-->
             {#if priceAlertList?.length > 0}
               <div
-                class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-hidden overflow-x-auto mt-4"
+                class="w-full rounded-container border border-line bg-surface-card overflow-hidden overflow-x-auto mt-4"
               >
                 <table
                   class="table table-sm table-compact w-full m-auto text-sm text-fg tabular-nums"
@@ -1229,7 +1229,7 @@
                                 checked={deletePriceAlertList?.includes(
                                   item?.id,
                                 ) ?? false}
-                                class="h-[18px] w-[18px] rounded-sm border border-line bg-surface-card ring-offset-0 mr-3 cursor-pointer"
+                                class="h-[18px] w-[18px] rounded-control border border-line bg-surface-card ring-offset-0 mr-3 cursor-pointer"
                               />
                               <label
                                 class="text-fg hover:text-accent cursor-pointer transition"
@@ -1336,7 +1336,7 @@
 
               <div class=" ">
                 <div
-                  class="inline-flex justify-center w-full rounded sm:w-auto mb-3"
+                  class="inline-flex justify-center w-full rounded-control sm:w-auto mb-3"
                 >
                   <div
                     class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
@@ -1344,7 +1344,7 @@
                     <div class="">
                       <div class="inline-flex">
                         <div
-                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                         >
                           {#each tabs as item, i (item)}
                             <button
@@ -1371,7 +1371,7 @@
                         {date}
                       </h3>
                       <div
-                        class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="border border-line rounded-container bg-surface-card"
                       >
                         {#each titleGroups as { title, items, symbols }, index}
                           <div
@@ -1424,7 +1424,7 @@
                       {date}
                     </h3>
                     <div
-                      class="border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                      class="border border-line rounded-container bg-surface-card"
                     >
                       {#each titleGroups as item, index}
                         <div
@@ -1506,7 +1506,7 @@
 
               {#if !data?.user}
                 <a
-                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
+                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                   href="/register"
                 >
                   {price_alert_get_started()}
@@ -1553,12 +1553,12 @@
   ></label>
 
   <div
-    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full overflow-hidden max-w-3xl p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     {#if isNoteModalOpen}
       {#if isLoadingEditor || isLoadingNote || !MarkdownNoteEditor}
         <label
-          class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
             class="loading loading-spinner loading-md text-white dark:text-white"

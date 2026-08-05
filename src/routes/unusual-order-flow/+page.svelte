@@ -2004,7 +2004,7 @@
           class="w-full flex flex-col sm:flex-row items-start sm:items-center sm:mt-4"
         >
           <h1
-            class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+            class="type-h1 text-fg"
           >
             {unusual_order_flow_main_title()}
           </h1>
@@ -2049,7 +2049,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
+                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
                 >
                   <DropdownMenu.Label
                     class="text-fg font-normal"
@@ -2129,7 +2129,7 @@
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content
-                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
+                  class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
                 >
                   <DropdownMenu.Label
                     class="text-fg font-normal"
@@ -2170,7 +2170,7 @@
                           e.preventDefault();
                           switchStrategy(item);
                         }}
-                        class="whitespace-nowrap cursor-pointer rounded-xl px-2 py-1.5 {item?.id ===
+                        class="whitespace-nowrap cursor-pointer rounded-container px-2 py-1.5 {item?.id ===
                         selectedStrategy
                           ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                           : ''} hover:text-violet-800 dark:hover:text-violet-300"
@@ -2185,7 +2185,7 @@
                           on:click|stopPropagation={() => {
                             deleteTargetId = item?.id;
                           }}
-                          class="ml-auto inline-block cursor-pointer text-gray-400 hover:text-rose-500"
+                          class="ml-auto inline-block cursor-pointer text-fg-subtle hover:text-rose-500"
                         >
                           <svg
                             class="size-5"
@@ -2211,7 +2211,7 @@
         </div>
       </div>
       <div
-        class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-2"
+        class="rounded-container border border-line bg-surface-card p-2"
       >
         <div
           class="flex flex-col sm:flex-row items-center pb-3 sm:border-b sm:border-line"
@@ -2329,7 +2329,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto p-0 border border-line text-fg bg-white/95 dark:bg-zinc-950/95 rounded-2xl shadow-none"
+                  class="w-auto p-0 border border-line text-fg bg-surface-card rounded-container shadow-none"
                 >
                   <Calendar
                     class=" "
@@ -2403,7 +2403,7 @@
               <!-- Add Filters Button -->
               <label
                 for="ruleModal"
-                class="text-sm mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden focus:ring-0"
+                class="text-sm mt-3 sm:mt-0 w-full sm:w-fit inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-line/90 dark:border-white py-2 pl-3 pr-4 font-semibold bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden focus:ring-0"
               >
                 <svg
                   class="h-5 w-5"
@@ -2468,7 +2468,7 @@
                       class="absolute inset-y-0 right-0 flex items-center pr-3"
                     >
                       <svg
-                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-muted dark:hover:text-gray-200"
+                        class="cursor-pointer w-4 h-4 text-gray-500 dark:text-fg-subtle hover:text-muted dark:hover:text-fg-muted"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -2487,7 +2487,7 @@
                 <!-- Quick Search Dropdown -->
                 {#if showQuickSearchDropdown && quickSearchResults.length > 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-line rounded-2xl shadow-none max-h-64 overflow-y-auto"
+                    class="absolute z-50 w-full mt-1 bg-surface-card border border-line rounded-container shadow-none max-h-64 overflow-y-auto"
                     in:scale={{
                       start: 0.98,
                       duration: 140,
@@ -2498,7 +2498,7 @@
                   >
                     {#each quickSearchResults as result, index}
                       <button
-                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center rounded-xl hover:text-violet-800 dark:hover:text-violet-300 {index ===
+                        class="cursor-pointer w-full px-2 py-2 flex flex-row items-center rounded-container hover:text-violet-800 dark:hover:text-violet-300 {index ===
                         selectedQuickSearchIndex
                           ? 'bg-gray-100/70 dark:bg-zinc-900/60'
                           : ''}"
@@ -2532,7 +2532,7 @@
                 <!-- No results message -->
                 {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
                   <div
-                    class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-line rounded-2xl shadow-none p-4 text-center text-sm text-fg"
+                    class="absolute z-50 w-full mt-1 bg-surface-card border border-line rounded-container shadow-none p-4 text-center text-sm text-fg"
                   >
                     {unusual_order_flow_no_filters_found()}
                   </div>
@@ -2543,7 +2543,7 @@
                 <label
                   for={!data?.user ? "userLogin" : ""}
                   on:click={() => handleSave(true)}
-                  class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden"
+                  class="w-full sm:w-fit text-sm cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-line/90 dark:border-white bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 ease-out focus:outline-hidden"
                 >
                   <svg
                     class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
@@ -2693,11 +2693,11 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-64 h-fit max-h-80 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
+                            class="w-64 h-fit max-h-80 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
                           >
                             {#if row?.rule === "excludeTickers"}
                               <DropdownMenu.Label
-                                class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                                class="sticky -top-1 z-20 bg-surface-card pb-1.5"
                               >
                                 <div class="relative">
                                   <div
@@ -2733,7 +2733,7 @@
                                     }}
                                     on:click|stopPropagation
                                     placeholder="Search ticker..."
-                                    class="w-full text-sm border border-line bg-surface-page/60 rounded-2xl text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                    class="w-full text-sm border border-line bg-surface-page/60 rounded-container text-fg placeholder:text-fg-subtle dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                                   />
                                 </div>
                               </DropdownMenu.Label>
@@ -2817,7 +2817,7 @@
                               </DropdownMenu.Group>
                             {:else if row?.rule === "includeTickers"}
                               <DropdownMenu.Label
-                                class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                                class="sticky -top-1 z-20 bg-surface-card pb-1.5"
                               >
                                 <div class="relative">
                                   <div
@@ -2853,7 +2853,7 @@
                                     }}
                                     on:click|stopPropagation
                                     placeholder="Search ticker..."
-                                    class="w-full text-sm border border-line bg-surface-page/60 rounded-2xl text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                    class="w-full text-sm border border-line bg-surface-page/60 rounded-container text-fg placeholder:text-fg-subtle dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                                   />
                                 </div>
                               </DropdownMenu.Label>
@@ -2968,7 +2968,7 @@
                   <div class="flex items-center">
                     <button
                       on:click={() => handleDeleteRule(row?.rule)}
-                      class="mr-1.5 cursor-pointer text-gray-400 hover:text-rose-500 focus:outline-hidden"
+                      class="mr-1.5 cursor-pointer text-fg-subtle hover:text-rose-500 focus:outline-hidden"
                       title={unusual_order_flow_remove_filter()}
                     >
                       <svg
@@ -3031,11 +3031,11 @@
                             align="end"
                             sideOffset={10}
                             alignOffset={0}
-                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
+                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
                           >
                             {#if !categoricalRules?.includes(row?.rule)}
                               <DropdownMenu.Label
-                                class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
+                                class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-surface-card"
                               >
                                 <div
                                   class="flex items-center justify-start gap-x-1"
@@ -3074,7 +3074,7 @@
                                         </Button>
                                       </DropdownMenu.Trigger>
                                       <DropdownMenu.Content
-                                        class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-line rounded-2xl"
+                                        class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-line rounded-container"
                                       >
                                         <DropdownMenu.Group>
                                           {#each ["Over", "Under", "Between", "Exactly"] as item}
@@ -3201,7 +3201,7 @@
                                   {#if ruleCondition[row?.rule] === "between"}
                                     {#if newValue && row?.step[index + 1]}
                                       <DropdownMenu.Item
-                                        class="hover:text-violet-800 dark:hover:text-violet-300 rounded-xl"
+                                        class="hover:text-violet-800 dark:hover:text-violet-300 rounded-container"
                                       >
                                         <button
                                           on:click={() => {
@@ -3210,7 +3210,7 @@
                                               row?.step[index + 1],
                                             ]);
                                           }}
-                                          class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                          class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded-control last:border-0 focus:outline-hidden"
                                         >
                                           {ruleCondition[row?.rule]?.replace(
                                             "between",
@@ -3224,13 +3224,13 @@
                                     {/if}
                                   {:else}
                                     <DropdownMenu.Item
-                                      class="hover:text-violet-800 dark:hover:text-violet-300 rounded-xl"
+                                      class="hover:text-violet-800 dark:hover:text-violet-300 rounded-container"
                                     >
                                       <button
                                         on:click={() => {
                                           handleChangeValue(newValue);
                                         }}
-                                        class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded last:border-0 focus:outline-hidden"
+                                        class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded-control last:border-0 focus:outline-hidden"
                                       >
                                         {ruleCondition[row?.rule]
                                           ?.replace("under", "Under")
@@ -3244,7 +3244,7 @@
                               {:else if categoricalRules?.includes(row?.rule)}
                                 {#each row?.step as item}
                                   <DropdownMenu.Item
-                                    class="hover:text-violet-800 dark:hover:text-violet-300 rounded-xl"
+                                    class="hover:text-violet-800 dark:hover:text-violet-300 rounded-container"
                                   >
                                     <div
                                       class="flex items-center cursor-pointer"
@@ -3254,7 +3254,7 @@
                                     >
                                       <input
                                         type="checkbox"
-                                        class="rounded pointer-events-none"
+                                        class="rounded-control pointer-events-none"
                                         checked={checkedItems
                                           .get(row?.rule)
                                           ?.has(item) ?? false}
@@ -3284,7 +3284,7 @@
           <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-y-3 gap-x-3">
             <!--Start Total Volume-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-5 bg-surface-card border border-line rounded-container h-20"
             >
               <div class="flex flex-col items-start">
                 <span
@@ -3320,7 +3320,7 @@
             <!--End Total Volume-->
             <!--Start Total Value-->
             <div
-              class="flex flex-row items-center flex-wrap w-full px-5 bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl h-20"
+              class="flex flex-row items-center flex-wrap w-full px-5 bg-surface-card border border-line rounded-container h-20"
             >
               <div class="flex flex-col items-start">
                 <span
@@ -3358,7 +3358,7 @@
             <!--End Total Value-->
             <!--Start Transaction Type (Dark Pool vs Block Order)-->
             <div
-              class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl"
+              class="flex flex-col w-full px-4 sm:px-5 py-3 bg-surface-card border border-line rounded-container"
             >
               <div
                 class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
@@ -3437,7 +3437,7 @@
             <!--End Transaction Type-->
             <!--Start Asset Type (Stocks vs ETFs)-->
             <div
-              class="flex flex-col w-full px-4 sm:px-5 py-3 bg-white/70 dark:bg-zinc-950/40 border border-line rounded-2xl"
+              class="flex flex-col w-full px-4 sm:px-5 py-3 bg-surface-card border border-line rounded-container"
             >
               <div
                 class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2"
@@ -3528,7 +3528,7 @@
               class="flex flex-row items-center justify-between sm:justify-start w-full sm:w-fit whitespace-nowrap -mb-1 sm:mb-0"
             >
               <h2
-                class="text-start w-full mb-2 sm:mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                class="text-start w-full mb-2 sm:mb-0 type-h2 text-fg"
               >
                 {totalItems?.toLocaleString("en-US")} Trades
               </h2>
@@ -3567,7 +3567,7 @@
                   on:input={debouncedServerSearch}
                   type="text"
                   placeholder={unusual_order_flow_search_placeholder()}
-                  class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                  class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                 />
               </div>
 
@@ -3588,7 +3588,7 @@
                   title={isFullWidth
                     ? unusual_order_flow_exit_full_width()
                     : unusual_order_flow_expand_full_width()}
-                  class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+                  class="hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
                     ? 'border-violet-400 dark:border-violet-500'
                     : ''}"
                 >
@@ -3634,7 +3634,7 @@
                   <button
                     on:click={() => unusualOrderFlowResetColumnOrder?.()}
                     title={unusual_order_flow_reset_column_order()}
-                    class="cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                    class="cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                   >
                     <svg
                       class="w-4 h-4"
@@ -3684,7 +3684,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1 || isFetchingPage}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -3713,7 +3713,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{rowsPerPage} Rows</span
@@ -3739,7 +3739,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <DropdownMenu.Group class="pb-2">
                         {#each rowsPerPageOptions as item}
@@ -3764,7 +3764,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages || isFetchingPage}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">Next</span>
                     <svg
@@ -3840,7 +3840,7 @@
   ></label>
 
   <div
-    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] opacity-100 bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
@@ -3850,7 +3850,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class="text-[1rem] sm:text-xl font-semibold text-fg"
+            class="text-[1rem] sm:type-h2 text-fg text-fg"
           >
             Select screener filters ({allRows?.length} total)
           </h2>
@@ -3876,7 +3876,7 @@
           class="w-full h-8"
           on:keydown={(e) => (e?.key === "Enter" ? e.preventDefault() : "")}
         >
-          <label for="search" class="text-sm text-gray-200 sr-only"
+          <label for="search" class="text-sm text-fg-muted sr-only"
             >Search</label
           >
           <div class="relative w-full max-w-sm">
@@ -3963,7 +3963,7 @@
                   id={row?.rule}
                   type="checkbox"
                   checked={ruleOfList?.find((rule) => rule?.name === row?.rule)}
-                  class="h-[18px] w-[18px] rounded-sm ring-offset-0 lg:h-4 lg:w-4"
+                  class="h-[18px] w-[18px] rounded-control ring-offset-0 lg:h-4 lg:w-4"
                 />
               {/if}
               <div class="-mt-0.5">
@@ -4000,7 +4000,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -4021,9 +4021,9 @@
         /></svg
       >
     </label>
-    <h1 class="text-2xl font-semibold text-fg">
+    <h2 class="text-2xl font-semibold text-fg">
       {unusual_order_flow_modal_new_title()}
-    </h1>
+    </h2>
 
     <form
       on:submit={createStrategy}
@@ -4064,7 +4064,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -4085,7 +4085,7 @@
         /></svg
       >
     </label>
-    <h3 class="text-lg font-semibold mb-2 text-fg">
+    <h3 class="type-h3 text-fg mb-2 text-fg">
       {unusual_order_flow_modal_delete_title()}
     </h3>
     <p class="text-sm mb-6 text-fg-muted">
@@ -4146,7 +4146,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="mobileTooltip"
@@ -4164,7 +4164,7 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3 class="font-bold text-2xl mb-5">{tooltipTitle}</h3>
+      <h3 class="type-h2 text-fg mb-5">{tooltipTitle}</h3>
       <span class=" text-[1rem] font-normal">{infoText?.text ?? "n/a"}</span>
       {#if infoText?.equation !== undefined}
         <div class="w-5/6 m-auto mt-5"></div>

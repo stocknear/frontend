@@ -19,7 +19,7 @@
   <main class="overflow-hidden">
     <div class="w-full">
       <div
-        class="flex flex-col items-center w-auto p-4 sm:p-4 rounded relative"
+        class="flex flex-col items-center w-auto p-4 sm:p-4 rounded-control relative"
       >
         <div class="relative">
           <h3
@@ -47,7 +47,7 @@
                 cy="18"
                 r="16"
                 fill="none"
-                class="stroke-current text-gray-300 dark:text-[#303030]"
+                class="stroke-current text-fg-muted dark:text-[#303030]"
                 stroke-width="2"
               ></circle>
               <!-- score Circle inside a group with rotation -->

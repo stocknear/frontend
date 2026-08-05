@@ -111,8 +111,8 @@
         const options = {
             chart: {
                 type: "column",
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 360,
                 animation: false,
             },
@@ -392,6 +392,6 @@
 </script>
 
 <div
-    class="border border-line rounded-2xl"
+    class="border border-line rounded-container"
     use:highcharts={config}
 ></div>

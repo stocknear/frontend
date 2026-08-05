@@ -70,7 +70,7 @@
         >Home</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">AI Agents Guide</li>
+    <li class="text-muted dark:text-fg-muted">AI Agents Guide</li>
   </BreadCrumb>
 
   <div class="w-full overflow-hidden m-auto mt-5">
@@ -80,7 +80,7 @@
       >
         <main class="w-full lg:w-3/4 lg:pr-10">
           <div class="mb-4 border-b-2">
-            <h1 class="mb-1 text-2xl sm:text-3xl font-bold">AI Agents Guide</h1>
+            <h1 class="mb-1 type-h1 text-fg">AI Agents Guide</h1>
           </div>
 
           <div class="w-full m-auto">
@@ -114,7 +114,7 @@
 
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -128,7 +128,7 @@
                         handleCopyPrompt(
                           "@StockScreener find undervalued tech stocks with P/E under 20 and revenue growth above 15%",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG remains same -->
@@ -155,7 +155,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -169,7 +169,7 @@
                         handleCopyPrompt(
                           "@Analyst show recent analyst actions for Nvidia with price targets",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -198,7 +198,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -211,7 +211,7 @@
                         handleCopyPrompt(
                           "@BullvsBear present bull and bear cases for Tesla stock",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -236,7 +236,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -250,7 +250,7 @@
                         handleCopyPrompt(
                           "@CompareStocks compare AMD and Intel on financial health and growth prospects",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -277,7 +277,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f6f4] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f6f4] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -290,7 +290,7 @@
                         handleCopyPrompt(
                           "@DarkPoolData show recent dark pool activity for Apple",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -317,7 +317,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -331,7 +331,7 @@
                         handleCopyPrompt(
                           "@FundamentalData analyze Microsoft's latest balance sheet and cash flow",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -356,7 +356,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -369,7 +369,7 @@
                         handleCopyPrompt(
                           "@OptionsData show unusual options activity for Amazon",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -396,7 +396,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -410,7 +410,7 @@
                         handleCopyPrompt(
                           "@OptionsFlowFeed show largest institutional options orders today",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -452,7 +452,7 @@
                 </ul>
                 <p class="mb-2">Example prompt:</p>
                 <div
-                  class="mb-4 rounded border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
+                  class="mb-4 rounded-control border-l-4 border-[#2C6288] bg-[#f3f4f6] dark:bg-table/60 px-5 py-3 italic"
                 >
                   <div
                     class="flex flex-row items-center justify-between w-full"
@@ -466,7 +466,7 @@
                         handleCopyPrompt(
                           "@WarrenBuffett would Coca-Cola meet your investment criteria today?",
                         )}
-                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-lg text-muted dark:text-gray-300 dark:sm:hover:text-white"
+                      class="cursor-pointer text-token-text-secondary hover:bg-token-bg-secondary rounded-container text-muted dark:text-fg-muted dark:sm:hover:text-white"
                       aria-label="Copy"
                     >
                       <!-- Copy icon SVG -->
@@ -482,14 +482,14 @@
         <aside class="hidden lg:block relative fixed w-1/4 mt-4">
           {#if !["Plus", "Pro"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-line-strong rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+              class="w-full border border-line-strong rounded-control h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
             >
               <a
                 href="/pricing"
                 class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-bold ml-3">
+                  <h2 class="text-start type-h2 text-fg ml-3">
                     Pro Subscription
                   </h2>
                 </div>
@@ -502,14 +502,14 @@
           {/if}
 
           <div
-            class="w-full border border-line-strong rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-line-strong rounded-control h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
           >
             <a
               href="/about"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">About Us</h2>
+                <h2 class="text-start type-h2 text-fg ml-3">About Us</h2>
               </div>
               <span class=" p-3 ml-3 mr-3">
                 Learn more about why we're doing this here
@@ -518,14 +518,14 @@
           </div>
 
           <div
-            class="w-full border border-line-strong rounded h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
+            class="w-full border border-line-strong rounded-control h-fit pb-4 mt-4 cursor-pointer sm:hover:shadow-lg dark:sm:hover:bg-secondary transition ease-out duration-100"
           >
             <a
               href="/contact"
               class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-xl font-bold ml-3">Contact Us</h2>
+                <h2 class="text-start type-h2 text-fg ml-3">Contact Us</h2>
               </div>
               <span class=" p-3 ml-3 mr-3">
                 Let me know if you need something

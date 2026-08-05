@@ -109,7 +109,8 @@
 
     const options = {
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 360,
       },
@@ -337,7 +338,7 @@
     <div class="relative">
       <!-- Apply the blur class to the chart -->
       <div
-        class="border border-line rounded-2xl"
+        class="border border-line rounded-container"
         use:highcharts={config}
       ></div>
     </div>

@@ -77,7 +77,7 @@
 
 {#if suggestedLocale}
 <aside
-  class="fixed inset-x-3 bottom-20 z-[70] mx-auto flex max-w-xl flex-col items-stretch gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-sm text-zinc-900 shadow-xl dark:border-zinc-700 dark:bg-zinc-900 dark:text-white sm:inset-x-4 sm:flex-row sm:items-center md:bottom-5"
+  class="fixed inset-x-3 bottom-20 z-[70] mx-auto flex max-w-xl flex-col items-stretch gap-3 rounded-container border border-zinc-200 bg-white p-4 text-sm text-zinc-900 shadow-xl dark:border-zinc-700 dark:bg-zinc-900 dark:text-white sm:inset-x-4 sm:flex-row sm:items-center md:bottom-5"
   role="region"
   aria-labelledby="language-suggestion-message"
 >
@@ -91,7 +91,7 @@
   </p>
   <div class="flex min-w-0 flex-wrap items-center gap-2 sm:flex-nowrap">
     <button
-      class="shrink-0 rounded-lg bg-violet-600 px-3 py-2 font-medium text-white hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
+      class="shrink-0 rounded-container bg-violet-600 px-3 py-2 font-medium text-white hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2"
       on:click={() =>
         suggestedLocale &&
         setLanguage(
@@ -102,13 +102,13 @@
       {common_language_switch()}
     </button>
     <button
-      class="min-w-0 rounded-lg px-2 py-2 text-zinc-600 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:text-zinc-300 dark:hover:text-white"
+      class="min-w-0 rounded-container px-2 py-2 text-zinc-600 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:text-zinc-300 dark:hover:text-white"
       on:click={keepEnglish}
     >
       {common_language_keep_english()}
     </button>
     <button
-      class="ml-auto shrink-0 rounded p-1 text-xl leading-none text-zinc-500 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:text-white"
+      class="ml-auto shrink-0 rounded-control p-1 text-xl leading-none text-zinc-500 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:text-white"
       aria-label={common_language_close()}
       on:click={dismiss}
     >

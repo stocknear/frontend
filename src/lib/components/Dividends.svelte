@@ -335,7 +335,7 @@
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 pt-3 w-full m-auto mt-2 sm:mt-0">
         <div class="w-full mb-6">
           <h2
-            class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-4 w-full"
+            class="type-h2 text-fg mb-4 w-full"
           >
             {stock_detail_dividends_heading()}
           </h2>
@@ -345,7 +345,7 @@
 
         {#if rawData?.history?.length > 0}
           <div
-            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
+            class="mb-4 grid grid-cols-2 md:grid-cols-3 rounded-container border border-line bg-surface-card divide-x divide-y divide-gray-200/70 dark:divide-zinc-800/80"
           >
             <div class="p-4 bp:p-5 sm:p-6">
               <label
@@ -438,7 +438,7 @@
             class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-line py-2"
           >
             <h3
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+              class="type-h2 text-fg"
             >
               {stock_detail_dividends_history()}
             </h3>
@@ -458,7 +458,7 @@
             >
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
                 >
                   <thead
                     class="text-[11px] uppercase tracking-wide text-fg"
@@ -535,7 +535,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -569,7 +569,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -595,7 +595,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
@@ -623,7 +623,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

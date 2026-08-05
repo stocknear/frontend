@@ -198,7 +198,7 @@
 
 {#if pull > 0 || refreshing}
   <div
-    class="pointer-events-none fixed top-0 left-1/2 z-[60] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-surface-card shadow-md"
+    class="pointer-events-none fixed top-0 left-1/2 z-[60] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-surface-card"
     style="transform: translate(-50%, {badgeTranslateY}px) scale({badgeScale}); opacity: {badgeOpacity}; transition: {badgeTransition};"
     aria-hidden="true"
   >

@@ -80,8 +80,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "pie",
         height: 330,
         animation: false,
@@ -154,8 +154,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "bar",
         height: 500,
         animation: false,
@@ -332,9 +332,9 @@
     >
       <div class="mt-5 sm:mt-0 sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto">
         <div class="flex flex-row items-center md:space-x-4 md:border-0">
-          <h1 class=" text-xl sm:text-2xl font-bold">
+          <h2 class=" type-h2 text-fg">
             {$indexTicker} Holdings List
-          </h1>
+          </h2>
           {#if data?.getETFHoldings?.lastUpdate}
             <div
               class="ml-3 sm:mt-1 whitespace-nowrap text-sm text-muted dark:text-zinc-400 md:ml-0"
@@ -349,7 +349,7 @@
         </div>
 
         <div
-          class="mt-4 shadow mb-4 grid grid-cols-2 grid-rows-1 divide-gray-300 dark:divide-gray-600 rounded border border-line-strong md:grid-cols-3 md:grid-rows-1 divide-x"
+          class="mt-4 mb-4 grid grid-cols-2 grid-rows-1 divide-gray-300 dark:divide-gray-600 rounded-control border border-line-strong md:grid-cols-3 md:grid-rows-1 divide-x"
         >
           <div class="p-4 bp:p-5 sm:p-6">
             <label
@@ -394,12 +394,12 @@
           <div class="">
             <div class="grow mt-5">
               <div class="relative">
-                <h2 class="mb-2 text-xl sm:text-2xl font-bold">
+                <h2 class="mb-2 type-h2 text-fg">
                   Sector Allocation
                 </h2>
 
                 <div
-                  class=" sm:p-3 shadow border border-line rounded"
+                  class="sm:p-3 border border-line rounded-control"
                   use:highcharts={$screenWidth < 640
                     ? configBarChart
                     : configPieChart}

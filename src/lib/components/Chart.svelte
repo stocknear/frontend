@@ -13,7 +13,8 @@
   const chartConfig = {
     chart: {
       type: "area",
-      backgroundColor: "#09090B",
+      backgroundColor: "transparent",
+      plotBackgroundColor: "transparent",
       height: "400px",
     },
     title: { text: null },
@@ -101,7 +102,7 @@
 
 <div class="chart-container">
   <div
-    class="chart border border-gray-800 rounded"
+    class="chart border border-line rounded-control"
     use:highcharts={chartConfig}
   ></div>
 

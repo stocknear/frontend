@@ -495,7 +495,7 @@
         <main class="w-full">
           <div class="mb-3 border-b border-line">
             <h1
-              class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-1 type-h1 text-fg"
             >
               {reddit_tracker_title()}
             </h1>
@@ -530,7 +530,7 @@
               class="-mb-2 pt-3 overflow-x-auto whitespace-nowrap flex flex-row items-center justify-between sm:justify-start w-full"
             >
               <h2
-                class="text-start w-full text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                class="text-start w-full type-h2 text-fg"
               >
                 {reddit_tracker_subreddit_label()}
               </h2>
@@ -538,7 +538,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="shadow-sm transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full "
+                    class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-fit px-3 py-2 rounded-full"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
                       r/{currentSubreddit}
@@ -563,13 +563,13 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 text-fg shadow-lg shadow-black/5 p-2"
+                  class="min-w-36 w-auto max-w-60 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card text-fg shadow-lg shadow-black/5 p-2"
                 >
                   <DropdownMenu.Group>
                     {#each availableSubreddits as subreddit}
                       <DropdownMenu.Item
                         on:click={() => changeSubreddit(subreddit.name)}
-                        class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-lg text-fg transition-colors"
+                        class="sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 cursor-pointer flex flex-row items-center justify-between rounded-container text-fg transition-colors"
                       >
                         <span>{subreddit.name}</span>
                       </DropdownMenu.Item>
@@ -588,7 +588,7 @@
                 <div class="mb-4 space-y-3">
                   {#each stockList as item, index}
                     <div
-                      class="rounded-2xl border border-line overflow-hidden"
+                      class="rounded-container border border-line overflow-hidden"
                     >
                       <!-- Header -->
                       <div
@@ -711,7 +711,7 @@
                             <div class="flex justify-center items-center h-40">
                               <div class="relative">
                                 <label
-                                  class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                  class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-container h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                                 >
                                   <span
                                     class="loading loading-spinner loading-md text-white dark:text-white"
@@ -736,7 +736,7 @@
                                   href="https://reddit.com{post.permalink}"
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  class="block rounded-xl border border-line bg-white/60 dark:bg-zinc-950/40 p-3 transition"
+                                  class="block rounded-container border border-line bg-surface-card p-3 transition"
                                 >
                                   <div
                                     class="flex flex-wrap items-center gap-1.5 mb-1.5 text-xs text-fg"
@@ -807,7 +807,7 @@
               {:else}
                 <!-- Desktop Table View -->
                 <div
-                  class="w-full m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mb-4 overflow-x-auto"
+                  class="w-full m-auto bg-surface-card border border-line rounded-container mb-4 overflow-x-auto"
                 >
                   <table
                     class="table table-sm table-compact w-full m-auto text-fg tabular-nums"
@@ -981,7 +981,7 @@
                                   >
                                     <div class="relative">
                                       <label
-                                        class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                                        class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-container h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                                       >
                                         <span
                                           class="loading loading-spinner loading-md text-white dark:text-white"
@@ -1010,7 +1010,7 @@
                                         href="https://reddit.com{post.permalink}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="block rounded-xl border border-line bg-white/60 dark:bg-zinc-950/40 p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-zinc-900/60 transition"
+                                        class="block rounded-container border border-line bg-surface-card p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-zinc-900/60 transition"
                                       >
                                         <!-- Flair + author + date -->
                                         <div
@@ -1101,7 +1101,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1135,7 +1135,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{rowsPerPage} {reddit_tracker_rows()}</span
@@ -1161,7 +1161,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as rpp}
@@ -1188,7 +1188,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{reddit_tracker_next()}</span
@@ -1214,7 +1214,7 @@
               <div class="flex justify-center items-center h-80">
                 <div class="relative">
                   <label
-                    class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-2xl h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="border border-line bg-white/90 dark:bg-zinc-900/80 rounded-container h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
                       class="loading loading-spinner loading-md text-white dark:text-white"

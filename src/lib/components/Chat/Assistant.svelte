@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   import { slide, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
@@ -87,7 +88,7 @@
   // Use derived store for better reactivity
   const shouldShowAssistant = derived(
     page,
-    ($page) => !$page.url.pathname.startsWith("/chat"),
+    ($page) => !deLocalizeHref($page.url.pathname).startsWith("/chat"),
   );
 
   // --- editor plugins & helpers (kept from your original) ---
@@ -179,7 +180,7 @@
         const widget = Decoration.widget(1, () => {
           const span = document.createElement("span");
           span.className =
-            "text-gray-600 dark:text-gray-300 pointer-events-none";
+            "text-gray-600 dark:text-fg-muted pointer-events-none";
           span.textContent = editable
             ? "Ask anything about stocks, markets, or financial data..."
             : "Read-only: You don't have permission to edit this chat.";
@@ -1015,7 +1016,7 @@
       <div class="flex items-center gap-3 min-w-0">
         <div class="flex-shrink-0">
           <div
-            class="w-9 h-9 rounded bg-black dark:bg-white flex items-center justify-center shadow-sm"
+            class="w-9 h-9 rounded-control bg-black dark:bg-white flex items-center justify-center shadow-sm"
           >
             <Spark class="w-5 h-5 text-white dark:text-black" />
           </div>
@@ -1026,7 +1027,7 @@
           >
             AI Assistant
           </div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 truncate">
+          <div class="text-xs text-gray-500 dark:text-fg-subtle truncate">
             Real-time financial insights at your fingertips
           </div>
         </div>
@@ -1035,25 +1036,25 @@
       <div class="flex items-center gap-1">
         <button
           on:click={newChat}
-          class="cursor-pointer p-2 rounded sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
+          class="cursor-pointer p-2 rounded-control sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
           title="New chat"
           aria-label="New chat"
         >
-          <Plus class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+          <Plus class="w-4 h-4 text-gray-600 dark:text-fg-muted" />
         </button>
         <div class="relative chat-history-dropdown">
           <button
             on:click={toggleChatHistory}
-            class="cursor-pointer p-2 rounded sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
+            class="cursor-pointer p-2 rounded-control sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
             title="Chat history"
             aria-label="Chat history"
           >
-            <History class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            <History class="w-4 h-4 text-gray-600 dark:text-fg-muted" />
           </button>
 
           {#if showChatHistory}
             <div
-              class="absolute top-full right-0 mt-3 w-80 bg-white dark:bg-gray-800 border border-line-strong rounded shadow-xl z-50 max-h-96 overflow-y-auto"
+              class="absolute top-full right-0 mt-3 w-80 bg-white dark:bg-gray-800 border border-line-strong rounded-control shadow-xl z-50 max-h-96 overflow-y-auto"
               transition:fly={{ y: -10, duration: 200 }}
             >
               <div class="p-4 border-b border-line-strong">
@@ -1067,13 +1068,13 @@
                   <div
                     class="loading loading-spinner loading-md text-black dark:text-white"
                   ></div>
-                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300"
+                  <span class="ml-2 text-sm text-gray-600 dark:text-fg-muted"
                     >Loading...</span
                   >
                 </div>
               {:else if chatHistory.length === 0}
                 <div
-                  class="p-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                  class="p-4 text-center text-sm text-gray-500 dark:text-fg-subtle"
                 >
                   No chat history found
                 </div>
@@ -1085,12 +1086,12 @@
                       class="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
                     >
                       <div
-                        class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate"
+                        class="text-sm font-medium text-gray-900 dark:text-fg truncate"
                       >
                         {chat.message || "No message"}
                       </div>
                       <div
-                        class="text-xs text-gray-500 dark:text-gray-400 mt-1"
+                        class="text-xs text-gray-500 dark:text-fg-subtle mt-1"
                       >
                         {new Date(chat.updated).toLocaleDateString()}
                         {new Date(chat.updated).toLocaleTimeString([], {
@@ -1107,14 +1108,14 @@
         </div>
         <button
           on:click={() => toggleFullscreen()}
-          class="cursor-pointer p-2 rounded sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
+          class="cursor-pointer p-2 rounded-control sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
           title={isFullscreen ? "Shrink window" : "Expand window"}
           aria-label={isFullscreen ? "Shrink window" : "Expand window"}
         >
           {#if isFullscreen}
             <!-- Shrink icon -->
             <svg
-              class="w-4 h-4 text-gray-600 dark:text-gray-300"
+              class="w-4 h-4 text-gray-600 dark:text-fg-muted"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1132,7 +1133,7 @@
           {:else}
             <!-- Expand icon -->
             <svg
-              class="w-4 h-4 text-gray-600 dark:text-gray-300"
+              class="w-4 h-4 text-gray-600 dark:text-fg-muted"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1151,11 +1152,11 @@
         </button>
         <button
           on:click={closeChat}
-          class="cursor-pointer p-2 rounded sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
+          class="cursor-pointer p-2 rounded-control sm:hover:bg-gray-300 dark:sm:hover:bg-gray-800 transition-colors"
           title="Close (Esc)"
           aria-label="Close"
         >
-          <X class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+          <X class="w-4 h-4 text-gray-600 dark:text-fg-muted" />
         </button>
       </div>
     </header>
@@ -1224,7 +1225,7 @@
         class="px-6 py-4 border-t border-line bg-gray-50 dark:bg-default/50"
       >
         <div
-          class="block p-4 w-full border border-line-strong rounded overflow-hidden bg-gray-50 dark:bg-[#2A2E39] shadow-sm"
+          class="block p-4 w-full border border-line-strong rounded-control overflow-hidden bg-gray-50 dark:bg-[#2A2E39]"
         >
           <div
             bind:this={editorDiv}
@@ -1238,7 +1239,7 @@
           <!-- Suggestions Dropdown -->
           {#if showSuggestions}
             <ul
-              class="absolute bg-white dark:bg-default rounded-[5px] shadow border border-line-strong mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
+              class="absolute bg-white dark:bg-default rounded-control border border-line-strong mt-1 z-60 w-56 h-fit max-h-56 overflow-y-auto scroller"
               style="top: {suggestionPos?.top}px; left: {suggestionPos?.left}px;"
             >
               {#each suggestions as suggestion, i}
@@ -1255,7 +1256,7 @@
             </ul>
           {/if}
           <form
-            class="grow rounded relative flex items-center w-full overflow-hidden"
+            class="grow rounded-control relative flex items-center w-full overflow-hidden"
           >
             <div
               class="relative min-h-12 h-auto overflow-y-hidden w-full outline-none"
@@ -1271,7 +1272,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-full bg-white dark:bg-secondary text-muted sm:hover:text-black dark:text-gray-200 dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded truncate"
+                          class="w-full bg-white dark:bg-secondary text-muted sm:hover:text-black dark:text-fg-muted dark:sm:hover:text-white ease-out flex flex-row justify-between items-center  rounded-control truncate"
                         >
                           <svg
                             class="size-4.5"
@@ -1303,7 +1304,7 @@
                         {#if selectedGroup === "overview"}
                           {#if data?.user}
                             <DropdownMenu.Label
-                              class="text-muted dark:text-gray-400 font-semibold dark:font-normal text-xs"
+                              class="text-muted dark:text-fg-subtle font-semibold dark:font-normal text-xs"
                             >
                               {data?.user?.credits} Credits left
                             </DropdownMenu.Label>
@@ -1506,7 +1507,7 @@
                     !isLoading &&
                     !isStreaming
                       ? 'cursor-pointer bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100'
-                      : 'cursor-not-allowed opacity-60 bg-gray-400'} py-2 text-white dark:text-black text-[1rem] rounded border-0 px-3 transition-colors duration-200 shadow-sm"
+                      : 'cursor-not-allowed opacity-60 bg-gray-400'} py-2 text-white dark:text-black text-[1rem] rounded-control border-0 px-3 transition-colors duration-200 shadow-sm"
                     type="button"
                   >
                     {#if isLoading || isStreaming}

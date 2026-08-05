@@ -60,14 +60,14 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 mt-4"
+              class="w-full bg-surface-card border border-line rounded-container mt-4"
             >
               <a
                 href="/pricing"
                 class="w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-xl font-semibold sm:ml-3">
+                  <h2 class="text-start type-h2 text-fg sm:ml-3">
                     {stock_detail_stats_pro_subscription()}
                   </h2>
                 </div>
@@ -79,9 +79,9 @@
           {/if}
 
           <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+            class="w-full bg-surface-card border border-line rounded-container p-4 mt-4"
           >
-            <h3 class="p-2 pt-4 text-xl font-semibold">
+            <h3 class="p-2 pt-4 type-h2 text-fg">
               {stock_detail_stats_revenue_definition_title()}
             </h3>
             <div class=" p-2">
@@ -90,7 +90,7 @@
             <div class="px-2">
               <a
                 href="/learning-center/article/revenue-what-topline-sales-tell-you"
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {stock_detail_stats_full_definition()}
               </a>
@@ -99,9 +99,9 @@
 
           {#if similarStocks?.length > 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full bg-surface-card border border-line rounded-container p-4 mt-4"
             >
-              <h3 class="p-2 pt-4 text-xl font-semibold">
+              <h3 class="p-2 pt-4 type-h2 text-fg">
                 {stock_detail_stats_related_stocks()}
               </h3>
               <table
@@ -146,7 +146,7 @@
               <div class="px-2">
                 <a
                   href="/list/highest-revenue"
-                  class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                  class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-3 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
                 >
                   {stock_detail_stats_revenue_rankings()}
                 </a>
@@ -156,10 +156,10 @@
 
           {#if newsList?.length !== 0}
             <div
-              class="w-full sm:hover: border border-gray-300 shadow dark:border-zinc-700 rounded h-fit pb-4 mt-4 cursor-pointer"
+              class="w-full sm:hover: border border-line rounded-control h-fit pb-4 mt-4 cursor-pointer"
             >
               <div class="p-4 text-sm">
-                <h3 class="text-xl font-semibold mb-3">
+                <h3 class="type-h2 text-fg mb-3">
                   {stock_detail_stats_ticker_news({ ticker: $stockTicker })}
                 </h3>
                 <ul class="">

@@ -466,7 +466,7 @@
       <!-- Preview/Edit Toggle -->
       <button
         on:click={togglePreview}
-        class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-2xl transition-colors bg-surface-raised text-fg-muted hover:bg-gray-200 dark:hover:bg-zinc-700"
+        class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-container transition-colors bg-surface-raised text-fg-muted hover:bg-gray-200 dark:hover:bg-zinc-700"
       >
         {#if isPreviewMode}
           <Pencil class="w-4 h-4" />
@@ -478,7 +478,7 @@
       </button>
       <button
         on:click={onCancel}
-        class="cursor-pointer p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
+        class="cursor-pointer p-1.5 rounded-container text-fg-subtle hover:text-gray-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
       >
         <X class="w-5 h-5" />
       </button>
@@ -493,14 +493,14 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={toggleBold}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Bold (Ctrl+B)"
         >
           <Bold class="w-4 h-4" />
         </button>
         <button
           on:click={toggleItalic}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Italic (Ctrl+I)"
         >
           <Italic class="w-4 h-4" />
@@ -512,21 +512,21 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={() => setHeading(1)}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Heading 1"
         >
           <Heading1 class="w-4 h-4" />
         </button>
         <button
           on:click={() => setHeading(2)}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Heading 2"
         >
           <Heading2 class="w-4 h-4" />
         </button>
         <button
           on:click={() => setHeading(3)}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Heading 3"
         >
           <Heading3 class="w-4 h-4" />
@@ -538,14 +538,14 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={toggleBulletList}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Bullet List"
         >
           <List class="w-4 h-4" />
         </button>
         <button
           on:click={toggleOrderedList}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Numbered List"
         >
           <ListOrdered class="w-4 h-4" />
@@ -557,21 +557,21 @@
       <div class="flex items-center gap-0.5">
         <button
           on:click={insertLink}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Insert Link (Ctrl+K)"
         >
           <Link class="w-4 h-4" />
         </button>
         <button
           on:click={toggleCode}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Inline Code (Ctrl+`)"
         >
           <Code class="w-4 h-4" />
         </button>
         <button
           on:click={toggleBlockquote}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Blockquote"
         >
           <Quote class="w-4 h-4" />
@@ -581,14 +581,14 @@
       <div class="flex items-center gap-0.5 ml-auto">
         <button
           on:click={execUndo}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Undo (Ctrl+Z)"
         >
           <Undo2 class="w-4 h-4" />
         </button>
         <button
           on:click={execRedo}
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
+          class="p-2 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 text-fg-muted transition-colors"
           title="Redo (Ctrl+Y)"
         >
           <Redo2 class="w-4 h-4" />
@@ -624,14 +624,14 @@
   >
     <button
       on:click={onCancel}
-      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl border border-line text-fg-muted hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
+      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-container border border-line text-fg-muted hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors"
     >
       Cancel
     </button>
     <button
       on:click={handleSave}
       disabled={isSaving || (!hasChanges && !isNewNote)}
-      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-2xl bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+      class="cursor-pointer px-4 py-2 text-sm font-medium rounded-container bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
     >
       {#if isSaving}
         <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

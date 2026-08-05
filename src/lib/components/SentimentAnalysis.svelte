@@ -49,9 +49,9 @@
     {#if sentimentList?.length !== 0}
       <div class="pb-4 w-full mt-5">
         <div
-          class="w-auto p-4 sm:p-6 bg-default sm:bg-default rounded relative"
+          class="w-auto p-4 sm:p-6 bg-default sm:bg-default rounded-control relative"
         >
-          <h3 class="text-gray-300 text-sm uppercase mb-3">Average Score</h3>
+          <h3 class="text-fg-muted text-sm uppercase mb-3">Average Score</h3>
           <div class="flex flex-row items-center justify-between">
             <!--Start Big Circle-->
             <div class="relative size-24 sm:size-28">
@@ -144,7 +144,7 @@
               class="flex flex-col items-start ml-4 sm:ml-10 mr-auto sm:-top-3 sm:relative"
             >
               <h3
-                class="hidden sm:block text-gray-300 text-[1rem] sm:text-lg font-semibold"
+                class="hidden sm:block text-fg-muted text-[1rem] sm:type-h3 text-fg"
               >
                 <span
                   class={outlook === "Positive"
@@ -155,7 +155,7 @@
                 > outlook:
               </h3>
               {#if oneMonthResult !== 0 && oneYearResult !== 0}
-                <span class="text-gray-200 text-sm mt-1">
+                <span class="text-fg-muted text-sm mt-1">
                   In the past month, major news and social media rated the
                   company {oneMonthResult > 5
                     ? "positively"
@@ -165,7 +165,7 @@
                   {oneYearResult}.
                 </span>
               {:else}
-                <span class="text-gray-200 text-sm mt-1">
+                <span class="text-fg-muted text-sm mt-1">
                   Not much news coverage and discussion for {$displayCompanyName}.
                 </span>
               {/if}
@@ -176,9 +176,9 @@
 
       <div class="w-full">
         <div
-          class="w-auto p-4 sm:p-6 bg-default sm:bg-default rounded relative"
+          class="w-auto p-4 sm:p-6 bg-default sm:bg-default rounded-control relative"
         >
-          <h3 class="text-gray-300 text-sm uppercase mb-3">
+          <h3 class="text-fg-muted text-sm uppercase mb-3">
             Average Score Trend
           </h3>
           <div class="grid grid-cols-8 sm:grid-cols-9 -ml-2 sm:-ml-5 mt-7">
@@ -205,8 +205,8 @@
                   class="w-2 {item?.value === 5
                     ? 'bg-white'
                     : item?.value < 5
-                      ? 'bg-[#FF2F1F]'
-                      : 'bg-[#00FC50]'} rounded-full"
+                      ? 'bg-down'
+                      : 'bg-up'} rounded-full"
                   style="height: 120px;"
                 >
                   {#if ["Pro", "Plus"]?.includes(data?.user?.tier)}
@@ -244,8 +244,8 @@
                 5
                   ? 'bg-white border-white'
                   : oneMonthResult < 5
-                    ? 'bg-[#FF2F1F] border-[#FF2F1F]'
-                    : 'bg-[#00FC50] border-[#00FC50]'}"
+                    ? 'bg-down border-[#FF2F1F]'
+                    : 'bg-up border-[#00FC50]'}"
               >
                 Current: {oneMonthResult}
               </label>

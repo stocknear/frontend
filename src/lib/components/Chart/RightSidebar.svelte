@@ -1081,7 +1081,7 @@
             align="start"
             sideOffset={10}
             alignOffset={0}
-            class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 z-50"
+            class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card z-50"
           >
             <DropdownMenu.Item
               on:click={() => (isCreateModalOpen = true)}
@@ -1191,7 +1191,7 @@
             </div>
 
             <Combobox.Content
-              class="w-auto z-50 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden"
+              class="w-auto z-50 rounded-container border border-line bg-surface-card px-1 py-1.5 outline-hidden"
               sideOffset={8}
             >
               {#if searchInputValue?.length > 0}
@@ -1297,7 +1297,7 @@
         </p>
         <button
           type="button"
-          class="mt-4 w-full rounded-md border border-line bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-fg cursor-not-allowed"
+          class="mt-4 w-full rounded-control border border-line bg-gray-100/70 dark:bg-zinc-900/70 px-3 py-2 text-xs font-semibold text-fg cursor-not-allowed"
           disabled
         >
           {chart_rsb_create_alert()}
@@ -1344,7 +1344,7 @@
                   : 'rotate-90'}"
               />
               <span>{group.label}</span>
-              <span class="ml-auto text-[9px] text-gray-400 dark:text-zinc-600"
+              <span class="ml-auto text-[9px] text-fg-subtle dark:text-zinc-600"
                 >({group.items.length})</span
               >
             </button>
@@ -1379,7 +1379,7 @@
                       checked={isSelected}
                       on:click|stopPropagation={() =>
                         handleFilter(item?.symbol ?? "")}
-                      class="size-3.5 rounded border-gray-300 dark:border-zinc-600 text-violet-800 focus:ring-violet-500 cursor-pointer"
+                      class="size-3.5 rounded-control border-gray-300 dark:border-zinc-600 text-violet-800 focus:ring-violet-500 cursor-pointer"
                     />
                   {:else}
                     <img
@@ -1450,7 +1450,7 @@
             type="button"
             on:click={prevPage}
             disabled={currentPage === 1}
-            class="p-1 rounded transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-zinc-800"
+            class="p-1 rounded-control transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-zinc-800"
           >
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
               <path
@@ -1471,7 +1471,7 @@
             type="button"
             on:click={nextPage}
             disabled={currentPage === totalPages}
-            class="p-1 rounded transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-zinc-800"
+            class="p-1 rounded-control transition disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-zinc-800"
           >
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
               <path
@@ -1500,7 +1500,7 @@
   ></label>
 
   <div
-    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="createWatchlistModal"
@@ -1520,7 +1520,7 @@
     </label>
 
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">{chart_rsb_new_watchlist_title()}</h3>
+      <h3 class="type-h2 text-fg mb-5">{chart_rsb_new_watchlist_title()}</h3>
 
       <form on:submit={handleCreateWatchlist} class="space-y-2 w-full m-auto">
         <div
@@ -1545,7 +1545,7 @@
         <button
           type="submit"
           disabled={isCreatingWatchlist}
-          class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 disabled:opacity-60"
+          class="cursor-pointer mt-2 py-3 w-full rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200 disabled:opacity-60"
         >
           {isCreatingWatchlist ? chart_rsb_creating() : chart_rsb_create_watchlist_btn()}
         </button>
@@ -1567,7 +1567,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="deleteWatchlistModal"
@@ -1596,7 +1596,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteWatchlistModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg hover:text-accent"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-line bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0"
       >
         {chart_rsb_cancel()}

@@ -125,7 +125,7 @@
     <!--Fundamentals section-->
     <div class="w-full m-auto mt-10">
         <h2
-            class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
+            class="mb-2 type-h2 text-fg w-fit"
         >
             {portfolio_analysis_vs_market_title()}
         </h2>

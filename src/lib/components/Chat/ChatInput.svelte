@@ -30,10 +30,10 @@
 
 <div class="w-full transition-all duration-200">
   <div
-    class="block w-full border border-line-strong shadow-sm rounded overflow-hidden"
+    class="block w-full border border-line-strong rounded-control overflow-hidden"
   >
     <form
-      class="grow rounded relative flex items-center w-full overflow-hidden"
+      class="grow rounded-control relative flex items-center w-full overflow-hidden"
     >
       <div
         class="relative min-h-32 h-auto max-h-64 overflow-y-hidden w-full outline-none"
@@ -55,13 +55,13 @@
         >
           <div class=" flex flex-row gap-x-2 justify-end w-full px-2">
             <button
-              class="cursor-pointer text-sm rounded bg-gray-100 dark:bg-[#2A2E39] px-3 py-1 transition-colors duration-50"
+              class="cursor-pointer text-sm rounded-control bg-gray-100 dark:bg-[#2A2E39] px-3 py-1 transition-colors duration-50"
               type="button"
             >
               Ask
             </button>
             <button
-              class="cursor-pointer text-sm opacity-80 rounded border border-line bg-gray-100 dark:bg-default px-3 py-1 transition-colors duration-50"
+              class="cursor-pointer text-sm opacity-80 rounded-control border border-line bg-gray-100 dark:bg-default px-3 py-1 transition-colors duration-50"
               type="button"
               on:click={() =>
                 toast?.info("Feature is coming soon 🔥", {
@@ -80,7 +80,7 @@
 
             </button>
             <button
-              class="cursor-pointer text-black text-[1rem] rounded border border-line bg-gray-100 dark:bg-white px-3 py-1 transition-colors duration-200"
+              class="cursor-pointer text-black text-[1rem] rounded-control border border-line bg-gray-100 dark:bg-white px-3 py-1 transition-colors duration-200"
               type="button"
             >
               <Arrow class="w-4 h-4" />

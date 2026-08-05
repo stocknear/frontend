@@ -67,7 +67,10 @@
         class="flex flex-row justify-between items-center w-full sm:-mt-[50px] mb-5 sm:mb-10"
       >
         <div class="flex flex-col items-start">
-          <h1 class="text-xl sm:text-2xl font-bold">
+          <!-- The only <h1> on a ticker route. 21 sub-pages used to add a
+               second one, so the page had two competing titles at the same
+               24px as every section heading. -->
+          <h1 class="type-h1 text-fg">
             {displayCompanyName
               ? displayCompanyName?.length > charNumber
                 ? displayCompanyName?.slice(0, charNumber) + "..."
@@ -77,7 +80,7 @@
             >
           </h1>
 
-          <div class="mt-[1px] text-xs text-muted dark:text-gray-300">
+          <div class="mt-[1px] text-xs text-muted dark:text-fg-muted">
             {data?.getStockQuote?.exchange}: {ticker?.toUpperCase()}
             · {stock_detail_real_time_price()} · USD
           </div>

@@ -15,7 +15,7 @@
   <label for="ctaModal" class="cursor-pointer modal-backdrop"></label>
   <!-- Modal content -->
   <div
-    class="modal-box m-auto w-full max-w-3xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box m-auto w-full max-w-3xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="ctaModal"
@@ -50,7 +50,7 @@
     </div>
 
     <!-- Heading -->
-    <h2 class="text-2xl sm:text-3xl font-bold mb-2 mt-8">
+    <h2 class="type-h2 text-fg mb-2 mt-8">
       Get more with Pro⚡
     </h2>
 

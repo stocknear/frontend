@@ -86,7 +86,7 @@
     {id}
     playsinline
     loop
-    class="w-full max-w-96 rounded"
+    class="w-full max-w-96 rounded-control"
     {src}
     bind:this={video}
     on:loadedmetadata={updateProgress}

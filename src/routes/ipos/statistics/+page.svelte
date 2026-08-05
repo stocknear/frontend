@@ -127,8 +127,8 @@
       },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -172,8 +172,8 @@
           this.points.forEach((point) => {
             tooltipContent += `
             <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
-            <span class="font-semibold text-sm">${point.series.name}:</span> 
-            <span class="font-normal text-sm">${point.y?.toLocaleString("en-US")}</span><br>`;
+            <span class="font-semibold text-sm text-fg">${point.series.name}:</span> 
+            <span class="font-normal text-sm text-fg">${point.y?.toLocaleString("en-US")}</span><br>`;
           });
           return tooltipContent;
         },
@@ -272,7 +272,7 @@
             <Infobox text={ipos_statistics_infobox()} />
 
             <h1
-              class="text-xl sm:text-2xl font-semibold tracking-tight text-fg mb-2 sm:mb-0 mt-2"
+              class="type-h2 text-fg mb-2 sm:mb-0 mt-2"
             >
               {ipos_statistics_title()}
             </h1>
@@ -291,14 +291,14 @@
 
             {#if isLoaded && config}
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                class="bg-surface-card border border-line rounded-container"
                 use:highcharts={config}
               ></div>
             {:else}
               <div class="flex justify-center items-center h-80">
                 <div class="relative">
                   <label
-                    class="border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    class="border border-line bg-surface-card rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   >
                     <span
                       class="loading loading-spinner loading-md text-fg-muted"
@@ -317,10 +317,10 @@
       <aside class="inline-block relative w-full lg:w-1/4 mt-3">
         {#if marketNews?.length !== 0}
           <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <div class="p-4 text-sm text-fg-muted">
-              <h3 class="text-lg font-semibold text-fg mb-3">
+              <h3 class="type-h3 text-fg text-fg mb-3">
                 {ipos_statistics_stock_news()}
               </h3>
               <ul class="">

@@ -29,7 +29,7 @@
 
 <section class="mx-auto lg:col-span-2 w-full text-fg">
   <h2
-    class="mb-2 text-xl font-semibold tracking-tight text-fg"
+    class="mb-2 type-h2 text-fg tracking-tight text-fg"
   >
     {dashboard_analyst_report_title()}
   </h2>

@@ -13,15 +13,10 @@
   let currentPath = "";
 
   $: {
-    if ($page?.url?.pathname?.startsWith("/etf/etf-providers")) {
-      const parts = $page?.url?.pathname.split("/");
-      if (parts?.[3]?.length !== 0) {
-        currentPath = formatETFName(parts[3]) ?? "";
-        console.log(currentPath);
-      } else {
-        currentPath = "";
-      }
-    }
+    // Positional indexing broke on localized routes (parts[3] became
+    // "etf-providers"); the route param is prefix-independent.
+    const providerSlug = $page?.params?.slug ?? "";
+    currentPath = providerSlug ? (formatETFName(providerSlug) ?? "") : "";
   }
 </script>
 
@@ -58,7 +53,7 @@
         <main class="w-full">
           <div class=" border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-2 type-h1 text-fg"
             >
               {etf_providers_main_name()}
             </h1>

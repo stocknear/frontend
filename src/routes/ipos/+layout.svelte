@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { page } from "$app/stores";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
@@ -40,9 +41,9 @@
 
   let activeIdx = 0;
 
-  $: if ($page.url.pathname === "/ipos") {
+  $: if (deLocalizeHref($page.url.pathname) === "/ipos") {
     activeIdx = 0;
-  } else if ($page.url.pathname.startsWith("/ipos/statistics")) {
+  } else if (deLocalizeHref($page.url.pathname).startsWith("/ipos/statistics")) {
     activeIdx = 1;
   }
 </script>
@@ -70,7 +71,7 @@
       >
         <main class="w-full lg:pr-5">
           <h1
-            class="mb-6 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+            class="mb-6 type-h1 text-fg"
           >
             {activeIdx === 0
               ? ipos_main_name_recent()

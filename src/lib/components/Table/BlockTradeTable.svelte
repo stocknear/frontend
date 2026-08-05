@@ -566,11 +566,11 @@
             'At Ask',
             'Above Ask',
           ]?.includes(sortedDisplayData[index]?.execution_estimate)
-            ? 'text-green-700 dark:text-[#00FC50]'
+            ? 'text-green-700 dark:text-up'
             : ['At Bid', 'Below Bid']?.includes(
                   sortedDisplayData[index]?.execution_estimate,
                 )
-              ? 'text-red-700 dark:text-[#FF2F1F]'
+              ? 'text-red-700 dark:text-down'
               : 'text-orange-700 dark:text-[#C6A755]'}"
         >
           {sortedDisplayData[index]?.execution_estimate?.replace(

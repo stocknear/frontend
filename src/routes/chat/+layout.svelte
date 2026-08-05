@@ -229,7 +229,7 @@
     >
       <button
         on:click={toggleChatSidebar}
-        class="cursor-pointer h-full w-full flex flex-col bg-white/95 dark:bg-zinc-950/95 backdrop-blur overflow-hidden border-l border-gray-200/80 dark:border-zinc-700/20 border-dashed text-fg-muted sm:hover:text-gray-900 dark:sm:hover:text-zinc-100 transition-colors sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 {$chatSidebarOpen
+        class="cursor-pointer h-full w-full flex flex-col bg-surface-card backdrop-blur overflow-hidden border-l border-gray-200/80 dark:border-zinc-700/20 border-dashed text-fg-muted sm:hover:text-gray-900 dark:sm:hover:text-zinc-100 transition-colors sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-900 {$chatSidebarOpen
           ? 'bg-gray-50 dark:bg-zinc-900'
           : ''}"
         aria-label={$chatSidebarOpen
@@ -240,7 +240,7 @@
         <div
           class="h-[50px] flex items-center justify-center border-b border-gray-200/60 dark:border-zinc-700/20"
         >
-          <span class="p-1.5 rounded-md">
+          <span class="p-1.5 rounded-control">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -320,7 +320,7 @@
           <a
             href="/chat"
             on:click={handleChatClick}
-            class="flex items-center gap-2 w-full px-3 py-2.5 text-sm font-medium rounded-xl border border-line bg-surface-card text-fg sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
+            class="flex items-center gap-2 w-full px-3 py-2.5 text-sm font-medium rounded-container border border-line bg-surface-card text-fg sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -341,7 +341,7 @@
           <!-- Close button (mobile only) -->
           <button
             on:click={() => setChatSidebarOpen(false)}
-            class="cursor-pointer lg:hidden p-2 ml-auto rounded-lg text-fg"
+            class="cursor-pointer lg:hidden p-2 ml-auto rounded-container text-fg"
             aria-label="Close sidebar"
             title="Close chat history"
           >
@@ -381,7 +381,7 @@
             placeholder="Search chats..."
             value={searchQuery}
             on:input={handleSearch}
-            class="w-full pl-8 pr-3 py-2 text-sm rounded-xl border border-line bg-surface-card text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 outline-none focus:border-gray-400 dark:focus:border-zinc-600 transition"
+            class="w-full pl-8 pr-3 py-2 text-sm rounded-container border border-line bg-surface-card text-fg placeholder:text-fg-subtle dark:placeholder:text-zinc-500 outline-none focus:border-gray-400 dark:focus:border-zinc-600 transition"
           />
         </div>
       </div>
@@ -406,7 +406,7 @@
                   <a
                     href="/chat/{item.id}"
                     on:click={handleChatClick}
-                    class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-xl text-sm transition-colors {currentSlug ===
+                    class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-container text-sm transition-colors {currentSlug ===
                     item.id
                       ? 'bg-gray-200/80 dark:bg-zinc-800 text-fg font-medium'
                       : 'text-fg-muted sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
@@ -418,7 +418,7 @@
                       on:click|preventDefault|stopPropagation={() => {
                         openDeleteModal(item.id);
                       }}
-                      class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-md text-fg sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
+                      class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-control text-fg sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
                       aria-label="Delete chat"
                     >
                       <svg
@@ -447,7 +447,7 @@
             <a
               href="/chat/{item.id}"
               on:click={handleChatClick}
-              class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-xl text-sm transition-colors {currentSlug ===
+              class="group flex items-center gap-2 px-3 py-2.5 mb-0.5 rounded-container text-sm transition-colors {currentSlug ===
               item.id
                 ? 'bg-gray-200/80 dark:bg-zinc-800 text-fg font-medium'
                 : 'text-fg-muted sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800/60'}"
@@ -480,7 +480,7 @@
   <label for="deleteThreadModal" class="cursor-pointer modal-backdrop" />
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="deleteThreadModal"
@@ -503,7 +503,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteThreadModal"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg hover:text-accent"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-line bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0">{chat_cancel()}</label
       >
       <label

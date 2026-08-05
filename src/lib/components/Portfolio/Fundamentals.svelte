@@ -187,8 +187,8 @@
 
             chart: {
                 type: "gauge",
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 320,
                 animation: false,
             },
@@ -234,7 +234,7 @@
                     {
                         outerRadius: "101%",
                         innerRadius: "100%",
-                        backgroundColor: "#000",
+                        backgroundColor: "transparent",
                         borderWidth: 0,
                         shape: "arc",
                     },
@@ -418,7 +418,7 @@
 
 <div class="w-full" bind:this={componentElement}>
     <h2
-        class="mb-6 text-lg sm:text-xl font-semibold tracking-tight text-fg w-fit"
+        class="mb-6 type-h2 text-fg w-fit"
     >
         {displayTitle}
     </h2>

@@ -16,7 +16,7 @@
 {#if questions && questions.length > 0}
   <div class=" mt-5">
     <div class="flex items-center gap-3">
-      <h3 class="text-[1rem] sm:text-lg font-semibold">Related</h3>
+      <h3 class="text-[1rem] sm:type-h3 text-fg">Related</h3>
     </div>
 
     <div class="flex flex-col gap-0.5">

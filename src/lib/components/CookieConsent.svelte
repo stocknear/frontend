@@ -142,7 +142,7 @@
     transition:fly={{ y: 100, duration: 300 }}
   >
     <div
-      class="w-full max-w-lg m-auto rounded-2xl border border-line bg-surface-card p-4"
+      class="w-full max-w-lg m-auto rounded-container border border-line bg-surface-card p-4"
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center gap-3">
@@ -172,14 +172,14 @@
           <Button
             on:click={rejectAll}
             variant="outline"
-            class="w-full rounded-full border-line bg-white/70 dark:bg-zinc-950/40 text-fg-muted hover:text-accent sm:w-auto transition"
+            class="w-full rounded-full border-line bg-surface-card text-fg-muted hover:text-accent sm:w-auto transition"
           >
             {cookies_reject_all()}
           </Button>
           <Button
             on:click={openCustomize}
             variant="outline"
-            class="w-full rounded-full border-line bg-white/70 dark:bg-zinc-950/40 text-fg-muted hover:text-accent sm:w-auto transition"
+            class="w-full rounded-full border-line bg-surface-card text-fg-muted hover:text-accent sm:w-auto transition"
           >
             {cookies_customize()}
           </Button>
@@ -191,7 +191,7 @@
 
 <Dialog.Root bind:open={showCustomize}>
   <Dialog.Content
-    class="max-h-[90vh] w-[95vw] max-w-lg rounded-2xl border border-line overflow-y-auto bg-surface-card text-fg z-[999]"
+    class="max-h-[90vh] w-[95vw] max-w-lg rounded-container border border-line overflow-y-auto bg-surface-card text-fg z-[999]"
   >
     <Dialog.Header>
       <Dialog.Title
@@ -207,7 +207,7 @@
     <div class="mt-6 space-y-4 text-start">
       <!-- Necessary Cookies -->
       <div
-        class="flex items-start justify-between rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4"
+        class="flex items-start justify-between rounded-container border border-line bg-surface-card p-4"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -230,7 +230,7 @@
 
       <!-- Analytics Cookies -->
       <div
-        class="flex items-start justify-between rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4"
+        class="flex items-start justify-between rounded-container border border-line bg-surface-card p-4"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -261,7 +261,7 @@
 
       <!-- Marketing Cookies -->
       <div
-        class="flex items-start justify-between rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4"
+        class="flex items-start justify-between rounded-container border border-line bg-surface-card p-4"
       >
         <div class="flex items-start gap-3">
           <div>
@@ -295,7 +295,7 @@
       <Button
         on:click={rejectAll}
         variant="outline"
-        class="w-full rounded-full border-line bg-white/70 dark:bg-zinc-950/40 text-fg-muted hover:text-accent sm:w-auto transition"
+        class="w-full rounded-full border-line bg-surface-card text-fg-muted hover:text-accent sm:w-auto transition"
       >
         {cookies_reject_all()}
       </Button>
@@ -308,7 +308,7 @@
       </Button>
       <Button
         on:click={saveCustom}
-        class="w-full rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 text-fg-muted hover:text-accent sm:w-auto transition"
+        class="w-full rounded-full border border-line bg-surface-card text-fg-muted hover:text-accent sm:w-auto transition"
       >
         {cookies_save_preferences()}
       </Button>

@@ -250,7 +250,7 @@
       {:else}
         <div class="flex justify-center items-center m-auto mt-16 mb-6">
           <div
-            class="text-gray-100 text-sm sm:text-[1rem] sm:rounded h-auto border border-gray-600 p-4"
+            class="text-fg text-sm sm:text-[1rem] sm:rounded-control h-auto border border-line p-4"
           >
             <svg
               class="w-5 h-5 inline-block sm:mr-2 shrink-0"
@@ -269,7 +269,7 @@
       <div class="flex justify-center items-center h-80">
         <div class="relative">
           <label
-            class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <span
               class="loading loading-spinner loading-md text-white dark:text-white"

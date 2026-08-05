@@ -24,7 +24,7 @@
     : 'hidden'}"
 >
   <div
-    class="sm:rounded shadow-lg bg-[#000] lg:bg-default lg:border lg:border-gray-600 h-auto {$screenWidth <=
+    class="sm:rounded-control shadow-lg bg-[#000] lg:bg-default lg:border lg:border-line h-auto {$screenWidth <=
     800
       ? 'w-screen pt-16'
       : ''} md:w-[420px] xl:w-[450px]"
@@ -62,7 +62,7 @@
             <tbody>
               {#each dividendHistoryList?.slice(0, 5) as item}
                 <tr
-                  class="text-white bg-[#000] lg:bg-default border-b border-[#000] lg:border-[#27272A]"
+                  class="text-white bg-[#000] lg:bg-default border-b border-[#000] lg:border-line"
                 >
                   <td class="text-start text-sm text-white">
                     {new Date(item?.date)?.toLocaleString("en-US", {
@@ -96,13 +96,13 @@
         <label
           for="dividendModal"
           on:click={() => goto(`/etf/${$etfTicker}/dividends`)}
-          class="rounded cursor-pointer w-11/12 md:w-3/4 lg:w-11/12 py-2 h-full mt-8 lg:mt-6 text-[1rem] text-center font-semibold text-black m-auto sm:hover:bg-gray-300 bg-[#fff] transition duration-100 ease-in"
+          class="rounded-control cursor-pointer w-11/12 md:w-3/4 lg:w-11/12 py-2 h-full mt-8 lg:mt-6 text-[1rem] text-center font-semibold text-black m-auto sm:hover:bg-gray-300 bg-[#fff] transition duration-100 ease-in"
         >
           Dividend History
         </label>
       {:else}
         <h2
-          class="mt-20 justify-center items-center text-3xl text-slate-700 mb-20 m-auto"
+          class="mt-20 justify-center items-center text-3xl text-fg-muted mb-20 m-auto"
         >
           No data available
           <svg

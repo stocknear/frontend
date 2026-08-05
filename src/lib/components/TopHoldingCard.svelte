@@ -41,7 +41,7 @@
   class="space-y-3 lg:pt-5 lg:{topHoldingList?.length !== 0 ? '' : 'hidden'}"
 >
   <div
-    class="sm:rounded-sm shadow-lg bg-[#000] lg:bg-default lg:border lg:border-gray-600 h-auto {$screenWidth <=
+    class="sm:rounded-control shadow-lg bg-[#000] lg:bg-default lg:border lg:border-line h-auto {$screenWidth <=
     800
       ? 'w-screen pt-16'
       : ''} md:w-[420px] xl:w-[450px]"
@@ -83,7 +83,7 @@
                 {#if item?.asset !== null}
                   <tr
                     on:click={() => stockSelector(item?.asset)}
-                    class="lg:shake-ticker sm:hover:text-white text-blue-400 cursor-pointer lg:hover:bg-[#245073] lg:hover:bg-opacity-[0.2] bg-[#000] lg:bg-default border-b border-[#000] lg:border-[#27272A]"
+                    class="lg:shake-ticker sm:hover:text-white text-blue-400 cursor-pointer lg:hover:bg-[#245073] lg:hover:bg-opacity-[0.2] bg-[#000] lg:bg-default border-b border-[#000] lg:border-line"
                   >
                     <td class="">
                       <div class="flex flex-row items-center">
@@ -127,13 +127,13 @@
         <label
           for="topHoldingModal"
           on:click={() => goto(`/etf/${$etfTicker}/holdings`)}
-          class="rounded cursor-pointer w-11/12 md:w-3/4 lg:w-11/12 py-2 h-full mt-8 lg:mt-6 text-[1rem] text-center font-semibold text-black m-auto sm:hover:bg-gray-300 bg-[#fff] transition duration-100 ease-in"
+          class="rounded-control cursor-pointer w-11/12 md:w-3/4 lg:w-11/12 py-2 h-full mt-8 lg:mt-6 text-[1rem] text-center font-semibold text-black m-auto sm:hover:bg-gray-300 bg-[#fff] transition duration-100 ease-in"
         >
           All Holdings
         </label>
       {:else}
         <h2
-          class="mt-20 justify-center items-center text-3xl font-bold text-slate-700 mb-20 m-auto"
+          class="mt-20 justify-center items-center text-3xl font-bold text-fg-muted mb-20 m-auto"
         >
           No data available
           <svg

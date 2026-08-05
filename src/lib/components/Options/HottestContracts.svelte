@@ -346,8 +346,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         type: "bar",
         height: 360,
         animation: false,
@@ -393,7 +393,7 @@
             inside: false,
             align: "right",
             style: {
-              color: "#000",
+              color: "var(--fg)",
               fontSize: "12.5px",
               fontWeight: "550",
               textOutline: "none",
@@ -427,7 +427,7 @@
         formatter: function () {
           const originalItem = this.point.originalData;
           let tooltipContent = `<span class="m-auto text-xs">${ticker} ${convertDateFormat(originalItem?.date_expiration)} ${originalItem.strike_price}${originalItem.option_type}</span><br>`;
-          tooltipContent += `<span class="font-normal text-sm">${type === "oi" ? "OI" : "Volume"}: ${this.y?.toLocaleString(getIntlLocale())}</span><br>`;
+          tooltipContent += `<span class="font-normal text-sm text-fg">${type === "oi" ? "OI" : "Volume"}: ${this.y?.toLocaleString(getIntlLocale())}</span><br>`;
           return tooltipContent;
         },
       },
@@ -460,7 +460,7 @@
     >
       <div class="sm:pl-7 sm:pb-7 sm:pt-7 w-full m-auto mt-2 sm:mt-0">
         <h2
-          class="flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg w-fit"
+          class="flex flex-row items-center type-h2 text-fg w-fit"
         >
           {ticker}
           {title}
@@ -522,7 +522,7 @@
 
         {#if config}
           <div
-            class="sm:p-3 border border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40 mt-4 mb-4"
+            class="sm:p-3 border border-line rounded-container bg-surface-card mt-4 mb-4"
             use:highcharts={config}
           ></div>
         {/if}
@@ -532,7 +532,7 @@
             class="col-span-2 flex flex-row items-center grow py-1 border-t border-b border-line"
           >
             <h2
-              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg w-full"
+              class="text-start whitespace-nowrap type-h2 text-fg w-full"
             >
               {stock_detail_options_hottest_contracts_count({
                 count: (rawData?.length || 0)?.toLocaleString(getIntlLocale()),
@@ -555,7 +555,7 @@
         <div class="mt-3 w-full m-auto mb-4 overflow-x-auto">
           <div class="w-full overflow-x-auto">
             <table
-              class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+              class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
             >
               <thead
                 class="text-[11px] uppercase tracking-wide text-fg"
@@ -576,8 +576,8 @@
                     >
                       <span
                         class={item?.option_type === "C"
-                          ? "dark:text-[#00FC50]"
-                          : "dark:text-[#FF2F1F]"}
+                          ? "dark:text-up"
+                          : "dark:text-down"}
                       >
                         {item?.option_type === "C"
                           ? stock_detail_options_common_call()
@@ -650,7 +650,7 @@
               <Button
                 on:click={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -684,9 +684,9 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    <span class="truncate text-[0.85rem] sm:text-sm"
+                    <span class="truncate text-[0.85rem] sm:text-sm text-fg"
                       >{stock_detail_options_common_rows({
                         count: rowsPerPage,
                       })}</span
@@ -712,7 +712,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                 >
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
@@ -723,7 +723,7 @@
                           on:click={() => changeRowsPerPage(item)}
                           class="inline-flex justify-between w-full items-center cursor-pointer"
                         >
-                          <span class="text-sm"
+                          <span class="text-sm text-fg"
                             >{stock_detail_options_common_rows({
                               count: item,
                             })}</span
@@ -741,7 +741,7 @@
               <Button
                 on:click={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="w-fit sm:w-auto shadow transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="hidden sm:inline"
                   >{stock_detail_options_common_next()}</span

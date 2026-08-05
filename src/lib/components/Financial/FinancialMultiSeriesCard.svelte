@@ -364,7 +364,7 @@
 
 <div
   bind:this={cardElement}
-  class="group relative bg-surface-card/60 border border-line rounded-2xl overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 transition-all duration-200 hover:shadow-md cursor-pointer"
+  class="group relative bg-surface-card/60 border border-line rounded-container overflow-hidden hover:border-gray-300 dark:hover:border-zinc-700 transition-all duration-200 cursor-pointer"
   role="button"
   tabindex="0"
   on:click={onExpand}
@@ -385,7 +385,7 @@
       </span>
       {#if primaryChange !== null}
         <span
-          class="text-[10px] font-medium px-1.5 py-0.5 rounded-2xl shrink-0 {primaryChange >=
+          class="text-[10px] font-medium px-1.5 py-0.5 rounded-container shrink-0 {primaryChange >=
           0
             ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30'
             : 'text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/30'}"
@@ -396,7 +396,7 @@
     </div>
     <button
       type="button"
-      class="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-2xl hover:bg-gray-100 dark:hover:bg-zinc-800 shrink-0"
+      class="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-container hover:bg-gray-100 dark:hover:bg-zinc-800 shrink-0"
       on:click|stopPropagation={onExpand}
       aria-label="Expand chart"
     >
@@ -423,14 +423,14 @@
   <div class="px-2 pb-2 relative">
     {#if !hasBeenVisible}
       <div
-        class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-lg"
+        class="h-[160px] flex items-center justify-center bg-gray-50 dark:bg-zinc-900/30 rounded-container"
       >
         <div class="flex flex-col items-center gap-2">
           <div
-            class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"
+            class="w-24 h-2 bg-gray-200 dark:bg-zinc-800 rounded-control animate-pulse"
           ></div>
           <div
-            class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded animate-pulse"
+            class="w-16 h-2 bg-gray-200 dark:bg-zinc-800 rounded-control animate-pulse"
           ></div>
         </div>
       </div>
@@ -445,7 +445,7 @@
 
       {#if tooltipVisible && tooltipData}
         <div
-          class="absolute pointer-events-none z-10 px-2 py-1.5 rounded-lg bg-black/90 text-white text-xs whitespace-nowrap"
+          class="absolute pointer-events-none z-10 px-2 py-1.5 rounded-container bg-black/90 text-white text-xs whitespace-nowrap"
           style="left: {tooltipX}px; top: {tooltipY}px; transform: translateX(-50%);"
         >
           <div class="font-medium mb-0.5">{tooltipData.label}</div>

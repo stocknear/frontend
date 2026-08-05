@@ -134,7 +134,7 @@
   <!-- Reduced motion notice (optional, for accessibility) -->
   {#if prefersReducedMotion && poster}
     <div
-      class="absolute bottom-2 right-2 text-xs bg-black/50 text-white px-2 py-1 rounded"
+      class="absolute bottom-2 right-2 text-xs bg-black/50 text-white px-2 py-1 rounded-control"
     >
       Motion reduced
     </div>

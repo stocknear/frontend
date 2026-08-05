@@ -280,7 +280,8 @@
 
     return {
       chart: {
-        backgroundColor: $mode === "light" ? "#ffffff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         animation: false,
         height: 300,
       },
@@ -441,7 +442,7 @@
 {#if tickerList?.length > 0}
   <div class="w-full border-t border-line pt-10">
     <div
-      class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-6 sm:p-7"
+      class="rounded-container border border-line bg-surface-card p-6 sm:p-7"
     >
       <!-- Header -->
       <div class="flex items-center gap-2 mb-6">
@@ -649,7 +650,7 @@
           <div class="flex justify-center mb-6">
             <button
               on:click={() => (isExpanded = !isExpanded)}
-              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-fg-muted transition sm:hover:text-accent"
+              class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-line bg-surface-card px-4 py-1.5 text-xs font-semibold text-fg-muted transition sm:hover:text-accent"
             >
               {#if isExpanded}
                 <span class="flex items-center gap-2">
@@ -696,7 +697,7 @@
         <div class="flex justify-center items-center h-96">
           <div class="relative">
             <label
-              class="rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              class="rounded-full border border-line bg-surface-card h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
               <span
                 class="loading loading-spinner loading-md text-gray-500 dark:text-zinc-300"

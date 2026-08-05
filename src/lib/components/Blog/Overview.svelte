@@ -22,8 +22,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
       },
       title: {
@@ -171,7 +171,7 @@
 
 <h2 class="text-xl sm:text-3xl font-bold mt-8">{m.blog_heading_overview()}</h2>
 <div class="mt-4">
-  <div class=" border-[#2C6288] dark:border-gray-600 border-b">
+  <div class=" border-[#2C6288] dark:border-line border-b">
     {$stockTicker} - {$displayCompanyName}
   </div>
 
@@ -183,7 +183,7 @@
             lg:grid-cols-4"
   >
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_market_cap()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -191,7 +191,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_sector()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -206,7 +206,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_eps_ttm()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -214,7 +214,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_pe_ttm()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -222,7 +222,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_dividend_and_yield()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -233,21 +233,21 @@
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">{m.blog_overview_ps()}</div>
+      <div class="text-muted dark:text-fg-muted text-sm">{m.blog_overview_ps()}</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.priceToSalesRatio}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">{m.blog_overview_pb()}</div>
+      <div class="text-muted dark:text-fg-muted text-sm">{m.blog_overview_pb()}</div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
         {blogData?.priceToBookRatio}
       </div>
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_next_earnings()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -256,7 +256,7 @@
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_shares_outstanding()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -264,7 +264,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_short_float()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -272,7 +272,7 @@
       </div>
     </div>
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_short_outstanding()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -281,7 +281,7 @@
     </div>
 
     <div class="flex flex-col">
-      <div class="text-muted dark:text-gray-300 text-sm">
+      <div class="text-muted dark:text-fg-muted text-sm">
         {m.blog_overview_forward_pe()}
       </div>
       <div class="mt-0.5 text-lg bp:text-lg sm:mt-1.5 sm:text-xl font-semibold">
@@ -291,7 +291,7 @@
   </div>
 </div>
 
-<h2 class="text-xl sm:text-2xl font-bold mt-6 mb-2">
+<h2 class="type-h2 text-fg mt-6 mb-2">
   {m.blog_heading_description()}
 </h2>
 <p class="mb-4">
@@ -300,7 +300,7 @@
 
 {#if config}
   <div
-    class="chart-driver border border-gray-300 shadow dark:border-zinc-700 rounded"
+    class="chart-driver border border-line rounded-control"
     use:highcharts={config}
   ></div>
 {/if}

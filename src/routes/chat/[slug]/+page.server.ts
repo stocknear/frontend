@@ -1,15 +1,23 @@
 import { redirect } from "@sveltejs/kit";
+import { isLocale } from "$lib/paraglide/runtime.js";
+
+// Keep the visitor in their locale when the chat cannot be loaded. This reads
+// the first segment deliberately to detect a locale prefix — `hasLocalePrefix`
+// is what tells the i18n audit the positional read is intentional here, rather
+// than the accidental kind that broke /de/chat/<id>.
+const localizedChatPath = (url: URL) => {
+  const [firstSegment] = url.pathname.split("/").filter(Boolean);
+  const hasLocalePrefix = Boolean(firstSegment) && isLocale(firstSegment);
+  return hasLocalePrefix ? `/${firstSegment}/chat` : "/chat";
+};
 
 export const load = async ({ locals, url, params }) => {
     const { pb, user } = locals;
    
-    // Extract chatId from the URL path
-    // Assuming your route is like "/chat/[chatId]" 
-    const chatId = url.pathname.split('/').filter(Boolean)[1]; // Gets the segment after "/chat/"
-    
-    // Alternatively, if you're using SvelteKit with named parameters in your routes
-    // you can directly use params.chatId if your route is defined as "/chat/[chatId]"
-    // const chatId = params.chatId;
+    // Use the router's own param. Splitting the pathname and taking segment [1]
+    // broke on every localized route: /de/chat/<id> yields "chat", the lookup
+    // throws, and the catch below redirects — which is why /de/chat/<id> 302'd.
+    const chatId = params.slug;
     let editable = true;
     const getChat = async () => {
       try {
@@ -30,7 +38,7 @@ export const load = async ({ locals, url, params }) => {
         return output;
       } catch (error) {
         console.error("Error fetching chat:", error);
-       redirect(302, "/chat")
+       redirect(302, localizedChatPath(url))
       }
     };
    

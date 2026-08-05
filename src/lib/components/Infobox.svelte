@@ -3,7 +3,7 @@
 </script>
 
 <div
-  class="mt-5 flex items-start gap-3 rounded-xl border border-gray-300 shadow bg-[#f8fbfb] px-3 py-2.5 text-sm text-muted dark:border-zinc-700 dark:bg-zinc-950/50 dark:text-zinc-200 sm:text-base"
+  class="mt-5 flex items-start gap-3 rounded-container border border-gray-300 bg-[#f8fbfb] px-3 py-2.5 text-sm text-muted dark:border-zinc-700 dark:bg-zinc-950/50 dark:text-zinc-200 sm:text-base"
 >
   <div
     class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600 dark:bg-zinc-900 dark:text-zinc-300"

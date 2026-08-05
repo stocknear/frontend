@@ -18,10 +18,10 @@
 </h2>
 
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <tbody class="">
       {#each blogData?.data as item}
@@ -35,7 +35,7 @@
 
           <td class=" text-sm sm:text-[1rem] whitespace-nowrap text-end">
             <label
-              class="badge badge-lg w-24 rounded-[3px] {[
+              class="badge badge-lg w-24 rounded-control {[
                 'Very Good',
                 'Good',
               ]?.includes(item?.sentiment)

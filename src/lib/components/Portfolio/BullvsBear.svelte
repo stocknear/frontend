@@ -346,7 +346,7 @@
 <div class="w-full">
   <!-- Header with Generate Button -->
   <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <h2 class="text-xl font-semibold text-fg">
+    <h2 class="type-h2 text-fg text-fg">
       {portfolio_bullbear_title()}
     </h2>
 
@@ -354,7 +354,7 @@
       <button
         on:click={generateSummary}
         disabled={isGeneratingSummary || hasNoTickers}
-        class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border transition ease-out disabled:opacity-60"
+        class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-line bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-line border transition ease-out disabled:opacity-60"
       >
         {#if isGeneratingSummary}
           <span class="loading loading-spinner loading-xs"></span>
@@ -395,13 +395,13 @@
   {:else if showSummary}
     <!-- AI Summary Panel -->
     <div
-      class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 bg-white/70 dark:bg-zinc-950/40 text-fg"
+      class="border border-line rounded-container p-4 sm:p-6 bg-surface-card text-fg"
     >
       {#if isGeneratingSummary}
         <!-- Loading State -->
         <div class="flex flex-col items-center justify-center py-8">
           <label
-            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
+            class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
           >
             <span
               class="loading loading-spinner loading-md text-fg"
@@ -435,7 +435,7 @@
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                 />
               </svg>
-              <h3 class="text-lg font-semibold text-fg">
+              <h3 class="type-h3 text-fg text-fg">
                 {portfolio_bullbear_ai_summary()}
               </h3>
             </div>
@@ -473,7 +473,7 @@
             <div class="flex items-center gap-2">
               <button
                 on:click={copyToClipboard}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition hover:text-accent"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-line bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -492,7 +492,7 @@
               </button>
               <button
                 on:click={downloadMarkdown}
-                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition hover:text-accent"
+                class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-line bg-surface-page/60 text-fg transition hover:text-accent"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -621,7 +621,7 @@
               {portfolio_bullbear_outlook()}
             </h4>
             <p
-              class="text-sm text-fg bg-white/70 dark:bg-zinc-950/40 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+              class="text-sm text-fg bg-surface-card rounded-container p-4 border border-line"
             >
               {summaryData?.outlook ?? portfolio_bullbear_no_outlook()}
             </p>

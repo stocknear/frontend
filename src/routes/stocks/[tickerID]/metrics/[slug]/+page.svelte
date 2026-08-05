@@ -184,7 +184,7 @@
             }
           : undefined,
         lineWidth: usePercentChart ? 2 : undefined,
-        ...(isAmber ? { dataLabels: { style: { color: "#000" } } } : {}),
+        ...(isAmber ? { dataLabels: { style: { color: "var(--fg)" } } } : {}),
       };
     });
 
@@ -681,7 +681,7 @@
                   class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
                 >
                   <h2
-                    class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
+                    class="text-start whitespace-nowrap type-h2 text-fg py-1 w-full"
                   >
                     {categoryName}
                   </h2>
@@ -690,7 +690,7 @@
                   >
                     <!-- Tabs (segmented pill) -->
                     <div
-                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-line
            "
                     >
                       {#each tabs as item, i (item)}
@@ -712,8 +712,8 @@
                         <DropdownMenu.Trigger asChild let:builder>
                           <Button
                             builders={[builder]}
-                            class="flex-shrink-0 transition-all border border-gray-300 shadow dark:border-zinc-700
-                 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900
+                            class="flex-shrink-0 transition-all border border-line
+                 bg-surface-card hover:bg-white dark:hover:bg-zinc-900
                  text-fg rounded-full px-3 py-1.5 text-xs
                  flex flex-row items-center gap-2 truncate disabled:opacity-60 disabled:cursor-not-allowed"
                           >
@@ -799,7 +799,7 @@
                   <div class="grow">
                     <div class="relative">
                       <div
-                        class="mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                        class="mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded-container bg-surface-card"
                         use:highcharts={config}
                       ></div>
                     </div>
@@ -810,7 +810,7 @@
               <div
                 class=" mt-5 flex flex-row items-center w-full justify-between border-t border-b border-line py-2"
               >
-                <h3 class="text-xl sm:text-2xl font-bold">
+                <h3 class="type-h2 text-fg">
                   {stock_detail_metrics_history()}
                 </h3>
                 <div class="ml-2">
@@ -824,11 +824,11 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-fg tabular-nums m-auto mt-4"
+                  class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line bg-surface-card text-fg tabular-nums m-auto mt-4"
                 >
                   <thead>
                     <tr
-                      class="bg-white/60 dark:bg-zinc-950/40 border-b border-line text-fg"
+                      class="bg-surface-card border-b border-line text-fg"
                     >
                       <th
                         on:click={() => sortData("date")}
@@ -886,7 +886,7 @@
                     <Button
                       on:click={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <svg
                         class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -920,9 +920,9 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          <span class="truncate text-[0.85rem] sm:text-sm"
+                          <span class="truncate text-[0.85rem] sm:text-sm text-fg"
                             >{rowsPerPage} {insider_tracker_rows()}</span
                           >
                           <svg
@@ -946,7 +946,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                       >
                         <!-- Dropdown items -->
                         <DropdownMenu.Group class="pb-2">
@@ -958,7 +958,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm"
+                                <span class="text-sm text-fg"
                                   >{item} {insider_tracker_rows()}</span
                                 >
                               </label>
@@ -974,7 +974,7 @@
                     <Button
                       on:click={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="hidden sm:inline"
                         >{insider_tracker_next()}</span
@@ -1021,7 +1021,7 @@
               {/if}
 
               <div
-                class="text-sm border border-gray-300 shadow dark:border-zinc-700 p-3 mt-10 rounded-2xl"
+                class="text-sm border border-line p-3 mt-10 rounded-container"
               >
                 <strong>Source:</strong>
                 {@html stock_detail_metrics_source({

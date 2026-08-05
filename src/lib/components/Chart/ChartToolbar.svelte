@@ -57,7 +57,7 @@
 >
   <!-- Cursor Tool -->
   <button
-    class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+    class={`cursor-pointer group relative flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 ${
       activeTool === "cursor"
         ? "bg-surface-raised text-fg"
         : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
@@ -74,7 +74,7 @@
       <div class="relative mt-1 group/item">
         <!-- Main Button with selected tool icon -->
         <button
-          class={`relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+          class={`relative flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 ${
             drawingsLocked
               ? "cursor-not-allowed opacity-40 text-fg-subtle"
               : group.options.some((o) => o.id === activeTool)
@@ -111,7 +111,7 @@
             <button
               use:builder.action
               {...builder}
-              class="absolute -right-1 top-1/2 -translate-y-1/2 w-[14px] h-[24px] flex items-center justify-center opacity-0 group-hover/item:opacity-100 hover:bg-gray-200/70 dark:hover:bg-zinc-700/70 rounded transition-all duration-200 cursor-pointer"
+              class="absolute -right-1 top-1/2 -translate-y-1/2 w-[14px] h-[24px] flex items-center justify-center opacity-0 group-hover/item:opacity-100 hover:bg-gray-200/70 dark:hover:bg-zinc-700/70 rounded-control transition-all duration-200 cursor-pointer"
               on:click|stopPropagation
             >
               <svg
@@ -135,12 +135,12 @@
           side="right"
           align="start"
           sideOffset={4}
-          class="w-52 max-h-80 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
+          class="w-52 max-h-80 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1 z-50"
         >
           <DropdownMenu.Group>
             {#each group.options as option}
               <DropdownMenu.Item
-                class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
+                class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-container transition-colors ${
                   selectedToolByGroup[group.id] === option.id
                     ? "bg-surface-raised text-fg font-medium"
                     : "text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
@@ -176,7 +176,7 @@
   <DropdownMenu.Root bind:open={dropdownStates.magnet}>
     <div class="relative mt-1 group/magnet">
       <button
-        class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+        class={`cursor-pointer relative flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 ${
           drawingMode !== "normal"
             ? "bg-surface-raised text-fg"
             : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-fg"
@@ -201,7 +201,7 @@
         <button
           use:builder.action
           {...builder}
-          class="absolute -right-1 top-1/2 -translate-y-1/2 w-[14px] h-[24px] flex items-center justify-center opacity-0 group-hover/magnet:opacity-100 hover:bg-gray-200/70 dark:hover:bg-zinc-700/70 rounded transition-all duration-200 cursor-pointer"
+          class="absolute -right-1 top-1/2 -translate-y-1/2 w-[14px] h-[24px] flex items-center justify-center opacity-0 group-hover/magnet:opacity-100 hover:bg-gray-200/70 dark:hover:bg-zinc-700/70 rounded-control transition-all duration-200 cursor-pointer"
           on:click|stopPropagation
         >
           <svg
@@ -222,11 +222,11 @@
         side="right"
         align="start"
         sideOffset={4}
-        class="w-44 rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1 z-50"
+        class="w-44 rounded-container border border-line bg-surface-card p-1 z-50"
       >
         <DropdownMenu.Group>
           <DropdownMenu.Item
-            class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
+            class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-container transition-colors ${
               drawingMode === "weak_magnet"
                 ? "bg-surface-raised text-fg font-medium"
                 : "text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
@@ -245,7 +245,7 @@
             <span>{chart_ct_weak_magnet()}</span>
           </DropdownMenu.Item>
           <DropdownMenu.Item
-            class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-lg transition-colors ${
+            class={`flex items-center gap-2.5 px-3 py-2 text-sm cursor-pointer rounded-container transition-colors ${
               drawingMode === "strong_magnet"
                 ? "bg-surface-raised text-fg font-medium"
                 : "text-fg-muted hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white"
@@ -270,7 +270,7 @@
 
   <!-- Visibility - highlights when drawings are hidden (unusual state) -->
   <button
-    class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+    class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 mt-1 ${
       !drawingsVisible
         ? "bg-surface-raised text-rose-400"
         : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-fg"
@@ -285,7 +285,7 @@
 
   <!-- Lock - prevents accidental modification of drawings -->
   <button
-    class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+    class={`cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 mt-1 ${
       drawingsLocked
         ? "bg-surface-raised text-amber-500 dark:text-amber-400"
         : "text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
@@ -303,10 +303,10 @@
 
   <!-- Undo/Redo -->
   <button
-    class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 ${
+    class={`flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 ${
       canUndo
         ? "cursor-pointer text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
-        : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
+        : "cursor-not-allowed text-fg-muted dark:text-zinc-600"
     }`}
     on:click={() => canUndo && dispatch("undo")}
     disabled={!canUndo}
@@ -315,10 +315,10 @@
     <Undo2 class="size-5" />
   </button>
   <button
-    class={`flex h-[38px] w-[38px] items-center justify-center rounded transition-all duration-200 mt-1 ${
+    class={`flex h-[38px] w-[38px] items-center justify-center rounded-control transition-all duration-200 mt-1 ${
       canRedo
         ? "cursor-pointer text-fg-muted hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
-        : "cursor-not-allowed text-gray-300 dark:text-zinc-600"
+        : "cursor-not-allowed text-fg-muted dark:text-zinc-600"
     }`}
     on:click={() => canRedo && dispatch("redo")}
     disabled={!canRedo}
@@ -332,14 +332,14 @@
 
   <!-- Zoom Tools -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent"
     on:click={() => dispatch("zoomIn")}
     title={chart_ct_zoom_in()}
   >
     <ZoomIn class="size-5" />
   </button>
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
     on:click={() => dispatch("zoomOut")}
     title={chart_ct_zoom_out()}
   >
@@ -348,7 +348,7 @@
 
   <!-- Screenshot -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
     on:click={() => dispatch("downloadChart")}
     title={chart_ct_screenshot()}
   >
@@ -372,7 +372,7 @@
 
   <!-- Keyboard Shortcuts Help -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-accent mt-1"
     on:click={() => dispatch("showKeyboardShortcuts")}
     title={chart_ct_shortcuts_tooltip()}
   >
@@ -381,7 +381,7 @@
 
   <!-- Remove All -->
   <button
-    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-rose-500 mt-1"
+    class="cursor-pointer flex h-[38px] w-[38px] items-center justify-center rounded-control text-fg-muted transition-all duration-200 hover:bg-gray-100/60 dark:hover:bg-zinc-800 hover:text-rose-500 mt-1"
     on:click={() => dispatch("removeAllDrawings")}
     title={chart_ct_remove_all()}
   >

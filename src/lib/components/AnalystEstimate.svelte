@@ -325,8 +325,8 @@
       },
       chart: {
         type: "line",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -473,8 +473,8 @@
       },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -787,7 +787,7 @@
             class=" flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
           >
             <table
-              class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+              class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
             >
               <thead class="">
                 <tr class="  text-fg">
@@ -1032,7 +1032,7 @@
             &#42; This value depends on the forecast
           </div>
           <!--
-            <div class="mt-5 text-gray-100 text-sm sm:text-[1rem] sm:rounded h-auto border border-gray-600 p-4">
+            <div class="mt-5 text-fg text-sm sm:text-[1rem] sm:rounded-control h-auto border border-line p-4">
               <svg class="w-5 h-5 inline-block mr-0.5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
                 ><path fill="#fff" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m-4 48a12 12 0 1 1-12 12a12 12 0 0 1 12-12m12 112a16 16 0 0 1-16-16v-40a8 8 0 0 1 0-16a16 16 0 0 1 16 16v40a8 8 0 0 1 0 16" /></svg>
 
@@ -1044,7 +1044,7 @@
         <div class="flex justify-center items-center h-80">
           <div class="relative">
             <label
-              class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
               <span
                 class="loading loading-spinner loading-md text-white dark:text-white"

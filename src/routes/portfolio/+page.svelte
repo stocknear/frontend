@@ -979,7 +979,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="min-w-[110px] w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-gray-900 dark:text-zinc-200 bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="min-w-[110px] w-full sm:w-fit transition-all duration-150 border border-line text-gray-900 dark:text-zinc-200 bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate font-medium text-sm"
                         >{displayPortfolio?.title !== undefined
@@ -1006,7 +1006,7 @@
                     align="start"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 shadow-none"
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card shadow-none"
                   >
                     <DropdownMenu.Label>
                       <DropdownMenu.Trigger asChild let:builder>
@@ -1099,7 +1099,7 @@
                   </div>
 
                   <Combobox.Content
-                    class="w-auto z-10 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 px-1 py-1.5 outline-hidden shadow-none"
+                    class="w-auto z-10 rounded-container border border-line bg-surface-card px-1 py-1.5 outline-hidden shadow-none"
                     sideOffset={8}
                   >
                     {#if inputValue?.length > 0}
@@ -1215,7 +1215,7 @@
               </span>
               {#if !data?.user}
                 <a
-                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
+                  class="w-64 flex mt-3 py-2 rounded-full justify-center items-center m-auto border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-zinc-200 transition duration-150 ease-in-out group"
                   href="/register"
                 >
                   {portfolio_get_started()}
@@ -1320,7 +1320,7 @@
 
                   <div class=" ">
                     <div
-                      class="inline-flex justify-center w-full rounded sm:w-auto mb-3"
+                      class="inline-flex justify-center w-full rounded-control sm:w-auto mb-3"
                     >
                       <div
                         class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
@@ -1328,7 +1328,7 @@
                         <div class="">
                           <div class="inline-flex">
                             <div
-                              class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                              class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                             >
                               {#each tabs as item, i (item)}
                                 <button
@@ -1355,7 +1355,7 @@
                             {date}
                           </h3>
                           <div
-                            class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                            class="bg-surface-card border border-line rounded-container"
                           >
                             {#each titleGroups as { title, items, symbols }, index}
                               <div
@@ -1408,7 +1408,7 @@
                           {date}
                         </h3>
                         <div
-                          class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                          class="bg-surface-card border border-line rounded-container"
                         >
                           {#each titleGroups as item, index}
                             <div
@@ -1525,7 +1525,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="addPortfolio"
@@ -1543,7 +1543,7 @@
       >
     </label>
     <div class="mb-5">
-      <h3 class="font-bold text-2xl mb-5">{portfolio_modal_new_title()}</h3>
+      <h3 class="type-h2 text-fg mb-5">{portfolio_modal_new_title()}</h3>
 
       <form on:submit={createPortfolio} class="space-y-2 w-full m-auto">
         <Input
@@ -1559,7 +1559,7 @@
 
         <button
           type="submit"
-          class="cursor-pointer mt-2 py-3 w-full rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
+          class="cursor-pointer mt-2 py-3 w-full rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold text-md transition hover:bg-gray-800 dark:hover:bg-zinc-200"
         >
           {portfolio_modal_create_button()}
         </button>
@@ -1584,7 +1584,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="deletePortfolio"
@@ -1614,7 +1614,7 @@
         on:click={() => {
           deleteTargetPortfolio = null;
         }}
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg hover:text-accent"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-medium transition-colors duration-100 border border-line bg-surface-page/60 text-fg hover:text-accent"
         tabindex="0">{portfolio_cancel()}</label
       ><label
         for="deletePortfolio"

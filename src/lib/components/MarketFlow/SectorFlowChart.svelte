@@ -26,8 +26,8 @@
             credits: { enabled: false },
 
             chart: {
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 type: "bar",
                 height: 360,
                 animation: false,
@@ -119,7 +119,7 @@
                             : "text-green-400";
 
                     return `
-          <span class="m-auto text-xs font-semibold">${sector}</span><br>
+          <span class="m-auto text-xs font-semibold text-fg">${sector}</span><br>
           <span class="text-green-400">Call Prem: ${abbreviateNumber(call)}</span><br>
           <span class="text-red-400">Put Prem: ${abbreviateNumber(put)}</span><br>
           <span class="${ratioColor}">P/C Ratio: ${pcRatio}</span><br>
@@ -168,6 +168,6 @@
 </script>
 
 <div
-    class="border border-line rounded-2xl h-[360px]"
+    class="border border-line rounded-container h-[360px]"
     use:highcharts={config}
 ></div>

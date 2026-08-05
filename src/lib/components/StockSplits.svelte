@@ -53,18 +53,18 @@
                     class="absolute left-0 h-20 px-px bg-gray-800 ml-4 sm:ml-5 transform -translate-x-1/2"
                   ></div>
                   <div
-                    class="absolute left-0 w-4 h-4 bg-[#00FC50] border-4 box-content border-gray-900 rounded-full ml-4 sm:ml-5 transform -translate-x-1/2"
+                    class="absolute left-0 w-4 h-4 bg-up border-4 box-content border-line rounded-full ml-4 sm:ml-5 transform -translate-x-1/2"
                   ></div>
 
                   <!--Start Item-->
                   <div class="flex flex-row items-center ml-5 w-full mb-6">
                     <div
-                      class="w-full rounded bg-primary shadow-lg h-16 pl-3 ml-6 sm:ml-3 pt-2"
+                      class="w-full rounded-control bg-primary shadow-lg h-16 pl-3 ml-6 sm:ml-3 pt-2"
                     >
                       <div class="flex flex-row items-center">
                         <div class="flex flex-col">
                           <span
-                            class="text-slate-400 text-sm sm:text-md mb-2 mr-auto"
+                            class="text-fg-subtle text-sm sm:text-md mb-2 mr-auto"
                           >
                             Date
                           </span>
@@ -80,13 +80,13 @@
 
                         <div class="flex flex-col ml-auto pr-3">
                           <div
-                            class="text-slate-400 text-sm sm:text-md mb-2 ml-auto"
+                            class="text-fg-subtle text-sm sm:text-md mb-2 ml-auto"
                           >
                             From
                             <span class="text-white">{item?.denominator}</span>
                           </div>
                           <div
-                            class="text-slate-400 text-sm sm:text-md ml-auto"
+                            class="text-fg-subtle text-sm sm:text-md ml-auto"
                           >
                             To
                             <span class="text-white">{item?.numerator}</span>
@@ -121,7 +121,7 @@
       {/if}
     {:else}
       <h2
-        class="mt-10 mb-5 flex justify-center items-center text-3xl font-bold text-slate-700 m-auto"
+        class="mt-10 mb-5 flex justify-center items-center text-3xl font-bold text-fg-muted m-auto"
       >
         No data available
         <svg

@@ -65,7 +65,7 @@
               class="flex flex-row items-center hover:text-accent transition"
             >
               <h3
-                class="mr-1 flex flex-row items-center text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                class="mr-1 flex flex-row items-center type-h2 text-fg"
               >
                 {stock_detail_next_earnings_release()}
               </h3>

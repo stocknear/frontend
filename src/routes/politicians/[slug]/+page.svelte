@@ -564,7 +564,7 @@
                 </div>
                 <div class="mt-0 pt-0.5 text-left">
                   <h1
-                    class="mb-0 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+                    class="mb-0 type-h2 text-fg"
                   >
                     {formatString(name)}
                   </h1>
@@ -611,7 +611,7 @@
                 </div>
               </div>
               <div
-                class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
+                class="mt-4 grid grid-cols-2 overflow-hidden rounded-container border border-line bg-surface-card py-2 text-center md:grid-cols-4 md:p-0 lg:mt-0"
               >
                 <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                   <div
@@ -671,7 +671,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-gray-400 dark:text-zinc-300"
+                          class="size-6 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -717,7 +717,7 @@
                     {:else}
                       <a href="/pricing" class="flex justify-center mb-2">
                         <svg
-                          class="size-6 text-gray-400 dark:text-zinc-300"
+                          class="size-6 text-fg-subtle dark:text-zinc-300"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           style="max-width: 40px;"
@@ -742,7 +742,7 @@
             </div>
 
             <div
-              class="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 py-2 text-center md:grid-cols-4 md:p-0"
+              class="mt-4 grid grid-cols-2 overflow-hidden rounded-container border border-line bg-surface-card py-2 text-center md:grid-cols-4 md:p-0"
             >
               <div class="flex flex-col px-4 py-2 bp:px-6 md:py-6">
                 <div
@@ -815,7 +815,7 @@
             {#if mainSectors?.length !== 0}
               <div class="mb-10 mt-10">
                 <div
-                  class="relative my-3 space-y-2 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 sm:my-6 p-4"
+                  class="relative my-3 space-y-2 rounded-container border border-line bg-surface-card sm:my-6 p-4"
                 >
                   <div
                     class="flex flex-col sm:flex-row items-start sm:items-center"
@@ -833,7 +833,7 @@
                           href={sectorNavigation?.find(
                             (listItem) => listItem?.title === item,
                           )?.link}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
+                          class="inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -854,7 +854,7 @@
                       {#each mainIndustries as item}
                         <a
                           href={`/list/industry/${item?.replace(/ /g, "-")?.replace(/&/g, "and")?.replace(/-{2,}/g, "-")?.toLowerCase()}`}
-                          class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
+                          class="inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-3 py-1 text-xs font-semibold font-medium text-fg transition-colors hover:text-accent transition"
                         >
                           {item}
                         </a>
@@ -870,7 +870,7 @@
                 class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-t border-b border-line"
               >
                 <h2
-                  class="text-left whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+                  class="text-left whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
                 >
                   {politicians_detail_count_stocks({
                     count: originalData?.length?.toLocaleString("en-US"),
@@ -908,7 +908,7 @@
                       on:input={search}
                       type="text"
                       placeholder={politicians_search_placeholder()}
-                      class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                      class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                     />
                   </div>
 
@@ -924,7 +924,7 @@
                     <button
                       on:click={resetColumnOrder}
                       title="Reset column order"
-                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                      class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                     >
                       <svg
                         class="w-4 h-4"
@@ -950,7 +950,7 @@
                 <div class="mt-4 mb-4 space-y-3">
                   {#each stockList as item, index}
                     <div
-                      class="rounded-2xl border border-line overflow-hidden"
+                      class="rounded-container border border-line overflow-hidden"
                     >
                       <!-- Header -->
                       <div
@@ -1106,7 +1106,7 @@
               {:else}
                 <!-- Desktop Table View -->
                 <div
-                  class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+                  class="w-full m-auto mt-4 mb-4 rounded-container border border-line bg-surface-card overflow-x-auto"
                 >
                   <table
                     class="table table-sm table-compact w-full m-auto mt-0 text-fg tabular-nums"
@@ -1290,7 +1290,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1324,7 +1324,7 @@
                     <DropdownMenu.Trigger asChild let:builder>
                       <Button
                         builders={[builder]}
-                        class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                        class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <span class="truncate text-[0.85rem] sm:text-sm"
                           >{politicians_pagination_rows({
@@ -1352,7 +1352,7 @@
                       align="end"
                       sideOffset={10}
                       alignOffset={0}
-                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                      class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                     >
                       <!-- Dropdown items -->
                       <DropdownMenu.Group class="pb-2">
@@ -1382,7 +1382,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline"
                       >{politicians_pagination_next()}</span

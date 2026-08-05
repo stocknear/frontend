@@ -13,7 +13,7 @@
 <SwitchPrimitive.Root
   bind:checked
   class={cn(
-    "focus-visible:ring-ring border border-gray-500 focus-visible:ring-offset-background data-[state=checked]:bg-purple-500 data-[state=unchecked]:bg-[#1D232A] peer inline-flex h-[24px] w-[44px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent  focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+    "focus-visible:ring-ring border border-line-strong focus-visible:ring-offset-background data-[state=checked]:bg-purple-500 data-[state=unchecked]:bg-surface-raised peer inline-flex h-[24px] w-[44px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent  focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
     className,
   )}
   {...$$restProps}

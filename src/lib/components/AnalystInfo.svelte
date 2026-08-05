@@ -19,7 +19,7 @@
   >
     <div class="mx-auto max-w-2xl text-center">
       <h3
-        class="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+        class="mt-2 type-h1 text-fg"
       >
         {analysts_info_title()}
       </h3>
@@ -36,7 +36,7 @@
             class="text-lg font-semibold leading-6 text-fg"
           >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-control bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-line"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@
             class="text-lg font-semibold leading-6 text-fg"
           >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-control bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-line"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@
             class="text-lg font-semibold leading-6 text-fg"
           >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-control bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-line"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@
             class="text-lg font-semibold leading-6 text-fg"
           >
             <div
-              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-gray-300 shadow dark:border-zinc-700"
+              class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-control bg-gray-100 text-muted dark:bg-zinc-900 dark:text-zinc-200 border border-line"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

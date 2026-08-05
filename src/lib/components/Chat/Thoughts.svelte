@@ -12,7 +12,7 @@
         in:fade={{ duration: 200 }}
     >
         <div
-            class="rounded-[5px] py-5 pt-4 pb-0 border border-line max-h-[300px] flex flex-col relative transition-all duration-300"
+            class="rounded-control py-5 pt-4 pb-0 border border-line max-h-[300px] flex flex-col relative transition-all duration-300"
         >
             <div class="flex items-center justify-between px-5 mb-2">
                 <div class="flex items-center gap-x-2">
@@ -68,7 +68,7 @@
                                             class="prose prose-sm max-w-none dark:prose-invert"
                                         >
                                             <p
-                                                class="mb-3 text-[14px] text-muted dark:text-gray-300 leading-relaxed"
+                                                class="mb-3 text-[14px] text-muted dark:text-fg-muted leading-relaxed"
                                             >
                                                 {step?.content}
                                             </p>

@@ -363,8 +363,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
       },
       title: {
@@ -754,9 +754,9 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">
+            <h2 class="type-h2 text-fg">
               {stock_detail_stats_market_capitalization()}
-            </h1>
+            </h2>
           </div>
 
           {#if rawData?.length !== 0}
@@ -787,7 +787,7 @@
                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2 mt-3"
               >
                 <div
-                  class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="marketCap-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class=" text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_nav_market_cap()}</span>
@@ -800,7 +800,7 @@
                 </div>
 
                 <div
-                  class="category-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="category-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class=" text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_category()}</span>
@@ -822,7 +822,7 @@
                 </div>
 
                 <div
-                  class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="oneYearChange-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class=" text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_1_year_change()}</span>
@@ -859,7 +859,7 @@
               <div
                 class="flex flex-col sm:flex-row items-start sm:items-center w-full border-t border-b border-line py-2"
               >
-                <h2 class="mb-3 sm:mb-0 text-xl sm:text-2xl font-bold">
+                <h2 class="mb-3 sm:mb-0 type-h2 text-fg">
                   {stock_detail_stats_market_cap_chart()}
                 </h2>
 
@@ -873,7 +873,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-xs sm:text-sm"
                             >{timePeriod}</span
@@ -962,25 +962,25 @@
               </div>
 
               <div
-                class="chart-driver border border-gray-300 shadow shadow-none dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                class="chart-driver border border-gray-300 shadow-none dark:border-zinc-700 rounded-container bg-surface-card"
                 use:highcharts={config}
               ></div>
 
               <div
                 class=" flex flex-row items-center w-full justify-between mt-2 border-t border-b border-line py-2"
               >
-                <h3 class="history-driver text-xl sm:text-2xl font-bold">
+                <h3 class="history-driver type-h2 text-fg">
                   {stock_detail_stats_history()}
                 </h3>
 
-                <div class="inline-flex justify-center rounded w-auto">
+                <div class="inline-flex justify-center rounded-control w-auto">
                   <div
                     class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between"
                   >
                     <div class="">
                       <div class="inline-flex">
                         <div
-                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700
+                          class="w-fit text-sm flex items-center gap-1 rounded-full border border-line
            "
                         >
                           {#each tabs as item, i (item)}
@@ -1005,7 +1005,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
                 >
                   <thead>
                     <TableHeader {columns} {sortOrders} {sortData} />
@@ -1053,7 +1053,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1085,7 +1085,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate text-[0.85rem] sm:text-sm"
                             >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -1111,7 +1111,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
@@ -1136,7 +1136,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg

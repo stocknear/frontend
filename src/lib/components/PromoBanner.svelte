@@ -41,11 +41,7 @@
     <div class="relative">
       <a
         href="/pricing"
-        class="group relative cursor-pointer flex items-center gap-3 px-5 py-3 text-sm font-medium rounded-xl
-               bg-gradient-to-r from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-800
-               border border-line/50
-               shadow-sm hover:shadow-md dark:shadow-none
-               transition-all duration-300"
+        class="group relative cursor-pointer flex items-center gap-3 px-5 py-3 text-sm font-medium rounded-container bg-gradient-to-r from-gray-50 to-white dark:from-zinc-900 dark:to-zinc-800 border border-line/50 dark:shadow-none transition-all duration-300"
         tabindex="0"
       >
         <div
@@ -58,7 +54,7 @@
             >{home_promo_pill_label()}</span
           >
         </span>
-        <span class="text-gray-400 dark:text-zinc-600">|</span>
+        <span class="text-fg-subtle dark:text-zinc-600">|</span>
         <span class="text-gray-600 dark:text-zinc-300">
           <span class="font-bold text-gray-900 dark:text-white"
             >{home_promo_pill_discount({
@@ -69,7 +65,7 @@
         </span>
 
         <svg
-          class="w-4 h-4 text-gray-400 dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform"
+          class="w-4 h-4 text-fg-subtle dark:text-zinc-500 group-hover:translate-x-0.5 transition-transform"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -86,7 +82,7 @@
         on:click={dismiss}
         type="button"
         aria-label="Dismiss"
-        class="absolute -top-2 -right-2 cursor-pointer flex h-5 w-5 items-center justify-center rounded-full border border-line bg-white dark:bg-zinc-800 text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-200 transition"
+        class="absolute -top-2 -right-2 cursor-pointer flex h-5 w-5 items-center justify-center rounded-full border border-line bg-white dark:bg-zinc-800 text-fg-subtle dark:text-zinc-500 hover:text-gray-700 dark:hover:text-zinc-200 transition"
       >
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

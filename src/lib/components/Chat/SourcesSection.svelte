@@ -51,7 +51,7 @@
         {#each tickersWithUrls as { ticker, url }}
           <a
             href={url}
-            class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
+            class="inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
           >
             {ticker}
           </a>
@@ -66,7 +66,7 @@
       {#each displayedSources as source, index}
         <a
           href={source.url || "#"}
-          class="flex items-start gap-3 rounded-xl border border-line bg-white/70 dark:bg-zinc-950/40 p-4 transition sm:hover:border-violet-300/60 dark:sm:hover:border-violet-500/40"
+          class="flex items-start gap-3 rounded-container border border-line bg-surface-card p-4 transition sm:hover:border-violet-300/60 dark:sm:hover:border-violet-500/40"
           class:cursor-pointer={source.url}
           class:cursor-default={!source.url}
         >
@@ -100,7 +100,7 @@
     {#if hasMoreSources}
       <button
         on:click={() => (isExpanded = !isExpanded)}
-        class="cursor-pointer group mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-4 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent"
+        class="cursor-pointer group mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface-card px-4 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent"
       >
         <span class="relative">
           {#if !isExpanded}

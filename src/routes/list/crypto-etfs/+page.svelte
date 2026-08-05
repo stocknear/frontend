@@ -449,7 +449,7 @@
   <Infobox text={list_crypto_etfs_infobox()} />
 
   <div
-    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
+    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-container border border-line bg-surface-card divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
   >
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">
@@ -500,7 +500,7 @@
       class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+        class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
       >
         {list_count_crypto_etfs({
           count: originalData?.length?.toLocaleString("en-US") ?? "0",
@@ -533,7 +533,7 @@
             on:input={search}
             type="text"
             placeholder={list_search_placeholder()}
-            class="py-2 text-[0.85rem] sm:text-sm border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
+            class="py-2 text-[0.85rem] sm:text-sm border border-line bg-surface-card rounded-full text-fg placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 w-full sm:min-w-56"
           />
         </div>
 
@@ -545,7 +545,7 @@
           <button
             on:click={resetColumnOrder}
             title={list_reset_column_order()}
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -573,7 +573,7 @@
       {#if displayList?.length > 0}
         <div class="w-full overflow-x-auto">
           <table
-            class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto"
+            class="table table-sm table-compact w-full border border-line rounded-container overflow-hidden bg-surface-card m-auto"
           >
             <thead>
               <TableHeader

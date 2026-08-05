@@ -22,7 +22,7 @@
   <div bind:this={el} class="flex justify-center items-center h-80">
     <div class="relative">
       <label
-        class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       >
         <span
           class="loading loading-spinner loading-md text-white dark:text-white"

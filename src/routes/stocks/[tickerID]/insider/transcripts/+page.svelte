@@ -454,11 +454,11 @@ ${summaryData.outlook}
           <div
             class="sm:-mt-3 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1 border-b border-line"
           >
-            <h1
-              class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+            <h2
+              class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
             >
               {stock_detail_transcripts_title()}
-            </h1>
+            </h2>
 
             <div
               class="mt-1 w-full flex flex-row items-center ml-auto pb-1 pt-1 sm:pt-0 order-0 lg:order-1"
@@ -469,7 +469,7 @@ ${summaryData.outlook}
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate"
                         >{stock_detail_transcripts_year({ year })}</span
@@ -495,7 +495,7 @@ ${summaryData.outlook}
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each yearRange as yr, index}
@@ -552,7 +552,7 @@ ${summaryData.outlook}
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate"
                         >{stock_detail_transcripts_quarter({ quarter })}</span
@@ -578,7 +578,7 @@ ${summaryData.outlook}
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="min-w-40 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each quarterRange as q, index}
@@ -631,14 +631,14 @@ ${summaryData.outlook}
           {#if chats?.length !== 0}
             <!-- Header Card -->
             <div
-              class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 mb-6 bg-white/70 dark:bg-zinc-950/40"
+              class="border border-line rounded-container p-4 sm:p-6 mb-6 bg-surface-card"
             >
               <div
                 class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
               >
                 <div>
                   <h2
-                    class="text-lg sm:text-xl font-semibold tracking-tight text-fg"
+                    class="type-h2 text-fg"
                   >
                     {stock_detail_transcripts_earnings_call({
                       quarter: displayQuarter,
@@ -679,7 +679,7 @@ ${summaryData.outlook}
                   <button
                     on:click={generateSummary}
                     disabled={isGeneratingSummary}
-                    class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-fg transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-gray-600 border ease-out disabled:opacity-60"
+                    class="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-full border border-line bg-surface-page/60 text-fg transition border-gray-300 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white dark:border-line border ease-out disabled:opacity-60"
                   >
                     {#if isGeneratingSummary}
                       <span class="loading loading-spinner loading-xs"></span>
@@ -711,13 +711,13 @@ ${summaryData.outlook}
             <!-- AI Summary Panel -->
             {#if showSummary}
               <div
-                class="border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4 sm:p-6 mb-6 bg-white/70 dark:bg-zinc-950/40 text-fg"
+                class="border border-line rounded-container p-4 sm:p-6 mb-6 bg-surface-card text-fg"
               >
                 {#if isGeneratingSummary}
                   <!-- Loading State -->
                   <div class="flex flex-col items-center justify-center py-8">
                     <label
-                      class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
+                      class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center"
                     >
                       <span
                         class="loading loading-spinner loading-md text-fg"
@@ -754,7 +754,7 @@ ${summaryData.outlook}
                           />
                         </svg>
                         <h3
-                          class="text-lg font-semibold text-fg"
+                          class="type-h3 text-fg text-fg"
                         >
                           {stock_detail_transcripts_ai_title()}
                         </h3>
@@ -794,7 +794,7 @@ ${summaryData.outlook}
                       <div class="flex items-center gap-2">
                         <button
                           on:click={copyToClipboard}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-accent"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-line rounded-full transition hover:text-accent"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -813,7 +813,7 @@ ${summaryData.outlook}
                         </button>
                         <button
                           on:click={downloadMarkdown}
-                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-accent"
+                          class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-fg bg-surface-page/60 border border-line rounded-full transition hover:text-accent"
                         >
                           <svg
                             class="w-3.5 h-3.5"
@@ -940,7 +940,7 @@ ${summaryData.outlook}
                         {stock_detail_transcripts_management_outlook()}
                       </h4>
                       <p
-                        class="text-sm text-fg bg-surface-page/60 rounded-2xl p-4 border border-gray-300 shadow dark:border-zinc-700"
+                        class="text-sm text-fg bg-surface-page/60 rounded-container p-4 border border-line"
                       >
                         {summaryData?.outlook ??
                           stock_detail_transcripts_no_outlook()}
@@ -1018,7 +1018,7 @@ ${summaryData.outlook}
             <div class="flex justify-center mt-10 mb-6">
               <button
                 on:click={backToTop}
-                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-fg bg-surface-page/60 border border-gray-300 shadow dark:border-zinc-700 rounded-full transition hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-fg bg-surface-page/60 border border-line rounded-full transition hover:text-accent hover:bg-gray-100/60 dark:hover:bg-zinc-900/50"
               >
                 <svg
                   class="w-4 h-4"
@@ -1049,7 +1049,7 @@ ${summaryData.outlook}
           <div class="flex justify-center items-center h-80">
             <div class="relative">
               <label
-                class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               >
                 <span
                   class="loading loading-spinner loading-md text-fg"

@@ -140,7 +140,7 @@
 <div class="flex flex-row sm:gap-1 items-center">
   <button
     type="button"
-    class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center gap-1 rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-3 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
+    class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center gap-1 rounded-full border border-line bg-surface-card px-3 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
     aria-label="Rewrite response"
     disabled={isStreaming || isSubmitting}
@@ -172,7 +172,7 @@
   {#if !selectedRating}
     <button
       type="button"
-      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-surface-card px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
       on:click={handleLike}
       aria-label="Like response"
       disabled={isStreaming || isSubmitting}
@@ -186,7 +186,7 @@
 
     <button
       type="button"
-      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
+      class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-surface-card px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
       on:click={openDislikeModal}
       aria-label="Dislike response"
       disabled={isStreaming || isSubmitting}
@@ -230,7 +230,7 @@
     ></button>
 
     <div
-      class="modal-box w-full max-w-lg relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box w-full max-w-lg relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
     >
       <button
         type="button"
@@ -251,7 +251,7 @@
       </button>
       <div class="flex items-center">
         <h2
-          class="text-base sm:text-lg font-semibold tracking-tight text-gray-900 dark:text-zinc-100"
+          class="text-base sm:type-h3 text-fg tracking-tight text-gray-900 dark:text-zinc-100"
         >
           Provide Feedback
         </h2>
@@ -262,7 +262,7 @@
           Help us improve by sharing what could be better with this response.
         </p>
         <textarea
-          class="textarea w-full h-48 max-h-[600px] resize-vertical rounded-xl border border-line bg-gray-50/80 dark:bg-zinc-900/60 text-sm text-fg placeholder-gray-400 dark:placeholder-zinc-500 focus-visible:outline-none focus-visible:border-violet-400/60"
+          class="textarea w-full h-48 max-h-[600px] resize-vertical rounded-container border border-line bg-gray-50/80 dark:bg-zinc-900/60 text-sm text-fg placeholder-gray-400 dark:placeholder-zinc-500 focus-visible:outline-none focus-visible:border-violet-400/60"
           placeholder="Tell us what could be improved..."
           bind:value={description}
           disabled={isSubmitting}
@@ -272,7 +272,7 @@
       <div class="mt-6 flex justify-end gap-2">
         <button
           type="button"
-          class="cursor-pointer inline-flex items-center rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 px-4 py-2 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:opacity-60"
+          class="cursor-pointer inline-flex items-center rounded-full border border-line bg-surface-card px-4 py-2 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:opacity-60"
           on:click={closeModal}
           disabled={isSubmitting}
         >
@@ -280,7 +280,7 @@
         </button>
         <button
           type="button"
-          class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-gray-900/10 dark:border-zinc-700 bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 px-4 py-2 text-xs font-semibold transition hover:opacity-90 disabled:opacity-60"
+          class="cursor-pointer inline-flex items-center gap-2 rounded-full border border-line/10 dark:border-zinc-700 bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 px-4 py-2 text-xs font-semibold transition hover:opacity-90 disabled:opacity-60"
           on:click={handleDislikeSubmit}
           disabled={isSubmitting}
         >

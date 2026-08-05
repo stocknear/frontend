@@ -571,8 +571,8 @@
       },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360, // Set the maximum height for the chart
         animation: false,
       },
@@ -622,13 +622,13 @@
             ? this.points[0].series.xAxis.categories[this.points[0].point.index]
             : this.series.xAxis.categories[this.point.index];
 
-          let tooltipContent = `<span class="m-auto text-sm font-[501]">${categoryLabel}</span><br>`;
+          let tooltipContent = `<span class="m-auto text-sm font-[501] text-fg">${categoryLabel}</span><br>`;
 
           this.points.forEach((point) => {
             tooltipContent += `
     <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
-    <span class="font-semibold text-sm">${point.series.name}:</span> 
-    <span class="font-normal text-sm">${abbreviateNumber(point.y)}</span><br>`;
+    <span class="font-semibold text-sm text-fg">${point.series.name}:</span> 
+    <span class="font-normal text-sm text-fg">${abbreviateNumber(point.y)}</span><br>`;
             if (
               point.series.name === "Revenue" &&
               typeof point.point?.yoy === "number" &&
@@ -637,7 +637,7 @@
               const yoyValue = point.point.yoy;
               tooltipContent += `
     <span class="${yoyValue > 0 ? "bg-green-400" : "bg-red-400"}" style="display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px;"></span>
-    <span class="font-semibold text-sm">YoY:</span> 
+    <span class="font-semibold text-sm text-fg">YoY:</span> 
     <span class="${yoyValue > 0 ? "text-green-400 before:content-['+']" : "text-red-400"} text-sm">${yoyValue.toFixed(2)}%</span><br>`;
             }
             if (
@@ -649,7 +649,7 @@
               const qoqValue = point.point.qoq;
               tooltipContent += `
     <span class="${qoqValue > 0 ? "bg-green-400" : "bg-red-400"}" style="display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px;"></span>
-    <span class="font-semibold text-sm">QoQ:</span> 
+    <span class="font-semibold text-sm text-fg">QoQ:</span> 
     <span class="${qoqValue > 0 ? "text-green-400 before:content-['+']" : "text-red-400"} text-sm">${qoqValue.toFixed(2)}%</span><br>`;
             }
           });
@@ -762,9 +762,9 @@
       <main class="w-full">
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           <div class="w-full flex flex-col sm:flex-row justify-between">
-            <h1 class="text-xl sm:text-2xl font-bold">
+            <h2 class="type-h2 text-fg">
               {stock_detail_stats_nav_revenue()}
-            </h1>
+            </h2>
           </div>
 
           {#if Object?.keys(data?.getHistoricalRevenue)?.length > 0}
@@ -787,13 +787,13 @@
                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 mt-3"
               >
                 <div
-                  class="revenue-ttm-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="revenue-ttm-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_revenue_ttm()}</span>
                   </div>
                   <div class="flex items-baseline">
-                    <span class="text-xl font-semibold">
+                    <span class="text-xl font-semibold text-fg">
                       {abbreviateNumber(rawData?.revenueTTM)}
                       {currency !== "USD" ? currency : ""}</span
                     >
@@ -801,13 +801,13 @@
                 </div>
 
                 <div
-                  class="revenue-growth-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="revenue-growth-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_revenue_growth()}</span>
                   </div>
                   <div class="flex items-baseline">
-                    <span class="text-xl font-semibold"
+                    <span class="text-xl font-semibold text-fg"
                       >{rawData?.growthRevenue
                         ? rawData?.growthRevenue + "%"
                         : "n/a"}</span
@@ -816,26 +816,26 @@
                 </div>
 
                 <div
-                  class="ps-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="ps-ratio-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_price_sales_ratio()}</span>
                   </div>
                   <div class="flex items-baseline">
-                    <span class="text-xl font-semibold"
+                    <span class="text-xl font-semibold text-fg"
                       >{rawData?.priceToSalesRatio ?? "n/a"}</span
                     >
                   </div>
                 </div>
 
                 <div
-                  class="rev-per-emp-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="rev-per-emp-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>{stock_detail_stats_revenue_per_employee()}</span>
                   </div>
                   <div class="flex items-baseline">
-                    <span class="text-xl font-semibold"
+                    <span class="text-xl font-semibold text-fg"
                       >{rawData?.revenuePerEmployee?.toLocaleString("en-US")}
                       {currency !== "USD" ? currency : ""}</span
                     >
@@ -843,26 +843,26 @@
                 </div>
 
                 <div
-                  class="employees-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="employees-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>{stock_detail_employees()}</span>
                   </div>
                   <div class="flex items-baseline">
-                    <span class="text-xl font-semibold"
+                    <span class="text-xl font-semibold text-fg"
                       >{rawData?.employees?.toLocaleString("en-US") ??
                         "n/a"}</span
                     >
                   </div>
                 </div>
                 <div
-                  class="marketCap-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                  class="marketCap-driver shadow-none bg-surface-card border border-line rounded-container p-4"
                 >
                   <div class="text-sm mb-2 flex items-center">
                     <span>{stock_detail_market_cap()}</span>
                   </div>
                   <div class="flex items-baseline">
-                    <span class="text-xl font-semibold"
+                    <span class="text-xl font-semibold text-fg"
                       >{abbreviateNumber(data?.getStockQuote?.marketCap)}
                       {currency !== "USD" ? "USD" : ""}</span
                     >
@@ -873,13 +873,13 @@
               <div
                 class=" flex flex-col sm:flex-row items-start sm:items-center w-full justify-between border-t border-b border-line py-2"
               >
-                <h2 class="text-xl sm:text-2xl font-bold">
+                <h2 class="type-h2 text-fg">
                   {stock_detail_stats_revenue_chart()}
                 </h2>
                 <div class="ml-auto">
                   <div class="inline-flex mt-2 sm:mt-0">
                     <div
-                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                      class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                     >
                       {#each tabs as item, i (item)}
                         <button
@@ -899,7 +899,7 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="flex-shrink-0 w-full sm:w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           <span class="truncate">{$timeFrame}</span>
                           <svg
@@ -951,11 +951,11 @@
               </div>
 
               <div
-                class="chart-driver shadow-none mt-5 sm:mt-0 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40"
+                class="chart-driver shadow-none mt-5 sm:mt-0 bg-surface-card border border-line rounded-container"
                 use:highcharts={config}
               ></div>
               {#if currency !== "USD"}
-                <span class="text-sm text-muted dark:text-gray-400"
+                <span class="text-sm text-muted dark:text-fg-subtle"
                   >* This company reports financials in DKK.</span
                 >
               {/if}
@@ -963,13 +963,13 @@
               <div
                 class="history-driver mt-5 flex flex-row items-center w-full justify-between border-t border-b border-line py-2"
               >
-                <h3 class="text-xl sm:text-2xl font-bold">
+                <h3 class="type-h2 text-fg">
                   {stock_detail_stats_history()}
                 </h3>
 
                 <div class="inline-flex ml-auto">
                   <div
-                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+                    class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
                   >
                     {#each tabs as item, i (item)}
                       <button
@@ -988,7 +988,7 @@
 
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
                 >
                   <thead
                     class="text-xs uppercase tracking-wide text-fg"
@@ -1061,7 +1061,7 @@
                   <Button
                     on:click={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <svg
                       class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1093,9 +1093,9 @@
                       <DropdownMenu.Trigger asChild let:builder>
                         <Button
                           builders={[builder]}
-                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                          class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          <span class="truncate text-[0.85rem] sm:text-sm"
+                          <span class="truncate text-[0.85rem] sm:text-sm text-fg"
                             >{stock_detail_rows({ count: rowsPerPage })}</span
                           >
                           <svg
@@ -1119,7 +1119,7 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                        class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                       >
                         <DropdownMenu.Group class="pb-2">
                           {#each rowsPerPageOptions as item}
@@ -1130,7 +1130,7 @@
                                 on:click={() => changeRowsPerPage(item)}
                                 class="inline-flex justify-between w-full items-center cursor-pointer"
                               >
-                                <span class="text-sm"
+                                <span class="text-sm text-fg"
                                   >{stock_detail_rows({ count: item })}</span
                                 >
                               </label>
@@ -1144,7 +1144,7 @@
                   <Button
                     on:click={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto gap-1 transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="hidden sm:inline">{stock_detail_next()}</span>
                     <svg
@@ -1185,7 +1185,7 @@
                   </button>
                 </div>
               {/if}
-              <span class="text-sm mt-2">
+              <span class="text-sm mt-2 text-fg">
                 {stock_detail_stats_sources()}
               </span>
             </div>

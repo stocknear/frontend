@@ -819,7 +819,7 @@
         <!-- Cover Image -->
         {#if article?.cover}
           <div
-            class="mb-8 rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-800 shadow"
+            class="mb-8 rounded-container overflow-hidden border border-gray-300 dark:border-line"
           >
             <img
               src={getImageURL(
@@ -834,7 +834,7 @@
           </div>
         {:else if article?.category === "Daily"}
           <div
-            class="mb-8 rounded-2xl overflow-hidden border border-gray-300 dark:border-gray-800 shadow"
+            class="mb-8 rounded-container overflow-hidden border border-gray-300 dark:border-line"
           >
             <img
               src="/img/premarket-news-cover.webp"
@@ -884,7 +884,7 @@
               <Calendar class="w-4 h-4" />
               <span>{formatDate(article?.updated)}</span>
             </div>
-            <span class="text-gray-300 dark:text-zinc-700">|</span>
+            <span class="text-fg-muted dark:text-zinc-700">|</span>
             <div class="flex items-center gap-1.5">
               <Clock class="w-4 h-4" />
               <span
@@ -916,7 +916,7 @@
           <!-- CTA Section -->
           <div class="text-center pt-8 pb-4">
             <h2
-              class="text-2xl sm:text-3xl font-bold text-fg mb-4"
+              class="type-h1 text-fg text-fg mb-4"
             >
               {learning_center_sign_in_to_read()}
             </h2>
@@ -1128,7 +1128,7 @@
           {#each relatedArticles as related}
             <a
               href="/learning-center/article/{convertToSlug(related?.title)}"
-              class="group flex flex-col overflow-hidden rounded-xl border border-line bg-[#f9fafb] shadow dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
+              class="group flex flex-col overflow-hidden rounded-container border border-line bg-[#f9fafb] dark:bg-zinc-900/50 hover:border-gray-300 dark:hover:border-zinc-700 hover:shadow-lg transition-all duration-200"
             >
               <!-- Cover Image -->
               {#if related?.cover}
@@ -1252,7 +1252,7 @@
       <img
         src={lightboxImageSrc}
         alt={lightboxImageAlt}
-        class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+        class="max-w-full max-h-[90vh] object-contain rounded-container shadow-2xl"
       />
     </div>
 

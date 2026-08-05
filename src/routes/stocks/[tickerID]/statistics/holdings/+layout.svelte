@@ -20,10 +20,10 @@
         <aside class="inline-block relative w-full lg:w-1/4 mt-3">
           {#if newsList?.length !== 0}
             <div
-              class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4"
+              class="w-full bg-surface-card border border-line rounded-container p-4 mt-4"
             >
               <div class="p-4 text-sm">
-                <h3 class="text-lg font-semibold mb-3">
+                <h3 class="type-h3 text-fg mb-3">
                   {$etfTicker} News
                 </h3>
                 <ul class="">

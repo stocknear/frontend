@@ -129,9 +129,9 @@
           <div
             class="w-full flex flex-col items-start sm:items-center sm:flex-row justify-between mb-3"
           >
-            <h1 class="text-xl sm:text-2xl font-bold">
+            <h2 class="type-h2 text-fg">
               {stock_detail_stats_ftd_title()}
-            </h1>
+            </h2>
           </div>
 
           {#if rawData?.length > 0}
@@ -139,7 +139,7 @@
               class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4"
             >
               <div
-                class="ftd-total-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="ftd-total-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_total_ftd_shares()}</span>
@@ -161,7 +161,7 @@
               </div>
 
               <div
-                class="ftd-ratio-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="ftd-ratio-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_ftd_avg_volume()}</span>
@@ -183,7 +183,7 @@
               </div>
 
               <div
-                class="oneYearChange-driver shadow-none bg-white/70 dark:bg-zinc-950/40 border border-gray-300 shadow dark:border-zinc-700 rounded-2xl p-4"
+                class="oneYearChange-driver shadow-none bg-surface-card border border-line rounded-container p-4"
               >
                 <div class=" text-sm mb-2 flex items-center">
                   <span>{stock_detail_stats_1_year_change()}</span>

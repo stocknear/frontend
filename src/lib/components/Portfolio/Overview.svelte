@@ -364,6 +364,7 @@
             chart: {
                 type: "spline",
                 backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 260,
                 animation: false,
             },
@@ -443,6 +444,7 @@
                 polar: true,
                 type: "areaspline",
                 backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 300,
                 spacing: [20, 20, 20, 20],
                 animation: false,
@@ -604,7 +606,7 @@
                         <div style="text-align: center;">
                             <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${category}</div>
                             <div style="font-size: 20px; font-weight: 700; color: ${color};">${value.toFixed(1)}</div>
-                            <div class="text-gray-300" style="font-size: 11px; margin-top: 2px;">${portfolio_overview_out_of_100()}</div>
+                            <div class="text-fg-muted" style="font-size: 11px; margin-top: 2px;">${portfolio_overview_out_of_100()}</div>
                         </div>
                     `;
                 },
@@ -695,7 +697,7 @@
             <div class="w-full">
                 <!-- Header -->
                 <div
-                    class="rounded-2xl border border-line p-5"
+                    class="rounded-container border border-line p-5"
                 >
                     <div class="w-full overflow-hidden">
                         <header class="relative">
@@ -718,7 +720,7 @@
                                         <button
                                             on:click={() =>
                                                 (selectedTimePeriod = period)}
-                                            class="shadow cursor-pointer px-2 py-1 text-xs rounded transition-all duration-50 {selectedTimePeriod ===
+                                            class="shadow cursor-pointer px-2 py-1 text-xs rounded-control transition-all duration-50 {selectedTimePeriod ===
                                             period
                                                 ? 'bg-black dark:bg-white text-white dark:text-black '
                                                 : ' bg-gray-100 dark:bg-table shadow'}"
@@ -878,7 +880,7 @@
             <div class="w-full sm:w-[40%]">
                 <!-- Health + Radar -->
                 <div
-                    class="rounded-2xl border border-line p-5"
+                    class="rounded-container border border-line p-5"
                 >
                     {#if portfolioData.length > 0}
                         <h3 class="text-[1rem] font-semibold">
@@ -903,7 +905,7 @@
                             <div use:highcharts={radarConfig}></div>
                         {:else}
                             <div
-                                class=" flex items-center justify-center text-gray-500 dark:text-gray-400"
+                                class=" flex items-center justify-center text-gray-500 dark:text-fg-subtle"
                             >
                                 <p class="text-sm">
                                     {portfolio_overview_loading_health()}

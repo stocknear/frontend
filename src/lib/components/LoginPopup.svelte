@@ -204,7 +204,7 @@
 
 <dialog
   id="userLogin"
-  class="modal modal-bottom sm:modal-middle rounded-none sm:rounded"
+  class="modal modal-bottom sm:modal-middle rounded-none sm:rounded-control"
 >
   <label
     on:click={() => (form = [])}
@@ -216,7 +216,7 @@
   <div
     class="modal-box w-full {$screenWidth < 640
       ? 'min-h-screen'
-      : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="userLogin"
@@ -492,7 +492,7 @@
       <div class="absolute right-1/2 left-1/2 top-1/2 bottom-1/2">
         <div class="relative">
           <label
-            class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <span
               class="loading loading-spinner loading-md text-fg"

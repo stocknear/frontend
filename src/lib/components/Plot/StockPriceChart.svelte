@@ -340,20 +340,34 @@
     return parsed;
   };
 
+  // Same tokens the tables use, so the green in the chart matches the green in
+  // the header. Chart only renders client-side, so the document always exists.
+  const CHART_FALLBACK = "#808080";
+  const cssVar = (name: string) => {
+    if (typeof window === "undefined") return CHART_FALLBACK;
+    return (
+      getComputedStyle(document.documentElement)
+        ?.getPropertyValue(name)
+        ?.trim() || CHART_FALLBACK
+    );
+  };
+
   const applyStyles = (isLight: boolean, negative: boolean) => {
     if (!chart) return;
 
-    const upColor = isLight ? "#16a34a" : "#22c55e";
-    const downColor = isLight ? "#dc2626" : "#ef4444";
-    const gridColor = isLight
-      ? "rgba(148, 163, 184, 0.35)"
-      : "rgba(148, 163, 184, 0.25)";
-    const axisText = isLight ? "#6b7280" : "#9ca3af";
-    const crosshairLine = isLight ? "#374151" : "#d1d5db";
-    const crosshairBg = isLight ? "#111827" : "#f9fafb";
-    const crosshairText = isLight ? "#f9fafb" : "#111827";
-    const chartFont = "Inter, system-ui, sans-serif";
+    const upColor = cssVar("--up");
+    const downColor = cssVar("--down");
+    const gridColor = cssVar("--line");
+    const axisText = cssVar("--fg-subtle");
+    const crosshairLine = cssVar("--fg-muted");
+    const crosshairBg = cssVar("--fg");
+    const crosshairText = cssVar("--surface-card");
+    const chartFont = "Space Grotesk";
     const lineColor = negative ? downColor : upColor;
+    // klinecharts colours priceMark.last by comparing the last bar to the one
+    // before it, so a single closing down-tick painted the tag and the dashed
+    // rule RED on a session that finished up. The session decides, not the tick.
+    const sessionColor = lineColor;
     // Multi-stop gradient for smooth fade effect (0 = bottom, 1 = top near line)
     const areaGradient = negative
       ? [
@@ -515,13 +529,13 @@
           low: { show: false },
           last: {
             show: true,
-            upColor,
-            downColor,
-            noChangeColor: axisText,
+            upColor: sessionColor,
+            downColor: sessionColor,
+            noChangeColor: sessionColor,
             line: { show: true, style: "dashed", dashedValue: [4, 4], size: 1 },
             text: {
               show: true,
-              color: "#fff",
+              color: crosshairText,
               size: 10,
               family: chartFont,
               weight: 600,
@@ -990,7 +1004,7 @@
   {#if isLoading}
     <div class="absolute inset-0 flex items-center justify-center z-10">
       <div
-        class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex items-center justify-center shadow-sm"
+        class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex items-center justify-center"
       >
         <span
           class="loading loading-spinner loading-md text-fg"
@@ -1048,7 +1062,7 @@
           5}px;background:{$mode === 'light' ? '#000' : '#fff'}"
       ></div>
       <div
-        class="absolute bg-black border border-gray-700 rounded px-2 py-1.5 text-sm"
+        class="absolute bg-black border border-gray-700 rounded-control px-2 py-1.5 text-sm"
         style="left:{(selectionStart.x + selectionEnd.x) /
           2}px;top:20px;transform:translateX(-50%)"
       >
@@ -1059,7 +1073,7 @@
           {selectionDelta > 0 ? "↑" : selectionDelta < 0 ? "↓" : ""}
         </div>
         {#if selectionTimeRange}
-          <div class="text-xs text-gray-400 whitespace-nowrap mt-0.5">
+          <div class="text-xs text-fg-subtle whitespace-nowrap mt-0.5">
             {selectionTimeRange}
           </div>
         {/if}

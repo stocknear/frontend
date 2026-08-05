@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { toast } from "svelte-sonner";
   import { mode } from "mode-watcher";
   import { page } from "$app/stores";
@@ -112,12 +113,12 @@
 </svelte:head>
 
 <!-- Floating trigger (bottom-right), like your existing one -->
-{#if !$page.url.pathname.startsWith("/chat")}
+{#if !deLocalizeHref($page.url.pathname).startsWith("/chat")}
   <div class="fixed z-20 bottom-8 sm:bottom-10 right-8 sm:right-16">
     <label
       for="feedbackModalToggle"
       aria-label={feedback_title()}
-      class="group flex fixed bottom-20 sm:bottom-8 right-5 sm:right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-fg hover:text-accent hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
+      class="group flex fixed bottom-20 sm:bottom-8 right-5 sm:right-8 items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-full border border-line bg-white/90 dark:bg-zinc-950/90 cursor-pointer pointer-events-auto text-fg hover:text-accent hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition"
       style="position: fixed !important; z-index: 99999 !important;"
     >
       <Question
@@ -147,7 +148,7 @@
   ></label>
 
   <div
-    class="modal-box w-full max-w-4xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full max-w-4xl relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="feedbackModalToggle"
@@ -166,11 +167,11 @@
     </label>
     <!-- Header -->
     <div class="flex items-center justify-between">
-      <h1
+      <h2
         class="text-2xl font-semibold tracking-tight text-fg"
       >
         {feedback_title()}
-      </h1>
+      </h2>
     </div>
 
     <!-- Body -->
@@ -182,7 +183,7 @@
           >{feedback_description_label()}</label
         >
         <textarea
-          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 p-3 text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
+          class="w-full min-h-[160px] max-h-[600px] resize-y rounded-container border border-line bg-surface-page/60 p-3 text-sm text-fg placeholder:text-gray-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80"
           placeholder=""
           bind:value={description}
         />
@@ -196,7 +197,7 @@
         >
         <input
           type="text"
-          class="cursor-not-allowed w-full h-10 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 px-3 text-sm text-fg focus:outline-none focus:ring-0"
+          class="cursor-not-allowed w-full h-10 rounded-full border border-line bg-surface-page/60 px-3 text-sm text-fg focus:outline-none focus:ring-0"
           bind:value={pageUrl}
           readonly
         />
@@ -208,7 +209,7 @@
     <div class="mt-6 flex justify-end gap-2">
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 text-sm text-fg hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
+        class="cursor-pointer px-4 py-2 rounded-full border border-line bg-surface-page/60 text-sm text-fg hover:bg-gray-50/80 dark:hover:bg-zinc-900/60 transition disabled:opacity-60"
         on:click={closeModal}
         disabled={isSubmitting}
       >
@@ -216,7 +217,7 @@
       </button>
       <button
         type="button"
-        class="cursor-pointer px-4 py-2 rounded-full border border-gray-900/80 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 dark:border-zinc-200 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition disabled:opacity-60 flex items-center gap-2"
+        class="cursor-pointer px-4 py-2 rounded-full border border-line/80 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 dark:border-zinc-200 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white transition disabled:opacity-60 flex items-center gap-2"
         on:click={sendFeedback}
         disabled={isSubmitting}
         aria-busy={isSubmitting}

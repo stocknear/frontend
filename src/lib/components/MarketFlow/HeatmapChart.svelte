@@ -42,8 +42,8 @@
             credits: { enabled: false },
             chart: {
                 type: "heatmap",
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: 360,
                 animation: false,
             },
@@ -97,10 +97,12 @@
             legend: { enabled: false },
 
             tooltip: {
-                backgroundColor: $mode === "light" ? "#fff" : "#000",
-                borderColor: "#333",
+                // A tooltip is an overlay, not the chart canvas — it needs an
+                // opaque fill or its text sits unreadable on the heatmap tiles.
+                backgroundColor: "var(--surface-card)",
+                borderColor: "var(--line)",
                 style: {
-                    color: $mode === "light" ? "#000" : "#fff",
+                    color: "var(--fg)",
                 },
                 format:
                     "<b>{series.yAxis.categories.(point.y)}</b> in <b>{series.xAxis.categories.(point.x)}</b><br>" +
@@ -139,6 +141,6 @@
 </script>
 
 <div
-    class="border border-line rounded-2xl"
+    class="border border-line rounded-container"
     use:highcharts={config}
 ></div>

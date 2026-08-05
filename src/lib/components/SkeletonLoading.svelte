@@ -3,17 +3,17 @@
   <!-- List container -->
   <div class="flex flex-col">
     <!-- Item -->
-    <div class="border border-gray-600 rounded bg-default">
+    <div class="border border-line rounded-control bg-default">
       <div class="flex h-auto justify-between items-center">
         <div
           role="status"
           class="animate-pulse space-x-8 md:flex md:items-center mb-4"
         >
           <div
-            class="flex items-center justify-center w-48 h-28 sm:w-48 sm:h-48 bg-default rounded"
+            class="flex items-center justify-center w-48 h-28 sm:w-48 sm:h-48 bg-default rounded-control"
           >
             <svg
-              class="w-12 h-12 text-gray-200"
+              class="w-12 h-12 text-fg-muted"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
               fill="currentColor"

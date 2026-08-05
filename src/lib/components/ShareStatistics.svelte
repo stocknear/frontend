@@ -48,7 +48,7 @@
                   aria-hidden="true"
                 ></div>
                 <div
-                  class="w-3 h-3 bg-[#5470C6] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2"
+                  class="w-3 h-3 bg-[#5470C6] border-4 box-content border-line rounded-full transform sm:-translate-x-1/2"
                   aria-hidden="true"
                 ></div>
                 <span
@@ -65,7 +65,7 @@
                   aria-hidden="true"
                 ></div>
                 <div
-                  class="w-3 h-3 bg-[#C12F23] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2"
+                  class="w-3 h-3 bg-[#C12F23] border-4 box-content border-line rounded-full transform sm:-translate-x-1/2"
                   aria-hidden="true"
                 ></div>
                 <span
@@ -78,7 +78,7 @@
           </div>
         {:else}
           <div
-            class="mt-5 text-gray-100 text-sm sm:text-[1rem] sm:rounded h-auto border border-gray-600 p-4"
+            class="mt-5 text-fg text-sm sm:text-[1rem] sm:rounded-control h-auto border border-line p-4"
           >
             <svg
               class="w-5 h-5 inline-block mr-0.5 shrink-0"
@@ -95,7 +95,7 @@
 
         {#if rawData?.sharesShort !== 0}
           <h2
-            class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3"
+            class="mt-10 mr-1 flex flex-row items-center text-white type-h2 text-fg mb-3"
           >
             Short Selling Information
           </h2>
@@ -111,7 +111,7 @@
           <div class="flex justify-start items-center w-full m-auto mt-6">
             <table class="w-full" data-test="statistics-table">
               <tbody>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>Short Interest</span>
                   </td>
@@ -121,7 +121,7 @@
                     {abbreviateNumber(rawData?.sharesShort)}
                   </td>
                 </tr>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>Short Previous Month</span>
                   </td>
@@ -131,7 +131,7 @@
                     {abbreviateNumber(rawData?.sharesShortPriorMonth)}
                   </td>
                 </tr>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>Short % of Shares Out</span>
                   </td>
@@ -141,7 +141,7 @@
                     {rawData?.shortOutstandingPercent}%
                   </td>
                 </tr>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>Short % of Float</span>
                   </td>
@@ -151,7 +151,7 @@
                     {rawData?.shortFloatPercent}%
                   </td>
                 </tr>
-                <tr class="border-y border-gray-800 odd:bg-secondary">
+                <tr class="border-y border-line odd:bg-secondary">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>Short Ratio (days to cover)</span>
                   </td>
@@ -170,7 +170,7 @@
       <div class="flex justify-center items-center h-80">
         <div class="relative">
                     <label
-                      class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-white dark:text-white"

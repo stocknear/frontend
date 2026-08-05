@@ -12,7 +12,7 @@
 
 <SelectPrimitive.Trigger
   class={cn(
-    "border-input bg-default ring-offset-background focus-visible:ring-ring aria-[invalid]:border-destructive [&>span]:data-placeholder:text-white flex h-10 w-full items-center justify-between rounded border border-gray-800 px-3 py-2 text-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+    "border-input bg-default ring-offset-background focus-visible:ring-ring aria-[invalid]:border-destructive [&>span]:data-placeholder:text-fg flex h-10 w-full items-center justify-between rounded-control border border-line px-3 py-2 text-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
     className,
   )}
   {...$$restProps}

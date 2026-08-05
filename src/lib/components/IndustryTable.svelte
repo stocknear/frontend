@@ -93,10 +93,10 @@
 </script>
 
 <div
-  class="w-full m-auto mt-4 mb-4 rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+  class="w-full m-auto mt-4 mb-4 rounded-container border border-line bg-surface-card overflow-x-auto"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full m-auto text-fg tabular-nums"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full m-auto text-fg tabular-nums"
   >
     <thead>
       <TableHeader {columns} {sortOrders} {sortData} />

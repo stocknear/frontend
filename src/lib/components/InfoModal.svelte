@@ -110,10 +110,10 @@
   {#if isMobile}
     <label
       for={id}
-      class="cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white relative"
+      class="cursor-pointer p-1 text-gray-500 dark:text-fg-muted dark:sm:hover:text-white relative"
     >
       <svg
-        class="absolute -right-[2px] -top-[10px] size-[10px] text-gray-600 cursor-pointer sm:hover:text-muted dark:text-gray-200 dark:sm:hover:text-white"
+        class="absolute -right-[2px] -top-[10px] size-[10px] text-gray-600 cursor-pointer sm:hover:text-muted dark:text-fg-muted dark:sm:hover:text-white"
         viewBox="0 0 4 16"
         fill="currentColor"
         style="max-width:20px"
@@ -126,10 +126,10 @@
     <!-- For desktop: keep existing hover behavior -->
     <div
       bind:this={infoIcon}
-      class="cursor-pointer p-1 text-gray-500 dark:text-gray-300 dark:sm:hover:text-white relative"
+      class="cursor-pointer p-1 text-gray-500 dark:text-fg-muted dark:sm:hover:text-white relative"
     >
       <svg
-        class="absolute -right-[2px] -top-[10px] h-[9px] w-[9px] text-gray-600 cursor-pointer sm:hover:text-muted dark:text-gray-200 dark:sm:hover:text-white"
+        class="absolute -right-[2px] -top-[10px] h-[9px] w-[9px] text-gray-600 cursor-pointer sm:hover:text-muted dark:text-fg-muted dark:sm:hover:text-white"
         viewBox="0 0 4 16"
         fill="currentColor"
         style="max-width:20px"
@@ -159,7 +159,7 @@
 
     <!-- Mobile modal content -->
     <div
-      class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+      class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
     >
       <label
         for={id}

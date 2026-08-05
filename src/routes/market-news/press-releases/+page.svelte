@@ -197,14 +197,14 @@
             {#if news.length !== 0}
               {#each news as item}
                 <div
-                  class="w-full flex flex-col border-b border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-5 pt-2"
+                  class="w-full flex flex-col border-b border-line bg-surface-card pb-5 pt-2"
                 >
                   <div class="w-full flex flex-col sm:flex-row">
                     <a
                       href={item?.url}
                       rel="noopener noreferrer"
                       target="_blank"
-                      class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-gray-300 shadow dark:border-zinc-700 rounded-xl bg-white/70 dark:bg-zinc-950/40 overflow-hidden"
+                      class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-line rounded-container bg-surface-card overflow-hidden"
                     >
                       <div class="shrink-0 m-auto">
                         <img
@@ -250,7 +250,7 @@
 
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="inline-flex items-center ml-1 mr-1 mb-1 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
+                          class="inline-flex items-center ml-1 mr-1 mb-1 rounded-full border border-line bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white"
                         >
                           {item?.symbol}
                         </a>
@@ -271,7 +271,7 @@
               <Button
                 on:click={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg
                   class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -304,7 +304,7 @@
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
-                    class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <span class="truncate text-[0.85rem] sm:text-sm">
                       {rowsPerPage}
@@ -331,7 +331,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                  class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                 >
                   <DropdownMenu.Group class="pb-2">
                     {#each rowsPerPageOptions as item}
@@ -358,7 +358,7 @@
               <Button
                 on:click={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <span class="hidden sm:inline">
                   {market_news_pagination_next()}
@@ -406,7 +406,7 @@
       <aside class="inline-block relative w-full lg:w-1/4">
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
           <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4 sm:mt-0"
+            class="w-full bg-surface-card border border-line rounded-container p-4 mt-4 sm:mt-0"
           >
             <a href="/pricing" class="group flex flex-col gap-2">
               <span
@@ -415,7 +415,7 @@
                 {market_news_upgrade_label()}
               </span>
               <h2
-                class="text-lg font-semibold tracking-tight text-fg transition group-hover:text-accent"
+                class="type-h3 text-fg tracking-tight text-fg transition group-hover:text-accent"
               >
                 {market_news_pro_subscription_title()}
               </h2>
@@ -428,7 +428,7 @@
 
         {#if stockNews?.length !== 0}
           <div
-            class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 h-fit mt-4"
+            class="w-full bg-surface-card border border-line rounded-container h-fit mt-4"
           >
             <div class="p-4 text-sm">
               <h3
@@ -454,7 +454,7 @@
               </ul>
               <a
                 href={`/market-news`}
-                class="flex justify-center items-center rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-5 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
+                class="flex justify-center items-center rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 cursor-pointer w-full py-2.5 mt-5 text-sm text-center font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400/40"
               >
                 {market_news_more_stock_news()}
               </a>

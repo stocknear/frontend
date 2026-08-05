@@ -80,7 +80,7 @@
         >{portfolio_breadcrumb_home()}</a
       >
     </li>
-    <li class="text-muted dark:text-gray-300">
+    <li class="text-muted dark:text-fg-muted">
       {portfolio_breadcrumb_portfolio()}
     </li>
   </BreadCrumb>
@@ -91,7 +91,7 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <h1 class=" text-2xl sm:text-3xl font-bold">
+          <h1 class=" type-h1 text-fg">
             {portfolio_layout_title()}
           </h1>
 

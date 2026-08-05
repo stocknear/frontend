@@ -18,7 +18,7 @@
 
 {#if graphType !== "growth"}
   <div class="shadow">
-    <h2 class="mb-2 text-xl font-bold">{title} Forecast</h2>
+    <h2 class="mb-2 type-h2 text-fg">{title} Forecast</h2>
     <div class="p-2">
       <div class="relative w-full">
         {#if config !== null}
@@ -41,7 +41,7 @@
               class="absolute inset-0 flex items-center justify-center z-10"
             >
               <div
-                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-container bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
               >
                 <svg
                   class="w-4 h-4 text-fg"
@@ -159,7 +159,7 @@
   </div>
 {:else}
   <div class="shadow">
-    <h2 class="mb-2 text-xl font-bold">{title}</h2>
+    <h2 class="mb-2 type-h2 text-fg">{title}</h2>
     <div class="p-2">
       <div class="relative w-full">
         {#if config !== null}
@@ -182,7 +182,7 @@
               class="absolute inset-0 flex items-center justify-center z-10"
             >
               <div
-                class="flex flex-col items-center gap-1 px-3 py-2 rounded-xl bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
+                class="flex flex-col items-center gap-1 px-3 py-2 rounded-container bg-white/90 dark:bg-[#131315] border border-line shadow-lg cursor-pointer hover:scale-105"
               >
                 <svg
                   class="w-4 h-4 text-fg"

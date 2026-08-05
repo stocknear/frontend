@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import "../app.css";
   import { Toaster } from "svelte-sonner";
   import "@bprogress/core/css";
@@ -699,7 +700,7 @@
               <Sheet.Close asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="rounded-full w-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 transition"
+                  class="rounded-full w-full border border-line bg-surface-raised/50 transition"
                 >
                   <a
                     class="cursor-pointer w-full flex justify-start items-start"
@@ -728,7 +729,7 @@
                     class="w-full group flex flex-row items-center mr-auto mt-5"
                   >
                     <div
-                      class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
+                      class="flex h-9 w-9 items-center justify-center rounded-control text-fg group-hover:text-accent transition md:h-8 md:w-8"
                     >
                       <Home
                         class="h-6 w-6 mr-3 text-fg group-hover:text-accent transition ml-1"
@@ -1369,7 +1370,7 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded-control text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <Boxes
                           class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
@@ -1396,7 +1397,7 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded-control text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <ChartNoAxes
                           class="size-6 mr-3 flex-shrink-0 text-fg group-hover:text-accent transition ml-1"
@@ -1423,7 +1424,7 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded-control text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <Newspaper
                           class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
@@ -1456,7 +1457,7 @@
                   >
                     <div class="flex flex-row items-center mr-auto">
                       <div
-                        class="flex h-9 w-9 items-center justify-center rounded text-fg group-hover:text-accent transition md:h-8 md:w-8"
+                        class="flex h-9 w-9 items-center justify-center rounded-control text-fg group-hover:text-accent transition md:h-8 md:w-8"
                       >
                         <BookOpen
                           class="h-5.5 w-5.5 mr-3 text-fg group-hover:text-accent transition ml-1 flex-shrink-0"
@@ -1507,7 +1508,7 @@
           <div class="sm:w-full sm:ml-2 2xl:ml-[75px]">
             <Searchbar />
           </div>
-          {#if !($page.url.pathname === "/" && !data?.user)}
+          {#if !(deLocalizeHref($page.url.pathname) === "/" && !data?.user)}
             <NotificationBell {data} {hasUnreadElement} />
           {/if}
 
@@ -1529,7 +1530,7 @@
                   <Button
                     size="icon"
                     aria-label={layout_my_account()}
-                    class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-gray-300 shadow dark:border-zinc-700 w-10 h-10 transition"
+                    class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-line w-10 h-10 transition"
                     builders={[builder]}
                   >
                     <svg
@@ -1548,7 +1549,7 @@
                   align="end"
                   sideOffset={10}
                   alignOffset={0}
-                  class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-1 text-fg shadow-none"
+                  class="rounded-container border border-line bg-surface-card p-1 text-fg shadow-none"
                 >
                   <a href={localHref("/profile")} class="cursor-pointer">
                     <DropdownMenu.Item
@@ -1591,9 +1592,13 @@
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
             {:else}
+              <!-- Secondary CTA. border-line-strong measured only 1.74:1 against
+                   the dark navbar; a control boundary needs 3:1 to read as a
+                   button rather than as text. fg-subtle gives 3.64:1 light and
+                   3.77:1 dark. -->
               <a
                 href={localHref("/login")}
-                class="inline-flex h-9 items-center justify-center rounded-control px-3 text-sm font-medium text-fg-muted transition-colors hover:bg-surface-raised hover:text-fg"
+                class="inline-flex h-9 items-center justify-center rounded-control border border-fg-subtle bg-surface-card px-4 text-sm font-medium text-fg transition-colors hover:border-fg-muted hover:bg-surface-raised"
               >
                 {layout_login()}
               </a>
@@ -1616,7 +1621,7 @@
                     class="mb-2 flex flex-row items-center ml-8 pr-7 w-full"
                   >
                     <div
-                      class="shadow px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-line bg-white/70 dark:bg-zinc-900/50 transition"
+                      class="px-4 py-1 sm:py-2 rounded-full flex flex-row items-center justify-start w-full border border-line bg-white/70 dark:bg-zinc-900/50 transition"
                     >
                       <Plus class="w-4 h-4 inline-block mr-2" />
                       <span class="font-semibold">
@@ -2113,11 +2118,11 @@
               class={`w-full ${
                 isChartRoute
                   ? "overflow-hidden p-0"
-                  : $page.url.pathname.startsWith("/chat")
+                  : deLocalizeHref($page.url.pathname).startsWith("/chat")
                     ? "overflow-y-auto sm:p-4"
-                    : $page.url.pathname.startsWith("/learning-center/article/")
-                      ? "pb-16 sm:pb-0 sm:p-4"
-                      : "overflow-y-auto pb-16 sm:pb-0 sm:p-4"
+                    : deLocalizeHref($page.url.pathname).startsWith("/learning-center/article/")
+                      ? "pb-[var(--nav-clearance)] sm:p-4 sm:pb-[var(--nav-clearance)]"
+                      : "overflow-y-auto pb-[var(--nav-clearance)] sm:p-4 sm:pb-[var(--nav-clearance)]"
               }`}
             >
               <slot />
@@ -2159,34 +2164,37 @@
 
 <!-- Bottom Navigation Bar -->
 {#if !isChartRoute && !isLandingPage}
+  <!-- Floating dock on mobile and desktop. It used to occlude table rows and
+       the pricing tiers because it floats over the canvas while pages set
+       `sm:pb-0`; the fix is the reserved clearance below, not deleting it.
+       Surfaces are tokens now instead of hardcoded slate. -->
   <nav
     aria-label="Primary navigation"
-    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border border-slate-500/20 bg-slate-900/95 text-white shadow-[0_-12px_32px_rgba(2,6,23,0.5),0_-1px_0_rgba(148,163,184,0.08)] backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
-           supports-[backdrop-filter]:bg-slate-900/80
-           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-3xl sm:border-slate-400/25 sm:shadow-[0_22px_48px_rgba(2,6,23,0.48),0_0_0_1px_rgba(148,163,184,0.06)]
+    class="app-bottom-nav fixed bottom-0 left-0 right-0 z-40 transform-gpu border-t border-line bg-surface-card text-fg backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none
+           sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:rounded-container sm:border sm:shadow-[var(--shadow-overlay)]
            {navbarHidden
       ? 'translate-y-[calc(100%+1rem)] sm:translate-y-[calc(100%+2rem)]'
       : 'translate-y-0'}"
   >
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-slate-200/55 to-transparent"
+      class="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-line to-transparent"
     ></span>
     <div
-      class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-1.5 sm:px-2.5 sm:py-2"
+      class="grid grid-cols-5 gap-1 px-2 pb-[calc(0.35rem+env(safe-area-inset-bottom))] pt-1.5 sm:flex sm:items-center sm:justify-center sm:gap-2 sm:px-3 sm:py-2.5"
     >
       <a
         href={localHref("/")}
         aria-current={bottomNavState.home ? "page" : undefined}
-        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-container px-1.5 py-1.5 text-center text-[11px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none motion-reduce:transition-none sm:min-w-[92px] sm:text-[13px]
+               text-fg-muted hover:bg-surface-raised hover:text-fg active:scale-[0.97] active:text-fg`}
       >
         <span
-          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+          class={`relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-container transition-transform duration-200 motion-reduce:transition-none ${
             bottomNavState.home ? "scale-105" : "group-hover:scale-105"
           }`}
         >
-          <Home class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+          <Home class="h-5 w-5 sm:h-6 sm:w-6" />
         </span>
         <span class={bottomNavState.home ? "opacity-100" : "opacity-90"}
           >{layout_home()}</span
@@ -2195,15 +2203,15 @@
       <a
         href={localHref("/portfolio")}
         aria-current={bottomNavState.portfolio ? "page" : undefined}
-        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-container px-1.5 py-1.5 text-center text-[11px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none motion-reduce:transition-none sm:min-w-[92px] sm:text-[13px]
+               text-fg-muted hover:bg-surface-raised hover:text-fg active:scale-[0.97] active:text-fg`}
       >
         <span
-          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+          class={`relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-container transition-transform duration-200 motion-reduce:transition-none ${
             bottomNavState.portfolio ? "scale-105" : "group-hover:scale-105"
           }`}
         >
-          <PieChart class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+          <PieChart class="h-5 w-5 sm:h-6 sm:w-6" />
         </span>
         <span class={bottomNavState.portfolio ? "opacity-100" : "opacity-90"}
           >{layout_portfolio()}</span
@@ -2212,15 +2220,15 @@
       <a
         href={localHref("/watchlist/stocks")}
         aria-current={bottomNavState.watchlist ? "page" : undefined}
-        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-container px-1.5 py-1.5 text-center text-[11px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none motion-reduce:transition-none sm:min-w-[92px] sm:text-[13px]
+               text-fg-muted hover:bg-surface-raised hover:text-fg active:scale-[0.97] active:text-fg`}
       >
         <span
-          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+          class={`relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-container transition-transform duration-200 motion-reduce:transition-none ${
             bottomNavState.watchlist ? "scale-105" : "group-hover:scale-105"
           }`}
         >
-          <Star class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+          <Star class="h-5 w-5 sm:h-6 sm:w-6" />
         </span>
         <span class={bottomNavState.watchlist ? "opacity-100" : "opacity-90"}
           >{layout_watchlist()}</span
@@ -2229,17 +2237,17 @@
       <a
         href={localHref("/alerts")}
         aria-current={bottomNavState.priceAlert ? "page" : undefined}
-        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-container px-1.5 py-1.5 text-center text-[11px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none motion-reduce:transition-none sm:min-w-[92px] sm:text-[13px]
+               text-fg-muted hover:bg-surface-raised hover:text-fg active:scale-[0.97] active:text-fg`}
       >
         <span
-          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+          class={`relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-container transition-transform duration-200 motion-reduce:transition-none ${
             bottomNavState.priceAlert ? "scale-105" : "group-hover:scale-105"
           }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 sm:h-[22px] sm:w-[22px]"
+            class="h-5 w-5 sm:h-6 sm:w-6"
             viewBox="0 0 24 24"
           >
             <g
@@ -2262,15 +2270,15 @@
       <a
         href={localHref("/chat")}
         aria-current={bottomNavState.chat ? "page" : undefined}
-        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-2xl px-1.5 py-1.5 text-center text-[10px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 motion-reduce:transition-none sm:min-w-[74px] sm:text-[11px]
-               text-slate-200/85 hover:bg-slate-200/8 active:scale-[0.97] active:text-white`}
+        class={`group relative flex min-h-[48px] min-w-0 touch-manipulation select-none flex-col items-center justify-center gap-0.5 rounded-container px-1.5 py-1.5 text-center text-[11px] font-medium tracking-tight transition-[background-color,color,transform] duration-200 ease-out outline-none motion-reduce:transition-none sm:min-w-[92px] sm:text-[13px]
+               text-fg-muted hover:bg-surface-raised hover:text-fg active:scale-[0.97] active:text-fg`}
       >
         <span
-          class={`relative flex h-7 w-7 items-center justify-center rounded-xl transition-transform duration-200 motion-reduce:transition-none ${
+          class={`relative flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-container transition-transform duration-200 motion-reduce:transition-none ${
             bottomNavState.chat ? "scale-105" : "group-hover:scale-105"
           }`}
         >
-          <Sparkles class="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
+          <Sparkles class="h-5 w-5 sm:h-6 sm:w-6" />
         </span>
         <span class={bottomNavState.chat ? "opacity-100" : "opacity-90"}
           >{layout_chat()}</span

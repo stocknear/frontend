@@ -22,7 +22,7 @@
     href="/earnings-calendar/"
     class="inline-flex items-center gap-1 text-left w-full text-fg group"
     ><h2
-      class="mb-2 text-lg sm:text-xl font-semibold tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
+      class="mb-2 text-lg sm:type-h2 text-fg tracking-tight sm:group-hover:underline sm:group-hover:underline-offset-4"
     >
       {dashboard_upcoming_earnings_title()}
     </h2>
@@ -86,7 +86,7 @@
 
               <a
                 href={`/stocks/${item?.symbol}`}
-                class="inline-flex items-center rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
+                class="inline-flex items-center rounded-full border border-line bg-surface-raised/50 px-2 py-0.5 text-xs font-semibold text-accent transition sm:hover:text-muted dark:sm:hover:text-white ml-1.5"
                 >{item?.symbol}</a
               >
             </td>

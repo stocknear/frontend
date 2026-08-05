@@ -53,7 +53,7 @@
           {" "}
           <a
             href={`mailto:${emailAddress}`}
-            class="inline-block text-accent sm:hover:text-muted dark:sm:hover:text-white sm:hover:underline"
+            class="inline-block text-fg sm:hover:text-accent sm:hover:underline"
             >{emailAddress}</a
           >.
           <br />

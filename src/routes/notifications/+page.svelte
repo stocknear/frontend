@@ -767,7 +767,7 @@
         <main class="w-full lg:w-3/4 lg:pr-10">
           <div class="mb-4 border-b border-line">
             <h1
-              class="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+              class="mb-2 type-h1 text-fg"
             >
               {notifications_main_title()}
             </h1>
@@ -777,7 +777,7 @@
             class="w-full flex flex-col sm:flex-row items-center justify-start sm:justify-between mt-5 text-fg sm:py-2 sm:border-t sm:border-b sm:border-gray-300 sm:dark:border-zinc-700"
           >
             <h2
-              class="text-start w-full mb-2 sm:mb-0 text-lg sm:text-xl font-semibold tracking-tight text-fg"
+              class="text-start w-full mb-2 sm:mb-0 type-h2 text-fg"
             >
               {notifications_alerts_count({
                 count: totalItems?.toLocaleString(
@@ -792,7 +792,7 @@
                 class="flex items-center ml-auto pt-1 pb-1 sm:pt-0 sm:pb-0 w-fit"
               >
                 <Button
-                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                   on:click={markAllAsRead}
                   disabled={markAllDisabled}
                   aria-disabled={markAllDisabled}
@@ -812,7 +812,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+                      class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >{notifications_settings()}</span
@@ -838,7 +838,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="w-auto min-w-64 max-w-80 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Label
                       class="text-xs font-semibold uppercase tracking-wide text-fg-muted"
@@ -894,7 +894,7 @@
                 <div class="flex items-center ml-2 w-fit">
                   <label
                     for="deleteNotifications"
-                    class="cursor-pointer transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
+                    class="cursor-pointer transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center w-full sm:w-auto px-3 py-2 rounded-full truncate"
                     on:click={() => {
                       deleteError = null;
                     }}
@@ -924,14 +924,14 @@
                 {#if item?.notifyType === "priceAlert"}
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <div
-                    class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                    class="rounded-container border border-line bg-surface-card px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
                       ? 'bg-gray-50/90 dark:bg-zinc-900/60'
                       : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
@@ -978,14 +978,14 @@
                 {:else if item?.notifyType === "wiim"}
                   <!-- svelte-ignore a11y-click-events-have-key-events -->
                   <div
-                    class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                    class="rounded-container border border-line bg-surface-card px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
                       ? 'bg-gray-50/90 dark:bg-zinc-900/60'
                       : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
@@ -1031,14 +1031,14 @@
                   </div>
                 {:else if item?.notifyType === "topAnalyst"}
                   <div
-                    class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                    class="rounded-container border border-line bg-surface-card px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
                       ? 'bg-gray-50/90 dark:bg-zinc-900/60'
                       : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
@@ -1091,14 +1091,14 @@
                   </div>
                 {:else if item?.notifyType === "earningsSurprise"}
                   <div
-                    class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                    class="rounded-container border border-line bg-surface-card px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
                       ? 'bg-gray-50/90 dark:bg-zinc-900/60'
                       : ''}"
                   >
                     <div class="flex flex-row items-center w-full">
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
-                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
@@ -1144,7 +1144,7 @@
                   </div>
                 {:else if item?.notifyType === "followedAnalyst"}
                   <div
-                    class="rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
+                    class="rounded-container border border-line bg-surface-card px-3 py-3 sm:p-4 mb-4 w-full {!item?.readed
                       ? 'bg-gray-50/90 dark:bg-zinc-900/60'
                       : ''}"
                   >
@@ -1152,7 +1152,7 @@
                       <!-- svelte-ignore a11y-label-has-associated-control -->
                       <a
                         href={"/stocks/" + item?.liveResults?.symbol}
-                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-gray-100/70 dark:bg-zinc-900/60"
+                        class="avatar w-8 h-8 shrink-0 mr-4 rounded-full border border-line bg-gray-100/70 dark:bg-zinc-900/60"
                       >
                         <img
                           style="clip-path: circle(50%);"
@@ -1177,7 +1177,7 @@
                                 <a
                                   href={"/analysts/" +
                                     item?.liveResults?.analystId}
-                                  class="text-accent sm:hover:text-muted dark:sm:hover:text-white transition"
+                                  class="text-fg sm:hover:text-accent transition"
                                   >{item?.liveResults?.analystName}</a
                                 >
                               </div>
@@ -1213,7 +1213,7 @@
                 <Button
                   on:click={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <svg
                     class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1246,7 +1246,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
+                      class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate text-[0.85rem] sm:text-sm"
                         >{notifications_pagination_rows({
@@ -1274,7 +1274,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group class="pb-2">
                       {#each rowsPerPageOptions as item}
@@ -1302,7 +1302,7 @@
                 <Button
                   on:click={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  class="w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center sm:w-auto px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="hidden sm:inline"
                     >{notifications_pagination_next()}</span
@@ -1354,14 +1354,14 @@
 
         <aside class="hidden lg:block relative fixed w-1/4 ml-4">
           <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/watchlist/stocks"
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">
+                <h2 class="text-start type-h3 text-fg ml-3">
                   {notifications_sidebar_watchlist()}
                 </h2>
               </div>
@@ -1372,14 +1372,14 @@
           </div>
 
           <div
-            class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+            class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
           >
             <a
               href="/portfolio"
               class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
             >
               <div class="w-full flex justify-between items-center p-3 mt-3">
-                <h2 class="text-start text-lg font-semibold ml-3">
+                <h2 class="text-start type-h3 text-fg ml-3">
                   {notifications_sidebar_portfolio()}
                 </h2>
               </div>
@@ -1401,7 +1401,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="deleteNotifications"
@@ -1432,7 +1432,7 @@
     <div class="flex justify-end space-x-3">
       <label
         for="deleteNotifications"
-        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 text-fg hover:bg-white dark:hover:bg-zinc-900"
+        class="cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-100 border border-line bg-surface-card text-fg hover:bg-white dark:hover:bg-zinc-900"
         tabindex="0"
         on:click={() => {
           deleteError = null;

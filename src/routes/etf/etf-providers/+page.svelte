@@ -369,7 +369,7 @@
       class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-2 border-t border-b border-line"
     >
       <h2
-        class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 border-b border-line lg:border-none w-full"
+        class="text-start whitespace-nowrap type-h2 text-fg py-1 border-b border-line lg:border-none w-full"
       >
         {etf_providers_count({
           count: originalData?.length?.toLocaleString("en-US") || "0",
@@ -402,7 +402,7 @@
             bind:value={inputValue}
             on:input={search}
             placeholder={etf_search_placeholder()}
-            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -414,7 +414,7 @@
           <button
             on:click={resetColumnOrder}
             title="Reset column order"
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -442,7 +442,7 @@
       {#if etfProviderList?.length > 0}
         <div class="w-full overflow-x-auto">
           <table
-            class="table table-sm table-compact w-full border border-gray-300 shadow dark:border-zinc-700 rounded-xl overflow-hidden bg-white/70 dark:bg-zinc-950/40 m-auto mt-4"
+            class="table table-sm table-compact w-full border border-line rounded-container overflow-hidden bg-surface-card m-auto mt-4"
           >
             <thead>
               <TableHeader

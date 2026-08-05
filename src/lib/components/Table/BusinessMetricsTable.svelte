@@ -228,7 +228,7 @@
           class="col-span-2 flex flex-col lg:flex-row items-start sm:items-center lg:order-2 lg:grow py-1"
         >
           <h2
-            class="text-start whitespace-nowrap text-xl sm:text-2xl font-bold py-1 w-full"
+            class="text-start whitespace-nowrap type-h2 text-fg py-1 w-full"
           >
             {removeCompanyStrings($displayCompanyName)}
             {title}
@@ -238,7 +238,7 @@
           >
             <div class="ml-auto">
               <div class="inline-flex">
-                <div class="inline-flex rounded-lg shadow-sm">
+                <div class="inline-flex rounded-container shadow-sm">
                   {#each tabs as item, i (item)}
                     <button
                       on:click={() => handleTabClick(i)}
@@ -274,25 +274,25 @@
         </div>
       </div>
     {:else}
-      <h2 class="mt-5 text-xl font-bold mb-4">{title}</h2>
+      <h2 class="mt-5 type-h2 text-fg mb-4">{title}</h2>
     {/if}
 
     <div
       class="flex justify-start items-center w-screen sm:w-full mt-2 m-auto overflow-x-auto pr-5 sm:pr-0"
     >
       <table
-        class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+        class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
       >
         <thead class="bg-default text-white w-full">
           <tr>
             <th
-              class="border-b border-r border-gray-800 font-semibold text-sm text-start"
+              class="border-b border-r border-line font-semibold text-sm text-start"
             >
               Period Ending
             </th>
             {#each tableData.formattedDates as formattedDate (formattedDate)}
               <th
-                class="z-20 border-b border-r min-w-[120px] border-gray-800 font-semibold text-sm text-end"
+                class="z-20 border-b border-r min-w-[120px] border-line font-semibold text-sm text-end"
               >
                 {formattedDate}
               </th>
@@ -313,7 +313,7 @@
                 class="cursor-pointer inline-block border-none"
               >
                 <svg
-                  class="w-5 h-5 text-gray-500 dark:text-gray-300"
+                  class="w-5 h-5 text-gray-500 dark:text-fg-muted"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -376,7 +376,7 @@
                   class="cursor-pointer inline-block border-none"
                 >
                   <svg
-                    class="w-5 h-5 text-gray-500 dark:text-gray-300"
+                    class="w-5 h-5 text-gray-500 dark:text-fg-muted"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"

@@ -25,7 +25,7 @@
               ></g
             ></svg>
 
-          <span class="text-[#00FC50] text-sm"
+          <span class="text-up text-sm"
             >+{item?.changesPercentage?.toFixed(2)}%</span
           >
         {:else if item?.changesPercentage < 0}
@@ -43,7 +43,7 @@
               ></g
             ></svg>
 
-          <span class="text-[#FF2F1F] text-sm"
+          <span class="text-down text-sm"
             >{item?.changesPercentage?.toFixed(2)}%</span
           >
         {/if}

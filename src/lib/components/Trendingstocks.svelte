@@ -31,7 +31,7 @@
 </script>
 
 <section
-  class="relative flex justify-between items-center bg-[{color}] rounded"
+  class="relative flex justify-between items-center bg-[{color}] rounded-control"
 >
   <div class="max-w-3xl m-auto">
     <div
@@ -42,9 +42,9 @@
           <a
             href={"/stocks/" + item?.symbol}
             on:click={() => stockSelector(item?.symbol)}
-            class="h-18 w-[90px] sm:w-28 mt-5 rounded-xl flex flex-col justify-center items-center"
+            class="h-18 w-[90px] sm:w-28 mt-5 rounded-container flex flex-col justify-center items-center"
           >
-            <img class="relative mb-2 rounded w-5 h-5" src={item?.image} />
+            <img class="relative mb-2 rounded-control w-5 h-5" src={item?.image} />
             <p class="text-center text-white text-sm whitespace-normal mb-0.5">
               {item?.symbol}
             </p>
@@ -63,7 +63,7 @@
                     /></g
                   ></svg>
 
-                <span class="items-center justify-start text-[#00FC50]"
+                <span class="items-center justify-start text-up"
                   >+{item?.changesPercentage?.toFixed(2)}%</span
                 >
               {:else}
@@ -78,7 +78,7 @@
                     /></g
                   ></svg>
 
-                <span class="items-center justify-start text-[#FF2F1F]">
+                <span class="items-center justify-start text-down">
                   {item?.changesPercentage?.toFixed(2)}%
                 </span>
               {/if}
@@ -91,19 +91,19 @@
             <div class="w-full flex flex-row items-center">
               <div class="flex flex-col items-center mr-10 sm:mr-14">
                 <div class="bg-slate-400 rounded-full w-12 h-12"></div>
-                <div class="bg-slate-400 rounded w-12 h-4 mt-3"></div>
+                <div class="bg-slate-400 rounded-control w-12 h-4 mt-3"></div>
               </div>
               <div class="flex flex-col items-center mr-10 sm:mr-14">
                 <div class="bg-slate-400 rounded-full w-12 h-12"></div>
-                <div class="bg-slate-400 rounded w-12 h-4 mt-3"></div>
+                <div class="bg-slate-400 rounded-control w-12 h-4 mt-3"></div>
               </div>
               <div class="flex flex-col items-center mr-10 sm:mr-14">
                 <div class="bg-slate-400 rounded-full w-12 h-12"></div>
-                <div class="bg-slate-400 rounded w-12 h-4 mt-3"></div>
+                <div class="bg-slate-400 rounded-control w-12 h-4 mt-3"></div>
               </div>
               <div class="flex flex-col items-center">
                 <div class="bg-slate-400 rounded-full w-12 h-12"></div>
-                <div class="bg-slate-400 rounded w-12 h-4 mt-3"></div>
+                <div class="bg-slate-400 rounded-control w-12 h-4 mt-3"></div>
               </div>
             </div>
           </div>

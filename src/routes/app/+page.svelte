@@ -127,7 +127,7 @@
             </li>
           </ol>
           <p
-            class="mt-6 text-sm text-fg-muted bg-gray-50 dark:bg-zinc-900/50 rounded-xl px-4 py-3 border border-line"
+            class="mt-6 text-sm text-fg-muted bg-gray-50 dark:bg-zinc-900/50 rounded-container px-4 py-3 border border-line"
           >
             {app_installed_ios_note()}
           </p>

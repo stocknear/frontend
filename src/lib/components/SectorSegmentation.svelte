@@ -64,7 +64,7 @@
               {#each showFullStats ? sectorList : sectorList?.slice(0, 3) as item, index}
                 <div
                   on:click={() => sectorSelector(item?.industry)}
-                  class="shadow-lg bg-primary w-full rounded p-4 mb-5 flex flex-row items-center {index ===
+                  class="shadow-lg bg-primary w-full rounded-control p-4 mb-5 flex flex-row items-center {index ===
                   0
                     ? 'mt-4'
                     : ''} {index === 2 &&
@@ -87,7 +87,7 @@
                       </span>
                     </div>
                     <progress
-                      class="progress [&::-webkit-progress-value]:bg-[#00FC50] [&::-moz-progress-bar]:bg-[#00FC50]"
+                      class="progress [&::-webkit-progress-value]:bg-up [&::-moz-progress-bar]:bg-up"
                       value={item?.exposure}
                       max="100"
                     ></progress>
@@ -117,7 +117,7 @@
           {/if}
         {:else}
           <h2
-            class=" mt-10 justify-center items-center text-3xl font-bold text-slate-700 mb-5 m-auto"
+            class=" mt-10 justify-center items-center text-3xl font-bold text-fg-muted mb-5 m-auto"
           >
             No data available
             <svg

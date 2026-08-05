@@ -3469,7 +3469,7 @@
   </BreadCrumb>
 
   <!--Start Build Strategy-->
-  <div class="sm:rounded">
+  <div class="sm:rounded-control">
     <div class="flex flex-col md:flex-row items-start md:items-center mb-5">
       <div class="w-full flex flex-row items-center sm:mt-4">
         <h1
@@ -3525,7 +3525,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-fg font-normal"
@@ -3588,7 +3588,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none"
+                class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-fg font-normal"
@@ -3671,7 +3671,7 @@
     </div>
 
     <div
-      class="rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 p-3"
+      class="rounded-container border border-line bg-surface-card p-3"
     >
       <div class="items-end border-b border-line">
         <div
@@ -3702,7 +3702,7 @@
         <div class="mt-3 flex flex-col gap-y-2.5 lg:flex-row lg:gap-y-2">
           <label
             for="ruleModal"
-            class="text-sm order-2 lg:order-0 inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
+            class="text-sm order-2 lg:order-0 inline-flex cursor-pointer items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
           >
             <svg
               class="h-5 w-5"
@@ -3727,7 +3727,7 @@
                 class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
               >
                 <svg
-                  class="w-4 h-4 text-gray-400 dark:text-zinc-400"
+                  class="w-4 h-4 text-fg-subtle dark:text-zinc-400"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -3767,7 +3767,7 @@
                   class="absolute inset-y-0 right-0 flex items-center pr-3"
                 >
                   <svg
-                    class="cursor-pointer w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-muted dark:hover:text-gray-200"
+                    class="cursor-pointer w-4 h-4 text-gray-500 dark:text-fg-subtle hover:text-muted dark:hover:text-fg-muted"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -3786,7 +3786,7 @@
             <!-- Quick Search Dropdown -->
             {#if showQuickSearchDropdown && quickSearchResults?.length > 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-line rounded-2xl shadow-none max-h-64 overflow-y-auto"
+                class="absolute z-50 w-full mt-1 bg-surface-card border border-line rounded-container shadow-none max-h-64 overflow-y-auto"
                 in:scale={{
                   start: 0.98,
                   duration: 140,
@@ -3843,7 +3843,7 @@
             <!-- No results message -->
             {#if showQuickSearchDropdown && quickSearchTerm.length > 0 && quickSearchResults.length === 0}
               <div
-                class="absolute z-50 w-full mt-1 bg-white/95 dark:bg-zinc-950/95 border border-line rounded-2xl shadow-none p-4 text-center text-sm text-fg"
+                class="absolute z-50 w-full mt-1 bg-surface-card border border-line rounded-container shadow-none p-4 text-center text-sm text-fg"
               >
                 No available filters found
               </div>
@@ -3854,7 +3854,7 @@
             <label
               for={!data?.user ? "userLogin" : ""}
               on:click={() => handleSave(true)}
-              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-gray-900/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
+              class="text-sm lg:ml-3 cursor-pointer inline-flex items-center justify-center space-x-1 whitespace-nowrap rounded-full border border-line/90 dark:border-white/80 bg-gray-900 text-white dark:bg-white dark:text-gray-900 py-2 pl-3 pr-4 font-semibold transition hover:bg-gray-800 dark:hover:bg-zinc-200 focus:outline-hidden"
             >
               <svg
                 class="w-4 h-4 mr-2 inline-block cursor-pointer shrink-0"
@@ -4031,14 +4031,14 @@
                         align="end"
                         sideOffset={10}
                         alignOffset={0}
-                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-1.5 text-fg shadow-none {row?.rule ===
+                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none {row?.rule ===
                           'excludeTickers' || row?.rule === 'includeTickers'
                           ? 'w-64 max-w-64'
                           : 'w-fit'}"
                       >
                         {#if row?.rule === "excludeTickers"}
                           <DropdownMenu.Label
-                            class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                            class="sticky -top-1 z-20 bg-surface-card pb-1.5"
                           >
                             <div class="relative">
                               <div
@@ -4074,13 +4074,13 @@
                                 }}
                                 on:click|stopPropagation
                                 placeholder="Search ticker..."
-                                class="w-full text-sm border border-line bg-surface-page/60 rounded-2xl text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                class="w-full text-sm border border-line bg-surface-page/60 rounded-container text-fg placeholder:text-fg-subtle dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
                           </DropdownMenu.Label>
                         {:else if row?.rule === "includeTickers"}
                           <DropdownMenu.Label
-                            class="sticky -top-1 z-20 bg-white/95 dark:bg-zinc-950/95 pb-1.5"
+                            class="sticky -top-1 z-20 bg-surface-card pb-1.5"
                           >
                             <div class="relative">
                               <div
@@ -4116,13 +4116,13 @@
                                 }}
                                 on:click|stopPropagation
                                 placeholder="Search ticker..."
-                                class="w-full text-sm border border-line bg-surface-page/60 rounded-2xl text-fg placeholder:text-gray-400 dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
+                                class="w-full text-sm border border-line bg-surface-page/60 rounded-container text-fg placeholder:text-fg-subtle dark:placeholder:text-zinc-500 pl-8 pr-3 py-1.5 focus:outline-none focus:border-violet-400 dark:focus:border-violet-500"
                               />
                             </div>
                           </DropdownMenu.Label>
                         {:else if !checkedRules.includes(row?.rule)}
                           <DropdownMenu.Label
-                            class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-white/95 dark:bg-zinc-950/95"
+                            class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-surface-card"
                           >
                             <div
                               class="flex items-center justify-start gap-x-1"
@@ -4159,7 +4159,7 @@
                                     </Button>
                                   </DropdownMenu.Trigger>
                                   <DropdownMenu.Content
-                                    class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-line rounded-2xl"
+                                    class=" w-fit  h-fit overflow-hidden overflow-y-auto border border-line rounded-container"
                                   >
                                     <DropdownMenu.Group>
                                       {#each ["Over", "Under", "Between", "Exactly"] as item}
@@ -4232,7 +4232,7 @@
                                         "add",
                                       )}
                                     ><svg
-                                      class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                                      class="size-6 cursor-pointer text-fg-subtle hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -4252,7 +4252,7 @@
                                         "minus",
                                       )}
                                     ><svg
-                                      class="size-6 cursor-pointer text-gray-400 hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
+                                      class="size-6 cursor-pointer text-fg-subtle hover:text-violet-800 dark:text-zinc-400 dark:hover:text-violet-400 transition"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -4462,7 +4462,7 @@
                                           row?.step[index + 1],
                                         ]);
                                       }}
-                                      class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                      class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded-control last:border-0"
                                     >
                                       {ruleCondition[row?.rule]?.replace(
                                         "between",
@@ -4482,7 +4482,7 @@
                                     on:click={() => {
                                       handleChangeValue(newValue);
                                     }}
-                                    class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded last:border-0"
+                                    class="cursor-pointer block w-full border-b border-line px-4 py-1.5 text-left text-sm rounded-control last:border-0"
                                   >
                                     {ruleCondition[row?.rule]
                                       ?.replace("under", "Under")
@@ -4511,7 +4511,7 @@
                                 >
                                   <input
                                     type="checkbox"
-                                    class="rounded pointer-events-none"
+                                    class="rounded-control pointer-events-none"
                                     checked={isChecked(item, row?.rule)}
                                   />
                                   <span class="ml-2">{item}</span>
@@ -4554,7 +4554,7 @@
                                 >
                                   <input
                                     type="checkbox"
-                                    class="rounded pointer-events-none"
+                                    class="rounded-control pointer-events-none"
                                     checked={isChecked(item, row?.rule)}
                                   />
                                   <span class="ml-2">{item}</span>
@@ -4583,11 +4583,11 @@
     class="mt-4 grid-cols-2 items-center lg:overflow-visible lg:px-1 py-1.5 mb-2"
   >
     <h2
-      class=" whitespace-nowrap text-xl font-semibold py-1 bp:text-[1.3rem] border-t border-line text-fg"
+      class=" whitespace-nowrap type-h2 text-fg py-1 bp:text-[1.3rem] border-t border-line text-fg"
     >
       {#if isDataLoading && totalItems === 0}
         <span
-          class="inline-block h-5 w-24 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+          class="inline-block h-5 w-24 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
         ></span>
       {:else}
         {stock_screener_stocks_count({
@@ -4625,7 +4625,7 @@
             on:input={search}
             type="text"
             placeholder={stock_screener_search_placeholder()}
-            class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+            class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
           />
         </div>
 
@@ -4646,7 +4646,7 @@
         <button
           on:click={toggleFullWidth}
           title={isFullWidth ? "Exit full width" : "Expand to full width"}
-          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
+          class="ml-2 hidden 3xl:flex cursor-pointer w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 hover:text-accent flex-row items-center px-3 py-2 rounded-full gap-2 {isFullWidth
             ? 'border-violet-400 dark:border-violet-500'
             : ''}"
         >
@@ -4692,7 +4692,7 @@
           <button
             on:click={resetColumnOrder}
             title="Reset column order"
-            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+            class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
           >
             <svg
               class="w-4 h-4"
@@ -4738,7 +4738,7 @@
               <span>Filters</span>
               {#if ruleOfList?.length > 0}
                 <div
-                  class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-gray-300 shadow dark:border-zinc-700/80 text-fg rounded-full text-xs font-semibold"
+                  class="ml-2 flex items-center justify-center h-4 w-4 bg-gray-200/70 dark:bg-zinc-800/80 border border-line/80 text-fg rounded-full text-xs font-semibold"
                 >
                   {ruleOfList?.length}
                 </div>
@@ -4799,7 +4799,7 @@
     {#if totalItems !== 0 || isDataLoading}
       {#if displayTableTab === "general"}
         <div
-          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-container border border-line bg-surface-card overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
@@ -4830,7 +4830,7 @@
                             ? 'w-24'
                             : column.key === 'symbol'
                               ? 'w-12'
-                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              : 'w-14'} animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                         ></span>
                       </td>
                     {/each}
@@ -4846,7 +4846,7 @@
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-fg sm:hover:text-accent text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -4890,7 +4890,7 @@
                           {abbreviateNumber(item?.volume)}
                         {:else if !("volume" in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           n/a
@@ -4902,7 +4902,7 @@
                           {item?.priceToEarningsRatio}
                         {:else if !("priceToEarningsRatio" in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           n/a
@@ -4917,7 +4917,7 @@
         </div>
       {:else if displayTableTab === "filters"}
         <div
-          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-container border border-line bg-surface-card overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
@@ -4948,7 +4948,7 @@
                             ? 'w-24'
                             : column.key === 'symbol'
                               ? 'w-12'
-                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              : 'w-14'} animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                         ></span>
                       </td>
                     {/each}
@@ -4964,7 +4964,7 @@
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-fg sm:hover:text-accent text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -4995,7 +4995,7 @@
                               ?.replace(/\s*\(.*?\)/, "")}
                           {:else if !(column.key in item)}
                             <span
-                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                             ></span>
                           {:else}
                             n/a
@@ -5013,7 +5013,7 @@
                             )}
                           {:else if !(column.key in item)}
                             <span
-                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                             ></span>
                           {:else}
                             n/a
@@ -5029,7 +5029,7 @@
                             </span>
                           {:else}
                             <span
-                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                             ></span>
                           {/if}
                         {:else if row?.varType && row?.varType === "percent"}
@@ -5037,7 +5037,7 @@
                             {abbreviateNumber(item[column.key])}%
                           {:else}
                             <span
-                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                             ></span>
                           {/if}
                         {:else if ["score", "analystRating", "topAnalystRating"].includes(column.key)}
@@ -5056,7 +5056,7 @@
                             >
                           {:else if !(column.key in item)}
                             <span
-                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                             ></span>
                           {:else}
                             -
@@ -5065,7 +5065,7 @@
                           {abbreviateNumber(item[column.key])}
                         {:else}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {/if}
                       </td>
@@ -5078,7 +5078,7 @@
         </div>
       {:else if displayTableTab === "performance"}
         <div
-          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-container border border-line bg-surface-card overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
@@ -5109,7 +5109,7 @@
                             ? 'w-24'
                             : column.key === 'symbol'
                               ? 'w-12'
-                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              : 'w-14'} animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                         ></span>
                       </td>
                     {/each}
@@ -5125,7 +5125,7 @@
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-fg sm:hover:text-accent text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5159,7 +5159,7 @@
                           >
                         {:else if !(column.key in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           <span class="">n/a</span>
@@ -5174,7 +5174,7 @@
         </div>
       {:else if displayTableTab === "analysts"}
         <div
-          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-container border border-line bg-surface-card overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
@@ -5205,7 +5205,7 @@
                             ? 'w-24'
                             : column.key === 'symbol'
                               ? 'w-12'
-                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              : 'w-14'} animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                         ></span>
                       </td>
                     {/each}
@@ -5221,7 +5221,7 @@
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-fg sm:hover:text-accent text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5245,7 +5245,7 @@
                           <span>{abbreviateNumber(item[column.key])}</span>
                         {:else if !(column.key in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           <span>n/a</span>
@@ -5265,7 +5265,7 @@
                           >
                         {:else if !(column.key in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           <span class="">n/a</span>
@@ -5289,7 +5289,7 @@
                           >
                         {:else if !(column.key in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           n/a
@@ -5303,7 +5303,7 @@
                           {item[column.key] ?? "n/a"}
                         {:else}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {/if}
                       </td>
@@ -5316,7 +5316,7 @@
         </div>
       {:else if ["dividends", "financials"].includes(displayTableTab)}
         <div
-          class="w-full rounded-2xl border border-line bg-white/70 dark:bg-zinc-950/40 overflow-x-auto"
+          class="w-full rounded-container border border-line bg-surface-card overflow-x-auto"
         >
           <table
             class="table table-sm table-compact w-full m-auto text-sm sm:text-[0.95rem] text-fg tabular-nums"
@@ -5347,7 +5347,7 @@
                             ? 'w-24'
                             : column.key === 'symbol'
                               ? 'w-12'
-                              : 'w-14'} animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              : 'w-14'} animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                         ></span>
                       </td>
                     {/each}
@@ -5363,7 +5363,7 @@
                       <td class=" whitespace-nowrap">
                         <a
                           href={"/stocks/" + item?.symbol}
-                          class="text-accent sm:hover:text-muted dark:sm:hover:text-white text-sm sm:text-[0.95rem]"
+                          class="text-fg sm:hover:text-accent text-sm sm:text-[0.95rem]"
                           >{item?.symbol}</a
                         >
                       </td>
@@ -5391,7 +5391,7 @@
                             {abbreviateNumber(item[column.key]) + "%"}
                           {:else if !(column.key in item)}
                             <span
-                              class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                              class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                             ></span>
                           {:else}
                             n/a
@@ -5400,7 +5400,7 @@
                           {abbreviateNumber(item[column.key])}
                         {:else if !(column.key in item)}
                           <span
-                            class="inline-block h-4 w-10 animate-pulse rounded bg-gray-200 dark:bg-zinc-700"
+                            class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"
                           ></span>
                         {:else}
                           n/a
@@ -5483,7 +5483,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-2xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
@@ -5582,13 +5582,13 @@
 
 <!--
   <div class="tabs w-screen mb-5 ">
-    <label on:click={() => handleRuleTab('all')} class="tab mr-2   transition duration-150 ease-out hover:ease-out rounded hover:bg-[#333333] {displayTab === 'all' ? 'bg-[#333333]' : ''}">
+    <label on:click={() => handleRuleTab('all')} class="tab mr-2   transition duration-150 ease-out hover:ease-out rounded-control hover:bg-[#333333] {displayTab === 'all' ? 'bg-[#333333]' : ''}">
       All
     </label> 
-    <label on:click={() => handleRuleTab('ta')} class="tab mr-2   transition duration-150 ease-out hover:ease-out rounded hover:bg-[#333333] {displayTab === 'ta' ? 'bg-[#333333]' : ''}">
+    <label on:click={() => handleRuleTab('ta')} class="tab mr-2   transition duration-150 ease-out hover:ease-out rounded-control hover:bg-[#333333] {displayTab === 'ta' ? 'bg-[#333333]' : ''}">
       Technical Indicators
     </label> 
-    <label on:click={() => handleRuleTab('fund')} class="tab mr-2   transition duration-150 ease-out hover:ease-out rounded hover:bg-[#333333] {displayTab === 'fund' ? 'bg-[#333333]' : ''}">
+    <label on:click={() => handleRuleTab('fund')} class="tab mr-2   transition duration-150 ease-out hover:ease-out rounded-control hover:bg-[#333333] {displayTab === 'fund' ? 'bg-[#333333]' : ''}">
       Fundamental Data
     </label> 
   </div>
@@ -5605,7 +5605,7 @@
   ></label>
 
   <div
-    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box z-20 mx-2 min-h-[30vh] h-[800px] bp:mx-3 sm:mx-4 w-full max-w-6xl overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <div class="relative flex flex-col w-full">
       <!-- Sticky Header -->
@@ -5615,7 +5615,7 @@
       >
         <div class="flex flex-row items-center justify-between mb-2">
           <h2
-            class=" text-[1rem] sm:text-xl font-semibold text-fg"
+            class=" text-[1rem] sm:type-h2 text-fg text-fg"
           >
             {stock_screener_select_filters_title({ count: allRows?.length })}
           </h2>
@@ -5647,7 +5647,7 @@
               class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
               <svg
-                class="w-4 h-4 text-gray-400 dark:text-zinc-400"
+                class="w-4 h-4 text-fg-subtle dark:text-zinc-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -5671,7 +5671,7 @@
             >
               <button
                 on:click={() => (searchTerm = "")}
-                class="cursor-pointer text-gray-400 dark:text-zinc-400 hover:text-accent transition"
+                class="cursor-pointer text-fg-subtle dark:text-zinc-400 hover:text-accent transition"
                 tabindex="0"
                 ><svg
                   class="w-5 h-5"
@@ -5744,7 +5744,7 @@
                     checked={ruleOfList?.find(
                       (rule) => rule?.name === row?.rule,
                     )}
-                    class="h-[18px] w-[18px] rounded-sm ring-offset-0 border border-line bg-surface-card lg:h-4 lg:w-4"
+                    class="h-[18px] w-[18px] rounded-control ring-offset-0 border border-line bg-surface-card lg:h-4 lg:w-4"
                   />
                   <div class="-mt-0.5">
                     <label for={row?.rule} class="cursor-pointer text-[1rem]"
@@ -5782,7 +5782,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -5803,11 +5803,11 @@
         /></svg
       >
     </label>
-    <h1
+    <h2
       class="text-2xl font-semibold tracking-tight text-fg"
     >
       {stock_screener_modal_new_title()}
-    </h1>
+    </h2>
 
     <form
       on:submit={createStrategy}
@@ -5848,7 +5848,7 @@
   ></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <label
@@ -5928,7 +5928,7 @@
 
   <!-- Desktop modal content -->
   <div
-    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full flex flex-col items-center relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="mobileTooltip"

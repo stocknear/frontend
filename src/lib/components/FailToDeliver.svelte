@@ -310,8 +310,8 @@
         enabled: false,
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -501,7 +501,7 @@
 <section class="overflow-hidden h-full pb-8">
   <main class="overflow-hidden">
     <div class="flex flex-row items-center w-full mt-3">
-      <h1 class="text-xl sm:text-2xl font-bold">FTD Chart</h1>
+      <h2 class="type-h2 text-fg">FTD Chart</h2>
     </div>
 
     {#if rawData?.length > 0}
@@ -528,20 +528,20 @@
       </div>
 
       <div
-        class="chart-driver shadow mt-5 border border-line rounded-2xl"
+        class="chart-driver mt-5 border border-line rounded-container"
         use:highcharts={config}
       ></div>
 
       <div
         class="mt-5 flex flex-col sm:flex-row items-start sm:items-center w-full justify-between sm:pt-2 sm:pb-2"
       >
-        <h3 class="history-driver text-xl sm:text-2xl font-bold mb-2 sm:mb-0">
+        <h3 class="history-driver type-h2 text-fg mb-2 sm:mb-0">
           FTD History
         </h3>
 
         <div class="inline-flex ml-auto mt-2 sm:mt-0">
           <div
-            class="w-fit text-sm flex items-center gap-1 rounded-full border border-gray-300 shadow dark:border-zinc-700"
+            class="w-fit text-sm flex items-center gap-1 rounded-full border border-line"
           >
             {#each tabs as item, i}
               <button
@@ -563,7 +563,7 @@
 
       <div class="w-full overflow-x-auto">
         <table
-          class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+          class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
         >
           <thead class="">
             <TableHeader {columns} {sortOrders} {sortData} />
@@ -639,7 +639,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -667,7 +667,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{rowsPerPage} Rows</span
@@ -693,7 +693,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <DropdownMenu.Group class="pb-2">
                   {#each rowsPerPageOptions as item}
@@ -717,7 +717,7 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">Next</span>
               <svg

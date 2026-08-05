@@ -77,8 +77,8 @@
             credits: { enabled: false },
             chart: {
                 type: "gauge",
-                backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-                plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+                backgroundColor: "transparent",
+                plotBackgroundColor: "transparent",
                 height: chartHeight,
                 animation: false,
             },
@@ -214,7 +214,7 @@
                         topWidth: 1,
                     },
                     pivot: {
-                        backgroundColor: $mode === "light" ? "#fff" : "#1f2937",
+                        backgroundColor: "transparent",
                         radius: 6,
                         borderColor: $mode === "light" ? "#000" : "#e5e7eb",
                         borderWidth: 1,
@@ -238,6 +238,6 @@
 </script>
 
 <div
-    class="border border-line rounded-2xl h-[280px] sm:h-[360px] overflow-hidden"
+    class="border border-line rounded-container h-[280px] sm:h-[360px] overflow-hidden"
     use:highcharts={config}
 ></div>

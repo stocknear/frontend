@@ -18,7 +18,7 @@
   {transition}
   {transitionConfig}
   class={cn(
-    "z-50 min-w-[8rem] rounded border bg-white dark:bg-default p-1 text-white shadow-lg focus:outline-hidden",
+    "z-50 min-w-[8rem] rounded-control border bg-white dark:bg-default p-1 text-fg shadow-lg focus:outline-hidden",
     className,
   )}
   {...$$restProps}

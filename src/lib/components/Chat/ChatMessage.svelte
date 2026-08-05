@@ -219,12 +219,12 @@
       loading="lazy"
     />
     <div
-      class="rounded-2xl min-w-14 max-w-full {message?.role === 'user'
+      class="rounded-container min-w-14 max-w-full {message?.role === 'user'
         ? isEditMode
           ? 'ml-auto group/turn-messages w-full max-w-full'
           : 'ml-auto group/turn-messages max-w-[80%]'
         : message?.role === 'system'
-          ? 'mr-auto w-full bg-white/70 dark:bg-zinc-950/40 p-4 sm:p-5'
+          ? 'mr-auto w-full bg-surface-card p-4 sm:p-5'
           : 'mr-auto w-fit border-b rounded-none border-line'}"
     >
       {#if isLoading}
@@ -241,7 +241,7 @@
         <div class="w-full {message?.role === 'system' ? 'space-y-4' : ''}">
           {#if message?.role === "user" && isEditMode}
             <div
-              class="p-3 border border-line rounded-2xl bg-surface-page/60"
+              class="p-3 border border-line rounded-container bg-surface-page/60"
             >
               <textarea
                 bind:this={textareaElement}
@@ -257,7 +257,7 @@
                     dispatch("cancel-edit");
                     editedContent = "";
                   }}
-                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-line bg-white/70 dark:bg-zinc-950/40 text-fg transition sm:hover:text-accent"
+                  class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-line bg-surface-card text-fg transition sm:hover:text-accent"
                   >Cancel</button
                 >
                 <button
@@ -278,7 +278,7 @@
             <p
               class="w-full break-words overflow-wrap-anywhere leading-relaxed {message?.role ===
               'user'
-                ? 'p-3 rounded-2xl bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-zinc-100'
+                ? 'p-3 rounded-container bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-zinc-100'
                 : ''}"
             >
               {@html isStreaming && message?.role === "system"
@@ -347,7 +347,7 @@
               <!-- Copy button -->
               <button
                 on:click={handleCopyPrompt}
-                class="cursor-pointer rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
+                class="cursor-pointer rounded-full border border-line bg-surface-card text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
                 aria-label="Copy"
                 aria-selected="false"
                 data-testid="copy-turn-action-button"
@@ -378,7 +378,7 @@
                     dispatch("start-edit", { index });
                     editedContent = message?.content || "";
                   }}
-                  class="cursor-pointer rounded-full border border-line bg-white/70 dark:bg-zinc-950/40 text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
+                  class="cursor-pointer rounded-full border border-line bg-surface-card text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
                   aria-label="Edit message"
                   aria-selected="false"
                   data-state="closed"

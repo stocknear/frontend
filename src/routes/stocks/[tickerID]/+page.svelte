@@ -734,9 +734,9 @@
 <section
   class="text-fg min-h-screen pb-40 overflow-hidden w-full"
 >
-  <h1 class="sr-only">
+  <h2 class="sr-only">
     {data?.companyName} ({$stockTicker}) Stock Price, Analysis & Data
-  </h1>
+  </h2>
   <div class="w-full m-auto overflow-hidden">
     <div
       class="md:flex md:justify-between md:divide-x md:divide-gray-200/70 dark:md:divide-zinc-800/80 w-full"

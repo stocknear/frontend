@@ -240,7 +240,7 @@
 <!-- Watchlist Button -->
 <button
   on:click={handleWatchlistButtonClick}
-  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-700 ease-out whitespace-nowrap text-fg hover:text-accent px-2 py-2.5 text-xs font-medium sm:shadow sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-[#f8fbfb] sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
+  class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-0 cursor-pointer transition-all duration-700 ease-out whitespace-nowrap text-fg hover:text-accent px-2 py-2.5 text-xs font-medium sm:rounded-full sm:border sm:border-gray-300 sm:dark:border-zinc-700 sm:bg-white/90 sm:dark:bg-zinc-950/70 sm:hover:bg-[#f8fbfb] sm:dark:hover:bg-zinc-900/70 sm:hover:text-gray-900 sm:dark:hover:text-white sm:p-2.5 sm:text-sm sm:font-normal"
   title={msg.watchlist()}
 >
   <svg
@@ -277,7 +277,7 @@
   <div class="modal-backdrop" on:click={closeModal}></div>
 
   <div
-    class="modal-box max-h-96 w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box max-h-96 w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="watchlistModal-{ticker}"
@@ -310,12 +310,12 @@
             class="cursor-pointer w-full flex flex-row justify-start items-center mb-5"
           >
             <div
-              class="flex flex-row items-center w-full border p-3 rounded-2xl {tickerExistsInWatchlist(
+              class="flex flex-row items-center w-full border p-3 rounded-container {tickerExistsInWatchlist(
                 item?.ticker,
                 ticker,
               )
                 ? 'border-gray-200/70 dark:border-zinc-700/80 bg-gray-50/60 dark:bg-zinc-900/50'
-                : 'border-line bg-white/70 dark:bg-zinc-950/40'}"
+                : 'border-line bg-surface-card'}"
             >
               <div class="flex flex-col items-center w-full">
                 <span class="ml-1 mr-auto text-fg">

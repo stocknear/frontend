@@ -532,7 +532,7 @@
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-2xl border border-line shadow-2xl animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-3xl max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-container border border-line shadow-2xl animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -541,7 +541,7 @@
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-fg"
+            class="text-lg sm:type-h2 text-fg text-fg"
           >
             {item.ticker}
             <span
@@ -579,7 +579,7 @@
         <!-- Loading skeleton -->
         <div class="px-4 sm:px-6 py-4">
           <div
-            class="w-full bg-surface-raised/60 rounded-lg animate-pulse"
+            class="w-full bg-surface-raised/60 rounded-container animate-pulse"
             style="height: {$screenWidth < 640 ? 240 : 360}px"
           ></div>
         </div>
@@ -590,10 +590,10 @@
             {#each Array(8) as _}
               <div class="space-y-2">
                 <div
-                  class="h-4 w-20 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
+                  class="h-4 w-20 bg-gray-200 dark:bg-zinc-700 rounded-control animate-pulse"
                 ></div>
                 <div
-                  class="h-4 w-14 bg-surface-raised rounded animate-pulse"
+                  class="h-4 w-14 bg-surface-raised rounded-control animate-pulse"
                 ></div>
               </div>
             {/each}
@@ -603,7 +603,7 @@
         <!-- Error / Empty state -->
         <div class="px-4 sm:px-6 py-12 text-center">
           <svg
-            class="w-12 h-12 mx-auto text-gray-300 dark:text-zinc-600 mb-3"
+            class="w-12 h-12 mx-auto text-fg-muted dark:text-zinc-600 mb-3"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -630,7 +630,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
                 >
                   <span class="truncate text-xs sm:text-sm"
                     >{selectGraphType}</span
@@ -655,7 +655,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-xs font-medium text-fg"
@@ -683,7 +683,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-full transition-all duration-150 border border-line text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
+                  class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate"
                 >
                   <span class="truncate text-xs sm:text-sm"
                     >{selectedTimePeriod}</span
@@ -708,7 +708,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-xl border border-line bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="z-[70] w-40 h-fit max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <DropdownMenu.Label
                   class="text-xs font-medium text-fg"
@@ -737,12 +737,12 @@
             {#key selectGraphType}
               <div
                 use:highcharts={chartConfig}
-                class="rounded-2xl border border-line"
+                class="rounded-container border border-line"
               ></div>
             {/key}
           {:else}
             <div
-              class="flex items-center justify-center rounded-2xl border border-line text-fg text-sm"
+              class="flex items-center justify-center rounded-container border border-line text-fg text-sm"
               style="height: {$screenWidth < 640 ? 240 : 360}px"
             >
               No data for selected period

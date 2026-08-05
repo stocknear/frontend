@@ -142,7 +142,7 @@
     aria-modal="true"
   >
     <div
-      class="relative w-full max-w-lg max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-2xl border border-line shadow-2xl animate-[slideUp_200ms_ease-out]"
+      class="relative w-full max-w-lg max-h-[100vh] sm:max-h-[90vh] overflow-auto bg-surface-card sm:rounded-container border border-line shadow-2xl animate-[slideUp_200ms_ease-out]"
       on:click|stopPropagation
     >
       <!-- Header -->
@@ -151,7 +151,7 @@
       >
         <div>
           <h3
-            class="text-lg sm:text-xl font-semibold text-fg"
+            class="text-lg sm:type-h2 text-fg text-fg"
           >
             {item.ticker}
             <span
@@ -192,10 +192,10 @@
             {#each Array(3) as _}
               <div class="space-y-2">
                 <div
-                  class="h-4 w-16 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse"
+                  class="h-4 w-16 bg-gray-200 dark:bg-zinc-700 rounded-control animate-pulse"
                 ></div>
                 <div
-                  class="h-5 w-12 bg-surface-raised rounded animate-pulse"
+                  class="h-5 w-12 bg-surface-raised rounded-control animate-pulse"
                 ></div>
               </div>
             {/each}
@@ -206,7 +206,7 @@
           <div class="mt-6 space-y-3">
             {#each Array(5) as _}
               <div
-                class="h-4 w-full bg-surface-raised rounded animate-pulse"
+                class="h-4 w-full bg-surface-raised rounded-control animate-pulse"
               ></div>
             {/each}
           </div>
@@ -215,7 +215,7 @@
         <!-- Empty state -->
         <div class="px-4 sm:px-6 py-12 text-center">
           <svg
-            class="w-12 h-12 mx-auto text-gray-300 dark:text-zinc-600 mb-3"
+            class="w-12 h-12 mx-auto text-fg-muted dark:text-zinc-600 mb-3"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

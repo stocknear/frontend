@@ -77,7 +77,7 @@
 
 <div class="sm:space-y-3">
   <div
-    class="sm:rounded shadow-lg sm:border sm:border-gray-600 bg-[#000] lg:bg-default h-auto h-auto w-screen pt-16 sm:w-full md:w-[420px] xl:w-[450px] lg:pt-0"
+    class="sm:rounded-control shadow-lg sm:border sm:border-line bg-[#000] lg:bg-default h-auto h-auto w-screen pt-16 sm:w-full md:w-[420px] xl:w-[450px] lg:pt-0"
   >
     <!--Start Header-->
     <div
@@ -112,14 +112,14 @@
     <!--End Header-->
 
     <!--Start Content-->
-    <div class="w-full flex flex-wrap border-t border-gray-600">
+    <div class="w-full flex flex-wrap border-t border-line">
       <h2 class="text-start ml-4 text-2xl font-bold text-white pb-2 mt-3">
         ETF Info
       </h2>
       <div class="flex items-center w-full">
         <table class="table table-sm table-compact">
           <tbody>
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >Bid</td
@@ -139,7 +139,7 @@
                   : data?.getStockQuote?.ask}</td
               >
             </tr>
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >Provider</td
@@ -158,7 +158,7 @@
                 >{country?.length !== 0 ? country : "-"}</td
               >
             </tr>
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >AUM</td
@@ -175,7 +175,7 @@
                 >{abbreviateNumber(data?.getStockQuote?.volume)}</td
               >
             </tr>
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >NAV</td
@@ -191,7 +191,7 @@
                 >{info?.expenseRatio?.toFixed(2)}%</td
               >
             </tr>
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >Shares Out.</td
@@ -209,14 +209,14 @@
               >
             </tr>
             <!--
-                <tr class="text-white border-b border-[#27272A]">
+                <tr class="text-white border-b border-line">
                   <td class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap">Open</td>
                   <td class="text-center sm:text-end bg-[#000] lg:bg-default">{data?.getStockQuote?.open?.toFixed(2)}</td>
                   <td class="text-start sm:text-end bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap ">Prev. Close</td>
                   <td class="text-start sm:text-end bg-[#000] lg:bg-default whitespace-nowrap ">{data?.getStockQuote?.previousClose?.toFixed(2)}</td>
                 </tr>
               -->
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >Dividend Yield</td
@@ -232,7 +232,7 @@
                 >{payoutRatio}</td
               >
             </tr>
-            <tr class="text-white border-b border-[#27272A]">
+            <tr class="text-white border-b border-line">
               <td
                 class="text-start bg-[#000] lg:bg-default text-white font-semibold whitespace-nowrap"
                 >Holdings</td
@@ -253,12 +253,12 @@
       </div>
 
       <h2
-        class="text-start ml-4 text-xl font-bold text-white pb-2 pt-6 lg:pt-3"
+        class="text-start ml-4 type-h2 text-fg text-white pb-2 pt-6 lg:pt-3"
       >
         Description
       </h2>
 
-      <p class="text-gray-100 ml-2 text-sm whitespace-normal p-2">
+      <p class="text-fg ml-2 text-sm whitespace-normal p-2">
         {#if showFullText}
           <div transition:fade={{ delay: 0, duration: 80 }} in={showFullText}>
             {description}

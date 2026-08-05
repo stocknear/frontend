@@ -80,8 +80,8 @@
       credits: { enabled: false },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
       },
       title: {
@@ -173,10 +173,10 @@
 </h2>
 
 <div
-  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded mb-8 mt-5"
+  class="overflow-x-auto flex justify-start items-center w-full m-auto rounded-none sm:rounded-control mb-8 mt-5"
 >
   <table
-    class="table table-sm table-compact rounded-none sm:rounded w-full border border-line m-auto"
+    class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line m-auto"
   >
     <tbody class="">
       {#each fundamentalData as item}
@@ -190,7 +190,7 @@
 
           <td class=" text-sm sm:text-[1rem] whitespace-nowrap text-end">
             <label
-              class="badge badge-lg w-24 rounded-[3px] {[
+              class="badge badge-lg w-24 rounded-control {[
                 'Very Good',
                 'Good',
               ]?.includes(item?.sentiment)
@@ -209,7 +209,7 @@
 
 {#if config}
   <div
-    class="chart-driver border border-gray-300 shadow dark:border-zinc-700 rounded mb-6"
+    class="chart-driver border border-line rounded-control mb-6"
     use:highcharts={config}
   ></div>
 {/if}

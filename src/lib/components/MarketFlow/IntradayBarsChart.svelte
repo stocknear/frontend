@@ -60,8 +60,8 @@
       credits: { enabled: false },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#18191a",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#18191a",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -243,10 +243,7 @@
       {:else}
         <button
           on:click={() => (selectedInterval = item)}
-          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all
-                            {selectedInterval === item
-            ? 'bg-white text-gray-900 shadow-sm border border-line dark:bg-zinc-800 dark:text-white'
-            : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
+          class="cursor-pointer font-medium rounded-full px-3 py-1.5 focus:z-10 focus:outline-none transition-all {selectedInterval === item ? 'bg-white text-gray-900 border border-line dark:bg-zinc-800 dark:text-white' : 'text-fg hover:text-gray-900 dark:hover:text-white'}"
         >
           {item}m
         </button>
@@ -259,7 +256,7 @@
   <div class="" use:highcharts={config}></div>
 {:else}
   <div
-    class="border border-dashed border-line rounded-2xl py-10 text-center text-sm text-fg-muted"
+    class="border border-dashed border-line rounded-container py-10 text-center text-sm text-fg-muted"
   >
     No intraday bar data available yet.
   </div>

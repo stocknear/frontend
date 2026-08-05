@@ -13,7 +13,7 @@ let discordURL = import.meta.env.VITE_DISCORD_URL;
     <!-- List container -->                  
     <div class="flex flex-col p-1 sm:p-0">
         <!-- Item -->
-        <div class="rounded-none sm:rounded bg-[#5C6BC0]">
+        <div class="rounded-none sm:rounded-control bg-[#5C6BC0]">
           <div class="flex h-14 sm:h-16 justify-center items-center">
                     
   

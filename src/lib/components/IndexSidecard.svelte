@@ -30,7 +30,7 @@
 
 <div class="px-0.5 lg:px-0 text-fg">
   <h2
-    class="mb-2 text-xl sm:text-2xl font-semibold tracking-tight text-fg"
+    class="mb-2 type-h2 text-fg"
   >
     {index_sidecard_about({ ticker: $indexTicker })}
   </h2>

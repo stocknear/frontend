@@ -429,8 +429,8 @@
       },
       chart: {
         type: "column",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -673,7 +673,7 @@
               class="border-b border-line flex flex-row justify-between"
             >
               <h1
-                class="mb-1 text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+                class="mb-1 type-h1 text-fg"
               >
                 {potus_tracker_title()}
               </h1>
@@ -694,7 +694,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="w-full transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                      class="w-full transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span class="truncate">{selectedSector}</span>
                       <svg
@@ -717,7 +717,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="w-56 h-fit max-h-72 overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Label
                       class="text-xs text-fg font-semibold"
@@ -730,14 +730,14 @@
                         {#if sector === "S&P500" || ["Pro", "Plus"]?.includes(data?.user?.tier)}
                           <DropdownMenu.Item
                             on:click={() => (selectedSector = sector)}
-                            class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
+                            class="cursor-pointer rounded-container sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             {sector}
                           </DropdownMenu.Item>
                         {:else}
                           <DropdownMenu.Item
                             on:click={() => goto("/pricing")}
-                            class="cursor-pointer rounded-lg sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
+                            class="cursor-pointer rounded-container sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition"
                           >
                             {sector}
                             <svg
@@ -763,7 +763,7 @@
             </div>
 
             <div
-              class="chart-driver mt-5 border border-gray-300 shadow dark:border-zinc-700 rounded-lg bg-white/70 dark:bg-zinc-950/40"
+              class="chart-driver mt-5 border border-line rounded-container bg-surface-card"
               use:highcharts={config}
             ></div>
 
@@ -787,7 +787,7 @@
 
             {#if activeIdx === 0}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-2 mt-2 border-y border-line py-2"
+                class="type-h2 text-fg mb-2 mt-2 border-y border-line py-2"
               >
                 {potus_tracker_official_schedule()}
               </h3>
@@ -798,7 +798,7 @@
                       <div
                         class="border-b border-line pb-2 w-full flex flex-row items-center justify-between"
                       >
-                        <span class="text-[1rem] sm:text-lg font-semibold">
+                        <span class="text-[1rem] sm:text-lg font-semibold text-fg">
                           {date}</span
                         >
                         {#if items?.at(0)?.changesPercentage}
@@ -869,7 +869,7 @@
                             </span>
                           </div>
 
-                          <span class="text-sm sm:text-[1rem] ml-7">
+                          <span class="text-sm sm:text-[1rem] ml-7 text-fg">
                             {item.details}
                           </span>
                         </div>
@@ -880,7 +880,7 @@
               </div>
             {:else if activeIdx === 1}
               <h3
-                class="text-lg sm:text-xl font-semibold tracking-tight text-fg mb-2 mt-2 border-y border-line py-2"
+                class="type-h2 text-fg mb-2 mt-2 border-y border-line py-2"
               >
                 {potus_tracker_executive_actions()}
               </h3>
@@ -891,10 +891,10 @@
                       <div
                         class="border-b border-line pb-2 flex flex-row items-center"
                       >
-                        <span class="text-[1rem] font-semibold">{date}</span>
+                        <span class="text-[1rem] font-semibold text-fg">{date}</span>
                         {#if latestInfoDate(date)}
                           <label
-                            class="rounded-full border border-gray-300 shadow dark:border-zinc-700/80 bg-surface-raised/50 text-fg font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
+                            class="rounded-full border border-line/80 bg-surface-raised/50 text-fg font-semibold text-xs px-2 py-0.5 ml-3 inline-block"
                             >{potus_tracker_new()}</label
                           >
                         {/if}
@@ -967,7 +967,7 @@
                               href={item?.link}
                               rel="noopener noreferrer"
                               target="_blank"
-                              class="mr-3 cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
+                              class="mr-3 cursor-pointer border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold ml-auto"
                             >
                               {potus_tracker_open_link()}
                               <svg
@@ -1000,7 +1000,7 @@
                                 postDate = item?.date;
                                 postUrl = item?.link;
                               }}
-                              class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
+                              class="cursor-pointer border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                             >
                               {potus_tracker_read_more()}
                             </label>
@@ -1029,7 +1029,7 @@
                 >
 
                 <h3
-                  class="ml-2 text-lg sm:text-xl font-semibold tracking-tight text-fg"
+                  class="ml-2 type-h2 text-fg"
                 >
                   {potus_tracker_truth_social_posts()}
                 </h3>
@@ -1107,7 +1107,7 @@
                               <video
                                 src={mediaUrl}
                                 controls
-                                class="max-w-md w-full rounded-lg border border-line"
+                                class="max-w-md w-full rounded-container border border-line"
                                 preload="metadata"
                               >
                                 <track kind="captions" />
@@ -1126,7 +1126,7 @@
                                   alt="Post media {mediaIndex + 1}"
                                   class="{item.media.length === 1
                                     ? 'max-w-md w-full max-h-96 object-contain '
-                                    : 'w-full h-48 sm:h-56 object-cover'} rounded-2xl border border-line hover:opacity-90 transition"
+                                    : 'w-full h-48 sm:h-56 object-cover'} rounded-container border border-line hover:opacity-90 transition"
                                   loading="lazy"
                                 />
                               </a>
@@ -1201,7 +1201,7 @@
                               "_blank",
                               "noopener,noreferrer",
                             )}
-                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold mr-2"
+                          class="cursor-pointer border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold mr-2"
                         >
                           {potus_tracker_open_link()}
                           <svg
@@ -1235,7 +1235,7 @@
                             postReblogs = item?.reblogs_count || 0;
                             postFavourites = item?.favourites_count || 0;
                           }}
-                          class="cursor-pointer border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
+                          class="cursor-pointer border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition rounded-full px-3 py-1.5 text-sm font-semibold"
                         >
                           {potus_tracker_read_more()}
                         </label>
@@ -1250,7 +1250,7 @@
           <div class="order-4 shrink-0 lg:float-right lg:w-[336px]">
             {#if !["Pro", "Plus"]?.includes(data?.user?.tier)}
               <div
-                class="w-full border border-gray-300 shadow dark:border-zinc-700 rounded-2xl bg-white/70 dark:bg-zinc-950/40 p-4 mt-4 sm:mt-0"
+                class="w-full bg-surface-card border border-line rounded-container p-4 mt-4 sm:mt-0"
               >
                 <a href="/pricing" class="group flex flex-col gap-2">
                   <span
@@ -1259,7 +1259,7 @@
                     {market_news_upgrade_label()}
                   </span>
                   <h2
-                    class="text-lg font-semibold tracking-tight text-fg transition group-hover:text-accent"
+                    class="type-h3 text-fg tracking-tight text-fg transition group-hover:text-accent"
                   >
                     {market_news_pro_subscription_title()}
                   </h2>
@@ -1271,14 +1271,14 @@
             {/if}
 
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/stocks/screener"
                 class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-lg font-semibold ml-3">
+                  <h2 class="text-start type-h3 text-fg ml-3">
                     {potus_tracker_sidebar_screener()}
                   </h2>
                 </div>
@@ -1291,14 +1291,14 @@
             </div>
 
             <div
-              class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
+              class="w-full bg-surface-card border border-line rounded-container pb-4 mt-4 cursor-pointer hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 transition"
             >
               <a
                 href="/watchlist/stocks"
                 class="group w-auto lg:w-full p-1 flex flex-col m-auto px-2 sm:px-0"
               >
                 <div class="w-full flex justify-between items-center p-3 mt-3">
-                  <h2 class="text-start text-lg font-semibold ml-3">
+                  <h2 class="text-start type-h3 text-fg ml-3">
                     {potus_tracker_sidebar_watchlist()}
                   </h2>
                 </div>
@@ -1322,7 +1322,7 @@
   <label for="executivePostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="executivePostModal"
@@ -1374,7 +1374,7 @@
     </p>
 
     <div class="border-b border-line">
-      <span class=" mb-4 text-sm"
+      <span class="mb-4 text-sm text-fg"
         >{new Date(postDate ?? null)?.toLocaleString("en-US", {
           month: "long",
           day: "numeric",
@@ -1386,12 +1386,12 @@
     <div class="flex justify-end space-x-3 mt-5">
       <label
         for="executivePostModal"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_close()}</label
       >
       <button
         on:click={() => window.open(postUrl, "_blank", "noopener,noreferrer")}
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_read_source()}</button
       >
     </div>
@@ -1404,7 +1404,7 @@
   <label for="socialPostModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full p-6 relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <label
       for="socialPostModal"
@@ -1474,7 +1474,7 @@
             <video
               src={mediaUrl}
               controls
-              class="max-w-md w-full rounded-lg border border-line"
+              class="max-w-md w-full rounded-container border border-line"
               preload="metadata"
             >
               <track kind="captions" />
@@ -1491,7 +1491,7 @@
                 alt="Post media {mediaIndex + 1}"
                 class="{postMedia.length === 1
                   ? 'max-w-md w-full max-h-96 object-contain'
-                  : 'w-full h-48 sm:h-56 object-cover'} rounded-lg border border-line hover:opacity-90 transition"
+                  : 'w-full h-48 sm:h-56 object-cover'} rounded-container border border-line hover:opacity-90 transition"
                 loading="lazy"
               />
             </a>
@@ -1563,12 +1563,12 @@
     <div class="flex justify-end space-x-3 mt-5">
       <label
         for="socialPostModal"
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_close()}</label
       >
       <button
         on:click={() => window.open(postUrl, "_blank", "noopener,noreferrer")}
-        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition"
+        class="cursor-pointer px-4 py-1.5 rounded-full text-sm font-semibold border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition"
         tabindex="0">{potus_tracker_read_source()}</button
       >
     </div>

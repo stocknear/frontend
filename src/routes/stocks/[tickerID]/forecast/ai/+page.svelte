@@ -304,7 +304,8 @@
     // Highcharts options for plotting the data with markers.
     const options = {
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
@@ -470,13 +471,13 @@
         },
       },
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 360,
         animation: false,
       },
       title: {
-        text: `<div class="grid grid-cols-2 w-[200px] sm:w-[500px] -mb-3.5 text-xs font-[501] text-gray-600 dark:text-gray-400">
+        text: `<div class="grid grid-cols-2 w-[200px] sm:w-[500px] -mb-3.5 text-xs font-[501] text-gray-600 dark:text-fg-subtle">
           <h3 class="text-left">${$screenWidth && $screenWidth < 640 ? "Past Year" : "Past 12 Months"}</h3>
           <h3 class="text-right">${$screenWidth && $screenWidth < 640 ? "Next Year" : "12 Month Forecast"}</h3>
          </div>`,
@@ -658,9 +659,9 @@
         <div class="sm:pl-7 sm:pb-7 sm:pt-7 m-auto mt-2 sm:mt-0">
           {#if data?.getAIScore?.backtest?.length > 0}
             <div class="">
-              <h1 class="text-xl sm:text-2xl font-bold">
+              <h2 class="type-h2 text-fg">
                 {stock_detail_forecast_ai_score_title()}
-              </h1>
+              </h2>
             </div>
 
             <p class="mt-4">
@@ -806,7 +807,7 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded-control"
                         use:highcharts={configScore}
                       ></div>
                     {/if}
@@ -977,9 +978,9 @@
 
           {#if Object?.keys(data?.getPriceAnalysis)?.length > 0}
             <div class="">
-              <h1 class="text-xl sm:text-2xl font-bold">
+              <h2 class="type-h2 text-fg">
                 {stock_detail_forecast_ai_trend_title()}
-              </h1>
+              </h2>
             </div>
             <div class="w-full mb-6 mt-3">
               <p class="mt-4">
@@ -1118,7 +1119,7 @@
                       <div
                         class="{!isSubscribed
                           ? 'blur-[3px]'
-                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded"
+                          : ''} mt-5 shadow-none sm:mt-0 sm:border sm:border-line rounded-control"
                         use:highcharts={config}
                       ></div>
                     {/if}

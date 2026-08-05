@@ -49,7 +49,7 @@
     : 'hidden'}"
 >
   <div
-    class="sm:rounded shadow-lg bg-[#000] sm:bg-default sm:border sm:border-gray-600 h-auto {$screenWidth <
+    class="sm:rounded-control shadow-lg bg-[#000] sm:bg-default sm:border sm:border-line h-auto {$screenWidth <
     640
       ? 'w-screen pt-16'
       : ''} md:w-[420px] xl:w-[450px] -mx-1 sm:mx-0"
@@ -72,19 +72,19 @@
         <div class="flex flex-row m-auto w-full">
           {#if consensusRating === "Buy" || consensusRating === "Strong Buy"}
             <span
-              class="text-start font-semibold text-[#00FC50] mr-auto ml-5 mt-2 text-xl"
+              class="text-start font-semibold text-up mr-auto ml-5 mt-2 text-xl"
             >
               {consensusRating}
             </span>
           {:else if consensusRating === "Sell" || consensusRating === "Strong Sell"}
             <span
-              class="text-start font-semibold text-[#FF2F1F] mr-auto ml-5 mt-2 text-xl"
+              class="text-start font-semibold text-down mr-auto ml-5 mt-2 text-xl"
             >
               {consensusRating}
             </span>
           {:else}
             <span
-              class="text-start font-semibold text-[#FF2F1F] mr-auto ml-5 mt-2 text-xl"
+              class="text-start font-semibold text-down mr-auto ml-5 mt-2 text-xl"
             >
               {consensusRating}
             </span>
@@ -126,7 +126,7 @@
               </span>
             </div>
             <progress
-              class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-[#00FC50] [&::-moz-progress-bar]:bg-[#00FC50]"
+              class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-up [&::-moz-progress-bar]:bg-up"
               value={buyCount}
               max="100"
             ></progress>
@@ -154,7 +154,7 @@
               </span>
             </div>
             <progress
-              class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-[#FF2F1F] [&::-moz-progress-bar]:bg-[#FF2F1F]"
+              class="progress bg-[#3B3D3F] w-11/12 [&::-webkit-progress-value]:bg-down [&::-moz-progress-bar]:bg-down"
               value={sellCount}
               max="100"
             ></progress>
@@ -166,7 +166,7 @@
 
       <a
         href={`/stocks/${$stockTicker}/forecast/analyst`}
-        class="rounded cursor-pointer w-11/12 py-2 h-full mt-6 text-lg text-center font-bold text-white m-auto sm:hover:bg-gray-300 bg-[#fff] transition duration-100"
+        class="rounded-control cursor-pointer w-11/12 py-2 h-full mt-6 text-lg text-center font-bold text-white m-auto sm:hover:bg-gray-300 bg-[#fff] transition duration-100"
       >
         Analyst Ratings
       </a>

@@ -94,7 +94,7 @@ try {
   const catalogModules = [];
   for (const [catalog, names] of namespaceMessages) {
     const sortedNames = [...names].sort();
-    await writeFile(path.join(stagedSource, "messages", `${catalog}.js`), createClientCatalogModule(sortedNames));
+    await writeFile(path.join(stagedSource, "messages", `${catalog}.js`), createClientCatalogModule(sortedNames, localeMessages));
     await writeFile(
       path.join(stagedSource, "server", `${catalog}.js`),
       createServerCatalogModule(sortedNames, localeMessages),
@@ -104,7 +104,7 @@ try {
   await writeFile(path.join(stagedSource, "messages.js"), createMessageIndexModule(catalogModules));
   await writeFile(path.join(stagedSource, "server-messages.js"), createServerMessageIndexModule(catalogModules));
   for (const [hash, names] of importSubsets) {
-    await writeFile(path.join(stagedSource, "imports", `client-${hash}.js`), createClientCatalogModule(names));
+    await writeFile(path.join(stagedSource, "imports", `client-${hash}.js`), createClientCatalogModule(names, localeMessages));
     await writeFile(
       path.join(stagedSource, "imports", `server-${hash}.js`),
       createServerCatalogModule(names, localeMessages),
@@ -205,6 +205,12 @@ async function readLocaleMessages(locale, namespaceMessages) {
     }
   }
   return messages;
+}
+
+// Just the arrow, for inlining as a client-side fallback. compileSimpleMessage
+// keeps its `const NAME = …;` shape because an existing caller depends on it.
+function compileMessageArrow(name, value, locale) {
+  return compileSimpleMessage(name, value, locale).replace(/^const\s+\S+\s*=\s*/, "").replace(/;$/, "");
 }
 
 function compileSimpleMessage(name, value, locale) {
@@ -545,17 +551,36 @@ function createClassicNamespaceScript(locale, assetKey, names, blocks) {
   ].join("\n");
 }
 
-function createClientCatalogModule(names) {
+function createClientCatalogModule(names, localeMessages) {
+  // A missing message used to throw, which white-screened the whole page — one
+  // absent string took down /chart/SPCX in production. The base-locale text is
+  // inlined here so delivery gaps degrade to English and warn instead.
+  const baseCatalog = localeMessages?.get(baseLocale);
+  const fallbackEntries = names
+    ?.filter((name) => typeof baseCatalog?.get(name) === "string")
+    ?.map((name) => `  ${JSON.stringify(name)}: ${compileMessageArrow(name, baseCatalog.get(name), baseLocale)},`);
   return [
     'import { getLocale, trackMessageCall } from "$lib/paraglide/runtime.js";',
+    'import { reportI18nGap } from "$lib/i18n/delivery/gap";',
+    "const fallback = {",
+    ...(fallbackEntries ?? []),
+    "};",
     "function callMessage(name, inputs, options) {",
     "  const locale = options.locale ?? getLocale();",
     "  trackMessageCall(name, locale);",
     "  const loaded = globalThis.__stocknearI18nMessages;",
-    "  if (!loaded || loaded.locale !== locale) throw new Error(`Messages for ${locale} were not loaded before hydration.`);",
-    "  const message = loaded.messages[name];",
-    "  if (!message) throw new Error(`Message ${name} was not included in the route translation payload.`);",
-    "  return message(inputs);",
+    // These are two different failures. A missing message affects one string; a
+    // locale mismatch means the whole page is about to render in the wrong
+    // language, which is far worse and must not be reported as the former.
+    "  if (loaded && loaded.locale === locale) {",
+    "    const message = loaded.messages[name];",
+    "    if (message) return message(inputs);",
+    '    reportI18nGap("missing-message", name, locale, loaded.locale);',
+    "  } else {",
+    '    reportI18nGap("locale-mismatch", name, locale, loaded ? loaded.locale : null);',
+    "  }",
+    "  const base = fallback[name];",
+    "  return base ? base(inputs) : name;",
     "}",
     ...names.map((name) => `export const ${name} = (inputs = {}, options = {}) => callMessage(${JSON.stringify(name)}, inputs, options);`),
     "",

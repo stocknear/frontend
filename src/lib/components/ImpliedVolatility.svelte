@@ -40,7 +40,7 @@
             <option value="252dclshv"> 1 Year historical volatility </option>
           </select>
 
-          <div class="pb-2 rounded bg-default">
+          <div class="pb-2 rounded-control bg-default">
             <div class="app w-full h-[300px] mt-5">
               <Chart {init} options={optionsData} class="chart" />
             </div>
@@ -57,7 +57,7 @@
                 aria-hidden="true"
               ></div>
               <div
-                class="w-3 h-3 bg-[#fff] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2"
+                class="w-3 h-3 bg-[#fff] border-4 box-content border-line rounded-full transform sm:-translate-x-1/2"
                 aria-hidden="true"
               ></div>
               <span
@@ -74,7 +74,7 @@
                 aria-hidden="true"
               ></div>
               <div
-                class="w-3 h-3 bg-[#F03500] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2"
+                class="w-3 h-3 bg-[#F03500] border-4 box-content border-line rounded-full transform sm:-translate-x-1/2"
                 aria-hidden="true"
               ></div>
               <span
@@ -92,7 +92,7 @@
                 aria-hidden="true"
               ></div>
               <div
-                class="w-3 h-3 bg-[#3B82F6] border-4 box-content border-[#27272A] rounded-full transform sm:-translate-x-1/2"
+                class="w-3 h-3 bg-[#3B82F6] border-4 box-content border-line rounded-full transform sm:-translate-x-1/2"
                 aria-hidden="true"
               ></div>
               <span
@@ -104,7 +104,7 @@
           </div>
 
           <h2
-            class="mt-10 mr-1 flex flex-row items-center text-white text-xl sm:text-2xl font-bold mb-3"
+            class="mt-10 mr-1 flex flex-row items-center text-white type-h2 text-fg mb-3"
           >
             Latest Information
           </h2>
@@ -112,7 +112,7 @@
           <div class="flex justify-start items-center w-full m-auto">
             <table class="w-full" data-test="statistics-table">
               <tbody>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>Date</span>
                   </td>
@@ -122,7 +122,7 @@
                     {formatDateRange(rawData?.slice(-1)?.at(0)?.date)}
                   </td>
                 </tr>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>IV Range</span>
                   </td>
@@ -132,7 +132,7 @@
                     {lowestIV + "%" + "-" + highestIV + "%"}
                   </td>
                 </tr>
-                <tr class="border-y border-gray-800 odd:bg-odd">
+                <tr class="border-y border-line odd:bg-odd">
                   <td class="px-[5px] py-1.5 xs:px-2.5 xs:py-2">
                     <span>RV Range</span>
                   </td>
@@ -150,7 +150,7 @@
         <div class="flex justify-center items-center h-80">
            <div class="relative">
                     <label
-                      class="shadow bg-default dark:bg-secondary rounded h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      class="shadow bg-default dark:bg-secondary rounded-control h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     >
                       <span
                         class="loading loading-spinner loading-md text-white dark:text-white"
@@ -161,7 +161,7 @@
       {/if}
     {:else}
       <div
-        class="shadow-lg shadow-bg-[#000] bg-[#111112] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold"
+        class="shadow-lg shadow-bg-[#000] bg-[#111112] sm:bg-opacity-[0.5] text-sm sm:text-[1rem] rounded-control w-full p-4 min-h-24 mt-4 text-white m-auto flex justify-center items-center text-center font-semibold"
       >
         <svg
           class="mr-1.5 w-5 h-5 inline-block"

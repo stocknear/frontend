@@ -161,12 +161,12 @@
   on:click={handleClick}
   use:clickOutside
   on:click_outside={handleClickOutside}
-  class="text-gray-100 w-full sm:w-3/4 max-w-2xl mt-3 rounded"
+  class="text-fg w-full sm:w-3/4 max-w-2xl mt-3 rounded-control"
 >
   <div
     class="{$markdownClicked[id] === false
       ? 'hidden'
-      : ''} text-gray-100 w-full sm:w-3/4 max-w-2xl mb-4 rounded"
+      : ''} text-fg w-full sm:w-3/4 max-w-2xl mb-4 rounded-control"
   >
     <textarea bind:value {id} class="bg-[#1A1A27] min-h-12 w-full" />
   </div>
@@ -179,12 +179,12 @@
     {#each $markdownValue as mk}
       {#if mk?.id === id}
         <div class="flex flex-col">
-          <span class="text-gray-400 mb-4">[{outputCounter}] : </span>
-          <div class="border-b border-gray-600 rounded">
+          <span class="text-fg-subtle mb-4">[{outputCounter}] : </span>
+          <div class="border-b border-line rounded-control">
             {#if hasContent(value)}
               {@html value}
             {:else}
-              <p class="italic text-gray-400">Markdown your code here...</p>
+              <p class="italic text-fg-subtle">Markdown your code here...</p>
             {/if}
           </div>
         </div>

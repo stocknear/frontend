@@ -135,8 +135,8 @@
       },
       chart: {
         type: "gauge",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 280,
         animation: false, // Disable initial animation
       },
@@ -157,7 +157,7 @@
             // Outer circle (black line)
             outerRadius: "101%",
             innerRadius: "100%",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
             borderWidth: 0,
             shape: "arc",
           },
@@ -264,7 +264,7 @@
             backgroundColor: "none", // removes background
             borderWidth: 0, // removes border
             shadow: false, // removes shadow
-            format: `<span class="text-lg font-bold">${ivData?.current}% IV</span>`,
+            format: `<span class="text-lg font-bold text-fg">${ivData?.current}% IV</span>`,
           },
           dial: {
             radius: "80%",
@@ -297,8 +297,8 @@
 
       chart: {
         type: "gauge",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 280,
         animation: false,
       },
@@ -318,7 +318,7 @@
           {
             outerRadius: "101%",
             innerRadius: "100%",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
             borderWidth: 0,
             shape: "arc",
           },
@@ -366,7 +366,7 @@
             borderWidth: 0,
             shadow: false,
             formatter: function () {
-              return `<span class="text-lg font-bold">${abbreviateNumber(this.y)}</span>`;
+              return `<span class="text-lg font-bold text-fg">${abbreviateNumber(this.y)}</span>`;
             },
           },
           dial: {
@@ -391,8 +391,8 @@
       },
       chart: {
         type: "gauge",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 280,
         animation: false, // Disable initial animation
       },
@@ -412,7 +412,7 @@
           {
             outerRadius: "101%",
             innerRadius: "100%",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
             borderWidth: 0,
             shape: "arc",
           },
@@ -492,7 +492,7 @@
             shadow: false,
             formatter: function () {
               // Show actual value even if >2
-              return `<span class="text-lg font-bold">${actualValue}</span>`;
+              return `<span class="text-lg font-bold text-fg">${actualValue}</span>`;
             },
           },
           dial: {
@@ -525,8 +525,8 @@
 
       chart: {
         type: "gauge",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 280,
         animation: false,
       },
@@ -546,7 +546,7 @@
           {
             outerRadius: "101%",
             innerRadius: "100%",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
             borderWidth: 0,
             shape: "arc",
           },
@@ -594,7 +594,7 @@
             borderWidth: 0,
             shadow: false,
             formatter: function () {
-              return `<span class="text-lg font-bold">${abbreviateNumber(this.y)}</span>`;
+              return `<span class="text-lg font-bold text-fg">${abbreviateNumber(this.y)}</span>`;
             },
           },
           dial: {
@@ -619,8 +619,8 @@
       },
       chart: {
         type: "gauge",
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
-        plotBackgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: 280,
         animation: false,
       },
@@ -640,7 +640,7 @@
           {
             outerRadius: "101%",
             innerRadius: "100%",
-            backgroundColor: "#000",
+            backgroundColor: "transparent",
             borderWidth: 0,
             shape: "arc",
           },
@@ -720,7 +720,7 @@
             shadow: false,
             formatter: function () {
               // Show actual value even if >2
-              return `<span class="text-lg font-bold">${actualValue}</span>`;
+              return `<span class="text-lg font-bold text-fg">${actualValue}</span>`;
             },
           },
           dial: {
@@ -782,7 +782,7 @@
 
         <div class="w-full mb-10">
           <div class="flex flex-row items-center">
-            <h2 class="mb-2 text-xl sm:text-2xl font-bold w-fit">
+            <h2 class="mb-2 type-h2 text-fg w-fit">
               {stock_detail_options_overview_title({ ticker })}
             </h2>
             <div class="ml-1 -mt-3">
@@ -933,7 +933,7 @@
         </div>
 
         <!-- Apply the blur class to the chart -->
-        <h2 class="mb-6 text-xl sm:text-2xl font-bold w-fit">
+        <h2 class="mb-6 type-h2 text-fg w-fit">
           {stock_detail_options_implied_volatility()}
         </h2>
         <div
@@ -955,7 +955,7 @@
           >
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_iv_30d_label()}</span>
                 <InfoModal
@@ -965,7 +965,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{ivData?.current ? ivData?.current + "%" : "n/a"}</span
                 >
               {:else}
@@ -989,7 +989,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_iv_rank()}</span>
                 <InfoModal
@@ -999,7 +999,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]">
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg">
                   {ivData?.ivRank
                     ? `${Math?.min(ivData.ivRank, 100)}%`
                     : "< 0.01%"}
@@ -1022,7 +1022,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_historical_volatility()}</span>
                 <InfoModal
@@ -1032,7 +1032,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{ivData?.historicalVolatility
                     ? ivData?.historicalVolatility + "%"
                     : "n/a"}</span
@@ -1055,7 +1055,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>Expected Move</span>
                 <InfoModal
@@ -1065,7 +1065,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]">
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg">
                   {#if ivData?.expectedMove30d}
                     ± {ivData.expectedMove30d.amount?.toFixed(2)} ({ivData.expectedMove30d.percent?.toFixed(
                       2,
@@ -1092,7 +1092,7 @@
 
             <div class="flex flex-col whitespace-nowrap">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_iv_low()}</span>
                 <InfoModal
@@ -1101,7 +1101,7 @@
                 />
               </div>
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{ivData?.ivLow ? ivData?.ivLow + "%" : "n/a"} on {ivData?.ivLowDate}</span
                 >
               {:else}
@@ -1122,7 +1122,7 @@
 
             <div class="flex flex-col whitespace-nowrap">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_iv_high()}</span>
                 <InfoModal
@@ -1132,7 +1132,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{ivData?.ivHigh ? ivData?.ivHigh + "%" : "n/a"} on {ivData?.ivHighDate}</span
                 >
               {:else}
@@ -1157,7 +1157,7 @@
           href={`/${assetType}/${ticker}/options/oi`}
           class="inline-flex items-center mb-6"
           ><h2
-            class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
+            class=" type-h2 text-fg w-fit sm:hover:underline sm:hover:underline-offset-4"
           >
             {stock_detail_options_oi_heading()}
           </h2>
@@ -1195,7 +1195,7 @@
           >
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_today_oi()}</span>
                 <InfoModal
@@ -1204,7 +1204,7 @@
                 />
               </div>
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{oiData?.total?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1225,7 +1225,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_put_call_ratio()}</span>
                 <InfoModal
@@ -1235,7 +1235,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{oiData?.putCallRatio}</span
                 >
               {:else}
@@ -1256,7 +1256,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_put_oi()}</span>
                 <InfoModal
@@ -1266,7 +1266,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{oiData?.puts?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1287,7 +1287,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_call_oi()}</span>
                 <InfoModal
@@ -1297,7 +1297,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{oiData?.calls?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1318,7 +1318,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_oi_avg_30d()}</span>
                 <InfoModal
@@ -1328,7 +1328,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{oiData?.avgDaily?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1349,7 +1349,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_today_vs_oi_avg()}</span>
                 <InfoModal
@@ -1359,7 +1359,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{oiData?.todayVsAvg ? oiData?.todayVsAvg + "%" : "n/a"}</span
                 >
               {:else}
@@ -1384,7 +1384,7 @@
           href={`/${assetType}/${ticker}/options/hottest-contracts/volume`}
           class="inline-flex items-center mb-6"
           ><h2
-            class=" text-xl sm:text-2xl font-bold w-fit sm:hover:underline sm:hover:underline-offset-4"
+            class=" type-h2 text-fg w-fit sm:hover:underline sm:hover:underline-offset-4"
           >
             {stock_detail_options_volume_heading()}
           </h2>
@@ -1422,7 +1422,7 @@
           >
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_today_volume()}</span>
                 <InfoModal
@@ -1431,7 +1431,7 @@
                 />
               </div>
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{volData?.total?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1452,7 +1452,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_put_call_ratio()}</span>
                 <InfoModal
@@ -1462,7 +1462,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{volData?.putCallRatio}</span
                 >
               {:else}
@@ -1483,7 +1483,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_put_volume()}</span>
                 <InfoModal
@@ -1493,7 +1493,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{volData?.puts?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1514,7 +1514,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_call_volume()}</span>
                 <InfoModal
@@ -1524,7 +1524,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{volData?.calls?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1545,7 +1545,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_volume_avg_30d()}</span>
                 <InfoModal
@@ -1555,7 +1555,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{volData?.avgDaily?.toLocaleString(getIntlLocale())}</span
                 >
               {:else}
@@ -1576,7 +1576,7 @@
 
             <div class="flex flex-col">
               <div
-                class="text-gray-500 dark:text-gray-300 text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
+                class="text-gray-500 dark:text-fg-muted text-sm sm:text-[1rem] flex flex-row items-center gap-x-2"
               >
                 <span>{stock_detail_options_today_vs_vol_avg()}</span>
                 <InfoModal
@@ -1586,7 +1586,7 @@
               </div>
 
               {#if isSubscribed}
-                <span class="font-semibold text-sm sm:text-[1rem]"
+                <span class="font-semibold text-sm sm:text-[1rem] text-fg"
                   >{volData?.todayVsAvg
                     ? volData?.todayVsAvg + "%"
                     : "n/a"}</span
@@ -1616,7 +1616,7 @@
                 class="col-span-2 flex flex-row items-center lg:order-2 lg:grow py-1"
               >
                 <h2
-                  class="text-start whitespace-nowrap text-xl sm:text-2xl font-semibold tracking-tight text-fg py-1 w-full"
+                  class="text-start whitespace-nowrap type-h2 text-fg py-1 w-full"
                 >
                   {stock_detail_options_chain_statistics()}
                 </h2>
@@ -1646,7 +1646,7 @@
             >
               <div class="w-full overflow-x-auto">
                 <table
-                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 mt-2"
+                  class="table table-sm table-compact w-full text-fg tabular-nums m-auto bg-surface-card border border-line rounded-container mt-2"
                 >
                   <thead
                     class="text-[11px] uppercase tracking-wide text-fg"

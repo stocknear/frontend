@@ -249,10 +249,10 @@
 
   // Reusable CSS classes
   const weekArrowClasses =
-    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-white/90 dark:bg-zinc-950/70 text-fg border border-gray-300 shadow dark:border-zinc-700 mb-3";
+    "hidden sm:flex h-16 w-48 cursor-pointer m-auto flex bg-surface-card text-fg border border-line mb-3";
   const mobileArrowClasses = "w-6 h-6 inline-block";
   const weekdayClasses =
-    "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3";
+    "m-auto w-full cursor-pointer h-16 rounded-full sm:rounded-none flex border border-line mb-3";
 
   let formattedMonday = startOfWeek(currentWeek, { weekStartsOn: 1 });
   let initialLocale = getDateLocale();
@@ -777,7 +777,7 @@
               class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2"
             >
               <h1
-                class="text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+                class="type-h1 text-fg"
               >
                 {earnings_main_name()}
               </h1>
@@ -787,7 +787,7 @@
                   <DropdownMenu.Trigger asChild let:builder>
                     <Button
                       builders={[builder]}
-                      class="flex-shrink-0 w-fit border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
+                      class="flex-shrink-0 w-fit border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 transition flex flex-row justify-between items-center px-3 py-2 rounded-full truncate"
                     >
                       <span class="truncate">{earnings_time_of_day()}</span>
                       <svg
@@ -810,7 +810,7 @@
                     align="end"
                     sideOffset={10}
                     alignOffset={0}
-                    class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                    class="w-auto min-w-40 max-h-72 overflow-y-auto scroller rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                   >
                     <DropdownMenu.Group>
                       {#each timeOptions as option}
@@ -847,7 +847,7 @@
                 </DropdownMenu.Root>
 
                 <div
-                  class="w-fit text-sm flex items-center gap-1 rounded-full ml-1.5 border border-gray-300 shadow dark:border-zinc-700"
+                  class="w-fit text-sm flex items-center gap-1 rounded-full ml-1.5 border border-line"
                 >
                   {#each tabs as item, i}
                     <button
@@ -872,7 +872,7 @@
                 <!-- Daily View -->
                 {#if timeframe === "Daily"}
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-container border border-line divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -1064,7 +1064,7 @@
                               on:input={search}
                               type="text"
                               placeholder={earnings_search_placeholder()}
-                              class="shadow-sm py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
+                              class="py-2 text-[0.85rem] sm:text-sm border bg-surface-page/60 border-line rounded-full placeholder:text-muted dark:placeholder:text-zinc-300 px-3 focus:outline-none focus:ring-0 focus:border-gray-300/80 dark:focus:border-zinc-700/80 grow w-full sm:min-w-56 lg:max-w-14"
                             />
                           </div>
 
@@ -1082,7 +1082,7 @@
                             <button
                               on:click={resetColumnOrder}
                               title="Reset column order"
-                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
+                              class="ml-2 shrink-0 cursor-pointer p-2 rounded-full border border-line bg-surface-card hover:bg-gray-100 dark:hover:bg-zinc-900 text-fg-muted hover:text-accent transition-colors"
                             >
                               <svg
                                 class="w-4 h-4"
@@ -1104,7 +1104,7 @@
 
                       <div class="w-full overflow-x-auto mt-4">
                         <table
-                          class="table table-sm table-compact rounded-none sm:rounded w-full border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 m-auto text-fg tabular-nums"
+                          class="table table-sm table-compact rounded-none sm:rounded-control w-full border border-line bg-surface-card m-auto text-fg tabular-nums"
                         >
                           <thead>
                             <TableHeader
@@ -1263,7 +1263,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage - 1)}
                               disabled={dailyCurrentPage === 1}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <svg
                                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -1296,7 +1296,7 @@
                               <DropdownMenu.Trigger asChild let:builder>
                                 <Button
                                   builders={[builder]}
-                                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                   <span
                                     class="truncate text-[0.85rem] sm:text-sm"
@@ -1325,7 +1325,7 @@
                                 align="end"
                                 sideOffset={10}
                                 alignOffset={0}
-                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
                               >
                                 <DropdownMenu.Group class="pb-2">
                                   {#each dailyRowsPerPageOptions as item}
@@ -1355,7 +1355,7 @@
                               on:click={() =>
                                 goToDailyPage(dailyCurrentPage + 1)}
                               disabled={dailyCurrentPage === dailyTotalPages}
-                              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                               <span class="hidden sm:inline"
                                 >{earnings_pagination_next()}</span
@@ -1409,7 +1409,7 @@
               {:else if timeframe === "Weekly"}
                 <div class="flex flex-col w-full">
                   <div
-                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
+                    class="grid grid-cols-1 sm:grid-cols-5 overflow-hidden rounded-container border border-line divide-y sm:divide-y-0 sm:divide-x divide-gray-200/70 dark:divide-zinc-800/80 bg-surface-page/60"
                   >
                     {#each weekday as day, index}
                       <div
@@ -1470,7 +1470,7 @@
                               {@const isExpanded =
                                 expandedItems[`${dayIndex}-${itemIndex}`]}
                               <div
-                                class="w-full rounded-lg border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                                class="w-full rounded-container border border-line bg-surface-card text-[0.9rem]"
                               >
                                 <div
                                   on:click={() =>
@@ -1715,7 +1715,7 @@
                           class="m-auto w-full cursor-pointer h-16 {index ===
                           selectedWeekday
                             ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 font-semibold'
-                            : 'bg-surface-page/60 text-fg'} rounded-full sm:rounded-none flex border border-gray-300 shadow dark:border-zinc-700 mb-3"
+                            : 'bg-surface-page/60 text-fg'} rounded-full sm:rounded-none flex border border-line mb-3"
                         >
                           <div
                             class=" flex flex-row justify-center items-center w-full"
@@ -1785,7 +1785,7 @@
                         {@const isExpanded =
                           expandedItems[`${selectedWeekday}-${itemIndex}`]}
                         <div
-                          class="w-full rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40 text-[0.9rem]"
+                          class="w-full bg-surface-card border border-line rounded-container text-[0.9rem]"
                         >
                           <!-- Collapsible Header -->
                           <div

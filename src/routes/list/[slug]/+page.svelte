@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deLocalizeHref } from "$lib/paraglide/runtime.js";
   import { abbreviateNumber } from "$lib/utils";
   import Table from "$lib/components/Table/Table.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -116,7 +117,7 @@
 
   // Using the reactive statement to update currentNavigation based on the current page URL
   $: currentNavigation = navigation?.find(
-    (cat) => $page.url.pathname === cat?.link,
+    (cat) => deLocalizeHref($page.url.pathname) === cat?.link,
   );
   $: currentTitle = currentNavigation?.title ? currentNavigation.title() : "";
   $: currentDescription = currentNavigation?.description
@@ -133,7 +134,7 @@
   {/if}
 
   <div
-    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/60 dark:bg-zinc-950/40 divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
+    class="mt-6 mb-4 grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-container border border-line bg-surface-card divide-y divide-gray-200/70 dark:divide-zinc-800/80 sm:divide-x sm:divide-y-0"
   >
     <div class="px-4 py-3 sm:px-2 sm:py-5 md:px-3 lg:p-6">
       <div class="flex items-center justify-between sm:block">

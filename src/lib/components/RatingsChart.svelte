@@ -178,7 +178,8 @@
 
     const options = {
       chart: {
-        backgroundColor: $mode === "light" ? "#fff" : "#09090B",
+        backgroundColor: "transparent",
+        plotBackgroundColor: "transparent",
         height: chartHeight,
       },
       credits: { enabled: false },
@@ -258,8 +259,8 @@
 
           // Loop through each point in the shared tooltip
           this.points.forEach((point) => {
-            tooltipContent += `<span class=" font-semibold text-sm">${point.series.name}:</span> 
-          <span class=" font-normal text-sm">${abbreviateNumber(
+            tooltipContent += `<span class="font-semibold text-sm text-fg">${point.series.name}:</span> 
+          <span class="font-normal text-sm text-fg">${abbreviateNumber(
             point.y,
           )}</span><br>`;
           });
@@ -369,13 +370,13 @@
         </div>
       </div>
       <div
-        class="border border-gray-300/70 dark:border-zinc-700/80 rounded-lg w-full"
+        class="border border-gray-300/70 dark:border-zinc-700/80 rounded-container w-full"
         use:highcharts={config}
       ></div>
     {:else}
       <div class="h-[220px] sm:h-[350px]">
         <div
-          class="flex h-full w-full flex-col items-center justify-center rounded-lg border border-gray-300/70 dark:border-zinc-700/80 p-4 sm:p-6 text-center"
+          class="flex h-full w-full flex-col items-center justify-center rounded-container border border-gray-300/70 dark:border-zinc-700/80 p-4 sm:p-6 text-center"
         >
           <div class="text-fg-subtle text-sm sm:text-base">
             No chart data available for {symbol}
@@ -387,7 +388,7 @@
     <div class="flex justify-center items-center h-64 sm:h-80">
       <div class="relative">
         <label
-          class="shadow-sm bg-white/90 dark:bg-zinc-900/80 border border-gray-300 shadow dark:border-zinc-700 rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
           <span
             class="loading loading-spinner loading-md text-fg"

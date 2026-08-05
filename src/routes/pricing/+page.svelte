@@ -426,7 +426,7 @@
 
     <div class="mt-12 grid gap-6 lg:grid-cols-3">
       <div
-        class="hidden sm:flex flex-col relative rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
+        class="hidden sm:flex flex-col relative rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 shadow-[0_20px_60px_-45px_rgba(15,23,42,0.35)] backdrop-blur-xl"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">
@@ -1239,7 +1239,7 @@
       </div>
 
       <div
-        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6"
+        class="rounded-container flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">
@@ -1855,7 +1855,7 @@
         </div>
       </div>
       <div
-        class="rounded-2xl flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-fg"
+        class="rounded-container flex flex-col relative border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.9)] p-6 text-fg"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold tracking-tight">
@@ -2099,7 +2099,7 @@
         >
           {#if data?.user?.tier === "Pro"}
             <div
-              class="w-full py-3 px-4 rounded-full border border-gray-300 shadow dark:border-zinc-700 bg-surface-page/60 font-semibold text-fg flex items-center justify-center cursor-not-allowed"
+              class="w-full py-3 px-4 rounded-full border border-line bg-surface-page/60 font-semibold text-fg flex items-center justify-center cursor-not-allowed"
             >
               <svg
                 class="w-5 h-5 mr-2"
@@ -2119,7 +2119,7 @@
           {:else if data?.user?.tier === "Plus"}
             <label
               for="upgradeProModal"
-              class="cursor-pointer w-full py-3 px-4 border border-gray-300 shadow dark:border-zinc-700 bg-white/90 dark:bg-zinc-950/70 rounded-full font-semibold text-fg transition hover:text-accent flex items-center justify-center"
+              class="cursor-pointer w-full py-3 px-4 border border-line bg-surface-card rounded-full font-semibold text-fg transition hover:text-accent flex items-center justify-center"
               >{pricing_upgrade_pro()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
@@ -2162,7 +2162,7 @@
     <!--
     {#if !data?.user?.lifetime}
       <div
-        class="mt-8 rounded-2xl border border-violet-300/70 dark:border-violet-800/60 bg-gradient-to-br from-violet-50/70 to-[rgb(var(--pricing-card)/0.92)] dark:from-violet-950/20 dark:to-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6 ring-1 ring-violet-500/0 hover:ring-violet-500/20 transition"
+        class="mt-8 rounded-container border border-violet-300/70 dark:border-violet-800/60 bg-gradient-to-br from-violet-50/70 to-[rgb(var(--pricing-card)/0.92)] dark:from-violet-950/20 dark:to-[rgb(var(--pricing-card)/0.92)] p-5 sm:p-6 ring-1 ring-violet-500/0 hover:ring-violet-500/20 transition"
       >
         <div
           class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between"
@@ -2210,7 +2210,7 @@
 
     {#if ["Plus", "Pro"].includes(data?.user?.tier)}
       <div
-        class="mx-auto w-full mt-10 p-4 rounded-2xl border border-gray-300 shadow dark:border-zinc-700 bg-white/70 dark:bg-zinc-950/40"
+        class="mx-auto w-full mt-10 p-4 bg-surface-card border border-line rounded-container"
       >
         <div class="flex items-center gap-3">
           <svg
@@ -2261,7 +2261,7 @@
           <ul class="mx-auto space-y-3">
             <!-- 1. Understanding the Service -->
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2279,7 +2279,7 @@
             </li>
 
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2298,7 +2298,7 @@
             </li>
 
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2318,7 +2318,7 @@
 
             <!-- 2. Getting Started -->
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2338,7 +2338,7 @@
 
             <!-- 3. Payment & Pricing -->
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2357,7 +2357,7 @@
             </li>
 
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2377,7 +2377,7 @@
 
             <!-- 4. Plan Management -->
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2396,7 +2396,7 @@
             </li>
 
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2416,7 +2416,7 @@
 
             <!-- 5. Cancellation & Refunds -->
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2435,7 +2435,7 @@
             </li>
 
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2456,7 +2456,7 @@
             </li>
 
             <li
-              class="rounded-2xl border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
             >
               <details class="collapse collapse-arrow">
                 <summary
@@ -2489,7 +2489,7 @@
   <label for="upgradeProModal" class="cursor-pointer modal-backdrop"></label>
 
   <div
-    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-2xl shadow-2xl"
+    class="modal-box w-full relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
     <div class="flex flex-row items-center pt-5">
       <h4

@@ -294,13 +294,13 @@
       {#if filteredNewsList?.length > 0}
         <div class="grid grid-cols-1 gap-2 pb-5 pt-5">
           {#each filteredNewsList as item, index (item.url)}
-            <div class="w-full flex flex-col rounded m-auto">
+            <div class="w-full flex flex-col rounded-control m-auto">
               {#if checkIfYoutubeVideo(item.url)}
                 {#if showVideo[index]}
                   <!-- Show the YouTube iframe when the user clicks play -->
                   <div class="w-full aspect-video mb-4">
                     <iframe
-                      class="w-full h-full rounded border border-gray-300 shadow dark:border-zinc-700"
+                      class="w-full h-full rounded-control border border-line"
                       src={`https://www.youtube.com/embed/${checkIfYoutubeVideo(item.url)}`}
                       frameborder="0"
                       allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -312,13 +312,13 @@
                   <div class="w-full aspect-video">
                     <div class="mb-3 sm:order-3 lg:pr-2">
                       <div
-                        class="group relative block cursor-pointer bg-black bg-cover bg-[center_50%] object-contain after:block after:pb-[56.25%] after:content-[''] rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-brand_light focus:ring-offset-2"
+                        class="group relative block cursor-pointer bg-black bg-cover bg-[center_50%] object-contain after:block after:pb-[56.25%] after:content-[''] rounded-control focus:outline-hidden focus:ring-2 focus:ring-blue-brand_light focus:ring-offset-2"
                         style="background-image: url({item?.image});"
                         tabindex="0"
                         on:click={() => handlePlayClick(index)}
                       >
                         <div
-                          class="absolute left-[50%] top-[50%] z-10 h-[46px] w-[70px] -translate-x-1/2 -translate-y-1/2 rounded bg-[#212121] opacity-80 transition-all before:absolute before:left-[50%] before:top-[50%] before:-translate-x-1/2 before:-translate-y-1/2 before:border-y-[11px] before:border-l-[19px] before:border-r-0 before:border-transparent before:border-l-white before:content-[''] group-hover:bg-[#ff0000] group-hover:opacity-100"
+                          class="absolute left-[50%] top-[50%] z-10 h-[46px] w-[70px] -translate-x-1/2 -translate-y-1/2 rounded-control bg-[#212121] opacity-80 transition-all before:absolute before:left-[50%] before:top-[50%] before:-translate-x-1/2 before:-translate-y-1/2 before:border-y-[11px] before:border-l-[19px] before:border-r-0 before:border-transparent before:border-l-white before:content-[''] group-hover:bg-[#ff0000] group-hover:opacity-100"
                         ></div>
                       </div>
                     </div>
@@ -349,12 +349,12 @@
                     href={item?.url}
                     rel="noopener noreferrer"
                     target="_blank"
-                    class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-gray-800 rounded"
+                    class="w-full sm:max-w-56 h-fit max-h-96 sm:mr-3 border border-line rounded-control"
                   >
                     <div class="shrink-0 m-auto">
                       <img
                         src={item?.image}
-                        class="h-auto w-full rounded"
+                        class="h-auto w-full rounded-control"
                         alt="news image"
                         loading="lazy"
                       />
@@ -427,7 +427,7 @@
             <Button
               on:click={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <svg
                 class="h-5 w-5 inline-block shrink-0 rotate-90"
@@ -459,7 +459,7 @@
               <DropdownMenu.Trigger asChild let:builder>
                 <Button
                   builders={[builder]}
-                  class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+                  class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span class="truncate text-[0.85rem] sm:text-sm"
                     >{stock_detail_rows({ count: rowsPerPage })}</span
@@ -485,7 +485,7 @@
                 align="end"
                 sideOffset={10}
                 alignOffset={0}
-                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-xl border border-gray-300 shadow dark:border-zinc-700 bg-white/95 dark:bg-zinc-950/95 p-2 text-fg shadow-none"
+                class="w-auto min-w-40 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
               >
                 <!-- Dropdown items -->
                 <DropdownMenu.Group class="pb-2">
@@ -513,7 +513,7 @@
             <Button
               on:click={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              class="w-fit sm:w-auto transition-all duration-150 border border-gray-300 shadow dark:border-zinc-700 text-fg bg-white/90 dark:bg-zinc-950/70 hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
+              class="w-fit sm:w-auto transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <span class="hidden sm:inline">{stock_detail_next()}</span>
               <svg

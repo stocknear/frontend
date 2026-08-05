@@ -298,7 +298,7 @@
 
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+          class="text-center type-h1 text-fg"
         >
           {register_step1_title()}
         </h1>
@@ -446,7 +446,7 @@
 
         <!-- Heading -->
         <h1
-          class="text-center text-2xl sm:text-3xl font-semibold tracking-tight text-fg"
+          class="text-center type-h1 text-fg"
         >
           {register_step2_title()}
         </h1>
@@ -501,14 +501,14 @@
         <div class="grid gap-6 sm:grid-cols-2">
           <!-- Plus (highlighted) -->
           <div
-            class="rounded-2xl border-2 border-accent bg-surface-card/60 p-6 flex flex-col relative"
+            class="rounded-container border-2 border-accent bg-surface-card/60 p-6 flex flex-col relative"
           >
             <div
               class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-violet-600 dark:bg-violet-500 px-4 py-1 text-xs font-bold text-white uppercase tracking-wider"
             >
               {register_step2_popular()}
             </div>
-            <h3 class="text-xl font-semibold text-fg">
+            <h3 class="type-h2 text-fg text-fg">
               {register_step2_plus_title()}
             </h3>
             <p class="mt-1 text-xs text-fg">
@@ -540,7 +540,7 @@
             </div>
 
             {#if pricingAnnual}
-              <p class="mt-1 text-sm text-muted dark:text-gray-300">
+              <p class="mt-1 text-sm text-muted dark:text-fg-muted">
                 {#if annualPromo && eligible}
                   {@html pricing_billed_annually_plus_promo({
                     originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Plus.annualTotal)}</span>`,
@@ -599,9 +599,9 @@
 
           <!-- Pro -->
           <div
-            class="rounded-2xl border border-line bg-surface-card/60 p-6 flex flex-col"
+            class="rounded-container border border-line bg-surface-card/60 p-6 flex flex-col"
           >
-            <h3 class="text-xl font-semibold text-fg">
+            <h3 class="type-h2 text-fg text-fg">
               {register_step2_pro_title()}
             </h3>
             <p class="mt-1 text-xs text-fg">
@@ -633,7 +633,7 @@
             </div>
 
             {#if pricingAnnual}
-              <p class="mt-1 text-sm text-muted dark:text-gray-300">
+              <p class="mt-1 text-sm text-muted dark:text-fg-muted">
                 {#if annualPromo && eligible}
                   {@html pricing_billed_annually_pro_promo({
                     originalPrice: `<span class="line-through mx-1">${formatPrice(PLAN_PRICING.Pro.annualTotal)}</span>`,

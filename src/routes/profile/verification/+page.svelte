@@ -59,7 +59,7 @@
                 <main class="w-full">
                     <div class="flex flex-col space-y-2 w-96 max-w-md m-auto">
                         <h1
-                            class="text-center text-2xl sm:text-3xl font-bold pb-3"
+                            class="text-center type-h1 text-fg pb-3"
                         >
                             {!data?.user?.verified
                                 ? " Verify Your Account"
@@ -69,7 +69,7 @@
                         <div class="w-96 max-w-md pt-3">
                             {#if isLoading && token?.length > 0}
                                 <label
-                                    class="cursor-not-allowed btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                                    class="cursor-not-allowed btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border border-line dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-control m-auto font-semibold text-[1rem]"
                                 >
                                     <div
                                         class="flex flex-row m-auto items-center"
@@ -83,7 +83,7 @@
                             {:else if !isLoading && token?.length > 0}
                                 <a
                                     href="/profile"
-                                    class="btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                                    class="btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border border-line dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-control m-auto font-semibold text-[1rem]"
                                 >
                                     <div
                                         class="flex flex-row m-auto items-center"
@@ -96,7 +96,7 @@
                             {:else}
                                 <a
                                     href="/profile"
-                                    class=" btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border border-gray-600 dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded m-auto font-semibold text-[1rem]"
+                                    class=" btn bg-black sm:hover:bg-default text-white dark:text-black dark:bg-[#fff] border border-line dark:sm:hover:bg-gray-300 transition duration-100 btn-md w-full rounded-control m-auto font-semibold text-[1rem]"
                                 >
                                     <div
                                         class="flex flex-row m-auto items-center"
