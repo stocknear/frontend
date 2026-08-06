@@ -117,6 +117,46 @@
   font-display: swap;
 }
 
+/* Space Grotesk ships latin, latin-ext and vietnamese only — no Greek, no Cyrillic, no
+ * Thai. Without these el/ru/uk/bg/th fall through to the OS font mid-sentence while the
+ * Latin tickers and digits beside them stay in Space Grotesk, which reads as broken.
+ * `unicode-range` means a browser only downloads a file once such a character is on the
+ * page, so the other 24 locales pay nothing. Deliberately not preloaded in app.html for
+ * the same reason. ja/ko/zh keep the system fallback they have always had — no webfont
+ * is worth a multi-megabyte CJK download. */
+@font-face {
+  font-family: "Inter Subset";
+  src: url("/fonts/inter-cyrillic.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Inter Subset";
+  src: url("/fonts/inter-greek.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face {
+  font-family: "Noto Sans Thai";
+  src: url("/fonts/noto-sans-thai.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  /* Google's own Thai subset also claims U+02D7, U+0303, U+0331, U+200C-200D and U+25CC.
+   * Space Grotesk has no glyph for U+02D7, U+200C, U+200D or U+25CC, so leaving them here
+   * makes any page containing a zero-width joiner — a ZWJ emoji is enough — download this
+   * 26 KB font for nothing. Restricted to the Thai block so the zero-cost claim holds. */
+  unicode-range: U+0E01-0E5B;
+}
+
 @layer base {
   *,
   ::after,

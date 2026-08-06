@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Home",
+  "watchlist_breadcrumb_watchlist": "Watchlist",
+
+  "watchlist_seo_title": "Watchlist - volg je portefeuille en houd koersen in de gaten",
+  "watchlist_seo_description": "Maak je eigen watchlist en volg koersen in realtime. Houd je favoriete aandelen, ETF's en beleggingen bij met waarschuwingen en prestatieanalyses. Gratis portefeuilletracker met geavanceerde functies.",
+  "watchlist_seo_keywords": "watchlist aandelen, portefeuilletracker, aandelentracker, beleggingstracker, aandelen volgen, waarschuwingen, portefeuillebeheer, prestaties aandelen, beleggingswatchlist",
+  "watchlist_structured_name": "Watchlist-tracker voor aandelen",
+  "watchlist_structured_description": "Persoonlijke watchlist en tool om je portefeuille te volgen",
+
+  "watchlist_main_title": "Watchlist",
+  "watchlist_create_watchlist": "Watchlist maken",
+  "watchlist_new_watchlist": "Nieuwe watchlist",
+  "watchlist_delete_watchlist": "Watchlist verwijderen",
+
+  "watchlist_add_stock_placeholder": "Aandeel toevoegen...",
+  "watchlist_no_results": "Geen resultaten gevonden",
+  "watchlist_edit_watchlist": "Watchlist bewerken",
+  "watchlist_cancel": "Annuleren",
+  "watchlist_normal_width": "Normale breedte",
+  "watchlist_full_width": "Volledige breedte",
+  "watchlist_exit_full_width": "Volledige breedte verlaten",
+  "watchlist_expand_full_width": "Naar volledige breedte",
+
+  "watchlist_empty_title": "Lege watchlist",
+  "watchlist_empty_description": "Vul hem met je favoriete aandelen en krijg realtime data en het laatste nieuws op één plek.",
+  "watchlist_get_started": "Aan de slag",
+
+  "watchlist_count_stocks": "{count} aandelen",
+
+  "watchlist_tab_news": "Nieuws",
+  "watchlist_tab_earnings": "Cijfers",
+  "watchlist_no_news": "Nog geen nieuws. Voeg aandelen toe aan je watchlist om het laatste nieuws te zien.",
+  "watchlist_no_earnings": "Geen cijferdata beschikbaar. Voeg aandelen toe aan je watchlist om de laatste cijfers te zien.",
+
+  "watchlist_modal_new_title": "Nieuwe watchlist",
+  "watchlist_modal_list_name": "Naam van de lijst",
+  "watchlist_modal_create_button": "Watchlist maken",
+
+  "watchlist_modal_delete_title": "Watchlist verwijderen",
+  "watchlist_modal_delete_confirm": "Weet je zeker dat je deze watchlist wilt verwijderen? Dit kan niet worden teruggedraaid.",
+  "watchlist_modal_delete_button": "Watchlist verwijderen",
+
+  "watchlist_toast_creating": "Watchlist maken...",
+  "watchlist_toast_created": "Watchlist aangemaakt",
+  "watchlist_toast_deleted": "Watchlist verwijderd",
+  "watchlist_toast_updating": "Watchlist bijwerken...",
+  "watchlist_toast_updated": "Watchlist bijgewerkt",
+  "watchlist_toast_error": "Er ging iets mis. Probeer het opnieuw.",
+  "watchlist_toast_error_generic": "Er is een fout opgetreden. Probeer het later opnieuw.",
+  "watchlist_toast_title_empty": "Titel mag niet leeg zijn",
+  "watchlist_toast_title_long": "Titel is te lang. Houd het kort en simpel.",
+  "watchlist_toast_already_in_list": "Dit symbool staat al in je watchlist",
+  "watchlist_toast_select_symbols": "Selecteer eerst symbolen voordat je ze verwijdert",
+
+  "watchlist_earnings_will_report": "komt met cijfers",
+  "watchlist_earnings_after_close": "na het slot van de beurs.",
+  "watchlist_earnings_before_open": "voor de opening van de beurs.",
+  "watchlist_earnings_during_market": "tijdens de handelsuren.",
+  "watchlist_earnings_analysts_estimate": "Analisten verwachten",
+  "watchlist_earnings_in_revenue": "omzet",
+  "watchlist_earnings_yoy": "op jaarbasis",
+  "watchlist_earnings_and": "en",
+  "watchlist_earnings_in_eps": "winst per aandeel",
+
+  "watchlist_note_add_title": "Notitie toevoegen",
+  "watchlist_note_edit_title": "Notitie bewerken",
+  "watchlist_note_placeholder_new": "Waarom heb je dit aandeel aan je watchlist toegevoegd?",
+  "watchlist_note_placeholder_edit": "Werk je notitie bij...",
+  "watchlist_note_save": "Opslaan",
+  "watchlist_note_add": "Notitie toevoegen",
+  "watchlist_note_update": "Notitie bijwerken",
+  "watchlist_note_created": "Notitie toegevoegd",
+  "watchlist_note_updated": "Notitie bijgewerkt",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "Nog {count} tekens",
+  "watchlist_note_chars_over": "{count} tekens over de limiet",
+  "watchlist_note_exceeded": "Een notitie mag niet langer zijn dan {max} tekens",
+  "watchlist_added_price": "Koers bij toevoegen",
+
+  "watchlist_column_entry_price": "Instapkoers",
+  "watchlist_column_since_added": "% sinds toevoegen"
+}

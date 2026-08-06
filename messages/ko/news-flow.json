@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "홈",
+  "news_flow_breadcrumb_news_flow": "뉴스 플로우",
+
+  "news_flow_seo_title": "마켓 뉴스 플로우 - 매매에 바로 쓰는 실시간 촉매",
+  "news_flow_seo_description": "가격을 움직이는 실시간 시장 뉴스와 촉매를 확인하세요. 단기 셋업에 필요한 맥락을 빠르게 파악해야 하는 옵션 트레이더를 위해 만들었습니다.",
+  "news_flow_seo_keywords": "마켓 뉴스 플로우, 매매 촉매, 속보 시장 뉴스, 옵션 트레이더 뉴스, 주가 변동 뉴스, 실시간 시장 업데이트",
+  "news_flow_structured_name": "마켓 뉴스 플로우",
+  "news_flow_structured_description": "단기 매매 계획을 위한 실시간 시장 뉴스와 촉매",
+
+  "news_flow_main_title": "뉴스 플로우",
+  "news_flow_news_count": "뉴스 {count}건",
+  "news_flow_search_placeholder": "검색...",
+
+  "news_flow_infobox": "최신 속보를 확인하고 주가가 왜 움직였는지 실시간으로 파악하세요",
+  "news_flow_no_news": "아직 주요 증시 뉴스가 없습니다.",
+
+  "news_flow_sidebar_market_flow_title": "마켓 플로우",
+  "news_flow_sidebar_market_flow_description": "실시간 옵션 심리를 확인하세요.",
+  "news_flow_sidebar_options_flow_title": "옵션 플로우",
+  "news_flow_sidebar_options_flow_description": "실시간 이상 옵션 거래와 흐름 패턴을 확인하세요",
+  "news_flow_sidebar_dark_pool_title": "다크풀 플로우",
+  "news_flow_sidebar_dark_pool_description": "숨겨진 기관 자금 흐름과 다크풀 거래 데이터를 분석하세요"
+}

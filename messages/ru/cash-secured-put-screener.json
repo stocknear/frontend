@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Главная",
+  "cash_secured_put_screener_breadcrumb_title": "Скринер обеспеченных путов",
+
+  "cash_secured_put_screener_seo_title": "Скринер обеспеченных путов - находи лучшие сделки по CSP",
+  "cash_secured_put_screener_seo_description": "Просматривай тысячи опционов для продажи обеспеченных путов. Фильтруй по доходности премии, годовой доходности, цене исполнения, дате экспирации и другим параметрам.",
+  "cash_secured_put_screener_seo_keywords": "скринер обеспеченных путов, скринер опционов, обеспеченные путы, доходность премии, стратегия дохода",
+  "cash_secured_put_screener_structured_name": "Скринер обеспеченных путов",
+  "cash_secured_put_screener_structured_description": "Поиск опционов для продажи обеспеченных путов",
+
+  "cash_secured_put_screener_main_title": "Скринер обеспеченных путов",
+  "cash_secured_put_screener_contracts_count": "Контрактов: {count}",
+
+  "cash_secured_put_screener_popular_screens": "Популярные скринеры",
+  "cash_secured_put_screener_popular_strategies": "Популярные стратегии",
+  "cash_secured_put_screener_select_popular": "Выбрать популярный",
+  "cash_secured_put_screener_saved_screens": "Сохранённые скринеры",
+  "cash_secured_put_screener_select_screen": "Выбрать скринер",
+  "cash_secured_put_screener_new_screen": "Новый скринер",
+
+  "cash_secured_put_screener_strategy_high_yield": "Высокая доходность",
+  "cash_secured_put_screener_strategy_conservative": "Консервативная",
+  "cash_secured_put_screener_strategy_weekly_income": "Недельный доход",
+  "cash_secured_put_screener_strategy_high_protection": "Высокая защита",
+  "cash_secured_put_screener_strategy_bluechip_csp": "Путы на голубые фишки",
+
+  "cash_secured_put_screener_filters_count": "Фильтры ({count})",
+  "cash_secured_put_screener_add_filters": "Добавить фильтры",
+  "cash_secured_put_screener_search_filters": "Поиск среди {count} фильтров...",
+  "cash_secured_put_screener_select_filters_title": "Выбор фильтров ({count})",
+  "cash_secured_put_screener_nothing_found": "Ничего не найдено.",
+
+  "cash_secured_put_screener_save": "Сохранить",
+  "cash_secured_put_screener_save_as_new": "Сохранить как новый",
+  "cash_secured_put_screener_reset_all": "Сбросить всё",
+
+  "cash_secured_put_screener_condition_over": "Больше",
+  "cash_secured_put_screener_condition_under": "Меньше",
+  "cash_secured_put_screener_condition_between": "Между",
+  "cash_secured_put_screener_condition_exactly": "Ровно",
+  "cash_secured_put_screener_condition_any": "Любое",
+
+  "cash_secured_put_screener_input_min": "Мин",
+  "cash_secured_put_screener_input_max": "Макс",
+  "cash_secured_put_screener_input_value": "Значение",
+
+  "cash_secured_put_screener_search_placeholder": "Поиск...",
+  "cash_secured_put_screener_search_modal_placeholder": "Поиск...",
+
+  "cash_secured_put_screener_normal_width": "Обычная ширина",
+  "cash_secured_put_screener_full_width": "Во всю ширину",
+
+  "cash_secured_put_screener_tab_general": "Общее",
+  "cash_secured_put_screener_tab_income": "Доход",
+  "cash_secured_put_screener_tab_filters": "Фильтры",
+  "cash_secured_put_screener_tab_greeks": "Греки",
+
+  "cash_secured_put_screener_pagination_previous": "Назад",
+  "cash_secured_put_screener_pagination_next": "Вперёд",
+  "cash_secured_put_screener_pagination_page_of": "Страница {current} из {total}",
+  "cash_secured_put_screener_rows_label": "{rows} строк",
+  "cash_secured_put_screener_back_to_top": "Наверх",
+
+  "cash_secured_put_screener_no_results_query": "Ничего не найдено по запросу \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "Нет контрактов, подходящих под твои условия.",
+
+  "cash_secured_put_screener_modal_new_title": "Новый скринер",
+  "cash_secured_put_screener_modal_new_name_label": "Название скринера",
+  "cash_secured_put_screener_modal_new_create": "Создать",
+
+  "cash_secured_put_screener_modal_delete_title": "Удалить скринер",
+  "cash_secured_put_screener_modal_delete_message": "Точно удалить этот скринер? Отменить это действие нельзя.",
+  "cash_secured_put_screener_modal_delete_cancel": "Отмена",
+  "cash_secured_put_screener_modal_delete_confirm": "Удалить",
+
+  "cash_secured_put_screener_toast_deleting": "Удаляем скринер...",
+  "cash_secured_put_screener_toast_deleted": "Скринер удалён.",
+  "cash_secured_put_screener_toast_delete_failed": "Не удалось удалить. Попробуй ещё раз.",
+  "cash_secured_put_screener_toast_title_too_long": "Название слишком длинное. Уложись в 100 символов.",
+  "cash_secured_put_screener_toast_created": "Скринер создан.",
+  "cash_secured_put_screener_toast_creating": "Создаём скринер...",
+  "cash_secured_put_screener_toast_create_failed": "Что-то пошло не так. Попробуй позже.",
+  "cash_secured_put_screener_toast_select_rule": "Выбери правило",
+  "cash_secured_put_screener_toast_saving": "Сохраняем скринер...",
+  "cash_secured_put_screener_toast_saved": "Скринер сохранён.",
+  "cash_secured_put_screener_toast_save_failed": "Не удалось сохранить. Попробуй ещё раз.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Цена на экспирации ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Последняя цена: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Безубыточность: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Прибыль/убыток ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Цена базового актива:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Прибыль или убыток:",
+  "cash_secured_put_screener_chart_modal_title": "Обеспеченный пут - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Параметры сделки",
+  "cash_secured_put_screener_chart_sell_put": "Продажа {strike}P по",
+  "cash_secured_put_screener_chart_cash_secured": "Обеспечение деньгами",
+  "cash_secured_put_screener_chart_net_credit": "Чистый кредит",
+  "cash_secured_put_screener_chart_breakeven": "Безубыточность",
+  "cash_secured_put_screener_chart_below": "Ниже",
+  "cash_secured_put_screener_chart_last_price": "Последняя цена",
+  "cash_secured_put_screener_chart_moneyness": "Денежность",
+  "cash_secured_put_screener_chart_return_if_flat": "Доход при неизменной цене",
+  "cash_secured_put_screener_chart_return_if_assigned": "Доход при исполнении",
+  "cash_secured_put_screener_chart_probability_of_profit": "Вероятность прибыли",
+  "cash_secured_put_screener_chart_annualized_abbr": "год.",
+  "cash_secured_put_screener_chart_discount": "Скидка при исполнении"
+}

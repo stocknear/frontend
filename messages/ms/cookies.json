@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Kami menghargai privasi anda",
+  "cookies_banner_description": "Kami menggunakan kuki untuk menambah baik pengalaman melayari anda, menganalisis trafik laman dan memperibadikan kandungan.",
+  "cookies_accept_all": "Terima Semua",
+  "cookies_reject_all": "Tolak Semua",
+  "cookies_customize": "Sesuaikan",
+  "cookies_preferences_title": "Keutamaan Kuki",
+  "cookies_preferences_description": "Urus keutamaan kuki anda. Kuki yang perlu tidak boleh dimatikan kerana ia diperlukan untuk laman web berfungsi.",
+  "cookies_necessary_title": "Kuki Perlu",
+  "cookies_necessary_description": "Penting untuk pengesahan, keselamatan dan fungsi asas. Kuki ini tidak boleh dimatikan.",
+  "cookies_analytics_title": "Kuki Analitik",
+  "cookies_analytics_description": "Membantu kami memahami cara pelawat berinteraksi dengan laman web kami untuk menambah baik pengalaman pengguna.",
+  "cookies_marketing_title": "Kuki Pemasaran",
+  "cookies_marketing_description": "Digunakan untuk menjejak pelawat merentas laman web bagi pengiklanan yang diperibadikan.",
+  "cookies_save_preferences": "Simpan Keutamaan"
+}

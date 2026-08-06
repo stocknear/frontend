@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Pro aktivní tradery, kteří chtějí výhodu.",
+  "upgrade_to_pro_subtitle": "Nepotřebuješ další titulky. Potřebuješ flow, katalyzátory a kontext, které hýbou cenou. Pro dává opční data a data z dark poolů v reálném čase, kroky analytiků a hlubokou historii na jedno místo, takže obchod naplánuješ, místo abys ho doháněl.",
+  "upgrade_to_pro_feature_data_title": "Odemkni všechna data",
+  "upgrade_to_pro_feature_data_desc": "Získáš každý dataset a nástroj na Stocknear, takže si příležitost ověříš rychle a zvládneš jednat s jistotou.",
+  "upgrade_to_pro_feature_flow_title": "Živý options flow a dark pool",
+  "upgrade_to_pro_feature_flow_desc": "Zachyť neobvyklou aktivitu a velké obchody ve chvíli, kdy se dějí, a předběhni dav.",
+  "upgrade_to_pro_feature_analyst_title": "Kroky analytiků, které hýbou cenou",
+  "upgrade_to_pro_feature_analyst_desc": "Sleduj zvýšení a snížení ratingů i cílové ceny, aniž bys musel honit zprávy.",
+  "upgrade_to_pro_feature_history_title": "Hluboká historie pro backtesty",
+  "upgrade_to_pro_feature_history_desc": "Ověř si nápady na prémiových datech a historii až 30 let zpět.",
+  "upgrade_to_pro_cta": "Přejít na Pro"
+}

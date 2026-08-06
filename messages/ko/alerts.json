@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "홈",
+  "price_alert_breadcrumb_price_alert": "알림",
+
+  "price_alert_seo_title": "주식 알림 - 실시간 알림과 시장 소식",
+  "price_alert_seo_description": "원하는 조건으로 주식 알림을 만들고 조건이 충족되면 바로 알림을 받으세요. 관심목록 종목의 실적, 뉴스, 가격 변동을 실시간 데이터로 추적합니다.",
+  "price_alert_seo_keywords": "주식 알림, 가격 알림, 시장 알림, 알림 조건, 실적 캘린더, 종목 뉴스, 실시간 알림, 시장 알림 서비스, 관심목록, 가격 모니터링",
+  "price_alert_structured_name": "알림 - Stocknear",
+  "price_alert_structured_description": "실시간 주식 알림 시스템",
+
+  "price_alert_main_title": "알림",
+
+  "price_alert_search_placeholder": "검색...",
+  "price_alert_no_results": "검색 결과가 없습니다",
+  "price_alert_edit_alert": "알림 수정",
+  "price_alert_cancel": "취소",
+
+  "price_alert_empty_title": "설정된 알림이 없습니다",
+  "price_alert_empty_description": "가능성이 있다고 보는 종목에 알림을 설정해 보세요.",
+  "price_alert_get_started": "시작하기",
+
+  "price_alert_tab_news": "뉴스",
+  "price_alert_tab_earnings": "실적 발표",
+  "price_alert_no_news": "아직 뉴스가 없습니다. 알림 목록에 종목을 추가하면 최신 뉴스를 볼 수 있습니다.",
+  "price_alert_no_earnings": "아직 실적 데이터가 없습니다. 알림 목록에 종목을 추가하면 최신 실적을 볼 수 있습니다.",
+
+  "price_alert_toast_deleted": "알림을 삭제했습니다",
+  "price_alert_toast_select_symbols": "삭제하려면 먼저 종목을 선택하세요",
+
+  "price_alert_earnings_will_report_today": "오늘 실적을 발표합니다.",
+  "price_alert_earnings_will_report_tomorrow": "내일 실적을 발표합니다.",
+  "price_alert_earnings_will_report_monday": "월요일에 실적을 발표합니다.",
+  "price_alert_earnings_will_report": "실적을 발표합니다.",
+  "price_alert_earnings_after_close": "장 마감 후입니다.",
+  "price_alert_earnings_before_open": "장 시작 전입니다.",
+  "price_alert_earnings_during_market": "장중입니다.",
+  "price_alert_earnings_analysts_estimate": "애널리스트 예상치는 매출",
+  "price_alert_earnings_in_revenue": "달러",
+  "price_alert_earnings_yoy": "전년비",
+  "price_alert_earnings_and": "및 EPS",
+  "price_alert_earnings_in_eps": "달러입니다"
+}

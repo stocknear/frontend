@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Disclaimer Data | Sumber & Akurasi Data Keuangan",
+  "data_seo_description": "Informasi lengkap tentang sumber data keuangan kami, standar akurasi, dan pedoman penggunaan data pasar saham, estimasi analis, serta metrik keuangan.",
+  "data_breadcrumb": "Disclaimer Data",
+  "data_hero_title": "Disclaimer Data",
+  "data_intro": "Data keuangan yang ditampilkan di Stocknear disediakan hanya untuk tujuan informasi dan edukasi. Informasi ini tidak boleh diartikan sebagai nasihat keuangan atau dijadikan satu-satunya dasar keputusan trading maupun investasi.",
+  "data_contact": "Kami menerapkan standar ketat untuk akurasi dan kualitas data. Jika Anda menemukan ketidaksesuaian atau butuh penjelasan, hubungi kami lewat {discordLink} atau tim bantuan kami di {email}.",
+  "data_market_title": "Data Pasar & Chart Saham",
+  "data_market_content": "Data pasar dan chart saham real-time kami didukung oleh {fmpLink}, salah satu penyedia layanan data keuangan terkemuka. Ini mencakup harga intraday, data historis, dan indikator teknikal.",
+  "data_coverage_title": "Cakupan Pasar",
+  "data_coverage_content": "Stocknear mencakup secara menyeluruh efek yang tercatat di bursa utama AS, termasuk NASDAQ, NYSE, NYSE American, dan NYSE Arca. Basis data kami mencakup saham, ETF, ADR, dan sejumlah efek OTC pilihan. Kami terus memperluas cakupan ke bursa global dan instrumen keuangan lainnya.",
+  "data_fundamentals_title": "Fundamental Keuangan",
+  "data_fundamentals_content": "Data fundamental keuangan kami bersumber dari {fmpLink} dan berasal dari laporan resmi SEC (Formulir 10-K, 10-Q, dan 8-K). Meskipun sistem kami memperbarui informasi ini setiap hari, keterlambatan tetap mungkin terjadi karena jendela pelaporan SEC dan jadwal pelaporan perusahaan. Seluruh data keuangan yang ditampilkan berdasarkan laporan resmi dan teraudit yang diserahkan perusahaan kepada otoritas.",
+  "data_business_title": "Data Metrik Bisnis",
+  "data_business_content": "Data Metrik Bisnis, termasuk KPI operasional dan unit economics non-GAAP, disediakan lewat mitra kami {mainStreetLink}. Tim riset mereka mengumpulkan, menormalisasi, dan terus memvalidasi pengungkapan ini dari laporan perusahaan, presentasi investor, dan keterangan manajemen agar cakupan kinerja bisnis di platform kami tetap berintegritas tinggi.",
+  "data_analyst_title": "Liputan Analis & Proyeksi Pasar",
+  "data_analyst_content": "Liputan analis kami menggabungkan data dari beberapa sumber tepercaya. Target harga dan rating analis disediakan oleh Benzinga, mewakili pandangan konsensus analis Wall Street terkemuka. Proyeksi pendapatan dan prakiraan EPS dikumpulkan dari Benzinga dan {fmpLink}. Meskipun kami berupaya menyajikan prakiraan seakurat mungkin, perlu diingat bahwa prediksi pasar pada dasarnya tidak pasti dan sebaiknya diperlakukan sebagai bagian dari riset investasi yang lebih luas.",
+  "data_etf_title": "Analitik ETF",
+  "data_etf_content": "Data kepemilikan dan analitik ETF kami disediakan lewat kemitraan dengan {fmpLink}, sehingga informasi komposisi dana, alokasi, dan metrik kinerja tetap akurat dan tepat waktu.",
+  "data_options_title": "Data Pasar Opsi",
+  "data_options_content": "Infrastruktur data pasar opsi kami memanfaatkan beberapa vendor data, menggabungkan feed mereka ke satu jalur terpadu untuk menghadirkan data OPRA (Options Price Reporting Authority) full-stream. Dengan menggabungkan options flow real-time dan data rantai opsi individual dari berbagai sumber, kami memastikan cakupan penuh atas aktivitas dan harga pasar opsi di semua bursa opsi utama AS."
+}

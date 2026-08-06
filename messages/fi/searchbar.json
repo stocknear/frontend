@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Yhtiö tai osaketunnus...",
+  "searchbar_aria_label": "Yhtiö tai osaketunnus...",
+  "searchbar_search_label": "Hae",
+  "searchbar_suggestions": "Ehdotukset",
+  "searchbar_recent": "Viimeisimmät",
+  "searchbar_popular": "Suositut",
+  "searchbar_no_results": "Ei tuloksia"
+}

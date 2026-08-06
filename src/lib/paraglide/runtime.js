@@ -19,7 +19,7 @@ export const baseLocale = "en";
  *     throw new Error('Locale is not available');
  *   }
  */
-export const locales = /** @type {const} */ (["en", "de", "zh-CN", "zh-TW", "es", "fr"]);
+export const locales = /** @type {const} */ (["en", "de", "zh-CN", "zh-TW", "es", "fr", "ja", "ko", "ru", "uk"]);
 /** @type {string} */
 export const cookieName = "PARAGLIDE_LOCALE";
 /** @type {number} */
@@ -64,6 +64,22 @@ export const urlPatterns = [
       [
         "fr",
         ":protocol://:domain(.*)::port?/fr/:path(.*)?"
+      ],
+      [
+        "ja",
+        ":protocol://:domain(.*)::port?/ja/:path(.*)?"
+      ],
+      [
+        "ko",
+        ":protocol://:domain(.*)::port?/ko/:path(.*)?"
+      ],
+      [
+        "ru",
+        ":protocol://:domain(.*)::port?/ru/:path(.*)?"
+      ],
+      [
+        "uk",
+        ":protocol://:domain(.*)::port?/uk/:path(.*)?"
       ],
       [
         "en",

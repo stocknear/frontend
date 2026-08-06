@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "옵션 플로우 스캐너 - 실시간 스윕, 블록, 이상 거래",
+  "options_flow_seo_description": "미국 주식과 ETF의 옵션 플로우, 스윕, 블록 거래를 실시간으로 확인하세요. 이상 거래와 단기 매매 기회를 바로 포착할 수 있습니다.",
+  "options_flow_seo_keywords": "옵션 플로우, 옵션 플로우 스캐너, 이상 옵션 거래, 스윕 주문, 블록 거래, 스마트 머니, 콜 플로우, 풋 플로우, 옵션 알림, OPRA 옵션 플로우",
+  "options_flow_structured_name": "옵션 플로우 스캐너",
+  "options_flow_structured_description": "단기 매매를 위한 실시간 옵션 플로우, 스윕, 블록, 이상 거래",
+
+  "options_flow_main_title": "옵션 플로우",
+
+  "options_flow_popular_filters": "인기 필터",
+  "options_flow_popular_strategies": "인기 전략",
+  "options_flow_select_popular": "인기 항목 선택",
+  "options_flow_saved_filters": "저장한 필터",
+  "options_flow_select_filter": "필터 선택",
+  "options_flow_new_filter": "새 필터",
+
+  "options_flow_filters_count": "필터 {count}개",
+  "options_flow_add_filters": "필터 추가",
+  "options_flow_search_filters": "필터 {count}개 검색...",
+  "options_flow_select_filters_title": "플로우 필터 선택 (총 {count}개)",
+  "options_flow_nothing_found": "결과 없음",
+  "options_flow_no_filters_found": "사용 가능한 필터가 없습니다",
+
+  "options_flow_search_placeholder": "찾기...",
+  "options_flow_search_input_placeholder": "검색...",
+  "options_flow_full_width": "전체 너비",
+  "options_flow_normal_width": "기본 너비",
+
+  "options_flow_no_trades_query": "\"{query}\"에 해당하는 옵션 거래가 없습니다",
+  "options_flow_no_data_filters": "선택한 필터에 맞는 데이터가 없습니다. 필터를 조정한 뒤 다시 시도하세요.",
+
+  "options_flow_modal_new_title": "새 필터",
+  "options_flow_modal_new_name_label": "필터 이름",
+  "options_flow_modal_new_create": "필터 만들기",
+
+  "options_flow_modal_delete_title": "필터 삭제",
+  "options_flow_modal_delete_message": "이 필터를 삭제하시겠습니까? 삭제한 뒤에는 되돌릴 수 없습니다.",
+  "options_flow_modal_delete_cancel": "취소",
+  "options_flow_modal_delete_confirm": "필터 삭제",
+
+  "options_flow_strategy_bullish_sweeps": "강세 스윕",
+  "options_flow_strategy_bearish_sweeps": "약세 스윕",
+  "options_flow_strategy_high_premium_blocks": "고액 프리미엄 블록",
+  "options_flow_strategy_unusual_size_oi": "OI 대비 이상 거래량",
+  "options_flow_strategy_etf_index_flow": "ETF 및 지수 플로우",
+  "options_flow_strategy_zero_dte_flow": "0DTE 플로우",
+  "options_flow_strategy_repeated_flow": "반복 플로우",
+
+  "options_flow_save": "저장",
+  "options_flow_save_as_new": "새로 저장",
+  "options_flow_reset_all": "전체 초기화",
+
+  "options_flow_market_closed": "장 마감",
+  "options_flow_paused": "일시 정지",
+  "options_flow_live_flow": "실시간 플로우",
+  "options_flow_pick_date": "날짜 선택",
+
+  "options_flow_realtime_data": "실시간 옵션 데이터",
+  "options_flow_realtime_data_title": "OPRA 실시간 옵션 데이터",
+  "options_flow_realtime_data_content": "저희 옵션 플로우는 미국 상장 옵션 체결의 공식 통합 피드인 OPRA 실시간 데이터를 사용합니다. 화면에 표시되는 모든 체결은 OPRA에서 실시간으로 전달되므로, 대형 거래와 스윕, 이상 거래, 프리미엄 플로우를 기관 수준으로 지켜볼 수 있습니다. 신뢰도 높은 OPRA 체결 데이터를 바탕으로 더 빠른 인사이트와 정확한 정보를 얻고, 옵션 시장에서 스마트 머니가 어디로 움직이는지 파악할 수 있습니다.",
+
+  "options_flow_hide_filter_area": "필터 영역 숨기기",
+  "options_flow_show_filter_area": "필터 영역 보기",
+
+  "options_flow_put_to_call": "풋콜 비율",
+  "options_flow_call_flow": "콜 플로우",
+  "options_flow_put_flow": "풋 플로우"
+}

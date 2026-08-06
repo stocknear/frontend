@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Stocknear 후원하기",
+  "donation_seo_description": "여러분의 후원은 Stocknear가 최고의 가격으로 세계 1위 주식 분석 플랫폼이 되는 데 힘이 됩니다.",
+  "donation_title": "후원",
+  "donation_intro_greeting": "안녕하세요 👋,",
+  "donation_intro_paragraph_1": "저희를 후원해 주실 생각을 해주셔서 감사합니다. 백엔드 개발부터 고객 응대까지 Stocknear를 혼자 운영하고 있으며, 모든 투자자가 부담 없이 쓸 수 있는 플랫폼을 유지하는 것을 원칙으로 삼고 있습니다.",
+  "donation_intro_paragraph_2": "요금제는 어떤 배경의 개인 투자자라도 양질의 주식 데이터를 이용할 수 있도록 책정했습니다.",
+  "donation_support_paragraph_1": "구독은 기본적인 운영을 유지하기 위한 것이지만, 추가 후원이 있다면 훨씬 더 멀리 갈 수 있습니다. 후원은 단순히 플랫폼을 지원하는 것이 아니라, 열려 있고 투명하며 저렴한 금융 분석이라는 비전에 투자하는 일입니다.",
+  "donation_support_list_intro": "후원금은 다음에 직접 쓰입니다:",
+  "donation_support_list_item_1": "낮은 가격 유지",
+  "donation_support_list_item_2": "데이터 품질과 기능 개선",
+  "donation_support_list_item_3": "업계 1위 주식 분석 플랫폼이라는 목표 실현",
+  "donation_cta_title": "Stocknear 후원하기",
+  "donation_cta_paragraph_1": "저희의 목표에 공감하고 구독 이상으로 지원하고 싶으시다면 GitHub Sponsors를 통해 후원해 주세요. 금액과 관계없이 모든 후원이 개인 투자자 커뮤니티를 위한 서비스에 큰 힘이 됩니다.",
+  "donation_cta_paragraph_2": "여러분의 후원은 저에게 큰 의미가 있으며 Stocknear를 안정적으로 운영하는 데 도움이 됩니다.",
+  "donation_sidebar_about_title": "회사 소개",
+  "donation_iframe_title": "Stocknear 후원하기"
+}

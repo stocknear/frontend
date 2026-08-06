@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Trang chủ",
+  "options_screener_breadcrumb_options_screener": "Bộ lọc quyền chọn",
+
+  "options_screener_seo_title": "Bộ lọc quyền chọn - Tìm dòng tiền bất thường và cơ hội giao dịch",
+  "options_screener_seo_description": "Lọc quyền chọn theo hoạt động bất thường, biến động hàm ý, hợp đồng mở, khối lượng, các chỉ số Greeks và ngày đáo hạn để tìm cơ hội giao dịch ngắn hạn.",
+  "options_screener_seo_keywords": "bộ lọc quyền chọn, hoạt động quyền chọn bất thường, quét quyền chọn, bộ lọc biến động hàm ý, độ lệch IV, hợp đồng mở, quyền chọn khối lượng cao, công cụ giao dịch quyền chọn, bộ lọc Greeks",
+  "options_screener_structured_name": "Công cụ lọc quyền chọn",
+  "options_screener_structured_description": "Bộ lọc quyền chọn tập trung vào hoạt động bất thường, IV và hợp đồng mở cho giao dịch ngắn hạn",
+
+  "options_screener_main_title": "Bộ lọc quyền chọn",
+  "options_screener_contracts_count": "{count} hợp đồng",
+  "options_screener_expire_on": "Tất cả hợp đồng quyền chọn đáo hạn ngày {date}",
+
+  "options_screener_popular_screens": "Bộ lọc phổ biến",
+  "options_screener_popular_strategies": "Chiến lược phổ biến",
+  "options_screener_select_popular": "Chọn bộ lọc phổ biến",
+  "options_screener_saved_screens": "Bộ lọc đã lưu",
+  "options_screener_select_screen": "Chọn bộ lọc",
+  "options_screener_new_screen": "Bộ lọc mới",
+
+  "options_screener_filters_count": "{count} bộ lọc",
+  "options_screener_add_filters": "Thêm bộ lọc",
+  "options_screener_search_filters": "Tìm trong {count} bộ lọc...",
+  "options_screener_select_filters_title": "Chọn tiêu chí lọc (tổng {count})",
+  "options_screener_nothing_found": "Không tìm thấy gì",
+
+  "options_screener_tab_general": "Chung",
+  "options_screener_tab_filters": "Bộ lọc",
+  "options_screener_tab_greeks": "Greeks",
+
+  "options_screener_search_placeholder": "Tìm...",
+  "options_screener_search_input_placeholder": "Tìm kiếm...",
+  "options_screener_input_min": "Tối thiểu",
+  "options_screener_input_max": "Tối đa",
+  "options_screener_input_value": "Giá trị",
+
+  "options_screener_normal_width": "Khổ thường",
+  "options_screener_full_width": "Toàn màn hình",
+
+  "options_screener_pagination_previous": "Trước",
+  "options_screener_pagination_next": "Sau",
+  "options_screener_pagination_page_of": "Trang {current}/{total}",
+  "options_screener_rows_label": "{rows} dòng",
+  "options_screener_back_to_top": "Lên đầu trang",
+
+  "options_screener_no_contracts_query": "Không tìm thấy hợp đồng nào cho \"{query}\"",
+  "options_screener_no_contracts": "Không tìm thấy hợp đồng nào.",
+
+  "options_screener_modal_new_title": "Bộ lọc mới",
+  "options_screener_modal_new_name_label": "Tên bộ lọc",
+  "options_screener_modal_new_create": "Tạo bộ lọc",
+
+  "options_screener_modal_delete_title": "Xóa bộ lọc",
+  "options_screener_modal_delete_message": "Bạn có chắc muốn xóa bộ lọc này? Thao tác này không thể hoàn tác.",
+  "options_screener_modal_delete_cancel": "Hủy",
+  "options_screener_modal_delete_confirm": "Xóa",
+
+  "options_screener_strategy_high_iv_rank": "Xếp hạng IV cao",
+  "options_screener_strategy_volume_surge": "Khối lượng tăng vọt",
+  "options_screener_strategy_itm_calls": "Call trong tiền",
+  "options_screener_strategy_otm_puts": "Put ngoài tiền",
+  "options_screener_strategy_high_premium_flow": "Dòng phí quyền chọn lớn",
+
+  "options_screener_save": "Lưu",
+  "options_screener_save_as_new": "Lưu thành bộ lọc mới",
+  "options_screener_reset_all": "Đặt lại tất cả"
+}

@@ -61,6 +61,7 @@
     watchlist_tab_earnings,
   } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getLocaleDefinition } from "$lib/i18n/locales";
 
   import { onMount } from "svelte";
   import Input from "$lib/components/Input.svelte";
@@ -279,6 +280,10 @@
 
   function formatTimeLocale(dateString: string): string {
     const date = new Date(dateString);
+    // toLocaleTimeString returns "Invalid Date" rather than throwing, unlike Intl.format,
+    // so this is defensive rather than a live bug — but "Invalid Date Uhr" is not a string
+    // anyone should see in a table cell.
+    if (Number.isNaN(date.getTime())) return dateString;
     const isGerman = getLocale() === "de";
     if (isGerman) {
       return (
@@ -289,10 +294,11 @@
         }) + " Uhr"
       );
     }
-    return date.toLocaleTimeString("en-US", {
+    // Locale's own clock convention instead of English AM/PM everywhere. en-US is
+    // unchanged; ja/de/fr and the rest now render 24-hour as they should.
+    return date.toLocaleTimeString(getLocaleDefinition(getLocale()).intlTag, {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
     });
   }
 

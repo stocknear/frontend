@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Få support",
+  "support_breadcrumb_home": "Forside",
+  "support_breadcrumb_current": "Få support",
+  "support_title": "Få support",
+  "support_description_1": "Send din henvendelse via formularen nedenfor, så vender vi tilbage hurtigst muligt. Du kan også sende en mail direkte til",
+  "support_description_2": "Du finder svar på nogle af de mest almindelige spørgsmål her:",
+  "support_faq_link": "Ofte stillede spørgsmål",
+  "support_description_3": "Har du brug for hjælp med en fejl eller forkerte data, så skriv den præcise URL på den side, hvor du fandt den.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Emne",
+  "support_label_message": "Besked",
+  "support_button_send": "Send besked",
+  "support_button_processing": "Behandler...",
+  "support_success_message": "Din besked er sendt. Vi vender tilbage hurtigst muligt.",
+  "support_toast_error": "Noget gik galt. Prøv igen...",
+  "support_sidebar_pro_title": "Pro-abonnement",
+  "support_sidebar_pro_description": "Opgrader nu og få fri adgang til alle data og værktøjer uden reklamer.",
+  "support_sidebar_screener_title": "Aktiescreener",
+  "support_sidebar_screener_description": "Filtrer, sortér og analysér alle aktier for at finde din næste investering.",
+  "support_sidebar_watchlist_title": "Watchlister",
+  "support_sidebar_watchlist_description": "Hold øje med dine favoritaktier i realtid."
+}

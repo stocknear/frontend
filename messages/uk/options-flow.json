@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Сканер потоку опціонів - свіпи, блоки та незвичайна активність",
+  "options_flow_seo_description": "Стеж за потоком опціонів, свіпами та блоками по акціях і ETF США. Помічай незвичайну активність і короткострокові сетапи в реальному часі.",
+  "options_flow_seo_keywords": "потік опціонів, сканер потоку опціонів, незвичайна активність в опціонах, свіп-ордери, блокові угоди, розумні гроші, потік колів, потік путів, сповіщення по опціонах, потік опціонів OPRA",
+  "options_flow_structured_name": "Сканер потоку опціонів",
+  "options_flow_structured_description": "Потік опціонів у реальному часі зі свіпами, блоками та незвичайною активністю для короткострокових сетапів",
+
+  "options_flow_main_title": "Потік опціонів",
+
+  "options_flow_popular_filters": "Популярні фільтри",
+  "options_flow_popular_strategies": "Популярні стратегії",
+  "options_flow_select_popular": "Обрати популярні",
+  "options_flow_saved_filters": "Збережені фільтри",
+  "options_flow_select_filter": "Обрати фільтр",
+  "options_flow_new_filter": "Новий фільтр",
+
+  "options_flow_filters_count": "Фільтрів: {count}",
+  "options_flow_add_filters": "Додати фільтри",
+  "options_flow_search_filters": "Пошук серед {count} фільтрів...",
+  "options_flow_select_filters_title": "Обери фільтри потоку (всього {count})",
+  "options_flow_nothing_found": "Нічого не знайдено",
+  "options_flow_no_filters_found": "Доступних фільтрів не знайдено",
+
+  "options_flow_search_placeholder": "Знайти...",
+  "options_flow_search_input_placeholder": "Пошук...",
+  "options_flow_full_width": "На всю ширину",
+  "options_flow_normal_width": "Звичайна ширина",
+
+  "options_flow_no_trades_query": "Угод з опціонами за запитом \"{query}\" не знайдено",
+  "options_flow_no_data_filters": "За обраними фільтрами даних немає. Зміни фільтри і спробуй ще раз.",
+
+  "options_flow_modal_new_title": "Новий фільтр",
+  "options_flow_modal_new_name_label": "Назва фільтра",
+  "options_flow_modal_new_create": "Створити фільтр",
+
+  "options_flow_modal_delete_title": "Видалити фільтр",
+  "options_flow_modal_delete_message": "Точно видалити цей фільтр? Цю дію не можна скасувати.",
+  "options_flow_modal_delete_cancel": "Скасувати",
+  "options_flow_modal_delete_confirm": "Видалити фільтр",
+
+  "options_flow_strategy_bullish_sweeps": "Бичачі свіпи",
+  "options_flow_strategy_bearish_sweeps": "Ведмежі свіпи",
+  "options_flow_strategy_high_premium_blocks": "Блоки з високою премією",
+  "options_flow_strategy_unusual_size_oi": "Незвичайний розмір проти OI",
+  "options_flow_strategy_etf_index_flow": "Потік ETF та індексів",
+  "options_flow_strategy_zero_dte_flow": "Потік 0DTE",
+  "options_flow_strategy_repeated_flow": "Повторюваний потік",
+
+  "options_flow_save": "Зберегти",
+  "options_flow_save_as_new": "Зберегти як новий",
+  "options_flow_reset_all": "Скинути все",
+
+  "options_flow_market_closed": "Ринок закрито",
+  "options_flow_paused": "Призупинено",
+  "options_flow_live_flow": "Потік наживо",
+  "options_flow_pick_date": "Обери дату",
+
+  "options_flow_realtime_data": "Дані по опціонах у реальному часі",
+  "options_flow_realtime_data_title": "Дані по опціонах у реальному часі від OPRA",
+  "options_flow_realtime_data_content": "Наш потік опціонів працює на даних OPRA в реальному часі - офіційній консолідованій стрічці всіх угод з біржовими опціонами США. Тож кожен принт, який ти бачиш, надходить напряму від OPRA без затримки і дає видимість інституційного рівня на великі угоди, свіпи, незвичайну активність та потік премії просто в момент, коли це відбувається. Завдяки надійній стрічці угод OPRA ти отримуєш швидші висновки, чистіші дані й точнішу картину того, куди рухаються розумні гроші на ринку опціонів.",
+
+  "options_flow_hide_filter_area": "Сховати панель фільтрів",
+  "options_flow_show_filter_area": "Показати панель фільтрів",
+
+  "options_flow_put_to_call": "Пут до колу",
+  "options_flow_call_flow": "Потік колів",
+  "options_flow_put_flow": "Потік путів"
+}

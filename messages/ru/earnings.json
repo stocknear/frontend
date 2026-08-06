@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Главная",
+  "earnings_breadcrumb_calendar": "Календарь отчётов",
+
+  "earnings_seo_title": "Календарь отчётов - сетапы волатильности для опционных трейдеров",
+  "earnings_seo_description": "Отслеживай даты отчётов, ожидаемые движения и прогнозы аналитиков, чтобы планировать сделки на волатильности опционов и сетапы IV crush.",
+  "earnings_seo_keywords": "календарь отчётов, опционные сделки на отчётах, ожидаемое движение, IV crush, волатильность на отчётах, прогнозы EPS, прогнозы выручки, график отчётов",
+
+  "earnings_structured_name": "Календарь отчётов",
+  "earnings_structured_description": "Календарь отчётов, созданный для опционных трейдеров с фокусом на волатильность и ожидаемые движения",
+
+  "earnings_main_name": "Календарь отчётов",
+  "earnings_count": "{count} отчётов",
+  "earnings_empty": "На этот день отчётов нет.",
+  "earnings_empty_scheduled": "Отчёты не запланированы",
+
+  "earnings_tab_daily": "По дням",
+  "earnings_tab_weekly": "По неделям",
+  "earnings_tab_details": "Детали",
+  "earnings_tab_compact": "Компактно",
+
+  "earnings_time_of_day": "Время дня",
+  "earnings_time_any": "Любое время",
+  "earnings_time_before_open": "До открытия",
+  "earnings_time_after_close": "После закрытия",
+
+  "earnings_expanded_reports": "Отчёты",
+  "earnings_expanded_market_cap": "Рыночная капитализация",
+  "earnings_expanded_revenue_est": "Прогноз выручки",
+  "earnings_expanded_revenue_estimate": "Прогноз выручки",
+  "earnings_expanded_eps_est": "Прогноз EPS",
+  "earnings_expanded_eps_estimate": "Прогноз EPS",
+
+  "earnings_pagination_previous": "Назад",
+  "earnings_pagination_next": "Далее",
+  "earnings_pagination_page_of": "Страница {current} из {total}",
+  "earnings_pagination_rows": "{count} строк",
+  "earnings_back_to_top": "Наверх",
+  "earnings_search_placeholder": "Поиск..."
+}

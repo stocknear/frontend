@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Opsjonsflyt, sweeps og uvanlig aktivitet i sanntid",
+  "home_seo_description": "Opsjonsflyt, sweeps, blokkhandler og uvanlig aktivitet i amerikanske aksjer og ETF-er, live. Finn kortsiktige handelsoppsett raskere med Stocknear.",
+  "home_seo_keywords": "opsjonsflyt, uvanlig opsjonsaktivitet, sweep-ordrer, blokkhandler, dark pool, implisitt volatilitet, IV-skjevhet, open interest, opsjonskjede, kortsiktige handelsoppsett, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Opsjonsflyt og uvanlig aktivitet i sanntid for kortsiktige handelsoppsett",
+  "home_structured_feature_live_options_flow": "Opsjonsflyt og sweeps live",
+  "home_structured_feature_unusual_options_activity": "Uvanlig opsjonsaktivitet",
+  "home_structured_feature_dark_pool_monitoring": "Overvåking av dark pools",
+  "home_structured_feature_implied_volatility": "Implisitt volatilitet og skjevhet",
+  "home_structured_feature_options_chain": "Opsjonskjede og open interest",
+  "home_structured_feature_earnings_volatility": "Volatilitet rundt kvartalstall",
+  "home_structured_feature_market_catalysts": "Utløsere i markedet",
+  "home_hero_title": "Se bevegelsen før flokken gjør det",
+  "home_hero_subtitle": "Kurser i sanntid, opsjonsflyt, dark pool-ordrer, nyheter, regnskapstall, prognoser og grafer for hver amerikanske aksje og ETF. Handle raskere på rene signaler.",
+  "home_promo_pill_label": "Sommersalg",
+  "home_promo_pill_discount": "{percent} rabatt",
+  "home_promo_pill_subtitle": "på alle årsabonnementer"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Dibuat untuk trader aktif yang ingin unggul.",
+  "upgrade_to_pro_subtitle": "Anda tidak butuh lebih banyak headline. Anda butuh flow, katalis, dan konteks yang menggerakkan harga. Pro menyatukan data opsi dan dark pool real-time, pergerakan analis, serta riwayat mendalam di satu tempat supaya Anda bisa merencanakan trading, bukan mengejarnya.",
+  "upgrade_to_pro_feature_data_title": "Buka seluruh data",
+  "upgrade_to_pro_feature_data_desc": "Dapatkan semua dataset dan tools di Stocknear agar Anda bisa menilai setup dengan cepat dan bertindak yakin.",
+  "upgrade_to_pro_feature_flow_title": "Options flow + dark pool live",
+  "upgrade_to_pro_feature_flow_desc": "Temukan aktivitas tidak biasa dan transaksi besar saat terjadi, lalu bergerak sebelum orang lain.",
+  "upgrade_to_pro_feature_analyst_title": "Katalis analis yang menggerakkan harga",
+  "upgrade_to_pro_feature_analyst_desc": "Pantau upgrade, downgrade, dan target harga tanpa perlu mengejar berita.",
+  "upgrade_to_pro_feature_history_title": "Riwayat mendalam untuk backtest",
+  "upgrade_to_pro_feature_history_desc": "Uji ide Anda dengan data premium dan riwayat hingga 30 tahun.",
+  "upgrade_to_pro_cta": "Upgrade ke Pro"
+}

@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Beranda",
+  "ipos_breadcrumb_data": "Data IPO",
+
+  "ipos_seo_title": "Kalender IPO - IPO Terbaru & Mendatang | Penawaran Umum Perdana",
+  "ipos_seo_description": "Pantau IPO terbaru dan yang akan datang lengkap dengan analisis rinci. Lihat kinerja IPO, harga, tanggal, dan imbal hasil sejak pencatatan. Kalender dan pelacak IPO gratis dengan data lengkap.",
+  "ipos_seo_keywords": "kalender IPO, IPO mendatang, IPO terbaru, penawaran umum perdana, pelacak IPO, kinerja IPO, harga IPO, pencatatan saham baru, penawaran umum",
+
+  "ipos_main_name_recent": "IPO Terbaru",
+  "ipos_main_name_statistics": "Statistik IPO",
+  "ipos_count": "{count} Saham",
+  "ipos_tab_recent": "Terbaru",
+  "ipos_tab_statistics": "Statistik",
+  "ipos_tab_latest": "Terkini",
+
+  "ipos_statistics_seo_title": "Statistik IPO & Grafik Historis - Data Pasar Penawaran Umum Perdana",
+  "ipos_statistics_seo_description": "Statistik IPO lengkap dan grafik interaktif untuk penawaran umum perdana di pasar saham AS. Pantau tren IPO tahunan dan bulanan dari {startYear} hingga {endYear}, analisis siklus pasar, dan temukan pola kinerja IPO.",
+  "ipos_statistics_seo_keywords": "statistik IPO, grafik penawaran umum perdana, data pasar IPO, tren IPO, analisis IPO, data IPO historis, kinerja IPO, statistik IPO tahunan, data IPO bulanan",
+  "ipos_statistics_infobox": "Halaman ini menyajikan statistik dan grafik penawaran umum perdana (IPO) di pasar saham AS. Data tahunan dan bulanan tersedia dari {startYear} hingga {endYear}.",
+  "ipos_statistics_title": "Jumlah IPO per Tahun",
+  "ipos_statistics_description": "Terdapat {count} IPO antara {startYear} dan {endYear}. Jumlah paling sedikit terjadi pada {minYear} dengan hanya {minCount}. Tahun penuh {maxYear} menjadi rekor sepanjang masa dengan {maxCount} IPO.",
+  "ipos_statistics_stock_news": "Berita Saham",
+  "ipos_statistics_more_news": "Berita Saham Lainnya",
+
+  "ipos_year_seo_title": "Daftar IPO {year} - Direktori Lengkap Penawaran Umum Perdana",
+  "ipos_year_seo_description": "Daftar lengkap semua penawaran umum perdana (IPO) tahun {year} di pasar saham AS. Pantau kinerja IPO, penetapan harga, imbal hasil sejak pencatatan, dan debut pasar dengan informasi perusahaan serta data historis yang rinci.",
+  "ipos_year_seo_keywords": "IPO {year}, penawaran umum perdana {year}, daftar IPO {year}, kinerja IPO {year}, IPO terbaru, kalender IPO {year}, perusahaan publik baru {year}",
+  "ipos_year_empty": "Tidak ada IPO yang ditemukan. Sesuaikan rentang waktu pencarian Anda untuk melihat IPO {year} terbaru.",
+
+  "ipos_statistics_chart_title": "IPO per Tahun, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Penawaran Umum Perdana {year}",
+  "ipos_year_summary": "Terdapat {count} IPO pada {year}.",
+  "ipos_year_extremes": "Bulan tersibuk adalah {maxMonth} dengan {maxCount}, yang paling sepi adalah {minMonth} dengan {minCount}.",
+  "ipos_year_none": "Tidak ada IPO pada {year}."
+}

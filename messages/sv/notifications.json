@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Hem",
+  "notifications_breadcrumb_notifications": "Notiser",
+
+  "notifications_seo_title": "Börsnotiser | Uppdateringar och larm i realtid",
+  "notifications_seo_description": "Håll koll med börsnotiser i realtid. Få direkta larm om kursrörelser, trender och marknadsrörelser så att du kan fatta bättre investeringsbeslut.",
+
+  "notifications_main_title": "Notis",
+  "notifications_alerts_count": "{count} larm",
+
+  "notifications_mark_all_read": "Markera alla som lästa",
+  "notifications_marking": "Markerar...",
+  "notifications_settings": "Inställningar",
+  "notifications_customize": "Anpassa dina notiser",
+
+  "notifications_channel_earnings_surprise": "Rapportöverraskning",
+  "notifications_channel_wiim": "Varför kursen rörde sig",
+  "notifications_channel_top_analyst": "Rekommendation från toppanalytiker",
+  "notifications_channel_followed_analysts": "Analytiker du följer",
+  "notifications_no_channels": "Inga notiskanaler tillgängliga.",
+
+  "notifications_empty": "Du har inga notiser än.",
+
+  "notifications_pagination_previous": "Föregående",
+  "notifications_pagination_next": "Nästa",
+  "notifications_pagination_page_of": "Sida {current} av {total}",
+  "notifications_pagination_rows": "{count} rader",
+  "notifications_back_to_top": "Till toppen",
+
+  "notifications_modal_delete_title": "Radera alla notiser",
+  "notifications_modal_delete_confirm": "Vill du radera alla notiser? Det går inte att ångra.",
+  "notifications_modal_delete_button": "Radera notiser",
+  "notifications_modal_deleting": "Raderar...",
+  "notifications_modal_cancel": "Avbryt",
+  "notifications_delete_error": "Kunde inte radera notiserna. Försök igen.",
+
+  "notifications_type_price_alert_triggered": "Larm utlöst för",
+  "notifications_type_price_is": "Priset på",
+  "notifications_type_is_condition": "är {condition} din nivå på",
+  "notifications_type_breaking_news": "Nyhet just nu för",
+  "notifications_type_wiim_new_data": "Ny data för händelsen \"Varför kursen rörde sig\" finns nu.",
+  "notifications_type_top_analyst_new": "Ny rekommendation från toppanalytiker för",
+  "notifications_type_top_analyst_rating": "Analyshuset {analyst} har satt en ny rekommendation \"{rating}\" med uppdaterad riktkurs på {price}.",
+  "notifications_type_followed_analyst_new": "Ny rekommendation från",
+  "notifications_type_followed_analyst_rating": "Satte \"{rating}\" på {symbol} med riktkurs {price}.",
+  "notifications_type_earnings_release": "Rapport för",
+  "notifications_type_earnings_surprise_new": "Ny data för händelsen \"Rapportöverraskning\" finns nu.",
+
+  "notifications_sidebar_watchlist": "Bevakningslista",
+  "notifications_sidebar_watchlist_description": "Få uppdateringar i realtid om dina favoritaktier",
+  "notifications_sidebar_portfolio": "Portföljbevakning",
+  "notifications_sidebar_portfolio_description": "Få uppdateringar i realtid om din portfölj"
+}

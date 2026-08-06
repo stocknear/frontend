@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Kami menghargai privasi Anda",
+  "cookies_banner_description": "Kami memakai cookie untuk meningkatkan pengalaman menjelajah, menganalisis trafik situs, dan mempersonalisasi konten.",
+  "cookies_accept_all": "Terima Semua",
+  "cookies_reject_all": "Tolak Semua",
+  "cookies_customize": "Atur Sendiri",
+  "cookies_preferences_title": "Preferensi Cookie",
+  "cookies_preferences_description": "Kelola preferensi cookie Anda. Cookie yang diperlukan tidak bisa dinonaktifkan karena dibutuhkan agar situs berfungsi.",
+  "cookies_necessary_title": "Cookie yang Diperlukan",
+  "cookies_necessary_description": "Penting untuk autentikasi, keamanan, dan fungsi dasar. Cookie ini tidak bisa dinonaktifkan.",
+  "cookies_analytics_title": "Cookie Analitik",
+  "cookies_analytics_description": "Membantu kami memahami cara pengunjung memakai situs untuk memperbaiki pengalaman pengguna.",
+  "cookies_marketing_title": "Cookie Pemasaran",
+  "cookies_marketing_description": "Dipakai untuk melacak pengunjung di berbagai situs demi iklan yang dipersonalisasi.",
+  "cookies_save_preferences": "Simpan Preferensi"
+}

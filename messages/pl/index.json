@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Przegląd",
+  "index_detail_nav_options": "Opcje",
+  "index_detail_nav_history": "Historia",
+  "index_detail_nav_holdings": "Skład",
+
+  "index_detail_watchlist": "Obserwowane",
+  "index_detail_price_alert": "Alert",
+  "index_detail_add_to_watchlist": "Dodaj do obserwowanych",
+  "index_detail_ticker_added": "Ticker dodany do obserwowanych",
+  "index_detail_ticker_add_failed": "Nie udało się dodać tickera do obserwowanych",
+  "index_detail_upgrade_watchlist": "Chcesz dodać więcej spółek? Wybierz Plus lub Pro",
+  "index_detail_companies": "Spółki",
+  "index_detail_company": "Spółka",
+
+  "index_detail_no_data": "Brak dostępnych danych",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Kupno",
+  "index_detail_ask": "Sprzedaż",
+  "index_detail_volume": "Wolumen",
+  "index_detail_avg_volume_20d": "Śr. wolumen (20D)",
+  "index_detail_50_day_ma": "Średnia 50-dniowa",
+  "index_detail_200_day_ma": "Średnia 200-dniowa",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "Wskaźnik P/E (ttm)",
+  "index_detail_shares_out": "Liczba akcji",
+  "index_detail_inception_date": "Data utworzenia",
+  "index_detail_open": "Otwarcie",
+  "index_detail_prev_close": "Poprz. zamknięcie",
+  "index_detail_days_range": "Zakres dnia",
+  "index_detail_52w_range": "Zakres 52 tygodni",
+  "index_detail_exchange": "Giełda",
+  "index_detail_expense_ratio": "Opłata za zarządzanie",
+
+  "index_detail_chart_price": "Cena",
+  "index_detail_chart_volume": "Wolumen",
+
+  "index_sidecard_about": "O {ticker}",
+  "index_sidecard_top_sectors": "5 największych sektorów",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Udział %",
+  "index_sidecard_view_all_sectors": "Zobacz wszystkie sektory"
+}

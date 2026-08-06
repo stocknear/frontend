@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "데이터 고지 | 금융 데이터 출처 및 정확성",
+  "data_seo_description": "주식 시장 데이터, 애널리스트 추정치, 재무 지표의 출처와 정확성 기준, 이용 안내를 자세히 안내합니다.",
+  "data_breadcrumb": "데이터 고지",
+  "data_hero_title": "데이터 고지",
+  "data_intro": "Stocknear에 표시되는 금융 데이터는 정보 제공 및 교육 목적으로만 제공됩니다. 투자 자문으로 해석하거나 매매 및 투자 판단의 유일한 근거로 사용해서는 안 됩니다.",
+  "data_contact": "저희는 데이터 정확성과 품질 관리에 엄격한 기준을 적용합니다. 오류를 발견하셨거나 확인이 필요하시면 {discordLink}로 문의하시거나 {email}로 고객 지원팀에 연락해 주세요.",
+  "data_market_title": "시장 데이터 및 주가 차트",
+  "data_market_content": "시장 데이터와 실시간 주가 차트는 금융 데이터 서비스 선도 업체인 {fmpLink}가 제공합니다. 여기에는 장중 시세, 과거 데이터, 기술적 지표가 포함됩니다.",
+  "data_coverage_title": "커버리지",
+  "data_coverage_content": "Stocknear는 NASDAQ, NYSE, NYSE American, NYSE Arca 등 미국 주요 거래소에 상장된 종목을 폭넓게 다룹니다. 데이터베이스에는 주식, ETF, ADR과 일부 장외 종목이 포함됩니다. 해외 거래소와 금융상품으로도 커버리지를 계속 확대하고 있습니다.",
+  "data_fundamentals_title": "재무 펀더멘털",
+  "data_fundamentals_content": "펀더멘털 재무 데이터는 {fmpLink}에서 제공받으며, SEC 공시 자료(10-K, 10-Q, 8-K)를 기반으로 합니다. 매일 업데이트하지만 SEC 공시 일정과 기업 보고 주기 때문에 일부 지연이 발생할 수 있습니다. 제공되는 모든 재무 데이터는 기업이 규제기관에 제출한 공식 감사 자료를 근거로 합니다.",
+  "data_business_title": "비즈니스 지표 데이터",
+  "data_business_content": "운영 KPI와 non-GAAP 단위 경제성을 포함한 비즈니스 지표 데이터는 파트너사 {mainStreetLink}를 통해 제공됩니다. 해당 리서치팀은 기업 공시, IR 자료, 경영진 발언에서 이 정보를 수집하고 표준화하며 지속적으로 검증해 신뢰도 높은 사업 실적 데이터를 제공합니다.",
+  "data_analyst_title": "애널리스트 커버리지 및 시장 전망",
+  "data_analyst_content": "애널리스트 커버리지는 여러 공신력 있는 출처를 통합해 제공합니다. 목표주가와 투자의견은 Benzinga가 제공하며 주요 월가 애널리스트의 컨센서스를 반영합니다. 매출 전망과 EPS 추정치는 Benzinga와 {fmpLink}의 데이터를 함께 집계합니다. 최대한 정확한 전망을 제공하려 노력하지만 시장 예측에는 본질적인 불확실성이 있으므로 폭넓은 투자 리서치 과정의 일부로 참고하시기 바랍니다.",
+  "data_etf_title": "ETF 분석",
+  "data_etf_content": "ETF 보유 종목 데이터와 분석은 {fmpLink}와의 제휴를 통해 제공되며, 펀드 구성과 자산 배분, 성과 지표를 정확하고 신속하게 확인할 수 있습니다.",
+  "data_options_title": "옵션 시장 데이터",
+  "data_options_content": "옵션 시장 데이터는 여러 데이터 공급사의 피드를 하나의 파이프라인으로 통합해 OPRA(Options Price Reporting Authority) 전체 스트림 데이터를 제공합니다. 실시간 옵션 플로우와 개별 옵션 체인 데이터를 여러 출처에서 집계해 미국 주요 옵션 거래소 전반의 거래와 가격을 빠짐없이 다룹니다."
+}

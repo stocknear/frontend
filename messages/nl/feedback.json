@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Feedback geven",
+  "feedback_error_signin": "Log eerst in voordat je feedback stuurt.",
+  "feedback_error_description": "Beschrijf je probleem of suggestie.",
+  "feedback_error_send_try_again": "Er ging iets mis bij het versturen van je feedback. Probeer het opnieuw.",
+  "feedback_success": "Bedankt, je feedback is verstuurd.",
+  "feedback_error_send_generic": "Er ging iets mis bij het versturen van je feedback.",
+  "feedback_description_label": "Beschrijf je probleem of suggestie:",
+  "feedback_page_label": "Feedback over pagina:",
+  "feedback_close_button": "Sluiten",
+  "feedback_cancel_button": "Annuleren",
+  "feedback_send_button": "Feedback versturen"
+}

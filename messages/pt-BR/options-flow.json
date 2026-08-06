@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Scanner de Fluxo de Opções - Sweeps, Blocos e Atividade Atípica ao Vivo",
+  "options_flow_seo_description": "Acompanhe o fluxo de opções ao vivo, com sweeps e blocos em ações e ETFs dos EUA. Identifique atividade atípica e oportunidades de curto prazo em tempo real.",
+  "options_flow_seo_keywords": "fluxo de opções, scanner de fluxo de opções, atividade atípica em opções, ordens sweep, negócios em bloco, dinheiro institucional, fluxo de calls, fluxo de puts, alertas de opções, fluxo de opções OPRA",
+  "options_flow_structured_name": "Scanner de Fluxo de Opções",
+  "options_flow_structured_description": "Fluxo de opções ao vivo com sweeps, blocos e atividade atípica para operações de curto prazo",
+
+  "options_flow_main_title": "Fluxo de Opções",
+
+  "options_flow_popular_filters": "Filtros populares",
+  "options_flow_popular_strategies": "Estratégias populares",
+  "options_flow_select_popular": "Selecionar populares",
+  "options_flow_saved_filters": "Filtros salvos",
+  "options_flow_select_filter": "Selecionar filtro",
+  "options_flow_new_filter": "Novo filtro",
+
+  "options_flow_filters_count": "{count} filtros",
+  "options_flow_add_filters": "Adicionar filtros",
+  "options_flow_search_filters": "Buscar em {count} filtros...",
+  "options_flow_select_filters_title": "Selecione os filtros de fluxo ({count} no total)",
+  "options_flow_nothing_found": "Nada encontrado",
+  "options_flow_no_filters_found": "Nenhum filtro disponível encontrado",
+
+  "options_flow_search_placeholder": "Buscar...",
+  "options_flow_search_input_placeholder": "Buscar...",
+  "options_flow_full_width": "Tela cheia",
+  "options_flow_normal_width": "Largura normal",
+
+  "options_flow_no_trades_query": "Nenhuma operação de opções encontrada para \"{query}\"",
+  "options_flow_no_data_filters": "Nenhum dado encontrado com os filtros selecionados. Ajuste os filtros e tente de novo.",
+
+  "options_flow_modal_new_title": "Novo filtro",
+  "options_flow_modal_new_name_label": "Nome do filtro",
+  "options_flow_modal_new_create": "Criar filtro",
+
+  "options_flow_modal_delete_title": "Excluir filtro",
+  "options_flow_modal_delete_message": "Tem certeza que quer excluir este filtro? Esta ação não pode ser desfeita.",
+  "options_flow_modal_delete_cancel": "Cancelar",
+  "options_flow_modal_delete_confirm": "Excluir filtro",
+
+  "options_flow_strategy_bullish_sweeps": "Sweeps de Alta",
+  "options_flow_strategy_bearish_sweeps": "Sweeps de Baixa",
+  "options_flow_strategy_high_premium_blocks": "Blocos de Prêmio Alto",
+  "options_flow_strategy_unusual_size_oi": "Tamanho Atípico vs OI",
+  "options_flow_strategy_etf_index_flow": "Fluxo de ETF e Índices",
+  "options_flow_strategy_zero_dte_flow": "Fluxo 0DTE",
+  "options_flow_strategy_repeated_flow": "Fluxo Repetido",
+
+  "options_flow_save": "Salvar",
+  "options_flow_save_as_new": "Salvar como novo",
+  "options_flow_reset_all": "Limpar tudo",
+
+  "options_flow_market_closed": "Mercado fechado",
+  "options_flow_paused": "Pausado",
+  "options_flow_live_flow": "Fluxo ao vivo",
+  "options_flow_pick_date": "Escolha uma data",
+
+  "options_flow_realtime_data": "Dados de opções em tempo real",
+  "options_flow_realtime_data_title": "Dados de opções em tempo real da OPRA",
+  "options_flow_realtime_data_content": "Nosso fluxo de opções usa dados da OPRA em tempo real, o feed consolidado oficial de todas as operações de opções listadas nos EUA. Assim, cada print que você vê chega direto da OPRA na hora, com visibilidade de nível institucional sobre grandes negócios, sweeps, atividade atípica e fluxo de prêmio no momento em que acontecem. Contando com o fluxo de alta integridade da OPRA, você tem leitura mais rápida, dados mais limpos e uma visão mais precisa de onde o dinheiro institucional está se movendo no mercado de opções.",
+
+  "options_flow_hide_filter_area": "Ocultar área de filtros",
+  "options_flow_show_filter_area": "Mostrar área de filtros",
+
+  "options_flow_put_to_call": "Put/call",
+  "options_flow_call_flow": "Fluxo de calls",
+  "options_flow_put_flow": "Fluxo de puts"
+}

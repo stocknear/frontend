@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Ana Sayfa",
+  "covered_call_screener_breadcrumb_title": "Kapalı Call Tarayıcı",
+
+  "covered_call_screener_seo_title": "Kapalı Call Tarayıcı - En İyi Covered Call Fırsatlarını Bul",
+  "covered_call_screener_seo_description": "Binlerce opsiyonu kapalı call fırsatları için tara. Prim verimi, yıllıklandırılmış getiri, kullanım fiyatı, vade ve daha fazlasına göre filtrele.",
+  "covered_call_screener_seo_keywords": "kapalı call tarayıcı, opsiyon tarayıcı, covered call, prim verimi, gelir stratejisi",
+  "covered_call_screener_structured_name": "Kapalı Call Tarayıcı",
+  "covered_call_screener_structured_description": "Opsiyonları kapalı call fırsatları için tara",
+
+  "covered_call_screener_main_title": "Kapalı Call Tarayıcı",
+  "covered_call_screener_contracts_count": "{count} Kontrat",
+
+  "covered_call_screener_popular_screens": "Popüler Taramalar",
+  "covered_call_screener_popular_strategies": "Popüler Stratejiler",
+  "covered_call_screener_select_popular": "Popüler Seç",
+  "covered_call_screener_saved_screens": "Kayıtlı Taramalar",
+  "covered_call_screener_select_screen": "Tarama Seç",
+  "covered_call_screener_new_screen": "Yeni Tarama",
+
+  "covered_call_screener_strategy_high_yield": "Yüksek Verim",
+  "covered_call_screener_strategy_conservative": "Temkinli",
+  "covered_call_screener_strategy_weekly_income": "Haftalık Gelir",
+  "covered_call_screener_strategy_high_protection": "Yüksek Koruma",
+  "covered_call_screener_strategy_bluechip_cc": "Blue-Chip Kapalı Call",
+
+  "covered_call_screener_filters_count": "Filtreler ({count})",
+  "covered_call_screener_add_filters": "Filtre Ekle",
+  "covered_call_screener_search_filters": "{count} filtrede ara...",
+  "covered_call_screener_select_filters_title": "Filtre Seç ({count})",
+  "covered_call_screener_nothing_found": "Sonuç yok.",
+
+  "covered_call_screener_save": "Kaydet",
+  "covered_call_screener_save_as_new": "Yeni Olarak Kaydet",
+  "covered_call_screener_reset_all": "Tümünü Sıfırla",
+
+  "covered_call_screener_condition_over": "Üstü",
+  "covered_call_screener_condition_under": "Altı",
+  "covered_call_screener_condition_between": "Arası",
+  "covered_call_screener_condition_exactly": "Tam",
+  "covered_call_screener_condition_any": "Hepsi",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Maks",
+  "covered_call_screener_input_value": "Değer",
+
+  "covered_call_screener_search_placeholder": "Ara...",
+  "covered_call_screener_search_modal_placeholder": "Ara...",
+
+  "covered_call_screener_normal_width": "Normal Genişlik",
+  "covered_call_screener_full_width": "Tam Genişlik",
+
+  "covered_call_screener_tab_general": "Genel",
+  "covered_call_screener_tab_income": "Gelir",
+  "covered_call_screener_tab_filters": "Filtreler",
+  "covered_call_screener_tab_greeks": "Greekler",
+
+  "covered_call_screener_pagination_previous": "Önceki",
+  "covered_call_screener_pagination_next": "Sonraki",
+  "covered_call_screener_pagination_page_of": "Sayfa {current} / {total}",
+  "covered_call_screener_rows_label": "{rows} satır",
+  "covered_call_screener_back_to_top": "Başa dön",
+
+  "covered_call_screener_no_results_query": "\"{query}\" için sonuç bulunamadı",
+  "covered_call_screener_no_contracts": "Kriterlerine uyan kontrat yok.",
+
+  "covered_call_screener_modal_new_title": "Yeni Tarama",
+  "covered_call_screener_modal_new_name_label": "Tarama adı",
+  "covered_call_screener_modal_new_create": "Oluştur",
+
+  "covered_call_screener_modal_delete_title": "Tarayıcıyı Sil",
+  "covered_call_screener_modal_delete_message": "Bu tarayıcıyı silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "covered_call_screener_modal_delete_cancel": "Vazgeç",
+  "covered_call_screener_modal_delete_confirm": "Sil",
+
+  "covered_call_screener_toast_deleting": "Tarayıcı siliniyor...",
+  "covered_call_screener_toast_deleted": "Tarayıcı silindi.",
+  "covered_call_screener_toast_delete_failed": "Silme başarısız. Lütfen tekrar dene.",
+  "covered_call_screener_toast_title_too_long": "Başlık çok uzun. 100 karakterin altında tut.",
+  "covered_call_screener_toast_created": "Tarayıcı oluşturuldu.",
+  "covered_call_screener_toast_creating": "Tarayıcı oluşturuluyor...",
+  "covered_call_screener_toast_create_failed": "Bir şeyler ters gitti. Lütfen daha sonra tekrar dene.",
+  "covered_call_screener_toast_select_rule": "Lütfen bir kural seç",
+  "covered_call_screener_toast_saving": "Tarayıcı kaydediliyor...",
+  "covered_call_screener_toast_saved": "Tarayıcı kaydedildi.",
+  "covered_call_screener_toast_save_failed": "Kaydetme başarısız. Lütfen tekrar dene.",
+
+  "covered_call_screener_chart_price_at_expiration": "Vadedeki Fiyat ($)",
+  "covered_call_screener_chart_last_price_label": "Son Fiyat: {price}",
+  "covered_call_screener_chart_breakeven_label": "Başabaş: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Kâr/Zarar ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Dayanak Fiyatı:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Kâr veya Zarar:",
+  "covered_call_screener_chart_modal_title": "Kapalı Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "İşlem Kurulumu",
+  "covered_call_screener_chart_buy_stock": "Hisse Al @",
+  "covered_call_screener_chart_sell_call": "{strike}C Sat @",
+  "covered_call_screener_chart_net_credit_debit": "Net (Alacak/Borç)",
+  "covered_call_screener_chart_breakeven": "Başabaş",
+  "covered_call_screener_chart_above": "Üstünde",
+  "covered_call_screener_chart_last_price": "Son Fiyat",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Yatay Kalırsa Getiri",
+  "covered_call_screener_chart_return_if_assigned": "Atanırsa Getiri",
+  "covered_call_screener_chart_probability_of_profit": "Kâr Olasılığı",
+  "covered_call_screener_chart_annualized_abbr": "yıllık"
+}

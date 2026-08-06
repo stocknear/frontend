@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Suport",
+  "support_breadcrumb_home": "Acasă",
+  "support_breadcrumb_current": "Suport",
+  "support_title": "Suport",
+  "support_description_1": "Trimite-ne solicitarea folosind formularul de mai jos și îți răspundem cât putem de repede. Poți trimite un e-mail și direct la",
+  "support_description_2": "Răspunsuri la cele mai frecvente întrebări găsești aici:",
+  "support_faq_link": "Întrebări frecvente",
+  "support_description_3": "Dacă ai nevoie de ajutor cu o eroare sau cu date incorecte, include te rugăm adresa exactă a paginii unde le-ai găsit.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Subiect",
+  "support_label_message": "Mesaj",
+  "support_button_send": "Trimite mesajul",
+  "support_button_processing": "Se procesează...",
+  "support_success_message": "Mesajul tău a fost trimis. Îți răspundem în curând.",
+  "support_toast_error": "Ceva nu a mers. Încearcă din nou...",
+  "support_sidebar_pro_title": "Abonament Pro",
+  "support_sidebar_pro_description": "Treci la Pro pentru acces nelimitat la toate datele și instrumentele, fără reclame.",
+  "support_sidebar_screener_title": "Screener de acțiuni",
+  "support_sidebar_screener_description": "Filtrează, sortează și analizează toate acțiunile ca să găsești următoarea investiție.",
+  "support_sidebar_watchlist_title": "Liste de urmărire",
+  "support_sidebar_watchlist_description": "Urmărește în timp real acțiunile tale preferate."
+}

@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "개요",
+  "index_detail_nav_options": "옵션",
+  "index_detail_nav_history": "과거 데이터",
+  "index_detail_nav_holdings": "구성 종목",
+
+  "index_detail_watchlist": "관심목록",
+  "index_detail_price_alert": "알림",
+  "index_detail_add_to_watchlist": "관심목록에 추가",
+  "index_detail_ticker_added": "관심목록에 종목을 추가했습니다",
+  "index_detail_ticker_add_failed": "관심목록에 종목을 추가하지 못했습니다",
+  "index_detail_upgrade_watchlist": "더 많은 종목을 추가하고 싶다면 Plus 또는 Pro를 이용하세요",
+  "index_detail_companies": "기업",
+  "index_detail_company": "기업",
+
+  "index_detail_no_data": "데이터가 없습니다",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "매수호가",
+  "index_detail_ask": "매도호가",
+  "index_detail_volume": "거래량",
+  "index_detail_avg_volume_20d": "평균 거래량 (20일)",
+  "index_detail_50_day_ma": "50일 이동평균",
+  "index_detail_200_day_ma": "200일 이동평균",
+  "index_detail_eps_ttm": "EPS (최근 12개월)",
+  "index_detail_pe_ratio_ttm": "P/E (최근 12개월)",
+  "index_detail_shares_out": "상장주식수",
+  "index_detail_inception_date": "설정일",
+  "index_detail_open": "시가",
+  "index_detail_prev_close": "전일 종가",
+  "index_detail_days_range": "당일 변동폭",
+  "index_detail_52w_range": "52주 변동폭",
+  "index_detail_exchange": "거래소",
+  "index_detail_expense_ratio": "보수율",
+
+  "index_detail_chart_price": "가격",
+  "index_detail_chart_volume": "거래량",
+
+  "index_sidecard_about": "{ticker} 소개",
+  "index_sidecard_top_sectors": "상위 5개 섹터",
+  "index_sidecard_sector": "섹터",
+  "index_sidecard_weight_percent": "비중 %",
+  "index_sidecard_view_all_sectors": "전체 섹터 보기"
+}

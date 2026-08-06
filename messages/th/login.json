@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "เข้าสู่ระบบ Stocknear",
+  "login_seo_description": "เข้าสู่ระบบบัญชี Stocknear ของคุณด้วยอีเมลและรหัสผ่าน",
+  "login_title": "เข้าสู่ระบบบัญชีของคุณ",
+  "login_title_logged_in": "คุณเข้าสู่ระบบแล้ว",
+  "login_subtitle": "ยินดีต้อนรับกลับมา",
+  "login_email_label": "อีเมล",
+  "login_password_label": "รหัสผ่าน",
+  "login_forgot_password": "ลืมรหัสผ่าน",
+  "login_button": "เข้าสู่ระบบ",
+  "login_button_loading": "กำลังเข้าสู่ระบบ",
+  "login_divider": "หรือเข้าสู่ระบบด้วย",
+  "login_no_account": "ยังไม่มีบัญชีใช่ไหม",
+  "login_signup_link": "สมัครสมาชิก",
+  "login_logged_in_as": "เข้าสู่ระบบในชื่อ {email}",
+  "login_logout_button": "ออกจากระบบ",
+  "login_toast_verify_email": "กรุณายืนยันอีเมลของคุณก่อน",
+  "login_toast_success": "เข้าสู่ระบบสำเร็จ",
+  "login_toast_invalid": "ข้อมูลเข้าสู่ระบบไม่ถูกต้อง",
+  "login_toast_auth_failed": "อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง",
+  "login_toast_rate_limited": "พยายามเข้าสู่ระบบบ่อยเกินไป กรุณาลองใหม่ในอีก {minutes} นาที"
+}

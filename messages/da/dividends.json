@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Forside",
+  "dividends_breadcrumb_calendar": "Udbyttekalender",
+
+  "dividends_seo_title": "Udbyttekalender - ex-udbyttedatoer og udbetalingsplan for aktier",
+  "dividends_seo_description": "Følg kommende ex-udbyttedatoer og udbetalingsplaner for aktier. Planlæg din udbyttestrategi med vores kalender, der viser beløb, udbetalingsdatoer og markedsværdi.",
+  "dividends_seo_keywords": "udbyttekalender, ex-udbyttedatoer, udbetalingsplan udbytte, dividend capture, aktieudbytte, udbytteaktier, udbetalingsdatoer udbytte, kommende udbytter",
+
+  "dividends_main_name": "Udbyttekalender",
+  "dividends_count": "{count} udbytter",
+  "dividends_empty_day": "Ingen udbytter tilgængelige for dagen.",
+  "dividends_empty_none": "Ingen udbytter",
+  "dividends_empty_scheduled": "Ingen udbytter planlagt",
+
+  "dividends_tab_daily": "Dag",
+  "dividends_tab_weekly": "Uge",
+  "dividends_tab_details": "Detaljer",
+  "dividends_tab_compact": "Kompakt",
+
+  "dividends_time_any": "Når som helst",
+  "dividends_time_before_open": "Før åbning",
+  "dividends_time_after_close": "Efter lukning",
+
+  "dividends_expanded_ex_date": "Ex-dato",
+  "dividends_expanded_market_cap": "Markedsværdi",
+  "dividends_expanded_amount": "Beløb",
+  "dividends_expanded_revenue": "Omsætning",
+  "dividends_expanded_payment_date": "Udbetalingsdato",
+  "dividends_expanded_date": "Dato",
+  "dividends_expanded_dividend": "Udbytte",
+
+  "dividends_pagination_previous": "Forrige",
+  "dividends_pagination_next": "Næste",
+  "dividends_pagination_page_of": "Side {current} af {total}",
+  "dividends_pagination_rows": "{count} rækker",
+  "dividends_back_to_top": "Til toppen",
+  "dividends_search_placeholder": "Søg..."
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "お問い合わせ",
+  "contact_breadcrumb": "お問い合わせ",
+  "contact_hero_title": "お問い合わせ",
+  "contact_intro": "ご意見をぜひお聞かせください。下のフォームからメッセージをお送りいただければ、できるだけ早くご返信します。{email} 宛に直接メールを送っていただいても構いません。",
+  "contact_email_label": "メールアドレス",
+  "contact_subject_label": "件名",
+  "contact_message_label": "メッセージ",
+  "contact_send_button": "送信する",
+  "contact_processing": "送信中...",
+  "contact_success": "メッセージを送信しました。追ってご連絡します。",
+  "contact_sidebar_pro_title": "Pro プラン",
+  "contact_sidebar_pro_desc": "アップグレードすると、すべてのデータとツールが無制限に使え、広告も表示されません。",
+  "contact_sidebar_screener_title": "銘柄スクリーナー",
+  "contact_sidebar_screener_desc": "全銘柄を絞り込み・並べ替え・分析して、次の投資先を見つけましょう。",
+  "contact_sidebar_watchlist_title": "ウォッチリスト",
+  "contact_sidebar_watchlist_desc": "気になる銘柄をリアルタイムで追跡できます。"
+}

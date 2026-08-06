@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Acasă",
+  "notifications_breadcrumb_notifications": "Notificări",
+
+  "notifications_seo_title": "Notificări de pe bursă | Actualizări și alerte în timp real",
+  "notifications_seo_description": "Rămâi la curent cu notificări de pe bursă în timp real. Primești alerte instant despre variații de preț, tendințe și mișcări de piață, ca să iei decizii mai bune.",
+
+  "notifications_main_title": "Notificare",
+  "notifications_alerts_count": "{count} alerte",
+
+  "notifications_mark_all_read": "Marchează tot ca citit",
+  "notifications_marking": "Se marchează...",
+  "notifications_settings": "Setări",
+  "notifications_customize": "Personalizează-ți notificările",
+
+  "notifications_channel_earnings_surprise": "Surpriză la raportare",
+  "notifications_channel_wiim": "De ce s-a mișcat prețul",
+  "notifications_channel_top_analyst": "Rating de la analist de top",
+  "notifications_channel_followed_analysts": "Analiști urmăriți",
+  "notifications_no_channels": "Nu există canale de notificare disponibile.",
+
+  "notifications_empty": "Încă nu ai nicio notificare.",
+
+  "notifications_pagination_previous": "Înapoi",
+  "notifications_pagination_next": "Înainte",
+  "notifications_pagination_page_of": "Pagina {current} din {total}",
+  "notifications_pagination_rows": "{count} rânduri",
+  "notifications_back_to_top": "Sus",
+
+  "notifications_modal_delete_title": "Șterge toate notificările",
+  "notifications_modal_delete_confirm": "Sigur vrei să ștergi toate notificările? Acțiunea nu poate fi anulată.",
+  "notifications_modal_delete_button": "Șterge notificările",
+  "notifications_modal_deleting": "Se șterge...",
+  "notifications_modal_cancel": "Anulează",
+  "notifications_delete_error": "Notificările nu au putut fi șterse. Încearcă din nou.",
+
+  "notifications_type_price_alert_triggered": "Alertă declanșată pentru",
+  "notifications_type_price_is": "Prețul pentru",
+  "notifications_type_is_condition": "este {condition} ținta ta de",
+  "notifications_type_breaking_news": "Știre de ultimă oră pentru",
+  "notifications_type_wiim_new_data": "Au apărut date noi pentru evenimentul „De ce s-a mișcat prețul”.",
+  "notifications_type_top_analyst_new": "Rating nou de la un analist de top pentru",
+  "notifications_type_top_analyst_rating": "Casa de analiză {analyst} a emis un nou rating „{rating}”, cu o țintă de preț actualizată de {price}.",
+  "notifications_type_followed_analyst_new": "Rating nou de la",
+  "notifications_type_followed_analyst_rating": "A evaluat {symbol} cu „{rating}” și o țintă de preț de {price}.",
+  "notifications_type_earnings_release": "Raportare de rezultate pentru",
+  "notifications_type_earnings_surprise_new": "Au apărut date noi pentru evenimentul „Surpriză la raportare”.",
+
+  "notifications_sidebar_watchlist": "Listă de urmărire",
+  "notifications_sidebar_watchlist_description": "Primești actualizări în timp real pentru acțiunile tale favorite",
+  "notifications_sidebar_portfolio": "Monitor de portofoliu",
+  "notifications_sidebar_portfolio_description": "Primești actualizări în timp real pentru portofoliul tău"
+}

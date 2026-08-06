@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Scanner för optionsflöde - Sweeps, block och ovanlig aktivitet live",
+  "options_flow_seo_description": "Följ optionsflöde, sweeps och blockaffärer live i amerikanska aktier och ETF:er. Upptäck ovanlig aktivitet och kortsiktiga lägen i realtid.",
+  "options_flow_seo_keywords": "optionsflöde, scanner för optionsflöde, ovanlig optionsaktivitet, sweep-ordrar, blockaffärer, smart money, callflöde, putflöde, optionsvarningar, OPRA optionsflöde",
+  "options_flow_structured_name": "Scanner för optionsflöde",
+  "options_flow_structured_description": "Optionsflöde live med sweeps, block och ovanlig aktivitet för kortsiktiga lägen",
+
+  "options_flow_main_title": "Optionsflöde",
+
+  "options_flow_popular_filters": "Populära filter",
+  "options_flow_popular_strategies": "Populära strategier",
+  "options_flow_select_popular": "Välj populärt",
+  "options_flow_saved_filters": "Sparade filter",
+  "options_flow_select_filter": "Välj filter",
+  "options_flow_new_filter": "Nytt filter",
+
+  "options_flow_filters_count": "{count} filter",
+  "options_flow_add_filters": "Lägg till filter",
+  "options_flow_search_filters": "Sök bland {count} filter...",
+  "options_flow_select_filters_title": "Välj flödesfilter ({count} totalt)",
+  "options_flow_nothing_found": "Inget hittades",
+  "options_flow_no_filters_found": "Inga tillgängliga filter hittades",
+
+  "options_flow_search_placeholder": "Hitta...",
+  "options_flow_search_input_placeholder": "Sök...",
+  "options_flow_full_width": "Full bredd",
+  "options_flow_normal_width": "Normal bredd",
+
+  "options_flow_no_trades_query": "Inga optionsaffärer hittades för \"{query}\"",
+  "options_flow_no_data_filters": "Inga data matchar de valda filtren. Justera filtren och försök igen.",
+
+  "options_flow_modal_new_title": "Nytt filter",
+  "options_flow_modal_new_name_label": "Filternamn",
+  "options_flow_modal_new_create": "Skapa filter",
+
+  "options_flow_modal_delete_title": "Ta bort filter",
+  "options_flow_modal_delete_message": "Vill du ta bort det här filtret? Åtgärden går inte att ångra.",
+  "options_flow_modal_delete_cancel": "Avbryt",
+  "options_flow_modal_delete_confirm": "Ta bort filter",
+
+  "options_flow_strategy_bullish_sweeps": "Positiva sweeps",
+  "options_flow_strategy_bearish_sweeps": "Negativa sweeps",
+  "options_flow_strategy_high_premium_blocks": "Block med hög premie",
+  "options_flow_strategy_unusual_size_oi": "Ovanlig storlek mot OI",
+  "options_flow_strategy_etf_index_flow": "ETF- och indexflöde",
+  "options_flow_strategy_zero_dte_flow": "0DTE-flöde",
+  "options_flow_strategy_repeated_flow": "Återkommande flöde",
+
+  "options_flow_save": "Spara",
+  "options_flow_save_as_new": "Spara som ny",
+  "options_flow_reset_all": "Återställ allt",
+
+  "options_flow_market_closed": "Marknaden stängd",
+  "options_flow_paused": "Pausad",
+  "options_flow_live_flow": "Flöde live",
+  "options_flow_pick_date": "Välj ett datum",
+
+  "options_flow_realtime_data": "Optionsdata i realtid",
+  "options_flow_realtime_data_title": "Optionsdata i realtid från OPRA",
+  "options_flow_realtime_data_content": "Vårt optionsflöde drivs av OPRA-data i realtid, det officiella konsoliderade flödet för alla noterade amerikanska optionsaffärer. Det innebär att varje avslut du ser kommer direkt från OPRA i realtid och ger dig insyn på institutionell nivå i stora affärer, sweeps, ovanlig aktivitet och premieflöde medan det händer. Med OPRA:s tillförlitliga avslutsflöde får du snabbare insikter, renare data och en mer korrekt bild av var de stora pengarna rör sig på optionsmarknaden.",
+
+  "options_flow_hide_filter_area": "Dölj filterpanelen",
+  "options_flow_show_filter_area": "Visa filterpanelen",
+
+  "options_flow_put_to_call": "Put/call",
+  "options_flow_call_flow": "Callflöde",
+  "options_flow_put_flow": "Putflöde"
+}

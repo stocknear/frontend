@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Головна",
+  "politicians_breadcrumb_politicians": "Політики",
+  "politicians_breadcrumb_flow": "Потік угод Конгресу",
+
+  "politicians_seo_title": "Трекер угод Конгресу - угоди політиків США в реальному часі",
+  "politicians_seo_description": "Стеж за угодами з акціями від членів Конгресу США, сенаторів і політиків у реальному часі. Дивись угоди Ненсі Пелосі, купівлі акцій сенаторами та інсайдерську торгівлю в Конгресі. Безплатний трекер угод політиків із детальною історією операцій.",
+  "politicians_seo_keywords": "торгівля конгресу, угоди ненсі пелосі, угоди політиків з акціями, угоди сенату, торгівля конгресменів, інсайдерська торгівля конгрес, трекер угод політиків, торгівля політиків сша, портфель пелосі, акції конгресу",
+  "politicians_structured_name": "Трекер угод Конгресу",
+  "politicians_structured_description": "Відстеження угод з акціями політиків і членів Конгресу США в реальному часі",
+
+  "politicians_main_title": "Усі політики США",
+  "politicians_count_members": "Членів: {count}",
+  "politicians_search_placeholder": "Знайти...",
+  "politicians_filter_party": "Партія",
+  "politicians_empty_search": "Членів Конгресу за запитом \"{query}\" не знайдено",
+  "politicians_empty_filter": "За твоїм запитом або фільтрами нічого не знайдено.",
+
+  "politicians_pagination_previous": "Назад",
+  "politicians_pagination_next": "Далі",
+  "politicians_pagination_page_of": "Сторінка {current} з {total}",
+  "politicians_pagination_rows": "Рядків: {count}",
+  "politicians_back_to_top": "Догори",
+
+  "politicians_flow_seo_title": "Останні угоди Конгресу",
+  "politicians_flow_seo_description": "Дивись найсвіжіші угоди Конгресу і те, у що інвестують люди з доступом до регуляторних рішень.",
+
+  "politicians_flow_title": "Останні угоди політиків",
+  "politicians_flow_description_intro": "Огляд останньої торгової активності Конгресу. Співвідношення купівель і продажів показує",
+  "politicians_flow_description_buys": "{percent}% купівель",
+  "politicians_flow_description_versus": "проти",
+  "politicians_flow_description_sells": "{percent}% продажів",
+  "politicians_flow_description_active_party": "серед останніх декларацій. Найактивніша партія -",
+  "politicians_flow_description_with": "з",
+  "politicians_flow_description_transactions": "операціями, що вказує на",
+  "politicians_flow_description_sentiment": "настрої серед членів Конгресу.",
+  "politicians_flow_sentiment_bullish": "бичачі",
+  "politicians_flow_sentiment_bearish": "ведмежі",
+  "politicians_flow_sentiment_neutral": "нейтральні",
+  "politicians_flow_count_trades": "Угод: {count}",
+  "politicians_flow_empty_search": "Акцій за запитом \"{query}\" не знайдено",
+
+  "politicians_detail_stats_rank": "Ранг",
+  "politicians_detail_stats_trades_scored": "Оцінено угод",
+  "politicians_detail_stats_success_rate": "Успішність",
+  "politicians_detail_stats_avg_return": "Сер. дохідність",
+  "politicians_detail_stats_total_amount": "Загальна сума",
+  "politicians_detail_stats_transaction": "Операція",
+  "politicians_detail_stats_last_transaction": "Остання операція",
+  "politicians_detail_stats_buy_sell": "Купівля/продаж",
+
+  "politicians_detail_main_sectors": "Основні сектори:",
+  "politicians_detail_top_industries": "Топ-галузі:",
+  "politicians_detail_count_stocks": "Акцій: {count}",
+  "politicians_detail_empty_search": "Даних за запитом \"{query}\" немає",
+  "politicians_detail_empty": "Для цього аналітика даних немає.",
+
+  "politicians_detail_mobile_filed": "Подано",
+  "politicians_detail_mobile_view_chart": "Графік",
+  "politicians_detail_mobile_amt": "Сума",
+  "politicians_detail_mobile_trades": "{count} угода",
+  "politicians_detail_mobile_trades_plural": "{count} угод"
+}

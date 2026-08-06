@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Domů",
+  "cash_secured_put_screener_breadcrumb_title": "Screener cash secured putů",
+
+  "cash_secured_put_screener_seo_title": "Screener cash secured putů - najdi nejlepší příležitosti pro CSP",
+  "cash_secured_put_screener_seo_description": "Prohledej tisíce opcí a najdi příležitosti pro cash secured put. Filtruj podle výnosu z prémie, anualizovaného výnosu, realizační ceny, expirace a dalších parametrů.",
+  "cash_secured_put_screener_seo_keywords": "screener cash secured put, screener opcí, cash secured put, výnos z prémie, příjmová strategie",
+  "cash_secured_put_screener_structured_name": "Screener cash secured putů",
+  "cash_secured_put_screener_structured_description": "Prohledej opce a najdi příležitosti pro cash secured put",
+
+  "cash_secured_put_screener_main_title": "Screener cash secured putů",
+  "cash_secured_put_screener_contracts_count": "{count} kontraktů",
+
+  "cash_secured_put_screener_popular_screens": "Oblíbené screeny",
+  "cash_secured_put_screener_popular_strategies": "Oblíbené strategie",
+  "cash_secured_put_screener_select_popular": "Vybrat oblíbený",
+  "cash_secured_put_screener_saved_screens": "Uložené screeny",
+  "cash_secured_put_screener_select_screen": "Vybrat screen",
+  "cash_secured_put_screener_new_screen": "Nový screen",
+
+  "cash_secured_put_screener_strategy_high_yield": "Vysoký výnos",
+  "cash_secured_put_screener_strategy_conservative": "Konzervativní",
+  "cash_secured_put_screener_strategy_weekly_income": "Týdenní příjem",
+  "cash_secured_put_screener_strategy_high_protection": "Vysoká ochrana",
+  "cash_secured_put_screener_strategy_bluechip_csp": "Blue-chip CSP",
+
+  "cash_secured_put_screener_filters_count": "Filtry ({count})",
+  "cash_secured_put_screener_add_filters": "Přidat filtry",
+  "cash_secured_put_screener_search_filters": "Hledat mezi {count} filtry...",
+  "cash_secured_put_screener_select_filters_title": "Vybrat filtry ({count})",
+  "cash_secured_put_screener_nothing_found": "Nic nenalezeno.",
+
+  "cash_secured_put_screener_save": "Uložit",
+  "cash_secured_put_screener_save_as_new": "Uložit jako nový",
+  "cash_secured_put_screener_reset_all": "Resetovat vše",
+
+  "cash_secured_put_screener_condition_over": "Nad",
+  "cash_secured_put_screener_condition_under": "Pod",
+  "cash_secured_put_screener_condition_between": "Mezi",
+  "cash_secured_put_screener_condition_exactly": "Přesně",
+  "cash_secured_put_screener_condition_any": "Libovolné",
+
+  "cash_secured_put_screener_input_min": "Min",
+  "cash_secured_put_screener_input_max": "Max",
+  "cash_secured_put_screener_input_value": "Hodnota",
+
+  "cash_secured_put_screener_search_placeholder": "Hledat...",
+  "cash_secured_put_screener_search_modal_placeholder": "Hledat...",
+
+  "cash_secured_put_screener_normal_width": "Normální šířka",
+  "cash_secured_put_screener_full_width": "Plná šířka",
+
+  "cash_secured_put_screener_tab_general": "Obecné",
+  "cash_secured_put_screener_tab_income": "Příjem",
+  "cash_secured_put_screener_tab_filters": "Filtry",
+  "cash_secured_put_screener_tab_greeks": "Greeks",
+
+  "cash_secured_put_screener_pagination_previous": "Předchozí",
+  "cash_secured_put_screener_pagination_next": "Další",
+  "cash_secured_put_screener_pagination_page_of": "Strana {current} z {total}",
+  "cash_secured_put_screener_rows_label": "{rows} řádků",
+  "cash_secured_put_screener_back_to_top": "Zpět nahoru",
+
+  "cash_secured_put_screener_no_results_query": "Pro \"{query}\" nic nenalezeno",
+  "cash_secured_put_screener_no_contracts": "Tvým kritériím neodpovídají žádné kontrakty.",
+
+  "cash_secured_put_screener_modal_new_title": "Nový screen",
+  "cash_secured_put_screener_modal_new_name_label": "Název screenu",
+  "cash_secured_put_screener_modal_new_create": "Vytvořit",
+
+  "cash_secured_put_screener_modal_delete_title": "Smazat screener",
+  "cash_secured_put_screener_modal_delete_message": "Opravdu chceš tento screener smazat? Tuto akci nelze vzít zpět.",
+  "cash_secured_put_screener_modal_delete_cancel": "Zrušit",
+  "cash_secured_put_screener_modal_delete_confirm": "Smazat",
+
+  "cash_secured_put_screener_toast_deleting": "Mažu screener...",
+  "cash_secured_put_screener_toast_deleted": "Screener byl smazán.",
+  "cash_secured_put_screener_toast_delete_failed": "Smazání se nepovedlo. Zkus to prosím znovu.",
+  "cash_secured_put_screener_toast_title_too_long": "Název je moc dlouhý. Vejdi se prosím do 100 znaků.",
+  "cash_secured_put_screener_toast_created": "Screener byl vytvořen.",
+  "cash_secured_put_screener_toast_creating": "Vytvářím screener...",
+  "cash_secured_put_screener_toast_create_failed": "Něco se pokazilo. Zkus to prosím později.",
+  "cash_secured_put_screener_toast_select_rule": "Vyber prosím pravidlo",
+  "cash_secured_put_screener_toast_saving": "Ukládám screener...",
+  "cash_secured_put_screener_toast_saved": "Screener byl uložen.",
+  "cash_secured_put_screener_toast_save_failed": "Uložení se nepovedlo. Zkus to prosím znovu.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Cena při expiraci ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Poslední cena: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Bod zvratu: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Zisk/ztráta ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Cena podkladu:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Zisk nebo ztráta:",
+  "cash_secured_put_screener_chart_modal_title": "Cash Secured Put - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Nastavení obchodu",
+  "cash_secured_put_screener_chart_sell_put": "Prodej {strike}P @",
+  "cash_secured_put_screener_chart_cash_secured": "Kryto hotovostí",
+  "cash_secured_put_screener_chart_net_credit": "Čistý kredit",
+  "cash_secured_put_screener_chart_breakeven": "Bod zvratu",
+  "cash_secured_put_screener_chart_below": "Pod",
+  "cash_secured_put_screener_chart_last_price": "Poslední cena",
+  "cash_secured_put_screener_chart_moneyness": "Moneyness",
+  "cash_secured_put_screener_chart_return_if_flat": "Výnos beze změny",
+  "cash_secured_put_screener_chart_return_if_assigned": "Výnos při přiřazení",
+  "cash_secured_put_screener_chart_probability_of_profit": "Pravděpodobnost zisku",
+  "cash_secured_put_screener_chart_annualized_abbr": "p.a.",
+  "cash_secured_put_screener_chart_discount": "Sleva při přiřazení"
+}

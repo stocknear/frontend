@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Öğrenme Merkezi - Borsa Eğitimi ve Yatırım Rehberleri",
+  "learning_center_seo_description": "Kapsamlı Öğrenme Merkezimizle borsada yatırımı öğren. İşlem stratejileri, teknik analiz, temel analiz, portföy yönetimi ve yatırım eğitimi üzerine yeni başlayanlardan ileri seviyeye ücretsiz rehberler.",
+  "learning_center_seo_keywords": "borsa eğitimi, yatırım rehberleri, işlem stratejileri, yatırımı öğren, hisse analizi rehberleri, finansal eğitim, yatırım rehberi, borsanın temelleri, portföy yönetimi, teknik analiz kursu",
+  "learning_center_structured_name": "Stocknear Öğrenme Merkezi",
+  "learning_center_structured_description": "Kapsamlı borsa eğitimi ve yatırım rehberleri",
+  "learning_center_structured_articles": "Eğitim Makaleleri",
+  "learning_center_structured_articles_description": "Borsa eğitimi ve yatırım rehberi makaleleri",
+  "learning_center_title": "Öğrenme Merkezi",
+  "learning_center_published": "Yayınlandı:",
+  "learning_center_previous": "Önceki",
+  "learning_center_next": "Sonraki",
+  "learning_center_alt_tutorial": "Rehber Görseli",
+
+  "learning_center_subtitle": "Borsayı adım adım, kavram kavram öğren",
+
+  "learning_center_category_all": "Tümü",
+  "learning_center_category_features": "Özellikler",
+  "learning_center_category_fundamentals": "Temeller",
+  "learning_center_category_terms": "Terimler",
+
+  "learning_center_category_desc_features": "Stocknear nasıl kullanılır",
+  "learning_center_category_desc_fundamentals": "Yatırıma yeniysen buradan başla",
+  "learning_center_category_desc_terms": "Finansal terimler ve tanımları",
+
+  "learning_center_tag_all": "Tüm Etiketler",
+  "learning_center_tag_stocks": "Hisseler",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opsiyonlar",
+  "learning_center_tag_sentiment": "Duyarlılık",
+  "learning_center_tag_prefix": "Etiket",
+
+  "learning_center_view_all": "Tümünü gör",
+  "learning_center_view_all_count": "Tümünü gör ({count})",
+  "learning_center_min_read": "{time} dk okuma",
+
+  "learning_center_no_articles_tag": "\"{tag}\" etiketiyle makale bulunamadı.",
+  "learning_center_clear_tag_filter": "Etiket filtresini temizle",
+
+  "learning_center_page_of": "Sayfa {currentPage} / {totalPages}",
+  "learning_center_items_count": "{count} Öğe",
+
+  "learning_center_back_to_top": "Başa Dön",
+  "learning_center_no_terms_yet": "Henüz terim yok.",
+  "learning_center_no_articles_category": "Bu kategoride henüz makale yok.",
+
+  "learning_center_table_of_contents": "İçindekiler",
+  "learning_center_share_this_post": "Bu Yazıyı Paylaş",
+  "learning_center_back_to_all_posts": "Tüm yazılara dön",
+
+  "learning_center_quick_start": "Hızlı Başlangıç",
+  "learning_center_sidebar_top_gainers": "En Çok Yükselenler",
+  "learning_center_sidebar_top_losers": "En Çok Düşenler",
+  "learning_center_sidebar_analysts": "Analistler",
+  "learning_center_sidebar_stock_screener": "Hisse Tarayıcı",
+  "learning_center_sidebar_options_flow": "Opsiyon Akışı",
+  "learning_center_sidebar_earnings_calendar": "Bilanço Takvimi",
+  "learning_center_sidebar_dividends_calendar": "Temettü Takvimi",
+  "learning_center_sidebar_ipo_calendar": "IPO Takvimi",
+
+  "learning_center_related_articles": "İlgili Makaleler",
+  "learning_center_view_all_articles": "Tüm makaleleri gör",
+  "learning_center_share_this_article": "Bu makaleyi paylaş",
+
+  "learning_center_link_copied": "Bağlantı panoya kopyalandı",
+  "learning_center_link_copy_failed": "Bağlantı kopyalanamadı",
+
+  "learning_center_sign_in_to_read": "Brifingin tamamını okumak için giriş yap.",
+  "learning_center_briefing_description": "Günlük Piyasa Brifingi Stocknear üyelerine açıktır. Analizin tamamına erişmek için ücretsiz hesap oluştur ya da giriş yap.",
+  "learning_center_create_free_account": "Ücretsiz hesap oluştur",
+  "learning_center_sign_in": "Giriş yap",
+
+  "learning_center_click_to_close": "Kapatmak için herhangi bir yere tıkla veya ESC'ye bas",
+
+  "learning_center_search_placeholder": "Ara...",
+  "learning_center_no_search_results": "\"{query}\" için sonuç bulunamadı.",
+  "learning_center_clear_search": "Aramayı temizle"
+}

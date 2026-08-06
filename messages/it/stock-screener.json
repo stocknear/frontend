@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Home",
+  "stock_screener_breadcrumb_stock_screener": "Screener azioni",
+
+  "stock_screener_seo_title": "Screener azioni avanzato - Filtra e analizza i titoli gratis",
+  "stock_screener_seo_description": "Screener azioni potente con {count} criteri di filtro. Filtra i titoli per fondamentali, analisi tecnica, metriche di valutazione e performance. Dati in tempo reale aggiornati ogni minuto.",
+  "stock_screener_seo_keywords": "screener azioni, screener azioni gratuito, filtro azioni, scanner azioni, screener fondamentale, screener tecnico, screener titoli value, screener titoli growth, screener azioni da dividendo, strumento di analisi azioni",
+  "stock_screener_structured_name": "Screener azioni",
+  "stock_screener_structured_description": "Piattaforma avanzata di screening e filtro dei titoli con dati di mercato in tempo reale",
+
+  "stock_screener_main_title": "Screener azioni",
+  "stock_screener_matches_found": "{count} risultati trovati",
+  "stock_screener_stocks_count": "{count} titoli",
+
+  "stock_screener_popular_screens": "Screen popolari",
+  "stock_screener_popular_strategies": "Strategie popolari",
+  "stock_screener_select_popular": "Scegli tra i popolari",
+  "stock_screener_saved_screens": "Screen salvati",
+  "stock_screener_select_screen": "Seleziona screen",
+  "stock_screener_new_screen": "Nuovo screen",
+
+  "stock_screener_filters_count": "{count} filtri",
+  "stock_screener_add_filters": "Aggiungi filtri",
+  "stock_screener_search_filters": "Cerca tra {count} filtri...",
+  "stock_screener_select_filters_title": "Seleziona i filtri dello screener ({count} in totale)",
+  "stock_screener_nothing_found": "Nessun risultato",
+
+  "stock_screener_search_placeholder": "Trova...",
+  "stock_screener_search_input_placeholder": "Cerca...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Valore",
+
+  "stock_screener_normal_width": "Larghezza normale",
+  "stock_screener_full_width": "Larghezza piena",
+
+  "stock_screener_pagination_previous": "Precedente",
+  "stock_screener_pagination_next": "Successivo",
+  "stock_screener_pagination_page_of": "Pagina {current} di {total}",
+  "stock_screener_rows_label": "{rows} righe",
+  "stock_screener_back_to_top": "Torna su",
+
+  "stock_screener_no_stocks_query": "Nessun titolo trovato per \"{query}\"",
+  "stock_screener_no_stocks": "Nessun titolo trovato.",
+
+  "stock_screener_modal_new_title": "Nuovo screener",
+  "stock_screener_modal_new_name_label": "Nome dello screener",
+  "stock_screener_modal_new_create": "Crea screener",
+
+  "stock_screener_modal_delete_title": "Elimina screener",
+  "stock_screener_modal_delete_message": "Vuoi davvero eliminare questo screener? L'azione non può essere annullata.",
+  "stock_screener_modal_delete_cancel": "Annulla",
+  "stock_screener_modal_delete_confirm": "Elimina",
+
+  "stock_screener_strategy_earnings_volatility": "Volatilità sulle trimestrali",
+  "stock_screener_strategy_dividend_growth": "Crescita del dividendo",
+  "stock_screener_strategy_monthly_dividends": "Dividendi mensili",
+  "stock_screener_strategy_top_gainers_1y": "Migliori rialzi 1A",
+  "stock_screener_strategy_top_shorted": "Titoli più shortati",
+  "stock_screener_strategy_momentum_ta": "Titoli momentum (AT)",
+  "stock_screener_strategy_undervalued": "Titoli sottovalutati",
+  "stock_screener_strategy_strong_cash_flow": "Cash flow solido",
+
+  "stock_screener_save": "Salva",
+  "stock_screener_save_as_new": "Salva come nuovo",
+  "stock_screener_reset_all": "Reimposta tutto"
+}

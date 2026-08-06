@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "개인정보를 소중히 다룹니다",
+  "cookies_banner_description": "더 나은 이용 환경 제공, 트래픽 분석, 콘텐츠 개인화를 위해 쿠키를 사용합니다.",
+  "cookies_accept_all": "모두 허용",
+  "cookies_reject_all": "모두 거부",
+  "cookies_customize": "설정",
+  "cookies_preferences_title": "쿠키 설정",
+  "cookies_preferences_description": "쿠키 설정을 관리합니다. 필수 쿠키는 사이트 작동에 반드시 필요하므로 해제할 수 없습니다.",
+  "cookies_necessary_title": "필수 쿠키",
+  "cookies_necessary_description": "로그인, 보안, 기본 기능에 반드시 필요합니다. 해제할 수 없습니다.",
+  "cookies_analytics_title": "분석 쿠키",
+  "cookies_analytics_description": "방문자가 사이트를 어떻게 이용하는지 파악해 사용성을 개선하는 데 사용합니다.",
+  "cookies_marketing_title": "마케팅 쿠키",
+  "cookies_marketing_description": "맞춤형 광고를 위해 여러 사이트에서 방문자를 추적하는 데 사용합니다.",
+  "cookies_save_preferences": "설정 저장"
+}

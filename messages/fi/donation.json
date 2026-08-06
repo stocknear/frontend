@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Ryhdy Stocknearin tukijaksi",
+  "donation_seo_description": "Tukesi auttaa meitä nousemaan maailman ykkösosakeanalyysialustaksi parhailla hinnoilla.",
+  "donation_title": "Tukija",
+  "donation_intro_greeting": "Hei 👋,",
+  "donation_intro_paragraph_1": "Kiitos, että harkitset missiomme tukemista. Olen ainoa henkilö Stocknearin takana ja hoidan kaiken backend-kehityksestä asiakaspalveluun. Haluan pitää alustan edullisena ja kaikkien sijoittajien saatavilla.",
+  "donation_intro_paragraph_2": "Hinnoittelumme on rakennettu niin, että laadukas osakedata on kaikkien piensijoittajien ulottuvilla.",
+  "donation_support_paragraph_1": "Jäsenyys kattaa perustoiminnan, mutta lisätuellasi pääsemme pidemmälle. Tukijana et tue vain alustaa, vaan sijoitat visioon avoimesta, läpinäkyvästä ja edullisesta talousanalyysistä.",
+  "donation_support_list_intro": "Tukesi menee suoraan näihin:",
+  "donation_support_list_item_1": "Matalan hintatason säilyttäminen",
+  "donation_support_list_item_2": "Parempi datan laatu ja uudet ominaisuudet",
+  "donation_support_list_item_3": "Tavoitteemme edistäminen: alan ykkösosakeanalyysialusta",
+  "donation_cta_title": "Ryhdy Stocknearin tukijaksi",
+  "donation_cta_paragraph_1": "Jos uskot missioomme ja haluat tukea meitä tilauksesi lisäksi, tee se GitHub Sponsorsin kautta. Jokainen tuki, koolla ei ole väliä, vaikuttaa merkittävästi kykyymme palvella sinua ja piensijoittajien yhteisöä.",
+  "donation_cta_paragraph_2": "Tukesi merkitsee minulle valtavasti ja pitää Stocknearin pyörimässä.",
+  "donation_sidebar_about_title": "Tietoa meistä",
+  "donation_iframe_title": "Tue Stocknearia"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Tržní newsletter: přehled o trhu za 2 minuty denně",
+  "newsletter_seo_description": "Zůstaň v obraze díky našemu newsletteru. Aktuality, trendy a postřehy z trhu ti chodí přímo do schránky.",
+  "newsletter_label": "Newsletter",
+  "newsletter_title": "Přehled o trhu za 2 minuty denně",
+  "newsletter_description": "Pre-market Report je newsletter, se kterým máš o finančních trzích přehled bez námahy.",
+  "newsletter_intro_1": "Shrnutí píšeme krátce v odrážkách, takže čtení newsletteru tě nebude zdržovat.",
+  "newsletter_intro_2": "Zprávy přečteme za tebe, odfiltrujeme šum a pošleme ti to podstatné. Co v newsletteru najdeš:",
+  "newsletter_feature_1": "Nejnovější analytické reporty s klíčovými body vytaženými pomocí AI.",
+  "newsletter_feature_2": "Rychlý přehled právě zveřejněných a nadcházejících výsledků firem.",
+  "newsletter_feature_3": "Důležité ekonomické události, které můžou výrazně pohnout trhem.",
+  "newsletter_feature_4": "Přesné a aktuální informace výhradně od prvotřídních zdrojů.",
+  "newsletter_closing": "Newsletter je zcela zdarma a chodí ti do schránky každé ráno před otevřením trhu, od pondělí do pátku (kromě svátků).",
+  "newsletter_signup_button": "Odebírat zdarma"
+}

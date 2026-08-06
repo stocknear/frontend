@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Hem",
+  "economic_breadcrumb_calendar": "Ekonomisk kalender",
+
+  "economic_seo_title": "Ekonomisk kalender - marknadspåverkande händelser och statistik i realtid",
+  "economic_seo_description": "Ligg steget före med vår ekonomiska kalender med finansiella händelser i realtid, konjunkturindikatorer och marknadspåverkande statistik. Följ BNP, inflation, sysselsättning, centralbanksmöten och andra viktiga besked med exakta tider och prognoser. Ett måste för traders och investerare som vill ligga före volatiliteten.",
+  "economic_seo_keywords": "ekonomisk kalender, finansiella händelser, marknadskalender, konjunkturindikatorer, BNP-siffror, inflationsdata, sysselsättningsstatistik, centralbanksmöten, ekonominyheter, marknadspåverkande händelser, statistiksläpp, ekonomiska besked, handelskalender, investeringsplanering",
+  "economic_structured_name": "Ekonomisk kalender",
+  "economic_structured_description": "Heltäckande ekonomisk kalender som följer globala finansiella händelser, konjunkturindikatorer och marknadspåverkande statistik",
+
+  "economic_main_name": "Ekonomisk kalender",
+  "economic_count_events": "{count} händelser",
+  "economic_empty_day": "Inga händelser tillgängliga för dagen.",
+
+  "economic_filter_country": "Filtrera land",
+  "economic_filter_importance": "Filtrera vikt",
+  "economic_filter_reset": "Återställ allt",
+  "economic_filter_search": "Sök...",
+  "economic_filter_no_country": "Inget land hittades",
+  "economic_filters_label": "Filter",
+
+  "economic_pagination_previous": "Föregående",
+  "economic_pagination_next": "Nästa",
+  "economic_pagination_page_of": "Sida {current} av {total}",
+  "economic_pagination_rows": "{count} rader",
+  "economic_back_to_top": "Till toppen",
+  "economic_search_placeholder": "Sök...",
+
+  "economic_source_label": "Källa:",
+  "economic_source_text": "Ekonomisk kalender tillhandahålls av",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "och tiderna visas i ET (Eastern Time)."
+}

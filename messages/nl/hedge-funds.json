@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Home",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedgefondsen",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedgefonds",
+
+  "hedge_funds_seo_title": "Hedgefonds-tracker - grootste posities en 13F-filings",
+  "hedge_funds_seo_description": "Volg de posities van de grootste hedgefondsen, 13F-filings en portefeuilles van institutionele beleggers. Zie wat hedgefondsen kopen en verkopen, met gedetailleerde positieanalyse. Gratis hedgefonds-tracker.",
+  "hedge_funds_seo_keywords": "hedgefonds tracker, hedgefonds posities, 13F filings, institutionele beleggers, hedgefonds portefeuille, grootste hedgefondsen, institutionele posities, hedgefonds analyse, berkshire hathaway posities",
+  "hedge_funds_structured_name": "Hedgefonds-tracker",
+  "hedge_funds_structured_description": "Volledig overzicht van hedgefondsposities en institutionele beleggingen",
+
+  "hedge_funds_main_title": "Grootste hedgefondsen in de VS",
+  "hedge_funds_infobox": "Lijst van alle Wall Street-instellingen met het hoogste beheerd vermogen.",
+  "hedge_funds_count_institutes": "{count} instellingen",
+
+  "hedge_funds_search_placeholder": "Zoeken...",
+  "hedge_funds_loading": "Laden...",
+  "hedge_funds_no_data": "Geen data beschikbaar.",
+
+  "hedge_funds_pagination_previous": "Vorige",
+  "hedge_funds_pagination_next": "Volgende",
+  "hedge_funds_pagination_page_of": "Pagina {current} van {total}",
+  "hedge_funds_rows_label": "{rows} rijen",
+  "hedge_funds_back_to_top": "Terug naar boven",
+
+  "hedge_funds_slug_seo_title": "{companyName} posities en portefeuille - analyse van 13F-filings",
+  "hedge_funds_slug_seo_description": "Uitgebreide analyse van de posities, portefeuille en beleggingsstrategie van hedgefonds {companyName}. Volg de laatste 13F-filings, grootste posities, sectorverdeling en rendementscijfers.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} posities, {companyNameLower} portefeuille, {companyNameLower} 13F filings, hedgefonds posities, institutionele posities, {companyNameLower} aandelenkeuzes, hedgefonds analyse",
+  "hedge_funds_slug_structured_name": "Analyse van posities en portefeuille van {companyName}",
+  "hedge_funds_slug_structured_description": "Uitgebreide analyse van de hedgefondsposities en beleggingen van {companyName}",
+
+  "hedge_funds_slug_cik_number": "CIK-nummer:",
+  "hedge_funds_slug_market_value": "Marktwaarde",
+  "hedge_funds_slug_holdings": "Aantal posities",
+  "hedge_funds_slug_avg_holding_period": "Gem. houdperiode",
+  "hedge_funds_slug_months": "maanden",
+  "hedge_funds_slug_win_rate": "Winratio",
+  "hedge_funds_slug_performance_3year": "Rendement 3 jaar",
+
+  "hedge_funds_slug_main_sectors": "Belangrijkste sectoren:",
+  "hedge_funds_slug_top_industries": "Grootste industrieën:",
+  "hedge_funds_slug_filing_date": "Datum filing:",
+  "hedge_funds_slug_no_data": "De data van dit hedgefonds is momenteel niet beschikbaar.",
+
+  "hedge_funds_column_rank": "Rang",
+  "hedge_funds_column_name": "Naam",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Posities",
+  "hedge_funds_column_turnover": "Omloop",
+  "hedge_funds_column_3year_perf": "3-jaars rend.",
+  "hedge_funds_column_win_rate": "Winratio"
+}

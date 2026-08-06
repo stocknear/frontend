@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Learning Center - Beleggen leren en tutorials over de beurs",
+  "learning_center_seo_description": "Leer beleggen op de beurs met ons complete Learning Center. Gratis tutorials over handelsstrategieën, technische analyse, fundamentele analyse, portefeuillebeheer en beleggingskennis, van beginner tot gevorderde belegger.",
+  "learning_center_seo_keywords": "beleggen leren, beleggingstutorials, handelsstrategieën, leren beleggen, aandelenanalyse tutorials, financiële educatie, beleggingsgids, beurs basiskennis, portefeuillebeheer, cursus technische analyse",
+  "learning_center_structured_name": "Stocknear Learning Center",
+  "learning_center_structured_description": "Complete beleggingskennis en tutorials over de beurs",
+  "learning_center_structured_articles": "Educatieve artikelen",
+  "learning_center_structured_articles_description": "Artikelen en tutorials over beleggen en de beurs",
+  "learning_center_title": "Learning Center",
+  "learning_center_published": "Gepubliceerd:",
+  "learning_center_previous": "Vorige",
+  "learning_center_next": "Volgende",
+  "learning_center_alt_tutorial": "Tutorial-achtergrond",
+
+  "learning_center_subtitle": "Leer de beurs kennen, stap voor stap",
+
+  "learning_center_category_all": "Alles",
+  "learning_center_category_features": "Functies",
+  "learning_center_category_fundamentals": "Basis",
+  "learning_center_category_terms": "Begrippen",
+
+  "learning_center_category_desc_features": "Zo gebruik je Stocknear",
+  "learning_center_category_desc_fundamentals": "Begin hier als je nieuw bent in beleggen",
+  "learning_center_category_desc_terms": "Financiële begrippen en definities",
+
+  "learning_center_tag_all": "Alle tags",
+  "learning_center_tag_stocks": "Aandelen",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opties",
+  "learning_center_tag_sentiment": "Sentiment",
+  "learning_center_tag_prefix": "Tag",
+
+  "learning_center_view_all": "Bekijk alles",
+  "learning_center_view_all_count": "Bekijk alle {count}",
+  "learning_center_min_read": "{time} min lezen",
+
+  "learning_center_no_articles_tag": "Geen artikelen gevonden met de tag \"{tag}\".",
+  "learning_center_clear_tag_filter": "Tagfilter wissen",
+
+  "learning_center_page_of": "Pagina {currentPage} van {totalPages}",
+  "learning_center_items_count": "{count} items",
+
+  "learning_center_back_to_top": "Terug naar boven",
+  "learning_center_no_terms_yet": "Nog geen begrippen beschikbaar.",
+  "learning_center_no_articles_category": "Nog geen artikelen in deze categorie.",
+
+  "learning_center_table_of_contents": "Inhoudsopgave",
+  "learning_center_share_this_post": "Deel dit bericht",
+  "learning_center_back_to_all_posts": "Terug naar alle berichten",
+
+  "learning_center_quick_start": "Snel starten",
+  "learning_center_sidebar_top_gainers": "Grootste stijgers",
+  "learning_center_sidebar_top_losers": "Grootste dalers",
+  "learning_center_sidebar_analysts": "Analisten",
+  "learning_center_sidebar_stock_screener": "Aandelenscreener",
+  "learning_center_sidebar_options_flow": "Optieflow",
+  "learning_center_sidebar_earnings_calendar": "Cijferkalender",
+  "learning_center_sidebar_dividends_calendar": "Dividendkalender",
+  "learning_center_sidebar_ipo_calendar": "IPO-kalender",
+
+  "learning_center_related_articles": "Gerelateerde artikelen",
+  "learning_center_view_all_articles": "Bekijk alle artikelen",
+  "learning_center_share_this_article": "Deel dit artikel",
+
+  "learning_center_link_copied": "Link gekopieerd naar klembord",
+  "learning_center_link_copy_failed": "Kopiëren van link mislukt",
+
+  "learning_center_sign_in_to_read": "Log in om de volledige briefing te lezen.",
+  "learning_center_briefing_description": "De Daily Market Briefing is beschikbaar voor Stocknear-leden. Maak een gratis account aan of log in om de volledige analyse te bekijken.",
+  "learning_center_create_free_account": "Gratis account aanmaken",
+  "learning_center_sign_in": "Inloggen",
+
+  "learning_center_click_to_close": "Klik ergens of druk op ESC om te sluiten",
+
+  "learning_center_search_placeholder": "Zoeken...",
+  "learning_center_no_search_results": "Geen resultaten gevonden voor \"{query}\".",
+  "learning_center_clear_search": "Zoekopdracht wissen"
+}

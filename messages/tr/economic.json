@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Ana Sayfa",
+  "economic_breadcrumb_calendar": "Ekonomik Takvim",
+
+  "economic_seo_title": "Ekonomik Takvim - Canli Piyasa Hareketi Yaratan Olaylar ve Veri Aciklamalari",
+  "economic_seo_description": "Gercek zamanli finansal olaylari, ekonomik gostergeleri ve piyasayi hareketlendiren veri aciklamalarini iceren kapsamli ekonomik takvimimizle bir adim onde ol. GSYH, enflasyon, istihdam verileri, merkez bankasi toplantilari ve onemli ekonomik duyurulari kesin saat ve beklentilerle takip et. Trader'lar ve yatirimcilar icin piyasa volatilitesini ongormenin temel araci.",
+  "economic_seo_keywords": "ekonomik takvim, finansal olaylar, piyasa takvimi, ekonomik gostergeler, GSYH aciklamasi, enflasyon verisi, istihdam istatistikleri, merkez bankasi toplantilari, ekonomi haberleri, piyasayi hareketlendiren olaylar, finansal veri aciklamalari, ekonomik duyurular, islem takvimi, yatirim planlamasi",
+  "economic_structured_name": "Ekonomik Takvim",
+  "economic_structured_description": "Kuresel finansal olaylari, ekonomik gostergeleri ve piyasayi hareketlendiren veri aciklamalarini takip eden kapsamli ekonomik takvim",
+
+  "economic_main_name": "Ekonomik Takvim",
+  "economic_count_events": "{count} olay",
+  "economic_empty_day": "Bu gun icin olay yok.",
+
+  "economic_filter_country": "Ulke Filtrele",
+  "economic_filter_importance": "Onem Filtrele",
+  "economic_filter_reset": "Tumunu Sifirla",
+  "economic_filter_search": "Ara...",
+  "economic_filter_no_country": "Ulke bulunamadi",
+  "economic_filters_label": "Filtreler",
+
+  "economic_pagination_previous": "Onceki",
+  "economic_pagination_next": "Sonraki",
+  "economic_pagination_page_of": "Sayfa {current} / {total}",
+  "economic_pagination_rows": "{count} satir",
+  "economic_back_to_top": "Basa Don",
+  "economic_search_placeholder": "Ara...",
+
+  "economic_source_label": "Kaynak:",
+  "economic_source_text": "Ekonomik takvim saglayicisi:",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "ve saatler ET (Dogu Saati) olarak gosterilir."
+}

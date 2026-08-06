@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Home",
+  "options_screener_breadcrumb_options_screener": "Screener opzioni",
+
+  "options_screener_seo_title": "Screener opzioni - Trova flussi insoliti e setup ad alta convinzione",
+  "options_screener_seo_description": "Filtra le opzioni per attività insolita, volatilità implicita, open interest, volume, greche e scadenza per individuare setup di trading di breve periodo.",
+  "options_screener_seo_keywords": "screener opzioni, attività insolita sulle opzioni, scanner opzioni, screener volatilità implicita, skew IV, open interest, opzioni ad alto volume, strumento trading opzioni, screener greche",
+  "options_screener_structured_name": "Screener opzioni",
+  "options_screener_structured_description": "Screener opzioni focalizzato su attività insolita, IV e open interest per setup di breve periodo",
+
+  "options_screener_main_title": "Screener opzioni",
+  "options_screener_contracts_count": "{count} contratti",
+  "options_screener_expire_on": "Tutti i contratti scadono il {date}",
+
+  "options_screener_popular_screens": "Screen popolari",
+  "options_screener_popular_strategies": "Strategie popolari",
+  "options_screener_select_popular": "Scegli tra i popolari",
+  "options_screener_saved_screens": "Screen salvati",
+  "options_screener_select_screen": "Seleziona screen",
+  "options_screener_new_screen": "Nuovo screen",
+
+  "options_screener_filters_count": "{count} filtri",
+  "options_screener_add_filters": "Aggiungi filtri",
+  "options_screener_search_filters": "Cerca tra {count} filtri...",
+  "options_screener_select_filters_title": "Seleziona i filtri dello screener ({count} in totale)",
+  "options_screener_nothing_found": "Nessun risultato",
+
+  "options_screener_tab_general": "Generale",
+  "options_screener_tab_filters": "Filtri",
+  "options_screener_tab_greeks": "Greche",
+
+  "options_screener_search_placeholder": "Trova...",
+  "options_screener_search_input_placeholder": "Cerca...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Valore",
+
+  "options_screener_normal_width": "Larghezza normale",
+  "options_screener_full_width": "Larghezza piena",
+
+  "options_screener_pagination_previous": "Precedente",
+  "options_screener_pagination_next": "Successivo",
+  "options_screener_pagination_page_of": "Pagina {current} di {total}",
+  "options_screener_rows_label": "{rows} righe",
+  "options_screener_back_to_top": "Torna su",
+
+  "options_screener_no_contracts_query": "Nessun contratto trovato per \"{query}\"",
+  "options_screener_no_contracts": "Nessun contratto trovato.",
+
+  "options_screener_modal_new_title": "Nuovo screener",
+  "options_screener_modal_new_name_label": "Nome dello screener",
+  "options_screener_modal_new_create": "Crea screener",
+
+  "options_screener_modal_delete_title": "Elimina screener",
+  "options_screener_modal_delete_message": "Vuoi davvero eliminare questo screener? L'azione non può essere annullata.",
+  "options_screener_modal_delete_cancel": "Annulla",
+  "options_screener_modal_delete_confirm": "Elimina",
+
+  "options_screener_strategy_high_iv_rank": "IV Rank alto",
+  "options_screener_strategy_volume_surge": "Volume in forte crescita",
+  "options_screener_strategy_itm_calls": "Call ITM",
+  "options_screener_strategy_otm_puts": "Put OTM",
+  "options_screener_strategy_high_premium_flow": "Flusso ad alto premio",
+
+  "options_screener_save": "Salva",
+  "options_screener_save_as_new": "Salva come nuovo",
+  "options_screener_reset_all": "Reimposta tutto"
+}

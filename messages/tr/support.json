@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Destek Al",
+  "support_breadcrumb_home": "Ana Sayfa",
+  "support_breadcrumb_current": "Destek Al",
+  "support_title": "Destek Al",
+  "support_description_1": "Destek talebini aşağıdaki formla gönder, en kısa sürede sana dönüş yapalım. Dilersen doğrudan e-posta da atabilirsin:",
+  "support_description_2": "Sık sorulan bazı soruların yanıtlarını burada bulabilirsin:",
+  "support_faq_link": "Sıkça Sorulan Sorular",
+  "support_description_3": "Bir hata veya veri yanlışlığı için yardım gerekiyorsa, lütfen sorunu gördüğün sayfanın tam adresini de ekle.",
+  "support_label_email": "E-posta",
+  "support_label_subject": "Konu",
+  "support_label_message": "Mesaj",
+  "support_button_send": "Mesajı Gönder",
+  "support_button_processing": "İşleniyor...",
+  "support_success_message": "Mesajın başarıyla gönderildi. Kısa süre içinde sana döneceğiz.",
+  "support_toast_error": "Bir şeyler ters gitti. Lütfen tekrar dene...",
+  "support_sidebar_pro_title": "Pro Abonelik",
+  "support_sidebar_pro_description": "Tüm verilere ve araçlara sınırsız erişim için hemen yükselt, reklamlardan kurtul.",
+  "support_sidebar_screener_title": "Hisse Tarayıcı",
+  "support_sidebar_screener_description": "Tüm hisseleri filtrele, sırala ve analiz ederek bir sonraki yatırımını bul.",
+  "support_sidebar_watchlist_title": "İzleme Listeleri",
+  "support_sidebar_watchlist_description": "Favori hisselerini gerçek zamanlı takip et."
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Pasang aplikasinya untuk pengalaman yang lebih baik.",
+  "app_installed_button_install": "Pasang",
+  "app_installed_modal_title": "Langkah pemasangan",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Ketuk tombol bagikan di Safari.",
+  "app_installed_ios_step_2": "Ketuk \"Add to Home Screen.\"",
+  "app_installed_ios_step_3": "Ketuk \"Add.\"",
+  "app_installed_ios_note": "Perlu diingat, aplikasi web di iOS hanya bisa dipasang lewat Safari.",
+  "app_installed_android_step_1": "Buka Stocknear di Chrome.",
+  "app_installed_android_step_2": "Ketuk menu tiga titik di kanan atas.",
+  "app_installed_android_step_3": "Ketuk \"Install app\" atau \"Add to Home screen.\"",
+  "app_installed_android_step_4": "Konfirmasi pemasangan.",
+  "app_installed_close": "Tutup"
+}

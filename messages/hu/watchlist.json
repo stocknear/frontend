@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Főoldal",
+  "watchlist_breadcrumb_watchlist": "Figyelőlista",
+
+  "watchlist_seo_title": "Részvény figyelőlista - Kövesd a portfóliód és az árfolyamokat",
+  "watchlist_seo_description": "Hozd létre és kezeld a saját részvény figyelőlistádat valós idejű árkövetéssel. Kövesd a kedvenc részvényeidet, ETF-jeidet és befektetéseidet riasztásokkal és teljesítményelemzéssel. Ingyenes portfóliókövető fejlett funkciókkal.",
+  "watchlist_seo_keywords": "részvény figyelőlista, portfóliókövető, részvénykövető, befektetéskövető, árfolyamfigyelés, riasztások, portfóliókezelés, részvényteljesítmény, befektetési figyelőlista",
+  "watchlist_structured_name": "Részvény figyelőlista követő",
+  "watchlist_structured_description": "Személyes részvény figyelőlista és portfóliókövető eszköz",
+
+  "watchlist_main_title": "Figyelőlista",
+  "watchlist_create_watchlist": "Figyelőlista létrehozása",
+  "watchlist_new_watchlist": "Új figyelőlista",
+  "watchlist_delete_watchlist": "Figyelőlista törlése",
+
+  "watchlist_add_stock_placeholder": "Részvény hozzáadása...",
+  "watchlist_no_results": "Nincs találat",
+  "watchlist_edit_watchlist": "Figyelőlista szerkesztése",
+  "watchlist_cancel": "Mégse",
+  "watchlist_normal_width": "Normál szélesség",
+  "watchlist_full_width": "Teljes szélesség",
+  "watchlist_exit_full_width": "Kilépés a teljes szélességből",
+  "watchlist_expand_full_width": "Kinyitás teljes szélességre",
+
+  "watchlist_empty_title": "Üres figyelőlista",
+  "watchlist_empty_description": "Töltsd fel a kedvenc részvényeiddel, és egy helyen kapod a valós idejű adatokat és a friss híreket.",
+  "watchlist_get_started": "Kezdés",
+
+  "watchlist_count_stocks": "{count} részvény",
+
+  "watchlist_tab_news": "Hírek",
+  "watchlist_tab_earnings": "Gyorsjelentés",
+  "watchlist_no_news": "Még nincs hír. Adj hozzá részvényeket a figyelőlistához a friss hírekért.",
+  "watchlist_no_earnings": "Nincs elérhető gyorsjelentési adat. Adj hozzá részvényeket a figyelőlistához a friss adatokért.",
+
+  "watchlist_modal_new_title": "Új figyelőlista",
+  "watchlist_modal_list_name": "Lista neve",
+  "watchlist_modal_create_button": "Figyelőlista létrehozása",
+
+  "watchlist_modal_delete_title": "Figyelőlista törlése",
+  "watchlist_modal_delete_confirm": "Biztosan törlöd ezt a figyelőlistát? A művelet nem vonható vissza.",
+  "watchlist_modal_delete_button": "Figyelőlista törlése",
+
+  "watchlist_toast_creating": "Figyelőlista létrehozása...",
+  "watchlist_toast_created": "A figyelőlistát létrehoztuk.",
+  "watchlist_toast_deleted": "A figyelőlistát töröltük.",
+  "watchlist_toast_updating": "Figyelőlista frissítése...",
+  "watchlist_toast_updated": "A figyelőlistát frissítettük.",
+  "watchlist_toast_error": "Valami hiba történt. Próbáld újra.",
+  "watchlist_toast_error_generic": "Hiba történt. Próbáld újra később.",
+  "watchlist_toast_title_empty": "A cím nem lehet üres.",
+  "watchlist_toast_title_long": "A cím túl hosszú. Tartsd rövidebben.",
+  "watchlist_toast_already_in_list": "Ez a szimbólum már szerepel a figyelőlistádon",
+  "watchlist_toast_select_symbols": "Előbb válaszd ki a törlendő szimbólumokat",
+
+  "watchlist_earnings_will_report": "jelent",
+  "watchlist_earnings_after_close": "piaczárás után.",
+  "watchlist_earnings_before_open": "piacnyitás előtt.",
+  "watchlist_earnings_during_market": "kereskedési időben.",
+  "watchlist_earnings_analysts_estimate": "Az elemzők várakozása",
+  "watchlist_earnings_in_revenue": "árbevétel",
+  "watchlist_earnings_yoy": "éves szinten",
+  "watchlist_earnings_and": "és",
+  "watchlist_earnings_in_eps": "egy részvényre jutó eredmény",
+
+  "watchlist_note_add_title": "Jegyzet hozzáadása",
+  "watchlist_note_edit_title": "Jegyzet szerkesztése",
+  "watchlist_note_placeholder_new": "Miért tetted fel ezt a részvényt a figyelőlistádra?",
+  "watchlist_note_placeholder_edit": "Frissítsd a jegyzeted...",
+  "watchlist_note_save": "Mentés",
+  "watchlist_note_add": "Jegyzet hozzáadása",
+  "watchlist_note_update": "Jegyzet frissítése",
+  "watchlist_note_created": "Jegyzet létrehozva",
+  "watchlist_note_updated": "Jegyzet frissítve",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} karakter maradt",
+  "watchlist_note_chars_over": "{count} karakterrel túllépted a limitet",
+  "watchlist_note_exceeded": "A jegyzet nem lehet hosszabb {max} karakternél",
+  "watchlist_added_price": "Hozzáadáskori ár",
+
+  "watchlist_column_entry_price": "Belépési ár",
+  "watchlist_column_since_added": "% hozzáadás óta"
+}

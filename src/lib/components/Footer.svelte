@@ -42,6 +42,7 @@
     common_privacy_policy,
     common_imprint,
     common_language_switch,
+    common_close,
   } from "$lib/paraglide/messages.js";
 
   let discordURL = import.meta.env.VITE_DISCORD_URL;
@@ -53,6 +54,10 @@
     "zh-TW": "🇹🇼",
     es: "🇪🇸",
     fr: "🇫🇷",
+    ja: "🇯🇵",
+    ko: "🇰🇷",
+    ru: "🇷🇺",
+    uk: "🇺🇦",
   };
 
   let currentLocale = $derived(
@@ -73,6 +78,18 @@
     } catch (error) {
       console.error("Failed to update theme:", error);
     }
+  }
+
+  // Source order (en, de, zh-CN, ...) is fine for six entries and unscannable at 28, so
+  // order by the label actually rendered. Copied first — `locales` is readonly.
+  const localeOptions = [...locales].sort((a, b) =>
+    (languageNames?.[a] ?? a).localeCompare(languageNames?.[b] ?? b),
+  );
+
+  let langDetails: HTMLDetailsElement | undefined = $state();
+
+  function closeLanguageMenu() {
+    if (langDetails) langDetails.open = false;
   }
 
   function switchLanguage(locale: Locale) {
@@ -228,7 +245,7 @@
             </li>
 
             <li>
-              <details class="group relative w-fit">
+              <details class="group relative w-fit" bind:this={langDetails}>
                 <summary
                   aria-label={common_language_switch()}
                   class="flex list-none items-center gap-2 mt-3 px-3 py-1.5 rounded-full border border-line bg-surface-card/60 hover:bg-gray-100 dark:hover:bg-zinc-800/60 text-xs text-gray-800 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-all cursor-pointer [&::-webkit-details-marker]:hidden"
@@ -247,11 +264,49 @@
                     />
                   </svg>
                 </summary>
+                <!-- Tap-anywhere-to-close for the mobile sheet. A <details> has no such
+                     affordance of its own, and a 28-item sheet with no way out but the
+                     back button is a trap. Hidden on desktop, where the dropdown closes
+                     on blur like any other menu.
+                     z-[10000]: CookieConsent's banner is `fixed bottom-0 ... z-[9999]`
+                     and shows by default for anyone who hasn't answered consent yet —
+                     exactly the first-time visitor this switcher is for. At the old
+                     z-40/z-50 the banner painted over this sheet and ate its clicks,
+                     both being `fixed bottom-0`. Must stay above 9999. -->
+                <button
+                  type="button"
+                  tabindex="-1"
+                  aria-label={common_close()}
+                  class="fixed inset-0 z-[10000] bg-black/50 sm:hidden"
+                  on:click={closeLanguageMenu}
+                ></button>
+
+                <!-- Mobile: a bottom sheet. The old panel was anchored `bottom-full`, so
+                     it grew *upward* out of the footer — at 28 locales that is ~1100px
+                     climbing off the top of the screen, and the rows were 32px, well
+                     under the 44px touch target. Fixed to the bottom edge, capped at
+                     70vh, two columns of large rows.
+                     Desktop (sm+): unchanged dropdown above the trigger, so it keeps the
+                     original z-50 there — the cookie banner collision is mobile-only
+                     (`sm:bottom-6` gives it a gap on desktop instead of flush bottom-0).
+                     `overscroll-contain` keeps the page from scrolling behind it. -->
                 <div
                   role="menu"
-                  class="absolute bottom-full left-0 z-50 mb-2 min-w-[140px] rounded-container border border-line bg-surface-card p-1 text-fg"
+                  class="fixed inset-x-0 bottom-0 z-[10000] max-h-[70vh] w-full overflow-y-auto overscroll-contain rounded-t-2xl border-t border-line bg-surface-card p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] text-fg shadow-2xl grid grid-cols-2 gap-1 sm:absolute sm:inset-x-auto sm:bottom-full sm:left-0 sm:z-50 sm:mb-2 sm:max-h-[26rem] sm:w-[min(88vw,28rem)] sm:gap-0 sm:rounded-container sm:border sm:p-1 sm:pb-1 sm:shadow-lg"
                 >
-                  {#each locales as lang}
+                  <div
+                    class="col-span-2 flex items-center justify-between px-2 pb-2 pt-1 sm:hidden"
+                  >
+                    <span class="text-sm font-semibold"
+                      >{common_language_switch()}</span
+                    >
+                    <button
+                      type="button"
+                      class="rounded-full px-3 py-1 text-xs text-fg-muted"
+                      on:click={closeLanguageMenu}>{common_close()}</button
+                    >
+                  </div>
+                  {#each localeOptions as lang}
                     <a
                       role="menuitem"
                       href={hrefForLanguageSwitch(
@@ -259,7 +314,7 @@
                         lang,
                       )}
                       data-sveltekit-reload
-                      class="flex items-center gap-3 px-3 py-2 text-sm rounded-container cursor-pointer {currentLocale ===
+                      class="flex min-h-11 items-center gap-3 px-3 py-3 text-sm rounded-container cursor-pointer sm:min-h-0 sm:py-2 {currentLocale ===
                       lang
                         ? 'bg-violet-100 dark:bg-violet-900/30 text-accent'
                         : 'hover:bg-gray-100/70 dark:hover:bg-zinc-900/60'} transition"
@@ -269,7 +324,7 @@
                       }}
                     >
                       <span aria-hidden="true">{flagEmoji[lang]}</span>
-                      <span>{languageNames?.[lang]}</span>
+                      <span class="truncate">{languageNames?.[lang]}</span>
                     </a>
                   {/each}
                 </div>

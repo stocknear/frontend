@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "สแกนเนอร์ออปชันโฟลว์ - สวีป บล็อก และความเคลื่อนไหวผิดปกติแบบสด",
+  "options_flow_seo_description": "ติดตามออปชันโฟลว์ สวีป และบล็อกเทรดของหุ้นและ ETF สหรัฐแบบสด จับความเคลื่อนไหวผิดปกติและจังหวะเทรดระยะสั้นแบบเรียลไทม์",
+  "options_flow_seo_keywords": "ออปชันโฟลว์, สแกนเนอร์ออปชันโฟลว์, ความเคลื่อนไหวออปชันผิดปกติ, คำสั่งสวีป, บล็อกเทรด, สมาร์ตมันนี, โฟลว์คอลล์, โฟลว์พุต, แจ้งเตือนออปชัน, ออปชันโฟลว์ OPRA",
+  "options_flow_structured_name": "สแกนเนอร์ออปชันโฟลว์",
+  "options_flow_structured_description": "ออปชันโฟลว์แบบสด พร้อมสวีป บล็อก และความเคลื่อนไหวผิดปกติสำหรับจังหวะเทรดระยะสั้น",
+
+  "options_flow_main_title": "ออปชันโฟลว์",
+
+  "options_flow_popular_filters": "ตัวกรองยอดนิยม",
+  "options_flow_popular_strategies": "กลยุทธ์ยอดนิยม",
+  "options_flow_select_popular": "เลือกตัวกรองยอดนิยม",
+  "options_flow_saved_filters": "ตัวกรองที่บันทึกไว้",
+  "options_flow_select_filter": "เลือกตัวกรอง",
+  "options_flow_new_filter": "ตัวกรองใหม่",
+
+  "options_flow_filters_count": "{count} ตัวกรอง",
+  "options_flow_add_filters": "เพิ่มตัวกรอง",
+  "options_flow_search_filters": "ค้นหาใน {count} ตัวกรอง...",
+  "options_flow_select_filters_title": "เลือกตัวกรองโฟลว์ (ทั้งหมด {count})",
+  "options_flow_nothing_found": "ไม่พบข้อมูล",
+  "options_flow_no_filters_found": "ไม่พบตัวกรองที่ใช้ได้",
+
+  "options_flow_search_placeholder": "ค้นหา...",
+  "options_flow_search_input_placeholder": "ค้นหา...",
+  "options_flow_full_width": "เต็มความกว้าง",
+  "options_flow_normal_width": "ความกว้างปกติ",
+
+  "options_flow_no_trades_query": "ไม่พบรายการซื้อขายออปชันสำหรับ \"{query}\"",
+  "options_flow_no_data_filters": "ไม่พบข้อมูลตามตัวกรองที่เลือก กรุณาปรับตัวกรองแล้วลองอีกครั้ง",
+
+  "options_flow_modal_new_title": "ตัวกรองใหม่",
+  "options_flow_modal_new_name_label": "ชื่อตัวกรอง",
+  "options_flow_modal_new_create": "สร้างตัวกรอง",
+
+  "options_flow_modal_delete_title": "ลบตัวกรอง",
+  "options_flow_modal_delete_message": "ต้องการลบตัวกรองนี้ใช่ไหม การลบไม่สามารถย้อนกลับได้",
+  "options_flow_modal_delete_cancel": "ยกเลิก",
+  "options_flow_modal_delete_confirm": "ลบตัวกรอง",
+
+  "options_flow_strategy_bullish_sweeps": "สวีปฝั่งขาขึ้น",
+  "options_flow_strategy_bearish_sweeps": "สวีปฝั่งขาลง",
+  "options_flow_strategy_high_premium_blocks": "บล็อกพรีเมียมสูง",
+  "options_flow_strategy_unusual_size_oi": "ขนาดผิดปกติเทียบ OI",
+  "options_flow_strategy_etf_index_flow": "โฟลว์ ETF และดัชนี",
+  "options_flow_strategy_zero_dte_flow": "โฟลว์ 0DTE",
+  "options_flow_strategy_repeated_flow": "โฟลว์ซ้ำ",
+
+  "options_flow_save": "บันทึก",
+  "options_flow_save_as_new": "บันทึกเป็นรายการใหม่",
+  "options_flow_reset_all": "รีเซ็ตทั้งหมด",
+
+  "options_flow_market_closed": "ตลาดปิด",
+  "options_flow_paused": "หยุดชั่วคราว",
+  "options_flow_live_flow": "โฟลว์สด",
+  "options_flow_pick_date": "เลือกวันที่",
+
+  "options_flow_realtime_data": "ข้อมูลออปชันเรียลไทม์",
+  "options_flow_realtime_data_title": "ข้อมูลออปชันเรียลไทม์จาก OPRA",
+  "options_flow_realtime_data_content": "ออปชันโฟลว์ของเราใช้ข้อมูล OPRA แบบเรียลไทม์ ซึ่งเป็นฟีดรวมอย่างเป็นทางการของรายการซื้อขายออปชันจดทะเบียนทั้งหมดในสหรัฐ ทุกรายการที่คุณเห็นจึงส่งตรงจาก OPRA แบบเรียลไทม์ ทำให้มองเห็นรายการขนาดใหญ่ สวีป ความเคลื่อนไหวผิดปกติ และพรีเมียมโฟลว์ได้ในระดับเดียวกับสถาบัน เมื่อใช้ข้อมูลคุณภาพสูงจาก OPRA คุณจะได้ข้อมูลเชิงลึกที่เร็วขึ้น สะอาดขึ้น และเห็นภาพชัดขึ้นว่าสมาร์ตมันนีกำลังเคลื่อนไหวไปทางไหนในตลาดออปชัน",
+
+  "options_flow_hide_filter_area": "ซ่อนแถบตัวกรอง",
+  "options_flow_show_filter_area": "แสดงแถบตัวกรอง",
+
+  "options_flow_put_to_call": "อัตราส่วนพุตต่อคอลล์",
+  "options_flow_call_flow": "โฟลว์คอลล์",
+  "options_flow_put_flow": "โฟลว์พุต"
+}

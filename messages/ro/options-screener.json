@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Acasă",
+  "options_screener_breadcrumb_options_screener": "Screener opțiuni",
+
+  "options_screener_seo_title": "Screener de opțiuni - Găsește flux neobișnuit și oportunități solide",
+  "options_screener_seo_description": "Filtrează opțiuni după activitate neobișnuită, volatilitate implicită, open interest, volum, greci și scadență, ca să găsești oportunități pe termen scurt.",
+  "options_screener_seo_keywords": "screener opțiuni, activitate neobișnuită pe opțiuni, scanner opțiuni, screener volatilitate implicită, skew IV, open interest, opțiuni cu volum mare, instrument de tranzacționare opțiuni, screener greci",
+  "options_screener_structured_name": "Instrument screener de opțiuni",
+  "options_screener_structured_description": "Screener de opțiuni axat pe activitate neobișnuită, IV și open interest, pentru tranzacții pe termen scurt",
+
+  "options_screener_main_title": "Screener opțiuni",
+  "options_screener_contracts_count": "{count} contracte",
+  "options_screener_expire_on": "Toate contractele de opțiuni expiră pe {date}",
+
+  "options_screener_popular_screens": "Screenere populare",
+  "options_screener_popular_strategies": "Strategii populare",
+  "options_screener_select_popular": "Alege un screener popular",
+  "options_screener_saved_screens": "Screenere salvate",
+  "options_screener_select_screen": "Alege screenerul",
+  "options_screener_new_screen": "Screener nou",
+
+  "options_screener_filters_count": "{count} filtre",
+  "options_screener_add_filters": "Adaugă filtre",
+  "options_screener_search_filters": "Caută în {count} filtre...",
+  "options_screener_select_filters_title": "Alege filtrele screenerului ({count} în total)",
+  "options_screener_nothing_found": "Niciun rezultat",
+
+  "options_screener_tab_general": "General",
+  "options_screener_tab_filters": "Filtre",
+  "options_screener_tab_greeks": "Greci",
+
+  "options_screener_search_placeholder": "Caută...",
+  "options_screener_search_input_placeholder": "Caută...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Valoare",
+
+  "options_screener_normal_width": "Lățime normală",
+  "options_screener_full_width": "Lățime completă",
+
+  "options_screener_pagination_previous": "Anterior",
+  "options_screener_pagination_next": "Următor",
+  "options_screener_pagination_page_of": "Pagina {current} din {total}",
+  "options_screener_rows_label": "{rows} rânduri",
+  "options_screener_back_to_top": "Înapoi sus",
+
+  "options_screener_no_contracts_query": "Niciun contract găsit pentru \"{query}\"",
+  "options_screener_no_contracts": "Niciun contract găsit.",
+
+  "options_screener_modal_new_title": "Screener nou",
+  "options_screener_modal_new_name_label": "Nume screener",
+  "options_screener_modal_new_create": "Creează screenerul",
+
+  "options_screener_modal_delete_title": "Șterge screenerul",
+  "options_screener_modal_delete_message": "Sigur vrei să ștergi acest screener? Acțiunea nu poate fi anulată.",
+  "options_screener_modal_delete_cancel": "Anulează",
+  "options_screener_modal_delete_confirm": "Șterge",
+
+  "options_screener_strategy_high_iv_rank": "Rang IV ridicat",
+  "options_screener_strategy_volume_surge": "Salt de volum",
+  "options_screener_strategy_itm_calls": "Call-uri ITM",
+  "options_screener_strategy_otm_puts": "Put-uri OTM",
+  "options_screener_strategy_high_premium_flow": "Flux cu primă mare",
+
+  "options_screener_save": "Salvează",
+  "options_screener_save_as_new": "Salvează ca nou",
+  "options_screener_reset_all": "Resetează tot"
+}

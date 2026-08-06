@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "홈",
+  "politicians_breadcrumb_politicians": "정치인",
+  "politicians_breadcrumb_flow": "의회 거래 플로우",
+
+  "politicians_seo_title": "의회 거래 추적 - 미국 정치인 실시간 주식 거래",
+  "politicians_seo_description": "미국 의회 의원과 상원의원의 주식 거래를 실시간으로 추적하세요. Nancy Pelosi의 거래, 상원의원 매수 내역, 의회 내부자 거래를 상세한 거래 이력과 함께 무료로 확인할 수 있습니다.",
+  "politicians_seo_keywords": "의회 거래, nancy pelosi 거래, 정치인 주식 거래, 상원의원 거래, 의회 내부자 거래, 정치인 주식 추적, 미국 정치인 투자, pelosi 포트폴리오",
+  "politicians_structured_name": "의회 거래 트래커",
+  "politicians_structured_description": "미국 정치인과 의회 의원의 주식 거래 실시간 추적",
+
+  "politicians_main_title": "미국 정치인 전체",
+  "politicians_count_members": "의원 {count}명",
+  "politicians_search_placeholder": "찾기...",
+  "politicians_filter_party": "정당",
+  "politicians_empty_search": "\"{query}\"에 해당하는 의원이 없습니다",
+  "politicians_empty_filter": "검색어나 필터 조건에 맞는 결과가 없습니다.",
+
+  "politicians_pagination_previous": "이전",
+  "politicians_pagination_next": "다음",
+  "politicians_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "politicians_pagination_rows": "{count}행",
+  "politicians_back_to_top": "맨 위로",
+
+  "politicians_flow_seo_title": "최신 의회 거래 내역",
+  "politicians_flow_seo_description": "최신 의회 거래를 확인하고 규제 정보에 접근할 수 있는 내부자들이 어디에 투자하는지 살펴보세요.",
+
+  "politicians_flow_title": "정치인 최신 거래",
+  "politicians_flow_description_intro": "최근 의회 거래 동향 요약입니다. 매수·매도 비율은",
+  "politicians_flow_description_buys": "매수 {percent}%",
+  "politicians_flow_description_versus": "대",
+  "politicians_flow_description_sells": "매도 {percent}%",
+  "politicians_flow_description_active_party": "입니다. 최근 신고 기준으로 가장 활발한 정당은",
+  "politicians_flow_description_with": "이며, 거래",
+  "politicians_flow_description_transactions": "건으로",
+  "politicians_flow_description_sentiment": "심리를 보이고 있습니다.",
+  "politicians_flow_sentiment_bullish": "강세",
+  "politicians_flow_sentiment_bearish": "약세",
+  "politicians_flow_sentiment_neutral": "중립",
+  "politicians_flow_count_trades": "거래 {count}건",
+  "politicians_flow_empty_search": "\"{query}\"에 해당하는 종목이 없습니다",
+
+  "politicians_detail_stats_rank": "순위",
+  "politicians_detail_stats_trades_scored": "평가 거래 수",
+  "politicians_detail_stats_success_rate": "성공률",
+  "politicians_detail_stats_avg_return": "평균 수익률",
+  "politicians_detail_stats_total_amount": "총 금액",
+  "politicians_detail_stats_transaction": "거래",
+  "politicians_detail_stats_last_transaction": "최근 거래",
+  "politicians_detail_stats_buy_sell": "매수/매도",
+
+  "politicians_detail_main_sectors": "주요 섹터:",
+  "politicians_detail_top_industries": "상위 업종:",
+  "politicians_detail_count_stocks": "종목 {count}개",
+  "politicians_detail_empty_search": "\"{query}\"에 대한 데이터가 없습니다",
+  "politicians_detail_empty": "검색한 애널리스트에 대한 데이터가 없습니다.",
+
+  "politicians_detail_mobile_filed": "신고일",
+  "politicians_detail_mobile_view_chart": "차트 보기",
+  "politicians_detail_mobile_amt": "금액",
+  "politicians_detail_mobile_trades": "거래 {count}건",
+  "politicians_detail_mobile_trades_plural": "거래 {count}건"
+}

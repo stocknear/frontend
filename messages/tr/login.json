@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Stocknear'a giriş yap",
+  "login_seo_description": "E-posta adresin ve şifrenle Stocknear hesabına giriş yap.",
+  "login_title": "Hesabına giriş yap",
+  "login_title_logged_in": "Giriş yaptın",
+  "login_subtitle": "Tekrar hoş geldin",
+  "login_email_label": "E-posta",
+  "login_password_label": "Şifre",
+  "login_forgot_password": "Şifreni mi unuttun?",
+  "login_button": "Giriş Yap",
+  "login_button_loading": "Giriş yapılıyor",
+  "login_divider": "Ya da şununla giriş yap",
+  "login_no_account": "Hesabın yok mu?",
+  "login_signup_link": "Kaydol",
+  "login_logged_in_as": "{email} olarak giriş yapıldı",
+  "login_logout_button": "Çıkış Yap",
+  "login_toast_verify_email": "Önce e-posta adresini doğrula",
+  "login_toast_success": "Giriş başarılı",
+  "login_toast_invalid": "Geçersiz bilgiler",
+  "login_toast_auth_failed": "E-posta ya da şifre hatalı. Lütfen tekrar dene.",
+  "login_toast_rate_limited": "Çok fazla giriş denemesi yapıldı. Lütfen {minutes} dakika sonra tekrar dene."
+}

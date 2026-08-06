@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Neobvyklý order flow - dark pool printy a blokové obchody",
+  "unusual_order_flow_seo_description": "Sleduj dark pool printy a blokové obchody v reálném čase a odhal aktivitu institucí, která často předchází krátkodobým pohybům.",
+  "unusual_order_flow_seo_keywords": "neobvyklý order flow, dark pool printy, blokové obchody, institucionální order flow, chytré peníze, skrytá likvidita, order flow v reálném čase, dark pool skener",
+  "unusual_order_flow_structured_name": "Skener neobvyklého order flow",
+  "unusual_order_flow_structured_description": "Dark pool printy a blokové obchody v reálném čase pro krátkodobé tržní signály",
+
+  "unusual_order_flow_main_title": "Neobvyklý order flow",
+
+  "unusual_order_flow_popular_filters": "Oblíbené filtry",
+  "unusual_order_flow_select_popular": "Vyber oblíbený",
+  "unusual_order_flow_saved_filters": "Uložené filtry",
+  "unusual_order_flow_select_filter": "Vyber filtr",
+  "unusual_order_flow_new_filter": "Nový filtr",
+
+  "unusual_order_flow_filters_count": "{count} filtrů",
+  "unusual_order_flow_add_filters": "Přidat filtry",
+  "unusual_order_flow_search_filters": "Hledat mezi {count} filtry...",
+  "unusual_order_flow_select_filters_title": "Vyber filtry flow (celkem {count})",
+  "unusual_order_flow_nothing_found": "Nic nenalezeno",
+  "unusual_order_flow_no_filters_found": "Žádné dostupné filtry",
+
+  "unusual_order_flow_search_placeholder": "Najít...",
+  "unusual_order_flow_search_input_placeholder": "Hledat...",
+  "unusual_order_flow_full_width": "Celá šířka",
+  "unusual_order_flow_normal_width": "Normální šířka",
+
+  "unusual_order_flow_no_trades_query": "Pro \"{query}\" jsme nenašli žádné neobvyklé obchody",
+  "unusual_order_flow_no_data_filters": "Tvoje kombinace filtrů je unikátní. Zatím nic neodpovídá.",
+
+  "unusual_order_flow_modal_new_title": "Nový filtr",
+  "unusual_order_flow_modal_new_name_label": "Název filtru",
+  "unusual_order_flow_modal_new_create": "Vytvořit filtr",
+
+  "unusual_order_flow_modal_delete_title": "Smazat filtr",
+  "unusual_order_flow_modal_delete_message": "Opravdu chceš tento filtr smazat? Tuto akci nelze vrátit zpět.",
+  "unusual_order_flow_modal_delete_cancel": "Zrušit",
+  "unusual_order_flow_modal_delete_confirm": "Smazat filtr",
+
+  "unusual_order_flow_save": "Uložit",
+  "unusual_order_flow_save_as_new": "Uložit jako nový",
+  "unusual_order_flow_reset_all": "Resetovat vše",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark pool printy",
+  "unusual_order_flow_strategy_block_orders": "Blokové příkazy",
+  "unusual_order_flow_strategy_mega_premium": "Mega prémie",
+  "unusual_order_flow_strategy_etf_flow": "ETF flow",
+  "unusual_order_flow_strategy_high_volume": "Vysoký objem",
+  "unusual_order_flow_strategy_large_stock_flow": "Velký akciový flow",
+
+  "unusual_order_flow_total_volume": "Celkový objem",
+  "unusual_order_flow_total_value": "Celková hodnota",
+  "unusual_order_flow_transaction_type": "Typ transakce",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Blok",
+  "unusual_order_flow_asset_type": "Typ aktiva",
+  "unusual_order_flow_stock": "Akcie",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Zpoždění 15 min",
+  "unusual_order_flow_delayed_title": "SIP data se zpožděním 15 minut",
+  "unusual_order_flow_delayed_content": "SIP feed od Intrinia dodává kvalitní konsolidovaná data z amerických akciových burz včetně obchodů, kotací a NBBO. Patnáctiminutové zpoždění nabízí bohatý pohled na trh s pokrytím všech burz.",
+
+  "unusual_order_flow_hide_filter_area": "Skrýt panel filtrů",
+  "unusual_order_flow_show_filter_area": "Zobrazit panel filtrů",
+  "unusual_order_flow_exit_full_width": "Ukončit celou šířku",
+  "unusual_order_flow_expand_full_width": "Roztáhnout na celou šířku",
+  "unusual_order_flow_reset_column_order": "Resetovat pořadí sloupců",
+  "unusual_order_flow_remove_filter": "Odebrat filtr",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Hodnota"
+}

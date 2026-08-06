@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Utama",
+  "stock_screener_breadcrumb_stock_screener": "Penyaring Saham",
+
+  "stock_screener_seo_title": "Penyaring Saham Lanjutan - Alat Penapis & Analisis Saham Percuma",
+  "stock_screener_seo_description": "Penyaring saham berkuasa dengan {count} kriteria penapisan. Saring saham mengikut asas, teknikal, metrik penilaian dan penunjuk prestasi. Data masa nyata dikemas kini setiap minit untuk penemuan dan analisis saham yang optimum.",
+  "stock_screener_seo_keywords": "penyaring saham, penyaring saham percuma, penapis saham, pengimbas saham, penyaring fundamental, penyaring teknikal, penyaring saham nilai, penyaring saham pertumbuhan, penyaring saham dividen, alat analisis saham",
+  "stock_screener_structured_name": "Alat Penyaring Saham",
+  "stock_screener_structured_description": "Platform penyaringan dan penapisan saham lanjutan dengan data pasaran masa nyata",
+
+  "stock_screener_main_title": "Penyaring Saham",
+  "stock_screener_matches_found": "{count} Padanan Ditemui",
+  "stock_screener_stocks_count": "{count} Saham",
+
+  "stock_screener_popular_screens": "Saringan Popular",
+  "stock_screener_popular_strategies": "Strategi Popular",
+  "stock_screener_select_popular": "Pilih popular",
+  "stock_screener_saved_screens": "Saringan Disimpan",
+  "stock_screener_select_screen": "Pilih saringan",
+  "stock_screener_new_screen": "Saringan Baharu",
+
+  "stock_screener_filters_count": "{count} Penapis",
+  "stock_screener_add_filters": "Tambah Penapis",
+  "stock_screener_search_filters": "Cari {count} penapis...",
+  "stock_screener_select_filters_title": "Pilih penapis penyaring ({count} kesemuanya)",
+  "stock_screener_nothing_found": "Tiada apa-apa ditemui",
+
+  "stock_screener_search_placeholder": "Cari...",
+  "stock_screener_search_input_placeholder": "Cari...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Maks",
+  "stock_screener_input_value": "Nilai",
+
+  "stock_screener_normal_width": "Lebar Biasa",
+  "stock_screener_full_width": "Lebar Penuh",
+
+  "stock_screener_pagination_previous": "Sebelumnya",
+  "stock_screener_pagination_next": "Seterusnya",
+  "stock_screener_pagination_page_of": "Halaman {current} daripada {total}",
+  "stock_screener_rows_label": "{rows} Baris",
+  "stock_screener_back_to_top": "Kembali ke Atas",
+
+  "stock_screener_no_stocks_query": "Tiada Saham ditemui untuk \"{query}\"",
+  "stock_screener_no_stocks": "Tiada Saham ditemui.",
+
+  "stock_screener_modal_new_title": "Penyaring Baharu",
+  "stock_screener_modal_new_name_label": "Nama Penyaring",
+  "stock_screener_modal_new_create": "Cipta Penyaring",
+
+  "stock_screener_modal_delete_title": "Padam Penyaring",
+  "stock_screener_modal_delete_message": "Anda pasti mahu memadam penyaring ini? Tindakan ini tidak boleh dibatalkan.",
+  "stock_screener_modal_delete_cancel": "Batal",
+  "stock_screener_modal_delete_confirm": "Padam",
+
+  "stock_screener_strategy_earnings_volatility": "Volatiliti Pendapatan",
+  "stock_screener_strategy_dividend_growth": "Pertumbuhan Dividen",
+  "stock_screener_strategy_monthly_dividends": "Dividen Bulanan",
+  "stock_screener_strategy_top_gainers_1y": "Saham Naik Teratas 1T",
+  "stock_screener_strategy_top_shorted": "Saham Paling Banyak Dijual Singkat",
+  "stock_screener_strategy_momentum_ta": "Saham Momentum TA",
+  "stock_screener_strategy_undervalued": "Saham Ternilai Rendah",
+  "stock_screener_strategy_strong_cash_flow": "Aliran Tunai Kukuh",
+
+  "stock_screener_save": "Simpan",
+  "stock_screener_save_as_new": "Simpan sebagai Baharu",
+  "stock_screener_reset_all": "Set Semula Semua"
+}

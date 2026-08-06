@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Início",
+  "economic_breadcrumb_calendar": "Calendário Econômico",
+
+  "economic_seo_title": "Calendário Econômico - Eventos e Divulgações que Movem o Mercado",
+  "economic_seo_description": "Fique à frente com nosso calendário econômico completo, com eventos financeiros em tempo real, indicadores econômicos e divulgações que movem o mercado. Acompanhe PIB, inflação, dados de emprego, reuniões de bancos centrais e os principais anúncios econômicos, com horários e projeções precisos. Ferramenta essencial para traders e investidores anteciparem a volatilidade.",
+  "economic_seo_keywords": "calendário econômico, eventos financeiros, calendário de mercado, indicadores econômicos, divulgação do PIB, dados de inflação, estatísticas de emprego, reuniões de bancos centrais, notícias econômicas, eventos que movem o mercado, divulgações de dados financeiros, anúncios econômicos, calendário de trading, planejamento de investimentos",
+  "economic_structured_name": "Calendário Econômico",
+  "economic_structured_description": "Calendário econômico completo com eventos financeiros globais, indicadores econômicos e divulgações que movem o mercado",
+
+  "economic_main_name": "Calendário Econômico",
+  "economic_count_events": "{count} eventos",
+  "economic_empty_day": "Nenhum evento disponível neste dia.",
+
+  "economic_filter_country": "Filtrar país",
+  "economic_filter_importance": "Filtrar importância",
+  "economic_filter_reset": "Limpar tudo",
+  "economic_filter_search": "Pesquisar...",
+  "economic_filter_no_country": "Nenhum país encontrado",
+  "economic_filters_label": "Filtros",
+
+  "economic_pagination_previous": "Anterior",
+  "economic_pagination_next": "Próxima",
+  "economic_pagination_page_of": "Página {current} de {total}",
+  "economic_pagination_rows": "{count} linhas",
+  "economic_back_to_top": "Voltar ao topo",
+  "economic_search_placeholder": "Buscar...",
+
+  "economic_source_label": "Fonte:",
+  "economic_source_text": "Calendário econômico fornecido por",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "e os horários são exibidos em ET (horário do Leste dos EUA)."
+}

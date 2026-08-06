@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "マーケットニュースレター：1日2分で市場を把握",
+  "newsletter_seo_description": "Pro向けニュースレターで相場の一歩先へ。最新の動き、トレンド、注目ポイントを毎朝メールでお届けします。",
+  "newsletter_label": "ニュースレター",
+  "newsletter_title": "1日2分で市場を把握",
+  "newsletter_description": "Pre-market Report は、金融市場の動きを手軽に追えるニュースレターです。",
+  "newsletter_intro_1": "要点は短い箇条書きでまとめているので、読むのが面倒になることはありません。",
+  "newsletter_intro_2": "ニュースを読んでノイズを取り除くのはこちらの仕事です。要点だけをお届けします。内容は次のとおりです。",
+  "newsletter_feature_1": "最新のアナリストレポートを、AI が抽出した要点付きで確認できます。",
+  "newsletter_feature_2": "直近および今後の決算発表をひと目で把握できます。",
+  "newsletter_feature_3": "相場に大きく影響しうる主要な経済イベントを追えます。",
+  "newsletter_feature_4": "信頼できる一次メディアのみを情報源とした、正確で最新の内容をお届けします。",
+  "newsletter_closing": "ニュースレターは完全無料で、祝日を除く月曜から金曜の毎朝、市場が開く前にお届けします。",
+  "newsletter_signup_button": "無料で登録する"
+}

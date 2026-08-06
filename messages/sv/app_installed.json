@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Hämta appen för en bättre upplevelse.",
+  "app_installed_button_install": "Installera",
+  "app_installed_modal_title": "Så installerar du",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Tryck på delningsknappen i Safari.",
+  "app_installed_ios_step_2": "Tryck på \"Lägg till på hemskärmen\".",
+  "app_installed_ios_step_3": "Tryck på \"Lägg till\".",
+  "app_installed_ios_note": "Observera att webbappar på iOS bara kan installeras via Safari.",
+  "app_installed_android_step_1": "Öppna Stocknear i Chrome.",
+  "app_installed_android_step_2": "Tryck på trepunktsmenyn uppe till höger.",
+  "app_installed_android_step_3": "Tryck på \"Installera app\" eller \"Lägg till på startskärmen\".",
+  "app_installed_android_step_4": "Bekräfta installationen.",
+  "app_installed_close": "Stäng"
+}

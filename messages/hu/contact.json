@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Kapcsolat",
+  "contact_breadcrumb": "Kapcsolat",
+  "contact_hero_title": "Kapcsolat",
+  "contact_intro": "Örülünk, ha írsz nekünk. Küldj üzenetet az alábbi űrlapon, és a lehető leghamarabb válaszolunk. E-mailt is írhatsz közvetlenül ide: {email}.",
+  "contact_email_label": "E-mail",
+  "contact_subject_label": "Tárgy",
+  "contact_message_label": "Üzenet",
+  "contact_send_button": "Üzenet küldése",
+  "contact_processing": "Feldolgozás...",
+  "contact_success": "Az üzenetedet elküldtük. Hamarosan jelentkezünk.",
+  "contact_sidebar_pro_title": "Pro előfizetés",
+  "contact_sidebar_pro_desc": "Válts most, és korlátlanul használd az összes adatot és eszközt, reklámok nélkül.",
+  "contact_sidebar_screener_title": "Részvényszűrő",
+  "contact_sidebar_screener_desc": "Szűrd, rendezd és elemezd az összes részvényt, hogy megtaláld a következő befektetésed.",
+  "contact_sidebar_watchlist_title": "Figyelőlisták",
+  "contact_sidebar_watchlist_desc": "Kövesd valós időben a kedvenc részvényeidet."
+}

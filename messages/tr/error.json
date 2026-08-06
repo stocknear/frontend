@@ -1,0 +1,8 @@
+{
+  "error_title": "Sayfa bulunamadı - {status}",
+  "error_body_prefix": "Sayfa bulunamadı. Bu hata sürekli tekrarlıyorsa lütfen bize bildir:",
+  "error_body_suffix": "En kısa sürede düzeltiriz.",
+  "error_back_home": "Ana Sayfaya Dön",
+  "error_server_title": "Bir şeyler ters gitti - {status}",
+  "error_server_body_prefix": "Bu sorun bizim tarafımızda, eksik bir sayfadan kaynaklanmıyor. Lütfen birazdan tekrar dene. Sorun devam ederse bize bildir:"
+}

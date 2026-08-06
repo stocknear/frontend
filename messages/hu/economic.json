@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Főoldal",
+  "economic_breadcrumb_calendar": "Gazdasági naptár",
+
+  "economic_seo_title": "Gazdasági naptár - Élő piacmozgató események és adatközlések",
+  "economic_seo_description": "Maradj egy lépéssel előrébb átfogó gazdasági naptárunkkal, amely valós idejű pénzügyi eseményeket, gazdasági mutatókat és piacmozgató adatközléseket tartalmaz. Kövesd a GDP-t, az inflációt, a munkaerőpiaci adatokat, a jegybanki üléseket és a fontos gazdasági bejelentéseket pontos időzítéssel és előrejelzésekkel. Alapvető eszköz kereskedőknek és befektetőknek a piaci volatilitás előrejelzéséhez.",
+  "economic_seo_keywords": "gazdasági naptár, pénzügyi események, piaci naptár, gazdasági mutatók, GDP közlés, inflációs adatok, munkaerőpiaci statisztikák, jegybanki ülések, gazdasági hírek, piacmozgató események, pénzügyi adatközlések, gazdasági bejelentések, kereskedési naptár, befektetési tervezés",
+  "economic_structured_name": "Gazdasági naptár",
+  "economic_structured_description": "Átfogó gazdasági naptár a globális pénzügyi események, gazdasági mutatók és piacmozgató adatközlések követésére",
+
+  "economic_main_name": "Gazdasági naptár",
+  "economic_count_events": "{count} esemény",
+  "economic_empty_day": "Erre a napra nincs elérhető esemény.",
+
+  "economic_filter_country": "Ország szűrése",
+  "economic_filter_importance": "Fontosság szűrése",
+  "economic_filter_reset": "Összes visszaállítása",
+  "economic_filter_search": "Keresés...",
+  "economic_filter_no_country": "Nincs ilyen ország",
+  "economic_filters_label": "Szűrők",
+
+  "economic_pagination_previous": "Előző",
+  "economic_pagination_next": "Következő",
+  "economic_pagination_page_of": "{current}. oldal / {total}",
+  "economic_pagination_rows": "{count} sor",
+  "economic_back_to_top": "Vissza a tetejére",
+  "economic_search_placeholder": "Keresés...",
+
+  "economic_source_label": "Forrás:",
+  "economic_source_text": "A gazdasági naptárat biztosítja:",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "az időpontok ET (keleti parti idő) szerint értendők."
+}

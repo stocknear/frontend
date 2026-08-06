@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "ホーム",
+  "hedge_funds_breadcrumb_hedge_funds": "ヘッジファンド",
+  "hedge_funds_breadcrumb_hedge_fund": "ヘッジファンド",
+
+  "hedge_funds_seo_title": "ヘッジファンドトラッカー - 主要ファンドの保有銘柄と 13F 報告",
+  "hedge_funds_seo_description": "主要ヘッジファンドの保有銘柄、13F 報告、機関投資家のポートフォリオを追跡。ヘッジファンドが何を買い、何を売っているかをポジション単位で分析できます。無料のヘッジファンド追跡ツールです。",
+  "hedge_funds_seo_keywords": "ヘッジファンド トラッカー, ヘッジファンド 保有銘柄, 13F 報告, 機関投資家, ヘッジファンド ポジション, 主要ヘッジファンド, 機関投資家 保有, ヘッジファンド ポートフォリオ, バークシャー・ハサウェイ 保有銘柄",
+  "hedge_funds_structured_name": "ヘッジファンドトラッカー",
+  "hedge_funds_structured_description": "ヘッジファンドの保有銘柄と機関投資家の投資動向を網羅的に追跡",
+
+  "hedge_funds_main_title": "米国の主要ヘッジファンド",
+  "hedge_funds_infobox": "運用資産残高が最も大きいウォール街の機関投資家の一覧です。",
+  "hedge_funds_count_institutes": "{count} 機関",
+
+  "hedge_funds_search_placeholder": "検索...",
+  "hedge_funds_loading": "読み込み中...",
+  "hedge_funds_no_data": "データがありません。",
+
+  "hedge_funds_pagination_previous": "前へ",
+  "hedge_funds_pagination_next": "次へ",
+  "hedge_funds_pagination_page_of": "{current} / {total} ページ",
+  "hedge_funds_rows_label": "{rows} 行",
+  "hedge_funds_back_to_top": "先頭へ戻る",
+
+  "hedge_funds_slug_seo_title": "{companyName} の保有銘柄とポートフォリオ - 13F 報告の分析",
+  "hedge_funds_slug_seo_description": "{companyName} の保有銘柄、ポジション、投資戦略を詳しく分析します。最新の 13F 報告、主力銘柄、セクター配分、パフォーマンス指標を確認できます。",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} 保有銘柄, {companyNameLower} ポートフォリオ, {companyNameLower} 13F 報告, ヘッジファンド ポジション, 機関投資家 保有, {companyNameLower} 注目銘柄, ヘッジファンド 分析",
+  "hedge_funds_slug_structured_name": "{companyName} の保有銘柄とポートフォリオ分析",
+  "hedge_funds_slug_structured_description": "{companyName} の保有銘柄と投資ポジションを網羅的に分析",
+
+  "hedge_funds_slug_cik_number": "CIK 番号:",
+  "hedge_funds_slug_market_value": "時価評価額",
+  "hedge_funds_slug_holdings": "保有銘柄数",
+  "hedge_funds_slug_avg_holding_period": "平均保有期間",
+  "hedge_funds_slug_months": "か月",
+  "hedge_funds_slug_win_rate": "勝率",
+  "hedge_funds_slug_performance_3year": "3年パフォーマンス",
+
+  "hedge_funds_slug_main_sectors": "主なセクター:",
+  "hedge_funds_slug_top_industries": "主な業種:",
+  "hedge_funds_slug_filing_date": "提出日:",
+  "hedge_funds_slug_no_data": "このヘッジファンドのデータは現在ご利用いただけません。",
+
+  "hedge_funds_column_rank": "順位",
+  "hedge_funds_column_name": "名称",
+  "hedge_funds_column_aum": "運用資産残高",
+  "hedge_funds_column_holdings": "保有銘柄",
+  "hedge_funds_column_turnover": "回転率",
+  "hedge_funds_column_3year_perf": "3年騰落率",
+  "hedge_funds_column_win_rate": "勝率"
+}

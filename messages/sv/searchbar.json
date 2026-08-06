@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Bolag eller aktiesymbol...",
+  "searchbar_aria_label": "Bolag eller aktiesymbol...",
+  "searchbar_search_label": "Sök",
+  "searchbar_suggestions": "Förslag",
+  "searchbar_recent": "Senaste",
+  "searchbar_popular": "Populära",
+  "searchbar_no_results": "Inga träffar"
+}

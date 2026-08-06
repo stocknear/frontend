@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Newsletter rynkowy: bądź na bieżąco w 2 minuty dziennie",
+  "newsletter_seo_description": "Wyprzedzaj rynek dzięki naszemu newsletterowi. Najnowsze informacje, trendy i analizy prosto do Twojej skrzynki.",
+  "newsletter_label": "Newsletter",
+  "newsletter_title": "Bądź na bieżąco w 2 minuty dziennie",
+  "newsletter_description": "Pre-market Report to newsletter, dzięki któremu bez wysiłku nadążysz za rynkami finansowymi.",
+  "newsletter_intro_1": "Nasze podsumowania mają formę krótkich punktów, więc czytanie tego newslettera nigdy nie będzie obowiązkiem.",
+  "newsletter_intro_2": "Przeczytamy newsy za Ciebie, odfiltrujemy szum i wyślemy Ci konkrety. Oto co dostajesz:",
+  "newsletter_feature_1": "Dostęp do najnowszych raportów analityków, z kluczowymi wnioskami wyciągniętymi przez AI.",
+  "newsletter_feature_2": "Szybki przegląd ostatnich i nadchodzących publikacji wyników.",
+  "newsletter_feature_3": "Bieżące informacje o ważnych wydarzeniach gospodarczych, które mogą mocno ruszyć rynkiem.",
+  "newsletter_feature_4": "Dokładne i aktualne informacje wyłącznie z najlepszych źródeł.",
+  "newsletter_closing": "Newsletter jest całkowicie darmowy i trafia do Twojej skrzynki każdego ranka przed otwarciem rynku, od poniedziałku do piątku (poza świętami).",
+  "newsletter_signup_button": "Zapisz się za darmo"
+}

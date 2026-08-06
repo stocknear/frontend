@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Bli sponsor for Stocknear",
+  "donation_seo_description": "Støtten din hjelper oss å bli verdens beste plattform for aksjeanalyse, til de beste prisene.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Hei 👋,",
+  "donation_intro_paragraph_1": "Takk for at du vurderer å støtte arbeidet vårt. Som eneste person bak Stocknear, med ansvar for alt fra backend-utvikling til kundestøtte, jobber jeg for å holde plattformen rimelig og tilgjengelig for alle investorer.",
+  "donation_intro_paragraph_2": "Prisene på abonnementene våre er satt slik at aksjedata av høy kvalitet er innen rekkevidde for småsparere, uansett bakgrunn.",
+  "donation_support_paragraph_1": "Abonnementet dekker den daglige driften, men ekstra støtte gjør at vi kan strekke oss lenger. Som sponsor støtter du ikke bare en plattform, du investerer i en visjon om åpen, transparent og rimelig finansanalyse.",
+  "donation_support_list_intro": "Støtten din går rett til:",
+  "donation_support_list_item_1": "Å holde prisene lave",
+  "donation_support_list_item_2": "Bedre datakvalitet og flere funksjoner",
+  "donation_support_list_item_3": "Målet om å bli bransjens ledende plattform for aksjeanalyse",
+  "donation_cta_title": "Bli sponsor for Stocknear",
+  "donation_cta_paragraph_1": "Tror du på det vi holder på med og vil støtte oss utover abonnementet, kan du gjøre det via GitHub Sponsors. Hvert bidrag, stort som lite, betyr mye for hva vi kan tilby deg og resten av småsparerne.",
+  "donation_cta_paragraph_2": "Støtten din betyr enormt mye for meg og bidrar til å holde Stocknear i gang.",
+  "donation_sidebar_about_title": "Om oss",
+  "donation_iframe_title": "Sponsor Stocknear"
+}

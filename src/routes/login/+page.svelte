@@ -6,6 +6,8 @@
   import SEO from "$lib/components/SEO.svelte";
   import OAuthButtons from "$lib/components/OAuthButtons.svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import { getTurnstileLanguage } from "$lib/i18n/locales";
   import { dev } from "$app/environment";
   import {
     login_seo_title,
@@ -165,7 +167,10 @@
           </div>
 
           {#if showTurnstile && !dev}
-            <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+            <Turnstile
+              siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+              language={getTurnstileLanguage(getLocale())}
+            />
           {/if}
 
           <div class="w-full pt-4 m-auto pb-3">

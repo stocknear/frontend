@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Disclaimer data | Bronnen en nauwkeurigheid van financiële data",
+  "data_seo_description": "Uitgebreide informatie over onze financiële databronnen, kwaliteitsnormen en gebruiksrichtlijnen voor beursdata, analistenramingen en financiële kengetallen.",
+  "data_breadcrumb": "Disclaimer data",
+  "data_hero_title": "Disclaimer data",
+  "data_intro": "De financiële data op Stocknear is uitsluitend bedoeld ter informatie en educatie. Deze informatie is geen beleggingsadvies en mag niet als enige basis dienen voor je handels- of beleggingsbeslissingen.",
+  "data_contact": "We hanteren strenge normen voor de nauwkeurigheid en kwaliteit van onze data. Zie je iets wat niet klopt of heb je uitleg nodig, neem dan contact met ons op via {discordLink} of mail ons supportteam op {email}.",
+  "data_market_title": "Marktdata en koersgrafieken",
+  "data_market_content": "Onze marktdata en realtime koersgrafieken komen van {fmpLink}, een toonaangevende aanbieder van financiële data. Dit omvat intradaykoersen, historische data en technische indicatoren.",
+  "data_coverage_title": "Marktdekking",
+  "data_coverage_content": "Stocknear dekt effecten die genoteerd staan aan de grote Amerikaanse beurzen, waaronder NASDAQ, NYSE, NYSE American en NYSE Arca. Onze database bevat aandelen, ETF's, ADR's en een selectie van OTC-effecten. We breiden onze dekking actief uit met meer internationale beurzen en instrumenten.",
+  "data_fundamentals_title": "Fundamentele data",
+  "data_fundamentals_content": "Onze fundamentele financiële data komt van {fmpLink} en is afgeleid uit officiële SEC-meldingen (formulieren 10-K, 10-Q en 8-K). Onze systemen werken deze informatie dagelijks bij, maar er kan vertraging optreden door de gebruikelijke indieningstermijnen bij de SEC en de rapportagekalender van bedrijven. Alle getoonde financiële data is gebaseerd op officiële, gecontroleerde stukken die bedrijven bij toezichthouders indienen.",
+  "data_business_title": "Operationele bedrijfscijfers",
+  "data_business_content": "Operationele bedrijfscijfers, waaronder KPI's en non-GAAP unit economics, komen van onze partner {mainStreetLink}. Hun researchteam verzamelt, normaliseert en controleert deze gegevens doorlopend op basis van jaarverslagen, beleggerspresentaties en toelichtingen van het management, zodat de bedrijfsprestaties op ons platform betrouwbaar in beeld komen.",
+  "data_analyst_title": "Analistendekking en marktverwachtingen",
+  "data_analyst_content": "Onze analistendekking combineert data uit meerdere gezaghebbende bronnen. Koersdoelen en analistenratings komen van Benzinga en geven de consensus van toonaangevende Wall Street-analisten weer. Omzetverwachtingen en EPS-ramingen zijn samengevoegd uit Benzinga en {fmpLink}. We doen ons best om zo nauwkeurig mogelijke verwachtingen te tonen, maar houd er rekening mee dat marktvoorspellingen per definitie onzeker zijn en slechts één onderdeel van je research horen te zijn.",
+  "data_etf_title": "ETF-analyse",
+  "data_etf_content": "Onze ETF-holdings en -analyses komen tot stand via onze samenwerking met {fmpLink}, wat zorgt voor actuele en nauwkeurige informatie over fondssamenstelling, wegingen en rendement.",
+  "data_options_title": "Optiedata",
+  "data_options_content": "Onze optiedata komt van meerdere dataleveranciers, waarvan we de feeds samenvoegen tot één pipeline met de volledige OPRA-stream (Options Price Reporting Authority). Door realtime options flow en optieketens uit verschillende bronnen te combineren, dekken we de handel en prijsvorming op alle grote Amerikaanse optiebeurzen volledig af."
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Trang chủ",
+  "stock_screener_breadcrumb_stock_screener": "Bộ lọc cổ phiếu",
+
+  "stock_screener_seo_title": "Bộ lọc cổ phiếu nâng cao - Công cụ lọc và phân tích cổ phiếu miễn phí",
+  "stock_screener_seo_description": "Bộ lọc cổ phiếu mạnh mẽ với {count} tiêu chí. Lọc cổ phiếu theo yếu tố cơ bản, kỹ thuật, định giá và hiệu suất. Dữ liệu cập nhật mỗi phút để bạn tìm và phân tích cổ phiếu hiệu quả.",
+  "stock_screener_seo_keywords": "bộ lọc cổ phiếu, bộ lọc cổ phiếu miễn phí, lọc cổ phiếu, quét cổ phiếu, bộ lọc cơ bản, bộ lọc kỹ thuật, bộ lọc cổ phiếu giá trị, bộ lọc cổ phiếu tăng trưởng, bộ lọc cổ phiếu cổ tức, công cụ phân tích cổ phiếu",
+  "stock_screener_structured_name": "Công cụ lọc cổ phiếu",
+  "stock_screener_structured_description": "Nền tảng lọc và sàng lọc cổ phiếu nâng cao với dữ liệu thị trường thời gian thực",
+
+  "stock_screener_main_title": "Bộ lọc cổ phiếu",
+  "stock_screener_matches_found": "Tìm thấy {count} kết quả",
+  "stock_screener_stocks_count": "{count} cổ phiếu",
+
+  "stock_screener_popular_screens": "Bộ lọc phổ biến",
+  "stock_screener_popular_strategies": "Chiến lược phổ biến",
+  "stock_screener_select_popular": "Chọn bộ lọc phổ biến",
+  "stock_screener_saved_screens": "Bộ lọc đã lưu",
+  "stock_screener_select_screen": "Chọn bộ lọc",
+  "stock_screener_new_screen": "Bộ lọc mới",
+
+  "stock_screener_filters_count": "{count} bộ lọc",
+  "stock_screener_add_filters": "Thêm bộ lọc",
+  "stock_screener_search_filters": "Tìm trong {count} bộ lọc...",
+  "stock_screener_select_filters_title": "Chọn tiêu chí lọc (tổng {count})",
+  "stock_screener_nothing_found": "Không tìm thấy gì",
+
+  "stock_screener_search_placeholder": "Tìm...",
+  "stock_screener_search_input_placeholder": "Tìm kiếm...",
+  "stock_screener_input_min": "Tối thiểu",
+  "stock_screener_input_max": "Tối đa",
+  "stock_screener_input_value": "Giá trị",
+
+  "stock_screener_normal_width": "Khổ thường",
+  "stock_screener_full_width": "Toàn màn hình",
+
+  "stock_screener_pagination_previous": "Trước",
+  "stock_screener_pagination_next": "Sau",
+  "stock_screener_pagination_page_of": "Trang {current}/{total}",
+  "stock_screener_rows_label": "{rows} dòng",
+  "stock_screener_back_to_top": "Lên đầu trang",
+
+  "stock_screener_no_stocks_query": "Không tìm thấy cổ phiếu nào cho \"{query}\"",
+  "stock_screener_no_stocks": "Không tìm thấy cổ phiếu nào.",
+
+  "stock_screener_modal_new_title": "Bộ lọc mới",
+  "stock_screener_modal_new_name_label": "Tên bộ lọc",
+  "stock_screener_modal_new_create": "Tạo bộ lọc",
+
+  "stock_screener_modal_delete_title": "Xóa bộ lọc",
+  "stock_screener_modal_delete_message": "Bạn có chắc muốn xóa bộ lọc này? Thao tác này không thể hoàn tác.",
+  "stock_screener_modal_delete_cancel": "Hủy",
+  "stock_screener_modal_delete_confirm": "Xóa",
+
+  "stock_screener_strategy_earnings_volatility": "Biến động mùa báo cáo",
+  "stock_screener_strategy_dividend_growth": "Cổ tức tăng trưởng",
+  "stock_screener_strategy_monthly_dividends": "Cổ tức hằng tháng",
+  "stock_screener_strategy_top_gainers_1y": "Tăng mạnh nhất 1 năm",
+  "stock_screener_strategy_top_shorted": "Cổ phiếu bị bán khống nhiều nhất",
+  "stock_screener_strategy_momentum_ta": "Cổ phiếu có đà kỹ thuật",
+  "stock_screener_strategy_undervalued": "Cổ phiếu bị định giá thấp",
+  "stock_screener_strategy_strong_cash_flow": "Dòng tiền mạnh",
+
+  "stock_screener_save": "Lưu",
+  "stock_screener_save_as_new": "Lưu thành bộ lọc mới",
+  "stock_screener_reset_all": "Đặt lại tất cả"
+}

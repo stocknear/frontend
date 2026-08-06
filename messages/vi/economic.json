@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Trang chủ",
+  "economic_breadcrumb_calendar": "Lịch kinh tế",
+
+  "economic_seo_title": "Lịch kinh tế - Sự kiện tác động thị trường và công bố dữ liệu tài chính",
+  "economic_seo_description": "Đi trước thị trường với lịch kinh tế đầy đủ gồm sự kiện tài chính thời gian thực, chỉ số kinh tế và các đợt công bố dữ liệu có sức ảnh hưởng. Theo dõi GDP, lạm phát, dữ liệu việc làm, cuộc họp ngân hàng trung ương và các thông báo kinh tế quan trọng với thời điểm chính xác và số liệu dự báo. Công cụ thiết yếu để trader và nhà đầu tư đón đầu biến động thị trường.",
+  "economic_seo_keywords": "lịch kinh tế, sự kiện tài chính, lịch thị trường, chỉ số kinh tế, công bố GDP, dữ liệu lạm phát, số liệu việc làm, cuộc họp ngân hàng trung ương, tin kinh tế, sự kiện tác động thị trường, công bố dữ liệu tài chính, thông báo kinh tế, lịch giao dịch, lập kế hoạch đầu tư",
+  "economic_structured_name": "Lịch kinh tế",
+  "economic_structured_description": "Lịch kinh tế đầy đủ theo dõi sự kiện tài chính toàn cầu, chỉ số kinh tế và các đợt công bố dữ liệu tác động thị trường",
+
+  "economic_main_name": "Lịch kinh tế",
+  "economic_count_events": "{count} sự kiện",
+  "economic_empty_day": "Không có sự kiện nào trong ngày.",
+
+  "economic_filter_country": "Lọc theo quốc gia",
+  "economic_filter_importance": "Lọc theo mức độ quan trọng",
+  "economic_filter_reset": "Đặt lại tất cả",
+  "economic_filter_search": "Tìm kiếm...",
+  "economic_filter_no_country": "Không tìm thấy quốc gia",
+  "economic_filters_label": "Bộ lọc",
+
+  "economic_pagination_previous": "Trước",
+  "economic_pagination_next": "Sau",
+  "economic_pagination_page_of": "Trang {current} / {total}",
+  "economic_pagination_rows": "{count} dòng",
+  "economic_back_to_top": "Lên đầu trang",
+  "economic_search_placeholder": "Tìm...",
+
+  "economic_source_label": "Nguồn:",
+  "economic_source_text": "Lịch kinh tế được cung cấp bởi",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "và thời gian hiển thị theo giờ ET (Eastern Time)."
+}

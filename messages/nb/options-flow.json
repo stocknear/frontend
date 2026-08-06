@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Opsjonsflyt-skanner - Live sweeps, blokker og uvanlig aktivitet",
+  "options_flow_seo_description": "Følg opsjonsflyt, sweeps og blokkordrer i amerikanske aksjer og ETF-er i sanntid. Oppdag uvanlig aktivitet og kortsiktige oppsett mens det skjer.",
+  "options_flow_seo_keywords": "opsjonsflyt, opsjonsflyt-skanner, uvanlig opsjonsaktivitet, sweep-ordrer, blokkordrer, smart money, call-flyt, put-flyt, opsjonsvarsler, OPRA opsjonsflyt",
+  "options_flow_structured_name": "Opsjonsflyt-skanner",
+  "options_flow_structured_description": "Live opsjonsflyt med sweeps, blokker og uvanlig aktivitet for kortsiktige oppsett",
+
+  "options_flow_main_title": "Opsjonsflyt",
+
+  "options_flow_popular_filters": "Populære filtre",
+  "options_flow_popular_strategies": "Populære strategier",
+  "options_flow_select_popular": "Velg populær",
+  "options_flow_saved_filters": "Lagrede filtre",
+  "options_flow_select_filter": "Velg filter",
+  "options_flow_new_filter": "Nytt filter",
+
+  "options_flow_filters_count": "Filtre ({count})",
+  "options_flow_add_filters": "Legg til filtre",
+  "options_flow_search_filters": "Søk i {count} filtre ...",
+  "options_flow_select_filters_title": "Velg flytfiltre ({count} totalt)",
+  "options_flow_nothing_found": "Ingen treff",
+  "options_flow_no_filters_found": "Fant ingen tilgjengelige filtre",
+
+  "options_flow_search_placeholder": "Finn ...",
+  "options_flow_search_input_placeholder": "Søk ...",
+  "options_flow_full_width": "Full bredde",
+  "options_flow_normal_width": "Normal bredde",
+
+  "options_flow_no_trades_query": "Ingen opsjonshandler funnet for \"{query}\"",
+  "options_flow_no_data_filters": "Ingen data for filtrene du har valgt. Juster filtrene og prøv igjen.",
+
+  "options_flow_modal_new_title": "Nytt filter",
+  "options_flow_modal_new_name_label": "Filternavn",
+  "options_flow_modal_new_create": "Opprett filter",
+
+  "options_flow_modal_delete_title": "Slett filter",
+  "options_flow_modal_delete_message": "Er du sikker på at du vil slette dette filteret? Handlingen kan ikke angres.",
+  "options_flow_modal_delete_cancel": "Avbryt",
+  "options_flow_modal_delete_confirm": "Slett filter",
+
+  "options_flow_strategy_bullish_sweeps": "Positive sweeps",
+  "options_flow_strategy_bearish_sweeps": "Negative sweeps",
+  "options_flow_strategy_high_premium_blocks": "Blokker med høy premie",
+  "options_flow_strategy_unusual_size_oi": "Uvanlig størrelse mot OI",
+  "options_flow_strategy_etf_index_flow": "ETF- og indeksflyt",
+  "options_flow_strategy_zero_dte_flow": "0DTE-flyt",
+  "options_flow_strategy_repeated_flow": "Gjentatt flyt",
+
+  "options_flow_save": "Lagre",
+  "options_flow_save_as_new": "Lagre som ny",
+  "options_flow_reset_all": "Nullstill alt",
+
+  "options_flow_market_closed": "Børsen er stengt",
+  "options_flow_paused": "Satt på pause",
+  "options_flow_live_flow": "Live flyt",
+  "options_flow_pick_date": "Velg en dato",
+
+  "options_flow_realtime_data": "Opsjonsdata i sanntid",
+  "options_flow_realtime_data_title": "Opsjonsdata i sanntid fra OPRA",
+  "options_flow_realtime_data_content": "Opsjonsflyten vår bygger på sanntidsdata fra OPRA, den offisielle konsoliderte feeden for alle børsnoterte opsjonshandler i USA. Det betyr at hver eneste handel du ser kommer rett fra OPRA i sanntid, og gir deg innsyn på institusjonsnivå i store handler, sweeps, uvanlig aktivitet og premieflyt mens det skjer. Med OPRAs pålitelige handelsstrøm får du raskere innsikt, renere data og et mer presist bilde av hvor de store pengene beveger seg i opsjonsmarkedet.",
+
+  "options_flow_hide_filter_area": "Skjul filterområdet",
+  "options_flow_show_filter_area": "Vis filterområdet",
+
+  "options_flow_put_to_call": "Put/call",
+  "options_flow_call_flow": "Call-flyt",
+  "options_flow_put_flow": "Put-flyt"
+}

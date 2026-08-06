@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Aktív kereskedőknek, akik előnyt akarnak.",
+  "upgrade_to_pro_subtitle": "Nem több címsorra van szükséged. Hanem a flow-ra, a katalizátorokra és a kontextusra, ami mozgatja az árat. A Pro egy helyre hozza a valós idejű opciós és dark pool adatokat, az elemzői lépéseket és a mély historikus adatot, hogy megtervezd az ügyletet, ne pedig utána szaladj.",
+  "upgrade_to_pro_feature_data_title": "Nyisd meg a teljes adatkészletet",
+  "upgrade_to_pro_feature_data_desc": "Hozzáférsz a Stocknear összes adatához és eszközéhez, így gyorsan leellenőrizheted a setupokat és magabiztosan léphetsz.",
+  "upgrade_to_pro_feature_flow_title": "Élő opciós és dark pool flow",
+  "upgrade_to_pro_feature_flow_desc": "Vedd észre a szokatlan aktivitást és a nagy kötéseket, amint történnek, és lépj a tömeg előtt.",
+  "upgrade_to_pro_feature_analyst_title": "Elemzői katalizátorok, amik mozgatják az árat",
+  "upgrade_to_pro_feature_analyst_desc": "Kövesd a felminősítéseket, leminősítéseket és célárakat anélkül, hogy a hírek után rohannál.",
+  "upgrade_to_pro_feature_history_title": "Mély historikus adat backtesteléshez",
+  "upgrade_to_pro_feature_history_desc": "Teszteld az ötleteidet prémium adatokon, akár 30 évre visszamenőleg.",
+  "upgrade_to_pro_cta": "Váltás Pro-ra"
+}

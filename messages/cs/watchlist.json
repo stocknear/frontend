@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Domů",
+  "watchlist_breadcrumb_watchlist": "Watchlist",
+
+  "watchlist_seo_title": "Akciový watchlist - sleduj své portfolio a ceny akcií",
+  "watchlist_seo_description": "Vytvoř si vlastní akciový watchlist se sledováním cen v reálném čase. Hlídej si oblíbené akcie, ETF a investice s upozorněními a analýzou výkonnosti. Sledování portfolia zdarma a s pokročilými funkcemi.",
+  "watchlist_seo_keywords": "akciový watchlist, sledování portfolia, sledování akcií, sledování investic, monitoring akcií, upozornění, správa portfolia, výkonnost akcií, investiční watchlist",
+  "watchlist_structured_name": "Sledování akciového watchlistu",
+  "watchlist_structured_description": "Nástroj pro vlastní akciový watchlist a sledování portfolia",
+
+  "watchlist_main_title": "Watchlist",
+  "watchlist_create_watchlist": "Vytvořit watchlist",
+  "watchlist_new_watchlist": "Nový watchlist",
+  "watchlist_delete_watchlist": "Smazat watchlist",
+
+  "watchlist_add_stock_placeholder": "Přidat akcii...",
+  "watchlist_no_results": "Nic nenalezeno",
+  "watchlist_edit_watchlist": "Upravit watchlist",
+  "watchlist_cancel": "Zrušit",
+  "watchlist_normal_width": "Normální šířka",
+  "watchlist_full_width": "Plná šířka",
+  "watchlist_exit_full_width": "Zpět na normální šířku",
+  "watchlist_expand_full_width": "Roztáhnout na plnou šířku",
+
+  "watchlist_empty_title": "Prázdný watchlist",
+  "watchlist_empty_description": "Naplň si ho oblíbenými akciemi a měj data v reálném čase i nejnovější zprávy na jednom místě.",
+  "watchlist_get_started": "Začít",
+
+  "watchlist_count_stocks": "{count} akcií",
+
+  "watchlist_tab_news": "Zprávy",
+  "watchlist_tab_earnings": "Výsledky",
+  "watchlist_no_news": "Zatím žádné zprávy. Přidej si do watchlistu akcie a uvidíš nejnovější zprávy.",
+  "watchlist_no_earnings": "Nejsou k dispozici data o výsledcích. Přidej si do watchlistu akcie a uvidíš nejnovější výsledky.",
+
+  "watchlist_modal_new_title": "Nový watchlist",
+  "watchlist_modal_list_name": "Název seznamu",
+  "watchlist_modal_create_button": "Vytvořit watchlist",
+
+  "watchlist_modal_delete_title": "Smazat watchlist",
+  "watchlist_modal_delete_confirm": "Opravdu chceš tento watchlist smazat? Tuto akci nelze vzít zpět.",
+  "watchlist_modal_delete_button": "Smazat watchlist",
+
+  "watchlist_toast_creating": "Vytvářím watchlist...",
+  "watchlist_toast_created": "Watchlist byl vytvořen.",
+  "watchlist_toast_deleted": "Watchlist byl smazán.",
+  "watchlist_toast_updating": "Aktualizuji watchlist...",
+  "watchlist_toast_updated": "Watchlist byl aktualizován.",
+  "watchlist_toast_error": "Něco se pokazilo. Zkus to prosím znovu.",
+  "watchlist_toast_error_generic": "Došlo k chybě. Zkus to prosím později.",
+  "watchlist_toast_title_empty": "Název nemůže být prázdný.",
+  "watchlist_toast_title_long": "Název je moc dlouhý. Zkus to kratší a výstižnější.",
+  "watchlist_toast_already_in_list": "Tento symbol už ve watchlistu máš",
+  "watchlist_toast_select_symbols": "Než je smažeš, musíš vybrat symboly",
+
+  "watchlist_earnings_will_report": "zveřejní výsledky",
+  "watchlist_earnings_after_close": "po zavření trhu.",
+  "watchlist_earnings_before_open": "před otevřením trhu.",
+  "watchlist_earnings_during_market": "během obchodní seance.",
+  "watchlist_earnings_analysts_estimate": "Analytici čekají",
+  "watchlist_earnings_in_revenue": "tržeb",
+  "watchlist_earnings_yoy": "meziročně",
+  "watchlist_earnings_and": "a",
+  "watchlist_earnings_in_eps": "zisku na akcii",
+
+  "watchlist_note_add_title": "Přidat poznámku",
+  "watchlist_note_edit_title": "Upravit poznámku",
+  "watchlist_note_placeholder_new": "Proč sis tuhle akcii přidal do watchlistu?",
+  "watchlist_note_placeholder_edit": "Uprav svou poznámku...",
+  "watchlist_note_save": "Uložit",
+  "watchlist_note_add": "Přidat poznámku",
+  "watchlist_note_update": "Upravit poznámku",
+  "watchlist_note_created": "Poznámka byla vytvořena",
+  "watchlist_note_updated": "Poznámka byla upravena",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "Zbývá {count} znaků",
+  "watchlist_note_chars_over": "O {count} znaků přes limit",
+  "watchlist_note_exceeded": "Poznámka nesmí přesáhnout {max} znaků",
+  "watchlist_added_price": "Cena při přidání",
+
+  "watchlist_column_entry_price": "Vstupní cena",
+  "watchlist_column_since_added": "% od přidání"
+}

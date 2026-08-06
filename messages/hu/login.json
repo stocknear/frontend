@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Bejelentkezés a Stocknearbe",
+  "login_seo_description": "Jelentkezz be a Stocknear fiókodba e-mail-címmel és jelszóval.",
+  "login_title": "Jelentkezz be a fiókodba",
+  "login_title_logged_in": "Be vagy jelentkezve",
+  "login_subtitle": "Örülünk, hogy újra itt vagy.",
+  "login_email_label": "E-mail",
+  "login_password_label": "Jelszó",
+  "login_forgot_password": "Elfelejtetted a jelszavad?",
+  "login_button": "Bejelentkezés",
+  "login_button_loading": "Bejelentkezés folyamatban",
+  "login_divider": "Vagy jelentkezz be ezzel",
+  "login_no_account": "Még nincs fiókod?",
+  "login_signup_link": "Regisztrálj",
+  "login_logged_in_as": "Bejelentkezve: {email}",
+  "login_logout_button": "Kijelentkezés",
+  "login_toast_verify_email": "Először erősítsd meg az e-mail-címedet",
+  "login_toast_success": "Sikeres bejelentkezés",
+  "login_toast_invalid": "Hibás belépési adatok",
+  "login_toast_auth_failed": "Hibás e-mail-cím vagy jelszó. Próbáld meg újra.",
+  "login_toast_rate_limited": "Túl sok bejelentkezési kísérlet. Próbáld újra {minutes} perc múlva."
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Optieflow-scanner - live sweeps, blocks en ongebruikelijke activiteit",
+  "options_flow_seo_description": "Volg live optieflow, sweeps en blocks in Amerikaanse aandelen en ETF's. Spot ongebruikelijke activiteit en kortetermijnsetups in realtime.",
+  "options_flow_seo_keywords": "optieflow, optieflow scanner, ongebruikelijke optieactiviteit, sweep-orders, blocktrades, smart money, call flow, put flow, optiemeldingen, OPRA optieflow",
+  "options_flow_structured_name": "Optieflow-scanner",
+  "options_flow_structured_description": "Live optieflow met sweeps, blocks en ongebruikelijke activiteit voor kortetermijnsetups",
+
+  "options_flow_main_title": "Optieflow",
+
+  "options_flow_popular_filters": "Populaire filters",
+  "options_flow_popular_strategies": "Populaire strategieën",
+  "options_flow_select_popular": "Kies populair",
+  "options_flow_saved_filters": "Opgeslagen filters",
+  "options_flow_select_filter": "Filter kiezen",
+  "options_flow_new_filter": "Nieuw filter",
+
+  "options_flow_filters_count": "{count} filters",
+  "options_flow_add_filters": "Filters toevoegen",
+  "options_flow_search_filters": "Zoek in {count} filters...",
+  "options_flow_select_filters_title": "Kies flowfilters ({count} totaal)",
+  "options_flow_nothing_found": "Niets gevonden",
+  "options_flow_no_filters_found": "Geen beschikbare filters gevonden",
+
+  "options_flow_search_placeholder": "Zoeken...",
+  "options_flow_search_input_placeholder": "Zoeken...",
+  "options_flow_full_width": "Volledige breedte",
+  "options_flow_normal_width": "Normale breedte",
+
+  "options_flow_no_trades_query": "Geen optietrades gevonden voor \"{query}\"",
+  "options_flow_no_data_filters": "Geen data gevonden voor de gekozen filters. Pas je filters aan en probeer het opnieuw.",
+
+  "options_flow_modal_new_title": "Nieuw filter",
+  "options_flow_modal_new_name_label": "Filternaam",
+  "options_flow_modal_new_create": "Filter aanmaken",
+
+  "options_flow_modal_delete_title": "Filter verwijderen",
+  "options_flow_modal_delete_message": "Weet je zeker dat je dit filter wilt verwijderen? Dit kun je niet ongedaan maken.",
+  "options_flow_modal_delete_cancel": "Annuleren",
+  "options_flow_modal_delete_confirm": "Filter verwijderen",
+
+  "options_flow_strategy_bullish_sweeps": "Bullish sweeps",
+  "options_flow_strategy_bearish_sweeps": "Bearish sweeps",
+  "options_flow_strategy_high_premium_blocks": "Blocks met hoge premie",
+  "options_flow_strategy_unusual_size_oi": "Afwijkende omvang vs OI",
+  "options_flow_strategy_etf_index_flow": "ETF- en indexflow",
+  "options_flow_strategy_zero_dte_flow": "0DTE-flow",
+  "options_flow_strategy_repeated_flow": "Herhaalde flow",
+
+  "options_flow_save": "Opslaan",
+  "options_flow_save_as_new": "Opslaan als nieuw",
+  "options_flow_reset_all": "Alles resetten",
+
+  "options_flow_market_closed": "Beurs gesloten",
+  "options_flow_paused": "Gepauzeerd",
+  "options_flow_live_flow": "Live flow",
+  "options_flow_pick_date": "Kies een datum",
+
+  "options_flow_realtime_data": "Realtime optiedata",
+  "options_flow_realtime_data_title": "Realtime optiedata van OPRA",
+  "options_flow_realtime_data_content": "Onze optieflow draait op realtime OPRA-data, de officiële geconsolideerde feed voor alle beursgenoteerde optietrades in de VS. Elke print die je ziet komt dus rechtstreeks van OPRA, in realtime, met zicht op institutioneel niveau op grote trades, sweeps, ongebruikelijke activiteit en premieflow zodra ze plaatsvinden. Dankzij de betrouwbare tradestream van OPRA krijg je sneller inzicht, schonere data en een preciezer beeld van waar het smart money zich in de optiemarkt beweegt.",
+
+  "options_flow_hide_filter_area": "Filters verbergen",
+  "options_flow_show_filter_area": "Filters tonen",
+
+  "options_flow_put_to_call": "Put-callratio",
+  "options_flow_call_flow": "Call-flow",
+  "options_flow_put_flow": "Put-flow"
+}

@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "ホーム",
+  "economic_breadcrumb_calendar": "経済カレンダー",
+
+  "economic_seo_title": "経済カレンダー - 相場を動かすイベントと経済指標の発表",
+  "economic_seo_description": "リアルタイムの経済イベント、経済指標、相場を動かすデータ発表を網羅した経済カレンダーです。GDP、インフレ、雇用統計、中央銀行の会合など主要な発表を、正確な時刻と市場予想とあわせて確認できます。相場の変動に備えたいトレーダーと投資家に欠かせないツールです。",
+  "economic_seo_keywords": "経済カレンダー, 金融イベント, マーケットカレンダー, 経済指標, GDP 発表, インフレ データ, 雇用統計, 中央銀行 会合, 経済ニュース, 相場を動かすイベント, 経済指標 発表, トレーディングカレンダー, 投資計画",
+  "economic_structured_name": "経済カレンダー",
+  "economic_structured_description": "世界の金融イベント、経済指標、相場を動かすデータ発表を網羅した経済カレンダー",
+
+  "economic_main_name": "経済カレンダー",
+  "economic_count_events": "{count} 件のイベント",
+  "economic_empty_day": "この日のイベントはありません。",
+
+  "economic_filter_country": "国で絞り込む",
+  "economic_filter_importance": "重要度で絞り込む",
+  "economic_filter_reset": "すべてリセット",
+  "economic_filter_search": "検索...",
+  "economic_filter_no_country": "該当する国がありません",
+  "economic_filters_label": "フィルター",
+
+  "economic_pagination_previous": "前へ",
+  "economic_pagination_next": "次へ",
+  "economic_pagination_page_of": "{current} / {total} ページ",
+  "economic_pagination_rows": "{count} 行",
+  "economic_back_to_top": "先頭へ戻る",
+  "economic_search_placeholder": "検索...",
+
+  "economic_source_label": "出典:",
+  "economic_source_text": "経済カレンダーの提供元:",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "時刻はすべて ET (米国東部時間) 表示です。"
+}

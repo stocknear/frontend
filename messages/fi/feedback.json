@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Anna palautetta",
+  "feedback_error_signin": "Kirjaudu sisään ennen palautteen lähettämistä.",
+  "feedback_error_description": "Kuvaile ongelmasi tai ehdotuksesi.",
+  "feedback_error_send_try_again": "Palautteen lähetys epäonnistui. Yritä uudelleen.",
+  "feedback_success": "Kiitos, palautteesi lähetettiin.",
+  "feedback_error_send_generic": "Palautteen lähetys epäonnistui.",
+  "feedback_description_label": "Kuvaile ongelmasi tai ehdotuksesi:",
+  "feedback_page_label": "Palaute sivusta:",
+  "feedback_close_button": "Sulje",
+  "feedback_cancel_button": "Peruuta",
+  "feedback_send_button": "Lähetä palaute"
+}

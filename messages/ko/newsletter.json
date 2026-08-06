@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "마켓 뉴스레터: 하루 2분이면 시장 흐름을 따라잡습니다",
+  "newsletter_seo_description": "프로 뉴스레터로 시장을 한발 앞서 확인하세요. 최신 소식과 트렌드, 인사이트를 메일함으로 바로 보내드립니다.",
+  "newsletter_label": "뉴스레터",
+  "newsletter_title": "하루 2분이면 시장 흐름을 따라잡습니다",
+  "newsletter_description": "프리마켓 리포트는 금융 시장을 손쉽게 따라갈 수 있도록 정리한 뉴스레터입니다.",
+  "newsletter_intro_1": "요약은 짧은 불릿 형식으로 정리해 드리므로 읽는 데 부담이 없습니다.",
+  "newsletter_intro_2": "저희가 뉴스를 대신 읽고 잡음을 걸러낸 뒤 핵심만 정리해 보내드립니다. 담기는 내용은 다음과 같습니다:",
+  "newsletter_feature_1": "최신 애널리스트 리포트의 핵심을 AI로 추려 확인할 수 있습니다.",
+  "newsletter_feature_2": "최근 실적과 예정된 실적 발표를 한눈에 파악할 수 있습니다.",
+  "newsletter_feature_3": "시장에 큰 영향을 줄 수 있는 주요 경제 이벤트를 놓치지 않습니다.",
+  "newsletter_feature_4": "최상위 매체만을 출처로 한 정확한 최신 정보를 받아볼 수 있습니다.",
+  "newsletter_closing": "뉴스레터는 전액 무료이며, 월요일부터 금요일까지(공휴일 제외) 장 시작 전 매일 아침 메일함으로 발송됩니다.",
+  "newsletter_signup_button": "무료로 구독하기"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Оставить отзыв",
+  "feedback_error_signin": "Войди перед отправкой отзыва.",
+  "feedback_error_description": "Опиши свою проблему или предложение.",
+  "feedback_error_send_try_again": "Что-то пошло не так при отправке отзыва. Попробуй ещё раз.",
+  "feedback_success": "Спасибо! Твой отзыв отправлен.",
+  "feedback_error_send_generic": "Что-то пошло не так при отправке отзыва.",
+  "feedback_description_label": "Опиши свою проблему или предложение:",
+  "feedback_page_label": "Отзыв о странице:",
+  "feedback_close_button": "Закрыть",
+  "feedback_cancel_button": "Отмена",
+  "feedback_send_button": "Отправить отзыв"
+}

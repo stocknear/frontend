@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Arvostamme yksityisyyttäsi",
+  "cookies_banner_description": "Käytämme evästeitä käyttökokemuksen parantamiseen, kävijämäärien analysointiin ja sisällön personointiin.",
+  "cookies_accept_all": "Hyväksy kaikki",
+  "cookies_reject_all": "Hylkää kaikki",
+  "cookies_customize": "Mukauta",
+  "cookies_preferences_title": "Evästeasetukset",
+  "cookies_preferences_description": "Hallitse evästeasetuksiasi. Välttämättömiä evästeitä ei voi poistaa käytöstä, koska sivusto ei toimi ilman niitä.",
+  "cookies_necessary_title": "Välttämättömät evästeet",
+  "cookies_necessary_description": "Tarpeen kirjautumiselle, tietoturvalle ja perustoiminnoille. Näitä ei voi poistaa käytöstä.",
+  "cookies_analytics_title": "Analytiikkaevästeet",
+  "cookies_analytics_description": "Auttavat ymmärtämään, miten kävijät käyttävät sivustoa, jotta voimme parantaa käyttökokemusta.",
+  "cookies_marketing_title": "Markkinointievästeet",
+  "cookies_marketing_description": "Käytetään kävijöiden seurantaan eri sivustoilla personoitua mainontaa varten.",
+  "cookies_save_preferences": "Tallenna asetukset"
+}

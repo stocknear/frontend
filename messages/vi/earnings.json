@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Trang chủ",
+  "earnings_breadcrumb_calendar": "Lịch kết quả kinh doanh",
+
+  "earnings_seo_title": "Lịch kết quả kinh doanh - Cơ hội biến động cho trader quyền chọn",
+  "earnings_seo_description": "Theo dõi ngày công bố kết quả kinh doanh, biên độ biến động kỳ vọng và dự báo của chuyên gia để lên kế hoạch giao dịch quyền chọn theo biến động và các thiết lập IV crush.",
+  "earnings_seo_keywords": "lịch kết quả kinh doanh, giao dịch quyền chọn mùa báo cáo, biến động kỳ vọng, IV crush, biến động quanh báo cáo, dự báo EPS, dự báo doanh thu, lịch báo cáo",
+
+  "earnings_structured_name": "Lịch kết quả kinh doanh",
+  "earnings_structured_description": "Lịch kết quả kinh doanh dành cho trader quyền chọn tập trung vào biến động và biên độ kỳ vọng",
+
+  "earnings_main_name": "Lịch kết quả kinh doanh",
+  "earnings_count": "{count} báo cáo",
+  "earnings_empty": "Không có báo cáo kết quả kinh doanh nào trong ngày.",
+  "earnings_empty_scheduled": "Không có lịch báo cáo",
+
+  "earnings_tab_daily": "Theo ngày",
+  "earnings_tab_weekly": "Theo tuần",
+  "earnings_tab_details": "Chi tiết",
+  "earnings_tab_compact": "Rút gọn",
+
+  "earnings_time_of_day": "Thời điểm trong ngày",
+  "earnings_time_any": "Bất kỳ lúc nào",
+  "earnings_time_before_open": "Trước giờ mở cửa",
+  "earnings_time_after_close": "Sau giờ đóng cửa",
+
+  "earnings_expanded_reports": "Báo cáo",
+  "earnings_expanded_market_cap": "Vốn hóa thị trường",
+  "earnings_expanded_revenue_est": "DT dự báo",
+  "earnings_expanded_revenue_estimate": "Doanh thu dự báo",
+  "earnings_expanded_eps_est": "EPS dự báo",
+  "earnings_expanded_eps_estimate": "EPS dự báo",
+
+  "earnings_pagination_previous": "Trước",
+  "earnings_pagination_next": "Sau",
+  "earnings_pagination_page_of": "Trang {current} / {total}",
+  "earnings_pagination_rows": "{count} dòng",
+  "earnings_back_to_top": "Lên đầu trang",
+  "earnings_search_placeholder": "Tìm..."
+}

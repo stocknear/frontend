@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Wsparcie",
+  "support_breadcrumb_home": "Start",
+  "support_breadcrumb_current": "Wsparcie",
+  "support_title": "Wsparcie",
+  "support_description_1": "Wyślij zgłoszenie przez poniższy formularz, a odpowiemy najszybciej, jak się da. Możesz też napisać bezpośrednio na adres",
+  "support_description_2": "Odpowiedzi na najczęstsze pytania znajdziesz tutaj:",
+  "support_faq_link": "Najczęściej zadawane pytania",
+  "support_description_3": "Jeśli zgłaszasz błąd lub nieprawidłowe dane, podaj dokładny adres URL strony, na której to zauważyłeś.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Temat",
+  "support_label_message": "Wiadomość",
+  "support_button_send": "Wyślij wiadomość",
+  "support_button_processing": "Przetwarzanie...",
+  "support_success_message": "Wiadomość została wysłana. Wkrótce się odezwiemy.",
+  "support_toast_error": "Coś poszło nie tak. Spróbuj ponownie...",
+  "support_sidebar_pro_title": "Subskrypcja Pro",
+  "support_sidebar_pro_description": "Przejdź na Pro, aby mieć nieograniczony dostęp do wszystkich danych i narzędzi bez reklam.",
+  "support_sidebar_screener_title": "Skaner akcji",
+  "support_sidebar_screener_description": "Filtruj, sortuj i analizuj wszystkie akcje, aby znaleźć kolejną inwestycję.",
+  "support_sidebar_watchlist_title": "Listy obserwowanych",
+  "support_sidebar_watchlist_description": "Śledź swoje ulubione akcje w czasie rzeczywistym."
+}

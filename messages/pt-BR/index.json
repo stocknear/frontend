@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Visão geral",
+  "index_detail_nav_options": "Opções",
+  "index_detail_nav_history": "Histórico",
+  "index_detail_nav_holdings": "Composição",
+
+  "index_detail_watchlist": "Watchlist",
+  "index_detail_price_alert": "Alerta",
+  "index_detail_add_to_watchlist": "Adicionar à watchlist",
+  "index_detail_ticker_added": "Ticker adicionado à sua watchlist",
+  "index_detail_ticker_add_failed": "Não foi possível adicionar o ticker à watchlist",
+  "index_detail_upgrade_watchlist": "Quer adicionar mais ações? Assine o Plus ou o Pro",
+  "index_detail_companies": "Empresas",
+  "index_detail_company": "Empresa",
+
+  "index_detail_no_data": "Nenhum dado disponível",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Compra",
+  "index_detail_ask": "Venda",
+  "index_detail_volume": "Volume",
+  "index_detail_avg_volume_20d": "Volume médio (20D)",
+  "index_detail_50_day_ma": "Média móvel 50 dias",
+  "index_detail_200_day_ma": "Média móvel 200 dias",
+  "index_detail_eps_ttm": "EPS (12M)",
+  "index_detail_pe_ratio_ttm": "P/L (12M)",
+  "index_detail_shares_out": "Ações em circulação",
+  "index_detail_inception_date": "Data de início",
+  "index_detail_open": "Abertura",
+  "index_detail_prev_close": "Fechamento anterior",
+  "index_detail_days_range": "Faixa do dia",
+  "index_detail_52w_range": "Faixa de 52 semanas",
+  "index_detail_exchange": "Bolsa",
+  "index_detail_expense_ratio": "Taxa de administração",
+
+  "index_detail_chart_price": "Preço",
+  "index_detail_chart_volume": "Volume",
+
+  "index_sidecard_about": "Sobre {ticker}",
+  "index_sidecard_top_sectors": "5 principais setores",
+  "index_sidecard_sector": "Setor",
+  "index_sidecard_weight_percent": "Peso %",
+  "index_sidecard_view_all_sectors": "Ver todos os setores"
+}

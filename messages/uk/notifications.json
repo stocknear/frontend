@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Головна",
+  "notifications_breadcrumb_notifications": "Сповіщення",
+
+  "notifications_seo_title": "Сповіщення про фондовий ринок | Оновлення й сигнали в реальному часі",
+  "notifications_seo_description": "Отримуй сповіщення про фондовий ринок у реальному часі. Миттєві сигнали про зміни цін, тренди та рухи ринку, щоб ухвалювати зваженіші інвестиційні рішення.",
+
+  "notifications_main_title": "Сповіщення",
+  "notifications_alerts_count": "{count} сигналів",
+
+  "notifications_mark_all_read": "Позначити всі як прочитані",
+  "notifications_marking": "Позначаємо...",
+  "notifications_settings": "Налаштування",
+  "notifications_customize": "Налаштуй свої сповіщення",
+
+  "notifications_channel_earnings_surprise": "Сюрприз у звітності",
+  "notifications_channel_wiim": "Чому змінилася ціна",
+  "notifications_channel_top_analyst": "Рейтинг топаналітика",
+  "notifications_channel_followed_analysts": "Аналітики, за якими стежиш",
+  "notifications_no_channels": "Немає доступних каналів сповіщень.",
+
+  "notifications_empty": "Сповіщень поки немає.",
+
+  "notifications_pagination_previous": "Назад",
+  "notifications_pagination_next": "Далі",
+  "notifications_pagination_page_of": "Сторінка {current} з {total}",
+  "notifications_pagination_rows": "{count} рядків",
+  "notifications_back_to_top": "Догори",
+
+  "notifications_modal_delete_title": "Видалити всі сповіщення",
+  "notifications_modal_delete_confirm": "Точно видалити всі сповіщення? Цю дію не можна скасувати.",
+  "notifications_modal_delete_button": "Видалити сповіщення",
+  "notifications_modal_deleting": "Видаляємо...",
+  "notifications_modal_cancel": "Скасувати",
+  "notifications_delete_error": "Не вдалося видалити сповіщення. Спробуй ще раз.",
+
+  "notifications_type_price_alert_triggered": "Спрацював сигнал для",
+  "notifications_type_price_is": "Ціна",
+  "notifications_type_is_condition": "{condition} твоєї цільової ціни",
+  "notifications_type_breaking_news": "Термінові новини для",
+  "notifications_type_wiim_new_data": "З'явилися нові дані для події «Чому змінилася ціна».",
+  "notifications_type_top_analyst_new": "Новий рейтинг топаналітика для",
+  "notifications_type_top_analyst_rating": "Аналітична компанія {analyst} присвоїла новий рейтинг «{rating}» з оновленою цільовою ціною {price}.",
+  "notifications_type_followed_analyst_new": "Новий рейтинг від",
+  "notifications_type_followed_analyst_rating": "Рейтинг для {symbol} — «{rating}», цільова ціна {price}.",
+  "notifications_type_earnings_release": "Публікація звітності для",
+  "notifications_type_earnings_surprise_new": "З'явилися нові дані для події «Сюрприз у звітності».",
+
+  "notifications_sidebar_watchlist": "Список спостереження",
+  "notifications_sidebar_watchlist_description": "Отримуй оновлення щодо улюблених акцій у реальному часі",
+  "notifications_sidebar_portfolio": "Трекер портфеля",
+  "notifications_sidebar_portfolio_description": "Отримуй оновлення щодо свого портфеля в реальному часі"
+}

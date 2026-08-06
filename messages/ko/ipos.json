@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "홈",
+  "ipos_breadcrumb_data": "IPO 데이터",
+
+  "ipos_seo_title": "IPO 캘린더 - 최근 및 예정 IPO | 기업공개",
+  "ipos_seo_description": "최근과 예정된 IPO(기업공개)를 상세 분석과 함께 확인하세요. 공모가, 상장일, 상장 이후 수익률까지 추적할 수 있습니다. 무료 IPO 캘린더와 트래커입니다.",
+  "ipos_seo_keywords": "IPO 캘린더, 예정 IPO, 최근 IPO, 기업공개, IPO 트래커, IPO 수익률, 공모가, 신규 상장, 공모주",
+
+  "ipos_main_name_recent": "최근 IPO",
+  "ipos_main_name_statistics": "IPO 통계",
+  "ipos_count": "{count}개 종목",
+  "ipos_tab_recent": "최근",
+  "ipos_tab_statistics": "통계",
+  "ipos_tab_latest": "최신",
+
+  "ipos_statistics_seo_title": "IPO 통계와 과거 차트 - 기업공개 시장 데이터",
+  "ipos_statistics_seo_description": "미국 증시 기업공개(IPO)에 대한 종합 통계와 인터랙티브 차트입니다. {startYear}년부터 {endYear}년까지 연간, 월간 IPO 추이를 확인하고 시장 사이클과 IPO 성과 패턴을 살펴보세요.",
+  "ipos_statistics_seo_keywords": "IPO 통계, 기업공개 차트, IPO 시장 데이터, IPO 추이, IPO 분석, 과거 IPO 데이터, IPO 수익률, 연간 IPO 통계, 월간 IPO 데이터",
+  "ipos_statistics_infobox": "이 페이지는 미국 증시의 기업공개(IPO) 통계와 차트를 제공합니다. 연간, 월간 데이터는 {startYear}년부터 {endYear}년까지 확인할 수 있습니다.",
+  "ipos_statistics_title": "연도별 IPO 건수",
+  "ipos_statistics_description": "{startYear}년부터 {endYear}년까지 IPO는 {count}건이었습니다. 가장 적었던 해는 {minYear}년으로 {minCount}건에 그쳤고, {maxYear}년은 {maxCount}건으로 역대 최다를 기록했습니다.",
+  "ipos_statistics_stock_news": "종목 뉴스",
+  "ipos_statistics_more_news": "종목 뉴스 더 보기",
+
+  "ipos_year_seo_title": "{year}년 IPO 목록 - 기업공개 전체 정리",
+  "ipos_year_seo_description": "{year}년 미국 증시 기업공개(IPO) 전체 목록입니다. 상장 성과, 공모가, 상장 이후 수익률, 상장 첫날 흐름을 기업 정보와 과거 데이터와 함께 확인하세요.",
+  "ipos_year_seo_keywords": "{year} IPO, {year} 기업공개, {year} IPO 목록, {year} IPO 수익률, 최근 IPO, {year} IPO 캘린더, {year} 신규 상장기업",
+  "ipos_year_empty": "IPO를 찾을 수 없습니다. {year}년 최신 IPO를 보려면 검색 기간을 조정해 주세요.",
+
+  "ipos_statistics_chart_title": "연도별 IPO 건수, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "{year}년 기업공개",
+  "ipos_year_summary": "{year}년에는 IPO가 {count}건 있었습니다.",
+  "ipos_year_extremes": "가장 많았던 달은 {maxMonth}로 {maxCount}건, 가장 적었던 달은 {minMonth}로 {minCount}건이었습니다.",
+  "ipos_year_none": "{year}년에는 IPO가 없었습니다."
+}

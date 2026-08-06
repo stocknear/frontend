@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Forside",
+  "news_flow_breadcrumb_news_flow": "Nyhedsflow",
+
+  "news_flow_seo_title": "Nyhedsflow fra markedet - handelsklare katalysatorer i realtid",
+  "news_flow_seo_description": "Følg markedsnyheder og katalysatorer, der flytter kurserne, i realtid. Bygget til optionshandlere, der har brug for hurtig kontekst til kortsigtede setups.",
+  "news_flow_seo_keywords": "nyhedsflow marked, handelskatalysatorer, breaking markedsnyheder, nyheder for optionshandlere, kursbevægende nyheder, markedsopdateringer i realtid",
+  "news_flow_structured_name": "Nyhedsflow fra markedet",
+  "news_flow_structured_description": "Markedsnyheder og katalysatorer i realtid til kortsigtet handelsplanlægning",
+
+  "news_flow_main_title": "Nyhedsflow",
+  "news_flow_news_count": "{count} nyheder",
+  "news_flow_search_placeholder": "Søg...",
+
+  "news_flow_infobox": "Følg de seneste breaking nyheder og forstå i realtid, hvorfor kurserne bevæger sig",
+  "news_flow_no_news": "Der er endnu ingen større nyheder fra aktiemarkedet.",
+
+  "news_flow_sidebar_market_flow_title": "Markedsflow",
+  "news_flow_sidebar_market_flow_description": "Følg optionsstemningen i realtid.",
+  "news_flow_sidebar_options_flow_title": "Optionsflow",
+  "news_flow_sidebar_options_flow_description": "Hold øje med usædvanlig optionsaktivitet og flowmønstre i realtid",
+  "news_flow_sidebar_dark_pool_title": "Dark pool-flow",
+  "news_flow_sidebar_dark_pool_description": "Analysér skjult institutionelt flow og handelsdata fra dark pools"
+}

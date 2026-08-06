@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Trung tâm Học tập - Kiến thức chứng khoán và hướng dẫn đầu tư",
+  "learning_center_seo_description": "Nắm vững cách đầu tư chứng khoán cùng Trung tâm Học tập của chúng tôi. Hướng dẫn miễn phí về chiến lược giao dịch, phân tích kỹ thuật, phân tích cơ bản, quản lý danh mục và kiến thức đầu tư cho cả người mới lẫn nhà giao dịch nhiều kinh nghiệm.",
+  "learning_center_seo_keywords": "kiến thức chứng khoán, hướng dẫn đầu tư, chiến lược giao dịch, học đầu tư, hướng dẫn phân tích cổ phiếu, giáo dục tài chính, cẩm nang đầu tư, kiến thức cơ bản về chứng khoán, quản lý danh mục, khóa học phân tích kỹ thuật",
+  "learning_center_structured_name": "Trung tâm Học tập Stocknear",
+  "learning_center_structured_description": "Kiến thức chứng khoán và hướng dẫn đầu tư toàn diện",
+  "learning_center_structured_articles": "Bài viết kiến thức",
+  "learning_center_structured_articles_description": "Các bài viết về kiến thức chứng khoán và hướng dẫn đầu tư",
+  "learning_center_title": "Trung tâm Học tập",
+  "learning_center_published": "Đăng ngày:",
+  "learning_center_previous": "Trước",
+  "learning_center_next": "Sau",
+  "learning_center_alt_tutorial": "Ảnh nền bài hướng dẫn",
+
+  "learning_center_subtitle": "Hiểu thị trường chứng khoán, từng khái niệm một",
+
+  "learning_center_category_all": "Tất cả",
+  "learning_center_category_features": "Tính năng",
+  "learning_center_category_fundamentals": "Cơ bản",
+  "learning_center_category_terms": "Thuật ngữ",
+
+  "learning_center_category_desc_features": "Cách sử dụng Stocknear",
+  "learning_center_category_desc_fundamentals": "Bắt đầu từ đây nếu bạn mới đầu tư",
+  "learning_center_category_desc_terms": "Thuật ngữ và định nghĩa tài chính",
+
+  "learning_center_tag_all": "Tất cả thẻ",
+  "learning_center_tag_stocks": "Cổ phiếu",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Quyền chọn",
+  "learning_center_tag_sentiment": "Tâm lý thị trường",
+  "learning_center_tag_prefix": "Thẻ",
+
+  "learning_center_view_all": "Xem tất cả",
+  "learning_center_view_all_count": "Xem tất cả {count}",
+  "learning_center_min_read": "Đọc {time} phút",
+
+  "learning_center_no_articles_tag": "Không có bài viết nào với thẻ \"{tag}\".",
+  "learning_center_clear_tag_filter": "Xóa bộ lọc thẻ",
+
+  "learning_center_page_of": "Trang {currentPage}/{totalPages}",
+  "learning_center_items_count": "{count} mục",
+
+  "learning_center_back_to_top": "Lên đầu trang",
+  "learning_center_no_terms_yet": "Chưa có thuật ngữ nào.",
+  "learning_center_no_articles_category": "Chưa có bài viết nào trong danh mục này.",
+
+  "learning_center_table_of_contents": "Mục lục",
+  "learning_center_share_this_post": "Chia sẻ bài viết này",
+  "learning_center_back_to_all_posts": "Về danh sách bài viết",
+
+  "learning_center_quick_start": "Bắt đầu nhanh",
+  "learning_center_sidebar_top_gainers": "Tăng mạnh nhất",
+  "learning_center_sidebar_top_losers": "Giảm mạnh nhất",
+  "learning_center_sidebar_analysts": "Chuyên gia phân tích",
+  "learning_center_sidebar_stock_screener": "Bộ lọc cổ phiếu",
+  "learning_center_sidebar_options_flow": "Dòng tiền quyền chọn",
+  "learning_center_sidebar_earnings_calendar": "Lịch báo cáo lợi nhuận",
+  "learning_center_sidebar_dividends_calendar": "Lịch cổ tức",
+  "learning_center_sidebar_ipo_calendar": "Lịch IPO",
+
+  "learning_center_related_articles": "Bài viết liên quan",
+  "learning_center_view_all_articles": "Xem tất cả bài viết",
+  "learning_center_share_this_article": "Chia sẻ bài viết này",
+
+  "learning_center_link_copied": "Đã sao chép liên kết",
+  "learning_center_link_copy_failed": "Không sao chép được liên kết",
+
+  "learning_center_sign_in_to_read": "Đăng nhập để đọc toàn bộ bản tin.",
+  "learning_center_briefing_description": "Bản tin thị trường hằng ngày dành cho thành viên Stocknear. Tạo tài khoản miễn phí hoặc đăng nhập để mở khóa toàn bộ phân tích.",
+  "learning_center_create_free_account": "Tạo tài khoản miễn phí",
+  "learning_center_sign_in": "Đăng nhập",
+
+  "learning_center_click_to_close": "Nhấn vào bất kỳ đâu hoặc nhấn ESC để đóng",
+
+  "learning_center_search_placeholder": "Tìm kiếm...",
+  "learning_center_no_search_results": "Không có kết quả cho \"{query}\".",
+  "learning_center_clear_search": "Xóa tìm kiếm"
+}

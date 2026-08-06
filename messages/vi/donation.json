@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Trở thành nhà tài trợ của Stocknear",
+  "donation_seo_description": "Sự tài trợ của bạn giúp chúng tôi trở thành nền tảng phân tích cổ phiếu số 1 thế giới với mức giá tốt nhất.",
+  "donation_title": "Tài trợ",
+  "donation_intro_greeting": "Xin chào 👋,",
+  "donation_intro_paragraph_1": "Cảm ơn bạn đã cân nhắc ủng hộ sứ mệnh của chúng tôi. Là người duy nhất đứng sau Stocknear — từ phát triển backend đến chăm sóc khách hàng — tôi cam kết giữ nền tảng ở mức giá dễ tiếp cận cho mọi nhà đầu tư.",
+  "donation_intro_paragraph_2": "Các gói của chúng tôi được định giá để dữ liệu cổ phiếu chất lượng cao nằm trong tầm với của nhà đầu tư cá nhân ở mọi hoàn cảnh.",
+  "donation_support_paragraph_1": "Gói thành viên được thiết kế để duy trì hoạt động cơ bản, nhưng sự ủng hộ thêm của bạn giúp chúng tôi đi xa hơn. Khi tài trợ, bạn không chỉ ủng hộ một nền tảng; bạn đang đầu tư vào tầm nhìn về phân tích tài chính mở, minh bạch và giá hợp lý.",
+  "donation_support_list_intro": "Sự ủng hộ của bạn sẽ trực tiếp góp phần vào:",
+  "donation_support_list_item_1": "Duy trì mức giá thấp",
+  "donation_support_list_item_2": "Nâng chất lượng dữ liệu và tính năng",
+  "donation_support_list_item_3": "Tiến gần hơn tới mục tiêu trở thành nền tảng phân tích cổ phiếu số 1 ngành",
+  "donation_cta_title": "Trở thành nhà tài trợ của Stocknear",
+  "donation_cta_paragraph_1": "Nếu bạn tin vào sứ mệnh của chúng tôi và muốn ủng hộ thêm ngoài gói đăng ký, hãy tài trợ qua GitHub Sponsors. Mọi đóng góp, dù lớn hay nhỏ, đều tạo khác biệt đáng kể cho khả năng phục vụ bạn và cộng đồng nhà đầu tư cá nhân.",
+  "donation_cta_paragraph_2": "Sự ủng hộ của bạn có ý nghĩa rất lớn với tôi và giúp Stocknear vận hành trơn tru.",
+  "donation_sidebar_about_title": "Về chúng tôi",
+  "donation_iframe_title": "Tài trợ Stocknear"
+}

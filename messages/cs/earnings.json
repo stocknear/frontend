@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Domů",
+  "earnings_breadcrumb_calendar": "Výsledkový kalendář",
+
+  "earnings_seo_title": "Výsledkový kalendář - volatilní příležitosti pro obchodníky s opcemi",
+  "earnings_seo_description": "Sleduj termíny výsledků, očekávané pohyby a odhady analytiků a plánuj obchody na volatilitu i setupy na IV crush.",
+  "earnings_seo_keywords": "výsledkový kalendář, opce na výsledky, očekávaný pohyb, IV crush, volatilita kolem výsledků, odhady EPS, výhledy tržeb, harmonogram výsledků",
+
+  "earnings_structured_name": "Výsledkový kalendář",
+  "earnings_structured_description": "Výsledkový kalendář pro obchodníky s opcemi zaměřený na volatilitu a očekávané pohyby",
+
+  "earnings_main_name": "Výsledkový kalendář",
+  "earnings_count": "{count} výsledků",
+  "earnings_empty": "Pro tento den nejsou k dispozici žádné výsledky.",
+  "earnings_empty_scheduled": "Žádné naplánované výsledky",
+
+  "earnings_tab_daily": "Denní",
+  "earnings_tab_weekly": "Týdenní",
+  "earnings_tab_details": "Detaily",
+  "earnings_tab_compact": "Kompaktní",
+
+  "earnings_time_of_day": "Denní doba",
+  "earnings_time_any": "Kdykoli",
+  "earnings_time_before_open": "Před otevřením",
+  "earnings_time_after_close": "Po zavření",
+
+  "earnings_expanded_reports": "Reportuje",
+  "earnings_expanded_market_cap": "Tržní kapitalizace",
+  "earnings_expanded_revenue_est": "Odhad tržeb",
+  "earnings_expanded_revenue_estimate": "Odhad tržeb",
+  "earnings_expanded_eps_est": "Odhad EPS",
+  "earnings_expanded_eps_estimate": "Odhad EPS",
+
+  "earnings_pagination_previous": "Předchozí",
+  "earnings_pagination_next": "Další",
+  "earnings_pagination_page_of": "Strana {current} z {total}",
+  "earnings_pagination_rows": "{count} řádků",
+  "earnings_back_to_top": "Zpět nahoru",
+  "earnings_search_placeholder": "Hledat..."
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Staň se sponzorem Stocknear",
+  "donation_seo_description": "Tvoje podpora nám pomáhá stát se světovou jedničkou mezi platformami pro analýzu akcií, a to s nejlepšími cenami.",
+  "donation_title": "Sponzor",
+  "donation_intro_greeting": "Ahoj 👋,",
+  "donation_intro_paragraph_1": "Díky, že zvažuješ podporu naší mise. Za Stocknear stojím sám - od vývoje backendu po zákaznickou podporu - a záleží mi na tom, aby platforma zůstala dostupná pro všechny investory.",
+  "donation_intro_paragraph_2": "Ceny našich plánů nastavujeme tak, aby se kvalitní data o akciích dostala ke každému drobnému investorovi.",
+  "donation_support_paragraph_1": "Členství pokrývá základní provoz, ale tvoje další podpora nás posune ještě dál. Sponzorstvím nepodporuješ jenom platformu, ale i vizi otevřené, transparentní a dostupné finanční analýzy.",
+  "donation_support_list_intro": "Tvoje podpora půjde přímo na:",
+  "donation_support_list_item_1": "Udržení nízkých cen",
+  "donation_support_list_item_2": "Lepší kvalitu dat a nové funkce",
+  "donation_support_list_item_3": "Cestu za jedničkou mezi platformami pro analýzu akcií",
+  "donation_cta_title": "Staň se sponzorem Stocknear",
+  "donation_cta_paragraph_1": "Pokud věříš naší misi a chceš nás podpořit nad rámec předplatného, přispěj přes GitHub Sponsors. Každý příspěvek, i malý, nám výrazně pomáhá sloužit tobě i celé komunitě drobných investorů.",
+  "donation_cta_paragraph_2": "Tvoje podpora pro mě hodně znamená a drží Stocknear v chodu.",
+  "donation_sidebar_about_title": "O nás",
+  "donation_iframe_title": "Sponzorovat Stocknear"
+}

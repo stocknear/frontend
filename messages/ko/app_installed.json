@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "앱으로 더 편하게 이용하세요.",
+  "app_installed_button_install": "설치",
+  "app_installed_modal_title": "설치 방법",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Safari의 공유 버튼을 누릅니다.",
+  "app_installed_ios_step_2": "\"홈 화면에 추가\"를 누릅니다.",
+  "app_installed_ios_step_3": "\"추가\"를 누릅니다.",
+  "app_installed_ios_note": "iOS에서는 Safari로만 웹 앱을 설치할 수 있습니다.",
+  "app_installed_android_step_1": "Chrome에서 Stocknear를 엽니다.",
+  "app_installed_android_step_2": "오른쪽 위의 점 세 개 메뉴를 누릅니다.",
+  "app_installed_android_step_3": "\"앱 설치\" 또는 \"홈 화면에 추가\"를 누릅니다.",
+  "app_installed_android_step_4": "설치를 확인합니다.",
+  "app_installed_close": "닫기"
+}

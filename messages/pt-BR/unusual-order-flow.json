@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Fluxo de Ordens Atípicas - Prints de Dark Pool e Blocos",
+  "unusual_order_flow_seo_description": "Acompanhe prints de dark pool e negócios em bloco em tempo real para identificar movimentos institucionais que costumam antecipar altas e quedas de curto prazo.",
+  "unusual_order_flow_seo_keywords": "fluxo de ordens atípicas, prints de dark pool, negócios em bloco, fluxo institucional, dinheiro institucional, liquidez oculta, fluxo de ordens em tempo real, scanner de dark pool",
+  "unusual_order_flow_structured_name": "Scanner de Fluxo de Ordens Atípicas",
+  "unusual_order_flow_structured_description": "Prints de dark pool e negócios em bloco em tempo real para leitura de curto prazo",
+
+  "unusual_order_flow_main_title": "Fluxo de Ordens Atípicas",
+
+  "unusual_order_flow_popular_filters": "Filtros populares",
+  "unusual_order_flow_select_popular": "Selecionar populares",
+  "unusual_order_flow_saved_filters": "Filtros salvos",
+  "unusual_order_flow_select_filter": "Selecionar filtro",
+  "unusual_order_flow_new_filter": "Novo filtro",
+
+  "unusual_order_flow_filters_count": "{count} filtros",
+  "unusual_order_flow_add_filters": "Adicionar filtros",
+  "unusual_order_flow_search_filters": "Buscar em {count} filtros...",
+  "unusual_order_flow_select_filters_title": "Selecione os filtros de fluxo ({count} no total)",
+  "unusual_order_flow_nothing_found": "Nada encontrado",
+  "unusual_order_flow_no_filters_found": "Nenhum filtro disponível encontrado",
+
+  "unusual_order_flow_search_placeholder": "Buscar...",
+  "unusual_order_flow_search_input_placeholder": "Buscar...",
+  "unusual_order_flow_full_width": "Tela cheia",
+  "unusual_order_flow_normal_width": "Largura normal",
+
+  "unusual_order_flow_no_trades_query": "Nenhum negócio atípico encontrado para \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Sua combinação de filtros é bem específica. Nenhum resultado por enquanto.",
+
+  "unusual_order_flow_modal_new_title": "Novo filtro",
+  "unusual_order_flow_modal_new_name_label": "Nome do filtro",
+  "unusual_order_flow_modal_new_create": "Criar filtro",
+
+  "unusual_order_flow_modal_delete_title": "Excluir filtro",
+  "unusual_order_flow_modal_delete_message": "Tem certeza que quer excluir este filtro? Esta ação não pode ser desfeita.",
+  "unusual_order_flow_modal_delete_cancel": "Cancelar",
+  "unusual_order_flow_modal_delete_confirm": "Excluir filtro",
+
+  "unusual_order_flow_save": "Salvar",
+  "unusual_order_flow_save_as_new": "Salvar como novo",
+  "unusual_order_flow_reset_all": "Limpar tudo",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Prints de Dark Pool",
+  "unusual_order_flow_strategy_block_orders": "Ordens em Bloco",
+  "unusual_order_flow_strategy_mega_premium": "Prêmio Gigante",
+  "unusual_order_flow_strategy_etf_flow": "Fluxo de ETF",
+  "unusual_order_flow_strategy_high_volume": "Volume Alto",
+  "unusual_order_flow_strategy_large_stock_flow": "Fluxo Grande em Ações",
+
+  "unusual_order_flow_total_volume": "Volume total",
+  "unusual_order_flow_total_value": "Valor total",
+  "unusual_order_flow_transaction_type": "Tipo de operação",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Bloco",
+  "unusual_order_flow_asset_type": "Tipo de ativo",
+  "unusual_order_flow_stock": "Ação",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Atraso de 15 min",
+  "unusual_order_flow_delayed_title": "Dados SIP com atraso de 15 min",
+  "unusual_order_flow_delayed_content": "O feed SIP da Intrinio entrega dados consolidados e de alta qualidade do mercado acionário dos EUA, vindos de todas as principais bolsas — incluindo negócios, cotações e NBBO. O atraso de 15 minutos mantém a leitura de mercado rica, com cobertura completa das bolsas.",
+
+  "unusual_order_flow_hide_filter_area": "Ocultar área de filtros",
+  "unusual_order_flow_show_filter_area": "Mostrar área de filtros",
+  "unusual_order_flow_exit_full_width": "Sair da tela cheia",
+  "unusual_order_flow_expand_full_width": "Expandir para tela cheia",
+  "unusual_order_flow_reset_column_order": "Restaurar ordem das colunas",
+  "unusual_order_flow_remove_filter": "Remover filtro",
+
+  "unusual_order_flow_min": "Mín",
+  "unusual_order_flow_max": "Máx",
+  "unusual_order_flow_value": "Valor"
+}

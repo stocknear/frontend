@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Prześlij opinię",
+  "feedback_error_signin": "Zaloguj się, zanim wyślesz opinię.",
+  "feedback_error_description": "Opisz swój problem lub sugestię.",
+  "feedback_error_send_try_again": "Coś poszło nie tak przy wysyłce opinii. Spróbuj ponownie.",
+  "feedback_success": "Dzięki. Twoja opinia została wysłana.",
+  "feedback_error_send_generic": "Coś poszło nie tak przy wysyłce opinii.",
+  "feedback_description_label": "Opisz swój problem lub sugestię:",
+  "feedback_page_label": "Opinia dotyczy strony:",
+  "feedback_close_button": "Zamknij",
+  "feedback_cancel_button": "Anuluj",
+  "feedback_send_button": "Wyślij opinię"
+}

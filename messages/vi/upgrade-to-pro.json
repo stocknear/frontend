@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Dành cho người giao dịch chủ động muốn có lợi thế.",
+  "upgrade_to_pro_subtitle": "Bạn không cần thêm tiêu đề tin. Bạn cần dòng tiền, chất xúc tác và bối cảnh làm giá biến động. Pro gom dữ liệu quyền chọn và dark pool thời gian thực, động thái của chuyên viên phân tích và dữ liệu lịch sử sâu vào một nơi để bạn lên kế hoạch giao dịch thay vì chạy theo.",
+  "upgrade_to_pro_feature_data_title": "Mở khóa toàn bộ kho dữ liệu",
+  "upgrade_to_pro_feature_data_desc": "Có mọi bộ dữ liệu và công cụ trên Stocknear để bạn kiểm chứng thiết lập nhanh và vào lệnh dứt khoát.",
+  "upgrade_to_pro_feature_flow_title": "Dòng tiền quyền chọn + dark pool trực tiếp",
+  "upgrade_to_pro_feature_flow_desc": "Phát hiện hoạt động bất thường và các lệnh lớn ngay khi chúng xảy ra để đi trước đám đông.",
+  "upgrade_to_pro_feature_analyst_title": "Chất xúc tác từ chuyên viên phân tích làm giá biến động",
+  "upgrade_to_pro_feature_analyst_desc": "Theo dõi nâng hạng, hạ hạng và giá mục tiêu mà không phải chạy theo tin tức.",
+  "upgrade_to_pro_feature_history_title": "Dữ liệu lịch sử sâu để backtest",
+  "upgrade_to_pro_feature_history_desc": "Kiểm chứng ý tưởng với dữ liệu premium và lịch sử lên đến 30 năm.",
+  "upgrade_to_pro_cta": "Nâng cấp lên Pro"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Bygget til aktive tradere, der vil have et forspring.",
+  "upgrade_to_pro_subtitle": "Du mangler ikke flere overskrifter. Du mangler det flow, de katalysatorer og den kontekst, der flytter kursen. Pro samler optionsdata og dark pool-data i realtid, analytikernes bevægelser og dybe historiske data ét sted, så du kan planlægge handlen i stedet for at løbe efter den.",
+  "upgrade_to_pro_feature_data_title": "Lås op for hele datapakken",
+  "upgrade_to_pro_feature_data_desc": "Få alle datasæt og værktøjer på Stocknear, så du hurtigt kan vurdere dine setups og handle med overbevisning.",
+  "upgrade_to_pro_feature_flow_title": "Live options- og dark pool-flow",
+  "upgrade_to_pro_feature_flow_desc": "Opdag usædvanlig aktivitet og store handler, mens de sker, så du kan komme foran flokken.",
+  "upgrade_to_pro_feature_analyst_title": "Analytikerkatalysatorer, der flytter kursen",
+  "upgrade_to_pro_feature_analyst_desc": "Følg op- og nedjusteringer samt kursmål uden at løbe efter nyhederne.",
+  "upgrade_to_pro_feature_history_title": "Dybe historiske data til backtest",
+  "upgrade_to_pro_feature_history_desc": "Test dine idéer med premiumdata og op til 30 års historik.",
+  "upgrade_to_pro_cta": "Opgrader til Pro"
+}

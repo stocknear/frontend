@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Forside",
+  "stock_screener_breadcrumb_stock_screener": "Aktiescreener",
+
+  "stock_screener_seo_title": "Avanceret aktiescreener - gratis filter- og analyseværktøj",
+  "stock_screener_seo_description": "Kraftfuld aktiescreener med {count} filtre. Screen aktier på nøgletal, teknisk analyse, værdiansættelse og performance. Data opdateres hvert minut, så du finder de rigtige aktier.",
+  "stock_screener_seo_keywords": "aktiescreener, gratis aktiescreener, aktiefilter, aktiescanner, screener til nøgletal, teknisk screener, screener til værdiaktier, screener til vækstaktier, screener til udbytteaktier, værktøj til aktieanalyse",
+  "stock_screener_structured_name": "Aktiescreener",
+  "stock_screener_structured_description": "Avanceret screening og filtrering af aktier med markedsdata i realtid",
+
+  "stock_screener_main_title": "Aktiescreener",
+  "stock_screener_matches_found": "{count} træf",
+  "stock_screener_stocks_count": "{count} aktier",
+
+  "stock_screener_popular_screens": "Populære screeninger",
+  "stock_screener_popular_strategies": "Populære strategier",
+  "stock_screener_select_popular": "Vælg populær",
+  "stock_screener_saved_screens": "Gemte screeninger",
+  "stock_screener_select_screen": "Vælg screening",
+  "stock_screener_new_screen": "Ny screening",
+
+  "stock_screener_filters_count": "{count} filtre",
+  "stock_screener_add_filters": "Tilføj filtre",
+  "stock_screener_search_filters": "Søg i {count} filtre...",
+  "stock_screener_select_filters_title": "Vælg screenerfiltre ({count} i alt)",
+  "stock_screener_nothing_found": "Intet fundet",
+
+  "stock_screener_search_placeholder": "Find...",
+  "stock_screener_search_input_placeholder": "Søg...",
+  "stock_screener_input_min": "Min.",
+  "stock_screener_input_max": "Maks.",
+  "stock_screener_input_value": "Værdi",
+
+  "stock_screener_normal_width": "Normal bredde",
+  "stock_screener_full_width": "Fuld bredde",
+
+  "stock_screener_pagination_previous": "Forrige",
+  "stock_screener_pagination_next": "Næste",
+  "stock_screener_pagination_page_of": "Side {current} af {total}",
+  "stock_screener_rows_label": "{rows} rækker",
+  "stock_screener_back_to_top": "Til toppen",
+
+  "stock_screener_no_stocks_query": "Ingen aktier fundet for \"{query}\"",
+  "stock_screener_no_stocks": "Ingen aktier fundet.",
+
+  "stock_screener_modal_new_title": "Ny screener",
+  "stock_screener_modal_new_name_label": "Navn på screener",
+  "stock_screener_modal_new_create": "Opret screener",
+
+  "stock_screener_modal_delete_title": "Slet screener",
+  "stock_screener_modal_delete_message": "Er du sikker på, at du vil slette denne screener? Handlingen kan ikke fortrydes.",
+  "stock_screener_modal_delete_cancel": "Annuller",
+  "stock_screener_modal_delete_confirm": "Slet",
+
+  "stock_screener_strategy_earnings_volatility": "Volatilitet ved regnskaber",
+  "stock_screener_strategy_dividend_growth": "Udbyttevækst",
+  "stock_screener_strategy_monthly_dividends": "Månedligt udbytte",
+  "stock_screener_strategy_top_gainers_1y": "Største stigninger 1 år",
+  "stock_screener_strategy_top_shorted": "Mest shortede aktier",
+  "stock_screener_strategy_momentum_ta": "Momentumaktier (TA)",
+  "stock_screener_strategy_undervalued": "Undervurderede aktier",
+  "stock_screener_strategy_strong_cash_flow": "Stærkt cash flow",
+
+  "stock_screener_save": "Gem",
+  "stock_screener_save_as_new": "Gem som ny",
+  "stock_screener_reset_all": "Nulstil alt"
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Início",
+  "stock_screener_breadcrumb_stock_screener": "Screener de Ações",
+
+  "stock_screener_seo_title": "Screener de Ações Avançado - Filtro e Análise Gratuitos",
+  "stock_screener_seo_description": "Screener de ações completo com {count} critérios de filtragem. Filtre ações por fundamentos, indicadores técnicos, múltiplos de valuation e desempenho. Dados atualizados a cada minuto para achar e analisar ações.",
+  "stock_screener_seo_keywords": "screener de ações, screener gratuito, filtro de ações, scanner de ações, screener fundamentalista, screener técnico, screener de ações baratas, screener de ações de crescimento, screener de dividendos, ferramenta de análise de ações",
+  "stock_screener_structured_name": "Screener de Ações",
+  "stock_screener_structured_description": "Plataforma avançada de filtragem de ações com dados de mercado em tempo real",
+
+  "stock_screener_main_title": "Screener de Ações",
+  "stock_screener_matches_found": "{count} resultados",
+  "stock_screener_stocks_count": "{count} ações",
+
+  "stock_screener_popular_screens": "Filtros populares",
+  "stock_screener_popular_strategies": "Estratégias populares",
+  "stock_screener_select_popular": "Selecionar populares",
+  "stock_screener_saved_screens": "Filtros salvos",
+  "stock_screener_select_screen": "Selecionar filtro",
+  "stock_screener_new_screen": "Novo filtro",
+
+  "stock_screener_filters_count": "{count} filtros",
+  "stock_screener_add_filters": "Adicionar filtros",
+  "stock_screener_search_filters": "Buscar em {count} filtros...",
+  "stock_screener_select_filters_title": "Selecione os filtros do screener ({count} no total)",
+  "stock_screener_nothing_found": "Nada encontrado",
+
+  "stock_screener_search_placeholder": "Buscar...",
+  "stock_screener_search_input_placeholder": "Buscar...",
+  "stock_screener_input_min": "Mín",
+  "stock_screener_input_max": "Máx",
+  "stock_screener_input_value": "Valor",
+
+  "stock_screener_normal_width": "Largura normal",
+  "stock_screener_full_width": "Tela cheia",
+
+  "stock_screener_pagination_previous": "Anterior",
+  "stock_screener_pagination_next": "Próximo",
+  "stock_screener_pagination_page_of": "Página {current} de {total}",
+  "stock_screener_rows_label": "{rows} linhas",
+  "stock_screener_back_to_top": "Voltar ao topo",
+
+  "stock_screener_no_stocks_query": "Nenhuma ação encontrada para \"{query}\"",
+  "stock_screener_no_stocks": "Nenhuma ação encontrada.",
+
+  "stock_screener_modal_new_title": "Novo screener",
+  "stock_screener_modal_new_name_label": "Nome do screener",
+  "stock_screener_modal_new_create": "Criar screener",
+
+  "stock_screener_modal_delete_title": "Excluir screener",
+  "stock_screener_modal_delete_message": "Tem certeza que quer excluir este screener? Esta ação não pode ser desfeita.",
+  "stock_screener_modal_delete_cancel": "Cancelar",
+  "stock_screener_modal_delete_confirm": "Excluir",
+
+  "stock_screener_strategy_earnings_volatility": "Volatilidade em Resultados",
+  "stock_screener_strategy_dividend_growth": "Crescimento de Dividendos",
+  "stock_screener_strategy_monthly_dividends": "Dividendos Mensais",
+  "stock_screener_strategy_top_gainers_1y": "Maiores Altas em 1 Ano",
+  "stock_screener_strategy_top_shorted": "Ações Mais Vendidas a Descoberto",
+  "stock_screener_strategy_momentum_ta": "Ações com Momentum Técnico",
+  "stock_screener_strategy_undervalued": "Ações Descontadas",
+  "stock_screener_strategy_strong_cash_flow": "Fluxo de Caixa Forte",
+
+  "stock_screener_save": "Salvar",
+  "stock_screener_save_as_new": "Salvar como novo",
+  "stock_screener_reset_all": "Limpar tudo"
+}

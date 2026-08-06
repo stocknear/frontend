@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Főoldal",
+  "ipos_breadcrumb_data": "IPO adatok",
+
+  "ipos_seo_title": "IPO naptár - Friss és közelgő IPO-k | Tőzsdei bevezetések",
+  "ipos_seo_description": "Kövesd a friss és közelgő IPO-kat részletes elemzéssel. Nézd az IPO-k teljesítményét, árait, dátumait és a bevezetés óta elért hozamokat. Ingyenes IPO naptár és követő átfogó adatokkal.",
+  "ipos_seo_keywords": "IPO naptár, közelgő IPO-k, friss IPO-k, tőzsdei bevezetés, IPO követő, IPO teljesítmény, IPO árak, új tőzsdei bevezetések, nyilvános kibocsátások",
+
+  "ipos_main_name_recent": "Friss IPO-k",
+  "ipos_main_name_statistics": "IPO statisztikák",
+  "ipos_count": "{count} részvény",
+  "ipos_tab_recent": "Friss",
+  "ipos_tab_statistics": "Statisztikák",
+  "ipos_tab_latest": "Legújabb",
+
+  "ipos_statistics_seo_title": "IPO statisztikák és történelmi grafikonok - Tőzsdei bevezetések piaci adatai",
+  "ipos_statistics_seo_description": "Átfogó IPO statisztikák és interaktív grafikonok az amerikai tőzsdei bevezetésekről. Kövesd az éves és havi IPO trendeket {startYear} és {endYear} között, elemezd a piaci ciklusokat és fedezd fel az IPO-k teljesítménymintáit.",
+  "ipos_statistics_seo_keywords": "IPO statisztikák, tőzsdei bevezetés grafikonok, IPO piaci adatok, IPO trendek, IPO elemzés, történelmi IPO adatok, IPO teljesítmény, éves IPO statisztikák, havi IPO adatok",
+  "ipos_statistics_infobox": "Ez az oldal statisztikákat és grafikonokat mutat az amerikai tőzsdei bevezetésekről (IPO-król). Éves és havi adatok {startYear} és {endYear} között érhetők el.",
+  "ipos_statistics_title": "IPO-k száma évente",
+  "ipos_statistics_description": "{startYear} és {endYear} között összesen {count} IPO volt. A legkevesebb {minYear}-ben, mindössze {minCount}. A teljes {maxYear}-es év minden idők rekordja volt {maxCount} IPO-val.",
+  "ipos_statistics_stock_news": "Részvényhírek",
+  "ipos_statistics_more_news": "További részvényhírek",
+
+  "ipos_year_seo_title": "{year} IPO lista - Teljes tőzsdei bevezetési jegyzék",
+  "ipos_year_seo_description": "Az összes {year}-es amerikai tőzsdei bevezetés (IPO) átfogó listája. Kövesd az IPO-k teljesítményét, árazását, a bevezetés óta elért hozamokat és a tőzsdei debütálásokat részletes vállalati és történelmi adatokkal.",
+  "ipos_year_seo_keywords": "{year} IPO-k, tőzsdei bevezetések {year}, IPO lista {year}, {year} IPO teljesítmény, friss IPO-k, IPO naptár {year}, új tőzsdei vállalatok {year}",
+  "ipos_year_empty": "Nem találtunk IPO-t. Módosítsd a keresési időszakot a legfrissebb {year}-es IPO-khoz.",
+
+  "ipos_statistics_chart_title": "IPO-k évente, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO-k",
+  "ipos_year_heading": "{year} tőzsdei bevezetései",
+  "ipos_year_summary": "{year}-ben {count} IPO volt.",
+  "ipos_year_extremes": "A legmozgalmasabb hónap {maxMonth} volt {maxCount} bevezetéssel, a legcsendesebb {minMonth} {minCount} bevezetéssel.",
+  "ipos_year_none": "{year}-ben nem volt IPO."
+}

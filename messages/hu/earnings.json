@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Főoldal",
+  "earnings_breadcrumb_calendar": "Gyorsjelentési naptár",
+
+  "earnings_seo_title": "Gyorsjelentési naptár - Volatilitási setupok opciós kereskedőknek",
+  "earnings_seo_description": "Kövesd a gyorsjelentési dátumokat, a várt elmozdulást és az elemzői becsléseket, hogy megtervezhesd az opciós volatilitási ügyleteket és az IV crush setupokat.",
+  "earnings_seo_keywords": "gyorsjelentési naptár, opciós gyorsjelentési ügyletek, várt elmozdulás, IV crush, gyorsjelentési volatilitás, EPS becslések, árbevétel-előrejelzések, jelentési naptár",
+
+  "earnings_structured_name": "Gyorsjelentési naptár",
+  "earnings_structured_description": "Opciós kereskedőknek készült gyorsjelentési naptár a volatilitásra és a várt elmozdulásra fókuszálva",
+
+  "earnings_main_name": "Gyorsjelentési naptár",
+  "earnings_count": "{count} gyorsjelentés",
+  "earnings_empty": "Erre a napra nincs elérhető gyorsjelentés.",
+  "earnings_empty_scheduled": "Nincs ütemezett gyorsjelentés",
+
+  "earnings_tab_daily": "Napi",
+  "earnings_tab_weekly": "Heti",
+  "earnings_tab_details": "Részletek",
+  "earnings_tab_compact": "Tömör",
+
+  "earnings_time_of_day": "Napszak",
+  "earnings_time_any": "Bármikor",
+  "earnings_time_before_open": "Nyitás előtt",
+  "earnings_time_after_close": "Zárás után",
+
+  "earnings_expanded_reports": "Jelent",
+  "earnings_expanded_market_cap": "Piaci kapitalizáció",
+  "earnings_expanded_revenue_est": "Árbev. becslés",
+  "earnings_expanded_revenue_estimate": "Árbevétel-becslés",
+  "earnings_expanded_eps_est": "EPS becslés",
+  "earnings_expanded_eps_estimate": "EPS becslés",
+
+  "earnings_pagination_previous": "Előző",
+  "earnings_pagination_next": "Következő",
+  "earnings_pagination_page_of": "{current}. oldal / {total}",
+  "earnings_pagination_rows": "{count} sor",
+  "earnings_back_to_top": "Vissza a tetejére",
+  "earnings_search_placeholder": "Keresés..."
+}

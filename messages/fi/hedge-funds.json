@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Etusivu",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedge-rahastot",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedge-rahasto",
+
+  "hedge_funds_seo_title": "Hedge-rahastojen seuranta - Suurimmat omistukset ja 13F-ilmoitukset",
+  "hedge_funds_seo_description": "Seuraa hedge-rahastojen omistuksia, 13F-ilmoituksia ja instituutiosijoittajien salkkuja. Näe, mitä rahastot ostavat ja myyvät, positio kerrallaan. Ilmainen hedge-rahastojen seurantatyökalu.",
+  "hedge_funds_seo_keywords": "hedge-rahastojen seuranta, hedge-rahastojen omistukset, 13F-ilmoitukset, instituutiosijoittajat, hedge-rahastojen positiot, suurimmat hedge-rahastot, instituutio-omistukset, hedge-rahastojen salkut, berkshire hathaway omistukset",
+  "hedge_funds_structured_name": "Hedge-rahastojen seuranta",
+  "hedge_funds_structured_description": "Kattava seuranta hedge-rahastojen omistuksista ja instituutiosijoituksista",
+
+  "hedge_funds_main_title": "Yhdysvaltain suurimmat hedge-rahastot",
+  "hedge_funds_infobox": "Lista Wall Streetin instituutioista, joilla on suurimmat hallinnoitavat varat.",
+  "hedge_funds_count_institutes": "{count} instituutiota",
+
+  "hedge_funds_search_placeholder": "Etsi...",
+  "hedge_funds_loading": "Ladataan...",
+  "hedge_funds_no_data": "Ei tietoja saatavilla.",
+
+  "hedge_funds_pagination_previous": "Edellinen",
+  "hedge_funds_pagination_next": "Seuraava",
+  "hedge_funds_pagination_page_of": "Sivu {current} / {total}",
+  "hedge_funds_rows_label": "{rows} riviä",
+  "hedge_funds_back_to_top": "Takaisin ylös",
+
+  "hedge_funds_slug_seo_title": "{companyName} omistukset ja salkku - 13F-ilmoitusten analyysi",
+  "hedge_funds_slug_seo_description": "Yksityiskohtainen analyysi {companyName} -rahaston omistuksista, salkun positioista ja sijoitusstrategiasta. Seuraa uusimpia 13F-ilmoituksia, suurimpia osakepoimintoja, sektorijakaumaa ja tuottolukuja.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} omistukset, {companyNameLower} salkku, {companyNameLower} 13F-ilmoitukset, hedge-rahastojen positiot, instituutiosijoittajien omistukset, {companyNameLower} osakepoiminnat, hedge-rahastoanalyysi",
+  "hedge_funds_slug_structured_name": "{companyName} omistusten ja salkun analyysi",
+  "hedge_funds_slug_structured_description": "Kattava analyysi {companyName} -rahaston omistuksista ja sijoituspositioista",
+
+  "hedge_funds_slug_cik_number": "CIK-numero:",
+  "hedge_funds_slug_market_value": "Markkina-arvo",
+  "hedge_funds_slug_holdings": "Omistusten määrä",
+  "hedge_funds_slug_avg_holding_period": "Keskim. pitoaika",
+  "hedge_funds_slug_months": "kuukautta",
+  "hedge_funds_slug_win_rate": "Osumaprosentti",
+  "hedge_funds_slug_performance_3year": "Tuotto 3 vuotta",
+
+  "hedge_funds_slug_main_sectors": "Pääsektorit:",
+  "hedge_funds_slug_top_industries": "Suurimmat toimialat:",
+  "hedge_funds_slug_filing_date": "Ilmoituspäivä:",
+  "hedge_funds_slug_no_data": "Hedge-rahaston tiedot eivät ole tällä hetkellä saatavilla.",
+
+  "hedge_funds_column_rank": "Sija",
+  "hedge_funds_column_name": "Nimi",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Omistukset",
+  "hedge_funds_column_turnover": "Kierto",
+  "hedge_funds_column_3year_perf": "3v tuotto",
+  "hedge_funds_column_win_rate": "Osuma-%"
+}

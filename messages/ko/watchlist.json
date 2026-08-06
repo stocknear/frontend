@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "홈",
+  "watchlist_breadcrumb_watchlist": "관심목록",
+
+  "watchlist_seo_title": "관심목록 - 포트폴리오 추적과 주가 모니터링",
+  "watchlist_seo_description": "나만의 관심목록을 만들고 실시간 주가를 확인하세요. 선호 종목과 ETF, 보유 자산을 알림과 성과 분석으로 관리할 수 있습니다. 고급 기능을 갖춘 무료 포트폴리오 트래커입니다.",
+  "watchlist_seo_keywords": "관심목록, 포트폴리오 트래커, 종목 추적, 투자 관리, 주가 모니터링, 알림, 포트폴리오 관리, 종목 성과, 투자 관심목록",
+  "watchlist_structured_name": "관심목록 트래커",
+  "watchlist_structured_description": "개인 관심목록 및 포트폴리오 추적 도구",
+
+  "watchlist_main_title": "관심목록",
+  "watchlist_create_watchlist": "관심목록 만들기",
+  "watchlist_new_watchlist": "새 관심목록",
+  "watchlist_delete_watchlist": "관심목록 삭제",
+
+  "watchlist_add_stock_placeholder": "종목 추가...",
+  "watchlist_no_results": "결과가 없습니다",
+  "watchlist_edit_watchlist": "관심목록 편집",
+  "watchlist_cancel": "취소",
+  "watchlist_normal_width": "기본 너비",
+  "watchlist_full_width": "전체 너비",
+  "watchlist_exit_full_width": "전체 너비 해제",
+  "watchlist_expand_full_width": "전체 너비로 보기",
+
+  "watchlist_empty_title": "비어 있는 관심목록",
+  "watchlist_empty_description": "관심 종목을 담아 두면 실시간 데이터와 최신 뉴스를 한곳에서 볼 수 있습니다.",
+  "watchlist_get_started": "시작하기",
+
+  "watchlist_count_stocks": "{count}개 종목",
+
+  "watchlist_tab_news": "뉴스",
+  "watchlist_tab_earnings": "실적 발표",
+  "watchlist_no_news": "아직 뉴스가 없습니다. 관심목록에 종목을 추가하면 최신 뉴스를 볼 수 있습니다.",
+  "watchlist_no_earnings": "실적 데이터가 없습니다. 관심목록에 종목을 추가하면 최신 실적 데이터를 볼 수 있습니다.",
+
+  "watchlist_modal_new_title": "새 관심목록",
+  "watchlist_modal_list_name": "목록 이름",
+  "watchlist_modal_create_button": "관심목록 만들기",
+
+  "watchlist_modal_delete_title": "관심목록 삭제",
+  "watchlist_modal_delete_confirm": "이 관심목록을 삭제하시겠습니까? 삭제 후에는 되돌릴 수 없습니다.",
+  "watchlist_modal_delete_button": "관심목록 삭제",
+
+  "watchlist_toast_creating": "관심목록을 만드는 중...",
+  "watchlist_toast_created": "관심목록을 만들었습니다.",
+  "watchlist_toast_deleted": "관심목록을 삭제했습니다.",
+  "watchlist_toast_updating": "관심목록을 업데이트하는 중...",
+  "watchlist_toast_updated": "관심목록을 업데이트했습니다.",
+  "watchlist_toast_error": "문제가 발생했습니다. 다시 시도해 주세요.",
+  "watchlist_toast_error_generic": "오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+  "watchlist_toast_title_empty": "제목을 입력해 주세요.",
+  "watchlist_toast_title_long": "제목이 너무 깁니다. 짧고 간단하게 적어 주세요.",
+  "watchlist_toast_already_in_list": "이미 관심목록에 있는 종목입니다",
+  "watchlist_toast_select_symbols": "삭제하려면 먼저 종목을 선택해 주세요",
+
+  "watchlist_earnings_will_report": "실적 발표 예정,",
+  "watchlist_earnings_after_close": "장 마감 후입니다.",
+  "watchlist_earnings_before_open": "장 시작 전입니다.",
+  "watchlist_earnings_during_market": "장중입니다.",
+  "watchlist_earnings_analysts_estimate": "애널리스트 예상 매출은",
+  "watchlist_earnings_in_revenue": "이며, 전년 대비",
+  "watchlist_earnings_yoy": "변동입니다.",
+  "watchlist_earnings_and": "예상 주당순이익은",
+  "watchlist_earnings_in_eps": "입니다.",
+
+  "watchlist_note_add_title": "메모 추가",
+  "watchlist_note_edit_title": "메모 편집",
+  "watchlist_note_placeholder_new": "이 종목을 관심목록에 담은 이유는 무엇인가요?",
+  "watchlist_note_placeholder_edit": "메모를 수정하세요...",
+  "watchlist_note_save": "저장",
+  "watchlist_note_add": "메모 추가",
+  "watchlist_note_update": "메모 수정",
+  "watchlist_note_created": "메모를 추가했습니다",
+  "watchlist_note_updated": "메모를 수정했습니다",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count}자 남음",
+  "watchlist_note_chars_over": "{count}자 초과",
+  "watchlist_note_exceeded": "메모는 {max}자를 넘을 수 없습니다",
+  "watchlist_added_price": "추가 시점 가격",
+
+  "watchlist_column_entry_price": "진입 가격",
+  "watchlist_column_since_added": "% 추가 후 변동"
+}

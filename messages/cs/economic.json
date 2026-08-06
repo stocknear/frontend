@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Domů",
+  "economic_breadcrumb_calendar": "Ekonomický kalendář",
+
+  "economic_seo_title": "Ekonomický kalendář - živé události hýbající trhem a zveřejňování dat",
+  "economic_seo_description": "Buď o krok napřed díky našemu ekonomickému kalendáři s finančními událostmi v reálném čase, ekonomickými ukazateli a daty, která hýbou trhem. Sleduj HDP, inflaci, data z trhu práce, zasedání centrálních bank a klíčová ekonomická oznámení s přesnými časy a prognózami. Nezbytný nástroj pro tradery a investory, kteří chtějí předvídat volatilitu.",
+  "economic_seo_keywords": "ekonomický kalendář, finanční události, tržní kalendář, ekonomické ukazatele, zveřejnění HDP, data o inflaci, statistiky zaměstnanosti, zasedání centrálních bank, ekonomické zprávy, události hýbající trhem, zveřejňování finančních dat, ekonomická oznámení, obchodní kalendář, plánování investic",
+  "economic_structured_name": "Ekonomický kalendář",
+  "economic_structured_description": "Komplexní ekonomický kalendář sledující globální finanční události, ekonomické ukazatele a zveřejňování dat, která hýbou trhem",
+
+  "economic_main_name": "Ekonomický kalendář",
+  "economic_count_events": "{count} událostí",
+  "economic_empty_day": "Pro tento den nejsou k dispozici žádné události.",
+
+  "economic_filter_country": "Filtrovat zemi",
+  "economic_filter_importance": "Filtrovat důležitost",
+  "economic_filter_reset": "Obnovit vše",
+  "economic_filter_search": "Hledat...",
+  "economic_filter_no_country": "Žádná země nenalezena",
+  "economic_filters_label": "Filtry",
+
+  "economic_pagination_previous": "Předchozí",
+  "economic_pagination_next": "Další",
+  "economic_pagination_page_of": "Strana {current} z {total}",
+  "economic_pagination_rows": "{count} řádků",
+  "economic_back_to_top": "Zpět nahoru",
+  "economic_search_placeholder": "Hledat...",
+
+  "economic_source_label": "Zdroj:",
+  "economic_source_text": "Ekonomický kalendář poskytuje",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "a časy jsou uvedeny v ET (východní čas USA)."
+}

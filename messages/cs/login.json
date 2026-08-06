@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Přihlášení do Stocknear",
+  "login_seo_description": "Přihlas se ke svému účtu Stocknear pomocí e-mailu a hesla.",
+  "login_title": "Přihlas se ke svému účtu",
+  "login_title_logged_in": "Jsi přihlášený",
+  "login_subtitle": "Vítej zpátky.",
+  "login_email_label": "E-mail",
+  "login_password_label": "Heslo",
+  "login_forgot_password": "Zapomenuté heslo?",
+  "login_button": "Přihlásit se",
+  "login_button_loading": "Přihlašuji",
+  "login_divider": "Nebo se přihlas přes",
+  "login_no_account": "Ještě nemáš účet?",
+  "login_signup_link": "Zaregistruj se",
+  "login_logged_in_as": "Přihlášen jako {email}",
+  "login_logout_button": "Odhlásit se",
+  "login_toast_verify_email": "Nejdřív si prosím ověř e-mail",
+  "login_toast_success": "Přihlášení proběhlo úspěšně",
+  "login_toast_invalid": "Neplatné přihlašovací údaje",
+  "login_toast_auth_failed": "Nesprávný e-mail nebo heslo. Zkus to prosím znovu.",
+  "login_toast_rate_limited": "Příliš mnoho pokusů o přihlášení. Zkus to prosím znovu za {minutes} minut."
+}

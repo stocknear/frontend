@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Вхід у Stocknear",
+  "login_seo_description": "Увійди у свій акаунт Stocknear за допомогою email і пароля.",
+  "login_title": "Увійди у свій акаунт",
+  "login_title_logged_in": "Ти увійшов",
+  "login_subtitle": "З поверненням",
+  "login_email_label": "Email",
+  "login_password_label": "Пароль",
+  "login_forgot_password": "Забув пароль?",
+  "login_button": "Увійти",
+  "login_button_loading": "Вхід",
+  "login_divider": "Або увійди через",
+  "login_no_account": "Ще немає акаунта?",
+  "login_signup_link": "Зареєструватися",
+  "login_logged_in_as": "Ти увійшов як {email}",
+  "login_logout_button": "Вийти",
+  "login_toast_verify_email": "Спершу підтверди свій email",
+  "login_toast_success": "Вхід виконано",
+  "login_toast_invalid": "Невірні дані для входу",
+  "login_toast_auth_failed": "Невірний email або пароль. Спробуй ще раз.",
+  "login_toast_rate_limited": "Забагато спроб входу. Спробуй ще раз через {minutes} хв."
+}

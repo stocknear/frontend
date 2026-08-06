@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Veri Sorumluluk Reddi | Finansal Veri Kaynakları ve Doğruluk",
+  "data_seo_description": "Finansal veri kaynaklarımız, doğruluk standartlarımız ve hisse senedi piyasası verileri, analist tahminleri ve finansal metriklerin kullanım kuralları hakkında ayrıntılı bilgi.",
+  "data_breadcrumb": "Veri Sorumluluk Reddi",
+  "data_hero_title": "Veri Sorumluluk Reddi",
+  "data_intro": "Stocknear'da sunulan finansal veriler yalnızca bilgilendirme ve eğitim amaçlıdır. Bu bilgiler yatırım tavsiyesi sayılmamalı, alım satım veya yatırım kararlarının tek dayanağı olarak kullanılmamalıdır.",
+  "data_contact": "Veri doğruluğu ve kalite kontrolü konusunda sıkı standartlar uyguluyoruz. Bir tutarsızlık fark edersen ya da bir konunun netleşmesini istersen {discordLink} üzerinden bize ulaş veya {email} adresinden destek ekibimizle iletişime geç.",
+  "data_market_title": "Piyasa Verileri ve Hisse Grafikleri",
+  "data_market_content": "Kapsamlı piyasa verilerimiz ve gerçek zamanlı hisse grafiklerimiz, önde gelen finansal veri sağlayıcılarından {fmpLink} tarafından besleniyor. Buna gün içi fiyatlar, geçmiş veriler ve teknik göstergeler dahildir.",
+  "data_coverage_title": "Piyasa Kapsamı",
+  "data_coverage_content": "Stocknear, NASDAQ, NYSE, NYSE American ve NYSE Arca dahil başlıca ABD borsalarında işlem gören menkul kıymetleri kapsamlı biçimde takip eder. Veri tabanımızda hisseler, ETF'ler, ADR'ler ve seçilmiş OTC menkul kıymetleri yer alır. Kapsamımızı ek küresel borsaları ve finansal enstrümanları içerecek şekilde genişletmeye devam ediyoruz.",
+  "data_fundamentals_title": "Finansal Temel Veriler",
+  "data_fundamentals_content": "Temel finansal verilerimiz {fmpLink} kaynaklıdır ve resmi SEC bildirimlerinden (10-K, 10-Q ve 8-K formları) türetilir. Sistemlerimiz bu bilgileri günlük olarak güncellese de, standart SEC bildirim süreleri ve şirketlerin raporlama takvimleri nedeniyle gecikmeler olabilir. Sunulan tüm finansal veriler, şirketlerin düzenleyici kurumlara ilettiği resmi ve denetlenmiş bildirimlere dayanır.",
+  "data_business_title": "Operasyonel Metrik Verileri",
+  "data_business_content": "Operasyonel KPI'lar ve GAAP dışı birim ekonomisi dahil operasyonel metrik verileri, iş ortağımız {mainStreetLink} aracılığıyla sağlanır. Araştırma ekipleri bu açıklamaları şirket bildirimlerinden, yatırımcı sunumlarından ve yönetim yorumlarından toplar, standartlaştırır ve sürekli doğrular; böylece platformumuz genelinde güvenilir bir performans kapsamı sağlanır.",
+  "data_analyst_title": "Analist Kapsamı ve Piyasa Tahminleri",
+  "data_analyst_content": "Analist kapsamımız birden fazla güvenilir kaynağın verisini bir araya getirir. Fiyat hedefleri ve analist notları, Wall Street'in önde gelen analistlerinin ortak görüşünü yansıtacak şekilde Benzinga tarafından sağlanır. Gelir tahminleri ve EPS beklentileri hem Benzinga hem de {fmpLink} verilerinden derlenir. Mümkün olan en doğru tahminleri sunmaya çalışsak da, piyasa öngörülerinin doğası gereği belirsiz olduğunu ve daha geniş bir yatırım araştırmasının parçası olarak değerlendirilmesi gerektiğini unutma.",
+  "data_etf_title": "ETF Analizi",
+  "data_etf_content": "ETF portföy verilerimiz ve analizlerimiz {fmpLink} ile kurduğumuz iş birliğiyle sağlanır; böylece fon bileşimleri, dağılımları ve performans metrikleri doğru ve zamanında sunulur.",
+  "data_options_title": "Opsiyon Piyasası Verileri",
+  "data_options_content": "Opsiyon piyasası veri altyapımız birden fazla veri sağlayıcısını kullanır; bu akışları tek bir hatta birleştirerek eksiksiz OPRA (Options Price Reporting Authority) verisi sunar. Gerçek zamanlı opsiyon akışını ve tekil opsiyon zinciri verilerini çeşitli kaynaklardan bir araya getirerek, başlıca ABD opsiyon borsalarındaki tüm işlem hareketlerini ve fiyatlamayı eksiksiz kapsıyoruz."
+}

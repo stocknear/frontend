@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Hem",
+  "earnings_breadcrumb_calendar": "Rapportkalender",
+
+  "earnings_seo_title": "Rapportkalender - volatilitetslägen för optionstraders",
+  "earnings_seo_description": "Följ rapportdatum, förväntade rörelser och analytikernas estimat för att planera optionsaffärer kring volatilitet och IV-fall.",
+  "earnings_seo_keywords": "rapportkalender, optionsaffärer kring rapporter, förväntad rörelse, IV crush, rapportvolatilitet, EPS-estimat, omsättningsprognoser, rapportschema",
+
+  "earnings_structured_name": "Rapportkalender",
+  "earnings_structured_description": "Rapportkalender byggd för optionstraders med fokus på volatilitet och förväntade rörelser",
+
+  "earnings_main_name": "Rapportkalender",
+  "earnings_count": "{count} rapporter",
+  "earnings_empty": "Inga rapporter tillgängliga för dagen.",
+  "earnings_empty_scheduled": "Inga rapporter inplanerade",
+
+  "earnings_tab_daily": "Dag",
+  "earnings_tab_weekly": "Vecka",
+  "earnings_tab_details": "Detaljer",
+  "earnings_tab_compact": "Kompakt",
+
+  "earnings_time_of_day": "Tid på dagen",
+  "earnings_time_any": "När som helst",
+  "earnings_time_before_open": "Före öppning",
+  "earnings_time_after_close": "Efter stängning",
+
+  "earnings_expanded_reports": "Rapporterar",
+  "earnings_expanded_market_cap": "Börsvärde",
+  "earnings_expanded_revenue_est": "Est. omsättning",
+  "earnings_expanded_revenue_estimate": "Estimerad omsättning",
+  "earnings_expanded_eps_est": "Est. EPS",
+  "earnings_expanded_eps_estimate": "Estimerad EPS",
+
+  "earnings_pagination_previous": "Föregående",
+  "earnings_pagination_next": "Nästa",
+  "earnings_pagination_page_of": "Sida {current} av {total}",
+  "earnings_pagination_rows": "{count} rader",
+  "earnings_back_to_top": "Till toppen",
+  "earnings_search_placeholder": "Sök..."
+}

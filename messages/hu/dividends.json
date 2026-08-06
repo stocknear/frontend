@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Főoldal",
+  "dividends_breadcrumb_calendar": "Osztaléknaptár",
+
+  "dividends_seo_title": "Osztaléknaptár - Ex-osztalék dátumok és kifizetési ütemterv",
+  "dividends_seo_description": "Kövesd a közelgő ex-osztalék dátumokat és a kifizetési ütemtervet. Tervezd meg az osztalékbegyűjtő stratégiádat átfogó naptárunkkal, amely mutatja az összegeket, a kifizetési dátumokat és a piaci kapitalizációt.",
+  "dividends_seo_keywords": "osztaléknaptár, ex-osztalék dátum, osztalékfizetési ütemterv, osztalékbegyűjtés, részvényosztalék, osztalékrészvények, osztalékfizetési dátumok, közelgő osztalékok",
+
+  "dividends_main_name": "Osztaléknaptár",
+  "dividends_count": "{count} osztalék",
+  "dividends_empty_day": "Erre a napra nincs elérhető osztalék.",
+  "dividends_empty_none": "Nincs osztalék",
+  "dividends_empty_scheduled": "Nincs ütemezett osztalék",
+
+  "dividends_tab_daily": "Napi",
+  "dividends_tab_weekly": "Heti",
+  "dividends_tab_details": "Részletek",
+  "dividends_tab_compact": "Tömör",
+
+  "dividends_time_any": "Bármikor",
+  "dividends_time_before_open": "Nyitás előtt",
+  "dividends_time_after_close": "Zárás után",
+
+  "dividends_expanded_ex_date": "Ex-dátum",
+  "dividends_expanded_market_cap": "Piaci kapitalizáció",
+  "dividends_expanded_amount": "Összeg",
+  "dividends_expanded_revenue": "Árbevétel",
+  "dividends_expanded_payment_date": "Kifizetés dátuma",
+  "dividends_expanded_date": "Dátum",
+  "dividends_expanded_dividend": "Osztalék",
+
+  "dividends_pagination_previous": "Előző",
+  "dividends_pagination_next": "Következő",
+  "dividends_pagination_page_of": "{current}. oldal / {total}",
+  "dividends_pagination_rows": "{count} sor",
+  "dividends_back_to_top": "Vissza a tetejére",
+  "dividends_search_placeholder": "Keresés..."
+}

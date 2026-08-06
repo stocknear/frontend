@@ -1,6 +1,7 @@
 import { brotliCompressSync, constants as zlibConstants } from "node:zlib";
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const artifactDirectory = path.resolve(process.argv[2] ?? "build");
 const MAX_I18N_SHARD_BROTLI_BYTES = Number(
@@ -30,6 +31,28 @@ const forbiddenFilePatterns = [
   /^agents\.md$/i,
   /todo/i,
 ];
+
+// Read the locale set rather than hardcoding it. A hardcoded alternation silently stops
+// matching a newly added locale's shards, so the multi-locale guard and the shard budget
+// below just skip it — passing green while the new locale is unverified.
+// Resolved relative to this script's own location, not process.cwd(): this file is only
+// ever invoked correctly today because deploy.sh runs it via `npm run` from the package
+// root, and a cwd-relative resolve() breaks silently the moment that stops being true.
+const settingsPath = fileURLToPath(
+  new URL("../project.inlang/settings.json", import.meta.url),
+);
+const settings = JSON.parse(await readFile(settingsPath, "utf8"));
+const i18nMarkerPattern = new RegExp(
+  `stocknear-i18n:([a-z0-9_-]+):(${settings.locales
+    // Longest first: regex alternation takes the first branch that matches, so with
+    // "pt" listed before "pt-BR" a pt-BR marker reads back as "pt" and the
+    // one-locale-per-shard guard below compares the wrong values.
+    .slice()
+    .sort((a, b) => b.length - a.length)
+    .map((locale) => locale.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|")})`,
+  "g",
+);
 
 if (!(await existsAsDirectory(artifactDirectory))) {
   fail(`Production artifact does not exist: ${artifactDirectory}`);
@@ -73,9 +96,7 @@ for (const filename of files) {
   const sourceText = source.toString("utf8");
   const markers = [
     ...new Set(
-      [...sourceText.matchAll(/stocknear-i18n:([a-z0-9_-]+):(en|de|zh-CN|zh-TW|es|fr)/g)].map(
-        (match) => match[0],
-      ),
+      [...sourceText.matchAll(i18nMarkerPattern)].map((match) => match[0]),
     ),
   ];
   if (markers.length === 0) continue;

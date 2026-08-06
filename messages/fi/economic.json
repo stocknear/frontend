@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Etusivu",
+  "economic_breadcrumb_calendar": "Talouskalenteri",
+
+  "economic_seo_title": "Talouskalenteri - Markkinoita liikuttavat tapahtumat ja tilastojulkistukset",
+  "economic_seo_description": "Pysy edellä kattavalla talouskalenterillamme, jossa on reaaliaikaiset talousuutiset, talousindikaattorit ja markkinoita liikuttavat julkistukset. Seuraa BKT:tä, inflaatiota, työllisyyslukuja, keskuspankkikokouksia ja muita keskeisiä julkistuksia tarkkoine aikoineen ja ennusteineen. Tärkeä työkalu treidaajille ja sijoittajille markkinaheilunnan ennakointiin.",
+  "economic_seo_keywords": "talouskalenteri, talousuutiset, markkinakalenteri, talousindikaattorit, BKT-julkistus, inflaatiodata, työllisyystilastot, keskuspankkikokoukset, talousuutiset, markkinoita liikuttavat tapahtumat, tilastojulkistukset, talousilmoitukset, treidauskalenteri, sijoitussuunnittelu",
+  "economic_structured_name": "Talouskalenteri",
+  "economic_structured_description": "Kattava talouskalenteri, joka seuraa globaaleja talousuutisia, indikaattoreita ja markkinoita liikuttavia julkistuksia",
+
+  "economic_main_name": "Talouskalenteri",
+  "economic_count_events": "{count} tapahtumaa",
+  "economic_empty_day": "Ei tapahtumia tälle päivälle.",
+
+  "economic_filter_country": "Suodata maa",
+  "economic_filter_importance": "Suodata tärkeys",
+  "economic_filter_reset": "Nollaa kaikki",
+  "economic_filter_search": "Hae...",
+  "economic_filter_no_country": "Maata ei löytynyt",
+  "economic_filters_label": "Suodattimet",
+
+  "economic_pagination_previous": "Edellinen",
+  "economic_pagination_next": "Seuraava",
+  "economic_pagination_page_of": "Sivu {current} / {total}",
+  "economic_pagination_rows": "{count} riviä",
+  "economic_back_to_top": "Takaisin ylös",
+  "economic_search_placeholder": "Etsi...",
+
+  "economic_source_label": "Lähde:",
+  "economic_source_text": "Talouskalenterin tarjoaa",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "ja ajat näytetään ET-aikavyöhykkeellä (Eastern Time)."
+}

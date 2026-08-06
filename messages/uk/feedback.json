@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Залишити відгук",
+  "feedback_error_signin": "Будь ласка, увійдіть перед надсиланням відгуку.",
+  "feedback_error_description": "Опишіть, будь ласка, свою проблему або пропозицію.",
+  "feedback_error_send_try_again": "Щось пішло не так під час надсилання відгуку. Спробуйте ще раз.",
+  "feedback_success": "Дякуємо! Ваш відгук надіслано.",
+  "feedback_error_send_generic": "Щось пішло не так під час надсилання відгуку.",
+  "feedback_description_label": "Опишіть вашу проблему або пропозицію:",
+  "feedback_page_label": "Відгук про сторінку:",
+  "feedback_close_button": "Закрити",
+  "feedback_cancel_button": "Скасувати",
+  "feedback_send_button": "Надіслати відгук"
+}

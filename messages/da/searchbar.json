@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Selskab eller aktiesymbol...",
+  "searchbar_aria_label": "Selskab eller aktiesymbol...",
+  "searchbar_search_label": "Søg",
+  "searchbar_suggestions": "Forslag",
+  "searchbar_recent": "Seneste",
+  "searchbar_popular": "Populære",
+  "searchbar_no_results": "Ingen resultater fundet"
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "홈",
+  "stock_screener_breadcrumb_stock_screener": "주식 스크리너",
+
+  "stock_screener_seo_title": "고급 주식 스크리너 - 무료 종목 필터 및 분석 도구",
+  "stock_screener_seo_description": "{count}가지 조건으로 종목을 걸러내는 강력한 주식 스크리너입니다. 재무, 기술적 지표, 밸류에이션, 수익률로 종목을 검색하세요. 데이터는 1분마다 갱신됩니다.",
+  "stock_screener_seo_keywords": "주식 스크리너, 무료 주식 스크리너, 종목 필터, 종목 검색, 재무 스크리너, 기술적 스크리너, 저평가 종목 스크리너, 성장주 스크리너, 배당주 스크리너, 종목 분석 도구",
+  "stock_screener_structured_name": "주식 스크리너 도구",
+  "stock_screener_structured_description": "실시간 시장 데이터를 활용한 고급 종목 검색 및 필터링 플랫폼",
+
+  "stock_screener_main_title": "주식 스크리너",
+  "stock_screener_matches_found": "{count}개 종목 검색됨",
+  "stock_screener_stocks_count": "종목 {count}개",
+
+  "stock_screener_popular_screens": "인기 스크린",
+  "stock_screener_popular_strategies": "인기 전략",
+  "stock_screener_select_popular": "인기 항목 선택",
+  "stock_screener_saved_screens": "저장한 스크린",
+  "stock_screener_select_screen": "스크린 선택",
+  "stock_screener_new_screen": "새 스크린",
+
+  "stock_screener_filters_count": "필터 {count}개",
+  "stock_screener_add_filters": "필터 추가",
+  "stock_screener_search_filters": "필터 {count}개 검색...",
+  "stock_screener_select_filters_title": "스크리너 필터 선택 (총 {count}개)",
+  "stock_screener_nothing_found": "결과 없음",
+
+  "stock_screener_search_placeholder": "찾기...",
+  "stock_screener_search_input_placeholder": "검색...",
+  "stock_screener_input_min": "최소",
+  "stock_screener_input_max": "최대",
+  "stock_screener_input_value": "값",
+
+  "stock_screener_normal_width": "기본 너비",
+  "stock_screener_full_width": "전체 너비",
+
+  "stock_screener_pagination_previous": "이전",
+  "stock_screener_pagination_next": "다음",
+  "stock_screener_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "stock_screener_rows_label": "{rows}행",
+  "stock_screener_back_to_top": "맨 위로",
+
+  "stock_screener_no_stocks_query": "\"{query}\"에 해당하는 종목이 없습니다",
+  "stock_screener_no_stocks": "종목이 없습니다.",
+
+  "stock_screener_modal_new_title": "새 스크리너",
+  "stock_screener_modal_new_name_label": "스크리너 이름",
+  "stock_screener_modal_new_create": "스크리너 만들기",
+
+  "stock_screener_modal_delete_title": "스크리너 삭제",
+  "stock_screener_modal_delete_message": "이 스크리너를 삭제하시겠습니까? 삭제한 뒤에는 되돌릴 수 없습니다.",
+  "stock_screener_modal_delete_cancel": "취소",
+  "stock_screener_modal_delete_confirm": "삭제",
+
+  "stock_screener_strategy_earnings_volatility": "실적 변동성",
+  "stock_screener_strategy_dividend_growth": "배당 성장",
+  "stock_screener_strategy_monthly_dividends": "월배당",
+  "stock_screener_strategy_top_gainers_1y": "1년 수익률 상위",
+  "stock_screener_strategy_top_shorted": "공매도 잔고 상위",
+  "stock_screener_strategy_momentum_ta": "모멘텀 기술적 종목",
+  "stock_screener_strategy_undervalued": "저평가 종목",
+  "stock_screener_strategy_strong_cash_flow": "우수한 현금흐름",
+
+  "stock_screener_save": "저장",
+  "stock_screener_save_as_new": "새로 저장",
+  "stock_screener_reset_all": "전체 초기화"
+}

@@ -1,0 +1,8 @@
+{
+  "error_title": "Siden blev ikke fundet - {status}",
+  "error_body_prefix": "Siden blev ikke fundet. Hvis fejlen bliver ved med at komme, så giv os besked via",
+  "error_body_suffix": "Vi retter det hurtigst muligt.",
+  "error_back_home": "Tilbage til forsiden",
+  "error_server_title": "Noget gik galt - {status}",
+  "error_server_body_prefix": "Det er en fejl hos os, ikke en side, der mangler. Prøv igen om lidt. Bliver det ved, så skriv til os på"
+}

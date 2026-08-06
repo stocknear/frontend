@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Trang chủ",
+  "price_alert_breadcrumb_price_alert": "Cảnh báo",
+
+  "price_alert_seo_title": "Cảnh báo cổ phiếu - Thông báo và cập nhật thị trường theo thời gian thực",
+  "price_alert_seo_description": "Tạo cảnh báo cổ phiếu tùy chỉnh và nhận thông báo tức thì khi điều kiện của bạn được kích hoạt. Theo dõi kết quả kinh doanh, tin tức và biến động giá cho danh mục theo dõi với dữ liệu thị trường thời gian thực.",
+  "price_alert_seo_keywords": "cảnh báo cổ phiếu, thông báo giá, cảnh báo thị trường, điều kiện kích hoạt cổ phiếu, lịch công bố kết quả kinh doanh, dòng tin cổ phiếu, cảnh báo thời gian thực, thông báo thị trường, danh mục theo dõi, giám sát giá",
+  "price_alert_structured_name": "Cảnh báo - Stocknear",
+  "price_alert_structured_description": "Hệ thống cảnh báo cổ phiếu thời gian thực với thông báo tức thì",
+
+  "price_alert_main_title": "Cảnh báo",
+
+  "price_alert_search_placeholder": "Tìm...",
+  "price_alert_no_results": "Không tìm thấy kết quả",
+  "price_alert_edit_alert": "Sửa cảnh báo",
+  "price_alert_cancel": "Hủy",
+
+  "price_alert_empty_title": "Chưa đặt cảnh báo nào",
+  "price_alert_empty_description": "Tạo cảnh báo cho những cổ phiếu bạn cho là có tiềm năng nhất.",
+  "price_alert_get_started": "Bắt đầu",
+
+  "price_alert_tab_news": "Tin tức",
+  "price_alert_tab_earnings": "Công bố kết quả kinh doanh",
+  "price_alert_no_news": "Chưa có tin nào. Hãy thêm cổ phiếu vào danh sách cảnh báo để xem tin mới nhất.",
+  "price_alert_no_earnings": "Chưa có dữ liệu. Hãy thêm cổ phiếu vào danh sách cảnh báo để xem kết quả kinh doanh mới nhất.",
+
+  "price_alert_toast_deleted": "Đã xóa cảnh báo",
+  "price_alert_toast_select_symbols": "Bạn cần chọn mã trước khi xóa",
+
+  "price_alert_earnings_will_report_today": "sẽ báo cáo hôm nay",
+  "price_alert_earnings_will_report_tomorrow": "sẽ báo cáo ngày mai",
+  "price_alert_earnings_will_report_monday": "sẽ báo cáo thứ Hai",
+  "price_alert_earnings_will_report": "sẽ báo cáo",
+  "price_alert_earnings_after_close": "sau khi thị trường đóng cửa.",
+  "price_alert_earnings_before_open": "trước khi thị trường mở cửa.",
+  "price_alert_earnings_during_market": "trong phiên giao dịch.",
+  "price_alert_earnings_analysts_estimate": "Chuyên gia phân tích dự báo",
+  "price_alert_earnings_in_revenue": "doanh thu",
+  "price_alert_earnings_yoy": "so với cùng kỳ",
+  "price_alert_earnings_and": "và",
+  "price_alert_earnings_in_eps": "lợi nhuận trên mỗi cổ phiếu"
+}

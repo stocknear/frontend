@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Főoldal",
+  "hedge_funds_breadcrumb_hedge_funds": "Fedezeti alapok",
+  "hedge_funds_breadcrumb_hedge_fund": "Fedezeti alap",
+
+  "hedge_funds_seo_title": "Fedezeti alap követő - Legnagyobb alapok pozíciói és 13F jelentések",
+  "hedge_funds_seo_description": "Kövesd a legnagyobb fedezeti alapok pozícióit, 13F jelentéseit és az intézményi befektetők portfólióit. Nézd meg részletes pozícióelemzéssel, mit vesznek és adnak el az alapok. Ingyenes fedezeti alap követő.",
+  "hedge_funds_seo_keywords": "fedezeti alap követő, fedezeti alap pozíciók, 13F jelentések, intézményi befektetők, hedge fund pozíciók, legnagyobb fedezeti alapok, intézményi részesedések, fedezeti alap portfóliók, berkshire hathaway pozíciók",
+  "hedge_funds_structured_name": "Fedezeti alap követő",
+  "hedge_funds_structured_description": "Fedezeti alapok pozícióinak és intézményi befektetéseknek átfogó követése",
+
+  "hedge_funds_main_title": "Legnagyobb amerikai fedezeti alapok",
+  "hedge_funds_infobox": "A legnagyobb kezelt vagyonnal rendelkező Wall Street-i intézmények listája.",
+  "hedge_funds_count_institutes": "{count} intézmény",
+
+  "hedge_funds_search_placeholder": "Keresés...",
+  "hedge_funds_loading": "Betöltés...",
+  "hedge_funds_no_data": "Nincs elérhető adat.",
+
+  "hedge_funds_pagination_previous": "Előző",
+  "hedge_funds_pagination_next": "Következő",
+  "hedge_funds_pagination_page_of": "{current}. oldal / {total}",
+  "hedge_funds_rows_label": "{rows} sor",
+  "hedge_funds_back_to_top": "Vissza a tetejére",
+
+  "hedge_funds_slug_seo_title": "{companyName} pozíciók és portfólió - 13F jelentések elemzése",
+  "hedge_funds_slug_seo_description": "A(z) {companyName} fedezeti alap pozícióinak, portfóliójának és befektetési stratégiájának részletes elemzése. Kövesd a legfrissebb 13F jelentéseket, a legnagyobb részvénypozíciókat, a szektormegoszlást és a teljesítménymutatókat.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} pozíciók, {companyNameLower} portfólió, {companyNameLower} 13F jelentések, fedezeti alap pozíciók, intézményi befektetői részesedések, {companyNameLower} részvényválasztás, fedezeti alap elemzés",
+  "hedge_funds_slug_structured_name": "{companyName} pozíció- és portfólióelemzés",
+  "hedge_funds_slug_structured_description": "A(z) {companyName} fedezeti alap pozícióinak és befektetéseinek átfogó elemzése",
+
+  "hedge_funds_slug_cik_number": "CIK-szám:",
+  "hedge_funds_slug_market_value": "Piaci érték",
+  "hedge_funds_slug_holdings": "Pozíciók száma",
+  "hedge_funds_slug_avg_holding_period": "Átl. tartási idő",
+  "hedge_funds_slug_months": "hónap",
+  "hedge_funds_slug_win_rate": "Találati arány",
+  "hedge_funds_slug_performance_3year": "3 éves teljesítmény",
+
+  "hedge_funds_slug_main_sectors": "Fő szektorok:",
+  "hedge_funds_slug_top_industries": "Vezető iparágak:",
+  "hedge_funds_slug_filing_date": "Benyújtás dátuma:",
+  "hedge_funds_slug_no_data": "A fedezeti alap adatai jelenleg nem érhetők el.",
+
+  "hedge_funds_column_rank": "Helyezés",
+  "hedge_funds_column_name": "Név",
+  "hedge_funds_column_aum": "Kezelt vagyon",
+  "hedge_funds_column_holdings": "Pozíciók",
+  "hedge_funds_column_turnover": "Forgás",
+  "hedge_funds_column_3year_perf": "3 éves telj.",
+  "hedge_funds_column_win_rate": "Találati arány"
+}

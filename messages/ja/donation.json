@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Stocknearのスポンサーになる",
+  "donation_seo_description": "スポンサーの支援により、最良の価格プランで世界No.1の株式分析プラットフォームを目指します。",
+  "donation_title": "スポンサー",
+  "donation_intro_greeting": "こんにちは 👋",
+  "donation_intro_paragraph_1": "私たちの取り組みへのご支援を検討いただきありがとうございます。Stocknearはバックエンド開発からカスタマーサポートまで私ひとりで運営しており、すべての投資家が手の届く価格で使えるプラットフォームであり続けることを大切にしています。",
+  "donation_intro_paragraph_2": "プランの価格は、どんな立場の個人投資家でも質の高い株式データを利用できるように設定しています。",
+  "donation_support_paragraph_1": "メンバーシップは基本的な運営を支えるためのものですが、追加のご支援があればさらに前へ進めます。スポンサーになることは、単にプラットフォームを支えるだけでなく、オープンで透明性が高く、手頃な金融分析という構想に投資することでもあります。",
+  "donation_support_list_intro": "ご支援は次のことに直接つながります。",
+  "donation_support_list_item_1": "低価格の維持",
+  "donation_support_list_item_2": "データ品質と機能の向上",
+  "donation_support_list_item_3": "業界No.1の株式分析プラットフォームという目標の実現",
+  "donation_cta_title": "Stocknearのスポンサーになる",
+  "donation_cta_paragraph_1": "私たちの取り組みに共感し、サブスクリプション以上の支援をご検討いただける場合は、GitHub Sponsorsからご支援ください。金額の大小にかかわらず、皆さまと個人投資家コミュニティに提供できることが大きく広がります。",
+  "donation_cta_paragraph_2": "ご支援は本当にありがたく、Stocknearを安定して運営する力になります。",
+  "donation_sidebar_about_title": "私たちについて",
+  "donation_iframe_title": "Stocknearを支援する"
+}

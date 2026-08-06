@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Kontakt oss",
+  "contact_breadcrumb": "Kontakt oss",
+  "contact_hero_title": "Kontakt oss",
+  "contact_intro": "Vi hører gjerne fra deg. Send oss en melding i skjemaet under, så svarer vi så raskt vi kan. Du kan også sende e-post direkte til {email}.",
+  "contact_email_label": "E-post",
+  "contact_subject_label": "Emne",
+  "contact_message_label": "Melding",
+  "contact_send_button": "Send melding",
+  "contact_processing": "Behandler...",
+  "contact_success": "Meldingen din ble sendt. Vi kommer tilbake til deg snart.",
+  "contact_sidebar_pro_title": "Pro-abonnement",
+  "contact_sidebar_pro_desc": "Oppgrader nå for ubegrenset tilgang til alle data og verktøy, uten reklame.",
+  "contact_sidebar_screener_title": "Aksjescreener",
+  "contact_sidebar_screener_desc": "Filtrer, sorter og analyser alle aksjer for å finne din neste investering.",
+  "contact_sidebar_watchlist_title": "Favorittlister",
+  "contact_sidebar_watchlist_desc": "Følg med på favorittaksjene dine i sanntid."
+}

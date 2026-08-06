@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "홈",
+  "dividends_breadcrumb_calendar": "배당 캘린더",
+
+  "dividends_seo_title": "배당 캘린더 - 배당락일과 지급 일정",
+  "dividends_seo_description": "다가오는 배당락일과 배당 지급 일정을 확인하세요. 배당금, 지급일, 시가총액까지 한눈에 보여주는 캘린더로 배당 투자 전략을 세울 수 있습니다.",
+  "dividends_seo_keywords": "배당 캘린더, 배당락일, 배당 지급 일정, 배당 투자, 주식 배당, 배당주, 배당 지급일, 예정 배당",
+
+  "dividends_main_name": "배당 캘린더",
+  "dividends_count": "배당 {count}건",
+  "dividends_empty_day": "해당 날짜에 배당 일정이 없습니다.",
+  "dividends_empty_none": "배당 없음",
+  "dividends_empty_scheduled": "예정된 배당 없음",
+
+  "dividends_tab_daily": "일간",
+  "dividends_tab_weekly": "주간",
+  "dividends_tab_details": "상세",
+  "dividends_tab_compact": "간략",
+
+  "dividends_time_any": "전체",
+  "dividends_time_before_open": "장 시작 전",
+  "dividends_time_after_close": "장 마감 후",
+
+  "dividends_expanded_ex_date": "배당락일",
+  "dividends_expanded_market_cap": "시가총액",
+  "dividends_expanded_amount": "금액",
+  "dividends_expanded_revenue": "매출",
+  "dividends_expanded_payment_date": "지급일",
+  "dividends_expanded_date": "날짜",
+  "dividends_expanded_dividend": "배당금",
+
+  "dividends_pagination_previous": "이전",
+  "dividends_pagination_next": "다음",
+  "dividends_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "dividends_pagination_rows": "{count}개씩",
+  "dividends_back_to_top": "맨 위로",
+  "dividends_search_placeholder": "검색..."
+}

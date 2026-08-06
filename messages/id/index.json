@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Ringkasan",
+  "index_detail_nav_options": "Opsi",
+  "index_detail_nav_history": "Riwayat",
+  "index_detail_nav_holdings": "Kepemilikan",
+
+  "index_detail_watchlist": "Watchlist",
+  "index_detail_price_alert": "Peringatan",
+  "index_detail_add_to_watchlist": "Tambahkan ke Watchlist",
+  "index_detail_ticker_added": "Ticker ditambahkan ke Watchlist Anda",
+  "index_detail_ticker_add_failed": "Gagal menambahkan ticker ke watchlist",
+  "index_detail_upgrade_watchlist": "Ingin menambah lebih banyak saham? Beralih ke Plus atau Pro",
+  "index_detail_companies": "Perusahaan",
+  "index_detail_company": "Perusahaan",
+
+  "index_detail_no_data": "Data tidak tersedia",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Bid",
+  "index_detail_ask": "Ask",
+  "index_detail_volume": "Volume",
+  "index_detail_avg_volume_20d": "Rata-rata Volume (20H)",
+  "index_detail_50_day_ma": "MA 50 Hari",
+  "index_detail_200_day_ma": "MA 200 Hari",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "Rasio PE (ttm)",
+  "index_detail_shares_out": "Saham Beredar",
+  "index_detail_inception_date": "Tanggal Peluncuran",
+  "index_detail_open": "Pembukaan",
+  "index_detail_prev_close": "Penutupan Sebelumnya",
+  "index_detail_days_range": "Rentang Harian",
+  "index_detail_52w_range": "Rentang 52 Minggu",
+  "index_detail_exchange": "Bursa",
+  "index_detail_expense_ratio": "Rasio Biaya",
+
+  "index_detail_chart_price": "Harga",
+  "index_detail_chart_volume": "Volume",
+
+  "index_sidecard_about": "Tentang {ticker}",
+  "index_sidecard_top_sectors": "5 Sektor Teratas",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Bobot %",
+  "index_sidecard_view_all_sectors": "Lihat Semua Sektor"
+}

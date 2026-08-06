@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "ホーム",
+  "ipos_breadcrumb_data": "IPO データ",
+
+  "ipos_seo_title": "IPO カレンダー - 直近および今後の新規株式公開",
+  "ipos_seo_description": "直近および今後の IPO (新規株式公開) を詳しい分析つきで追跡できます。公開価格、上場日、上場来リターンなどを確認できる無料の IPO カレンダーです。",
+  "ipos_seo_keywords": "IPO カレンダー, 今後の IPO, 直近の IPO, 新規株式公開, IPO トラッカー, IPO パフォーマンス, IPO 価格, 新規上場銘柄, 公開株",
+
+  "ipos_main_name_recent": "直近の IPO",
+  "ipos_main_name_statistics": "IPO 統計",
+  "ipos_count": "{count} 銘柄",
+  "ipos_tab_recent": "直近",
+  "ipos_tab_statistics": "統計",
+  "ipos_tab_latest": "最新",
+
+  "ipos_statistics_seo_title": "IPO 統計と過去チャート - 新規株式公開の市場データ",
+  "ipos_statistics_seo_description": "米国株式市場の新規株式公開 (IPO) に関する統計とインタラクティブなチャートです。{startYear}年から{endYear}年までの年次・月次の推移を追い、市場サイクルや IPO のパフォーマンス傾向を確認できます。",
+  "ipos_statistics_seo_keywords": "IPO 統計, 新規株式公開 チャート, IPO 市場データ, IPO 推移, IPO 分析, IPO 過去データ, IPO パフォーマンス, 年次 IPO 統計, 月次 IPO データ",
+  "ipos_statistics_infobox": "このページでは、米国株式市場における新規株式公開 (IPO) の統計とチャートを掲載しています。年次・月次データは{startYear}年から{endYear}年まで利用できます。",
+  "ipos_statistics_title": "年別の IPO 件数",
+  "ipos_statistics_description": "{startYear}年から{endYear}年までに {count} 件の IPO がありました。最も少なかったのは{minYear}年で {minCount} 件です。通年で最多だったのは{maxYear}年の {maxCount} 件で、過去最高となりました。",
+  "ipos_statistics_stock_news": "個別銘柄ニュース",
+  "ipos_statistics_more_news": "個別銘柄ニュースをもっと見る",
+
+  "ipos_year_seo_title": "{year}年の IPO 一覧 - 新規株式公開の完全ディレクトリ",
+  "ipos_year_seo_description": "{year}年に米国株式市場で行われたすべての新規株式公開 (IPO) の一覧です。企業情報や過去データとあわせて、公開価格、上場来リターン、上場後の値動きを確認できます。",
+  "ipos_year_seo_keywords": "{year}年 IPO, 新規株式公開 {year}, IPO 一覧 {year}, {year}年 IPO パフォーマンス, 直近の IPO, IPO カレンダー {year}, {year}年 新規上場企業",
+  "ipos_year_empty": "IPO が見つかりませんでした。{year}年の最新 IPO を表示するには検索期間を調整してください。",
+
+  "ipos_statistics_chart_title": "年別 IPO 件数 ({startYear}-{endYear})",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "{year}年の新規株式公開",
+  "ipos_year_summary": "{year}年の IPO は {count} 件でした。",
+  "ipos_year_extremes": "最も多かったのは{maxMonth}の {maxCount} 件、最も少なかったのは{minMonth}の {minCount} 件です。",
+  "ipos_year_none": "{year}年の IPO はありませんでした。"
+}

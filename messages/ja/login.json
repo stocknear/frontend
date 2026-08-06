@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Stocknear にログイン",
+  "login_seo_description": "メールアドレスとパスワードで Stocknear アカウントにログインします。",
+  "login_title": "アカウントにログイン",
+  "login_title_logged_in": "ログイン済みです",
+  "login_subtitle": "おかえりなさい",
+  "login_email_label": "メールアドレス",
+  "login_password_label": "パスワード",
+  "login_forgot_password": "パスワードをお忘れですか",
+  "login_button": "ログイン",
+  "login_button_loading": "ログインしています",
+  "login_divider": "または次の方法でログイン",
+  "login_no_account": "アカウントをお持ちではありませんか",
+  "login_signup_link": "新規登録",
+  "login_logged_in_as": "{email} でログイン中",
+  "login_logout_button": "ログアウト",
+  "login_toast_verify_email": "先にメールアドレスの確認を行ってください",
+  "login_toast_success": "ログインしました",
+  "login_toast_invalid": "認証情報が正しくありません",
+  "login_toast_auth_failed": "メールアドレスまたはパスワードが正しくありません。もう一度お試しください。",
+  "login_toast_rate_limited": "ログインの試行回数が上限に達しました。{minutes} 分後にもう一度お試しください。"
+}

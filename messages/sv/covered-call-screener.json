@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Hem",
+  "covered_call_screener_breadcrumb_title": "Screener för covered calls",
+
+  "covered_call_screener_seo_title": "Screener för covered calls - hitta de bästa lägena",
+  "covered_call_screener_seo_description": "Sök igenom tusentals optioner efter lägen för covered calls. Filtrera på premie, årsavkastning, lösenpris, förfall och mer.",
+  "covered_call_screener_seo_keywords": "screener covered call, optionsscreener, covered calls, premieavkastning, inkomststrategi",
+  "covered_call_screener_structured_name": "Screener för covered calls",
+  "covered_call_screener_structured_description": "Sök igenom optioner efter lägen för covered calls",
+
+  "covered_call_screener_main_title": "Screener för covered calls",
+  "covered_call_screener_contracts_count": "{count} kontrakt",
+
+  "covered_call_screener_popular_screens": "Populära sökningar",
+  "covered_call_screener_popular_strategies": "Populära strategier",
+  "covered_call_screener_select_popular": "Välj populär",
+  "covered_call_screener_saved_screens": "Sparade sökningar",
+  "covered_call_screener_select_screen": "Välj sökning",
+  "covered_call_screener_new_screen": "Ny sökning",
+
+  "covered_call_screener_strategy_high_yield": "Hög avkastning",
+  "covered_call_screener_strategy_conservative": "Försiktig",
+  "covered_call_screener_strategy_weekly_income": "Veckoinkomst",
+  "covered_call_screener_strategy_high_protection": "Högt skydd",
+  "covered_call_screener_strategy_bluechip_cc": "Blue chip-covered calls",
+
+  "covered_call_screener_filters_count": "Filter ({count})",
+  "covered_call_screener_add_filters": "Lägg till filter",
+  "covered_call_screener_search_filters": "Sök bland {count} filter...",
+  "covered_call_screener_select_filters_title": "Välj filter ({count})",
+  "covered_call_screener_nothing_found": "Inget hittades.",
+
+  "covered_call_screener_save": "Spara",
+  "covered_call_screener_save_as_new": "Spara som ny",
+  "covered_call_screener_reset_all": "Nollställ allt",
+
+  "covered_call_screener_condition_over": "Över",
+  "covered_call_screener_condition_under": "Under",
+  "covered_call_screener_condition_between": "Mellan",
+  "covered_call_screener_condition_exactly": "Exakt",
+  "covered_call_screener_condition_any": "Alla",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Värde",
+
+  "covered_call_screener_search_placeholder": "Sök...",
+  "covered_call_screener_search_modal_placeholder": "Sök...",
+
+  "covered_call_screener_normal_width": "Normal bredd",
+  "covered_call_screener_full_width": "Full bredd",
+
+  "covered_call_screener_tab_general": "Allmänt",
+  "covered_call_screener_tab_income": "Inkomst",
+  "covered_call_screener_tab_filters": "Filter",
+  "covered_call_screener_tab_greeks": "Greker",
+
+  "covered_call_screener_pagination_previous": "Föregående",
+  "covered_call_screener_pagination_next": "Nästa",
+  "covered_call_screener_pagination_page_of": "Sida {current} av {total}",
+  "covered_call_screener_rows_label": "{rows} rader",
+  "covered_call_screener_back_to_top": "Till toppen",
+
+  "covered_call_screener_no_results_query": "Inga träffar för \"{query}\"",
+  "covered_call_screener_no_contracts": "Inga kontrakt matchar dina kriterier.",
+
+  "covered_call_screener_modal_new_title": "Ny sökning",
+  "covered_call_screener_modal_new_name_label": "Namn på sökning",
+  "covered_call_screener_modal_new_create": "Skapa",
+
+  "covered_call_screener_modal_delete_title": "Ta bort screener",
+  "covered_call_screener_modal_delete_message": "Vill du ta bort den här screenern? Det går inte att ångra.",
+  "covered_call_screener_modal_delete_cancel": "Avbryt",
+  "covered_call_screener_modal_delete_confirm": "Ta bort",
+
+  "covered_call_screener_toast_deleting": "Tar bort screener...",
+  "covered_call_screener_toast_deleted": "Screenern är borttagen.",
+  "covered_call_screener_toast_delete_failed": "Borttagningen misslyckades. Försök igen.",
+  "covered_call_screener_toast_title_too_long": "Titeln är för lång. Håll den under 100 tecken.",
+  "covered_call_screener_toast_created": "Screenern är skapad.",
+  "covered_call_screener_toast_creating": "Skapar screener...",
+  "covered_call_screener_toast_create_failed": "Något gick fel. Försök igen senare.",
+  "covered_call_screener_toast_select_rule": "Välj en regel",
+  "covered_call_screener_toast_saving": "Sparar screener...",
+  "covered_call_screener_toast_saved": "Screenern är sparad.",
+  "covered_call_screener_toast_save_failed": "Det gick inte att spara. Försök igen.",
+
+  "covered_call_screener_chart_price_at_expiration": "Kurs vid förfall ($)",
+  "covered_call_screener_chart_last_price_label": "Senaste kurs: {price}",
+  "covered_call_screener_chart_breakeven_label": "Break-even: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Vinst/förlust ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Kurs på underliggande:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Vinst eller förlust:",
+  "covered_call_screener_chart_modal_title": "Covered call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Affärens upplägg",
+  "covered_call_screener_chart_buy_stock": "Köp aktien @",
+  "covered_call_screener_chart_sell_call": "Sälj {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Netto (premie/kostnad)",
+  "covered_call_screener_chart_breakeven": "Break-even",
+  "covered_call_screener_chart_above": "Över",
+  "covered_call_screener_chart_last_price": "Senaste kurs",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Avkastning om oförändrat",
+  "covered_call_screener_chart_return_if_assigned": "Avkastning vid tilldelning",
+  "covered_call_screener_chart_probability_of_profit": "Sannolikhet för vinst",
+  "covered_call_screener_chart_annualized_abbr": "årstakt"
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Főoldal",
+  "stock_screener_breadcrumb_stock_screener": "Részvényszűrő",
+
+  "stock_screener_seo_title": "Fejlett részvényszűrő - Ingyenes szűrő- és elemzőeszköz",
+  "stock_screener_seo_description": "Erős részvényszűrő {count} szűrési szemponttal. Szűrd a részvényeket fundamentumok, technikai mutatók, értékeltség és teljesítmény alapján. Percenként frissülő valós idejű adatok a jobb részvénykereséshez és elemzéshez.",
+  "stock_screener_seo_keywords": "részvényszűrő, ingyenes részvényszűrő, részvényszűrés, részvényszkenner, fundamentális szűrő, technikai szűrő, értékalapú részvényszűrő, növekedési részvényszűrő, osztalékrészvény-szűrő, részvényelemző eszköz",
+  "stock_screener_structured_name": "Részvényszűrő eszköz",
+  "stock_screener_structured_description": "Fejlett részvényszűrő és -elemző platform valós idejű piaci adatokkal",
+
+  "stock_screener_main_title": "Részvényszűrő",
+  "stock_screener_matches_found": "{count} találat",
+  "stock_screener_stocks_count": "{count} részvény",
+
+  "stock_screener_popular_screens": "Népszerű szűrések",
+  "stock_screener_popular_strategies": "Népszerű stratégiák",
+  "stock_screener_select_popular": "Válassz népszerűt",
+  "stock_screener_saved_screens": "Mentett szűrések",
+  "stock_screener_select_screen": "Szűrés kiválasztása",
+  "stock_screener_new_screen": "Új szűrés",
+
+  "stock_screener_filters_count": "{count} szűrő",
+  "stock_screener_add_filters": "Szűrők hozzáadása",
+  "stock_screener_search_filters": "Keresés {count} szűrő között...",
+  "stock_screener_select_filters_title": "Szűrők kiválasztása (összesen {count})",
+  "stock_screener_nothing_found": "Nincs találat",
+
+  "stock_screener_search_placeholder": "Keresés...",
+  "stock_screener_search_input_placeholder": "Keresés...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Érték",
+
+  "stock_screener_normal_width": "Normál szélesség",
+  "stock_screener_full_width": "Teljes szélesség",
+
+  "stock_screener_pagination_previous": "Előző",
+  "stock_screener_pagination_next": "Következő",
+  "stock_screener_pagination_page_of": "{current}. oldal, összesen {total}",
+  "stock_screener_rows_label": "{rows} sor",
+  "stock_screener_back_to_top": "Vissza a tetejére",
+
+  "stock_screener_no_stocks_query": "Nincs részvény erre: \"{query}\"",
+  "stock_screener_no_stocks": "Nincs találat.",
+
+  "stock_screener_modal_new_title": "Új szűrés",
+  "stock_screener_modal_new_name_label": "Szűrés neve",
+  "stock_screener_modal_new_create": "Szűrés létrehozása",
+
+  "stock_screener_modal_delete_title": "Szűrés törlése",
+  "stock_screener_modal_delete_message": "Biztosan törlöd ezt a szűrést? A művelet nem vonható vissza.",
+  "stock_screener_modal_delete_cancel": "Mégse",
+  "stock_screener_modal_delete_confirm": "Törlés",
+
+  "stock_screener_strategy_earnings_volatility": "Gyorsjelentési volatilitás",
+  "stock_screener_strategy_dividend_growth": "Osztaléknövekedés",
+  "stock_screener_strategy_monthly_dividends": "Havi osztalék",
+  "stock_screener_strategy_top_gainers_1y": "1 éves top emelkedők",
+  "stock_screener_strategy_top_shorted": "Legtöbbet shortolt részvények",
+  "stock_screener_strategy_momentum_ta": "Momentum TA részvények",
+  "stock_screener_strategy_undervalued": "Alulértékelt részvények",
+  "stock_screener_strategy_strong_cash_flow": "Erős cash flow",
+
+  "stock_screener_save": "Mentés",
+  "stock_screener_save_as_new": "Mentés újként",
+  "stock_screener_reset_all": "Összes visszaállítása"
+}

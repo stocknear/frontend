@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Gizliliğine önem veriyoruz",
+  "cookies_banner_description": "Gezinme deneyimini iyileştirmek, site trafiğini analiz etmek ve içeriği kişiselleştirmek için çerez kullanıyoruz.",
+  "cookies_accept_all": "Tümünü Kabul Et",
+  "cookies_reject_all": "Tümünü Reddet",
+  "cookies_customize": "Özelleştir",
+  "cookies_preferences_title": "Çerez Tercihleri",
+  "cookies_preferences_description": "Çerez tercihlerini yönet. Zorunlu çerezler sitenin çalışması için gerekli olduğundan kapatılamaz.",
+  "cookies_necessary_title": "Zorunlu Çerezler",
+  "cookies_necessary_description": "Kimlik doğrulama, güvenlik ve temel işlevler için gerekli. Bunlar kapatılamaz.",
+  "cookies_analytics_title": "Analiz Çerezleri",
+  "cookies_analytics_description": "Ziyaretçilerin siteyi nasıl kullandığını anlamamıza ve deneyimi iyileştirmemize yardım eder.",
+  "cookies_marketing_title": "Pazarlama Çerezleri",
+  "cookies_marketing_description": "Kişiselleştirilmiş reklam için ziyaretçileri siteler arasında takip etmekte kullanılır.",
+  "cookies_save_preferences": "Tercihleri Kaydet"
+}

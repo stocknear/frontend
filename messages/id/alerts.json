@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Beranda",
+  "price_alert_breadcrumb_price_alert": "Peringatan",
+
+  "price_alert_seo_title": "Peringatan Saham - Notifikasi Real-Time & Pembaruan Pasar",
+  "price_alert_seo_description": "Buat peringatan saham khusus dan dapatkan notifikasi langsung saat kondisi Anda terpenuhi. Pantau laba, berita, dan pergerakan harga watchlist Anda dengan data pasar real-time.",
+  "price_alert_seo_keywords": "peringatan saham, notifikasi harga, peringatan pasar, pemicu saham, kalender laba, feed berita saham, peringatan real-time, notifikasi pasar, watchlist saham, pemantauan harga",
+  "price_alert_structured_name": "Peringatan - Stocknear",
+  "price_alert_structured_description": "Sistem peringatan saham real-time dengan notifikasi instan",
+
+  "price_alert_main_title": "Peringatan",
+
+  "price_alert_search_placeholder": "Cari...",
+  "price_alert_no_results": "Tidak ada hasil",
+  "price_alert_edit_alert": "Ubah Peringatan",
+  "price_alert_cancel": "Batal",
+
+  "price_alert_empty_title": "Belum ada peringatan",
+  "price_alert_empty_description": "Buat peringatan untuk saham yang menurut Anda paling berpotensi.",
+  "price_alert_get_started": "Mulai",
+
+  "price_alert_tab_news": "Berita",
+  "price_alert_tab_earnings": "Rilis Laba",
+  "price_alert_no_news": "Belum ada berita. Tambahkan saham ke daftar peringatan Anda untuk melihat berita terbaru.",
+  "price_alert_no_earnings": "Belum ada data laba. Tambahkan saham ke daftar peringatan untuk melihat data laba terbaru.",
+
+  "price_alert_toast_deleted": "Peringatan berhasil dihapus",
+  "price_alert_toast_select_symbols": "Anda harus memilih simbol sebelum dapat menghapusnya",
+
+  "price_alert_earnings_will_report_today": "akan melaporkan hari ini",
+  "price_alert_earnings_will_report_tomorrow": "akan melaporkan besok",
+  "price_alert_earnings_will_report_monday": "akan melaporkan Senin",
+  "price_alert_earnings_will_report": "akan melaporkan",
+  "price_alert_earnings_after_close": "setelah pasar tutup.",
+  "price_alert_earnings_before_open": "sebelum pasar buka.",
+  "price_alert_earnings_during_market": "saat pasar berlangsung.",
+  "price_alert_earnings_analysts_estimate": "Analis memperkirakan",
+  "price_alert_earnings_in_revenue": "pendapatan",
+  "price_alert_earnings_yoy": "YoY",
+  "price_alert_earnings_and": "dan",
+  "price_alert_earnings_in_eps": "laba per saham"
+}

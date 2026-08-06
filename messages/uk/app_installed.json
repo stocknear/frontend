@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Встанови застосунок, щоб було зручніше.",
+  "app_installed_button_install": "Встановити",
+  "app_installed_modal_title": "Кроки встановлення",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Натисни кнопку «Поділитися» в Safari.",
+  "app_installed_ios_step_2": "Обери «На екран «Домівка»».",
+  "app_installed_ios_step_3": "Натисни «Додати».",
+  "app_installed_ios_note": "Зверни увагу: вебзастосунки на iOS можна встановити лише через Safari.",
+  "app_installed_android_step_1": "Відкрий Stocknear у Chrome.",
+  "app_installed_android_step_2": "Натисни меню з трьох крапок угорі праворуч.",
+  "app_installed_android_step_3": "Обери «Встановити додаток» або «Додати на головний екран».",
+  "app_installed_android_step_4": "Підтверди встановлення.",
+  "app_installed_close": "Закрити"
+}

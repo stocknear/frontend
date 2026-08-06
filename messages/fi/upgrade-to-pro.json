@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Rakennettu aktiivisille kauppiaille, jotka haluavat etulyöntiaseman.",
+  "upgrade_to_pro_subtitle": "Et tarvitse lisää otsikoita. Tarvitset virran, katalyytit ja kontekstin, jotka liikuttavat kurssia. Pro kokoaa reaaliaikaisen optio- ja dark pool -datan, analyytikkomuutokset ja syvän historian yhteen paikkaan, jotta voit suunnitella kaupan etkä juosta sen perässä.",
+  "upgrade_to_pro_feature_data_title": "Avaa koko datapaketti",
+  "upgrade_to_pro_feature_data_desc": "Saat kaikki Stocknearin aineistot ja työkalut, joten arvioit asetelmat nopeasti ja toimit varmasti.",
+  "upgrade_to_pro_feature_flow_title": "Live-optiovirta ja dark pool",
+  "upgrade_to_pro_feature_flow_desc": "Havaitse poikkeava aktiviteetti ja suuret kaupat heti, niin ehdit liikkua ennen muita.",
+  "upgrade_to_pro_feature_analyst_title": "Analyytikkokatalyytit, jotka liikuttavat kurssia",
+  "upgrade_to_pro_feature_analyst_desc": "Seuraa suositusten nostoja, laskuja ja tavoitehintoja ilman uutisten perässä juoksemista.",
+  "upgrade_to_pro_feature_history_title": "Syvä historia backtestaukseen",
+  "upgrade_to_pro_feature_history_desc": "Testaa ideasi premium-datalla ja jopa 30 vuoden historialla.",
+  "upgrade_to_pro_cta": "Päivitä Pro-tilaukseen"
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Forside",
+  "covered_call_screener_breadcrumb_title": "Covered call-screener",
+
+  "covered_call_screener_seo_title": "Covered call-screener - find de bedste covered call-muligheder",
+  "covered_call_screener_seo_description": "Screen tusindvis af optioner for covered call-muligheder. Filtrér på præmieafkast, årligt afkast, strikekurs, udløb og mere.",
+  "covered_call_screener_seo_keywords": "covered call-screener, optionsscreener, covered calls, præmieafkast, indkomststrategi",
+  "covered_call_screener_structured_name": "Covered call-screener",
+  "covered_call_screener_structured_description": "Screen optioner for covered call-muligheder",
+
+  "covered_call_screener_main_title": "Covered call-screener",
+  "covered_call_screener_contracts_count": "{count} kontrakter",
+
+  "covered_call_screener_popular_screens": "Populære screens",
+  "covered_call_screener_popular_strategies": "Populære strategier",
+  "covered_call_screener_select_popular": "Vælg populær",
+  "covered_call_screener_saved_screens": "Gemte screens",
+  "covered_call_screener_select_screen": "Vælg screen",
+  "covered_call_screener_new_screen": "Ny screen",
+
+  "covered_call_screener_strategy_high_yield": "Højt afkast",
+  "covered_call_screener_strategy_conservative": "Konservativ",
+  "covered_call_screener_strategy_weekly_income": "Ugentlig indkomst",
+  "covered_call_screener_strategy_high_protection": "Høj beskyttelse",
+  "covered_call_screener_strategy_bluechip_cc": "Blue chip-covered calls",
+
+  "covered_call_screener_filters_count": "Filtre ({count})",
+  "covered_call_screener_add_filters": "Tilføj filtre",
+  "covered_call_screener_search_filters": "Søg i {count} filtre...",
+  "covered_call_screener_select_filters_title": "Vælg filtre ({count})",
+  "covered_call_screener_nothing_found": "Intet fundet.",
+
+  "covered_call_screener_save": "Gem",
+  "covered_call_screener_save_as_new": "Gem som ny",
+  "covered_call_screener_reset_all": "Nulstil alt",
+
+  "covered_call_screener_condition_over": "Over",
+  "covered_call_screener_condition_under": "Under",
+  "covered_call_screener_condition_between": "Mellem",
+  "covered_call_screener_condition_exactly": "Præcis",
+  "covered_call_screener_condition_any": "Alle",
+
+  "covered_call_screener_input_min": "Min.",
+  "covered_call_screener_input_max": "Maks.",
+  "covered_call_screener_input_value": "Værdi",
+
+  "covered_call_screener_search_placeholder": "Søg...",
+  "covered_call_screener_search_modal_placeholder": "Søg...",
+
+  "covered_call_screener_normal_width": "Normal bredde",
+  "covered_call_screener_full_width": "Fuld bredde",
+
+  "covered_call_screener_tab_general": "Generelt",
+  "covered_call_screener_tab_income": "Indkomst",
+  "covered_call_screener_tab_filters": "Filtre",
+  "covered_call_screener_tab_greeks": "Grækere",
+
+  "covered_call_screener_pagination_previous": "Forrige",
+  "covered_call_screener_pagination_next": "Næste",
+  "covered_call_screener_pagination_page_of": "Side {current} af {total}",
+  "covered_call_screener_rows_label": "{rows} rækker",
+  "covered_call_screener_back_to_top": "Tilbage til toppen",
+
+  "covered_call_screener_no_results_query": "Ingen resultater for \"{query}\"",
+  "covered_call_screener_no_contracts": "Ingen kontrakter matcher dine kriterier.",
+
+  "covered_call_screener_modal_new_title": "Ny screen",
+  "covered_call_screener_modal_new_name_label": "Navn på screen",
+  "covered_call_screener_modal_new_create": "Opret",
+
+  "covered_call_screener_modal_delete_title": "Slet screener",
+  "covered_call_screener_modal_delete_message": "Er du sikker på, at du vil slette denne screener? Handlingen kan ikke fortrydes.",
+  "covered_call_screener_modal_delete_cancel": "Annuller",
+  "covered_call_screener_modal_delete_confirm": "Slet",
+
+  "covered_call_screener_toast_deleting": "Sletter screener...",
+  "covered_call_screener_toast_deleted": "Screeneren blev slettet.",
+  "covered_call_screener_toast_delete_failed": "Sletningen mislykkedes. Prøv igen.",
+  "covered_call_screener_toast_title_too_long": "Titlen er for lang. Hold den under 100 tegn.",
+  "covered_call_screener_toast_created": "Screeneren blev oprettet.",
+  "covered_call_screener_toast_creating": "Opretter screener...",
+  "covered_call_screener_toast_create_failed": "Noget gik galt. Prøv igen senere.",
+  "covered_call_screener_toast_select_rule": "Vælg en regel",
+  "covered_call_screener_toast_saving": "Gemmer screener...",
+  "covered_call_screener_toast_saved": "Screeneren er gemt.",
+  "covered_call_screener_toast_save_failed": "Kunne ikke gemme. Prøv igen.",
+
+  "covered_call_screener_chart_price_at_expiration": "Kurs ved udløb ($)",
+  "covered_call_screener_chart_last_price_label": "Sidste kurs: {price}",
+  "covered_call_screener_chart_breakeven_label": "Break-even: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Gevinst/tab ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Kurs på underliggende:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Gevinst eller tab:",
+  "covered_call_screener_chart_modal_title": "Covered call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Handelsopsætning",
+  "covered_call_screener_chart_buy_stock": "Køb aktie @",
+  "covered_call_screener_chart_sell_call": "Sælg {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Netto (kredit/debet)",
+  "covered_call_screener_chart_breakeven": "Break-even",
+  "covered_call_screener_chart_above": "Over",
+  "covered_call_screener_chart_last_price": "Sidste kurs",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Afkast ved uændret kurs",
+  "covered_call_screener_chart_return_if_assigned": "Afkast ved tildeling",
+  "covered_call_screener_chart_probability_of_profit": "Sandsynlighed for gevinst",
+  "covered_call_screener_chart_annualized_abbr": "p.a."
+}

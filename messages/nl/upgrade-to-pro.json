@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Gemaakt voor actieve traders die een voorsprong willen.",
+  "upgrade_to_pro_subtitle": "Je hebt geen extra krantenkoppen nodig. Je hebt de flow, de katalysatoren en de context nodig die de koers bewegen. Pro zet realtime optie- en dark pool-data, analistenwijzigingen en diepe historie op één plek, zodat je de trade plant in plaats van erachteraan rent.",
+  "upgrade_to_pro_feature_data_title": "Alle data in één keer vrij",
+  "upgrade_to_pro_feature_data_desc": "Krijg elke dataset en tool op Stocknear, zodat je setups snel checkt en met overtuiging handelt.",
+  "upgrade_to_pro_feature_flow_title": "Live options flow en dark pool",
+  "upgrade_to_pro_feature_flow_desc": "Zie opvallende activiteit en grote prints op het moment zelf en beweeg voor de massa uit.",
+  "upgrade_to_pro_feature_analyst_title": "Analistennieuws dat de koers beweegt",
+  "upgrade_to_pro_feature_analyst_desc": "Volg upgrades, downgrades en koersdoelen zonder achter het nieuws aan te lopen.",
+  "upgrade_to_pro_feature_history_title": "Diepe historie voor backtesten",
+  "upgrade_to_pro_feature_history_desc": "Toets je ideeën met premiumdata en tot 30 jaar historie.",
+  "upgrade_to_pro_cta": "Upgrade naar Pro"
+}

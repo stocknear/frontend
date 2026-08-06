@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Selskap eller ticker...",
+  "searchbar_aria_label": "Selskap eller ticker...",
+  "searchbar_search_label": "Søk",
+  "searchbar_suggestions": "Forslag",
+  "searchbar_recent": "Nylige",
+  "searchbar_popular": "Populære",
+  "searchbar_no_results": "Ingen treff"
+}

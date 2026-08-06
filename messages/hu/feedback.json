@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Visszajelzés küldése",
+  "feedback_error_signin": "Visszajelzés küldése előtt jelentkezz be.",
+  "feedback_error_description": "Írd le a problémát vagy a javaslatodat.",
+  "feedback_error_send_try_again": "Nem sikerült elküldeni a visszajelzést. Próbáld meg újra.",
+  "feedback_success": "Köszönjük, a visszajelzésedet elküldtük.",
+  "feedback_error_send_generic": "Nem sikerült elküldeni a visszajelzést.",
+  "feedback_description_label": "Írd le a problémát vagy a javaslatodat:",
+  "feedback_page_label": "Visszajelzés erről az oldalról:",
+  "feedback_close_button": "Bezárás",
+  "feedback_cancel_button": "Mégse",
+  "feedback_send_button": "Visszajelzés küldése"
+}

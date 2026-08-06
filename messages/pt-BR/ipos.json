@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Início",
+  "ipos_breadcrumb_data": "Dados de IPO",
+
+  "ipos_seo_title": "Calendário de IPOs - Aberturas de Capital Recentes e Futuras",
+  "ipos_seo_description": "Acompanhe IPOs recentes e futuros com análise detalhada. Monitore desempenho, preços, datas e retorno desde a estreia. Calendário e rastreador de IPO gratuitos, com dados completos.",
+  "ipos_seo_keywords": "calendário de IPO, próximos IPOs, IPOs recentes, aberturas de capital, rastreador de IPO, desempenho de IPO, preços de IPO, novas listagens de ações, ofertas públicas",
+
+  "ipos_main_name_recent": "IPOs Recentes",
+  "ipos_main_name_statistics": "Estatísticas de IPO",
+  "ipos_count": "{count} ações",
+  "ipos_tab_recent": "Recentes",
+  "ipos_tab_statistics": "Estatísticas",
+  "ipos_tab_latest": "Últimos",
+
+  "ipos_statistics_seo_title": "Estatísticas de IPO e Gráficos Históricos - Dados do Mercado de Aberturas de Capital",
+  "ipos_statistics_seo_description": "Estatísticas completas de IPO e gráficos interativos das aberturas de capital no mercado americano. Acompanhe tendências anuais e mensais de {startYear} a {endYear}, analise ciclos de mercado e descubra padrões de desempenho.",
+  "ipos_statistics_seo_keywords": "estatísticas de IPO, gráficos de aberturas de capital, dados do mercado de IPO, tendências de IPO, análise de IPO, dados históricos de IPO, desempenho de IPO, estatísticas anuais de IPO, dados mensais de IPO",
+  "ipos_statistics_infobox": "Esta página traz estatísticas e gráficos das aberturas de capital (IPOs) no mercado americano. Os dados anuais e mensais vão de {startYear} a {endYear}.",
+  "ipos_statistics_title": "Número de IPOs por Ano",
+  "ipos_statistics_description": "Foram {count} IPOs entre {startYear} e {endYear}. O menor número foi em {minYear}, com apenas {minCount}. O ano de {maxYear} foi recorde histórico, com {maxCount} IPOs.",
+  "ipos_statistics_stock_news": "Notícias de Ações",
+  "ipos_statistics_more_news": "Mais notícias de ações",
+
+  "ipos_year_seo_title": "Lista de IPOs de {year} - Diretório Completo de Aberturas de Capital",
+  "ipos_year_seo_description": "Lista completa de todas as aberturas de capital (IPOs) de {year} no mercado americano. Acompanhe desempenho, precificação, retorno desde a estreia e a entrada na bolsa, com informações detalhadas das empresas e dados históricos.",
+  "ipos_year_seo_keywords": "IPOs de {year}, aberturas de capital {year}, lista de IPO {year}, desempenho de IPO {year}, IPOs recentes, calendário de IPO {year}, novas empresas listadas {year}",
+  "ipos_year_empty": "Nenhum IPO encontrado. Ajuste o período de busca para ver os IPOs mais recentes de {year}.",
+
+  "ipos_statistics_chart_title": "IPOs por ano, {startYear}-{endYear}",
+  "ipos_chart_series": "IPOs",
+  "ipos_year_heading": "Aberturas de Capital de {year}",
+  "ipos_year_summary": "Foram {count} IPOs em {year}.",
+  "ipos_year_extremes": "O mês mais movimentado foi {maxMonth}, com {maxCount}; o mais fraco foi {minMonth}, com {minCount}.",
+  "ipos_year_none": "Não houve IPOs em {year}."
+}

@@ -1,0 +1,8 @@
+{
+  "error_title": "Pagina nu a fost găsită - {status}",
+  "error_body_prefix": "Pagina nu a fost găsită. Dacă eroarea apare în mod repetat, spune-ne pe",
+  "error_body_suffix": "O rezolvăm cât de repede putem.",
+  "error_back_home": "Înapoi la pagina principală",
+  "error_server_title": "Ceva nu a mers - {status}",
+  "error_server_body_prefix": "Este o problemă de partea noastră, nu o pagină lipsă. Încearcă din nou într-un moment. Dacă se repetă, scrie-ne la"
+}

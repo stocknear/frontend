@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Etusivu",
+  "politicians_breadcrumb_politicians": "Poliitikot",
+  "politicians_breadcrumb_flow": "Kongressin kaupat",
+
+  "politicians_seo_title": "Kongressin kaupankäynnin seuranta - poliitikkojen osakekaupat reaaliajassa",
+  "politicians_seo_description": "Seuraa Yhdysvaltain kongressin jäsenten, senaattoreiden ja poliitikkojen osakekauppoja reaaliajassa. Näet muun muassa Nancy Pelosin kaupat, senaatin osakeostot ja kongressin sisäpiirikaupat. Ilmainen seurantatyökalu, jossa on yksityiskohtainen kauppahistoria.",
+  "politicians_seo_keywords": "kongressin kaupankäynti, nancy pelosin kaupat, poliitikkojen osakekaupat, senaatin kaupat, kongressin osakekaupat, kongressin sisäpiirikaupat, poliitikkojen salkkuseuranta, yhdysvaltain poliitikkojen kaupat, pelosin salkku, kongressin osakeostot",
+  "politicians_structured_name": "Kongressin kaupankäynnin seuranta",
+  "politicians_structured_description": "Yhdysvaltain poliitikkojen ja kongressin jäsenten osakekauppojen reaaliaikainen seuranta",
+
+  "politicians_main_title": "Kaikki Yhdysvaltain poliitikot",
+  "politicians_count_members": "{count} jäsentä",
+  "politicians_search_placeholder": "Etsi...",
+  "politicians_filter_party": "Puolue",
+  "politicians_empty_search": "Haulle \"{query}\" ei löytynyt kongressin jäseniä",
+  "politicians_empty_filter": "Haulle tai suodattimille ei löytynyt tuloksia.",
+
+  "politicians_pagination_previous": "Edellinen",
+  "politicians_pagination_next": "Seuraava",
+  "politicians_pagination_page_of": "Sivu {current} / {total}",
+  "politicians_pagination_rows": "{count} riviä",
+  "politicians_back_to_top": "Takaisin ylös",
+
+  "politicians_flow_seo_title": "Kongressin tuoreimmat kaupat",
+  "politicians_flow_seo_description": "Katso kongressin tuoreimmat kaupat ja näe, mihin sääntelyn sisäpiiriin pääsevät sijoittavat.",
+
+  "politicians_flow_title": "Poliitikkojen tuoreimmat kaupat",
+  "politicians_flow_description_intro": "Yleiskatsaus kongressin tuoreimpaan kaupankäyntiin. Osto-myyntisuhde on",
+  "politicians_flow_description_buys": "{percent}% ostoja",
+  "politicians_flow_description_versus": "vastaan",
+  "politicians_flow_description_sells": "{percent}% myyntejä",
+  "politicians_flow_description_active_party": "tuoreimmissa ilmoituksissa. Aktiivisin puolue on",
+  "politicians_flow_description_with": "ja sillä on",
+  "politicians_flow_description_transactions": "kauppaa, mikä viittaa",
+  "politicians_flow_description_sentiment": "tunnelmaan kongressin jäsenten keskuudessa.",
+  "politicians_flow_sentiment_bullish": "nousuhakuiseen",
+  "politicians_flow_sentiment_bearish": "laskuhakuiseen",
+  "politicians_flow_sentiment_neutral": "neutraaliin",
+  "politicians_flow_count_trades": "{count} kauppaa",
+  "politicians_flow_empty_search": "Haulle \"{query}\" ei löytynyt osakkeita",
+
+  "politicians_detail_stats_rank": "Sijoitus",
+  "politicians_detail_stats_trades_scored": "Pisteytetyt kaupat",
+  "politicians_detail_stats_success_rate": "Osumatarkkuus",
+  "politicians_detail_stats_avg_return": "Keskituotto",
+  "politicians_detail_stats_total_amount": "Summa yhteensä",
+  "politicians_detail_stats_transaction": "Kauppa",
+  "politicians_detail_stats_last_transaction": "Viimeisin kauppa",
+  "politicians_detail_stats_buy_sell": "Osto/myynti",
+
+  "politicians_detail_main_sectors": "Pääsektorit:",
+  "politicians_detail_top_industries": "Suurimmat toimialat:",
+  "politicians_detail_count_stocks": "{count} osaketta",
+  "politicians_detail_empty_search": "Haulle \"{query}\" ei ole tietoja",
+  "politicians_detail_empty": "Haetusta analyytikosta ei ole tietoja.",
+
+  "politicians_detail_mobile_filed": "Ilmoitettu",
+  "politicians_detail_mobile_view_chart": "Näytä kaavio",
+  "politicians_detail_mobile_amt": "Summa",
+  "politicians_detail_mobile_trades": "{count} kauppa",
+  "politicians_detail_mobile_trades_plural": "{count} kauppaa"
+}

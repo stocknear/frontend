@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Bộ quét dòng tiền quyền chọn - Lệnh sweep, block và hoạt động bất thường",
+  "options_flow_seo_description": "Theo dõi dòng tiền quyền chọn, lệnh sweep và lệnh khối trên cổ phiếu và ETF Mỹ theo thời gian thực. Phát hiện hoạt động bất thường và cơ hội giao dịch ngắn hạn.",
+  "options_flow_seo_keywords": "dòng tiền quyền chọn, bộ quét dòng tiền quyền chọn, hoạt động quyền chọn bất thường, lệnh sweep, lệnh khối, dòng tiền thông minh, dòng tiền quyền chọn mua, dòng tiền quyền chọn bán, cảnh báo quyền chọn, dòng tiền quyền chọn OPRA",
+  "options_flow_structured_name": "Bộ quét dòng tiền quyền chọn",
+  "options_flow_structured_description": "Dòng tiền quyền chọn trực tiếp với lệnh sweep, lệnh khối và hoạt động bất thường cho giao dịch ngắn hạn",
+
+  "options_flow_main_title": "Dòng tiền quyền chọn",
+
+  "options_flow_popular_filters": "Bộ lọc phổ biến",
+  "options_flow_popular_strategies": "Chiến lược phổ biến",
+  "options_flow_select_popular": "Chọn bộ lọc phổ biến",
+  "options_flow_saved_filters": "Bộ lọc đã lưu",
+  "options_flow_select_filter": "Chọn bộ lọc",
+  "options_flow_new_filter": "Bộ lọc mới",
+
+  "options_flow_filters_count": "{count} bộ lọc",
+  "options_flow_add_filters": "Thêm bộ lọc",
+  "options_flow_search_filters": "Tìm trong {count} bộ lọc...",
+  "options_flow_select_filters_title": "Chọn bộ lọc dòng tiền (tổng {count})",
+  "options_flow_nothing_found": "Không tìm thấy gì",
+  "options_flow_no_filters_found": "Không có bộ lọc nào phù hợp",
+
+  "options_flow_search_placeholder": "Tìm...",
+  "options_flow_search_input_placeholder": "Tìm kiếm...",
+  "options_flow_full_width": "Toàn màn hình",
+  "options_flow_normal_width": "Khổ thường",
+
+  "options_flow_no_trades_query": "Không tìm thấy giao dịch quyền chọn nào cho \"{query}\"",
+  "options_flow_no_data_filters": "Không có dữ liệu với bộ lọc đã chọn. Hãy điều chỉnh bộ lọc và thử lại.",
+
+  "options_flow_modal_new_title": "Bộ lọc mới",
+  "options_flow_modal_new_name_label": "Tên bộ lọc",
+  "options_flow_modal_new_create": "Tạo bộ lọc",
+
+  "options_flow_modal_delete_title": "Xóa bộ lọc",
+  "options_flow_modal_delete_message": "Bạn có chắc muốn xóa bộ lọc này? Thao tác này không thể hoàn tác.",
+  "options_flow_modal_delete_cancel": "Hủy",
+  "options_flow_modal_delete_confirm": "Xóa bộ lọc",
+
+  "options_flow_strategy_bullish_sweeps": "Sweep phe mua",
+  "options_flow_strategy_bearish_sweeps": "Sweep phe bán",
+  "options_flow_strategy_high_premium_blocks": "Lệnh khối phí cao",
+  "options_flow_strategy_unusual_size_oi": "Khối lượng bất thường so với OI",
+  "options_flow_strategy_etf_index_flow": "Dòng tiền ETF và chỉ số",
+  "options_flow_strategy_zero_dte_flow": "Dòng tiền 0DTE",
+  "options_flow_strategy_repeated_flow": "Dòng tiền lặp lại",
+
+  "options_flow_save": "Lưu",
+  "options_flow_save_as_new": "Lưu thành bộ lọc mới",
+  "options_flow_reset_all": "Đặt lại tất cả",
+
+  "options_flow_market_closed": "Thị trường đã đóng cửa",
+  "options_flow_paused": "Đã tạm dừng",
+  "options_flow_live_flow": "Dòng tiền trực tiếp",
+  "options_flow_pick_date": "Chọn ngày",
+
+  "options_flow_realtime_data": "Dữ liệu quyền chọn thời gian thực",
+  "options_flow_realtime_data_title": "Dữ liệu quyền chọn thời gian thực từ OPRA",
+  "options_flow_realtime_data_content": "Dòng tiền quyền chọn của chúng tôi dùng dữ liệu OPRA thời gian thực, nguồn hợp nhất chính thức cho mọi giao dịch quyền chọn niêm yết tại Mỹ. Nhờ đó, mọi giao dịch bạn thấy đều đến trực tiếp từ OPRA theo thời gian thực, cho bạn góc nhìn ở chuẩn tổ chức về các lệnh lớn, lệnh sweep, hoạt động bất thường và dòng phí quyền chọn ngay khi chúng diễn ra. Dựa trên luồng dữ liệu chất lượng cao của OPRA, bạn nắm thông tin nhanh hơn, dữ liệu sạch hơn và thấy rõ hơn dòng tiền thông minh đang dịch chuyển về đâu trên thị trường quyền chọn.",
+
+  "options_flow_hide_filter_area": "Ẩn khu vực bộ lọc",
+  "options_flow_show_filter_area": "Hiện khu vực bộ lọc",
+
+  "options_flow_put_to_call": "Tỷ lệ put/call",
+  "options_flow_call_flow": "Dòng tiền call",
+  "options_flow_put_flow": "Dòng tiền put"
+}

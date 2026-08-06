@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Início",
+  "dividends_breadcrumb_calendar": "Calendário de Dividendos",
+
+  "dividends_seo_title": "Calendário de Dividendos - Datas Ex e Cronograma de Pagamento de Ações",
+  "dividends_seo_description": "Acompanhe as próximas datas ex-dividendo e os cronogramas de pagamento das ações. Planeje sua estratégia de captura de proventos com nosso calendário completo, com valores, datas de pagamento e valor de mercado.",
+  "dividends_seo_keywords": "calendário de dividendos, datas ex-dividendo, cronograma de pagamento de dividendos, captura de dividendos, dividendos de ações, ações pagadoras de dividendos, datas de pagamento de proventos, próximos dividendos",
+
+  "dividends_main_name": "Calendário de Dividendos",
+  "dividends_count": "{count} dividendos",
+  "dividends_empty_day": "Nenhum dividendo disponível neste dia.",
+  "dividends_empty_none": "Sem dividendos",
+  "dividends_empty_scheduled": "Nenhum dividendo agendado",
+
+  "dividends_tab_daily": "Diário",
+  "dividends_tab_weekly": "Semanal",
+  "dividends_tab_details": "Detalhes",
+  "dividends_tab_compact": "Compacto",
+
+  "dividends_time_any": "Qualquer horário",
+  "dividends_time_before_open": "Antes da abertura",
+  "dividends_time_after_close": "Após o fechamento",
+
+  "dividends_expanded_ex_date": "Data Ex",
+  "dividends_expanded_market_cap": "Valor de Mercado",
+  "dividends_expanded_amount": "Valor",
+  "dividends_expanded_revenue": "Receita",
+  "dividends_expanded_payment_date": "Data de Pagamento",
+  "dividends_expanded_date": "Data",
+  "dividends_expanded_dividend": "Dividendo",
+
+  "dividends_pagination_previous": "Anterior",
+  "dividends_pagination_next": "Próxima",
+  "dividends_pagination_page_of": "Página {current} de {total}",
+  "dividends_pagination_rows": "{count} linhas",
+  "dividends_back_to_top": "Voltar ao topo",
+  "dividends_search_placeholder": "Buscar..."
+}

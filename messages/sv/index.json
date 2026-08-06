@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Översikt",
+  "index_detail_nav_options": "Optioner",
+  "index_detail_nav_history": "Historik",
+  "index_detail_nav_holdings": "Innehav",
+
+  "index_detail_watchlist": "Bevakningslista",
+  "index_detail_price_alert": "Larm",
+  "index_detail_add_to_watchlist": "Lägg till i bevakningslistan",
+  "index_detail_ticker_added": "Tickern lades till i din bevakningslista",
+  "index_detail_ticker_add_failed": "Kunde inte lägga till tickern i bevakningslistan",
+  "index_detail_upgrade_watchlist": "Vill du lägga till fler aktier? Skaffa Plus eller Pro.",
+  "index_detail_companies": "Bolag",
+  "index_detail_company": "Bolag",
+
+  "index_detail_no_data": "Ingen data tillgänglig",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Köp",
+  "index_detail_ask": "Sälj",
+  "index_detail_volume": "Volym",
+  "index_detail_avg_volume_20d": "Snittvolym (20D)",
+  "index_detail_50_day_ma": "MA 50 dagar",
+  "index_detail_200_day_ma": "MA 200 dagar",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E-tal (ttm)",
+  "index_detail_shares_out": "Utestående aktier",
+  "index_detail_inception_date": "Startdatum",
+  "index_detail_open": "Öppning",
+  "index_detail_prev_close": "Föregående stängning",
+  "index_detail_days_range": "Dagens intervall",
+  "index_detail_52w_range": "52-veckorsintervall",
+  "index_detail_exchange": "Börs",
+  "index_detail_expense_ratio": "Förvaltningsavgift",
+
+  "index_detail_chart_price": "Pris",
+  "index_detail_chart_volume": "Volym",
+
+  "index_sidecard_about": "Om {ticker}",
+  "index_sidecard_top_sectors": "5 största sektorerna",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Vikt %",
+  "index_sidecard_view_all_sectors": "Visa alla sektorer"
+}

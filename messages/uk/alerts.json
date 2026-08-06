@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Головна",
+  "price_alert_breadcrumb_price_alert": "Сигнали",
+
+  "price_alert_seo_title": "Сигнали по акціях — сповіщення та ринкові оновлення в реальному часі",
+  "price_alert_seo_description": "Створюй власні сигнали по акціях і отримуй миттєві сповіщення, коли умови спрацьовують. Стеж за звітністю, новинами та рухом цін для свого списку спостереження з ринковими даними в реальному часі.",
+  "price_alert_seo_keywords": "сигнали по акціях, сповіщення про ціну, ринкові сигнали, тригери по акціях, календар звітності, стрічка новин по акціях, сигнали в реальному часі, ринкові сповіщення, список спостереження, моніторинг цін",
+  "price_alert_structured_name": "Сигнали — Stocknear",
+  "price_alert_structured_description": "Система сигналів по акціях із миттєвими сповіщеннями в реальному часі",
+
+  "price_alert_main_title": "Сигнали",
+
+  "price_alert_search_placeholder": "Пошук...",
+  "price_alert_no_results": "Нічого не знайдено",
+  "price_alert_edit_alert": "Редагувати сигнал",
+  "price_alert_cancel": "Скасувати",
+
+  "price_alert_empty_title": "Сигналів не налаштовано",
+  "price_alert_empty_description": "Створи сигнали для акцій, у яких, на твою думку, найбільший потенціал.",
+  "price_alert_get_started": "Почати",
+
+  "price_alert_tab_news": "Новини",
+  "price_alert_tab_earnings": "Публікація звітності",
+  "price_alert_no_news": "Новин поки немає. Додай акції до списку сигналів, щоб бачити свіжі новини.",
+  "price_alert_no_earnings": "Звітності поки немає. Додай акції до списку сигналів, щоб бачити свіжі дані звітності.",
+
+  "price_alert_toast_deleted": "Сигнали видалено",
+  "price_alert_toast_select_symbols": "Спочатку вибери тікери, які хочеш видалити",
+
+  "price_alert_earnings_will_report_today": "звітує сьогодні",
+  "price_alert_earnings_will_report_tomorrow": "звітує завтра",
+  "price_alert_earnings_will_report_monday": "звітує в понеділок",
+  "price_alert_earnings_will_report": "звітує",
+  "price_alert_earnings_after_close": "після закриття ринку.",
+  "price_alert_earnings_before_open": "до відкриття ринку.",
+  "price_alert_earnings_during_market": "під час торгів.",
+  "price_alert_earnings_analysts_estimate": "Аналітики прогнозують",
+  "price_alert_earnings_in_revenue": "виручки",
+  "price_alert_earnings_yoy": "р/р",
+  "price_alert_earnings_and": "та",
+  "price_alert_earnings_in_eps": "прибутку на акцію"
+}

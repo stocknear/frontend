@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Trang chủ",
+  "hedge_funds_breadcrumb_hedge_funds": "Quỹ đầu cơ",
+  "hedge_funds_breadcrumb_hedge_fund": "Quỹ đầu cơ",
+
+  "hedge_funds_seo_title": "Theo dõi quỹ đầu cơ - Danh mục nắm giữ và hồ sơ 13F hàng đầu",
+  "hedge_funds_seo_description": "Theo dõi danh mục nắm giữ của các quỹ đầu cơ hàng đầu, hồ sơ 13F và danh mục của nhà đầu tư tổ chức. Xem các quỹ đầu cơ đang mua và bán gì với phân tích vị thế chi tiết. Công cụ theo dõi quỹ đầu cơ miễn phí.",
+  "hedge_funds_seo_keywords": "theo dõi quỹ đầu cơ, danh mục quỹ đầu cơ, hồ sơ 13F, nhà đầu tư tổ chức, vị thế quỹ đầu cơ, quỹ đầu cơ hàng đầu, sở hữu tổ chức, danh mục quỹ đầu cơ, danh mục berkshire hathaway",
+  "hedge_funds_structured_name": "Theo dõi quỹ đầu cơ",
+  "hedge_funds_structured_description": "Theo dõi toàn diện danh mục nắm giữ của quỹ đầu cơ và khoản đầu tư của tổ chức",
+
+  "hedge_funds_main_title": "Các quỹ đầu cơ hàng đầu tại Mỹ",
+  "hedge_funds_infobox": "Danh sách các tổ chức Phố Wall có tài sản quản lý lớn nhất.",
+  "hedge_funds_count_institutes": "{count} tổ chức",
+
+  "hedge_funds_search_placeholder": "Tìm...",
+  "hedge_funds_loading": "Đang tải...",
+  "hedge_funds_no_data": "Không có dữ liệu.",
+
+  "hedge_funds_pagination_previous": "Trước",
+  "hedge_funds_pagination_next": "Sau",
+  "hedge_funds_pagination_page_of": "Trang {current} / {total}",
+  "hedge_funds_rows_label": "{rows} dòng",
+  "hedge_funds_back_to_top": "Lên đầu trang",
+
+  "hedge_funds_slug_seo_title": "Danh mục nắm giữ của {companyName} - Phân tích hồ sơ 13F",
+  "hedge_funds_slug_seo_description": "Phân tích chi tiết danh mục nắm giữ, vị thế và chiến lược đầu tư của quỹ đầu cơ {companyName}. Theo dõi hồ sơ 13F mới nhất, các cổ phiếu chọn lọc hàng đầu, phân bổ ngành và chỉ số hiệu suất.",
+  "hedge_funds_slug_seo_keywords": "danh mục {companyNameLower}, portfolio {companyNameLower}, hồ sơ 13F {companyNameLower}, vị thế quỹ đầu cơ, sở hữu của nhà đầu tư tổ chức, cổ phiếu {companyNameLower} chọn mua, phân tích quỹ đầu cơ",
+  "hedge_funds_slug_structured_name": "Phân tích danh mục nắm giữ của {companyName}",
+  "hedge_funds_slug_structured_description": "Phân tích toàn diện danh mục nắm giữ và vị thế đầu tư của quỹ đầu cơ {companyName}",
+
+  "hedge_funds_slug_cik_number": "Mã CIK:",
+  "hedge_funds_slug_market_value": "Giá trị thị trường",
+  "hedge_funds_slug_holdings": "Số mã nắm giữ",
+  "hedge_funds_slug_avg_holding_period": "Thời gian nắm giữ TB",
+  "hedge_funds_slug_months": "tháng",
+  "hedge_funds_slug_win_rate": "Tỷ lệ thắng",
+  "hedge_funds_slug_performance_3year": "Hiệu suất 3 năm",
+
+  "hedge_funds_slug_main_sectors": "Ngành chính:",
+  "hedge_funds_slug_top_industries": "Nhóm ngành hàng đầu:",
+  "hedge_funds_slug_filing_date": "Ngày nộp hồ sơ:",
+  "hedge_funds_slug_no_data": "Dữ liệu của quỹ đầu cơ này hiện chưa có.",
+
+  "hedge_funds_column_rank": "Hạng",
+  "hedge_funds_column_name": "Tên",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Nắm giữ",
+  "hedge_funds_column_turnover": "Vòng quay",
+  "hedge_funds_column_3year_perf": "Hiệu suất 3N",
+  "hedge_funds_column_win_rate": "Tỷ lệ thắng"
+}

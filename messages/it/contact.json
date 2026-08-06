@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Contattaci",
+  "contact_breadcrumb": "Contattaci",
+  "contact_hero_title": "Contattaci",
+  "contact_intro": "Ci fa piacere sentirti. Inviaci un messaggio con il modulo qui sotto e ti risponderemo il prima possibile. Puoi anche scrivere direttamente a {email}.",
+  "contact_email_label": "Email",
+  "contact_subject_label": "Oggetto",
+  "contact_message_label": "Messaggio",
+  "contact_send_button": "Invia messaggio",
+  "contact_processing": "Invio in corso...",
+  "contact_success": "Il tuo messaggio è stato inviato. Ti risponderemo a breve.",
+  "contact_sidebar_pro_title": "Abbonamento Pro",
+  "contact_sidebar_pro_desc": "Passa a Pro per accedere senza limiti a tutti i dati e gli strumenti, senza pubblicità.",
+  "contact_sidebar_screener_title": "Screener azioni",
+  "contact_sidebar_screener_desc": "Filtra, ordina e analizza tutte le azioni per trovare il tuo prossimo investimento.",
+  "contact_sidebar_watchlist_title": "Watchlist",
+  "contact_sidebar_watchlist_desc": "Tieni d'occhio le tue azioni preferite in tempo reale."
+}

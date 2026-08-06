@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Neem contact op",
+  "contact_breadcrumb": "Contact",
+  "contact_hero_title": "Neem contact op",
+  "contact_intro": "We horen graag van je. Stuur een bericht via het formulier hieronder, dan reageren we zo snel mogelijk. Je kunt ook direct mailen naar {email}.",
+  "contact_email_label": "E-mail",
+  "contact_subject_label": "Onderwerp",
+  "contact_message_label": "Bericht",
+  "contact_send_button": "Bericht versturen",
+  "contact_processing": "Bezig...",
+  "contact_success": "Je bericht is verstuurd. We nemen snel contact met je op.",
+  "contact_sidebar_pro_title": "Pro-abonnement",
+  "contact_sidebar_pro_desc": "Upgrade nu voor onbeperkte toegang tot alle data en tools, zonder advertenties.",
+  "contact_sidebar_screener_title": "Aandelenscreener",
+  "contact_sidebar_screener_desc": "Filter, sorteer en analyseer alle aandelen om je volgende belegging te vinden.",
+  "contact_sidebar_watchlist_title": "Watchlists",
+  "contact_sidebar_watchlist_desc": "Volg je favoriete aandelen in realtime."
+}

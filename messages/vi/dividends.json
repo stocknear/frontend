@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Trang chủ",
+  "dividends_breadcrumb_calendar": "Lịch cổ tức",
+
+  "dividends_seo_title": "Lịch cổ tức - Ngày giao dịch không hưởng quyền và lịch chi trả cổ phiếu",
+  "dividends_seo_description": "Theo dõi ngày giao dịch không hưởng quyền và lịch chi trả cổ tức sắp tới. Lên kế hoạch chiến lược săn cổ tức với lịch đầy đủ hiển thị số tiền, ngày thanh toán và vốn hóa thị trường.",
+  "dividends_seo_keywords": "lịch cổ tức, ngày giao dịch không hưởng quyền, lịch chi trả cổ tức, săn cổ tức, cổ tức cổ phiếu, cổ phiếu cổ tức, ngày thanh toán cổ tức, cổ tức sắp tới",
+
+  "dividends_main_name": "Lịch cổ tức",
+  "dividends_count": "{count} cổ tức",
+  "dividends_empty_day": "Không có cổ tức nào trong ngày.",
+  "dividends_empty_none": "Không có cổ tức",
+  "dividends_empty_scheduled": "Không có lịch chi trả cổ tức",
+
+  "dividends_tab_daily": "Theo ngày",
+  "dividends_tab_weekly": "Theo tuần",
+  "dividends_tab_details": "Chi tiết",
+  "dividends_tab_compact": "Rút gọn",
+
+  "dividends_time_any": "Bất kỳ lúc nào",
+  "dividends_time_before_open": "Trước giờ mở cửa",
+  "dividends_time_after_close": "Sau giờ đóng cửa",
+
+  "dividends_expanded_ex_date": "Ngày GDKHQ",
+  "dividends_expanded_market_cap": "Vốn hóa thị trường",
+  "dividends_expanded_amount": "Số tiền",
+  "dividends_expanded_revenue": "Doanh thu",
+  "dividends_expanded_payment_date": "Ngày thanh toán",
+  "dividends_expanded_date": "Ngày",
+  "dividends_expanded_dividend": "Cổ tức",
+
+  "dividends_pagination_previous": "Trước",
+  "dividends_pagination_next": "Sau",
+  "dividends_pagination_page_of": "Trang {current} / {total}",
+  "dividends_pagination_rows": "{count} dòng",
+  "dividends_back_to_top": "Lên đầu trang",
+  "dividends_search_placeholder": "Tìm..."
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Zpětná vazba",
+  "feedback_error_signin": "Před odesláním zpětné vazby se prosím přihlas.",
+  "feedback_error_description": "Popiš prosím svůj problém nebo návrh.",
+  "feedback_error_send_try_again": "Odeslání zpětné vazby se nepovedlo. Zkus to prosím znovu.",
+  "feedback_success": "Díky, zpětná vazba dorazila.",
+  "feedback_error_send_generic": "Odeslání zpětné vazby se nepovedlo.",
+  "feedback_description_label": "Popiš svůj problém nebo návrh:",
+  "feedback_page_label": "Zpětná vazba ke stránce:",
+  "feedback_close_button": "Zavřít",
+  "feedback_cancel_button": "Zrušit",
+  "feedback_send_button": "Odeslat"
+}

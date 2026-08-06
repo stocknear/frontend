@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "企業名またはティッカー...",
+  "searchbar_aria_label": "企業名またはティッカー...",
+  "searchbar_search_label": "検索",
+  "searchbar_suggestions": "候補",
+  "searchbar_recent": "最近の検索",
+  "searchbar_popular": "人気",
+  "searchbar_no_results": "結果が見つかりませんでした"
+}

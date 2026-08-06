@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Analisis Pasar Saham Bertenaga AI - Agen AI Finansial & Intelijen Pasar",
+  "chat_seo_description": "Agen AI finansial canggih yang menyajikan analisis saham real-time, wawasan pasar, dan riset investasi. Mengobrol dengan agen AI khusus untuk screening saham, analisis laporan keuangan, pelacakan options flow, aktivitas dark pool, dan analisis sentimen pasar. Dapatkan rekomendasi investasi yang dipersonalisasi dan intelijen pasar yang menyeluruh.",
+  "chat_seo_keywords": "penasihat keuangan AI, AI pasar saham, agen AI finansial, analisis investasi AI, riset saham otomatis, wawasan trading AI, machine learning keuangan, chatbot keuangan, analisis pasar AI, wawasan algorithmic trading, analisis portofolio AI, investasi dengan kecerdasan buatan",
+  "chat_title": "Teman investasi Anda",
+  "chat_placeholder": "Tanya apa saja soal saham — dapat update real-time",
+  "chat_placeholder_readonly": "Hanya baca: Anda tidak punya izin mengedit obrolan ini.",
+  "chat_placeholder_editable": "Tanya apa saja",
+  "chat_credits_left": "Sisa kredit",
+  "chat_stock_agents": "Agen Saham",
+  "chat_how_to_use_agents": "Cara memakai Agen dengan benar",
+  "chat_credits": "Kredit",
+  "chat_threads": "Percakapan",
+  "chat_no_threads": "Sepertinya kita belum pernah mengobrol.",
+  "chat_ready_to_analyze": "Siap Menganalisis Saham?",
+  "chat_ready_description": "Jelajahi data keuangan detail, rating analis, dan analisis teknikal untuk ribuan saham.",
+  "chat_get_started": "Mulai",
+  "chat_delete_thread_title": "Hapus Percakapan",
+  "chat_delete_thread_confirm": "Yakin ingin menghapus percakapan ini? Tindakan ini tidak bisa dibatalkan.",
+  "chat_cancel": "Batal",
+  "chat_delete": "Hapus Percakapan",
+  "chat_toast_deleted": "Percakapan berhasil dihapus.",
+  "chat_toast_error": "Terjadi kesalahan. Silakan coba lagi.",
+  "chat_toast_error_occurred": "Terjadi kesalahan. Silakan coba lagi nanti.",
+  "chat_toast_insufficient_credits": "Kredit tidak cukup. Saldo Anda saat ini",
+  "chat_last_message": "Pesan terakhir",
+  "chat_ago": "lalu",
+  "chat_minutes": "menit",
+  "chat_hour": "jam",
+  "chat_hours": "jam",
+  "chat_day": "hari",
+  "chat_days": "hari",
+  "chat_error_connect": "Gagal terhubung ke layanan obrolan. Silakan coba lagi nanti.",
+
+  "chat_default_gainers_losers_label": "Top Gainer, Loser & Paling Aktif",
+  "chat_default_gainers_losers_query": "Berikan ringkasan saham dengan performa terbaik hari ini (gainer), penurunan terbesar (loser), dan saham paling aktif diperdagangkan berdasarkan volume. Sertakan metrik penting seperti perubahan persentase dan volume perdagangan.",
+
+  "chat_default_options_flow_label": "Sorotan order options flow hari ini",
+  "chat_default_options_flow_query": "Berikan gambaran options flow penting hari ini, fokus pada block trade besar, lonjakan volume tidak biasa, dan sentimen arahnya.",
+
+  "chat_default_market_news_label": "Berita Pasar Hari Ini",
+  "chat_default_market_news_query": "Berikan ringkasan berita pasar utama dan peristiwa keuangan penting hari ini.",
+
+  "chat_default_bull_bear_label": "Kasus Bull vs Bear untuk Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear untuk Nvidia",
+
+  "chat_default_value_investor_label": "Sebagai value investor, apakah saya harus beli Intel sekarang?",
+  "chat_default_value_investor_query": "@WarrenBuffet apakah saya harus beli Intel sekarang?",
+
+  "chat_default_cathie_wood_label": "Bagaimana Cathie Wood menilai Tesla saat ini?",
+  "chat_default_cathie_wood_query": "@CathieWood nilai tesla dan beri tahu apakah kamu akan membeli atau menjualnya",
+
+  "chat_default_options_data_label": "Update Data Opsi terbaru untuk SPY",
+  "chat_default_options_data_query": "@OptionsData update data opsi terbaru untuk SPY",
+
+  "chat_default_undervalued_label": "Carikan saham yang undervalued",
+  "chat_default_undervalued_query": "@StockScreener carikan saham undervalued dengan p/e di atas 0 dan pertumbuhan pendapatan di atas 5% dan rasio price to book di atas 0",
+
+  "chat_default_gamestop_label": "Seberapa sehat Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData seberapa sehat Gamestop?",
+
+  "chat_default_spy_bullish_label": "Apakah SPY bullish sekarang?",
+  "chat_default_spy_bullish_query": "Apakah SPY bullish sekarang?",
+
+  "chat_default_nvidia_flow_label": "Options flow Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed options flow Nvidia",
+
+  "chat_default_googl_flow_label": "Order flow tidak biasa GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed order flow Google",
+
+  "chat_default_compare_aapl_msft_label": "Bandingkan Apple vs Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks bandingkan Apple vs Microsoft",
+
+  "chat_default_analyst_ratings_label": "Apa kata analis tentang Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst apa rating analis dan target harga terbaru untuk Amazon?",
+
+  "chat_default_dark_pool_label": "Ada aktivitas dark pool signifikan hari ini?",
+  "chat_default_dark_pool_query": "Tunjukkan transaksi dan aktivitas dark pool paling signifikan hari ini",
+
+  "chat_default_dividend_label": "Saham dividen terbaik untuk dibeli sekarang",
+  "chat_default_dividend_query": "@StockScreener carikan saham dengan imbal hasil dividen tinggi, rasio pembayaran di bawah 80% dan pertumbuhan pendapatan di atas 0",
+
+  "chat_default_michael_burry_label": "Apa pendapat Michael Burry soal pasar saat ini?",
+  "chat_default_michael_burry_query": "@MichaelBurry analisis kondisi pasar saat ini dan beri tahu apa yang kamu lihat",
+
+  "chat_default_peter_lynch_label": "Pandangan Peter Lynch tentang Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch apakah kamu menganggap Meta investasi yang bagus saat ini?",
+
+  "chat_default_sector_performance_label": "Sektor mana yang unggul minggu ini?",
+  "chat_default_sector_performance_query": "Berikan rincian performa sektor minggu ini dan sebutkan sektor mana yang memimpin atau tertinggal",
+
+  "chat_default_earnings_label": "Perusahaan mana yang merilis laporan keuangan minggu ini?",
+  "chat_default_earnings_query": "Laporan keuangan apa saja yang paling penting minggu ini dan apa yang perlu saya perhatikan?"
+}

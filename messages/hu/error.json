@@ -1,0 +1,8 @@
+{
+  "error_title": "Az oldal nem található - {status}",
+  "error_body_prefix": "Az oldal nem található. Ha a hiba folyamatosan jelentkezik, jelezd nekünk itt:",
+  "error_body_suffix": "A lehető leghamarabb javítjuk.",
+  "error_back_home": "Vissza a főoldalra",
+  "error_server_title": "Valami hiba történt - {status}",
+  "error_server_body_prefix": "Ez nálunk van, nem hiányzó oldalról van szó. Próbáld meg újra kicsit később. Ha továbbra is előfordul, írj nekünk ide:"
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "기업명 또는 종목코드...",
+  "searchbar_aria_label": "기업명 또는 종목코드...",
+  "searchbar_search_label": "검색",
+  "searchbar_suggestions": "추천",
+  "searchbar_recent": "최근 검색",
+  "searchbar_popular": "인기",
+  "searchbar_no_results": "검색 결과가 없습니다"
+}

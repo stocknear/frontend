@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "วิเคราะห์ตลาดหุ้นด้วย AI - ผู้ช่วยการเงินอัจฉริยะและข้อมูลเชิงลึกของตลาด",
+  "chat_seo_description": "ผู้ช่วยการเงิน AI ขั้นสูงที่ให้การวิเคราะห์หุ้นแบบเรียลไทม์ มุมมองตลาด และงานวิจัยการลงทุน พูดคุยกับ AI เฉพาะทางเพื่อคัดกรองหุ้น วิเคราะห์ผลประกอบการ ติดตามออปชันโฟลว์ ความเคลื่อนไหวใน dark pool และอารมณ์ตลาด พร้อมคำแนะนำการลงทุนเฉพาะบุคคลและข้อมูลตลาดที่ครบถ้วน",
+  "chat_seo_keywords": "ที่ปรึกษาการเงิน AI, AI ตลาดหุ้น, ผู้ช่วยการเงิน AI, วิเคราะห์การลงทุนด้วย AI, งานวิจัยหุ้นอัตโนมัติ, มุมมองการเทรดจาก AI, machine learning การเงิน, แชตบอตการเงิน, วิเคราะห์ตลาดด้วย AI, มุมมองการเทรดเชิงอัลกอริทึม, วิเคราะห์พอร์ตด้วย AI, ลงทุนด้วยปัญญาประดิษฐ์",
+  "chat_title": "เพื่อนคู่คิดเรื่องการลงทุน",
+  "chat_placeholder": "ถามอะไรก็ได้เกี่ยวกับหุ้น พร้อมข้อมูลอัปเดตแบบเรียลไทม์",
+  "chat_placeholder_readonly": "อ่านอย่างเดียว: คุณไม่มีสิทธิ์แก้ไขแชตนี้",
+  "chat_placeholder_editable": "ถามอะไรก็ได้",
+  "chat_credits_left": "เครดิตคงเหลือ",
+  "chat_stock_agents": "AI ผู้ช่วยด้านหุ้น",
+  "chat_how_to_use_agents": "วิธีใช้ AI ผู้ช่วยให้ถูกต้อง",
+  "chat_credits": "เครดิต",
+  "chat_threads": "บทสนทนา",
+  "chat_no_threads": "ดูเหมือนเรายังไม่เคยคุยกันมาก่อน",
+  "chat_ready_to_analyze": "พร้อมวิเคราะห์หุ้นแล้วหรือยัง",
+  "chat_ready_description": "สำรวจข้อมูลการเงินเชิงลึก บทวิเคราะห์จากนักวิเคราะห์ และข้อมูลทางเทคนิคของหุ้นหลายพันตัว",
+  "chat_get_started": "เริ่มต้นใช้งาน",
+  "chat_delete_thread_title": "ลบบทสนทนา",
+  "chat_delete_thread_confirm": "คุณแน่ใจหรือไม่ว่าต้องการลบบทสนทนานี้ การลบไม่สามารถย้อนกลับได้",
+  "chat_cancel": "ยกเลิก",
+  "chat_delete": "ลบบทสนทนา",
+  "chat_toast_deleted": "ลบบทสนทนาเรียบร้อยแล้ว",
+  "chat_toast_error": "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+  "chat_toast_error_occurred": "เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง",
+  "chat_toast_insufficient_credits": "เครดิตไม่พอ ยอดคงเหลือปัจจุบันของคุณคือ",
+  "chat_last_message": "ข้อความล่าสุด",
+  "chat_ago": "ที่แล้ว",
+  "chat_minutes": "นาที",
+  "chat_hour": "ชั่วโมง",
+  "chat_hours": "ชั่วโมง",
+  "chat_day": "วัน",
+  "chat_days": "วัน",
+  "chat_error_connect": "เชื่อมต่อบริการแชตไม่สำเร็จ กรุณาลองใหม่ภายหลัง",
+
+  "chat_default_gainers_losers_label": "หุ้นบวกแรง ลบแรง และซื้อขายคึกคักที่สุด",
+  "chat_default_gainers_losers_query": "สรุปหุ้นที่ปรับขึ้นมากที่สุดวันนี้ หุ้นที่ปรับลงมากที่สุด และหุ้นที่มีปริมาณการซื้อขายสูงที่สุด พร้อมตัวเลขสำคัญอย่างเปอร์เซ็นต์การเปลี่ยนแปลงและปริมาณการซื้อขาย",
+
+  "chat_default_options_flow_label": "ไฮไลต์ออปชันโฟลว์วันนี้",
+  "chat_default_options_flow_query": "สรุปภาพรวมออปชันโฟลว์ที่น่าสนใจของวันนี้ เน้นคำสั่งบล็อกขนาดใหญ่ ปริมาณที่พุ่งผิดปกติ และทิศทางมุมมองของตลาด",
+
+  "chat_default_market_news_label": "ข่าวตลาดวันนี้",
+  "chat_default_market_news_query": "สรุปข่าวตลาดสำคัญและเหตุการณ์ทางการเงินหลักของวันนี้ให้หน่อย",
+
+  "chat_default_bull_bear_label": "มุมมองขาขึ้นและขาลงของ Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear สำหรับ Nvidia",
+
+  "chat_default_value_investor_label": "ในมุมนักลงทุนเน้นคุณค่า ควรซื้อ Intel ตอนนี้ไหม",
+  "chat_default_value_investor_query": "@WarrenBuffet ควรซื้อ Intel ตอนนี้ไหม",
+
+  "chat_default_cathie_wood_label": "Cathie Wood มอง Tesla ตอนนี้อย่างไร",
+  "chat_default_cathie_wood_query": "@CathieWood ประเมิน tesla และบอกหน่อยว่าจะซื้อหรือขาย",
+
+  "chat_default_options_data_label": "อัปเดตข้อมูลออปชันล่าสุดของ SPY",
+  "chat_default_options_data_query": "@OptionsData อัปเดตข้อมูลออปชันล่าสุดของ SPY",
+
+  "chat_default_undervalued_label": "หาหุ้นที่ราคาต่ำกว่ามูลค่าให้หน่อย",
+  "chat_default_undervalued_query": "@StockScreener หาหุ้นที่ราคาต่ำกว่ามูลค่า โดยมี p/e มากกว่า 0 การเติบโตของรายได้มากกว่า 5% และอัตราส่วนราคาต่อมูลค่าทางบัญชีมากกว่า 0",
+
+  "chat_default_gamestop_label": "Gamestop มีสุขภาพทางการเงินดีแค่ไหน",
+  "chat_default_gamestop_query": "@FundamentalData Gamestop มีสุขภาพทางการเงินดีแค่ไหน",
+
+  "chat_default_spy_bullish_label": "ตอนนี้ SPY เป็นขาขึ้นไหม",
+  "chat_default_spy_bullish_query": "ตอนนี้ SPY เป็นขาขึ้นไหม",
+
+  "chat_default_nvidia_flow_label": "ออปชันโฟลว์ของ Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed ออปชันโฟลว์ของ Nvidia",
+
+  "chat_default_googl_flow_label": "คำสั่งซื้อขายผิดปกติของ GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed คำสั่งซื้อขายของ Google",
+
+  "chat_default_compare_aapl_msft_label": "เปรียบเทียบ Apple กับ Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks เปรียบเทียบ Apple กับ Microsoft",
+
+  "chat_default_analyst_ratings_label": "นักวิเคราะห์มองหุ้น Amazon อย่างไร",
+  "chat_default_analyst_ratings_query": "@Analyst คำแนะนำและราคาเป้าหมายล่าสุดของ Amazon เป็นอย่างไร",
+
+  "chat_default_dark_pool_label": "วันนี้มีความเคลื่อนไหวใน dark pool ที่สำคัญไหม",
+  "chat_default_dark_pool_query": "แสดงรายการซื้อขายและความเคลื่อนไหวใน dark pool ที่สำคัญที่สุดของวันนี้",
+
+  "chat_default_dividend_label": "หุ้นปันผลที่น่าซื้อตอนนี้",
+  "chat_default_dividend_query": "@StockScreener หาหุ้นที่ให้อัตราผลตอบแทนเงินปันผลสูง โดยมีอัตราการจ่ายเงินปันผลต่ำกว่า 80% และการเติบโตของรายได้มากกว่า 0",
+
+  "chat_default_michael_burry_label": "Michael Burry จะมองตลาดตอนนี้อย่างไร",
+  "chat_default_michael_burry_query": "@MichaelBurry วิเคราะห์สภาวะตลาดตอนนี้และบอกหน่อยว่าคุณเห็นอะไร",
+
+  "chat_default_peter_lynch_label": "มุมมองของ Peter Lynch ต่อ Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch คุณคิดว่า Meta เป็นการลงทุนที่ดีตอนนี้ไหม",
+
+  "chat_default_sector_performance_label": "กลุ่มอุตสาหกรรมไหนทำผลงานเด่นสัปดาห์นี้",
+  "chat_default_sector_performance_query": "สรุปผลงานรายกลุ่มอุตสาหกรรมของสัปดาห์นี้ และชี้ว่ากลุ่มไหนนำหน้าหรือตามหลัง",
+
+  "chat_default_earnings_label": "บริษัทไหนประกาศผลประกอบการสัปดาห์นี้",
+  "chat_default_earnings_query": "ผลประกอบการที่สำคัญที่สุดที่จะประกาศสัปดาห์นี้มีอะไรบ้าง และควรจับตาอะไร"
+}

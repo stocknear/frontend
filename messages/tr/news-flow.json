@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Ana Sayfa",
+  "news_flow_breadcrumb_news_flow": "Haber Akışı",
+
+  "news_flow_seo_title": "Piyasa Haber Akışı - Gerçek Zamanlı İşleme Hazır Katalizörler",
+  "news_flow_seo_description": "Fiyatı hareket ettiren piyasa haberlerini ve katalizörleri gerçek zamanlı takip et. Kısa vadeli kurulumlar için hızlı bağlam arayan opsiyon yatırımcıları için yapıldı.",
+  "news_flow_seo_keywords": "piyasa haber akışı, işlem katalizörleri, son dakika piyasa haberleri, opsiyon yatırımcısı haberleri, fiyat hareketi haberleri, gerçek zamanlı piyasa güncellemeleri",
+  "news_flow_structured_name": "Piyasa Haber Akışı",
+  "news_flow_structured_description": "Kısa vadeli işlem planlaması için gerçek zamanlı piyasa haberleri ve katalizörler",
+
+  "news_flow_main_title": "Haber Akışı",
+  "news_flow_news_count": "{count} Haber",
+  "news_flow_search_placeholder": "Ara...",
+
+  "news_flow_infobox": "Son dakika haberlerini takip et, hisse fiyatlarının neden hareket ettiğini gerçek zamanlı gör",
+  "news_flow_no_news": "Henüz önemli bir piyasa haberi yok.",
+
+  "news_flow_sidebar_market_flow_title": "Piyasa Akışı",
+  "news_flow_sidebar_market_flow_description": "Opsiyon duyarlılığını gerçek zamanlı takip et.",
+  "news_flow_sidebar_options_flow_title": "Opsiyon Akışı",
+  "news_flow_sidebar_options_flow_description": "Olağan dışı opsiyon hareketlerini ve akış örüntülerini gerçek zamanlı izle",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Akışı",
+  "news_flow_sidebar_dark_pool_description": "Görünmeyen kurumsal akışı ve dark pool işlem verilerini analiz et"
+}

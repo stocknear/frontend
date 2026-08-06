@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Acasă",
+  "news_flow_breadcrumb_news_flow": "Flux de știri",
+
+  "news_flow_seo_title": "Flux de știri - catalizatori gata de tranzacționat, în timp real",
+  "news_flow_seo_description": "Urmărește în timp real știrile și catalizatorii care mișcă prețul. Construit pentru traderii de opțiuni care au nevoie de context rapid pentru setup-uri pe termen scurt.",
+  "news_flow_seo_keywords": "flux de știri de piață, catalizatori de tranzacționare, știri de ultimă oră din piețe, știri pentru traderi de opțiuni, știri despre mișcările de preț, actualizări de piață în timp real",
+  "news_flow_structured_name": "Flux de știri de piață",
+  "news_flow_structured_description": "Știri și catalizatori de piață în timp real pentru planificarea tranzacțiilor pe termen scurt",
+
+  "news_flow_main_title": "Flux de știri",
+  "news_flow_news_count": "{count} știri",
+  "news_flow_search_placeholder": "Caută...",
+
+  "news_flow_infobox": "Urmărește ultimele știri de impact și înțelege în timp real de ce s-au mișcat prețurile",
+  "news_flow_no_news": "Încă nu există știri importante din piață.",
+
+  "news_flow_sidebar_market_flow_title": "Flux de piață",
+  "news_flow_sidebar_market_flow_description": "Urmărește în timp real sentimentul pe opțiuni.",
+  "news_flow_sidebar_options_flow_title": "Flux de opțiuni",
+  "news_flow_sidebar_options_flow_description": "Vezi în timp real activitatea neobișnuită pe opțiuni și tiparele de flux",
+  "news_flow_sidebar_dark_pool_title": "Flux dark pool",
+  "news_flow_sidebar_dark_pool_description": "Analizează fluxul instituțional ascuns și datele de tranzacționare din dark pool"
+}

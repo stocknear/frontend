@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Kunskapscenter - Utbildning om aktiemarknaden och investeringsguider",
+  "learning_center_seo_description": "Lär dig investera på aktiemarknaden med vårt kunskapscenter. Gratis guider om handelsstrategier, teknisk analys, fundamental analys, portföljförvaltning och investeringsutbildning för både nybörjare och erfarna traders.",
+  "learning_center_seo_keywords": "utbildning aktiemarknaden, investeringsguider, handelsstrategier, lär dig investera, guider för aktieanalys, finansiell utbildning, investeringsguide, aktiemarknaden för nybörjare, portföljförvaltning, kurs i teknisk analys",
+  "learning_center_structured_name": "Stocknear Kunskapscenter",
+  "learning_center_structured_description": "Utbildning om aktiemarknaden och guider för investerare",
+  "learning_center_structured_articles": "Utbildningsartiklar",
+  "learning_center_structured_articles_description": "Artiklar och guider om aktiemarknaden och investeringar",
+  "learning_center_title": "Kunskapscenter",
+  "learning_center_published": "Publicerad:",
+  "learning_center_previous": "Föregående",
+  "learning_center_next": "Nästa",
+  "learning_center_alt_tutorial": "Bakgrundsbild för guide",
+
+  "learning_center_subtitle": "Lär dig aktiemarknaden, ett begrepp i taget",
+
+  "learning_center_category_all": "Alla",
+  "learning_center_category_features": "Funktioner",
+  "learning_center_category_fundamentals": "Grunderna",
+  "learning_center_category_terms": "Begrepp",
+
+  "learning_center_category_desc_features": "Så använder du Stocknear",
+  "learning_center_category_desc_fundamentals": "Börja här om du är ny på investeringar",
+  "learning_center_category_desc_terms": "Finansiella begrepp och definitioner",
+
+  "learning_center_tag_all": "Alla taggar",
+  "learning_center_tag_stocks": "Aktier",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Optioner",
+  "learning_center_tag_sentiment": "Sentiment",
+  "learning_center_tag_prefix": "Tagg",
+
+  "learning_center_view_all": "Visa alla",
+  "learning_center_view_all_count": "Visa alla {count}",
+  "learning_center_min_read": "{time} min läsning",
+
+  "learning_center_no_articles_tag": "Inga artiklar med taggen \"{tag}\".",
+  "learning_center_clear_tag_filter": "Rensa taggfilter",
+
+  "learning_center_page_of": "Sida {currentPage} av {totalPages}",
+  "learning_center_items_count": "{count} poster",
+
+  "learning_center_back_to_top": "Till toppen",
+  "learning_center_no_terms_yet": "Inga begrepp finns ännu.",
+  "learning_center_no_articles_category": "Inga artiklar i den här kategorin ännu.",
+
+  "learning_center_table_of_contents": "Innehåll",
+  "learning_center_share_this_post": "Dela inlägget",
+  "learning_center_back_to_all_posts": "Tillbaka till alla inlägg",
+
+  "learning_center_quick_start": "Snabbstart",
+  "learning_center_sidebar_top_gainers": "Största vinnare",
+  "learning_center_sidebar_top_losers": "Största förlorare",
+  "learning_center_sidebar_analysts": "Analytiker",
+  "learning_center_sidebar_stock_screener": "Aktiescreener",
+  "learning_center_sidebar_options_flow": "Optionsflöde",
+  "learning_center_sidebar_earnings_calendar": "Rapportkalender",
+  "learning_center_sidebar_dividends_calendar": "Utdelningskalender",
+  "learning_center_sidebar_ipo_calendar": "IPO-kalender",
+
+  "learning_center_related_articles": "Relaterade artiklar",
+  "learning_center_view_all_articles": "Visa alla artiklar",
+  "learning_center_share_this_article": "Dela artikeln",
+
+  "learning_center_link_copied": "Länken är kopierad",
+  "learning_center_link_copy_failed": "Kunde inte kopiera länken",
+
+  "learning_center_sign_in_to_read": "Logga in för att läsa hela rapporten.",
+  "learning_center_briefing_description": "Dagens marknadsrapport är tillgänglig för medlemmar på Stocknear. Skapa ett gratiskonto eller logga in för att låsa upp hela analysen.",
+  "learning_center_create_free_account": "Skapa gratiskonto",
+  "learning_center_sign_in": "Logga in",
+
+  "learning_center_click_to_close": "Klicka var som helst eller tryck ESC för att stänga",
+
+  "learning_center_search_placeholder": "Sök...",
+  "learning_center_no_search_results": "Inga träffar för \"{query}\".",
+  "learning_center_clear_search": "Rensa sökning"
+}

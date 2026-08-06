@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Главная",
+  "covered_call_screener_breadcrumb_title": "Скринер покрытых коллов",
+
+  "covered_call_screener_seo_title": "Скринер покрытых коллов - находи лучшие сделки",
+  "covered_call_screener_seo_description": "Просматривай тысячи опционов для продажи покрытых коллов. Фильтруй по доходности премии, годовой доходности, цене исполнения, дате экспирации и другим параметрам.",
+  "covered_call_screener_seo_keywords": "скринер покрытых коллов, скринер опционов, покрытые коллы, доходность премии, стратегия дохода",
+  "covered_call_screener_structured_name": "Скринер покрытых коллов",
+  "covered_call_screener_structured_description": "Поиск опционов для продажи покрытых коллов",
+
+  "covered_call_screener_main_title": "Скринер покрытых коллов",
+  "covered_call_screener_contracts_count": "Контрактов: {count}",
+
+  "covered_call_screener_popular_screens": "Популярные скринеры",
+  "covered_call_screener_popular_strategies": "Популярные стратегии",
+  "covered_call_screener_select_popular": "Выбрать популярный",
+  "covered_call_screener_saved_screens": "Сохранённые скринеры",
+  "covered_call_screener_select_screen": "Выбрать скринер",
+  "covered_call_screener_new_screen": "Новый скринер",
+
+  "covered_call_screener_strategy_high_yield": "Высокая доходность",
+  "covered_call_screener_strategy_conservative": "Консервативная",
+  "covered_call_screener_strategy_weekly_income": "Недельный доход",
+  "covered_call_screener_strategy_high_protection": "Высокая защита",
+  "covered_call_screener_strategy_bluechip_cc": "Коллы на голубые фишки",
+
+  "covered_call_screener_filters_count": "Фильтры ({count})",
+  "covered_call_screener_add_filters": "Добавить фильтры",
+  "covered_call_screener_search_filters": "Поиск среди {count} фильтров...",
+  "covered_call_screener_select_filters_title": "Выбор фильтров ({count})",
+  "covered_call_screener_nothing_found": "Ничего не найдено.",
+
+  "covered_call_screener_save": "Сохранить",
+  "covered_call_screener_save_as_new": "Сохранить как новый",
+  "covered_call_screener_reset_all": "Сбросить всё",
+
+  "covered_call_screener_condition_over": "Больше",
+  "covered_call_screener_condition_under": "Меньше",
+  "covered_call_screener_condition_between": "Между",
+  "covered_call_screener_condition_exactly": "Ровно",
+  "covered_call_screener_condition_any": "Любое",
+
+  "covered_call_screener_input_min": "Мин",
+  "covered_call_screener_input_max": "Макс",
+  "covered_call_screener_input_value": "Значение",
+
+  "covered_call_screener_search_placeholder": "Поиск...",
+  "covered_call_screener_search_modal_placeholder": "Поиск...",
+
+  "covered_call_screener_normal_width": "Обычная ширина",
+  "covered_call_screener_full_width": "Во всю ширину",
+
+  "covered_call_screener_tab_general": "Общее",
+  "covered_call_screener_tab_income": "Доход",
+  "covered_call_screener_tab_filters": "Фильтры",
+  "covered_call_screener_tab_greeks": "Греки",
+
+  "covered_call_screener_pagination_previous": "Назад",
+  "covered_call_screener_pagination_next": "Вперёд",
+  "covered_call_screener_pagination_page_of": "Страница {current} из {total}",
+  "covered_call_screener_rows_label": "{rows} строк",
+  "covered_call_screener_back_to_top": "Наверх",
+
+  "covered_call_screener_no_results_query": "Ничего не найдено по запросу \"{query}\"",
+  "covered_call_screener_no_contracts": "Нет контрактов, подходящих под твои условия.",
+
+  "covered_call_screener_modal_new_title": "Новый скринер",
+  "covered_call_screener_modal_new_name_label": "Название скринера",
+  "covered_call_screener_modal_new_create": "Создать",
+
+  "covered_call_screener_modal_delete_title": "Удалить скринер",
+  "covered_call_screener_modal_delete_message": "Точно удалить этот скринер? Отменить это действие нельзя.",
+  "covered_call_screener_modal_delete_cancel": "Отмена",
+  "covered_call_screener_modal_delete_confirm": "Удалить",
+
+  "covered_call_screener_toast_deleting": "Удаляем скринер...",
+  "covered_call_screener_toast_deleted": "Скринер удалён.",
+  "covered_call_screener_toast_delete_failed": "Не удалось удалить. Попробуй ещё раз.",
+  "covered_call_screener_toast_title_too_long": "Название слишком длинное. Уложись в 100 символов.",
+  "covered_call_screener_toast_created": "Скринер создан.",
+  "covered_call_screener_toast_creating": "Создаём скринер...",
+  "covered_call_screener_toast_create_failed": "Что-то пошло не так. Попробуй позже.",
+  "covered_call_screener_toast_select_rule": "Выбери правило",
+  "covered_call_screener_toast_saving": "Сохраняем скринер...",
+  "covered_call_screener_toast_saved": "Скринер сохранён.",
+  "covered_call_screener_toast_save_failed": "Не удалось сохранить. Попробуй ещё раз.",
+
+  "covered_call_screener_chart_price_at_expiration": "Цена на экспирации ($)",
+  "covered_call_screener_chart_last_price_label": "Последняя цена: {price}",
+  "covered_call_screener_chart_breakeven_label": "Безубыточность: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Прибыль/убыток ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Цена базового актива:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Прибыль или убыток:",
+  "covered_call_screener_chart_modal_title": "Покрытый колл - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Параметры сделки",
+  "covered_call_screener_chart_buy_stock": "Покупка акций по",
+  "covered_call_screener_chart_sell_call": "Продажа {strike}C по",
+  "covered_call_screener_chart_net_credit_debit": "Итого (кредит/дебет)",
+  "covered_call_screener_chart_breakeven": "Безубыточность",
+  "covered_call_screener_chart_above": "Выше",
+  "covered_call_screener_chart_last_price": "Последняя цена",
+  "covered_call_screener_chart_moneyness": "Денежность",
+  "covered_call_screener_chart_return_if_flat": "Доход при неизменной цене",
+  "covered_call_screener_chart_return_if_assigned": "Доход при исполнении",
+  "covered_call_screener_chart_probability_of_profit": "Вероятность прибыли",
+  "covered_call_screener_chart_annualized_abbr": "год."
+}

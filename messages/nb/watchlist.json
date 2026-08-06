@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Hjem",
+  "watchlist_breadcrumb_watchlist": "Favorittliste",
+
+  "watchlist_seo_title": "Favorittliste for aksjer - Følg porteføljen og kursene dine",
+  "watchlist_seo_description": "Lag og administrer din egen favorittliste med kursoppdateringer i sanntid. Følg favorittaksjene, ETF-ene og investeringene dine med varsler og avkastningsstatistikk. Gratis porteføljesporing med avanserte funksjoner.",
+  "watchlist_seo_keywords": "favorittliste for aksjer, porteføljesporing, aksjesporing, investeringssporing, aksjeovervåking, varsler, porteføljestyring, aksjeavkastning, favorittliste for investeringer",
+  "watchlist_structured_name": "Favorittliste for aksjer",
+  "watchlist_structured_description": "Personlig favorittliste og verktøy for porteføljesporing",
+
+  "watchlist_main_title": "Favorittliste",
+  "watchlist_create_watchlist": "Opprett favorittliste",
+  "watchlist_new_watchlist": "Ny favorittliste",
+  "watchlist_delete_watchlist": "Slett favorittliste",
+
+  "watchlist_add_stock_placeholder": "Legg til aksje...",
+  "watchlist_no_results": "Fant ingen treff",
+  "watchlist_edit_watchlist": "Rediger favorittliste",
+  "watchlist_cancel": "Avbryt",
+  "watchlist_normal_width": "Normal bredde",
+  "watchlist_full_width": "Full bredde",
+  "watchlist_exit_full_width": "Avslutt full bredde",
+  "watchlist_expand_full_width": "Utvid til full bredde",
+
+  "watchlist_empty_title": "Tom favorittliste",
+  "watchlist_empty_description": "Fyll den med favorittaksjene dine og få sanntidsdata og ferske nyheter på ett sted.",
+  "watchlist_get_started": "Kom i gang",
+
+  "watchlist_count_stocks": "{count} aksjer",
+
+  "watchlist_tab_news": "Nyheter",
+  "watchlist_tab_earnings": "Kvartalstall",
+  "watchlist_no_news": "Ingen nyheter ennå. Legg til aksjer i favorittlisten for å se de ferskeste nyhetene.",
+  "watchlist_no_earnings": "Ingen kvartalstall tilgjengelig. Legg til aksjer i favorittlisten for å se de ferskeste tallene.",
+
+  "watchlist_modal_new_title": "Ny favorittliste",
+  "watchlist_modal_list_name": "Navn på listen",
+  "watchlist_modal_create_button": "Opprett favorittliste",
+
+  "watchlist_modal_delete_title": "Slett favorittliste",
+  "watchlist_modal_delete_confirm": "Er du sikker på at du vil slette denne favorittlisten? Handlingen kan ikke angres.",
+  "watchlist_modal_delete_button": "Slett favorittliste",
+
+  "watchlist_toast_creating": "Oppretter favorittliste...",
+  "watchlist_toast_created": "Favorittlisten er opprettet.",
+  "watchlist_toast_deleted": "Favorittlisten er slettet.",
+  "watchlist_toast_updating": "Oppdaterer favorittliste...",
+  "watchlist_toast_updated": "Favorittlisten er oppdatert.",
+  "watchlist_toast_error": "Noe gikk galt. Prøv igjen.",
+  "watchlist_toast_error_generic": "Det oppsto en feil. Prøv igjen senere.",
+  "watchlist_toast_title_empty": "Tittelen kan ikke være tom.",
+  "watchlist_toast_title_long": "Tittelen er for lang. Hold den kort og enkel.",
+  "watchlist_toast_already_in_list": "Dette symbolet ligger allerede i favorittlisten din",
+  "watchlist_toast_select_symbols": "Du må velge symboler før du kan slette dem",
+
+  "watchlist_earnings_will_report": "legger frem tall",
+  "watchlist_earnings_after_close": "etter børsslutt.",
+  "watchlist_earnings_before_open": "før børsåpning.",
+  "watchlist_earnings_during_market": "i løpet av børsdagen.",
+  "watchlist_earnings_analysts_estimate": "Analytikerne venter",
+  "watchlist_earnings_in_revenue": "i omsetning",
+  "watchlist_earnings_yoy": "mot i fjor",
+  "watchlist_earnings_and": "og",
+  "watchlist_earnings_in_eps": "i resultat per aksje",
+
+  "watchlist_note_add_title": "Legg til notat",
+  "watchlist_note_edit_title": "Rediger notat",
+  "watchlist_note_placeholder_new": "Hvorfor la du denne aksjen i favorittlisten?",
+  "watchlist_note_placeholder_edit": "Oppdater notatet ditt...",
+  "watchlist_note_save": "Lagre",
+  "watchlist_note_add": "Legg til notat",
+  "watchlist_note_update": "Oppdater notat",
+  "watchlist_note_created": "Notatet er opprettet",
+  "watchlist_note_updated": "Notatet er oppdatert",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} tegn igjen",
+  "watchlist_note_chars_over": "{count} tegn over grensen",
+  "watchlist_note_exceeded": "Notatet kan ikke være lengre enn {max} tegn",
+  "watchlist_added_price": "Kurs ved innlegging",
+
+  "watchlist_column_entry_price": "Inngangskurs",
+  "watchlist_column_since_added": "% siden lagt til"
+}

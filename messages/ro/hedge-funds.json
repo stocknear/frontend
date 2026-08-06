@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Acasă",
+  "hedge_funds_breadcrumb_hedge_funds": "Fonduri de hedging",
+  "hedge_funds_breadcrumb_hedge_fund": "Fond de hedging",
+
+  "hedge_funds_seo_title": "Monitor fonduri de hedging - Cele mai mari dețineri și raportări 13F",
+  "hedge_funds_seo_description": "Urmărește dețineri ale fondurilor de hedging, raportări 13F și portofolii ale investitorilor instituționali. Vezi ce cumpără și ce vând fondurile, cu analiză detaliată a pozițiilor. Instrument gratuit de monitorizare.",
+  "hedge_funds_seo_keywords": "monitor fonduri de hedging, dețineri fonduri de hedging, raportări 13F, investitori instituționali, poziții fonduri de hedging, top fonduri de hedging, dețineri instituționale, portofolii fonduri de hedging, dețineri berkshire hathaway",
+  "hedge_funds_structured_name": "Monitor fonduri de hedging",
+  "hedge_funds_structured_description": "Urmărire completă a deținerilor fondurilor de hedging și a investițiilor instituționale",
+
+  "hedge_funds_main_title": "Top fonduri de hedging din SUA",
+  "hedge_funds_infobox": "Lista tuturor instituțiilor de pe Wall Street cu cele mai mari active administrate.",
+  "hedge_funds_count_institutes": "{count} instituții",
+
+  "hedge_funds_search_placeholder": "Caută...",
+  "hedge_funds_loading": "Se încarcă...",
+  "hedge_funds_no_data": "Nu există date disponibile.",
+
+  "hedge_funds_pagination_previous": "Înapoi",
+  "hedge_funds_pagination_next": "Înainte",
+  "hedge_funds_pagination_page_of": "Pagina {current} din {total}",
+  "hedge_funds_rows_label": "{rows} rânduri",
+  "hedge_funds_back_to_top": "Sus",
+
+  "hedge_funds_slug_seo_title": "Dețineri și portofoliu {companyName} - Analiza raportărilor 13F",
+  "hedge_funds_slug_seo_description": "Analiză detaliată a deținerilor fondului {companyName}, a pozițiilor din portofoliu și a strategiei de investiții. Urmărește cele mai recente raportări 13F, principalele acțiuni, alocarea pe sectoare și indicatorii de performanță.",
+  "hedge_funds_slug_seo_keywords": "dețineri {companyNameLower}, portofoliu {companyNameLower}, raportări 13F {companyNameLower}, poziții fonduri de hedging, dețineri investitori instituționali, acțiuni alese de {companyNameLower}, analiză fonduri de hedging",
+  "hedge_funds_slug_structured_name": "Analiza deținerilor și a portofoliului {companyName}",
+  "hedge_funds_slug_structured_description": "Analiză completă a deținerilor și a pozițiilor de investiții ale fondului {companyName}",
+
+  "hedge_funds_slug_cik_number": "Număr CIK:",
+  "hedge_funds_slug_market_value": "Valoare de piață",
+  "hedge_funds_slug_holdings": "Nr. de dețineri",
+  "hedge_funds_slug_avg_holding_period": "Perioadă medie de deținere",
+  "hedge_funds_slug_months": "luni",
+  "hedge_funds_slug_win_rate": "Rată de succes",
+  "hedge_funds_slug_performance_3year": "Performanță pe 3 ani",
+
+  "hedge_funds_slug_main_sectors": "Sectoare principale:",
+  "hedge_funds_slug_top_industries": "Industrii principale:",
+  "hedge_funds_slug_filing_date": "Data raportării:",
+  "hedge_funds_slug_no_data": "Datele acestui fond de hedging nu sunt disponibile momentan.",
+
+  "hedge_funds_column_rank": "Loc",
+  "hedge_funds_column_name": "Nume",
+  "hedge_funds_column_aum": "Active administrate",
+  "hedge_funds_column_holdings": "Dețineri",
+  "hedge_funds_column_turnover": "Rulaj",
+  "hedge_funds_column_3year_perf": "Perf. 3 ani",
+  "hedge_funds_column_win_rate": "Rată de succes"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "We gaan zorgvuldig om met je privacy",
+  "cookies_banner_description": "We gebruiken cookies om de site prettiger te maken, het verkeer te analyseren en content op jou af te stemmen.",
+  "cookies_accept_all": "Alles accepteren",
+  "cookies_reject_all": "Alles weigeren",
+  "cookies_customize": "Instellen",
+  "cookies_preferences_title": "Cookievoorkeuren",
+  "cookies_preferences_description": "Beheer je cookievoorkeuren. Noodzakelijke cookies kun je niet uitzetten, want zonder die cookies werkt de website niet.",
+  "cookies_necessary_title": "Noodzakelijke cookies",
+  "cookies_necessary_description": "Nodig voor inloggen, beveiliging en basisfuncties. Deze kun je niet uitzetten.",
+  "cookies_analytics_title": "Analytische cookies",
+  "cookies_analytics_description": "Helpen ons te begrijpen hoe bezoekers de site gebruiken, zodat we hem kunnen verbeteren.",
+  "cookies_marketing_title": "Marketingcookies",
+  "cookies_marketing_description": "Worden gebruikt om bezoekers over websites heen te volgen voor gepersonaliseerde advertenties.",
+  "cookies_save_preferences": "Voorkeuren opslaan"
+}

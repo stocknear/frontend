@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Options flow, sweepy a neobvyklá aktivita v reálném čase",
+  "home_seo_description": "Živý options flow, sweepy, bloky a neobvyklá aktivita napříč americkými akciemi a ETF. Najdi krátkodobé obchodní příležitosti rychleji se Stocknear.",
+  "home_seo_keywords": "options flow, neobvyklá opční aktivita, sweep příkazy, blokové obchody, dark pool, implikovaná volatilita, IV skew, otevřený zájem, opční řetězec, krátkodobé obchody, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Options flow a neobvyklá aktivita v reálném čase pro krátkodobé obchody",
+  "home_structured_feature_live_options_flow": "Živý options flow a sweepy",
+  "home_structured_feature_unusual_options_activity": "Neobvyklá opční aktivita",
+  "home_structured_feature_dark_pool_monitoring": "Monitoring dark poolů",
+  "home_structured_feature_implied_volatility": "Implikovaná volatilita a skew",
+  "home_structured_feature_options_chain": "Opční řetězec a otevřený zájem",
+  "home_structured_feature_earnings_volatility": "Volatilita kolem výsledků",
+  "home_structured_feature_market_catalysts": "Tržní katalyzátory",
+  "home_hero_title": "Uvidíš pohyb dřív než dav",
+  "home_hero_subtitle": "Ceny v reálném čase, options flow, příkazy z dark poolů, zprávy, finance, odhady a grafy pro každou americkou akcii a ETF. Reaguj rychleji s čistým signálem.",
+  "home_promo_pill_label": "Letní sleva",
+  "home_promo_pill_discount": "{percent} sleva",
+  "home_promo_pill_subtitle": "na všechny roční plány"
+}

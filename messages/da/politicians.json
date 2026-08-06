@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Forside",
+  "politicians_breadcrumb_politicians": "Politikere",
+  "politicians_breadcrumb_flow": "Kongresflow",
+
+  "politicians_seo_title": "Kongreshandler - politikeres aktiehandler i realtid",
+  "politicians_seo_description": "Følg aktiehandler fra medlemmer af den amerikanske kongres og senat i realtid. Se Nancy Pelosis handler, senatorernes aktiekøb og kongressens insiderhandel. Gratis tracker med detaljeret handelshistorik.",
+  "politicians_seo_keywords": "kongreshandler, nancy pelosi handler, politikeres aktiehandler, senatets handler, handel i kongressen, insiderhandel kongressen, tracker for politikeres aktier, amerikanske politikere handel, pelosi portefølje, kongressens aktiehandler",
+  "politicians_structured_name": "Kongreshandler",
+  "politicians_structured_description": "Aktiehandler fra amerikanske politikere og kongresmedlemmer i realtid",
+
+  "politicians_main_title": "Alle amerikanske politikere",
+  "politicians_count_members": "{count} medlemmer",
+  "politicians_search_placeholder": "Find...",
+  "politicians_filter_party": "Parti",
+  "politicians_empty_search": "Intet kongresmedlem fundet for \"{query}\"",
+  "politicians_empty_filter": "Ingen resultater for din søgning eller dine filtre.",
+
+  "politicians_pagination_previous": "Forrige",
+  "politicians_pagination_next": "Næste",
+  "politicians_pagination_page_of": "Side {current} af {total}",
+  "politicians_pagination_rows": "{count} rækker",
+  "politicians_back_to_top": "Til toppen",
+
+  "politicians_flow_seo_title": "Seneste handler i Kongressen",
+  "politicians_flow_seo_description": "Se de seneste handler i Kongressen, og følg med i hvad de, der har adgang til lovgivningen, investerer i.",
+
+  "politicians_flow_title": "Politikernes seneste handler",
+  "politicians_flow_description_intro": "Overblik over den seneste handelsaktivitet i Kongressen. Forholdet mellem køb og salg viser",
+  "politicians_flow_description_buys": "{percent}% køb",
+  "politicians_flow_description_versus": "mod",
+  "politicians_flow_description_sells": "{percent}% salg",
+  "politicians_flow_description_active_party": "blandt de seneste indberetninger. Det mest aktive parti er",
+  "politicians_flow_description_with": "med",
+  "politicians_flow_description_transactions": "handler, hvilket peger på",
+  "politicians_flow_description_sentiment": "stemning blandt kongresmedlemmerne.",
+  "politicians_flow_sentiment_bullish": "positiv",
+  "politicians_flow_sentiment_bearish": "negativ",
+  "politicians_flow_sentiment_neutral": "neutral",
+  "politicians_flow_count_trades": "{count} handler",
+  "politicians_flow_empty_search": "Ingen aktier fundet for \"{query}\"",
+
+  "politicians_detail_stats_rank": "Placering",
+  "politicians_detail_stats_trades_scored": "Vurderede handler",
+  "politicians_detail_stats_success_rate": "Træfsikkerhed",
+  "politicians_detail_stats_avg_return": "Gns. afkast",
+  "politicians_detail_stats_total_amount": "Samlet beløb",
+  "politicians_detail_stats_transaction": "Handel",
+  "politicians_detail_stats_last_transaction": "Seneste handel",
+  "politicians_detail_stats_buy_sell": "Køb/salg",
+
+  "politicians_detail_main_sectors": "Vigtigste sektorer:",
+  "politicians_detail_top_industries": "Største brancher:",
+  "politicians_detail_count_stocks": "{count} aktier",
+  "politicians_detail_empty_search": "Der er ingen data for \"{query}\"",
+  "politicians_detail_empty": "Der er ingen data for den søgte analytiker.",
+
+  "politicians_detail_mobile_filed": "Indberettet",
+  "politicians_detail_mobile_view_chart": "Se graf",
+  "politicians_detail_mobile_amt": "Beløb",
+  "politicians_detail_mobile_trades": "{count} handel",
+  "politicians_detail_mobile_trades_plural": "{count} handler"
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Bedrijf of tickersymbool...",
+  "searchbar_aria_label": "Bedrijf of tickersymbool...",
+  "searchbar_search_label": "Zoeken",
+  "searchbar_suggestions": "Suggesties",
+  "searchbar_recent": "Recent",
+  "searchbar_popular": "Populair",
+  "searchbar_no_results": "Geen resultaten gevonden"
+}

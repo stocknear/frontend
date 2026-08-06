@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Poikkeava toimeksiantovirta - dark pool -kaupat ja blokkikaupat",
+  "unusual_order_flow_seo_description": "Seuraa dark pool -kauppoja ja blokkikauppoja reaaliajassa ja huomaa instituutioiden liikkeet, jotka usein edeltävät lyhyen aikavälin kurssiliikkeitä.",
+  "unusual_order_flow_seo_keywords": "poikkeava toimeksiantovirta, dark pool -kaupat, blokkikaupat, instituutioiden toimeksiantovirta, smart money, piilotettu likviditeetti, reaaliaikainen toimeksiantovirta, dark pool -skanneri",
+  "unusual_order_flow_structured_name": "Poikkeavan toimeksiantovirran skanneri",
+  "unusual_order_flow_structured_description": "Reaaliaikaiset dark pool- ja blokkikaupat lyhyen aikavälin markkinasignaaleiksi",
+
+  "unusual_order_flow_main_title": "Poikkeava toimeksiantovirta",
+
+  "unusual_order_flow_popular_filters": "Suositut suodattimet",
+  "unusual_order_flow_select_popular": "Valitse suosittu",
+  "unusual_order_flow_saved_filters": "Tallennetut suodattimet",
+  "unusual_order_flow_select_filter": "Valitse suodatin",
+  "unusual_order_flow_new_filter": "Uusi suodatin",
+
+  "unusual_order_flow_filters_count": "{count} suodatinta",
+  "unusual_order_flow_add_filters": "Lisää suodattimia",
+  "unusual_order_flow_search_filters": "Hae {count} suodattimesta...",
+  "unusual_order_flow_select_filters_title": "Valitse virtasuodattimet (yhteensä {count})",
+  "unusual_order_flow_nothing_found": "Ei osumia",
+  "unusual_order_flow_no_filters_found": "Suodattimia ei löytynyt",
+
+  "unusual_order_flow_search_placeholder": "Etsi...",
+  "unusual_order_flow_search_input_placeholder": "Hae...",
+  "unusual_order_flow_full_width": "Koko leveys",
+  "unusual_order_flow_normal_width": "Normaali leveys",
+
+  "unusual_order_flow_no_trades_query": "Haulle \"{query}\" ei löytynyt poikkeavia kauppoja",
+  "unusual_order_flow_no_data_filters": "Nämä ehdot ovat aika harvinaiset. Osumia ei löytynyt.",
+
+  "unusual_order_flow_modal_new_title": "Uusi suodatin",
+  "unusual_order_flow_modal_new_name_label": "Suodattimen nimi",
+  "unusual_order_flow_modal_new_create": "Luo suodatin",
+
+  "unusual_order_flow_modal_delete_title": "Poista suodatin",
+  "unusual_order_flow_modal_delete_message": "Haluatko varmasti poistaa tämän suodattimen? Toimintoa ei voi peruuttaa.",
+  "unusual_order_flow_modal_delete_cancel": "Peruuta",
+  "unusual_order_flow_modal_delete_confirm": "Poista suodatin",
+
+  "unusual_order_flow_save": "Tallenna",
+  "unusual_order_flow_save_as_new": "Tallenna uutena",
+  "unusual_order_flow_reset_all": "Nollaa kaikki",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark pool -kaupat",
+  "unusual_order_flow_strategy_block_orders": "Blokkitoimeksiannot",
+  "unusual_order_flow_strategy_mega_premium": "Jättipreemiot",
+  "unusual_order_flow_strategy_etf_flow": "ETF-virta",
+  "unusual_order_flow_strategy_high_volume": "Suuri vaihto",
+  "unusual_order_flow_strategy_large_stock_flow": "Suuri osakevirta",
+
+  "unusual_order_flow_total_volume": "Vaihto yhteensä",
+  "unusual_order_flow_total_value": "Arvo yhteensä",
+  "unusual_order_flow_transaction_type": "Kaupan tyyppi",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Blokki",
+  "unusual_order_flow_asset_type": "Kohde-etuuden tyyppi",
+  "unusual_order_flow_stock": "Osake",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 min viive",
+  "unusual_order_flow_delayed_title": "15 minuutin viiveellä toimitettu SIP-data",
+  "unusual_order_flow_delayed_content": "Intrinion SIP-syöte tuo laadukkaan, konsolidoidun näkymän Yhdysvaltain osakemarkkinoihin kaikista päälistoista - kaupat, noteeraukset ja NBBO. 15 minuutin viiveellä saat kattavan kuvan koko markkinasta.",
+
+  "unusual_order_flow_hide_filter_area": "Piilota suodatinalue",
+  "unusual_order_flow_show_filter_area": "Näytä suodatinalue",
+  "unusual_order_flow_exit_full_width": "Poistu koko leveydestä",
+  "unusual_order_flow_expand_full_width": "Laajenna koko leveyteen",
+  "unusual_order_flow_reset_column_order": "Nollaa sarakejärjestys",
+  "unusual_order_flow_remove_filter": "Poista suodatin",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Arvo"
+}

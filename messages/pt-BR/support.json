@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Suporte",
+  "support_breadcrumb_home": "Início",
+  "support_breadcrumb_current": "Suporte",
+  "support_title": "Suporte",
+  "support_description_1": "Envie sua solicitação pelo formulário abaixo e responderemos assim que possível. Você também pode escrever direto para",
+  "support_description_2": "Aqui você encontra respostas para as dúvidas mais comuns:",
+  "support_faq_link": "Perguntas frequentes",
+  "support_description_3": "Se precisar de ajuda com um erro ou dado incorreto, inclua a URL exata da página onde você encontrou o problema.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Assunto",
+  "support_label_message": "Mensagem",
+  "support_button_send": "Enviar mensagem",
+  "support_button_processing": "Enviando...",
+  "support_success_message": "Sua mensagem foi enviada. Responderemos em breve.",
+  "support_toast_error": "Algo deu errado. Tente novamente...",
+  "support_sidebar_pro_title": "Assinatura Pro",
+  "support_sidebar_pro_description": "Assine agora e tenha acesso ilimitado a todos os dados e ferramentas, sem anúncios.",
+  "support_sidebar_screener_title": "Screener de ações",
+  "support_sidebar_screener_description": "Filtre, ordene e analise todas as ações para achar seu próximo investimento.",
+  "support_sidebar_watchlist_title": "Listas de acompanhamento",
+  "support_sidebar_watchlist_description": "Acompanhe suas ações favoritas em tempo real."
+}

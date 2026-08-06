@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Confidențialitatea ta contează",
+  "cookies_banner_description": "Folosim cookie-uri ca să îmbunătățim experiența de navigare, să analizăm traficul și să personalizăm conținutul.",
+  "cookies_accept_all": "Accept toate",
+  "cookies_reject_all": "Resping toate",
+  "cookies_customize": "Personalizează",
+  "cookies_preferences_title": "Preferințe cookie-uri",
+  "cookies_preferences_description": "Gestionează-ți preferințele pentru cookie-uri. Cele necesare nu pot fi dezactivate, pentru că fără ele site-ul nu funcționează.",
+  "cookies_necessary_title": "Cookie-uri necesare",
+  "cookies_necessary_description": "Esențiale pentru autentificare, securitate și funcționarea de bază. Nu pot fi dezactivate.",
+  "cookies_analytics_title": "Cookie-uri de analiză",
+  "cookies_analytics_description": "Ne ajută să înțelegem cum este folosit site-ul, ca să îmbunătățim experiența.",
+  "cookies_marketing_title": "Cookie-uri de marketing",
+  "cookies_marketing_description": "Folosite pentru urmărirea vizitatorilor pe site-uri, în scopul publicității personalizate.",
+  "cookies_save_preferences": "Salvează preferințele"
+}

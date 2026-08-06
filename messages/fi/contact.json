@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Ota yhteyttä",
+  "contact_breadcrumb": "Ota yhteyttä",
+  "contact_hero_title": "Ota yhteyttä",
+  "contact_intro": "Kuulemme sinusta mielellämme. Lähetä viesti alla olevalla lomakkeella, niin vastaamme mahdollisimman pian. Voit myös lähettää sähköpostia suoraan osoitteeseen {email}.",
+  "contact_email_label": "Sähköposti",
+  "contact_subject_label": "Aihe",
+  "contact_message_label": "Viesti",
+  "contact_send_button": "Lähetä viesti",
+  "contact_processing": "Käsitellään...",
+  "contact_success": "Viestisi lähetettiin onnistuneesti. Palaamme asiaan pian.",
+  "contact_sidebar_pro_title": "Pro-tilaus",
+  "contact_sidebar_pro_desc": "Päivitä nyt ja saat rajattoman pääsyn kaikkeen dataan ja työkaluihin ilman mainoksia.",
+  "contact_sidebar_screener_title": "Osakeseulonta",
+  "contact_sidebar_screener_desc": "Suodata, järjestä ja analysoi kaikki osakkeet ja löydä seuraava sijoituksesi.",
+  "contact_sidebar_watchlist_title": "Seurantalistat",
+  "contact_sidebar_watchlist_desc": "Seuraa suosikkiosakkeitasi reaaliajassa."
+}

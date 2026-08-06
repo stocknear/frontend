@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Acasă",
+  "politicians_breadcrumb_politicians": "Politicieni",
+  "politicians_breadcrumb_flow": "Flux Congres",
+
+  "politicians_seo_title": "Tracker tranzacții din Congres - Acțiunile tranzacționate de politicieni în timp real",
+  "politicians_seo_description": "Urmărește în timp real tranzacțiile cu acțiuni ale membrilor Congresului SUA, ale senatorilor și ale politicienilor. Vezi tranzacțiile lui Nancy Pelosi, achizițiile din Senat și tranzacțiile insiderilor din Congres. Tracker gratuit, cu istoric detaliat al tranzacțiilor.",
+  "politicians_seo_keywords": "tranzacții Congres, tranzacții Nancy Pelosi, acțiuni tranzacționate de politicieni, tranzacții Senat, tranzacționare în Congres, insider trading Congres, tracker acțiuni politicieni, politicieni SUA tranzacții, portofoliu Pelosi, acțiuni tranzacționate în Congres",
+  "politicians_structured_name": "Tracker tranzacții din Congres",
+  "politicians_structured_description": "Urmărire în timp real a tranzacțiilor cu acțiuni ale politicienilor și membrilor Congresului SUA",
+
+  "politicians_main_title": "Toți politicienii din SUA",
+  "politicians_count_members": "{count} membri",
+  "politicians_search_placeholder": "Caută...",
+  "politicians_filter_party": "Partid",
+  "politicians_empty_search": "Niciun membru al Congresului pentru \"{query}\"",
+  "politicians_empty_filter": "Niciun rezultat pentru căutarea sau filtrele tale.",
+
+  "politicians_pagination_previous": "Anterior",
+  "politicians_pagination_next": "Următor",
+  "politicians_pagination_page_of": "Pagina {current} din {total}",
+  "politicians_pagination_rows": "{count} rânduri",
+  "politicians_back_to_top": "Înapoi sus",
+
+  "politicians_flow_seo_title": "Cele mai recente tranzacții din Congres",
+  "politicians_flow_seo_description": "Vezi cele mai recente tranzacții din Congres și în ce investesc cei care au acces la reglementări.",
+
+  "politicians_flow_title": "Cele mai recente tranzacții ale politicienilor",
+  "politicians_flow_description_intro": "Privire de ansamblu asupra celor mai recente tranzacții din Congres. Raportul cumpărări-vânzări arată",
+  "politicians_flow_description_buys": "{percent}% cumpărări",
+  "politicians_flow_description_versus": "față de",
+  "politicians_flow_description_sells": "{percent}% vânzări",
+  "politicians_flow_description_active_party": "în raportările recente. Cel mai activ partid este",
+  "politicians_flow_description_with": "cu",
+  "politicians_flow_description_transactions": "tranzacții, ceea ce indică un sentiment",
+  "politicians_flow_description_sentiment": "în rândul membrilor Congresului.",
+  "politicians_flow_sentiment_bullish": "optimist",
+  "politicians_flow_sentiment_bearish": "pesimist",
+  "politicians_flow_sentiment_neutral": "neutru",
+  "politicians_flow_count_trades": "{count} tranzacții",
+  "politicians_flow_empty_search": "Nicio acțiune găsită pentru \"{query}\"",
+
+  "politicians_detail_stats_rank": "Rang",
+  "politicians_detail_stats_trades_scored": "Tranzacții evaluate",
+  "politicians_detail_stats_success_rate": "Rată de succes",
+  "politicians_detail_stats_avg_return": "Randament mediu",
+  "politicians_detail_stats_total_amount": "Sumă totală",
+  "politicians_detail_stats_transaction": "Tranzacție",
+  "politicians_detail_stats_last_transaction": "Ultima tranzacție",
+  "politicians_detail_stats_buy_sell": "Cumpărare/Vânzare",
+
+  "politicians_detail_main_sectors": "Sectoare principale:",
+  "politicians_detail_top_industries": "Top industrii:",
+  "politicians_detail_count_stocks": "{count} acțiuni",
+  "politicians_detail_empty_search": "Nu există date pentru \"{query}\"",
+  "politicians_detail_empty": "Nu există date pentru analistul căutat.",
+
+  "politicians_detail_mobile_filed": "Raportat",
+  "politicians_detail_mobile_view_chart": "Vezi graficul",
+  "politicians_detail_mobile_amt": "Sumă",
+  "politicians_detail_mobile_trades": "{count} tranzacție",
+  "politicians_detail_mobile_trades_plural": "{count} tranzacții"
+}

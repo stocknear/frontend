@@ -1,0 +1,8 @@
+{
+  "error_title": "Halaman tidak ditemui - {status}",
+  "error_body_prefix": "Halaman ini tidak ditemui. Jika ralat ini kerap berlaku, sila laporkan kepada kami melalui",
+  "error_body_suffix": "Kami akan membaikinya secepat mungkin.",
+  "error_back_home": "Kembali ke Halaman Utama",
+  "error_server_title": "Ada masalah berlaku - {status}",
+  "error_server_body_prefix": "Ini masalah di pihak kami, bukan halaman yang hilang. Sila cuba lagi sebentar nanti. Jika ia berterusan, beritahu kami di"
+}

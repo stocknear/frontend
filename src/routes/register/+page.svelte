@@ -10,6 +10,8 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import { getTurnstileLanguage } from "$lib/i18n/locales";
   import { dev } from "$app/environment";
   import { openLemonSqueezyUrl } from "$lib/lemonsqueezy";
   import { PURCHASE_COOKIE } from "$lib/constants/tracking";
@@ -377,7 +379,10 @@
           </div>
 
           {#if showTurnstile && !dev}
-            <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+            <Turnstile
+              siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+              language={getTurnstileLanguage(getLocale())}
+            />
           {/if}
           {#if form?.errors?.turnstile}
             <p class="text-center text-sm text-error pt-2">

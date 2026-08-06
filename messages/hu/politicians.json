@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Főoldal",
+  "politicians_breadcrumb_politicians": "Politikusok",
+  "politicians_breadcrumb_flow": "Kongresszusi flow",
+
+  "politicians_seo_title": "Kongresszusi kereskedéskövető - Politikusok részvényügyletei valós időben",
+  "politicians_seo_description": "Kövesd valós időben az amerikai kongresszusi képviselők, szenátorok és politikusok részvényügyleteit. Figyeld Nancy Pelosi ügyleteit, a szenátusi részvényvásárlásokat és a kongresszusi bennfentes kereskedést. Ingyenes politikuskövető részletes tranzakciótörténettel.",
+  "politicians_seo_keywords": "kongresszusi kereskedés, nancy pelosi ügyletei, politikusok részvényügyletei, szenátusi ügyletek, kongresszusi kereskedés, bennfentes kereskedés kongresszus, politikai részvénykövető, amerikai politikusok kereskedése, pelosi portfólió, kongresszusi részvényügyletek",
+  "politicians_structured_name": "Kongresszusi kereskedéskövető",
+  "politicians_structured_description": "Amerikai politikusok és kongresszusi tagok részvényügyleteinek valós idejű követése",
+
+  "politicians_main_title": "Összes amerikai politikus",
+  "politicians_count_members": "{count} tag",
+  "politicians_search_placeholder": "Keresés...",
+  "politicians_filter_party": "Párt",
+  "politicians_empty_search": "Nincs kongresszusi tag erre: \"{query}\"",
+  "politicians_empty_filter": "Nincs találat a keresésre vagy a szűrőkre.",
+
+  "politicians_pagination_previous": "Előző",
+  "politicians_pagination_next": "Következő",
+  "politicians_pagination_page_of": "{current}. oldal, összesen {total}",
+  "politicians_pagination_rows": "{count} sor",
+  "politicians_back_to_top": "Vissza a tetejére",
+
+  "politicians_flow_seo_title": "Legfrissebb kongresszusi ügyletek",
+  "politicians_flow_seo_description": "Nézd meg a legfrissebb kongresszusi ügyleteket, és hogy mibe fektetnek azok, akik rálátnak a szabályozásra.",
+
+  "politicians_flow_title": "Politikusok legfrissebb ügyletei",
+  "politicians_flow_description_intro": "Áttekintés a legfrissebb kongresszusi kereskedési aktivitásról. A vétel-eladás arány:",
+  "politicians_flow_description_buys": "{percent}% vétel",
+  "politicians_flow_description_versus": "és",
+  "politicians_flow_description_sells": "{percent}% eladás",
+  "politicians_flow_description_active_party": "a legutóbbi bejelentések alapján. A legaktívabb párt:",
+  "politicians_flow_description_with": "összesen",
+  "politicians_flow_description_transactions": "tranzakcióval, ami",
+  "politicians_flow_description_sentiment": "hangulatot jelez a kongresszusi tagok körében.",
+  "politicians_flow_sentiment_bullish": "emelkedő",
+  "politicians_flow_sentiment_bearish": "csökkenő",
+  "politicians_flow_sentiment_neutral": "semleges",
+  "politicians_flow_count_trades": "{count} ügylet",
+  "politicians_flow_empty_search": "Nincs részvény erre: \"{query}\"",
+
+  "politicians_detail_stats_rank": "Helyezés",
+  "politicians_detail_stats_trades_scored": "Értékelt ügyletek",
+  "politicians_detail_stats_success_rate": "Találati arány",
+  "politicians_detail_stats_avg_return": "Átl. hozam",
+  "politicians_detail_stats_total_amount": "Teljes összeg",
+  "politicians_detail_stats_transaction": "Tranzakció",
+  "politicians_detail_stats_last_transaction": "Utolsó tranzakció",
+  "politicians_detail_stats_buy_sell": "Vétel/Eladás",
+
+  "politicians_detail_main_sectors": "Fő szektorok:",
+  "politicians_detail_top_industries": "Top iparágak:",
+  "politicians_detail_count_stocks": "{count} részvény",
+  "politicians_detail_empty_search": "Nincs adat erre: \"{query}\"",
+  "politicians_detail_empty": "Nincs adat a keresett elemzőhöz.",
+
+  "politicians_detail_mobile_filed": "Bejelentve",
+  "politicians_detail_mobile_view_chart": "Grafikon",
+  "politicians_detail_mobile_amt": "Összeg",
+  "politicians_detail_mobile_trades": "{count} ügylet",
+  "politicians_detail_mobile_trades_plural": "{count} ügylet"
+}

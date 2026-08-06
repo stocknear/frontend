@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Penafian Data | Sumber & Ketepatan Data Kewangan",
+  "data_seo_description": "Maklumat lengkap tentang sumber data kewangan kami, piawaian ketepatan dan garis panduan penggunaan bagi data pasaran saham, anggaran penganalisis dan metrik kewangan.",
+  "data_breadcrumb": "Penafian Data",
+  "data_hero_title": "Penafian Data",
+  "data_intro": "Data kewangan yang dipaparkan di Stocknear disediakan untuk tujuan maklumat dan pendidikan sahaja. Maklumat ini tidak boleh ditafsirkan sebagai nasihat kewangan atau dijadikan asas tunggal bagi keputusan dagangan atau pelaburan.",
+  "data_contact": "Kami mengekalkan piawaian ketat bagi ketepatan data dan jaminan kualiti. Jika anda mendapati sebarang percanggahan atau memerlukan penjelasan, sila hubungi kami melalui {discordLink} atau hubungi pasukan sokongan kami di {email}.",
+  "data_market_title": "Data Pasaran & Carta Saham",
+  "data_market_content": "Data pasaran menyeluruh dan carta saham masa nyata kami dikuasakan oleh {fmpLink}, penyedia utama perkhidmatan data kewangan. Ini termasuk harga intrahari, data sejarah dan penunjuk teknikal.",
+  "data_coverage_title": "Liputan Pasaran",
+  "data_coverage_content": "Stocknear menyediakan liputan menyeluruh bagi sekuriti yang tersenarai di bursa utama A.S., termasuk NASDAQ, NYSE, NYSE American dan NYSE Arca. Pangkalan data kami merangkumi saham, ETF, ADR dan sekuriti OTC terpilih. Kami sedang giat meluaskan liputan untuk memasukkan bursa global dan instrumen kewangan tambahan.",
+  "data_fundamentals_title": "Asas Kewangan",
+  "data_fundamentals_content": "Data asas kewangan kami bersumberkan {fmpLink} dan diperoleh daripada pemfailan rasmi SEC (Borang 10-K, 10-Q dan 8-K). Walaupun sistem kami mengemas kini maklumat ini setiap hari, mungkin ada kelewatan disebabkan tempoh pemfailan SEC yang biasa dan jadual pelaporan syarikat. Semua data kewangan yang dipaparkan berasaskan penyerahan rasmi syarikat yang telah diaudit kepada pihak berkuasa kawal selia.",
+  "data_business_title": "Data Metrik Perniagaan",
+  "data_business_content": "Data Metrik Perniagaan, termasuk KPI operasi dan ekonomi unit bukan GAAP, disediakan melalui rakan kongsi kami {mainStreetLink}. Pasukan penyelidikan mereka mengumpul, menyeragam dan sentiasa mengesahkan pendedahan ini daripada pemfailan syarikat, pembentangan pelabur dan ulasan pengurusan bagi memastikan liputan prestasi perniagaan yang berintegriti tinggi di seluruh platform kami.",
+  "data_analyst_title": "Liputan Penganalisis & Unjuran Pasaran",
+  "data_analyst_content": "Liputan penganalisis kami menggabungkan data daripada beberapa sumber berwibawa. Sasaran harga dan penarafan penganalisis disediakan oleh Benzinga, mewakili pandangan konsensus penganalisis utama Wall Street. Unjuran hasil dan ramalan EPS dikumpulkan daripada Benzinga dan {fmpLink}. Walaupun kami berusaha memaparkan ramalan yang paling tepat, pengguna perlu sedar bahawa ramalan pasaran sememangnya tidak menentu dan patut dianggap sebagai sebahagian daripada proses penyelidikan pelaburan yang lebih luas.",
+  "data_etf_title": "Analitik ETF",
+  "data_etf_content": "Data pegangan dan analitik ETF kami disediakan melalui perkongsian dengan {fmpLink}, memastikan maklumat yang tepat dan tepat pada masanya tentang komposisi dana, peruntukan dan metrik prestasi.",
+  "data_options_title": "Data Pasaran Opsyen",
+  "data_options_content": "Infrastruktur data pasaran opsyen kami menggunakan beberapa vendor data, menggabungkan suapan mereka ke dalam satu saluran bersepadu untuk menyampaikan data OPRA (Options Price Reporting Authority) aliran penuh. Dengan mengumpulkan aliran opsyen masa nyata dan data rantaian opsyen individu daripada pelbagai sumber, kami memastikan liputan lengkap aktiviti dan harga pasaran opsyen di semua bursa opsyen utama A.S."
+}

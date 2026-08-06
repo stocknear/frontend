@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Beranda",
+  "earnings_breadcrumb_calendar": "Kalender Laba",
+
+  "earnings_seo_title": "Kalender Laba - Peluang Volatilitas untuk Trader Opsi",
+  "earnings_seo_description": "Pantau tanggal rilis laba, ekspektasi pergerakan harga, dan estimasi analis untuk merencanakan trading volatilitas opsi dan setup IV crush.",
+  "earnings_seo_keywords": "kalender laba, strategi opsi saat laba, ekspektasi pergerakan, IV crush, volatilitas laba, estimasi EPS, proyeksi pendapatan, jadwal rilis laba",
+
+  "earnings_structured_name": "Kalender Laba",
+  "earnings_structured_description": "Kalender laba yang dirancang untuk trader opsi yang fokus pada volatilitas dan ekspektasi pergerakan",
+
+  "earnings_main_name": "Kalender Laba",
+  "earnings_count": "{count} Laporan Laba",
+  "earnings_empty": "Tidak ada laporan laba untuk hari ini.",
+  "earnings_empty_scheduled": "Tidak ada jadwal laba",
+
+  "earnings_tab_daily": "Harian",
+  "earnings_tab_weekly": "Mingguan",
+  "earnings_tab_details": "Detail",
+  "earnings_tab_compact": "Ringkas",
+
+  "earnings_time_of_day": "Waktu",
+  "earnings_time_any": "Kapan Saja",
+  "earnings_time_before_open": "Sebelum Buka",
+  "earnings_time_after_close": "Setelah Tutup",
+
+  "earnings_expanded_reports": "Laporan",
+  "earnings_expanded_market_cap": "Kapitalisasi Pasar",
+  "earnings_expanded_revenue_est": "Est. Pendapatan",
+  "earnings_expanded_revenue_estimate": "Estimasi Pendapatan",
+  "earnings_expanded_eps_est": "Est. EPS",
+  "earnings_expanded_eps_estimate": "Estimasi EPS",
+
+  "earnings_pagination_previous": "Sebelumnya",
+  "earnings_pagination_next": "Berikutnya",
+  "earnings_pagination_page_of": "Halaman {current} dari {total}",
+  "earnings_pagination_rows": "{count} Baris",
+  "earnings_back_to_top": "Kembali ke Atas",
+  "earnings_search_placeholder": "Cari..."
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Unusual Order Flow - Dark Pool Print & Block Trade",
+  "unusual_order_flow_seo_description": "Pantau dark pool print dan block trade secara real-time untuk melihat aktivitas institusi yang sering mendahului pergerakan jangka pendek.",
+  "unusual_order_flow_seo_keywords": "unusual order flow, dark pool print, block trade, order flow institusi, smart money, likuiditas tersembunyi, order flow real-time, pemindai dark pool",
+  "unusual_order_flow_structured_name": "Pemindai Unusual Order Flow",
+  "unusual_order_flow_structured_description": "Dark pool print dan block trade real-time sebagai sinyal pasar jangka pendek",
+
+  "unusual_order_flow_main_title": "Unusual Order Flow",
+
+  "unusual_order_flow_popular_filters": "Filter Populer",
+  "unusual_order_flow_select_popular": "Pilih populer",
+  "unusual_order_flow_saved_filters": "Filter Tersimpan",
+  "unusual_order_flow_select_filter": "Pilih Filter",
+  "unusual_order_flow_new_filter": "Filter Baru",
+
+  "unusual_order_flow_filters_count": "{count} Filter",
+  "unusual_order_flow_add_filters": "Tambah Filter",
+  "unusual_order_flow_search_filters": "Cari {count} filter...",
+  "unusual_order_flow_select_filters_title": "Pilih filter flow ({count} total)",
+  "unusual_order_flow_nothing_found": "Tidak ada hasil",
+  "unusual_order_flow_no_filters_found": "Tidak ada filter yang tersedia",
+
+  "unusual_order_flow_search_placeholder": "Cari...",
+  "unusual_order_flow_search_input_placeholder": "Cari...",
+  "unusual_order_flow_full_width": "Lebar Penuh",
+  "unusual_order_flow_normal_width": "Lebar Normal",
+
+  "unusual_order_flow_no_trades_query": "Tidak ada Unusual Trade untuk \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Kombinasi filter Anda cukup unik. Belum ada yang cocok.",
+
+  "unusual_order_flow_modal_new_title": "Filter Baru",
+  "unusual_order_flow_modal_new_name_label": "Nama Filter",
+  "unusual_order_flow_modal_new_create": "Buat Filter",
+
+  "unusual_order_flow_modal_delete_title": "Hapus Filter",
+  "unusual_order_flow_modal_delete_message": "Yakin ingin menghapus filter ini? Tindakan ini tidak bisa dibatalkan.",
+  "unusual_order_flow_modal_delete_cancel": "Batal",
+  "unusual_order_flow_modal_delete_confirm": "Hapus Filter",
+
+  "unusual_order_flow_save": "Simpan",
+  "unusual_order_flow_save_as_new": "Simpan sebagai Baru",
+  "unusual_order_flow_reset_all": "Atur Ulang Semua",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark Pool Print",
+  "unusual_order_flow_strategy_block_orders": "Order Block",
+  "unusual_order_flow_strategy_mega_premium": "Premi Mega",
+  "unusual_order_flow_strategy_etf_flow": "Flow ETF",
+  "unusual_order_flow_strategy_high_volume": "Volume Tinggi",
+  "unusual_order_flow_strategy_large_stock_flow": "Flow Saham Besar",
+
+  "unusual_order_flow_total_volume": "Total Volume",
+  "unusual_order_flow_total_value": "Total Nilai",
+  "unusual_order_flow_transaction_type": "Jenis Transaksi",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Block",
+  "unusual_order_flow_asset_type": "Jenis Aset",
+  "unusual_order_flow_stock": "Saham",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Tunda 15 Menit",
+  "unusual_order_flow_delayed_title": "Data SIP Tunda 15 Menit",
+  "unusual_order_flow_delayed_content": "Feed SIP dari Intrinio menyediakan data ekuitas AS yang terkonsolidasi dan berkualitas tinggi dari semua bursa utama — termasuk transaksi, kuotasi, dan NBBO. Penundaan 15 menit tetap memberi gambaran pasar yang kaya dengan cakupan bursa penuh.",
+
+  "unusual_order_flow_hide_filter_area": "Sembunyikan Area Filter",
+  "unusual_order_flow_show_filter_area": "Tampilkan Area Filter",
+  "unusual_order_flow_exit_full_width": "Keluar dari lebar penuh",
+  "unusual_order_flow_expand_full_width": "Perlebar ke lebar penuh",
+  "unusual_order_flow_reset_column_order": "Atur ulang urutan kolom",
+  "unusual_order_flow_remove_filter": "Hapus filter",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Maks",
+  "unusual_order_flow_value": "Nilai"
+}

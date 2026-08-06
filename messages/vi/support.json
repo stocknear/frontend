@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Hỗ trợ",
+  "support_breadcrumb_home": "Trang chủ",
+  "support_breadcrumb_current": "Hỗ trợ",
+  "support_title": "Hỗ trợ",
+  "support_description_1": "Vui lòng gửi yêu cầu hỗ trợ qua biểu mẫu bên dưới, chúng tôi sẽ phản hồi sớm nhất có thể. Bạn cũng có thể gửi email trực tiếp tới",
+  "support_description_2": "Bạn có thể tìm câu trả lời cho một số câu hỏi thường gặp tại đây:",
+  "support_faq_link": "Câu hỏi thường gặp",
+  "support_description_3": "Nếu bạn cần trợ giúp về lỗi hoặc dữ liệu sai, vui lòng gửi kèm đường dẫn chính xác của trang bạn gặp vấn đề.",
+  "support_label_email": "Email",
+  "support_label_subject": "Tiêu đề",
+  "support_label_message": "Nội dung",
+  "support_button_send": "Gửi tin nhắn",
+  "support_button_processing": "Đang xử lý...",
+  "support_success_message": "Tin nhắn của bạn đã được gửi. Chúng tôi sẽ phản hồi sớm.",
+  "support_toast_error": "Đã có lỗi xảy ra. Vui lòng thử lại...",
+  "support_sidebar_pro_title": "Gói Pro",
+  "support_sidebar_pro_description": "Nâng cấp ngay để dùng không giới hạn toàn bộ dữ liệu, công cụ và không quảng cáo.",
+  "support_sidebar_screener_title": "Bộ lọc cổ phiếu",
+  "support_sidebar_screener_description": "Lọc, sắp xếp và phân tích mọi cổ phiếu để tìm khoản đầu tư tiếp theo.",
+  "support_sidebar_watchlist_title": "Danh sách theo dõi",
+  "support_sidebar_watchlist_description": "Theo dõi các cổ phiếu bạn quan tâm theo thời gian thực."
+}

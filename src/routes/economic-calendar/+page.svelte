@@ -1,7 +1,8 @@
 <script lang="ts">
   import { format, startOfWeek, addDays, addWeeks, subWeeks } from "date-fns";
-  import { de, enUS } from "date-fns/locale";
+  import { enUS } from "date-fns/locale";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getLocaleDefinition } from "$lib/i18n/locales";
   import {
     economic_back_to_top,
     economic_breadcrumb_calendar,
@@ -112,7 +113,7 @@
   // Get date-fns locale based on current language
   function getDateLocale() {
     try {
-      return getLocale() === "de" ? de : enUS;
+      return getLocaleDefinition(getLocale()).dateFns;
     } catch {
       return enUS;
     }

@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "概要",
+  "index_detail_nav_options": "オプション",
+  "index_detail_nav_history": "履歴",
+  "index_detail_nav_holdings": "構成銘柄",
+
+  "index_detail_watchlist": "ウォッチリスト",
+  "index_detail_price_alert": "アラート",
+  "index_detail_add_to_watchlist": "ウォッチリストに追加",
+  "index_detail_ticker_added": "ウォッチリストに追加しました",
+  "index_detail_ticker_add_failed": "ウォッチリストへの追加に失敗しました",
+  "index_detail_upgrade_watchlist": "もっと銘柄を追加しますか。Plus または Pro へのアップグレードをご検討ください。",
+  "index_detail_companies": "構成企業",
+  "index_detail_company": "企業",
+
+  "index_detail_no_data": "データがありません",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "買気配",
+  "index_detail_ask": "売気配",
+  "index_detail_volume": "出来高",
+  "index_detail_avg_volume_20d": "平均出来高 (20日)",
+  "index_detail_50_day_ma": "50日移動平均",
+  "index_detail_200_day_ma": "200日移動平均",
+  "index_detail_eps_ttm": "EPS (過去12か月)",
+  "index_detail_pe_ratio_ttm": "PER (過去12か月)",
+  "index_detail_shares_out": "発行済株式数",
+  "index_detail_inception_date": "設定日",
+  "index_detail_open": "始値",
+  "index_detail_prev_close": "前日終値",
+  "index_detail_days_range": "当日値幅",
+  "index_detail_52w_range": "52週値幅",
+  "index_detail_exchange": "取引所",
+  "index_detail_expense_ratio": "経費率",
+
+  "index_detail_chart_price": "価格",
+  "index_detail_chart_volume": "出来高",
+
+  "index_sidecard_about": "{ticker} について",
+  "index_sidecard_top_sectors": "上位5セクター",
+  "index_sidecard_sector": "セクター",
+  "index_sidecard_weight_percent": "構成比 %",
+  "index_sidecard_view_all_sectors": "すべてのセクターを見る"
+}

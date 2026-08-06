@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Forside",
+  "options_screener_breadcrumb_options_screener": "Optionsscreener",
+
+  "options_screener_seo_title": "Optionsscreener - find usædvanligt flow og stærke opsætninger",
+  "options_screener_seo_description": "Screen optioner på usædvanlig aktivitet, implicit volatilitet, open interest, volumen, greeks og udløb, og find kortsigtede handelsopsætninger.",
+  "options_screener_seo_keywords": "optionsscreener, usædvanlig optionsaktivitet, optionsscanner, screener til implicit volatilitet, IV-skew, open interest, optioner med højt volumen, værktøj til optionshandel, greeks-screener",
+  "options_screener_structured_name": "Optionsscreener",
+  "options_screener_structured_description": "Optionsscreener med fokus på usædvanlig aktivitet, IV og open interest til kortsigtede handler",
+
+  "options_screener_main_title": "Optionsscreener",
+  "options_screener_contracts_count": "{count} kontrakter",
+  "options_screener_expire_on": "Alle optionskontrakter udløber den {date}",
+
+  "options_screener_popular_screens": "Populære screeninger",
+  "options_screener_popular_strategies": "Populære strategier",
+  "options_screener_select_popular": "Vælg populær",
+  "options_screener_saved_screens": "Gemte screeninger",
+  "options_screener_select_screen": "Vælg screening",
+  "options_screener_new_screen": "Ny screening",
+
+  "options_screener_filters_count": "{count} filtre",
+  "options_screener_add_filters": "Tilføj filtre",
+  "options_screener_search_filters": "Søg i {count} filtre...",
+  "options_screener_select_filters_title": "Vælg screenerfiltre ({count} i alt)",
+  "options_screener_nothing_found": "Intet fundet",
+
+  "options_screener_tab_general": "Generelt",
+  "options_screener_tab_filters": "Filtre",
+  "options_screener_tab_greeks": "Greeks",
+
+  "options_screener_search_placeholder": "Find...",
+  "options_screener_search_input_placeholder": "Søg...",
+  "options_screener_input_min": "Min.",
+  "options_screener_input_max": "Maks.",
+  "options_screener_input_value": "Værdi",
+
+  "options_screener_normal_width": "Normal bredde",
+  "options_screener_full_width": "Fuld bredde",
+
+  "options_screener_pagination_previous": "Forrige",
+  "options_screener_pagination_next": "Næste",
+  "options_screener_pagination_page_of": "Side {current} af {total}",
+  "options_screener_rows_label": "{rows} rækker",
+  "options_screener_back_to_top": "Til toppen",
+
+  "options_screener_no_contracts_query": "Ingen kontrakter fundet for \"{query}\"",
+  "options_screener_no_contracts": "Ingen kontrakter fundet.",
+
+  "options_screener_modal_new_title": "Ny screener",
+  "options_screener_modal_new_name_label": "Navn på screener",
+  "options_screener_modal_new_create": "Opret screener",
+
+  "options_screener_modal_delete_title": "Slet screener",
+  "options_screener_modal_delete_message": "Er du sikker på, at du vil slette denne screener? Handlingen kan ikke fortrydes.",
+  "options_screener_modal_delete_cancel": "Annuller",
+  "options_screener_modal_delete_confirm": "Slet",
+
+  "options_screener_strategy_high_iv_rank": "Høj IV-rang",
+  "options_screener_strategy_volume_surge": "Volumenspring",
+  "options_screener_strategy_itm_calls": "ITM-calls",
+  "options_screener_strategy_otm_puts": "OTM-puts",
+  "options_screener_strategy_high_premium_flow": "Flow med høj præmie",
+
+  "options_screener_save": "Gem",
+  "options_screener_save_as_new": "Gem som ny",
+  "options_screener_reset_all": "Nulstil alt"
+}

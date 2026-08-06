@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Domů",
+  "notifications_breadcrumb_notifications": "Oznámení",
+
+  "notifications_seo_title": "Oznámení z akciového trhu | Aktualizace a upozornění v reálném čase",
+  "notifications_seo_description": "Měj přehled díky oznámením z akciového trhu v reálném čase. Dostávej okamžitá upozornění na změny cen, trendy a pohyby trhu a rozhoduj se lépe.",
+
+  "notifications_main_title": "Oznámení",
+  "notifications_alerts_count": "{count} upozornění",
+
+  "notifications_mark_all_read": "Označit vše jako přečtené",
+  "notifications_marking": "Označuji...",
+  "notifications_settings": "Nastavení",
+  "notifications_customize": "Uprav si svá oznámení",
+
+  "notifications_channel_earnings_surprise": "Překvapení ve výsledcích",
+  "notifications_channel_wiim": "Proč se cena hnula",
+  "notifications_channel_top_analyst": "Hodnocení top analytika",
+  "notifications_channel_followed_analysts": "Sledovaní analytici",
+  "notifications_no_channels": "Nejsou dostupné žádné kanály oznámení.",
+
+  "notifications_empty": "Zatím nemáš žádná oznámení.",
+
+  "notifications_pagination_previous": "Předchozí",
+  "notifications_pagination_next": "Další",
+  "notifications_pagination_page_of": "Strana {current} z {total}",
+  "notifications_pagination_rows": "{count} řádků",
+  "notifications_back_to_top": "Zpět nahoru",
+
+  "notifications_modal_delete_title": "Smazat všechna oznámení",
+  "notifications_modal_delete_confirm": "Opravdu chceš smazat všechna oznámení? Tuto akci nelze vrátit zpět.",
+  "notifications_modal_delete_button": "Smazat oznámení",
+  "notifications_modal_deleting": "Mažu...",
+  "notifications_modal_cancel": "Zrušit",
+  "notifications_delete_error": "Oznámení se nepodařilo smazat. Zkus to znovu.",
+
+  "notifications_type_price_alert_triggered": "Spuštěno upozornění pro",
+  "notifications_type_price_is": "Cena akcie",
+  "notifications_type_is_condition": "je {condition} tvé cílové hodnoty",
+  "notifications_type_breaking_news": "MIMOŘÁDNÉ zprávy pro",
+  "notifications_type_wiim_new_data": "Jsou venku nová data k události \"Proč se cena hnula\".",
+  "notifications_type_top_analyst_new": "Nové hodnocení top analytika pro",
+  "notifications_type_top_analyst_rating": "Analytická společnost {analyst} vydala nové hodnocení \"{rating}\" s upravenou cílovou cenou {price}.",
+  "notifications_type_followed_analyst_new": "Nové hodnocení od",
+  "notifications_type_followed_analyst_rating": "Hodnotí {symbol} jako \"{rating}\" s cílovou cenou {price}.",
+  "notifications_type_earnings_release": "Zveřejnění výsledků pro",
+  "notifications_type_earnings_surprise_new": "Jsou venku nová data k události \"Překvapení ve výsledcích\".",
+
+  "notifications_sidebar_watchlist": "Watchlist",
+  "notifications_sidebar_watchlist_description": "Sleduj své oblíbené akcie v reálném čase",
+  "notifications_sidebar_portfolio": "Sledování portfolia",
+  "notifications_sidebar_portfolio_description": "Sleduj své portfolio v reálném čase"
+}

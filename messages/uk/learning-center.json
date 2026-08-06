@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Навчальний центр - навчання про фондовий ринок та посібники з інвестування",
+  "learning_center_seo_description": "Опануй інвестування на фондовому ринку разом із нашим Навчальним центром. Безплатні уроки про торгові стратегії, технічний аналіз, фундаментальний аналіз, управління портфелем та інвестиційну освіту - від новачків до досвідчених трейдерів.",
+  "learning_center_seo_keywords": "навчання про фондовий ринок, посібники з інвестування, торгові стратегії, вчитися інвестувати, уроки аналізу акцій, фінансова освіта, посібник з інвестування, основи фондового ринку, управління портфелем, курс технічного аналізу",
+  "learning_center_structured_name": "Навчальний центр Stocknear",
+  "learning_center_structured_description": "Повний курс про фондовий ринок та посібники з інвестування",
+  "learning_center_structured_articles": "Навчальні статті",
+  "learning_center_structured_articles_description": "Статті про фондовий ринок та інвестування",
+  "learning_center_title": "Навчальний центр",
+  "learning_center_published": "Опубліковано:",
+  "learning_center_previous": "Назад",
+  "learning_center_next": "Далі",
+  "learning_center_alt_tutorial": "Обкладинка уроку",
+
+  "learning_center_subtitle": "Опановуй фондовий ринок крок за кроком",
+
+  "learning_center_category_all": "Усі",
+  "learning_center_category_features": "Функції",
+  "learning_center_category_fundamentals": "Основи",
+  "learning_center_category_terms": "Терміни",
+
+  "learning_center_category_desc_features": "Як користуватися Stocknear",
+  "learning_center_category_desc_fundamentals": "Почни звідси, якщо ти новачок в інвестуванні",
+  "learning_center_category_desc_terms": "Фінансові терміни та визначення",
+
+  "learning_center_tag_all": "Усі теги",
+  "learning_center_tag_stocks": "Акції",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Опціони",
+  "learning_center_tag_sentiment": "Настрої",
+  "learning_center_tag_prefix": "Тег",
+
+  "learning_center_view_all": "Показати всі",
+  "learning_center_view_all_count": "Показати всі {count}",
+  "learning_center_min_read": "{time} хв читання",
+
+  "learning_center_no_articles_tag": "Статей із тегом \"{tag}\" не знайдено.",
+  "learning_center_clear_tag_filter": "Скинути фільтр тегів",
+
+  "learning_center_page_of": "Сторінка {currentPage} з {totalPages}",
+  "learning_center_items_count": "{count} елементів",
+
+  "learning_center_back_to_top": "Догори",
+  "learning_center_no_terms_yet": "Термінів поки немає.",
+  "learning_center_no_articles_category": "У цій категорії поки немає статей.",
+
+  "learning_center_table_of_contents": "Зміст",
+  "learning_center_share_this_post": "Поділитися записом",
+  "learning_center_back_to_all_posts": "До всіх записів",
+
+  "learning_center_quick_start": "Швидкий старт",
+  "learning_center_sidebar_top_gainers": "Лідери зростання",
+  "learning_center_sidebar_top_losers": "Лідери падіння",
+  "learning_center_sidebar_analysts": "Аналітики",
+  "learning_center_sidebar_stock_screener": "Скринер акцій",
+  "learning_center_sidebar_options_flow": "Потік опціонів",
+  "learning_center_sidebar_earnings_calendar": "Календар звітності",
+  "learning_center_sidebar_dividends_calendar": "Календар дивідендів",
+  "learning_center_sidebar_ipo_calendar": "Календар IPO",
+
+  "learning_center_related_articles": "Схожі статті",
+  "learning_center_view_all_articles": "Усі статті",
+  "learning_center_share_this_article": "Поділитися статтею",
+
+  "learning_center_link_copied": "Посилання скопійовано",
+  "learning_center_link_copy_failed": "Не вдалося скопіювати посилання",
+
+  "learning_center_sign_in_to_read": "Увійди, щоб прочитати огляд повністю.",
+  "learning_center_briefing_description": "Щоденний огляд ринку доступний учасникам Stocknear. Створи безплатний акаунт або увійди, щоб відкрити повний аналіз.",
+  "learning_center_create_free_account": "Створити безплатний акаунт",
+  "learning_center_sign_in": "Увійти",
+
+  "learning_center_click_to_close": "Клацни будь-де або натисни ESC, щоб закрити",
+
+  "learning_center_search_placeholder": "Пошук...",
+  "learning_center_no_search_results": "Нічого не знайдено за запитом \"{query}\".",
+  "learning_center_clear_search": "Очистити пошук"
+}

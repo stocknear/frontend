@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Skener opčního flow - živé sweepy, bloky a neobvyklá aktivita",
+  "options_flow_seo_description": "Sleduj živý opční flow, sweepy a bloky napříč americkými akciemi a ETF. Odhal neobvyklou aktivitu a krátkodobé příležitosti v reálném čase.",
+  "options_flow_seo_keywords": "opční flow, skener opčního flow, neobvyklá opční aktivita, sweep příkazy, blokové obchody, chytré peníze, call flow, put flow, opční upozornění, OPRA opční flow",
+  "options_flow_structured_name": "Skener opčního flow",
+  "options_flow_structured_description": "Živý opční flow se sweepy, bloky a neobvyklou aktivitou pro krátkodobé obchody",
+
+  "options_flow_main_title": "Opční flow",
+
+  "options_flow_popular_filters": "Oblíbené filtry",
+  "options_flow_popular_strategies": "Oblíbené strategie",
+  "options_flow_select_popular": "Vyber oblíbený",
+  "options_flow_saved_filters": "Uložené filtry",
+  "options_flow_select_filter": "Vyber filtr",
+  "options_flow_new_filter": "Nový filtr",
+
+  "options_flow_filters_count": "{count} filtrů",
+  "options_flow_add_filters": "Přidat filtry",
+  "options_flow_search_filters": "Hledat mezi {count} filtry...",
+  "options_flow_select_filters_title": "Vyber filtry flow (celkem {count})",
+  "options_flow_nothing_found": "Nic nenalezeno",
+  "options_flow_no_filters_found": "Žádné dostupné filtry",
+
+  "options_flow_search_placeholder": "Najít...",
+  "options_flow_search_input_placeholder": "Hledat...",
+  "options_flow_full_width": "Celá šířka",
+  "options_flow_normal_width": "Normální šířka",
+
+  "options_flow_no_trades_query": "Pro \"{query}\" jsme nenašli žádné opční obchody",
+  "options_flow_no_data_filters": "Pro zvolené filtry nejsou žádná data. Uprav filtry a zkus to znovu.",
+
+  "options_flow_modal_new_title": "Nový filtr",
+  "options_flow_modal_new_name_label": "Název filtru",
+  "options_flow_modal_new_create": "Vytvořit filtr",
+
+  "options_flow_modal_delete_title": "Smazat filtr",
+  "options_flow_modal_delete_message": "Opravdu chceš tento filtr smazat? Tuto akci nelze vrátit zpět.",
+  "options_flow_modal_delete_cancel": "Zrušit",
+  "options_flow_modal_delete_confirm": "Smazat filtr",
+
+  "options_flow_strategy_bullish_sweeps": "Býčí sweepy",
+  "options_flow_strategy_bearish_sweeps": "Medvědí sweepy",
+  "options_flow_strategy_high_premium_blocks": "Bloky s vysokou prémií",
+  "options_flow_strategy_unusual_size_oi": "Neobvyklá velikost vs. OI",
+  "options_flow_strategy_etf_index_flow": "ETF a indexový flow",
+  "options_flow_strategy_zero_dte_flow": "0DTE flow",
+  "options_flow_strategy_repeated_flow": "Opakovaný flow",
+
+  "options_flow_save": "Uložit",
+  "options_flow_save_as_new": "Uložit jako nový",
+  "options_flow_reset_all": "Resetovat vše",
+
+  "options_flow_market_closed": "Trh zavřený",
+  "options_flow_paused": "Pozastaveno",
+  "options_flow_live_flow": "Živý flow",
+  "options_flow_pick_date": "Vyber datum",
+
+  "options_flow_realtime_data": "Opční data v reálném čase",
+  "options_flow_realtime_data_title": "Opční data v reálném čase z OPRA",
+  "options_flow_realtime_data_content": "Náš opční flow běží na datech OPRA v reálném čase, což je oficiální konsolidovaný feed všech obchodů s opcemi kótovanými v USA. Každý print, který vidíš, tak přichází přímo z OPRA v reálném čase a dává ti přehled na institucionální úrovni o velkých obchodech, sweepech, neobvyklé aktivitě a prémiovém flow v okamžiku, kdy se dějí. Díky spolehlivému datovému toku OPRA získáš rychlejší vhled, čistší data a přesnější obraz o tom, kam se v opcích přesouvají chytré peníze.",
+
+  "options_flow_hide_filter_area": "Skrýt panel filtrů",
+  "options_flow_show_filter_area": "Zobrazit panel filtrů",
+
+  "options_flow_put_to_call": "Put/call poměr",
+  "options_flow_call_flow": "Call flow",
+  "options_flow_put_flow": "Put flow"
+}

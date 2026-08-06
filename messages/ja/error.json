@@ -1,0 +1,8 @@
+{
+  "error_title": "ページが見つかりません - {status}",
+  "error_body_prefix": "ページが見つかりませんでした。このエラーが繰り返し発生する場合は、こちらまでご報告ください:",
+  "error_body_suffix": "できるだけ早く修正します。",
+  "error_back_home": "ホームに戻る",
+  "error_server_title": "問題が発生しました - {status}",
+  "error_server_body_prefix": "ページが存在しないのではなく、こちら側の問題です。しばらくしてからもう一度お試しください。解決しない場合はこちらまでご連絡ください:"
+}

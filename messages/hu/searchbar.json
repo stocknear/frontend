@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Cég vagy részvényszimbólum...",
+  "searchbar_aria_label": "Cég vagy részvényszimbólum...",
+  "searchbar_search_label": "Keresés",
+  "searchbar_suggestions": "Javaslatok",
+  "searchbar_recent": "Legutóbbi",
+  "searchbar_popular": "Népszerű",
+  "searchbar_no_results": "Nincs találat"
+}

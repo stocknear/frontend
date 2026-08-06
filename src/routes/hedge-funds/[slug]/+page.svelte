@@ -25,6 +25,7 @@
     hedge_funds_slug_win_rate,
   } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime";
+  import { getLocaleDefinition } from "$lib/i18n/locales";
 
   export let data;
 
@@ -362,7 +363,7 @@
                   title={`${hedge_funds_slug_filing_date()} ${new Date(
                     data?.getHedgeFundsData?.filingDate,
                   ).toLocaleDateString(
-                    getLocale() === "de" ? "de-DE" : "en-US",
+                    getLocaleDefinition(getLocale()).intlTag,
                     {
                       month: "short",
                       day: "numeric",

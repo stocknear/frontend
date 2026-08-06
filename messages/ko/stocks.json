@@ -1,0 +1,10 @@
+{
+  "stocks_seo_title": "미국 주식 종목 디렉터리 - 전체 티커와 실시간 분석",
+  "stocks_seo_description": "미국 주식 티커 전체를 실시간 시세, 재무 분석, 투자 리서치 도구와 함께 제공합니다. NYSE, NASDAQ을 비롯한 주요 거래소의 우량주, 성장주, 배당주까지 한 번에 검색하세요.",
+  "stocks_seo_keywords": "종목 티커 목록, 미국 주식 티커 디렉터리, NYSE 종목, NASDAQ 종목, 주식 데이터베이스, 실시간 주식 시세, 재무 분석 도구, 종목 스크리너, 투자 리서치, 시가총액 데이터, 기업 펀더멘털, 주식 분석, 거래 티커",
+  "stocks_breadcrumb_home": "홈",
+  "stocks_breadcrumb_current": "전체 종목",
+  "stocks_title": "전체 종목 티커",
+  "stocks_description": "저희가 지원하는 {count}개 종목 티커 전체 목록입니다",
+  "stocks_table_title": "종목"
+}

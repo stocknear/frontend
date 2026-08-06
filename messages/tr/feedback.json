@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Geri bildirim gönder",
+  "feedback_error_signin": "Geri bildirim göndermeden önce giriş yap.",
+  "feedback_error_description": "Lütfen sorununu ya da önerini yaz.",
+  "feedback_error_send_try_again": "Geri bildirim gönderilirken bir sorun oldu. Lütfen tekrar dene.",
+  "feedback_success": "Teşekkürler, geri bildirimin gönderildi.",
+  "feedback_error_send_generic": "Geri bildirim gönderilirken bir sorun oldu.",
+  "feedback_description_label": "Sorununu ya da önerini yaz:",
+  "feedback_page_label": "Geri bildirim sayfası:",
+  "feedback_close_button": "Kapat",
+  "feedback_cancel_button": "Vazgeç",
+  "feedback_send_button": "Geri bildirim gönder"
+}

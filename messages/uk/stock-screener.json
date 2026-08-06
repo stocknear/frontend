@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Головна",
+  "stock_screener_breadcrumb_stock_screener": "Скринер акцій",
+
+  "stock_screener_seo_title": "Просунутий скринер акцій - безплатний фільтр та аналіз акцій",
+  "stock_screener_seo_description": "Потужний скринер акцій із {count} критеріями фільтрації. Відбирай акції за фундаментальними та технічними показниками, оцінкою вартості й дохідністю. Дані оновлюються щохвилини для точного пошуку та аналізу.",
+  "stock_screener_seo_keywords": "скринер акцій, безплатний скринер акцій, фільтр акцій, сканер акцій, фундаментальний скринер, технічний скринер, скринер недооцінених акцій, скринер акцій зростання, скринер дивідендних акцій, інструмент аналізу акцій",
+  "stock_screener_structured_name": "Скринер акцій",
+  "stock_screener_structured_description": "Просунута платформа відбору та фільтрації акцій із ринковими даними в реальному часі",
+
+  "stock_screener_main_title": "Скринер акцій",
+  "stock_screener_matches_found": "Знайдено збігів: {count}",
+  "stock_screener_stocks_count": "Акцій: {count}",
+
+  "stock_screener_popular_screens": "Популярні добірки",
+  "stock_screener_popular_strategies": "Популярні стратегії",
+  "stock_screener_select_popular": "Обрати популярні",
+  "stock_screener_saved_screens": "Збережені добірки",
+  "stock_screener_select_screen": "Обрати добірку",
+  "stock_screener_new_screen": "Нова добірка",
+
+  "stock_screener_filters_count": "Фільтрів: {count}",
+  "stock_screener_add_filters": "Додати фільтри",
+  "stock_screener_search_filters": "Пошук серед {count} фільтрів...",
+  "stock_screener_select_filters_title": "Обери фільтри скринера (всього {count})",
+  "stock_screener_nothing_found": "Нічого не знайдено",
+
+  "stock_screener_search_placeholder": "Знайти...",
+  "stock_screener_search_input_placeholder": "Пошук...",
+  "stock_screener_input_min": "Мін",
+  "stock_screener_input_max": "Макс",
+  "stock_screener_input_value": "Значення",
+
+  "stock_screener_normal_width": "Звичайна ширина",
+  "stock_screener_full_width": "На всю ширину",
+
+  "stock_screener_pagination_previous": "Назад",
+  "stock_screener_pagination_next": "Далі",
+  "stock_screener_pagination_page_of": "Сторінка {current} з {total}",
+  "stock_screener_rows_label": "Рядків: {rows}",
+  "stock_screener_back_to_top": "Догори",
+
+  "stock_screener_no_stocks_query": "Акцій за запитом \"{query}\" не знайдено",
+  "stock_screener_no_stocks": "Акцій не знайдено.",
+
+  "stock_screener_modal_new_title": "Новий скринер",
+  "stock_screener_modal_new_name_label": "Назва скринера",
+  "stock_screener_modal_new_create": "Створити скринер",
+
+  "stock_screener_modal_delete_title": "Видалити скринер",
+  "stock_screener_modal_delete_message": "Точно видалити цей скринер? Цю дію не можна скасувати.",
+  "stock_screener_modal_delete_cancel": "Скасувати",
+  "stock_screener_modal_delete_confirm": "Видалити",
+
+  "stock_screener_strategy_earnings_volatility": "Волатильність на звітності",
+  "stock_screener_strategy_dividend_growth": "Зростання дивідендів",
+  "stock_screener_strategy_monthly_dividends": "Щомісячні дивіденди",
+  "stock_screener_strategy_top_gainers_1y": "Лідери зростання за рік",
+  "stock_screener_strategy_top_shorted": "Найбільші короткі позиції",
+  "stock_screener_strategy_momentum_ta": "Акції з моментумом за ТА",
+  "stock_screener_strategy_undervalued": "Недооцінені акції",
+  "stock_screener_strategy_strong_cash_flow": "Сильний грошовий потік",
+
+  "stock_screener_save": "Зберегти",
+  "stock_screener_save_as_new": "Зберегти як новий",
+  "stock_screener_reset_all": "Скинути все"
+}

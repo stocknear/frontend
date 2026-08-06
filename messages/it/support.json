@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Assistenza",
+  "support_breadcrumb_home": "Home",
+  "support_breadcrumb_current": "Assistenza",
+  "support_title": "Assistenza",
+  "support_description_1": "Invia la tua richiesta di assistenza con il modulo qui sotto e ti risponderemo il prima possibile. Puoi anche scrivere direttamente a",
+  "support_description_2": "Qui trovi le risposte alle domande più frequenti:",
+  "support_faq_link": "Domande frequenti",
+  "support_description_3": "Se hai bisogno di aiuto per un errore o un dato non corretto, includi l'URL esatto della pagina in cui l'hai trovato.",
+  "support_label_email": "Email",
+  "support_label_subject": "Oggetto",
+  "support_label_message": "Messaggio",
+  "support_button_send": "Invia messaggio",
+  "support_button_processing": "Invio in corso...",
+  "support_success_message": "Il tuo messaggio è stato inviato. Ti risponderemo a breve.",
+  "support_toast_error": "Qualcosa è andato storto. Riprova...",
+  "support_sidebar_pro_title": "Abbonamento Pro",
+  "support_sidebar_pro_description": "Passa a Pro per accedere senza limiti a tutti i dati e gli strumenti, senza pubblicità.",
+  "support_sidebar_screener_title": "Screener azioni",
+  "support_sidebar_screener_description": "Filtra, ordina e analizza tutte le azioni per trovare il tuo prossimo investimento.",
+  "support_sidebar_watchlist_title": "Watchlist",
+  "support_sidebar_watchlist_description": "Tieni d'occhio le tue azioni preferite in tempo reale."
+}

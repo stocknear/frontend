@@ -7,6 +7,8 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import { getTurnstileLanguage } from "$lib/i18n/locales";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import {
     common_home,
@@ -154,6 +156,7 @@
                     <div class="pt-5">
                       <Turnstile
                         siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+                        language={getTurnstileLanguage(getLocale())}
                       />
                     </div>
                   {/if}

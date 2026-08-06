@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Beranda",
+  "dividends_breadcrumb_calendar": "Kalender Dividen",
+
+  "dividends_seo_title": "Kalender Dividen - Tanggal Ex-Dividen & Jadwal Pembayaran Saham",
+  "dividends_seo_description": "Pantau tanggal ex-dividen dan jadwal pembayaran saham yang akan datang. Rencanakan strategi dividend capture Anda dengan kalender lengkap yang menampilkan nominal tunai, tanggal pembayaran, dan data kapitalisasi pasar.",
+  "dividends_seo_keywords": "kalender dividen, tanggal ex-dividen, jadwal pembayaran dividen, dividend capture, dividen saham, saham dividen, tanggal pembayaran dividen, dividen mendatang",
+
+  "dividends_main_name": "Kalender Dividen",
+  "dividends_count": "{count} Dividen",
+  "dividends_empty_day": "Tidak ada dividen untuk hari ini.",
+  "dividends_empty_none": "Tidak ada dividen",
+  "dividends_empty_scheduled": "Tidak ada jadwal dividen",
+
+  "dividends_tab_daily": "Harian",
+  "dividends_tab_weekly": "Mingguan",
+  "dividends_tab_details": "Detail",
+  "dividends_tab_compact": "Ringkas",
+
+  "dividends_time_any": "Kapan Saja",
+  "dividends_time_before_open": "Sebelum Buka",
+  "dividends_time_after_close": "Setelah Tutup",
+
+  "dividends_expanded_ex_date": "Tanggal Ex",
+  "dividends_expanded_market_cap": "Kapitalisasi Pasar",
+  "dividends_expanded_amount": "Nominal",
+  "dividends_expanded_revenue": "Pendapatan",
+  "dividends_expanded_payment_date": "Tanggal Pembayaran",
+  "dividends_expanded_date": "Tanggal",
+  "dividends_expanded_dividend": "Dividen",
+
+  "dividends_pagination_previous": "Sebelumnya",
+  "dividends_pagination_next": "Berikutnya",
+  "dividends_pagination_page_of": "Halaman {current} dari {total}",
+  "dividends_pagination_rows": "{count} Baris",
+  "dividends_back_to_top": "Kembali ke Atas",
+  "dividends_search_placeholder": "Cari..."
+}

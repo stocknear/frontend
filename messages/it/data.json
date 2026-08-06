@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Avvertenze sui dati | Fonti e accuratezza dei dati finanziari",
+  "data_seo_description": "Informazioni complete sulle nostre fonti di dati finanziari, sugli standard di accuratezza e sulle linee guida d'uso per dati di mercato, stime degli analisti e metriche finanziarie.",
+  "data_breadcrumb": "Avvertenze sui dati",
+  "data_hero_title": "Avvertenze sui dati",
+  "data_intro": "I dati finanziari presenti su Stocknear hanno finalità puramente informative ed educative. Queste informazioni non costituiscono consulenza finanziaria e non devono essere usate come unica base per decisioni di trading o di investimento.",
+  "data_contact": "Applichiamo standard rigorosi di accuratezza e controllo qualità dei dati. Se noti discrepanze o hai bisogno di chiarimenti, scrivici su {discordLink} oppure contatta il nostro supporto all'indirizzo {email}.",
+  "data_market_title": "Dati di mercato e grafici azionari",
+  "data_market_content": "I nostri dati di mercato e i grafici azionari in tempo reale sono forniti da {fmpLink}, uno dei principali provider di dati finanziari. Includono prezzi intraday, dati storici e indicatori tecnici.",
+  "data_coverage_title": "Copertura di mercato",
+  "data_coverage_content": "Stocknear copre in modo completo i titoli quotati sulle principali borse statunitensi, tra cui NASDAQ, NYSE, NYSE American e NYSE Arca. Il nostro database comprende azioni, ETF, ADR e titoli OTC selezionati. Stiamo ampliando attivamente la copertura ad altre borse internazionali e ad altri strumenti finanziari.",
+  "data_fundamentals_title": "Dati fondamentali",
+  "data_fundamentals_content": "I nostri dati fondamentali provengono da {fmpLink} e derivano dai documenti ufficiali depositati presso la SEC (moduli 10-K, 10-Q e 8-K). I nostri sistemi aggiornano queste informazioni ogni giorno, ma possono esserci ritardi dovuti ai normali tempi di deposito presso la SEC e ai calendari di rendicontazione societaria. Tutti i dati finanziari mostrati si basano su documenti ufficiali e certificati trasmessi dalle società alle autorità di vigilanza.",
+  "data_business_title": "Metriche operative",
+  "data_business_content": "Le metriche operative, inclusi i KPI di business e gli indicatori di unit economics non-GAAP, sono fornite dal nostro partner {mainStreetLink}. Il loro team di ricerca aggrega, normalizza e verifica costantemente queste informazioni a partire dai documenti societari, dalle presentazioni agli investitori e dai commenti del management, per garantire una copertura affidabile delle performance operative su tutta la piattaforma.",
+  "data_analyst_title": "Copertura degli analisti e proiezioni di mercato",
+  "data_analyst_content": "La nostra copertura degli analisti integra dati provenienti da più fonti autorevoli. I target di prezzo e i giudizi degli analisti sono forniti da Benzinga e rappresentano il consenso dei principali analisti di Wall Street. Le proiezioni sui ricavi e le stime sull'EPS sono aggregate sia da Benzinga sia da {fmpLink}. Pur puntando alla massima accuratezza, ricorda che le previsioni di mercato sono per loro natura incerte e vanno considerate come una parte di un percorso di ricerca più ampio.",
+  "data_etf_title": "Analisi ETF",
+  "data_etf_content": "I dati sulle partecipazioni degli ETF e le relative analisi sono forniti grazie alla nostra partnership con {fmpLink}, che garantisce informazioni accurate e aggiornate su composizione dei fondi, allocazioni e metriche di performance.",
+  "data_options_title": "Dati del mercato delle opzioni",
+  "data_options_content": "La nostra infrastruttura per i dati sulle opzioni si appoggia a più fornitori, combinandone i feed in un'unica pipeline per offrire il flusso completo dei dati OPRA (Options Price Reporting Authority). Aggregando da più fonti il flusso opzioni in tempo reale e i dati delle singole catene, garantiamo una copertura completa dell'attività e dei prezzi su tutte le principali borse di opzioni statunitensi."
+}

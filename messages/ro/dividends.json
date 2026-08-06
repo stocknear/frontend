@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Acasă",
+  "dividends_breadcrumb_calendar": "Calendar dividende",
+
+  "dividends_seo_title": "Calendar dividende - Date ex-dividend și program de plată pentru acțiuni",
+  "dividends_seo_description": "Urmărește datele ex-dividend și programul de plată pentru acțiuni. Îți poți planifica strategia de captare a dividendelor cu un calendar complet, care arată sumele, datele de plată și capitalizarea bursieră.",
+  "dividends_seo_keywords": "calendar dividende, date ex-dividend, program plată dividende, captare dividende, dividende acțiuni, acțiuni cu dividend, date de plată dividende, dividende viitoare",
+
+  "dividends_main_name": "Calendar dividende",
+  "dividends_count": "{count} dividende",
+  "dividends_empty_day": "Nu există dividende pentru ziua selectată.",
+  "dividends_empty_none": "Niciun dividend",
+  "dividends_empty_scheduled": "Niciun dividend programat",
+
+  "dividends_tab_daily": "Zilnic",
+  "dividends_tab_weekly": "Săptămânal",
+  "dividends_tab_details": "Detalii",
+  "dividends_tab_compact": "Compact",
+
+  "dividends_time_any": "Oricând",
+  "dividends_time_before_open": "Înainte de deschidere",
+  "dividends_time_after_close": "După închidere",
+
+  "dividends_expanded_ex_date": "Data ex-dividend",
+  "dividends_expanded_market_cap": "Capitalizare bursieră",
+  "dividends_expanded_amount": "Sumă",
+  "dividends_expanded_revenue": "Venituri",
+  "dividends_expanded_payment_date": "Data plății",
+  "dividends_expanded_date": "Dată",
+  "dividends_expanded_dividend": "Dividend",
+
+  "dividends_pagination_previous": "Înapoi",
+  "dividends_pagination_next": "Înainte",
+  "dividends_pagination_page_of": "Pagina {current} din {total}",
+  "dividends_pagination_rows": "{count} rânduri",
+  "dividends_back_to_top": "Sus",
+  "dividends_search_placeholder": "Caută..."
+}

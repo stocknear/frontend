@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Главная",
+  "dividends_breadcrumb_calendar": "Календарь дивидендов",
+
+  "dividends_seo_title": "Календарь дивидендов - даты отсечки и график выплат по акциям",
+  "dividends_seo_description": "Отслеживай предстоящие даты отсечки и графики выплат по акциям. Планируй стратегию захвата дивидендов с помощью нашего полного календаря с суммами выплат, датами и данными о рыночной капитализации.",
+  "dividends_seo_keywords": "календарь дивидендов, даты отсечки, график выплаты дивидендов, захват дивидендов, дивидендные акции, дивидендные бумаги, даты выплаты дивидендов, предстоящие дивиденды",
+
+  "dividends_main_name": "Календарь дивидендов",
+  "dividends_count": "{count} дивидендов",
+  "dividends_empty_day": "На этот день дивидендов нет.",
+  "dividends_empty_none": "Нет дивидендов",
+  "dividends_empty_scheduled": "Дивиденды не запланированы",
+
+  "dividends_tab_daily": "По дням",
+  "dividends_tab_weekly": "По неделям",
+  "dividends_tab_details": "Детали",
+  "dividends_tab_compact": "Компактно",
+
+  "dividends_time_any": "Любое время",
+  "dividends_time_before_open": "До открытия",
+  "dividends_time_after_close": "После закрытия",
+
+  "dividends_expanded_ex_date": "Дата отсечки",
+  "dividends_expanded_market_cap": "Рыночная капитализация",
+  "dividends_expanded_amount": "Сумма",
+  "dividends_expanded_revenue": "Выручка",
+  "dividends_expanded_payment_date": "Дата выплаты",
+  "dividends_expanded_date": "Дата",
+  "dividends_expanded_dividend": "Дивиденд",
+
+  "dividends_pagination_previous": "Назад",
+  "dividends_pagination_next": "Далее",
+  "dividends_pagination_page_of": "Страница {current} из {total}",
+  "dividends_pagination_rows": "{count} строк",
+  "dividends_back_to_top": "Наверх",
+  "dividends_search_placeholder": "Поиск..."
+}

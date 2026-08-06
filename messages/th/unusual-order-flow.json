@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "คำสั่งซื้อขายผิดปกติ - ดาร์กพูลพรินต์และบล็อกเทรด",
+  "unusual_order_flow_seo_description": "ติดตามดาร์กพูลพรินต์และบล็อกเทรดแบบเรียลไทม์ เพื่อจับความเคลื่อนไหวของนักลงทุนสถาบันที่มักมาก่อนการเคลื่อนไหวของราคาในระยะสั้น",
+  "unusual_order_flow_seo_keywords": "คำสั่งซื้อขายผิดปกติ, ดาร์กพูลพรินต์, บล็อกเทรด, ออร์เดอร์โฟลว์สถาบัน, สมาร์ตมันนี, สภาพคล่องที่ซ่อนอยู่, ออร์เดอร์โฟลว์เรียลไทม์, สแกนเนอร์ดาร์กพูล",
+  "unusual_order_flow_structured_name": "สแกนเนอร์คำสั่งซื้อขายผิดปกติ",
+  "unusual_order_flow_structured_description": "ดาร์กพูลพรินต์และบล็อกเทรดแบบเรียลไทม์ สำหรับจับสัญญาณตลาดระยะสั้น",
+
+  "unusual_order_flow_main_title": "คำสั่งซื้อขายผิดปกติ",
+
+  "unusual_order_flow_popular_filters": "ตัวกรองยอดนิยม",
+  "unusual_order_flow_select_popular": "เลือกตัวกรองยอดนิยม",
+  "unusual_order_flow_saved_filters": "ตัวกรองที่บันทึกไว้",
+  "unusual_order_flow_select_filter": "เลือกตัวกรอง",
+  "unusual_order_flow_new_filter": "ตัวกรองใหม่",
+
+  "unusual_order_flow_filters_count": "{count} ตัวกรอง",
+  "unusual_order_flow_add_filters": "เพิ่มตัวกรอง",
+  "unusual_order_flow_search_filters": "ค้นหาใน {count} ตัวกรอง...",
+  "unusual_order_flow_select_filters_title": "เลือกตัวกรองโฟลว์ (ทั้งหมด {count})",
+  "unusual_order_flow_nothing_found": "ไม่พบข้อมูล",
+  "unusual_order_flow_no_filters_found": "ไม่พบตัวกรองที่ใช้ได้",
+
+  "unusual_order_flow_search_placeholder": "ค้นหา...",
+  "unusual_order_flow_search_input_placeholder": "ค้นหา...",
+  "unusual_order_flow_full_width": "เต็มความกว้าง",
+  "unusual_order_flow_normal_width": "ความกว้างปกติ",
+
+  "unusual_order_flow_no_trades_query": "ไม่พบรายการซื้อขายผิดปกติสำหรับ \"{query}\"",
+  "unusual_order_flow_no_data_filters": "ไม่พบข้อมูลที่ตรงกับตัวกรองนี้ ลองปรับเงื่อนไขดูอีกครั้ง",
+
+  "unusual_order_flow_modal_new_title": "ตัวกรองใหม่",
+  "unusual_order_flow_modal_new_name_label": "ชื่อตัวกรอง",
+  "unusual_order_flow_modal_new_create": "สร้างตัวกรอง",
+
+  "unusual_order_flow_modal_delete_title": "ลบตัวกรอง",
+  "unusual_order_flow_modal_delete_message": "ต้องการลบตัวกรองนี้ใช่ไหม การลบไม่สามารถย้อนกลับได้",
+  "unusual_order_flow_modal_delete_cancel": "ยกเลิก",
+  "unusual_order_flow_modal_delete_confirm": "ลบตัวกรอง",
+
+  "unusual_order_flow_save": "บันทึก",
+  "unusual_order_flow_save_as_new": "บันทึกเป็นรายการใหม่",
+  "unusual_order_flow_reset_all": "รีเซ็ตทั้งหมด",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "ดาร์กพูลพรินต์",
+  "unusual_order_flow_strategy_block_orders": "คำสั่งบล็อก",
+  "unusual_order_flow_strategy_mega_premium": "พรีเมียมมหาศาล",
+  "unusual_order_flow_strategy_etf_flow": "โฟลว์ ETF",
+  "unusual_order_flow_strategy_high_volume": "ปริมาณการซื้อขายสูง",
+  "unusual_order_flow_strategy_large_stock_flow": "โฟลว์หุ้นขนาดใหญ่",
+
+  "unusual_order_flow_total_volume": "ปริมาณการซื้อขายรวม",
+  "unusual_order_flow_total_value": "มูลค่ารวม",
+  "unusual_order_flow_transaction_type": "ประเภทรายการ",
+  "unusual_order_flow_dark_pool": "ดาร์กพูล",
+  "unusual_order_flow_block": "บล็อก",
+  "unusual_order_flow_asset_type": "ประเภทสินทรัพย์",
+  "unusual_order_flow_stock": "หุ้น",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "ดีเลย์ 15 นาที",
+  "unusual_order_flow_delayed_title": "ข้อมูล SIP ดีเลย์ 15 นาที",
+  "unusual_order_flow_delayed_content": "ฟีด SIP ของ Intrinio ให้ข้อมูลหุ้นสหรัฐคุณภาพสูงที่รวมจากทุกตลาดหลักเข้าด้วยกัน ทั้งรายการซื้อขาย ราคาเสนอ และ NBBO ข้อมูลที่ดีเลย์ 15 นาทีให้ภาพตลาดที่ละเอียดและครอบคลุมทุกตลาด",
+
+  "unusual_order_flow_hide_filter_area": "ซ่อนแถบตัวกรอง",
+  "unusual_order_flow_show_filter_area": "แสดงแถบตัวกรอง",
+  "unusual_order_flow_exit_full_width": "ออกจากโหมดเต็มความกว้าง",
+  "unusual_order_flow_expand_full_width": "ขยายเต็มความกว้าง",
+  "unusual_order_flow_reset_column_order": "รีเซ็ตลำดับคอลัมน์",
+  "unusual_order_flow_remove_filter": "ลบตัวกรอง",
+
+  "unusual_order_flow_min": "ต่ำสุด",
+  "unusual_order_flow_max": "สูงสุด",
+  "unusual_order_flow_value": "ค่า"
+}

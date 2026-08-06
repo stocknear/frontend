@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Acasă",
+  "price_alert_breadcrumb_price_alert": "Alertă",
+
+  "price_alert_seo_title": "Alerte pe acțiuni - Notificări și actualizări de piață în timp real",
+  "price_alert_seo_description": "Creează alerte personalizate pe acțiuni și primești notificări instant când condițiile tale sunt atinse. Urmărește raportările, știrile și mișcările de preț pentru lista ta, cu date de piață în timp real.",
+  "price_alert_seo_keywords": "alerte acțiuni, notificări de preț, alerte de piață, declanșatoare pe acțiuni, calendar raportări, flux știri acțiuni, alerte în timp real, notificări de piață, listă de urmărire, monitorizare preț",
+  "price_alert_structured_name": "Alerte - Stocknear",
+  "price_alert_structured_description": "Sistem de alerte pe acțiuni cu notificări instant în timp real",
+
+  "price_alert_main_title": "Alerte",
+
+  "price_alert_search_placeholder": "Caută...",
+  "price_alert_no_results": "Niciun rezultat",
+  "price_alert_edit_alert": "Editează alerta",
+  "price_alert_cancel": "Anulează",
+
+  "price_alert_empty_title": "Nicio alertă setată",
+  "price_alert_empty_description": "Creează alerte pentru acțiunile care ți se par cele mai promițătoare.",
+  "price_alert_get_started": "Începe",
+
+  "price_alert_tab_news": "Știri",
+  "price_alert_tab_earnings": "Raportare rezultate",
+  "price_alert_no_news": "Încă nu sunt știri. Adaugă acțiuni în lista de alerte ca să vezi ultimele știri.",
+  "price_alert_no_earnings": "Încă nu sunt raportări. Adaugă acțiuni în lista de alerte ca să vezi ultimele date din raportări.",
+
+  "price_alert_toast_deleted": "Alertele au fost șterse",
+  "price_alert_toast_select_symbols": "Trebuie să selectezi simboluri înainte de a le șterge",
+
+  "price_alert_earnings_will_report_today": "raportează azi",
+  "price_alert_earnings_will_report_tomorrow": "raportează mâine",
+  "price_alert_earnings_will_report_monday": "raportează luni",
+  "price_alert_earnings_will_report": "raportează",
+  "price_alert_earnings_after_close": "după închiderea pieței.",
+  "price_alert_earnings_before_open": "înainte de deschiderea pieței.",
+  "price_alert_earnings_during_market": "în timpul ședinței.",
+  "price_alert_earnings_analysts_estimate": "Analiștii estimează",
+  "price_alert_earnings_in_revenue": "venituri",
+  "price_alert_earnings_yoy": "față de anul trecut",
+  "price_alert_earnings_and": "și",
+  "price_alert_earnings_in_eps": "profit pe acțiune"
+}

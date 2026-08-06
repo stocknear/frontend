@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Необычный поток заявок — сделки тёмных пулов и блоки",
+  "unusual_order_flow_seo_description": "Следи за сделками тёмных пулов и блочными заявками в реальном времени, чтобы замечать активность крупных игроков перед краткосрочными движениями.",
+  "unusual_order_flow_seo_keywords": "необычный поток заявок, сделки тёмных пулов, блочные сделки, институциональный поток, крупные игроки, скрытая ликвидность, поток заявок в реальном времени, сканер тёмных пулов",
+  "unusual_order_flow_structured_name": "Сканер необычного потока заявок",
+  "unusual_order_flow_structured_description": "Сделки тёмных пулов и блочные заявки в реальном времени для краткосрочных сигналов",
+
+  "unusual_order_flow_main_title": "Необычный поток заявок",
+
+  "unusual_order_flow_popular_filters": "Популярные фильтры",
+  "unusual_order_flow_select_popular": "Выбрать популярный",
+  "unusual_order_flow_saved_filters": "Сохранённые фильтры",
+  "unusual_order_flow_select_filter": "Выбрать фильтр",
+  "unusual_order_flow_new_filter": "Новый фильтр",
+
+  "unusual_order_flow_filters_count": "Фильтров: {count}",
+  "unusual_order_flow_add_filters": "Добавить фильтры",
+  "unusual_order_flow_search_filters": "Поиск среди {count} фильтров...",
+  "unusual_order_flow_select_filters_title": "Выбери фильтры потока (всего {count})",
+  "unusual_order_flow_nothing_found": "Ничего не найдено",
+  "unusual_order_flow_no_filters_found": "Доступных фильтров не найдено",
+
+  "unusual_order_flow_search_placeholder": "Найти...",
+  "unusual_order_flow_search_input_placeholder": "Поиск...",
+  "unusual_order_flow_full_width": "Во всю ширину",
+  "unusual_order_flow_normal_width": "Обычная ширина",
+
+  "unusual_order_flow_no_trades_query": "Необычных сделок по запросу «{query}» не найдено",
+  "unusual_order_flow_no_data_filters": "Совпадений нет. Попробуй изменить фильтры.",
+
+  "unusual_order_flow_modal_new_title": "Новый фильтр",
+  "unusual_order_flow_modal_new_name_label": "Название фильтра",
+  "unusual_order_flow_modal_new_create": "Создать фильтр",
+
+  "unusual_order_flow_modal_delete_title": "Удалить фильтр",
+  "unusual_order_flow_modal_delete_message": "Точно удалить этот фильтр? Отменить действие не получится.",
+  "unusual_order_flow_modal_delete_cancel": "Отмена",
+  "unusual_order_flow_modal_delete_confirm": "Удалить фильтр",
+
+  "unusual_order_flow_save": "Сохранить",
+  "unusual_order_flow_save_as_new": "Сохранить как новый",
+  "unusual_order_flow_reset_all": "Сбросить всё",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Сделки тёмных пулов",
+  "unusual_order_flow_strategy_block_orders": "Блочные заявки",
+  "unusual_order_flow_strategy_mega_premium": "Мега-премия",
+  "unusual_order_flow_strategy_etf_flow": "Поток по ETF",
+  "unusual_order_flow_strategy_high_volume": "Высокий объём",
+  "unusual_order_flow_strategy_large_stock_flow": "Крупный поток по акциям",
+
+  "unusual_order_flow_total_volume": "Общий объём",
+  "unusual_order_flow_total_value": "Общая сумма",
+  "unusual_order_flow_transaction_type": "Тип сделки",
+  "unusual_order_flow_dark_pool": "Тёмный пул",
+  "unusual_order_flow_block": "Блок",
+  "unusual_order_flow_asset_type": "Тип актива",
+  "unusual_order_flow_stock": "Акция",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Задержка 15 мин",
+  "unusual_order_flow_delayed_title": "Данные SIP с задержкой 15 минут",
+  "unusual_order_flow_delayed_content": "SIP-поток Intrinio даёт качественные консолидированные данные по акциям США со всех основных бирж — сделки, котировки и NBBO. Задержка в 15 минут сохраняет полное покрытие бирж и подробную картину рынка.",
+
+  "unusual_order_flow_hide_filter_area": "Скрыть панель фильтров",
+  "unusual_order_flow_show_filter_area": "Показать панель фильтров",
+  "unusual_order_flow_exit_full_width": "Выйти из полной ширины",
+  "unusual_order_flow_expand_full_width": "Развернуть во всю ширину",
+  "unusual_order_flow_reset_column_order": "Сбросить порядок столбцов",
+  "unusual_order_flow_remove_filter": "Убрать фильтр",
+
+  "unusual_order_flow_min": "Мин",
+  "unusual_order_flow_max": "Макс",
+  "unusual_order_flow_value": "Значение"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "アプリを使うと、より快適に利用できます。",
+  "app_installed_button_install": "インストール",
+  "app_installed_modal_title": "インストール手順",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Safari の共有ボタンをタップします。",
+  "app_installed_ios_step_2": "「ホーム画面に追加」をタップします。",
+  "app_installed_ios_step_3": "「追加」をタップします。",
+  "app_installed_ios_note": "iOS では、ウェブアプリのインストールは Safari でのみ可能です。",
+  "app_installed_android_step_1": "Chrome で Stocknear を開きます。",
+  "app_installed_android_step_2": "右上のメニュー（点3つ）をタップします。",
+  "app_installed_android_step_3": "「アプリをインストール」または「ホーム画面に追加」をタップします。",
+  "app_installed_android_step_4": "確認してインストールします。",
+  "app_installed_close": "閉じる"
+}

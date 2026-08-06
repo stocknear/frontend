@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Cài ứng dụng để có trải nghiệm tốt hơn.",
+  "app_installed_button_install": "Cài đặt",
+  "app_installed_modal_title": "Các bước cài đặt",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Nhấn nút chia sẻ trong Safari.",
+  "app_installed_ios_step_2": "Nhấn \"Thêm vào màn hình chính\".",
+  "app_installed_ios_step_3": "Nhấn \"Thêm\".",
+  "app_installed_ios_note": "Lưu ý web app trên iOS chỉ có thể cài bằng Safari.",
+  "app_installed_android_step_1": "Mở Stocknear trong Chrome.",
+  "app_installed_android_step_2": "Nhấn menu ba dấu chấm ở góc trên bên phải.",
+  "app_installed_android_step_3": "Nhấn \"Cài ứng dụng\" hoặc \"Thêm vào màn hình chính\".",
+  "app_installed_android_step_4": "Xác nhận cài đặt.",
+  "app_installed_close": "Đóng"
+}

@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Hem",
+  "dividends_breadcrumb_calendar": "Utdelningskalender",
+
+  "dividends_seo_title": "Utdelningskalender - x-dagar och utbetalningsdatum för aktier",
+  "dividends_seo_description": "Följ kommande x-dagar och utbetalningsdatum för aktier. Planera din utdelningsstrategi med vår kalender som visar belopp, utbetalningsdatum och börsvärde.",
+  "dividends_seo_keywords": "utdelningskalender, x-dag, utdelningsdatum, utdelningsstrategi, aktieutdelningar, utdelningsaktier, utbetalningsdatum, kommande utdelningar",
+
+  "dividends_main_name": "Utdelningskalender",
+  "dividends_count": "{count} utdelningar",
+  "dividends_empty_day": "Inga utdelningar tillgängliga för dagen.",
+  "dividends_empty_none": "Inga utdelningar",
+  "dividends_empty_scheduled": "Inga utdelningar inplanerade",
+
+  "dividends_tab_daily": "Dag",
+  "dividends_tab_weekly": "Vecka",
+  "dividends_tab_details": "Detaljer",
+  "dividends_tab_compact": "Kompakt",
+
+  "dividends_time_any": "När som helst",
+  "dividends_time_before_open": "Före öppning",
+  "dividends_time_after_close": "Efter stängning",
+
+  "dividends_expanded_ex_date": "X-dag",
+  "dividends_expanded_market_cap": "Börsvärde",
+  "dividends_expanded_amount": "Belopp",
+  "dividends_expanded_revenue": "Omsättning",
+  "dividends_expanded_payment_date": "Utbetalningsdatum",
+  "dividends_expanded_date": "Datum",
+  "dividends_expanded_dividend": "Utdelning",
+
+  "dividends_pagination_previous": "Föregående",
+  "dividends_pagination_next": "Nästa",
+  "dividends_pagination_page_of": "Sida {current} av {total}",
+  "dividends_pagination_rows": "{count} rader",
+  "dividends_back_to_top": "Till toppen",
+  "dividends_search_placeholder": "Sök..."
+}

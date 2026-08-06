@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Hem",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedgefonder",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedgefond",
+
+  "hedge_funds_seo_title": "Hedgefondtracker - Största innehaven och 13F-rapporter",
+  "hedge_funds_seo_description": "Följ de största hedgefondernas innehav, 13F-rapporter och institutionella portföljer. Se vad hedgefonderna köper och säljer med detaljerad positionsanalys. Gratis verktyg för att följa hedgefonder.",
+  "hedge_funds_seo_keywords": "hedgefondtracker, hedgefonders innehav, 13F-rapporter, institutionella investerare, hedgefondpositioner, största hedgefonderna, institutionella innehav, hedgefondportföljer, berkshire hathaway innehav",
+  "hedge_funds_structured_name": "Hedgefondtracker",
+  "hedge_funds_structured_description": "Heltäckande bevakning av hedgefonders innehav och institutionella investeringar",
+
+  "hedge_funds_main_title": "Största hedgefonderna i USA",
+  "hedge_funds_infobox": "Lista över alla institutioner på Wall Street med störst förvaltat kapital.",
+  "hedge_funds_count_institutes": "{count} institutioner",
+
+  "hedge_funds_search_placeholder": "Sök...",
+  "hedge_funds_loading": "Laddar...",
+  "hedge_funds_no_data": "Ingen data tillgänglig.",
+
+  "hedge_funds_pagination_previous": "Föregående",
+  "hedge_funds_pagination_next": "Nästa",
+  "hedge_funds_pagination_page_of": "Sida {current} av {total}",
+  "hedge_funds_rows_label": "{rows} rader",
+  "hedge_funds_back_to_top": "Till toppen",
+
+  "hedge_funds_slug_seo_title": "{companyName} innehav och portfölj - analys av 13F-rapporter",
+  "hedge_funds_slug_seo_description": "Detaljerad analys av hedgefonden {companyName}, dess innehav, positioner och investeringsstrategi. Följ de senaste 13F-rapporterna, största innehaven, sektorfördelning och avkastning.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} innehav, {companyNameLower} portfölj, {companyNameLower} 13F-rapporter, hedgefondpositioner, institutionella innehav, {companyNameLower} aktieval, hedgefondanalys",
+  "hedge_funds_slug_structured_name": "{companyName} analys av innehav och portfölj",
+  "hedge_funds_slug_structured_description": "Heltäckande analys av hedgefonden {companyName} och dess innehav och positioner",
+
+  "hedge_funds_slug_cik_number": "CIK-nummer:",
+  "hedge_funds_slug_market_value": "Marknadsvärde",
+  "hedge_funds_slug_holdings": "Antal innehav",
+  "hedge_funds_slug_avg_holding_period": "Genomsn. innehavstid",
+  "hedge_funds_slug_months": "månader",
+  "hedge_funds_slug_win_rate": "Träffsäkerhet",
+  "hedge_funds_slug_performance_3year": "Utveckling 3 år",
+
+  "hedge_funds_slug_main_sectors": "Största sektorer:",
+  "hedge_funds_slug_top_industries": "Största branscher:",
+  "hedge_funds_slug_filing_date": "Rapportdatum:",
+  "hedge_funds_slug_no_data": "Data för hedgefonden är inte tillgänglig just nu.",
+
+  "hedge_funds_column_rank": "Rank",
+  "hedge_funds_column_name": "Namn",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Innehav",
+  "hedge_funds_column_turnover": "Omsättning",
+  "hedge_funds_column_3year_perf": "3 år",
+  "hedge_funds_column_win_rate": "Träffsäkerhet"
+}

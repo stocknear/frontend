@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Головна",
+  "hedge_funds_breadcrumb_hedge_funds": "Хедж-фонди",
+  "hedge_funds_breadcrumb_hedge_fund": "Хедж-фонд",
+
+  "hedge_funds_seo_title": "Трекер хедж-фондів — найбільші позиції та звіти 13F",
+  "hedge_funds_seo_description": "Стеж за позиціями провідних хедж-фондів, звітами 13F та портфелями інституційних інвесторів. Дивись, що хедж-фонди купують і продають, з докладним аналізом позицій. Безкоштовний інструмент відстеження хедж-фондів.",
+  "hedge_funds_seo_keywords": "трекер хедж-фондів, позиції хедж-фондів, звіти 13F, інституційні інвестори, позиції фондів, найбільші хедж-фонди, інституційні активи, портфелі хедж-фондів, позиції berkshire hathaway",
+  "hedge_funds_structured_name": "Трекер хедж-фондів",
+  "hedge_funds_structured_description": "Повне відстеження позицій хедж-фондів та інституційних інвестицій",
+
+  "hedge_funds_main_title": "Найбільші хедж-фонди США",
+  "hedge_funds_infobox": "Список усіх інституцій Волл-стріт із найбільшим обсягом активів під управлінням.",
+  "hedge_funds_count_institutes": "{count} інституцій",
+
+  "hedge_funds_search_placeholder": "Пошук...",
+  "hedge_funds_loading": "Завантаження...",
+  "hedge_funds_no_data": "Немає даних.",
+
+  "hedge_funds_pagination_previous": "Назад",
+  "hedge_funds_pagination_next": "Далі",
+  "hedge_funds_pagination_page_of": "Сторінка {current} з {total}",
+  "hedge_funds_rows_label": "{rows} рядків",
+  "hedge_funds_back_to_top": "Догори",
+
+  "hedge_funds_slug_seo_title": "{companyName} — позиції та портфель, аналіз звітів 13F",
+  "hedge_funds_slug_seo_description": "Докладний аналіз позицій хедж-фонду {companyName}, складу портфеля та інвестиційної стратегії. Стеж за останніми звітами 13F, головними ставками, розподілом за секторами та показниками дохідності.",
+  "hedge_funds_slug_seo_keywords": "позиції {companyNameLower}, портфель {companyNameLower}, звіти 13F {companyNameLower}, позиції хедж-фондів, активи інституційних інвесторів, акції у портфелі {companyNameLower}, аналіз хедж-фондів",
+  "hedge_funds_slug_structured_name": "{companyName} — аналіз позицій і портфеля",
+  "hedge_funds_slug_structured_description": "Повний аналіз позицій та інвестицій хедж-фонду {companyName}",
+
+  "hedge_funds_slug_cik_number": "Номер CIK:",
+  "hedge_funds_slug_market_value": "Ринкова вартість",
+  "hedge_funds_slug_holdings": "К-сть позицій",
+  "hedge_funds_slug_avg_holding_period": "Сер. строк утримання",
+  "hedge_funds_slug_months": "місяців",
+  "hedge_funds_slug_win_rate": "Частка прибуткових",
+  "hedge_funds_slug_performance_3year": "Дохідність за 3 роки",
+
+  "hedge_funds_slug_main_sectors": "Основні сектори:",
+  "hedge_funds_slug_top_industries": "Головні галузі:",
+  "hedge_funds_slug_filing_date": "Дата подання:",
+  "hedge_funds_slug_no_data": "Дані щодо цього хедж-фонду наразі недоступні.",
+
+  "hedge_funds_column_rank": "№",
+  "hedge_funds_column_name": "Назва",
+  "hedge_funds_column_aum": "Активи під упр.",
+  "hedge_funds_column_holdings": "Позиції",
+  "hedge_funds_column_turnover": "Оборотність",
+  "hedge_funds_column_3year_perf": "Дохідн. 3 роки",
+  "hedge_funds_column_win_rate": "Частка прибуткових"
+}

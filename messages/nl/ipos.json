@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Home",
+  "ipos_breadcrumb_data": "IPO-data",
+
+  "ipos_seo_title": "IPO-agenda - recente en aankomende IPO's | beursgangen",
+  "ipos_seo_description": "Volg recente en aankomende IPO's (beursgangen) met uitgebreide analyse. Bekijk rendementen, prijzen, data en koersontwikkeling sinds de notering. Gratis IPO-agenda en tracker met complete data.",
+  "ipos_seo_keywords": "IPO agenda, aankomende IPO's, recente IPO's, beursgangen, IPO tracker, IPO rendement, IPO prijzen, nieuwe beursnoteringen, emissies",
+
+  "ipos_main_name_recent": "Recente IPO's",
+  "ipos_main_name_statistics": "IPO-statistieken",
+  "ipos_count": "{count} aandelen",
+  "ipos_tab_recent": "Recent",
+  "ipos_tab_statistics": "Statistieken",
+  "ipos_tab_latest": "Laatste",
+
+  "ipos_statistics_seo_title": "IPO-statistieken en historische grafieken - marktdata over beursgangen",
+  "ipos_statistics_seo_description": "Uitgebreide IPO-statistieken en interactieve grafieken over beursgangen op de Amerikaanse markt. Volg jaarlijkse en maandelijkse IPO-trends van {startYear} tot {endYear}, analyseer marktcycli en ontdek patronen in IPO-rendementen.",
+  "ipos_statistics_seo_keywords": "IPO statistieken, grafieken beursgangen, IPO marktdata, IPO trends, IPO analyse, historische IPO data, IPO rendement, jaarlijkse IPO statistieken, maandelijkse IPO data",
+  "ipos_statistics_infobox": "Deze pagina toont statistieken en grafieken over beursgangen (IPO's) op de Amerikaanse markt. Jaar- en maanddata zijn beschikbaar van {startYear} tot {endYear}.",
+  "ipos_statistics_title": "Aantal IPO's per jaar",
+  "ipos_statistics_description": "Tussen {startYear} en {endYear} waren er {count} IPO's. Het minst was in {minYear}, met slechts {minCount}. Het volledige jaar {maxYear} was met {maxCount} IPO's een absoluut record.",
+  "ipos_statistics_stock_news": "Aandelennieuws",
+  "ipos_statistics_more_news": "Meer aandelennieuws",
+
+  "ipos_year_seo_title": "Lijst met IPO's van {year} - compleet overzicht van beursgangen",
+  "ipos_year_seo_description": "Compleet overzicht van alle beursgangen (IPO's) van {year} op de Amerikaanse markt. Volg rendementen, prijzen, koersontwikkeling sinds de notering en beursdebuten, met uitgebreide bedrijfsinformatie en historische data.",
+  "ipos_year_seo_keywords": "IPO's {year}, beursgangen {year}, IPO lijst {year}, IPO rendement {year}, recente IPO's, IPO agenda {year}, nieuwe beursgenoteerde bedrijven {year}",
+  "ipos_year_empty": "Geen IPO's gevonden. Pas je periode aan voor de laatste IPO's van {year}.",
+
+  "ipos_statistics_chart_title": "IPO's per jaar, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO's",
+  "ipos_year_heading": "Beursgangen in {year}",
+  "ipos_year_summary": "In {year} waren er {count} IPO's.",
+  "ipos_year_extremes": "De drukste maand was {maxMonth} met {maxCount}, de rustigste was {minMonth} met {minCount}.",
+  "ipos_year_none": "In {year} waren er geen IPO's."
+}

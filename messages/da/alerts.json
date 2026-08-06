@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Forside",
+  "price_alert_breadcrumb_price_alert": "Alarm",
+
+  "price_alert_seo_title": "Aktiealarmer - notifikationer og markedsopdateringer i realtid",
+  "price_alert_seo_description": "Opret dine egne aktiealarmer og få besked med det samme, når dine betingelser er opfyldt. Følg regnskaber, nyheder og kursbevægelser på din watchliste med markedsdata i realtid.",
+  "price_alert_seo_keywords": "aktiealarmer, kursnotifikationer, markedsalarmer, aktietriggere, regnskabskalender, aktienyheder, alarmer i realtid, markedsnotifikationer, watchliste, kursovervågning",
+  "price_alert_structured_name": "Alarmer - Stocknear",
+  "price_alert_structured_description": "Aktiealarmer i realtid med øjeblikkelige notifikationer",
+
+  "price_alert_main_title": "Alarmer",
+
+  "price_alert_search_placeholder": "Søg...",
+  "price_alert_no_results": "Ingen resultater fundet",
+  "price_alert_edit_alert": "Rediger alarm",
+  "price_alert_cancel": "Annuller",
+
+  "price_alert_empty_title": "Ingen alarmer oprettet",
+  "price_alert_empty_description": "Opret alarmer for de aktier, du selv mener har mest potentiale.",
+  "price_alert_get_started": "Kom i gang",
+
+  "price_alert_tab_news": "Nyheder",
+  "price_alert_tab_earnings": "Regnskab",
+  "price_alert_no_news": "Ingen nyheder endnu. Tilføj nogle aktier til din alarmliste for at se de seneste nyheder.",
+  "price_alert_no_earnings": "Ingen regnskaber endnu. Tilføj nogle aktier til alarmlisten for at se de seneste regnskabstal.",
+
+  "price_alert_toast_deleted": "Alarmerne blev slettet",
+  "price_alert_toast_select_symbols": "Du skal vælge symboler, før du kan slette dem",
+
+  "price_alert_earnings_will_report_today": "aflægger regnskab i dag",
+  "price_alert_earnings_will_report_tomorrow": "aflægger regnskab i morgen",
+  "price_alert_earnings_will_report_monday": "aflægger regnskab mandag",
+  "price_alert_earnings_will_report": "aflægger regnskab",
+  "price_alert_earnings_after_close": "efter markedets lukning.",
+  "price_alert_earnings_before_open": "før markedets åbning.",
+  "price_alert_earnings_during_market": "mens markedet er åbent.",
+  "price_alert_earnings_analysts_estimate": "Analytikerne forventer",
+  "price_alert_earnings_in_revenue": "i omsætning",
+  "price_alert_earnings_yoy": "år/år",
+  "price_alert_earnings_and": "og",
+  "price_alert_earnings_in_eps": "i indtjening pr. aktie"
+}

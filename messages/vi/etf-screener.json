@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Trang chủ",
+  "etf_screener_breadcrumb_etf_screener": "Bộ lọc ETF",
+
+  "etf_screener_seo_title": "Bộ lọc ETF miễn phí - Lọc và tìm ETF",
+  "etf_screener_seo_description": "Lọc {count} ETF theo tổng tài sản, phí quản lý, cổ tức, hiệu suất, chỉ báo kỹ thuật và nhiều tiêu chí khác. Bộ lọc ETF miễn phí với bộ tiêu chí nâng cao.",
+  "etf_screener_seo_keywords": "bộ lọc etf, lọc etf, tìm etf, tìm kiếm etf, công cụ sàng lọc etf, lọc theo phí quản lý, lọc theo tổng tài sản, bộ lọc etf cổ tức",
+  "etf_screener_structured_name": "Bộ lọc ETF của stocknear",
+  "etf_screener_structured_description": "Công cụ lọc ETF nâng cao với các tiêu chí về tổng tài sản, phí quản lý, hiệu suất, chỉ báo kỹ thuật, cổ tức và nhiều hơn nữa.",
+
+  "etf_screener_main_title": "Bộ lọc ETF",
+  "etf_screener_matches_found": "Tìm thấy {count} kết quả",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Bộ lọc phổ biến",
+  "etf_screener_popular_strategies": "Chiến lược phổ biến",
+  "etf_screener_select_popular": "Chọn bộ lọc phổ biến",
+  "etf_screener_saved_screens": "Bộ lọc đã lưu",
+  "etf_screener_select_screen": "Chọn bộ lọc",
+  "etf_screener_new_screen": "Bộ lọc mới",
+
+  "etf_screener_filters_count": "{count} bộ lọc",
+  "etf_screener_add_filters": "Thêm bộ lọc",
+  "etf_screener_search_filters": "Tìm trong {count} bộ lọc...",
+  "etf_screener_select_filters_title": "Chọn bộ lọc ({count})",
+  "etf_screener_nothing_found": "Không tìm thấy gì",
+
+  "etf_screener_search_placeholder": "Tìm ETF...",
+  "etf_screener_search_input_placeholder": "Tìm kiếm...",
+  "etf_screener_input_min": "Tối thiểu",
+  "etf_screener_input_max": "Tối đa",
+  "etf_screener_input_value": "Giá trị",
+
+  "etf_screener_normal_width": "Khổ thường",
+  "etf_screener_full_width": "Toàn màn hình",
+
+  "etf_screener_save": "Lưu",
+  "etf_screener_save_as_new": "Lưu thành bộ lọc mới",
+  "etf_screener_reset_all": "Đặt lại tất cả",
+
+  "etf_screener_pagination_previous": "Trước",
+  "etf_screener_pagination_next": "Sau",
+  "etf_screener_pagination_page_of": "Trang {current}/{total}",
+  "etf_screener_rows_label": "{rows} dòng",
+  "etf_screener_back_to_top": "Lên đầu trang",
+
+  "etf_screener_no_etfs_query": "Không tìm thấy ETF nào cho \"{query}\"",
+  "etf_screener_no_etfs": "Không tìm thấy ETF nào.",
+
+  "etf_screener_modal_new_title": "Bộ lọc mới",
+  "etf_screener_modal_new_name_label": "Tên bộ lọc",
+  "etf_screener_modal_new_create": "Tạo",
+
+  "etf_screener_modal_delete_title": "Xóa bộ lọc",
+  "etf_screener_modal_delete_message": "Bạn có chắc muốn xóa bộ lọc này?",
+  "etf_screener_modal_delete_cancel": "Hủy",
+  "etf_screener_modal_delete_confirm": "Xóa",
+
+  "etf_screener_strategy_low_cost_index": "ETF chỉ số phí thấp",
+  "etf_screener_strategy_high_dividend": "ETF cổ tức cao",
+  "etf_screener_strategy_top_performers_1y": "Hiệu suất tốt nhất 1 năm",
+  "etf_screener_strategy_oversold": "ETF quá bán",
+
+  "etf_screener_tab_filters": "Bộ lọc",
+  "etf_screener_tab_technicals": "Chỉ báo kỹ thuật",
+
+  "etf_screener_export_title": "Xuất dữ liệu bộ lọc ETF"
+}

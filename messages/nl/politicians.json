@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Home",
+  "politicians_breadcrumb_politicians": "Politici",
+  "politicians_breadcrumb_flow": "Congresflow",
+
+  "politicians_seo_title": "Congress Trading Tracker - realtime aandelentransacties van politici",
+  "politicians_seo_description": "Volg in realtime de aandelentransacties van Amerikaanse Congresleden, senatoren en politici. Bekijk de trades van Nancy Pelosi, aankopen door de Senaat en handel door Congresleden. Gratis tracker met een gedetailleerde transactiehistorie.",
+  "politicians_seo_keywords": "congres handel, nancy pelosi trades, aandelentransacties politici, senaat trades, handel door congresleden, insider trading congres, tracker politieke aandelen, amerikaanse politici handel, pelosi portefeuille, congres aandelentransacties",
+  "politicians_structured_name": "Congress Trading Tracker",
+  "politicians_structured_description": "Realtime overzicht van aandelentransacties door Amerikaanse politici en Congresleden",
+
+  "politicians_main_title": "Alle Amerikaanse politici",
+  "politicians_count_members": "{count} leden",
+  "politicians_search_placeholder": "Zoeken...",
+  "politicians_filter_party": "Partij",
+  "politicians_empty_search": "Geen Congreslid gevonden voor \"{query}\"",
+  "politicians_empty_filter": "Geen resultaten voor je zoekopdracht of filters.",
+
+  "politicians_pagination_previous": "Vorige",
+  "politicians_pagination_next": "Volgende",
+  "politicians_pagination_page_of": "Pagina {current} van {total}",
+  "politicians_pagination_rows": "{count} rijen",
+  "politicians_back_to_top": "Terug naar boven",
+
+  "politicians_flow_seo_title": "Nieuwste transacties uit het Congres",
+  "politicians_flow_seo_description": "Bekijk de nieuwste transacties uit het Congres en zie waar insiders met toegang tot wetgeving in beleggen.",
+
+  "politicians_flow_title": "Nieuwste transacties van politici",
+  "politicians_flow_description_intro": "Overzicht van de recentste handelsactiviteit in het Congres. De koop-verkoopverhouding staat op",
+  "politicians_flow_description_buys": "{percent}% kopen",
+  "politicians_flow_description_versus": "tegenover",
+  "politicians_flow_description_sells": "{percent}% verkopen",
+  "politicians_flow_description_active_party": "bij recente meldingen. De actiefste partij is",
+  "politicians_flow_description_with": "met",
+  "politicians_flow_description_transactions": "transacties, wat wijst op",
+  "politicians_flow_description_sentiment": "sentiment onder Congresleden.",
+  "politicians_flow_sentiment_bullish": "bullish",
+  "politicians_flow_sentiment_bearish": "bearish",
+  "politicians_flow_sentiment_neutral": "neutraal",
+  "politicians_flow_count_trades": "{count} trades",
+  "politicians_flow_empty_search": "Geen aandelen gevonden voor \"{query}\"",
+
+  "politicians_detail_stats_rank": "Rang",
+  "politicians_detail_stats_trades_scored": "Beoordeelde trades",
+  "politicians_detail_stats_success_rate": "Succespercentage",
+  "politicians_detail_stats_avg_return": "Gem. rendement",
+  "politicians_detail_stats_total_amount": "Totaalbedrag",
+  "politicians_detail_stats_transaction": "Transactie",
+  "politicians_detail_stats_last_transaction": "Laatste transactie",
+  "politicians_detail_stats_buy_sell": "Koop/verkoop",
+
+  "politicians_detail_main_sectors": "Belangrijkste sectoren:",
+  "politicians_detail_top_industries": "Grootste branches:",
+  "politicians_detail_count_stocks": "{count} aandelen",
+  "politicians_detail_empty_search": "Geen data beschikbaar voor \"{query}\"",
+  "politicians_detail_empty": "Geen data beschikbaar voor de gezochte analist.",
+
+  "politicians_detail_mobile_filed": "Gemeld",
+  "politicians_detail_mobile_view_chart": "Grafiek bekijken",
+  "politicians_detail_mobile_amt": "Bedrag",
+  "politicians_detail_mobile_trades": "{count} trade",
+  "politicians_detail_mobile_trades_plural": "{count} trades"
+}

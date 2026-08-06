@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Domů",
+  "stock_screener_breadcrumb_stock_screener": "Screener akcií",
+
+  "stock_screener_seo_title": "Pokročilý screener akcií - filtrování a analýza akcií zdarma",
+  "stock_screener_seo_description": "Výkonný screener akcií s {count} filtračními kritérii. Filtruj akcie podle fundamentů, technických ukazatelů, ocenění a výkonnosti. Data v reálném čase aktualizovaná každou minutu.",
+  "stock_screener_seo_keywords": "screener akcií, screener akcií zdarma, filtr akcií, skener akcií, fundamentální screener, technický screener, screener hodnotových akcií, screener růstových akcií, screener dividendových akcií, nástroj na analýzu akcií",
+  "stock_screener_structured_name": "Nástroj screener akcií",
+  "stock_screener_structured_description": "Pokročilá platforma pro filtrování akcií s tržními daty v reálném čase",
+
+  "stock_screener_main_title": "Screener akcií",
+  "stock_screener_matches_found": "{count} shod",
+  "stock_screener_stocks_count": "{count} akcií",
+
+  "stock_screener_popular_screens": "Oblíbené screeny",
+  "stock_screener_popular_strategies": "Oblíbené strategie",
+  "stock_screener_select_popular": "Vyber oblíbený",
+  "stock_screener_saved_screens": "Uložené screeny",
+  "stock_screener_select_screen": "Vyber screen",
+  "stock_screener_new_screen": "Nový screen",
+
+  "stock_screener_filters_count": "{count} filtrů",
+  "stock_screener_add_filters": "Přidat filtry",
+  "stock_screener_search_filters": "Hledat mezi {count} filtry...",
+  "stock_screener_select_filters_title": "Vyber filtry screeneru (celkem {count})",
+  "stock_screener_nothing_found": "Nic nenalezeno",
+
+  "stock_screener_search_placeholder": "Najít...",
+  "stock_screener_search_input_placeholder": "Hledat...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Hodnota",
+
+  "stock_screener_normal_width": "Normální šířka",
+  "stock_screener_full_width": "Celá šířka",
+
+  "stock_screener_pagination_previous": "Předchozí",
+  "stock_screener_pagination_next": "Další",
+  "stock_screener_pagination_page_of": "Stránka {current} z {total}",
+  "stock_screener_rows_label": "{rows} řádků",
+  "stock_screener_back_to_top": "Zpět nahoru",
+
+  "stock_screener_no_stocks_query": "Pro \"{query}\" jsme nenašli žádné akcie",
+  "stock_screener_no_stocks": "Žádné akcie nenalezeny.",
+
+  "stock_screener_modal_new_title": "Nový screener",
+  "stock_screener_modal_new_name_label": "Název screeneru",
+  "stock_screener_modal_new_create": "Vytvořit screener",
+
+  "stock_screener_modal_delete_title": "Smazat screener",
+  "stock_screener_modal_delete_message": "Opravdu chceš tento screener smazat? Tuto akci nelze vrátit zpět.",
+  "stock_screener_modal_delete_cancel": "Zrušit",
+  "stock_screener_modal_delete_confirm": "Smazat",
+
+  "stock_screener_strategy_earnings_volatility": "Volatilita kolem výsledků",
+  "stock_screener_strategy_dividend_growth": "Růst dividend",
+  "stock_screener_strategy_monthly_dividends": "Měsíční dividendy",
+  "stock_screener_strategy_top_gainers_1y": "Největší růsty 1R",
+  "stock_screener_strategy_top_shorted": "Nejvíce shortované akcie",
+  "stock_screener_strategy_momentum_ta": "Momentum akcie podle TA",
+  "stock_screener_strategy_undervalued": "Podhodnocené akcie",
+  "stock_screener_strategy_strong_cash_flow": "Silný cash flow",
+
+  "stock_screener_save": "Uložit",
+  "stock_screener_save_as_new": "Uložit jako nový",
+  "stock_screener_reset_all": "Resetovat vše"
+}

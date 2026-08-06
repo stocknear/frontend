@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "หน้าแรก",
+  "ipos_breadcrumb_data": "ข้อมูล IPO",
+
+  "ipos_seo_title": "ปฏิทิน IPO - หุ้น IPO ล่าสุดและที่กำลังจะเข้าตลาด",
+  "ipos_seo_description": "ติดตามหุ้น IPO ล่าสุดและที่กำลังจะเข้าตลาด พร้อมบทวิเคราะห์แบบละเอียด ดูผลตอบแทน ราคา วันเข้าซื้อขาย และผลตอบแทนนับตั้งแต่วันแรก ปฏิทินและเครื่องมือติดตาม IPO ฟรีพร้อมข้อมูลครบถ้วน",
+  "ipos_seo_keywords": "ปฏิทิน IPO, IPO ที่กำลังจะมา, IPO ล่าสุด, การเสนอขายหุ้นครั้งแรก, ติดตาม IPO, ผลตอบแทน IPO, ราคา IPO, หุ้นเข้าใหม่, การเสนอขายหุ้นต่อประชาชน",
+
+  "ipos_main_name_recent": "IPO ล่าสุด",
+  "ipos_main_name_statistics": "สถิติ IPO",
+  "ipos_count": "{count} หุ้น",
+  "ipos_tab_recent": "ล่าสุด",
+  "ipos_tab_statistics": "สถิติ",
+  "ipos_tab_latest": "ใหม่ล่าสุด",
+
+  "ipos_statistics_seo_title": "สถิติ IPO และกราฟย้อนหลัง - ข้อมูลตลาดการเสนอขายหุ้นครั้งแรก",
+  "ipos_statistics_seo_description": "สถิติ IPO ครบถ้วนพร้อมกราฟโต้ตอบสำหรับการเสนอขายหุ้นครั้งแรกในตลาดหุ้นสหรัฐฯ ติดตามแนวโน้ม IPO รายปีและรายเดือนตั้งแต่ปี {startYear} ถึง {endYear} วิเคราะห์วัฏจักรตลาด และดูรูปแบบผลตอบแทนของ IPO",
+  "ipos_statistics_seo_keywords": "สถิติ IPO, กราฟการเสนอขายหุ้นครั้งแรก, ข้อมูลตลาด IPO, แนวโน้ม IPO, วิเคราะห์ IPO, ข้อมูล IPO ย้อนหลัง, ผลตอบแทน IPO, สถิติ IPO รายปี, ข้อมูล IPO รายเดือน",
+  "ipos_statistics_infobox": "หน้านี้รวมสถิติและกราฟของการเสนอขายหุ้นครั้งแรก (IPO) ในตลาดหุ้นสหรัฐฯ มีข้อมูลรายปีและรายเดือนตั้งแต่ปี {startYear} ถึง {endYear}",
+  "ipos_statistics_title": "จำนวน IPO แยกตามปี",
+  "ipos_statistics_description": "มี IPO ทั้งหมด {count} รายการระหว่างปี {startYear} ถึง {endYear} ปีที่น้อยที่สุดคือ {minYear} ซึ่งมีเพียง {minCount} รายการ ส่วนปี {maxYear} เต็มปีเป็นสถิติสูงสุดตลอดกาลที่ {maxCount} รายการ",
+  "ipos_statistics_stock_news": "ข่าวหุ้น",
+  "ipos_statistics_more_news": "ข่าวหุ้นเพิ่มเติม",
+
+  "ipos_year_seo_title": "รายชื่อ IPO ปี {year} - รวมการเสนอขายหุ้นครั้งแรกทั้งหมด",
+  "ipos_year_seo_description": "รายชื่อการเสนอขายหุ้นครั้งแรก (IPO) ทั้งหมดในตลาดหุ้นสหรัฐฯ ปี {year} ติดตามผลตอบแทน ราคาเสนอขาย ผลตอบแทนนับตั้งแต่เข้าซื้อขาย และการเปิดตัวในตลาด พร้อมข้อมูลบริษัทและสถิติย้อนหลัง",
+  "ipos_year_seo_keywords": "IPO ปี {year}, การเสนอขายหุ้นครั้งแรก {year}, รายชื่อ IPO {year}, ผลตอบแทน IPO ปี {year}, IPO ล่าสุด, ปฏิทิน IPO {year}, บริษัทเข้าตลาดใหม่ {year}",
+  "ipos_year_empty": "ไม่พบ IPO โปรดปรับช่วงเวลาค้นหาเพื่อดู IPO ล่าสุดของปี {year}",
+
+  "ipos_statistics_chart_title": "จำนวน IPO ต่อปี {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "การเสนอขายหุ้นครั้งแรกปี {year}",
+  "ipos_year_summary": "ในปี {year} มี IPO ทั้งหมด {count} รายการ",
+  "ipos_year_extremes": "เดือนที่คึกคักที่สุดคือ {maxMonth} ด้วย {maxCount} รายการ ส่วนเดือนที่เงียบที่สุดคือ {minMonth} ด้วย {minCount} รายการ",
+  "ipos_year_none": "ไม่มี IPO ในปี {year}"
+}

@@ -6,56 +6,88 @@
       "zh-CN": "市值",
       "zh-TW": "市值",
       "es": "capitalización bursátil",
-      "fr": "capitalisation boursière"
+      "fr": "capitalisation boursière",
+      "ja": "時価総額",
+      "ko": "시가총액",
+      "ru": "рыночная капитализация",
+      "uk": "ринкова капіталізація"
     },
     "earnings": {
       "de": "Quartalszahlen",
       "zh-CN": "财报",
       "zh-TW": "財報",
       "es": "resultados",
-      "fr": "résultats"
+      "fr": "résultats",
+      "ja": "決算",
+      "ko": "실적",
+      "ru": "отчёт о прибыли",
+      "uk": "звіт про прибутки"
     },
     "revenue": {
       "de": "Umsatz",
       "zh-CN": "营收",
       "zh-TW": "營收",
       "es": "ingresos",
-      "fr": "chiffre d’affaires"
+      "fr": "chiffre d’affaires",
+      "ja": "売上高",
+      "ko": "매출",
+      "ru": "выручка",
+      "uk": "виручка"
     },
     "options flow": {
       "de": "Options-Flow",
       "zh-CN": "期权资金流",
       "zh-TW": "選擇權資金流",
       "es": "flujo de opciones",
-      "fr": "flux d’options"
+      "fr": "flux d’options",
+      "ja": "オプションフロー",
+      "ko": "옵션 플로우",
+      "ru": "опционный флоу",
+      "uk": "потік опціонів"
     },
     "dark pool": {
       "de": "Dark Pool",
       "zh-CN": "暗池",
       "zh-TW": "暗池",
       "es": "dark pool",
-      "fr": "dark pool"
+      "fr": "dark pool",
+      "ja": "ダークプール",
+      "ko": "다크풀",
+      "ru": "Dark Pool",
+      "uk": "Dark Pool"
     },
     "technical indicators": {
       "de": "technische Indikatoren",
       "zh-CN": "技术指标",
       "zh-TW": "技術指標",
       "es": "indicadores técnicos",
-      "fr": "indicateurs techniques"
+      "fr": "indicateurs techniques",
+      "ja": "テクニカル指標",
+      "ko": "기술적 지표",
+      "ru": "технические индикаторы",
+      "uk": "технічні індикатори"
     },
     "performance": {
       "de": "Performance",
       "zh-CN": "表现",
       "zh-TW": "績效",
       "es": "rendimiento",
-      "fr": "performance"
+      "fr": "performance",
+      "ja": "パフォーマンス",
+      "ko": "수익률",
+      "ru": "доходность",
+      "uk": "дохідність"
     },
     "profit margin": {
       "de": "Gewinnmarge",
       "zh-CN": "利润率",
       "zh-TW": "利潤率",
       "es": "margen de beneficio",
-      "fr": "marge bénéficiaire"
+      "fr": "marge bénéficiaire",
+      "ja": "利益率",
+      "ko": "순이익률",
+      "ru": "чистая рентабельность",
+      "uk": "чиста рентабельність"
     }
   }
 }

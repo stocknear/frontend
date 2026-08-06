@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Contact",
+  "contact_breadcrumb": "Contact",
+  "contact_hero_title": "Contactează-ne",
+  "contact_intro": "Ne-ar face plăcere să auzim de la tine. Trimite-ne un mesaj prin formularul de mai jos și îți răspundem cât putem de repede. Poți trimite un e-mail și direct la {email}.",
+  "contact_email_label": "E-mail",
+  "contact_subject_label": "Subiect",
+  "contact_message_label": "Mesaj",
+  "contact_send_button": "Trimite mesajul",
+  "contact_processing": "Se procesează...",
+  "contact_success": "Mesajul tău a fost trimis. Îți răspundem în curând.",
+  "contact_sidebar_pro_title": "Abonament Pro",
+  "contact_sidebar_pro_desc": "Treci la Pro pentru acces nelimitat la toate datele și instrumentele, fără reclame.",
+  "contact_sidebar_screener_title": "Screener de acțiuni",
+  "contact_sidebar_screener_desc": "Filtrează, sortează și analizează toate acțiunile ca să găsești următoarea investiție.",
+  "contact_sidebar_watchlist_title": "Liste de urmărire",
+  "contact_sidebar_watchlist_desc": "Urmărește în timp real acțiunile tale preferate."
+}

@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Главная",
+  "watchlist_breadcrumb_watchlist": "Список наблюдения",
+
+  "watchlist_seo_title": "Список наблюдения за акциями - отслеживай портфель и цены акций",
+  "watchlist_seo_description": "Создавай и управляй личным списком наблюдения за акциями с отслеживанием цен в реальном времени. Следи за любимыми акциями, ETF и инвестициями с оповещениями и аналитикой доходности. Бесплатный трекер портфеля с расширенными функциями.",
+  "watchlist_seo_keywords": "список наблюдения за акциями, трекер портфеля, трекер акций, трекер инвестиций, мониторинг акций, оповещения, управление портфелем, доходность акций, список наблюдения за инвестициями",
+  "watchlist_structured_name": "Трекер списка наблюдения за акциями",
+  "watchlist_structured_description": "Личный список наблюдения за акциями и инструмент отслеживания портфеля",
+
+  "watchlist_main_title": "Список наблюдения",
+  "watchlist_create_watchlist": "Создать список наблюдения",
+  "watchlist_new_watchlist": "Новый список наблюдения",
+  "watchlist_delete_watchlist": "Удалить список наблюдения",
+
+  "watchlist_add_stock_placeholder": "Добавить акцию...",
+  "watchlist_no_results": "Ничего не найдено",
+  "watchlist_edit_watchlist": "Изменить список наблюдения",
+  "watchlist_cancel": "Отмена",
+  "watchlist_normal_width": "Обычная ширина",
+  "watchlist_full_width": "На всю ширину",
+  "watchlist_exit_full_width": "Выйти из режима на всю ширину",
+  "watchlist_expand_full_width": "Развернуть на всю ширину",
+
+  "watchlist_empty_title": "Пустой список наблюдения",
+  "watchlist_empty_description": "Наполни его любимыми акциями, чтобы получать данные в реальном времени и последние новости в одном месте!",
+  "watchlist_get_started": "Начать",
+
+  "watchlist_count_stocks": "{count} акций",
+
+  "watchlist_tab_news": "Новости",
+  "watchlist_tab_earnings": "Отчёты о прибыли",
+  "watchlist_no_news": "Новостей пока нет. Добавь акции в список наблюдения, чтобы видеть последние новости.",
+  "watchlist_no_earnings": "Данные об отчётах недоступны. Добавь акции в список наблюдения, чтобы видеть последние данные об отчётах.",
+
+  "watchlist_modal_new_title": "Новый список наблюдения",
+  "watchlist_modal_list_name": "Название списка",
+  "watchlist_modal_create_button": "Создать список наблюдения",
+
+  "watchlist_modal_delete_title": "Удалить список наблюдения",
+  "watchlist_modal_delete_confirm": "Ты уверен, что хочешь удалить этот список наблюдения? Это действие нельзя отменить.",
+  "watchlist_modal_delete_button": "Удалить список наблюдения",
+
+  "watchlist_toast_creating": "Создаём список наблюдения...",
+  "watchlist_toast_created": "Список наблюдения успешно создан!",
+  "watchlist_toast_deleted": "Список наблюдения успешно удалён!",
+  "watchlist_toast_updating": "Обновляем список наблюдения...",
+  "watchlist_toast_updated": "Список наблюдения успешно обновлён!",
+  "watchlist_toast_error": "Что-то пошло не так. Попробуй ещё раз!",
+  "watchlist_toast_error_generic": "Произошла ошибка. Попробуй позже.",
+  "watchlist_toast_title_empty": "Название не может быть пустым!",
+  "watchlist_toast_title_long": "Название слишком длинное. Сделай его короче.",
+  "watchlist_toast_already_in_list": "Этот тикер уже есть в твоём списке наблюдения",
+  "watchlist_toast_select_symbols": "Сначала выбери тикеры, которые хочешь удалить",
+
+  "watchlist_earnings_will_report": "отчитается",
+  "watchlist_earnings_after_close": "после закрытия рынка.",
+  "watchlist_earnings_before_open": "до открытия рынка.",
+  "watchlist_earnings_during_market": "в течение торговой сессии.",
+  "watchlist_earnings_analysts_estimate": "Аналитики прогнозируют",
+  "watchlist_earnings_in_revenue": "выручки",
+  "watchlist_earnings_yoy": "г/г",
+  "watchlist_earnings_and": "и",
+  "watchlist_earnings_in_eps": "прибыли на акцию",
+
+  "watchlist_note_add_title": "Добавить заметку",
+  "watchlist_note_edit_title": "Изменить заметку",
+  "watchlist_note_placeholder_new": "Почему ты добавил эту акцию в список наблюдения?",
+  "watchlist_note_placeholder_edit": "Обнови свою заметку...",
+  "watchlist_note_save": "Сохранить",
+  "watchlist_note_add": "Добавить заметку",
+  "watchlist_note_update": "Обновить заметку",
+  "watchlist_note_created": "Заметка создана",
+  "watchlist_note_updated": "Заметка обновлена",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "осталось символов: {count}",
+  "watchlist_note_chars_over": "превышено на {count} символов",
+  "watchlist_note_exceeded": "Заметка не может превышать {max} символов",
+  "watchlist_added_price": "Цена добавления",
+
+  "watchlist_column_entry_price": "Цена входа",
+  "watchlist_column_since_added": "% с момента добавления"
+}

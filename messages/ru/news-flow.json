@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Главная",
+  "news_flow_breadcrumb_news_flow": "Лента новостей",
+
+  "news_flow_seo_title": "Лента рыночных новостей - готовые к торговле катализаторы в реальном времени",
+  "news_flow_seo_description": "Следи за рыночными новостями и катализаторами, двигающими цену, в реальном времени. Создано для опционных трейдеров, которым нужен быстрый контекст для краткосрочных сетапов.",
+  "news_flow_seo_keywords": "лента рыночных новостей, торговые катализаторы, главные рыночные новости, новости для опционных трейдеров, новости движения цены, обновления рынка в реальном времени",
+  "news_flow_structured_name": "Лента рыночных новостей",
+  "news_flow_structured_description": "Рыночные новости и катализаторы в реальном времени для планирования краткосрочных сделок",
+
+  "news_flow_main_title": "Лента новостей",
+  "news_flow_news_count": "{count} новостей",
+  "news_flow_search_placeholder": "Поиск...",
+
+  "news_flow_infobox": "Следи за последними новостями и понимай, почему цены акций менялись, в реальном времени",
+  "news_flow_no_news": "Пока нет важных новостей фондового рынка.",
+
+  "news_flow_sidebar_market_flow_title": "Рыночный флоу",
+  "news_flow_sidebar_market_flow_description": "Отслеживай настроения по опционам в реальном времени.",
+  "news_flow_sidebar_options_flow_title": "Опционный флоу",
+  "news_flow_sidebar_options_flow_description": "Следи за необычной активностью с опционами и паттернами флоу в реальном времени",
+  "news_flow_sidebar_dark_pool_title": "Флоу тёмных пулов",
+  "news_flow_sidebar_dark_pool_description": "Анализируй скрытый институциональный флоу и данные торговли в тёмных пулах"
+}

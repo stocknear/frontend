@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "홈",
+  "notifications_breadcrumb_notifications": "알림",
+
+  "notifications_seo_title": "주식 시장 알림 | 실시간 업데이트와 알림",
+  "notifications_seo_description": "실시간 주식 시장 알림으로 흐름을 놓치지 마세요. 가격 변동, 추세, 시장 움직임을 즉시 받아보고 더 나은 투자 판단을 내리세요.",
+
+  "notifications_main_title": "알림",
+  "notifications_alerts_count": "알림 {count}개",
+
+  "notifications_mark_all_read": "모두 읽음 처리",
+  "notifications_marking": "처리 중...",
+  "notifications_settings": "설정",
+  "notifications_customize": "알림을 원하는 대로 설정하세요",
+
+  "notifications_channel_earnings_surprise": "어닝 서프라이즈",
+  "notifications_channel_wiim": "주가가 움직인 이유",
+  "notifications_channel_top_analyst": "상위 애널리스트 투자의견",
+  "notifications_channel_followed_analysts": "팔로우 중인 애널리스트",
+  "notifications_no_channels": "이용 가능한 알림 채널이 없습니다.",
+
+  "notifications_empty": "아직 받은 알림이 없습니다.",
+
+  "notifications_pagination_previous": "이전",
+  "notifications_pagination_next": "다음",
+  "notifications_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "notifications_pagination_rows": "{count}개씩",
+  "notifications_back_to_top": "맨 위로",
+
+  "notifications_modal_delete_title": "모든 알림 삭제",
+  "notifications_modal_delete_confirm": "모든 알림을 삭제하시겠습니까? 삭제한 알림은 되돌릴 수 없습니다.",
+  "notifications_modal_delete_button": "알림 삭제",
+  "notifications_modal_deleting": "삭제 중...",
+  "notifications_modal_cancel": "취소",
+  "notifications_delete_error": "알림 삭제에 실패했습니다. 다시 시도해 주세요.",
+
+  "notifications_type_price_alert_triggered": "알림 조건 도달:",
+  "notifications_type_price_is": "다음 종목의 가격이",
+  "notifications_type_is_condition": "설정한 목표가 {condition}입니다:",
+  "notifications_type_breaking_news": "속보:",
+  "notifications_type_wiim_new_data": "\"주가가 움직인 이유\" 이벤트의 새 데이터가 나왔습니다.",
+  "notifications_type_top_analyst_new": "새 상위 애널리스트 투자의견:",
+  "notifications_type_top_analyst_rating": "{analyst}이(가) 새로운 투자의견 \"{rating}\"을 제시했고, 목표주가를 {price}로 조정했습니다.",
+  "notifications_type_followed_analyst_new": "새 투자의견:",
+  "notifications_type_followed_analyst_rating": "{symbol}에 대해 \"{rating}\" 의견과 목표주가 {price}를 제시했습니다.",
+  "notifications_type_earnings_release": "실적 발표:",
+  "notifications_type_earnings_surprise_new": "\"어닝 서프라이즈\" 이벤트의 새 데이터가 나왔습니다.",
+
+  "notifications_sidebar_watchlist": "관심목록",
+  "notifications_sidebar_watchlist_description": "관심 종목의 실시간 업데이트를 받아보세요",
+  "notifications_sidebar_portfolio": "포트폴리오 트래커",
+  "notifications_sidebar_portfolio_description": "포트폴리오의 실시간 업데이트를 받아보세요"
+}

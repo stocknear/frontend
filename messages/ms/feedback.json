@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Beri maklum balas",
+  "feedback_error_signin": "Sila log masuk sebelum menghantar maklum balas.",
+  "feedback_error_description": "Sila terangkan isu atau cadangan anda.",
+  "feedback_error_send_try_again": "Ada masalah semasa menghantar maklum balas. Sila cuba lagi.",
+  "feedback_success": "Terima kasih. Maklum balas anda telah dihantar.",
+  "feedback_error_send_generic": "Ada masalah semasa menghantar maklum balas.",
+  "feedback_description_label": "Terangkan isu atau cadangan anda:",
+  "feedback_page_label": "Maklum balas untuk halaman:",
+  "feedback_close_button": "Tutup",
+  "feedback_cancel_button": "Batal",
+  "feedback_send_button": "Hantar maklum balas"
+}

@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Обзор",
+  "index_detail_nav_options": "Опционы",
+  "index_detail_nav_history": "История",
+  "index_detail_nav_holdings": "Состав",
+
+  "index_detail_watchlist": "Список наблюдения",
+  "index_detail_price_alert": "Оповещение",
+  "index_detail_add_to_watchlist": "Добавить в список наблюдения",
+  "index_detail_ticker_added": "Тикер добавлен в список наблюдения",
+  "index_detail_ticker_add_failed": "Не удалось добавить тикер в список наблюдения",
+  "index_detail_upgrade_watchlist": "Хочешь добавить больше акций? Переходи на Plus или Pro!!",
+  "index_detail_companies": "Компании",
+  "index_detail_company": "Компания",
+
+  "index_detail_no_data": "Данные недоступны",
+  "index_detail_na": "н/д",
+
+  "index_detail_bid": "Покупка",
+  "index_detail_ask": "Продажа",
+  "index_detail_volume": "Объём",
+  "index_detail_avg_volume_20d": "Сред. объём (20Д)",
+  "index_detail_50_day_ma": "50-дневная СС",
+  "index_detail_200_day_ma": "200-дневная СС",
+  "index_detail_eps_ttm": "EPS (TTM)",
+  "index_detail_pe_ratio_ttm": "P/E (TTM)",
+  "index_detail_shares_out": "Акций в обращении",
+  "index_detail_inception_date": "Дата запуска",
+  "index_detail_open": "Открытие",
+  "index_detail_prev_close": "Пред. закрытие",
+  "index_detail_days_range": "Диапазон дня",
+  "index_detail_52w_range": "Диапазон за 52 недели",
+  "index_detail_exchange": "Биржа",
+  "index_detail_expense_ratio": "Коэффициент расходов",
+
+  "index_detail_chart_price": "Цена",
+  "index_detail_chart_volume": "Объём",
+
+  "index_sidecard_about": "О {ticker}",
+  "index_sidecard_top_sectors": "Топ-5 секторов",
+  "index_sidecard_sector": "Сектор",
+  "index_sidecard_weight_percent": "Вес %",
+  "index_sidecard_view_all_sectors": "Посмотреть все секторы"
+}

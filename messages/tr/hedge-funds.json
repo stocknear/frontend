@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Ana Sayfa",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedge Fonlar",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedge Fon",
+
+  "hedge_funds_seo_title": "Hedge Fon Takipcisi - En Buyuk Hedge Fon Pozisyonlari ve 13F Bildirimleri",
+  "hedge_funds_seo_description": "Buyuk hedge fon pozisyonlarini, 13F bildirimlerini ve kurumsal yatirimci portfoylerini takip et. Hedge fonlarin ne alip ne sattigini detayli pozisyon analiziyle izle. Ucretsiz hedge fon takip araci.",
+  "hedge_funds_seo_keywords": "hedge fon takipcisi, hedge fon pozisyonlari, 13F bildirimleri, kurumsal yatirimcilar, hedge fon pozisyonu, en buyuk hedge fonlar, kurumsal pozisyonlar, hedge fon portfoyleri, berkshire hathaway pozisyonlari",
+  "hedge_funds_structured_name": "Hedge Fon Takipcisi",
+  "hedge_funds_structured_description": "Hedge fon pozisyonlarinin ve kurumsal yatirimlarin kapsamli takibi",
+
+  "hedge_funds_main_title": "ABD'nin En Buyuk Hedge Fonlari",
+  "hedge_funds_infobox": "Yonetimindeki varlik buyuklugu en yuksek tum Wall Street kurumlarinin listesi.",
+  "hedge_funds_count_institutes": "{count} kurum",
+
+  "hedge_funds_search_placeholder": "Ara...",
+  "hedge_funds_loading": "Yukleniyor...",
+  "hedge_funds_no_data": "Veri yok.",
+
+  "hedge_funds_pagination_previous": "Onceki",
+  "hedge_funds_pagination_next": "Sonraki",
+  "hedge_funds_pagination_page_of": "Sayfa {current} / {total}",
+  "hedge_funds_rows_label": "{rows} satir",
+  "hedge_funds_back_to_top": "Basa Don",
+
+  "hedge_funds_slug_seo_title": "{companyName} Pozisyonlari ve Portfoyu - 13F Bildirim Analizi",
+  "hedge_funds_slug_seo_description": "{companyName} hedge fonunun pozisyonlari, portfoy dagilimi ve yatirim stratejisinin detayli analizi. En son 13F bildirimlerini, one cikan hisse tercihlerini, sektor dagilimini ve performans metriklerini takip et.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} pozisyonlari, {companyNameLower} portfoyu, {companyNameLower} 13F bildirimleri, hedge fon pozisyonlari, kurumsal yatirimci pozisyonlari, {companyNameLower} hisse tercihleri, hedge fon analizi",
+  "hedge_funds_slug_structured_name": "{companyName} Pozisyon ve Portfoy Analizi",
+  "hedge_funds_slug_structured_description": "{companyName} hedge fon pozisyonlarinin ve yatirimlarinin kapsamli analizi",
+
+  "hedge_funds_slug_cik_number": "CIK Numarasi:",
+  "hedge_funds_slug_market_value": "Piyasa Degeri",
+  "hedge_funds_slug_holdings": "Pozisyon Sayisi",
+  "hedge_funds_slug_avg_holding_period": "Ort. Tutma Suresi",
+  "hedge_funds_slug_months": "ay",
+  "hedge_funds_slug_win_rate": "Kazanma Orani",
+  "hedge_funds_slug_performance_3year": "3 Yillik Performans",
+
+  "hedge_funds_slug_main_sectors": "Ana Sektorler:",
+  "hedge_funds_slug_top_industries": "One Cikan Endustriler:",
+  "hedge_funds_slug_filing_date": "Bildirim Tarihi:",
+  "hedge_funds_slug_no_data": "Bu hedge fonun verisi su anda mevcut degil.",
+
+  "hedge_funds_column_rank": "Sira",
+  "hedge_funds_column_name": "Ad",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Pozisyonlar",
+  "hedge_funds_column_turnover": "Devir Hizi",
+  "hedge_funds_column_3year_perf": "3 Yil Perf.",
+  "hedge_funds_column_win_rate": "Kazanma Orani"
+}

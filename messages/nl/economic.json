@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Home",
+  "economic_breadcrumb_calendar": "Economische agenda",
+
+  "economic_seo_title": "Economische agenda - live marktbewegende events en cijferpublicaties",
+  "economic_seo_description": "Blijf voorop met onze complete economische agenda met realtime financiële events, economische indicatoren en marktbewegende cijfers. Volg bbp, inflatie, werkgelegenheid, centralebankvergaderingen en andere belangrijke aankondigingen, inclusief exacte tijden en verwachtingen. Onmisbaar voor traders en beleggers die volatiliteit willen voorzien.",
+  "economic_seo_keywords": "economische agenda, financiële events, marktkalender, economische indicatoren, bbp cijfers, inflatiecijfers, werkgelegenheidscijfers, centralebankvergaderingen, economisch nieuws, marktbewegende events, cijferpublicaties, economische aankondigingen, tradingkalender, beleggingsplanning",
+  "economic_structured_name": "Economische agenda",
+  "economic_structured_description": "Complete economische agenda met wereldwijde financiële events, economische indicatoren en marktbewegende cijferpublicaties",
+
+  "economic_main_name": "Economische agenda",
+  "economic_count_events": "{count} events",
+  "economic_empty_day": "Geen events beschikbaar voor deze dag.",
+
+  "economic_filter_country": "Filter op land",
+  "economic_filter_importance": "Filter op belang",
+  "economic_filter_reset": "Alles resetten",
+  "economic_filter_search": "Zoeken...",
+  "economic_filter_no_country": "Geen land gevonden",
+  "economic_filters_label": "Filters",
+
+  "economic_pagination_previous": "Vorige",
+  "economic_pagination_next": "Volgende",
+  "economic_pagination_page_of": "Pagina {current} van {total}",
+  "economic_pagination_rows": "{count} rijen",
+  "economic_back_to_top": "Terug naar boven",
+  "economic_search_placeholder": "Zoeken...",
+
+  "economic_source_label": "Bron:",
+  "economic_source_text": "Economische agenda geleverd door",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "en tijden worden getoond in ET (Eastern Time)."
+}

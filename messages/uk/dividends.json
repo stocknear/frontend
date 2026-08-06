@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Головна",
+  "dividends_breadcrumb_calendar": "Календар дивідендів",
+
+  "dividends_seo_title": "Календар дивідендів — екс-дивідендні дати та графік виплат по акціях",
+  "dividends_seo_description": "Стеж за найближчими екс-дивідендними датами та графіком виплат по акціях. Плануй стратегію на дивідендах за допомогою календаря з сумами виплат, датами платежів і ринковою капіталізацією.",
+  "dividends_seo_keywords": "календар дивідендів, екс-дивідендні дати, графік виплати дивідендів, дивідендна стратегія, дивіденди по акціях, дивідендні акції, дати виплати дивідендів, найближчі дивіденди",
+
+  "dividends_main_name": "Календар дивідендів",
+  "dividends_count": "{count} дивідендів",
+  "dividends_empty_day": "На цей день дивідендів немає.",
+  "dividends_empty_none": "Дивідендів немає",
+  "dividends_empty_scheduled": "Дивідендів не заплановано",
+
+  "dividends_tab_daily": "За день",
+  "dividends_tab_weekly": "За тиждень",
+  "dividends_tab_details": "Докладно",
+  "dividends_tab_compact": "Компактно",
+
+  "dividends_time_any": "Будь-коли",
+  "dividends_time_before_open": "До відкриття",
+  "dividends_time_after_close": "Після закриття",
+
+  "dividends_expanded_ex_date": "Екс-дата",
+  "dividends_expanded_market_cap": "Ринкова капіталізація",
+  "dividends_expanded_amount": "Сума",
+  "dividends_expanded_revenue": "Виручка",
+  "dividends_expanded_payment_date": "Дата виплати",
+  "dividends_expanded_date": "Дата",
+  "dividends_expanded_dividend": "Дивіденд",
+
+  "dividends_pagination_previous": "Назад",
+  "dividends_pagination_next": "Далі",
+  "dividends_pagination_page_of": "Сторінка {current} з {total}",
+  "dividends_pagination_rows": "{count} рядків",
+  "dividends_back_to_top": "Догори",
+  "dividends_search_placeholder": "Пошук..."
+}

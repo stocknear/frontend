@@ -5,6 +5,8 @@
   import SEO from "$lib/components/SEO.svelte";
   import Input from "$lib/components/Input.svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import { getTurnstileLanguage } from "$lib/i18n/locales";
   import { dev } from "$app/environment";
   import {
     reset_password_button,
@@ -116,7 +118,10 @@
         />
 
         {#if showTurnstile && !dev}
-          <Turnstile siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY} />
+          <Turnstile
+            siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+            language={getTurnstileLanguage(getLocale())}
+          />
         {/if}
 
         <div class="w-full max-w-lg pt-5 m-auto pb-5">

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Nyhetsbrev om markedet: hold deg oppdatert på to minutter om dagen",
+  "newsletter_seo_description": "Hold deg i forkant av markedet med nyhetsbrevet vårt. Få de siste oppdateringene, trendene og analysene rett i innboksen.",
+  "newsletter_label": "Nyhetsbrev",
+  "newsletter_title": "Hold deg oppdatert på to minutter om dagen",
+  "newsletter_description": "Pre-market Report er et nyhetsbrev som gjør det enkelt å følge med i finansmarkedene.",
+  "newsletter_intro_1": "Oppsummeringene kommer som korte kulepunkter, så det blir aldri et ork å lese nyhetsbrevet.",
+  "newsletter_intro_2": "La oss lese nyhetene for deg og filtrere bort støyen, så sender vi deg hovedpunktene. Dette får du:",
+  "newsletter_feature_1": "Tilgang til de ferskeste analytikerrapportene, med hovedpoengene hentet ut ved hjelp av AI.",
+  "newsletter_feature_2": "Rask oversikt over nylige og kommende kvartalstall.",
+  "newsletter_feature_3": "Oppdateringer om viktige økonomiske hendelser som kan påvirke markedet.",
+  "newsletter_feature_4": "Presis og oppdatert informasjon utelukkende fra de beste kildene.",
+  "newsletter_closing": "Nyhetsbrevet er helt gratis og kommer i innboksen din hver morgen før børsen åpner, mandag til fredag (unntatt helligdager).",
+  "newsletter_signup_button": "Meld deg på gratis"
+}

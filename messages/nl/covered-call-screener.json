@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Home",
+  "covered_call_screener_breadcrumb_title": "Covered call-screener",
+
+  "covered_call_screener_seo_title": "Covered call-screener - vind de beste covered call-kansen",
+  "covered_call_screener_seo_description": "Screen duizenden opties op covered call-kansen. Filter op premierendement, rendement op jaarbasis, uitoefenprijs, expiratie en meer.",
+  "covered_call_screener_seo_keywords": "covered call screener, optiescreener, covered calls, premierendement, inkomstenstrategie",
+  "covered_call_screener_structured_name": "Covered call-screener",
+  "covered_call_screener_structured_description": "Screen opties op covered call-kansen",
+
+  "covered_call_screener_main_title": "Covered call-screener",
+  "covered_call_screener_contracts_count": "{count} contracten",
+
+  "covered_call_screener_popular_screens": "Populaire screens",
+  "covered_call_screener_popular_strategies": "Populaire strategieën",
+  "covered_call_screener_select_popular": "Kies populair",
+  "covered_call_screener_saved_screens": "Opgeslagen screens",
+  "covered_call_screener_select_screen": "Screen kiezen",
+  "covered_call_screener_new_screen": "Nieuwe screen",
+
+  "covered_call_screener_strategy_high_yield": "Hoog rendement",
+  "covered_call_screener_strategy_conservative": "Conservatief",
+  "covered_call_screener_strategy_weekly_income": "Wekelijks inkomen",
+  "covered_call_screener_strategy_high_protection": "Veel bescherming",
+  "covered_call_screener_strategy_bluechip_cc": "Blue chip-covered calls",
+
+  "covered_call_screener_filters_count": "Filters ({count})",
+  "covered_call_screener_add_filters": "Filters toevoegen",
+  "covered_call_screener_search_filters": "Zoek in {count} filters...",
+  "covered_call_screener_select_filters_title": "Filters kiezen ({count})",
+  "covered_call_screener_nothing_found": "Niets gevonden.",
+
+  "covered_call_screener_save": "Opslaan",
+  "covered_call_screener_save_as_new": "Opslaan als nieuw",
+  "covered_call_screener_reset_all": "Alles wissen",
+
+  "covered_call_screener_condition_over": "Boven",
+  "covered_call_screener_condition_under": "Onder",
+  "covered_call_screener_condition_between": "Tussen",
+  "covered_call_screener_condition_exactly": "Precies",
+  "covered_call_screener_condition_any": "Alle",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Waarde",
+
+  "covered_call_screener_search_placeholder": "Zoeken...",
+  "covered_call_screener_search_modal_placeholder": "Zoeken...",
+
+  "covered_call_screener_normal_width": "Normale breedte",
+  "covered_call_screener_full_width": "Volledige breedte",
+
+  "covered_call_screener_tab_general": "Algemeen",
+  "covered_call_screener_tab_income": "Inkomen",
+  "covered_call_screener_tab_filters": "Filters",
+  "covered_call_screener_tab_greeks": "Grieken",
+
+  "covered_call_screener_pagination_previous": "Vorige",
+  "covered_call_screener_pagination_next": "Volgende",
+  "covered_call_screener_pagination_page_of": "Pagina {current} van {total}",
+  "covered_call_screener_rows_label": "{rows} rijen",
+  "covered_call_screener_back_to_top": "Terug naar boven",
+
+  "covered_call_screener_no_results_query": "Geen resultaten voor \"{query}\"",
+  "covered_call_screener_no_contracts": "Geen contracten voldoen aan je criteria.",
+
+  "covered_call_screener_modal_new_title": "Nieuwe screen",
+  "covered_call_screener_modal_new_name_label": "Naam van de screen",
+  "covered_call_screener_modal_new_create": "Aanmaken",
+
+  "covered_call_screener_modal_delete_title": "Screener verwijderen",
+  "covered_call_screener_modal_delete_message": "Weet je zeker dat je deze screener wilt verwijderen? Dit kan niet worden teruggedraaid.",
+  "covered_call_screener_modal_delete_cancel": "Annuleren",
+  "covered_call_screener_modal_delete_confirm": "Verwijderen",
+
+  "covered_call_screener_toast_deleting": "Screener verwijderen...",
+  "covered_call_screener_toast_deleted": "Screener verwijderd",
+  "covered_call_screener_toast_delete_failed": "Verwijderen mislukt. Probeer het opnieuw.",
+  "covered_call_screener_toast_title_too_long": "Titel is te lang. Houd het onder 100 tekens.",
+  "covered_call_screener_toast_created": "Screener aangemaakt",
+  "covered_call_screener_toast_creating": "Screener aanmaken...",
+  "covered_call_screener_toast_create_failed": "Er ging iets mis. Probeer het later opnieuw.",
+  "covered_call_screener_toast_select_rule": "Kies een regel",
+  "covered_call_screener_toast_saving": "Screener opslaan...",
+  "covered_call_screener_toast_saved": "Screener opgeslagen",
+  "covered_call_screener_toast_save_failed": "Opslaan mislukt. Probeer het opnieuw.",
+
+  "covered_call_screener_chart_price_at_expiration": "Koers op expiratie ($)",
+  "covered_call_screener_chart_last_price_label": "Laatste koers: {price}",
+  "covered_call_screener_chart_breakeven_label": "Break-even: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Winst/verlies ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Koers onderliggende waarde:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Winst of verlies:",
+  "covered_call_screener_chart_modal_title": "Covered call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Opzet van de trade",
+  "covered_call_screener_chart_buy_stock": "Koop aandeel @",
+  "covered_call_screener_chart_sell_call": "Verkoop {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Netto (credit/debit)",
+  "covered_call_screener_chart_breakeven": "Break-even",
+  "covered_call_screener_chart_above": "Boven",
+  "covered_call_screener_chart_last_price": "Laatste koers",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Rendement bij vlakke koers",
+  "covered_call_screener_chart_return_if_assigned": "Rendement bij toewijzing",
+  "covered_call_screener_chart_probability_of_profit": "Kans op winst",
+  "covered_call_screener_chart_annualized_abbr": "p.j."
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Home",
+  "news_flow_breadcrumb_news_flow": "Flusso notizie",
+
+  "news_flow_seo_title": "Flusso notizie di mercato - Catalizzatori operativi in tempo reale",
+  "news_flow_seo_description": "Segui in tempo reale le notizie e i catalizzatori che muovono i prezzi. Pensato per chi opera in opzioni e ha bisogno di contesto rapido per operazioni di breve termine.",
+  "news_flow_seo_keywords": "flusso notizie di mercato, catalizzatori di trading, notizie di mercato in tempo reale, notizie per trader di opzioni, notizie movimenti di prezzo, aggiornamenti di mercato in tempo reale",
+  "news_flow_structured_name": "Flusso notizie di mercato",
+  "news_flow_structured_description": "Notizie e catalizzatori di mercato in tempo reale per operazioni di breve termine",
+
+  "news_flow_main_title": "Flusso notizie",
+  "news_flow_news_count": "{count} notizie",
+  "news_flow_search_placeholder": "Cerca...",
+
+  "news_flow_infobox": "Segui le ultime notizie e capisci in tempo reale perché i prezzi si sono mossi",
+  "news_flow_no_news": "Non ci sono ancora notizie rilevanti sul mercato azionario.",
+
+  "news_flow_sidebar_market_flow_title": "Flussi di mercato",
+  "news_flow_sidebar_market_flow_description": "Segui il sentiment sulle opzioni in tempo reale.",
+  "news_flow_sidebar_options_flow_title": "Flusso opzioni",
+  "news_flow_sidebar_options_flow_description": "Monitora in tempo reale l'attività insolita sulle opzioni e i suoi schemi",
+  "news_flow_sidebar_dark_pool_title": "Flusso dark pool",
+  "news_flow_sidebar_dark_pool_description": "Analizza i flussi istituzionali nascosti e i dati di trading sui dark pool"
+}

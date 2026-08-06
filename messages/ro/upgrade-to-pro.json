@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Construit pentru traderii activi care vor un avantaj.",
+  "upgrade_to_pro_subtitle": "Nu ai nevoie de mai multe titluri de știri. Ai nevoie de flux, catalizatori și context care mișcă prețul. Pro îți aduce într-un singur loc datele pe opțiuni și dark pool în timp real, mișcările analiștilor și istoricul adânc, ca să planifici tranzacția, nu să alergi după ea.",
+  "upgrade_to_pro_feature_data_title": "Deblochează toate datele",
+  "upgrade_to_pro_feature_data_desc": "Primești fiecare set de date și instrument din Stocknear, ca să verifici rapid setup-urile și să acționezi cu încredere.",
+  "upgrade_to_pro_feature_flow_title": "Flux de opțiuni și dark pool live",
+  "upgrade_to_pro_feature_flow_desc": "Vezi activitatea neobișnuită și ordinele mari chiar când apar, ca să te miști înaintea mulțimii.",
+  "upgrade_to_pro_feature_analyst_title": "Catalizatori de la analiști care mișcă prețul",
+  "upgrade_to_pro_feature_analyst_desc": "Urmărește upgrade-urile, downgrade-urile și țintele de preț fără să alergi după știri.",
+  "upgrade_to_pro_feature_history_title": "Istoric adânc pentru backtesting",
+  "upgrade_to_pro_feature_history_desc": "Îți validezi ideile cu date premium și până la 30 de ani de istoric.",
+  "upgrade_to_pro_cta": "Treci la Pro"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "ติดต่อเรา",
+  "contact_breadcrumb": "ติดต่อเรา",
+  "contact_hero_title": "ติดต่อเรา",
+  "contact_intro": "เรายินดีรับฟังความคิดเห็นของคุณ กรุณาส่งข้อความผ่านแบบฟอร์มด้านล่าง แล้วเราจะติดต่อกลับโดยเร็วที่สุด หรือส่งอีเมลถึงเราโดยตรงที่ {email}",
+  "contact_email_label": "อีเมล",
+  "contact_subject_label": "หัวข้อ",
+  "contact_message_label": "ข้อความ",
+  "contact_send_button": "ส่งข้อความ",
+  "contact_processing": "กำลังดำเนินการ...",
+  "contact_success": "ส่งข้อความเรียบร้อยแล้ว เราจะติดต่อกลับโดยเร็ว",
+  "contact_sidebar_pro_title": "สมาชิก Pro",
+  "contact_sidebar_pro_desc": "อัปเกรดตอนนี้เพื่อใช้ข้อมูลและเครื่องมือทั้งหมดแบบไม่จำกัด และไม่มีโฆษณา",
+  "contact_sidebar_screener_title": "เครื่องคัดกรองหุ้น",
+  "contact_sidebar_screener_desc": "กรอง จัดเรียง และวิเคราะห์หุ้นทั้งหมดเพื่อหาการลงทุนตัวถัดไป",
+  "contact_sidebar_watchlist_title": "รายการติดตาม",
+  "contact_sidebar_watchlist_desc": "ติดตามหุ้นที่คุณสนใจแบบเรียลไทม์"
+}

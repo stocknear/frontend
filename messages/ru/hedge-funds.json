@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Главная",
+  "hedge_funds_breadcrumb_hedge_funds": "Хедж-фонды",
+  "hedge_funds_breadcrumb_hedge_fund": "Хедж-фонд",
+
+  "hedge_funds_seo_title": "Трекер хедж-фондов - топ активов хедж-фондов и отчёты 13F",
+  "hedge_funds_seo_description": "Отслеживай активы топ хедж-фондов, отчёты 13F и портфели институциональных инвесторов. Следи за тем, что покупают и продают хедж-фонды, с подробным анализом позиций. Бесплатный инструмент отслеживания хедж-фондов.",
+  "hedge_funds_seo_keywords": "трекер хедж-фондов, активы хедж-фондов, отчёты 13F, институциональные инвесторы, позиции хедж-фондов, топ хедж-фонды, институциональные активы, портфели хедж-фондов, активы berkshire hathaway",
+  "hedge_funds_structured_name": "Трекер хедж-фондов",
+  "hedge_funds_structured_description": "Полное отслеживание активов хедж-фондов и институциональных инвестиций",
+
+  "hedge_funds_main_title": "Топ хедж-фонды США",
+  "hedge_funds_infobox": "Список всех институтов Уолл-стрит с наибольшими активами под управлением.",
+  "hedge_funds_count_institutes": "{count} институтов",
+
+  "hedge_funds_search_placeholder": "Поиск...",
+  "hedge_funds_loading": "Загрузка...",
+  "hedge_funds_no_data": "Данные недоступны.",
+
+  "hedge_funds_pagination_previous": "Назад",
+  "hedge_funds_pagination_next": "Далее",
+  "hedge_funds_pagination_page_of": "Страница {current} из {total}",
+  "hedge_funds_rows_label": "{rows} строк",
+  "hedge_funds_back_to_top": "Наверх",
+
+  "hedge_funds_slug_seo_title": "Активы и портфель {companyName} - анализ отчётов 13F",
+  "hedge_funds_slug_seo_description": "Подробный анализ активов хедж-фонда {companyName}, позиций портфеля и инвестиционной стратегии. Отслеживай последние отчёты 13F, топ выборы акций, распределение по секторам и показатели доходности.",
+  "hedge_funds_slug_seo_keywords": "активы {companyNameLower}, портфель {companyNameLower}, отчёты 13F {companyNameLower}, позиции хедж-фонда, активы институциональных инвесторов, выбор акций {companyNameLower}, анализ хедж-фонда",
+  "hedge_funds_slug_structured_name": "Анализ активов и портфеля {companyName}",
+  "hedge_funds_slug_structured_description": "Полный анализ активов хедж-фонда {companyName} и инвестиционных позиций",
+
+  "hedge_funds_slug_cik_number": "Номер CIK:",
+  "hedge_funds_slug_market_value": "Рыночная стоимость",
+  "hedge_funds_slug_holdings": "Кол-во активов",
+  "hedge_funds_slug_avg_holding_period": "Средний период владения",
+  "hedge_funds_slug_months": "мес.",
+  "hedge_funds_slug_win_rate": "Доля прибыльных сделок",
+  "hedge_funds_slug_performance_3year": "Доходность за 3 года",
+
+  "hedge_funds_slug_main_sectors": "Основные секторы:",
+  "hedge_funds_slug_top_industries": "Топ отраслей:",
+  "hedge_funds_slug_filing_date": "Дата подачи отчёта:",
+  "hedge_funds_slug_no_data": "Данные по этому хедж-фонду сейчас недоступны.",
+
+  "hedge_funds_column_rank": "Место",
+  "hedge_funds_column_name": "Название",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Активы",
+  "hedge_funds_column_turnover": "Оборот",
+  "hedge_funds_column_3year_perf": "Доходность за 3 года",
+  "hedge_funds_column_win_rate": "Доля прибыльных сделок"
+}

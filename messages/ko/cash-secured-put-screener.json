@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "홈",
+  "cash_secured_put_screener_breadcrumb_title": "현금담보 풋 스크리너",
+
+  "cash_secured_put_screener_seo_title": "현금담보 풋 스크리너 - 최적의 CSP 기회 찾기",
+  "cash_secured_put_screener_seo_description": "수천 개 옵션에서 현금담보 풋 기회를 검색하세요. 프리미엄 수익률, 연환산 수익률, 행사가격, 만기 등으로 필터링할 수 있습니다.",
+  "cash_secured_put_screener_seo_keywords": "현금담보 풋 스크리너, 옵션 스크리너, 현금담보 풋, 프리미엄 수익률, 인컴 전략",
+  "cash_secured_put_screener_structured_name": "현금담보 풋 스크리너",
+  "cash_secured_put_screener_structured_description": "현금담보 풋 기회를 찾는 옵션 스크리너",
+
+  "cash_secured_put_screener_main_title": "현금담보 풋 스크리너",
+  "cash_secured_put_screener_contracts_count": "{count}개 계약",
+
+  "cash_secured_put_screener_popular_screens": "인기 스크리너",
+  "cash_secured_put_screener_popular_strategies": "인기 전략",
+  "cash_secured_put_screener_select_popular": "인기 항목 선택",
+  "cash_secured_put_screener_saved_screens": "저장한 스크리너",
+  "cash_secured_put_screener_select_screen": "스크리너 선택",
+  "cash_secured_put_screener_new_screen": "새 스크리너",
+
+  "cash_secured_put_screener_strategy_high_yield": "고수익률",
+  "cash_secured_put_screener_strategy_conservative": "보수적",
+  "cash_secured_put_screener_strategy_weekly_income": "주간 인컴",
+  "cash_secured_put_screener_strategy_high_protection": "높은 방어력",
+  "cash_secured_put_screener_strategy_bluechip_csp": "우량주 CSP",
+
+  "cash_secured_put_screener_filters_count": "필터 ({count})",
+  "cash_secured_put_screener_add_filters": "필터 추가",
+  "cash_secured_put_screener_search_filters": "필터 {count}개 검색...",
+  "cash_secured_put_screener_select_filters_title": "필터 선택 ({count})",
+  "cash_secured_put_screener_nothing_found": "결과가 없습니다.",
+
+  "cash_secured_put_screener_save": "저장",
+  "cash_secured_put_screener_save_as_new": "새로 저장",
+  "cash_secured_put_screener_reset_all": "전체 초기화",
+
+  "cash_secured_put_screener_condition_over": "초과",
+  "cash_secured_put_screener_condition_under": "미만",
+  "cash_secured_put_screener_condition_between": "범위",
+  "cash_secured_put_screener_condition_exactly": "정확히",
+  "cash_secured_put_screener_condition_any": "전체",
+
+  "cash_secured_put_screener_input_min": "최소",
+  "cash_secured_put_screener_input_max": "최대",
+  "cash_secured_put_screener_input_value": "값",
+
+  "cash_secured_put_screener_search_placeholder": "검색...",
+  "cash_secured_put_screener_search_modal_placeholder": "검색...",
+
+  "cash_secured_put_screener_normal_width": "기본 너비",
+  "cash_secured_put_screener_full_width": "전체 너비",
+
+  "cash_secured_put_screener_tab_general": "일반",
+  "cash_secured_put_screener_tab_income": "인컴",
+  "cash_secured_put_screener_tab_filters": "필터",
+  "cash_secured_put_screener_tab_greeks": "그릭스",
+
+  "cash_secured_put_screener_pagination_previous": "이전",
+  "cash_secured_put_screener_pagination_next": "다음",
+  "cash_secured_put_screener_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "cash_secured_put_screener_rows_label": "{rows}행",
+  "cash_secured_put_screener_back_to_top": "맨 위로",
+
+  "cash_secured_put_screener_no_results_query": "\"{query}\"에 대한 결과가 없습니다",
+  "cash_secured_put_screener_no_contracts": "조건에 맞는 계약이 없습니다.",
+
+  "cash_secured_put_screener_modal_new_title": "새 스크리너",
+  "cash_secured_put_screener_modal_new_name_label": "스크리너 이름",
+  "cash_secured_put_screener_modal_new_create": "생성",
+
+  "cash_secured_put_screener_modal_delete_title": "스크리너 삭제",
+  "cash_secured_put_screener_modal_delete_message": "이 스크리너를 삭제하시겠습니까? 삭제 후에는 되돌릴 수 없습니다.",
+  "cash_secured_put_screener_modal_delete_cancel": "취소",
+  "cash_secured_put_screener_modal_delete_confirm": "삭제",
+
+  "cash_secured_put_screener_toast_deleting": "스크리너를 삭제하는 중...",
+  "cash_secured_put_screener_toast_deleted": "스크리너를 삭제했습니다.",
+  "cash_secured_put_screener_toast_delete_failed": "삭제하지 못했습니다. 다시 시도해 주세요.",
+  "cash_secured_put_screener_toast_title_too_long": "제목이 너무 깁니다. 100자 이내로 입력해 주세요.",
+  "cash_secured_put_screener_toast_created": "스크리너를 생성했습니다.",
+  "cash_secured_put_screener_toast_creating": "스크리너를 생성하는 중...",
+  "cash_secured_put_screener_toast_create_failed": "문제가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+  "cash_secured_put_screener_toast_select_rule": "규칙을 선택해 주세요",
+  "cash_secured_put_screener_toast_saving": "스크리너를 저장하는 중...",
+  "cash_secured_put_screener_toast_saved": "스크리너를 저장했습니다.",
+  "cash_secured_put_screener_toast_save_failed": "저장하지 못했습니다. 다시 시도해 주세요.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "만기 시점 가격 ($)",
+  "cash_secured_put_screener_chart_last_price_label": "최종가: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "손익분기점: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "손익 ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "기초자산 가격:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "손익:",
+  "cash_secured_put_screener_chart_modal_title": "현금담보 풋 - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "거래 구성",
+  "cash_secured_put_screener_chart_sell_put": "{strike}P 매도 @",
+  "cash_secured_put_screener_chart_cash_secured": "현금 담보",
+  "cash_secured_put_screener_chart_net_credit": "순수취 프리미엄",
+  "cash_secured_put_screener_chart_breakeven": "손익분기점",
+  "cash_secured_put_screener_chart_below": "이하",
+  "cash_secured_put_screener_chart_last_price": "최종가",
+  "cash_secured_put_screener_chart_moneyness": "머니니스",
+  "cash_secured_put_screener_chart_return_if_flat": "가격 보합 시 수익률",
+  "cash_secured_put_screener_chart_return_if_assigned": "배정 시 수익률",
+  "cash_secured_put_screener_chart_probability_of_profit": "수익 확률",
+  "cash_secured_put_screener_chart_annualized_abbr": "연환산",
+  "cash_secured_put_screener_chart_discount": "배정 시 할인율"
+}

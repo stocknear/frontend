@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "고객 지원",
+  "support_breadcrumb_home": "홈",
+  "support_breadcrumb_current": "고객 지원",
+  "support_title": "고객 지원",
+  "support_description_1": "아래 양식으로 문의를 남겨주시면 최대한 빨리 답변드리겠습니다. 다음 주소로 직접 이메일을 보내셔도 됩니다",
+  "support_description_2": "자주 묻는 질문의 답변은 여기에서 확인하세요:",
+  "support_faq_link": "자주 묻는 질문",
+  "support_description_3": "오류나 데이터 오류에 대한 도움이 필요하시면 해당 내용을 발견한 페이지의 정확한 URL을 함께 적어주세요.",
+  "support_label_email": "이메일",
+  "support_label_subject": "제목",
+  "support_label_message": "메시지",
+  "support_button_send": "메시지 보내기",
+  "support_button_processing": "처리 중...",
+  "support_success_message": "메시지가 전송되었습니다. 곧 답변드리겠습니다.",
+  "support_toast_error": "문제가 발생했습니다. 다시 시도해 주세요...",
+  "support_sidebar_pro_title": "Pro 구독",
+  "support_sidebar_pro_description": "지금 업그레이드하고 모든 데이터와 도구를 무제한, 광고 없이 이용하세요.",
+  "support_sidebar_screener_title": "종목 스크리너",
+  "support_sidebar_screener_description": "전체 종목을 필터링하고 정렬해 다음 투자처를 찾아보세요.",
+  "support_sidebar_watchlist_title": "관심 종목",
+  "support_sidebar_watchlist_description": "관심 종목을 실시간으로 확인하세요."
+}

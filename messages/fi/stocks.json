@@ -1,0 +1,10 @@
+{
+  "stocks_seo_title": "Kattava osakehakemisto - kaikki Yhdysvaltain osaketunnukset ja reaaliaikainen analyysi",
+  "stocks_seo_description": "Kattava hakemisto Yhdysvaltain osaketunnuksista reaaliaikaisine kursseineen, talousanalyyseineen ja sijoitustutkimustyökaluineen. Hae NYSE- ja NASDAQ-osakkeita sekä kaikkia suuria pörssejä, mukaan lukien vakaat suuryhtiöt, kasvuosakkeet ja osinko-osakkeet.",
+  "stocks_seo_keywords": "osaketunnusten lista, Yhdysvaltain osaketunnukset, NYSE-osakkeet, NASDAQ-osakkeet, osakemarkkinatietokanta, reaaliaikaiset osakekurssit, talousanalyysityökalut, osakeseulonta, sijoitustutkimus, markkina-arvotiedot, osakkeiden tunnusluvut, osakeanalyysi, kaupankäyntitunnukset",
+  "stocks_breadcrumb_home": "Etusivu",
+  "stocks_breadcrumb_current": "Kaikki osakkeet",
+  "stocks_title": "Kaikki osaketunnukset",
+  "stocks_description": "Lista kaikista {count} osaketunnuksesta, joita tuemme",
+  "stocks_table_title": "Osakkeet"
+}

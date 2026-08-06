@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Beri masukan",
+  "feedback_error_signin": "Silakan masuk dulu sebelum mengirim masukan.",
+  "feedback_error_description": "Jelaskan masalah atau saran Anda.",
+  "feedback_error_send_try_again": "Terjadi kesalahan saat mengirim masukan. Silakan coba lagi.",
+  "feedback_success": "Terima kasih. Masukan Anda sudah terkirim.",
+  "feedback_error_send_generic": "Terjadi kesalahan saat mengirim masukan.",
+  "feedback_description_label": "Jelaskan masalah atau saran Anda:",
+  "feedback_page_label": "Masukan untuk halaman:",
+  "feedback_close_button": "Tutup",
+  "feedback_cancel_button": "Batal",
+  "feedback_send_button": "Kirim masukan"
+}

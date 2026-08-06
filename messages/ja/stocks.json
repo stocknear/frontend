@@ -1,0 +1,10 @@
+{
+  "stocks_seo_title": "米国株ティッカー一覧 - リアルタイム分析付き銘柄ディレクトリ",
+  "stocks_seo_description": "米国株のティッカーシンボルを網羅したディレクトリです。リアルタイム株価、財務分析、投資リサーチツールを提供します。NYSE、NASDAQ をはじめとする主要取引所の大型優良株、グロース株、配当株まで幅広くカバーしています。",
+  "stocks_seo_keywords": "米国株 ティッカー一覧, 米国株 シンボル, NYSE 銘柄, NASDAQ 銘柄, 株式データベース, リアルタイム株価, 財務分析ツール, 銘柄スクリーナー, 投資リサーチ, 時価総額データ, 株式ファンダメンタルズ, 株式分析, ティッカーシンボル",
+  "stocks_breadcrumb_home": "ホーム",
+  "stocks_breadcrumb_current": "全銘柄",
+  "stocks_title": "全銘柄シンボル",
+  "stocks_description": "対応している全 {count} 銘柄のシンボル一覧です",
+  "stocks_table_title": "銘柄"
+}

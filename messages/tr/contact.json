@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Bize ulaş",
+  "contact_breadcrumb": "Bize Ulaş",
+  "contact_hero_title": "Bize Ulaş",
+  "contact_intro": "Senden haber almak isteriz. Aşağıdaki iletişim formuyla mesajını gönder, en kısa sürede sana dönelim. Dilersen doğrudan {email} adresine e-posta da atabilirsin.",
+  "contact_email_label": "E-posta",
+  "contact_subject_label": "Konu",
+  "contact_message_label": "Mesaj",
+  "contact_send_button": "Mesajı Gönder",
+  "contact_processing": "İşleniyor...",
+  "contact_success": "Mesajın başarıyla gönderildi. Kısa süre içinde sana döneceğiz.",
+  "contact_sidebar_pro_title": "Pro Abonelik",
+  "contact_sidebar_pro_desc": "Tüm verilere ve araçlara sınırsız erişim için hemen yükselt, reklamlardan kurtul.",
+  "contact_sidebar_screener_title": "Hisse Tarayıcı",
+  "contact_sidebar_screener_desc": "Tüm hisseleri filtrele, sırala ve analiz ederek bir sonraki yatırımını bul.",
+  "contact_sidebar_watchlist_title": "İzleme Listeleri",
+  "contact_sidebar_watchlist_desc": "Favori hisselerini gerçek zamanlı takip et."
+}

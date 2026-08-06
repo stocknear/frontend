@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "ศูนย์เรียนรู้ - ความรู้ตลาดหุ้นและบทเรียนการลงทุน",
+  "learning_center_seo_description": "เรียนรู้การลงทุนในตลาดหุ้นอย่างครบถ้วนที่ศูนย์เรียนรู้ของเรา บทเรียนฟรีเรื่องกลยุทธ์การเทรด การวิเคราะห์ทางเทคนิค การวิเคราะห์ปัจจัยพื้นฐาน การบริหารพอร์ต และความรู้การลงทุน ตั้งแต่ระดับเริ่มต้นจนถึงเทรดเดอร์ขั้นสูง",
+  "learning_center_seo_keywords": "ความรู้ตลาดหุ้น, บทเรียนการลงทุน, กลยุทธ์การเทรด, เรียนรู้การลงทุน, บทเรียนวิเคราะห์หุ้น, ความรู้ทางการเงิน, คู่มือการลงทุน, พื้นฐานตลาดหุ้น, การบริหารพอร์ต, คอร์สวิเคราะห์ทางเทคนิค",
+  "learning_center_structured_name": "ศูนย์เรียนรู้ Stocknear",
+  "learning_center_structured_description": "ความรู้ตลาดหุ้นและบทเรียนการลงทุนแบบครบถ้วน",
+  "learning_center_structured_articles": "บทความให้ความรู้",
+  "learning_center_structured_articles_description": "บทความให้ความรู้เรื่องตลาดหุ้นและบทเรียนการลงทุน",
+  "learning_center_title": "ศูนย์เรียนรู้",
+  "learning_center_published": "เผยแพร่:",
+  "learning_center_previous": "ก่อนหน้า",
+  "learning_center_next": "ถัดไป",
+  "learning_center_alt_tutorial": "ภาพประกอบบทเรียน",
+
+  "learning_center_subtitle": "เข้าใจตลาดหุ้นทีละเรื่อง",
+
+  "learning_center_category_all": "ทั้งหมด",
+  "learning_center_category_features": "ฟีเจอร์",
+  "learning_center_category_fundamentals": "พื้นฐาน",
+  "learning_center_category_terms": "คำศัพท์",
+
+  "learning_center_category_desc_features": "วิธีใช้งาน Stocknear",
+  "learning_center_category_desc_fundamentals": "เริ่มที่นี่ถ้าคุณเพิ่งเริ่มลงทุน",
+  "learning_center_category_desc_terms": "คำศัพท์และคำนิยามทางการเงิน",
+
+  "learning_center_tag_all": "แท็กทั้งหมด",
+  "learning_center_tag_stocks": "หุ้น",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "ออปชัน",
+  "learning_center_tag_sentiment": "เซนทิเมนต์",
+  "learning_center_tag_prefix": "แท็ก",
+
+  "learning_center_view_all": "ดูทั้งหมด",
+  "learning_center_view_all_count": "ดูทั้งหมด {count} รายการ",
+  "learning_center_min_read": "อ่าน {time} นาที",
+
+  "learning_center_no_articles_tag": "ไม่พบบทความที่มีแท็ก \"{tag}\"",
+  "learning_center_clear_tag_filter": "ล้างตัวกรองแท็ก",
+
+  "learning_center_page_of": "หน้า {currentPage} จาก {totalPages}",
+  "learning_center_items_count": "{count} รายการ",
+
+  "learning_center_back_to_top": "กลับขึ้นด้านบน",
+  "learning_center_no_terms_yet": "ยังไม่มีคำศัพท์",
+  "learning_center_no_articles_category": "ยังไม่มีบทความในหมวดนี้",
+
+  "learning_center_table_of_contents": "สารบัญ",
+  "learning_center_share_this_post": "แชร์โพสต์นี้",
+  "learning_center_back_to_all_posts": "กลับไปดูโพสต์ทั้งหมด",
+
+  "learning_center_quick_start": "เริ่มต้นใช้งาน",
+  "learning_center_sidebar_top_gainers": "หุ้นบวกแรง",
+  "learning_center_sidebar_top_losers": "หุ้นลบแรง",
+  "learning_center_sidebar_analysts": "นักวิเคราะห์",
+  "learning_center_sidebar_stock_screener": "คัดกรองหุ้น",
+  "learning_center_sidebar_options_flow": "ออปชันโฟลว์",
+  "learning_center_sidebar_earnings_calendar": "ปฏิทินผลประกอบการ",
+  "learning_center_sidebar_dividends_calendar": "ปฏิทินเงินปันผล",
+  "learning_center_sidebar_ipo_calendar": "ปฏิทิน IPO",
+
+  "learning_center_related_articles": "บทความที่เกี่ยวข้อง",
+  "learning_center_view_all_articles": "ดูบทความทั้งหมด",
+  "learning_center_share_this_article": "แชร์บทความนี้",
+
+  "learning_center_link_copied": "คัดลอกลิงก์แล้ว",
+  "learning_center_link_copy_failed": "คัดลอกลิงก์ไม่สำเร็จ",
+
+  "learning_center_sign_in_to_read": "เข้าสู่ระบบเพื่ออ่านบทสรุปฉบับเต็ม",
+  "learning_center_briefing_description": "สรุปตลาดรายวันเปิดให้เฉพาะสมาชิก Stocknear สร้างบัญชีฟรีหรือเข้าสู่ระบบเพื่อดูบทวิเคราะห์ฉบับเต็ม",
+  "learning_center_create_free_account": "สร้างบัญชีฟรี",
+  "learning_center_sign_in": "เข้าสู่ระบบ",
+
+  "learning_center_click_to_close": "คลิกที่ใดก็ได้หรือกด ESC เพื่อปิด",
+
+  "learning_center_search_placeholder": "ค้นหา...",
+  "learning_center_no_search_results": "ไม่พบผลลัพธ์สำหรับ \"{query}\"",
+  "learning_center_clear_search": "ล้างการค้นหา"
+}

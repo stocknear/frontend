@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Незвичайний потік ордерів - принти Dark Pool та блокові угоди",
+  "unusual_order_flow_seo_description": "Стеж за принтами Dark Pool і блоковими угодами в реальному часі, щоб помічати активність інституційних гравців, яка часто передує короткостроковим рухам.",
+  "unusual_order_flow_seo_keywords": "незвичайний потік ордерів, принти dark pool, блокові угоди, інституційний потік ордерів, розумні гроші, прихована ліквідність, потік ордерів у реальному часі, сканер dark pool",
+  "unusual_order_flow_structured_name": "Сканер незвичайного потоку ордерів",
+  "unusual_order_flow_structured_description": "Принти Dark Pool і блокові угоди в реальному часі для короткострокових сигналів ринку",
+
+  "unusual_order_flow_main_title": "Незвичайний потік ордерів",
+
+  "unusual_order_flow_popular_filters": "Популярні фільтри",
+  "unusual_order_flow_select_popular": "Обрати популярні",
+  "unusual_order_flow_saved_filters": "Збережені фільтри",
+  "unusual_order_flow_select_filter": "Обрати фільтр",
+  "unusual_order_flow_new_filter": "Новий фільтр",
+
+  "unusual_order_flow_filters_count": "Фільтрів: {count}",
+  "unusual_order_flow_add_filters": "Додати фільтри",
+  "unusual_order_flow_search_filters": "Пошук серед {count} фільтрів...",
+  "unusual_order_flow_select_filters_title": "Обери фільтри потоку (всього {count})",
+  "unusual_order_flow_nothing_found": "Нічого не знайдено",
+  "unusual_order_flow_no_filters_found": "Доступних фільтрів не знайдено",
+
+  "unusual_order_flow_search_placeholder": "Знайти...",
+  "unusual_order_flow_search_input_placeholder": "Пошук...",
+  "unusual_order_flow_full_width": "На всю ширину",
+  "unusual_order_flow_normal_width": "Звичайна ширина",
+
+  "unusual_order_flow_no_trades_query": "Незвичайних угод за запитом \"{query}\" не знайдено",
+  "unusual_order_flow_no_data_filters": "Схоже, у тебе унікальний смак. Збігів поки немає.",
+
+  "unusual_order_flow_modal_new_title": "Новий фільтр",
+  "unusual_order_flow_modal_new_name_label": "Назва фільтра",
+  "unusual_order_flow_modal_new_create": "Створити фільтр",
+
+  "unusual_order_flow_modal_delete_title": "Видалити фільтр",
+  "unusual_order_flow_modal_delete_message": "Точно видалити цей фільтр? Цю дію не можна скасувати.",
+  "unusual_order_flow_modal_delete_cancel": "Скасувати",
+  "unusual_order_flow_modal_delete_confirm": "Видалити фільтр",
+
+  "unusual_order_flow_save": "Зберегти",
+  "unusual_order_flow_save_as_new": "Зберегти як новий",
+  "unusual_order_flow_reset_all": "Скинути все",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Принти Dark Pool",
+  "unusual_order_flow_strategy_block_orders": "Блокові ордери",
+  "unusual_order_flow_strategy_mega_premium": "Мегапремія",
+  "unusual_order_flow_strategy_etf_flow": "Потік ETF",
+  "unusual_order_flow_strategy_high_volume": "Високий обсяг",
+  "unusual_order_flow_strategy_large_stock_flow": "Великий потік в акціях",
+
+  "unusual_order_flow_total_volume": "Загальний обсяг",
+  "unusual_order_flow_total_value": "Загальна вартість",
+  "unusual_order_flow_transaction_type": "Тип операції",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Блок",
+  "unusual_order_flow_asset_type": "Тип активу",
+  "unusual_order_flow_stock": "Акція",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Затримка 15 хв",
+  "unusual_order_flow_delayed_title": "Дані SIP із затримкою 15 хв",
+  "unusual_order_flow_delayed_content": "Стрічка SIP від Intrinio дає якісні консолідовані дані по акціях США з усіх основних бірж - угоди, котирування та NBBO. Затримка в 15 хвилин зберігає глибоку картину ринку з повним охопленням бірж.",
+
+  "unusual_order_flow_hide_filter_area": "Сховати панель фільтрів",
+  "unusual_order_flow_show_filter_area": "Показати панель фільтрів",
+  "unusual_order_flow_exit_full_width": "Вийти з повної ширини",
+  "unusual_order_flow_expand_full_width": "Розгорнути на всю ширину",
+  "unusual_order_flow_reset_column_order": "Скинути порядок стовпців",
+  "unusual_order_flow_remove_filter": "Прибрати фільтр",
+
+  "unusual_order_flow_min": "Мін",
+  "unusual_order_flow_max": "Макс",
+  "unusual_order_flow_value": "Значення"
+}

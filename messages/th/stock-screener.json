@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "หน้าแรก",
+  "stock_screener_breadcrumb_stock_screener": "คัดกรองหุ้น",
+
+  "stock_screener_seo_title": "ตัวคัดกรองหุ้นขั้นสูง - เครื่องมือกรองและวิเคราะห์หุ้นฟรี",
+  "stock_screener_seo_description": "ตัวคัดกรองหุ้นที่มีเงื่อนไขให้เลือกถึง {count} รายการ กรองหุ้นตามปัจจัยพื้นฐาน เทคนิค ตัวชี้วัดมูลค่า และผลตอบแทน ข้อมูลอัปเดตทุกนาทีเพื่อค้นหาและวิเคราะห์หุ้นได้แม่นยำ",
+  "stock_screener_seo_keywords": "ตัวคัดกรองหุ้น, สกรีนเนอร์หุ้นฟรี, กรองหุ้น, สแกนหุ้น, คัดกรองปัจจัยพื้นฐาน, คัดกรองทางเทคนิค, คัดกรองหุ้นคุณค่า, คัดกรองหุ้นเติบโต, คัดกรองหุ้นปันผล, เครื่องมือวิเคราะห์หุ้น",
+  "stock_screener_structured_name": "เครื่องมือคัดกรองหุ้น",
+  "stock_screener_structured_description": "แพลตฟอร์มคัดกรองและกรองหุ้นขั้นสูงพร้อมข้อมูลตลาดแบบเรียลไทม์",
+
+  "stock_screener_main_title": "คัดกรองหุ้น",
+  "stock_screener_matches_found": "พบ {count} รายการ",
+  "stock_screener_stocks_count": "{count} หุ้น",
+
+  "stock_screener_popular_screens": "ชุดคัดกรองยอดนิยม",
+  "stock_screener_popular_strategies": "กลยุทธ์ยอดนิยม",
+  "stock_screener_select_popular": "เลือกชุดยอดนิยม",
+  "stock_screener_saved_screens": "ชุดคัดกรองที่บันทึกไว้",
+  "stock_screener_select_screen": "เลือกชุดคัดกรอง",
+  "stock_screener_new_screen": "ชุดคัดกรองใหม่",
+
+  "stock_screener_filters_count": "{count} ตัวกรอง",
+  "stock_screener_add_filters": "เพิ่มตัวกรอง",
+  "stock_screener_search_filters": "ค้นหาใน {count} ตัวกรอง...",
+  "stock_screener_select_filters_title": "เลือกตัวกรอง (ทั้งหมด {count})",
+  "stock_screener_nothing_found": "ไม่พบข้อมูล",
+
+  "stock_screener_search_placeholder": "ค้นหา...",
+  "stock_screener_search_input_placeholder": "ค้นหา...",
+  "stock_screener_input_min": "ต่ำสุด",
+  "stock_screener_input_max": "สูงสุด",
+  "stock_screener_input_value": "ค่า",
+
+  "stock_screener_normal_width": "ความกว้างปกติ",
+  "stock_screener_full_width": "เต็มความกว้าง",
+
+  "stock_screener_pagination_previous": "ก่อนหน้า",
+  "stock_screener_pagination_next": "ถัดไป",
+  "stock_screener_pagination_page_of": "หน้า {current} จาก {total}",
+  "stock_screener_rows_label": "{rows} แถว",
+  "stock_screener_back_to_top": "กลับขึ้นด้านบน",
+
+  "stock_screener_no_stocks_query": "ไม่พบหุ้นสำหรับ \"{query}\"",
+  "stock_screener_no_stocks": "ไม่พบหุ้น",
+
+  "stock_screener_modal_new_title": "ชุดคัดกรองใหม่",
+  "stock_screener_modal_new_name_label": "ชื่อชุดคัดกรอง",
+  "stock_screener_modal_new_create": "สร้างชุดคัดกรอง",
+
+  "stock_screener_modal_delete_title": "ลบชุดคัดกรอง",
+  "stock_screener_modal_delete_message": "ต้องการลบชุดคัดกรองนี้ใช่ไหม การลบไม่สามารถย้อนกลับได้",
+  "stock_screener_modal_delete_cancel": "ยกเลิก",
+  "stock_screener_modal_delete_confirm": "ลบ",
+
+  "stock_screener_strategy_earnings_volatility": "ผันผวนช่วงประกาศผลประกอบการ",
+  "stock_screener_strategy_dividend_growth": "เงินปันผลเติบโต",
+  "stock_screener_strategy_monthly_dividends": "จ่ายปันผลรายเดือน",
+  "stock_screener_strategy_top_gainers_1y": "บวกแรงสุดใน 1 ปี",
+  "stock_screener_strategy_top_shorted": "หุ้นถูกขายชอร์ตมากสุด",
+  "stock_screener_strategy_momentum_ta": "หุ้นโมเมนตัมทางเทคนิค",
+  "stock_screener_strategy_undervalued": "หุ้นราคาต่ำกว่ามูลค่า",
+  "stock_screener_strategy_strong_cash_flow": "กระแสเงินสดแข็งแกร่ง",
+
+  "stock_screener_save": "บันทึก",
+  "stock_screener_save_as_new": "บันทึกเป็นรายการใหม่",
+  "stock_screener_reset_all": "รีเซ็ตทั้งหมด"
+}

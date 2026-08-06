@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "オプションフロー スキャナー - スイープ、ブロック、異常な建玉動向",
+  "options_flow_seo_description": "米国株と ETF のオプションフロー、スイープ、ブロック取引をリアルタイムで監視できます。異常な取引や短期のセットアップをその場で確認できます。",
+  "options_flow_seo_keywords": "オプションフロー, オプションフロー スキャナー, 異常なオプション取引, スイープ注文, ブロック取引, スマートマネー, コールフロー, プットフロー, オプション アラート, OPRA オプションフロー",
+  "options_flow_structured_name": "オプションフロー スキャナー",
+  "options_flow_structured_description": "スイープ、ブロック、異常な取引を含むリアルタイムのオプションフロー",
+
+  "options_flow_main_title": "オプションフロー",
+
+  "options_flow_popular_filters": "人気のフィルター",
+  "options_flow_popular_strategies": "人気の戦略",
+  "options_flow_select_popular": "人気から選ぶ",
+  "options_flow_saved_filters": "保存したフィルター",
+  "options_flow_select_filter": "フィルターを選択",
+  "options_flow_new_filter": "新しいフィルター",
+
+  "options_flow_filters_count": "フィルター {count} 件",
+  "options_flow_add_filters": "フィルターを追加",
+  "options_flow_search_filters": "{count} 件のフィルターを検索...",
+  "options_flow_select_filters_title": "フローのフィルターを選択（全 {count} 件）",
+  "options_flow_nothing_found": "該当なし",
+  "options_flow_no_filters_found": "利用できるフィルターがありません",
+
+  "options_flow_search_placeholder": "検索...",
+  "options_flow_search_input_placeholder": "検索...",
+  "options_flow_full_width": "全幅表示",
+  "options_flow_normal_width": "通常幅",
+
+  "options_flow_no_trades_query": "「{query}」に該当するオプション取引はありません",
+  "options_flow_no_data_filters": "選択したフィルターに該当するデータがありません。条件を調整してもう一度お試しください。",
+
+  "options_flow_modal_new_title": "新しいフィルター",
+  "options_flow_modal_new_name_label": "フィルター名",
+  "options_flow_modal_new_create": "フィルターを作成",
+
+  "options_flow_modal_delete_title": "フィルターを削除",
+  "options_flow_modal_delete_message": "このフィルターを削除しますか。この操作は取り消せません。",
+  "options_flow_modal_delete_cancel": "キャンセル",
+  "options_flow_modal_delete_confirm": "フィルターを削除",
+
+  "options_flow_strategy_bullish_sweeps": "強気スイープ",
+  "options_flow_strategy_bearish_sweeps": "弱気スイープ",
+  "options_flow_strategy_high_premium_blocks": "高プレミアムのブロック",
+  "options_flow_strategy_unusual_size_oi": "建玉に対して異常な数量",
+  "options_flow_strategy_etf_index_flow": "ETF・指数のフロー",
+  "options_flow_strategy_zero_dte_flow": "0DTE フロー",
+  "options_flow_strategy_repeated_flow": "繰り返し出るフロー",
+
+  "options_flow_save": "保存",
+  "options_flow_save_as_new": "新規として保存",
+  "options_flow_reset_all": "すべてリセット",
+
+  "options_flow_market_closed": "取引時間外",
+  "options_flow_paused": "一時停止中",
+  "options_flow_live_flow": "リアルタイム",
+  "options_flow_pick_date": "日付を選択",
+
+  "options_flow_realtime_data": "リアルタイムのオプションデータ",
+  "options_flow_realtime_data_title": "OPRA によるリアルタイムのオプションデータ",
+  "options_flow_realtime_data_content": "オプションフローは、米国上場オプションの全取引を集約した公式フィードである OPRA のリアルタイムデータを使っています。表示される約定はすべて OPRA から直接届くため、大口取引、スイープ、異常な取引、プレミアムの動きを機関投資家と同じ水準で確認できます。信頼性の高い OPRA の約定データを使うことで、より速く、よりきれいな情報が得られ、オプション市場でスマートマネーがどこへ向かっているかを正確に把握できます。",
+
+  "options_flow_hide_filter_area": "フィルター欄を隠す",
+  "options_flow_show_filter_area": "フィルター欄を表示",
+
+  "options_flow_put_to_call": "プット・コール比率",
+  "options_flow_call_flow": "コールフロー",
+  "options_flow_put_flow": "プットフロー"
+}

@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Ana Sayfa",
+  "earnings_breadcrumb_calendar": "Bilanco Takvimi",
+
+  "earnings_seo_title": "Bilanco Takvimi - Opsiyon Trader'lari Icin Volatilite Kurgulari",
+  "earnings_seo_description": "Opsiyon volatilite islemlerini ve IV crush kurgularini planlamak icin bilanco tarihlerini, beklenen hareketi ve analist tahminlerini takip et.",
+  "earnings_seo_keywords": "bilanco takvimi, bilanco opsiyon islemleri, beklenen hareket, IV crush, bilanco volatilitesi, EPS tahminleri, gelir beklentileri, bilanco programi",
+
+  "earnings_structured_name": "Bilanco Takvimi",
+  "earnings_structured_description": "Volatilite ve beklenen hareketlere odaklanan opsiyon trader'lari icin bilanco takvimi",
+
+  "earnings_main_name": "Bilanco Takvimi",
+  "earnings_count": "{count} bilanco",
+  "earnings_empty": "Bu gun icin bilanco raporu yok.",
+  "earnings_empty_scheduled": "Planlanmis bilanco yok",
+
+  "earnings_tab_daily": "Gunluk",
+  "earnings_tab_weekly": "Haftalik",
+  "earnings_tab_details": "Detaylar",
+  "earnings_tab_compact": "Kompakt",
+
+  "earnings_time_of_day": "Gun Icindeki Saat",
+  "earnings_time_any": "Farketmez",
+  "earnings_time_before_open": "Acilis Oncesi",
+  "earnings_time_after_close": "Kapanis Sonrasi",
+
+  "earnings_expanded_reports": "Raporlar",
+  "earnings_expanded_market_cap": "Piyasa Degeri",
+  "earnings_expanded_revenue_est": "Gelir Bek.",
+  "earnings_expanded_revenue_estimate": "Gelir Beklentisi",
+  "earnings_expanded_eps_est": "EPS Bek.",
+  "earnings_expanded_eps_estimate": "EPS Beklentisi",
+
+  "earnings_pagination_previous": "Onceki",
+  "earnings_pagination_next": "Sonraki",
+  "earnings_pagination_page_of": "Sayfa {current} / {total}",
+  "earnings_pagination_rows": "{count} satir",
+  "earnings_back_to_top": "Basa Don",
+  "earnings_search_placeholder": "Ara..."
+}

@@ -15,6 +15,10 @@ const catalogLoaders: Record<
   fr: () => import("./catalogs/fr"),
   "zh-CN": () => import("./catalogs/zh-CN"),
   "zh-TW": () => import("./catalogs/zh-TW"),
+  ja: () => import("./catalogs/ja"),
+  ko: () => import("./catalogs/ko"),
+  ru: () => import("./catalogs/ru"),
+  uk: () => import("./catalogs/uk"),
 };
 
 /** Load and serialize only the catalog needed by the current request locale. */

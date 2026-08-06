@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Hem",
+  "price_alert_breadcrumb_price_alert": "Larm",
+
+  "price_alert_seo_title": "Aktielarm - notiser och marknadsuppdateringar i realtid",
+  "price_alert_seo_description": "Skapa egna aktielarm och få direkta notiser när dina villkor uppfylls. Följ rapporter, nyheter och kursrörelser för din bevakningslista med marknadsdata i realtid.",
+  "price_alert_seo_keywords": "aktielarm, prisnotiser, marknadslarm, aktietriggers, rapportkalender, aktienyheter, larm i realtid, marknadsnotiser, bevakningslista, kursbevakning",
+  "price_alert_structured_name": "Larm - Stocknear",
+  "price_alert_structured_description": "System för aktielarm med notiser i realtid",
+
+  "price_alert_main_title": "Larm",
+
+  "price_alert_search_placeholder": "Sök...",
+  "price_alert_no_results": "Inga träffar",
+  "price_alert_edit_alert": "Redigera larm",
+  "price_alert_cancel": "Avbryt",
+
+  "price_alert_empty_title": "Inga larm inställda",
+  "price_alert_empty_description": "Skapa larm för de aktier du tror mest på.",
+  "price_alert_get_started": "Kom igång",
+
+  "price_alert_tab_news": "Nyheter",
+  "price_alert_tab_earnings": "Rapport",
+  "price_alert_no_news": "Inga nyheter än. Lägg till några aktier i din larmlista för att se de senaste nyheterna.",
+  "price_alert_no_earnings": "Inga rapporter än. Lägg till några aktier i larmlistan för att se de senaste rapportdatan.",
+
+  "price_alert_toast_deleted": "Larmen är raderade",
+  "price_alert_toast_select_symbols": "Du måste välja symboler innan du kan radera dem",
+
+  "price_alert_earnings_will_report_today": "rapporterar i dag",
+  "price_alert_earnings_will_report_tomorrow": "rapporterar i morgon",
+  "price_alert_earnings_will_report_monday": "rapporterar på måndag",
+  "price_alert_earnings_will_report": "rapporterar",
+  "price_alert_earnings_after_close": "efter börsens stängning.",
+  "price_alert_earnings_before_open": "före börsens öppning.",
+  "price_alert_earnings_during_market": "under handelsdagen.",
+  "price_alert_earnings_analysts_estimate": "Analytikerna räknar med",
+  "price_alert_earnings_in_revenue": "i omsättning",
+  "price_alert_earnings_yoy": "å/å",
+  "price_alert_earnings_and": "och",
+  "price_alert_earnings_in_eps": "i vinst per aktie"
+}

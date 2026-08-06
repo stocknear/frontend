@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Hjem",
+  "options_screener_breadcrumb_options_screener": "Opsjonsscreener",
+
+  "options_screener_seo_title": "Opsjonsscreener - Finn uvanlig flyt og gode oppsett",
+  "options_screener_seo_description": "Screen opsjoner på uvanlig aktivitet, implisitt volatilitet, åpen balanse, volum, greeks og forfall for å finne kortsiktige oppsett.",
+  "options_screener_seo_keywords": "opsjonsscreener, uvanlig opsjonsaktivitet, opsjonsskanner, screener for implisitt volatilitet, IV-skew, åpen balanse, opsjoner med høyt volum, verktøy for opsjonshandel, greeks-screener",
+  "options_screener_structured_name": "Opsjonsscreener",
+  "options_screener_structured_description": "Opsjonsscreener med fokus på uvanlig aktivitet, IV og åpen balanse for kortsiktige oppsett",
+
+  "options_screener_main_title": "Opsjonsscreener",
+  "options_screener_contracts_count": "{count} kontrakter",
+  "options_screener_expire_on": "Alle opsjonskontrakter forfaller {date}",
+
+  "options_screener_popular_screens": "Populære screener",
+  "options_screener_popular_strategies": "Populære strategier",
+  "options_screener_select_popular": "Velg populær",
+  "options_screener_saved_screens": "Lagrede screener",
+  "options_screener_select_screen": "Velg screen",
+  "options_screener_new_screen": "Ny screen",
+
+  "options_screener_filters_count": "Filtre ({count})",
+  "options_screener_add_filters": "Legg til filtre",
+  "options_screener_search_filters": "Søk i {count} filtre ...",
+  "options_screener_select_filters_title": "Velg screenerfiltre ({count} totalt)",
+  "options_screener_nothing_found": "Ingen treff",
+
+  "options_screener_tab_general": "Generelt",
+  "options_screener_tab_filters": "Filtre",
+  "options_screener_tab_greeks": "Greeks",
+
+  "options_screener_search_placeholder": "Finn ...",
+  "options_screener_search_input_placeholder": "Søk ...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Maks",
+  "options_screener_input_value": "Verdi",
+
+  "options_screener_normal_width": "Normal bredde",
+  "options_screener_full_width": "Full bredde",
+
+  "options_screener_pagination_previous": "Forrige",
+  "options_screener_pagination_next": "Neste",
+  "options_screener_pagination_page_of": "Side {current} av {total}",
+  "options_screener_rows_label": "{rows} rader",
+  "options_screener_back_to_top": "Til toppen",
+
+  "options_screener_no_contracts_query": "Fant ingen kontrakter for \"{query}\"",
+  "options_screener_no_contracts": "Fant ingen kontrakter.",
+
+  "options_screener_modal_new_title": "Ny screener",
+  "options_screener_modal_new_name_label": "Navn på screener",
+  "options_screener_modal_new_create": "Opprett screener",
+
+  "options_screener_modal_delete_title": "Slett screener",
+  "options_screener_modal_delete_message": "Er du sikker på at du vil slette denne screeneren? Handlingen kan ikke angres.",
+  "options_screener_modal_delete_cancel": "Avbryt",
+  "options_screener_modal_delete_confirm": "Slett",
+
+  "options_screener_strategy_high_iv_rank": "Høy IV-rangering",
+  "options_screener_strategy_volume_surge": "Volumhopp",
+  "options_screener_strategy_itm_calls": "ITM-calls",
+  "options_screener_strategy_otm_puts": "OTM-puts",
+  "options_screener_strategy_high_premium_flow": "Flyt med høy premie",
+
+  "options_screener_save": "Lagre",
+  "options_screener_save_as_new": "Lagre som ny",
+  "options_screener_reset_all": "Nullstill alt"
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Főoldal",
+  "cash_secured_put_screener_breadcrumb_title": "Cash Secured Put szűrő",
+
+  "cash_secured_put_screener_seo_title": "Cash Secured Put szűrő - Találd meg a legjobb CSP lehetőségeket",
+  "cash_secured_put_screener_seo_description": "Szűrj több ezer opció között cash secured put lehetőségekre. Szűrhetsz prémiumhozamra, évesített hozamra, kötési árfolyamra, lejáratra és sok másra.",
+  "cash_secured_put_screener_seo_keywords": "cash secured put szűrő, opciós szűrő, cash secured put, prémiumhozam, jövedelemstratégia",
+  "cash_secured_put_screener_structured_name": "Cash Secured Put szűrő",
+  "cash_secured_put_screener_structured_description": "Opciók szűrése cash secured put lehetőségekre",
+
+  "cash_secured_put_screener_main_title": "Cash Secured Put szűrő",
+  "cash_secured_put_screener_contracts_count": "{count} kontraktus",
+
+  "cash_secured_put_screener_popular_screens": "Népszerű szűrők",
+  "cash_secured_put_screener_popular_strategies": "Népszerű stratégiák",
+  "cash_secured_put_screener_select_popular": "Népszerű kiválasztása",
+  "cash_secured_put_screener_saved_screens": "Mentett szűrők",
+  "cash_secured_put_screener_select_screen": "Szűrő kiválasztása",
+  "cash_secured_put_screener_new_screen": "Új szűrő",
+
+  "cash_secured_put_screener_strategy_high_yield": "Magas hozam",
+  "cash_secured_put_screener_strategy_conservative": "Konzervatív",
+  "cash_secured_put_screener_strategy_weekly_income": "Heti bevétel",
+  "cash_secured_put_screener_strategy_high_protection": "Erős védelem",
+  "cash_secured_put_screener_strategy_bluechip_csp": "Blue-chip CSP-k",
+
+  "cash_secured_put_screener_filters_count": "Szűrők ({count})",
+  "cash_secured_put_screener_add_filters": "Szűrő hozzáadása",
+  "cash_secured_put_screener_search_filters": "Keresés {count} szűrő között...",
+  "cash_secured_put_screener_select_filters_title": "Szűrők kiválasztása ({count})",
+  "cash_secured_put_screener_nothing_found": "Nincs találat.",
+
+  "cash_secured_put_screener_save": "Mentés",
+  "cash_secured_put_screener_save_as_new": "Mentés újként",
+  "cash_secured_put_screener_reset_all": "Összes törlése",
+
+  "cash_secured_put_screener_condition_over": "Felette",
+  "cash_secured_put_screener_condition_under": "Alatta",
+  "cash_secured_put_screener_condition_between": "Között",
+  "cash_secured_put_screener_condition_exactly": "Pontosan",
+  "cash_secured_put_screener_condition_any": "Bármely",
+
+  "cash_secured_put_screener_input_min": "Min",
+  "cash_secured_put_screener_input_max": "Max",
+  "cash_secured_put_screener_input_value": "Érték",
+
+  "cash_secured_put_screener_search_placeholder": "Keresés...",
+  "cash_secured_put_screener_search_modal_placeholder": "Keresés...",
+
+  "cash_secured_put_screener_normal_width": "Normál szélesség",
+  "cash_secured_put_screener_full_width": "Teljes szélesség",
+
+  "cash_secured_put_screener_tab_general": "Általános",
+  "cash_secured_put_screener_tab_income": "Bevétel",
+  "cash_secured_put_screener_tab_filters": "Szűrők",
+  "cash_secured_put_screener_tab_greeks": "Görögök",
+
+  "cash_secured_put_screener_pagination_previous": "Előző",
+  "cash_secured_put_screener_pagination_next": "Következő",
+  "cash_secured_put_screener_pagination_page_of": "{current}. oldal / {total}",
+  "cash_secured_put_screener_rows_label": "{rows} sor",
+  "cash_secured_put_screener_back_to_top": "Vissza a tetejére",
+
+  "cash_secured_put_screener_no_results_query": "Nincs találat erre: \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "Nincs a feltételeidnek megfelelő kontraktus.",
+
+  "cash_secured_put_screener_modal_new_title": "Új szűrő",
+  "cash_secured_put_screener_modal_new_name_label": "Szűrő neve",
+  "cash_secured_put_screener_modal_new_create": "Létrehozás",
+
+  "cash_secured_put_screener_modal_delete_title": "Szűrő törlése",
+  "cash_secured_put_screener_modal_delete_message": "Biztosan törlöd ezt a szűrőt? A művelet nem vonható vissza.",
+  "cash_secured_put_screener_modal_delete_cancel": "Mégse",
+  "cash_secured_put_screener_modal_delete_confirm": "Törlés",
+
+  "cash_secured_put_screener_toast_deleting": "Szűrő törlése...",
+  "cash_secured_put_screener_toast_deleted": "A szűrőt töröltük.",
+  "cash_secured_put_screener_toast_delete_failed": "A törlés nem sikerült. Próbáld újra.",
+  "cash_secured_put_screener_toast_title_too_long": "A cím túl hosszú. Maradj 100 karakter alatt.",
+  "cash_secured_put_screener_toast_created": "A szűrő elkészült.",
+  "cash_secured_put_screener_toast_creating": "Szűrő létrehozása...",
+  "cash_secured_put_screener_toast_create_failed": "Valami hiba történt. Próbáld újra később.",
+  "cash_secured_put_screener_toast_select_rule": "Válassz egy szabályt",
+  "cash_secured_put_screener_toast_saving": "Szűrő mentése...",
+  "cash_secured_put_screener_toast_saved": "A szűrőt elmentettük.",
+  "cash_secured_put_screener_toast_save_failed": "A mentés nem sikerült. Próbáld újra.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Árfolyam lejáratkor ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Utolsó ár: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Nullszaldó: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Nyereség/veszteség ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Alaptermék ára:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Nyereség vagy veszteség:",
+  "cash_secured_put_screener_chart_modal_title": "Cash Secured Put - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Ügylet felépítése",
+  "cash_secured_put_screener_chart_sell_put": "{strike}P eladása @",
+  "cash_secured_put_screener_chart_cash_secured": "Készpénzfedezet",
+  "cash_secured_put_screener_chart_net_credit": "Nettó jóváírás",
+  "cash_secured_put_screener_chart_breakeven": "Nullszaldó",
+  "cash_secured_put_screener_chart_below": "Alatta",
+  "cash_secured_put_screener_chart_last_price": "Utolsó ár",
+  "cash_secured_put_screener_chart_moneyness": "Moneyness",
+  "cash_secured_put_screener_chart_return_if_flat": "Hozam oldalazás esetén",
+  "cash_secured_put_screener_chart_return_if_assigned": "Hozam lehívás esetén",
+  "cash_secured_put_screener_chart_probability_of_profit": "Nyereség valószínűsége",
+  "cash_secured_put_screener_chart_annualized_abbr": "évesítve",
+  "cash_secured_put_screener_chart_discount": "Kedvezmény lehívás esetén"
+}

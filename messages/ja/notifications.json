@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "ホーム",
+  "notifications_breadcrumb_notifications": "通知",
+
+  "notifications_seo_title": "株式市場の通知 | リアルタイム更新とアラート",
+  "notifications_seo_description": "株式市場の動きをリアルタイムの通知で把握。価格変動、トレンド、相場の動きを即座に受け取り、より的確な投資判断につなげられます。",
+
+  "notifications_main_title": "通知",
+  "notifications_alerts_count": "{count} 件のアラート",
+
+  "notifications_mark_all_read": "すべて既読にする",
+  "notifications_marking": "処理中...",
+  "notifications_settings": "設定",
+  "notifications_customize": "通知をカスタマイズ",
+
+  "notifications_channel_earnings_surprise": "決算サプライズ",
+  "notifications_channel_wiim": "株価が動いた理由",
+  "notifications_channel_top_analyst": "上位アナリストのレーティング",
+  "notifications_channel_followed_analysts": "フォロー中のアナリスト",
+  "notifications_no_channels": "利用できる通知チャネルがありません。",
+
+  "notifications_empty": "通知はまだありません。",
+
+  "notifications_pagination_previous": "前へ",
+  "notifications_pagination_next": "次へ",
+  "notifications_pagination_page_of": "{current} / {total} ページ",
+  "notifications_pagination_rows": "{count} 行",
+  "notifications_back_to_top": "先頭へ戻る",
+
+  "notifications_modal_delete_title": "すべての通知を削除",
+  "notifications_modal_delete_confirm": "すべての通知を削除しますか。この操作は取り消せません。",
+  "notifications_modal_delete_button": "通知を削除",
+  "notifications_modal_deleting": "削除中...",
+  "notifications_modal_cancel": "キャンセル",
+  "notifications_delete_error": "通知を削除できませんでした。もう一度お試しください。",
+
+  "notifications_type_price_alert_triggered": "アラートが作動しました:",
+  "notifications_type_price_is": "現在の株価:",
+  "notifications_type_is_condition": "は目標値を{condition}しました:",
+  "notifications_type_breaking_news": "速報:",
+  "notifications_type_wiim_new_data": "「株価が動いた理由」の新しいデータが公開されました。",
+  "notifications_type_top_analyst_new": "上位アナリストによる新しいレーティング:",
+  "notifications_type_top_analyst_rating": "評価会社 {analyst} が新たに「{rating}」のレーティングを付与し、目標株価を {price} に更新しました。",
+  "notifications_type_followed_analyst_new": "新しいレーティング:",
+  "notifications_type_followed_analyst_rating": "{symbol} を「{rating}」と評価し、目標株価は {price} です。",
+  "notifications_type_earnings_release": "決算発表:",
+  "notifications_type_earnings_surprise_new": "「決算サプライズ」の新しいデータが公開されました。",
+
+  "notifications_sidebar_watchlist": "ウォッチリスト",
+  "notifications_sidebar_watchlist_description": "お気に入り銘柄の動きをリアルタイムで受け取れます",
+  "notifications_sidebar_portfolio": "ポートフォリオトラッカー",
+  "notifications_sidebar_portfolio_description": "ポートフォリオの状況をリアルタイムで受け取れます"
+}

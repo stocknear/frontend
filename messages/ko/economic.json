@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "홈",
+  "economic_breadcrumb_calendar": "경제 캘린더",
+
+  "economic_seo_title": "경제 캘린더 - 시장을 움직이는 이벤트와 지표 발표",
+  "economic_seo_description": "실시간 경제 이벤트, 경제 지표, 시장을 움직이는 발표 일정을 담은 경제 캘린더입니다. GDP, 물가, 고용 지표, 중앙은행 회의 등 주요 발표를 정확한 시간과 전망치와 함께 확인하세요. 시장 변동성에 미리 대비하려는 트레이더와 투자자를 위한 필수 도구입니다.",
+  "economic_seo_keywords": "경제 캘린더, 금융 이벤트, 시장 캘린더, 경제 지표, GDP 발표, 물가 지표, 고용 통계, 중앙은행 회의, 경제 뉴스, 시장을 움직이는 이벤트, 경제 지표 발표, 경제 발표 일정, 트레이딩 캘린더, 투자 계획",
+  "economic_structured_name": "경제 캘린더",
+  "economic_structured_description": "전 세계 금융 이벤트, 경제 지표, 시장을 움직이는 발표를 추적하는 종합 경제 캘린더",
+
+  "economic_main_name": "경제 캘린더",
+  "economic_count_events": "이벤트 {count}건",
+  "economic_empty_day": "해당 날짜에 이벤트가 없습니다.",
+
+  "economic_filter_country": "국가 필터",
+  "economic_filter_importance": "중요도 필터",
+  "economic_filter_reset": "전체 초기화",
+  "economic_filter_search": "검색...",
+  "economic_filter_no_country": "국가를 찾을 수 없습니다",
+  "economic_filters_label": "필터",
+
+  "economic_pagination_previous": "이전",
+  "economic_pagination_next": "다음",
+  "economic_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "economic_pagination_rows": "{count}개씩",
+  "economic_back_to_top": "맨 위로",
+  "economic_search_placeholder": "검색...",
+
+  "economic_source_label": "출처:",
+  "economic_source_text": "경제 캘린더 제공",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "시간은 미국 동부시간(ET) 기준입니다."
+}

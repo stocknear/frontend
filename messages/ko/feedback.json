@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "의견 보내기",
+  "feedback_error_signin": "의견을 보내기 전에 로그인해 주세요.",
+  "feedback_error_description": "문제나 제안 내용을 입력해 주세요.",
+  "feedback_error_send_try_again": "의견을 보내는 중 문제가 발생했습니다. 다시 시도해 주세요.",
+  "feedback_success": "감사합니다. 의견이 전송되었습니다.",
+  "feedback_error_send_generic": "의견을 보내는 중 문제가 발생했습니다.",
+  "feedback_description_label": "문제나 제안 내용을 알려주세요:",
+  "feedback_page_label": "의견 대상 페이지:",
+  "feedback_close_button": "닫기",
+  "feedback_cancel_button": "취소",
+  "feedback_send_button": "의견 보내기"
+}

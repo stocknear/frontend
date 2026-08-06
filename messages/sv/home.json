@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Options flow, sweeps och ovanlig aktivitet i realtid",
+  "home_seo_description": "Options flow, sweeps, blocks och ovanlig aktivitet i realtid för amerikanska aktier och ETF:er. Hitta kortsiktiga handelslägen snabbare med Stocknear.",
+  "home_seo_keywords": "options flow, ovanlig optionsaktivitet, sweep-order, blockaffärer, dark pool, implicit volatilitet, IV-skew, öppen balans, optionskedja, kortsiktiga handelslägen, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Options flow och ovanlig aktivitet i realtid för kortsiktiga handelslägen",
+  "home_structured_feature_live_options_flow": "Options flow och sweeps live",
+  "home_structured_feature_unusual_options_activity": "Ovanlig optionsaktivitet",
+  "home_structured_feature_dark_pool_monitoring": "Bevakning av dark pools",
+  "home_structured_feature_implied_volatility": "Implicit volatilitet och skew",
+  "home_structured_feature_options_chain": "Optionskedja och öppen balans",
+  "home_structured_feature_earnings_volatility": "Volatilitet inför rapport",
+  "home_structured_feature_market_catalysts": "Marknadstriggers",
+  "home_hero_title": "Se rörelsen före mängden",
+  "home_hero_subtitle": "Kurser i realtid, options flow, dark pool-order, nyheter, finansiella data, prognoser och diagram för varje amerikansk aktie och ETF. Agera snabbare med rena signaler.",
+  "home_promo_pill_label": "Sommarrea",
+  "home_promo_pill_discount": "{percent} rabatt",
+  "home_promo_pill_subtitle": "på alla årsplaner"
+}

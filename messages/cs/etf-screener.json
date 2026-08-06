@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Domů",
+  "etf_screener_breadcrumb_etf_screener": "Screener ETF",
+
+  "etf_screener_seo_title": "Screener ETF zdarma - filtruj a najdi ETF",
+  "etf_screener_seo_description": "Filtruj {count} ETF podle objemu spravovaného majetku, nákladovosti, dividend, výkonnosti, technických ukazatelů a dalších. Screener ETF zdarma s pokročilými filtry.",
+  "etf_screener_seo_keywords": "screener etf, filtr etf, vyhledávání etf, najít etf, nástroj na filtrování etf, filtr nákladovosti, filtr aum, screener dividendových etf",
+  "etf_screener_structured_name": "Screener ETF od stocknear",
+  "etf_screener_structured_description": "Pokročilý nástroj na filtrování ETF podle spravovaného majetku, nákladovosti, výkonnosti, technických ukazatelů, dividend a dalších.",
+
+  "etf_screener_main_title": "Screener ETF",
+  "etf_screener_matches_found": "{count} shod",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Oblíbené screeny",
+  "etf_screener_popular_strategies": "Oblíbené strategie",
+  "etf_screener_select_popular": "Vyber oblíbený",
+  "etf_screener_saved_screens": "Uložené screeny",
+  "etf_screener_select_screen": "Vyber screen",
+  "etf_screener_new_screen": "Nový screen",
+
+  "etf_screener_filters_count": "{count} filtrů",
+  "etf_screener_add_filters": "Přidat filtry",
+  "etf_screener_search_filters": "Hledat mezi {count} filtry...",
+  "etf_screener_select_filters_title": "Vyber filtry ({count})",
+  "etf_screener_nothing_found": "Nic nenalezeno",
+
+  "etf_screener_search_placeholder": "Hledat ETF...",
+  "etf_screener_search_input_placeholder": "Hledat...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Max",
+  "etf_screener_input_value": "Hodnota",
+
+  "etf_screener_normal_width": "Normální šířka",
+  "etf_screener_full_width": "Celá šířka",
+
+  "etf_screener_save": "Uložit",
+  "etf_screener_save_as_new": "Uložit jako nový",
+  "etf_screener_reset_all": "Resetovat vše",
+
+  "etf_screener_pagination_previous": "Předchozí",
+  "etf_screener_pagination_next": "Další",
+  "etf_screener_pagination_page_of": "Stránka {current} z {total}",
+  "etf_screener_rows_label": "{rows} řádků",
+  "etf_screener_back_to_top": "Zpět nahoru",
+
+  "etf_screener_no_etfs_query": "Pro \"{query}\" jsme nenašli žádné ETF",
+  "etf_screener_no_etfs": "Žádné ETF nenalezeny.",
+
+  "etf_screener_modal_new_title": "Nový screen",
+  "etf_screener_modal_new_name_label": "Název screenu",
+  "etf_screener_modal_new_create": "Vytvořit",
+
+  "etf_screener_modal_delete_title": "Smazat screen",
+  "etf_screener_modal_delete_message": "Opravdu chceš tento screen smazat?",
+  "etf_screener_modal_delete_cancel": "Zrušit",
+  "etf_screener_modal_delete_confirm": "Smazat",
+
+  "etf_screener_strategy_low_cost_index": "Levné indexové ETF",
+  "etf_screener_strategy_high_dividend": "ETF s vysokou dividendou",
+  "etf_screener_strategy_top_performers_1y": "Nejvýkonnější 1R",
+  "etf_screener_strategy_oversold": "Přeprodané ETF",
+
+  "etf_screener_tab_filters": "Filtry",
+  "etf_screener_tab_technicals": "Technické ukazatele",
+
+  "etf_screener_export_title": "Exportovat data ze screeneru ETF"
+}

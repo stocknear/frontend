@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Home",
+  "stock_screener_breadcrumb_stock_screener": "Aandelenscreener",
+
+  "stock_screener_seo_title": "Geavanceerde aandelenscreener - gratis filteren en analyseren",
+  "stock_screener_seo_description": "Krachtige aandelenscreener met {count} filtercriteria. Screen aandelen op fundamentals, technische indicatoren, waarderingsmaatstaven en prestaties. Data wordt elke minuut ververst voor scherpe analyses.",
+  "stock_screener_seo_keywords": "aandelenscreener, gratis aandelenscreener, aandelenfilter, aandelenscanner, fundamentele screener, technische screener, screener waardeaandelen, screener groeiaandelen, screener dividendaandelen, tool aandelenanalyse",
+  "stock_screener_structured_name": "Aandelenscreener",
+  "stock_screener_structured_description": "Geavanceerd platform om aandelen te screenen en filteren met realtime marktdata",
+
+  "stock_screener_main_title": "Aandelenscreener",
+  "stock_screener_matches_found": "{count} resultaten gevonden",
+  "stock_screener_stocks_count": "{count} aandelen",
+
+  "stock_screener_popular_screens": "Populaire screens",
+  "stock_screener_popular_strategies": "Populaire strategieën",
+  "stock_screener_select_popular": "Kies populair",
+  "stock_screener_saved_screens": "Opgeslagen screens",
+  "stock_screener_select_screen": "Screen kiezen",
+  "stock_screener_new_screen": "Nieuwe screen",
+
+  "stock_screener_filters_count": "{count} filters",
+  "stock_screener_add_filters": "Filters toevoegen",
+  "stock_screener_search_filters": "Zoek in {count} filters...",
+  "stock_screener_select_filters_title": "Kies screenerfilters ({count} totaal)",
+  "stock_screener_nothing_found": "Niets gevonden",
+
+  "stock_screener_search_placeholder": "Zoeken...",
+  "stock_screener_search_input_placeholder": "Zoeken...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Waarde",
+
+  "stock_screener_normal_width": "Normale breedte",
+  "stock_screener_full_width": "Volledige breedte",
+
+  "stock_screener_pagination_previous": "Vorige",
+  "stock_screener_pagination_next": "Volgende",
+  "stock_screener_pagination_page_of": "Pagina {current} van {total}",
+  "stock_screener_rows_label": "{rows} rijen",
+  "stock_screener_back_to_top": "Terug naar boven",
+
+  "stock_screener_no_stocks_query": "Geen aandelen gevonden voor \"{query}\"",
+  "stock_screener_no_stocks": "Geen aandelen gevonden.",
+
+  "stock_screener_modal_new_title": "Nieuwe screener",
+  "stock_screener_modal_new_name_label": "Naam screener",
+  "stock_screener_modal_new_create": "Screener aanmaken",
+
+  "stock_screener_modal_delete_title": "Screener verwijderen",
+  "stock_screener_modal_delete_message": "Weet je zeker dat je deze screener wilt verwijderen? Dit kun je niet ongedaan maken.",
+  "stock_screener_modal_delete_cancel": "Annuleren",
+  "stock_screener_modal_delete_confirm": "Verwijderen",
+
+  "stock_screener_strategy_earnings_volatility": "Volatiliteit rond cijfers",
+  "stock_screener_strategy_dividend_growth": "Dividendgroei",
+  "stock_screener_strategy_monthly_dividends": "Maandelijks dividend",
+  "stock_screener_strategy_top_gainers_1y": "Grootste stijgers 1J",
+  "stock_screener_strategy_top_shorted": "Meest geshorte aandelen",
+  "stock_screener_strategy_momentum_ta": "Momentumaandelen (TA)",
+  "stock_screener_strategy_undervalued": "Ondergewaardeerde aandelen",
+  "stock_screener_strategy_strong_cash_flow": "Sterke kasstroom",
+
+  "stock_screener_save": "Opslaan",
+  "stock_screener_save_as_new": "Opslaan als nieuw",
+  "stock_screener_reset_all": "Alles resetten"
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Início",
+  "cash_secured_put_screener_breadcrumb_title": "Screener de Cash Secured Put",
+
+  "cash_secured_put_screener_seo_title": "Screener de Cash Secured Put - Encontre as Melhores Oportunidades de CSP",
+  "cash_secured_put_screener_seo_description": "Analise milhares de opções em busca de oportunidades de cash secured put. Filtre por taxa de prêmio, retorno anualizado, preço de exercício, vencimento e mais.",
+  "cash_secured_put_screener_seo_keywords": "screener de cash secured put, screener de opções, cash secured puts, taxa de prêmio, estratégia de renda",
+  "cash_secured_put_screener_structured_name": "Screener de Cash Secured Put",
+  "cash_secured_put_screener_structured_description": "Filtre opções em busca de oportunidades de cash secured put",
+
+  "cash_secured_put_screener_main_title": "Screener de Cash Secured Put",
+  "cash_secured_put_screener_contracts_count": "{count} contratos",
+
+  "cash_secured_put_screener_popular_screens": "Filtros populares",
+  "cash_secured_put_screener_popular_strategies": "Estratégias populares",
+  "cash_secured_put_screener_select_popular": "Selecionar popular",
+  "cash_secured_put_screener_saved_screens": "Filtros salvos",
+  "cash_secured_put_screener_select_screen": "Selecionar filtro",
+  "cash_secured_put_screener_new_screen": "Novo filtro",
+
+  "cash_secured_put_screener_strategy_high_yield": "Alto retorno",
+  "cash_secured_put_screener_strategy_conservative": "Conservador",
+  "cash_secured_put_screener_strategy_weekly_income": "Renda semanal",
+  "cash_secured_put_screener_strategy_high_protection": "Alta proteção",
+  "cash_secured_put_screener_strategy_bluechip_csp": "CSPs de blue chips",
+
+  "cash_secured_put_screener_filters_count": "Filtros ({count})",
+  "cash_secured_put_screener_add_filters": "Adicionar filtros",
+  "cash_secured_put_screener_search_filters": "Buscar em {count} filtros...",
+  "cash_secured_put_screener_select_filters_title": "Selecionar filtros ({count})",
+  "cash_secured_put_screener_nothing_found": "Nada encontrado.",
+
+  "cash_secured_put_screener_save": "Salvar",
+  "cash_secured_put_screener_save_as_new": "Salvar como novo",
+  "cash_secured_put_screener_reset_all": "Limpar tudo",
+
+  "cash_secured_put_screener_condition_over": "Acima de",
+  "cash_secured_put_screener_condition_under": "Abaixo de",
+  "cash_secured_put_screener_condition_between": "Entre",
+  "cash_secured_put_screener_condition_exactly": "Exatamente",
+  "cash_secured_put_screener_condition_any": "Qualquer",
+
+  "cash_secured_put_screener_input_min": "Mín",
+  "cash_secured_put_screener_input_max": "Máx",
+  "cash_secured_put_screener_input_value": "Valor",
+
+  "cash_secured_put_screener_search_placeholder": "Buscar...",
+  "cash_secured_put_screener_search_modal_placeholder": "Buscar...",
+
+  "cash_secured_put_screener_normal_width": "Largura normal",
+  "cash_secured_put_screener_full_width": "Largura total",
+
+  "cash_secured_put_screener_tab_general": "Geral",
+  "cash_secured_put_screener_tab_income": "Renda",
+  "cash_secured_put_screener_tab_filters": "Filtros",
+  "cash_secured_put_screener_tab_greeks": "Gregas",
+
+  "cash_secured_put_screener_pagination_previous": "Anterior",
+  "cash_secured_put_screener_pagination_next": "Próximo",
+  "cash_secured_put_screener_pagination_page_of": "Página {current} de {total}",
+  "cash_secured_put_screener_rows_label": "{rows} linhas",
+  "cash_secured_put_screener_back_to_top": "Voltar ao topo",
+
+  "cash_secured_put_screener_no_results_query": "Nenhum resultado encontrado para \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "Nenhum contrato atende aos seus critérios.",
+
+  "cash_secured_put_screener_modal_new_title": "Novo screener",
+  "cash_secured_put_screener_modal_new_name_label": "Nome do screener",
+  "cash_secured_put_screener_modal_new_create": "Criar",
+
+  "cash_secured_put_screener_modal_delete_title": "Excluir screener",
+  "cash_secured_put_screener_modal_delete_message": "Tem certeza que quer excluir este screener? Essa ação não pode ser desfeita.",
+  "cash_secured_put_screener_modal_delete_cancel": "Cancelar",
+  "cash_secured_put_screener_modal_delete_confirm": "Excluir",
+
+  "cash_secured_put_screener_toast_deleting": "Excluindo screener...",
+  "cash_secured_put_screener_toast_deleted": "Screener excluído com sucesso.",
+  "cash_secured_put_screener_toast_delete_failed": "Falha ao excluir. Tente de novo.",
+  "cash_secured_put_screener_toast_title_too_long": "O título é muito longo. Use menos de 100 caracteres.",
+  "cash_secured_put_screener_toast_created": "Screener criado com sucesso.",
+  "cash_secured_put_screener_toast_creating": "Criando screener...",
+  "cash_secured_put_screener_toast_create_failed": "Algo deu errado. Tente novamente mais tarde.",
+  "cash_secured_put_screener_toast_select_rule": "Selecione uma regra",
+  "cash_secured_put_screener_toast_saving": "Salvando screener...",
+  "cash_secured_put_screener_toast_saved": "Screener salvo.",
+  "cash_secured_put_screener_toast_save_failed": "Falha ao salvar. Tente de novo.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Preço no vencimento ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Último preço: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Breakeven: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Lucro/Prejuízo ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Preço do ativo:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Lucro ou prejuízo:",
+  "cash_secured_put_screener_chart_modal_title": "Cash Secured Put - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Montagem da operação",
+  "cash_secured_put_screener_chart_sell_put": "Vender {strike}P @",
+  "cash_secured_put_screener_chart_cash_secured": "Caixa garantido",
+  "cash_secured_put_screener_chart_net_credit": "Crédito líquido",
+  "cash_secured_put_screener_chart_breakeven": "Breakeven",
+  "cash_secured_put_screener_chart_below": "Abaixo",
+  "cash_secured_put_screener_chart_last_price": "Último preço",
+  "cash_secured_put_screener_chart_moneyness": "Moneyness",
+  "cash_secured_put_screener_chart_return_if_flat": "Retorno se ficar estável",
+  "cash_secured_put_screener_chart_return_if_assigned": "Retorno se exercido",
+  "cash_secured_put_screener_chart_probability_of_profit": "Probabilidade de lucro",
+  "cash_secured_put_screener_chart_annualized_abbr": "a.a.",
+  "cash_secured_put_screener_chart_discount": "Desconto se exercido"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Byggt för aktiva handlare som vill ha ett övertag.",
+  "upgrade_to_pro_subtitle": "Du behöver inte fler rubriker. Du behöver flödet, triggern och sammanhanget som rör kursen. Pro samlar options- och dark pool-data i realtid, analytikerbesked och djup historik på ett ställe, så att du kan planera affären i stället för att jaga den.",
+  "upgrade_to_pro_feature_data_title": "Lås upp hela datautbudet",
+  "upgrade_to_pro_feature_data_desc": "Få alla dataset och verktyg i Stocknear så att du snabbt kan granska lägen och agera med övertygelse.",
+  "upgrade_to_pro_feature_flow_title": "Options flow och dark pool live",
+  "upgrade_to_pro_feature_flow_desc": "Se ovanlig aktivitet och stora avslut när de sker och hinn före mängden.",
+  "upgrade_to_pro_feature_analyst_title": "Analytikerbesked som rör kursen",
+  "upgrade_to_pro_feature_analyst_desc": "Följ höjda och sänkta rekommendationer och riktkurser utan att jaga nyheter.",
+  "upgrade_to_pro_feature_history_title": "Djup historik för backtestning",
+  "upgrade_to_pro_feature_history_desc": "Testa dina idéer med premiumdata och upp till 30 års historik.",
+  "upgrade_to_pro_cta": "Uppgradera till Pro"
+}

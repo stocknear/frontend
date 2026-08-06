@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "AI-drevet aktieanalyse - finansiel AI-agent og markedsindsigt",
+  "chat_seo_description": "Avanceret finansiel AI-agent med aktieanalyse i realtid, markedsindsigt og investeringsresearch. Chat med specialiserede AI-agenter om aktiescreening, regnskaber, options flow, dark pool-aktivitet og markedsstemning. Få personlige investeringsforslag og et samlet overblik over markedet.",
+  "chat_seo_keywords": "finansiel AI-rådgiver, AI til aktiemarkedet, finansiel AI-agent, AI-investeringsanalyse, automatiseret aktieresearch, AI-handelsindsigt, machine learning i finans, finansiel chatbot, AI-markedsanalyse, algoritmisk handelsindsigt, AI-porteføljeanalyse, kunstig intelligens og investering",
+  "chat_title": "Din investeringsmakker",
+  "chat_placeholder": "Spørg om alt inden for aktier - få opdateringer i realtid",
+  "chat_placeholder_readonly": "Skrivebeskyttet: Du har ikke adgang til at redigere denne chat.",
+  "chat_placeholder_editable": "Spørg om hvad som helst",
+  "chat_credits_left": "Credits tilbage",
+  "chat_stock_agents": "Aktieagenter",
+  "chat_how_to_use_agents": "Sådan bruger du agenterne rigtigt",
+  "chat_credits": "Credits",
+  "chat_threads": "Tråde",
+  "chat_no_threads": "Vi har vist ikke snakket sammen før.",
+  "chat_ready_to_analyze": "Klar til at analysere aktier?",
+  "chat_ready_description": "Dyk ned i detaljerede regnskabstal, analytikervurderinger og teknisk analyse for tusindvis af aktier.",
+  "chat_get_started": "Kom i gang",
+  "chat_delete_thread_title": "Slet tråd",
+  "chat_delete_thread_confirm": "Er du sikker på, at du vil slette denne tråd? Handlingen kan ikke fortrydes.",
+  "chat_cancel": "Annuller",
+  "chat_delete": "Slet tråd",
+  "chat_toast_deleted": "Tråden blev slettet.",
+  "chat_toast_error": "Noget gik galt. Prøv igen.",
+  "chat_toast_error_occurred": "Der opstod en fejl. Prøv igen senere.",
+  "chat_toast_insufficient_credits": "Ikke nok credits. Din nuværende saldo er",
+  "chat_last_message": "Seneste besked",
+  "chat_ago": "siden",
+  "chat_minutes": "minutter",
+  "chat_hour": "time",
+  "chat_hours": "timer",
+  "chat_day": "dag",
+  "chat_days": "dage",
+  "chat_error_connect": "Kunne ikke oprette forbindelse til chattjenesten. Prøv igen senere.",
+
+  "chat_default_gainers_losers_label": "Største stigninger, fald og mest handlede",
+  "chat_default_gainers_losers_query": "Giv mig et overblik over dagens aktier med de største stigninger, de største fald og de mest handlede aktier målt på volumen. Tag nøgletal med som procentvis ændring og handelsvolumen.",
+
+  "chat_default_options_flow_label": "Højdepunkter i dagens options flow",
+  "chat_default_options_flow_query": "Giv mig et overblik over dagens markante options flow med fokus på store blokhandler, usædvanlige udsving i volumen og retningen i markedet.",
+
+  "chat_default_market_news_label": "Dagens markedsnyheder",
+  "chat_default_market_news_query": "Giv mig et resumé af dagens vigtigste markedsnyheder og finansielle begivenheder.",
+
+  "chat_default_bull_bear_label": "Bull- og bear-argumenter for Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear for Nvidia",
+
+  "chat_default_value_investor_label": "Skal jeg købe Intel nu som value-investor?",
+  "chat_default_value_investor_query": "@WarrenBuffet skal jeg købe Intel lige nu?",
+
+  "chat_default_cathie_wood_label": "Hvordan vurderer Cathie Wood Tesla lige nu?",
+  "chat_default_cathie_wood_query": "@CathieWood vurder Tesla og fortæl mig, om du ville købe eller sælge",
+
+  "chat_default_options_data_label": "Seneste optionsdata for SPY",
+  "chat_default_options_data_query": "@OptionsData seneste optionsdata for SPY",
+
+  "chat_default_undervalued_label": "Find undervurderede aktier",
+  "chat_default_undervalued_query": "@StockScreener find undervurderede aktier med P/E over 0, omsætningsvækst over 5 % og price to book over 0",
+
+  "chat_default_gamestop_label": "Hvor sund er Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData hvor sund er Gamestop?",
+
+  "chat_default_spy_bullish_label": "Er SPY bullish lige nu?",
+  "chat_default_spy_bullish_query": "Er SPY bullish lige nu?",
+
+  "chat_default_nvidia_flow_label": "Options flow i Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed options flow i Nvidia",
+
+  "chat_default_googl_flow_label": "Usædvanligt ordreflow i GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed ordreflow i Google",
+
+  "chat_default_compare_aapl_msft_label": "Sammenlign Apple og Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks sammenlign Apple og Microsoft",
+
+  "chat_default_analyst_ratings_label": "Hvad siger analytikerne om Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst hvad er de seneste analytikervurderinger og kursmål for Amazon?",
+
+  "chat_default_dark_pool_label": "Er der markant dark pool-aktivitet i dag?",
+  "chat_default_dark_pool_query": "Vis mig de mest markante dark pool-handler og aktiviteten fra i dag",
+
+  "chat_default_dividend_label": "Bedste udbytteaktier at købe lige nu",
+  "chat_default_dividend_query": "@StockScreener find aktier med høj udbytteprocent, udbytteandel under 80 % og omsætningsvækst over 0",
+
+  "chat_default_michael_burry_label": "Hvad ville Michael Burry mene om markedet lige nu?",
+  "chat_default_michael_burry_query": "@MichaelBurry analysér markedet lige nu og fortæl mig, hvad du ser",
+
+  "chat_default_peter_lynch_label": "Peter Lynchs syn på Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch ville du kalde Meta en god investering lige nu?",
+
+  "chat_default_sector_performance_label": "Hvilke sektorer klarer sig bedst i denne uge?",
+  "chat_default_sector_performance_query": "Giv mig et overblik over sektorernes afkast i denne uge, og fremhæv hvilke sektorer der fører, og hvilke der sakker bagud",
+
+  "chat_default_earnings_label": "Hvilke selskaber aflægger regnskab i denne uge?",
+  "chat_default_earnings_query": "Hvilke regnskaber er de vigtigste i denne uge, og hvad skal jeg holde øje med?"
+}

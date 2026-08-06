@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Beranda",
+  "options_screener_breadcrumb_options_screener": "Screener Opsi",
+
+  "options_screener_seo_title": "Screener Opsi - Temukan Flow Tidak Biasa & Setup Berkeyakinan Tinggi",
+  "options_screener_seo_description": "Saring opsi berdasarkan aktivitas tidak biasa, volatilitas implisit, open interest, volume, Greeks, dan jatuh tempo untuk menemukan setup jangka pendek.",
+  "options_screener_seo_keywords": "screener opsi, aktivitas opsi tidak biasa, pemindai opsi, screener volatilitas implisit, IV skew, open interest, opsi volume tinggi, alat trading opsi, screener Greeks",
+  "options_screener_structured_name": "Alat Screener Opsi",
+  "options_screener_structured_description": "Screener opsi yang fokus pada aktivitas tidak biasa, IV, dan open interest untuk setup jangka pendek",
+
+  "options_screener_main_title": "Screener Opsi",
+  "options_screener_contracts_count": "{count} Kontrak",
+  "options_screener_expire_on": "Semua kontrak opsi jatuh tempo pada {date}",
+
+  "options_screener_popular_screens": "Screener Populer",
+  "options_screener_popular_strategies": "Strategi Populer",
+  "options_screener_select_popular": "Pilih populer",
+  "options_screener_saved_screens": "Screener Tersimpan",
+  "options_screener_select_screen": "Pilih screener",
+  "options_screener_new_screen": "Screener Baru",
+
+  "options_screener_filters_count": "{count} Filter",
+  "options_screener_add_filters": "Tambah Filter",
+  "options_screener_search_filters": "Cari {count} filter...",
+  "options_screener_select_filters_title": "Pilih filter screener ({count} total)",
+  "options_screener_nothing_found": "Tidak ada hasil",
+
+  "options_screener_tab_general": "Umum",
+  "options_screener_tab_filters": "Filter",
+  "options_screener_tab_greeks": "Greeks",
+
+  "options_screener_search_placeholder": "Cari...",
+  "options_screener_search_input_placeholder": "Cari...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Maks",
+  "options_screener_input_value": "Nilai",
+
+  "options_screener_normal_width": "Lebar Normal",
+  "options_screener_full_width": "Lebar Penuh",
+
+  "options_screener_pagination_previous": "Sebelumnya",
+  "options_screener_pagination_next": "Berikutnya",
+  "options_screener_pagination_page_of": "Halaman {current} dari {total}",
+  "options_screener_rows_label": "{rows} Baris",
+  "options_screener_back_to_top": "Kembali ke Atas",
+
+  "options_screener_no_contracts_query": "Tidak ada kontrak untuk \"{query}\"",
+  "options_screener_no_contracts": "Tidak ada kontrak ditemukan.",
+
+  "options_screener_modal_new_title": "Screener Baru",
+  "options_screener_modal_new_name_label": "Nama Screener",
+  "options_screener_modal_new_create": "Buat Screener",
+
+  "options_screener_modal_delete_title": "Hapus Screener",
+  "options_screener_modal_delete_message": "Yakin ingin menghapus screener ini? Tindakan ini tidak bisa dibatalkan.",
+  "options_screener_modal_delete_cancel": "Batal",
+  "options_screener_modal_delete_confirm": "Hapus",
+
+  "options_screener_strategy_high_iv_rank": "Peringkat IV Tinggi",
+  "options_screener_strategy_volume_surge": "Lonjakan Volume",
+  "options_screener_strategy_itm_calls": "Call ITM",
+  "options_screener_strategy_otm_puts": "Put OTM",
+  "options_screener_strategy_high_premium_flow": "Flow Premi Tinggi",
+
+  "options_screener_save": "Simpan",
+  "options_screener_save_as_new": "Simpan sebagai Baru",
+  "options_screener_reset_all": "Atur Ulang Semua"
+}

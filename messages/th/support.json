@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "ติดต่อฝ่ายช่วยเหลือ",
+  "support_breadcrumb_home": "หน้าแรก",
+  "support_breadcrumb_current": "ติดต่อฝ่ายช่วยเหลือ",
+  "support_title": "ติดต่อฝ่ายช่วยเหลือ",
+  "support_description_1": "กรุณาส่งคำขอความช่วยเหลือผ่านแบบฟอร์มด้านล่าง แล้วเราจะติดต่อกลับโดยเร็วที่สุด หรือส่งอีเมลถึงเราโดยตรงที่",
+  "support_description_2": "คุณดูคำตอบของคำถามที่พบบ่อยได้ที่นี่:",
+  "support_faq_link": "คำถามที่พบบ่อย",
+  "support_description_3": "หากต้องการความช่วยเหลือเรื่องข้อผิดพลาดหรือข้อมูลไม่ถูกต้อง กรุณาแนบ URL ของหน้าที่พบปัญหามาด้วย",
+  "support_label_email": "อีเมล",
+  "support_label_subject": "หัวข้อ",
+  "support_label_message": "ข้อความ",
+  "support_button_send": "ส่งข้อความ",
+  "support_button_processing": "กำลังดำเนินการ...",
+  "support_success_message": "ส่งข้อความเรียบร้อยแล้ว เราจะติดต่อกลับโดยเร็ว",
+  "support_toast_error": "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง...",
+  "support_sidebar_pro_title": "สมาชิก Pro",
+  "support_sidebar_pro_description": "อัปเกรดตอนนี้เพื่อใช้ข้อมูลและเครื่องมือทั้งหมดแบบไม่จำกัด และไม่มีโฆษณา",
+  "support_sidebar_screener_title": "เครื่องคัดกรองหุ้น",
+  "support_sidebar_screener_description": "กรอง จัดเรียง และวิเคราะห์หุ้นทั้งหมดเพื่อหาการลงทุนตัวถัดไป",
+  "support_sidebar_watchlist_title": "รายการติดตาม",
+  "support_sidebar_watchlist_description": "ติดตามหุ้นที่คุณสนใจแบบเรียลไทม์"
+}

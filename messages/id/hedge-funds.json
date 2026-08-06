@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Beranda",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedge Fund",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedge Fund",
+
+  "hedge_funds_seo_title": "Pelacak Hedge Fund - Kepemilikan Hedge Fund Teratas & Laporan 13F",
+  "hedge_funds_seo_description": "Pantau kepemilikan hedge fund teratas, laporan 13F, dan portofolio investor institusional. Lihat apa yang dibeli dan dijual hedge fund lewat analisis posisi yang rinci. Alat pelacak hedge fund gratis.",
+  "hedge_funds_seo_keywords": "pelacak hedge fund, kepemilikan hedge fund, laporan 13F, investor institusional, posisi hedge fund, hedge fund teratas, kepemilikan institusional, portofolio hedge fund, kepemilikan berkshire hathaway",
+  "hedge_funds_structured_name": "Pelacak Hedge Fund",
+  "hedge_funds_structured_description": "Pelacakan menyeluruh atas kepemilikan hedge fund dan investasi institusional",
+
+  "hedge_funds_main_title": "Hedge Fund Teratas di AS",
+  "hedge_funds_infobox": "Daftar semua institusi Wall Street dengan dana kelolaan terbesar.",
+  "hedge_funds_count_institutes": "{count} Institusi",
+
+  "hedge_funds_search_placeholder": "Cari...",
+  "hedge_funds_loading": "Memuat...",
+  "hedge_funds_no_data": "Data tidak tersedia.",
+
+  "hedge_funds_pagination_previous": "Sebelumnya",
+  "hedge_funds_pagination_next": "Berikutnya",
+  "hedge_funds_pagination_page_of": "Halaman {current} dari {total}",
+  "hedge_funds_rows_label": "{rows} Baris",
+  "hedge_funds_back_to_top": "Kembali ke Atas",
+
+  "hedge_funds_slug_seo_title": "Kepemilikan & Portofolio {companyName} - Analisis Laporan 13F",
+  "hedge_funds_slug_seo_description": "Analisis rinci kepemilikan hedge fund {companyName}, posisi portofolio, dan strategi investasinya. Pantau laporan 13F terbaru, saham pilihan utama, alokasi sektor, dan metrik kinerjanya.",
+  "hedge_funds_slug_seo_keywords": "kepemilikan {companyNameLower}, portofolio {companyNameLower}, laporan 13F {companyNameLower}, posisi hedge fund, kepemilikan investor institusional, saham pilihan {companyNameLower}, analisis hedge fund",
+  "hedge_funds_slug_structured_name": "Analisis Kepemilikan & Portofolio {companyName}",
+  "hedge_funds_slug_structured_description": "Analisis menyeluruh atas kepemilikan hedge fund dan posisi investasi {companyName}",
+
+  "hedge_funds_slug_cik_number": "Nomor CIK:",
+  "hedge_funds_slug_market_value": "Nilai Pasar",
+  "hedge_funds_slug_holdings": "Jumlah Kepemilikan",
+  "hedge_funds_slug_avg_holding_period": "Rata-rata Masa Kepemilikan",
+  "hedge_funds_slug_months": "bulan",
+  "hedge_funds_slug_win_rate": "Rasio Menang",
+  "hedge_funds_slug_performance_3year": "Kinerja 3 Tahun",
+
+  "hedge_funds_slug_main_sectors": "Sektor Utama:",
+  "hedge_funds_slug_top_industries": "Industri Teratas:",
+  "hedge_funds_slug_filing_date": "Tanggal Laporan:",
+  "hedge_funds_slug_no_data": "Data hedge fund ini saat ini tidak tersedia.",
+
+  "hedge_funds_column_rank": "Peringkat",
+  "hedge_funds_column_name": "Nama",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Kepemilikan",
+  "hedge_funds_column_turnover": "Perputaran",
+  "hedge_funds_column_3year_perf": "Kinerja 3 Thn",
+  "hedge_funds_column_win_rate": "Rasio Menang"
+}

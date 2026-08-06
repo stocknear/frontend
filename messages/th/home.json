@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "ความเคลื่อนไหวออปชัน คำสั่ง Sweep และกิจกรรมผิดปกติแบบเรียลไทม์",
+  "home_seo_description": "ความเคลื่อนไหวออปชัน คำสั่ง sweep, block และกิจกรรมผิดปกติของหุ้นและ ETF สหรัฐแบบเรียลไทม์ หาจังหวะเทรดระยะสั้นได้เร็วขึ้นด้วย Stocknear",
+  "home_seo_keywords": "ความเคลื่อนไหวออปชัน, กิจกรรมออปชันผิดปกติ, คำสั่ง sweep, บล็อกเทรด, ดาร์กพูล, ความผันผวนแฝง, IV skew, สถานะคงค้าง, options chain, จังหวะเทรดระยะสั้น, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "ความเคลื่อนไหวออปชันและกิจกรรมผิดปกติแบบเรียลไทม์สำหรับการเทรดระยะสั้น",
+  "home_structured_feature_live_options_flow": "ความเคลื่อนไหวออปชันและ sweep แบบสด",
+  "home_structured_feature_unusual_options_activity": "กิจกรรมออปชันผิดปกติ",
+  "home_structured_feature_dark_pool_monitoring": "การเฝ้าดูดาร์กพูล",
+  "home_structured_feature_implied_volatility": "ความผันผวนแฝงและ skew",
+  "home_structured_feature_options_chain": "Options chain และ OI",
+  "home_structured_feature_earnings_volatility": "ความผันผวนช่วงประกาศผลประกอบการ",
+  "home_structured_feature_market_catalysts": "ปัจจัยกระตุ้นตลาด",
+  "home_hero_title": "เห็นการเคลื่อนไหวก่อนใคร",
+  "home_hero_subtitle": "ราคาเรียลไทม์ ความเคลื่อนไหวออปชัน คำสั่งดาร์กพูล ข่าว งบการเงิน ประมาณการ และกราฟของหุ้นและ ETF สหรัฐทุกตัว ตัดสินใจได้เร็วขึ้นด้วยสัญญาณที่สะอาด",
+  "home_promo_pill_label": "ลดราคาหน้าร้อน",
+  "home_promo_pill_discount": "ลด {percent}",
+  "home_promo_pill_subtitle": "แพ็กเกจรายปีทุกแบบ"
+}

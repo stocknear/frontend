@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Forside",
+  "watchlist_breadcrumb_watchlist": "Watchliste",
+
+  "watchlist_seo_title": "Watchliste - følg din portefølje og hold øje med kurserne",
+  "watchlist_seo_description": "Opret og styr din egen watchliste med kurser i realtid. Følg dine favoritaktier, ETF'er og investeringer med alarmer og afkastoverblik. Gratis porteføljetracker med avancerede funktioner.",
+  "watchlist_seo_keywords": "watchliste, porteføljetracker, aktietracker, investeringstracker, overvågning af aktier, alarmer, porteføljestyring, afkast, watchliste til investeringer",
+  "watchlist_structured_name": "Watchliste til aktier",
+  "watchlist_structured_description": "Personlig watchliste og værktøj til at følge din portefølje",
+
+  "watchlist_main_title": "Watchliste",
+  "watchlist_create_watchlist": "Opret watchliste",
+  "watchlist_new_watchlist": "Ny watchliste",
+  "watchlist_delete_watchlist": "Slet watchliste",
+
+  "watchlist_add_stock_placeholder": "Tilføj aktie...",
+  "watchlist_no_results": "Ingen resultater",
+  "watchlist_edit_watchlist": "Rediger watchliste",
+  "watchlist_cancel": "Annuller",
+  "watchlist_normal_width": "Normal bredde",
+  "watchlist_full_width": "Fuld bredde",
+  "watchlist_exit_full_width": "Forlad fuld bredde",
+  "watchlist_expand_full_width": "Udvid til fuld bredde",
+
+  "watchlist_empty_title": "Tom watchliste",
+  "watchlist_empty_description": "Fyld den med dine favoritaktier, og få realtidsdata og de seneste nyheder ét sted.",
+  "watchlist_get_started": "Kom i gang",
+
+  "watchlist_count_stocks": "{count} aktier",
+
+  "watchlist_tab_news": "Nyheder",
+  "watchlist_tab_earnings": "Regnskaber",
+  "watchlist_no_news": "Ingen nyheder endnu. Tilføj nogle aktier til watchlisten for at se de seneste nyheder.",
+  "watchlist_no_earnings": "Ingen regnskabsdata. Tilføj nogle aktier til watchlisten for at se de seneste regnskaber.",
+
+  "watchlist_modal_new_title": "Ny watchliste",
+  "watchlist_modal_list_name": "Navn på liste",
+  "watchlist_modal_create_button": "Opret watchliste",
+
+  "watchlist_modal_delete_title": "Slet watchliste",
+  "watchlist_modal_delete_confirm": "Er du sikker på, at du vil slette denne watchliste? Handlingen kan ikke fortrydes.",
+  "watchlist_modal_delete_button": "Slet watchliste",
+
+  "watchlist_toast_creating": "Opretter watchliste...",
+  "watchlist_toast_created": "Watchlisten blev oprettet.",
+  "watchlist_toast_deleted": "Watchlisten blev slettet.",
+  "watchlist_toast_updating": "Opdaterer watchliste...",
+  "watchlist_toast_updated": "Watchlisten blev opdateret.",
+  "watchlist_toast_error": "Noget gik galt. Prøv igen.",
+  "watchlist_toast_error_generic": "Der opstod en fejl. Prøv igen senere.",
+  "watchlist_toast_title_empty": "Titlen må ikke være tom.",
+  "watchlist_toast_title_long": "Titlen er for lang. Hold den kort og enkel.",
+  "watchlist_toast_already_in_list": "Dette symbol er allerede på din watchliste",
+  "watchlist_toast_select_symbols": "Du skal vælge symboler, før du kan slette dem",
+
+  "watchlist_earnings_will_report": "aflægger regnskab",
+  "watchlist_earnings_after_close": "efter markedets lukning.",
+  "watchlist_earnings_before_open": "før markedets åbning.",
+  "watchlist_earnings_during_market": "i åbningstiden.",
+  "watchlist_earnings_analysts_estimate": "Analytikerne venter",
+  "watchlist_earnings_in_revenue": "i omsætning",
+  "watchlist_earnings_yoy": "år til år",
+  "watchlist_earnings_and": "og",
+  "watchlist_earnings_in_eps": "i resultat per aktie",
+
+  "watchlist_note_add_title": "Tilføj note",
+  "watchlist_note_edit_title": "Rediger note",
+  "watchlist_note_placeholder_new": "Hvorfor tilføjede du denne aktie til din watchliste?",
+  "watchlist_note_placeholder_edit": "Opdater din note...",
+  "watchlist_note_save": "Gem",
+  "watchlist_note_add": "Tilføj note",
+  "watchlist_note_update": "Opdater note",
+  "watchlist_note_created": "Noten er oprettet",
+  "watchlist_note_updated": "Noten er opdateret",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} tegn tilbage",
+  "watchlist_note_chars_over": "{count} tegn over grænsen",
+  "watchlist_note_exceeded": "Noten må ikke være længere end {max} tegn",
+  "watchlist_added_price": "Kurs ved tilføjelse",
+
+  "watchlist_column_entry_price": "Købskurs",
+  "watchlist_column_since_added": "% siden tilføjet"
+}

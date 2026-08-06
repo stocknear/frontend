@@ -1,0 +1,8 @@
+{
+  "error_title": "페이지를 찾을 수 없습니다 - {status}",
+  "error_body_prefix": "페이지를 찾을 수 없습니다. 이 오류가 계속 발생하면 아래로 알려주시기 바랍니다",
+  "error_body_suffix": "최대한 빨리 수정하겠습니다.",
+  "error_back_home": "홈으로 돌아가기",
+  "error_server_title": "문제가 발생했습니다 - {status}",
+  "error_server_body_prefix": "페이지가 없는 것이 아니라 저희 쪽 문제입니다. 잠시 후 다시 시도해 주세요. 계속 발생한다면 아래로 알려주세요"
+}

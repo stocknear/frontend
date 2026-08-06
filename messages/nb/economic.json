@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Hjem",
+  "economic_breadcrumb_calendar": "Økonomisk kalender",
+
+  "economic_seo_title": "Økonomisk kalender - markedsbevegende hendelser og nøkkeltall live",
+  "economic_seo_description": "Ligg i forkant med en komplett økonomisk kalender med finanshendelser i sanntid, økonomiske indikatorer og markedsbevegende tall. Følg BNP, inflasjon, sysselsetting, sentralbankmøter og andre viktige nøkkeltall med presise tidspunkter og prognoser. Et nødvendig verktøy for tradere og investorer som vil forutse svingninger.",
+  "economic_seo_keywords": "økonomisk kalender, finanshendelser, markedskalender, økonomiske indikatorer, BNP-tall, inflasjonstall, sysselsettingsstatistikk, sentralbankmøter, økonomiske nyheter, markedsbevegende hendelser, publisering av nøkkeltall, økonomiske kunngjøringer, tradingkalender, investeringsplanlegging",
+  "economic_structured_name": "Økonomisk kalender",
+  "economic_structured_description": "Komplett økonomisk kalender som følger globale finanshendelser, økonomiske indikatorer og markedsbevegende nøkkeltall",
+
+  "economic_main_name": "Økonomisk kalender",
+  "economic_count_events": "{count} hendelser",
+  "economic_empty_day": "Ingen hendelser denne dagen.",
+
+  "economic_filter_country": "Filtrer land",
+  "economic_filter_importance": "Filtrer viktighet",
+  "economic_filter_reset": "Nullstill alt",
+  "economic_filter_search": "Søk...",
+  "economic_filter_no_country": "Fant ingen land",
+  "economic_filters_label": "Filtre",
+
+  "economic_pagination_previous": "Forrige",
+  "economic_pagination_next": "Neste",
+  "economic_pagination_page_of": "Side {current} av {total}",
+  "economic_pagination_rows": "{count} rader",
+  "economic_back_to_top": "Til toppen",
+  "economic_search_placeholder": "Søk...",
+
+  "economic_source_label": "Kilde:",
+  "economic_source_text": "Økonomisk kalender levert av",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "og tidspunkter vises i ET (Eastern Time)."
+}

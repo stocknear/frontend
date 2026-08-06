@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Få hjelp",
+  "support_breadcrumb_home": "Hjem",
+  "support_breadcrumb_current": "Få hjelp",
+  "support_title": "Få hjelp",
+  "support_description_1": "Send inn en henvendelse i skjemaet under, så svarer vi så raskt vi kan. Du kan også sende e-post direkte til",
+  "support_description_2": "Svar på flere vanlige spørsmål finner du her:",
+  "support_faq_link": "Ofte stilte spørsmål",
+  "support_description_3": "Trenger du hjelp med en feil eller unøyaktige data, ta med den nøyaktige nettadressen til siden der du fant det.",
+  "support_label_email": "E-post",
+  "support_label_subject": "Emne",
+  "support_label_message": "Melding",
+  "support_button_send": "Send melding",
+  "support_button_processing": "Behandler...",
+  "support_success_message": "Meldingen din ble sendt. Vi kommer tilbake til deg snart.",
+  "support_toast_error": "Noe gikk galt. Prøv igjen...",
+  "support_sidebar_pro_title": "Pro-abonnement",
+  "support_sidebar_pro_description": "Oppgrader nå for ubegrenset tilgang til alle data og verktøy, uten reklame.",
+  "support_sidebar_screener_title": "Aksjescreener",
+  "support_sidebar_screener_description": "Filtrer, sorter og analyser alle aksjer for å finne din neste investering.",
+  "support_sidebar_watchlist_title": "Favorittlister",
+  "support_sidebar_watchlist_description": "Følg med på favorittaksjene dine i sanntid."
+}

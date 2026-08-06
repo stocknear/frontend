@@ -21,6 +21,12 @@ module.exports = {
       fontFamily: {
         sans: [
           "Space Grotesk",
+          // Script-scoped faces declared in app.css with `unicode-range`. Space Grotesk
+          // declares no range so it is tried first and simply has no Greek/Cyrillic/Thai
+          // glyph; the browser then falls through per character to these. Must sit above
+          // the generic families or the OS font wins instead.
+          "Inter Subset",
+          "Noto Sans Thai",
           "Avenir Next",
           "ui-sans-serif",
           "system-ui",

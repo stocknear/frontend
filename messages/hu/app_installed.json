@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Töltsd le az appot a jobb élményért.",
+  "app_installed_button_install": "Telepítés",
+  "app_installed_modal_title": "A telepítés lépései",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Koppints a Safari megosztás gombjára.",
+  "app_installed_ios_step_2": "Koppints a \"Hozzáadás a főképernyőhöz\" lehetőségre.",
+  "app_installed_ios_step_3": "Koppints a \"Hozzáadás\" gombra.",
+  "app_installed_ios_note": "iOS-en a webalkalmazások csak Safariból telepíthetők.",
+  "app_installed_android_step_1": "Nyisd meg a Stocknear oldalát Chrome-ban.",
+  "app_installed_android_step_2": "Koppints a jobb felső sarokban a három pontra.",
+  "app_installed_android_step_3": "Koppints az \"Alkalmazás telepítése\" vagy a \"Hozzáadás a kezdőképernyőhöz\" lehetőségre.",
+  "app_installed_android_step_4": "Erősítsd meg a telepítést.",
+  "app_installed_close": "Bezárás"
+}

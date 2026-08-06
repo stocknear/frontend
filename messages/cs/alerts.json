@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Domů",
+  "price_alert_breadcrumb_price_alert": "Upozornění",
+
+  "price_alert_seo_title": "Akciová upozornění - oznámení a aktuality z trhu v reálném čase",
+  "price_alert_seo_description": "Nastav si vlastní akciová upozornění a dostaň okamžité oznámení, jakmile se tvé podmínky splní. Sleduj výsledky, zprávy a pohyby cen ve svém watchlistu s daty v reálném čase.",
+  "price_alert_seo_keywords": "akciová upozornění, cenová oznámení, tržní upozornění, akciové spouštěče, výsledkový kalendář, akciové zprávy, upozornění v reálném čase, tržní oznámení, akciový watchlist, sledování ceny",
+  "price_alert_structured_name": "Upozornění - Stocknear",
+  "price_alert_structured_description": "Systém akciových upozornění s okamžitými oznámeními v reálném čase",
+
+  "price_alert_main_title": "Upozornění",
+
+  "price_alert_search_placeholder": "Hledat...",
+  "price_alert_no_results": "Nic nenalezeno",
+  "price_alert_edit_alert": "Upravit upozornění",
+  "price_alert_cancel": "Zrušit",
+
+  "price_alert_empty_title": "Žádná upozornění",
+  "price_alert_empty_description": "Nastav si upozornění na akcie, ve kterých vidíš největší potenciál.",
+  "price_alert_get_started": "Začít",
+
+  "price_alert_tab_news": "Zprávy",
+  "price_alert_tab_earnings": "Zveřejnění výsledků",
+  "price_alert_no_news": "Zatím žádné zprávy. Přidej si akcie do seznamu upozornění a uvidíš nejnovější zprávy.",
+  "price_alert_no_earnings": "Zatím žádné výsledky. Přidej si akcie do seznamu upozornění a uvidíš nejnovější výsledková data.",
+
+  "price_alert_toast_deleted": "Upozornění byla smazána",
+  "price_alert_toast_select_symbols": "Než je smažeš, musíš vybrat symboly",
+
+  "price_alert_earnings_will_report_today": "zveřejní výsledky dnes",
+  "price_alert_earnings_will_report_tomorrow": "zveřejní výsledky zítra",
+  "price_alert_earnings_will_report_monday": "zveřejní výsledky v pondělí",
+  "price_alert_earnings_will_report": "zveřejní výsledky",
+  "price_alert_earnings_after_close": "po zavření trhu.",
+  "price_alert_earnings_before_open": "před otevřením trhu.",
+  "price_alert_earnings_during_market": "během obchodování.",
+  "price_alert_earnings_analysts_estimate": "Analytici odhadují",
+  "price_alert_earnings_in_revenue": "tržeb",
+  "price_alert_earnings_yoy": "meziročně",
+  "price_alert_earnings_and": "a",
+  "price_alert_earnings_in_eps": "zisku na akcii"
+}

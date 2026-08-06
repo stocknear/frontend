@@ -1,4 +1,4 @@
-import { de, enUS, es, fr, zhCN, zhTW, type Locale as DateFnsLocale } from "date-fns/locale";
+import { de, enUS, es, fr, ja, ko, ru, uk, zhCN, zhTW, type Locale as DateFnsLocale } from "date-fns/locale";
 import {
   baseLocale,
   isLocale,
@@ -106,6 +106,51 @@ export const localeRegistry = {
     browserAliases: ["fr"],
     countryCodes: ["FR", "MC"],
   },
+  ja: {
+    locale: "ja",
+    slug: "ja",
+    name: "日本語",
+    intlTag: "ja-JP",
+    dateFns: ja,
+    ogLocale: "ja_JP",
+    direction: "ltr",
+    browserAliases: ["ja"],
+    countryCodes: ["JP"],
+  },
+  ko: {
+    locale: "ko",
+    slug: "ko",
+    name: "한국어",
+    intlTag: "ko-KR",
+    dateFns: ko,
+    ogLocale: "ko_KR",
+    direction: "ltr",
+    browserAliases: ["ko"],
+    countryCodes: ["KR"],
+  },
+  ru: {
+    locale: "ru",
+    slug: "ru",
+    name: "Русский",
+    intlTag: "ru-RU",
+    dateFns: ru,
+    ogLocale: "ru_RU",
+    direction: "ltr",
+    browserAliases: ["ru"],
+    // UA is deliberately excluded — it belongs to `uk`, never `ru`.
+    countryCodes: ["RU", "BY", "KZ", "KG", "AM"],
+  },
+  uk: {
+    locale: "uk",
+    slug: "uk",
+    name: "Українська",
+    intlTag: "uk-UA",
+    dateFns: uk,
+    ogLocale: "uk_UA",
+    direction: "ltr",
+    browserAliases: ["uk"],
+    countryCodes: ["UA"],
+  },
 } as const satisfies Record<Locale, LocaleDefinition>;
 
 export const supportedLocales = locales;
@@ -150,6 +195,24 @@ export function getLocaleDefinition(locale: Locale): LocaleDefinition {
     localeRegistry[locale] ??
     localeRegistry[canonicalizeLocale(locale) ?? baseLocale]
   );
+}
+
+/**
+ * Cloudflare Turnstile takes a lowercase BCP-47 tag, and every locale we ship lowercases
+ * to one it supports (`zh-CN` -> `zh-cn`, `pt-BR` -> `pt-br`).
+ *
+ * Left unset the widget runs on `auto`, which follows the *browser* language — so a
+ * visitor reading the site in Japanese could still get an English captcha. Passing the
+ * site locale keeps the one third-party box on the page consistent with everything
+ * around it.
+ *
+ * svelte-turnstile types this prop as `SupportedLanguages | "auto" | string`, so an
+ * unsupported code is NOT a compile error. `tests/unit/i18n/turnstile-language.test.ts`
+ * is what actually holds this contract — a locale Turnstile cannot render must never
+ * reach the registry.
+ */
+export function getTurnstileLanguage(locale: Locale): string {
+  return getLocaleDefinition(locale).locale.toLowerCase();
 }
 
 export function getLocaleFromSlug(slug: string): Locale | undefined {

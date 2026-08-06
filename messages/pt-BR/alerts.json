@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Início",
+  "price_alert_breadcrumb_price_alert": "Alerta",
+
+  "price_alert_seo_title": "Alertas de Ações - Notificações e Atualizações de Mercado em Tempo Real",
+  "price_alert_seo_description": "Crie alertas personalizados de ações e receba notificações na hora em que suas condições forem atingidas. Acompanhe resultados, notícias e variações de preço da sua watchlist com dados de mercado em tempo real.",
+  "price_alert_seo_keywords": "alertas de ações, notificações de preço, alertas de mercado, gatilhos de ações, calendário de resultados, feed de notícias de ações, alertas em tempo real, notificações de mercado, watchlist de ações, monitoramento de preços",
+  "price_alert_structured_name": "Alertas - Stocknear",
+  "price_alert_structured_description": "Sistema de alertas de ações em tempo real com notificações instantâneas",
+
+  "price_alert_main_title": "Alertas",
+
+  "price_alert_search_placeholder": "Buscar...",
+  "price_alert_no_results": "Nenhum resultado encontrado",
+  "price_alert_edit_alert": "Editar alerta",
+  "price_alert_cancel": "Cancelar",
+
+  "price_alert_empty_title": "Nenhum alerta configurado",
+  "price_alert_empty_description": "Crie alertas para as ações que você considera mais promissoras.",
+  "price_alert_get_started": "Começar",
+
+  "price_alert_tab_news": "Notícias",
+  "price_alert_tab_earnings": "Divulgação de Resultados",
+  "price_alert_no_news": "Nenhuma notícia ainda. Adicione ações à sua lista de alertas para ver as últimas notícias.",
+  "price_alert_no_earnings": "Nenhum resultado ainda. Adicione ações à lista de alertas para ver os dados de resultados mais recentes.",
+
+  "price_alert_toast_deleted": "Alertas excluídos com sucesso",
+  "price_alert_toast_select_symbols": "Você precisa selecionar os símbolos antes de excluí-los",
+
+  "price_alert_earnings_will_report_today": "divulga hoje",
+  "price_alert_earnings_will_report_tomorrow": "divulga amanhã",
+  "price_alert_earnings_will_report_monday": "divulga na segunda-feira",
+  "price_alert_earnings_will_report": "divulga",
+  "price_alert_earnings_after_close": "após o fechamento do mercado.",
+  "price_alert_earnings_before_open": "antes da abertura do mercado.",
+  "price_alert_earnings_during_market": "durante o pregão.",
+  "price_alert_earnings_analysts_estimate": "Os analistas projetam",
+  "price_alert_earnings_in_revenue": "de receita",
+  "price_alert_earnings_yoy": "no ano a ano",
+  "price_alert_earnings_and": "e",
+  "price_alert_earnings_in_eps": "de lucro por ação"
+}

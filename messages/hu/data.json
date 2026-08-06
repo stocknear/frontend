@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Adatokra vonatkozó jognyilatkozat | Adatforrások és pontosság",
+  "data_seo_description": "Részletes tájékoztató a pénzügyi adatforrásainkról, a pontossági elveinkről és a tőzsdei adatok, elemzői becslések és pénzügyi mutatók használatáról.",
+  "data_breadcrumb": "Adatokra vonatkozó jognyilatkozat",
+  "data_hero_title": "Adatokra vonatkozó jognyilatkozat",
+  "data_intro": "A Stocknear oldalán megjelenő pénzügyi adatok kizárólag tájékoztató és oktatási célt szolgálnak. Ezek nem minősülnek befektetési tanácsnak, és nem szolgálhatnak kereskedési vagy befektetési döntés egyedüli alapjául.",
+  "data_contact": "Szigorú elvárásokat támasztunk az adatok pontosságával és minőségével szemben. Ha eltérést találsz vagy pontosításra van szükséged, keress minket itt: {discordLink}, vagy írj az ügyfélszolgálatnak: {email}.",
+  "data_market_title": "Piaci adatok és részvénygrafikonok",
+  "data_market_content": "A piaci adatainkat és a valós idejű részvénygrafikonjainkat a {fmpLink} szolgáltatja, amely a pénzügyi adatszolgáltatás egyik vezető szereplője. Ide tartoznak a napon belüli árfolyamok, a historikus adatok és a technikai indikátorok.",
+  "data_coverage_title": "Piaci lefedettség",
+  "data_coverage_content": "A Stocknear a nagy amerikai tőzsdéken jegyzett értékpapírokat fedi le, köztük a NASDAQ, a NYSE, a NYSE American és a NYSE Arca papírjait. Az adatbázisunk részvényeket, ETF-eket, ADR-eket és válogatott OTC-értékpapírokat tartalmaz. Folyamatosan bővítjük a lefedettséget további nemzetközi tőzsdékkel és pénzügyi eszközökkel.",
+  "data_fundamentals_title": "Pénzügyi alapadatok",
+  "data_fundamentals_content": "A fundamentális pénzügyi adataink forrása a {fmpLink}, és a hivatalos SEC bejelentéseken (10-K, 10-Q és 8-K űrlapok) alapulnak. A rendszereink naponta frissítik ezeket az adatokat, de a szokásos SEC beadási határidők és a vállalati jelentési rend miatt előfordulhat csúszás. Minden megjelenített pénzügyi adat a vállalatok hatóságokhoz benyújtott, hivatalos, auditált anyagain alapul.",
+  "data_business_title": "Üzleti mutatók",
+  "data_business_content": "Az üzleti mutatókat, köztük a működési KPI-ket és a nem GAAP szerinti egységgazdaságossági adatokat a partnerünk, a {mainStreetLink} biztosítja. A kutatócsapatuk vállalati jelentésekből, befektetői prezentációkból és menedzsmentkommentárokból gyűjti össze, egységesíti és folyamatosan ellenőrzi ezeket az adatokat, hogy a platformon megbízható üzleti teljesítménykép álljon rendelkezésre.",
+  "data_analyst_title": "Elemzői lefedettség és piaci előrejelzések",
+  "data_analyst_content": "Az elemzői lefedettségünk több hiteles forrás adatait ötvözi. A célárakat és az elemzői besorolásokat a Benzinga szolgáltatja, amely a vezető Wall Street-i elemzők konszenzusát tükrözi. A bevételi és EPS előrejelzések a Benzinga és a {fmpLink} adataiból állnak össze. Igyekszünk a lehető legpontosabb előrejelzéseket bemutatni, de a piaci előrejelzések természetükből fakadóan bizonytalanok, ezért érdemes őket egy szélesebb befektetési kutatás részeként kezelni.",
+  "data_etf_title": "ETF elemzések",
+  "data_etf_content": "Az ETF-ek összetételére vonatkozó adatokat és elemzéseket a {fmpLink} partnerségével biztosítjuk, így pontos és naprakész képet kapsz az alapok összetételéről, súlyozásáról és teljesítménymutatóiról.",
+  "data_options_title": "Opciós piaci adatok",
+  "data_options_content": "Az opciós piaci adatinfrastruktúránk több adatszolgáltató forrására épül, amelyek adatfolyamait egyetlen csatornába vonjuk össze, hogy teljes OPRA (Options Price Reporting Authority) adatfolyamot nyújtsunk. A valós idejű opciós flow és az egyes opciós láncok adatainak több forrásból történő összesítésével teljes lefedettséget biztosítunk az összes nagy amerikai opciós tőzsde forgalmáról és árazásáról."
+}

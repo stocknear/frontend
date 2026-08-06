@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Liên hệ",
+  "contact_breadcrumb": "Liên hệ",
+  "contact_hero_title": "Liên hệ",
+  "contact_intro": "Chúng tôi rất mong nhận được phản hồi từ bạn. Vui lòng gửi tin nhắn qua biểu mẫu bên dưới, chúng tôi sẽ trả lời sớm nhất có thể. Bạn cũng có thể gửi email trực tiếp tới {email}.",
+  "contact_email_label": "Email",
+  "contact_subject_label": "Tiêu đề",
+  "contact_message_label": "Nội dung",
+  "contact_send_button": "Gửi tin nhắn",
+  "contact_processing": "Đang xử lý...",
+  "contact_success": "Tin nhắn của bạn đã được gửi. Chúng tôi sẽ phản hồi sớm.",
+  "contact_sidebar_pro_title": "Gói Pro",
+  "contact_sidebar_pro_desc": "Nâng cấp ngay để dùng không giới hạn toàn bộ dữ liệu, công cụ và không quảng cáo.",
+  "contact_sidebar_screener_title": "Bộ lọc cổ phiếu",
+  "contact_sidebar_screener_desc": "Lọc, sắp xếp và phân tích mọi cổ phiếu để tìm khoản đầu tư tiếp theo.",
+  "contact_sidebar_watchlist_title": "Danh sách theo dõi",
+  "contact_sidebar_watchlist_desc": "Theo dõi các cổ phiếu bạn quan tâm theo thời gian thực."
+}

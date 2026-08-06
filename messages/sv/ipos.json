@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Hem",
+  "ipos_breadcrumb_data": "IPO-data",
+
+  "ipos_seo_title": "IPO-kalender - senaste och kommande börsnoteringar",
+  "ipos_seo_description": "Följ senaste och kommande IPO:er med detaljerad analys. Bevaka utveckling, teckningskurser, datum och avkastning sedan noteringen. Gratis IPO-kalender med heltäckande data.",
+  "ipos_seo_keywords": "IPO-kalender, kommande IPO:er, senaste IPO:erna, börsnoteringar, IPO-tracker, IPO-utveckling, teckningskurs, nya noteringar, nyintroduktioner",
+
+  "ipos_main_name_recent": "Senaste IPO:erna",
+  "ipos_main_name_statistics": "IPO-statistik",
+  "ipos_count": "{count} aktier",
+  "ipos_tab_recent": "Senaste",
+  "ipos_tab_statistics": "Statistik",
+  "ipos_tab_latest": "Nyast",
+
+  "ipos_statistics_seo_title": "IPO-statistik och historiska diagram - marknadsdata för börsnoteringar",
+  "ipos_statistics_seo_description": "Heltäckande IPO-statistik och interaktiva diagram för börsnoteringar på den amerikanska marknaden. Följ års- och månadstrender för IPO:er från {startYear} till {endYear}, analysera marknadscykler och hitta mönster i utvecklingen.",
+  "ipos_statistics_seo_keywords": "IPO-statistik, diagram över börsnoteringar, IPO-marknadsdata, IPO-trender, IPO-analys, historisk IPO-data, IPO-utveckling, årlig IPO-statistik, månatlig IPO-data",
+  "ipos_statistics_infobox": "Den här sidan visar statistik och diagram över börsnoteringar (IPO:er) på den amerikanska marknaden. Data per år och månad finns från {startYear} till {endYear}.",
+  "ipos_statistics_title": "Antal IPO:er per år",
+  "ipos_statistics_description": "Det har genomförts {count} IPO:er mellan {startYear} och {endYear}. Färst var det {minYear} med bara {minCount}. Helåret {maxYear} var rekordår med {maxCount} IPO:er.",
+  "ipos_statistics_stock_news": "Aktienyheter",
+  "ipos_statistics_more_news": "Fler aktienyheter",
+
+  "ipos_year_seo_title": "IPO:er {year} - komplett lista över börsnoteringar",
+  "ipos_year_seo_description": "Komplett lista över alla börsnoteringar (IPO:er) {year} på den amerikanska marknaden. Följ utveckling, teckningskurs, avkastning sedan noteringen och börsdebuter med detaljerad bolagsinformation och historik.",
+  "ipos_year_seo_keywords": "IPO:er {year}, börsnoteringar {year}, IPO-lista {year}, IPO-utveckling {year}, senaste IPO:erna, IPO-kalender {year}, nya börsbolag {year}",
+  "ipos_year_empty": "Inga IPO:er hittades. Justera din tidsperiod för att se de senaste IPO:erna {year}.",
+
+  "ipos_statistics_chart_title": "IPO:er per år, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO:er",
+  "ipos_year_heading": "Börsnoteringar {year}",
+  "ipos_year_summary": "Det har genomförts {count} IPO:er {year}.",
+  "ipos_year_extremes": "Mest aktiv månad var {maxMonth} med {maxCount}, lugnast var {minMonth} med {minCount}.",
+  "ipos_year_none": "Det gjordes inga IPO:er {year}."
+}

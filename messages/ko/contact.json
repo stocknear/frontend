@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "문의하기",
+  "contact_breadcrumb": "문의하기",
+  "contact_hero_title": "문의하기",
+  "contact_intro": "언제든 의견을 들려주세요. 아래 문의 양식으로 메시지를 보내주시면 최대한 빨리 답변드리겠습니다. {email}로 직접 이메일을 보내셔도 됩니다.",
+  "contact_email_label": "이메일",
+  "contact_subject_label": "제목",
+  "contact_message_label": "메시지",
+  "contact_send_button": "메시지 보내기",
+  "contact_processing": "처리 중...",
+  "contact_success": "메시지가 전송되었습니다. 곧 답변드리겠습니다.",
+  "contact_sidebar_pro_title": "Pro 구독",
+  "contact_sidebar_pro_desc": "지금 업그레이드하고 모든 데이터와 도구를 무제한, 광고 없이 이용하세요.",
+  "contact_sidebar_screener_title": "종목 스크리너",
+  "contact_sidebar_screener_desc": "전체 종목을 필터링하고 정렬해 다음 투자처를 찾아보세요.",
+  "contact_sidebar_watchlist_title": "관심 종목",
+  "contact_sidebar_watchlist_desc": "관심 종목을 실시간으로 확인하세요."
+}

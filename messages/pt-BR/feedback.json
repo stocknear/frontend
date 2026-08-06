@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Enviar feedback",
+  "feedback_error_signin": "Entre na sua conta antes de enviar feedback.",
+  "feedback_error_description": "Descreva seu problema ou sugestão.",
+  "feedback_error_send_try_again": "Algo deu errado ao enviar o feedback. Tente novamente.",
+  "feedback_success": "Obrigado. Seu feedback foi enviado.",
+  "feedback_error_send_generic": "Algo deu errado ao enviar o feedback.",
+  "feedback_description_label": "Descreva seu problema ou sugestão:",
+  "feedback_page_label": "Feedback sobre a página:",
+  "feedback_close_button": "Fechar",
+  "feedback_cancel_button": "Cancelar",
+  "feedback_send_button": "Enviar feedback"
+}

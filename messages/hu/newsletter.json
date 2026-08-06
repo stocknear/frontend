@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Piaci hírlevél: napi 2 perc, és képben vagy",
+  "newsletter_seo_description": "Maradj a piac előtt a pro hírlevelünkkel. A legfrissebb hírek, trendek és elemzések egyenesen a postafiókodba.",
+  "newsletter_label": "Hírlevél",
+  "newsletter_title": "Napi 2 perc, és képben vagy",
+  "newsletter_description": "A Pre-market Report hírlevél, amivel könnyű lépést tartani a pénzügyi piacokkal.",
+  "newsletter_intro_1": "Az összefoglalóink rövid, pontokba szedett formában érkeznek, így a hírlevél elolvasása sosem lesz nyűg.",
+  "newsletter_intro_2": "Elolvassuk helyetted a híreket, kiszűrjük a zajt, és elküldjük a lényeget. Ezt kapod:",
+  "newsletter_feature_1": "A legfrissebb elemzői jelentések, a legfontosabb megállapításokkal, AI-jal kiemelve.",
+  "newsletter_feature_2": "Gyors áttekintés a friss és a közelgő gyorsjelentésekről.",
+  "newsletter_feature_3": "Naprakész infó a nagyobb gazdasági eseményekről, amelyek erősen mozgathatják a piacot.",
+  "newsletter_feature_4": "Pontos, naprakész információ, kizárólag élvonalbeli forrásokból.",
+  "newsletter_closing": "A hírlevél teljesen ingyenes, és minden reggel a nyitás előtt érkezik a postafiókodba, hétfőtől péntekig (ünnepnapok kivételével).",
+  "newsletter_signup_button": "Feliratkozom ingyen"
+}

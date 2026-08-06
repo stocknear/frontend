@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Fontos számunkra az adatvédelmed",
+  "cookies_banner_description": "Sütiket használunk a böngészési élmény javítására, a forgalom elemzésére és a tartalom személyre szabására.",
+  "cookies_accept_all": "Összes elfogadása",
+  "cookies_reject_all": "Összes elutasítása",
+  "cookies_customize": "Beállítás",
+  "cookies_preferences_title": "Süti beállítások",
+  "cookies_preferences_description": "Itt kezelheted a süti beállításaidat. A szükséges sütik nem kapcsolhatók ki, mert a weboldal működéséhez kellenek.",
+  "cookies_necessary_title": "Szükséges sütik",
+  "cookies_necessary_description": "A bejelentkezéshez, a biztonsághoz és az alapfunkciókhoz kellenek. Ezek nem kapcsolhatók ki.",
+  "cookies_analytics_title": "Analitikai sütik",
+  "cookies_analytics_description": "Segítenek megérteni, hogyan használod az oldalt, hogy jobbá tehessük a felhasználói élményt.",
+  "cookies_marketing_title": "Marketing sütik",
+  "cookies_marketing_description": "A látogatók weboldalak közötti követésére szolgálnak, személyre szabott hirdetésekhez.",
+  "cookies_save_preferences": "Beállítások mentése"
+}

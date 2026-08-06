@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Jadi sponsor Stocknear",
+  "donation_seo_description": "Dukungan Anda membantu kami menjadi platform analisis saham nomor 1 di dunia dengan paket harga terbaik.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Halo 👋,",
+  "donation_intro_paragraph_1": "Terima kasih sudah mempertimbangkan untuk mendukung misi kami. Sebagai satu-satunya orang di balik Stocknear—mengurus semuanya, dari pengembangan backend sampai layanan pelanggan—saya berkomitmen menjaga platform ini tetap terjangkau dan dapat diakses semua investor.",
+  "donation_intro_paragraph_2": "Harga paket kami disusun agar data saham berkualitas tinggi terjangkau bagi investor ritel dari latar belakang mana pun.",
+  "donation_support_paragraph_1": "Keanggotaan dirancang untuk menopang operasional dasar kami, tetapi dukungan tambahan Anda bisa membawa kami lebih jauh. Dengan menjadi sponsor, Anda bukan sekadar mendukung sebuah platform; Anda berinvestasi pada visi analisis keuangan yang terbuka, transparan, dan terjangkau.",
+  "donation_support_list_intro": "Dukungan Anda akan langsung digunakan untuk:",
+  "donation_support_list_item_1": "Menjaga harga kami tetap murah",
+  "donation_support_list_item_2": "Kualitas data dan fitur yang lebih baik",
+  "donation_support_list_item_3": "Mendorong target kami menjadi platform analisis saham #1 di industri",
+  "donation_cta_title": "Jadi sponsor Stocknear",
+  "donation_cta_paragraph_1": "Jika Anda percaya pada misi kami dan ingin mendukung lebih dari sekadar berlangganan, silakan dukung kami lewat GitHub Sponsors. Setiap kontribusi, berapa pun besarnya, berdampak besar pada kemampuan kami melayani Anda dan komunitas investor ritel.",
+  "donation_cta_paragraph_2": "Dukungan Anda sangat berarti bagi saya dan membantu Stocknear terus berjalan lancar.",
+  "donation_sidebar_about_title": "Tentang Kami",
+  "donation_iframe_title": "Jadi Sponsor Stocknear"
+}

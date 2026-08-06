@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Огляд",
+  "index_detail_nav_options": "Опціони",
+  "index_detail_nav_history": "Історія",
+  "index_detail_nav_holdings": "Склад",
+
+  "index_detail_watchlist": "Список спостереження",
+  "index_detail_price_alert": "Сигнал",
+  "index_detail_add_to_watchlist": "Додати до списку спостереження",
+  "index_detail_ticker_added": "Тікер додано до списку спостереження",
+  "index_detail_ticker_add_failed": "Не вдалося додати тікер до списку спостереження",
+  "index_detail_upgrade_watchlist": "Хочеш додати більше акцій? Перейди на Plus або Pro",
+  "index_detail_companies": "Компанії",
+  "index_detail_company": "Компанія",
+
+  "index_detail_no_data": "Немає даних",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Ціна купівлі",
+  "index_detail_ask": "Ціна продажу",
+  "index_detail_volume": "Обсяг торгів",
+  "index_detail_avg_volume_20d": "Сер. обсяг (20 д.)",
+  "index_detail_50_day_ma": "MA за 50 днів",
+  "index_detail_200_day_ma": "MA за 200 днів",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "Акцій в обігу",
+  "index_detail_inception_date": "Дата створення",
+  "index_detail_open": "Відкриття",
+  "index_detail_prev_close": "Попереднє закриття",
+  "index_detail_days_range": "Діапазон за день",
+  "index_detail_52w_range": "Діапазон за 52 тижні",
+  "index_detail_exchange": "Біржа",
+  "index_detail_expense_ratio": "Комісія фонду",
+
+  "index_detail_chart_price": "Ціна",
+  "index_detail_chart_volume": "Обсяг торгів",
+
+  "index_sidecard_about": "Про {ticker}",
+  "index_sidecard_top_sectors": "5 найбільших секторів",
+  "index_sidecard_sector": "Сектор",
+  "index_sidecard_weight_percent": "Вага, %",
+  "index_sidecard_view_all_sectors": "Показати всі сектори"
+}

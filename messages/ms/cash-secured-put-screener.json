@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Utama",
+  "cash_secured_put_screener_breadcrumb_title": "Penyaring Cash Secured Put",
+
+  "cash_secured_put_screener_seo_title": "Penyaring Cash Secured Put - Cari Peluang CSP Terbaik",
+  "cash_secured_put_screener_seo_description": "Saring ribuan opsyen untuk peluang cash secured put. Tapis mengikut hasil premium, pulangan tahunan, harga mogok, tarikh luput dan banyak lagi.",
+  "cash_secured_put_screener_seo_keywords": "penyaring cash secured put, penyaring opsyen, cash secured put, hasil premium, strategi pendapatan",
+  "cash_secured_put_screener_structured_name": "Penyaring Cash Secured Put",
+  "cash_secured_put_screener_structured_description": "Saring opsyen untuk peluang cash secured put",
+
+  "cash_secured_put_screener_main_title": "Penyaring Cash Secured Put",
+  "cash_secured_put_screener_contracts_count": "{count} Kontrak",
+
+  "cash_secured_put_screener_popular_screens": "Saringan Popular",
+  "cash_secured_put_screener_popular_strategies": "Strategi Popular",
+  "cash_secured_put_screener_select_popular": "Pilih Popular",
+  "cash_secured_put_screener_saved_screens": "Saringan Disimpan",
+  "cash_secured_put_screener_select_screen": "Pilih Saringan",
+  "cash_secured_put_screener_new_screen": "Saringan Baharu",
+
+  "cash_secured_put_screener_strategy_high_yield": "Hasil Tinggi",
+  "cash_secured_put_screener_strategy_conservative": "Konservatif",
+  "cash_secured_put_screener_strategy_weekly_income": "Pendapatan Mingguan",
+  "cash_secured_put_screener_strategy_high_protection": "Perlindungan Tinggi",
+  "cash_secured_put_screener_strategy_bluechip_csp": "CSP Blue-Chip",
+
+  "cash_secured_put_screener_filters_count": "Penapis ({count})",
+  "cash_secured_put_screener_add_filters": "Tambah Penapis",
+  "cash_secured_put_screener_search_filters": "Cari {count} penapis...",
+  "cash_secured_put_screener_select_filters_title": "Pilih Penapis ({count})",
+  "cash_secured_put_screener_nothing_found": "Tiada apa-apa dijumpai.",
+
+  "cash_secured_put_screener_save": "Simpan",
+  "cash_secured_put_screener_save_as_new": "Simpan sebagai Baharu",
+  "cash_secured_put_screener_reset_all": "Tetapkan Semula Semua",
+
+  "cash_secured_put_screener_condition_over": "Melebihi",
+  "cash_secured_put_screener_condition_under": "Kurang daripada",
+  "cash_secured_put_screener_condition_between": "Antara",
+  "cash_secured_put_screener_condition_exactly": "Tepat",
+  "cash_secured_put_screener_condition_any": "Mana-mana",
+
+  "cash_secured_put_screener_input_min": "Min",
+  "cash_secured_put_screener_input_max": "Maks",
+  "cash_secured_put_screener_input_value": "Nilai",
+
+  "cash_secured_put_screener_search_placeholder": "Cari...",
+  "cash_secured_put_screener_search_modal_placeholder": "Cari...",
+
+  "cash_secured_put_screener_normal_width": "Lebar Biasa",
+  "cash_secured_put_screener_full_width": "Lebar Penuh",
+
+  "cash_secured_put_screener_tab_general": "Umum",
+  "cash_secured_put_screener_tab_income": "Pendapatan",
+  "cash_secured_put_screener_tab_filters": "Penapis",
+  "cash_secured_put_screener_tab_greeks": "Greeks",
+
+  "cash_secured_put_screener_pagination_previous": "Sebelumnya",
+  "cash_secured_put_screener_pagination_next": "Seterusnya",
+  "cash_secured_put_screener_pagination_page_of": "Halaman {current} daripada {total}",
+  "cash_secured_put_screener_rows_label": "{rows} baris",
+  "cash_secured_put_screener_back_to_top": "Kembali ke atas",
+
+  "cash_secured_put_screener_no_results_query": "Tiada hasil ditemui untuk \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "Tiada kontrak sepadan dengan kriteria anda.",
+
+  "cash_secured_put_screener_modal_new_title": "Saringan Baharu",
+  "cash_secured_put_screener_modal_new_name_label": "Nama saringan",
+  "cash_secured_put_screener_modal_new_create": "Cipta",
+
+  "cash_secured_put_screener_modal_delete_title": "Padam Penyaring",
+  "cash_secured_put_screener_modal_delete_message": "Anda pasti mahu memadam penyaring ini? Tindakan ini tidak boleh dibatalkan.",
+  "cash_secured_put_screener_modal_delete_cancel": "Batal",
+  "cash_secured_put_screener_modal_delete_confirm": "Padam",
+
+  "cash_secured_put_screener_toast_deleting": "Memadam penyaring...",
+  "cash_secured_put_screener_toast_deleted": "Penyaring berjaya dipadam.",
+  "cash_secured_put_screener_toast_delete_failed": "Gagal memadam. Sila cuba lagi.",
+  "cash_secured_put_screener_toast_title_too_long": "Tajuk terlalu panjang. Sila pastikan kurang daripada 100 aksara.",
+  "cash_secured_put_screener_toast_created": "Penyaring berjaya dicipta.",
+  "cash_secured_put_screener_toast_creating": "Mencipta penyaring...",
+  "cash_secured_put_screener_toast_create_failed": "Ada masalah berlaku. Sila cuba lagi nanti.",
+  "cash_secured_put_screener_toast_select_rule": "Sila pilih satu peraturan",
+  "cash_secured_put_screener_toast_saving": "Menyimpan penyaring...",
+  "cash_secured_put_screener_toast_saved": "Penyaring disimpan.",
+  "cash_secured_put_screener_toast_save_failed": "Gagal menyimpan. Sila cuba lagi.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Harga pada Tarikh Luput ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Harga Akhir: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Pulang Modal: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Untung/Rugi ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Harga Aset Asas:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Untung atau Rugi:",
+  "cash_secured_put_screener_chart_modal_title": "Cash Secured Put - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Susunan Dagangan",
+  "cash_secured_put_screener_chart_sell_put": "Jual {strike}P @",
+  "cash_secured_put_screener_chart_cash_secured": "Bercagar Tunai",
+  "cash_secured_put_screener_chart_net_credit": "Kredit Bersih",
+  "cash_secured_put_screener_chart_breakeven": "Pulang Modal",
+  "cash_secured_put_screener_chart_below": "Di Bawah",
+  "cash_secured_put_screener_chart_last_price": "Harga Akhir",
+  "cash_secured_put_screener_chart_moneyness": "Moneyness",
+  "cash_secured_put_screener_chart_return_if_flat": "Pulangan jika Mendatar",
+  "cash_secured_put_screener_chart_return_if_assigned": "Pulangan jika Diserah",
+  "cash_secured_put_screener_chart_probability_of_profit": "Kebarangkalian Untung",
+  "cash_secured_put_screener_chart_annualized_abbr": "thn.",
+  "cash_secured_put_screener_chart_discount": "Diskaun jika Diserah"
+}

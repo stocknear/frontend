@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Áttekintés",
+  "index_detail_nav_options": "Opciók",
+  "index_detail_nav_history": "Előzmények",
+  "index_detail_nav_holdings": "Összetétel",
+
+  "index_detail_watchlist": "Figyelőlista",
+  "index_detail_price_alert": "Riasztás",
+  "index_detail_add_to_watchlist": "Hozzáadás a figyelőlistához",
+  "index_detail_ticker_added": "A ticker bekerült a figyelőlistádba",
+  "index_detail_ticker_add_failed": "A tickert nem sikerült hozzáadni a figyelőlistához",
+  "index_detail_upgrade_watchlist": "Több részvényt vennél fel? Válts Plus vagy Pro csomagra",
+  "index_detail_companies": "Vállalatok",
+  "index_detail_company": "Vállalat",
+
+  "index_detail_no_data": "Nincs elérhető adat",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Vétel",
+  "index_detail_ask": "Eladás",
+  "index_detail_volume": "Forgalom",
+  "index_detail_avg_volume_20d": "Átl. forgalom (20 nap)",
+  "index_detail_50_day_ma": "50 napos MA",
+  "index_detail_200_day_ma": "200 napos MA",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "Részvényszám",
+  "index_detail_inception_date": "Indulás dátuma",
+  "index_detail_open": "Nyitó",
+  "index_detail_prev_close": "Előző záró",
+  "index_detail_days_range": "Napi sáv",
+  "index_detail_52w_range": "52 hetes sáv",
+  "index_detail_exchange": "Tőzsde",
+  "index_detail_expense_ratio": "Költséghányad",
+
+  "index_detail_chart_price": "Árfolyam",
+  "index_detail_chart_volume": "Forgalom",
+
+  "index_sidecard_about": "{ticker} bemutatása",
+  "index_sidecard_top_sectors": "Top 5 szektor",
+  "index_sidecard_sector": "Szektor",
+  "index_sidecard_weight_percent": "Súly %",
+  "index_sidecard_view_all_sectors": "Összes szektor"
+}

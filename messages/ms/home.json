@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Aliran Opsyen, Sapuan & Aktiviti Luar Biasa Masa Nyata",
+  "home_seo_description": "Aliran opsyen, sapuan, blok dan aktiviti luar biasa secara langsung bagi saham dan ETF AS. Cari persediaan dagangan jangka pendek dengan lebih pantas menerusi Stocknear.",
+  "home_seo_keywords": "aliran opsyen, aktiviti opsyen luar biasa, pesanan sapuan, dagangan blok, kolam gelap, volatiliti tersirat, kecondongan IV, kepentingan terbuka, rantaian opsyen, persediaan dagangan jangka pendek, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Aliran opsyen dan aktiviti luar biasa masa nyata untuk persediaan dagangan jangka pendek",
+  "home_structured_feature_live_options_flow": "Aliran opsyen & sapuan secara langsung",
+  "home_structured_feature_unusual_options_activity": "Aktiviti opsyen luar biasa",
+  "home_structured_feature_dark_pool_monitoring": "Pemantauan kolam gelap",
+  "home_structured_feature_implied_volatility": "Volatiliti tersirat & kecondongan",
+  "home_structured_feature_options_chain": "Rantaian opsyen & kepentingan terbuka",
+  "home_structured_feature_earnings_volatility": "Persediaan volatiliti perolehan",
+  "home_structured_feature_market_catalysts": "Pemangkin pasaran",
+  "home_hero_title": "Lihat pergerakan sebelum orang ramai",
+  "home_hero_subtitle": "Harga masa nyata, aliran opsyen, pesanan kolam gelap, berita, kewangan, ramalan dan carta bagi setiap saham dan ETF AS. Bertindak lebih pantas dengan isyarat yang jelas.",
+  "home_promo_pill_label": "Jualan Musim Panas",
+  "home_promo_pill_discount": "diskaun {percent}",
+  "home_promo_pill_subtitle": "semua pelan tahunan"
+}

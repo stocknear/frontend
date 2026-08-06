@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Utama",
+  "covered_call_screener_breadcrumb_title": "Penyaring Covered Call",
+
+  "covered_call_screener_seo_title": "Penyaring Covered Call - Cari Peluang Covered Call Terbaik",
+  "covered_call_screener_seo_description": "Saring ribuan opsyen untuk peluang covered call. Tapis mengikut hasil premium, pulangan tahunan, harga mogok, tarikh luput dan banyak lagi.",
+  "covered_call_screener_seo_keywords": "penyaring covered call, penyaring opsyen, covered call, hasil premium, strategi pendapatan",
+  "covered_call_screener_structured_name": "Penyaring Covered Call",
+  "covered_call_screener_structured_description": "Saring opsyen untuk peluang covered call",
+
+  "covered_call_screener_main_title": "Penyaring Covered Call",
+  "covered_call_screener_contracts_count": "{count} Kontrak",
+
+  "covered_call_screener_popular_screens": "Saringan Popular",
+  "covered_call_screener_popular_strategies": "Strategi Popular",
+  "covered_call_screener_select_popular": "Pilih Popular",
+  "covered_call_screener_saved_screens": "Saringan Disimpan",
+  "covered_call_screener_select_screen": "Pilih Saringan",
+  "covered_call_screener_new_screen": "Saringan Baharu",
+
+  "covered_call_screener_strategy_high_yield": "Hasil Tinggi",
+  "covered_call_screener_strategy_conservative": "Konservatif",
+  "covered_call_screener_strategy_weekly_income": "Pendapatan Mingguan",
+  "covered_call_screener_strategy_high_protection": "Perlindungan Tinggi",
+  "covered_call_screener_strategy_bluechip_cc": "Covered Call Blue-Chip",
+
+  "covered_call_screener_filters_count": "Penapis ({count})",
+  "covered_call_screener_add_filters": "Tambah Penapis",
+  "covered_call_screener_search_filters": "Cari {count} penapis...",
+  "covered_call_screener_select_filters_title": "Pilih Penapis ({count})",
+  "covered_call_screener_nothing_found": "Tiada apa-apa dijumpai.",
+
+  "covered_call_screener_save": "Simpan",
+  "covered_call_screener_save_as_new": "Simpan sebagai Baharu",
+  "covered_call_screener_reset_all": "Tetapkan Semula Semua",
+
+  "covered_call_screener_condition_over": "Melebihi",
+  "covered_call_screener_condition_under": "Kurang daripada",
+  "covered_call_screener_condition_between": "Antara",
+  "covered_call_screener_condition_exactly": "Tepat",
+  "covered_call_screener_condition_any": "Mana-mana",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Maks",
+  "covered_call_screener_input_value": "Nilai",
+
+  "covered_call_screener_search_placeholder": "Cari...",
+  "covered_call_screener_search_modal_placeholder": "Cari...",
+
+  "covered_call_screener_normal_width": "Lebar Biasa",
+  "covered_call_screener_full_width": "Lebar Penuh",
+
+  "covered_call_screener_tab_general": "Umum",
+  "covered_call_screener_tab_income": "Pendapatan",
+  "covered_call_screener_tab_filters": "Penapis",
+  "covered_call_screener_tab_greeks": "Greeks",
+
+  "covered_call_screener_pagination_previous": "Sebelumnya",
+  "covered_call_screener_pagination_next": "Seterusnya",
+  "covered_call_screener_pagination_page_of": "Halaman {current} daripada {total}",
+  "covered_call_screener_rows_label": "{rows} baris",
+  "covered_call_screener_back_to_top": "Kembali ke atas",
+
+  "covered_call_screener_no_results_query": "Tiada hasil ditemui untuk \"{query}\"",
+  "covered_call_screener_no_contracts": "Tiada kontrak sepadan dengan kriteria anda.",
+
+  "covered_call_screener_modal_new_title": "Saringan Baharu",
+  "covered_call_screener_modal_new_name_label": "Nama saringan",
+  "covered_call_screener_modal_new_create": "Cipta",
+
+  "covered_call_screener_modal_delete_title": "Padam Penyaring",
+  "covered_call_screener_modal_delete_message": "Anda pasti mahu memadam penyaring ini? Tindakan ini tidak boleh dibatalkan.",
+  "covered_call_screener_modal_delete_cancel": "Batal",
+  "covered_call_screener_modal_delete_confirm": "Padam",
+
+  "covered_call_screener_toast_deleting": "Memadam penyaring...",
+  "covered_call_screener_toast_deleted": "Penyaring berjaya dipadam.",
+  "covered_call_screener_toast_delete_failed": "Gagal memadam. Sila cuba lagi.",
+  "covered_call_screener_toast_title_too_long": "Tajuk terlalu panjang. Sila pastikan kurang daripada 100 aksara.",
+  "covered_call_screener_toast_created": "Penyaring berjaya dicipta.",
+  "covered_call_screener_toast_creating": "Mencipta penyaring...",
+  "covered_call_screener_toast_create_failed": "Ada masalah berlaku. Sila cuba lagi nanti.",
+  "covered_call_screener_toast_select_rule": "Sila pilih satu peraturan",
+  "covered_call_screener_toast_saving": "Menyimpan penyaring...",
+  "covered_call_screener_toast_saved": "Penyaring disimpan.",
+  "covered_call_screener_toast_save_failed": "Gagal menyimpan. Sila cuba lagi.",
+
+  "covered_call_screener_chart_price_at_expiration": "Harga pada Tarikh Luput ($)",
+  "covered_call_screener_chart_last_price_label": "Harga Akhir: {price}",
+  "covered_call_screener_chart_breakeven_label": "Pulang Modal: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Untung/Rugi ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Harga Aset Asas:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Untung atau Rugi:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Susunan Dagangan",
+  "covered_call_screener_chart_buy_stock": "Beli Saham @",
+  "covered_call_screener_chart_sell_call": "Jual {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Bersih (Kredit/Debit)",
+  "covered_call_screener_chart_breakeven": "Pulang Modal",
+  "covered_call_screener_chart_above": "Di Atas",
+  "covered_call_screener_chart_last_price": "Harga Akhir",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Pulangan jika Mendatar",
+  "covered_call_screener_chart_return_if_assigned": "Pulangan jika Diserah",
+  "covered_call_screener_chart_probability_of_profit": "Kebarangkalian Untung",
+  "covered_call_screener_chart_annualized_abbr": "thn."
+}

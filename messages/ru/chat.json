@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Анализ фондового рынка на основе ИИ - финансовый ИИ-агент и рыночная аналитика",
+  "chat_seo_description": "Продвинутый финансовый ИИ-агент с анализом акций, рыночной аналитикой и инвестиционными исследованиями в реальном времени. Общайся со специализированными ИИ-агентами для скрининга акций, анализа отчётов, отслеживания опционного флоу, активности тёмных пулов и анализа настроений рынка.",
+  "chat_seo_keywords": "ИИ финансовый советник, ИИ фондового рынка, финансовый ИИ-агент, ИИ инвестиционный анализ, автоматизированные исследования акций, ИИ торговая аналитика, машинное обучение в финансах, финансовый чат-бот, ИИ анализ рынка, алгоритмическая торговая аналитика, ИИ анализ портфеля, инвестирование с искусственным интеллектом",
+  "chat_title": "Твой инвестиционный помощник",
+  "chat_placeholder": "Спроси что угодно об акциях — получай обновления в реальном времени",
+  "chat_placeholder_readonly": "Только для чтения: у тебя нет прав на редактирование этого чата.",
+  "chat_placeholder_editable": "Спроси о чём угодно",
+  "chat_credits_left": "Осталось кредитов",
+  "chat_stock_agents": "Агенты по акциям",
+  "chat_how_to_use_agents": "Как правильно пользоваться агентами",
+  "chat_credits": "Кредиты",
+  "chat_threads": "Диалоги",
+  "chat_no_threads": "Похоже, мы ещё не общались.",
+  "chat_ready_to_analyze": "Готов анализировать акции?",
+  "chat_ready_description": "Изучай подробные финансовые данные, оценки аналитиков и технический анализ по тысячам акций.",
+  "chat_get_started": "Начать",
+  "chat_delete_thread_title": "Удалить диалог",
+  "chat_delete_thread_confirm": "Ты уверен, что хочешь удалить этот диалог? Это действие нельзя отменить.",
+  "chat_cancel": "Отмена",
+  "chat_delete": "Удалить диалог",
+  "chat_toast_deleted": "Диалог успешно удалён!",
+  "chat_toast_error": "Что-то пошло не так. Попробуй ещё раз!",
+  "chat_toast_error_occurred": "Произошла ошибка. Попробуй позже.",
+  "chat_toast_insufficient_credits": "Недостаточно кредитов. Твой текущий баланс —",
+  "chat_last_message": "Последнее сообщение",
+  "chat_ago": "назад",
+  "chat_minutes": "минут",
+  "chat_hour": "час",
+  "chat_hours": "часов",
+  "chat_day": "день",
+  "chat_days": "дней",
+  "chat_error_connect": "Не удалось подключиться к чат-сервису. Попробуй позже.",
+
+  "chat_default_gainers_losers_label": "Топ лидеров роста, падения и активности",
+  "chat_default_gainers_losers_query": "Дай сводку по лидерам роста, крупнейшим падениям и самым активно торгуемым акциям сегодня. Включи процентное изменение и объём торгов.",
+
+  "chat_default_options_flow_label": "Главное в опционном флоу сегодня",
+  "chat_default_options_flow_query": "Дай обзор заметного опционного флоу за сегодня с фокусом на крупные блочные сделки, необычные всплески объёма и направленные настроения.",
+
+  "chat_default_market_news_label": "Рыночные новости сегодня",
+  "chat_default_market_news_query": "Дай сводку главных рыночных новостей и ключевых финансовых событий сегодня.",
+
+  "chat_default_bull_bear_label": "Бычий и медвежий сценарий по Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear for Nvidia",
+
+  "chat_default_value_investor_label": "Стоит ли покупать Intel сейчас как стоимостному инвестору?",
+  "chat_default_value_investor_query": "@WarrenBuffet should I buy Intel right now?",
+
+  "chat_default_cathie_wood_label": "Как Кэти Вуд оценивает Tesla сейчас?",
+  "chat_default_cathie_wood_query": "@CathieWood evaluate tesla and tell me if you would buy or sell it",
+
+  "chat_default_options_data_label": "Последние данные по опционам SPY",
+  "chat_default_options_data_query": "@OptionsData latest options data updates for SPY",
+
+  "chat_default_undervalued_label": "Найди мне недооценённые акции",
+  "chat_default_undervalued_query": "@StockScreener find me undervalued stocks with p/e above 0 and revenue growth above 5% and price to book ratio above 0",
+
+  "chat_default_gamestop_label": "Насколько здорова Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData how healthy is Gamestop?",
+
+  "chat_default_spy_bullish_label": "SPY сейчас растёт?",
+  "chat_default_spy_bullish_query": "Is SPY bullish right now?",
+
+  "chat_default_nvidia_flow_label": "Опционный флоу Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidia options flow",
+
+  "chat_default_googl_flow_label": "Необычный ордер-флоу GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Google order flow",
+
+  "chat_default_compare_aapl_msft_label": "Сравни Apple и Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks compare Apple vs Microsoft",
+
+  "chat_default_analyst_ratings_label": "Что говорят аналитики об Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst what are the latest analyst ratings and price targets for Amazon?",
+
+  "chat_default_dark_pool_label": "Есть заметная активность тёмных пулов сегодня?",
+  "chat_default_dark_pool_query": "Show me the most significant dark pool trades and activity from today",
+
+  "chat_default_dividend_label": "Лучшие дивидендные акции для покупки прямо сейчас",
+  "chat_default_dividend_query": "@StockScreener find me high dividend yield stocks with payout ratio below 80% and revenue growth above 0",
+
+  "chat_default_michael_burry_label": "Что бы подумал Майкл Бьюрри о текущем рынке?",
+  "chat_default_michael_burry_query": "@MichaelBurry analyze the current market conditions and tell me what you see",
+
+  "chat_default_peter_lynch_label": "Мнение Питера Линча о Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch would you consider Meta a good investment right now?",
+
+  "chat_default_sector_performance_label": "Какие секторы опережают рынок на этой неделе?",
+  "chat_default_sector_performance_query": "Give me a breakdown of sector performance this week and highlight which sectors are leading or lagging",
+
+  "chat_default_earnings_label": "Какие компании отчитываются на этой неделе?",
+  "chat_default_earnings_query": "What are the most important earnings reports coming up this week and what should I watch for?"
+}

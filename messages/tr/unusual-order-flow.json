@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Olağandışı Emir Akışı - Dark Pool İşlemleri ve Blok Emirler",
+  "unusual_order_flow_seo_description": "Kısa vadeli hareketlerin öncesinde sık görülen kurumsal aktiviteyi yakalamak için dark pool işlemlerini ve blok emirleri anlık takip et.",
+  "unusual_order_flow_seo_keywords": "olağandışı emir akışı, dark pool işlemleri, blok emirler, kurumsal emir akışı, akıllı para, gizli likidite, anlık emir akışı, dark pool tarayıcı",
+  "unusual_order_flow_structured_name": "Olağandışı Emir Akışı Tarayıcısı",
+  "unusual_order_flow_structured_description": "Kısa vadeli piyasa sinyali için anlık dark pool işlemleri ve blok emirler",
+
+  "unusual_order_flow_main_title": "Olağandışı Emir Akışı",
+
+  "unusual_order_flow_popular_filters": "Popüler Filtreler",
+  "unusual_order_flow_select_popular": "Popüler seç",
+  "unusual_order_flow_saved_filters": "Kayıtlı Filtreler",
+  "unusual_order_flow_select_filter": "Filtre Seç",
+  "unusual_order_flow_new_filter": "Yeni Filtre",
+
+  "unusual_order_flow_filters_count": "{count} Filtre",
+  "unusual_order_flow_add_filters": "Filtre Ekle",
+  "unusual_order_flow_search_filters": "{count} filtre içinde ara...",
+  "unusual_order_flow_select_filters_title": "Akış filtrelerini seç (toplam {count})",
+  "unusual_order_flow_nothing_found": "Sonuç yok",
+  "unusual_order_flow_no_filters_found": "Uygun filtre bulunamadı",
+
+  "unusual_order_flow_search_placeholder": "Bul...",
+  "unusual_order_flow_search_input_placeholder": "Ara...",
+  "unusual_order_flow_full_width": "Tam Genişlik",
+  "unusual_order_flow_normal_width": "Normal Genişlik",
+
+  "unusual_order_flow_no_trades_query": "\"{query}\" için olağandışı işlem bulunamadı",
+  "unusual_order_flow_no_data_filters": "Seçimlerin epey özgün. Şu an eşleşen bir işlem yok.",
+
+  "unusual_order_flow_modal_new_title": "Yeni Filtre",
+  "unusual_order_flow_modal_new_name_label": "Filtre Adı",
+  "unusual_order_flow_modal_new_create": "Filtre Oluştur",
+
+  "unusual_order_flow_modal_delete_title": "Filtreyi Sil",
+  "unusual_order_flow_modal_delete_message": "Bu filtreyi silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "unusual_order_flow_modal_delete_cancel": "Vazgeç",
+  "unusual_order_flow_modal_delete_confirm": "Filtreyi Sil",
+
+  "unusual_order_flow_save": "Kaydet",
+  "unusual_order_flow_save_as_new": "Yeni Olarak Kaydet",
+  "unusual_order_flow_reset_all": "Tümünü Sıfırla",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark Pool İşlemleri",
+  "unusual_order_flow_strategy_block_orders": "Blok Emirler",
+  "unusual_order_flow_strategy_mega_premium": "Mega Prim",
+  "unusual_order_flow_strategy_etf_flow": "ETF Akışı",
+  "unusual_order_flow_strategy_high_volume": "Yüksek Hacim",
+  "unusual_order_flow_strategy_large_stock_flow": "Büyük Hisse Akışı",
+
+  "unusual_order_flow_total_volume": "Toplam Hacim",
+  "unusual_order_flow_total_value": "Toplam Değer",
+  "unusual_order_flow_transaction_type": "İşlem Tipi",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Blok",
+  "unusual_order_flow_asset_type": "Varlık Tipi",
+  "unusual_order_flow_stock": "Hisse",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 Dk Gecikmeli",
+  "unusual_order_flow_delayed_title": "15 Dk Gecikmeli SIP Verisi",
+  "unusual_order_flow_delayed_content": "Intrinio'nun SIP akışı, tüm büyük borsalardan gelen yüksek kaliteli ve konsolide ABD hisse verisini sunar; işlemler, kotasyonlar ve NBBO dahil. 15 dakikalık gecikme, tüm borsaları kapsayan zengin bir piyasa görünümü sağlar.",
+
+  "unusual_order_flow_hide_filter_area": "Filtre Alanını Gizle",
+  "unusual_order_flow_show_filter_area": "Filtre Alanını Göster",
+  "unusual_order_flow_exit_full_width": "Tam genişlikten çık",
+  "unusual_order_flow_expand_full_width": "Tam genişliğe geç",
+  "unusual_order_flow_reset_column_order": "Sütun sırasını sıfırla",
+  "unusual_order_flow_remove_filter": "Filtreyi kaldır",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Maks",
+  "unusual_order_flow_value": "Değer"
+}

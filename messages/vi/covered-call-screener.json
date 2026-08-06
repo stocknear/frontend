@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Trang chủ",
+  "covered_call_screener_breadcrumb_title": "Bộ lọc Covered Call",
+
+  "covered_call_screener_seo_title": "Bộ lọc Covered Call - Tìm cơ hội covered call tốt nhất",
+  "covered_call_screener_seo_description": "Lọc hàng nghìn hợp đồng quyền chọn để tìm cơ hội covered call. Lọc theo tỷ suất phí quyền chọn, lợi nhuận quy năm, giá thực hiện, ngày đáo hạn và nhiều tiêu chí khác.",
+  "covered_call_screener_seo_keywords": "bộ lọc covered call, bộ lọc quyền chọn, covered call, tỷ suất phí quyền chọn, chiến lược thu nhập",
+  "covered_call_screener_structured_name": "Bộ lọc Covered Call",
+  "covered_call_screener_structured_description": "Lọc quyền chọn để tìm cơ hội covered call",
+
+  "covered_call_screener_main_title": "Bộ lọc Covered Call",
+  "covered_call_screener_contracts_count": "{count} hợp đồng",
+
+  "covered_call_screener_popular_screens": "Bộ lọc phổ biến",
+  "covered_call_screener_popular_strategies": "Chiến lược phổ biến",
+  "covered_call_screener_select_popular": "Chọn bộ lọc phổ biến",
+  "covered_call_screener_saved_screens": "Bộ lọc đã lưu",
+  "covered_call_screener_select_screen": "Chọn bộ lọc",
+  "covered_call_screener_new_screen": "Bộ lọc mới",
+
+  "covered_call_screener_strategy_high_yield": "Lợi suất cao",
+  "covered_call_screener_strategy_conservative": "Thận trọng",
+  "covered_call_screener_strategy_weekly_income": "Thu nhập hằng tuần",
+  "covered_call_screener_strategy_high_protection": "Bảo vệ cao",
+  "covered_call_screener_strategy_bluechip_cc": "Covered Call cổ phiếu blue-chip",
+
+  "covered_call_screener_filters_count": "Bộ lọc ({count})",
+  "covered_call_screener_add_filters": "Thêm bộ lọc",
+  "covered_call_screener_search_filters": "Tìm trong {count} bộ lọc...",
+  "covered_call_screener_select_filters_title": "Chọn bộ lọc ({count})",
+  "covered_call_screener_nothing_found": "Không tìm thấy gì.",
+
+  "covered_call_screener_save": "Lưu",
+  "covered_call_screener_save_as_new": "Lưu thành mới",
+  "covered_call_screener_reset_all": "Đặt lại tất cả",
+
+  "covered_call_screener_condition_over": "Trên",
+  "covered_call_screener_condition_under": "Dưới",
+  "covered_call_screener_condition_between": "Trong khoảng",
+  "covered_call_screener_condition_exactly": "Chính xác",
+  "covered_call_screener_condition_any": "Bất kỳ",
+
+  "covered_call_screener_input_min": "Tối thiểu",
+  "covered_call_screener_input_max": "Tối đa",
+  "covered_call_screener_input_value": "Giá trị",
+
+  "covered_call_screener_search_placeholder": "Tìm kiếm...",
+  "covered_call_screener_search_modal_placeholder": "Tìm kiếm...",
+
+  "covered_call_screener_normal_width": "Độ rộng thường",
+  "covered_call_screener_full_width": "Toàn màn hình",
+
+  "covered_call_screener_tab_general": "Chung",
+  "covered_call_screener_tab_income": "Thu nhập",
+  "covered_call_screener_tab_filters": "Bộ lọc",
+  "covered_call_screener_tab_greeks": "Greeks",
+
+  "covered_call_screener_pagination_previous": "Trước",
+  "covered_call_screener_pagination_next": "Sau",
+  "covered_call_screener_pagination_page_of": "Trang {current} / {total}",
+  "covered_call_screener_rows_label": "{rows} dòng",
+  "covered_call_screener_back_to_top": "Về đầu trang",
+
+  "covered_call_screener_no_results_query": "Không có kết quả cho \"{query}\"",
+  "covered_call_screener_no_contracts": "Không có hợp đồng nào khớp tiêu chí của bạn.",
+
+  "covered_call_screener_modal_new_title": "Bộ lọc mới",
+  "covered_call_screener_modal_new_name_label": "Tên bộ lọc",
+  "covered_call_screener_modal_new_create": "Tạo",
+
+  "covered_call_screener_modal_delete_title": "Xóa bộ lọc",
+  "covered_call_screener_modal_delete_message": "Bạn có chắc muốn xóa bộ lọc này? Hành động này không thể hoàn tác.",
+  "covered_call_screener_modal_delete_cancel": "Hủy",
+  "covered_call_screener_modal_delete_confirm": "Xóa",
+
+  "covered_call_screener_toast_deleting": "Đang xóa bộ lọc...",
+  "covered_call_screener_toast_deleted": "Đã xóa bộ lọc.",
+  "covered_call_screener_toast_delete_failed": "Xóa không thành công. Vui lòng thử lại.",
+  "covered_call_screener_toast_title_too_long": "Tiêu đề quá dài. Vui lòng giữ dưới 100 ký tự.",
+  "covered_call_screener_toast_created": "Đã tạo bộ lọc.",
+  "covered_call_screener_toast_creating": "Đang tạo bộ lọc...",
+  "covered_call_screener_toast_create_failed": "Có lỗi xảy ra. Vui lòng thử lại sau.",
+  "covered_call_screener_toast_select_rule": "Vui lòng chọn một tiêu chí",
+  "covered_call_screener_toast_saving": "Đang lưu bộ lọc...",
+  "covered_call_screener_toast_saved": "Đã lưu bộ lọc.",
+  "covered_call_screener_toast_save_failed": "Lưu không thành công. Vui lòng thử lại.",
+
+  "covered_call_screener_chart_price_at_expiration": "Giá khi đáo hạn ($)",
+  "covered_call_screener_chart_last_price_label": "Giá gần nhất: {price}",
+  "covered_call_screener_chart_breakeven_label": "Hòa vốn: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Lãi/Lỗ ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Giá tài sản cơ sở:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Lãi hoặc lỗ:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Thiết lập giao dịch",
+  "covered_call_screener_chart_buy_stock": "Mua cổ phiếu @",
+  "covered_call_screener_chart_sell_call": "Bán {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Ròng (thu/chi)",
+  "covered_call_screener_chart_breakeven": "Điểm hòa vốn",
+  "covered_call_screener_chart_above": "Trên",
+  "covered_call_screener_chart_last_price": "Giá gần nhất",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Lợi nhuận nếu đi ngang",
+  "covered_call_screener_chart_return_if_assigned": "Lợi nhuận nếu bị thực hiện",
+  "covered_call_screener_chart_probability_of_profit": "Xác suất có lãi",
+  "covered_call_screener_chart_annualized_abbr": "quy năm"
+}

@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Home",
+  "earnings_breadcrumb_calendar": "Calendario trimestrali",
+
+  "earnings_seo_title": "Calendario trimestrali - Setup di volatilità per chi opera in opzioni",
+  "earnings_seo_description": "Segui le date delle trimestrali, i movimenti attesi e le stime degli analisti per pianificare strategie in opzioni sulla volatilità e setup da IV crush.",
+  "earnings_seo_keywords": "calendario trimestrali, opzioni sulle trimestrali, movimento atteso, IV crush, volatilità sulle trimestrali, stime EPS, previsioni sui ricavi, calendario risultati",
+
+  "earnings_structured_name": "Calendario trimestrali",
+  "earnings_structured_description": "Calendario delle trimestrali pensato per chi opera in opzioni su volatilità e movimenti attesi",
+
+  "earnings_main_name": "Calendario trimestrali",
+  "earnings_count": "{count} trimestrali",
+  "earnings_empty": "Nessuna trimestrale disponibile per questa giornata.",
+  "earnings_empty_scheduled": "Nessuna trimestrale in programma",
+
+  "earnings_tab_daily": "Giornaliero",
+  "earnings_tab_weekly": "Settimanale",
+  "earnings_tab_details": "Dettagli",
+  "earnings_tab_compact": "Compatto",
+
+  "earnings_time_of_day": "Orario",
+  "earnings_time_any": "Qualsiasi orario",
+  "earnings_time_before_open": "Prima dell'apertura",
+  "earnings_time_after_close": "Dopo la chiusura",
+
+  "earnings_expanded_reports": "Pubblicazione",
+  "earnings_expanded_market_cap": "Capitalizzazione",
+  "earnings_expanded_revenue_est": "Ricavi stim.",
+  "earnings_expanded_revenue_estimate": "Stima ricavi",
+  "earnings_expanded_eps_est": "EPS stim.",
+  "earnings_expanded_eps_estimate": "Stima EPS",
+
+  "earnings_pagination_previous": "Precedente",
+  "earnings_pagination_next": "Successiva",
+  "earnings_pagination_page_of": "Pagina {current} di {total}",
+  "earnings_pagination_rows": "{count} righe",
+  "earnings_back_to_top": "Torna su",
+  "earnings_search_placeholder": "Cerca..."
+}

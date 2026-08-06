@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Læringssenter - Børskunnskap og investeringsguider",
+  "learning_center_seo_description": "Lær deg aksjemarkedet i læringssenteret vårt. Gratis guider om handelsstrategier, teknisk analyse, fundamental analyse, porteføljestyring og investering, fra nybegynner til erfaren trader.",
+  "learning_center_seo_keywords": "børskunnskap, investeringsguider, handelsstrategier, lære å investere, aksjeanalyse, finansiell utdanning, investeringsguide, aksjemarkedet for nybegynnere, porteføljestyring, kurs i teknisk analyse",
+  "learning_center_structured_name": "Stocknear Læringssenter",
+  "learning_center_structured_description": "Omfattende børskunnskap og guider om investering",
+  "learning_center_structured_articles": "Læringsartikler",
+  "learning_center_structured_articles_description": "Artikler om aksjemarkedet og investering",
+  "learning_center_title": "Læringssenter",
+  "learning_center_published": "Publisert:",
+  "learning_center_previous": "Forrige",
+  "learning_center_next": "Neste",
+  "learning_center_alt_tutorial": "Bakgrunnsbilde for guide",
+
+  "learning_center_subtitle": "Lær deg aksjemarkedet, ett begrep om gangen",
+
+  "learning_center_category_all": "Alle",
+  "learning_center_category_features": "Funksjoner",
+  "learning_center_category_fundamentals": "Grunnleggende",
+  "learning_center_category_terms": "Begreper",
+
+  "learning_center_category_desc_features": "Slik bruker du Stocknear",
+  "learning_center_category_desc_fundamentals": "Start her hvis du er ny i investering",
+  "learning_center_category_desc_terms": "Finansbegreper og forklaringer",
+
+  "learning_center_tag_all": "Alle tagger",
+  "learning_center_tag_stocks": "Aksjer",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opsjoner",
+  "learning_center_tag_sentiment": "Stemning",
+  "learning_center_tag_prefix": "Tagg",
+
+  "learning_center_view_all": "Se alle",
+  "learning_center_view_all_count": "Se alle {count}",
+  "learning_center_min_read": "{time} min lesing",
+
+  "learning_center_no_articles_tag": "Ingen artikler med taggen \"{tag}\".",
+  "learning_center_clear_tag_filter": "Fjern taggfilter",
+
+  "learning_center_page_of": "Side {currentPage} av {totalPages}",
+  "learning_center_items_count": "{count} elementer",
+
+  "learning_center_back_to_top": "Til toppen",
+  "learning_center_no_terms_yet": "Ingen begreper er lagt ut ennå.",
+  "learning_center_no_articles_category": "Ingen artikler i denne kategorien ennå.",
+
+  "learning_center_table_of_contents": "Innhold",
+  "learning_center_share_this_post": "Del dette innlegget",
+  "learning_center_back_to_all_posts": "Tilbake til alle innlegg",
+
+  "learning_center_quick_start": "Kom i gang",
+  "learning_center_sidebar_top_gainers": "Største oppgang",
+  "learning_center_sidebar_top_losers": "Største nedgang",
+  "learning_center_sidebar_analysts": "Analytikere",
+  "learning_center_sidebar_stock_screener": "Aksjescreener",
+  "learning_center_sidebar_options_flow": "Opsjonsflyt",
+  "learning_center_sidebar_earnings_calendar": "Resultatkalender",
+  "learning_center_sidebar_dividends_calendar": "Utbyttekalender",
+  "learning_center_sidebar_ipo_calendar": "IPO-kalender",
+
+  "learning_center_related_articles": "Relaterte artikler",
+  "learning_center_view_all_articles": "Se alle artikler",
+  "learning_center_share_this_article": "Del denne artikkelen",
+
+  "learning_center_link_copied": "Lenken er kopiert",
+  "learning_center_link_copy_failed": "Klarte ikke å kopiere lenken",
+
+  "learning_center_sign_in_to_read": "Logg inn for å lese hele briefen.",
+  "learning_center_briefing_description": "Den daglige markedsbriefen er for medlemmer av Stocknear. Opprett en gratis konto eller logg inn for å låse opp hele analysen.",
+  "learning_center_create_free_account": "Opprett gratis konto",
+  "learning_center_sign_in": "Logg inn",
+
+  "learning_center_click_to_close": "Klikk hvor som helst eller trykk ESC for å lukke",
+
+  "learning_center_search_placeholder": "Søk ...",
+  "learning_center_no_search_results": "Ingen treff for \"{query}\".",
+  "learning_center_clear_search": "Tøm søket"
+}

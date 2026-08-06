@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Pusat Belajar - Edukasi Pasar Saham & Tutorial Investasi",
+  "learning_center_seo_description": "Kuasai investasi di pasar saham lewat Pusat Belajar kami. Tutorial gratis tentang strategi trading, analisis teknikal, analisis fundamental, pengelolaan portofolio, dan edukasi investasi untuk pemula sampai trader mahir.",
+  "learning_center_seo_keywords": "edukasi pasar saham, tutorial investasi, strategi trading, belajar investasi, tutorial analisis saham, edukasi keuangan, panduan investasi, dasar pasar saham, pengelolaan portofolio, kursus analisis teknikal",
+  "learning_center_structured_name": "Pusat Belajar Stocknear",
+  "learning_center_structured_description": "Edukasi pasar saham dan tutorial investasi yang lengkap",
+  "learning_center_structured_articles": "Artikel Edukasi",
+  "learning_center_structured_articles_description": "Artikel edukasi pasar saham dan tutorial investasi",
+  "learning_center_title": "Pusat Belajar",
+  "learning_center_published": "Terbit:",
+  "learning_center_previous": "Sebelumnya",
+  "learning_center_next": "Berikutnya",
+  "learning_center_alt_tutorial": "Wallpaper Tutorial",
+
+  "learning_center_subtitle": "Kuasai pasar saham, satu konsep dalam satu waktu",
+
+  "learning_center_category_all": "Semua",
+  "learning_center_category_features": "Fitur",
+  "learning_center_category_fundamentals": "Dasar",
+  "learning_center_category_terms": "Istilah",
+
+  "learning_center_category_desc_features": "Cara memakai Stocknear",
+  "learning_center_category_desc_fundamentals": "Mulai dari sini kalau Anda baru berinvestasi",
+  "learning_center_category_desc_terms": "Istilah keuangan dan definisinya",
+
+  "learning_center_tag_all": "Semua Tag",
+  "learning_center_tag_stocks": "Saham",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opsi",
+  "learning_center_tag_sentiment": "Sentimen",
+  "learning_center_tag_prefix": "Tag",
+
+  "learning_center_view_all": "Lihat semua",
+  "learning_center_view_all_count": "Lihat semua {count}",
+  "learning_center_min_read": "{time} menit baca",
+
+  "learning_center_no_articles_tag": "Tidak ada artikel dengan tag \"{tag}\".",
+  "learning_center_clear_tag_filter": "Hapus filter tag",
+
+  "learning_center_page_of": "Halaman {currentPage} dari {totalPages}",
+  "learning_center_items_count": "{count} Item",
+
+  "learning_center_back_to_top": "Kembali ke Atas",
+  "learning_center_no_terms_yet": "Belum ada istilah tersedia.",
+  "learning_center_no_articles_category": "Belum ada artikel di kategori ini.",
+
+  "learning_center_table_of_contents": "Daftar Isi",
+  "learning_center_share_this_post": "Bagikan Postingan Ini",
+  "learning_center_back_to_all_posts": "Kembali ke semua postingan",
+
+  "learning_center_quick_start": "Mulai Cepat",
+  "learning_center_sidebar_top_gainers": "Penguatan Terbesar",
+  "learning_center_sidebar_top_losers": "Pelemahan Terbesar",
+  "learning_center_sidebar_analysts": "Analis",
+  "learning_center_sidebar_stock_screener": "Screener Saham",
+  "learning_center_sidebar_options_flow": "Options Flow",
+  "learning_center_sidebar_earnings_calendar": "Kalender Laba",
+  "learning_center_sidebar_dividends_calendar": "Kalender Dividen",
+  "learning_center_sidebar_ipo_calendar": "Kalender IPO",
+
+  "learning_center_related_articles": "Artikel Terkait",
+  "learning_center_view_all_articles": "Lihat semua artikel",
+  "learning_center_share_this_article": "Bagikan artikel ini",
+
+  "learning_center_link_copied": "Tautan disalin ke papan klip",
+  "learning_center_link_copy_failed": "Gagal menyalin tautan",
+
+  "learning_center_sign_in_to_read": "Masuk untuk membaca briefing lengkap.",
+  "learning_center_briefing_description": "Daily Market Briefing tersedia untuk member Stocknear. Buat akun gratis atau masuk untuk membuka analisis lengkapnya.",
+  "learning_center_create_free_account": "Buat akun gratis",
+  "learning_center_sign_in": "Masuk",
+
+  "learning_center_click_to_close": "Klik di mana saja atau tekan ESC untuk menutup",
+
+  "learning_center_search_placeholder": "Cari...",
+  "learning_center_no_search_results": "Tidak ada hasil untuk \"{query}\".",
+  "learning_center_clear_search": "Hapus pencarian"
+}

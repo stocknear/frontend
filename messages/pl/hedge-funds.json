@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Strona główna",
+  "hedge_funds_breadcrumb_hedge_funds": "Fundusze hedgingowe",
+  "hedge_funds_breadcrumb_hedge_fund": "Fundusz hedgingowy",
+
+  "hedge_funds_seo_title": "Tracker funduszy hedgingowych - portfele i zgłoszenia 13F",
+  "hedge_funds_seo_description": "Śledź portfele największych funduszy hedgingowych, zgłoszenia 13F i pozycje inwestorów instytucjonalnych. Sprawdzaj, co fundusze kupują i sprzedają, dzięki szczegółowej analizie pozycji. Darmowe narzędzie do śledzenia funduszy hedgingowych.",
+  "hedge_funds_seo_keywords": "tracker funduszy hedgingowych, portfele funduszy hedgingowych, zgłoszenia 13F, inwestorzy instytucjonalni, pozycje funduszy hedgingowych, największe fundusze hedgingowe, udziały instytucjonalne, portfele funduszy, portfel berkshire hathaway",
+  "hedge_funds_structured_name": "Tracker funduszy hedgingowych",
+  "hedge_funds_structured_description": "Kompleksowe śledzenie portfeli funduszy hedgingowych i inwestycji instytucjonalnych",
+
+  "hedge_funds_main_title": "Największe fundusze hedgingowe w USA",
+  "hedge_funds_infobox": "Lista wszystkich instytucji z Wall Street z najwyższymi aktywami pod zarządzaniem.",
+  "hedge_funds_count_institutes": "{count} instytucji",
+
+  "hedge_funds_search_placeholder": "Szukaj...",
+  "hedge_funds_loading": "Ładowanie...",
+  "hedge_funds_no_data": "Brak dostępnych danych.",
+
+  "hedge_funds_pagination_previous": "Wstecz",
+  "hedge_funds_pagination_next": "Dalej",
+  "hedge_funds_pagination_page_of": "Strona {current} z {total}",
+  "hedge_funds_rows_label": "{rows} wierszy",
+  "hedge_funds_back_to_top": "Do góry",
+
+  "hedge_funds_slug_seo_title": "{companyName} - portfel i pozycje - analiza zgłoszeń 13F",
+  "hedge_funds_slug_seo_description": "Szczegółowa analiza portfela funduszu {companyName}, jego pozycji i strategii inwestycyjnej. Śledź najnowsze zgłoszenia 13F, największe pozycje, alokację sektorową i wyniki.",
+  "hedge_funds_slug_seo_keywords": "portfel {companyNameLower}, pozycje {companyNameLower}, zgłoszenia 13F {companyNameLower}, pozycje funduszy hedgingowych, udziały inwestorów instytucjonalnych, wybory akcji {companyNameLower}, analiza funduszy hedgingowych",
+  "hedge_funds_slug_structured_name": "{companyName} - analiza portfela i pozycji",
+  "hedge_funds_slug_structured_description": "Kompleksowa analiza portfela i pozycji inwestycyjnych funduszu {companyName}",
+
+  "hedge_funds_slug_cik_number": "Numer CIK:",
+  "hedge_funds_slug_market_value": "Wartość rynkowa",
+  "hedge_funds_slug_holdings": "Liczba pozycji",
+  "hedge_funds_slug_avg_holding_period": "Śr. czas utrzymania",
+  "hedge_funds_slug_months": "mies.",
+  "hedge_funds_slug_win_rate": "Skuteczność",
+  "hedge_funds_slug_performance_3year": "Wynik za 3 lata",
+
+  "hedge_funds_slug_main_sectors": "Główne sektory:",
+  "hedge_funds_slug_top_industries": "Główne branże:",
+  "hedge_funds_slug_filing_date": "Data zgłoszenia:",
+  "hedge_funds_slug_no_data": "Dane tego funduszu hedgingowego są obecnie niedostępne.",
+
+  "hedge_funds_column_rank": "Poz.",
+  "hedge_funds_column_name": "Nazwa",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Pozycje",
+  "hedge_funds_column_turnover": "Rotacja",
+  "hedge_funds_column_3year_perf": "Wynik 3 lata",
+  "hedge_funds_column_win_rate": "Skuteczność"
+}

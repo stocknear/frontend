@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Zaloguj się do Stocknear",
+  "login_seo_description": "Zaloguj się na swoje konto Stocknear za pomocą adresu e-mail i hasła.",
+  "login_title": "Zaloguj się na swoje konto",
+  "login_title_logged_in": "Jesteś zalogowany",
+  "login_subtitle": "Dobrze Cię znowu widzieć",
+  "login_email_label": "E-mail",
+  "login_password_label": "Hasło",
+  "login_forgot_password": "Nie pamiętasz hasła?",
+  "login_button": "Zaloguj się",
+  "login_button_loading": "Logowanie",
+  "login_divider": "Albo zaloguj się przez",
+  "login_no_account": "Nie masz konta?",
+  "login_signup_link": "Załóż konto",
+  "login_logged_in_as": "Zalogowano jako {email}",
+  "login_logout_button": "Wyloguj się",
+  "login_toast_verify_email": "Najpierw potwierdź swój adres e-mail",
+  "login_toast_success": "Zalogowano pomyślnie",
+  "login_toast_invalid": "Nieprawidłowe dane logowania",
+  "login_toast_auth_failed": "Nieprawidłowy e-mail lub hasło. Spróbuj ponownie.",
+  "login_toast_rate_limited": "Zbyt wiele prób logowania. Spróbuj ponownie za {minutes} min."
+}

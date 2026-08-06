@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Pemindai Options Flow - Sweep, Block & Aktivitas Tidak Biasa",
+  "options_flow_seo_description": "Pantau options flow, sweep, dan block secara live di saham dan ETF AS. Temukan aktivitas tidak biasa dan setup trading jangka pendek secara real-time.",
+  "options_flow_seo_keywords": "options flow, pemindai options flow, aktivitas opsi tidak biasa, order sweep, block trade, smart money, flow call, flow put, notifikasi opsi, options flow OPRA",
+  "options_flow_structured_name": "Pemindai Options Flow",
+  "options_flow_structured_description": "Options flow live dengan sweep, block, dan aktivitas tidak biasa untuk setup trading jangka pendek",
+
+  "options_flow_main_title": "Options Flow",
+
+  "options_flow_popular_filters": "Filter Populer",
+  "options_flow_popular_strategies": "Strategi Populer",
+  "options_flow_select_popular": "Pilih populer",
+  "options_flow_saved_filters": "Filter Tersimpan",
+  "options_flow_select_filter": "Pilih Filter",
+  "options_flow_new_filter": "Filter Baru",
+
+  "options_flow_filters_count": "{count} Filter",
+  "options_flow_add_filters": "Tambah Filter",
+  "options_flow_search_filters": "Cari {count} filter...",
+  "options_flow_select_filters_title": "Pilih filter flow ({count} total)",
+  "options_flow_nothing_found": "Tidak ada hasil",
+  "options_flow_no_filters_found": "Tidak ada filter yang tersedia",
+
+  "options_flow_search_placeholder": "Cari...",
+  "options_flow_search_input_placeholder": "Cari...",
+  "options_flow_full_width": "Lebar Penuh",
+  "options_flow_normal_width": "Lebar Normal",
+
+  "options_flow_no_trades_query": "Tidak ada transaksi opsi untuk \"{query}\"",
+  "options_flow_no_data_filters": "Tidak ada data untuk filter yang dipilih. Sesuaikan filter Anda lalu coba lagi.",
+
+  "options_flow_modal_new_title": "Filter Baru",
+  "options_flow_modal_new_name_label": "Nama Filter",
+  "options_flow_modal_new_create": "Buat Filter",
+
+  "options_flow_modal_delete_title": "Hapus Filter",
+  "options_flow_modal_delete_message": "Yakin ingin menghapus filter ini? Tindakan ini tidak bisa dibatalkan.",
+  "options_flow_modal_delete_cancel": "Batal",
+  "options_flow_modal_delete_confirm": "Hapus Filter",
+
+  "options_flow_strategy_bullish_sweeps": "Sweep Bullish",
+  "options_flow_strategy_bearish_sweeps": "Sweep Bearish",
+  "options_flow_strategy_high_premium_blocks": "Block Premi Tinggi",
+  "options_flow_strategy_unusual_size_oi": "Ukuran Tidak Biasa vs OI",
+  "options_flow_strategy_etf_index_flow": "Flow ETF & Indeks",
+  "options_flow_strategy_zero_dte_flow": "Flow 0DTE",
+  "options_flow_strategy_repeated_flow": "Flow Berulang",
+
+  "options_flow_save": "Simpan",
+  "options_flow_save_as_new": "Simpan sebagai Baru",
+  "options_flow_reset_all": "Atur Ulang Semua",
+
+  "options_flow_market_closed": "Pasar Tutup",
+  "options_flow_paused": "Dijeda",
+  "options_flow_live_flow": "Flow Live",
+  "options_flow_pick_date": "Pilih tanggal",
+
+  "options_flow_realtime_data": "Data Opsi Real-Time",
+  "options_flow_realtime_data_title": "Data Opsi Real-Time dari OPRA",
+  "options_flow_realtime_data_content": "Options flow kami memakai data real-time OPRA, feed konsolidasi resmi untuk semua transaksi opsi yang tercatat di AS. Artinya setiap print yang Anda lihat datang langsung dari OPRA secara real-time, memberi Anda visibilitas kelas institusi atas transaksi besar, sweep, aktivitas tidak biasa, dan aliran premi saat terjadi. Dengan mengandalkan aliran transaksi OPRA yang berintegritas tinggi, Anda mendapat insight lebih cepat, data lebih bersih, dan gambaran yang lebih akurat tentang ke mana smart money bergerak di pasar opsi.",
+
+  "options_flow_hide_filter_area": "Sembunyikan Area Filter",
+  "options_flow_show_filter_area": "Tampilkan Area Filter",
+
+  "options_flow_put_to_call": "Put terhadap call",
+  "options_flow_call_flow": "Flow call",
+  "options_flow_put_flow": "Flow put"
+}

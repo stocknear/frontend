@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Giv feedback",
+  "feedback_error_signin": "Log ind, før du sender feedback.",
+  "feedback_error_description": "Beskriv dit problem eller forslag.",
+  "feedback_error_send_try_again": "Noget gik galt, da din feedback skulle sendes. Prøv igen.",
+  "feedback_success": "Tak. Din feedback er sendt.",
+  "feedback_error_send_generic": "Noget gik galt, da din feedback skulle sendes.",
+  "feedback_description_label": "Beskriv dit problem eller forslag:",
+  "feedback_page_label": "Feedback om siden:",
+  "feedback_close_button": "Luk",
+  "feedback_cancel_button": "Annuller",
+  "feedback_send_button": "Send feedback"
+}

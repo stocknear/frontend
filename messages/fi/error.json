@@ -1,0 +1,8 @@
+{
+  "error_title": "Sivua ei löytynyt - {status}",
+  "error_body_prefix": "Sivua ei löytynyt. Jos virhe toistuu, ilmoita siitä meille kanavassa",
+  "error_body_suffix": "Korjaamme sen pikaisesti.",
+  "error_back_home": "Takaisin etusivulle",
+  "error_server_title": "Jokin meni pieleen - {status}",
+  "error_server_body_prefix": "Vika on meidän päässämme, kyse ei ole puuttuvasta sivusta. Yritä hetken kuluttua uudelleen. Jos ongelma jatkuu, kerro meille osoitteessa"
+}

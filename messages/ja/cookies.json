@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "プライバシーを大切にしています",
+  "cookies_banner_description": "閲覧体験の向上、サイト利用状況の分析、コンテンツの最適化のために Cookie を使用しています。",
+  "cookies_accept_all": "すべて許可",
+  "cookies_reject_all": "すべて拒否",
+  "cookies_customize": "設定を変更",
+  "cookies_preferences_title": "Cookie の設定",
+  "cookies_preferences_description": "Cookie の設定を管理できます。必須 Cookie はサイトの動作に必要なため、無効にできません。",
+  "cookies_necessary_title": "必須 Cookie",
+  "cookies_necessary_description": "認証、セキュリティ、基本機能に不可欠な Cookie です。無効にはできません。",
+  "cookies_analytics_title": "分析 Cookie",
+  "cookies_analytics_description": "訪問者がサイトをどのように利用しているかを把握し、使い勝手を改善するために使用します。",
+  "cookies_marketing_title": "マーケティング Cookie",
+  "cookies_marketing_description": "パーソナライズされた広告のために、サイトをまたいで訪問者を追跡する目的で使用します。",
+  "cookies_save_preferences": "設定を保存"
+}

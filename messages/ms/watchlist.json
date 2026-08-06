@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Utama",
+  "watchlist_breadcrumb_watchlist": "Senarai Pantau",
+
+  "watchlist_seo_title": "Senarai Pantau Saham - Jejaki Portfolio & Pantau Harga Saham Anda",
+  "watchlist_seo_description": "Cipta dan urus senarai pantau saham peribadi anda dengan penjejakan harga masa nyata. Pantau saham kegemaran, ETF dan pelaburan anda dengan makluman serta analisis prestasi. Penjejak portfolio saham percuma dengan ciri termaju.",
+  "watchlist_seo_keywords": "senarai pantau saham, penjejak portfolio, penjejak saham, penjejak pelaburan, pemantauan saham, makluman, pengurusan portfolio, prestasi saham, senarai pantau pelaburan",
+  "watchlist_structured_name": "Penjejak Senarai Pantau Saham",
+  "watchlist_structured_description": "Alat senarai pantau saham dan penjejakan portfolio peribadi",
+
+  "watchlist_main_title": "Senarai Pantau",
+  "watchlist_create_watchlist": "Cipta Senarai Pantau",
+  "watchlist_new_watchlist": "Senarai Pantau Baharu",
+  "watchlist_delete_watchlist": "Padam Senarai Pantau",
+
+  "watchlist_add_stock_placeholder": "Tambah saham...",
+  "watchlist_no_results": "Tiada hasil ditemui",
+  "watchlist_edit_watchlist": "Sunting Senarai Pantau",
+  "watchlist_cancel": "Batal",
+  "watchlist_normal_width": "Lebar Biasa",
+  "watchlist_full_width": "Lebar Penuh",
+  "watchlist_exit_full_width": "Keluar lebar penuh",
+  "watchlist_expand_full_width": "Kembangkan ke lebar penuh",
+
+  "watchlist_empty_title": "Senarai Pantau Kosong",
+  "watchlist_empty_description": "Isikan dengan saham kegemaran anda dan dapatkan data masa nyata serta berita terkini di satu tempat.",
+  "watchlist_get_started": "Mula Sekarang",
+
+  "watchlist_count_stocks": "{count} Saham",
+
+  "watchlist_tab_news": "Berita",
+  "watchlist_tab_earnings": "Laporan Pendapatan",
+  "watchlist_no_news": "Belum ada berita. Tambah beberapa saham ke senarai pantau untuk melihat berita terkini.",
+  "watchlist_no_earnings": "Tiada data pendapatan tersedia. Tambah beberapa saham ke senarai pantau untuk melihat data pendapatan terkini.",
+
+  "watchlist_modal_new_title": "Senarai Pantau Baharu",
+  "watchlist_modal_list_name": "Nama Senarai",
+  "watchlist_modal_create_button": "Cipta Senarai Pantau",
+
+  "watchlist_modal_delete_title": "Padam Senarai Pantau",
+  "watchlist_modal_delete_confirm": "Anda pasti mahu memadam senarai pantau ini? Tindakan ini tidak boleh dibatalkan.",
+  "watchlist_modal_delete_button": "Padam Senarai Pantau",
+
+  "watchlist_toast_creating": "Mencipta senarai pantau...",
+  "watchlist_toast_created": "Senarai pantau berjaya dicipta.",
+  "watchlist_toast_deleted": "Senarai pantau berjaya dipadam.",
+  "watchlist_toast_updating": "Mengemas kini senarai pantau...",
+  "watchlist_toast_updated": "Senarai pantau berjaya dikemas kini.",
+  "watchlist_toast_error": "Ada masalah berlaku. Sila cuba lagi.",
+  "watchlist_toast_error_generic": "Ralat berlaku. Sila cuba lagi nanti.",
+  "watchlist_toast_title_empty": "Tajuk tidak boleh kosong.",
+  "watchlist_toast_title_long": "Tajuk terlalu panjang. Pastikan ia ringkas dan padat.",
+  "watchlist_toast_already_in_list": "Simbol ini sudah ada dalam senarai pantau anda",
+  "watchlist_toast_select_symbols": "Anda perlu memilih simbol sebelum boleh memadamnya",
+
+  "watchlist_earnings_will_report": "akan melapor",
+  "watchlist_earnings_after_close": "selepas pasaran tutup.",
+  "watchlist_earnings_before_open": "sebelum pasaran buka.",
+  "watchlist_earnings_during_market": "semasa waktu dagangan.",
+  "watchlist_earnings_analysts_estimate": "Penganalisis menganggarkan",
+  "watchlist_earnings_in_revenue": "dalam hasil",
+  "watchlist_earnings_yoy": "tahun ke tahun",
+  "watchlist_earnings_and": "dan",
+  "watchlist_earnings_in_eps": "dalam pendapatan sesaham",
+
+  "watchlist_note_add_title": "Tambah Nota",
+  "watchlist_note_edit_title": "Sunting Nota",
+  "watchlist_note_placeholder_new": "Kenapa anda tambah saham ini ke senarai pantau anda?",
+  "watchlist_note_placeholder_edit": "Kemas kini nota anda...",
+  "watchlist_note_save": "Simpan",
+  "watchlist_note_add": "Tambah Nota",
+  "watchlist_note_update": "Kemas Kini Nota",
+  "watchlist_note_created": "Nota dicipta",
+  "watchlist_note_updated": "Nota dikemas kini",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} aksara berbaki",
+  "watchlist_note_chars_over": "{count} aksara melebihi had",
+  "watchlist_note_exceeded": "Nota tidak boleh melebihi {max} aksara",
+  "watchlist_added_price": "Harga Ditambah",
+
+  "watchlist_column_entry_price": "Harga Masuk",
+  "watchlist_column_since_added": "% Sejak Ditambah"
+}

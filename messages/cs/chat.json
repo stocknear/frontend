@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Analýza akciového trhu s AI - finanční AI agent a přehled o trhu",
+  "chat_seo_description": "Pokročilý finanční AI agent, který nabízí analýzu akcií v reálném čase, pohled na trh a investiční výzkum. Chatuj se specializovanými AI agenty pro screening akcií, analýzu výsledků, sledování options flow, aktivity v dark poolech a sentimentu trhu. Získej investiční doporučení na míru a ucelený přehled o trhu.",
+  "chat_seo_keywords": "AI finanční poradce, AI pro akciový trh, finanční AI agent, investiční analýza s AI, automatický akciový výzkum, obchodní pohledy s AI, strojové učení ve financích, finanční chatbot, analýza trhu s AI, algoritmické obchodování, analýza portfolia s AI, investování s umělou inteligencí",
+  "chat_title": "Tvůj investiční parťák",
+  "chat_placeholder": "Zeptej se na cokoli o akciích — data máš v reálném čase",
+  "chat_placeholder_readonly": "Jen ke čtení: tenhle chat nemáš oprávnění upravovat.",
+  "chat_placeholder_editable": "Zeptej se na cokoli",
+  "chat_credits_left": "Zbývající kredity",
+  "chat_stock_agents": "Akcioví agenti",
+  "chat_how_to_use_agents": "Jak agenty používat správně",
+  "chat_credits": "Kredity",
+  "chat_threads": "Vlákna",
+  "chat_no_threads": "Vypadá to, že jsme spolu ještě nechatovali.",
+  "chat_ready_to_analyze": "Chceš analyzovat akcie?",
+  "chat_ready_description": "Prohlédni si detailní finanční data, hodnocení analytiků a technickou analýzu u tisíců akcií.",
+  "chat_get_started": "Začít",
+  "chat_delete_thread_title": "Smazat vlákno",
+  "chat_delete_thread_confirm": "Opravdu chceš toto vlákno smazat? Tuto akci nelze vzít zpět.",
+  "chat_cancel": "Zrušit",
+  "chat_delete": "Smazat vlákno",
+  "chat_toast_deleted": "Vlákno bylo smazáno.",
+  "chat_toast_error": "Něco se pokazilo. Zkus to prosím znovu.",
+  "chat_toast_error_occurred": "Došlo k chybě. Zkus to prosím později.",
+  "chat_toast_insufficient_credits": "Nedostatek kreditů. Tvůj aktuální zůstatek je",
+  "chat_last_message": "Poslední zpráva",
+  "chat_ago": "zpět",
+  "chat_minutes": "minut",
+  "chat_hour": "hodina",
+  "chat_hours": "hodin",
+  "chat_day": "den",
+  "chat_days": "dnů",
+  "chat_error_connect": "Nepodařilo se připojit ke službě chatu. Zkus to prosím později.",
+
+  "chat_default_gainers_losers_label": "Největší růsty, propady a nejaktivnější akcie",
+  "chat_default_gainers_losers_query": "Shrň mi dnešní nejrostoucí akcie, největší propady a nejaktivněji obchodované akcie podle objemu. Uveď klíčové údaje jako procentní změnu a objem obchodů.",
+
+  "chat_default_options_flow_label": "Nejzajímavější options flow příkazy dneška",
+  "chat_default_options_flow_query": "Dej mi přehled dnešního zajímavého options flow se zaměřením na velké blokové obchody, neobvyklé skoky v objemu a směrový sentiment.",
+
+  "chat_default_market_news_label": "Dnešní zprávy z trhu",
+  "chat_default_market_news_query": "Shrň mi hlavní dnešní zprávy z trhu a klíčové finanční události.",
+
+  "chat_default_bull_bear_label": "Býčí vs. medvědí pohled na Nvidii",
+  "chat_default_bull_bear_query": "@BullvsBear pro Nvidii",
+
+  "chat_default_value_investor_label": "Mám teď jako hodnotový investor koupit Intel?",
+  "chat_default_value_investor_query": "@WarrenBuffet mám teď koupit Intel?",
+
+  "chat_default_cathie_wood_label": "Jak Cathie Wood hodnotí teď Teslu?",
+  "chat_default_cathie_wood_query": "@CathieWood vyhodnoť Teslu a řekni mi, jestli bys ji koupila nebo prodala",
+
+  "chat_default_options_data_label": "Nejnovější opční data pro SPY",
+  "chat_default_options_data_query": "@OptionsData nejnovější opční data pro SPY",
+
+  "chat_default_undervalued_label": "Najdi mi podhodnocené akcie",
+  "chat_default_undervalued_query": "@StockScreener najdi mi podhodnocené akcie s P/E nad 0, růstem tržeb nad 5 % a poměrem ceny k účetní hodnotě nad 0",
+
+  "chat_default_gamestop_label": "Jak zdravý je Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData jak zdravý je Gamestop?",
+
+  "chat_default_spy_bullish_label": "Je teď SPY býčí?",
+  "chat_default_spy_bullish_query": "Je teď SPY býčí?",
+
+  "chat_default_nvidia_flow_label": "Options flow Nvidie",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed options flow Nvidie",
+
+  "chat_default_googl_flow_label": "Neobvyklý tok příkazů u GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed tok příkazů u Google",
+
+  "chat_default_compare_aapl_msft_label": "Porovnej Apple a Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks porovnej Apple a Microsoft",
+
+  "chat_default_analyst_ratings_label": "Co říkají analytici na Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst jaká jsou nejnovější hodnocení analytiků a cílové ceny pro Amazon?",
+
+  "chat_default_dark_pool_label": "Byla dnes v dark poolech nějaká výraznější aktivita?",
+  "chat_default_dark_pool_query": "Ukaž mi nejvýznamnější dnešní obchody a aktivitu v dark poolech",
+
+  "chat_default_dividend_label": "Nejlepší dividendové akcie k nákupu",
+  "chat_default_dividend_query": "@StockScreener najdi mi akcie s vysokým dividendovým výnosem, výplatním poměrem pod 80 % a růstem tržeb nad 0",
+
+  "chat_default_michael_burry_label": "Co by si Michael Burry myslel o dnešním trhu?",
+  "chat_default_michael_burry_query": "@MichaelBurry analyzuj současné podmínky na trhu a řekni mi, co v nich vidíš",
+
+  "chat_default_peter_lynch_label": "Jak se Peter Lynch dívá na Metu",
+  "chat_default_peter_lynch_query": "@PeterLynch považoval bys teď Metu za dobrou investici?",
+
+  "chat_default_sector_performance_label": "Které sektory tenhle týden vedou?",
+  "chat_default_sector_performance_query": "Rozeber mi výkonnost sektorů za tento týden a zvýrazni, které vedou a které zaostávají",
+
+  "chat_default_earnings_label": "Které firmy hlásí tento týden výsledky?",
+  "chat_default_earnings_query": "Které výsledky tento týden jsou nejdůležitější a na co si mám dát pozor?"
+}

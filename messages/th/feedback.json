@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "ส่งความคิดเห็น",
+  "feedback_error_signin": "กรุณาเข้าสู่ระบบก่อนส่งความคิดเห็น",
+  "feedback_error_description": "กรุณาอธิบายปัญหาหรือข้อเสนอแนะของคุณ",
+  "feedback_error_send_try_again": "เกิดข้อผิดพลาดขณะส่งความคิดเห็น กรุณาลองใหม่อีกครั้ง",
+  "feedback_success": "ขอบคุณ ส่งความคิดเห็นของคุณเรียบร้อยแล้ว",
+  "feedback_error_send_generic": "เกิดข้อผิดพลาดขณะส่งความคิดเห็น",
+  "feedback_description_label": "อธิบายปัญหาหรือข้อเสนอแนะของคุณ:",
+  "feedback_page_label": "ความคิดเห็นสำหรับหน้า:",
+  "feedback_close_button": "ปิด",
+  "feedback_cancel_button": "ยกเลิก",
+  "feedback_send_button": "ส่งความคิดเห็น"
+}

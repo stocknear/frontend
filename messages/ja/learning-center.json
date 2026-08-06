@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "ラーニングセンター - 株式投資の学習コンテンツとチュートリアル",
+  "learning_center_seo_description": "ラーニングセンターで株式投資を基礎から学べます。トレード戦略、テクニカル分析、ファンダメンタル分析、ポートフォリオ運用まで、初心者から上級者向けの無料チュートリアルを用意しています。",
+  "learning_center_seo_keywords": "株式投資 学習, 投資チュートリアル, トレード戦略, 投資の始め方, 株式分析 チュートリアル, 金融教育, 投資ガイド, 株式投資 基礎, ポートフォリオ運用, テクニカル分析 講座",
+  "learning_center_structured_name": "Stocknear ラーニングセンター",
+  "learning_center_structured_description": "株式市場の学習コンテンツと投資チュートリアル",
+  "learning_center_structured_articles": "学習記事",
+  "learning_center_structured_articles_description": "株式市場の学習と投資チュートリアルの記事",
+  "learning_center_title": "ラーニングセンター",
+  "learning_center_published": "公開日:",
+  "learning_center_previous": "前へ",
+  "learning_center_next": "次へ",
+  "learning_center_alt_tutorial": "チュートリアルの背景画像",
+
+  "learning_center_subtitle": "株式市場を、一つずつ着実に学べます",
+
+  "learning_center_category_all": "すべて",
+  "learning_center_category_features": "機能",
+  "learning_center_category_fundamentals": "基礎",
+  "learning_center_category_terms": "用語",
+
+  "learning_center_category_desc_features": "Stocknear の使い方",
+  "learning_center_category_desc_fundamentals": "投資が初めての方はここから",
+  "learning_center_category_desc_terms": "金融用語と解説",
+
+  "learning_center_tag_all": "すべてのタグ",
+  "learning_center_tag_stocks": "株式",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "オプション",
+  "learning_center_tag_sentiment": "センチメント",
+  "learning_center_tag_prefix": "タグ",
+
+  "learning_center_view_all": "すべて見る",
+  "learning_center_view_all_count": "すべて見る（{count}）",
+  "learning_center_min_read": "{time} 分で読めます",
+
+  "learning_center_no_articles_tag": "「{tag}」タグの記事は見つかりませんでした。",
+  "learning_center_clear_tag_filter": "タグ絞り込みを解除",
+
+  "learning_center_page_of": "{currentPage} / {totalPages} ページ",
+  "learning_center_items_count": "{count} 件",
+
+  "learning_center_back_to_top": "トップへ戻る",
+  "learning_center_no_terms_yet": "用語はまだありません。",
+  "learning_center_no_articles_category": "このカテゴリの記事はまだありません。",
+
+  "learning_center_table_of_contents": "目次",
+  "learning_center_share_this_post": "この記事をシェア",
+  "learning_center_back_to_all_posts": "記事一覧に戻る",
+
+  "learning_center_quick_start": "クイックスタート",
+  "learning_center_sidebar_top_gainers": "値上がり率上位",
+  "learning_center_sidebar_top_losers": "値下がり率上位",
+  "learning_center_sidebar_analysts": "アナリスト",
+  "learning_center_sidebar_stock_screener": "銘柄スクリーナー",
+  "learning_center_sidebar_options_flow": "オプションフロー",
+  "learning_center_sidebar_earnings_calendar": "決算カレンダー",
+  "learning_center_sidebar_dividends_calendar": "配当カレンダー",
+  "learning_center_sidebar_ipo_calendar": "IPO カレンダー",
+
+  "learning_center_related_articles": "関連記事",
+  "learning_center_view_all_articles": "記事をすべて見る",
+  "learning_center_share_this_article": "この記事をシェア",
+
+  "learning_center_link_copied": "リンクをコピーしました",
+  "learning_center_link_copy_failed": "リンクをコピーできませんでした",
+
+  "learning_center_sign_in_to_read": "全文を読むにはログインしてください。",
+  "learning_center_briefing_description": "デイリーマーケットブリーフィングは Stocknear 会員向けの機能です。無料アカウントを作成するか、ログインすると全文を読めます。",
+  "learning_center_create_free_account": "無料アカウントを作成",
+  "learning_center_sign_in": "ログイン",
+
+  "learning_center_click_to_close": "画面のどこかをクリックするか ESC キーで閉じます",
+
+  "learning_center_search_placeholder": "検索...",
+  "learning_center_no_search_results": "「{query}」に一致する結果はありません。",
+  "learning_center_clear_search": "検索をクリア"
+}

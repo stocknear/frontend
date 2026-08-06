@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Etusivu",
+  "news_flow_breadcrumb_news_flow": "Uutisvirta",
+
+  "news_flow_seo_title": "Markkinoiden uutisvirta - kaupankäyntikelpoiset katalyytit reaaliajassa",
+  "news_flow_seo_description": "Seuraa reaaliaikaisia markkinauutisia ja katalyyttejä, jotka liikuttavat kursseja. Rakennettu optiokauppiaille, jotka tarvitsevat nopean kontekstin lyhyen aikavälin asetelmiin.",
+  "news_flow_seo_keywords": "markkinoiden uutisvirta, kaupankäynnin katalyytit, tuoreet markkinauutiset, optiokauppiaan uutiset, kurssiliikkeiden uutiset, reaaliaikaiset markkinapäivitykset",
+  "news_flow_structured_name": "Markkinoiden uutisvirta",
+  "news_flow_structured_description": "Reaaliaikaiset markkinauutiset ja katalyytit lyhyen aikavälin kaupankäynnin suunnitteluun",
+
+  "news_flow_main_title": "Uutisvirta",
+  "news_flow_news_count": "{count} uutista",
+  "news_flow_search_placeholder": "Hae...",
+
+  "news_flow_infobox": "Seuraa tuoreimpia uutisia ja ymmärrä reaaliajassa, miksi kurssit liikkuivat",
+  "news_flow_no_news": "Merkittäviä osakemarkkinauutisia ei ole vielä saatavilla.",
+
+  "news_flow_sidebar_market_flow_title": "Markkinavirta",
+  "news_flow_sidebar_market_flow_description": "Seuraa optiomarkkinoiden tunnelmaa reaaliajassa.",
+  "news_flow_sidebar_options_flow_title": "Optiovirta",
+  "news_flow_sidebar_options_flow_description": "Tarkkaile poikkeavaa optioaktiviteettia ja virran kuvioita reaaliajassa",
+  "news_flow_sidebar_dark_pool_title": "Dark pool -virta",
+  "news_flow_sidebar_dark_pool_description": "Analysoi piilossa olevaa instituutiovirtaa ja dark pool -kauppadataa"
+}

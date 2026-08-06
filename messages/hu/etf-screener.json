@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Főoldal",
+  "etf_screener_breadcrumb_etf_screener": "ETF-szűrő",
+
+  "etf_screener_seo_title": "Ingyenes ETF-szűrő - ETF-ek szűrése és keresése",
+  "etf_screener_seo_description": "Szűrj és keress {count} ETF között kezelt vagyon, költséghányad, osztalék, teljesítmény, technikai mutatók és más szempontok szerint. Ingyenes ETF-szűrő fejlett szűrőkkel.",
+  "etf_screener_seo_keywords": "etf szűrő, etf szűrés, etf keresés, etf-ek keresése, etf szűrő eszköz, költséghányad szűrő, kezelt vagyon szűrő, osztalék etf szűrő",
+  "etf_screener_structured_name": "stocknear ETF-szűrő",
+  "etf_screener_structured_description": "Fejlett ETF-szűrő eszköz kezelt vagyon, költséghányad, teljesítmény, technikai mutatók, osztalék és további szempontok szerint.",
+
+  "etf_screener_main_title": "ETF-szűrő",
+  "etf_screener_matches_found": "{count} találat",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Népszerű szűrések",
+  "etf_screener_popular_strategies": "Népszerű stratégiák",
+  "etf_screener_select_popular": "Válassz népszerűt",
+  "etf_screener_saved_screens": "Mentett szűrések",
+  "etf_screener_select_screen": "Szűrés kiválasztása",
+  "etf_screener_new_screen": "Új szűrés",
+
+  "etf_screener_filters_count": "{count} szűrő",
+  "etf_screener_add_filters": "Szűrők hozzáadása",
+  "etf_screener_search_filters": "Keresés {count} szűrő között...",
+  "etf_screener_select_filters_title": "Szűrők kiválasztása ({count})",
+  "etf_screener_nothing_found": "Nincs találat",
+
+  "etf_screener_search_placeholder": "ETF keresése...",
+  "etf_screener_search_input_placeholder": "Keresés...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Max",
+  "etf_screener_input_value": "Érték",
+
+  "etf_screener_normal_width": "Normál szélesség",
+  "etf_screener_full_width": "Teljes szélesség",
+
+  "etf_screener_save": "Mentés",
+  "etf_screener_save_as_new": "Mentés újként",
+  "etf_screener_reset_all": "Összes visszaállítása",
+
+  "etf_screener_pagination_previous": "Előző",
+  "etf_screener_pagination_next": "Következő",
+  "etf_screener_pagination_page_of": "{current}. oldal, összesen {total}",
+  "etf_screener_rows_label": "{rows} sor",
+  "etf_screener_back_to_top": "Vissza a tetejére",
+
+  "etf_screener_no_etfs_query": "Nincs ETF erre: \"{query}\"",
+  "etf_screener_no_etfs": "Nincs találat.",
+
+  "etf_screener_modal_new_title": "Új szűrés",
+  "etf_screener_modal_new_name_label": "Szűrés neve",
+  "etf_screener_modal_new_create": "Létrehozás",
+
+  "etf_screener_modal_delete_title": "Szűrés törlése",
+  "etf_screener_modal_delete_message": "Biztosan törlöd ezt a szűrést?",
+  "etf_screener_modal_delete_cancel": "Mégse",
+  "etf_screener_modal_delete_confirm": "Törlés",
+
+  "etf_screener_strategy_low_cost_index": "Olcsó indexkövető ETF-ek",
+  "etf_screener_strategy_high_dividend": "Magas osztalékhozamú ETF-ek",
+  "etf_screener_strategy_top_performers_1y": "1 éves top teljesítmény",
+  "etf_screener_strategy_oversold": "Túladott ETF-ek",
+
+  "etf_screener_tab_filters": "Szűrők",
+  "etf_screener_tab_technicals": "Technikai mutatók",
+
+  "etf_screener_export_title": "ETF-szűrő adatainak exportálása"
+}

@@ -1,0 +1,8 @@
+{
+  "error_title": "Stránka nenalezena - {status}",
+  "error_body_prefix": "Tuhle stránku jsme nenašli. Pokud se chyba opakuje, dej nám prosím vědět přes",
+  "error_body_suffix": "Opravíme to co nejdřív.",
+  "error_back_home": "Zpět na hlavní stránku",
+  "error_server_title": "Něco se pokazilo - {status}",
+  "error_server_body_prefix": "Problém je na naší straně, nejde o chybějící stránku. Zkus to prosím za chvíli znovu. Pokud to bude pokračovat, napiš nám na"
+}

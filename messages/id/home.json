@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Options Flow, Sweep & Aktivitas Tidak Biasa Real-Time",
+  "home_seo_description": "Options flow, sweep, block, dan aktivitas tidak biasa secara live di saham dan ETF AS. Temukan setup trading jangka pendek lebih cepat dengan Stocknear.",
+  "home_seo_keywords": "options flow, aktivitas opsi tidak biasa, sweep order, block trade, dark pool, implied volatility, IV skew, open interest, rantai opsi, setup trading jangka pendek, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Options flow dan aktivitas tidak biasa real-time untuk setup trading jangka pendek",
+  "home_structured_feature_live_options_flow": "Options flow & sweep live",
+  "home_structured_feature_unusual_options_activity": "Aktivitas opsi tidak biasa",
+  "home_structured_feature_dark_pool_monitoring": "Pemantauan dark pool",
+  "home_structured_feature_implied_volatility": "Implied volatility & skew",
+  "home_structured_feature_options_chain": "Rantai opsi & open interest",
+  "home_structured_feature_earnings_volatility": "Setup volatilitas earnings",
+  "home_structured_feature_market_catalysts": "Katalis pasar",
+  "home_hero_title": "Lihat pergerakannya sebelum orang lain",
+  "home_hero_subtitle": "Harga real-time, options flow, order dark pool, berita, laporan keuangan, prakiraan, dan chart untuk setiap saham dan ETF AS. Bertindak lebih cepat dengan sinyal yang bersih.",
+  "home_promo_pill_label": "Diskon Musim Panas",
+  "home_promo_pill_discount": "diskon {percent}",
+  "home_promo_pill_subtitle": "semua paket tahunan"
+}

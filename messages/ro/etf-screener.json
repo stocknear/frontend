@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Acasă",
+  "etf_screener_breadcrumb_etf_screener": "Screener ETF",
+
+  "etf_screener_seo_title": "Screener ETF gratuit - Filtrează și găsește ETF-uri",
+  "etf_screener_seo_description": "Filtrează {count} ETF-uri după active administrate, comision de administrare, dividende, performanță, indicatori tehnici și altele. Screener ETF gratuit, cu filtre avansate.",
+  "etf_screener_seo_keywords": "screener ETF, filtru ETF, căutare ETF, găsește ETF-uri, instrument de screening ETF, filtru comision de administrare, filtru active administrate, screener ETF cu dividende",
+  "etf_screener_structured_name": "Screener ETF stocknear",
+  "etf_screener_structured_description": "Instrument avansat de screening ETF, cu filtre pentru active administrate, comision de administrare, performanță, indicatori tehnici, dividende și altele.",
+
+  "etf_screener_main_title": "Screener ETF",
+  "etf_screener_matches_found": "{count} rezultate găsite",
+  "etf_screener_etfs_count": "{count} ETF-uri",
+
+  "etf_screener_popular_screens": "Screenere populare",
+  "etf_screener_popular_strategies": "Strategii populare",
+  "etf_screener_select_popular": "Alege un screener popular",
+  "etf_screener_saved_screens": "Screenere salvate",
+  "etf_screener_select_screen": "Alege screenerul",
+  "etf_screener_new_screen": "Screener nou",
+
+  "etf_screener_filters_count": "{count} filtre",
+  "etf_screener_add_filters": "Adaugă filtre",
+  "etf_screener_search_filters": "Caută în {count} filtre...",
+  "etf_screener_select_filters_title": "Alege filtrele ({count})",
+  "etf_screener_nothing_found": "Niciun rezultat",
+
+  "etf_screener_search_placeholder": "Caută ETF-uri...",
+  "etf_screener_search_input_placeholder": "Caută...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Max",
+  "etf_screener_input_value": "Valoare",
+
+  "etf_screener_normal_width": "Lățime normală",
+  "etf_screener_full_width": "Lățime completă",
+
+  "etf_screener_save": "Salvează",
+  "etf_screener_save_as_new": "Salvează ca nou",
+  "etf_screener_reset_all": "Resetează tot",
+
+  "etf_screener_pagination_previous": "Anterior",
+  "etf_screener_pagination_next": "Următor",
+  "etf_screener_pagination_page_of": "Pagina {current} din {total}",
+  "etf_screener_rows_label": "{rows} rânduri",
+  "etf_screener_back_to_top": "Înapoi sus",
+
+  "etf_screener_no_etfs_query": "Niciun ETF găsit pentru \"{query}\"",
+  "etf_screener_no_etfs": "Niciun ETF găsit.",
+
+  "etf_screener_modal_new_title": "Screener nou",
+  "etf_screener_modal_new_name_label": "Nume screener",
+  "etf_screener_modal_new_create": "Creează",
+
+  "etf_screener_modal_delete_title": "Șterge screenerul",
+  "etf_screener_modal_delete_message": "Sigur vrei să ștergi acest screener?",
+  "etf_screener_modal_delete_cancel": "Anulează",
+  "etf_screener_modal_delete_confirm": "Șterge",
+
+  "etf_screener_strategy_low_cost_index": "ETF-uri de indice cu cost redus",
+  "etf_screener_strategy_high_dividend": "ETF-uri cu dividende mari",
+  "etf_screener_strategy_top_performers_1y": "Top performanțe 1 an",
+  "etf_screener_strategy_oversold": "ETF-uri supravândute",
+
+  "etf_screener_tab_filters": "Filtre",
+  "etf_screener_tab_technicals": "Indicatori tehnici",
+
+  "etf_screener_export_title": "Exportă datele screenerului ETF"
+}

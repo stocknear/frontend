@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Home",
+  "options_screener_breadcrumb_options_screener": "Optiescreener",
+
+  "options_screener_seo_title": "Optiescreener - vind ongebruikelijke flow en sterke setups",
+  "options_screener_seo_description": "Screen opties op ongebruikelijke activiteit, impliciete volatiliteit, open interest, volume, Grieken en expiratie om kortetermijnsetups te vinden.",
+  "options_screener_seo_keywords": "optiescreener, ongebruikelijke optieactiviteit, optiescanner, screener impliciete volatiliteit, IV skew, open interest, opties met hoog volume, tool optiehandel, screener Grieken",
+  "options_screener_structured_name": "Optiescreener",
+  "options_screener_structured_description": "Optiescreener gericht op ongebruikelijke activiteit, IV en open interest voor kortetermijnsetups",
+
+  "options_screener_main_title": "Optiescreener",
+  "options_screener_contracts_count": "{count} contracten",
+  "options_screener_expire_on": "Alle optiecontracten vervallen op {date}",
+
+  "options_screener_popular_screens": "Populaire screens",
+  "options_screener_popular_strategies": "Populaire strategieën",
+  "options_screener_select_popular": "Kies populair",
+  "options_screener_saved_screens": "Opgeslagen screens",
+  "options_screener_select_screen": "Screen kiezen",
+  "options_screener_new_screen": "Nieuwe screen",
+
+  "options_screener_filters_count": "{count} filters",
+  "options_screener_add_filters": "Filters toevoegen",
+  "options_screener_search_filters": "Zoek in {count} filters...",
+  "options_screener_select_filters_title": "Kies screenerfilters ({count} totaal)",
+  "options_screener_nothing_found": "Niets gevonden",
+
+  "options_screener_tab_general": "Algemeen",
+  "options_screener_tab_filters": "Filters",
+  "options_screener_tab_greeks": "Grieken",
+
+  "options_screener_search_placeholder": "Zoeken...",
+  "options_screener_search_input_placeholder": "Zoeken...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Waarde",
+
+  "options_screener_normal_width": "Normale breedte",
+  "options_screener_full_width": "Volledige breedte",
+
+  "options_screener_pagination_previous": "Vorige",
+  "options_screener_pagination_next": "Volgende",
+  "options_screener_pagination_page_of": "Pagina {current} van {total}",
+  "options_screener_rows_label": "{rows} rijen",
+  "options_screener_back_to_top": "Terug naar boven",
+
+  "options_screener_no_contracts_query": "Geen contracten gevonden voor \"{query}\"",
+  "options_screener_no_contracts": "Geen contracten gevonden.",
+
+  "options_screener_modal_new_title": "Nieuwe screener",
+  "options_screener_modal_new_name_label": "Naam screener",
+  "options_screener_modal_new_create": "Screener aanmaken",
+
+  "options_screener_modal_delete_title": "Screener verwijderen",
+  "options_screener_modal_delete_message": "Weet je zeker dat je deze screener wilt verwijderen? Dit kun je niet ongedaan maken.",
+  "options_screener_modal_delete_cancel": "Annuleren",
+  "options_screener_modal_delete_confirm": "Verwijderen",
+
+  "options_screener_strategy_high_iv_rank": "Hoge IV-rank",
+  "options_screener_strategy_volume_surge": "Volumepiek",
+  "options_screener_strategy_itm_calls": "ITM-calls",
+  "options_screener_strategy_otm_puts": "OTM-puts",
+  "options_screener_strategy_high_premium_flow": "Flow met hoge premie",
+
+  "options_screener_save": "Opslaan",
+  "options_screener_save_as_new": "Opslaan als nieuw",
+  "options_screener_reset_all": "Alles resetten"
+}

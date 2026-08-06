@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "フィードバックを送る",
+  "feedback_error_signin": "フィードバックを送信する前にログインしてください。",
+  "feedback_error_description": "問題点またはご提案の内容をご記入ください。",
+  "feedback_error_send_try_again": "フィードバックの送信中に問題が発生しました。もう一度お試しください。",
+  "feedback_success": "ありがとうございます。フィードバックを送信しました。",
+  "feedback_error_send_generic": "フィードバックの送信中に問題が発生しました。",
+  "feedback_description_label": "問題点またはご提案をご記入ください:",
+  "feedback_page_label": "対象ページ:",
+  "feedback_close_button": "閉じる",
+  "feedback_cancel_button": "キャンセル",
+  "feedback_send_button": "フィードバックを送信"
+}

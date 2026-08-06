@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Log masuk ke Stocknear",
+  "login_seo_description": "Log masuk ke akaun Stocknear anda menggunakan e-mel dan kata laluan anda.",
+  "login_title": "Log masuk ke akaun anda",
+  "login_title_logged_in": "Anda telah log masuk",
+  "login_subtitle": "Selamat kembali",
+  "login_email_label": "E-mel",
+  "login_password_label": "Kata Laluan",
+  "login_forgot_password": "Lupa kata laluan?",
+  "login_button": "Log Masuk",
+  "login_button_loading": "Sedang log masuk",
+  "login_divider": "Atau log masuk menggunakan",
+  "login_no_account": "Belum ada akaun?",
+  "login_signup_link": "Daftar",
+  "login_logged_in_as": "Log masuk sebagai {email}",
+  "login_logout_button": "Log Keluar",
+  "login_toast_verify_email": "Sila sahkan e-mel anda dahulu",
+  "login_toast_success": "Berjaya log masuk",
+  "login_toast_invalid": "Kelayakan tidak sah",
+  "login_toast_auth_failed": "E-mel atau kata laluan salah. Sila cuba lagi.",
+  "login_toast_rate_limited": "Terlalu banyak percubaan log masuk. Sila cuba lagi dalam {minutes} minit."
+}

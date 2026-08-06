@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Strona główna",
+  "dividends_breadcrumb_calendar": "Kalendarz dywidend",
+
+  "dividends_seo_title": "Kalendarz dywidend - dni ex-dywidendy i terminy wypłat",
+  "dividends_seo_description": "Śledź nadchodzące dni ex-dywidendy i terminy wypłat dla akcji. Planuj strategię łapania dywidendy dzięki kalendarzowi z kwotami, datami wypłat i kapitalizacją rynkową.",
+  "dividends_seo_keywords": "kalendarz dywidend, dni ex-dywidendy, terminy wypłat dywidend, łapanie dywidendy, dywidendy z akcji, spółki dywidendowe, daty wypłaty dywidendy, nadchodzące dywidendy",
+
+  "dividends_main_name": "Kalendarz dywidend",
+  "dividends_count": "{count} dywidend",
+  "dividends_empty_day": "Brak dywidend na ten dzień.",
+  "dividends_empty_none": "Brak dywidend",
+  "dividends_empty_scheduled": "Brak zaplanowanych dywidend",
+
+  "dividends_tab_daily": "Dzienny",
+  "dividends_tab_weekly": "Tygodniowy",
+  "dividends_tab_details": "Szczegóły",
+  "dividends_tab_compact": "Kompaktowy",
+
+  "dividends_time_any": "Dowolna pora",
+  "dividends_time_before_open": "Przed otwarciem",
+  "dividends_time_after_close": "Po zamknięciu",
+
+  "dividends_expanded_ex_date": "Dzień ex-dywidendy",
+  "dividends_expanded_market_cap": "Kapitalizacja rynkowa",
+  "dividends_expanded_amount": "Kwota",
+  "dividends_expanded_revenue": "Przychód",
+  "dividends_expanded_payment_date": "Data wypłaty",
+  "dividends_expanded_date": "Data",
+  "dividends_expanded_dividend": "Dywidenda",
+
+  "dividends_pagination_previous": "Wstecz",
+  "dividends_pagination_next": "Dalej",
+  "dividends_pagination_page_of": "Strona {current} z {total}",
+  "dividends_pagination_rows": "{count} wierszy",
+  "dividends_back_to_top": "Do góry",
+  "dividends_search_placeholder": "Szukaj..."
+}

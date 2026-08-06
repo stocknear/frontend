@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Fale com a gente",
+  "contact_breadcrumb": "Fale com a gente",
+  "contact_hero_title": "Fale com a gente",
+  "contact_intro": "Queremos ouvir você. Envie uma mensagem pelo formulário abaixo e responderemos assim que possível. Você também pode escrever direto para {email}.",
+  "contact_email_label": "E-mail",
+  "contact_subject_label": "Assunto",
+  "contact_message_label": "Mensagem",
+  "contact_send_button": "Enviar mensagem",
+  "contact_processing": "Enviando...",
+  "contact_success": "Sua mensagem foi enviada. Responderemos em breve.",
+  "contact_sidebar_pro_title": "Assinatura Pro",
+  "contact_sidebar_pro_desc": "Assine agora e tenha acesso ilimitado a todos os dados e ferramentas, sem anúncios.",
+  "contact_sidebar_screener_title": "Screener de ações",
+  "contact_sidebar_screener_desc": "Filtre, ordene e analise todas as ações para achar seu próximo investimento.",
+  "contact_sidebar_watchlist_title": "Listas de acompanhamento",
+  "contact_sidebar_watchlist_desc": "Acompanhe suas ações favoritas em tempo real."
+}

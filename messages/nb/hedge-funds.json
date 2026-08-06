@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Hjem",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedgefond",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedgefond",
+
+  "hedge_funds_seo_title": "Hedgefond-sporer - Største beholdninger og 13F-rapporter",
+  "hedge_funds_seo_description": "Følg beholdningene til de største hedgefondene, 13F-rapporter og porteføljene til institusjonelle investorer. Se hva hedgefondene kjøper og selger, med detaljert analyse av posisjonene. Gratis verktøy.",
+  "hedge_funds_seo_keywords": "hedgefond-sporer, hedgefond-beholdninger, 13F-rapporter, institusjonelle investorer, hedgefond-posisjoner, største hedgefond, institusjonelle beholdninger, hedgefond-porteføljer, berkshire hathaway-beholdninger",
+  "hedge_funds_structured_name": "Hedgefond-sporer",
+  "hedge_funds_structured_description": "Full oversikt over hedgefondenes beholdninger og institusjonelle investeringer",
+
+  "hedge_funds_main_title": "Største hedgefond i USA",
+  "hedge_funds_infobox": "Oversikt over Wall Street-institusjonene med mest kapital til forvaltning.",
+  "hedge_funds_count_institutes": "{count} institusjoner",
+
+  "hedge_funds_search_placeholder": "Søk...",
+  "hedge_funds_loading": "Laster...",
+  "hedge_funds_no_data": "Ingen data tilgjengelig.",
+
+  "hedge_funds_pagination_previous": "Forrige",
+  "hedge_funds_pagination_next": "Neste",
+  "hedge_funds_pagination_page_of": "Side {current} av {total}",
+  "hedge_funds_rows_label": "{rows} rader",
+  "hedge_funds_back_to_top": "Til toppen",
+
+  "hedge_funds_slug_seo_title": "{companyName} beholdninger og portefølje - analyse av 13F-rapporter",
+  "hedge_funds_slug_seo_description": "Detaljert analyse av beholdningene, posisjonene og investeringsstrategien til hedgefondet {companyName}. Følg de siste 13F-rapportene, de største postene, sektorfordelingen og avkastningen.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} beholdninger, {companyNameLower} portefølje, {companyNameLower} 13F-rapporter, hedgefond-posisjoner, institusjonelle beholdninger, {companyNameLower} aksjevalg, hedgefond-analyse",
+  "hedge_funds_slug_structured_name": "{companyName} analyse av beholdninger og portefølje",
+  "hedge_funds_slug_structured_description": "Full analyse av beholdningene og investeringsposisjonene til hedgefondet {companyName}",
+
+  "hedge_funds_slug_cik_number": "CIK-nummer:",
+  "hedge_funds_slug_market_value": "Markedsverdi",
+  "hedge_funds_slug_holdings": "Antall beholdninger",
+  "hedge_funds_slug_avg_holding_period": "Snitt eiertid",
+  "hedge_funds_slug_months": "måneder",
+  "hedge_funds_slug_win_rate": "Treffprosent",
+  "hedge_funds_slug_performance_3year": "Avkastning 3 år",
+
+  "hedge_funds_slug_main_sectors": "Viktigste sektorer:",
+  "hedge_funds_slug_top_industries": "Største bransjer:",
+  "hedge_funds_slug_filing_date": "Rapportdato:",
+  "hedge_funds_slug_no_data": "Data for dette hedgefondet er ikke tilgjengelig nå.",
+
+  "hedge_funds_column_rank": "Rang",
+  "hedge_funds_column_name": "Navn",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Beholdninger",
+  "hedge_funds_column_turnover": "Omløp",
+  "hedge_funds_column_3year_perf": "3-års avk.",
+  "hedge_funds_column_win_rate": "Treffprosent"
+}

@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Tekoälypohjainen osakemarkkina-analyysi - Talousagentti ja markkinatieto",
+  "chat_seo_description": "Kehittynyt tekoälyagentti tarjoaa reaaliaikaista osakeanalyysia, markkinanäkemyksiä ja sijoitustutkimusta. Keskustele erikoistuneiden agenttien kanssa osakeseulonnasta, tuloksista, optiovirrasta, dark pool -kaupoista ja markkinatunnelmasta. Saat henkilökohtaisia näkemyksiä ja kattavan kuvan markkinoista.",
+  "chat_seo_keywords": "tekoälyneuvoja, osakemarkkinoiden tekoäly, talousagentti, tekoälyn sijoitusanalyysi, automatisoitu osaketutkimus, tekoälyn kaupankäyntinäkemykset, koneoppiminen rahoituksessa, talouschatbot, tekoälyn markkina-analyysi, algoritmisen kaupankäynnin näkemykset, tekoälyn salkkuanalyysi, tekoälysijoittaminen",
+  "chat_title": "Sijoituskaverisi",
+  "chat_placeholder": "Kysy mitä tahansa osakkeista - saat tiedot reaaliajassa",
+  "chat_placeholder_readonly": "Vain luku: sinulla ei ole oikeutta muokata tätä keskustelua.",
+  "chat_placeholder_editable": "Kysy mitä tahansa",
+  "chat_credits_left": "Krediittejä jäljellä",
+  "chat_stock_agents": "Osakeagentit",
+  "chat_how_to_use_agents": "Näin käytät agentteja oikein",
+  "chat_credits": "Krediitit",
+  "chat_threads": "Keskustelut",
+  "chat_no_threads": "Emme taida olla vielä jutelleet.",
+  "chat_ready_to_analyze": "Valmis analysoimaan osakkeita?",
+  "chat_ready_description": "Tutki tuhansien osakkeiden talousluvut, analyytikkosuositukset ja tekniset tunnusluvut.",
+  "chat_get_started": "Aloita",
+  "chat_delete_thread_title": "Poista keskustelu",
+  "chat_delete_thread_confirm": "Haluatko varmasti poistaa tämän keskustelun? Toimintoa ei voi perua.",
+  "chat_cancel": "Peruuta",
+  "chat_delete": "Poista keskustelu",
+  "chat_toast_deleted": "Keskustelu poistettu.",
+  "chat_toast_error": "Jokin meni pieleen. Yritä uudelleen.",
+  "chat_toast_error_occurred": "Tapahtui virhe. Yritä myöhemmin uudelleen.",
+  "chat_toast_insufficient_credits": "Krediitit eivät riitä. Saldosi on",
+  "chat_last_message": "Viimeisin viesti",
+  "chat_ago": "sitten",
+  "chat_minutes": "minuuttia",
+  "chat_hour": "tunti",
+  "chat_hours": "tuntia",
+  "chat_day": "päivä",
+  "chat_days": "päivää",
+  "chat_error_connect": "Chat-palveluun ei saatu yhteyttä. Yritä myöhemmin uudelleen.",
+
+  "chat_default_gainers_losers_label": "Nousijat, laskijat ja vaihdetuimmat",
+  "chat_default_gainers_losers_query": "Tee yhteenveto päivän parhaista nousijoista, suurimmista laskijoista ja vaihdetuimmista osakkeista. Sisällytä keskeiset luvut, kuten muutosprosentti ja vaihto.",
+
+  "chat_default_options_flow_label": "Päivän optiovirran kohokohdat",
+  "chat_default_options_flow_query": "Anna yleiskuva päivän merkittävästä optiovirrasta: suuret lohkokaupat, poikkeukselliset volyymipiikit ja suuntanäkemys.",
+
+  "chat_default_market_news_label": "Päivän markkinauutiset",
+  "chat_default_market_news_query": "Tee yhteenveto päivän tärkeimmistä markkinauutisista ja keskeisistä talousaiheista.",
+
+  "chat_default_bull_bear_label": "Nousu- ja laskunäkemys Nvidiasta",
+  "chat_default_bull_bear_query": "@BullvsBear Nvidiasta",
+
+  "chat_default_value_investor_label": "Kannattaako Intel ostaa nyt arvosijoittajan näkökulmasta?",
+  "chat_default_value_investor_query": "@WarrenBuffet kannattaisiko minun ostaa Intel nyt?",
+
+  "chat_default_cathie_wood_label": "Miten Cathie Wood arvioi Teslaa nyt?",
+  "chat_default_cathie_wood_query": "@CathieWood arvioi Tesla ja kerro, ostaisitko vai myisitkö sen",
+
+  "chat_default_options_data_label": "Tuoreimmat optiotiedot SPY:stä",
+  "chat_default_options_data_query": "@OptionsData tuoreimmat optiotiedot SPY:stä",
+
+  "chat_default_undervalued_label": "Etsi aliarvostettuja osakkeita",
+  "chat_default_undervalued_query": "@StockScreener etsi aliarvostettuja osakkeita, joilla p/e on yli 0, liikevaihdon kasvu yli 5 % ja price to book -luku yli 0",
+
+  "chat_default_gamestop_label": "Kuinka vahva Gamestop on?",
+  "chat_default_gamestop_query": "@FundamentalData kuinka vahva Gamestop on?",
+
+  "chat_default_spy_bullish_label": "Onko SPY nousussa juuri nyt?",
+  "chat_default_spy_bullish_query": "Onko SPY nousussa juuri nyt?",
+
+  "chat_default_nvidia_flow_label": "Nvidian optiovirta",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidian optiovirta",
+
+  "chat_default_googl_flow_label": "GOOGL:n poikkeuksellinen toimeksiantovirta",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Googlen toimeksiantovirta",
+
+  "chat_default_compare_aapl_msft_label": "Vertaa Applea ja Microsoftia",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks vertaa Applea ja Microsoftia",
+
+  "chat_default_analyst_ratings_label": "Mitä analyytikot sanovat Amazonista?",
+  "chat_default_analyst_ratings_query": "@Analyst mitkä ovat Amazonin tuoreimmat analyytikkosuositukset ja tavoitehinnat?",
+
+  "chat_default_dark_pool_label": "Onko tänään merkittävää dark pool -toimintaa?",
+  "chat_default_dark_pool_query": "Näytä päivän merkittävimmät dark pool -kaupat ja toiminta",
+
+  "chat_default_dividend_label": "Parhaat osinko-osakkeet juuri nyt",
+  "chat_default_dividend_query": "@StockScreener etsi korkean osinkotuoton osakkeita, joiden osingonjakosuhde on alle 80 % ja liikevaihdon kasvu yli 0",
+
+  "chat_default_michael_burry_label": "Mitä Michael Burry ajattelisi nykymarkkinasta?",
+  "chat_default_michael_burry_query": "@MichaelBurry analysoi nykyinen markkinatilanne ja kerro, mitä näet",
+
+  "chat_default_peter_lynch_label": "Peter Lynchin näkemys Metasta",
+  "chat_default_peter_lynch_query": "@PeterLynch pitäisitkö Metaa hyvänä sijoituksena juuri nyt?",
+
+  "chat_default_sector_performance_label": "Mitkä sektorit ovat kärjessä tällä viikolla?",
+  "chat_default_sector_performance_query": "Tee erittely sektorien kehityksestä tällä viikolla ja nosta esiin kärjessä ja perässä olevat sektorit",
+
+  "chat_default_earnings_label": "Mitkä yhtiöt raportoivat tuloksensa tällä viikolla?",
+  "chat_default_earnings_query": "Mitkä ovat tämän viikon tärkeimmät tulosjulkistukset ja mitä niissä kannattaa seurata?"
+}

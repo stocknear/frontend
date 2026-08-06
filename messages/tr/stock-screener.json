@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Ana Sayfa",
+  "stock_screener_breadcrumb_stock_screener": "Hisse Tarayıcı",
+
+  "stock_screener_seo_title": "Gelişmiş Hisse Tarayıcı - Ücretsiz Hisse Filtreleme ve Analiz Aracı",
+  "stock_screener_seo_description": "{count} filtreleme kriteriyle güçlü hisse tarayıcı. Hisseleri temel verilere, teknik göstergelere, değerleme metriklerine ve performansa göre tara. Her dakika güncellenen anlık veriyle hisse keşfi ve analizi.",
+  "stock_screener_seo_keywords": "hisse tarayıcı, ücretsiz hisse tarayıcı, hisse filtresi, hisse tarama aracı, temel analiz tarayıcı, teknik tarayıcı, değer hisseleri tarayıcı, büyüme hisseleri tarayıcı, temettü hisseleri tarayıcı, hisse analiz aracı",
+  "stock_screener_structured_name": "Hisse Tarayıcı Aracı",
+  "stock_screener_structured_description": "Anlık piyasa verisiyle gelişmiş hisse tarama ve filtreleme platformu",
+
+  "stock_screener_main_title": "Hisse Tarayıcı",
+  "stock_screener_matches_found": "{count} Eşleşme Bulundu",
+  "stock_screener_stocks_count": "{count} Hisse",
+
+  "stock_screener_popular_screens": "Popüler Taramalar",
+  "stock_screener_popular_strategies": "Popüler Stratejiler",
+  "stock_screener_select_popular": "Popüler seç",
+  "stock_screener_saved_screens": "Kayıtlı Taramalar",
+  "stock_screener_select_screen": "Tarama seç",
+  "stock_screener_new_screen": "Yeni Tarama",
+
+  "stock_screener_filters_count": "{count} Filtre",
+  "stock_screener_add_filters": "Filtre Ekle",
+  "stock_screener_search_filters": "{count} filtre içinde ara...",
+  "stock_screener_select_filters_title": "Tarayıcı filtrelerini seç (toplam {count})",
+  "stock_screener_nothing_found": "Sonuç yok",
+
+  "stock_screener_search_placeholder": "Bul...",
+  "stock_screener_search_input_placeholder": "Ara...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Maks",
+  "stock_screener_input_value": "Değer",
+
+  "stock_screener_normal_width": "Normal Genişlik",
+  "stock_screener_full_width": "Tam Genişlik",
+
+  "stock_screener_pagination_previous": "Önceki",
+  "stock_screener_pagination_next": "Sonraki",
+  "stock_screener_pagination_page_of": "Sayfa {current} / {total}",
+  "stock_screener_rows_label": "{rows} Satır",
+  "stock_screener_back_to_top": "Başa Dön",
+
+  "stock_screener_no_stocks_query": "\"{query}\" için hisse bulunamadı",
+  "stock_screener_no_stocks": "Hisse bulunamadı.",
+
+  "stock_screener_modal_new_title": "Yeni Tarayıcı",
+  "stock_screener_modal_new_name_label": "Tarayıcı Adı",
+  "stock_screener_modal_new_create": "Tarayıcı Oluştur",
+
+  "stock_screener_modal_delete_title": "Tarayıcıyı Sil",
+  "stock_screener_modal_delete_message": "Bu tarayıcıyı silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "stock_screener_modal_delete_cancel": "Vazgeç",
+  "stock_screener_modal_delete_confirm": "Sil",
+
+  "stock_screener_strategy_earnings_volatility": "Bilanço Volatilitesi",
+  "stock_screener_strategy_dividend_growth": "Temettü Büyümesi",
+  "stock_screener_strategy_monthly_dividends": "Aylık Temettü",
+  "stock_screener_strategy_top_gainers_1y": "1 Yılın Yükselenleri",
+  "stock_screener_strategy_top_shorted": "En Çok Açığa Satılan Hisseler",
+  "stock_screener_strategy_momentum_ta": "Momentum TA Hisseleri",
+  "stock_screener_strategy_undervalued": "Değerinin Altındaki Hisseler",
+  "stock_screener_strategy_strong_cash_flow": "Güçlü Nakit Akışı",
+
+  "stock_screener_save": "Kaydet",
+  "stock_screener_save_as_new": "Yeni Olarak Kaydet",
+  "stock_screener_reset_all": "Tümünü Sıfırla"
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Società o simbolo azionario...",
+  "searchbar_aria_label": "Società o simbolo azionario...",
+  "searchbar_search_label": "Cerca",
+  "searchbar_suggestions": "Suggerimenti",
+  "searchbar_recent": "Recenti",
+  "searchbar_popular": "Popolari",
+  "searchbar_no_results": "Nessun risultato"
+}

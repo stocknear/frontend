@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Utama",
+  "news_flow_breadcrumb_news_flow": "Aliran Berita",
+
+  "news_flow_seo_title": "Aliran Berita Pasaran - Pemangkin Siap Dagang Secara Masa Nyata",
+  "news_flow_seo_description": "Ikuti berita pasaran dan pemangkin yang menggerakkan harga secara masa nyata. Dibina untuk pedagang opsyen yang perlukan konteks pantas bagi persediaan jangka pendek.",
+  "news_flow_seo_keywords": "aliran berita pasaran, pemangkin dagangan, berita pasaran terkini, berita pedagang opsyen, berita pergerakan harga, kemas kini pasaran masa nyata",
+  "news_flow_structured_name": "Aliran Berita Pasaran",
+  "news_flow_structured_description": "Berita pasaran dan pemangkin masa nyata untuk perancangan dagangan jangka pendek",
+
+  "news_flow_main_title": "Aliran Berita",
+  "news_flow_news_count": "{count} Berita",
+  "news_flow_search_placeholder": "Cari...",
+
+  "news_flow_infobox": "Jejak berita terkini dan fahami sebab harga saham bergerak secara masa nyata",
+  "news_flow_no_news": "Belum ada berita pasaran saham utama buat masa ini.",
+
+  "news_flow_sidebar_market_flow_title": "Aliran Pasaran",
+  "news_flow_sidebar_market_flow_description": "Jejak sentimen opsyen secara masa nyata.",
+  "news_flow_sidebar_options_flow_title": "Aliran Opsyen",
+  "news_flow_sidebar_options_flow_description": "Pantau aktiviti opsyen luar biasa dan corak aliran secara masa nyata",
+  "news_flow_sidebar_dark_pool_title": "Aliran Kolam Gelap",
+  "news_flow_sidebar_dark_pool_description": "Analisis aliran institusi tersembunyi dan data dagangan kolam gelap"
+}

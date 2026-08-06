@@ -64,6 +64,7 @@
     market_flow_view_intraday_bars,
   } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getLocaleDefinition } from "$lib/i18n/locales";
 
   export let data;
 
@@ -830,7 +831,7 @@
                     {new Date(
                       data?.getFearAndGreed?.current?.date,
                     )?.toLocaleDateString(
-                      getLocale() === "de" ? "de-DE" : "en-US",
+                      getLocaleDefinition(getLocale()).intlTag,
                       {
                         month: "short",
                         day: "numeric",

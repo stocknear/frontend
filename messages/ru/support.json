@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Поддержка",
+  "support_breadcrumb_home": "Главная",
+  "support_breadcrumb_current": "Поддержка",
+  "support_title": "Поддержка",
+  "support_description_1": "Отправь запрос в поддержку через форму ниже, и мы ответим как можно скорее. Также можно написать напрямую на",
+  "support_description_2": "Ответы на некоторые частые вопросы можно найти здесь:",
+  "support_faq_link": "Часто задаваемые вопросы",
+  "support_description_3": "Если тебе нужна помощь с ошибкой или неточностью данных, укажи точный URL страницы, где ты её нашёл.",
+  "support_label_email": "Почта",
+  "support_label_subject": "Тема",
+  "support_label_message": "Сообщение",
+  "support_button_send": "Отправить сообщение",
+  "support_button_processing": "Обрабатываем...",
+  "support_success_message": "Твоё сообщение успешно отправлено. Мы скоро ответим.",
+  "support_toast_error": "Что-то пошло не так. Попробуй ещё раз...",
+  "support_sidebar_pro_title": "Подписка Pro",
+  "support_sidebar_pro_description": "Обнови сейчас, чтобы получить неограниченный доступ ко всем данным и инструментам без рекламы.",
+  "support_sidebar_screener_title": "Скринер акций",
+  "support_sidebar_screener_description": "Фильтруй, сортируй и анализируй все акции, чтобы найти свою следующую инвестицию.",
+  "support_sidebar_watchlist_title": "Списки наблюдения",
+  "support_sidebar_watchlist_description": "Следи за любимыми акциями в реальном времени."
+}

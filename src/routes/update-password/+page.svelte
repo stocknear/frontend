@@ -4,6 +4,8 @@
   import { mode } from "mode-watcher";
   import { tick } from "svelte";
   import { Turnstile } from "svelte-turnstile";
+  import { getLocale } from "$lib/paraglide/runtime";
+  import { getTurnstileLanguage } from "$lib/i18n/locales";
   import { dev } from "$app/environment";
   import Input from "$lib/components/Input.svelte";
   import PasswordInput from "$lib/components/PasswordInput.svelte";
@@ -204,6 +206,7 @@
               <div class="flex justify-center">
                 <Turnstile
                   siteKey={import.meta.env.VITE_CF_TURNSTILE_SITE_KEY}
+                  language={getTurnstileLanguage(getLocale())}
                 />
               </div>
             {/if}

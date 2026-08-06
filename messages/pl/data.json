@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Zastrzeżenia dotyczące danych | Źródła i dokładność danych finansowych",
+  "data_seo_description": "Pełne informacje o naszych źródłach danych finansowych, standardach dokładności i zasadach korzystania z danych giełdowych, prognoz analityków i wskaźników finansowych.",
+  "data_breadcrumb": "Zastrzeżenia dotyczące danych",
+  "data_hero_title": "Zastrzeżenia dotyczące danych",
+  "data_intro": "Dane finansowe prezentowane na Stocknear mają charakter wyłącznie informacyjny i edukacyjny. Nie są doradztwem inwestycyjnym i nie powinny być jedyną podstawą decyzji inwestycyjnych ani transakcyjnych.",
+  "data_contact": "Utrzymujemy wysokie standardy dokładności i jakości danych. Jeśli zauważysz rozbieżność albo potrzebujesz wyjaśnienia, napisz do nas przez {discordLink} lub skontaktuj się ze wsparciem pod adresem {email}.",
+  "data_market_title": "Dane rynkowe i wykresy akcji",
+  "data_market_content": "Nasze dane rynkowe i wykresy akcji w czasie rzeczywistym dostarcza {fmpLink}, wiodący dostawca danych finansowych. Obejmuje to notowania śróddzienne, dane historyczne i wskaźniki techniczne.",
+  "data_coverage_title": "Zakres rynków",
+  "data_coverage_content": "Stocknear obejmuje papiery wartościowe notowane na głównych giełdach w USA, w tym NASDAQ, NYSE, NYSE American i NYSE Arca. Nasza baza zawiera akcje, ETF, ADR-y oraz wybrane papiery z rynku OTC. Aktywnie rozszerzamy zakres o kolejne giełdy światowe i instrumenty finansowe.",
+  "data_fundamentals_title": "Dane fundamentalne",
+  "data_fundamentals_content": "Dane fundamentalne pochodzą od {fmpLink} i są oparte na oficjalnych raportach dla SEC (formularze 10-K, 10-Q i 8-K). Nasze systemy aktualizują te informacje codziennie, ale mogą wystąpić opóźnienia wynikające z terminów raportowania do SEC i harmonogramów sprawozdawczych spółek. Wszystkie prezentowane dane finansowe opierają się na oficjalnych, zbadanych sprawozdaniach składanych organom nadzoru.",
+  "data_business_title": "Dane o metrykach biznesowych",
+  "data_business_content": "Dane o metrykach biznesowych, w tym operacyjne KPI i wskaźniki jednostkowe spoza GAAP, dostarcza nasz partner {mainStreetLink}. Jego zespół badawczy zbiera, normalizuje i na bieżąco weryfikuje te informacje z raportów spółek, prezentacji dla inwestorów i komentarzy zarządów, żeby zapewnić rzetelne pokrycie wyników biznesowych na naszej platformie.",
+  "data_analyst_title": "Analitycy i prognozy rynkowe",
+  "data_analyst_content": "Dane o analitykach łączymy z kilku wiarygodnych źródeł. Ceny docelowe i rekomendacje dostarcza Benzinga, odzwierciedlając konsensus czołowych analityków z Wall Street. Prognozy przychodów i EPS agregujemy z Benzinga oraz {fmpLink}. Staramy się prezentować możliwie najdokładniejsze prognozy, ale pamiętaj, że przewidywania rynkowe są z natury niepewne i powinny być tylko elementem szerszej analizy inwestycyjnej.",
+  "data_etf_title": "Analityka ETF",
+  "data_etf_content": "Dane o składzie ETF i ich analitykę dostarczamy we współpracy z {fmpLink}, co zapewnia dokładne i aktualne informacje o składzie funduszy, alokacji i wynikach.",
+  "data_options_title": "Dane z rynku opcji",
+  "data_options_content": "Nasza infrastruktura danych opcyjnych korzysta z kilku dostawców, łącząc ich strumienie w jeden potok, który dostarcza pełne dane OPRA (Options Price Reporting Authority). Agregując przepływ opcji w czasie rzeczywistym i dane z poszczególnych łańcuchów opcji z kilku źródeł, zapewniamy pełne pokrycie aktywności i wyceny na wszystkich głównych giełdach opcji w USA."
+}

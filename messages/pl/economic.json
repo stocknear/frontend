@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Strona główna",
+  "economic_breadcrumb_calendar": "Kalendarz ekonomiczny",
+
+  "economic_seo_title": "Kalendarz ekonomiczny - wydarzenia i publikacje danych poruszające rynkiem",
+  "economic_seo_description": "Wyprzedzaj rynek dzięki kompleksowemu kalendarzowi ekonomicznemu z wydarzeniami finansowymi w czasie rzeczywistym, wskaźnikami gospodarczymi i publikacjami danych, które poruszają rynkiem. Śledź PKB, inflację, dane z rynku pracy, posiedzenia banków centralnych i kluczowe komunikaty wraz z dokładnymi godzinami i prognozami. Niezbędne narzędzie dla traderów i inwestorów, którzy chcą przewidzieć zmienność.",
+  "economic_seo_keywords": "kalendarz ekonomiczny, wydarzenia finansowe, kalendarz rynkowy, wskaźniki gospodarcze, publikacja PKB, dane o inflacji, dane z rynku pracy, posiedzenia banków centralnych, wiadomości gospodarcze, wydarzenia poruszające rynkiem, publikacje danych finansowych, komunikaty gospodarcze, kalendarz dla traderów, planowanie inwestycji",
+  "economic_structured_name": "Kalendarz ekonomiczny",
+  "economic_structured_description": "Kompleksowy kalendarz ekonomiczny śledzący globalne wydarzenia finansowe, wskaźniki gospodarcze i publikacje danych poruszające rynkiem",
+
+  "economic_main_name": "Kalendarz ekonomiczny",
+  "economic_count_events": "{count} wydarzeń",
+  "economic_empty_day": "Brak wydarzeń na ten dzień.",
+
+  "economic_filter_country": "Filtruj kraj",
+  "economic_filter_importance": "Filtruj ważność",
+  "economic_filter_reset": "Resetuj wszystko",
+  "economic_filter_search": "Szukaj...",
+  "economic_filter_no_country": "Nie znaleziono kraju",
+  "economic_filters_label": "Filtry",
+
+  "economic_pagination_previous": "Wstecz",
+  "economic_pagination_next": "Dalej",
+  "economic_pagination_page_of": "Strona {current} z {total}",
+  "economic_pagination_rows": "{count} wierszy",
+  "economic_back_to_top": "Do góry",
+  "economic_search_placeholder": "Szukaj...",
+
+  "economic_source_label": "Źródło:",
+  "economic_source_text": "Kalendarz ekonomiczny dostarcza",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "a godziny podano w czasie ET (Eastern Time)."
+}

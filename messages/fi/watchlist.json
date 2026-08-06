@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Etusivu",
+  "watchlist_breadcrumb_watchlist": "Seurantalista",
+
+  "watchlist_seo_title": "Osakkeiden seurantalista - Seuraa salkkuasi ja kursseja",
+  "watchlist_seo_description": "Luo ja hallitse omaa osakeseurantalistaasi reaaliaikaisilla kursseilla. Seuraa suosikkiosakkeitasi, ETF:iä ja sijoituksiasi hälytysten ja tuottoanalyysin avulla. Ilmainen salkun seuranta kattavilla ominaisuuksilla.",
+  "watchlist_seo_keywords": "osakkeiden seurantalista, salkun seuranta, osakeseuranta, sijoitusseuranta, kurssiseuranta, hälytykset, salkunhallinta, osakkeiden tuotto, sijoitusten seurantalista",
+  "watchlist_structured_name": "Osakkeiden seurantalista",
+  "watchlist_structured_description": "Oma osakeseurantalista ja salkun seurantatyökalu",
+
+  "watchlist_main_title": "Seurantalista",
+  "watchlist_create_watchlist": "Luo seurantalista",
+  "watchlist_new_watchlist": "Uusi seurantalista",
+  "watchlist_delete_watchlist": "Poista seurantalista",
+
+  "watchlist_add_stock_placeholder": "Lisää osake...",
+  "watchlist_no_results": "Ei tuloksia",
+  "watchlist_edit_watchlist": "Muokkaa seurantalistaa",
+  "watchlist_cancel": "Peruuta",
+  "watchlist_normal_width": "Normaali leveys",
+  "watchlist_full_width": "Koko leveys",
+  "watchlist_exit_full_width": "Poistu koko leveydestä",
+  "watchlist_expand_full_width": "Laajenna koko leveyteen",
+
+  "watchlist_empty_title": "Tyhjä seurantalista",
+  "watchlist_empty_description": "Täytä se suosikkiosakkeillasi, niin saat reaaliaikaisen datan ja tuoreimmat uutiset yhdestä paikasta.",
+  "watchlist_get_started": "Aloita",
+
+  "watchlist_count_stocks": "{count} osaketta",
+
+  "watchlist_tab_news": "Uutiset",
+  "watchlist_tab_earnings": "Tulosjulkistukset",
+  "watchlist_no_news": "Ei vielä uutisia. Lisää osakkeita seurantalistalle, niin näet tuoreimmat uutiset.",
+  "watchlist_no_earnings": "Tulostietoja ei ole saatavilla. Lisää osakkeita seurantalistalle, niin näet tuoreimmat tulostiedot.",
+
+  "watchlist_modal_new_title": "Uusi seurantalista",
+  "watchlist_modal_list_name": "Listan nimi",
+  "watchlist_modal_create_button": "Luo seurantalista",
+
+  "watchlist_modal_delete_title": "Poista seurantalista",
+  "watchlist_modal_delete_confirm": "Haluatko varmasti poistaa tämän seurantalistan? Toimintoa ei voi perua.",
+  "watchlist_modal_delete_button": "Poista seurantalista",
+
+  "watchlist_toast_creating": "Luodaan seurantalistaa...",
+  "watchlist_toast_created": "Seurantalista luotu.",
+  "watchlist_toast_deleted": "Seurantalista poistettu.",
+  "watchlist_toast_updating": "Päivitetään seurantalistaa...",
+  "watchlist_toast_updated": "Seurantalista päivitetty.",
+  "watchlist_toast_error": "Jokin meni pieleen. Yritä uudelleen.",
+  "watchlist_toast_error_generic": "Tapahtui virhe. Yritä myöhemmin uudelleen.",
+  "watchlist_toast_title_empty": "Nimi ei voi olla tyhjä.",
+  "watchlist_toast_title_long": "Nimi on liian pitkä. Pidä se lyhyenä ja selkeänä.",
+  "watchlist_toast_already_in_list": "Tämä tunnus on jo seurantalistallasi",
+  "watchlist_toast_select_symbols": "Valitse tunnukset ennen kuin voit poistaa ne",
+
+  "watchlist_earnings_will_report": "raportoi",
+  "watchlist_earnings_after_close": "pörssin sulkeuduttua.",
+  "watchlist_earnings_before_open": "ennen pörssin avautumista.",
+  "watchlist_earnings_during_market": "kaupankäyntipäivän aikana.",
+  "watchlist_earnings_analysts_estimate": "Analyytikot ennustavat",
+  "watchlist_earnings_in_revenue": "liikevaihtoa",
+  "watchlist_earnings_yoy": "vuodentakaisesta",
+  "watchlist_earnings_and": "ja",
+  "watchlist_earnings_in_eps": "osakekohtaista tulosta",
+
+  "watchlist_note_add_title": "Lisää muistiinpano",
+  "watchlist_note_edit_title": "Muokkaa muistiinpanoa",
+  "watchlist_note_placeholder_new": "Miksi lisäsit tämän osakkeen seurantalistallesi?",
+  "watchlist_note_placeholder_edit": "Päivitä muistiinpanoasi...",
+  "watchlist_note_save": "Tallenna",
+  "watchlist_note_add": "Lisää muistiinpano",
+  "watchlist_note_update": "Päivitä muistiinpano",
+  "watchlist_note_created": "Muistiinpano luotu",
+  "watchlist_note_updated": "Muistiinpano päivitetty",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} merkkiä jäljellä",
+  "watchlist_note_chars_over": "{count} merkkiä yli rajan",
+  "watchlist_note_exceeded": "Muistiinpano voi olla enintään {max} merkkiä",
+  "watchlist_added_price": "Lisäyshinta",
+
+  "watchlist_column_entry_price": "Ostohinta",
+  "watchlist_column_since_added": "% lisäyksestä"
+}

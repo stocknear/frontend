@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Genel Bakis",
+  "index_detail_nav_options": "Opsiyonlar",
+  "index_detail_nav_history": "Gecmis",
+  "index_detail_nav_holdings": "Portfoy",
+
+  "index_detail_watchlist": "Izleme Listesi",
+  "index_detail_price_alert": "Uyari",
+  "index_detail_add_to_watchlist": "Izleme Listesine Ekle",
+  "index_detail_ticker_added": "Hisse izleme listene eklendi",
+  "index_detail_ticker_add_failed": "Hisse izleme listesine eklenemedi",
+  "index_detail_upgrade_watchlist": "Daha fazla hisse eklemek ister misin? Plus veya Pro'ya gec",
+  "index_detail_companies": "Sirketler",
+  "index_detail_company": "Sirket",
+
+  "index_detail_no_data": "Veri yok",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Alis",
+  "index_detail_ask": "Satis",
+  "index_detail_volume": "Hacim",
+  "index_detail_avg_volume_20d": "Ort. Hacim (20G)",
+  "index_detail_50_day_ma": "50 Gunluk HO",
+  "index_detail_200_day_ma": "200 Gunluk HO",
+  "index_detail_eps_ttm": "EPS (son 12 ay)",
+  "index_detail_pe_ratio_ttm": "F/K Orani (son 12 ay)",
+  "index_detail_shares_out": "Dolasimdaki Pay",
+  "index_detail_inception_date": "Kurulus Tarihi",
+  "index_detail_open": "Acilis",
+  "index_detail_prev_close": "Onceki Kapanis",
+  "index_detail_days_range": "Gunluk Aralik",
+  "index_detail_52w_range": "52 Haftalik Aralik",
+  "index_detail_exchange": "Borsa",
+  "index_detail_expense_ratio": "Gider Orani",
+
+  "index_detail_chart_price": "Fiyat",
+  "index_detail_chart_volume": "Hacim",
+
+  "index_sidecard_about": "{ticker} hakkinda",
+  "index_sidecard_top_sectors": "En Buyuk 5 Sektor",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Agirlik %",
+  "index_sidecard_view_all_sectors": "Tum Sektorleri Gor"
+}

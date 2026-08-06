@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Компания или тикер акции...",
+  "searchbar_aria_label": "Компания или тикер акции...",
+  "searchbar_search_label": "Поиск",
+  "searchbar_suggestions": "Подсказки",
+  "searchbar_recent": "Недавние",
+  "searchbar_popular": "Популярные",
+  "searchbar_no_results": "Ничего не найдено"
+}

@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Hjem",
+  "notifications_breadcrumb_notifications": "Varsler",
+
+  "notifications_seo_title": "Varsler fra aksjemarkedet | Oppdateringer i sanntid",
+  "notifications_seo_description": "Hold deg oppdatert med varsler fra aksjemarkedet i sanntid. Få beskjed med én gang om kursendringer, trender og bevegelser i markedet, så du kan ta bedre beslutninger.",
+
+  "notifications_main_title": "Varsel",
+  "notifications_alerts_count": "{count} varsler",
+
+  "notifications_mark_all_read": "Merk alle som lest",
+  "notifications_marking": "Merker...",
+  "notifications_settings": "Innstillinger",
+  "notifications_customize": "Tilpass varslene dine",
+
+  "notifications_channel_earnings_surprise": "Resultatoverraskelse",
+  "notifications_channel_wiim": "Hvorfor kursen beveget seg",
+  "notifications_channel_top_analyst": "Anbefaling fra toppanalytiker",
+  "notifications_channel_followed_analysts": "Analytikere du følger",
+  "notifications_no_channels": "Ingen varselkanaler tilgjengelig.",
+
+  "notifications_empty": "Du har ingen varsler ennå.",
+
+  "notifications_pagination_previous": "Forrige",
+  "notifications_pagination_next": "Neste",
+  "notifications_pagination_page_of": "Side {current} av {total}",
+  "notifications_pagination_rows": "{count} rader",
+  "notifications_back_to_top": "Til toppen",
+
+  "notifications_modal_delete_title": "Slett alle varsler",
+  "notifications_modal_delete_confirm": "Er du sikker på at du vil slette alle varsler? Dette kan ikke angres.",
+  "notifications_modal_delete_button": "Slett varsler",
+  "notifications_modal_deleting": "Sletter...",
+  "notifications_modal_cancel": "Avbryt",
+  "notifications_delete_error": "Klarte ikke å slette varslene. Prøv igjen.",
+
+  "notifications_type_price_alert_triggered": "Varsel utløst for",
+  "notifications_type_price_is": "Kursen på",
+  "notifications_type_is_condition": "er {condition} målkursen din på",
+  "notifications_type_breaking_news": "Siste nytt om",
+  "notifications_type_wiim_new_data": "Nye data for hendelsen \"Hvorfor kursen beveget seg\" er ute.",
+  "notifications_type_top_analyst_new": "Ny anbefaling fra toppanalytiker for",
+  "notifications_type_top_analyst_rating": "Analysehuset {analyst} har gitt ny anbefaling \"{rating}\" med oppdatert kursmål på {price}.",
+  "notifications_type_followed_analyst_new": "Ny anbefaling fra",
+  "notifications_type_followed_analyst_rating": "Ga {symbol} anbefalingen \"{rating}\" med kursmål {price}.",
+  "notifications_type_earnings_release": "Resultatslipp for",
+  "notifications_type_earnings_surprise_new": "Nye data for hendelsen \"Resultatoverraskelse\" er ute.",
+
+  "notifications_sidebar_watchlist": "Favorittliste",
+  "notifications_sidebar_watchlist_description": "Få oppdateringer i sanntid på favorittaksjene dine",
+  "notifications_sidebar_portfolio": "Porteføljesporer",
+  "notifications_sidebar_portfolio_description": "Få oppdateringer i sanntid på porteføljen din"
+}

@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Главная",
+  "notifications_breadcrumb_notifications": "Уведомления",
+
+  "notifications_seo_title": "Уведомления фондового рынка | Обновления и оповещения в реальном времени",
+  "notifications_seo_description": "Будь в курсе благодаря уведомлениям фондового рынка в реальном времени. Получай мгновенные оповещения об изменениях цены, трендах и движениях рынка, чтобы принимать более взвешенные инвестиционные решения.",
+
+  "notifications_main_title": "Уведомление",
+  "notifications_alerts_count": "{count} оповещений",
+
+  "notifications_mark_all_read": "Отметить все как прочитанные",
+  "notifications_marking": "Отмечаем...",
+  "notifications_settings": "Настройки",
+  "notifications_customize": "Настроить уведомления",
+
+  "notifications_channel_earnings_surprise": "Сюрприз отчёта",
+  "notifications_channel_wiim": "Почему изменилась цена",
+  "notifications_channel_top_analyst": "Оценка топ-аналитика",
+  "notifications_channel_followed_analysts": "Отслеживаемые аналитики",
+  "notifications_no_channels": "Каналы уведомлений недоступны.",
+
+  "notifications_empty": "У тебя пока нет уведомлений.",
+
+  "notifications_pagination_previous": "Назад",
+  "notifications_pagination_next": "Далее",
+  "notifications_pagination_page_of": "Страница {current} из {total}",
+  "notifications_pagination_rows": "{count} строк",
+  "notifications_back_to_top": "Наверх",
+
+  "notifications_modal_delete_title": "Удалить все уведомления",
+  "notifications_modal_delete_confirm": "Ты уверен, что хочешь удалить все уведомления? Это действие нельзя отменить.",
+  "notifications_modal_delete_button": "Удалить уведомления",
+  "notifications_modal_deleting": "Удаляем...",
+  "notifications_modal_cancel": "Отмена",
+  "notifications_delete_error": "Не удалось удалить уведомления. Попробуй ещё раз.",
+
+  "notifications_type_price_alert_triggered": "Сработало оповещение по",
+  "notifications_type_price_is": "Цена",
+  "notifications_type_is_condition": "{condition} твоей цели —",
+  "notifications_type_breaking_news": "СРОЧНЫЕ новости по",
+  "notifications_type_wiim_new_data": "Вышли новые данные для события «Почему изменилась цена».",
+  "notifications_type_top_analyst_new": "Новая оценка топ-аналитика по",
+  "notifications_type_top_analyst_rating": "Рейтинговая компания {analyst} выпустила новую оценку «{rating}» с обновлённым ценовым ориентиром {price}.",
+  "notifications_type_followed_analyst_new": "Новая оценка от",
+  "notifications_type_followed_analyst_rating": "Оценил {symbol} как «{rating}» с ценовым ориентиром {price}.",
+  "notifications_type_earnings_release": "Публикация отчёта по",
+  "notifications_type_earnings_surprise_new": "Вышли новые данные для события «Сюрприз отчёта».",
+
+  "notifications_sidebar_watchlist": "Список наблюдения",
+  "notifications_sidebar_watchlist_description": "Получай обновления по любимым акциям в реальном времени",
+  "notifications_sidebar_portfolio": "Трекер портфеля",
+  "notifications_sidebar_portfolio_description": "Получай обновления по своему портфелю в реальном времени"
+}

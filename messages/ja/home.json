@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "リアルタイムのオプションフロー・スイープ・異常取引",
+  "home_seo_description": "米国株と ETF のオプションフロー、スイープ、ブロック取引、異常な取引をリアルタイムで配信。Stocknear なら短期のトレード機会を素早く見つけられます。",
+  "home_seo_keywords": "オプションフロー, 異常なオプション取引, スイープ注文, ブロック取引, ダークプール, インプライドボラティリティ, IV スキュー, 建玉, オプションチェーン, 短期トレード, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "短期トレードのためのリアルタイムなオプションフローと異常取引",
+  "home_structured_feature_live_options_flow": "リアルタイムのオプションフローとスイープ",
+  "home_structured_feature_unusual_options_activity": "異常なオプション取引",
+  "home_structured_feature_dark_pool_monitoring": "ダークプールの監視",
+  "home_structured_feature_implied_volatility": "IV とスキュー",
+  "home_structured_feature_options_chain": "オプションチェーンと建玉",
+  "home_structured_feature_earnings_volatility": "決算前後のボラティリティ",
+  "home_structured_feature_market_catalysts": "相場の材料",
+  "home_hero_title": "相場が動く前に、その兆しをつかむ",
+  "home_hero_subtitle": "米国株と ETF の全銘柄について、リアルタイム株価、オプションフロー、ダークプール注文、ニュース、財務、予想、チャートを提供します。ノイズのないシグナルで、素早く動けます。",
+  "home_promo_pill_label": "サマーセール",
+  "home_promo_pill_discount": "{percent} オフ",
+  "home_promo_pill_subtitle": "年間プランが対象"
+}

@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Yapay Zekâ Destekli Borsa Analizi - Finansal AI Ajanı ve Piyasa Zekâsı",
+  "chat_seo_description": "Anlık hisse analizi, piyasa içgörüleri ve yatırım araştırması sunan gelişmiş finansal yapay zekâ ajanı. Hisse taraması, bilanço analizi, opsiyon akışı takibi, dark pool hareketleri ve piyasa duyarlılığı için özel AI ajanlarıyla sohbet et. Sana özel yatırım önerileri ve kapsamlı piyasa zekâsı al.",
+  "chat_seo_keywords": "yapay zekâ finansal danışman, borsa yapay zekâsı, finansal AI ajanı, AI yatırım analizi, otomatik hisse araştırması, AI trading içgörüleri, makine öğrenmesi finans, finansal sohbet botu, AI piyasa analizi, algoritmik trading içgörüleri, AI portföy analizi, yapay zekâ ile yatırım",
+  "chat_title": "Yatırım arkadaşın",
+  "chat_placeholder": "Hisselerle ilgili her şeyi sor — anlık güncellemeleri al",
+  "chat_placeholder_readonly": "Salt okunur: Bu sohbeti düzenleme yetkin yok.",
+  "chat_placeholder_editable": "Ne istersen sor",
+  "chat_credits_left": "Kalan kredi",
+  "chat_stock_agents": "Hisse Ajanları",
+  "chat_how_to_use_agents": "Ajanlar nasıl doğru kullanılır",
+  "chat_credits": "Kredi",
+  "chat_threads": "Sohbetler",
+  "chat_no_threads": "Görünüşe göre daha önce hiç konuşmamışız.",
+  "chat_ready_to_analyze": "Hisse analizine hazır mısın?",
+  "chat_ready_description": "Binlerce hisse için detaylı finansal veriyi, analist notlarını ve teknik göstergeleri incele.",
+  "chat_get_started": "Başla",
+  "chat_delete_thread_title": "Sohbeti Sil",
+  "chat_delete_thread_confirm": "Bu sohbeti silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "chat_cancel": "Vazgeç",
+  "chat_delete": "Sohbeti Sil",
+  "chat_toast_deleted": "Sohbet silindi.",
+  "chat_toast_error": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+  "chat_toast_error_occurred": "Bir hata oluştu. Lütfen daha sonra tekrar dene.",
+  "chat_toast_insufficient_credits": "Yetersiz kredi. Mevcut bakiyen",
+  "chat_last_message": "Son mesaj",
+  "chat_ago": "önce",
+  "chat_minutes": "dakika",
+  "chat_hour": "saat",
+  "chat_hours": "saat",
+  "chat_day": "gün",
+  "chat_days": "gün",
+  "chat_error_connect": "Sohbet servisine bağlanılamadı. Lütfen daha sonra tekrar dene.",
+
+  "chat_default_gainers_losers_label": "En Çok Yükselenler, Düşenler ve En Aktifler",
+  "chat_default_gainers_losers_query": "Bugün en çok kazandıran hisselerin, en çok kaybettirenlerin ve hacme göre en aktif işlem görenlerin özetini ver. Yüzdesel değişim ve işlem hacmi gibi temel metrikleri de ekle.",
+
+  "chat_default_options_flow_label": "Bugünkü opsiyon akışı emirlerinden öne çıkanlar",
+  "chat_default_options_flow_query": "Bugünün dikkat çeken opsiyon akışına genel bir bakış ver; büyük blok işlemlere, olağandışı hacim sıçramalarına ve yön beklentisine odaklan.",
+
+  "chat_default_market_news_label": "Bugünün Piyasa Haberleri",
+  "chat_default_market_news_query": "Bugünün öne çıkan piyasa haberlerini ve önemli finansal gelişmelerini özetle.",
+
+  "chat_default_bull_bear_label": "Nvidia için Boğa ve Ayı Senaryosu",
+  "chat_default_bull_bear_query": "@BullvsBear Nvidia için",
+
+  "chat_default_value_investor_label": "Değer yatırımcısı olarak şu an Intel almalı mıyım?",
+  "chat_default_value_investor_query": "@WarrenBuffet şu an Intel almalı mıyım?",
+
+  "chat_default_cathie_wood_label": "Cathie Wood şu an Tesla'yı nasıl değerlendiriyor?",
+  "chat_default_cathie_wood_query": "@CathieWood tesla'yı değerlendir ve alır mıydın satar mıydın söyle",
+
+  "chat_default_options_data_label": "SPY için son Opsiyon Verisi güncellemeleri",
+  "chat_default_options_data_query": "@OptionsData SPY için son opsiyon verisi güncellemeleri",
+
+  "chat_default_undervalued_label": "Bana ucuz kalmış hisseler bul",
+  "chat_default_undervalued_query": "@StockScreener bana p/e oranı 0'ın üzerinde, gelir büyümesi %5'in üzerinde ve piyasa değeri/defter değeri oranı 0'ın üzerinde olan ucuz kalmış hisseler bul",
+
+  "chat_default_gamestop_label": "Gamestop ne kadar sağlıklı?",
+  "chat_default_gamestop_query": "@FundamentalData Gamestop ne kadar sağlıklı?",
+
+  "chat_default_spy_bullish_label": "SPY şu an yükseliş eğiliminde mi?",
+  "chat_default_spy_bullish_query": "SPY şu an yükseliş eğiliminde mi?",
+
+  "chat_default_nvidia_flow_label": "Nvidia opsiyon akışı",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidia opsiyon akışı",
+
+  "chat_default_googl_flow_label": "GOOGL olağandışı emir akışı",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Google emir akışı",
+
+  "chat_default_compare_aapl_msft_label": "Apple ile Microsoft'u karşılaştır",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks Apple ile Microsoft'u karşılaştır",
+
+  "chat_default_analyst_ratings_label": "Analistler Amazon hakkında ne diyor?",
+  "chat_default_analyst_ratings_query": "@Analyst Amazon için en son analist notları ve fiyat hedefleri neler?",
+
+  "chat_default_dark_pool_label": "Bugün kayda değer bir dark pool hareketi var mı?",
+  "chat_default_dark_pool_query": "Bugünün en dikkat çekici dark pool işlemlerini ve hareketlerini göster",
+
+  "chat_default_dividend_label": "Şu an alınabilecek en iyi temettü hisseleri",
+  "chat_default_dividend_query": "@StockScreener bana dağıtım oranı %80'in altında ve gelir büyümesi 0'ın üzerinde olan yüksek temettü verimli hisseler bul",
+
+  "chat_default_michael_burry_label": "Michael Burry mevcut piyasa için ne düşünürdü?",
+  "chat_default_michael_burry_query": "@MichaelBurry mevcut piyasa koşullarını analiz et ve ne gördüğünü anlat",
+
+  "chat_default_peter_lynch_label": "Peter Lynch'in Meta hakkındaki görüşü",
+  "chat_default_peter_lynch_query": "@PeterLynch Meta'yı şu an iyi bir yatırım olarak görür müsün?",
+
+  "chat_default_sector_performance_label": "Bu hafta hangi sektörler öne çıkıyor?",
+  "chat_default_sector_performance_query": "Bu haftanın sektör performansını ayrıntılı ver ve hangi sektörlerin önde, hangilerinin geride olduğunu belirt",
+
+  "chat_default_earnings_label": "Bu hafta hangi şirketler bilanço açıklıyor?",
+  "chat_default_earnings_query": "Bu hafta açıklanacak en önemli bilançolar hangileri ve nelere dikkat etmeliyim?"
+}

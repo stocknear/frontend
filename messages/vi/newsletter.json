@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Bản tin thị trường: Nắm bắt tình hình chỉ trong 2 phút mỗi ngày",
+  "newsletter_seo_description": "Đi trước thị trường với bản tin pro của chúng tôi. Nhận cập nhật, xu hướng và góc nhìn mới nhất gửi thẳng vào hộp thư của bạn.",
+  "newsletter_label": "Bản tin",
+  "newsletter_title": "Nắm bắt tình hình chỉ trong 2 phút mỗi ngày",
+  "newsletter_description": "Pre-market Report là bản tin giúp bạn theo kịp thị trường tài chính một cách cực kỳ dễ dàng.",
+  "newsletter_intro_1": "Bản tóm tắt của chúng tôi được trình bày ngắn gọn theo dạng gạch đầu dòng, nên đọc bản tin này sẽ không bao giờ thấy nặng nề.",
+  "newsletter_intro_2": "Hãy để chúng tôi đọc tin thay bạn và lọc bỏ nhiễu, rồi gửi bạn các ý chính. Đây là những gì bạn nhận được:",
+  "newsletter_feature_1": "Tiếp cận báo cáo phân tích mới nhất, với các điểm chính được trích xuất bằng AI.",
+  "newsletter_feature_2": "Nắm nhanh các kỳ công bố lợi nhuận vừa qua và sắp tới.",
+  "newsletter_feature_3": "Cập nhật các sự kiện kinh tế lớn có thể tác động mạnh đến thị trường.",
+  "newsletter_feature_4": "Nhận thông tin chính xác, cập nhật, lấy riêng từ các nguồn hàng đầu.",
+  "newsletter_closing": "Bản tin hoàn toàn miễn phí và được gửi tới hộp thư của bạn mỗi sáng trước giờ mở cửa, từ thứ Hai đến thứ Sáu (trừ ngày lễ).",
+  "newsletter_signup_button": "Đăng ký miễn phí"
+}

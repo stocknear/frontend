@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Tên công ty hoặc mã cổ phiếu...",
+  "searchbar_aria_label": "Tên công ty hoặc mã cổ phiếu...",
+  "searchbar_search_label": "Tìm kiếm",
+  "searchbar_suggestions": "Gợi ý",
+  "searchbar_recent": "Gần đây",
+  "searchbar_popular": "Phổ biến",
+  "searchbar_no_results": "Không có kết quả"
+}

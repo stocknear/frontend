@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Beranda",
+  "covered_call_screener_breadcrumb_title": "Screener Covered Call",
+
+  "covered_call_screener_seo_title": "Screener Covered Call - Temukan Peluang Covered Call Terbaik",
+  "covered_call_screener_seo_description": "Saring ribuan kontrak opsi untuk peluang covered call. Filter berdasarkan imbal hasil premi, return tahunan, harga eksekusi, jatuh tempo, dan lainnya.",
+  "covered_call_screener_seo_keywords": "screener covered call, screener opsi, covered call, imbal hasil premi, strategi pendapatan",
+  "covered_call_screener_structured_name": "Screener Covered Call",
+  "covered_call_screener_structured_description": "Saring kontrak opsi untuk peluang covered call",
+
+  "covered_call_screener_main_title": "Screener Covered Call",
+  "covered_call_screener_contracts_count": "{count} Kontrak",
+
+  "covered_call_screener_popular_screens": "Screen Populer",
+  "covered_call_screener_popular_strategies": "Strategi Populer",
+  "covered_call_screener_select_popular": "Pilih Populer",
+  "covered_call_screener_saved_screens": "Screen Tersimpan",
+  "covered_call_screener_select_screen": "Pilih Screen",
+  "covered_call_screener_new_screen": "Screen Baru",
+
+  "covered_call_screener_strategy_high_yield": "Imbal Hasil Tinggi",
+  "covered_call_screener_strategy_conservative": "Konservatif",
+  "covered_call_screener_strategy_weekly_income": "Pendapatan Mingguan",
+  "covered_call_screener_strategy_high_protection": "Proteksi Tinggi",
+  "covered_call_screener_strategy_bluechip_cc": "Covered Call Blue-Chip",
+
+  "covered_call_screener_filters_count": "Filter ({count})",
+  "covered_call_screener_add_filters": "Tambah Filter",
+  "covered_call_screener_search_filters": "Cari {count} filter...",
+  "covered_call_screener_select_filters_title": "Pilih Filter ({count})",
+  "covered_call_screener_nothing_found": "Tidak ada yang ditemukan.",
+
+  "covered_call_screener_save": "Simpan",
+  "covered_call_screener_save_as_new": "Simpan sebagai Baru",
+  "covered_call_screener_reset_all": "Atur Ulang Semua",
+
+  "covered_call_screener_condition_over": "Di atas",
+  "covered_call_screener_condition_under": "Di bawah",
+  "covered_call_screener_condition_between": "Antara",
+  "covered_call_screener_condition_exactly": "Tepat",
+  "covered_call_screener_condition_any": "Semua",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Maks",
+  "covered_call_screener_input_value": "Nilai",
+
+  "covered_call_screener_search_placeholder": "Cari...",
+  "covered_call_screener_search_modal_placeholder": "Cari...",
+
+  "covered_call_screener_normal_width": "Lebar Normal",
+  "covered_call_screener_full_width": "Lebar Penuh",
+
+  "covered_call_screener_tab_general": "Umum",
+  "covered_call_screener_tab_income": "Pendapatan",
+  "covered_call_screener_tab_filters": "Filter",
+  "covered_call_screener_tab_greeks": "Greeks",
+
+  "covered_call_screener_pagination_previous": "Sebelumnya",
+  "covered_call_screener_pagination_next": "Berikutnya",
+  "covered_call_screener_pagination_page_of": "Halaman {current} dari {total}",
+  "covered_call_screener_rows_label": "{rows} baris",
+  "covered_call_screener_back_to_top": "Kembali ke atas",
+
+  "covered_call_screener_no_results_query": "Tidak ada hasil untuk \"{query}\"",
+  "covered_call_screener_no_contracts": "Tidak ada kontrak yang cocok dengan kriteria Anda.",
+
+  "covered_call_screener_modal_new_title": "Screen Baru",
+  "covered_call_screener_modal_new_name_label": "Nama screen",
+  "covered_call_screener_modal_new_create": "Buat",
+
+  "covered_call_screener_modal_delete_title": "Hapus Screener",
+  "covered_call_screener_modal_delete_message": "Yakin ingin menghapus screener ini? Tindakan ini tidak bisa dibatalkan.",
+  "covered_call_screener_modal_delete_cancel": "Batal",
+  "covered_call_screener_modal_delete_confirm": "Hapus",
+
+  "covered_call_screener_toast_deleting": "Menghapus screener...",
+  "covered_call_screener_toast_deleted": "Screener berhasil dihapus.",
+  "covered_call_screener_toast_delete_failed": "Gagal menghapus. Silakan coba lagi.",
+  "covered_call_screener_toast_title_too_long": "Judul terlalu panjang. Maksimal 100 karakter.",
+  "covered_call_screener_toast_created": "Screener berhasil dibuat.",
+  "covered_call_screener_toast_creating": "Membuat screener...",
+  "covered_call_screener_toast_create_failed": "Terjadi kesalahan. Silakan coba lagi nanti.",
+  "covered_call_screener_toast_select_rule": "Silakan pilih satu aturan",
+  "covered_call_screener_toast_saving": "Menyimpan screener...",
+  "covered_call_screener_toast_saved": "Screener tersimpan.",
+  "covered_call_screener_toast_save_failed": "Gagal menyimpan. Silakan coba lagi.",
+
+  "covered_call_screener_chart_price_at_expiration": "Harga saat Jatuh Tempo ($)",
+  "covered_call_screener_chart_last_price_label": "Harga Terakhir: {price}",
+  "covered_call_screener_chart_breakeven_label": "Titik Impas: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Untung/Rugi ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Harga Aset Dasar:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Untung atau Rugi:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Setup Transaksi",
+  "covered_call_screener_chart_buy_stock": "Beli Saham @",
+  "covered_call_screener_chart_sell_call": "Jual {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Bersih (Kredit/Debit)",
+  "covered_call_screener_chart_breakeven": "Titik Impas",
+  "covered_call_screener_chart_above": "Di atas",
+  "covered_call_screener_chart_last_price": "Harga Terakhir",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Return jika Datar",
+  "covered_call_screener_chart_return_if_assigned": "Return jika Ditugaskan",
+  "covered_call_screener_chart_probability_of_profit": "Probabilitas Untung",
+  "covered_call_screener_chart_annualized_abbr": "per thn"
+}

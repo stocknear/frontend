@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Stocknear 로그인",
+  "login_seo_description": "이메일과 비밀번호로 Stocknear 계정에 로그인하세요.",
+  "login_title": "계정에 로그인",
+  "login_title_logged_in": "로그인되었습니다",
+  "login_subtitle": "다시 오신 것을 환영합니다",
+  "login_email_label": "이메일",
+  "login_password_label": "비밀번호",
+  "login_forgot_password": "비밀번호를 잊으셨나요?",
+  "login_button": "로그인",
+  "login_button_loading": "로그인 중",
+  "login_divider": "또는 다음으로 로그인",
+  "login_no_account": "아직 계정이 없으신가요?",
+  "login_signup_link": "회원가입",
+  "login_logged_in_as": "{email} 계정으로 로그인됨",
+  "login_logout_button": "로그아웃",
+  "login_toast_verify_email": "먼저 이메일 인증을 완료해 주세요",
+  "login_toast_success": "로그인되었습니다",
+  "login_toast_invalid": "인증 정보가 올바르지 않습니다",
+  "login_toast_auth_failed": "이메일 또는 비밀번호가 올바르지 않습니다. 다시 시도해 주세요.",
+  "login_toast_rate_limited": "로그인 시도가 너무 많습니다. {minutes}분 후에 다시 시도해 주세요."
+}

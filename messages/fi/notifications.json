@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Etusivu",
+  "notifications_breadcrumb_notifications": "Ilmoitukset",
+
+  "notifications_seo_title": "Osakemarkkinoiden ilmoitukset | Reaaliaikaiset päivitykset ja hälytykset",
+  "notifications_seo_description": "Pysy ajan tasalla reaaliaikaisilla osakemarkkinailmoituksilla. Saat välittömät hälytykset kurssimuutoksista, trendeistä ja markkinaliikkeistä parempien sijoituspäätösten tueksi.",
+
+  "notifications_main_title": "Ilmoitukset",
+  "notifications_alerts_count": "{count} hälytystä",
+
+  "notifications_mark_all_read": "Merkitse kaikki luetuiksi",
+  "notifications_marking": "Merkitään...",
+  "notifications_settings": "Asetukset",
+  "notifications_customize": "Muokkaa ilmoituksiasi",
+
+  "notifications_channel_earnings_surprise": "Tulosyllätys",
+  "notifications_channel_wiim": "Miksi kurssi liikkui",
+  "notifications_channel_top_analyst": "Huippuanalyytikon suositus",
+  "notifications_channel_followed_analysts": "Seuratut analyytikot",
+  "notifications_no_channels": "Ei ilmoituskanavia saatavilla.",
+
+  "notifications_empty": "Sinulla ei ole vielä ilmoituksia.",
+
+  "notifications_pagination_previous": "Edellinen",
+  "notifications_pagination_next": "Seuraava",
+  "notifications_pagination_page_of": "Sivu {current} / {total}",
+  "notifications_pagination_rows": "{count} riviä",
+  "notifications_back_to_top": "Takaisin ylös",
+
+  "notifications_modal_delete_title": "Poista kaikki ilmoitukset",
+  "notifications_modal_delete_confirm": "Haluatko varmasti poistaa kaikki ilmoitukset? Toimintoa ei voi perua.",
+  "notifications_modal_delete_button": "Poista ilmoitukset",
+  "notifications_modal_deleting": "Poistetaan...",
+  "notifications_modal_cancel": "Peruuta",
+  "notifications_delete_error": "Ilmoitusten poisto epäonnistui. Yritä uudelleen.",
+
+  "notifications_type_price_alert_triggered": "Hälytys laukesi:",
+  "notifications_type_price_is": "Osakkeen",
+  "notifications_type_is_condition": "kurssi on {condition} tavoitteesi",
+  "notifications_type_breaking_news": "Tuore uutinen:",
+  "notifications_type_wiim_new_data": "Uutta dataa \"Miksi kurssi liikkui\" -tapahtumasta on saatavilla.",
+  "notifications_type_top_analyst_new": "Uusi huippuanalyytikon suositus:",
+  "notifications_type_top_analyst_rating": "Analyysitalo {analyst} antoi uuden suosituksen \"{rating}\" ja päivitti tavoitehinnaksi {price}.",
+  "notifications_type_followed_analyst_new": "Uusi suositus:",
+  "notifications_type_followed_analyst_rating": "Suositus osakkeelle {symbol}: \"{rating}\", tavoitehinta {price}.",
+  "notifications_type_earnings_release": "Tulosjulkistus:",
+  "notifications_type_earnings_surprise_new": "Uutta dataa \"Tulosyllätys\"-tapahtumasta on saatavilla.",
+
+  "notifications_sidebar_watchlist": "Seurantalista",
+  "notifications_sidebar_watchlist_description": "Saat reaaliaikaiset päivitykset suosikkiosakkeistasi",
+  "notifications_sidebar_portfolio": "Salkkuseuranta",
+  "notifications_sidebar_portfolio_description": "Saat reaaliaikaiset päivitykset salkustasi"
+}

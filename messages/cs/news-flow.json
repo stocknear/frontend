@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Domů",
+  "news_flow_breadcrumb_news_flow": "News Flow",
+
+  "news_flow_seo_title": "News Flow - tržní katalyzátory v reálném čase",
+  "news_flow_seo_description": "Sleduj tržní zprávy a katalyzátory, které hýbou cenou, v reálném čase. Postavené pro opční tradery, kteří potřebují rychlý kontext pro krátkodobé pozice.",
+  "news_flow_seo_keywords": "news flow, tržní zprávy, katalyzátory obchodů, breaking news z trhu, zprávy pro opční tradery, zprávy hýbající cenou, tržní novinky v reálném čase",
+  "news_flow_structured_name": "News Flow",
+  "news_flow_structured_description": "Tržní zprávy a katalyzátory v reálném čase pro plánování krátkodobých obchodů",
+
+  "news_flow_main_title": "News Flow",
+  "news_flow_news_count": "{count} zpráv",
+  "news_flow_search_placeholder": "Hledat...",
+
+  "news_flow_infobox": "Sleduj nejnovější zprávy a v reálném čase zjisti, proč se ceny akcií pohnuly",
+  "news_flow_no_news": "Zatím tu nejsou žádné důležité zprávy z trhu.",
+
+  "news_flow_sidebar_market_flow_title": "Market Flow",
+  "news_flow_sidebar_market_flow_description": "Sleduj opční sentiment v reálném čase.",
+  "news_flow_sidebar_options_flow_title": "Options Flow",
+  "news_flow_sidebar_options_flow_description": "Sleduj neobvyklou opční aktivitu a vzorce toku v reálném čase",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Flow",
+  "news_flow_sidebar_dark_pool_description": "Analyzuj skrytý institucionální tok a data z dark poolů"
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Opciós flow szkenner - Élő sweepek, blokkok és szokatlan aktivitás",
+  "options_flow_seo_description": "Kövesd élőben az opciós flow-t, a sweepeket és a blokkügyleteket amerikai részvényeken és ETF-eken. Szúrd ki a szokatlan aktivitást és a rövid távú belépőket valós időben.",
+  "options_flow_seo_keywords": "opciós flow, opciós flow szkenner, szokatlan opciós aktivitás, sweep megbízások, blokkügyletek, okos pénz, call flow, put flow, opciós riasztások, OPRA opciós flow",
+  "options_flow_structured_name": "Opciós flow szkenner",
+  "options_flow_structured_description": "Élő opciós flow sweepekkel, blokkokkal és szokatlan aktivitással, rövid távú belépőkhöz",
+
+  "options_flow_main_title": "Opciós flow",
+
+  "options_flow_popular_filters": "Népszerű szűrők",
+  "options_flow_popular_strategies": "Népszerű stratégiák",
+  "options_flow_select_popular": "Válassz népszerűt",
+  "options_flow_saved_filters": "Mentett szűrők",
+  "options_flow_select_filter": "Szűrő kiválasztása",
+  "options_flow_new_filter": "Új szűrő",
+
+  "options_flow_filters_count": "{count} szűrő",
+  "options_flow_add_filters": "Szűrők hozzáadása",
+  "options_flow_search_filters": "Keresés {count} szűrő között...",
+  "options_flow_select_filters_title": "Flow-szűrők kiválasztása (összesen {count})",
+  "options_flow_nothing_found": "Nincs találat",
+  "options_flow_no_filters_found": "Nincs elérhető szűrő",
+
+  "options_flow_search_placeholder": "Keresés...",
+  "options_flow_search_input_placeholder": "Keresés...",
+  "options_flow_full_width": "Teljes szélesség",
+  "options_flow_normal_width": "Normál szélesség",
+
+  "options_flow_no_trades_query": "Nincs opciós ügylet erre: \"{query}\"",
+  "options_flow_no_data_filters": "A kiválasztott szűrőkkel nincs találat. Módosítsd a szűrőket, és próbáld újra.",
+
+  "options_flow_modal_new_title": "Új szűrő",
+  "options_flow_modal_new_name_label": "Szűrő neve",
+  "options_flow_modal_new_create": "Szűrő létrehozása",
+
+  "options_flow_modal_delete_title": "Szűrő törlése",
+  "options_flow_modal_delete_message": "Biztosan törlöd ezt a szűrőt? A művelet nem vonható vissza.",
+  "options_flow_modal_delete_cancel": "Mégse",
+  "options_flow_modal_delete_confirm": "Szűrő törlése",
+
+  "options_flow_strategy_bullish_sweeps": "Bullish sweepek",
+  "options_flow_strategy_bearish_sweeps": "Bearish sweepek",
+  "options_flow_strategy_high_premium_blocks": "Magas prémiumú blokkok",
+  "options_flow_strategy_unusual_size_oi": "Szokatlan méret az OI-hoz képest",
+  "options_flow_strategy_etf_index_flow": "ETF- és indexflow",
+  "options_flow_strategy_zero_dte_flow": "0DTE flow",
+  "options_flow_strategy_repeated_flow": "Ismétlődő flow",
+
+  "options_flow_save": "Mentés",
+  "options_flow_save_as_new": "Mentés újként",
+  "options_flow_reset_all": "Összes visszaállítása",
+
+  "options_flow_market_closed": "Piac zárva",
+  "options_flow_paused": "Szüneteltetve",
+  "options_flow_live_flow": "Élő flow",
+  "options_flow_pick_date": "Válassz dátumot",
+
+  "options_flow_realtime_data": "Valós idejű opciós adatok",
+  "options_flow_realtime_data_title": "Valós idejű opciós adatok az OPRA-tól",
+  "options_flow_realtime_data_content": "Az opciós flow-t valós idejű OPRA-adatok hajtják: ez az összes amerikai tőzsdei opciós ügylet hivatalos, konszolidált adatfolyama. Így minden kötés, amit látsz, közvetlenül az OPRA-tól érkezik valós időben, intézményi szintű rálátást adva a nagy ügyletekre, a sweepekre, a szokatlan aktivitásra és a prémiumáramlásra, ahogy történik. Az OPRA megbízható ügyletfolyamára építve gyorsabb következtetéseket, tisztább adatokat és pontosabb képet kapsz arról, hova mozdul az okos pénz az opciós piacon.",
+
+  "options_flow_hide_filter_area": "Szűrők elrejtése",
+  "options_flow_show_filter_area": "Szűrők mutatása",
+
+  "options_flow_put_to_call": "Put/call arány",
+  "options_flow_call_flow": "Call flow",
+  "options_flow_put_flow": "Put flow"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Zostań sponsorem Stocknear",
+  "donation_seo_description": "Twoje wsparcie pomaga nam zostać platformą analizy akcji numer 1 na świecie, z najlepszymi cenami.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Cześć 👋,",
+  "donation_intro_paragraph_1": "Dzięki, że rozważasz wsparcie naszej misji. Jako jedyna osoba stojąca za Stocknear — od backendu po obsługę klienta — zależy mi, żeby platforma pozostała tania i dostępna dla wszystkich inwestorów.",
+  "donation_intro_paragraph_2": "Ceny naszych planów ustawiliśmy tak, by wysokiej jakości dane giełdowe były w zasięgu inwestorów detalicznych bez względu na budżet.",
+  "donation_support_paragraph_1": "Subskrypcja pokrywa podstawowe koszty działania, ale Twoje dodatkowe wsparcie pozwala nam pójść dalej. Sponsorując, nie wspierasz tylko platformy — inwestujesz w wizję otwartej, przejrzystej i taniej analizy finansowej.",
+  "donation_support_list_intro": "Twoje wsparcie przełoży się bezpośrednio na:",
+  "donation_support_list_item_1": "Utrzymanie niskich cen",
+  "donation_support_list_item_2": "Lepszą jakość danych i nowe funkcje",
+  "donation_support_list_item_3": "Realizację celu, jakim jest zostanie platformą analizy akcji nr 1 w branży",
+  "donation_cta_title": "Zostań sponsorem Stocknear",
+  "donation_cta_paragraph_1": "Jeśli wierzysz w naszą misję i chcesz wesprzeć nas ponad subskrypcję, zrób to przez GitHub Sponsors. Każda wpłata, niezależnie od kwoty, realnie wpływa na to, ile możemy dać Tobie i całej społeczności inwestorów detalicznych.",
+  "donation_cta_paragraph_2": "Twoje wsparcie wiele dla mnie znaczy i pomaga utrzymać Stocknear w ruchu.",
+  "donation_sidebar_about_title": "O nas",
+  "donation_iframe_title": "Wesprzyj Stocknear"
+}

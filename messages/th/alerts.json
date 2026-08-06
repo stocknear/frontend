@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "หน้าแรก",
+  "price_alert_breadcrumb_price_alert": "แจ้งเตือน",
+
+  "price_alert_seo_title": "แจ้งเตือนหุ้น - การแจ้งเตือนและอัปเดตตลาดแบบเรียลไทม์",
+  "price_alert_seo_description": "ตั้งการแจ้งเตือนหุ้นตามเงื่อนไขของคุณ และรับแจ้งทันทีเมื่อเงื่อนไขเป็นจริง ติดตามผลประกอบการ ข่าว และความเคลื่อนไหวของราคาในวอทช์ลิสต์ด้วยข้อมูลตลาดแบบเรียลไทม์",
+  "price_alert_seo_keywords": "แจ้งเตือนหุ้น, แจ้งเตือนราคา, แจ้งเตือนตลาด, ทริกเกอร์หุ้น, ปฏิทินผลประกอบการ, ฟีดข่าวหุ้น, แจ้งเตือนเรียลไทม์, การแจ้งเตือนตลาด, วอทช์ลิสต์หุ้น, ติดตามราคา",
+  "price_alert_structured_name": "การแจ้งเตือน - Stocknear",
+  "price_alert_structured_description": "ระบบแจ้งเตือนหุ้นแบบเรียลไทม์ที่ส่งการแจ้งเตือนทันที",
+
+  "price_alert_main_title": "การแจ้งเตือน",
+
+  "price_alert_search_placeholder": "ค้นหา...",
+  "price_alert_no_results": "ไม่พบผลลัพธ์",
+  "price_alert_edit_alert": "แก้ไขการแจ้งเตือน",
+  "price_alert_cancel": "ยกเลิก",
+
+  "price_alert_empty_title": "ยังไม่ได้ตั้งการแจ้งเตือน",
+  "price_alert_empty_description": "ตั้งการแจ้งเตือนสำหรับหุ้นที่คุณมองว่ามีศักยภาพมากที่สุด",
+  "price_alert_get_started": "เริ่มต้นใช้งาน",
+
+  "price_alert_tab_news": "ข่าว",
+  "price_alert_tab_earnings": "ประกาศผลประกอบการ",
+  "price_alert_no_news": "ยังไม่มีข่าว เพิ่มหุ้นเข้ารายการแจ้งเตือนเพื่อดูข่าวล่าสุด",
+  "price_alert_no_earnings": "ยังไม่มีผลประกอบการ เพิ่มหุ้นเข้ารายการแจ้งเตือนเพื่อดูข้อมูลผลประกอบการล่าสุด",
+
+  "price_alert_toast_deleted": "ลบการแจ้งเตือนเรียบร้อยแล้ว",
+  "price_alert_toast_select_symbols": "คุณต้องเลือกหุ้นก่อนจึงจะลบได้",
+
+  "price_alert_earnings_will_report_today": "จะประกาศวันนี้",
+  "price_alert_earnings_will_report_tomorrow": "จะประกาศพรุ่งนี้",
+  "price_alert_earnings_will_report_monday": "จะประกาศวันจันทร์",
+  "price_alert_earnings_will_report": "จะประกาศ",
+  "price_alert_earnings_after_close": "หลังตลาดปิด",
+  "price_alert_earnings_before_open": "ก่อนตลาดเปิด",
+  "price_alert_earnings_during_market": "ระหว่างเวลาซื้อขาย",
+  "price_alert_earnings_analysts_estimate": "นักวิเคราะห์คาดการณ์",
+  "price_alert_earnings_in_revenue": "ในส่วนของรายได้",
+  "price_alert_earnings_yoy": "เทียบปีก่อน",
+  "price_alert_earnings_and": "และ",
+  "price_alert_earnings_in_eps": "ในส่วนของกำไรต่อหุ้น"
+}

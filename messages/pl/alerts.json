@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Strona główna",
+  "price_alert_breadcrumb_price_alert": "Alert",
+
+  "price_alert_seo_title": "Alerty giełdowe - powiadomienia i aktualizacje w czasie rzeczywistym",
+  "price_alert_seo_description": "Twórz własne alerty giełdowe i otrzymuj natychmiastowe powiadomienia, gdy twoje warunki zostaną spełnione. Śledź wyniki, wiadomości i ruchy cen dla obserwowanych spółek dzięki danym w czasie rzeczywistym.",
+  "price_alert_seo_keywords": "alerty giełdowe, powiadomienia o cenach, alerty rynkowe, wyzwalacze giełdowe, kalendarz wyników, wiadomości o akcjach, alerty w czasie rzeczywistym, powiadomienia rynkowe, lista obserwowanych, monitorowanie cen",
+  "price_alert_structured_name": "Alerty - Stocknear",
+  "price_alert_structured_description": "System alertów giełdowych z natychmiastowymi powiadomieniami",
+
+  "price_alert_main_title": "Alerty",
+
+  "price_alert_search_placeholder": "Szukaj...",
+  "price_alert_no_results": "Brak wyników",
+  "price_alert_edit_alert": "Edytuj alert",
+  "price_alert_cancel": "Anuluj",
+
+  "price_alert_empty_title": "Brak ustawionych alertów",
+  "price_alert_empty_description": "Ustaw alerty dla spółek, które twoim zdaniem mają największy potencjał.",
+  "price_alert_get_started": "Zacznij",
+
+  "price_alert_tab_news": "Wiadomości",
+  "price_alert_tab_earnings": "Publikacja wyników",
+  "price_alert_no_news": "Brak wiadomości. Dodaj spółki do listy alertów, aby zobaczyć najnowsze newsy.",
+  "price_alert_no_earnings": "Brak wyników. Dodaj spółki do listy alertów, aby zobaczyć najnowsze dane o wynikach.",
+
+  "price_alert_toast_deleted": "Alerty usunięte",
+  "price_alert_toast_select_symbols": "Najpierw zaznacz symbole, które chcesz usunąć",
+
+  "price_alert_earnings_will_report_today": "opublikuje wyniki dzisiaj",
+  "price_alert_earnings_will_report_tomorrow": "opublikuje wyniki jutro",
+  "price_alert_earnings_will_report_monday": "opublikuje wyniki w poniedziałek",
+  "price_alert_earnings_will_report": "opublikuje wyniki",
+  "price_alert_earnings_after_close": "po zamknięciu rynku.",
+  "price_alert_earnings_before_open": "przed otwarciem rynku.",
+  "price_alert_earnings_during_market": "w trakcie sesji.",
+  "price_alert_earnings_analysts_estimate": "Analitycy prognozują",
+  "price_alert_earnings_in_revenue": "przychodu",
+  "price_alert_earnings_yoy": "rdr",
+  "price_alert_earnings_and": "oraz",
+  "price_alert_earnings_in_eps": "zysku na akcję"
+}

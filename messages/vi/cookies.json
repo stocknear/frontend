@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Chúng tôi tôn trọng quyền riêng tư của bạn",
+  "cookies_banner_description": "Chúng tôi dùng cookie để cải thiện trải nghiệm duyệt web, phân tích lưu lượng và cá nhân hóa nội dung.",
+  "cookies_accept_all": "Chấp nhận tất cả",
+  "cookies_reject_all": "Từ chối tất cả",
+  "cookies_customize": "Tùy chỉnh",
+  "cookies_preferences_title": "Tùy chọn cookie",
+  "cookies_preferences_description": "Quản lý tùy chọn cookie của bạn. Cookie cần thiết không thể tắt vì website cần chúng để hoạt động.",
+  "cookies_necessary_title": "Cookie cần thiết",
+  "cookies_necessary_description": "Thiết yếu cho xác thực, bảo mật và các chức năng cơ bản. Không thể tắt.",
+  "cookies_analytics_title": "Cookie phân tích",
+  "cookies_analytics_description": "Giúp chúng tôi hiểu cách khách truy cập tương tác với website để cải thiện trải nghiệm người dùng.",
+  "cookies_marketing_title": "Cookie tiếp thị",
+  "cookies_marketing_description": "Dùng để theo dõi khách truy cập trên các website nhằm hiển thị quảng cáo cá nhân hóa.",
+  "cookies_save_preferences": "Lưu tùy chọn"
+}

@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Hem",
+  "politicians_breadcrumb_politicians": "Politiker",
+  "politicians_breadcrumb_flow": "Kongressflöde",
+
+  "politicians_seo_title": "Bevakning av kongressens affärer - Politikers aktieaffärer i realtid",
+  "politicians_seo_description": "Följ aktieaffärer i realtid från ledamöter i USA:s kongress, senatorer och politiker. Bevaka Nancy Pelosis affärer, senatens aktieköp och insiderhandel i kongressen. Gratis bevakning av politikers affärer med detaljerad transaktionshistorik.",
+  "politicians_seo_keywords": "kongressens handel, nancy pelosi affärer, politikers aktieaffärer, senatens affärer, handel i kongressen, insiderhandel kongressen, bevakning av politikers aktier, amerikanska politikers handel, pelosi portfölj, kongressens aktieaffärer",
+  "politicians_structured_name": "Bevakning av kongressens affärer",
+  "politicians_structured_description": "Aktieaffärer från amerikanska politiker och kongressledamöter i realtid",
+
+  "politicians_main_title": "Alla amerikanska politiker",
+  "politicians_count_members": "{count} ledamöter",
+  "politicians_search_placeholder": "Hitta...",
+  "politicians_filter_party": "Parti",
+  "politicians_empty_search": "Ingen kongressledamot hittades för \"{query}\"",
+  "politicians_empty_filter": "Inga träffar för din sökning eller dina filter.",
+
+  "politicians_pagination_previous": "Föregående",
+  "politicians_pagination_next": "Nästa",
+  "politicians_pagination_page_of": "Sida {current} av {total}",
+  "politicians_pagination_rows": "{count} rader",
+  "politicians_back_to_top": "Till toppen",
+
+  "politicians_flow_seo_title": "Senaste affärerna i kongressen",
+  "politicians_flow_seo_description": "Se de senaste affärerna i kongressen och vad insiders med tillgång till regelverken investerar i.",
+
+  "politicians_flow_title": "Politikernas senaste affärer",
+  "politicians_flow_description_intro": "Översikt över den senaste handeln i kongressen. Köp/sälj-kvoten visar",
+  "politicians_flow_description_buys": "{percent}% köp",
+  "politicians_flow_description_versus": "mot",
+  "politicians_flow_description_sells": "{percent}% sälj",
+  "politicians_flow_description_active_party": "bland de senaste rapporterna. Mest aktivt parti är",
+  "politicians_flow_description_with": "med",
+  "politicians_flow_description_transactions": "transaktioner, vilket tyder på",
+  "politicians_flow_description_sentiment": "sentiment bland kongressens ledamöter.",
+  "politicians_flow_sentiment_bullish": "positivt",
+  "politicians_flow_sentiment_bearish": "negativt",
+  "politicians_flow_sentiment_neutral": "neutralt",
+  "politicians_flow_count_trades": "{count} affärer",
+  "politicians_flow_empty_search": "Inga aktier hittades för \"{query}\"",
+
+  "politicians_detail_stats_rank": "Placering",
+  "politicians_detail_stats_trades_scored": "Bedömda affärer",
+  "politicians_detail_stats_success_rate": "Träffsäkerhet",
+  "politicians_detail_stats_avg_return": "Snittavkastning",
+  "politicians_detail_stats_total_amount": "Totalt belopp",
+  "politicians_detail_stats_transaction": "Transaktion",
+  "politicians_detail_stats_last_transaction": "Senaste transaktion",
+  "politicians_detail_stats_buy_sell": "Köp/sälj",
+
+  "politicians_detail_main_sectors": "Största sektorer:",
+  "politicians_detail_top_industries": "Största branscher:",
+  "politicians_detail_count_stocks": "{count} aktier",
+  "politicians_detail_empty_search": "Inga data finns för \"{query}\"",
+  "politicians_detail_empty": "Inga data finns för den sökta analytikern.",
+
+  "politicians_detail_mobile_filed": "Rapporterad",
+  "politicians_detail_mobile_view_chart": "Visa diagram",
+  "politicians_detail_mobile_amt": "Belopp",
+  "politicians_detail_mobile_trades": "{count} affär",
+  "politicians_detail_mobile_trades_plural": "{count} affärer"
+}

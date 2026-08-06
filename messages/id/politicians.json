@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Beranda",
+  "politicians_breadcrumb_politicians": "Politikus",
+  "politicians_breadcrumb_flow": "Flow Kongres",
+
+  "politicians_seo_title": "Pelacak Trading Kongres - Transaksi Saham Politikus Real-Time",
+  "politicians_seo_description": "Pantau transaksi saham anggota Kongres AS, senator, dan politikus secara real-time. Ikuti transaksi Nancy Pelosi, pembelian saham senat, dan aktivitas insider di kongres. Pelacak trading politikus gratis dengan riwayat transaksi lengkap.",
+  "politicians_seo_keywords": "trading kongres, transaksi nancy pelosi, transaksi saham politikus, transaksi senat, trading kongres, insider trading kongres, pelacak saham politik, trading politikus as, portofolio pelosi, transaksi saham kongres",
+  "politicians_structured_name": "Pelacak Trading Kongres",
+  "politicians_structured_description": "Pemantauan real-time transaksi saham politikus dan anggota kongres AS",
+
+  "politicians_main_title": "Semua Politikus AS",
+  "politicians_count_members": "{count} Anggota",
+  "politicians_search_placeholder": "Cari...",
+  "politicians_filter_party": "Partai",
+  "politicians_empty_search": "Tidak ada anggota Kongres untuk \"{query}\"",
+  "politicians_empty_filter": "Tidak ada hasil untuk pencarian atau filter Anda.",
+
+  "politicians_pagination_previous": "Sebelumnya",
+  "politicians_pagination_next": "Berikutnya",
+  "politicians_pagination_page_of": "Halaman {current} dari {total}",
+  "politicians_pagination_rows": "{count} Baris",
+  "politicians_back_to_top": "Kembali ke Atas",
+
+  "politicians_flow_seo_title": "Trading Kongres Terbaru",
+  "politicians_flow_seo_description": "Lihat transaksi kongres terbaru dan cari tahu apa yang dibeli orang dalam yang punya akses ke regulasi.",
+
+  "politicians_flow_title": "Transaksi Terbaru Para Politikus",
+  "politicians_flow_description_intro": "Ringkasan aktivitas trading kongres terbaru. Rasio beli-jual menunjukkan",
+  "politicians_flow_description_buys": "{percent}% beli",
+  "politicians_flow_description_versus": "berbanding",
+  "politicians_flow_description_sells": "{percent}% jual",
+  "politicians_flow_description_active_party": "dari laporan terbaru. Partai paling aktif adalah",
+  "politicians_flow_description_with": "dengan",
+  "politicians_flow_description_transactions": "transaksi, menunjukkan sentimen",
+  "politicians_flow_description_sentiment": "di kalangan anggota kongres.",
+  "politicians_flow_sentiment_bullish": "bullish",
+  "politicians_flow_sentiment_bearish": "bearish",
+  "politicians_flow_sentiment_neutral": "netral",
+  "politicians_flow_count_trades": "{count} Transaksi",
+  "politicians_flow_empty_search": "Tidak ada saham untuk \"{query}\"",
+
+  "politicians_detail_stats_rank": "Peringkat",
+  "politicians_detail_stats_trades_scored": "Transaksi Dinilai",
+  "politicians_detail_stats_success_rate": "Tingkat Keberhasilan",
+  "politicians_detail_stats_avg_return": "Return Rata-rata",
+  "politicians_detail_stats_total_amount": "Total Nilai",
+  "politicians_detail_stats_transaction": "Transaksi",
+  "politicians_detail_stats_last_transaction": "Transaksi Terakhir",
+  "politicians_detail_stats_buy_sell": "Beli/Jual",
+
+  "politicians_detail_main_sectors": "Sektor Utama:",
+  "politicians_detail_top_industries": "Industri Teratas:",
+  "politicians_detail_count_stocks": "{count} Saham",
+  "politicians_detail_empty_search": "Tidak ada data untuk \"{query}\"",
+  "politicians_detail_empty": "Tidak ada data untuk analis yang dicari.",
+
+  "politicians_detail_mobile_filed": "Dilaporkan",
+  "politicians_detail_mobile_view_chart": "Lihat Grafik",
+  "politicians_detail_mobile_amt": "Nilai",
+  "politicians_detail_mobile_trades": "{count} transaksi",
+  "politicians_detail_mobile_trades_plural": "{count} transaksi"
+}

@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Hjem",
+  "dividends_breadcrumb_calendar": "Utbyttekalender",
+
+  "dividends_seo_title": "Utbyttekalender - ex-datoer og utbetalingsplan for aksjer",
+  "dividends_seo_description": "Følg kommende ex-datoer og utbetalingsplaner for aksjeutbytte. Planlegg utbyttestrategien din med en komplett kalender som viser beløp, utbetalingsdatoer og markedsverdi.",
+  "dividends_seo_keywords": "utbyttekalender, ex-datoer, utbetalingsplan utbytte, utbyttestrategi, aksjeutbytte, utbytteaksjer, utbetalingsdatoer utbytte, kommende utbytter",
+
+  "dividends_main_name": "Utbyttekalender",
+  "dividends_count": "{count} utbytter",
+  "dividends_empty_day": "Ingen utbytter denne dagen.",
+  "dividends_empty_none": "Ingen utbytter",
+  "dividends_empty_scheduled": "Ingen utbytter planlagt",
+
+  "dividends_tab_daily": "Daglig",
+  "dividends_tab_weekly": "Ukentlig",
+  "dividends_tab_details": "Detaljer",
+  "dividends_tab_compact": "Kompakt",
+
+  "dividends_time_any": "Når som helst",
+  "dividends_time_before_open": "Før åpning",
+  "dividends_time_after_close": "Etter stenging",
+
+  "dividends_expanded_ex_date": "Ex-dato",
+  "dividends_expanded_market_cap": "Markedsverdi",
+  "dividends_expanded_amount": "Beløp",
+  "dividends_expanded_revenue": "Omsetning",
+  "dividends_expanded_payment_date": "Utbetalingsdato",
+  "dividends_expanded_date": "Dato",
+  "dividends_expanded_dividend": "Utbytte",
+
+  "dividends_pagination_previous": "Forrige",
+  "dividends_pagination_next": "Neste",
+  "dividends_pagination_page_of": "Side {current} av {total}",
+  "dividends_pagination_rows": "{count} rader",
+  "dividends_back_to_top": "Til toppen",
+  "dividends_search_placeholder": "Søk..."
+}

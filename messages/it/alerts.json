@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Home",
+  "price_alert_breadcrumb_price_alert": "Avvisi",
+
+  "price_alert_seo_title": "Avvisi sui titoli - Notifiche e aggiornamenti di mercato in tempo reale",
+  "price_alert_seo_description": "Crea avvisi personalizzati sui titoli e ricevi una notifica immediata quando si verificano le tue condizioni. Segui trimestrali, notizie e movimenti di prezzo della tua watchlist con dati di mercato in tempo reale.",
+  "price_alert_seo_keywords": "avvisi sui titoli, notifiche di prezzo, avvisi di mercato, trigger sui titoli, calendario trimestrali, notizie sui titoli, avvisi in tempo reale, notifiche di mercato, watchlist, monitoraggio dei prezzi",
+  "price_alert_structured_name": "Avvisi - Stocknear",
+  "price_alert_structured_description": "Sistema di avvisi sui titoli in tempo reale con notifiche immediate",
+
+  "price_alert_main_title": "Avvisi",
+
+  "price_alert_search_placeholder": "Cerca...",
+  "price_alert_no_results": "Nessun risultato trovato",
+  "price_alert_edit_alert": "Modifica avviso",
+  "price_alert_cancel": "Annulla",
+
+  "price_alert_empty_title": "Nessun avviso impostato",
+  "price_alert_empty_description": "Crea avvisi per i titoli che secondo te hanno più potenziale.",
+  "price_alert_get_started": "Inizia ora",
+
+  "price_alert_tab_news": "Notizie",
+  "price_alert_tab_earnings": "Pubblicazione dei risultati",
+  "price_alert_no_news": "Ancora nessuna notizia. Aggiungi qualche titolo alla lista degli avvisi per vedere le ultime news.",
+  "price_alert_no_earnings": "Ancora nessun dato sui risultati. Aggiungi qualche titolo alla lista degli avvisi per vedere le ultime trimestrali.",
+
+  "price_alert_toast_deleted": "Avvisi eliminati correttamente",
+  "price_alert_toast_select_symbols": "Devi selezionare dei simboli prima di poterli eliminare",
+
+  "price_alert_earnings_will_report_today": "pubblica i risultati oggi",
+  "price_alert_earnings_will_report_tomorrow": "pubblica i risultati domani",
+  "price_alert_earnings_will_report_monday": "pubblica i risultati lunedì",
+  "price_alert_earnings_will_report": "pubblica i risultati",
+  "price_alert_earnings_after_close": "dopo la chiusura del mercato.",
+  "price_alert_earnings_before_open": "prima dell'apertura del mercato.",
+  "price_alert_earnings_during_market": "a mercato aperto.",
+  "price_alert_earnings_analysts_estimate": "Gli analisti stimano",
+  "price_alert_earnings_in_revenue": "di ricavi",
+  "price_alert_earnings_yoy": "su base annua",
+  "price_alert_earnings_and": "e",
+  "price_alert_earnings_in_eps": "di utile per azione"
+}

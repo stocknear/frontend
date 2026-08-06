@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Start",
+  "politicians_breadcrumb_politicians": "Politycy",
+  "politicians_breadcrumb_flow": "Transakcje Kongresu",
+
+  "politicians_seo_title": "Transakcje Kongresu - akcje kupowane przez polityków na żywo",
+  "politicians_seo_description": "Śledź na bieżąco transakcje giełdowe członków Kongresu USA, senatorów i polityków. Sprawdzaj transakcje Nancy Pelosi, zakupy senatorów i handel akcjami w Kongresie. Darmowy tracker z pełną historią transakcji.",
+  "politicians_seo_keywords": "transakcje kongresu, transakcje nancy pelosi, akcje polityków, transakcje senatu, handel akcjami w kongresie, insiderzy w kongresie, tracker polityków, politycy usa akcje, portfel pelosi, kongres akcje",
+  "politicians_structured_name": "Tracker transakcji Kongresu",
+  "politicians_structured_description": "Śledzenie na żywo transakcji giełdowych polityków i członków Kongresu USA",
+
+  "politicians_main_title": "Wszyscy politycy USA",
+  "politicians_count_members": "Osoby: {count}",
+  "politicians_search_placeholder": "Znajdź...",
+  "politicians_filter_party": "Partia",
+  "politicians_empty_search": "Nie znaleziono członka Kongresu dla \"{query}\"",
+  "politicians_empty_filter": "Brak wyników dla podanych kryteriów.",
+
+  "politicians_pagination_previous": "Wstecz",
+  "politicians_pagination_next": "Dalej",
+  "politicians_pagination_page_of": "Strona {current} z {total}",
+  "politicians_pagination_rows": "Wiersze: {count}",
+  "politicians_back_to_top": "Do góry",
+
+  "politicians_flow_seo_title": "Najnowsze transakcje Kongresu",
+  "politicians_flow_seo_description": "Zobacz najnowsze transakcje członków Kongresu i sprawdź, w co inwestują osoby mające wpływ na regulacje.",
+
+  "politicians_flow_title": "Najnowsze transakcje polityków",
+  "politicians_flow_description_intro": "Przegląd najnowszych transakcji członków Kongresu. Stosunek kupna do sprzedaży to",
+  "politicians_flow_description_buys": "{percent}% kupna",
+  "politicians_flow_description_versus": "wobec",
+  "politicians_flow_description_sells": "{percent}% sprzedaży",
+  "politicians_flow_description_active_party": "w ostatnich zgłoszeniach. Najaktywniejsza partia to",
+  "politicians_flow_description_with": "z liczbą",
+  "politicians_flow_description_transactions": "transakcji, co wskazuje na",
+  "politicians_flow_description_sentiment": "nastroje wśród członków Kongresu.",
+  "politicians_flow_sentiment_bullish": "bycze",
+  "politicians_flow_sentiment_bearish": "niedźwiedzie",
+  "politicians_flow_sentiment_neutral": "neutralne",
+  "politicians_flow_count_trades": "Transakcje: {count}",
+  "politicians_flow_empty_search": "Nie znaleziono spółek dla \"{query}\"",
+
+  "politicians_detail_stats_rank": "Pozycja",
+  "politicians_detail_stats_trades_scored": "Ocenione transakcje",
+  "politicians_detail_stats_success_rate": "Skuteczność",
+  "politicians_detail_stats_avg_return": "Śr. zwrot",
+  "politicians_detail_stats_total_amount": "Łączna kwota",
+  "politicians_detail_stats_transaction": "Transakcja",
+  "politicians_detail_stats_last_transaction": "Ostatnia transakcja",
+  "politicians_detail_stats_buy_sell": "Kupno/Sprzedaż",
+
+  "politicians_detail_main_sectors": "Główne sektory:",
+  "politicians_detail_top_industries": "Główne branże:",
+  "politicians_detail_count_stocks": "Spółki: {count}",
+  "politicians_detail_empty_search": "Brak danych dla \"{query}\"",
+  "politicians_detail_empty": "Brak danych dla wyszukiwanego analityka.",
+
+  "politicians_detail_mobile_filed": "Zgłoszono",
+  "politicians_detail_mobile_view_chart": "Zobacz wykres",
+  "politicians_detail_mobile_amt": "Kwota",
+  "politicians_detail_mobile_trades": "{count} transakcja",
+  "politicians_detail_mobile_trades_plural": "{count} transakcji"
+}

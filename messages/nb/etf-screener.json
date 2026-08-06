@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Hjem",
+  "etf_screener_breadcrumb_etf_screener": "ETF-screener",
+
+  "etf_screener_seo_title": "Gratis ETF-screener - Filtrer og finn ETF-er",
+  "etf_screener_seo_description": "Screen og filtrer {count} ETF-er på forvaltningskapital, kostnader, utbytte, avkastning, teknisk analyse og mer. Gratis ETF-screener med avanserte filtre.",
+  "etf_screener_seo_keywords": "etf-screener, etf-filter, etf-søk, finn etf-er, verktøy for etf-screening, filter for kostnadsprosent, filter for forvaltningskapital, screener for utbytte-etf",
+  "etf_screener_structured_name": "stocknear ETF-screener",
+  "etf_screener_structured_description": "Avansert ETF-screener med filtre for forvaltningskapital, kostnadsprosent, avkastning, teknisk analyse, utbytte og mer.",
+
+  "etf_screener_main_title": "ETF-screener",
+  "etf_screener_matches_found": "{count} treff",
+  "etf_screener_etfs_count": "{count} ETF-er",
+
+  "etf_screener_popular_screens": "Populære screener",
+  "etf_screener_popular_strategies": "Populære strategier",
+  "etf_screener_select_popular": "Velg populær",
+  "etf_screener_saved_screens": "Lagrede screener",
+  "etf_screener_select_screen": "Velg screen",
+  "etf_screener_new_screen": "Ny screen",
+
+  "etf_screener_filters_count": "Filtre ({count})",
+  "etf_screener_add_filters": "Legg til filtre",
+  "etf_screener_search_filters": "Søk i {count} filtre ...",
+  "etf_screener_select_filters_title": "Velg filtre ({count})",
+  "etf_screener_nothing_found": "Ingen treff",
+
+  "etf_screener_search_placeholder": "Søk i ETF-er ...",
+  "etf_screener_search_input_placeholder": "Søk ...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Maks",
+  "etf_screener_input_value": "Verdi",
+
+  "etf_screener_normal_width": "Normal bredde",
+  "etf_screener_full_width": "Full bredde",
+
+  "etf_screener_save": "Lagre",
+  "etf_screener_save_as_new": "Lagre som ny",
+  "etf_screener_reset_all": "Nullstill alt",
+
+  "etf_screener_pagination_previous": "Forrige",
+  "etf_screener_pagination_next": "Neste",
+  "etf_screener_pagination_page_of": "Side {current} av {total}",
+  "etf_screener_rows_label": "{rows} rader",
+  "etf_screener_back_to_top": "Til toppen",
+
+  "etf_screener_no_etfs_query": "Fant ingen ETF-er for \"{query}\"",
+  "etf_screener_no_etfs": "Fant ingen ETF-er.",
+
+  "etf_screener_modal_new_title": "Ny screen",
+  "etf_screener_modal_new_name_label": "Navn på screen",
+  "etf_screener_modal_new_create": "Opprett",
+
+  "etf_screener_modal_delete_title": "Slett screen",
+  "etf_screener_modal_delete_message": "Er du sikker på at du vil slette denne screenen?",
+  "etf_screener_modal_delete_cancel": "Avbryt",
+  "etf_screener_modal_delete_confirm": "Slett",
+
+  "etf_screener_strategy_low_cost_index": "Rimelige indeks-ETF-er",
+  "etf_screener_strategy_high_dividend": "ETF-er med høyt utbytte",
+  "etf_screener_strategy_top_performers_1y": "Best avkastning 1 år",
+  "etf_screener_strategy_oversold": "Oversolgte ETF-er",
+
+  "etf_screener_tab_filters": "Filtre",
+  "etf_screener_tab_technicals": "Teknisk",
+
+  "etf_screener_export_title": "Eksporter data fra ETF-screeneren"
+}

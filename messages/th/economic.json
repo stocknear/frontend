@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "หน้าแรก",
+  "economic_breadcrumb_calendar": "ปฏิทินเศรษฐกิจ",
+
+  "economic_seo_title": "ปฏิทินเศรษฐกิจ - เหตุการณ์ที่มีผลต่อตลาดและการประกาศตัวเลขแบบสด",
+  "economic_seo_description": "ก้าวนำตลาดด้วยปฏิทินเศรษฐกิจที่ครบถ้วน รวมเหตุการณ์การเงินแบบเรียลไทม์ ตัวชี้วัดเศรษฐกิจ และการประกาศตัวเลขที่ขยับตลาด ติดตาม GDP เงินเฟ้อ ข้อมูลการจ้างงาน การประชุมธนาคารกลาง และประกาศเศรษฐกิจสำคัญ พร้อมเวลาที่แม่นยำและตัวเลขคาดการณ์ เครื่องมือจำเป็นสำหรับเทรดเดอร์และนักลงทุนที่ต้องการคาดการณ์ความผันผวน",
+  "economic_seo_keywords": "ปฏิทินเศรษฐกิจ, เหตุการณ์ทางการเงิน, ปฏิทินตลาด, ตัวชี้วัดเศรษฐกิจ, ประกาศ GDP, ข้อมูลเงินเฟ้อ, สถิติการจ้างงาน, การประชุมธนาคารกลาง, ข่าวเศรษฐกิจ, เหตุการณ์ที่ขยับตลาด, การประกาศตัวเลขการเงิน, ประกาศเศรษฐกิจ, ปฏิทินการเทรด, การวางแผนลงทุน",
+  "economic_structured_name": "ปฏิทินเศรษฐกิจ",
+  "economic_structured_description": "ปฏิทินเศรษฐกิจครบถ้วนที่ติดตามเหตุการณ์การเงินทั่วโลก ตัวชี้วัดเศรษฐกิจ และการประกาศตัวเลขที่ขยับตลาด",
+
+  "economic_main_name": "ปฏิทินเศรษฐกิจ",
+  "economic_count_events": "{count} เหตุการณ์",
+  "economic_empty_day": "ไม่มีเหตุการณ์ในวันนี้",
+
+  "economic_filter_country": "กรองตามประเทศ",
+  "economic_filter_importance": "กรองตามความสำคัญ",
+  "economic_filter_reset": "รีเซ็ตทั้งหมด",
+  "economic_filter_search": "ค้นหา...",
+  "economic_filter_no_country": "ไม่พบประเทศ",
+  "economic_filters_label": "ตัวกรอง",
+
+  "economic_pagination_previous": "ก่อนหน้า",
+  "economic_pagination_next": "ถัดไป",
+  "economic_pagination_page_of": "หน้า {current} จาก {total}",
+  "economic_pagination_rows": "{count} แถว",
+  "economic_back_to_top": "กลับขึ้นด้านบน",
+  "economic_search_placeholder": "ค้นหา...",
+
+  "economic_source_label": "แหล่งข้อมูล:",
+  "economic_source_text": "ปฏิทินเศรษฐกิจให้บริการโดย",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "และเวลาที่แสดงเป็นเวลา ET (Eastern Time)"
+}

@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Home",
+  "earnings_breadcrumb_calendar": "Cijferagenda",
+
+  "earnings_seo_title": "Cijferagenda - volatiliteitssetups voor optietraders",
+  "earnings_seo_description": "Volg cijferdatums, verwachte bewegingen en analistenramingen om volatiliteitstrades en IV-crush-setups te plannen.",
+  "earnings_seo_keywords": "cijferagenda, optietrades rond cijfers, verwachte beweging, IV crush, volatiliteit rond cijfers, EPS ramingen, omzetverwachtingen, cijferkalender",
+
+  "earnings_structured_name": "Cijferagenda",
+  "earnings_structured_description": "Cijferagenda gebouwd voor optietraders die op volatiliteit en verwachte bewegingen letten",
+
+  "earnings_main_name": "Cijferagenda",
+  "earnings_count": "{count} cijfers",
+  "earnings_empty": "Geen cijfers beschikbaar voor deze dag.",
+  "earnings_empty_scheduled": "Geen cijfers gepland",
+
+  "earnings_tab_daily": "Dag",
+  "earnings_tab_weekly": "Week",
+  "earnings_tab_details": "Details",
+  "earnings_tab_compact": "Compact",
+
+  "earnings_time_of_day": "Tijdstip",
+  "earnings_time_any": "Elk moment",
+  "earnings_time_before_open": "Voor opening",
+  "earnings_time_after_close": "Na sluiting",
+
+  "earnings_expanded_reports": "Rapporteert",
+  "earnings_expanded_market_cap": "Marktkapitalisatie",
+  "earnings_expanded_revenue_est": "Omzetraming",
+  "earnings_expanded_revenue_estimate": "Omzetraming",
+  "earnings_expanded_eps_est": "EPS-raming",
+  "earnings_expanded_eps_estimate": "EPS-raming",
+
+  "earnings_pagination_previous": "Vorige",
+  "earnings_pagination_next": "Volgende",
+  "earnings_pagination_page_of": "Pagina {current} van {total}",
+  "earnings_pagination_rows": "{count} rijen",
+  "earnings_back_to_top": "Terug naar boven",
+  "earnings_search_placeholder": "Zoeken..."
+}

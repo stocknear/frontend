@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Hulp nodig",
+  "support_breadcrumb_home": "Home",
+  "support_breadcrumb_current": "Hulp nodig",
+  "support_title": "Hulp nodig",
+  "support_description_1": "Stuur je vraag in via het formulier hieronder, dan reageren we zo snel mogelijk. Je kunt ook direct een e-mail sturen naar",
+  "support_description_2": "Antwoorden op veelgestelde vragen vind je hier:",
+  "support_faq_link": "Veelgestelde vragen",
+  "support_description_3": "Heb je hulp nodig bij een fout of onjuiste data? Vermeld dan de exacte URL van de pagina waar je het zag.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Onderwerp",
+  "support_label_message": "Bericht",
+  "support_button_send": "Bericht versturen",
+  "support_button_processing": "Bezig...",
+  "support_success_message": "Je bericht is verstuurd. We nemen snel contact met je op.",
+  "support_toast_error": "Er ging iets mis. Probeer het opnieuw...",
+  "support_sidebar_pro_title": "Pro-abonnement",
+  "support_sidebar_pro_description": "Upgrade nu voor onbeperkte toegang tot alle data en tools, zonder advertenties.",
+  "support_sidebar_screener_title": "Aandelenscreener",
+  "support_sidebar_screener_description": "Filter, sorteer en analyseer alle aandelen om je volgende belegging te vinden.",
+  "support_sidebar_watchlist_title": "Watchlists",
+  "support_sidebar_watchlist_description": "Volg je favoriete aandelen in realtime."
+}

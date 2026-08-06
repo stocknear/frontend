@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Acasă",
+  "covered_call_screener_breadcrumb_title": "Screener Covered Call",
+
+  "covered_call_screener_seo_title": "Screener Covered Call - Găsește cele mai bune oportunități de covered call",
+  "covered_call_screener_seo_description": "Filtrează mii de opțiuni ca să găsești oportunități de tip covered call. Filtrează după randamentul primei, randament anualizat, preț de exercitare, scadență și altele.",
+  "covered_call_screener_seo_keywords": "screener covered call, screener opțiuni, covered calls, randamentul primei, strategie de venit",
+  "covered_call_screener_structured_name": "Screener Covered Call",
+  "covered_call_screener_structured_description": "Filtrează opțiuni pentru oportunități de tip covered call",
+
+  "covered_call_screener_main_title": "Screener Covered Call",
+  "covered_call_screener_contracts_count": "{count} contracte",
+
+  "covered_call_screener_popular_screens": "Screenere populare",
+  "covered_call_screener_popular_strategies": "Strategii populare",
+  "covered_call_screener_select_popular": "Alege un screener popular",
+  "covered_call_screener_saved_screens": "Screenere salvate",
+  "covered_call_screener_select_screen": "Alege screenerul",
+  "covered_call_screener_new_screen": "Screener nou",
+
+  "covered_call_screener_strategy_high_yield": "Randament ridicat",
+  "covered_call_screener_strategy_conservative": "Conservator",
+  "covered_call_screener_strategy_weekly_income": "Venit săptămânal",
+  "covered_call_screener_strategy_high_protection": "Protecție ridicată",
+  "covered_call_screener_strategy_bluechip_cc": "Covered call pe blue-chip",
+
+  "covered_call_screener_filters_count": "Filtre ({count})",
+  "covered_call_screener_add_filters": "Adaugă filtre",
+  "covered_call_screener_search_filters": "Caută în {count} filtre...",
+  "covered_call_screener_select_filters_title": "Alege filtrele ({count})",
+  "covered_call_screener_nothing_found": "Niciun rezultat.",
+
+  "covered_call_screener_save": "Salvează",
+  "covered_call_screener_save_as_new": "Salvează ca nou",
+  "covered_call_screener_reset_all": "Resetează tot",
+
+  "covered_call_screener_condition_over": "Peste",
+  "covered_call_screener_condition_under": "Sub",
+  "covered_call_screener_condition_between": "Între",
+  "covered_call_screener_condition_exactly": "Exact",
+  "covered_call_screener_condition_any": "Oricare",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Valoare",
+
+  "covered_call_screener_search_placeholder": "Caută...",
+  "covered_call_screener_search_modal_placeholder": "Caută...",
+
+  "covered_call_screener_normal_width": "Lățime normală",
+  "covered_call_screener_full_width": "Lățime completă",
+
+  "covered_call_screener_tab_general": "General",
+  "covered_call_screener_tab_income": "Venit",
+  "covered_call_screener_tab_filters": "Filtre",
+  "covered_call_screener_tab_greeks": "Greci",
+
+  "covered_call_screener_pagination_previous": "Anterior",
+  "covered_call_screener_pagination_next": "Următor",
+  "covered_call_screener_pagination_page_of": "Pagina {current} din {total}",
+  "covered_call_screener_rows_label": "{rows} rânduri",
+  "covered_call_screener_back_to_top": "Înapoi sus",
+
+  "covered_call_screener_no_results_query": "Niciun rezultat pentru \"{query}\"",
+  "covered_call_screener_no_contracts": "Niciun contract nu corespunde criteriilor tale.",
+
+  "covered_call_screener_modal_new_title": "Screener nou",
+  "covered_call_screener_modal_new_name_label": "Nume screener",
+  "covered_call_screener_modal_new_create": "Creează",
+
+  "covered_call_screener_modal_delete_title": "Șterge screenerul",
+  "covered_call_screener_modal_delete_message": "Sigur vrei să ștergi acest screener? Acțiunea nu poate fi anulată.",
+  "covered_call_screener_modal_delete_cancel": "Anulează",
+  "covered_call_screener_modal_delete_confirm": "Șterge",
+
+  "covered_call_screener_toast_deleting": "Se șterge screenerul...",
+  "covered_call_screener_toast_deleted": "Screener șters cu succes.",
+  "covered_call_screener_toast_delete_failed": "Ștergerea a eșuat. Încearcă din nou.",
+  "covered_call_screener_toast_title_too_long": "Titlul este prea lung. Păstrează-l sub 100 de caractere.",
+  "covered_call_screener_toast_created": "Screener creat cu succes.",
+  "covered_call_screener_toast_creating": "Se creează screenerul...",
+  "covered_call_screener_toast_create_failed": "Ceva nu a mers bine. Încearcă din nou mai târziu.",
+  "covered_call_screener_toast_select_rule": "Alege o regulă",
+  "covered_call_screener_toast_saving": "Se salvează screenerul...",
+  "covered_call_screener_toast_saved": "Screener salvat.",
+  "covered_call_screener_toast_save_failed": "Salvarea a eșuat. Încearcă din nou.",
+
+  "covered_call_screener_chart_price_at_expiration": "Preț la scadență ($)",
+  "covered_call_screener_chart_last_price_label": "Ultimul preț: {price}",
+  "covered_call_screener_chart_breakeven_label": "Prag de rentabilitate: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Profit/Pierdere ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Prețul activului suport:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Profit sau pierdere:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Configurația tranzacției",
+  "covered_call_screener_chart_buy_stock": "Cumpără acțiunile @",
+  "covered_call_screener_chart_sell_call": "Vinde {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Net (credit/debit)",
+  "covered_call_screener_chart_breakeven": "Prag de rentabilitate",
+  "covered_call_screener_chart_above": "Peste",
+  "covered_call_screener_chart_last_price": "Ultimul preț",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Randament dacă stagnează",
+  "covered_call_screener_chart_return_if_assigned": "Randament dacă e atribuit",
+  "covered_call_screener_chart_probability_of_profit": "Probabilitate de profit",
+  "covered_call_screener_chart_annualized_abbr": "anual."
+}

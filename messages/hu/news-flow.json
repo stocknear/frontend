@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Főoldal",
+  "news_flow_breadcrumb_news_flow": "Hírfolyam",
+
+  "news_flow_seo_title": "Piaci hírfolyam - kereskedésre kész katalizátorok valós időben",
+  "news_flow_seo_description": "Kövesd valós időben a piaci híreket és a katalizátorokat, amelyek mozgatják az árat. Opciós kereskedőknek, akiknek gyors kontextus kell a rövid távú setupokhoz.",
+  "news_flow_seo_keywords": "piaci hírfolyam, kereskedési katalizátorok, friss piaci hírek, opciós kereskedői hírek, árfolyammozgató hírek, valós idejű piaci frissítések",
+  "news_flow_structured_name": "Piaci hírfolyam",
+  "news_flow_structured_description": "Valós idejű piaci hírek és katalizátorok rövid távú kereskedés tervezéséhez",
+
+  "news_flow_main_title": "Hírfolyam",
+  "news_flow_news_count": "{count} hír",
+  "news_flow_search_placeholder": "Keresés...",
+
+  "news_flow_infobox": "Kövesd a friss híreket, és értsd meg valós időben, miért mozdult el egy részvény árfolyama",
+  "news_flow_no_news": "Egyelőre nincs fontos tőzsdei hír.",
+
+  "news_flow_sidebar_market_flow_title": "Piaci flow",
+  "news_flow_sidebar_market_flow_description": "Kövesd valós időben az opciós hangulatot.",
+  "news_flow_sidebar_options_flow_title": "Opciós flow",
+  "news_flow_sidebar_options_flow_description": "Figyeld valós időben a szokatlan opciós aktivitást és a flow mintázatokat",
+  "news_flow_sidebar_dark_pool_title": "Dark pool flow",
+  "news_flow_sidebar_dark_pool_description": "Elemezd a rejtett intézményi flow-t és a dark pool kereskedési adatokat"
+}

@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Tukipyyntö",
+  "support_breadcrumb_home": "Etusivu",
+  "support_breadcrumb_current": "Tukipyyntö",
+  "support_title": "Tukipyyntö",
+  "support_description_1": "Lähetä tukipyyntösi alla olevalla lomakkeella, niin vastaamme mahdollisimman pian. Voit myös lähettää sähköpostia suoraan osoitteeseen",
+  "support_description_2": "Vastauksia yleisimpiin kysymyksiin löydät täältä:",
+  "support_faq_link": "Usein kysytyt kysymykset",
+  "support_description_3": "Jos tarvitset apua virheen tai virheellisen tiedon kanssa, liitä mukaan sen sivun tarkka osoite, jolta löysit sen.",
+  "support_label_email": "Sähköposti",
+  "support_label_subject": "Aihe",
+  "support_label_message": "Viesti",
+  "support_button_send": "Lähetä viesti",
+  "support_button_processing": "Käsitellään...",
+  "support_success_message": "Viestisi lähetettiin onnistuneesti. Palaamme asiaan pian.",
+  "support_toast_error": "Jokin meni pieleen. Yritä uudelleen...",
+  "support_sidebar_pro_title": "Pro-tilaus",
+  "support_sidebar_pro_description": "Päivitä nyt ja saat rajattoman pääsyn kaikkeen dataan ja työkaluihin ilman mainoksia.",
+  "support_sidebar_screener_title": "Osakeseulonta",
+  "support_sidebar_screener_description": "Suodata, järjestä ja analysoi kaikki osakkeet ja löydä seuraava sijoituksesi.",
+  "support_sidebar_watchlist_title": "Seurantalistat",
+  "support_sidebar_watchlist_description": "Seuraa suosikkiosakkeitasi reaaliajassa."
+}

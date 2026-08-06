@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Scanner flux de opțiuni - Sweep-uri, blocuri și activitate neobișnuită",
+  "options_flow_seo_description": "Urmărește în timp real fluxul de opțiuni, sweep-urile și ordinele bloc pe acțiuni și ETF-uri din SUA. Vezi activitatea neobișnuită și oportunitățile pe termen scurt.",
+  "options_flow_seo_keywords": "flux de opțiuni, scanner flux de opțiuni, activitate neobișnuită pe opțiuni, ordine sweep, ordine bloc, smart money, flux call, flux put, alerte opțiuni, flux de opțiuni OPRA",
+  "options_flow_structured_name": "Scanner flux de opțiuni",
+  "options_flow_structured_description": "Flux de opțiuni în timp real, cu sweep-uri, blocuri și activitate neobișnuită pentru tranzacții pe termen scurt",
+
+  "options_flow_main_title": "Flux de opțiuni",
+
+  "options_flow_popular_filters": "Filtre populare",
+  "options_flow_popular_strategies": "Strategii populare",
+  "options_flow_select_popular": "Alege un filtru popular",
+  "options_flow_saved_filters": "Filtre salvate",
+  "options_flow_select_filter": "Alege filtrul",
+  "options_flow_new_filter": "Filtru nou",
+
+  "options_flow_filters_count": "{count} filtre",
+  "options_flow_add_filters": "Adaugă filtre",
+  "options_flow_search_filters": "Caută în {count} filtre...",
+  "options_flow_select_filters_title": "Alege filtrele de flux ({count} în total)",
+  "options_flow_nothing_found": "Niciun rezultat",
+  "options_flow_no_filters_found": "Nu am găsit filtre disponibile",
+
+  "options_flow_search_placeholder": "Caută...",
+  "options_flow_search_input_placeholder": "Caută...",
+  "options_flow_full_width": "Lățime completă",
+  "options_flow_normal_width": "Lățime normală",
+
+  "options_flow_no_trades_query": "Nicio tranzacție cu opțiuni pentru \"{query}\"",
+  "options_flow_no_data_filters": "Nu am găsit date pentru filtrele selectate. Ajustează filtrele și încearcă din nou.",
+
+  "options_flow_modal_new_title": "Filtru nou",
+  "options_flow_modal_new_name_label": "Nume filtru",
+  "options_flow_modal_new_create": "Creează filtrul",
+
+  "options_flow_modal_delete_title": "Șterge filtrul",
+  "options_flow_modal_delete_message": "Sigur vrei să ștergi acest filtru? Acțiunea nu poate fi anulată.",
+  "options_flow_modal_delete_cancel": "Anulează",
+  "options_flow_modal_delete_confirm": "Șterge filtrul",
+
+  "options_flow_strategy_bullish_sweeps": "Sweep-uri bullish",
+  "options_flow_strategy_bearish_sweeps": "Sweep-uri bearish",
+  "options_flow_strategy_high_premium_blocks": "Blocuri cu primă mare",
+  "options_flow_strategy_unusual_size_oi": "Mărime neobișnuită vs OI",
+  "options_flow_strategy_etf_index_flow": "Flux ETF și indici",
+  "options_flow_strategy_zero_dte_flow": "Flux 0DTE",
+  "options_flow_strategy_repeated_flow": "Flux repetat",
+
+  "options_flow_save": "Salvează",
+  "options_flow_save_as_new": "Salvează ca nou",
+  "options_flow_reset_all": "Resetează tot",
+
+  "options_flow_market_closed": "Piață închisă",
+  "options_flow_paused": "În pauză",
+  "options_flow_live_flow": "Flux live",
+  "options_flow_pick_date": "Alege o dată",
+
+  "options_flow_realtime_data": "Date opțiuni în timp real",
+  "options_flow_realtime_data_title": "Date opțiuni în timp real de la OPRA",
+  "options_flow_realtime_data_content": "Fluxul nostru de opțiuni este alimentat de date OPRA în timp real, fluxul oficial consolidat pentru toate tranzacțiile cu opțiuni listate în SUA. Astfel, fiecare tranzacție pe care o vezi vine direct de la OPRA, în timp real, și îți dă vizibilitate de nivel instituțional asupra tranzacțiilor mari, sweep-urilor, activității neobișnuite și fluxului de primă, pe măsură ce se întâmplă. Fiindcă ne bazăm pe fluxul de tranzacții de mare acuratețe al OPRA, ai informații mai rapide, date mai curate și o imagine mai exactă a locurilor în care se mișcă banii mari pe piața de opțiuni.",
+
+  "options_flow_hide_filter_area": "Ascunde filtrele",
+  "options_flow_show_filter_area": "Arată filtrele",
+
+  "options_flow_put_to_call": "Raport put/call",
+  "options_flow_call_flow": "Flux call",
+  "options_flow_put_flow": "Flux put"
+}

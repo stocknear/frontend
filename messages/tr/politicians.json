@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Ana Sayfa",
+  "politicians_breadcrumb_politicians": "Politikacılar",
+  "politicians_breadcrumb_flow": "Kongre Akışı",
+
+  "politicians_seo_title": "Kongre İşlem Takibi - Politikacıların Anlık Hisse İşlemleri",
+  "politicians_seo_description": "ABD Kongre üyelerinin, senatörlerin ve politikacıların hisse işlemlerini anlık takip et. Nancy Pelosi işlemlerini, senato hisse alımlarını ve kongre üyelerinin işlemlerini izle. Ayrıntılı işlem geçmişiyle ücretsiz politikacı işlem takibi.",
+  "politicians_seo_keywords": "kongre işlemleri, nancy pelosi işlemleri, politikacı hisse işlemleri, senato işlemleri, kongre trading, kongrede içeriden işlem, politik hisse takibi, abd politikacıları işlemleri, pelosi portföyü, kongre hisse işlemleri",
+  "politicians_structured_name": "Kongre İşlem Takibi",
+  "politicians_structured_description": "ABD politikacılarının ve kongre üyelerinin hisse işlemlerinin anlık takibi",
+
+  "politicians_main_title": "Tüm ABD Politikacıları",
+  "politicians_count_members": "{count} Üye",
+  "politicians_search_placeholder": "Bul...",
+  "politicians_filter_party": "Parti",
+  "politicians_empty_search": "\"{query}\" için kongre üyesi bulunamadı",
+  "politicians_empty_filter": "Aramana veya filtrelerine uyan sonuç yok.",
+
+  "politicians_pagination_previous": "Önceki",
+  "politicians_pagination_next": "Sonraki",
+  "politicians_pagination_page_of": "Sayfa {current} / {total}",
+  "politicians_pagination_rows": "{count} Satır",
+  "politicians_back_to_top": "Başa Dön",
+
+  "politicians_flow_seo_title": "En Son Kongre İşlemleri",
+  "politicians_flow_seo_description": "En son kongre işlemlerini gör; düzenlemelere erişimi olanların neye yatırım yaptığını takip et.",
+
+  "politicians_flow_title": "Politikacıların Son İşlemleri",
+  "politicians_flow_description_intro": "Son kongre işlem aktivitesine genel bakış. Alım-satım oranı",
+  "politicians_flow_description_buys": "%{percent} alıma",
+  "politicians_flow_description_versus": "karşılık",
+  "politicians_flow_description_sells": "%{percent} satım",
+  "politicians_flow_description_active_party": "gösteriyor. Son bildirimlerde en aktif parti:",
+  "politicians_flow_description_with": "toplam",
+  "politicians_flow_description_transactions": "işlemle, kongre üyeleri arasında",
+  "politicians_flow_description_sentiment": "bir eğilime işaret ediyor.",
+  "politicians_flow_sentiment_bullish": "yükseliş yönlü",
+  "politicians_flow_sentiment_bearish": "düşüş yönlü",
+  "politicians_flow_sentiment_neutral": "nötr",
+  "politicians_flow_count_trades": "{count} İşlem",
+  "politicians_flow_empty_search": "\"{query}\" için hisse bulunamadı",
+
+  "politicians_detail_stats_rank": "Sıra",
+  "politicians_detail_stats_trades_scored": "Puanlanan İşlem",
+  "politicians_detail_stats_success_rate": "Başarı Oranı",
+  "politicians_detail_stats_avg_return": "Ort. Getiri",
+  "politicians_detail_stats_total_amount": "Toplam Tutar",
+  "politicians_detail_stats_transaction": "İşlem",
+  "politicians_detail_stats_last_transaction": "Son İşlem",
+  "politicians_detail_stats_buy_sell": "Alım/Satım",
+
+  "politicians_detail_main_sectors": "Ana Sektörler:",
+  "politicians_detail_top_industries": "Öne Çıkan Endüstriler:",
+  "politicians_detail_count_stocks": "{count} Hisse",
+  "politicians_detail_empty_search": "\"{query}\" için veri yok",
+  "politicians_detail_empty": "Aranan analist için veri yok.",
+
+  "politicians_detail_mobile_filed": "Bildirim",
+  "politicians_detail_mobile_view_chart": "Grafiği Gör",
+  "politicians_detail_mobile_amt": "Tutar",
+  "politicians_detail_mobile_trades": "{count} işlem",
+  "politicians_detail_mobile_trades_plural": "{count} işlem"
+}

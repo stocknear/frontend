@@ -1,0 +1,8 @@
+{
+  "error_title": "Fant ikke siden - {status}",
+  "error_body_prefix": "Siden ble ikke funnet. Hvis feilen fortsetter, meld fra til oss via",
+  "error_body_suffix": "Vi fikser det så raskt vi kan.",
+  "error_back_home": "Tilbake til forsiden",
+  "error_server_title": "Noe gikk galt - {status}",
+  "error_server_body_prefix": "Dette er et problem hos oss, ikke en side som mangler. Prøv igjen om et øyeblikk. Fortsetter det, si fra til oss på"
+}

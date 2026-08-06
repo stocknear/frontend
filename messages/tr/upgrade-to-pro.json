@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "Üstünlük arayan aktif yatırımcılar için yapıldı.",
+  "upgrade_to_pro_subtitle": "Daha fazla manşete ihtiyacın yok. Fiyatı hareket ettiren akışa, katalizörlere ve bağlama ihtiyacın var. Pro, gerçek zamanlı opsiyon ve dark pool verisini, analist hareketlerini ve derin geçmiş veriyi tek yerde topluyor; böylece işlemin peşinden koşmak yerine onu planlıyorsun.",
+  "upgrade_to_pro_feature_data_title": "Tüm veri setinin kilidini aç",
+  "upgrade_to_pro_feature_data_desc": "Stocknear'daki her veri setine ve araca eriş, kurulumları hızla değerlendir ve kararlı hareket et.",
+  "upgrade_to_pro_feature_flow_title": "Canlı opsiyon ve dark pool akışı",
+  "upgrade_to_pro_feature_flow_desc": "Olağan dışı hareketleri ve büyük işlemleri anında yakala, kalabalıktan önce pozisyon al.",
+  "upgrade_to_pro_feature_analyst_title": "Fiyatı hareket ettiren analist katalizörleri",
+  "upgrade_to_pro_feature_analyst_desc": "Not artırımlarını, indirimlerini ve fiyat hedeflerini haber kovalamadan takip et.",
+  "upgrade_to_pro_feature_history_title": "Geriye dönük test için derin geçmiş veri",
+  "upgrade_to_pro_feature_history_desc": "Fikirlerini premium veriyle ve 30 yıla varan geçmişle test et.",
+  "upgrade_to_pro_cta": "Pro'ya Geç"
+}

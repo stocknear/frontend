@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Usædvanligt ordreflow - dark pool-handler og blokhandler",
+  "unusual_order_flow_seo_description": "Følg dark pool-handler og blokhandler i realtid, og se den institutionelle aktivitet, der ofte kommer før kortsigtede bevægelser.",
+  "unusual_order_flow_seo_keywords": "usædvanligt ordreflow, dark pool-handler, blokhandler, institutionelt ordreflow, smart money, skjult likviditet, ordreflow i realtid, dark pool-scanner",
+  "unusual_order_flow_structured_name": "Scanner for usædvanligt ordreflow",
+  "unusual_order_flow_structured_description": "Dark pool-handler og blokhandler i realtid som kortsigtet markedssignal",
+
+  "unusual_order_flow_main_title": "Usædvanligt ordreflow",
+
+  "unusual_order_flow_popular_filters": "Populære filtre",
+  "unusual_order_flow_select_popular": "Vælg populær",
+  "unusual_order_flow_saved_filters": "Gemte filtre",
+  "unusual_order_flow_select_filter": "Vælg filter",
+  "unusual_order_flow_new_filter": "Nyt filter",
+
+  "unusual_order_flow_filters_count": "{count} filtre",
+  "unusual_order_flow_add_filters": "Tilføj filtre",
+  "unusual_order_flow_search_filters": "Søg i {count} filtre...",
+  "unusual_order_flow_select_filters_title": "Vælg flowfiltre ({count} i alt)",
+  "unusual_order_flow_nothing_found": "Intet fundet",
+  "unusual_order_flow_no_filters_found": "Ingen tilgængelige filtre fundet",
+
+  "unusual_order_flow_search_placeholder": "Find...",
+  "unusual_order_flow_search_input_placeholder": "Søg...",
+  "unusual_order_flow_full_width": "Fuld bredde",
+  "unusual_order_flow_normal_width": "Normal bredde",
+
+  "unusual_order_flow_no_trades_query": "Ingen usædvanlige handler fundet for \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Din kombination af filtre gav ingen resultater. Prøv at justere dem.",
+
+  "unusual_order_flow_modal_new_title": "Nyt filter",
+  "unusual_order_flow_modal_new_name_label": "Filternavn",
+  "unusual_order_flow_modal_new_create": "Opret filter",
+
+  "unusual_order_flow_modal_delete_title": "Slet filter",
+  "unusual_order_flow_modal_delete_message": "Er du sikker på, at du vil slette dette filter? Handlingen kan ikke fortrydes.",
+  "unusual_order_flow_modal_delete_cancel": "Annuller",
+  "unusual_order_flow_modal_delete_confirm": "Slet filter",
+
+  "unusual_order_flow_save": "Gem",
+  "unusual_order_flow_save_as_new": "Gem som ny",
+  "unusual_order_flow_reset_all": "Nulstil alt",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark pool-handler",
+  "unusual_order_flow_strategy_block_orders": "Blokordrer",
+  "unusual_order_flow_strategy_mega_premium": "Mega præmie",
+  "unusual_order_flow_strategy_etf_flow": "ETF-flow",
+  "unusual_order_flow_strategy_high_volume": "Højt volumen",
+  "unusual_order_flow_strategy_large_stock_flow": "Stort aktieflow",
+
+  "unusual_order_flow_total_volume": "Samlet volumen",
+  "unusual_order_flow_total_value": "Samlet værdi",
+  "unusual_order_flow_transaction_type": "Handelstype",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Blok",
+  "unusual_order_flow_asset_type": "Aktivtype",
+  "unusual_order_flow_stock": "Aktie",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 min. forsinket",
+  "unusual_order_flow_delayed_title": "SIP-data med 15 min. forsinkelse",
+  "unusual_order_flow_delayed_content": "Intrinios SIP-feed leverer konsoliderede amerikanske aktiedata af høj kvalitet fra alle større børser - handler, kurser og NBBO. De 15 minutters forsinkelse giver et solidt markedsoverblik med fuld dækning af børserne.",
+
+  "unusual_order_flow_hide_filter_area": "Skjul filterområde",
+  "unusual_order_flow_show_filter_area": "Vis filterområde",
+  "unusual_order_flow_exit_full_width": "Forlad fuld bredde",
+  "unusual_order_flow_expand_full_width": "Udvid til fuld bredde",
+  "unusual_order_flow_reset_column_order": "Nulstil kolonnerækkefølge",
+  "unusual_order_flow_remove_filter": "Fjern filter",
+
+  "unusual_order_flow_min": "Min.",
+  "unusual_order_flow_max": "Maks.",
+  "unusual_order_flow_value": "Værdi"
+}

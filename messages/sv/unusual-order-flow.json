@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Ovanligt orderflöde - Dark pool-avslut och blockaffärer",
+  "unusual_order_flow_seo_description": "Följ dark pool-avslut och blockaffärer i realtid för att upptäcka institutionell aktivitet som ofta föregår kortsiktiga rörelser.",
+  "unusual_order_flow_seo_keywords": "ovanligt orderflöde, dark pool-avslut, blockaffärer, institutionellt orderflöde, smart money, dold likviditet, orderflöde i realtid, dark pool-scanner",
+  "unusual_order_flow_structured_name": "Scanner för ovanligt orderflöde",
+  "unusual_order_flow_structured_description": "Dark pool-avslut och blockaffärer i realtid för kortsiktiga marknadssignaler",
+
+  "unusual_order_flow_main_title": "Ovanligt orderflöde",
+
+  "unusual_order_flow_popular_filters": "Populära filter",
+  "unusual_order_flow_select_popular": "Välj populärt",
+  "unusual_order_flow_saved_filters": "Sparade filter",
+  "unusual_order_flow_select_filter": "Välj filter",
+  "unusual_order_flow_new_filter": "Nytt filter",
+
+  "unusual_order_flow_filters_count": "{count} filter",
+  "unusual_order_flow_add_filters": "Lägg till filter",
+  "unusual_order_flow_search_filters": "Sök bland {count} filter...",
+  "unusual_order_flow_select_filters_title": "Välj flödesfilter ({count} totalt)",
+  "unusual_order_flow_nothing_found": "Inget hittades",
+  "unusual_order_flow_no_filters_found": "Inga tillgängliga filter hittades",
+
+  "unusual_order_flow_search_placeholder": "Hitta...",
+  "unusual_order_flow_search_input_placeholder": "Sök...",
+  "unusual_order_flow_full_width": "Full bredd",
+  "unusual_order_flow_normal_width": "Normal bredd",
+
+  "unusual_order_flow_no_trades_query": "Inga ovanliga affärer hittades för \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Din kombination verkar vara unik. Inga träffar än.",
+
+  "unusual_order_flow_modal_new_title": "Nytt filter",
+  "unusual_order_flow_modal_new_name_label": "Filternamn",
+  "unusual_order_flow_modal_new_create": "Skapa filter",
+
+  "unusual_order_flow_modal_delete_title": "Ta bort filter",
+  "unusual_order_flow_modal_delete_message": "Vill du ta bort det här filtret? Åtgärden går inte att ångra.",
+  "unusual_order_flow_modal_delete_cancel": "Avbryt",
+  "unusual_order_flow_modal_delete_confirm": "Ta bort filter",
+
+  "unusual_order_flow_save": "Spara",
+  "unusual_order_flow_save_as_new": "Spara som ny",
+  "unusual_order_flow_reset_all": "Återställ allt",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark pool-avslut",
+  "unusual_order_flow_strategy_block_orders": "Blockordrar",
+  "unusual_order_flow_strategy_mega_premium": "Mycket hög premie",
+  "unusual_order_flow_strategy_etf_flow": "ETF-flöde",
+  "unusual_order_flow_strategy_high_volume": "Hög volym",
+  "unusual_order_flow_strategy_large_stock_flow": "Stort aktieflöde",
+
+  "unusual_order_flow_total_volume": "Total volym",
+  "unusual_order_flow_total_value": "Totalt värde",
+  "unusual_order_flow_transaction_type": "Transaktionstyp",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Block",
+  "unusual_order_flow_asset_type": "Tillgångsslag",
+  "unusual_order_flow_stock": "Aktie",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 min fördröjt",
+  "unusual_order_flow_delayed_title": "SIP-data med 15 minuters fördröjning",
+  "unusual_order_flow_delayed_content": "Intrinios SIP-flöde levererar konsoliderad amerikansk aktiedata av hög kvalitet från alla stora börser — inklusive avslut, kurser och NBBO. Fördröjningen på 15 minuter ger djup marknadsinsikt med full täckning av börserna.",
+
+  "unusual_order_flow_hide_filter_area": "Dölj filterpanelen",
+  "unusual_order_flow_show_filter_area": "Visa filterpanelen",
+  "unusual_order_flow_exit_full_width": "Lämna full bredd",
+  "unusual_order_flow_expand_full_width": "Visa i full bredd",
+  "unusual_order_flow_reset_column_order": "Återställ kolumnordning",
+  "unusual_order_flow_remove_filter": "Ta bort filter",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Värde"
+}

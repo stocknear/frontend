@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Etusivu",
+  "dividends_breadcrumb_calendar": "Osinkokalenteri",
+
+  "dividends_seo_title": "Osinkokalenteri - Irtoamispäivät ja maksuaikataulut osakkeille",
+  "dividends_seo_description": "Seuraa tulevia irtoamispäiviä ja osinkojen maksuaikatauluja. Suunnittele osinkostrategiasi kattavalla kalenterilla, joka näyttää osinkojen määrät, maksupäivät ja markkina-arvot.",
+  "dividends_seo_keywords": "osinkokalenteri, irtoamispäivät, osinkojen maksuaikataulu, osinkostrategia, osakkeiden osingot, osinko-osakkeet, osinkojen maksupäivät, tulevat osingot",
+
+  "dividends_main_name": "Osinkokalenteri",
+  "dividends_count": "{count} osinkoa",
+  "dividends_empty_day": "Ei osinkoja tälle päivälle.",
+  "dividends_empty_none": "Ei osinkoja",
+  "dividends_empty_scheduled": "Ei osinkoja aikataulussa",
+
+  "dividends_tab_daily": "Päivittäin",
+  "dividends_tab_weekly": "Viikoittain",
+  "dividends_tab_details": "Tiedot",
+  "dividends_tab_compact": "Tiivis",
+
+  "dividends_time_any": "Mikä tahansa",
+  "dividends_time_before_open": "Ennen avausta",
+  "dividends_time_after_close": "Sulkemisen jälkeen",
+
+  "dividends_expanded_ex_date": "Irtoamispäivä",
+  "dividends_expanded_market_cap": "Markkina-arvo",
+  "dividends_expanded_amount": "Määrä",
+  "dividends_expanded_revenue": "Liikevaihto",
+  "dividends_expanded_payment_date": "Maksupäivä",
+  "dividends_expanded_date": "Päivä",
+  "dividends_expanded_dividend": "Osinko",
+
+  "dividends_pagination_previous": "Edellinen",
+  "dividends_pagination_next": "Seuraava",
+  "dividends_pagination_page_of": "Sivu {current} / {total}",
+  "dividends_pagination_rows": "{count} riviä",
+  "dividends_back_to_top": "Takaisin ylös",
+  "dividends_search_placeholder": "Etsi..."
+}

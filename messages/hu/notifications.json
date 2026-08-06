@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Főoldal",
+  "notifications_breadcrumb_notifications": "Értesítések",
+
+  "notifications_seo_title": "Tőzsdei értesítések | Valós idejű frissítések és riasztások",
+  "notifications_seo_description": "Maradj naprakész valós idejű tőzsdei értesítésekkel. Kapj azonnali riasztást árváltozásokról, trendekről és piaci mozgásokról, hogy jobb befektetési döntéseket hozz.",
+
+  "notifications_main_title": "Értesítés",
+  "notifications_alerts_count": "{count} riasztás",
+
+  "notifications_mark_all_read": "Összes megjelölése olvasottként",
+  "notifications_marking": "Megjelölés...",
+  "notifications_settings": "Beállítások",
+  "notifications_customize": "Szabd testre az értesítéseidet",
+
+  "notifications_channel_earnings_surprise": "Gyorsjelentési meglepetés",
+  "notifications_channel_wiim": "Miért mozdult az ár",
+  "notifications_channel_top_analyst": "Vezető elemzői ajánlás",
+  "notifications_channel_followed_analysts": "Követett elemzők",
+  "notifications_no_channels": "Nincs elérhető értesítési csatorna.",
+
+  "notifications_empty": "Még nincs értesítésed.",
+
+  "notifications_pagination_previous": "Előző",
+  "notifications_pagination_next": "Következő",
+  "notifications_pagination_page_of": "{current}. oldal / {total}",
+  "notifications_pagination_rows": "{count} sor",
+  "notifications_back_to_top": "Vissza a tetejére",
+
+  "notifications_modal_delete_title": "Összes értesítés törlése",
+  "notifications_modal_delete_confirm": "Biztosan törlöd az összes értesítést? A művelet nem vonható vissza.",
+  "notifications_modal_delete_button": "Értesítések törlése",
+  "notifications_modal_deleting": "Törlés...",
+  "notifications_modal_cancel": "Mégse",
+  "notifications_delete_error": "Az értesítéseket nem sikerült törölni. Próbáld újra.",
+
+  "notifications_type_price_alert_triggered": "Riasztás aktiválódott:",
+  "notifications_type_price_is": "Ennek az ára:",
+  "notifications_type_is_condition": "{condition} a célértékedet:",
+  "notifications_type_breaking_news": "FRISS hír:",
+  "notifications_type_wiim_new_data": "Új adat érkezett a \"Miért mozdult az ár\" eseményhez.",
+  "notifications_type_top_analyst_new": "Új vezető elemzői ajánlás:",
+  "notifications_type_top_analyst_rating": "A(z) {analyst} elemzőház új, \"{rating}\" ajánlást adott ki, a frissített célár {price}.",
+  "notifications_type_followed_analyst_new": "Új ajánlás tőle:",
+  "notifications_type_followed_analyst_rating": "A(z) {symbol} besorolása \"{rating}\", a célár {price}.",
+  "notifications_type_earnings_release": "Gyorsjelentés:",
+  "notifications_type_earnings_surprise_new": "Új adat érkezett a \"Gyorsjelentési meglepetés\" eseményhez.",
+
+  "notifications_sidebar_watchlist": "Figyelőlista",
+  "notifications_sidebar_watchlist_description": "Kapj valós idejű frissítéseket a kedvenc részvényeidről",
+  "notifications_sidebar_portfolio": "Portfóliókövető",
+  "notifications_sidebar_portfolio_description": "Kapj valós idejű frissítéseket a portfóliódról"
+}

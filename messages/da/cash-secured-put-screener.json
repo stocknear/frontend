@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Forside",
+  "cash_secured_put_screener_breadcrumb_title": "Cash secured put-screener",
+
+  "cash_secured_put_screener_seo_title": "Cash secured put-screener - find de bedste CSP-muligheder",
+  "cash_secured_put_screener_seo_description": "Screen tusindvis af optioner for cash secured put-muligheder. Filtrér på præmieafkast, årligt afkast, strikekurs, udløb og mere.",
+  "cash_secured_put_screener_seo_keywords": "cash secured put-screener, optionsscreener, cash secured puts, præmieafkast, indkomststrategi",
+  "cash_secured_put_screener_structured_name": "Cash secured put-screener",
+  "cash_secured_put_screener_structured_description": "Screen optioner for cash secured put-muligheder",
+
+  "cash_secured_put_screener_main_title": "Cash secured put-screener",
+  "cash_secured_put_screener_contracts_count": "{count} kontrakter",
+
+  "cash_secured_put_screener_popular_screens": "Populære screens",
+  "cash_secured_put_screener_popular_strategies": "Populære strategier",
+  "cash_secured_put_screener_select_popular": "Vælg populær",
+  "cash_secured_put_screener_saved_screens": "Gemte screens",
+  "cash_secured_put_screener_select_screen": "Vælg screen",
+  "cash_secured_put_screener_new_screen": "Ny screen",
+
+  "cash_secured_put_screener_strategy_high_yield": "Højt afkast",
+  "cash_secured_put_screener_strategy_conservative": "Konservativ",
+  "cash_secured_put_screener_strategy_weekly_income": "Ugentlig indkomst",
+  "cash_secured_put_screener_strategy_high_protection": "Høj beskyttelse",
+  "cash_secured_put_screener_strategy_bluechip_csp": "Blue chip-CSP'er",
+
+  "cash_secured_put_screener_filters_count": "Filtre ({count})",
+  "cash_secured_put_screener_add_filters": "Tilføj filtre",
+  "cash_secured_put_screener_search_filters": "Søg i {count} filtre...",
+  "cash_secured_put_screener_select_filters_title": "Vælg filtre ({count})",
+  "cash_secured_put_screener_nothing_found": "Intet fundet.",
+
+  "cash_secured_put_screener_save": "Gem",
+  "cash_secured_put_screener_save_as_new": "Gem som ny",
+  "cash_secured_put_screener_reset_all": "Nulstil alt",
+
+  "cash_secured_put_screener_condition_over": "Over",
+  "cash_secured_put_screener_condition_under": "Under",
+  "cash_secured_put_screener_condition_between": "Mellem",
+  "cash_secured_put_screener_condition_exactly": "Præcis",
+  "cash_secured_put_screener_condition_any": "Alle",
+
+  "cash_secured_put_screener_input_min": "Min.",
+  "cash_secured_put_screener_input_max": "Maks.",
+  "cash_secured_put_screener_input_value": "Værdi",
+
+  "cash_secured_put_screener_search_placeholder": "Søg...",
+  "cash_secured_put_screener_search_modal_placeholder": "Søg...",
+
+  "cash_secured_put_screener_normal_width": "Normal bredde",
+  "cash_secured_put_screener_full_width": "Fuld bredde",
+
+  "cash_secured_put_screener_tab_general": "Generelt",
+  "cash_secured_put_screener_tab_income": "Indkomst",
+  "cash_secured_put_screener_tab_filters": "Filtre",
+  "cash_secured_put_screener_tab_greeks": "Grækere",
+
+  "cash_secured_put_screener_pagination_previous": "Forrige",
+  "cash_secured_put_screener_pagination_next": "Næste",
+  "cash_secured_put_screener_pagination_page_of": "Side {current} af {total}",
+  "cash_secured_put_screener_rows_label": "{rows} rækker",
+  "cash_secured_put_screener_back_to_top": "Tilbage til toppen",
+
+  "cash_secured_put_screener_no_results_query": "Ingen resultater for \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "Ingen kontrakter matcher dine kriterier.",
+
+  "cash_secured_put_screener_modal_new_title": "Ny screen",
+  "cash_secured_put_screener_modal_new_name_label": "Navn på screen",
+  "cash_secured_put_screener_modal_new_create": "Opret",
+
+  "cash_secured_put_screener_modal_delete_title": "Slet screener",
+  "cash_secured_put_screener_modal_delete_message": "Er du sikker på, at du vil slette denne screener? Handlingen kan ikke fortrydes.",
+  "cash_secured_put_screener_modal_delete_cancel": "Annuller",
+  "cash_secured_put_screener_modal_delete_confirm": "Slet",
+
+  "cash_secured_put_screener_toast_deleting": "Sletter screener...",
+  "cash_secured_put_screener_toast_deleted": "Screeneren blev slettet.",
+  "cash_secured_put_screener_toast_delete_failed": "Sletningen mislykkedes. Prøv igen.",
+  "cash_secured_put_screener_toast_title_too_long": "Titlen er for lang. Hold den under 100 tegn.",
+  "cash_secured_put_screener_toast_created": "Screeneren blev oprettet.",
+  "cash_secured_put_screener_toast_creating": "Opretter screener...",
+  "cash_secured_put_screener_toast_create_failed": "Noget gik galt. Prøv igen senere.",
+  "cash_secured_put_screener_toast_select_rule": "Vælg en regel",
+  "cash_secured_put_screener_toast_saving": "Gemmer screener...",
+  "cash_secured_put_screener_toast_saved": "Screeneren er gemt.",
+  "cash_secured_put_screener_toast_save_failed": "Kunne ikke gemme. Prøv igen.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Kurs ved udløb ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Sidste kurs: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Break-even: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Gevinst/tab ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Kurs på underliggende:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Gevinst eller tab:",
+  "cash_secured_put_screener_chart_modal_title": "Cash secured put - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Handelsopsætning",
+  "cash_secured_put_screener_chart_sell_put": "Sælg {strike}P @",
+  "cash_secured_put_screener_chart_cash_secured": "Cash secured",
+  "cash_secured_put_screener_chart_net_credit": "Nettokredit",
+  "cash_secured_put_screener_chart_breakeven": "Break-even",
+  "cash_secured_put_screener_chart_below": "Under",
+  "cash_secured_put_screener_chart_last_price": "Sidste kurs",
+  "cash_secured_put_screener_chart_moneyness": "Moneyness",
+  "cash_secured_put_screener_chart_return_if_flat": "Afkast ved uændret kurs",
+  "cash_secured_put_screener_chart_return_if_assigned": "Afkast ved tildeling",
+  "cash_secured_put_screener_chart_probability_of_profit": "Sandsynlighed for gevinst",
+  "cash_secured_put_screener_chart_annualized_abbr": "p.a.",
+  "cash_secured_put_screener_chart_discount": "Rabat ved tildeling"
+}

@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Acasă",
+  "watchlist_breadcrumb_watchlist": "Listă de urmărire",
+
+  "watchlist_seo_title": "Listă de urmărire - Urmărește-ți portofoliul și prețurile acțiunilor",
+  "watchlist_seo_description": "Creează-ți și gestionează-ți lista personală de acțiuni, cu prețuri în timp real. Urmărește acțiunile și ETF-urile favorite, cu alerte și analize de performanță. Instrument gratuit de urmărire a portofoliului, cu funcții avansate.",
+  "watchlist_seo_keywords": "listă de urmărire acțiuni, urmărire portofoliu, tracker acțiuni, tracker investiții, monitorizare acțiuni, alerte, administrare portofoliu, performanța acțiunilor, listă de urmărire investiții",
+  "watchlist_structured_name": "Tracker pentru lista de urmărire",
+  "watchlist_structured_description": "Instrument personal de urmărire a acțiunilor și a portofoliului",
+
+  "watchlist_main_title": "Listă de urmărire",
+  "watchlist_create_watchlist": "Creează listă",
+  "watchlist_new_watchlist": "Listă nouă",
+  "watchlist_delete_watchlist": "Șterge lista",
+
+  "watchlist_add_stock_placeholder": "Adaugă o acțiune...",
+  "watchlist_no_results": "Niciun rezultat",
+  "watchlist_edit_watchlist": "Editează lista",
+  "watchlist_cancel": "Anulează",
+  "watchlist_normal_width": "Lățime normală",
+  "watchlist_full_width": "Lățime completă",
+  "watchlist_exit_full_width": "Ieși din lățimea completă",
+  "watchlist_expand_full_width": "Extinde pe toată lățimea",
+
+  "watchlist_empty_title": "Listă goală",
+  "watchlist_empty_description": "Adaugă acțiunile tale favorite și ai date în timp real și cele mai noi știri, într-un singur loc.",
+  "watchlist_get_started": "Începe",
+
+  "watchlist_count_stocks": "{count} acțiuni",
+
+  "watchlist_tab_news": "Știri",
+  "watchlist_tab_earnings": "Publicarea rezultatelor",
+  "watchlist_no_news": "Încă nu sunt știri. Adaugă acțiuni în listă ca să vezi cele mai noi știri.",
+  "watchlist_no_earnings": "Nu sunt date despre rezultate. Adaugă acțiuni în listă ca să vezi cele mai noi rezultate.",
+
+  "watchlist_modal_new_title": "Listă nouă",
+  "watchlist_modal_list_name": "Numele listei",
+  "watchlist_modal_create_button": "Creează lista",
+
+  "watchlist_modal_delete_title": "Șterge lista",
+  "watchlist_modal_delete_confirm": "Sigur vrei să ștergi această listă? Acțiunea nu poate fi anulată.",
+  "watchlist_modal_delete_button": "Șterge lista",
+
+  "watchlist_toast_creating": "Se creează lista...",
+  "watchlist_toast_created": "Lista a fost creată.",
+  "watchlist_toast_deleted": "Lista a fost ștearsă.",
+  "watchlist_toast_updating": "Se actualizează lista...",
+  "watchlist_toast_updated": "Lista a fost actualizată.",
+  "watchlist_toast_error": "Ceva nu a mers bine. Încearcă din nou.",
+  "watchlist_toast_error_generic": "A apărut o eroare. Încearcă din nou mai târziu.",
+  "watchlist_toast_title_empty": "Titlul nu poate fi gol.",
+  "watchlist_toast_title_long": "Titlul este prea lung. Păstrează-l scurt și clar.",
+  "watchlist_toast_already_in_list": "Simbolul este deja în lista ta",
+  "watchlist_toast_select_symbols": "Trebuie să selectezi simboluri înainte să le ștergi",
+
+  "watchlist_earnings_will_report": "raportează",
+  "watchlist_earnings_after_close": "după închiderea pieței.",
+  "watchlist_earnings_before_open": "înainte de deschiderea pieței.",
+  "watchlist_earnings_during_market": "în timpul ședinței.",
+  "watchlist_earnings_analysts_estimate": "Analiștii estimează",
+  "watchlist_earnings_in_revenue": "ca venituri",
+  "watchlist_earnings_yoy": "față de anul trecut",
+  "watchlist_earnings_and": "și",
+  "watchlist_earnings_in_eps": "ca profit pe acțiune",
+
+  "watchlist_note_add_title": "Adaugă o notiță",
+  "watchlist_note_edit_title": "Editează notița",
+  "watchlist_note_placeholder_new": "De ce ai adăugat această acțiune în listă?",
+  "watchlist_note_placeholder_edit": "Actualizează-ți notița...",
+  "watchlist_note_save": "Salvează",
+  "watchlist_note_add": "Adaugă notiță",
+  "watchlist_note_update": "Actualizează notița",
+  "watchlist_note_created": "Notiță creată",
+  "watchlist_note_updated": "Notiță actualizată",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} caractere rămase",
+  "watchlist_note_chars_over": "{count} caractere peste limită",
+  "watchlist_note_exceeded": "Notița nu poate depăși {max} caractere",
+  "watchlist_added_price": "Preț la adăugare",
+
+  "watchlist_column_entry_price": "Preț de intrare",
+  "watchlist_column_since_added": "% de la adăugare"
+}

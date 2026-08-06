@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "ชื่อบริษัทหรือสัญลักษณ์หุ้น...",
+  "searchbar_aria_label": "ชื่อบริษัทหรือสัญลักษณ์หุ้น...",
+  "searchbar_search_label": "ค้นหา",
+  "searchbar_suggestions": "คำแนะนำ",
+  "searchbar_recent": "ล่าสุด",
+  "searchbar_popular": "ยอดนิยม",
+  "searchbar_no_results": "ไม่พบผลลัพธ์"
+}

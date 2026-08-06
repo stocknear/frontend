@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Ana Sayfa",
+  "etf_screener_breadcrumb_etf_screener": "ETF Tarayıcı",
+
+  "etf_screener_seo_title": "Ücretsiz ETF Tarayıcı - ETF Filtrele ve Bul",
+  "etf_screener_seo_description": "{count} ETF'yi büyüklük, gider oranı, temettü, performans, teknik göstergeler ve daha fazlasına göre tara ve filtrele. Gelişmiş filtrelerle ücretsiz ETF tarayıcı.",
+  "etf_screener_seo_keywords": "etf tarayıcı, etf filtresi, etf arama, etf bul, etf tarama aracı, gider oranı filtresi, aum filtresi, temettü etf tarayıcı",
+  "etf_screener_structured_name": "stocknear ETF Tarayıcı",
+  "etf_screener_structured_description": "AUM, gider oranı, performans, teknik göstergeler, temettü ve daha fazlası için filtrelerle gelişmiş ETF tarama aracı.",
+
+  "etf_screener_main_title": "ETF Tarayıcı",
+  "etf_screener_matches_found": "{count} Eşleşme Bulundu",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Popüler Taramalar",
+  "etf_screener_popular_strategies": "Popüler Stratejiler",
+  "etf_screener_select_popular": "Popüler seç",
+  "etf_screener_saved_screens": "Kayıtlı Taramalar",
+  "etf_screener_select_screen": "Tarama seç",
+  "etf_screener_new_screen": "Yeni Tarama",
+
+  "etf_screener_filters_count": "{count} Filtre",
+  "etf_screener_add_filters": "Filtre Ekle",
+  "etf_screener_search_filters": "{count} filtre içinde ara...",
+  "etf_screener_select_filters_title": "Filtre Seç ({count})",
+  "etf_screener_nothing_found": "Sonuç yok",
+
+  "etf_screener_search_placeholder": "ETF ara...",
+  "etf_screener_search_input_placeholder": "Ara...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Maks",
+  "etf_screener_input_value": "Değer",
+
+  "etf_screener_normal_width": "Normal Genişlik",
+  "etf_screener_full_width": "Tam Genişlik",
+
+  "etf_screener_save": "Kaydet",
+  "etf_screener_save_as_new": "Yeni Olarak Kaydet",
+  "etf_screener_reset_all": "Tümünü Sıfırla",
+
+  "etf_screener_pagination_previous": "Önceki",
+  "etf_screener_pagination_next": "Sonraki",
+  "etf_screener_pagination_page_of": "Sayfa {current} / {total}",
+  "etf_screener_rows_label": "{rows} Satır",
+  "etf_screener_back_to_top": "Başa Dön",
+
+  "etf_screener_no_etfs_query": "\"{query}\" için ETF bulunamadı",
+  "etf_screener_no_etfs": "ETF bulunamadı.",
+
+  "etf_screener_modal_new_title": "Yeni Tarama",
+  "etf_screener_modal_new_name_label": "Tarama Adı",
+  "etf_screener_modal_new_create": "Oluştur",
+
+  "etf_screener_modal_delete_title": "Taramayı Sil",
+  "etf_screener_modal_delete_message": "Bu taramayı silmek istediğine emin misin?",
+  "etf_screener_modal_delete_cancel": "Vazgeç",
+  "etf_screener_modal_delete_confirm": "Sil",
+
+  "etf_screener_strategy_low_cost_index": "Düşük Maliyetli Endeks ETF'leri",
+  "etf_screener_strategy_high_dividend": "Yüksek Temettülü ETF'ler",
+  "etf_screener_strategy_top_performers_1y": "1 Yılın En İyileri",
+  "etf_screener_strategy_oversold": "Aşırı Satılmış ETF'ler",
+
+  "etf_screener_tab_filters": "Filtreler",
+  "etf_screener_tab_technicals": "Teknikler",
+
+  "etf_screener_export_title": "ETF tarayıcı verisini dışa aktar"
+}

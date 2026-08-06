@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "หน้าแรก",
+  "politicians_breadcrumb_politicians": "นักการเมือง",
+  "politicians_breadcrumb_flow": "การซื้อขายของสภาคองเกรส",
+
+  "politicians_seo_title": "ติดตามการซื้อขายหุ้นของสภาคองเกรส - รายการล่าสุดของนักการเมืองสหรัฐ",
+  "politicians_seo_description": "ติดตามการซื้อขายหุ้นของสมาชิกสภาคองเกรส วุฒิสมาชิก และนักการเมืองสหรัฐแบบเรียลไทม์ ดูรายการของ Nancy Pelosi การซื้อหุ้นของวุฒิสภา และการซื้อขายของคนวงในในสภา เครื่องมือติดตามฟรีพร้อมประวัติรายการโดยละเอียด",
+  "politicians_seo_keywords": "การซื้อขายของสภาคองเกรส, รายการซื้อขายของ nancy pelosi, หุ้นของนักการเมือง, การซื้อขายของวุฒิสภา, การเทรดในสภาคองเกรส, คนวงในในสภาคองเกรส, ตัวติดตามหุ้นการเมือง, นักการเมืองสหรัฐซื้อขายหุ้น, พอร์ตของ pelosi, หุ้นที่สภาคองเกรสซื้อขาย",
+  "politicians_structured_name": "ติดตามการซื้อขายหุ้นของสภาคองเกรส",
+  "politicians_structured_description": "ติดตามการซื้อขายหุ้นของนักการเมืองและสมาชิกสภาคองเกรสสหรัฐแบบเรียลไทม์",
+
+  "politicians_main_title": "นักการเมืองสหรัฐทั้งหมด",
+  "politicians_count_members": "{count} คน",
+  "politicians_search_placeholder": "ค้นหา...",
+  "politicians_filter_party": "พรรค",
+  "politicians_empty_search": "ไม่พบสมาชิกสภาคองเกรสสำหรับ \"{query}\"",
+  "politicians_empty_filter": "ไม่พบผลลัพธ์ตามคำค้นหรือเงื่อนไขที่เลือก",
+
+  "politicians_pagination_previous": "ก่อนหน้า",
+  "politicians_pagination_next": "ถัดไป",
+  "politicians_pagination_page_of": "หน้า {current} จาก {total}",
+  "politicians_pagination_rows": "{count} แถว",
+  "politicians_back_to_top": "กลับขึ้นด้านบน",
+
+  "politicians_flow_seo_title": "การซื้อขายล่าสุดของสภาคองเกรส",
+  "politicians_flow_seo_description": "ดูการซื้อขายล่าสุดของสภาคองเกรส และดูว่าคนที่เข้าถึงข้อมูลด้านกฎระเบียบกำลังลงทุนในอะไร",
+
+  "politicians_flow_title": "รายการซื้อขายล่าสุดของนักการเมือง",
+  "politicians_flow_description_intro": "ภาพรวมการซื้อขายล่าสุดของสภาคองเกรส สัดส่วนซื้อ-ขายอยู่ที่",
+  "politicians_flow_description_buys": "ซื้อ {percent}%",
+  "politicians_flow_description_versus": "เทียบกับ",
+  "politicians_flow_description_sells": "ขาย {percent}%",
+  "politicians_flow_description_active_party": "จากรายงานล่าสุด พรรคที่เคลื่อนไหวมากที่สุดคือ",
+  "politicians_flow_description_with": "ด้วย",
+  "politicians_flow_description_transactions": "รายการ สะท้อนมุมมอง",
+  "politicians_flow_description_sentiment": "ในหมู่สมาชิกสภาคองเกรส",
+  "politicians_flow_sentiment_bullish": "เชิงบวก",
+  "politicians_flow_sentiment_bearish": "เชิงลบ",
+  "politicians_flow_sentiment_neutral": "เป็นกลาง",
+  "politicians_flow_count_trades": "{count} รายการ",
+  "politicians_flow_empty_search": "ไม่พบหุ้นสำหรับ \"{query}\"",
+
+  "politicians_detail_stats_rank": "อันดับ",
+  "politicians_detail_stats_trades_scored": "รายการที่ให้คะแนน",
+  "politicians_detail_stats_success_rate": "อัตราความสำเร็จ",
+  "politicians_detail_stats_avg_return": "ผลตอบแทนเฉลี่ย",
+  "politicians_detail_stats_total_amount": "มูลค่ารวม",
+  "politicians_detail_stats_transaction": "รายการ",
+  "politicians_detail_stats_last_transaction": "รายการล่าสุด",
+  "politicians_detail_stats_buy_sell": "ซื้อ/ขาย",
+
+  "politicians_detail_main_sectors": "กลุ่มธุรกิจหลัก:",
+  "politicians_detail_top_industries": "อุตสาหกรรมเด่น:",
+  "politicians_detail_count_stocks": "{count} หุ้น",
+  "politicians_detail_empty_search": "ไม่มีข้อมูลสำหรับ \"{query}\"",
+  "politicians_detail_empty": "ไม่มีข้อมูลสำหรับนักวิเคราะห์ที่ค้นหา",
+
+  "politicians_detail_mobile_filed": "ยื่นรายงาน",
+  "politicians_detail_mobile_view_chart": "ดูกราฟ",
+  "politicians_detail_mobile_amt": "มูลค่า",
+  "politicians_detail_mobile_trades": "{count} รายการ",
+  "politicians_detail_mobile_trades_plural": "{count} รายการ"
+}

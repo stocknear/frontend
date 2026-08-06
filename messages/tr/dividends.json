@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Ana Sayfa",
+  "dividends_breadcrumb_calendar": "Temettu Takvimi",
+
+  "dividends_seo_title": "Temettu Takvimi - Hisseler Icin Temettu Kesim Tarihleri ve Odeme Programi",
+  "dividends_seo_description": "Yaklasan temettu kesim tarihlerini ve odeme programlarini takip et. Nakit tutarlari, odeme tarihleri ve piyasa degeri verisini gosteren kapsamli takvimimizle temettu stratejini planla.",
+  "dividends_seo_keywords": "temettu takvimi, temettu kesim tarihi, temettu odeme programi, temettu toplama, hisse temettuleri, temettu hisseleri, temettu odeme tarihleri, yaklasan temettuler",
+
+  "dividends_main_name": "Temettu Takvimi",
+  "dividends_count": "{count} temettu",
+  "dividends_empty_day": "Bu gun icin temettu yok.",
+  "dividends_empty_none": "Temettu yok",
+  "dividends_empty_scheduled": "Planlanmis temettu yok",
+
+  "dividends_tab_daily": "Gunluk",
+  "dividends_tab_weekly": "Haftalik",
+  "dividends_tab_details": "Detaylar",
+  "dividends_tab_compact": "Kompakt",
+
+  "dividends_time_any": "Farketmez",
+  "dividends_time_before_open": "Acilis Oncesi",
+  "dividends_time_after_close": "Kapanis Sonrasi",
+
+  "dividends_expanded_ex_date": "Kesim Tarihi",
+  "dividends_expanded_market_cap": "Piyasa Degeri",
+  "dividends_expanded_amount": "Tutar",
+  "dividends_expanded_revenue": "Gelir",
+  "dividends_expanded_payment_date": "Odeme Tarihi",
+  "dividends_expanded_date": "Tarih",
+  "dividends_expanded_dividend": "Temettu",
+
+  "dividends_pagination_previous": "Onceki",
+  "dividends_pagination_next": "Sonraki",
+  "dividends_pagination_page_of": "Sayfa {current} / {total}",
+  "dividends_pagination_rows": "{count} satir",
+  "dividends_back_to_top": "Basa Don",
+  "dividends_search_placeholder": "Ara..."
+}

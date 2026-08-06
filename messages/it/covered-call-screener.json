@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Home",
+  "covered_call_screener_breadcrumb_title": "Screener Covered Call",
+
+  "covered_call_screener_seo_title": "Screener Covered Call - Trova le migliori opportunità di covered call",
+  "covered_call_screener_seo_description": "Filtra migliaia di opzioni per trovare opportunità di covered call. Seleziona per rendimento del premio, rendimento annualizzato, prezzo di esercizio, scadenza e altro.",
+  "covered_call_screener_seo_keywords": "screener covered call, screener opzioni, covered call, rendimento del premio, strategia di reddito",
+  "covered_call_screener_structured_name": "Screener Covered Call",
+  "covered_call_screener_structured_description": "Filtra le opzioni per trovare opportunità di covered call",
+
+  "covered_call_screener_main_title": "Screener Covered Call",
+  "covered_call_screener_contracts_count": "{count} contratti",
+
+  "covered_call_screener_popular_screens": "Screen popolari",
+  "covered_call_screener_popular_strategies": "Strategie popolari",
+  "covered_call_screener_select_popular": "Scegli popolari",
+  "covered_call_screener_saved_screens": "Screen salvati",
+  "covered_call_screener_select_screen": "Scegli screen",
+  "covered_call_screener_new_screen": "Nuovo screen",
+
+  "covered_call_screener_strategy_high_yield": "Rendimento alto",
+  "covered_call_screener_strategy_conservative": "Conservativa",
+  "covered_call_screener_strategy_weekly_income": "Reddito settimanale",
+  "covered_call_screener_strategy_high_protection": "Protezione alta",
+  "covered_call_screener_strategy_bluechip_cc": "Covered call blue chip",
+
+  "covered_call_screener_filters_count": "Filtri ({count})",
+  "covered_call_screener_add_filters": "Aggiungi filtri",
+  "covered_call_screener_search_filters": "Cerca tra {count} filtri...",
+  "covered_call_screener_select_filters_title": "Scegli i filtri ({count})",
+  "covered_call_screener_nothing_found": "Nessun risultato.",
+
+  "covered_call_screener_save": "Salva",
+  "covered_call_screener_save_as_new": "Salva come nuovo",
+  "covered_call_screener_reset_all": "Azzera tutto",
+
+  "covered_call_screener_condition_over": "Sopra",
+  "covered_call_screener_condition_under": "Sotto",
+  "covered_call_screener_condition_between": "Tra",
+  "covered_call_screener_condition_exactly": "Esatto",
+  "covered_call_screener_condition_any": "Qualsiasi",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Valore",
+
+  "covered_call_screener_search_placeholder": "Cerca...",
+  "covered_call_screener_search_modal_placeholder": "Cerca...",
+
+  "covered_call_screener_normal_width": "Larghezza normale",
+  "covered_call_screener_full_width": "Larghezza piena",
+
+  "covered_call_screener_tab_general": "Generale",
+  "covered_call_screener_tab_income": "Reddito",
+  "covered_call_screener_tab_filters": "Filtri",
+  "covered_call_screener_tab_greeks": "Greche",
+
+  "covered_call_screener_pagination_previous": "Precedente",
+  "covered_call_screener_pagination_next": "Successiva",
+  "covered_call_screener_pagination_page_of": "Pagina {current} di {total}",
+  "covered_call_screener_rows_label": "{rows} righe",
+  "covered_call_screener_back_to_top": "Torna su",
+
+  "covered_call_screener_no_results_query": "Nessun risultato per \"{query}\"",
+  "covered_call_screener_no_contracts": "Nessun contratto corrisponde ai tuoi criteri.",
+
+  "covered_call_screener_modal_new_title": "Nuovo screen",
+  "covered_call_screener_modal_new_name_label": "Nome dello screen",
+  "covered_call_screener_modal_new_create": "Crea",
+
+  "covered_call_screener_modal_delete_title": "Elimina screener",
+  "covered_call_screener_modal_delete_message": "Vuoi davvero eliminare questo screener? L'operazione non può essere annullata.",
+  "covered_call_screener_modal_delete_cancel": "Annulla",
+  "covered_call_screener_modal_delete_confirm": "Elimina",
+
+  "covered_call_screener_toast_deleting": "Eliminazione dello screener...",
+  "covered_call_screener_toast_deleted": "Screener eliminato.",
+  "covered_call_screener_toast_delete_failed": "Eliminazione non riuscita. Riprova.",
+  "covered_call_screener_toast_title_too_long": "Il titolo è troppo lungo. Resta sotto i 100 caratteri.",
+  "covered_call_screener_toast_created": "Screener creato.",
+  "covered_call_screener_toast_creating": "Creazione dello screener...",
+  "covered_call_screener_toast_create_failed": "Qualcosa è andato storto. Riprova più tardi.",
+  "covered_call_screener_toast_select_rule": "Seleziona una regola",
+  "covered_call_screener_toast_saving": "Salvataggio dello screener...",
+  "covered_call_screener_toast_saved": "Screener salvato.",
+  "covered_call_screener_toast_save_failed": "Salvataggio non riuscito. Riprova.",
+
+  "covered_call_screener_chart_price_at_expiration": "Prezzo alla scadenza ($)",
+  "covered_call_screener_chart_last_price_label": "Ultimo prezzo: {price}",
+  "covered_call_screener_chart_breakeven_label": "Pareggio: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Profitto/Perdita ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Prezzo del sottostante:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Profitto o perdita:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Struttura operazione",
+  "covered_call_screener_chart_buy_stock": "Compra il titolo a",
+  "covered_call_screener_chart_sell_call": "Vendi {strike}C a",
+  "covered_call_screener_chart_net_credit_debit": "Netto (credito/debito)",
+  "covered_call_screener_chart_breakeven": "Pareggio",
+  "covered_call_screener_chart_above": "Sopra",
+  "covered_call_screener_chart_last_price": "Ultimo prezzo",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Rendimento se invariato",
+  "covered_call_screener_chart_return_if_assigned": "Rendimento se assegnato",
+  "covered_call_screener_chart_probability_of_profit": "Probabilità di profitto",
+  "covered_call_screener_chart_annualized_abbr": "ann."
+}

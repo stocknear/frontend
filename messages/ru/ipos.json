@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Главная",
+  "ipos_breadcrumb_data": "Данные об IPO",
+
+  "ipos_seo_title": "Календарь IPO - недавние и предстоящие IPO | Первичные размещения",
+  "ipos_seo_description": "Отслеживай недавние и предстоящие IPO (первичные публичные размещения) с подробным анализом. Следи за динамикой, ценами, датами и доходностью с момента листинга. Бесплатный календарь и трекер IPO с полными данными.",
+  "ipos_seo_keywords": "календарь IPO, предстоящие IPO, недавние IPO, первичные публичные размещения, трекер IPO, динамика IPO, цены IPO, новые листинги акций, публичные размещения",
+
+  "ipos_main_name_recent": "Недавние IPO",
+  "ipos_main_name_statistics": "Статистика IPO",
+  "ipos_count": "{count} акций",
+  "ipos_tab_recent": "Недавние",
+  "ipos_tab_statistics": "Статистика",
+  "ipos_tab_latest": "Последние",
+
+  "ipos_statistics_seo_title": "Статистика и исторические графики IPO - данные рынка первичных размещений",
+  "ipos_statistics_seo_description": "Полная статистика и интерактивные графики первичных публичных размещений на фондовом рынке США. Отслеживай годовые и месячные тренды IPO с {startYear} по {endYear}, анализируй рыночные циклы и закономерности динамики IPO.",
+  "ipos_statistics_seo_keywords": "статистика IPO, графики первичных размещений, данные рынка IPO, тренды IPO, анализ IPO, исторические данные IPO, динамика IPO, годовая статистика IPO, месячные данные IPO",
+  "ipos_statistics_infobox": "Эта страница содержит статистику и графики первичных публичных размещений (IPO) на фондовом рынке США. Годовые и месячные данные доступны с {startYear} по {endYear}.",
+  "ipos_statistics_title": "Количество IPO по годам",
+  "ipos_statistics_description": "С {startYear} по {endYear} прошло {count} IPO. Меньше всего было в {minYear} году — всего {minCount}. Рекордным стал {maxYear} год с {maxCount} IPO.",
+  "ipos_statistics_stock_news": "Новости акций",
+  "ipos_statistics_more_news": "Больше новостей об акциях",
+
+  "ipos_year_seo_title": "Список IPO {year} года - полный каталог первичных размещений",
+  "ipos_year_seo_description": "Полный список всех первичных публичных размещений (IPO) {year} года на фондовом рынке США. Отслеживай динамику, цены, доходность с момента листинга и рыночные дебюты с подробной информацией о компаниях.",
+  "ipos_year_seo_keywords": "IPO {year}, первичные размещения {year}, список IPO {year}, динамика IPO {year}, недавние IPO, календарь IPO {year}, новые публичные компании {year}",
+  "ipos_year_empty": "IPO не найдены. Попробуй изменить период поиска для актуальных IPO {year} года.",
+
+  "ipos_statistics_chart_title": "IPO по годам, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Первичные публичные размещения {year} года",
+  "ipos_year_summary": "В {year} году прошло {count} IPO.",
+  "ipos_year_extremes": "Самым активным месяцем был {maxMonth} с {maxCount}, самым тихим — {minMonth} с {minCount}.",
+  "ipos_year_none": "В {year} году IPO не было."
+}

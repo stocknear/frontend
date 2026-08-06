@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Início",
+  "earnings_breadcrumb_calendar": "Calendário de Resultados",
+
+  "earnings_seo_title": "Calendário de Resultados - Oportunidades de Volatilidade para Opções",
+  "earnings_seo_description": "Acompanhe datas de divulgação, movimento esperado e projeções de analistas para planejar operações de volatilidade em opções e montagens de IV crush.",
+  "earnings_seo_keywords": "calendário de resultados, operações de opções em resultados, movimento esperado, IV crush, volatilidade em balanços, projeções de EPS, previsões de receita, agenda de resultados",
+
+  "earnings_structured_name": "Calendário de Resultados",
+  "earnings_structured_description": "Calendário de resultados feito para traders de opções focados em volatilidade e movimento esperado",
+
+  "earnings_main_name": "Calendário de Resultados",
+  "earnings_count": "{count} resultados",
+  "earnings_empty": "Nenhum resultado divulgado neste dia.",
+  "earnings_empty_scheduled": "Nenhuma divulgação agendada",
+
+  "earnings_tab_daily": "Diário",
+  "earnings_tab_weekly": "Semanal",
+  "earnings_tab_details": "Detalhes",
+  "earnings_tab_compact": "Compacto",
+
+  "earnings_time_of_day": "Horário",
+  "earnings_time_any": "Qualquer horário",
+  "earnings_time_before_open": "Antes da abertura",
+  "earnings_time_after_close": "Após o fechamento",
+
+  "earnings_expanded_reports": "Divulga",
+  "earnings_expanded_market_cap": "Valor de Mercado",
+  "earnings_expanded_revenue_est": "Receita proj.",
+  "earnings_expanded_revenue_estimate": "Receita projetada",
+  "earnings_expanded_eps_est": "EPS proj.",
+  "earnings_expanded_eps_estimate": "EPS projetado",
+
+  "earnings_pagination_previous": "Anterior",
+  "earnings_pagination_next": "Próxima",
+  "earnings_pagination_page_of": "Página {current} de {total}",
+  "earnings_pagination_rows": "{count} linhas",
+  "earnings_back_to_top": "Voltar ao topo",
+  "earnings_search_placeholder": "Buscar..."
+}

@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Forside",
+  "earnings_breadcrumb_calendar": "Regnskabskalender",
+
+  "earnings_seo_title": "Regnskabskalender - volatilitetssetups til optionstradere",
+  "earnings_seo_description": "Følg regnskabsdatoer, forventede kursudsving og analytikerestimater, så du kan planlægge optionshandler på volatilitet og IV crush.",
+  "earnings_seo_keywords": "regnskabskalender, optionshandel omkring regnskab, forventet udsving, IV crush, regnskabsvolatilitet, EPS-estimater, omsætningsprognoser, regnskabsdatoer",
+
+  "earnings_structured_name": "Regnskabskalender",
+  "earnings_structured_description": "Regnskabskalender bygget til optionstradere med fokus på volatilitet og forventede udsving",
+
+  "earnings_main_name": "Regnskabskalender",
+  "earnings_count": "{count} regnskaber",
+  "earnings_empty": "Ingen regnskaber tilgængelige for dagen.",
+  "earnings_empty_scheduled": "Ingen regnskaber planlagt",
+
+  "earnings_tab_daily": "Dag",
+  "earnings_tab_weekly": "Uge",
+  "earnings_tab_details": "Detaljer",
+  "earnings_tab_compact": "Kompakt",
+
+  "earnings_time_of_day": "Tidspunkt",
+  "earnings_time_any": "Når som helst",
+  "earnings_time_before_open": "Før åbning",
+  "earnings_time_after_close": "Efter lukning",
+
+  "earnings_expanded_reports": "Rapporterer",
+  "earnings_expanded_market_cap": "Markedsværdi",
+  "earnings_expanded_revenue_est": "Omsætn. est.",
+  "earnings_expanded_revenue_estimate": "Omsætningsestimat",
+  "earnings_expanded_eps_est": "EPS est.",
+  "earnings_expanded_eps_estimate": "EPS-estimat",
+
+  "earnings_pagination_previous": "Forrige",
+  "earnings_pagination_next": "Næste",
+  "earnings_pagination_page_of": "Side {current} af {total}",
+  "earnings_pagination_rows": "{count} rækker",
+  "earnings_back_to_top": "Til toppen",
+  "earnings_search_placeholder": "Søg..."
+}

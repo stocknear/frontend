@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Hjem",
+  "politicians_breadcrumb_politicians": "Politikere",
+  "politicians_breadcrumb_flow": "Kongressflyt",
+
+  "politicians_seo_title": "Kongresshandel - Politikeres aksjehandler i sanntid",
+  "politicians_seo_description": "Følg aksjehandlene til medlemmer av den amerikanske kongressen, senatorer og politikere i sanntid. Se Nancy Pelosis handler, kjøp i senatet og innsidehandel i kongressen. Gratis sporing av politikeres handler med full transaksjonshistorikk.",
+  "politicians_seo_keywords": "kongresshandel, nancy pelosi handler, politikeres aksjehandler, senatets handler, handel i kongressen, innsidehandel kongressen, sporing av politikeres aksjer, amerikanske politikere handel, pelosi portefølje, kongressens aksjehandler",
+  "politicians_structured_name": "Kongresshandel",
+  "politicians_structured_description": "Sanntidssporing av aksjehandler gjort av amerikanske politikere og kongressmedlemmer",
+
+  "politicians_main_title": "Alle amerikanske politikere",
+  "politicians_count_members": "{count} medlemmer",
+  "politicians_search_placeholder": "Finn ...",
+  "politicians_filter_party": "Parti",
+  "politicians_empty_search": "Fant ingen kongressmedlemmer for \"{query}\"",
+  "politicians_empty_filter": "Ingen treff på søket eller filtrene dine.",
+
+  "politicians_pagination_previous": "Forrige",
+  "politicians_pagination_next": "Neste",
+  "politicians_pagination_page_of": "Side {current} av {total}",
+  "politicians_pagination_rows": "{count} rader",
+  "politicians_back_to_top": "Til toppen",
+
+  "politicians_flow_seo_title": "Siste handler i kongressen",
+  "politicians_flow_seo_description": "Se de nyeste handlene i kongressen og hva innsidere med tilgang til regelverket investerer i.",
+
+  "politicians_flow_title": "Politikernes siste handler",
+  "politicians_flow_description_intro": "Oversikt over den siste handelsaktiviteten i kongressen. Kjøp/salg-forholdet viser",
+  "politicians_flow_description_buys": "{percent}% kjøp",
+  "politicians_flow_description_versus": "mot",
+  "politicians_flow_description_sells": "{percent}% salg",
+  "politicians_flow_description_active_party": "i de siste innrapporteringene. Mest aktive parti er",
+  "politicians_flow_description_with": "med",
+  "politicians_flow_description_transactions": "transaksjoner, noe som tyder på",
+  "politicians_flow_description_sentiment": "stemning blant kongressmedlemmene.",
+  "politicians_flow_sentiment_bullish": "positiv",
+  "politicians_flow_sentiment_bearish": "negativ",
+  "politicians_flow_sentiment_neutral": "nøytral",
+  "politicians_flow_count_trades": "{count} handler",
+  "politicians_flow_empty_search": "Fant ingen aksjer for \"{query}\"",
+
+  "politicians_detail_stats_rank": "Rangering",
+  "politicians_detail_stats_trades_scored": "Vurderte handler",
+  "politicians_detail_stats_success_rate": "Treffprosent",
+  "politicians_detail_stats_avg_return": "Snittavkastning",
+  "politicians_detail_stats_total_amount": "Totalbeløp",
+  "politicians_detail_stats_transaction": "Transaksjon",
+  "politicians_detail_stats_last_transaction": "Siste transaksjon",
+  "politicians_detail_stats_buy_sell": "Kjøp/salg",
+
+  "politicians_detail_main_sectors": "Hovedsektorer:",
+  "politicians_detail_top_industries": "Største bransjer:",
+  "politicians_detail_count_stocks": "{count} aksjer",
+  "politicians_detail_empty_search": "Ingen data tilgjengelig for \"{query}\"",
+  "politicians_detail_empty": "Ingen data tilgjengelig for analytikeren du søkte etter.",
+
+  "politicians_detail_mobile_filed": "Innrapportert",
+  "politicians_detail_mobile_view_chart": "Se graf",
+  "politicians_detail_mobile_amt": "Beløp",
+  "politicians_detail_mobile_trades": "{count} handel",
+  "politicians_detail_mobile_trades_plural": "{count} handler"
+}

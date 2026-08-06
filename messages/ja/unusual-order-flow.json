@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "異常注文フロー - ダークプール約定とブロック取引",
+  "unusual_order_flow_seo_description": "ダークプールの約定とブロック取引をリアルタイムで追跡し、短期の値動きにつながりやすい機関投資家の動きを捉えます。",
+  "unusual_order_flow_seo_keywords": "異常注文フロー, ダークプール 約定, ブロック取引, 機関投資家 注文フロー, スマートマネー, 隠れた流動性, リアルタイム 注文フロー, ダークプール スキャナー",
+  "unusual_order_flow_structured_name": "異常注文フロー スキャナー",
+  "unusual_order_flow_structured_description": "短期シグナル向けのダークプール約定とブロック取引をリアルタイム表示",
+
+  "unusual_order_flow_main_title": "異常注文フロー",
+
+  "unusual_order_flow_popular_filters": "人気のフィルター",
+  "unusual_order_flow_select_popular": "人気から選ぶ",
+  "unusual_order_flow_saved_filters": "保存したフィルター",
+  "unusual_order_flow_select_filter": "フィルターを選択",
+  "unusual_order_flow_new_filter": "新しいフィルター",
+
+  "unusual_order_flow_filters_count": "フィルター {count} 件",
+  "unusual_order_flow_add_filters": "フィルターを追加",
+  "unusual_order_flow_search_filters": "{count} 件のフィルターを検索...",
+  "unusual_order_flow_select_filters_title": "フローのフィルターを選択（全 {count} 件）",
+  "unusual_order_flow_nothing_found": "該当なし",
+  "unusual_order_flow_no_filters_found": "利用できるフィルターがありません",
+
+  "unusual_order_flow_search_placeholder": "検索...",
+  "unusual_order_flow_search_input_placeholder": "検索...",
+  "unusual_order_flow_full_width": "全幅表示",
+  "unusual_order_flow_normal_width": "通常幅",
+
+  "unusual_order_flow_no_trades_query": "「{query}」に該当する異常取引はありません",
+  "unusual_order_flow_no_data_filters": "かなり独特な条件のようです。今のところ一致するものはありません。",
+
+  "unusual_order_flow_modal_new_title": "新しいフィルター",
+  "unusual_order_flow_modal_new_name_label": "フィルター名",
+  "unusual_order_flow_modal_new_create": "フィルターを作成",
+
+  "unusual_order_flow_modal_delete_title": "フィルターを削除",
+  "unusual_order_flow_modal_delete_message": "このフィルターを削除しますか。この操作は取り消せません。",
+  "unusual_order_flow_modal_delete_cancel": "キャンセル",
+  "unusual_order_flow_modal_delete_confirm": "フィルターを削除",
+
+  "unusual_order_flow_save": "保存",
+  "unusual_order_flow_save_as_new": "新規として保存",
+  "unusual_order_flow_reset_all": "すべてリセット",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "ダークプール約定",
+  "unusual_order_flow_strategy_block_orders": "ブロック注文",
+  "unusual_order_flow_strategy_mega_premium": "超大口プレミアム",
+  "unusual_order_flow_strategy_etf_flow": "ETF フロー",
+  "unusual_order_flow_strategy_high_volume": "出来高上位",
+  "unusual_order_flow_strategy_large_stock_flow": "大口の株式フロー",
+
+  "unusual_order_flow_total_volume": "合計出来高",
+  "unusual_order_flow_total_value": "合計金額",
+  "unusual_order_flow_transaction_type": "取引種別",
+  "unusual_order_flow_dark_pool": "ダークプール",
+  "unusual_order_flow_block": "ブロック",
+  "unusual_order_flow_asset_type": "資産タイプ",
+  "unusual_order_flow_stock": "株式",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15分遅延",
+  "unusual_order_flow_delayed_title": "15分遅延の SIP データ",
+  "unusual_order_flow_delayed_content": "Intrinio の SIP フィードは、米国の主要取引所すべてを統合した高品質な株式データを提供します。約定、気配値、NBBO を含みます。15分の遅延はありますが、全取引所をカバーした厚みのある市場情報を確認できます。",
+
+  "unusual_order_flow_hide_filter_area": "フィルター欄を隠す",
+  "unusual_order_flow_show_filter_area": "フィルター欄を表示",
+  "unusual_order_flow_exit_full_width": "全幅表示を終了",
+  "unusual_order_flow_expand_full_width": "全幅表示にする",
+  "unusual_order_flow_reset_column_order": "列の並び順をリセット",
+  "unusual_order_flow_remove_filter": "フィルターを削除",
+
+  "unusual_order_flow_min": "最小",
+  "unusual_order_flow_max": "最大",
+  "unusual_order_flow_value": "値"
+}

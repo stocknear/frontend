@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Acasă",
+  "stock_screener_breadcrumb_stock_screener": "Screener acțiuni",
+
+  "stock_screener_seo_title": "Screener avansat de acțiuni - Filtrare și analiză gratuită",
+  "stock_screener_seo_description": "Screener puternic de acțiuni, cu {count} criterii de filtrare. Filtrează acțiuni după indicatori fundamentali, tehnici, de evaluare și de performanță. Date în timp real, actualizate în fiecare minut, pentru analiză și descoperire de idei.",
+  "stock_screener_seo_keywords": "screener acțiuni, screener gratuit de acțiuni, filtru acțiuni, scanner acțiuni, screener fundamental, screener tehnic, screener acțiuni subevaluate, screener acțiuni de creștere, screener acțiuni cu dividende, instrument de analiză a acțiunilor",
+  "stock_screener_structured_name": "Instrument screener de acțiuni",
+  "stock_screener_structured_description": "Platformă avansată de filtrare a acțiunilor, cu date de piață în timp real",
+
+  "stock_screener_main_title": "Screener acțiuni",
+  "stock_screener_matches_found": "{count} rezultate găsite",
+  "stock_screener_stocks_count": "{count} acțiuni",
+
+  "stock_screener_popular_screens": "Screenere populare",
+  "stock_screener_popular_strategies": "Strategii populare",
+  "stock_screener_select_popular": "Alege un screener popular",
+  "stock_screener_saved_screens": "Screenere salvate",
+  "stock_screener_select_screen": "Alege screenerul",
+  "stock_screener_new_screen": "Screener nou",
+
+  "stock_screener_filters_count": "{count} filtre",
+  "stock_screener_add_filters": "Adaugă filtre",
+  "stock_screener_search_filters": "Caută în {count} filtre...",
+  "stock_screener_select_filters_title": "Alege filtrele screenerului ({count} în total)",
+  "stock_screener_nothing_found": "Niciun rezultat",
+
+  "stock_screener_search_placeholder": "Caută...",
+  "stock_screener_search_input_placeholder": "Caută...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Valoare",
+
+  "stock_screener_normal_width": "Lățime normală",
+  "stock_screener_full_width": "Lățime completă",
+
+  "stock_screener_pagination_previous": "Anterior",
+  "stock_screener_pagination_next": "Următor",
+  "stock_screener_pagination_page_of": "Pagina {current} din {total}",
+  "stock_screener_rows_label": "{rows} rânduri",
+  "stock_screener_back_to_top": "Înapoi sus",
+
+  "stock_screener_no_stocks_query": "Nicio acțiune găsită pentru \"{query}\"",
+  "stock_screener_no_stocks": "Nicio acțiune găsită.",
+
+  "stock_screener_modal_new_title": "Screener nou",
+  "stock_screener_modal_new_name_label": "Nume screener",
+  "stock_screener_modal_new_create": "Creează screenerul",
+
+  "stock_screener_modal_delete_title": "Șterge screenerul",
+  "stock_screener_modal_delete_message": "Sigur vrei să ștergi acest screener? Acțiunea nu poate fi anulată.",
+  "stock_screener_modal_delete_cancel": "Anulează",
+  "stock_screener_modal_delete_confirm": "Șterge",
+
+  "stock_screener_strategy_earnings_volatility": "Volatilitate la raportări",
+  "stock_screener_strategy_dividend_growth": "Creșterea dividendelor",
+  "stock_screener_strategy_monthly_dividends": "Dividende lunare",
+  "stock_screener_strategy_top_gainers_1y": "Top creșteri 1 an",
+  "stock_screener_strategy_top_shorted": "Top vânzări în lipsă",
+  "stock_screener_strategy_momentum_ta": "Acțiuni cu momentum tehnic",
+  "stock_screener_strategy_undervalued": "Acțiuni subevaluate",
+  "stock_screener_strategy_strong_cash_flow": "Cash flow puternic",
+
+  "stock_screener_save": "Salvează",
+  "stock_screener_save_as_new": "Salvează ca nou",
+  "stock_screener_reset_all": "Resetează tot"
+}

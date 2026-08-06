@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Centro Formazione - Educazione sui mercati e tutorial di investimento",
+  "learning_center_seo_description": "Impara a investire in borsa con il nostro Centro Formazione. Tutorial gratuiti su strategie di trading, analisi tecnica, analisi fondamentale, gestione del portafoglio ed educazione finanziaria, dai principianti ai trader esperti.",
+  "learning_center_seo_keywords": "educazione borsa, tutorial investimenti, strategie di trading, imparare a investire, tutorial analisi azioni, educazione finanziaria, guida agli investimenti, basi della borsa, gestione del portafoglio, corso di analisi tecnica",
+  "learning_center_structured_name": "Centro Formazione Stocknear",
+  "learning_center_structured_description": "Educazione completa sui mercati azionari e tutorial di investimento",
+  "learning_center_structured_articles": "Articoli didattici",
+  "learning_center_structured_articles_description": "Articoli didattici e tutorial su borsa e investimenti",
+  "learning_center_title": "Centro Formazione",
+  "learning_center_published": "Pubblicato:",
+  "learning_center_previous": "Precedente",
+  "learning_center_next": "Successivo",
+  "learning_center_alt_tutorial": "Immagine del tutorial",
+
+  "learning_center_subtitle": "Impara la borsa, un concetto alla volta",
+
+  "learning_center_category_all": "Tutti",
+  "learning_center_category_features": "Funzioni",
+  "learning_center_category_fundamentals": "Fondamenti",
+  "learning_center_category_terms": "Termini",
+
+  "learning_center_category_desc_features": "Come usare Stocknear",
+  "learning_center_category_desc_fundamentals": "Inizia da qui se sei alle prime armi",
+  "learning_center_category_desc_terms": "Termini e definizioni finanziarie",
+
+  "learning_center_tag_all": "Tutti i tag",
+  "learning_center_tag_stocks": "Azioni",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opzioni",
+  "learning_center_tag_sentiment": "Sentiment",
+  "learning_center_tag_prefix": "Tag",
+
+  "learning_center_view_all": "Vedi tutti",
+  "learning_center_view_all_count": "Vedi tutti i {count}",
+  "learning_center_min_read": "{time} min di lettura",
+
+  "learning_center_no_articles_tag": "Nessun articolo trovato con il tag \"{tag}\".",
+  "learning_center_clear_tag_filter": "Rimuovi filtro tag",
+
+  "learning_center_page_of": "Pagina {currentPage} di {totalPages}",
+  "learning_center_items_count": "{count} elementi",
+
+  "learning_center_back_to_top": "Torna su",
+  "learning_center_no_terms_yet": "Nessun termine disponibile al momento.",
+  "learning_center_no_articles_category": "Nessun articolo in questa categoria.",
+
+  "learning_center_table_of_contents": "Indice",
+  "learning_center_share_this_post": "Condividi il post",
+  "learning_center_back_to_all_posts": "Torna a tutti i post",
+
+  "learning_center_quick_start": "Avvio rapido",
+  "learning_center_sidebar_top_gainers": "Migliori rialzi",
+  "learning_center_sidebar_top_losers": "Peggiori ribassi",
+  "learning_center_sidebar_analysts": "Analisti",
+  "learning_center_sidebar_stock_screener": "Screener azioni",
+  "learning_center_sidebar_options_flow": "Options Flow",
+  "learning_center_sidebar_earnings_calendar": "Calendario trimestrali",
+  "learning_center_sidebar_dividends_calendar": "Calendario dividendi",
+  "learning_center_sidebar_ipo_calendar": "Calendario IPO",
+
+  "learning_center_related_articles": "Articoli correlati",
+  "learning_center_view_all_articles": "Vedi tutti gli articoli",
+  "learning_center_share_this_article": "Condividi questo articolo",
+
+  "learning_center_link_copied": "Link copiato negli appunti",
+  "learning_center_link_copy_failed": "Impossibile copiare il link",
+
+  "learning_center_sign_in_to_read": "Accedi per leggere il report completo.",
+  "learning_center_briefing_description": "Il Daily Market Briefing è riservato agli utenti Stocknear. Crea un account gratuito o accedi per sbloccare l'analisi completa.",
+  "learning_center_create_free_account": "Crea un account gratuito",
+  "learning_center_sign_in": "Accedi",
+
+  "learning_center_click_to_close": "Clicca ovunque o premi ESC per chiudere",
+
+  "learning_center_search_placeholder": "Cerca...",
+  "learning_center_no_search_results": "Nessun risultato per \"{query}\".",
+  "learning_center_clear_search": "Cancella ricerca"
+}

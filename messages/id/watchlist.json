@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Beranda",
+  "watchlist_breadcrumb_watchlist": "Watchlist",
+
+  "watchlist_seo_title": "Watchlist Saham - Pantau Portofolio & Harga Saham Anda",
+  "watchlist_seo_description": "Buat dan kelola watchlist saham pribadi Anda dengan pelacakan harga real-time. Pantau saham favorit, ETF, dan investasi Anda lengkap dengan peringatan dan analisis performa. Pelacak portofolio saham gratis dengan fitur lengkap.",
+  "watchlist_seo_keywords": "watchlist saham, pelacak portofolio, pelacak saham, pelacak investasi, pemantauan saham, peringatan, manajemen portofolio, performa saham, watchlist investasi",
+  "watchlist_structured_name": "Pelacak Watchlist Saham",
+  "watchlist_structured_description": "Alat watchlist saham pribadi dan pelacakan portofolio",
+
+  "watchlist_main_title": "Watchlist",
+  "watchlist_create_watchlist": "Buat Watchlist",
+  "watchlist_new_watchlist": "Watchlist Baru",
+  "watchlist_delete_watchlist": "Hapus Watchlist",
+
+  "watchlist_add_stock_placeholder": "Tambah saham...",
+  "watchlist_no_results": "Tidak ada hasil",
+  "watchlist_edit_watchlist": "Edit Watchlist",
+  "watchlist_cancel": "Batal",
+  "watchlist_normal_width": "Lebar Normal",
+  "watchlist_full_width": "Lebar Penuh",
+  "watchlist_exit_full_width": "Keluar dari lebar penuh",
+  "watchlist_expand_full_width": "Perlebar ke lebar penuh",
+
+  "watchlist_empty_title": "Watchlist Kosong",
+  "watchlist_empty_description": "Isi dengan saham favorit Anda dan dapatkan data real-time serta berita terbaru dalam satu tempat.",
+  "watchlist_get_started": "Mulai",
+
+  "watchlist_count_stocks": "{count} Saham",
+
+  "watchlist_tab_news": "Berita",
+  "watchlist_tab_earnings": "Rilis Laporan Keuangan",
+  "watchlist_no_news": "Belum ada berita. Tambahkan beberapa saham ke watchlist untuk melihat berita terbaru.",
+  "watchlist_no_earnings": "Tidak ada data laporan keuangan. Tambahkan beberapa saham ke watchlist untuk melihat data terbaru.",
+
+  "watchlist_modal_new_title": "Watchlist Baru",
+  "watchlist_modal_list_name": "Nama Daftar",
+  "watchlist_modal_create_button": "Buat Watchlist",
+
+  "watchlist_modal_delete_title": "Hapus Watchlist",
+  "watchlist_modal_delete_confirm": "Yakin ingin menghapus watchlist ini? Tindakan ini tidak bisa dibatalkan.",
+  "watchlist_modal_delete_button": "Hapus Watchlist",
+
+  "watchlist_toast_creating": "Membuat watchlist...",
+  "watchlist_toast_created": "Watchlist berhasil dibuat.",
+  "watchlist_toast_deleted": "Watchlist berhasil dihapus.",
+  "watchlist_toast_updating": "Memperbarui watchlist...",
+  "watchlist_toast_updated": "Watchlist berhasil diperbarui.",
+  "watchlist_toast_error": "Terjadi kesalahan. Silakan coba lagi.",
+  "watchlist_toast_error_generic": "Terjadi kesalahan. Silakan coba lagi nanti.",
+  "watchlist_toast_title_empty": "Judul tidak boleh kosong.",
+  "watchlist_toast_title_long": "Judul terlalu panjang. Buat singkat dan jelas.",
+  "watchlist_toast_already_in_list": "Simbol ini sudah ada di watchlist Anda",
+  "watchlist_toast_select_symbols": "Anda perlu memilih simbol sebelum bisa menghapusnya",
+
+  "watchlist_earnings_will_report": "akan melaporkan",
+  "watchlist_earnings_after_close": "setelah pasar tutup.",
+  "watchlist_earnings_before_open": "sebelum pasar buka.",
+  "watchlist_earnings_during_market": "saat jam perdagangan.",
+  "watchlist_earnings_analysts_estimate": "Analis memperkirakan",
+  "watchlist_earnings_in_revenue": "pendapatan",
+  "watchlist_earnings_yoy": "YoY",
+  "watchlist_earnings_and": "dan",
+  "watchlist_earnings_in_eps": "laba per saham",
+
+  "watchlist_note_add_title": "Tambah Catatan",
+  "watchlist_note_edit_title": "Edit Catatan",
+  "watchlist_note_placeholder_new": "Kenapa Anda menambahkan saham ini ke watchlist?",
+  "watchlist_note_placeholder_edit": "Perbarui catatan Anda...",
+  "watchlist_note_save": "Simpan",
+  "watchlist_note_add": "Tambah Catatan",
+  "watchlist_note_update": "Perbarui Catatan",
+  "watchlist_note_created": "Catatan dibuat",
+  "watchlist_note_updated": "Catatan diperbarui",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "sisa {count} karakter",
+  "watchlist_note_chars_over": "kelebihan {count} karakter",
+  "watchlist_note_exceeded": "Catatan tidak boleh lebih dari {max} karakter",
+  "watchlist_added_price": "Harga Saat Ditambah",
+
+  "watchlist_column_entry_price": "Harga Masuk",
+  "watchlist_column_since_added": "% Sejak Ditambah"
+}

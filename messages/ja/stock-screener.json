@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "ホーム",
+  "stock_screener_breadcrumb_stock_screener": "銘柄スクリーナー",
+
+  "stock_screener_seo_title": "高機能な銘柄スクリーナー - 無料の株式絞り込み・分析ツール",
+  "stock_screener_seo_description": "{count} 種類の条件で銘柄を絞り込めるスクリーナーです。業績、テクニカル、バリュエーション、パフォーマンスから探せます。データは毎分更新されます。",
+  "stock_screener_seo_keywords": "銘柄スクリーナー, 無料 スクリーナー, 株式 絞り込み, 銘柄検索, ファンダメンタル スクリーナー, テクニカル スクリーナー, 割安株 スクリーナー, 成長株 スクリーナー, 配当株 スクリーナー, 株式分析ツール",
+  "stock_screener_structured_name": "銘柄スクリーナー",
+  "stock_screener_structured_description": "リアルタイムの市場データを使った高機能な銘柄スクリーニングツール",
+
+  "stock_screener_main_title": "銘柄スクリーナー",
+  "stock_screener_matches_found": "{count} 件が該当",
+  "stock_screener_stocks_count": "{count} 銘柄",
+
+  "stock_screener_popular_screens": "人気のスクリーン",
+  "stock_screener_popular_strategies": "人気の戦略",
+  "stock_screener_select_popular": "人気から選ぶ",
+  "stock_screener_saved_screens": "保存したスクリーン",
+  "stock_screener_select_screen": "スクリーンを選択",
+  "stock_screener_new_screen": "新しいスクリーン",
+
+  "stock_screener_filters_count": "フィルター {count} 件",
+  "stock_screener_add_filters": "フィルターを追加",
+  "stock_screener_search_filters": "{count} 件のフィルターを検索...",
+  "stock_screener_select_filters_title": "スクリーナーのフィルターを選択（全 {count} 件）",
+  "stock_screener_nothing_found": "該当なし",
+
+  "stock_screener_search_placeholder": "検索...",
+  "stock_screener_search_input_placeholder": "検索...",
+  "stock_screener_input_min": "最小",
+  "stock_screener_input_max": "最大",
+  "stock_screener_input_value": "値",
+
+  "stock_screener_normal_width": "通常幅",
+  "stock_screener_full_width": "全幅表示",
+
+  "stock_screener_pagination_previous": "前へ",
+  "stock_screener_pagination_next": "次へ",
+  "stock_screener_pagination_page_of": "{current} / {total} ページ",
+  "stock_screener_rows_label": "{rows} 行",
+  "stock_screener_back_to_top": "トップへ戻る",
+
+  "stock_screener_no_stocks_query": "「{query}」に該当する銘柄はありません",
+  "stock_screener_no_stocks": "該当する銘柄はありません。",
+
+  "stock_screener_modal_new_title": "新しいスクリーナー",
+  "stock_screener_modal_new_name_label": "スクリーナー名",
+  "stock_screener_modal_new_create": "スクリーナーを作成",
+
+  "stock_screener_modal_delete_title": "スクリーナーを削除",
+  "stock_screener_modal_delete_message": "このスクリーナーを削除しますか。この操作は取り消せません。",
+  "stock_screener_modal_delete_cancel": "キャンセル",
+  "stock_screener_modal_delete_confirm": "削除",
+
+  "stock_screener_strategy_earnings_volatility": "決算で動く銘柄",
+  "stock_screener_strategy_dividend_growth": "増配銘柄",
+  "stock_screener_strategy_monthly_dividends": "毎月分配",
+  "stock_screener_strategy_top_gainers_1y": "1年騰落率 上位",
+  "stock_screener_strategy_top_shorted": "空売り残高 上位",
+  "stock_screener_strategy_momentum_ta": "テクニカル良好な銘柄",
+  "stock_screener_strategy_undervalued": "割安銘柄",
+  "stock_screener_strategy_strong_cash_flow": "キャッシュフロー良好",
+
+  "stock_screener_save": "保存",
+  "stock_screener_save_as_new": "新規として保存",
+  "stock_screener_reset_all": "すべてリセット"
+}

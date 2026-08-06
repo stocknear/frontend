@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Home",
+  "ipos_breadcrumb_data": "Dati IPO",
+
+  "ipos_seo_title": "Calendario IPO - Quotazioni recenti e in arrivo | Offerte pubbliche iniziali",
+  "ipos_seo_description": "Segui le IPO recenti e in arrivo con analisi dettagliate. Monitora performance, prezzi, date e rendimenti dalla quotazione. Calendario IPO gratuito con dati completi.",
+  "ipos_seo_keywords": "calendario IPO, prossime IPO, IPO recenti, offerte pubbliche iniziali, monitoraggio IPO, performance IPO, prezzi IPO, nuove quotazioni, offerte pubbliche",
+
+  "ipos_main_name_recent": "IPO recenti",
+  "ipos_main_name_statistics": "Statistiche IPO",
+  "ipos_count": "{count} titoli",
+  "ipos_tab_recent": "Recenti",
+  "ipos_tab_statistics": "Statistiche",
+  "ipos_tab_latest": "Ultime",
+
+  "ipos_statistics_seo_title": "Statistiche IPO e grafici storici - Dati sul mercato delle offerte pubbliche iniziali",
+  "ipos_statistics_seo_description": "Statistiche complete e grafici interattivi sulle offerte pubbliche iniziali del mercato azionario statunitense. Segui i trend annuali e mensili delle IPO dal {startYear} al {endYear}, analizza i cicli di mercato e scopri come si comportano le nuove quotazioni.",
+  "ipos_statistics_seo_keywords": "statistiche IPO, grafici offerte pubbliche iniziali, dati mercato IPO, trend IPO, analisi IPO, dati storici IPO, performance IPO, statistiche IPO annuali, dati IPO mensili",
+  "ipos_statistics_infobox": "Questa pagina raccoglie statistiche e grafici sulle offerte pubbliche iniziali (IPO) del mercato azionario statunitense. I dati annuali e mensili sono disponibili dal {startYear} al {endYear}.",
+  "ipos_statistics_title": "Numero di IPO per anno",
+  "ipos_statistics_description": "Ci sono state {count} IPO tra il {startYear} e il {endYear}. Il minimo si è registrato nel {minYear} con appena {minCount}. L'anno {maxYear} ha segnato il record assoluto con {maxCount} IPO.",
+  "ipos_statistics_stock_news": "Notizie sui titoli",
+  "ipos_statistics_more_news": "Altre notizie sui titoli",
+
+  "ipos_year_seo_title": "Elenco IPO {year} - Directory completa delle offerte pubbliche iniziali",
+  "ipos_year_seo_description": "Elenco completo di tutte le offerte pubbliche iniziali (IPO) del {year} sul mercato azionario statunitense. Segui performance, prezzi di collocamento, rendimenti dalla quotazione e debutti di borsa con informazioni societarie dettagliate e dati storici.",
+  "ipos_year_seo_keywords": "IPO {year}, offerte pubbliche iniziali {year}, elenco IPO {year}, performance IPO {year}, IPO recenti, calendario IPO {year}, nuove società quotate {year}",
+  "ipos_year_empty": "Nessuna IPO trovata. Modifica l'intervallo di ricerca per vedere le ultime IPO del {year}.",
+
+  "ipos_statistics_chart_title": "IPO per anno, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Offerte pubbliche iniziali {year}",
+  "ipos_year_summary": "Nel {year} ci sono state {count} IPO.",
+  "ipos_year_extremes": "Il mese più intenso è stato {maxMonth} con {maxCount}, il più tranquillo {minMonth} con {minCount}.",
+  "ipos_year_none": "Nel {year} non ci sono state IPO."
+}

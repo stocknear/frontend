@@ -1,0 +1,8 @@
+{
+  "error_title": "Sidan hittades inte - {status}",
+  "error_body_prefix": "Sidan hittades inte. Om felet återkommer, rapportera det till oss via",
+  "error_body_suffix": "Vi fixar det så snart vi kan.",
+  "error_back_home": "Tillbaka till startsidan",
+  "error_server_title": "Något gick fel - {status}",
+  "error_server_body_prefix": "Det här är ett problem hos oss, inte en sida som saknas. Försök igen om en stund. Om det fortsätter, hör av dig till"
+}

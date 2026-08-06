@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Gambaran Keseluruhan",
+  "index_detail_nav_options": "Opsyen",
+  "index_detail_nav_history": "Sejarah",
+  "index_detail_nav_holdings": "Pegangan",
+
+  "index_detail_watchlist": "Senarai Pantau",
+  "index_detail_price_alert": "Amaran",
+  "index_detail_add_to_watchlist": "Tambah ke Senarai Pantau",
+  "index_detail_ticker_added": "Tiker ditambah ke Senarai Pantau anda",
+  "index_detail_ticker_add_failed": "Gagal menambah tiker ke senarai pantau",
+  "index_detail_upgrade_watchlist": "Mahu tambah lagi saham? Naik taraf ke Plus atau Pro",
+  "index_detail_companies": "Syarikat",
+  "index_detail_company": "Syarikat",
+
+  "index_detail_no_data": "Tiada data tersedia",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Bida",
+  "index_detail_ask": "Tawar",
+  "index_detail_volume": "Volum",
+  "index_detail_avg_volume_20d": "Purata Volum (20H)",
+  "index_detail_50_day_ma": "MA 50 Hari",
+  "index_detail_200_day_ma": "MA 200 Hari",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "Nisbah PE (ttm)",
+  "index_detail_shares_out": "Saham Terbitan",
+  "index_detail_inception_date": "Tarikh Permulaan",
+  "index_detail_open": "Buka",
+  "index_detail_prev_close": "Tutup Sebelumnya",
+  "index_detail_days_range": "Julat Harian",
+  "index_detail_52w_range": "Julat 52 Minggu",
+  "index_detail_exchange": "Bursa",
+  "index_detail_expense_ratio": "Nisbah Perbelanjaan",
+
+  "index_detail_chart_price": "Harga",
+  "index_detail_chart_volume": "Volum",
+
+  "index_sidecard_about": "Mengenai {ticker}",
+  "index_sidecard_top_sectors": "5 Sektor Teratas",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Wajaran %",
+  "index_sidecard_view_all_sectors": "Lihat Semua Sektor"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Flusso opzioni, sweep e attività insolita in tempo reale",
+  "home_seo_description": "Flusso opzioni live, sweep, block trade e attività insolita su azioni ed ETF USA. Trova più in fretta le operazioni di breve termine con Stocknear.",
+  "home_seo_keywords": "flusso opzioni, attività insolita sulle opzioni, ordini sweep, block trade, dark pool, volatilità implicita, skew IV, open interest, catena delle opzioni, operazioni di breve termine, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Flusso opzioni e attività insolita in tempo reale per operazioni di breve termine",
+  "home_structured_feature_live_options_flow": "Flusso opzioni e sweep live",
+  "home_structured_feature_unusual_options_activity": "Attività insolita sulle opzioni",
+  "home_structured_feature_dark_pool_monitoring": "Monitoraggio dark pool",
+  "home_structured_feature_implied_volatility": "Volatilità implicita e skew",
+  "home_structured_feature_options_chain": "Catena delle opzioni e open interest",
+  "home_structured_feature_earnings_volatility": "Volatilità sugli utili",
+  "home_structured_feature_market_catalysts": "Catalizzatori di mercato",
+  "home_hero_title": "Vedi il movimento prima degli altri",
+  "home_hero_subtitle": "Prezzi in tempo reale, flusso opzioni, ordini dark pool, notizie, bilanci, previsioni e grafici per ogni azione ed ETF USA. Agisci più in fretta con segnali puliti.",
+  "home_promo_pill_label": "Saldi estivi",
+  "home_promo_pill_discount": "{percent} di sconto",
+  "home_promo_pill_subtitle": "su tutti i piani annuali"
+}

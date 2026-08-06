@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "ホーム",
+  "price_alert_breadcrumb_price_alert": "アラート",
+
+  "price_alert_seo_title": "株価アラート - リアルタイム通知と相場情報",
+  "price_alert_seo_description": "条件を設定した株価アラートを作成し、条件を満たした瞬間に通知を受け取れます。ウォッチリスト銘柄の決算、ニュース、値動きをリアルタイムデータで追跡できます。",
+  "price_alert_seo_keywords": "株価アラート, 価格通知, マーケットアラート, 株価トリガー, 決算カレンダー, 銘柄ニュース, リアルタイム アラート, 市場通知, ウォッチリスト, 株価モニタリング",
+  "price_alert_structured_name": "アラート - Stocknear",
+  "price_alert_structured_description": "即時通知に対応したリアルタイム株価アラートシステム",
+
+  "price_alert_main_title": "アラート",
+
+  "price_alert_search_placeholder": "検索...",
+  "price_alert_no_results": "該当する結果がありません",
+  "price_alert_edit_alert": "アラートを編集",
+  "price_alert_cancel": "キャンセル",
+
+  "price_alert_empty_title": "アラートが設定されていません",
+  "price_alert_empty_description": "有望だと思う銘柄にアラートを設定しましょう。",
+  "price_alert_get_started": "はじめる",
+
+  "price_alert_tab_news": "ニュース",
+  "price_alert_tab_earnings": "決算発表",
+  "price_alert_no_news": "ニュースはまだありません。アラートリストに銘柄を追加すると最新ニュースが表示されます。",
+  "price_alert_no_earnings": "決算データはまだありません。アラートリストに銘柄を追加すると最新の決算が表示されます。",
+
+  "price_alert_toast_deleted": "アラートを削除しました",
+  "price_alert_toast_select_symbols": "削除するにはシンボルを選択してください",
+
+  "price_alert_earnings_will_report_today": "は本日決算を発表します",
+  "price_alert_earnings_will_report_tomorrow": "は明日決算を発表します",
+  "price_alert_earnings_will_report_monday": "は月曜に決算を発表します",
+  "price_alert_earnings_will_report": "は決算を発表します",
+  "price_alert_earnings_after_close": "引け後です。",
+  "price_alert_earnings_before_open": "寄り付き前です。",
+  "price_alert_earnings_during_market": "取引時間中です。",
+  "price_alert_earnings_analysts_estimate": "アナリスト予想は",
+  "price_alert_earnings_in_revenue": "の売上高",
+  "price_alert_earnings_yoy": "前年同期比",
+  "price_alert_earnings_and": "と",
+  "price_alert_earnings_in_eps": "の1株当たり利益"
+}

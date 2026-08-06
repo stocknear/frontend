@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Főoldal",
+  "price_alert_breadcrumb_price_alert": "Riasztás",
+
+  "price_alert_seo_title": "Részvényriasztások - Valós idejű értesítések és piaci frissítések",
+  "price_alert_seo_description": "Állíts be egyedi részvényriasztásokat, és kapj azonnali értesítést, ha teljesül a feltételed. Kövesd a gyorsjelentéseket, híreket és árfolyammozgásokat a figyelőlistádon valós idejű piaci adatokkal.",
+  "price_alert_seo_keywords": "részvényriasztás, árfolyamértesítés, piaci riasztás, részvény trigger, gyorsjelentési naptár, részvényhírfolyam, valós idejű riasztások, piaci értesítések, figyelőlista, árfolyamfigyelés",
+  "price_alert_structured_name": "Riasztások - Stocknear",
+  "price_alert_structured_description": "Valós idejű részvényriasztási rendszer azonnali értesítésekkel",
+
+  "price_alert_main_title": "Riasztások",
+
+  "price_alert_search_placeholder": "Keresés...",
+  "price_alert_no_results": "Nincs találat",
+  "price_alert_edit_alert": "Riasztás szerkesztése",
+  "price_alert_cancel": "Mégse",
+
+  "price_alert_empty_title": "Nincs beállított riasztás",
+  "price_alert_empty_description": "Hozz létre riasztásokat azokra a részvényekre, amelyekben szerinted a legtöbb lehetőség van.",
+  "price_alert_get_started": "Kezdés",
+
+  "price_alert_tab_news": "Hírek",
+  "price_alert_tab_earnings": "Gyorsjelentés",
+  "price_alert_no_news": "Még nincs hír. Vegyél fel részvényeket a riasztási listádra, hogy lásd a legfrissebb híreket.",
+  "price_alert_no_earnings": "Még nincs gyorsjelentés. Vegyél fel részvényeket a riasztási listádra, hogy lásd a legfrissebb gyorsjelentési adatokat.",
+
+  "price_alert_toast_deleted": "A riasztásokat töröltük",
+  "price_alert_toast_select_symbols": "Előbb ki kell választanod a szimbólumokat a törléshez",
+
+  "price_alert_earnings_will_report_today": "ma jelent",
+  "price_alert_earnings_will_report_tomorrow": "holnap jelent",
+  "price_alert_earnings_will_report_monday": "hétfőn jelent",
+  "price_alert_earnings_will_report": "jelent",
+  "price_alert_earnings_after_close": "zárás után.",
+  "price_alert_earnings_before_open": "nyitás előtt.",
+  "price_alert_earnings_during_market": "kereskedési idő alatt.",
+  "price_alert_earnings_analysts_estimate": "Az elemzők várakozása",
+  "price_alert_earnings_in_revenue": "árbevétel",
+  "price_alert_earnings_yoy": "év/év",
+  "price_alert_earnings_and": "és",
+  "price_alert_earnings_in_eps": "egy részvényre jutó eredmény"
+}

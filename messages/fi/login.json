@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Kirjaudu Stocknear-tilillesi",
+  "login_seo_description": "Kirjaudu Stocknear-tilillesi sähköpostilla ja salasanalla.",
+  "login_title": "Kirjaudu tilillesi",
+  "login_title_logged_in": "Olet kirjautunut sisään",
+  "login_subtitle": "Tervetuloa takaisin",
+  "login_email_label": "Sähköposti",
+  "login_password_label": "Salasana",
+  "login_forgot_password": "Unohtuiko salasana?",
+  "login_button": "Kirjaudu",
+  "login_button_loading": "Kirjaudutaan",
+  "login_divider": "Tai kirjaudu palvelulla",
+  "login_no_account": "Eikö sinulla ole tiliä?",
+  "login_signup_link": "Luo tili",
+  "login_logged_in_as": "Kirjautuneena tunnuksella {email}",
+  "login_logout_button": "Kirjaudu ulos",
+  "login_toast_verify_email": "Vahvista ensin sähköpostiosoitteesi",
+  "login_toast_success": "Kirjautuminen onnistui",
+  "login_toast_invalid": "Virheelliset tunnukset",
+  "login_toast_auth_failed": "Virheellinen sähköposti tai salasana. Yritä uudelleen.",
+  "login_toast_rate_limited": "Liian monta kirjautumisyritystä. Yritä uudelleen {minutes} minuutin kuluttua."
+}

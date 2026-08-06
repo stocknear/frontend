@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Inloggen bij Stocknear",
+  "login_seo_description": "Log in op je Stocknear-account met je e-mailadres en wachtwoord.",
+  "login_title": "Log in op je account",
+  "login_title_logged_in": "Je bent ingelogd",
+  "login_subtitle": "Welkom terug",
+  "login_email_label": "E-mail",
+  "login_password_label": "Wachtwoord",
+  "login_forgot_password": "Wachtwoord vergeten?",
+  "login_button": "Inloggen",
+  "login_button_loading": "Bezig met inloggen",
+  "login_divider": "Of log in met",
+  "login_no_account": "Heb je nog geen account?",
+  "login_signup_link": "Aanmelden",
+  "login_logged_in_as": "Ingelogd als {email}",
+  "login_logout_button": "Uitloggen",
+  "login_toast_verify_email": "Bevestig eerst je e-mailadres",
+  "login_toast_success": "Je bent ingelogd",
+  "login_toast_invalid": "Ongeldige inloggegevens",
+  "login_toast_auth_failed": "Onjuist e-mailadres of wachtwoord. Probeer het opnieuw.",
+  "login_toast_rate_limited": "Te veel inlogpogingen. Probeer het over {minutes} minuten opnieuw."
+}

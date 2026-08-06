@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Accedi a Stocknear",
+  "login_seo_description": "Accedi al tuo account Stocknear con email e password.",
+  "login_title": "Accedi al tuo account",
+  "login_title_logged_in": "Hai effettuato l'accesso",
+  "login_subtitle": "Bentornato",
+  "login_email_label": "Email",
+  "login_password_label": "Password",
+  "login_forgot_password": "Password dimenticata?",
+  "login_button": "Accedi",
+  "login_button_loading": "Accesso in corso",
+  "login_divider": "Oppure accedi con",
+  "login_no_account": "Non hai un account?",
+  "login_signup_link": "Registrati",
+  "login_logged_in_as": "Accesso effettuato come {email}",
+  "login_logout_button": "Esci",
+  "login_toast_verify_email": "Verifica prima la tua email",
+  "login_toast_success": "Accesso effettuato",
+  "login_toast_invalid": "Credenziali non valide",
+  "login_toast_auth_failed": "Email o password non corretti. Riprova.",
+  "login_toast_rate_limited": "Troppi tentativi di accesso. Riprova tra {minutes} minuti."
+}

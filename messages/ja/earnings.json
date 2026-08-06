@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "ホーム",
+  "earnings_breadcrumb_calendar": "決算カレンダー",
+
+  "earnings_seo_title": "決算カレンダー - オプショントレーダー向けのボラティリティ戦略",
+  "earnings_seo_description": "決算日、想定変動幅、アナリスト予想を追跡し、ボラティリティ狙いのオプション戦略や IV クラッシュを見据えた組み立てに役立てられます。",
+  "earnings_seo_keywords": "決算カレンダー, 決算 オプション戦略, 想定変動幅, IV クラッシュ, 決算 ボラティリティ, EPS 予想, 売上高予想, 決算スケジュール",
+
+  "earnings_structured_name": "決算カレンダー",
+  "earnings_structured_description": "ボラティリティと想定変動幅に注目するオプショントレーダー向けの決算カレンダー",
+
+  "earnings_main_name": "決算カレンダー",
+  "earnings_count": "{count} 件の決算",
+  "earnings_empty": "この日の決算発表はありません。",
+  "earnings_empty_scheduled": "予定されている決算はありません",
+
+  "earnings_tab_daily": "日次",
+  "earnings_tab_weekly": "週次",
+  "earnings_tab_details": "詳細",
+  "earnings_tab_compact": "簡易",
+
+  "earnings_time_of_day": "発表時間帯",
+  "earnings_time_any": "指定なし",
+  "earnings_time_before_open": "寄り付き前",
+  "earnings_time_after_close": "引け後",
+
+  "earnings_expanded_reports": "発表",
+  "earnings_expanded_market_cap": "時価総額",
+  "earnings_expanded_revenue_est": "売上高予想",
+  "earnings_expanded_revenue_estimate": "売上高予想",
+  "earnings_expanded_eps_est": "EPS 予想",
+  "earnings_expanded_eps_estimate": "EPS 予想",
+
+  "earnings_pagination_previous": "前へ",
+  "earnings_pagination_next": "次へ",
+  "earnings_pagination_page_of": "{current} / {total} ページ",
+  "earnings_pagination_rows": "{count} 行",
+  "earnings_back_to_top": "先頭へ戻る",
+  "earnings_search_placeholder": "検索..."
+}

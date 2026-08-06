@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Utama",
+  "earnings_breadcrumb_calendar": "Kalendar Pendapatan",
+
+  "earnings_seo_title": "Kalendar Pendapatan - Persediaan Volatiliti untuk Pedagang Opsyen",
+  "earnings_seo_description": "Jejaki tarikh pendapatan, jangkaan pergerakan dan anggaran penganalisis untuk merancang dagangan volatiliti opsyen dan persediaan IV crush.",
+  "earnings_seo_keywords": "kalendar pendapatan, dagangan opsyen pendapatan, jangkaan pergerakan, IV crush, volatiliti pendapatan, anggaran EPS, ramalan hasil, jadual pendapatan",
+
+  "earnings_structured_name": "Kalendar Pendapatan",
+  "earnings_structured_description": "Kalendar pendapatan yang dibina untuk pedagang opsyen yang menumpu pada volatiliti dan jangkaan pergerakan",
+
+  "earnings_main_name": "Kalendar Pendapatan",
+  "earnings_count": "{count} Pendapatan",
+  "earnings_empty": "Tiada laporan pendapatan tersedia untuk hari ini.",
+  "earnings_empty_scheduled": "Tiada pendapatan dijadualkan",
+
+  "earnings_tab_daily": "Harian",
+  "earnings_tab_weekly": "Mingguan",
+  "earnings_tab_details": "Butiran",
+  "earnings_tab_compact": "Padat",
+
+  "earnings_time_of_day": "Waktu Hari",
+  "earnings_time_any": "Bila-bila Masa",
+  "earnings_time_before_open": "Sebelum Buka",
+  "earnings_time_after_close": "Selepas Tutup",
+
+  "earnings_expanded_reports": "Laporan",
+  "earnings_expanded_market_cap": "Permodalan Pasaran",
+  "earnings_expanded_revenue_est": "Angg. Hasil",
+  "earnings_expanded_revenue_estimate": "Anggaran Hasil",
+  "earnings_expanded_eps_est": "Angg. EPS",
+  "earnings_expanded_eps_estimate": "Anggaran EPS",
+
+  "earnings_pagination_previous": "Sebelum",
+  "earnings_pagination_next": "Seterusnya",
+  "earnings_pagination_page_of": "Halaman {current} daripada {total}",
+  "earnings_pagination_rows": "{count} Baris",
+  "earnings_back_to_top": "Kembali ke Atas",
+  "earnings_search_placeholder": "Cari..."
+}

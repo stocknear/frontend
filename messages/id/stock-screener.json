@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Beranda",
+  "stock_screener_breadcrumb_stock_screener": "Screener Saham",
+
+  "stock_screener_seo_title": "Screener Saham Lanjutan - Alat Filter & Analisis Saham Gratis",
+  "stock_screener_seo_description": "Screener saham lengkap dengan {count} kriteria filter. Saring saham berdasarkan fundamental, teknikal, metrik valuasi, dan indikator kinerja. Data real-time yang diperbarui tiap menit untuk menemukan dan menganalisis saham.",
+  "stock_screener_seo_keywords": "screener saham, screener saham gratis, filter saham, pemindai saham, screener fundamental, screener teknikal, screener saham value, screener saham growth, screener saham dividen, alat analisis saham",
+  "stock_screener_structured_name": "Alat Screener Saham",
+  "stock_screener_structured_description": "Platform penyaringan saham lanjutan dengan data pasar real-time",
+
+  "stock_screener_main_title": "Screener Saham",
+  "stock_screener_matches_found": "{count} Hasil Cocok",
+  "stock_screener_stocks_count": "{count} Saham",
+
+  "stock_screener_popular_screens": "Screener Populer",
+  "stock_screener_popular_strategies": "Strategi Populer",
+  "stock_screener_select_popular": "Pilih populer",
+  "stock_screener_saved_screens": "Screener Tersimpan",
+  "stock_screener_select_screen": "Pilih screener",
+  "stock_screener_new_screen": "Screener Baru",
+
+  "stock_screener_filters_count": "{count} Filter",
+  "stock_screener_add_filters": "Tambah Filter",
+  "stock_screener_search_filters": "Cari {count} filter...",
+  "stock_screener_select_filters_title": "Pilih filter screener ({count} total)",
+  "stock_screener_nothing_found": "Tidak ada hasil",
+
+  "stock_screener_search_placeholder": "Cari...",
+  "stock_screener_search_input_placeholder": "Cari...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Maks",
+  "stock_screener_input_value": "Nilai",
+
+  "stock_screener_normal_width": "Lebar Normal",
+  "stock_screener_full_width": "Lebar Penuh",
+
+  "stock_screener_pagination_previous": "Sebelumnya",
+  "stock_screener_pagination_next": "Berikutnya",
+  "stock_screener_pagination_page_of": "Halaman {current} dari {total}",
+  "stock_screener_rows_label": "{rows} Baris",
+  "stock_screener_back_to_top": "Kembali ke Atas",
+
+  "stock_screener_no_stocks_query": "Tidak ada saham untuk \"{query}\"",
+  "stock_screener_no_stocks": "Tidak ada saham ditemukan.",
+
+  "stock_screener_modal_new_title": "Screener Baru",
+  "stock_screener_modal_new_name_label": "Nama Screener",
+  "stock_screener_modal_new_create": "Buat Screener",
+
+  "stock_screener_modal_delete_title": "Hapus Screener",
+  "stock_screener_modal_delete_message": "Yakin ingin menghapus screener ini? Tindakan ini tidak bisa dibatalkan.",
+  "stock_screener_modal_delete_cancel": "Batal",
+  "stock_screener_modal_delete_confirm": "Hapus",
+
+  "stock_screener_strategy_earnings_volatility": "Volatilitas Laporan Laba",
+  "stock_screener_strategy_dividend_growth": "Pertumbuhan Dividen",
+  "stock_screener_strategy_monthly_dividends": "Dividen Bulanan",
+  "stock_screener_strategy_top_gainers_1y": "Penguatan Terbesar 1T",
+  "stock_screener_strategy_top_shorted": "Saham Paling Banyak Di-short",
+  "stock_screener_strategy_momentum_ta": "Saham Momentum TA",
+  "stock_screener_strategy_undervalued": "Saham Undervalued",
+  "stock_screener_strategy_strong_cash_flow": "Arus Kas Kuat",
+
+  "stock_screener_save": "Simpan",
+  "stock_screener_save_as_new": "Simpan sebagai Baru",
+  "stock_screener_reset_all": "Atur Ulang Semua"
+}

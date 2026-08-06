@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Etusivu",
+  "covered_call_screener_breadcrumb_title": "Covered call -seulonta",
+
+  "covered_call_screener_seo_title": "Covered call -seulonta - Löydä parhaat covered call -kohteet",
+  "covered_call_screener_seo_description": "Seulo tuhansia optioita covered call -kohteiden löytämiseksi. Suodata preemiotuoton, vuosituoton, toteutushinnan, erääntymisen ja muiden ehtojen mukaan.",
+  "covered_call_screener_seo_keywords": "covered call -seulonta, optioseulonta, covered call, preemiotuotto, tuottostrategia",
+  "covered_call_screener_structured_name": "Covered call -seulonta",
+  "covered_call_screener_structured_description": "Seulo optioita covered call -kohteiden löytämiseksi",
+
+  "covered_call_screener_main_title": "Covered call -seulonta",
+  "covered_call_screener_contracts_count": "{count} sopimusta",
+
+  "covered_call_screener_popular_screens": "Suositut seulonnat",
+  "covered_call_screener_popular_strategies": "Suositut strategiat",
+  "covered_call_screener_select_popular": "Valitse suosittu",
+  "covered_call_screener_saved_screens": "Tallennetut seulonnat",
+  "covered_call_screener_select_screen": "Valitse seulonta",
+  "covered_call_screener_new_screen": "Uusi seulonta",
+
+  "covered_call_screener_strategy_high_yield": "Korkea tuotto",
+  "covered_call_screener_strategy_conservative": "Varovainen",
+  "covered_call_screener_strategy_weekly_income": "Viikkotuotto",
+  "covered_call_screener_strategy_high_protection": "Vahva suoja",
+  "covered_call_screener_strategy_bluechip_cc": "Vakaiden yhtiöiden covered callit",
+
+  "covered_call_screener_filters_count": "Suodattimet ({count})",
+  "covered_call_screener_add_filters": "Lisää suodattimia",
+  "covered_call_screener_search_filters": "Hae {count} suodattimesta...",
+  "covered_call_screener_select_filters_title": "Valitse suodattimet ({count})",
+  "covered_call_screener_nothing_found": "Ei tuloksia.",
+
+  "covered_call_screener_save": "Tallenna",
+  "covered_call_screener_save_as_new": "Tallenna uutena",
+  "covered_call_screener_reset_all": "Nollaa kaikki",
+
+  "covered_call_screener_condition_over": "Yli",
+  "covered_call_screener_condition_under": "Alle",
+  "covered_call_screener_condition_between": "Välillä",
+  "covered_call_screener_condition_exactly": "Tasan",
+  "covered_call_screener_condition_any": "Mikä tahansa",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Arvo",
+
+  "covered_call_screener_search_placeholder": "Hae...",
+  "covered_call_screener_search_modal_placeholder": "Hae...",
+
+  "covered_call_screener_normal_width": "Normaali leveys",
+  "covered_call_screener_full_width": "Koko leveys",
+
+  "covered_call_screener_tab_general": "Yleiset",
+  "covered_call_screener_tab_income": "Tuotto",
+  "covered_call_screener_tab_filters": "Suodattimet",
+  "covered_call_screener_tab_greeks": "Kreikkalaiset",
+
+  "covered_call_screener_pagination_previous": "Edellinen",
+  "covered_call_screener_pagination_next": "Seuraava",
+  "covered_call_screener_pagination_page_of": "Sivu {current} / {total}",
+  "covered_call_screener_rows_label": "{rows} riviä",
+  "covered_call_screener_back_to_top": "Takaisin ylös",
+
+  "covered_call_screener_no_results_query": "Ei tuloksia haulle \"{query}\"",
+  "covered_call_screener_no_contracts": "Yksikään sopimus ei vastaa ehtojasi.",
+
+  "covered_call_screener_modal_new_title": "Uusi seulonta",
+  "covered_call_screener_modal_new_name_label": "Seulonnan nimi",
+  "covered_call_screener_modal_new_create": "Luo",
+
+  "covered_call_screener_modal_delete_title": "Poista seulonta",
+  "covered_call_screener_modal_delete_message": "Haluatko varmasti poistaa tämän seulonnan? Toimintoa ei voi perua.",
+  "covered_call_screener_modal_delete_cancel": "Peruuta",
+  "covered_call_screener_modal_delete_confirm": "Poista",
+
+  "covered_call_screener_toast_deleting": "Poistetaan seulontaa...",
+  "covered_call_screener_toast_deleted": "Seulonta poistettu.",
+  "covered_call_screener_toast_delete_failed": "Poisto epäonnistui. Yritä uudelleen.",
+  "covered_call_screener_toast_title_too_long": "Nimi on liian pitkä. Pidä se alle 100 merkissä.",
+  "covered_call_screener_toast_created": "Seulonta luotu.",
+  "covered_call_screener_toast_creating": "Luodaan seulontaa...",
+  "covered_call_screener_toast_create_failed": "Jokin meni pieleen. Yritä myöhemmin uudelleen.",
+  "covered_call_screener_toast_select_rule": "Valitse sääntö",
+  "covered_call_screener_toast_saving": "Tallennetaan seulontaa...",
+  "covered_call_screener_toast_saved": "Seulonta tallennettu.",
+  "covered_call_screener_toast_save_failed": "Tallennus epäonnistui. Yritä uudelleen.",
+
+  "covered_call_screener_chart_price_at_expiration": "Hinta erääntyessä ($)",
+  "covered_call_screener_chart_last_price_label": "Viimeisin hinta: {price}",
+  "covered_call_screener_chart_breakeven_label": "Nollatulos: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Voitto/tappio ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Kohde-etuuden hinta:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Voitto tai tappio:",
+  "covered_call_screener_chart_modal_title": "Covered call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Kaupan rakenne",
+  "covered_call_screener_chart_buy_stock": "Osta osaketta @",
+  "covered_call_screener_chart_sell_call": "Myy {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "Netto (saatu/maksettu)",
+  "covered_call_screener_chart_breakeven": "Nollatulos",
+  "covered_call_screener_chart_above": "Yli",
+  "covered_call_screener_chart_last_price": "Viimeisin hinta",
+  "covered_call_screener_chart_moneyness": "Toteutushinnan asema",
+  "covered_call_screener_chart_return_if_flat": "Tuotto ilman liikettä",
+  "covered_call_screener_chart_return_if_assigned": "Tuotto toteutuessa",
+  "covered_call_screener_chart_probability_of_profit": "Voiton todennäköisyys",
+  "covered_call_screener_chart_annualized_abbr": "vuosit."
+}

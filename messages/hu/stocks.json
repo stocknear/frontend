@@ -1,0 +1,10 @@
+{
+  "stocks_seo_title": "Teljes tőzsdei jegyzék - minden amerikai részvény tickere valós idejű elemzéssel",
+  "stocks_seo_description": "Átfogó jegyzék az amerikai részvények ticker szimbólumairól, valós idejű árfolyamokkal, pénzügyi elemzéssel és befektetési kutatási eszközökkel. Keress a NYSE, a NASDAQ és az összes nagy tőzsde papírjai között, a blue chipektől a növekedési és osztalékrészvényekig.",
+  "stocks_seo_keywords": "részvény ticker lista, amerikai részvény szimbólumok, NYSE részvények, NASDAQ részvények, tőzsdei adatbázis, valós idejű árfolyamok, pénzügyi elemző eszközök, részvényszűrő, befektetési kutatás, piaci kapitalizáció adatok, részvény fundamentumok, részvényelemzés, kereskedési szimbólumok",
+  "stocks_breadcrumb_home": "Főoldal",
+  "stocks_breadcrumb_current": "Összes részvény",
+  "stocks_title": "Összes részvényszimbólum",
+  "stocks_description": "Mind a {count} részvényszimbólum, amit támogatunk",
+  "stocks_table_title": "Részvények"
+}

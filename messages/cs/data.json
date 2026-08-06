@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Upozornění k datům | Zdroje finančních dat a jejich přesnost",
+  "data_seo_description": "Podrobné informace o našich zdrojích finančních dat, standardech přesnosti a pravidlech používání pro tržní data, odhady analytiků a finanční ukazatele.",
+  "data_breadcrumb": "Upozornění k datům",
+  "data_hero_title": "Upozornění k datům",
+  "data_intro": "Finanční data na Stocknear slouží pouze k informačním a vzdělávacím účelům. Nejde o investiční doporučení a neměla by být jediným podkladem pro obchodní nebo investiční rozhodnutí.",
+  "data_contact": "Na přesnost a kvalitu dat klademe vysoké nároky. Pokud narazíš na nesrovnalost nebo potřebuješ něco upřesnit, ozvi se nám přes {discordLink} nebo napiš naší podpoře na {email}.",
+  "data_market_title": "Tržní data a grafy akcií",
+  "data_market_content": "Naše tržní data a grafy akcií v reálném čase dodává {fmpLink}, přední poskytovatel finančních dat. Patří sem intradenní ceny, historická data i technické indikátory.",
+  "data_coverage_title": "Pokrytí trhu",
+  "data_coverage_content": "Stocknear pokrývá cenné papíry obchodované na hlavních amerických burzách, včetně NASDAQ, NYSE, NYSE American a NYSE Arca. Naše databáze zahrnuje akcie, ETF, ADR a vybrané OTC tituly. Pokrytí průběžně rozšiřujeme o další světové burzy a finanční nástroje.",
+  "data_fundamentals_title": "Finanční fundamenty",
+  "data_fundamentals_content": "Fundamentální finanční data pocházejí od {fmpLink} a vycházejí z oficiálních podání u SEC (formuláře 10-K, 10-Q a 8-K). Naše systémy je aktualizují denně, přesto může docházet ke zpožděním daným lhůtami pro podání u SEC a harmonogramem firemního výkaznictví. Všechna uváděná finanční data vycházejí z oficiálních auditovaných podkladů, které firmy odevzdaly regulátorům.",
+  "data_business_title": "Provozní ukazatele firem",
+  "data_business_content": "Provozní ukazatele firem, včetně KPI a non-GAAP jednotkové ekonomiky, dodává náš partner {mainStreetLink}. Jeho výzkumný tým tato data sbírá, normalizuje a průběžně ověřuje z firemních podání, investorských prezentací a komentářů vedení, aby bylo pokrytí výkonnosti firem na platformě spolehlivé.",
+  "data_analyst_title": "Analytické pokrytí a tržní odhady",
+  "data_analyst_content": "Analytické pokrytí skládáme z několika důvěryhodných zdrojů. Cílové ceny a ratingy analytiků dodává Benzinga a představují konsenzus předních analytiků z Wall Street. Odhady tržeb a EPS agregujeme z Benzinga a {fmpLink}. Snažíme se uvádět co nejpřesnější odhady, ale předpovědi trhu jsou vždy nejisté a měl bys je brát jen jako jednu část širšího investičního výzkumu.",
+  "data_etf_title": "Analytika ETF",
+  "data_etf_content": "Data o složení ETF a související analytiku dodává náš partner {fmpLink}, díky čemuž máš přesné a aktuální informace o složení fondů, alokacích a výkonnostních ukazatelích.",
+  "data_options_title": "Data z opčního trhu",
+  "data_options_content": "Data z opčního trhu bereme od několika dodavatelů a jejich feedy spojujeme do jednoho toku, abychom pokryli kompletní stream OPRA (Options Price Reporting Authority). Díky agregaci options flow v reálném čase a dat z jednotlivých opčních řetězců z více zdrojů máme úplné pokrytí obchodní aktivity a cen na všech hlavních amerických opčních burzách."
+}

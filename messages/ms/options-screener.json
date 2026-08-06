@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Utama",
+  "options_screener_breadcrumb_options_screener": "Penyaring Opsyen",
+
+  "options_screener_seo_title": "Penyaring Opsyen - Cari Aliran Luar Biasa & Persediaan Berkeyakinan Tinggi",
+  "options_screener_seo_description": "Saring opsyen mengikut aktiviti luar biasa, volatiliti tersirat, open interest, volum, Greeks dan tarikh luput untuk menemui persediaan dagangan jangka pendek.",
+  "options_screener_seo_keywords": "penyaring opsyen, aktiviti opsyen luar biasa, pengimbas opsyen, penyaring volatiliti tersirat, kecondongan IV, open interest, opsyen volum tinggi, alat dagangan opsyen, penyaring Greeks",
+  "options_screener_structured_name": "Alat Penyaring Opsyen",
+  "options_screener_structured_description": "Penyaring opsyen yang memberi tumpuan kepada aktiviti luar biasa, IV dan open interest untuk persediaan jangka pendek",
+
+  "options_screener_main_title": "Penyaring Opsyen",
+  "options_screener_contracts_count": "{count} Kontrak",
+  "options_screener_expire_on": "Semua kontrak opsyen luput pada {date}",
+
+  "options_screener_popular_screens": "Saringan Popular",
+  "options_screener_popular_strategies": "Strategi Popular",
+  "options_screener_select_popular": "Pilih popular",
+  "options_screener_saved_screens": "Saringan Disimpan",
+  "options_screener_select_screen": "Pilih saringan",
+  "options_screener_new_screen": "Saringan Baharu",
+
+  "options_screener_filters_count": "{count} Penapis",
+  "options_screener_add_filters": "Tambah Penapis",
+  "options_screener_search_filters": "Cari {count} penapis...",
+  "options_screener_select_filters_title": "Pilih penapis penyaring ({count} kesemuanya)",
+  "options_screener_nothing_found": "Tiada apa-apa ditemui",
+
+  "options_screener_tab_general": "Umum",
+  "options_screener_tab_filters": "Penapis",
+  "options_screener_tab_greeks": "Greeks",
+
+  "options_screener_search_placeholder": "Cari...",
+  "options_screener_search_input_placeholder": "Cari...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Maks",
+  "options_screener_input_value": "Nilai",
+
+  "options_screener_normal_width": "Lebar Biasa",
+  "options_screener_full_width": "Lebar Penuh",
+
+  "options_screener_pagination_previous": "Sebelumnya",
+  "options_screener_pagination_next": "Seterusnya",
+  "options_screener_pagination_page_of": "Halaman {current} daripada {total}",
+  "options_screener_rows_label": "{rows} Baris",
+  "options_screener_back_to_top": "Kembali ke Atas",
+
+  "options_screener_no_contracts_query": "Tiada Kontrak ditemui untuk \"{query}\"",
+  "options_screener_no_contracts": "Tiada Kontrak ditemui.",
+
+  "options_screener_modal_new_title": "Penyaring Baharu",
+  "options_screener_modal_new_name_label": "Nama Penyaring",
+  "options_screener_modal_new_create": "Cipta Penyaring",
+
+  "options_screener_modal_delete_title": "Padam Penyaring",
+  "options_screener_modal_delete_message": "Anda pasti mahu memadam penyaring ini? Tindakan ini tidak boleh dibatalkan.",
+  "options_screener_modal_delete_cancel": "Batal",
+  "options_screener_modal_delete_confirm": "Padam",
+
+  "options_screener_strategy_high_iv_rank": "Kedudukan IV Tinggi",
+  "options_screener_strategy_volume_surge": "Lonjakan Volum",
+  "options_screener_strategy_itm_calls": "Call ITM",
+  "options_screener_strategy_otm_puts": "Put OTM",
+  "options_screener_strategy_high_premium_flow": "Aliran Premium Tinggi",
+
+  "options_screener_save": "Simpan",
+  "options_screener_save_as_new": "Simpan sebagai Baharu",
+  "options_screener_reset_all": "Set Semula Semua"
+}

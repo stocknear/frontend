@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Legyél a Stocknear támogatója",
+  "donation_seo_description": "A támogatásoddal segítesz, hogy a világ első számú részvényelemző platformja legyünk, a legjobb árakkal.",
+  "donation_title": "Támogatás",
+  "donation_intro_greeting": "Szia 👋,",
+  "donation_intro_paragraph_1": "Köszönöm, hogy fontolóra veszed a küldetésünk támogatását. Egyedül állok a Stocknear mögött, a backend fejlesztéstől az ügyfélszolgálatig mindent én csinálok, és elkötelezett vagyok amellett, hogy a platform megfizethető és mindenki számára elérhető maradjon.",
+  "donation_intro_paragraph_2": "A csomagjaink árazása azt szolgálja, hogy a minőségi tőzsdei adat minden lakossági befektető számára elérhető legyen.",
+  "donation_support_paragraph_1": "Az előfizetés az alapműködésünket tartja fenn, a további támogatásod viszont segít, hogy még messzebbre jussunk. A támogatással nemcsak egy platformot segítesz, hanem a nyílt, átlátható és megfizethető pénzügyi elemzés ügyét is.",
+  "donation_support_list_intro": "A támogatásod közvetlenül ezekre megy:",
+  "donation_support_list_item_1": "Az alacsony árszint fenntartása",
+  "donation_support_list_item_2": "Jobb adatminőség és új funkciók",
+  "donation_support_list_item_3": "A cél, hogy a szakma első számú részvényelemző platformja legyünk",
+  "donation_cta_title": "Legyél a Stocknear támogatója",
+  "donation_cta_paragraph_1": "Ha hiszel a küldetésünkben, és az előfizetéseden túl is támogatnál minket, tedd meg a GitHub Sponsorson keresztül. Minden hozzájárulás számít, méretétől függetlenül, és sokat segít abban, hogy jól szolgáljunk téged és a lakossági befektetők közösségét.",
+  "donation_cta_paragraph_2": "A támogatásod rengeteget jelent nekem, és segít, hogy a Stocknear zökkenőmentesen működjön.",
+  "donation_sidebar_about_title": "Rólunk",
+  "donation_iframe_title": "A Stocknear támogatása"
+}

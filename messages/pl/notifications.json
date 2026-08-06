@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Strona główna",
+  "notifications_breadcrumb_notifications": "Powiadomienia",
+
+  "notifications_seo_title": "Powiadomienia giełdowe | Aktualizacje i alerty w czasie rzeczywistym",
+  "notifications_seo_description": "Bądź na bieżąco dzięki powiadomieniom giełdowym w czasie rzeczywistym. Otrzymuj natychmiastowe alerty o zmianach cen, trendach i ruchach na rynku, aby podejmować lepsze decyzje inwestycyjne.",
+
+  "notifications_main_title": "Powiadomienia",
+  "notifications_alerts_count": "{count} alertów",
+
+  "notifications_mark_all_read": "Oznacz wszystkie jako przeczytane",
+  "notifications_marking": "Oznaczanie...",
+  "notifications_settings": "Ustawienia",
+  "notifications_customize": "Dostosuj swoje powiadomienia",
+
+  "notifications_channel_earnings_surprise": "Niespodzianka w wynikach",
+  "notifications_channel_wiim": "Dlaczego cena się zmieniła",
+  "notifications_channel_top_analyst": "Ocena czołowego analityka",
+  "notifications_channel_followed_analysts": "Obserwowani analitycy",
+  "notifications_no_channels": "Brak dostępnych kanałów powiadomień.",
+
+  "notifications_empty": "Nie masz jeszcze żadnych powiadomień.",
+
+  "notifications_pagination_previous": "Wstecz",
+  "notifications_pagination_next": "Dalej",
+  "notifications_pagination_page_of": "Strona {current} z {total}",
+  "notifications_pagination_rows": "{count} wierszy",
+  "notifications_back_to_top": "Do góry",
+
+  "notifications_modal_delete_title": "Usuń wszystkie powiadomienia",
+  "notifications_modal_delete_confirm": "Na pewno chcesz usunąć wszystkie powiadomienia? Tej operacji nie da się cofnąć.",
+  "notifications_modal_delete_button": "Usuń powiadomienia",
+  "notifications_modal_deleting": "Usuwanie...",
+  "notifications_modal_cancel": "Anuluj",
+  "notifications_delete_error": "Nie udało się usunąć powiadomień. Spróbuj ponownie.",
+
+  "notifications_type_price_alert_triggered": "Alert uruchomiony dla",
+  "notifications_type_price_is": "Cena",
+  "notifications_type_is_condition": "jest {condition} twojego progu",
+  "notifications_type_breaking_news": "PILNE wiadomości dla",
+  "notifications_type_wiim_new_data": "Są nowe dane dla wydarzenia \"Dlaczego cena się zmieniła\".",
+  "notifications_type_top_analyst_new": "Nowa ocena czołowego analityka dla",
+  "notifications_type_top_analyst_rating": "Firma analityczna {analyst} wydała nową rekomendację \"{rating}\" ze zaktualizowaną ceną docelową {price}.",
+  "notifications_type_followed_analyst_new": "Nowa ocena od",
+  "notifications_type_followed_analyst_rating": "Ocena {symbol}: \"{rating}\" z ceną docelową {price}.",
+  "notifications_type_earnings_release": "Publikacja wyników dla",
+  "notifications_type_earnings_surprise_new": "Są nowe dane dla wydarzenia \"Niespodzianka w wynikach\".",
+
+  "notifications_sidebar_watchlist": "Obserwowane",
+  "notifications_sidebar_watchlist_description": "Otrzymuj aktualizacje ulubionych spółek w czasie rzeczywistym",
+  "notifications_sidebar_portfolio": "Tracker portfela",
+  "notifications_sidebar_portfolio_description": "Otrzymuj aktualizacje swojego portfela w czasie rzeczywistym"
+}

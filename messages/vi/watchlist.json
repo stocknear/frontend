@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Trang chủ",
+  "watchlist_breadcrumb_watchlist": "Danh mục theo dõi",
+
+  "watchlist_seo_title": "Danh mục theo dõi cổ phiếu - Theo dõi danh mục và giá cổ phiếu",
+  "watchlist_seo_description": "Tạo và quản lý danh mục theo dõi cổ phiếu của riêng bạn với giá cập nhật theo thời gian thực. Theo dõi cổ phiếu, ETF và các khoản đầu tư yêu thích cùng cảnh báo và phân tích hiệu suất. Công cụ theo dõi danh mục miễn phí với nhiều tính năng nâng cao.",
+  "watchlist_seo_keywords": "danh mục theo dõi cổ phiếu, theo dõi danh mục, theo dõi cổ phiếu, theo dõi đầu tư, giám sát cổ phiếu, cảnh báo, quản lý danh mục, hiệu suất cổ phiếu, danh sách cổ phiếu theo dõi",
+  "watchlist_structured_name": "Công cụ theo dõi danh mục cổ phiếu",
+  "watchlist_structured_description": "Công cụ danh mục theo dõi và quản lý danh mục cổ phiếu cá nhân",
+
+  "watchlist_main_title": "Danh mục theo dõi",
+  "watchlist_create_watchlist": "Tạo danh mục",
+  "watchlist_new_watchlist": "Danh mục mới",
+  "watchlist_delete_watchlist": "Xóa danh mục",
+
+  "watchlist_add_stock_placeholder": "Thêm cổ phiếu...",
+  "watchlist_no_results": "Không tìm thấy kết quả",
+  "watchlist_edit_watchlist": "Sửa danh mục",
+  "watchlist_cancel": "Hủy",
+  "watchlist_normal_width": "Độ rộng thường",
+  "watchlist_full_width": "Toàn màn hình",
+  "watchlist_exit_full_width": "Thoát chế độ toàn màn hình",
+  "watchlist_expand_full_width": "Mở rộng toàn màn hình",
+
+  "watchlist_empty_title": "Danh mục trống",
+  "watchlist_empty_description": "Thêm những cổ phiếu bạn quan tâm để xem dữ liệu thời gian thực và tin tức mới nhất ở cùng một nơi.",
+  "watchlist_get_started": "Bắt đầu",
+
+  "watchlist_count_stocks": "{count} cổ phiếu",
+
+  "watchlist_tab_news": "Tin tức",
+  "watchlist_tab_earnings": "Công bố kết quả kinh doanh",
+  "watchlist_no_news": "Chưa có tin tức. Thêm cổ phiếu vào danh mục để xem tin mới nhất.",
+  "watchlist_no_earnings": "Chưa có dữ liệu kết quả kinh doanh. Thêm cổ phiếu vào danh mục để xem dữ liệu mới nhất.",
+
+  "watchlist_modal_new_title": "Danh mục mới",
+  "watchlist_modal_list_name": "Tên danh mục",
+  "watchlist_modal_create_button": "Tạo danh mục",
+
+  "watchlist_modal_delete_title": "Xóa danh mục",
+  "watchlist_modal_delete_confirm": "Bạn có chắc muốn xóa danh mục này? Hành động này không thể hoàn tác.",
+  "watchlist_modal_delete_button": "Xóa danh mục",
+
+  "watchlist_toast_creating": "Đang tạo danh mục...",
+  "watchlist_toast_created": "Đã tạo danh mục.",
+  "watchlist_toast_deleted": "Đã xóa danh mục.",
+  "watchlist_toast_updating": "Đang cập nhật danh mục...",
+  "watchlist_toast_updated": "Đã cập nhật danh mục.",
+  "watchlist_toast_error": "Có lỗi xảy ra. Vui lòng thử lại.",
+  "watchlist_toast_error_generic": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+  "watchlist_toast_title_empty": "Tên danh mục không được để trống.",
+  "watchlist_toast_title_long": "Tiêu đề quá dài. Hãy giữ ngắn gọn.",
+  "watchlist_toast_already_in_list": "Mã này đã có trong danh mục theo dõi của bạn",
+  "watchlist_toast_select_symbols": "Bạn cần chọn mã trước khi xóa",
+
+  "watchlist_earnings_will_report": "sẽ báo cáo",
+  "watchlist_earnings_after_close": "sau khi thị trường đóng cửa.",
+  "watchlist_earnings_before_open": "trước khi thị trường mở cửa.",
+  "watchlist_earnings_during_market": "trong phiên giao dịch.",
+  "watchlist_earnings_analysts_estimate": "Giới phân tích dự phóng",
+  "watchlist_earnings_in_revenue": "doanh thu",
+  "watchlist_earnings_yoy": "so với cùng kỳ",
+  "watchlist_earnings_and": "và",
+  "watchlist_earnings_in_eps": "lợi nhuận trên mỗi cổ phiếu",
+
+  "watchlist_note_add_title": "Thêm ghi chú",
+  "watchlist_note_edit_title": "Sửa ghi chú",
+  "watchlist_note_placeholder_new": "Vì sao bạn thêm cổ phiếu này vào danh mục theo dõi?",
+  "watchlist_note_placeholder_edit": "Cập nhật ghi chú của bạn...",
+  "watchlist_note_save": "Lưu",
+  "watchlist_note_add": "Thêm ghi chú",
+  "watchlist_note_update": "Cập nhật ghi chú",
+  "watchlist_note_created": "Đã tạo ghi chú",
+  "watchlist_note_updated": "Đã cập nhật ghi chú",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "Còn {count} ký tự",
+  "watchlist_note_chars_over": "Vượt {count} ký tự",
+  "watchlist_note_exceeded": "Ghi chú không được vượt quá {max} ký tự",
+  "watchlist_added_price": "Giá khi thêm",
+
+  "watchlist_column_entry_price": "Giá vào",
+  "watchlist_column_since_added": "% từ khi thêm"
+}

@@ -53,6 +53,7 @@
     notifications_type_followed_analyst_rating,
   } from "$lib/paraglide/messages";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getLocaleDefinition } from "$lib/i18n/locales";
 
   export let data;
   export let form;
@@ -781,7 +782,7 @@
             >
               {notifications_alerts_count({
                 count: totalItems?.toLocaleString(
-                  getLocale() === "de" ? "de-DE" : "en-US",
+                  getLocaleDefinition(getLocale()).intlTag,
                 ),
               })}
             </h2>

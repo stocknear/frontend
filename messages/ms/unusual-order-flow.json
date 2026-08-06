@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Aliran Pesanan Luar Biasa - Cetakan Dark Pool & Dagangan Blok",
+  "unusual_order_flow_seo_description": "Jejaki cetakan dark pool dan dagangan blok secara masa nyata untuk mengesan aktiviti institusi yang sering mendahului pergerakan jangka pendek.",
+  "unusual_order_flow_seo_keywords": "aliran pesanan luar biasa, cetakan dark pool, dagangan blok, aliran pesanan institusi, wang pintar, kecairan tersembunyi, aliran pesanan masa nyata, pengimbas dark pool",
+  "unusual_order_flow_structured_name": "Pengimbas Aliran Pesanan Luar Biasa",
+  "unusual_order_flow_structured_description": "Cetakan dark pool dan dagangan blok masa nyata untuk isyarat pasaran jangka pendek",
+
+  "unusual_order_flow_main_title": "Aliran Pesanan Luar Biasa",
+
+  "unusual_order_flow_popular_filters": "Penapis Popular",
+  "unusual_order_flow_select_popular": "Pilih popular",
+  "unusual_order_flow_saved_filters": "Penapis Disimpan",
+  "unusual_order_flow_select_filter": "Pilih Penapis",
+  "unusual_order_flow_new_filter": "Penapis Baharu",
+
+  "unusual_order_flow_filters_count": "{count} Penapis",
+  "unusual_order_flow_add_filters": "Tambah Penapis",
+  "unusual_order_flow_search_filters": "Cari {count} penapis...",
+  "unusual_order_flow_select_filters_title": "Pilih penapis aliran ({count} kesemuanya)",
+  "unusual_order_flow_nothing_found": "Tiada apa-apa ditemui",
+  "unusual_order_flow_no_filters_found": "Tiada penapis tersedia ditemui",
+
+  "unusual_order_flow_search_placeholder": "Cari...",
+  "unusual_order_flow_search_input_placeholder": "Cari...",
+  "unusual_order_flow_full_width": "Lebar Penuh",
+  "unusual_order_flow_normal_width": "Lebar Biasa",
+
+  "unusual_order_flow_no_trades_query": "Tiada Dagangan Luar Biasa ditemui untuk \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Nampaknya pilihan anda agak unik. Tiada padanan ditemui buat masa ini.",
+
+  "unusual_order_flow_modal_new_title": "Penapis Baharu",
+  "unusual_order_flow_modal_new_name_label": "Nama Penapis",
+  "unusual_order_flow_modal_new_create": "Cipta Penapis",
+
+  "unusual_order_flow_modal_delete_title": "Padam Penapis",
+  "unusual_order_flow_modal_delete_message": "Anda pasti mahu memadam penapis ini? Tindakan ini tidak boleh dibatalkan.",
+  "unusual_order_flow_modal_delete_cancel": "Batal",
+  "unusual_order_flow_modal_delete_confirm": "Padam Penapis",
+
+  "unusual_order_flow_save": "Simpan",
+  "unusual_order_flow_save_as_new": "Simpan sebagai Baharu",
+  "unusual_order_flow_reset_all": "Set Semula Semua",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Cetakan Dark Pool",
+  "unusual_order_flow_strategy_block_orders": "Pesanan Blok",
+  "unusual_order_flow_strategy_mega_premium": "Premium Mega",
+  "unusual_order_flow_strategy_etf_flow": "Aliran ETF",
+  "unusual_order_flow_strategy_high_volume": "Volum Tinggi",
+  "unusual_order_flow_strategy_large_stock_flow": "Aliran Saham Besar",
+
+  "unusual_order_flow_total_volume": "Jumlah Volum",
+  "unusual_order_flow_total_value": "Jumlah Nilai",
+  "unusual_order_flow_transaction_type": "Jenis Transaksi",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Blok",
+  "unusual_order_flow_asset_type": "Jenis Aset",
+  "unusual_order_flow_stock": "Saham",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Lengah 15 Min",
+  "unusual_order_flow_delayed_title": "Data SIP Lengah 15 Minit",
+  "unusual_order_flow_delayed_content": "Suapan SIP daripada Intrinio menyampaikan data ekuiti AS berkualiti tinggi yang disatukan daripada semua bursa utama, termasuk dagangan, sebut harga dan NBBO. Lengahan 15 minit tetap memberi pandangan pasaran yang mendalam dengan liputan bursa penuh.",
+
+  "unusual_order_flow_hide_filter_area": "Sembunyikan Ruang Penapis",
+  "unusual_order_flow_show_filter_area": "Tunjukkan Ruang Penapis",
+  "unusual_order_flow_exit_full_width": "Keluar dari lebar penuh",
+  "unusual_order_flow_expand_full_width": "Kembangkan ke lebar penuh",
+  "unusual_order_flow_reset_column_order": "Set semula susunan lajur",
+  "unusual_order_flow_remove_filter": "Buang penapis",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Maks",
+  "unusual_order_flow_value": "Nilai"
+}

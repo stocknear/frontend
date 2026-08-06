@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Főoldal",
+  "options_screener_breadcrumb_options_screener": "Opciószűrő",
+
+  "options_screener_seo_title": "Opciószűrő - Találd meg a szokatlan flow-t és az erős belépőket",
+  "options_screener_seo_description": "Szűrd az opciókat szokatlan aktivitás, implikált volatilitás, nyitott kötésállomány, forgalom, görögök és lejárat szerint, hogy megtaláld a rövid távú belépőket.",
+  "options_screener_seo_keywords": "opciószűrő, szokatlan opciós aktivitás, opciós szkenner, implikált volatilitás szűrő, IV skew, nyitott kötésállomány, magas forgalmú opciók, opciós kereskedési eszköz, görögök szűrő",
+  "options_screener_structured_name": "Opciószűrő eszköz",
+  "options_screener_structured_description": "Opciószűrő szokatlan aktivitásra, IV-re és nyitott kötésállományra fókuszálva, rövid távú belépőkhöz",
+
+  "options_screener_main_title": "Opciószűrő",
+  "options_screener_contracts_count": "{count} kontraktus",
+  "options_screener_expire_on": "Minden opciós kontraktus lejárata: {date}",
+
+  "options_screener_popular_screens": "Népszerű szűrések",
+  "options_screener_popular_strategies": "Népszerű stratégiák",
+  "options_screener_select_popular": "Válassz népszerűt",
+  "options_screener_saved_screens": "Mentett szűrések",
+  "options_screener_select_screen": "Szűrés kiválasztása",
+  "options_screener_new_screen": "Új szűrés",
+
+  "options_screener_filters_count": "{count} szűrő",
+  "options_screener_add_filters": "Szűrők hozzáadása",
+  "options_screener_search_filters": "Keresés {count} szűrő között...",
+  "options_screener_select_filters_title": "Szűrők kiválasztása (összesen {count})",
+  "options_screener_nothing_found": "Nincs találat",
+
+  "options_screener_tab_general": "Általános",
+  "options_screener_tab_filters": "Szűrők",
+  "options_screener_tab_greeks": "Görögök",
+
+  "options_screener_search_placeholder": "Keresés...",
+  "options_screener_search_input_placeholder": "Keresés...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Érték",
+
+  "options_screener_normal_width": "Normál szélesség",
+  "options_screener_full_width": "Teljes szélesség",
+
+  "options_screener_pagination_previous": "Előző",
+  "options_screener_pagination_next": "Következő",
+  "options_screener_pagination_page_of": "{current}. oldal, összesen {total}",
+  "options_screener_rows_label": "{rows} sor",
+  "options_screener_back_to_top": "Vissza a tetejére",
+
+  "options_screener_no_contracts_query": "Nincs kontraktus erre: \"{query}\"",
+  "options_screener_no_contracts": "Nincs kontraktus.",
+
+  "options_screener_modal_new_title": "Új szűrés",
+  "options_screener_modal_new_name_label": "Szűrés neve",
+  "options_screener_modal_new_create": "Szűrés létrehozása",
+
+  "options_screener_modal_delete_title": "Szűrés törlése",
+  "options_screener_modal_delete_message": "Biztosan törlöd ezt a szűrést? A művelet nem vonható vissza.",
+  "options_screener_modal_delete_cancel": "Mégse",
+  "options_screener_modal_delete_confirm": "Törlés",
+
+  "options_screener_strategy_high_iv_rank": "Magas IV rank",
+  "options_screener_strategy_volume_surge": "Forgalomrobbanás",
+  "options_screener_strategy_itm_calls": "ITM callok",
+  "options_screener_strategy_otm_puts": "OTM putok",
+  "options_screener_strategy_high_premium_flow": "Magas prémiumú flow",
+
+  "options_screener_save": "Mentés",
+  "options_screener_save_as_new": "Mentés újként",
+  "options_screener_reset_all": "Összes visszaállítása"
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Centrum wiedzy - edukacja giełdowa i poradniki inwestycyjne",
+  "learning_center_seo_description": "Poznaj inwestowanie na giełdzie dzięki naszemu Centrum wiedzy. Darmowe poradniki o strategiach tradingowych, analizie technicznej, analizie fundamentalnej, zarządzaniu portfelem i edukacji inwestycyjnej - od podstaw po poziom zaawansowany.",
+  "learning_center_seo_keywords": "edukacja giełdowa, poradniki inwestycyjne, strategie tradingowe, nauka inwestowania, analiza spółek, edukacja finansowa, przewodnik inwestora, podstawy giełdy, zarządzanie portfelem, kurs analizy technicznej",
+  "learning_center_structured_name": "Centrum wiedzy Stocknear",
+  "learning_center_structured_description": "Kompleksowa edukacja giełdowa i poradniki inwestycyjne",
+  "learning_center_structured_articles": "Artykuły edukacyjne",
+  "learning_center_structured_articles_description": "Artykuły edukacyjne i poradniki inwestycyjne o giełdzie",
+  "learning_center_title": "Centrum wiedzy",
+  "learning_center_published": "Opublikowano:",
+  "learning_center_previous": "Poprzedni",
+  "learning_center_next": "Następny",
+  "learning_center_alt_tutorial": "Grafika poradnika",
+
+  "learning_center_subtitle": "Poznaj giełdę krok po kroku",
+
+  "learning_center_category_all": "Wszystkie",
+  "learning_center_category_features": "Funkcje",
+  "learning_center_category_fundamentals": "Podstawy",
+  "learning_center_category_terms": "Pojęcia",
+
+  "learning_center_category_desc_features": "Jak korzystać ze Stocknear",
+  "learning_center_category_desc_fundamentals": "Zacznij tutaj, jeśli dopiero zaczynasz inwestować",
+  "learning_center_category_desc_terms": "Pojęcia finansowe i definicje",
+
+  "learning_center_tag_all": "Wszystkie tagi",
+  "learning_center_tag_stocks": "Akcje",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opcje",
+  "learning_center_tag_sentiment": "Nastroje",
+  "learning_center_tag_prefix": "Tag",
+
+  "learning_center_view_all": "Zobacz wszystkie",
+  "learning_center_view_all_count": "Zobacz wszystkie ({count})",
+  "learning_center_min_read": "{time} min czytania",
+
+  "learning_center_no_articles_tag": "Brak artykułów z tagiem \"{tag}\".",
+  "learning_center_clear_tag_filter": "Wyczyść filtr tagów",
+
+  "learning_center_page_of": "Strona {currentPage} z {totalPages}",
+  "learning_center_items_count": "Pozycje: {count}",
+
+  "learning_center_back_to_top": "Do góry",
+  "learning_center_no_terms_yet": "Brak dostępnych pojęć.",
+  "learning_center_no_articles_category": "Brak artykułów w tej kategorii.",
+
+  "learning_center_table_of_contents": "Spis treści",
+  "learning_center_share_this_post": "Udostępnij ten wpis",
+  "learning_center_back_to_all_posts": "Wróć do wszystkich wpisów",
+
+  "learning_center_quick_start": "Szybki start",
+  "learning_center_sidebar_top_gainers": "Największe wzrosty",
+  "learning_center_sidebar_top_losers": "Największe spadki",
+  "learning_center_sidebar_analysts": "Analitycy",
+  "learning_center_sidebar_stock_screener": "Skaner akcji",
+  "learning_center_sidebar_options_flow": "Przepływ opcji",
+  "learning_center_sidebar_earnings_calendar": "Kalendarz wyników",
+  "learning_center_sidebar_dividends_calendar": "Kalendarz dywidend",
+  "learning_center_sidebar_ipo_calendar": "Kalendarz IPO",
+
+  "learning_center_related_articles": "Powiązane artykuły",
+  "learning_center_view_all_articles": "Zobacz wszystkie artykuły",
+  "learning_center_share_this_article": "Udostępnij ten artykuł",
+
+  "learning_center_link_copied": "Link skopiowany do schowka",
+  "learning_center_link_copy_failed": "Nie udało się skopiować linku",
+
+  "learning_center_sign_in_to_read": "Zaloguj się, żeby przeczytać cały raport.",
+  "learning_center_briefing_description": "Codzienny raport rynkowy jest dostępny dla użytkowników Stocknear. Załóż darmowe konto lub zaloguj się, żeby odblokować pełną analizę.",
+  "learning_center_create_free_account": "Załóż darmowe konto",
+  "learning_center_sign_in": "Zaloguj się",
+
+  "learning_center_click_to_close": "Kliknij gdziekolwiek lub naciśnij ESC, żeby zamknąć",
+
+  "learning_center_search_placeholder": "Szukaj...",
+  "learning_center_no_search_results": "Brak wyników dla \"{query}\".",
+  "learning_center_clear_search": "Wyczyść wyszukiwanie"
+}

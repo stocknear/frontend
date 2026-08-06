@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "AI-analyse van de aandelenmarkt - financiële AI-agent en marktinzicht",
+  "chat_seo_description": "Geavanceerde financiële AI-agent met realtime aandelenanalyse, marktinzichten en beleggingsresearch. Chat met gespecialiseerde AI-agents voor het screenen van aandelen, cijferanalyse, optieflow, dark pool-activiteit en marktsentiment. Krijg persoonlijke beleggingsideeën en compleet marktinzicht.",
+  "chat_seo_keywords": "AI financieel adviseur, AI aandelenmarkt, financiële AI-agent, AI beleggingsanalyse, geautomatiseerd aandelenonderzoek, AI trading-inzichten, machine learning financiën, financiële chatbot, AI marktanalyse, inzichten algoritmisch handelen, AI portefeuilleanalyse, beleggen met kunstmatige intelligentie",
+  "chat_title": "Je maatje bij het beleggen",
+  "chat_placeholder": "Vraag alles over aandelen — met realtime updates",
+  "chat_placeholder_readonly": "Alleen-lezen: je hebt geen rechten om deze chat te bewerken.",
+  "chat_placeholder_editable": "Vraag wat je wilt",
+  "chat_credits_left": "Credits over",
+  "chat_stock_agents": "Aandelenagents",
+  "chat_how_to_use_agents": "Zo gebruik je agents goed",
+  "chat_credits": "Credits",
+  "chat_threads": "Gesprekken",
+  "chat_no_threads": "We hebben nog niet eerder gechat.",
+  "chat_ready_to_analyze": "Klaar om aandelen te analyseren?",
+  "chat_ready_description": "Bekijk gedetailleerde financiële data, analistenratings en technische signalen voor duizenden aandelen.",
+  "chat_get_started": "Aan de slag",
+  "chat_delete_thread_title": "Gesprek verwijderen",
+  "chat_delete_thread_confirm": "Weet je zeker dat je dit gesprek wilt verwijderen? Dit kan niet worden teruggedraaid.",
+  "chat_cancel": "Annuleren",
+  "chat_delete": "Gesprek verwijderen",
+  "chat_toast_deleted": "Gesprek verwijderd",
+  "chat_toast_error": "Er ging iets mis. Probeer het opnieuw.",
+  "chat_toast_error_occurred": "Er is een fout opgetreden. Probeer het later opnieuw.",
+  "chat_toast_insufficient_credits": "Niet genoeg credits. Je huidige saldo is",
+  "chat_last_message": "Laatste bericht",
+  "chat_ago": "geleden",
+  "chat_minutes": "minuten",
+  "chat_hour": "uur",
+  "chat_hours": "uur",
+  "chat_day": "dag",
+  "chat_days": "dagen",
+  "chat_error_connect": "Verbinden met de chatdienst is mislukt. Probeer het later opnieuw.",
+
+  "chat_default_gainers_losers_label": "Grootste stijgers, dalers en meest verhandeld",
+  "chat_default_gainers_losers_query": "Geef een samenvatting van de best presterende aandelen van vandaag (stijgers), de grootste dalers en de meest verhandelde aandelen op volume. Vermeld belangrijke cijfers zoals procentuele verandering en volume.",
+
+  "chat_default_options_flow_label": "Opvallende optieorders van vandaag",
+  "chat_default_options_flow_query": "Geef een overzicht van de opvallende optieflow van vandaag, met focus op grote blokorders, ongebruikelijke pieken in volume en het richtingsgevoel.",
+
+  "chat_default_market_news_label": "Marktnieuws van vandaag",
+  "chat_default_market_news_query": "Geef me een samenvatting van het belangrijkste marktnieuws en de belangrijkste financiële gebeurtenissen van vandaag.",
+
+  "chat_default_bull_bear_label": "Bull- vs. bearcase voor Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear voor Nvidia",
+
+  "chat_default_value_investor_label": "Moet ik Intel nu kopen als waardebelegger?",
+  "chat_default_value_investor_query": "@WarrenBuffet moet ik Intel nu kopen?",
+
+  "chat_default_cathie_wood_label": "Hoe beoordeelt Cathie Wood Tesla op dit moment?",
+  "chat_default_cathie_wood_query": "@CathieWood beoordeel tesla en zeg of je het zou kopen of verkopen",
+
+  "chat_default_options_data_label": "Nieuwste optiedata voor SPY",
+  "chat_default_options_data_query": "@OptionsData nieuwste optiedata voor SPY",
+
+  "chat_default_undervalued_label": "Zoek ondergewaardeerde aandelen voor mij",
+  "chat_default_undervalued_query": "@StockScreener zoek ondergewaardeerde aandelen met p/e boven 0 en omzetgroei boven 5% en price to book ratio boven 0",
+
+  "chat_default_gamestop_label": "Hoe gezond is Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData hoe gezond is Gamestop?",
+
+  "chat_default_spy_bullish_label": "Is SPY nu bullish?",
+  "chat_default_spy_bullish_query": "Is SPY nu bullish?",
+
+  "chat_default_nvidia_flow_label": "Optieflow van Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed optieflow van Nvidia",
+
+  "chat_default_googl_flow_label": "Ongebruikelijke orderflow in GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed orderflow van Google",
+
+  "chat_default_compare_aapl_msft_label": "Vergelijk Apple met Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks vergelijk Apple met Microsoft",
+
+  "chat_default_analyst_ratings_label": "Wat zeggen analisten over Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst wat zijn de laatste analistenratings en koersdoelen voor Amazon?",
+
+  "chat_default_dark_pool_label": "Was er vandaag opvallende dark pool-activiteit?",
+  "chat_default_dark_pool_query": "Laat me de grootste dark pool-trades en activiteit van vandaag zien",
+
+  "chat_default_dividend_label": "Beste dividendaandelen om nu te kopen",
+  "chat_default_dividend_query": "@StockScreener zoek aandelen met een hoog dividendrendement, een uitkeringsratio onder 80% en omzetgroei boven 0",
+
+  "chat_default_michael_burry_label": "Wat zou Michael Burry van de huidige markt vinden?",
+  "chat_default_michael_burry_query": "@MichaelBurry analyseer de huidige marktomstandigheden en vertel me wat je ziet",
+
+  "chat_default_peter_lynch_label": "De kijk van Peter Lynch op Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch zou je Meta nu een goede belegging vinden?",
+
+  "chat_default_sector_performance_label": "Welke sectoren presteren deze week het best?",
+  "chat_default_sector_performance_query": "Geef me een overzicht van de sectorprestaties deze week en laat zien welke sectoren voorop lopen of achterblijven",
+
+  "chat_default_earnings_label": "Welke bedrijven komen deze week met cijfers?",
+  "chat_default_earnings_query": "Wat zijn de belangrijkste cijfers die deze week verschijnen en waar moet ik op letten?"
+}

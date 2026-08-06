@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Instalează aplicația pentru o experiență mai bună.",
+  "app_installed_button_install": "Instalează",
+  "app_installed_modal_title": "Pași de instalare",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Apasă butonul de partajare din Safari.",
+  "app_installed_ios_step_2": "Apasă pe \"Adaugă la ecranul principal\".",
+  "app_installed_ios_step_3": "Apasă pe \"Adaugă\".",
+  "app_installed_ios_note": "Pe iOS, aplicațiile web pot fi instalate doar din Safari.",
+  "app_installed_android_step_1": "Deschide Stocknear în Chrome.",
+  "app_installed_android_step_2": "Apasă meniul cu trei puncte din dreapta sus.",
+  "app_installed_android_step_3": "Apasă \"Instalează aplicația\" sau \"Adaugă la ecranul principal\".",
+  "app_installed_android_step_4": "Confirmă instalarea.",
+  "app_installed_close": "Închide"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "หน้าแรก",
+  "news_flow_breadcrumb_news_flow": "กระแสข่าว",
+
+  "news_flow_seo_title": "กระแสข่าวตลาด - ปัจจัยกระตุ้นราคาแบบเรียลไทม์",
+  "news_flow_seo_description": "ติดตามข่าวตลาดและปัจจัยที่ทำให้ราคาเคลื่อนไหวแบบเรียลไทม์ ออกแบบมาสำหรับเทรดเดอร์ออปชันที่ต้องการบริบทเร็วสำหรับการเทรดระยะสั้น",
+  "news_flow_seo_keywords": "กระแสข่าวตลาด, ปัจจัยกระตุ้นการเทรด, ข่าวตลาดด่วน, ข่าวสำหรับเทรดเดอร์ออปชัน, ข่าวที่ทำให้ราคาเคลื่อนไหว, อัปเดตตลาดแบบเรียลไทม์",
+  "news_flow_structured_name": "กระแสข่าวตลาด",
+  "news_flow_structured_description": "ข่าวตลาดและปัจจัยกระตุ้นแบบเรียลไทม์สำหรับวางแผนเทรดระยะสั้น",
+
+  "news_flow_main_title": "กระแสข่าว",
+  "news_flow_news_count": "{count} ข่าว",
+  "news_flow_search_placeholder": "ค้นหา...",
+
+  "news_flow_infobox": "ติดตามข่าวด่วนล่าสุดและเข้าใจว่าทำไมราคาหุ้นถึงเคลื่อนไหวแบบเรียลไทม์",
+  "news_flow_no_news": "ยังไม่มีข่าวตลาดหุ้นสำคัญในขณะนี้",
+
+  "news_flow_sidebar_market_flow_title": "กระแสเงินในตลาด",
+  "news_flow_sidebar_market_flow_description": "ติดตามอารมณ์ตลาดออปชันแบบเรียลไทม์",
+  "news_flow_sidebar_options_flow_title": "ความเคลื่อนไหวออปชัน",
+  "news_flow_sidebar_options_flow_description": "เฝ้าดูความเคลื่อนไหวออปชันที่ผิดปกติและรูปแบบกระแสคำสั่งแบบเรียลไทม์",
+  "news_flow_sidebar_dark_pool_title": "กระแสคำสั่งดาร์กพูล",
+  "news_flow_sidebar_dark_pool_description": "วิเคราะห์กระแสคำสั่งของสถาบันที่ซ่อนอยู่และข้อมูลการซื้อขายในดาร์กพูล"
+}

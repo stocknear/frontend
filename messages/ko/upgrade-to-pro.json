@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "우위를 원하는 액티브 트레이더를 위해 만들었습니다.",
+  "upgrade_to_pro_subtitle": "헤드라인은 이미 충분합니다. 필요한 것은 가격을 움직이는 자금 흐름과 촉매, 그리고 맥락입니다. Pro는 실시간 옵션과 다크풀 데이터, 애널리스트 동향, 장기 히스토리를 한곳에 모아 매매를 쫓지 않고 미리 계획할 수 있게 해줍니다.",
+  "upgrade_to_pro_feature_data_title": "전체 데이터를 모두 이용",
+  "upgrade_to_pro_feature_data_desc": "Stocknear의 모든 데이터와 도구를 이용해 셋업을 빠르게 검증하고 확신 있게 진입하세요.",
+  "upgrade_to_pro_feature_flow_title": "실시간 옵션 + 다크풀 흐름",
+  "upgrade_to_pro_feature_flow_desc": "이상 거래와 대량 체결을 발생 즉시 포착해 시장보다 먼저 움직이세요.",
+  "upgrade_to_pro_feature_analyst_title": "가격을 움직이는 애널리스트 촉매",
+  "upgrade_to_pro_feature_analyst_desc": "뉴스를 쫓아다니지 않아도 투자의견 상향과 하향, 목표주가를 바로 확인할 수 있습니다.",
+  "upgrade_to_pro_feature_history_title": "백테스트를 위한 장기 데이터",
+  "upgrade_to_pro_feature_history_desc": "프리미엄 데이터와 최대 30년치 히스토리로 아이디어를 검증하세요.",
+  "upgrade_to_pro_cta": "Pro로 업그레이드"
+}

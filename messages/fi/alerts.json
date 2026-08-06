@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Etusivu",
+  "price_alert_breadcrumb_price_alert": "Hälytys",
+
+  "price_alert_seo_title": "Osakehälytykset - Reaaliaikaiset ilmoitukset ja markkinapäivitykset",
+  "price_alert_seo_description": "Luo omat osakehälytykset ja saa ilmoituksen heti, kun ehtosi täyttyvät. Seuraa tuloksia, uutisia ja kurssiliikkeitä seurantalistallasi reaaliaikaisella markkinadatalla.",
+  "price_alert_seo_keywords": "osakehälytykset, kurssi-ilmoitukset, markkinahälytykset, osakelaukaisimet, tuloskalenteri, osakeuutisvirta, reaaliaikaiset hälytykset, markkinailmoitukset, osakkeiden seurantalista, kurssiseuranta",
+  "price_alert_structured_name": "Hälytykset - Stocknear",
+  "price_alert_structured_description": "Reaaliaikainen osakehälytysjärjestelmä välittömillä ilmoituksilla",
+
+  "price_alert_main_title": "Hälytykset",
+
+  "price_alert_search_placeholder": "Etsi...",
+  "price_alert_no_results": "Ei tuloksia",
+  "price_alert_edit_alert": "Muokkaa hälytystä",
+  "price_alert_cancel": "Peruuta",
+
+  "price_alert_empty_title": "Ei hälytyksiä",
+  "price_alert_empty_description": "Luo hälytyksiä osakkeille, joissa näet eniten potentiaalia.",
+  "price_alert_get_started": "Aloita",
+
+  "price_alert_tab_news": "Uutiset",
+  "price_alert_tab_earnings": "Tulosjulkistus",
+  "price_alert_no_news": "Ei vielä uutisia. Lisää osakkeita hälytyslistallesi, niin näet tuoreimmat uutiset.",
+  "price_alert_no_earnings": "Ei vielä tuloksia. Lisää osakkeita hälytyslistalle, niin näet tuoreimmat tulostiedot.",
+
+  "price_alert_toast_deleted": "Hälytykset poistettiin",
+  "price_alert_toast_select_symbols": "Valitse tunnukset ennen kuin voit poistaa ne",
+
+  "price_alert_earnings_will_report_today": "raportoi tänään",
+  "price_alert_earnings_will_report_tomorrow": "raportoi huomenna",
+  "price_alert_earnings_will_report_monday": "raportoi maanantaina",
+  "price_alert_earnings_will_report": "raportoi",
+  "price_alert_earnings_after_close": "markkinoiden sulkeuduttua.",
+  "price_alert_earnings_before_open": "ennen markkinoiden avautumista.",
+  "price_alert_earnings_during_market": "kaupankäynnin aikana.",
+  "price_alert_earnings_analysts_estimate": "Analyytikot odottavat",
+  "price_alert_earnings_in_revenue": "liikevaihtoa",
+  "price_alert_earnings_yoy": "vuositasolla",
+  "price_alert_earnings_and": "ja",
+  "price_alert_earnings_in_eps": "osakekohtaista tulosta"
+}

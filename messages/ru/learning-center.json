@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Учебный центр — обучение фондовому рынку и инвестициям",
+  "learning_center_seo_description": "Разберись в инвестициях на фондовом рынке вместе с нашим Учебным центром. Бесплатные материалы по торговым стратегиям, техническому и фундаментальному анализу, управлению портфелем — от новичка до опытного трейдера.",
+  "learning_center_seo_keywords": "обучение фондовому рынку, уроки по инвестициям, торговые стратегии, как инвестировать, анализ акций, финансовое образование, руководство по инвестициям, основы фондового рынка, управление портфелем, курс технического анализа",
+  "learning_center_structured_name": "Учебный центр Stocknear",
+  "learning_center_structured_description": "Полные материалы по фондовому рынку и инвестициям",
+  "learning_center_structured_articles": "Обучающие статьи",
+  "learning_center_structured_articles_description": "Статьи об инвестициях и работе фондового рынка",
+  "learning_center_title": "Учебный центр",
+  "learning_center_published": "Опубликовано:",
+  "learning_center_previous": "Назад",
+  "learning_center_next": "Вперёд",
+  "learning_center_alt_tutorial": "Обложка урока",
+
+  "learning_center_subtitle": "Разбираем фондовый рынок шаг за шагом",
+
+  "learning_center_category_all": "Все",
+  "learning_center_category_features": "Возможности",
+  "learning_center_category_fundamentals": "Основы",
+  "learning_center_category_terms": "Термины",
+
+  "learning_center_category_desc_features": "Как пользоваться Stocknear",
+  "learning_center_category_desc_fundamentals": "Начни отсюда, если только пришёл в инвестиции",
+  "learning_center_category_desc_terms": "Финансовые термины и определения",
+
+  "learning_center_tag_all": "Все теги",
+  "learning_center_tag_stocks": "Акции",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Опционы",
+  "learning_center_tag_sentiment": "Настроения",
+  "learning_center_tag_prefix": "Тег",
+
+  "learning_center_view_all": "Смотреть все",
+  "learning_center_view_all_count": "Смотреть все: {count}",
+  "learning_center_min_read": "{time} мин чтения",
+
+  "learning_center_no_articles_tag": "Статей с тегом «{tag}» не найдено.",
+  "learning_center_clear_tag_filter": "Сбросить фильтр по тегу",
+
+  "learning_center_page_of": "Страница {currentPage} из {totalPages}",
+  "learning_center_items_count": "{count} материалов",
+
+  "learning_center_back_to_top": "Наверх",
+  "learning_center_no_terms_yet": "Терминов пока нет.",
+  "learning_center_no_articles_category": "В этой категории пока нет статей.",
+
+  "learning_center_table_of_contents": "Содержание",
+  "learning_center_share_this_post": "Поделиться постом",
+  "learning_center_back_to_all_posts": "Ко всем постам",
+
+  "learning_center_quick_start": "Быстрый старт",
+  "learning_center_sidebar_top_gainers": "Лидеры роста",
+  "learning_center_sidebar_top_losers": "Лидеры падения",
+  "learning_center_sidebar_analysts": "Аналитики",
+  "learning_center_sidebar_stock_screener": "Скринер акций",
+  "learning_center_sidebar_options_flow": "Поток опционов",
+  "learning_center_sidebar_earnings_calendar": "Календарь отчётностей",
+  "learning_center_sidebar_dividends_calendar": "Календарь дивидендов",
+  "learning_center_sidebar_ipo_calendar": "Календарь IPO",
+
+  "learning_center_related_articles": "Похожие статьи",
+  "learning_center_view_all_articles": "Смотреть все статьи",
+  "learning_center_share_this_article": "Поделиться статьёй",
+
+  "learning_center_link_copied": "Ссылка скопирована",
+  "learning_center_link_copy_failed": "Не удалось скопировать ссылку",
+
+  "learning_center_sign_in_to_read": "Войди, чтобы прочитать обзор целиком.",
+  "learning_center_briefing_description": "Ежедневный обзор рынка доступен участникам Stocknear. Создай бесплатный аккаунт или войди, чтобы открыть полный разбор.",
+  "learning_center_create_free_account": "Создать бесплатный аккаунт",
+  "learning_center_sign_in": "Войти",
+
+  "learning_center_click_to_close": "Нажми в любом месте или ESC, чтобы закрыть",
+
+  "learning_center_search_placeholder": "Поиск...",
+  "learning_center_no_search_results": "По запросу «{query}» ничего не найдено.",
+  "learning_center_clear_search": "Очистить поиск"
+}

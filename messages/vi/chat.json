@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Phân tích thị trường chứng khoán bằng AI - Trợ lý tài chính & thông tin thị trường",
+  "chat_seo_description": "Trợ lý tài chính AI nâng cao cung cấp phân tích cổ phiếu theo thời gian thực, góc nhìn thị trường và nghiên cứu đầu tư. Trò chuyện với các trợ lý AI chuyên biệt để lọc cổ phiếu, phân tích kết quả kinh doanh, theo dõi dòng tiền quyền chọn, hoạt động dark pool và tâm lý thị trường. Nhận gợi ý đầu tư phù hợp cùng bức tranh thị trường toàn diện.",
+  "chat_seo_keywords": "cố vấn tài chính AI, AI chứng khoán, trợ lý tài chính AI, phân tích đầu tư bằng AI, nghiên cứu cổ phiếu tự động, góc nhìn giao dịch từ AI, học máy trong tài chính, chatbot tài chính, phân tích thị trường bằng AI, giao dịch thuật toán, phân tích danh mục bằng AI, đầu tư với trí tuệ nhân tạo",
+  "chat_title": "Người bạn đồng hành đầu tư của bạn",
+  "chat_placeholder": "Hỏi bất cứ điều gì về cổ phiếu — nhận cập nhật theo thời gian thực",
+  "chat_placeholder_readonly": "Chỉ đọc: Bạn không có quyền chỉnh sửa cuộc trò chuyện này.",
+  "chat_placeholder_editable": "Hỏi bất cứ điều gì",
+  "chat_credits_left": "Tín dụng còn lại",
+  "chat_stock_agents": "Trợ lý cổ phiếu",
+  "chat_how_to_use_agents": "Cách dùng trợ lý đúng cách",
+  "chat_credits": "Tín dụng",
+  "chat_threads": "Cuộc trò chuyện",
+  "chat_no_threads": "Có vẻ chúng ta chưa từng trò chuyện.",
+  "chat_ready_to_analyze": "Sẵn sàng phân tích cổ phiếu?",
+  "chat_ready_description": "Khám phá dữ liệu tài chính chi tiết, khuyến nghị của giới phân tích và chỉ báo kỹ thuật cho hàng nghìn cổ phiếu.",
+  "chat_get_started": "Bắt đầu",
+  "chat_delete_thread_title": "Xóa cuộc trò chuyện",
+  "chat_delete_thread_confirm": "Bạn có chắc muốn xóa cuộc trò chuyện này? Hành động này không thể hoàn tác.",
+  "chat_cancel": "Hủy",
+  "chat_delete": "Xóa cuộc trò chuyện",
+  "chat_toast_deleted": "Đã xóa cuộc trò chuyện.",
+  "chat_toast_error": "Có lỗi xảy ra. Vui lòng thử lại.",
+  "chat_toast_error_occurred": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+  "chat_toast_insufficient_credits": "Không đủ tín dụng. Số dư hiện tại của bạn là",
+  "chat_last_message": "Tin nhắn cuối",
+  "chat_ago": "trước",
+  "chat_minutes": "phút",
+  "chat_hour": "giờ",
+  "chat_hours": "giờ",
+  "chat_day": "ngày",
+  "chat_days": "ngày",
+  "chat_error_connect": "Không kết nối được tới dịch vụ trò chuyện. Vui lòng thử lại sau.",
+
+  "chat_default_gainers_losers_label": "Cổ phiếu tăng, giảm mạnh và giao dịch sôi động nhất",
+  "chat_default_gainers_losers_query": "Tóm tắt những cổ phiếu tăng mạnh nhất, giảm mạnh nhất và có khối lượng giao dịch sôi động nhất hôm nay. Kèm theo các chỉ số chính như phần trăm thay đổi và khối lượng giao dịch.",
+
+  "chat_default_options_flow_label": "Điểm nhấn dòng lệnh quyền chọn hôm nay",
+  "chat_default_options_flow_query": "Tổng quan về dòng lệnh quyền chọn đáng chú ý hôm nay, tập trung vào các lệnh khối lớn, khối lượng tăng đột biến và xu hướng đặt cược của thị trường.",
+
+  "chat_default_market_news_label": "Tin thị trường hôm nay",
+  "chat_default_market_news_query": "Tóm tắt cho tôi những tin tức thị trường quan trọng nhất và các sự kiện tài chính chính hôm nay.",
+
+  "chat_default_bull_bear_label": "Luận điểm tăng và giảm cho Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear cho Nvidia",
+
+  "chat_default_value_investor_label": "Nhà đầu tư giá trị có nên mua Intel lúc này?",
+  "chat_default_value_investor_query": "@WarrenBuffet tôi có nên mua Intel lúc này không?",
+
+  "chat_default_cathie_wood_label": "Cathie Wood đánh giá Tesla thế nào lúc này?",
+  "chat_default_cathie_wood_query": "@CathieWood đánh giá Tesla và cho tôi biết bạn sẽ mua hay bán",
+
+  "chat_default_options_data_label": "Cập nhật dữ liệu quyền chọn mới nhất của SPY",
+  "chat_default_options_data_query": "@OptionsData cập nhật dữ liệu quyền chọn mới nhất cho SPY",
+
+  "chat_default_undervalued_label": "Tìm cho tôi cổ phiếu đang bị định giá thấp",
+  "chat_default_undervalued_query": "@StockScreener tìm cho tôi cổ phiếu bị định giá thấp với p/e trên 0, tăng trưởng doanh thu trên 5% và chỉ số giá trên giá trị sổ sách trên 0",
+
+  "chat_default_gamestop_label": "Sức khỏe tài chính của Gamestop ra sao?",
+  "chat_default_gamestop_query": "@FundamentalData sức khỏe tài chính của Gamestop ra sao?",
+
+  "chat_default_spy_bullish_label": "SPY có đang trong xu hướng tăng không?",
+  "chat_default_spy_bullish_query": "SPY có đang trong xu hướng tăng không?",
+
+  "chat_default_nvidia_flow_label": "Dòng lệnh quyền chọn Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed dòng lệnh quyền chọn Nvidia",
+
+  "chat_default_googl_flow_label": "Dòng lệnh bất thường của GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed dòng lệnh của Google",
+
+  "chat_default_compare_aapl_msft_label": "So sánh Apple và Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks so sánh Apple và Microsoft",
+
+  "chat_default_analyst_ratings_label": "Giới phân tích nói gì về Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst khuyến nghị và giá mục tiêu mới nhất cho Amazon là gì?",
+
+  "chat_default_dark_pool_label": "Hôm nay có hoạt động dark pool đáng chú ý không?",
+  "chat_default_dark_pool_query": "Cho tôi xem các giao dịch và hoạt động dark pool đáng chú ý nhất hôm nay",
+
+  "chat_default_dividend_label": "Cổ phiếu cổ tức tốt nhất để mua lúc này",
+  "chat_default_dividend_query": "@StockScreener tìm cho tôi cổ phiếu có tỷ suất cổ tức cao với tỷ lệ chi trả dưới 80% và tăng trưởng doanh thu trên 0",
+
+  "chat_default_michael_burry_label": "Michael Burry sẽ nghĩ gì về thị trường hiện tại?",
+  "chat_default_michael_burry_query": "@MichaelBurry phân tích điều kiện thị trường hiện tại và cho tôi biết bạn thấy gì",
+
+  "chat_default_peter_lynch_label": "Góc nhìn của Peter Lynch về Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch bạn có xem Meta là một khoản đầu tư tốt lúc này không?",
+
+  "chat_default_sector_performance_label": "Nhóm ngành nào đang dẫn dắt tuần này?",
+  "chat_default_sector_performance_query": "Phân tích hiệu suất các nhóm ngành trong tuần này và chỉ ra nhóm nào đang dẫn dắt hoặc tụt lại",
+
+  "chat_default_earnings_label": "Công ty nào công bố kết quả kinh doanh trong tuần này?",
+  "chat_default_earnings_query": "Những báo cáo kết quả kinh doanh quan trọng nhất sắp tới trong tuần này là gì và tôi nên chú ý điều gì?"
+}

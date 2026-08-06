@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Головна",
+  "options_screener_breadcrumb_options_screener": "Скринер опціонів",
+
+  "options_screener_seo_title": "Скринер опціонів - знаходь незвичайний потік та сильні сетапи",
+  "options_screener_seo_description": "Відбирай опціони за незвичайною активністю, імплікованою волатильністю, відкритим інтересом, обсягом, греками та датою експірації, щоб знаходити короткострокові сетапи.",
+  "options_screener_seo_keywords": "скринер опціонів, незвичайна активність в опціонах, сканер опціонів, скринер імплікованої волатильності, перекіс IV, відкритий інтерес, опціони з високим обсягом, інструмент торгівлі опціонами, скринер греків",
+  "options_screener_structured_name": "Скринер опціонів",
+  "options_screener_structured_description": "Скринер опціонів із фокусом на незвичайній активності, IV та відкритому інтересі для короткострокових сетапів",
+
+  "options_screener_main_title": "Скринер опціонів",
+  "options_screener_contracts_count": "Контрактів: {count}",
+  "options_screener_expire_on": "Усі опціонні контракти закінчуються {date}",
+
+  "options_screener_popular_screens": "Популярні добірки",
+  "options_screener_popular_strategies": "Популярні стратегії",
+  "options_screener_select_popular": "Обрати популярні",
+  "options_screener_saved_screens": "Збережені добірки",
+  "options_screener_select_screen": "Обрати добірку",
+  "options_screener_new_screen": "Нова добірка",
+
+  "options_screener_filters_count": "Фільтрів: {count}",
+  "options_screener_add_filters": "Додати фільтри",
+  "options_screener_search_filters": "Пошук серед {count} фільтрів...",
+  "options_screener_select_filters_title": "Обери фільтри скринера (всього {count})",
+  "options_screener_nothing_found": "Нічого не знайдено",
+
+  "options_screener_tab_general": "Загальне",
+  "options_screener_tab_filters": "Фільтри",
+  "options_screener_tab_greeks": "Греки",
+
+  "options_screener_search_placeholder": "Знайти...",
+  "options_screener_search_input_placeholder": "Пошук...",
+  "options_screener_input_min": "Мін",
+  "options_screener_input_max": "Макс",
+  "options_screener_input_value": "Значення",
+
+  "options_screener_normal_width": "Звичайна ширина",
+  "options_screener_full_width": "На всю ширину",
+
+  "options_screener_pagination_previous": "Назад",
+  "options_screener_pagination_next": "Далі",
+  "options_screener_pagination_page_of": "Сторінка {current} з {total}",
+  "options_screener_rows_label": "Рядків: {rows}",
+  "options_screener_back_to_top": "Догори",
+
+  "options_screener_no_contracts_query": "Контрактів за запитом \"{query}\" не знайдено",
+  "options_screener_no_contracts": "Контрактів не знайдено.",
+
+  "options_screener_modal_new_title": "Новий скринер",
+  "options_screener_modal_new_name_label": "Назва скринера",
+  "options_screener_modal_new_create": "Створити скринер",
+
+  "options_screener_modal_delete_title": "Видалити скринер",
+  "options_screener_modal_delete_message": "Точно видалити цей скринер? Цю дію не можна скасувати.",
+  "options_screener_modal_delete_cancel": "Скасувати",
+  "options_screener_modal_delete_confirm": "Видалити",
+
+  "options_screener_strategy_high_iv_rank": "Високий ранг IV",
+  "options_screener_strategy_volume_surge": "Сплеск обсягу",
+  "options_screener_strategy_itm_calls": "Коли в грошах",
+  "options_screener_strategy_otm_puts": "Пути поза грошима",
+  "options_screener_strategy_high_premium_flow": "Потік із високою премією",
+
+  "options_screener_save": "Зберегти",
+  "options_screener_save_as_new": "Зберегти як новий",
+  "options_screener_reset_all": "Скинути все"
+}

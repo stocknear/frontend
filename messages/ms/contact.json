@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Hubungi kami",
+  "contact_breadcrumb": "Hubungi Kami",
+  "contact_hero_title": "Hubungi Kami",
+  "contact_intro": "Kami ingin mendengar pandangan anda. Sila hantar mesej menggunakan borang di bawah dan kami akan menghubungi anda secepat mungkin. Anda juga boleh menghantar e-mel terus kepada {email}.",
+  "contact_email_label": "E-mel",
+  "contact_subject_label": "Subjek",
+  "contact_message_label": "Mesej",
+  "contact_send_button": "Hantar Mesej",
+  "contact_processing": "Memproses...",
+  "contact_success": "Mesej anda berjaya dihantar. Kami akan menghubungi anda tidak lama lagi.",
+  "contact_sidebar_pro_title": "Langganan Pro",
+  "contact_sidebar_pro_desc": "Naik taraf sekarang untuk akses tanpa had kepada semua data, alat dan tanpa iklan.",
+  "contact_sidebar_screener_title": "Penapis Saham",
+  "contact_sidebar_screener_desc": "Tapis, susun dan analisis semua saham untuk mencari pelaburan anda seterusnya.",
+  "contact_sidebar_watchlist_title": "Senarai Pantau",
+  "contact_sidebar_watchlist_desc": "Pantau saham kegemaran anda secara masa nyata."
+}

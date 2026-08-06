@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Trimite feedback",
+  "feedback_error_signin": "Autentifică-te înainte de a trimite feedback.",
+  "feedback_error_description": "Descrie problema sau sugestia ta.",
+  "feedback_error_send_try_again": "Ceva nu a mers la trimiterea feedbackului. Încearcă din nou.",
+  "feedback_success": "Mulțumim. Feedbackul tău a fost trimis.",
+  "feedback_error_send_generic": "Ceva nu a mers la trimiterea feedbackului.",
+  "feedback_description_label": "Descrie problema sau sugestia ta:",
+  "feedback_page_label": "Feedback pentru pagina:",
+  "feedback_close_button": "Închide",
+  "feedback_cancel_button": "Anulează",
+  "feedback_send_button": "Trimite feedback"
+}

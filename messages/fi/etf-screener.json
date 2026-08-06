@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Etusivu",
+  "etf_screener_breadcrumb_etf_screener": "ETF-seulonta",
+
+  "etf_screener_seo_title": "Ilmainen ETF-seulonta - suodata ja löydä ETF:t",
+  "etf_screener_seo_description": "Seulo ja suodata {count} ETF:ää hallinnoitavien varojen, kulusuhteen, osinkojen, tuottokehityksen ja teknisten mittareiden perusteella. Ilmainen ETF-seulonta kehittyneillä suodattimilla.",
+  "etf_screener_seo_keywords": "etf-seulonta, etf-suodatin, etf-haku, löydä etf, etf-seulontatyökalu, kulusuhteen suodatin, hallinnoitavien varojen suodatin, osinko-etf-seulonta",
+  "etf_screener_structured_name": "stocknear ETF-seulonta",
+  "etf_screener_structured_description": "Kehittynyt ETF-seulontatyökalu, jossa suodattimet hallinnoitaville varoille, kulusuhteelle, tuottokehitykselle, teknisille mittareille, osingoille ja muulle.",
+
+  "etf_screener_main_title": "ETF-seulonta",
+  "etf_screener_matches_found": "{count} osumaa",
+  "etf_screener_etfs_count": "{count} ETF:ää",
+
+  "etf_screener_popular_screens": "Suositut seulonnat",
+  "etf_screener_popular_strategies": "Suositut strategiat",
+  "etf_screener_select_popular": "Valitse suosittu",
+  "etf_screener_saved_screens": "Tallennetut seulonnat",
+  "etf_screener_select_screen": "Valitse seulonta",
+  "etf_screener_new_screen": "Uusi seulonta",
+
+  "etf_screener_filters_count": "{count} suodatinta",
+  "etf_screener_add_filters": "Lisää suodattimia",
+  "etf_screener_search_filters": "Hae {count} suodattimesta...",
+  "etf_screener_select_filters_title": "Valitse suodattimet ({count})",
+  "etf_screener_nothing_found": "Ei osumia",
+
+  "etf_screener_search_placeholder": "Hae ETF:iä...",
+  "etf_screener_search_input_placeholder": "Hae...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Max",
+  "etf_screener_input_value": "Arvo",
+
+  "etf_screener_normal_width": "Normaali leveys",
+  "etf_screener_full_width": "Koko leveys",
+
+  "etf_screener_save": "Tallenna",
+  "etf_screener_save_as_new": "Tallenna uutena",
+  "etf_screener_reset_all": "Nollaa kaikki",
+
+  "etf_screener_pagination_previous": "Edellinen",
+  "etf_screener_pagination_next": "Seuraava",
+  "etf_screener_pagination_page_of": "Sivu {current} / {total}",
+  "etf_screener_rows_label": "{rows} riviä",
+  "etf_screener_back_to_top": "Takaisin ylös",
+
+  "etf_screener_no_etfs_query": "Haulle \"{query}\" ei löytynyt ETF:iä",
+  "etf_screener_no_etfs": "ETF:iä ei löytynyt.",
+
+  "etf_screener_modal_new_title": "Uusi seulonta",
+  "etf_screener_modal_new_name_label": "Seulonnan nimi",
+  "etf_screener_modal_new_create": "Luo",
+
+  "etf_screener_modal_delete_title": "Poista seulonta",
+  "etf_screener_modal_delete_message": "Haluatko varmasti poistaa tämän seulonnan?",
+  "etf_screener_modal_delete_cancel": "Peruuta",
+  "etf_screener_modal_delete_confirm": "Poista",
+
+  "etf_screener_strategy_low_cost_index": "Edulliset indeksi-ETF:t",
+  "etf_screener_strategy_high_dividend": "Korkean osinkotuoton ETF:t",
+  "etf_screener_strategy_top_performers_1y": "Vuoden parhaat tuotot",
+  "etf_screener_strategy_oversold": "Ylimyydyt ETF:t",
+
+  "etf_screener_tab_filters": "Suodattimet",
+  "etf_screener_tab_technicals": "Tekniset",
+
+  "etf_screener_export_title": "Vie ETF-seulonnan tiedot"
+}

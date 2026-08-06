@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "ホーム",
+  "news_flow_breadcrumb_news_flow": "ニュースフロー",
+
+  "news_flow_seo_title": "マーケットニュースフロー - 値動きにつながる材料をリアルタイムで",
+  "news_flow_seo_description": "株価を動かすニュースと材料をリアルタイムで追跡。短期の仕掛けに素早く判断材料が必要なオプショントレーダー向けです。",
+  "news_flow_seo_keywords": "マーケットニュースフロー, 取引材料, 速報ニュース, オプショントレーダー向けニュース, 値動きの理由, リアルタイム市場情報",
+  "news_flow_structured_name": "マーケットニュースフロー",
+  "news_flow_structured_description": "短期売買の計画に使えるリアルタイムの市場ニュースと材料",
+
+  "news_flow_main_title": "ニュースフロー",
+  "news_flow_news_count": "ニュース {count} 件",
+  "news_flow_search_placeholder": "検索...",
+
+  "news_flow_infobox": "最新の速報を追いかけ、株価が動いた理由をリアルタイムで把握できます",
+  "news_flow_no_news": "現在、主要な市場ニュースはありません。",
+
+  "news_flow_sidebar_market_flow_title": "マーケットフロー",
+  "news_flow_sidebar_market_flow_description": "オプション市場のセンチメントをリアルタイムで追跡。",
+  "news_flow_sidebar_options_flow_title": "オプションフロー",
+  "news_flow_sidebar_options_flow_description": "異常なオプション取引とフローの動きをリアルタイムで監視",
+  "news_flow_sidebar_dark_pool_title": "ダークプールフロー",
+  "news_flow_sidebar_dark_pool_description": "表に出ない機関投資家の売買とダークプールの取引データを分析"
+}

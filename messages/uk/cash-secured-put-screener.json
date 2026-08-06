@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "Головна",
+  "cash_secured_put_screener_breadcrumb_title": "Скринер пут-опціонів із покриттям готівкою",
+
+  "cash_secured_put_screener_seo_title": "Скринер пут-опціонів із покриттям готівкою - знайди найкращі можливості CSP",
+  "cash_secured_put_screener_seo_description": "Перевіряй тисячі опціонів у пошуку пут-опціонів із покриттям готівкою. Фільтруй за дохідністю премії, річною дохідністю, ціною виконання, датою експірації та іншим.",
+  "cash_secured_put_screener_seo_keywords": "скринер cash secured put, скринер опціонів, пут-опціони з покриттям готівкою, дохідність премії, стратегія доходу",
+  "cash_secured_put_screener_structured_name": "Скринер пут-опціонів із покриттям готівкою",
+  "cash_secured_put_screener_structured_description": "Пошук опціонів для стратегії пут із покриттям готівкою",
+
+  "cash_secured_put_screener_main_title": "Скринер пут-опціонів із покриттям готівкою",
+  "cash_secured_put_screener_contracts_count": "{count} контрактів",
+
+  "cash_secured_put_screener_popular_screens": "Популярні скринери",
+  "cash_secured_put_screener_popular_strategies": "Популярні стратегії",
+  "cash_secured_put_screener_select_popular": "Обрати популярний",
+  "cash_secured_put_screener_saved_screens": "Збережені скринери",
+  "cash_secured_put_screener_select_screen": "Обрати скринер",
+  "cash_secured_put_screener_new_screen": "Новий скринер",
+
+  "cash_secured_put_screener_strategy_high_yield": "Висока дохідність",
+  "cash_secured_put_screener_strategy_conservative": "Консервативна",
+  "cash_secured_put_screener_strategy_weekly_income": "Тижневий дохід",
+  "cash_secured_put_screener_strategy_high_protection": "Високий захист",
+  "cash_secured_put_screener_strategy_bluechip_csp": "CSP на блакитні фішки",
+
+  "cash_secured_put_screener_filters_count": "Фільтри ({count})",
+  "cash_secured_put_screener_add_filters": "Додати фільтри",
+  "cash_secured_put_screener_search_filters": "Пошук серед {count} фільтрів...",
+  "cash_secured_put_screener_select_filters_title": "Обрати фільтри ({count})",
+  "cash_secured_put_screener_nothing_found": "Нічого не знайдено.",
+
+  "cash_secured_put_screener_save": "Зберегти",
+  "cash_secured_put_screener_save_as_new": "Зберегти як новий",
+  "cash_secured_put_screener_reset_all": "Скинути все",
+
+  "cash_secured_put_screener_condition_over": "Більше",
+  "cash_secured_put_screener_condition_under": "Менше",
+  "cash_secured_put_screener_condition_between": "Між",
+  "cash_secured_put_screener_condition_exactly": "Точно",
+  "cash_secured_put_screener_condition_any": "Будь-яке",
+
+  "cash_secured_put_screener_input_min": "Мін",
+  "cash_secured_put_screener_input_max": "Макс",
+  "cash_secured_put_screener_input_value": "Значення",
+
+  "cash_secured_put_screener_search_placeholder": "Пошук...",
+  "cash_secured_put_screener_search_modal_placeholder": "Пошук...",
+
+  "cash_secured_put_screener_normal_width": "Звичайна ширина",
+  "cash_secured_put_screener_full_width": "Уся ширина",
+
+  "cash_secured_put_screener_tab_general": "Загальне",
+  "cash_secured_put_screener_tab_income": "Дохід",
+  "cash_secured_put_screener_tab_filters": "Фільтри",
+  "cash_secured_put_screener_tab_greeks": "Греки",
+
+  "cash_secured_put_screener_pagination_previous": "Назад",
+  "cash_secured_put_screener_pagination_next": "Далі",
+  "cash_secured_put_screener_pagination_page_of": "Сторінка {current} з {total}",
+  "cash_secured_put_screener_rows_label": "{rows} рядків",
+  "cash_secured_put_screener_back_to_top": "Вгору",
+
+  "cash_secured_put_screener_no_results_query": "Нічого не знайдено за запитом \"{query}\"",
+  "cash_secured_put_screener_no_contracts": "Немає контрактів за твоїми критеріями.",
+
+  "cash_secured_put_screener_modal_new_title": "Новий скринер",
+  "cash_secured_put_screener_modal_new_name_label": "Назва скринера",
+  "cash_secured_put_screener_modal_new_create": "Створити",
+
+  "cash_secured_put_screener_modal_delete_title": "Видалити скринер",
+  "cash_secured_put_screener_modal_delete_message": "Точно видалити цей скринер? Цю дію не можна скасувати.",
+  "cash_secured_put_screener_modal_delete_cancel": "Скасувати",
+  "cash_secured_put_screener_modal_delete_confirm": "Видалити",
+
+  "cash_secured_put_screener_toast_deleting": "Видаляємо скринер...",
+  "cash_secured_put_screener_toast_deleted": "Скринер видалено.",
+  "cash_secured_put_screener_toast_delete_failed": "Не вдалося видалити. Спробуй ще раз.",
+  "cash_secured_put_screener_toast_title_too_long": "Назва задовга. Тримай її в межах 100 символів.",
+  "cash_secured_put_screener_toast_created": "Скринер створено.",
+  "cash_secured_put_screener_toast_creating": "Створюємо скринер...",
+  "cash_secured_put_screener_toast_create_failed": "Щось пішло не так. Спробуй пізніше.",
+  "cash_secured_put_screener_toast_select_rule": "Обери правило",
+  "cash_secured_put_screener_toast_saving": "Зберігаємо скринер...",
+  "cash_secured_put_screener_toast_saved": "Скринер збережено.",
+  "cash_secured_put_screener_toast_save_failed": "Не вдалося зберегти. Спробуй ще раз.",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "Ціна на дату експірації ($)",
+  "cash_secured_put_screener_chart_last_price_label": "Остання ціна: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "Беззбитковість: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "Прибуток/Збиток ($)",
+  "cash_secured_put_screener_chart_tooltip_underlying": "Ціна базового активу:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "Прибуток або збиток:",
+  "cash_secured_put_screener_chart_modal_title": "Пут із покриттям готівкою - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "Параметри угоди",
+  "cash_secured_put_screener_chart_sell_put": "Продати {strike}P @",
+  "cash_secured_put_screener_chart_cash_secured": "Покриття готівкою",
+  "cash_secured_put_screener_chart_net_credit": "Чистий кредит",
+  "cash_secured_put_screener_chart_breakeven": "Беззбитковість",
+  "cash_secured_put_screener_chart_below": "Нижче",
+  "cash_secured_put_screener_chart_last_price": "Остання ціна",
+  "cash_secured_put_screener_chart_moneyness": "Грошовість",
+  "cash_secured_put_screener_chart_return_if_flat": "Дохідність без руху",
+  "cash_secured_put_screener_chart_return_if_assigned": "Дохідність при виконанні",
+  "cash_secured_put_screener_chart_probability_of_profit": "Ймовірність прибутку",
+  "cash_secured_put_screener_chart_annualized_abbr": "річн.",
+  "cash_secured_put_screener_chart_discount": "Знижка при виконанні"
+}

@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Utama",
+  "ipos_breadcrumb_data": "Data IPO",
+
+  "ipos_seo_title": "Kalendar IPO - IPO Terkini & Akan Datang | Tawaran Awam Permulaan",
+  "ipos_seo_description": "Jejaki IPO terkini dan akan datang dengan analisis terperinci. Pantau prestasi IPO, harga, tarikh dan pulangan sejak penyenaraian. Kalendar dan penjejak IPO percuma dengan data menyeluruh.",
+  "ipos_seo_keywords": "kalendar IPO, IPO akan datang, IPO terkini, tawaran awam permulaan, penjejak IPO, prestasi IPO, harga IPO, penyenaraian saham baharu, tawaran awam",
+
+  "ipos_main_name_recent": "IPO Terkini",
+  "ipos_main_name_statistics": "Statistik IPO",
+  "ipos_count": "{count} Saham",
+  "ipos_tab_recent": "Terkini",
+  "ipos_tab_statistics": "Statistik",
+  "ipos_tab_latest": "Terbaharu",
+
+  "ipos_statistics_seo_title": "Statistik IPO & Carta Sejarah - Data Pasaran Tawaran Awam Permulaan",
+  "ipos_statistics_seo_description": "Statistik IPO menyeluruh dan carta interaktif untuk tawaran awam permulaan di pasaran saham AS. Jejaki aliran IPO tahunan dan bulanan dari {startYear} hingga {endYear}, analisis kitaran pasaran dan kenal pasti corak prestasi IPO.",
+  "ipos_statistics_seo_keywords": "statistik IPO, carta tawaran awam permulaan, data pasaran IPO, aliran IPO, analisis IPO, data IPO sejarah, prestasi IPO, statistik IPO tahunan, data IPO bulanan",
+  "ipos_statistics_infobox": "Halaman ini menyediakan statistik dan carta mengenai tawaran awam permulaan (IPO) di pasaran saham AS. Data tahunan dan bulanan tersedia dari {startYear} hingga {endYear}.",
+  "ipos_statistics_title": "Bilangan IPO Mengikut Tahun",
+  "ipos_statistics_description": "Terdapat {count} IPO antara {startYear} dan {endYear}. Paling sedikit ialah pada {minYear} dengan hanya {minCount}. Tahun penuh {maxYear} mencatat rekod tertinggi sepanjang masa dengan {maxCount} IPO.",
+  "ipos_statistics_stock_news": "Berita Saham",
+  "ipos_statistics_more_news": "Lagi Berita Saham",
+
+  "ipos_year_seo_title": "Senarai IPO {year} - Direktori Lengkap Tawaran Awam Permulaan",
+  "ipos_year_seo_description": "Senarai menyeluruh semua tawaran awam permulaan (IPO) {year} di pasaran saham AS. Jejaki prestasi IPO, penetapan harga, pulangan sejak penyenaraian dan permulaan dagangan dengan maklumat syarikat terperinci serta data sejarah.",
+  "ipos_year_seo_keywords": "IPO {year}, tawaran awam permulaan {year}, senarai IPO {year}, prestasi IPO {year}, IPO terkini, kalendar IPO {year}, syarikat awam baharu {year}",
+  "ipos_year_empty": "Tiada IPO dijumpai. Sila laraskan tempoh carian anda untuk IPO {year} yang terkini.",
+
+  "ipos_statistics_chart_title": "IPO Setiap Tahun, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Tawaran Awam Permulaan {year}",
+  "ipos_year_summary": "Terdapat {count} IPO pada {year}.",
+  "ipos_year_extremes": "Bulan paling sibuk ialah {maxMonth} dengan {maxCount}, paling lengang ialah {minMonth} dengan {minCount}.",
+  "ipos_year_none": "Tiada IPO pada {year}."
+}

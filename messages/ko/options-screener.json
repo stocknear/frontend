@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "홈",
+  "options_screener_breadcrumb_options_screener": "옵션 스크리너",
+
+  "options_screener_seo_title": "옵션 스크리너 - 이상 거래와 유망 종목 찾기",
+  "options_screener_seo_description": "이상 거래, 내재변동성, 미결제약정, 거래량, 그릭스, 만기로 옵션을 걸러내 단기 매매 기회를 찾아보세요.",
+  "options_screener_seo_keywords": "옵션 스크리너, 이상 옵션 거래, 옵션 스캐너, 내재변동성 스크리너, IV 스큐, 미결제약정, 대량 거래 옵션, 옵션 매매 도구, 그릭스 스크리너",
+  "options_screener_structured_name": "옵션 스크리너 도구",
+  "options_screener_structured_description": "이상 거래, IV, 미결제약정을 중심으로 단기 기회를 찾는 옵션 스크리너",
+
+  "options_screener_main_title": "옵션 스크리너",
+  "options_screener_contracts_count": "계약 {count}건",
+  "options_screener_expire_on": "모든 옵션 계약의 만기일은 {date}입니다",
+
+  "options_screener_popular_screens": "인기 스크린",
+  "options_screener_popular_strategies": "인기 전략",
+  "options_screener_select_popular": "인기 항목 선택",
+  "options_screener_saved_screens": "저장한 스크린",
+  "options_screener_select_screen": "스크린 선택",
+  "options_screener_new_screen": "새 스크린",
+
+  "options_screener_filters_count": "필터 {count}개",
+  "options_screener_add_filters": "필터 추가",
+  "options_screener_search_filters": "필터 {count}개 검색...",
+  "options_screener_select_filters_title": "스크리너 필터 선택 (총 {count}개)",
+  "options_screener_nothing_found": "결과 없음",
+
+  "options_screener_tab_general": "일반",
+  "options_screener_tab_filters": "필터",
+  "options_screener_tab_greeks": "그릭스",
+
+  "options_screener_search_placeholder": "찾기...",
+  "options_screener_search_input_placeholder": "검색...",
+  "options_screener_input_min": "최소",
+  "options_screener_input_max": "최대",
+  "options_screener_input_value": "값",
+
+  "options_screener_normal_width": "기본 너비",
+  "options_screener_full_width": "전체 너비",
+
+  "options_screener_pagination_previous": "이전",
+  "options_screener_pagination_next": "다음",
+  "options_screener_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "options_screener_rows_label": "{rows}행",
+  "options_screener_back_to_top": "맨 위로",
+
+  "options_screener_no_contracts_query": "\"{query}\"에 해당하는 계약이 없습니다",
+  "options_screener_no_contracts": "계약이 없습니다.",
+
+  "options_screener_modal_new_title": "새 스크리너",
+  "options_screener_modal_new_name_label": "스크리너 이름",
+  "options_screener_modal_new_create": "스크리너 만들기",
+
+  "options_screener_modal_delete_title": "스크리너 삭제",
+  "options_screener_modal_delete_message": "이 스크리너를 삭제하시겠습니까? 삭제한 뒤에는 되돌릴 수 없습니다.",
+  "options_screener_modal_delete_cancel": "취소",
+  "options_screener_modal_delete_confirm": "삭제",
+
+  "options_screener_strategy_high_iv_rank": "IV 랭크 상위",
+  "options_screener_strategy_volume_surge": "거래량 급증",
+  "options_screener_strategy_itm_calls": "내가격 콜",
+  "options_screener_strategy_otm_puts": "외가격 풋",
+  "options_screener_strategy_high_premium_flow": "고액 프리미엄 플로우",
+
+  "options_screener_save": "저장",
+  "options_screener_save_as_new": "새로 저장",
+  "options_screener_reset_all": "전체 초기화"
+}

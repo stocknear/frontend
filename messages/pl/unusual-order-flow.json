@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Nietypowy przepływ zleceń - transakcje dark pool i bloki",
+  "unusual_order_flow_seo_description": "Śledź na bieżąco transakcje dark pool i zlecenia blokowe, żeby wychwycić ruchy instytucji, które często wyprzedzają krótkoterminowe zmiany kursu.",
+  "unusual_order_flow_seo_keywords": "nietypowy przepływ zleceń, dark pool, transakcje blokowe, przepływ zleceń instytucji, smart money, ukryta płynność, przepływ zleceń na żywo, skaner dark pool",
+  "unusual_order_flow_structured_name": "Skaner nietypowego przepływu zleceń",
+  "unusual_order_flow_structured_description": "Transakcje dark pool i zlecenia blokowe na żywo jako sygnał krótkoterminowy",
+
+  "unusual_order_flow_main_title": "Nietypowy przepływ zleceń",
+
+  "unusual_order_flow_popular_filters": "Popularne filtry",
+  "unusual_order_flow_select_popular": "Wybierz popularny",
+  "unusual_order_flow_saved_filters": "Zapisane filtry",
+  "unusual_order_flow_select_filter": "Wybierz filtr",
+  "unusual_order_flow_new_filter": "Nowy filtr",
+
+  "unusual_order_flow_filters_count": "Filtry: {count}",
+  "unusual_order_flow_add_filters": "Dodaj filtry",
+  "unusual_order_flow_search_filters": "Szukaj wśród {count} filtrów...",
+  "unusual_order_flow_select_filters_title": "Wybierz filtry przepływu (łącznie {count})",
+  "unusual_order_flow_nothing_found": "Nic nie znaleziono",
+  "unusual_order_flow_no_filters_found": "Brak dostępnych filtrów",
+
+  "unusual_order_flow_search_placeholder": "Znajdź...",
+  "unusual_order_flow_search_input_placeholder": "Szukaj...",
+  "unusual_order_flow_full_width": "Pełna szerokość",
+  "unusual_order_flow_normal_width": "Zwykła szerokość",
+
+  "unusual_order_flow_no_trades_query": "Brak nietypowych transakcji dla \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Twoje kryteria są wyjątkowo wąskie. Na razie brak dopasowań.",
+
+  "unusual_order_flow_modal_new_title": "Nowy filtr",
+  "unusual_order_flow_modal_new_name_label": "Nazwa filtra",
+  "unusual_order_flow_modal_new_create": "Utwórz filtr",
+
+  "unusual_order_flow_modal_delete_title": "Usuń filtr",
+  "unusual_order_flow_modal_delete_message": "Na pewno chcesz usunąć ten filtr? Tej operacji nie da się cofnąć.",
+  "unusual_order_flow_modal_delete_cancel": "Anuluj",
+  "unusual_order_flow_modal_delete_confirm": "Usuń filtr",
+
+  "unusual_order_flow_save": "Zapisz",
+  "unusual_order_flow_save_as_new": "Zapisz jako nowy",
+  "unusual_order_flow_reset_all": "Resetuj wszystko",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Transakcje dark pool",
+  "unusual_order_flow_strategy_block_orders": "Zlecenia blokowe",
+  "unusual_order_flow_strategy_mega_premium": "Mega premia",
+  "unusual_order_flow_strategy_etf_flow": "Przepływ ETF",
+  "unusual_order_flow_strategy_high_volume": "Wysoki wolumen",
+  "unusual_order_flow_strategy_large_stock_flow": "Duży przepływ na akcjach",
+
+  "unusual_order_flow_total_volume": "Wolumen łącznie",
+  "unusual_order_flow_total_value": "Wartość łącznie",
+  "unusual_order_flow_transaction_type": "Typ transakcji",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Blok",
+  "unusual_order_flow_asset_type": "Typ aktywa",
+  "unusual_order_flow_stock": "Akcje",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Opóźnienie 15 min",
+  "unusual_order_flow_delayed_title": "Dane SIP z opóźnieniem 15 min",
+  "unusual_order_flow_delayed_content": "Feed SIP od Intrinio dostarcza wysokiej jakości, skonsolidowane dane o amerykańskich akcjach ze wszystkich głównych giełd - transakcje, kwotowania i NBBO. Opóźnienie 15 minut daje szeroki obraz rynku przy pełnym pokryciu giełd.",
+
+  "unusual_order_flow_hide_filter_area": "Ukryj panel filtrów",
+  "unusual_order_flow_show_filter_area": "Pokaż panel filtrów",
+  "unusual_order_flow_exit_full_width": "Wyjdź z pełnej szerokości",
+  "unusual_order_flow_expand_full_width": "Rozszerz na pełną szerokość",
+  "unusual_order_flow_reset_column_order": "Resetuj kolejność kolumn",
+  "unusual_order_flow_remove_filter": "Usuń filtr",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Maks",
+  "unusual_order_flow_value": "Wartość"
+}

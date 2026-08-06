@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Главная",
+  "economic_breadcrumb_calendar": "Экономический календарь",
+
+  "economic_seo_title": "Экономический календарь - рыночные события и публикации данных в реальном времени",
+  "economic_seo_description": "Будь в курсе благодаря нашему полному экономическому календарю с финансовыми событиями, экономическими показателями и публикациями данных в реальном времени. Отслеживай ВВП, инфляцию, данные по занятости, заседания центробанков и ключевые объявления с точным временем и прогнозами.",
+  "economic_seo_keywords": "экономический календарь, финансовые события, рыночный календарь, экономические показатели, публикация ВВП, данные инфляции, статистика занятости, заседания центробанков, экономические новости, рыночные события, публикации финансовых данных, экономические объявления, торговый календарь, планирование инвестиций",
+  "economic_structured_name": "Экономический календарь",
+  "economic_structured_description": "Полный экономический календарь глобальных финансовых событий, экономических показателей и публикаций данных, влияющих на рынок",
+
+  "economic_main_name": "Экономический календарь",
+  "economic_count_events": "{count} событий",
+  "economic_empty_day": "На этот день событий нет.",
+
+  "economic_filter_country": "Фильтр по стране",
+  "economic_filter_importance": "Фильтр по важности",
+  "economic_filter_reset": "Сбросить всё",
+  "economic_filter_search": "Поиск...",
+  "economic_filter_no_country": "Страна не найдена",
+  "economic_filters_label": "Фильтры",
+
+  "economic_pagination_previous": "Назад",
+  "economic_pagination_next": "Далее",
+  "economic_pagination_page_of": "Страница {current} из {total}",
+  "economic_pagination_rows": "{count} строк",
+  "economic_back_to_top": "Наверх",
+  "economic_search_placeholder": "Поиск...",
+
+  "economic_source_label": "Источник:",
+  "economic_source_text": "Экономический календарь предоставлен",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "время указано по восточному времени США (ET)."
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Главная",
+  "etf_screener_breadcrumb_etf_screener": "Скринер ETF",
+
+  "etf_screener_seo_title": "Бесплатный скринер ETF - фильтруй и находи ETF",
+  "etf_screener_seo_description": "Отбирай и фильтруй {count} ETF по активам под управлением, коэффициенту расходов, дивидендам, динамике, техническим показателям и другим параметрам. Бесплатный скринер ETF с расширенными фильтрами.",
+  "etf_screener_seo_keywords": "скринер etf, фильтр etf, поиск etf, найти etf, инструмент отбора etf, фильтр коэффициента расходов, фильтр активов под управлением, скринер дивидендных etf",
+  "etf_screener_structured_name": "Скринер ETF Stocknear",
+  "etf_screener_structured_description": "Продвинутый инструмент отбора ETF с фильтрами по активам под управлением, коэффициенту расходов, динамике, техническим показателям, дивидендам и другим параметрам.",
+
+  "etf_screener_main_title": "Скринер ETF",
+  "etf_screener_matches_found": "Найдено совпадений: {count}",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Популярные экраны",
+  "etf_screener_popular_strategies": "Популярные стратегии",
+  "etf_screener_select_popular": "Выбрать популярное",
+  "etf_screener_saved_screens": "Сохранённые экраны",
+  "etf_screener_select_screen": "Выбрать экран",
+  "etf_screener_new_screen": "Новый экран",
+
+  "etf_screener_filters_count": "{count} фильтров",
+  "etf_screener_add_filters": "Добавить фильтры",
+  "etf_screener_search_filters": "Поиск среди {count} фильтров...",
+  "etf_screener_select_filters_title": "Выбор фильтров ({count})",
+  "etf_screener_nothing_found": "Ничего не найдено",
+
+  "etf_screener_search_placeholder": "Поиск ETF...",
+  "etf_screener_search_input_placeholder": "Поиск...",
+  "etf_screener_input_min": "Мин",
+  "etf_screener_input_max": "Макс",
+  "etf_screener_input_value": "Значение",
+
+  "etf_screener_normal_width": "Обычная ширина",
+  "etf_screener_full_width": "На всю ширину",
+
+  "etf_screener_save": "Сохранить",
+  "etf_screener_save_as_new": "Сохранить как новый",
+  "etf_screener_reset_all": "Сбросить всё",
+
+  "etf_screener_pagination_previous": "Назад",
+  "etf_screener_pagination_next": "Далее",
+  "etf_screener_pagination_page_of": "Страница {current} из {total}",
+  "etf_screener_rows_label": "{rows} строк",
+  "etf_screener_back_to_top": "Наверх",
+
+  "etf_screener_no_etfs_query": "ETF по запросу «{query}» не найдены",
+  "etf_screener_no_etfs": "ETF не найдены.",
+
+  "etf_screener_modal_new_title": "Новый экран",
+  "etf_screener_modal_new_name_label": "Название экрана",
+  "etf_screener_modal_new_create": "Создать",
+
+  "etf_screener_modal_delete_title": "Удалить экран",
+  "etf_screener_modal_delete_message": "Ты уверен, что хочешь удалить этот экран?",
+  "etf_screener_modal_delete_cancel": "Отмена",
+  "etf_screener_modal_delete_confirm": "Удалить",
+
+  "etf_screener_strategy_low_cost_index": "Недорогие индексные ETF",
+  "etf_screener_strategy_high_dividend": "ETF с высокими дивидендами",
+  "etf_screener_strategy_top_performers_1y": "Лучшие за 1 год",
+  "etf_screener_strategy_oversold": "Перепроданные ETF",
+
+  "etf_screener_tab_filters": "Фильтры",
+  "etf_screener_tab_technicals": "Технические",
+
+  "etf_screener_export_title": "Экспорт данных скринера ETF"
+}

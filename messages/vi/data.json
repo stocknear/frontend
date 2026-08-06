@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Miễn trừ dữ liệu | Nguồn dữ liệu tài chính & độ chính xác",
+  "data_seo_description": "Thông tin đầy đủ về nguồn dữ liệu tài chính, tiêu chuẩn chính xác và hướng dẫn sử dụng cho dữ liệu thị trường chứng khoán, ước tính của chuyên viên phân tích và các chỉ số tài chính.",
+  "data_breadcrumb": "Miễn trừ dữ liệu",
+  "data_hero_title": "Miễn trừ dữ liệu",
+  "data_intro": "Dữ liệu tài chính trên Stocknear chỉ nhằm mục đích thông tin và giáo dục. Thông tin này không nên được hiểu là lời khuyên đầu tư hay dùng làm cơ sở duy nhất cho quyết định giao dịch hoặc đầu tư.",
+  "data_contact": "Chúng tôi duy trì tiêu chuẩn nghiêm ngặt về độ chính xác và chất lượng dữ liệu. Nếu bạn phát hiện sai lệch hoặc cần làm rõ, hãy liên hệ với chúng tôi qua {discordLink} hoặc gửi email cho đội hỗ trợ tại {email}.",
+  "data_market_title": "Dữ liệu thị trường & biểu đồ cổ phiếu",
+  "data_market_content": "Dữ liệu thị trường và biểu đồ cổ phiếu thời gian thực của chúng tôi do {fmpLink} cung cấp, một nhà cung cấp dịch vụ dữ liệu tài chính hàng đầu. Phạm vi này gồm giá trong phiên, dữ liệu lịch sử và các chỉ báo kỹ thuật.",
+  "data_coverage_title": "Phạm vi thị trường",
+  "data_coverage_content": "Stocknear cung cấp dữ liệu đầy đủ cho các chứng khoán niêm yết trên các sàn lớn của Mỹ, gồm NASDAQ, NYSE, NYSE American và NYSE Arca. Cơ sở dữ liệu của chúng tôi bao gồm cổ phiếu, ETF, ADR và một số chứng khoán OTC chọn lọc. Chúng tôi đang tích cực mở rộng sang các sàn quốc tế và công cụ tài chính khác.",
+  "data_fundamentals_title": "Dữ liệu cơ bản tài chính",
+  "data_fundamentals_content": "Dữ liệu tài chính cơ bản của chúng tôi lấy từ {fmpLink} và dựa trên hồ sơ chính thức nộp cho SEC (mẫu 10-K, 10-Q và 8-K). Dù hệ thống cập nhật hằng ngày, vẫn có thể có độ trễ do thời hạn nộp hồ sơ SEC và lịch công bố của doanh nghiệp. Toàn bộ dữ liệu tài chính hiển thị đều dựa trên hồ sơ chính thức đã kiểm toán mà công ty nộp cho cơ quan quản lý.",
+  "data_business_title": "Dữ liệu chỉ số kinh doanh",
+  "data_business_content": "Dữ liệu chỉ số kinh doanh, gồm KPI vận hành và các chỉ số đơn vị phi GAAP, được cung cấp qua đối tác {mainStreetLink}. Đội nghiên cứu của họ tổng hợp, chuẩn hóa và liên tục kiểm chứng các công bố này từ hồ sơ doanh nghiệp, tài liệu thuyết trình nhà đầu tư và phát biểu của ban lãnh đạo để bảo đảm dữ liệu hiệu quả kinh doanh đáng tin cậy trên toàn nền tảng.",
+  "data_analyst_title": "Phân tích của chuyên viên & dự phóng thị trường",
+  "data_analyst_content": "Phần phân tích của chuyên viên tích hợp dữ liệu từ nhiều nguồn uy tín. Giá mục tiêu và khuyến nghị do Benzinga cung cấp, phản ánh quan điểm đồng thuận của các chuyên viên phân tích hàng đầu Phố Wall. Dự phóng doanh thu và EPS được tổng hợp từ cả Benzinga và {fmpLink}. Dù chúng tôi cố gắng đưa ra dự phóng chính xác nhất, người dùng nên lưu ý rằng dự báo thị trường vốn không chắc chắn và chỉ nên xem là một phần trong quá trình nghiên cứu đầu tư rộng hơn.",
+  "data_etf_title": "Phân tích ETF",
+  "data_etf_content": "Dữ liệu danh mục nắm giữ và phân tích ETF được cung cấp thông qua hợp tác với {fmpLink}, bảo đảm thông tin chính xác và kịp thời về thành phần quỹ, tỷ trọng phân bổ và các chỉ số hiệu suất.",
+  "data_options_title": "Dữ liệu thị trường quyền chọn",
+  "data_options_content": "Hạ tầng dữ liệu quyền chọn của chúng tôi dùng nhiều nhà cung cấp, gộp các luồng dữ liệu vào một pipeline thống nhất để cung cấp dữ liệu OPRA (Options Price Reporting Authority) đầy đủ toàn luồng. Bằng cách tổng hợp dòng tiền quyền chọn thời gian thực và dữ liệu chuỗi quyền chọn từ nhiều nguồn, chúng tôi bảo đảm bao phủ trọn vẹn hoạt động và giá của thị trường quyền chọn trên tất cả các sàn quyền chọn lớn của Mỹ."
+}

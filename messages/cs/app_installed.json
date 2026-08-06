@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "S aplikací se ti bude pracovat líp.",
+  "app_installed_button_install": "Nainstalovat",
+  "app_installed_modal_title": "Postup instalace",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Klepni na tlačítko sdílení v Safari.",
+  "app_installed_ios_step_2": "Klepni na \"Přidat na plochu\".",
+  "app_installed_ios_step_3": "Klepni na \"Přidat\".",
+  "app_installed_ios_note": "Webové aplikace jde na iOS nainstalovat jen přes Safari.",
+  "app_installed_android_step_1": "Otevři Stocknear v Chrome.",
+  "app_installed_android_step_2": "Klepni na menu se třemi tečkami vpravo nahoře.",
+  "app_installed_android_step_3": "Klepni na \"Instalovat aplikaci\" nebo \"Přidat na plochu\".",
+  "app_installed_android_step_4": "Potvrď instalaci.",
+  "app_installed_close": "Zavřít"
+}

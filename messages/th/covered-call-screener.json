@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "หน้าแรก",
+  "covered_call_screener_breadcrumb_title": "ตัวกรอง Covered Call",
+
+  "covered_call_screener_seo_title": "ตัวกรอง Covered Call - ค้นหาโอกาส Covered Call ที่ดีที่สุด",
+  "covered_call_screener_seo_description": "คัดกรองออปชันหลายพันสัญญาเพื่อหาโอกาส Covered Call กรองตามผลตอบแทนพรีเมียม ผลตอบแทนต่อปี ราคาใช้สิทธิ วันหมดอายุ และอื่น ๆ",
+  "covered_call_screener_seo_keywords": "ตัวกรอง covered call, ตัวกรองออปชัน, covered call, ผลตอบแทนพรีเมียม, กลยุทธ์สร้างรายได้",
+  "covered_call_screener_structured_name": "ตัวกรอง Covered Call",
+  "covered_call_screener_structured_description": "คัดกรองออปชันเพื่อหาโอกาส Covered Call",
+
+  "covered_call_screener_main_title": "ตัวกรอง Covered Call",
+  "covered_call_screener_contracts_count": "{count} สัญญา",
+
+  "covered_call_screener_popular_screens": "ตัวกรองยอดนิยม",
+  "covered_call_screener_popular_strategies": "กลยุทธ์ยอดนิยม",
+  "covered_call_screener_select_popular": "เลือกยอดนิยม",
+  "covered_call_screener_saved_screens": "ตัวกรองที่บันทึกไว้",
+  "covered_call_screener_select_screen": "เลือกตัวกรอง",
+  "covered_call_screener_new_screen": "ตัวกรองใหม่",
+
+  "covered_call_screener_strategy_high_yield": "ผลตอบแทนสูง",
+  "covered_call_screener_strategy_conservative": "ความเสี่ยงต่ำ",
+  "covered_call_screener_strategy_weekly_income": "รายได้รายสัปดาห์",
+  "covered_call_screener_strategy_high_protection": "ป้องกันความเสี่ยงสูง",
+  "covered_call_screener_strategy_bluechip_cc": "Covered Call หุ้นบลูชิป",
+
+  "covered_call_screener_filters_count": "ตัวกรอง ({count})",
+  "covered_call_screener_add_filters": "เพิ่มตัวกรอง",
+  "covered_call_screener_search_filters": "ค้นหาตัวกรอง {count} รายการ...",
+  "covered_call_screener_select_filters_title": "เลือกตัวกรอง ({count})",
+  "covered_call_screener_nothing_found": "ไม่พบข้อมูล",
+
+  "covered_call_screener_save": "บันทึก",
+  "covered_call_screener_save_as_new": "บันทึกเป็นรายการใหม่",
+  "covered_call_screener_reset_all": "ล้างทั้งหมด",
+
+  "covered_call_screener_condition_over": "มากกว่า",
+  "covered_call_screener_condition_under": "น้อยกว่า",
+  "covered_call_screener_condition_between": "ระหว่าง",
+  "covered_call_screener_condition_exactly": "เท่ากับ",
+  "covered_call_screener_condition_any": "ทั้งหมด",
+
+  "covered_call_screener_input_min": "ต่ำสุด",
+  "covered_call_screener_input_max": "สูงสุด",
+  "covered_call_screener_input_value": "ค่า",
+
+  "covered_call_screener_search_placeholder": "ค้นหา...",
+  "covered_call_screener_search_modal_placeholder": "ค้นหา...",
+
+  "covered_call_screener_normal_width": "ความกว้างปกติ",
+  "covered_call_screener_full_width": "เต็มความกว้าง",
+
+  "covered_call_screener_tab_general": "ทั่วไป",
+  "covered_call_screener_tab_income": "รายได้",
+  "covered_call_screener_tab_filters": "ตัวกรอง",
+  "covered_call_screener_tab_greeks": "ค่ากรีก",
+
+  "covered_call_screener_pagination_previous": "ก่อนหน้า",
+  "covered_call_screener_pagination_next": "ถัดไป",
+  "covered_call_screener_pagination_page_of": "หน้า {current} จาก {total}",
+  "covered_call_screener_rows_label": "{rows} แถว",
+  "covered_call_screener_back_to_top": "กลับขึ้นด้านบน",
+
+  "covered_call_screener_no_results_query": "ไม่พบผลลัพธ์สำหรับ \"{query}\"",
+  "covered_call_screener_no_contracts": "ไม่มีสัญญาที่ตรงกับเงื่อนไขของคุณ",
+
+  "covered_call_screener_modal_new_title": "ตัวกรองใหม่",
+  "covered_call_screener_modal_new_name_label": "ชื่อตัวกรอง",
+  "covered_call_screener_modal_new_create": "สร้าง",
+
+  "covered_call_screener_modal_delete_title": "ลบตัวกรอง",
+  "covered_call_screener_modal_delete_message": "คุณแน่ใจหรือไม่ว่าต้องการลบตัวกรองนี้ การลบไม่สามารถย้อนกลับได้",
+  "covered_call_screener_modal_delete_cancel": "ยกเลิก",
+  "covered_call_screener_modal_delete_confirm": "ลบ",
+
+  "covered_call_screener_toast_deleting": "กำลังลบตัวกรอง...",
+  "covered_call_screener_toast_deleted": "ลบตัวกรองเรียบร้อยแล้ว",
+  "covered_call_screener_toast_delete_failed": "ลบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
+  "covered_call_screener_toast_title_too_long": "ชื่อยาวเกินไป กรุณาใช้ไม่เกิน 100 ตัวอักษร",
+  "covered_call_screener_toast_created": "สร้างตัวกรองเรียบร้อยแล้ว",
+  "covered_call_screener_toast_creating": "กำลังสร้างตัวกรอง...",
+  "covered_call_screener_toast_create_failed": "เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง",
+  "covered_call_screener_toast_select_rule": "กรุณาเลือกเงื่อนไข",
+  "covered_call_screener_toast_saving": "กำลังบันทึกตัวกรอง...",
+  "covered_call_screener_toast_saved": "บันทึกตัวกรองแล้ว",
+  "covered_call_screener_toast_save_failed": "บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
+
+  "covered_call_screener_chart_price_at_expiration": "ราคา ณ วันหมดอายุ ($)",
+  "covered_call_screener_chart_last_price_label": "ราคาล่าสุด: {price}",
+  "covered_call_screener_chart_breakeven_label": "จุดคุ้มทุน: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "กำไร/ขาดทุน ($)",
+  "covered_call_screener_chart_tooltip_underlying": "ราคาสินทรัพย์อ้างอิง:",
+  "covered_call_screener_chart_tooltip_profit_loss": "กำไรหรือขาดทุน:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "โครงสร้างการเทรด",
+  "covered_call_screener_chart_buy_stock": "ซื้อหุ้น @",
+  "covered_call_screener_chart_sell_call": "ขาย {strike}C @",
+  "covered_call_screener_chart_net_credit_debit": "สุทธิ (เครดิต/เดบิต)",
+  "covered_call_screener_chart_breakeven": "จุดคุ้มทุน",
+  "covered_call_screener_chart_above": "สูงกว่า",
+  "covered_call_screener_chart_last_price": "ราคาล่าสุด",
+  "covered_call_screener_chart_moneyness": "สถานะราคา",
+  "covered_call_screener_chart_return_if_flat": "ผลตอบแทนหากราคาคงที่",
+  "covered_call_screener_chart_return_if_assigned": "ผลตอบแทนหากถูกใช้สิทธิ",
+  "covered_call_screener_chart_probability_of_profit": "โอกาสทำกำไร",
+  "covered_call_screener_chart_annualized_abbr": "ต่อปี"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "feedback_title": "Gửi góp ý",
+  "feedback_error_signin": "Vui lòng đăng nhập trước khi gửi góp ý.",
+  "feedback_error_description": "Vui lòng mô tả vấn đề hoặc đề xuất của bạn.",
+  "feedback_error_send_try_again": "Đã có lỗi khi gửi góp ý. Vui lòng thử lại.",
+  "feedback_success": "Cảm ơn bạn. Góp ý của bạn đã được gửi.",
+  "feedback_error_send_generic": "Đã có lỗi khi gửi góp ý.",
+  "feedback_description_label": "Mô tả vấn đề hoặc đề xuất của bạn:",
+  "feedback_page_label": "Góp ý cho trang:",
+  "feedback_close_button": "Đóng",
+  "feedback_cancel_button": "Hủy",
+  "feedback_send_button": "Gửi góp ý"
+}

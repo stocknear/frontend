@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Hem",
+  "news_flow_breadcrumb_news_flow": "Nyhetsflöde",
+
+  "news_flow_seo_title": "Nyhetsflöde - triggers som rör kursen, i realtid",
+  "news_flow_seo_description": "Följ marknadsnyheter och triggers som rör kursen, i realtid. Byggt för optionshandlare som snabbt behöver sammanhang inför kortsiktiga lägen.",
+  "news_flow_seo_keywords": "nyhetsflöde marknaden, triggers handel, breaking news börsen, nyheter optionshandlare, nyheter kursrörelser, marknadsuppdateringar i realtid",
+  "news_flow_structured_name": "Nyhetsflöde marknaden",
+  "news_flow_structured_description": "Marknadsnyheter och triggers i realtid för kortsiktig handelsplanering",
+
+  "news_flow_main_title": "Nyhetsflöde",
+  "news_flow_news_count": "{count} nyheter",
+  "news_flow_search_placeholder": "Sök...",
+
+  "news_flow_infobox": "Följ de senaste nyheterna och se i realtid varför aktiekurserna rörde sig",
+  "news_flow_no_news": "Det finns inga större börsnyheter än.",
+
+  "news_flow_sidebar_market_flow_title": "Market Flow",
+  "news_flow_sidebar_market_flow_description": "Följ optionssentimentet i realtid.",
+  "news_flow_sidebar_options_flow_title": "Options Flow",
+  "news_flow_sidebar_options_flow_description": "Bevaka ovanlig optionsaktivitet och flödesmönster i realtid",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Flow",
+  "news_flow_sidebar_dark_pool_description": "Analysera dolda institutionella flöden och handelsdata från dark pools"
+}

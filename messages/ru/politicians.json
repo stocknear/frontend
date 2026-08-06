@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Главная",
+  "politicians_breadcrumb_politicians": "Политики",
+  "politicians_breadcrumb_flow": "Сделки Конгресса",
+
+  "politicians_seo_title": "Трекер сделок Конгресса - сделки политиков в реальном времени",
+  "politicians_seo_description": "Отслеживай сделки с акциями членов Конгресса США, сенаторов и политиков в реальном времени. Следи за сделками Нэнси Пелоси, покупками сенаторов и инсайдерской торговлей в Конгрессе. Бесплатный трекер с подробной историей транзакций.",
+  "politicians_seo_keywords": "торговля конгресса, сделки нэнси пелоси, сделки политиков с акциями, сделки сената, торговля конгресса, инсайдерская торговля конгресс, трекер политической торговли, торговля политиков сша, портфель пелоси, сделки конгресса с акциями",
+  "politicians_structured_name": "Трекер сделок Конгресса",
+  "politicians_structured_description": "Отслеживание сделок с акциями политиков и членов Конгресса США в реальном времени",
+
+  "politicians_main_title": "Все политики США",
+  "politicians_count_members": "{count} участников",
+  "politicians_search_placeholder": "Поиск...",
+  "politicians_filter_party": "Партия",
+  "politicians_empty_search": "Член Конгресса по запросу «{query}» не найден",
+  "politicians_empty_filter": "По вашему запросу или фильтру ничего не найдено.",
+
+  "politicians_pagination_previous": "Назад",
+  "politicians_pagination_next": "Далее",
+  "politicians_pagination_page_of": "Страница {current} из {total}",
+  "politicians_pagination_rows": "{count} строк",
+  "politicians_back_to_top": "Наверх",
+
+  "politicians_flow_seo_title": "Последние сделки Конгресса",
+  "politicians_flow_seo_description": "Узнай о последних сделках Конгресса и посмотри, во что инвестируют инсайдеры с доступом к нормативной информации.",
+
+  "politicians_flow_title": "Последние сделки политиков",
+  "politicians_flow_description_intro": "Обзор последней торговой активности Конгресса. Соотношение покупок и продаж показывает",
+  "politicians_flow_description_buys": "{percent}% покупок",
+  "politicians_flow_description_versus": "против",
+  "politicians_flow_description_sells": "{percent}% продаж",
+  "politicians_flow_description_active_party": "среди недавних отчётов. Самая активная партия —",
+  "politicians_flow_description_with": "с",
+  "politicians_flow_description_transactions": "транзакциями, что указывает на",
+  "politicians_flow_description_sentiment": "настроение среди членов Конгресса.",
+  "politicians_flow_sentiment_bullish": "бычье",
+  "politicians_flow_sentiment_bearish": "медвежье",
+  "politicians_flow_sentiment_neutral": "нейтральное",
+  "politicians_flow_count_trades": "{count} сделок",
+  "politicians_flow_empty_search": "Акции по запросу «{query}» не найдены",
+
+  "politicians_detail_stats_rank": "Место",
+  "politicians_detail_stats_trades_scored": "Оценено сделок",
+  "politicians_detail_stats_success_rate": "Точность",
+  "politicians_detail_stats_avg_return": "Сред. доходность",
+  "politicians_detail_stats_total_amount": "Общая сумма",
+  "politicians_detail_stats_transaction": "Транзакция",
+  "politicians_detail_stats_last_transaction": "Последняя транзакция",
+  "politicians_detail_stats_buy_sell": "Покупка/Продажа",
+
+  "politicians_detail_main_sectors": "Основные секторы:",
+  "politicians_detail_top_industries": "Топ отраслей:",
+  "politicians_detail_count_stocks": "{count} акций",
+  "politicians_detail_empty_search": "Нет данных по запросу «{query}»",
+  "politicians_detail_empty": "Нет данных по искомому аналитику.",
+
+  "politicians_detail_mobile_filed": "Подано",
+  "politicians_detail_mobile_view_chart": "Смотреть график",
+  "politicians_detail_mobile_amt": "Сумма",
+  "politicians_detail_mobile_trades": "{count} сделка",
+  "politicians_detail_mobile_trades_plural": "{count} сделок"
+}

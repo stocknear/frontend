@@ -1,0 +1,8 @@
+{
+  "error_title": "Không tìm thấy trang - {status}",
+  "error_body_prefix": "Không tìm thấy trang này. Nếu lỗi này lặp lại, vui lòng báo cho chúng tôi qua",
+  "error_body_suffix": "Chúng tôi sẽ khắc phục sớm nhất có thể.",
+  "error_back_home": "Về trang chủ",
+  "error_server_title": "Đã có lỗi xảy ra - {status}",
+  "error_server_body_prefix": "Đây là vấn đề từ phía chúng tôi, không phải do thiếu trang. Vui lòng thử lại sau giây lát. Nếu vẫn lặp lại, hãy báo cho chúng tôi tại"
+}

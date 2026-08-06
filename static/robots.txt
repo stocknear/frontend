@@ -14,6 +14,14 @@ Disallow: /zh-tw/profile*
 Disallow: /zh-tw/auth/*
 Disallow: /es/profile*
 Disallow: /es/auth/*
+Disallow: /ja/profile*
+Disallow: /ja/auth/*
+Disallow: /ko/profile*
+Disallow: /ko/auth/*
+Disallow: /ru/profile*
+Disallow: /ru/auth/*
+Disallow: /uk/profile*
+Disallow: /uk/auth/*
 Disallow: /fr/profile*
 Disallow: /fr/auth/*
 # utm/ref/tracking params are handled by rel=canonical, not blocked here:

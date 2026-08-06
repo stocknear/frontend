@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Kontakt",
+  "contact_breadcrumb": "Kontakt",
+  "contact_hero_title": "Kontakt",
+  "contact_intro": "Rádi si od tebe poslechneme, co máš na srdci. Napiš nám přes formulář níže a my se ozveme co nejdřív. Poslat můžeš i e-mail přímo na {email}.",
+  "contact_email_label": "E-mail",
+  "contact_subject_label": "Předmět",
+  "contact_message_label": "Zpráva",
+  "contact_send_button": "Odeslat zprávu",
+  "contact_processing": "Zpracovává se...",
+  "contact_success": "Zpráva byla odeslána. Brzy se ti ozveme.",
+  "contact_sidebar_pro_title": "Předplatné Pro",
+  "contact_sidebar_pro_desc": "Přejdi na Pro a získej neomezený přístup ke všem datům a nástrojům bez reklam.",
+  "contact_sidebar_screener_title": "Screener akcií",
+  "contact_sidebar_screener_desc": "Filtruj, řaď a analyzuj všechny akcie a najdi svou další investici.",
+  "contact_sidebar_watchlist_title": "Watchlisty",
+  "contact_sidebar_watchlist_desc": "Sleduj své oblíbené akcie v reálném čase."
+}

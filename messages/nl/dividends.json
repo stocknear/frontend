@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Home",
+  "dividends_breadcrumb_calendar": "Dividendagenda",
+
+  "dividends_seo_title": "Dividendagenda - ex-dividenddata en uitbetalingen van aandelen",
+  "dividends_seo_description": "Volg aankomende ex-dividenddata en uitbetalingsdata van aandelen. Plan je dividendstrategie met onze complete agenda met bedragen, betaaldata en marktkapitalisatie.",
+  "dividends_seo_keywords": "dividendagenda, ex-dividenddatum, dividend uitbetaling, dividend capture, dividendaandelen, dividendrendement, betaaldata dividend, aankomend dividend",
+
+  "dividends_main_name": "Dividendagenda",
+  "dividends_count": "{count} dividenden",
+  "dividends_empty_day": "Geen dividenden beschikbaar voor deze dag.",
+  "dividends_empty_none": "Geen dividenden",
+  "dividends_empty_scheduled": "Geen dividenden gepland",
+
+  "dividends_tab_daily": "Dag",
+  "dividends_tab_weekly": "Week",
+  "dividends_tab_details": "Details",
+  "dividends_tab_compact": "Compact",
+
+  "dividends_time_any": "Elk moment",
+  "dividends_time_before_open": "Voor opening",
+  "dividends_time_after_close": "Na sluiting",
+
+  "dividends_expanded_ex_date": "Ex-datum",
+  "dividends_expanded_market_cap": "Marktkapitalisatie",
+  "dividends_expanded_amount": "Bedrag",
+  "dividends_expanded_revenue": "Omzet",
+  "dividends_expanded_payment_date": "Betaaldatum",
+  "dividends_expanded_date": "Datum",
+  "dividends_expanded_dividend": "Dividend",
+
+  "dividends_pagination_previous": "Vorige",
+  "dividends_pagination_next": "Volgende",
+  "dividends_pagination_page_of": "Pagina {current} van {total}",
+  "dividends_pagination_rows": "{count} rijen",
+  "dividends_back_to_top": "Terug naar boven",
+  "dividends_search_placeholder": "Zoeken..."
+}

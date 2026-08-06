@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Hem",
+  "options_screener_breadcrumb_options_screener": "Optionsscreener",
+
+  "options_screener_seo_title": "Optionsscreener - Hitta ovanligt flöde och starka lägen",
+  "options_screener_seo_description": "Filtrera optioner efter ovanlig aktivitet, implicit volatilitet, öppen balans, volym, greker och förfall för att hitta kortsiktiga lägen.",
+  "options_screener_seo_keywords": "optionsscreener, ovanlig optionsaktivitet, optionsscanner, screener för implicit volatilitet, IV-skew, öppen balans, optioner med hög volym, verktyg för optionshandel, screener för greker",
+  "options_screener_structured_name": "Verktyg för optionsscreening",
+  "options_screener_structured_description": "Optionsscreener med fokus på ovanlig aktivitet, IV och öppen balans för kortsiktiga lägen",
+
+  "options_screener_main_title": "Optionsscreener",
+  "options_screener_contracts_count": "{count} kontrakt",
+  "options_screener_expire_on": "Alla optionskontrakt förfaller {date}",
+
+  "options_screener_popular_screens": "Populära screens",
+  "options_screener_popular_strategies": "Populära strategier",
+  "options_screener_select_popular": "Välj populärt",
+  "options_screener_saved_screens": "Sparade screens",
+  "options_screener_select_screen": "Välj screen",
+  "options_screener_new_screen": "Ny screen",
+
+  "options_screener_filters_count": "{count} filter",
+  "options_screener_add_filters": "Lägg till filter",
+  "options_screener_search_filters": "Sök bland {count} filter...",
+  "options_screener_select_filters_title": "Välj screenerfilter ({count} totalt)",
+  "options_screener_nothing_found": "Inget hittades",
+
+  "options_screener_tab_general": "Allmänt",
+  "options_screener_tab_filters": "Filter",
+  "options_screener_tab_greeks": "Greker",
+
+  "options_screener_search_placeholder": "Hitta...",
+  "options_screener_search_input_placeholder": "Sök...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Värde",
+
+  "options_screener_normal_width": "Normal bredd",
+  "options_screener_full_width": "Full bredd",
+
+  "options_screener_pagination_previous": "Föregående",
+  "options_screener_pagination_next": "Nästa",
+  "options_screener_pagination_page_of": "Sida {current} av {total}",
+  "options_screener_rows_label": "{rows} rader",
+  "options_screener_back_to_top": "Till toppen",
+
+  "options_screener_no_contracts_query": "Inga kontrakt hittades för \"{query}\"",
+  "options_screener_no_contracts": "Inga kontrakt hittades.",
+
+  "options_screener_modal_new_title": "Ny screener",
+  "options_screener_modal_new_name_label": "Namn på screener",
+  "options_screener_modal_new_create": "Skapa screener",
+
+  "options_screener_modal_delete_title": "Ta bort screener",
+  "options_screener_modal_delete_message": "Vill du ta bort den här screenern? Åtgärden går inte att ångra.",
+  "options_screener_modal_delete_cancel": "Avbryt",
+  "options_screener_modal_delete_confirm": "Ta bort",
+
+  "options_screener_strategy_high_iv_rank": "Hög IV-rank",
+  "options_screener_strategy_volume_surge": "Volymrusning",
+  "options_screener_strategy_itm_calls": "Calls i pengarna",
+  "options_screener_strategy_otm_puts": "Puts ur pengarna",
+  "options_screener_strategy_high_premium_flow": "Flöde med hög premie",
+
+  "options_screener_save": "Spara",
+  "options_screener_save_as_new": "Spara som ny",
+  "options_screener_reset_all": "Återställ allt"
+}

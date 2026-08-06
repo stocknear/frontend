@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "หน้าแรก",
+  "options_screener_breadcrumb_options_screener": "คัดกรองออปชัน",
+
+  "options_screener_seo_title": "ตัวคัดกรองออปชัน - ค้นหาโฟลว์ผิดปกติและจังหวะเทรดที่มั่นใจ",
+  "options_screener_seo_description": "คัดกรองออปชันตามความเคลื่อนไหวผิดปกติ ค่าความผันผวนแฝง OI ปริมาณการซื้อขาย ค่ากรีก และวันหมดอายุ เพื่อหาจังหวะเทรดระยะสั้น",
+  "options_screener_seo_keywords": "ตัวคัดกรองออปชัน, ความเคลื่อนไหวออปชันผิดปกติ, สแกนเนอร์ออปชัน, คัดกรองตาม IV, IV skew, OI, ออปชันปริมาณสูง, เครื่องมือเทรดออปชัน, คัดกรองค่ากรีก",
+  "options_screener_structured_name": "เครื่องมือคัดกรองออปชัน",
+  "options_screener_structured_description": "ตัวคัดกรองออปชันที่เน้นความเคลื่อนไหวผิดปกติ IV และ OI สำหรับจังหวะเทรดระยะสั้น",
+
+  "options_screener_main_title": "คัดกรองออปชัน",
+  "options_screener_contracts_count": "{count} สัญญา",
+  "options_screener_expire_on": "สัญญาออปชันทั้งหมดหมดอายุวันที่ {date}",
+
+  "options_screener_popular_screens": "ชุดคัดกรองยอดนิยม",
+  "options_screener_popular_strategies": "กลยุทธ์ยอดนิยม",
+  "options_screener_select_popular": "เลือกชุดยอดนิยม",
+  "options_screener_saved_screens": "ชุดคัดกรองที่บันทึกไว้",
+  "options_screener_select_screen": "เลือกชุดคัดกรอง",
+  "options_screener_new_screen": "ชุดคัดกรองใหม่",
+
+  "options_screener_filters_count": "{count} ตัวกรอง",
+  "options_screener_add_filters": "เพิ่มตัวกรอง",
+  "options_screener_search_filters": "ค้นหาใน {count} ตัวกรอง...",
+  "options_screener_select_filters_title": "เลือกตัวกรอง (ทั้งหมด {count})",
+  "options_screener_nothing_found": "ไม่พบข้อมูล",
+
+  "options_screener_tab_general": "ทั่วไป",
+  "options_screener_tab_filters": "ตัวกรอง",
+  "options_screener_tab_greeks": "ค่ากรีก",
+
+  "options_screener_search_placeholder": "ค้นหา...",
+  "options_screener_search_input_placeholder": "ค้นหา...",
+  "options_screener_input_min": "ต่ำสุด",
+  "options_screener_input_max": "สูงสุด",
+  "options_screener_input_value": "ค่า",
+
+  "options_screener_normal_width": "ความกว้างปกติ",
+  "options_screener_full_width": "เต็มความกว้าง",
+
+  "options_screener_pagination_previous": "ก่อนหน้า",
+  "options_screener_pagination_next": "ถัดไป",
+  "options_screener_pagination_page_of": "หน้า {current} จาก {total}",
+  "options_screener_rows_label": "{rows} แถว",
+  "options_screener_back_to_top": "กลับขึ้นด้านบน",
+
+  "options_screener_no_contracts_query": "ไม่พบสัญญาสำหรับ \"{query}\"",
+  "options_screener_no_contracts": "ไม่พบสัญญา",
+
+  "options_screener_modal_new_title": "ชุดคัดกรองใหม่",
+  "options_screener_modal_new_name_label": "ชื่อชุดคัดกรอง",
+  "options_screener_modal_new_create": "สร้างชุดคัดกรอง",
+
+  "options_screener_modal_delete_title": "ลบชุดคัดกรอง",
+  "options_screener_modal_delete_message": "ต้องการลบชุดคัดกรองนี้ใช่ไหม การลบไม่สามารถย้อนกลับได้",
+  "options_screener_modal_delete_cancel": "ยกเลิก",
+  "options_screener_modal_delete_confirm": "ลบ",
+
+  "options_screener_strategy_high_iv_rank": "IV Rank สูง",
+  "options_screener_strategy_volume_surge": "ปริมาณการซื้อขายพุ่ง",
+  "options_screener_strategy_itm_calls": "คอลล์ ITM",
+  "options_screener_strategy_otm_puts": "พุต OTM",
+  "options_screener_strategy_high_premium_flow": "โฟลว์พรีเมียมสูง",
+
+  "options_screener_save": "บันทึก",
+  "options_screener_save_as_new": "บันทึกเป็นรายการใหม่",
+  "options_screener_reset_all": "รีเซ็ตทั้งหมด"
+}

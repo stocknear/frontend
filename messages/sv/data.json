@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Datafriskrivning | Datakällor och tillförlitlighet",
+  "data_seo_description": "Utförlig information om våra finansiella datakällor, våra kvalitetskrav och riktlinjer för användning av börsdata, analytikerestimat och nyckeltal.",
+  "data_breadcrumb": "Datafriskrivning",
+  "data_hero_title": "Datafriskrivning",
+  "data_intro": "Finansiella data på Stocknear tillhandahålls enbart i informations- och utbildningssyfte. Informationen ska inte ses som finansiell rådgivning och inte användas som enda underlag för handels- eller investeringsbeslut.",
+  "data_contact": "Vi ställer höga krav på att våra data är korrekta och kvalitetssäkrade. Om du hittar avvikelser eller vill ha något förtydligat, hör av dig till oss via {discordLink} eller kontakta vår support på {email}.",
+  "data_market_title": "Marknadsdata och aktiediagram",
+  "data_market_content": "Våra marknadsdata och aktiediagram i realtid drivs av {fmpLink}, en ledande leverantör av finansiella data. Det omfattar intradagskurser, historiska data och tekniska indikatorer.",
+  "data_coverage_title": "Marknadstäckning",
+  "data_coverage_content": "Stocknear täcker värdepapper som är noterade på de stora amerikanska börserna, bland andra NASDAQ, NYSE, NYSE American och NYSE Arca. Vår databas omfattar aktier, ETF:er, ADR:er och utvalda OTC-värdepapper. Vi utökar löpande täckningen med fler globala börser och instrument.",
+  "data_fundamentals_title": "Finansiella nyckeltal",
+  "data_fundamentals_content": "Våra fundamentala finansiella data kommer från {fmpLink} och bygger på officiella SEC-rapporter (formulär 10-K, 10-Q och 8-K). Våra system uppdaterar informationen dagligen, men fördröjningar kan förekomma på grund av SEC:s inlämningsfönster och bolagens rapporteringsscheman. Alla finansiella data som visas bygger på officiella, reviderade uppgifter som bolagen lämnat in till tillsynsmyndigheterna.",
+  "data_business_title": "Verksamhetsnyckeltal",
+  "data_business_content": "Verksamhetsnyckeltal, inklusive operativa KPI:er och unit economics utanför GAAP, kommer från vår partner {mainStreetLink}. Deras researchteam samlar in, normaliserar och validerar löpande dessa uppgifter från bolagsrapporter, investerarpresentationer och ledningens kommentarer, så att täckningen av bolagens verksamhet håller hög kvalitet på hela plattformen.",
+  "data_analyst_title": "Analytikerbevakning och marknadsprognoser",
+  "data_analyst_content": "Vår analytikerbevakning bygger på flera erkända källor. Riktkurser och analytikerrekommendationer kommer från Benzinga och speglar konsensus bland ledande Wall Street-analytiker. Prognoser för omsättning och EPS är sammanställda från både Benzinga och {fmpLink}. Vi strävar efter att visa så träffsäkra prognoser som möjligt, men marknadsprognoser är alltid osäkra och bör ses som en del av en bredare investeringsanalys.",
+  "data_etf_title": "ETF-analys",
+  "data_etf_content": "Våra data och analyser om ETF-innehav kommer från vårt samarbete med {fmpLink}, vilket ger korrekt och aktuell information om fondernas sammansättning, fördelning och avkastning.",
+  "data_options_title": "Marknadsdata för optioner",
+  "data_options_content": "Vår infrastruktur för optionsdata använder flera dataleverantörer och slår samman deras flöden till en enhetlig pipeline som ger fullständiga OPRA-data (Options Price Reporting Authority). Genom att kombinera options flow i realtid och optionskedjor från flera källor får vi komplett täckning av handel och prissättning på alla större amerikanska optionsbörser."
+}

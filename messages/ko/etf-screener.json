@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "홈",
+  "etf_screener_breadcrumb_etf_screener": "ETF 스크리너",
+
+  "etf_screener_seo_title": "무료 ETF 스크리너 - ETF 검색 및 필터",
+  "etf_screener_seo_description": "{count}개 ETF를 운용자산, 보수율, 배당, 수익률, 기술적 지표 등으로 걸러보세요. 상세 필터를 갖춘 무료 ETF 스크리너입니다.",
+  "etf_screener_seo_keywords": "etf 스크리너, etf 필터, etf 검색, etf 찾기, etf 검색 도구, 보수율 필터, 운용자산 필터, 배당 etf 스크리너",
+  "etf_screener_structured_name": "stocknear ETF 스크리너",
+  "etf_screener_structured_description": "운용자산, 보수율, 수익률, 기술적 지표, 배당 등으로 걸러내는 고급 ETF 검색 도구",
+
+  "etf_screener_main_title": "ETF 스크리너",
+  "etf_screener_matches_found": "{count}개 검색됨",
+  "etf_screener_etfs_count": "ETF {count}개",
+
+  "etf_screener_popular_screens": "인기 스크린",
+  "etf_screener_popular_strategies": "인기 전략",
+  "etf_screener_select_popular": "인기 항목 선택",
+  "etf_screener_saved_screens": "저장한 스크린",
+  "etf_screener_select_screen": "스크린 선택",
+  "etf_screener_new_screen": "새 스크린",
+
+  "etf_screener_filters_count": "필터 {count}개",
+  "etf_screener_add_filters": "필터 추가",
+  "etf_screener_search_filters": "필터 {count}개 검색...",
+  "etf_screener_select_filters_title": "필터 선택 ({count})",
+  "etf_screener_nothing_found": "결과 없음",
+
+  "etf_screener_search_placeholder": "ETF 검색...",
+  "etf_screener_search_input_placeholder": "검색...",
+  "etf_screener_input_min": "최소",
+  "etf_screener_input_max": "최대",
+  "etf_screener_input_value": "값",
+
+  "etf_screener_normal_width": "기본 너비",
+  "etf_screener_full_width": "전체 너비",
+
+  "etf_screener_save": "저장",
+  "etf_screener_save_as_new": "새로 저장",
+  "etf_screener_reset_all": "전체 초기화",
+
+  "etf_screener_pagination_previous": "이전",
+  "etf_screener_pagination_next": "다음",
+  "etf_screener_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "etf_screener_rows_label": "{rows}행",
+  "etf_screener_back_to_top": "맨 위로",
+
+  "etf_screener_no_etfs_query": "\"{query}\"에 해당하는 ETF가 없습니다",
+  "etf_screener_no_etfs": "ETF가 없습니다.",
+
+  "etf_screener_modal_new_title": "새 스크린",
+  "etf_screener_modal_new_name_label": "스크린 이름",
+  "etf_screener_modal_new_create": "만들기",
+
+  "etf_screener_modal_delete_title": "스크린 삭제",
+  "etf_screener_modal_delete_message": "이 스크린을 삭제하시겠습니까?",
+  "etf_screener_modal_delete_cancel": "취소",
+  "etf_screener_modal_delete_confirm": "삭제",
+
+  "etf_screener_strategy_low_cost_index": "저보수 인덱스 ETF",
+  "etf_screener_strategy_high_dividend": "고배당 ETF",
+  "etf_screener_strategy_top_performers_1y": "1년 수익률 상위",
+  "etf_screener_strategy_oversold": "과매도 ETF",
+
+  "etf_screener_tab_filters": "필터",
+  "etf_screener_tab_technicals": "기술적 지표",
+
+  "etf_screener_export_title": "ETF 스크리너 데이터 내보내기"
+}

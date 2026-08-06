@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Tudástár - Tőzsdei oktatás és befektetési útmutatók",
+  "learning_center_seo_description": "Tanuld meg a tőzsdei befektetést a Tudástárunkkal. Ingyenes útmutatók kereskedési stratégiákról, technikai és fundamentális elemzésről, portfóliókezelésről és befektetési alapokról, a kezdőktől a haladókig.",
+  "learning_center_seo_keywords": "tőzsdei oktatás, befektetési útmutatók, kereskedési stratégiák, befektetés tanulása, részvényelemzési útmutatók, pénzügyi oktatás, befektetési kalauz, tőzsdei alapok, portfóliókezelés, technikai elemzés tanfolyam",
+  "learning_center_structured_name": "Stocknear Tudástár",
+  "learning_center_structured_description": "Átfogó tőzsdei oktatás és befektetési útmutatók",
+  "learning_center_structured_articles": "Oktatási cikkek",
+  "learning_center_structured_articles_description": "Tőzsdei oktatási és befektetési útmutató cikkek",
+  "learning_center_title": "Tudástár",
+  "learning_center_published": "Közzétéve:",
+  "learning_center_previous": "Előző",
+  "learning_center_next": "Következő",
+  "learning_center_alt_tutorial": "Útmutató háttérkép",
+
+  "learning_center_subtitle": "Ismerd meg a tőzsdét, lépésről lépésre",
+
+  "learning_center_category_all": "Összes",
+  "learning_center_category_features": "Funkciók",
+  "learning_center_category_fundamentals": "Alapok",
+  "learning_center_category_terms": "Fogalmak",
+
+  "learning_center_category_desc_features": "Így használd a Stocknear oldalát",
+  "learning_center_category_desc_fundamentals": "Kezdd itt, ha most ismerkedsz a befektetéssel",
+  "learning_center_category_desc_terms": "Pénzügyi fogalmak és meghatározások",
+
+  "learning_center_tag_all": "Összes címke",
+  "learning_center_tag_stocks": "Részvények",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opciók",
+  "learning_center_tag_sentiment": "Hangulat",
+  "learning_center_tag_prefix": "Címke",
+
+  "learning_center_view_all": "Összes megtekintése",
+  "learning_center_view_all_count": "Mind a {count} megtekintése",
+  "learning_center_min_read": "{time} perc olvasás",
+
+  "learning_center_no_articles_tag": "Nincs cikk \"{tag}\" címkével.",
+  "learning_center_clear_tag_filter": "Címkeszűrő törlése",
+
+  "learning_center_page_of": "{currentPage}. oldal, összesen {totalPages}",
+  "learning_center_items_count": "{count} elem",
+
+  "learning_center_back_to_top": "Vissza a tetejére",
+  "learning_center_no_terms_yet": "Még nincsenek elérhető fogalmak.",
+  "learning_center_no_articles_category": "Ebben a kategóriában még nincs cikk.",
+
+  "learning_center_table_of_contents": "Tartalomjegyzék",
+  "learning_center_share_this_post": "Bejegyzés megosztása",
+  "learning_center_back_to_all_posts": "Vissza a bejegyzésekhez",
+
+  "learning_center_quick_start": "Gyors kezdés",
+  "learning_center_sidebar_top_gainers": "Legnagyobb emelkedők",
+  "learning_center_sidebar_top_losers": "Legnagyobb esők",
+  "learning_center_sidebar_analysts": "Elemzők",
+  "learning_center_sidebar_stock_screener": "Részvényszűrő",
+  "learning_center_sidebar_options_flow": "Opciós flow",
+  "learning_center_sidebar_earnings_calendar": "Gyorsjelentés-naptár",
+  "learning_center_sidebar_dividends_calendar": "Osztaléknaptár",
+  "learning_center_sidebar_ipo_calendar": "IPO-naptár",
+
+  "learning_center_related_articles": "Kapcsolódó cikkek",
+  "learning_center_view_all_articles": "Összes cikk megtekintése",
+  "learning_center_share_this_article": "Cikk megosztása",
+
+  "learning_center_link_copied": "Link a vágólapra másolva",
+  "learning_center_link_copy_failed": "A link másolása nem sikerült",
+
+  "learning_center_sign_in_to_read": "Jelentkezz be a teljes összefoglaló elolvasásához.",
+  "learning_center_briefing_description": "A Napi piaci összefoglaló a Stocknear tagjai számára érhető el. Hozz létre ingyenes fiókot vagy jelentkezz be, és megnyílik a teljes elemzés.",
+  "learning_center_create_free_account": "Ingyenes fiók létrehozása",
+  "learning_center_sign_in": "Bejelentkezés",
+
+  "learning_center_click_to_close": "Kattints bárhová, vagy nyomj ESC-et a bezáráshoz",
+
+  "learning_center_search_placeholder": "Keresés...",
+  "learning_center_no_search_results": "Nincs találat erre: \"{query}\".",
+  "learning_center_clear_search": "Keresés törlése"
+}

@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Головна",
+  "watchlist_breadcrumb_watchlist": "Список спостереження",
+
+  "watchlist_seo_title": "Список спостереження за акціями - відстежуйте портфель і ціни акцій",
+  "watchlist_seo_description": "Створюйте та керуйте особистим списком спостереження за акціями з відстеженням цін у реальному часі. Слідкуйте за улюбленими акціями, ETF та інвестиціями з сповіщеннями та аналітикою динаміки. Безкоштовний трекер портфеля з розширеними функціями.",
+  "watchlist_seo_keywords": "список спостереження за акціями, трекер портфеля, трекер акцій, трекер інвестицій, моніторинг акцій, сповіщення, керування портфелем, динаміка акцій, список спостереження за інвестиціями",
+  "watchlist_structured_name": "Трекер списку спостереження за акціями",
+  "watchlist_structured_description": "Особистий список спостереження за акціями та інструмент відстеження портфеля",
+
+  "watchlist_main_title": "Список спостереження",
+  "watchlist_create_watchlist": "Створити список спостереження",
+  "watchlist_new_watchlist": "Новий список спостереження",
+  "watchlist_delete_watchlist": "Видалити список спостереження",
+
+  "watchlist_add_stock_placeholder": "Додати акцію...",
+  "watchlist_no_results": "Нічого не знайдено",
+  "watchlist_edit_watchlist": "Редагувати список спостереження",
+  "watchlist_cancel": "Скасувати",
+  "watchlist_normal_width": "Звичайна ширина",
+  "watchlist_full_width": "На всю ширину",
+  "watchlist_exit_full_width": "Вийти з режиму на всю ширину",
+  "watchlist_expand_full_width": "Розгорнути на всю ширину",
+
+  "watchlist_empty_title": "Порожній список спостереження",
+  "watchlist_empty_description": "Наповніть його улюбленими акціями, щоб отримувати дані в реальному часі та останні новини в одному місці!",
+  "watchlist_get_started": "Почати",
+
+  "watchlist_count_stocks": "{count} акцій",
+
+  "watchlist_tab_news": "Новини",
+  "watchlist_tab_earnings": "Звіти про прибутки",
+  "watchlist_no_news": "Новин поки немає. Додайте акції до списку спостереження, щоб бачити останні новини.",
+  "watchlist_no_earnings": "Дані про прибутки недоступні. Додайте акції до списку спостереження, щоб бачити останні дані про прибутки.",
+
+  "watchlist_modal_new_title": "Новий список спостереження",
+  "watchlist_modal_list_name": "Назва списку",
+  "watchlist_modal_create_button": "Створити список спостереження",
+
+  "watchlist_modal_delete_title": "Видалити список спостереження",
+  "watchlist_modal_delete_confirm": "Ви впевнені, що хочете видалити цей список спостереження? Цю дію неможливо скасувати.",
+  "watchlist_modal_delete_button": "Видалити список спостереження",
+
+  "watchlist_toast_creating": "Створення списку спостереження...",
+  "watchlist_toast_created": "Список спостереження успішно створено!",
+  "watchlist_toast_deleted": "Список спостереження успішно видалено!",
+  "watchlist_toast_updating": "Оновлення списку спостереження...",
+  "watchlist_toast_updated": "Список спостереження успішно оновлено!",
+  "watchlist_toast_error": "Щось пішло не так. Спробуйте ще раз!",
+  "watchlist_toast_error_generic": "Сталася помилка. Спробуйте пізніше.",
+  "watchlist_toast_title_empty": "Назва не може бути порожньою!",
+  "watchlist_toast_title_long": "Назва задовга. Зробіть її коротшою.",
+  "watchlist_toast_already_in_list": "Цей тікер уже є у вашому списку спостереження",
+  "watchlist_toast_select_symbols": "Спершу оберіть тікери, які хочете видалити",
+
+  "watchlist_earnings_will_report": "звітуватиме",
+  "watchlist_earnings_after_close": "після закриття ринку.",
+  "watchlist_earnings_before_open": "до відкриття ринку.",
+  "watchlist_earnings_during_market": "протягом торгової сесії.",
+  "watchlist_earnings_analysts_estimate": "Аналітики прогнозують",
+  "watchlist_earnings_in_revenue": "у виручці",
+  "watchlist_earnings_yoy": "р/р",
+  "watchlist_earnings_and": "та",
+  "watchlist_earnings_in_eps": "прибутку на акцію",
+
+  "watchlist_note_add_title": "Додати нотатку",
+  "watchlist_note_edit_title": "Редагувати нотатку",
+  "watchlist_note_placeholder_new": "Чому ви додали цю акцію до списку спостереження?",
+  "watchlist_note_placeholder_edit": "Оновіть свою нотатку...",
+  "watchlist_note_save": "Зберегти",
+  "watchlist_note_add": "Додати нотатку",
+  "watchlist_note_update": "Оновити нотатку",
+  "watchlist_note_created": "Нотатку створено",
+  "watchlist_note_updated": "Нотатку оновлено",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "залишилося символів: {count}",
+  "watchlist_note_chars_over": "перевищено на {count} символів",
+  "watchlist_note_exceeded": "Нотатка не може перевищувати {max} символів",
+  "watchlist_added_price": "Ціна додавання",
+
+  "watchlist_column_entry_price": "Ціна входу",
+  "watchlist_column_since_added": "% з моменту додавання"
+}

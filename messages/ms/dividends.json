@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Utama",
+  "dividends_breadcrumb_calendar": "Kalendar Dividen",
+
+  "dividends_seo_title": "Kalendar Dividen - Tarikh Ex-Dividen & Jadual Pembayaran Saham",
+  "dividends_seo_description": "Jejaki tarikh ex-dividen dan jadual pembayaran saham yang akan datang. Rancang strategi tangkapan dividen anda dengan kalendar menyeluruh yang memaparkan jumlah tunai, tarikh bayaran dan data permodalan pasaran.",
+  "dividends_seo_keywords": "kalendar dividen, tarikh ex-dividen, jadual pembayaran dividen, tangkapan dividen, dividen saham, saham dividen, tarikh bayaran dividen, dividen akan datang",
+
+  "dividends_main_name": "Kalendar Dividen",
+  "dividends_count": "{count} Dividen",
+  "dividends_empty_day": "Tiada dividen tersedia untuk hari ini.",
+  "dividends_empty_none": "Tiada dividen",
+  "dividends_empty_scheduled": "Tiada dividen dijadualkan",
+
+  "dividends_tab_daily": "Harian",
+  "dividends_tab_weekly": "Mingguan",
+  "dividends_tab_details": "Butiran",
+  "dividends_tab_compact": "Padat",
+
+  "dividends_time_any": "Bila-bila Masa",
+  "dividends_time_before_open": "Sebelum Buka",
+  "dividends_time_after_close": "Selepas Tutup",
+
+  "dividends_expanded_ex_date": "Tarikh Ex",
+  "dividends_expanded_market_cap": "Permodalan Pasaran",
+  "dividends_expanded_amount": "Jumlah",
+  "dividends_expanded_revenue": "Hasil",
+  "dividends_expanded_payment_date": "Tarikh Bayaran",
+  "dividends_expanded_date": "Tarikh",
+  "dividends_expanded_dividend": "Dividen",
+
+  "dividends_pagination_previous": "Sebelum",
+  "dividends_pagination_next": "Seterusnya",
+  "dividends_pagination_page_of": "Halaman {current} daripada {total}",
+  "dividends_pagination_rows": "{count} Baris",
+  "dividends_back_to_top": "Kembali ke Atas",
+  "dividends_search_placeholder": "Cari..."
+}

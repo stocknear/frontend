@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Ana Sayfa",
+  "ipos_breadcrumb_data": "IPO Verileri",
+
+  "ipos_seo_title": "IPO Takvimi - Son ve Yaklasan Halka Arzlar",
+  "ipos_seo_description": "Son ve yaklasan halka arzlari (IPO) detayli analizle takip et. IPO performansini, fiyatlarini, tarihlerini ve borsaya girisinden bu yana getirisini izle. Kapsamli verili ucretsiz IPO takvimi ve takipcisi.",
+  "ipos_seo_keywords": "IPO takvimi, yaklasan IPO'lar, son IPO'lar, halka arz, IPO takipcisi, IPO performansi, IPO fiyatlari, yeni borsa kotasyonlari, halka arzlar",
+
+  "ipos_main_name_recent": "Son IPO'lar",
+  "ipos_main_name_statistics": "IPO Istatistikleri",
+  "ipos_count": "{count} hisse",
+  "ipos_tab_recent": "Son",
+  "ipos_tab_statistics": "Istatistikler",
+  "ipos_tab_latest": "En Yeni",
+
+  "ipos_statistics_seo_title": "IPO Istatistikleri ve Tarihsel Grafikler - Halka Arz Piyasa Verileri",
+  "ipos_statistics_seo_description": "ABD borsasindaki halka arzlar icin kapsamli IPO istatistikleri ve interaktif grafikler. {startYear} - {endYear} arasindaki yillik ve aylik IPO trendlerini takip et, piyasa dongulerini incele ve IPO performans oruntulerini kesfet.",
+  "ipos_statistics_seo_keywords": "IPO istatistikleri, halka arz grafikleri, IPO piyasa verisi, IPO trendleri, IPO analizi, tarihsel IPO verisi, IPO performansi, yillik IPO istatistikleri, aylik IPO verisi",
+  "ipos_statistics_infobox": "Bu sayfa ABD borsasindaki halka arzlar (IPO) hakkinda istatistik ve grafikler sunar. Yillik ve aylik veriler {startYear} - {endYear} arasi icin mevcuttur.",
+  "ipos_statistics_title": "Yillara Gore IPO Sayisi",
+  "ipos_statistics_description": "{startYear} ile {endYear} arasinda {count} IPO gerceklesti. En dusuk yil sadece {minCount} ile {minYear} oldu. {maxYear} yili ise {maxCount} IPO ile tum zamanlarin rekorunu kirdi.",
+  "ipos_statistics_stock_news": "Hisse Haberleri",
+  "ipos_statistics_more_news": "Daha Fazla Hisse Haberi",
+
+  "ipos_year_seo_title": "{year} IPO Listesi - Eksiksiz Halka Arz Rehberi",
+  "ipos_year_seo_description": "ABD borsasindaki tum {year} halka arzlarinin (IPO) kapsamli listesi. IPO performansini, fiyatlamayi, borsaya girisinden bu yana getiriyi ve piyasa cikislarini detayli sirket bilgisi ve tarihsel veriyle takip et.",
+  "ipos_year_seo_keywords": "{year} IPO'lari, {year} halka arzlari, {year} IPO listesi, {year} IPO performansi, son IPO'lar, {year} IPO takvimi, {year} yeni halka acilan sirketler",
+  "ipos_year_empty": "IPO bulunamadi. En son {year} IPO'lari icin arama zaman araligini degistir.",
+
+  "ipos_statistics_chart_title": "Yillara Gore IPO Sayisi, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO'lar",
+  "ipos_year_heading": "{year} Halka Arzlari",
+  "ipos_year_summary": "{year} yilinda {count} IPO gerceklesti.",
+  "ipos_year_extremes": "En yogun ay {maxCount} ile {maxMonth}, en sakin ay {minCount} ile {minMonth} oldu.",
+  "ipos_year_none": "{year} yilinda hic IPO olmadi."
+}

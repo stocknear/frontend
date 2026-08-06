@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "หน้าแรก",
+  "etf_screener_breadcrumb_etf_screener": "คัดกรอง ETF",
+
+  "etf_screener_seo_title": "ตัวคัดกรอง ETF ฟรี - กรองและค้นหา ETF",
+  "etf_screener_seo_description": "คัดกรองและกรอง ETF {count} กองตามขนาดสินทรัพย์ ค่าธรรมเนียม เงินปันผล ผลตอบแทน ปัจจัยทางเทคนิค และอื่น ๆ ตัวคัดกรอง ETF ฟรีพร้อมตัวกรองขั้นสูง",
+  "etf_screener_seo_keywords": "ตัวคัดกรอง etf, กรอง etf, ค้นหา etf, หา etf, เครื่องมือคัดกรอง etf, กรองตามค่าธรรมเนียม, กรองตามขนาดสินทรัพย์, คัดกรอง etf ปันผล",
+  "etf_screener_structured_name": "ตัวคัดกรอง ETF ของ stocknear",
+  "etf_screener_structured_description": "เครื่องมือคัดกรอง ETF ขั้นสูง พร้อมตัวกรองขนาดสินทรัพย์ ค่าธรรมเนียม ผลตอบแทน ปัจจัยทางเทคนิค เงินปันผล และอื่น ๆ",
+
+  "etf_screener_main_title": "คัดกรอง ETF",
+  "etf_screener_matches_found": "พบ {count} รายการ",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "ชุดคัดกรองยอดนิยม",
+  "etf_screener_popular_strategies": "กลยุทธ์ยอดนิยม",
+  "etf_screener_select_popular": "เลือกชุดยอดนิยม",
+  "etf_screener_saved_screens": "ชุดคัดกรองที่บันทึกไว้",
+  "etf_screener_select_screen": "เลือกชุดคัดกรอง",
+  "etf_screener_new_screen": "ชุดคัดกรองใหม่",
+
+  "etf_screener_filters_count": "{count} ตัวกรอง",
+  "etf_screener_add_filters": "เพิ่มตัวกรอง",
+  "etf_screener_search_filters": "ค้นหาใน {count} ตัวกรอง...",
+  "etf_screener_select_filters_title": "เลือกตัวกรอง ({count})",
+  "etf_screener_nothing_found": "ไม่พบข้อมูล",
+
+  "etf_screener_search_placeholder": "ค้นหา ETF...",
+  "etf_screener_search_input_placeholder": "ค้นหา...",
+  "etf_screener_input_min": "ต่ำสุด",
+  "etf_screener_input_max": "สูงสุด",
+  "etf_screener_input_value": "ค่า",
+
+  "etf_screener_normal_width": "ความกว้างปกติ",
+  "etf_screener_full_width": "เต็มความกว้าง",
+
+  "etf_screener_save": "บันทึก",
+  "etf_screener_save_as_new": "บันทึกเป็นรายการใหม่",
+  "etf_screener_reset_all": "รีเซ็ตทั้งหมด",
+
+  "etf_screener_pagination_previous": "ก่อนหน้า",
+  "etf_screener_pagination_next": "ถัดไป",
+  "etf_screener_pagination_page_of": "หน้า {current} จาก {total}",
+  "etf_screener_rows_label": "{rows} แถว",
+  "etf_screener_back_to_top": "กลับขึ้นด้านบน",
+
+  "etf_screener_no_etfs_query": "ไม่พบ ETF สำหรับ \"{query}\"",
+  "etf_screener_no_etfs": "ไม่พบ ETF",
+
+  "etf_screener_modal_new_title": "ชุดคัดกรองใหม่",
+  "etf_screener_modal_new_name_label": "ชื่อชุดคัดกรอง",
+  "etf_screener_modal_new_create": "สร้าง",
+
+  "etf_screener_modal_delete_title": "ลบชุดคัดกรอง",
+  "etf_screener_modal_delete_message": "ต้องการลบชุดคัดกรองนี้ใช่ไหม",
+  "etf_screener_modal_delete_cancel": "ยกเลิก",
+  "etf_screener_modal_delete_confirm": "ลบ",
+
+  "etf_screener_strategy_low_cost_index": "ETF ดัชนีค่าธรรมเนียมต่ำ",
+  "etf_screener_strategy_high_dividend": "ETF ปันผลสูง",
+  "etf_screener_strategy_top_performers_1y": "ผลตอบแทนดีสุดใน 1 ปี",
+  "etf_screener_strategy_oversold": "ETF ที่ขายมากเกินไป",
+
+  "etf_screener_tab_filters": "ตัวกรอง",
+  "etf_screener_tab_technicals": "ปัจจัยทางเทคนิค",
+
+  "etf_screener_export_title": "ส่งออกข้อมูลตัวคัดกรอง ETF"
+}

@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Utama",
+  "economic_breadcrumb_calendar": "Kalendar Ekonomi",
+
+  "economic_seo_title": "Kalendar Ekonomi - Peristiwa Penggerak Pasaran & Keluaran Data Kewangan Langsung",
+  "economic_seo_description": "Kekal di hadapan dengan kalendar ekonomi menyeluruh kami yang memaparkan peristiwa kewangan masa nyata, penunjuk ekonomi dan keluaran data penggerak pasaran. Jejaki KDNK, inflasi, data pekerjaan, mesyuarat bank pusat dan pengumuman ekonomi penting dengan masa serta ramalan yang tepat. Alat penting untuk pedagang dan pelabur menjangka volatiliti pasaran.",
+  "economic_seo_keywords": "kalendar ekonomi, peristiwa kewangan, kalendar pasaran, penunjuk ekonomi, keluaran KDNK, data inflasi, statistik pekerjaan, mesyuarat bank pusat, berita ekonomi, peristiwa penggerak pasaran, keluaran data kewangan, pengumuman ekonomi, kalendar dagangan, perancangan pelaburan",
+  "economic_structured_name": "Kalendar Ekonomi",
+  "economic_structured_description": "Kalendar ekonomi menyeluruh yang menjejaki peristiwa kewangan global, penunjuk ekonomi dan keluaran data penggerak pasaran",
+
+  "economic_main_name": "Kalendar Ekonomi",
+  "economic_count_events": "{count} Peristiwa",
+  "economic_empty_day": "Tiada peristiwa tersedia untuk hari ini.",
+
+  "economic_filter_country": "Tapis Negara",
+  "economic_filter_importance": "Tapis Kepentingan",
+  "economic_filter_reset": "Set Semula Semua",
+  "economic_filter_search": "Cari...",
+  "economic_filter_no_country": "Tiada negara dijumpai",
+  "economic_filters_label": "Penapis",
+
+  "economic_pagination_previous": "Sebelum",
+  "economic_pagination_next": "Seterusnya",
+  "economic_pagination_page_of": "Halaman {current} daripada {total}",
+  "economic_pagination_rows": "{count} Baris",
+  "economic_back_to_top": "Kembali ke Atas",
+  "economic_search_placeholder": "Cari...",
+
+  "economic_source_label": "Sumber:",
+  "economic_source_text": "Kalendar Ekonomi disediakan oleh",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "dan masa dipaparkan dalam ET (Waktu Timur)."
+}

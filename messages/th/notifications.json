@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "หน้าแรก",
+  "notifications_breadcrumb_notifications": "การแจ้งเตือน",
+
+  "notifications_seo_title": "การแจ้งเตือนตลาดหุ้น | อัปเดตและเตือนแบบเรียลไทม์",
+  "notifications_seo_description": "รับข่าวสารตลาดหุ้นแบบเรียลไทม์ รับการแจ้งเตือนทันทีเมื่อราคาเปลี่ยน แนวโน้มเปลี่ยน หรือตลาดเคลื่อนไหว เพื่อการตัดสินใจลงทุนที่ดีขึ้น",
+
+  "notifications_main_title": "การแจ้งเตือน",
+  "notifications_alerts_count": "{count} การแจ้งเตือน",
+
+  "notifications_mark_all_read": "ทำเครื่องหมายว่าอ่านแล้วทั้งหมด",
+  "notifications_marking": "กำลังดำเนินการ...",
+  "notifications_settings": "ตั้งค่า",
+  "notifications_customize": "ปรับแต่งการแจ้งเตือนของคุณ",
+
+  "notifications_channel_earnings_surprise": "ผลประกอบการเหนือคาด",
+  "notifications_channel_wiim": "ทำไมราคาถึงเคลื่อนไหว",
+  "notifications_channel_top_analyst": "เรตติ้งจากนักวิเคราะห์ชั้นนำ",
+  "notifications_channel_followed_analysts": "นักวิเคราะห์ที่ติดตาม",
+  "notifications_no_channels": "ไม่มีช่องทางการแจ้งเตือนให้เลือก",
+
+  "notifications_empty": "คุณยังไม่มีการแจ้งเตือน",
+
+  "notifications_pagination_previous": "ก่อนหน้า",
+  "notifications_pagination_next": "ถัดไป",
+  "notifications_pagination_page_of": "หน้า {current} จาก {total}",
+  "notifications_pagination_rows": "{count} แถว",
+  "notifications_back_to_top": "กลับขึ้นด้านบน",
+
+  "notifications_modal_delete_title": "ลบการแจ้งเตือนทั้งหมด",
+  "notifications_modal_delete_confirm": "แน่ใจหรือไม่ว่าต้องการลบการแจ้งเตือนทั้งหมด การกระทำนี้ย้อนกลับไม่ได้",
+  "notifications_modal_delete_button": "ลบการแจ้งเตือน",
+  "notifications_modal_deleting": "กำลังลบ...",
+  "notifications_modal_cancel": "ยกเลิก",
+  "notifications_delete_error": "ลบการแจ้งเตือนไม่สำเร็จ โปรดลองอีกครั้ง",
+
+  "notifications_type_price_alert_triggered": "การแจ้งเตือนทำงานสำหรับ",
+  "notifications_type_price_is": "ราคาของ",
+  "notifications_type_is_condition": "{condition} เป้าหมายของคุณที่",
+  "notifications_type_breaking_news": "ข่าวด่วนสำหรับ",
+  "notifications_type_wiim_new_data": "มีข้อมูลใหม่สำหรับเหตุการณ์ \"ทำไมราคาถึงเคลื่อนไหว\" แล้ว",
+  "notifications_type_top_analyst_new": "เรตติ้งใหม่จากนักวิเคราะห์ชั้นนำสำหรับ",
+  "notifications_type_top_analyst_rating": "บริษัทจัดอันดับ {analyst} ให้เรตติ้งใหม่เป็น \"{rating}\" พร้อมปรับราคาเป้าหมายเป็น {price}",
+  "notifications_type_followed_analyst_new": "เรตติ้งใหม่จาก",
+  "notifications_type_followed_analyst_rating": "ให้เรตติ้ง {symbol} เป็น \"{rating}\" พร้อมราคาเป้าหมาย {price}",
+  "notifications_type_earnings_release": "ประกาศผลประกอบการของ",
+  "notifications_type_earnings_surprise_new": "มีข้อมูลใหม่สำหรับเหตุการณ์ \"ผลประกอบการเหนือคาด\" แล้ว",
+
+  "notifications_sidebar_watchlist": "วอทช์ลิสต์",
+  "notifications_sidebar_watchlist_description": "รับอัปเดตหุ้นที่คุณสนใจแบบเรียลไทม์",
+  "notifications_sidebar_portfolio": "ติดตามพอร์ตลงทุน",
+  "notifications_sidebar_portfolio_description": "รับอัปเดตพอร์ตของคุณแบบเรียลไทม์"
+}

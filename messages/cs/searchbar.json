@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Firma nebo ticker...",
+  "searchbar_aria_label": "Firma nebo ticker...",
+  "searchbar_search_label": "Hledat",
+  "searchbar_suggestions": "Návrhy",
+  "searchbar_recent": "Nedávné",
+  "searchbar_popular": "Oblíbené",
+  "searchbar_no_results": "Nic jsme nenašli"
+}

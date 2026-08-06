@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Главная",
+  "price_alert_breadcrumb_price_alert": "Оповещение",
+
+  "price_alert_seo_title": "Оповещения по акциям - уведомления и обновления рынка в реальном времени",
+  "price_alert_seo_description": "Создавай собственные оповещения по акциям и получай мгновенные уведомления при срабатывании условий. Отслеживай отчёты, новости и движения цен в своём списке наблюдения с данными в реальном времени.",
+  "price_alert_seo_keywords": "оповещения по акциям, уведомления о цене, рыночные оповещения, триггеры по акциям, календарь отчётов, лента новостей об акциях, оповещения в реальном времени, рыночные уведомления, список наблюдения, мониторинг цены",
+  "price_alert_structured_name": "Оповещения - Stocknear",
+  "price_alert_structured_description": "Система оповещений по акциям с мгновенными уведомлениями в реальном времени",
+
+  "price_alert_main_title": "Оповещения",
+
+  "price_alert_search_placeholder": "Поиск...",
+  "price_alert_no_results": "Ничего не найдено",
+  "price_alert_edit_alert": "Изменить оповещение",
+  "price_alert_cancel": "Отмена",
+
+  "price_alert_empty_title": "Оповещения не настроены",
+  "price_alert_empty_description": "Создай оповещения для акций, которые, по твоему мнению, имеют наибольший потенциал.",
+  "price_alert_get_started": "Начать",
+
+  "price_alert_tab_news": "Новости",
+  "price_alert_tab_earnings": "Отчёты о прибыли",
+  "price_alert_no_news": "Пока нет новостей. Добавь акции в список оповещений, чтобы видеть последние новости.",
+  "price_alert_no_earnings": "Пока нет данных об отчётах. Добавь акции в список оповещений, чтобы видеть последние данные.",
+
+  "price_alert_toast_deleted": "Оповещения успешно удалены",
+  "price_alert_toast_select_symbols": "Сначала выбери тикеры, которые хочешь удалить",
+
+  "price_alert_earnings_will_report_today": "отчитается сегодня",
+  "price_alert_earnings_will_report_tomorrow": "отчитается завтра",
+  "price_alert_earnings_will_report_monday": "отчитается в понедельник",
+  "price_alert_earnings_will_report": "отчитается",
+  "price_alert_earnings_after_close": "после закрытия рынка.",
+  "price_alert_earnings_before_open": "до открытия рынка.",
+  "price_alert_earnings_during_market": "в течение торговой сессии.",
+  "price_alert_earnings_analysts_estimate": "Аналитики прогнозируют",
+  "price_alert_earnings_in_revenue": "выручки",
+  "price_alert_earnings_yoy": "г/г",
+  "price_alert_earnings_and": "и",
+  "price_alert_earnings_in_eps": "прибыли на акцию"
+}

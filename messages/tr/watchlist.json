@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Ana Sayfa",
+  "watchlist_breadcrumb_watchlist": "Takip Listesi",
+
+  "watchlist_seo_title": "Hisse Takip Listesi - Portföyünü İzle ve Fiyatları Takip Et",
+  "watchlist_seo_description": "Anlık fiyat takibiyle kişisel hisse takip listeni oluştur ve yönet. Favori hisselerini, ETF'lerini ve yatırımlarını uyarılar ve performans analizleriyle izle. Gelişmiş özelliklere sahip ücretsiz portföy takip aracı.",
+  "watchlist_seo_keywords": "hisse takip listesi, portföy takibi, hisse takibi, yatırım takibi, hisse izleme, uyarılar, portföy yönetimi, hisse performansı, yatırım takip listesi",
+  "watchlist_structured_name": "Hisse Takip Listesi Aracı",
+  "watchlist_structured_description": "Kişisel hisse takip listesi ve portföy izleme aracı",
+
+  "watchlist_main_title": "Takip Listesi",
+  "watchlist_create_watchlist": "Takip Listesi Oluştur",
+  "watchlist_new_watchlist": "Yeni Takip Listesi",
+  "watchlist_delete_watchlist": "Takip Listesini Sil",
+
+  "watchlist_add_stock_placeholder": "Hisse ekle...",
+  "watchlist_no_results": "Sonuç bulunamadı",
+  "watchlist_edit_watchlist": "Takip Listesini Düzenle",
+  "watchlist_cancel": "Vazgeç",
+  "watchlist_normal_width": "Normal Genişlik",
+  "watchlist_full_width": "Tam Genişlik",
+  "watchlist_exit_full_width": "Tam genişlikten çık",
+  "watchlist_expand_full_width": "Tam genişliğe geç",
+
+  "watchlist_empty_title": "Takip Listesi Boş",
+  "watchlist_empty_description": "Favori hisselerinle doldur; anlık veriyi ve son haberleri tek yerde gör.",
+  "watchlist_get_started": "Başla",
+
+  "watchlist_count_stocks": "{count} Hisse",
+
+  "watchlist_tab_news": "Haberler",
+  "watchlist_tab_earnings": "Bilanço",
+  "watchlist_no_news": "Henüz haber yok. Son haberleri görmek için listene birkaç hisse ekle.",
+  "watchlist_no_earnings": "Bilanço verisi yok. Son bilanço verilerini görmek için listene birkaç hisse ekle.",
+
+  "watchlist_modal_new_title": "Yeni Takip Listesi",
+  "watchlist_modal_list_name": "Liste Adı",
+  "watchlist_modal_create_button": "Takip Listesi Oluştur",
+
+  "watchlist_modal_delete_title": "Takip Listesini Sil",
+  "watchlist_modal_delete_confirm": "Bu takip listesini silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "watchlist_modal_delete_button": "Takip Listesini Sil",
+
+  "watchlist_toast_creating": "Takip listesi oluşturuluyor...",
+  "watchlist_toast_created": "Takip listesi oluşturuldu.",
+  "watchlist_toast_deleted": "Takip listesi silindi.",
+  "watchlist_toast_updating": "Takip listesi güncelleniyor...",
+  "watchlist_toast_updated": "Takip listesi güncellendi.",
+  "watchlist_toast_error": "Bir şeyler ters gitti. Lütfen tekrar dene.",
+  "watchlist_toast_error_generic": "Bir hata oluştu. Lütfen daha sonra tekrar dene.",
+  "watchlist_toast_title_empty": "Başlık boş olamaz.",
+  "watchlist_toast_title_long": "Başlık çok uzun. Kısa ve öz tut.",
+  "watchlist_toast_already_in_list": "Bu sembol zaten takip listende",
+  "watchlist_toast_select_symbols": "Silmek için önce sembol seçmen gerekiyor",
+
+  "watchlist_earnings_will_report": "bilançosunu",
+  "watchlist_earnings_after_close": "piyasa kapanışından sonra açıklayacak.",
+  "watchlist_earnings_before_open": "piyasa açılışından önce açıklayacak.",
+  "watchlist_earnings_during_market": "piyasa saatleri içinde açıklayacak.",
+  "watchlist_earnings_analysts_estimate": "Analistler",
+  "watchlist_earnings_in_revenue": "gelir",
+  "watchlist_earnings_yoy": "yıllık",
+  "watchlist_earnings_and": "ve",
+  "watchlist_earnings_in_eps": "hisse başına kâr bekliyor",
+
+  "watchlist_note_add_title": "Not Ekle",
+  "watchlist_note_edit_title": "Notu Düzenle",
+  "watchlist_note_placeholder_new": "Bu hisseyi neden takip listene ekledin?",
+  "watchlist_note_placeholder_edit": "Notunu güncelle...",
+  "watchlist_note_save": "Kaydet",
+  "watchlist_note_add": "Not Ekle",
+  "watchlist_note_update": "Notu Güncelle",
+  "watchlist_note_created": "Not oluşturuldu",
+  "watchlist_note_updated": "Not güncellendi",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} karakter kaldı",
+  "watchlist_note_chars_over": "Limiti {count} karakter aştın",
+  "watchlist_note_exceeded": "Not {max} karakteri geçemez",
+  "watchlist_added_price": "Eklenme Fiyatı",
+
+  "watchlist_column_entry_price": "Giriş Fiyatı",
+  "watchlist_column_since_added": "% Eklenmeden Beri"
+}

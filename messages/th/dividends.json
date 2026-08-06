@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "หน้าแรก",
+  "dividends_breadcrumb_calendar": "ปฏิทินเงินปันผล",
+
+  "dividends_seo_title": "ปฏิทินเงินปันผล - วันขึ้นเครื่องหมาย XD และกำหนดจ่ายของหุ้น",
+  "dividends_seo_description": "ติดตามวันขึ้นเครื่องหมาย XD และกำหนดจ่ายเงินปันผลของหุ้น วางแผนกลยุทธ์เก็บเงินปันผลด้วยปฏิทินที่แสดงเงินปันผลต่อหุ้น วันจ่าย และมูลค่าตลาด",
+  "dividends_seo_keywords": "ปฏิทินเงินปันผล, วันขึ้นเครื่องหมาย XD, กำหนดจ่ายเงินปันผล, กลยุทธ์เก็บปันผล, เงินปันผลหุ้น, หุ้นปันผล, วันจ่ายเงินปันผล, เงินปันผลที่กำลังจะจ่าย",
+
+  "dividends_main_name": "ปฏิทินเงินปันผล",
+  "dividends_count": "{count} รายการ",
+  "dividends_empty_day": "ไม่มีเงินปันผลในวันนี้",
+  "dividends_empty_none": "ไม่มีเงินปันผล",
+  "dividends_empty_scheduled": "ไม่มีกำหนดจ่ายเงินปันผล",
+
+  "dividends_tab_daily": "รายวัน",
+  "dividends_tab_weekly": "รายสัปดาห์",
+  "dividends_tab_details": "รายละเอียด",
+  "dividends_tab_compact": "แบบย่อ",
+
+  "dividends_time_any": "ทุกช่วงเวลา",
+  "dividends_time_before_open": "ก่อนตลาดเปิด",
+  "dividends_time_after_close": "หลังตลาดปิด",
+
+  "dividends_expanded_ex_date": "วัน XD",
+  "dividends_expanded_market_cap": "มูลค่าตลาด",
+  "dividends_expanded_amount": "จำนวนเงิน",
+  "dividends_expanded_revenue": "รายได้",
+  "dividends_expanded_payment_date": "วันจ่าย",
+  "dividends_expanded_date": "วันที่",
+  "dividends_expanded_dividend": "เงินปันผล",
+
+  "dividends_pagination_previous": "ก่อนหน้า",
+  "dividends_pagination_next": "ถัดไป",
+  "dividends_pagination_page_of": "หน้า {current} จาก {total}",
+  "dividends_pagination_rows": "{count} แถว",
+  "dividends_back_to_top": "กลับขึ้นด้านบน",
+  "dividends_search_placeholder": "ค้นหา..."
+}

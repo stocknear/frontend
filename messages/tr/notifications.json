@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Ana Sayfa",
+  "notifications_breadcrumb_notifications": "Bildirimler",
+
+  "notifications_seo_title": "Borsa Bildirimleri | Gercek Zamanli Guncellemeler ve Uyarilar",
+  "notifications_seo_description": "Gercek zamanli borsa bildirimleriyle haberdar kal. Fiyat degisimleri, trendler ve piyasa hareketleri icin aninda uyari al, daha akilli yatirim kararlari ver.",
+
+  "notifications_main_title": "Bildirim",
+  "notifications_alerts_count": "{count} uyari",
+
+  "notifications_mark_all_read": "Tumunu okundu isaretle",
+  "notifications_marking": "Isaretleniyor...",
+  "notifications_settings": "Ayarlar",
+  "notifications_customize": "Bildirimlerini ozellestir",
+
+  "notifications_channel_earnings_surprise": "Bilanco Surprizi",
+  "notifications_channel_wiim": "Fiyat Neden Hareket Etti",
+  "notifications_channel_top_analyst": "One Cikan Analist Notu",
+  "notifications_channel_followed_analysts": "Takip Edilen Analistler",
+  "notifications_no_channels": "Kullanilabilir bildirim kanali yok.",
+
+  "notifications_empty": "Henuz bildirimin yok.",
+
+  "notifications_pagination_previous": "Onceki",
+  "notifications_pagination_next": "Sonraki",
+  "notifications_pagination_page_of": "Sayfa {current} / {total}",
+  "notifications_pagination_rows": "{count} satir",
+  "notifications_back_to_top": "Basa Don",
+
+  "notifications_modal_delete_title": "Tum Bildirimleri Sil",
+  "notifications_modal_delete_confirm": "Tum bildirimleri silmek istedigine emin misin? Bu islem geri alinamaz.",
+  "notifications_modal_delete_button": "Bildirimleri Sil",
+  "notifications_modal_deleting": "Siliniyor...",
+  "notifications_modal_cancel": "Iptal",
+  "notifications_delete_error": "Bildirimler silinemedi. Lutfen tekrar dene.",
+
+  "notifications_type_price_alert_triggered": "Uyari tetiklendi:",
+  "notifications_type_price_is": "Su hissenin fiyati:",
+  "notifications_type_is_condition": "hedefine gore {condition}:",
+  "notifications_type_breaking_news": "SON DAKIKA haberi:",
+  "notifications_type_wiim_new_data": "\"Fiyat Neden Hareket Etti\" olayi icin yeni veri geldi.",
+  "notifications_type_top_analyst_new": "Yeni one cikan analist notu:",
+  "notifications_type_top_analyst_rating": "{analyst} kurumu \"{rating}\" seklinde yeni bir not verdi ve fiyat hedefini {price} olarak guncelledi.",
+  "notifications_type_followed_analyst_new": "Yeni not veren:",
+  "notifications_type_followed_analyst_rating": "{symbol} icin \"{rating}\" notu, fiyat hedefi {price}.",
+  "notifications_type_earnings_release": "Bilanco aciklamasi:",
+  "notifications_type_earnings_surprise_new": "\"Bilanco Surprizi\" olayi icin yeni veri geldi.",
+
+  "notifications_sidebar_watchlist": "Izleme Listesi",
+  "notifications_sidebar_watchlist_description": "Favori hisselerin icin gercek zamanli guncellemeler al",
+  "notifications_sidebar_portfolio": "Portfoy Takibi",
+  "notifications_sidebar_portfolio_description": "Portfoyun icin gercek zamanli guncellemeler al"
+}

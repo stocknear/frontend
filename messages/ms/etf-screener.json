@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Utama",
+  "etf_screener_breadcrumb_etf_screener": "Penyaring ETF",
+
+  "etf_screener_seo_title": "Penyaring ETF Percuma - Tapis & Cari ETF",
+  "etf_screener_seo_description": "Saring dan tapis {count} ETF mengikut AUM, nisbah perbelanjaan, dividen, prestasi, teknikal dan banyak lagi. Penyaring ETF percuma dengan penapis lanjutan.",
+  "etf_screener_seo_keywords": "penyaring ETF, penapis ETF, carian ETF, cari ETF, alat penyaringan ETF, penapis nisbah perbelanjaan, penapis aum, penyaring ETF dividen",
+  "etf_screener_structured_name": "Penyaring ETF stocknear",
+  "etf_screener_structured_description": "Alat penyaringan ETF lanjutan dengan penapis untuk AUM, nisbah perbelanjaan, prestasi, teknikal, dividen dan banyak lagi.",
+
+  "etf_screener_main_title": "Penyaring ETF",
+  "etf_screener_matches_found": "{count} Padanan Ditemui",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Saringan Popular",
+  "etf_screener_popular_strategies": "Strategi Popular",
+  "etf_screener_select_popular": "Pilih popular",
+  "etf_screener_saved_screens": "Saringan Disimpan",
+  "etf_screener_select_screen": "Pilih saringan",
+  "etf_screener_new_screen": "Saringan Baharu",
+
+  "etf_screener_filters_count": "{count} Penapis",
+  "etf_screener_add_filters": "Tambah Penapis",
+  "etf_screener_search_filters": "Cari {count} penapis...",
+  "etf_screener_select_filters_title": "Pilih Penapis ({count})",
+  "etf_screener_nothing_found": "Tiada apa-apa ditemui",
+
+  "etf_screener_search_placeholder": "Cari ETF...",
+  "etf_screener_search_input_placeholder": "Cari...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Maks",
+  "etf_screener_input_value": "Nilai",
+
+  "etf_screener_normal_width": "Lebar Biasa",
+  "etf_screener_full_width": "Lebar Penuh",
+
+  "etf_screener_save": "Simpan",
+  "etf_screener_save_as_new": "Simpan sebagai Baharu",
+  "etf_screener_reset_all": "Set Semula Semua",
+
+  "etf_screener_pagination_previous": "Sebelumnya",
+  "etf_screener_pagination_next": "Seterusnya",
+  "etf_screener_pagination_page_of": "Halaman {current} daripada {total}",
+  "etf_screener_rows_label": "{rows} Baris",
+  "etf_screener_back_to_top": "Kembali ke Atas",
+
+  "etf_screener_no_etfs_query": "Tiada ETF ditemui untuk \"{query}\"",
+  "etf_screener_no_etfs": "Tiada ETF ditemui.",
+
+  "etf_screener_modal_new_title": "Saringan Baharu",
+  "etf_screener_modal_new_name_label": "Nama Saringan",
+  "etf_screener_modal_new_create": "Cipta",
+
+  "etf_screener_modal_delete_title": "Padam Saringan",
+  "etf_screener_modal_delete_message": "Anda pasti mahu memadam saringan ini?",
+  "etf_screener_modal_delete_cancel": "Batal",
+  "etf_screener_modal_delete_confirm": "Padam",
+
+  "etf_screener_strategy_low_cost_index": "ETF Indeks Kos Rendah",
+  "etf_screener_strategy_high_dividend": "ETF Dividen Tinggi",
+  "etf_screener_strategy_top_performers_1y": "Prestasi Terbaik 1T",
+  "etf_screener_strategy_oversold": "ETF Terlebih Jual",
+
+  "etf_screener_tab_filters": "Penapis",
+  "etf_screener_tab_technicals": "Teknikal",
+
+  "etf_screener_export_title": "Eksport data penyaring ETF"
+}

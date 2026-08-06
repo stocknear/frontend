@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Unusual Order Flow - Print dark pool e block trade",
+  "unusual_order_flow_seo_description": "Segui in tempo reale i print dark pool e i block trade per individuare l'attività istituzionale che spesso anticipa i movimenti di breve.",
+  "unusual_order_flow_seo_keywords": "unusual order flow, print dark pool, block trade, flusso ordini istituzionali, smart money, liquidità nascosta, order flow in tempo reale, scanner dark pool",
+  "unusual_order_flow_structured_name": "Scanner Unusual Order Flow",
+  "unusual_order_flow_structured_description": "Print dark pool e block trade in tempo reale per segnali di mercato di breve periodo",
+
+  "unusual_order_flow_main_title": "Unusual Order Flow",
+
+  "unusual_order_flow_popular_filters": "Filtri popolari",
+  "unusual_order_flow_select_popular": "Scegli tra i popolari",
+  "unusual_order_flow_saved_filters": "Filtri salvati",
+  "unusual_order_flow_select_filter": "Seleziona filtro",
+  "unusual_order_flow_new_filter": "Nuovo filtro",
+
+  "unusual_order_flow_filters_count": "{count} filtri",
+  "unusual_order_flow_add_filters": "Aggiungi filtri",
+  "unusual_order_flow_search_filters": "Cerca tra {count} filtri...",
+  "unusual_order_flow_select_filters_title": "Seleziona i filtri del flusso ({count} in totale)",
+  "unusual_order_flow_nothing_found": "Nessun risultato",
+  "unusual_order_flow_no_filters_found": "Nessun filtro disponibile",
+
+  "unusual_order_flow_search_placeholder": "Trova...",
+  "unusual_order_flow_search_input_placeholder": "Cerca...",
+  "unusual_order_flow_full_width": "Larghezza piena",
+  "unusual_order_flow_normal_width": "Larghezza normale",
+
+  "unusual_order_flow_no_trades_query": "Nessuna operazione insolita trovata per \"{query}\"",
+  "unusual_order_flow_no_data_filters": "I tuoi criteri sono davvero unici: per ora nessuna corrispondenza.",
+
+  "unusual_order_flow_modal_new_title": "Nuovo filtro",
+  "unusual_order_flow_modal_new_name_label": "Nome del filtro",
+  "unusual_order_flow_modal_new_create": "Crea filtro",
+
+  "unusual_order_flow_modal_delete_title": "Elimina filtro",
+  "unusual_order_flow_modal_delete_message": "Vuoi davvero eliminare questo filtro? L'azione non può essere annullata.",
+  "unusual_order_flow_modal_delete_cancel": "Annulla",
+  "unusual_order_flow_modal_delete_confirm": "Elimina filtro",
+
+  "unusual_order_flow_save": "Salva",
+  "unusual_order_flow_save_as_new": "Salva come nuovo",
+  "unusual_order_flow_reset_all": "Reimposta tutto",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Print dark pool",
+  "unusual_order_flow_strategy_block_orders": "Ordini block",
+  "unusual_order_flow_strategy_mega_premium": "Premi enormi",
+  "unusual_order_flow_strategy_etf_flow": "Flusso ETF",
+  "unusual_order_flow_strategy_high_volume": "Volume elevato",
+  "unusual_order_flow_strategy_large_stock_flow": "Grandi flussi azionari",
+
+  "unusual_order_flow_total_volume": "Volume totale",
+  "unusual_order_flow_total_value": "Controvalore totale",
+  "unusual_order_flow_transaction_type": "Tipo di operazione",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Block",
+  "unusual_order_flow_asset_type": "Tipo di strumento",
+  "unusual_order_flow_stock": "Azione",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Ritardo 15 min",
+  "unusual_order_flow_delayed_title": "Dati SIP con 15 min di ritardo",
+  "unusual_order_flow_delayed_content": "Il feed SIP di Intrinio fornisce dati azionari USA consolidati e di alta qualità da tutte le principali borse, inclusi eseguiti, quotazioni e NBBO. Il ritardo di 15 minuti offre una visione ricca del mercato con copertura completa delle borse.",
+
+  "unusual_order_flow_hide_filter_area": "Nascondi area filtri",
+  "unusual_order_flow_show_filter_area": "Mostra area filtri",
+  "unusual_order_flow_exit_full_width": "Esci dalla larghezza piena",
+  "unusual_order_flow_expand_full_width": "Espandi a larghezza piena",
+  "unusual_order_flow_reset_column_order": "Reimposta ordine colonne",
+  "unusual_order_flow_remove_filter": "Rimuovi filtro",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Valore"
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Etusivu",
+  "stock_screener_breadcrumb_stock_screener": "Osakeseulonta",
+
+  "stock_screener_seo_title": "Kehittynyt osakeseulonta - ilmainen osakkeiden suodatus- ja analyysityökalu",
+  "stock_screener_seo_description": "Tehokas osakeseulonta, jossa on {count} suodatuskriteeriä. Suodata osakkeita tunnuslukujen, teknisen analyysin, arvostuksen ja tuottokehityksen perusteella. Reaaliaikaiset tiedot päivittyvät joka minuutti.",
+  "stock_screener_seo_keywords": "osakeseulonta, ilmainen osakeseulonta, osakesuodatin, osakeskanneri, tunnuslukuseulonta, tekninen seulonta, arvo-osakkeiden seulonta, kasvuosakkeiden seulonta, osinko-osakkeiden seulonta, osakeanalyysityökalu",
+  "stock_screener_structured_name": "Osakeseulontatyökalu",
+  "stock_screener_structured_description": "Kehittynyt osakkeiden seulonta- ja suodatusalusta reaaliaikaisella markkinadatalla",
+
+  "stock_screener_main_title": "Osakeseulonta",
+  "stock_screener_matches_found": "{count} osumaa",
+  "stock_screener_stocks_count": "{count} osaketta",
+
+  "stock_screener_popular_screens": "Suositut seulonnat",
+  "stock_screener_popular_strategies": "Suositut strategiat",
+  "stock_screener_select_popular": "Valitse suosittu",
+  "stock_screener_saved_screens": "Tallennetut seulonnat",
+  "stock_screener_select_screen": "Valitse seulonta",
+  "stock_screener_new_screen": "Uusi seulonta",
+
+  "stock_screener_filters_count": "{count} suodatinta",
+  "stock_screener_add_filters": "Lisää suodattimia",
+  "stock_screener_search_filters": "Hae {count} suodattimesta...",
+  "stock_screener_select_filters_title": "Valitse seulontasuodattimet (yhteensä {count})",
+  "stock_screener_nothing_found": "Ei osumia",
+
+  "stock_screener_search_placeholder": "Etsi...",
+  "stock_screener_search_input_placeholder": "Hae...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Arvo",
+
+  "stock_screener_normal_width": "Normaali leveys",
+  "stock_screener_full_width": "Koko leveys",
+
+  "stock_screener_pagination_previous": "Edellinen",
+  "stock_screener_pagination_next": "Seuraava",
+  "stock_screener_pagination_page_of": "Sivu {current} / {total}",
+  "stock_screener_rows_label": "{rows} riviä",
+  "stock_screener_back_to_top": "Takaisin ylös",
+
+  "stock_screener_no_stocks_query": "Haulle \"{query}\" ei löytynyt osakkeita",
+  "stock_screener_no_stocks": "Osakkeita ei löytynyt.",
+
+  "stock_screener_modal_new_title": "Uusi seulonta",
+  "stock_screener_modal_new_name_label": "Seulonnan nimi",
+  "stock_screener_modal_new_create": "Luo seulonta",
+
+  "stock_screener_modal_delete_title": "Poista seulonta",
+  "stock_screener_modal_delete_message": "Haluatko varmasti poistaa tämän seulonnan? Toimintoa ei voi peruuttaa.",
+  "stock_screener_modal_delete_cancel": "Peruuta",
+  "stock_screener_modal_delete_confirm": "Poista",
+
+  "stock_screener_strategy_earnings_volatility": "Tulosvolatiliteetti",
+  "stock_screener_strategy_dividend_growth": "Osingon kasvu",
+  "stock_screener_strategy_monthly_dividends": "Kuukausiosingot",
+  "stock_screener_strategy_top_gainers_1y": "Vuoden nousijat",
+  "stock_screener_strategy_top_shorted": "Eniten shortatut osakkeet",
+  "stock_screener_strategy_momentum_ta": "Momentum-osakkeet",
+  "stock_screener_strategy_undervalued": "Aliarvostetut osakkeet",
+  "stock_screener_strategy_strong_cash_flow": "Vahva kassavirta",
+
+  "stock_screener_save": "Tallenna",
+  "stock_screener_save_as_new": "Tallenna uutena",
+  "stock_screener_reset_all": "Nollaa kaikki"
+}

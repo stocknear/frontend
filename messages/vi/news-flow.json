@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Trang chủ",
+  "news_flow_breadcrumb_news_flow": "Dòng tin tức",
+
+  "news_flow_seo_title": "Dòng tin thị trường - Chất xúc tác giao dịch theo thời gian thực",
+  "news_flow_seo_description": "Theo dõi tin tức và chất xúc tác thị trường theo thời gian thực làm giá biến động. Dành cho người giao dịch quyền chọn cần bối cảnh nhanh cho các thiết lập ngắn hạn.",
+  "news_flow_seo_keywords": "dòng tin thị trường, chất xúc tác giao dịch, tin nóng thị trường, tin cho người giao dịch quyền chọn, tin biến động giá, cập nhật thị trường thời gian thực",
+  "news_flow_structured_name": "Dòng tin thị trường",
+  "news_flow_structured_description": "Tin tức và chất xúc tác thị trường theo thời gian thực cho kế hoạch giao dịch ngắn hạn",
+
+  "news_flow_main_title": "Dòng tin tức",
+  "news_flow_news_count": "{count} tin",
+  "news_flow_search_placeholder": "Tìm...",
+
+  "news_flow_infobox": "Theo dõi tin nóng mới nhất và hiểu vì sao giá cổ phiếu biến động theo thời gian thực",
+  "news_flow_no_news": "Chưa có tin tức lớn nào về thị trường chứng khoán.",
+
+  "news_flow_sidebar_market_flow_title": "Dòng tiền thị trường",
+  "news_flow_sidebar_market_flow_description": "Theo dõi tâm lý quyền chọn theo thời gian thực.",
+  "news_flow_sidebar_options_flow_title": "Dòng tiền quyền chọn",
+  "news_flow_sidebar_options_flow_description": "Giám sát hoạt động quyền chọn bất thường và mô hình dòng tiền theo thời gian thực",
+  "news_flow_sidebar_dark_pool_title": "Dòng tiền dark pool",
+  "news_flow_sidebar_dark_pool_description": "Phân tích dòng tiền tổ chức ẩn và dữ liệu giao dịch dark pool"
+}

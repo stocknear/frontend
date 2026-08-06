@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Strona główna",
+  "watchlist_breadcrumb_watchlist": "Lista obserwowanych",
+
+  "watchlist_seo_title": "Lista obserwowanych spółek - śledź portfel i kursy akcji",
+  "watchlist_seo_description": "Twórz i zarządzaj własną listą obserwowanych spółek z notowaniami w czasie rzeczywistym. Monitoruj ulubione akcje, ETF i inwestycje razem z alertami i analizą wyników. Darmowy tracker portfela z zaawansowanymi funkcjami.",
+  "watchlist_seo_keywords": "lista obserwowanych, tracker portfela, śledzenie akcji, tracker inwestycji, monitorowanie spółek, alerty, zarządzanie portfelem, wyniki spółek, lista obserwowanych inwestycji",
+  "watchlist_structured_name": "Tracker listy obserwowanych",
+  "watchlist_structured_description": "Osobista lista obserwowanych spółek i narzędzie do śledzenia portfela",
+
+  "watchlist_main_title": "Lista obserwowanych",
+  "watchlist_create_watchlist": "Utwórz listę",
+  "watchlist_new_watchlist": "Nowa lista",
+  "watchlist_delete_watchlist": "Usuń listę",
+
+  "watchlist_add_stock_placeholder": "Dodaj spółkę...",
+  "watchlist_no_results": "Brak wyników",
+  "watchlist_edit_watchlist": "Edytuj listę",
+  "watchlist_cancel": "Anuluj",
+  "watchlist_normal_width": "Zwykła szerokość",
+  "watchlist_full_width": "Pełna szerokość",
+  "watchlist_exit_full_width": "Wyjdź z pełnej szerokości",
+  "watchlist_expand_full_width": "Rozszerz na pełną szerokość",
+
+  "watchlist_empty_title": "Pusta lista",
+  "watchlist_empty_description": "Dodaj ulubione spółki i miej dane w czasie rzeczywistym oraz najnowsze wiadomości w jednym miejscu.",
+  "watchlist_get_started": "Zaczynajmy",
+
+  "watchlist_count_stocks": "Spółki: {count}",
+
+  "watchlist_tab_news": "Wiadomości",
+  "watchlist_tab_earnings": "Publikacja wyników",
+  "watchlist_no_news": "Brak wiadomości. Dodaj spółki do listy, aby zobaczyć najnowsze informacje.",
+  "watchlist_no_earnings": "Brak danych o wynikach. Dodaj spółki do listy, aby zobaczyć najnowsze raporty.",
+
+  "watchlist_modal_new_title": "Nowa lista",
+  "watchlist_modal_list_name": "Nazwa listy",
+  "watchlist_modal_create_button": "Utwórz listę",
+
+  "watchlist_modal_delete_title": "Usuń listę",
+  "watchlist_modal_delete_confirm": "Na pewno chcesz usunąć tę listę? Tej operacji nie da się cofnąć.",
+  "watchlist_modal_delete_button": "Usuń listę",
+
+  "watchlist_toast_creating": "Tworzenie listy...",
+  "watchlist_toast_created": "Lista utworzona.",
+  "watchlist_toast_deleted": "Lista usunięta.",
+  "watchlist_toast_updating": "Aktualizowanie listy...",
+  "watchlist_toast_updated": "Lista zaktualizowana.",
+  "watchlist_toast_error": "Coś poszło nie tak. Spróbuj ponownie.",
+  "watchlist_toast_error_generic": "Wystąpił błąd. Spróbuj ponownie później.",
+  "watchlist_toast_title_empty": "Nazwa nie może być pusta.",
+  "watchlist_toast_title_long": "Nazwa jest za długa. Niech będzie krótka i konkretna.",
+  "watchlist_toast_already_in_list": "Ten symbol jest już na Twojej liście",
+  "watchlist_toast_select_symbols": "Zaznacz symbole, zanim je usuniesz",
+
+  "watchlist_earnings_will_report": "opublikuje wyniki",
+  "watchlist_earnings_after_close": "po zamknięciu sesji.",
+  "watchlist_earnings_before_open": "przed otwarciem sesji.",
+  "watchlist_earnings_during_market": "w trakcie sesji.",
+  "watchlist_earnings_analysts_estimate": "Analitycy prognozują",
+  "watchlist_earnings_in_revenue": "przychodów",
+  "watchlist_earnings_yoy": "rok do roku",
+  "watchlist_earnings_and": "oraz",
+  "watchlist_earnings_in_eps": "zysku na akcję",
+
+  "watchlist_note_add_title": "Dodaj notatkę",
+  "watchlist_note_edit_title": "Edytuj notatkę",
+  "watchlist_note_placeholder_new": "Dlaczego dodałeś tę spółkę do listy?",
+  "watchlist_note_placeholder_edit": "Zaktualizuj notatkę...",
+  "watchlist_note_save": "Zapisz",
+  "watchlist_note_add": "Dodaj notatkę",
+  "watchlist_note_update": "Zaktualizuj notatkę",
+  "watchlist_note_created": "Notatka dodana",
+  "watchlist_note_updated": "Notatka zaktualizowana",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "Pozostało znaków: {count}",
+  "watchlist_note_chars_over": "Przekroczono limit o {count} znaków",
+  "watchlist_note_exceeded": "Notatka nie może przekraczać {max} znaków",
+  "watchlist_added_price": "Cena dodania",
+
+  "watchlist_column_entry_price": "Cena wejścia",
+  "watchlist_column_since_added": "% od dodania"
+}

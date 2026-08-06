@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Tietojen vastuuvapauslauseke | Talousdatan lähteet ja tarkkuus",
+  "data_seo_description": "Kattavat tiedot talousdatamme lähteistä, tarkkuusvaatimuksista ja käyttöohjeista osakemarkkinadatan, analyytikkoennusteiden ja tunnuslukujen osalta.",
+  "data_breadcrumb": "Tietojen vastuuvapauslauseke",
+  "data_hero_title": "Tietojen vastuuvapauslauseke",
+  "data_intro": "Stocknearissa esitetty talousdata on tarkoitettu vain tiedoksi ja opetuskäyttöön. Sitä ei tule tulkita sijoitusneuvonnaksi eikä käyttää ainoana perusteena kaupankäynti- tai sijoituspäätöksille.",
+  "data_contact": "Noudatamme tiukkoja vaatimuksia datan tarkkuudessa ja laadunvarmistuksessa. Jos huomaat poikkeamia tai kaipaat tarkennusta, ota yhteyttä kanavassa {discordLink} tai tukeemme osoitteessa {email}.",
+  "data_market_title": "Markkinadata ja osakekaaviot",
+  "data_market_content": "Kattava markkinadatamme ja reaaliaikaiset osakekaaviot tuottaa {fmpLink}, johtava talousdatapalvelujen tarjoaja. Mukana ovat päivänsisäiset hinnat, historiadata ja tekniset indikaattorit.",
+  "data_coverage_title": "Markkinakattavuus",
+  "data_coverage_content": "Stocknear kattaa laajasti Yhdysvaltain suurimmissa pörsseissä listatut arvopaperit, mukaan lukien NASDAQ, NYSE, NYSE American ja NYSE Arca. Tietokannassamme on osakkeita, ETF:iä, ADR-todistuksia ja valikoituja OTC-arvopapereita. Laajennamme kattavuutta jatkuvasti muihin maailman pörsseihin ja rahoitusinstrumentteihin.",
+  "data_fundamentals_title": "Talouden tunnusluvut",
+  "data_fundamentals_content": "Fundamenttidatamme lähde on {fmpLink}, ja se perustuu virallisiin SEC-ilmoituksiin (lomakkeet 10-K, 10-Q ja 8-K). Vaikka järjestelmämme päivittävät tiedot päivittäin, viiveitä voi syntyä SEC:n ilmoitusaikataulujen ja yhtiöiden raportointirytmin vuoksi. Kaikki esitetty talousdata perustuu yhtiöiden virallisiin, tilintarkastettuihin ilmoituksiin viranomaisille.",
+  "data_business_title": "Liiketoiminnan mittarit",
+  "data_business_content": "Liiketoiminnan mittarit, kuten operatiiviset KPI:t ja oikaistut yksikkötaloustiedot, tulevat kumppaniltamme {mainStreetLink}. Heidän tutkimustiiminsä kokoaa, normalisoi ja validoi jatkuvasti näitä tietoja yhtiöiden raporteista, sijoittajaesityksistä ja johdon kommenteista, jotta liiketoiminnan suorituskyvyn kattavuus pysyy luotettavana.",
+  "data_analyst_title": "Analyytikkoseuranta ja markkinaennusteet",
+  "data_analyst_content": "Analyytikkoseurantamme yhdistää useita luotettavia lähteitä. Tavoitehinnat ja analyytikkosuositukset tulevat Benzingalta ja edustavat Wall Streetin johtavien analyytikoiden konsensusta. Liikevaihto- ja EPS-ennusteet kootaan sekä Benzingalta että lähteestä {fmpLink}. Pyrimme esittämään mahdollisimman tarkat ennusteet, mutta markkinaennusteet ovat aina epävarmoja ja niitä kannattaa käyttää osana laajempaa sijoitustutkimusta.",
+  "data_etf_title": "ETF-analytiikka",
+  "data_etf_content": "ETF-omistusdatamme ja -analytiikkamme tuotetaan yhteistyössä kumppanin {fmpLink} kanssa, mikä varmistaa tarkat ja ajantasaiset tiedot rahastojen koostumuksesta, painotuksista ja tuottoluvuista.",
+  "data_options_title": "Optiomarkkinadata",
+  "data_options_content": "Optiomarkkinadatamme hyödyntää useita datantoimittajia, joiden syötteet yhdistetään yhdeksi putkeksi täyden OPRA-virran (Options Price Reporting Authority) tuottamiseksi. Kokoamalla reaaliaikaisen optiovirran ja yksittäisten optioketjujen datan useasta lähteestä varmistamme täyden kattavuuden optiomarkkinoiden aktiviteetista ja hinnoittelusta kaikissa Yhdysvaltain suurimmissa optiopörsseissä."
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "홈",
+  "hedge_funds_breadcrumb_hedge_funds": "헤지펀드",
+  "hedge_funds_breadcrumb_hedge_fund": "헤지펀드",
+
+  "hedge_funds_seo_title": "헤지펀드 트래커 - 주요 헤지펀드 보유 종목 및 13F 공시",
+  "hedge_funds_seo_description": "주요 헤지펀드의 보유 종목, 13F 공시, 기관 투자자 포트폴리오를 추적하세요. 헤지펀드가 무엇을 사고파는지 종목별로 상세히 확인할 수 있습니다. 무료 헤지펀드 추적 도구입니다.",
+  "hedge_funds_seo_keywords": "헤지펀드 트래커, 헤지펀드 보유 종목, 13F 공시, 기관 투자자, 헤지펀드 포지션, 상위 헤지펀드, 기관 보유 현황, 헤지펀드 포트폴리오, 버크셔 해서웨이 보유 종목",
+  "hedge_funds_structured_name": "헤지펀드 트래커",
+  "hedge_funds_structured_description": "헤지펀드 보유 종목과 기관 투자 현황을 폭넓게 추적합니다",
+
+  "hedge_funds_main_title": "미국 상위 헤지펀드",
+  "hedge_funds_infobox": "운용자산 규모가 가장 큰 월가 기관 전체 목록입니다.",
+  "hedge_funds_count_institutes": "{count}개 기관",
+
+  "hedge_funds_search_placeholder": "검색...",
+  "hedge_funds_loading": "불러오는 중...",
+  "hedge_funds_no_data": "데이터가 없습니다.",
+
+  "hedge_funds_pagination_previous": "이전",
+  "hedge_funds_pagination_next": "다음",
+  "hedge_funds_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "hedge_funds_rows_label": "{rows}개씩",
+  "hedge_funds_back_to_top": "맨 위로",
+
+  "hedge_funds_slug_seo_title": "{companyName} 보유 종목 및 포트폴리오 - 13F 공시 분석",
+  "hedge_funds_slug_seo_description": "{companyName}의 헤지펀드 보유 종목, 포트폴리오 구성, 투자 전략을 상세히 분석합니다. 최신 13F 공시, 주요 편입 종목, 섹터 비중, 성과 지표를 확인하세요.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} 보유 종목, {companyNameLower} 포트폴리오, {companyNameLower} 13F 공시, 헤지펀드 포지션, 기관 투자자 보유 현황, {companyNameLower} 편입 종목, 헤지펀드 분석",
+  "hedge_funds_slug_structured_name": "{companyName} 보유 종목 및 포트폴리오 분석",
+  "hedge_funds_slug_structured_description": "{companyName}의 헤지펀드 보유 종목과 투자 포지션에 대한 종합 분석",
+
+  "hedge_funds_slug_cik_number": "CIK 번호:",
+  "hedge_funds_slug_market_value": "평가액",
+  "hedge_funds_slug_holdings": "보유 종목 수",
+  "hedge_funds_slug_avg_holding_period": "평균 보유 기간",
+  "hedge_funds_slug_months": "개월",
+  "hedge_funds_slug_win_rate": "승률",
+  "hedge_funds_slug_performance_3year": "3년 수익률",
+
+  "hedge_funds_slug_main_sectors": "주요 섹터:",
+  "hedge_funds_slug_top_industries": "상위 산업:",
+  "hedge_funds_slug_filing_date": "공시일:",
+  "hedge_funds_slug_no_data": "현재 이 헤지펀드의 데이터를 이용할 수 없습니다.",
+
+  "hedge_funds_column_rank": "순위",
+  "hedge_funds_column_name": "이름",
+  "hedge_funds_column_aum": "운용자산",
+  "hedge_funds_column_holdings": "보유 종목",
+  "hedge_funds_column_turnover": "회전율",
+  "hedge_funds_column_3year_perf": "3년 수익률",
+  "hedge_funds_column_win_rate": "승률"
+}

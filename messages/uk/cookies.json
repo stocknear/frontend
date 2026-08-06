@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Ми поважаємо твою приватність",
+  "cookies_banner_description": "Ми використовуємо файли cookie, щоб зробити перегляд зручнішим, аналізувати трафік сайту та персоналізувати вміст.",
+  "cookies_accept_all": "Прийняти всі",
+  "cookies_reject_all": "Відхилити всі",
+  "cookies_customize": "Налаштувати",
+  "cookies_preferences_title": "Налаштування cookie",
+  "cookies_preferences_description": "Керуй налаштуваннями cookie. Необхідні cookie вимкнути не можна, бо без них сайт не працюватиме.",
+  "cookies_necessary_title": "Необхідні cookie",
+  "cookies_necessary_description": "Потрібні для входу, безпеки та базових функцій. Їх не можна вимкнути.",
+  "cookies_analytics_title": "Аналітичні cookie",
+  "cookies_analytics_description": "Допомагають зрозуміти, як відвідувачі користуються сайтом, щоб покращити досвід.",
+  "cookies_marketing_title": "Маркетингові cookie",
+  "cookies_marketing_description": "Використовуються для відстеження відвідувачів на різних сайтах задля персоналізованої реклами.",
+  "cookies_save_preferences": "Зберегти налаштування"
+}

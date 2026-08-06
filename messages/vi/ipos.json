@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Trang chủ",
+  "ipos_breadcrumb_data": "Dữ liệu IPO",
+
+  "ipos_seo_title": "Lịch IPO - Các đợt IPO gần đây và sắp tới | Chào bán công khai lần đầu",
+  "ipos_seo_description": "Theo dõi các đợt IPO gần đây và sắp tới cùng phân tích chi tiết. Giám sát hiệu suất, giá, ngày niêm yết và lợi nhuận kể từ khi lên sàn. Lịch và công cụ theo dõi IPO miễn phí với dữ liệu đầy đủ.",
+  "ipos_seo_keywords": "lịch IPO, IPO sắp tới, IPO gần đây, chào bán công khai lần đầu, theo dõi IPO, hiệu suất IPO, giá IPO, cổ phiếu mới niêm yết, đợt chào bán ra công chúng",
+
+  "ipos_main_name_recent": "IPO gần đây",
+  "ipos_main_name_statistics": "Thống kê IPO",
+  "ipos_count": "{count} cổ phiếu",
+  "ipos_tab_recent": "Gần đây",
+  "ipos_tab_statistics": "Thống kê",
+  "ipos_tab_latest": "Mới nhất",
+
+  "ipos_statistics_seo_title": "Thống kê IPO và biểu đồ lịch sử - Dữ liệu thị trường chào bán công khai lần đầu",
+  "ipos_statistics_seo_description": "Thống kê IPO đầy đủ và biểu đồ tương tác cho các đợt chào bán công khai lần đầu trên thị trường chứng khoán Mỹ. Theo dõi xu hướng IPO theo năm và theo tháng từ {startYear} đến {endYear}, phân tích chu kỳ thị trường và nhận diện các mô hình hiệu suất IPO.",
+  "ipos_statistics_seo_keywords": "thống kê IPO, biểu đồ chào bán công khai lần đầu, dữ liệu thị trường IPO, xu hướng IPO, phân tích IPO, dữ liệu IPO lịch sử, hiệu suất IPO, thống kê IPO theo năm, dữ liệu IPO theo tháng",
+  "ipos_statistics_infobox": "Trang này cung cấp thống kê và biểu đồ về các đợt chào bán công khai lần đầu (IPO) trên thị trường chứng khoán Mỹ. Dữ liệu theo năm và theo tháng có sẵn từ {startYear} đến {endYear}.",
+  "ipos_statistics_title": "Số lượng IPO theo năm",
+  "ipos_statistics_description": "Đã có {count} đợt IPO trong giai đoạn {startYear} đến {endYear}. Ít nhất là năm {minYear} với chỉ {minCount}. Năm {maxYear} lập kỷ lục mọi thời đại với {maxCount} đợt IPO.",
+  "ipos_statistics_stock_news": "Tin cổ phiếu",
+  "ipos_statistics_more_news": "Thêm tin cổ phiếu",
+
+  "ipos_year_seo_title": "Danh sách IPO năm {year} - Danh mục chào bán công khai lần đầu đầy đủ",
+  "ipos_year_seo_description": "Danh sách đầy đủ các đợt chào bán công khai lần đầu (IPO) năm {year} trên thị trường chứng khoán Mỹ. Theo dõi hiệu suất IPO, giá chào bán, lợi nhuận kể từ khi niêm yết và ngày lên sàn, kèm thông tin công ty chi tiết và dữ liệu lịch sử.",
+  "ipos_year_seo_keywords": "IPO {year}, chào bán công khai lần đầu {year}, danh sách IPO {year}, hiệu suất IPO {year}, IPO gần đây, lịch IPO {year}, công ty mới niêm yết {year}",
+  "ipos_year_empty": "Không tìm thấy đợt IPO nào. Vui lòng điều chỉnh khoảng thời gian tìm kiếm để xem các đợt IPO {year} mới nhất.",
+
+  "ipos_statistics_chart_title": "Số đợt IPO mỗi năm, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Các đợt IPO năm {year}",
+  "ipos_year_summary": "Đã có {count} đợt IPO trong năm {year}.",
+  "ipos_year_extremes": "Tháng sôi động nhất là {maxMonth} với {maxCount}, trầm lắng nhất là {minMonth} với {minCount}.",
+  "ipos_year_none": "Không có đợt IPO nào trong năm {year}."
+}

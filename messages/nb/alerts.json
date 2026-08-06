@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Hjem",
+  "price_alert_breadcrumb_price_alert": "Varsel",
+
+  "price_alert_seo_title": "Aksjevarsler - varsler og markedsoppdateringer i sanntid",
+  "price_alert_seo_description": "Lag egne aksjevarsler og få beskjed med én gang betingelsene dine slår til. Følg resultater, nyheter og kursbevegelser for favorittlisten din med markedsdata i sanntid.",
+  "price_alert_seo_keywords": "aksjevarsler, kursvarsler, markedsvarsler, aksjeutløsere, resultatkalender, nyhetsstrøm aksjer, varsler i sanntid, markedsvarslinger, favorittliste aksjer, kursovervåking",
+  "price_alert_structured_name": "Varsler - Stocknear",
+  "price_alert_structured_description": "System for aksjevarsler i sanntid med umiddelbar varsling",
+
+  "price_alert_main_title": "Varsler",
+
+  "price_alert_search_placeholder": "Søk...",
+  "price_alert_no_results": "Ingen treff",
+  "price_alert_edit_alert": "Rediger varsel",
+  "price_alert_cancel": "Avbryt",
+
+  "price_alert_empty_title": "Ingen varsler satt opp",
+  "price_alert_empty_description": "Lag varsler for aksjene du mener har mest potensial.",
+  "price_alert_get_started": "Kom i gang",
+
+  "price_alert_tab_news": "Nyheter",
+  "price_alert_tab_earnings": "Resultatslipp",
+  "price_alert_no_news": "Ingen nyheter ennå. Legg til noen aksjer i varsellisten for å se de siste nyhetene.",
+  "price_alert_no_earnings": "Ingen resultater ennå. Legg til noen aksjer i varsellisten for å se de siste resultattallene.",
+
+  "price_alert_toast_deleted": "Varslene ble slettet",
+  "price_alert_toast_select_symbols": "Du må velge symboler før du kan slette dem",
+
+  "price_alert_earnings_will_report_today": "rapporterer i dag",
+  "price_alert_earnings_will_report_tomorrow": "rapporterer i morgen",
+  "price_alert_earnings_will_report_monday": "rapporterer mandag",
+  "price_alert_earnings_will_report": "rapporterer",
+  "price_alert_earnings_after_close": "etter børsslutt.",
+  "price_alert_earnings_before_open": "før børsåpning.",
+  "price_alert_earnings_during_market": "i åpningstiden.",
+  "price_alert_earnings_analysts_estimate": "Analytikerne venter",
+  "price_alert_earnings_in_revenue": "i omsetning",
+  "price_alert_earnings_yoy": "å/å",
+  "price_alert_earnings_and": "og",
+  "price_alert_earnings_in_eps": "i resultat per aksje"
+}

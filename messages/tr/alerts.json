@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Ana Sayfa",
+  "price_alert_breadcrumb_price_alert": "Uyari",
+
+  "price_alert_seo_title": "Hisse Uyarilari - Gercek Zamanli Bildirimler ve Piyasa Guncellemeleri",
+  "price_alert_seo_description": "Ozel hisse uyarilari olustur, kosullarin gerceklestiginde aninda bildirim al. Izleme listendeki bilancolari, haberleri ve fiyat hareketlerini gercek zamanli piyasa verisiyle takip et.",
+  "price_alert_seo_keywords": "hisse uyarilari, fiyat bildirimleri, piyasa uyarilari, hisse tetikleyicileri, bilanco takvimi, hisse haber akisi, gercek zamanli uyarilar, piyasa bildirimleri, hisse izleme listesi, fiyat takibi",
+  "price_alert_structured_name": "Uyarilar - Stocknear",
+  "price_alert_structured_description": "Aninda bildirim gonderen gercek zamanli hisse uyari sistemi",
+
+  "price_alert_main_title": "Uyarilar",
+
+  "price_alert_search_placeholder": "Ara...",
+  "price_alert_no_results": "Sonuc bulunamadi",
+  "price_alert_edit_alert": "Uyariyi Duzenle",
+  "price_alert_cancel": "Iptal",
+
+  "price_alert_empty_title": "Kurulu uyari yok",
+  "price_alert_empty_description": "Sana gore en cok potansiyeli olan hisseler icin uyari olustur.",
+  "price_alert_get_started": "Basla",
+
+  "price_alert_tab_news": "Haberler",
+  "price_alert_tab_earnings": "Bilanco Aciklamasi",
+  "price_alert_no_news": "Henuz haber yok. Son haberleri gormek icin uyari listene hisse ekle.",
+  "price_alert_no_earnings": "Henuz bilanco yok. Son bilanco verilerini gormek icin uyari listene hisse ekle.",
+
+  "price_alert_toast_deleted": "Uyarilar silindi",
+  "price_alert_toast_select_symbols": "Silmeden once sembol secmen gerekiyor",
+
+  "price_alert_earnings_will_report_today": "bugun bilanco aciklayacak",
+  "price_alert_earnings_will_report_tomorrow": "yarin bilanco aciklayacak",
+  "price_alert_earnings_will_report_monday": "pazartesi bilanco aciklayacak",
+  "price_alert_earnings_will_report": "bilanco aciklayacak",
+  "price_alert_earnings_after_close": "piyasa kapanisindan sonra.",
+  "price_alert_earnings_before_open": "piyasa acilisindan once.",
+  "price_alert_earnings_during_market": "piyasa saatlerinde.",
+  "price_alert_earnings_analysts_estimate": "Analist beklentisi",
+  "price_alert_earnings_in_revenue": "gelir",
+  "price_alert_earnings_yoy": "yillik",
+  "price_alert_earnings_and": "ve",
+  "price_alert_earnings_in_eps": "hisse basina kar"
+}

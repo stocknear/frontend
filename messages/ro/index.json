@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Prezentare",
+  "index_detail_nav_options": "Opțiuni",
+  "index_detail_nav_history": "Istoric",
+  "index_detail_nav_holdings": "Dețineri",
+
+  "index_detail_watchlist": "Listă de urmărire",
+  "index_detail_price_alert": "Alertă",
+  "index_detail_add_to_watchlist": "Adaugă în lista de urmărire",
+  "index_detail_ticker_added": "Simbol adăugat în lista de urmărire",
+  "index_detail_ticker_add_failed": "Simbolul nu a putut fi adăugat în listă",
+  "index_detail_upgrade_watchlist": "Vrei să adaugi mai multe acțiuni? Treci la Plus sau Pro",
+  "index_detail_companies": "Companii",
+  "index_detail_company": "Companie",
+
+  "index_detail_no_data": "Nu există date disponibile",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Cerere",
+  "index_detail_ask": "Ofertă",
+  "index_detail_volume": "Volum",
+  "index_detail_avg_volume_20d": "Volum mediu (20Z)",
+  "index_detail_50_day_ma": "MM 50 zile",
+  "index_detail_200_day_ma": "MM 200 zile",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "Acțiuni emise",
+  "index_detail_inception_date": "Data lansării",
+  "index_detail_open": "Deschidere",
+  "index_detail_prev_close": "Închidere anterioară",
+  "index_detail_days_range": "Interval zilnic",
+  "index_detail_52w_range": "Interval 52 săpt.",
+  "index_detail_exchange": "Bursă",
+  "index_detail_expense_ratio": "Comision anual",
+
+  "index_detail_chart_price": "Preț",
+  "index_detail_chart_volume": "Volum",
+
+  "index_sidecard_about": "Despre {ticker}",
+  "index_sidecard_top_sectors": "Top 5 sectoare",
+  "index_sidecard_sector": "Sector",
+  "index_sidecard_weight_percent": "Pondere %",
+  "index_sidecard_view_all_sectors": "Vezi toate sectoarele"
+}

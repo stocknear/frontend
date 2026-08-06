@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Dòng lệnh bất thường - Giao dịch Dark Pool và lệnh khối",
+  "unusual_order_flow_seo_description": "Theo dõi giao dịch dark pool và lệnh khối theo thời gian thực để phát hiện hoạt động của tổ chức, thứ thường xuất hiện trước các biến động ngắn hạn.",
+  "unusual_order_flow_seo_keywords": "dòng lệnh bất thường, giao dịch dark pool, lệnh khối, dòng lệnh tổ chức, dòng tiền thông minh, thanh khoản ẩn, dòng lệnh thời gian thực, quét dark pool",
+  "unusual_order_flow_structured_name": "Bộ quét dòng lệnh bất thường",
+  "unusual_order_flow_structured_description": "Giao dịch dark pool và lệnh khối theo thời gian thực để bắt tín hiệu thị trường ngắn hạn",
+
+  "unusual_order_flow_main_title": "Dòng lệnh bất thường",
+
+  "unusual_order_flow_popular_filters": "Bộ lọc phổ biến",
+  "unusual_order_flow_select_popular": "Chọn bộ lọc phổ biến",
+  "unusual_order_flow_saved_filters": "Bộ lọc đã lưu",
+  "unusual_order_flow_select_filter": "Chọn bộ lọc",
+  "unusual_order_flow_new_filter": "Bộ lọc mới",
+
+  "unusual_order_flow_filters_count": "{count} bộ lọc",
+  "unusual_order_flow_add_filters": "Thêm bộ lọc",
+  "unusual_order_flow_search_filters": "Tìm trong {count} bộ lọc...",
+  "unusual_order_flow_select_filters_title": "Chọn bộ lọc dòng lệnh (tổng {count})",
+  "unusual_order_flow_nothing_found": "Không tìm thấy gì",
+  "unusual_order_flow_no_filters_found": "Không có bộ lọc nào phù hợp",
+
+  "unusual_order_flow_search_placeholder": "Tìm...",
+  "unusual_order_flow_search_input_placeholder": "Tìm kiếm...",
+  "unusual_order_flow_full_width": "Toàn màn hình",
+  "unusual_order_flow_normal_width": "Khổ thường",
+
+  "unusual_order_flow_no_trades_query": "Không tìm thấy giao dịch bất thường nào cho \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Bộ lọc của bạn khá đặc biệt. Chưa có kết quả nào khớp.",
+
+  "unusual_order_flow_modal_new_title": "Bộ lọc mới",
+  "unusual_order_flow_modal_new_name_label": "Tên bộ lọc",
+  "unusual_order_flow_modal_new_create": "Tạo bộ lọc",
+
+  "unusual_order_flow_modal_delete_title": "Xóa bộ lọc",
+  "unusual_order_flow_modal_delete_message": "Bạn có chắc muốn xóa bộ lọc này? Thao tác này không thể hoàn tác.",
+  "unusual_order_flow_modal_delete_cancel": "Hủy",
+  "unusual_order_flow_modal_delete_confirm": "Xóa bộ lọc",
+
+  "unusual_order_flow_save": "Lưu",
+  "unusual_order_flow_save_as_new": "Lưu thành bộ lọc mới",
+  "unusual_order_flow_reset_all": "Đặt lại tất cả",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Giao dịch Dark Pool",
+  "unusual_order_flow_strategy_block_orders": "Lệnh khối",
+  "unusual_order_flow_strategy_mega_premium": "Giá trị lệnh siêu lớn",
+  "unusual_order_flow_strategy_etf_flow": "Dòng tiền ETF",
+  "unusual_order_flow_strategy_high_volume": "Khối lượng cao",
+  "unusual_order_flow_strategy_large_stock_flow": "Dòng tiền cổ phiếu lớn",
+
+  "unusual_order_flow_total_volume": "Tổng khối lượng",
+  "unusual_order_flow_total_value": "Tổng giá trị",
+  "unusual_order_flow_transaction_type": "Loại giao dịch",
+  "unusual_order_flow_dark_pool": "Dark Pool",
+  "unusual_order_flow_block": "Lệnh khối",
+  "unusual_order_flow_asset_type": "Loại tài sản",
+  "unusual_order_flow_stock": "Cổ phiếu",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "Trễ 15 phút",
+  "unusual_order_flow_delayed_title": "Dữ liệu SIP trễ 15 phút",
+  "unusual_order_flow_delayed_content": "Nguồn SIP của Intrinio cung cấp dữ liệu cổ phiếu Mỹ hợp nhất, chất lượng cao từ mọi sàn lớn — gồm giao dịch, báo giá và NBBO. Độ trễ 15 phút vẫn cho bạn góc nhìn thị trường đầy đủ với độ phủ toàn bộ các sàn.",
+
+  "unusual_order_flow_hide_filter_area": "Ẩn khu vực bộ lọc",
+  "unusual_order_flow_show_filter_area": "Hiện khu vực bộ lọc",
+  "unusual_order_flow_exit_full_width": "Thoát chế độ toàn màn hình",
+  "unusual_order_flow_expand_full_width": "Mở rộng toàn màn hình",
+  "unusual_order_flow_reset_column_order": "Đặt lại thứ tự cột",
+  "unusual_order_flow_remove_filter": "Bỏ bộ lọc",
+
+  "unusual_order_flow_min": "Tối thiểu",
+  "unusual_order_flow_max": "Tối đa",
+  "unusual_order_flow_value": "Giá trị"
+}

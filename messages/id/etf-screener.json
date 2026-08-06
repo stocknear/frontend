@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "Beranda",
+  "etf_screener_breadcrumb_etf_screener": "Screener ETF",
+
+  "etf_screener_seo_title": "Screener ETF Gratis - Filter & Temukan ETF",
+  "etf_screener_seo_description": "Saring dan filter {count} ETF berdasarkan AUM, rasio biaya, dividen, kinerja, teknikal, dan lainnya. Screener ETF gratis dengan filter lanjutan.",
+  "etf_screener_seo_keywords": "screener etf, filter etf, cari etf, temukan etf, alat penyaring etf, filter rasio biaya, filter aum, screener etf dividen",
+  "etf_screener_structured_name": "Screener ETF stocknear",
+  "etf_screener_structured_description": "Alat penyaring ETF lanjutan dengan filter AUM, rasio biaya, kinerja, teknikal, dividen, dan lainnya.",
+
+  "etf_screener_main_title": "Screener ETF",
+  "etf_screener_matches_found": "{count} Hasil Cocok",
+  "etf_screener_etfs_count": "{count} ETF",
+
+  "etf_screener_popular_screens": "Screener Populer",
+  "etf_screener_popular_strategies": "Strategi Populer",
+  "etf_screener_select_popular": "Pilih populer",
+  "etf_screener_saved_screens": "Screener Tersimpan",
+  "etf_screener_select_screen": "Pilih screener",
+  "etf_screener_new_screen": "Screener Baru",
+
+  "etf_screener_filters_count": "{count} Filter",
+  "etf_screener_add_filters": "Tambah Filter",
+  "etf_screener_search_filters": "Cari {count} filter...",
+  "etf_screener_select_filters_title": "Pilih Filter ({count})",
+  "etf_screener_nothing_found": "Tidak ada hasil",
+
+  "etf_screener_search_placeholder": "Cari ETF...",
+  "etf_screener_search_input_placeholder": "Cari...",
+  "etf_screener_input_min": "Min",
+  "etf_screener_input_max": "Maks",
+  "etf_screener_input_value": "Nilai",
+
+  "etf_screener_normal_width": "Lebar Normal",
+  "etf_screener_full_width": "Lebar Penuh",
+
+  "etf_screener_save": "Simpan",
+  "etf_screener_save_as_new": "Simpan sebagai Baru",
+  "etf_screener_reset_all": "Atur Ulang Semua",
+
+  "etf_screener_pagination_previous": "Sebelumnya",
+  "etf_screener_pagination_next": "Berikutnya",
+  "etf_screener_pagination_page_of": "Halaman {current} dari {total}",
+  "etf_screener_rows_label": "{rows} Baris",
+  "etf_screener_back_to_top": "Kembali ke Atas",
+
+  "etf_screener_no_etfs_query": "Tidak ada ETF untuk \"{query}\"",
+  "etf_screener_no_etfs": "Tidak ada ETF ditemukan.",
+
+  "etf_screener_modal_new_title": "Screener Baru",
+  "etf_screener_modal_new_name_label": "Nama Screener",
+  "etf_screener_modal_new_create": "Buat",
+
+  "etf_screener_modal_delete_title": "Hapus Screener",
+  "etf_screener_modal_delete_message": "Yakin ingin menghapus screener ini?",
+  "etf_screener_modal_delete_cancel": "Batal",
+  "etf_screener_modal_delete_confirm": "Hapus",
+
+  "etf_screener_strategy_low_cost_index": "ETF Indeks Biaya Rendah",
+  "etf_screener_strategy_high_dividend": "ETF Dividen Tinggi",
+  "etf_screener_strategy_top_performers_1y": "Kinerja Terbaik 1T",
+  "etf_screener_strategy_oversold": "ETF Oversold",
+
+  "etf_screener_tab_filters": "Filter",
+  "etf_screener_tab_technicals": "Teknikal",
+
+  "etf_screener_export_title": "Ekspor data screener ETF"
+}

@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 import { getLocale } from "$lib/paraglide/runtime.js";
+import { getLocaleDefinition } from "$lib/i18n/locales";
 import {
   time_ago,
   time_day,
@@ -78,6 +79,35 @@ function getCurrentLocale(): string {
   } catch {
     return "en";
   }
+}
+
+// Intl tag for the active locale, resolved through the registry so adding a locale never
+// has to touch this file. Same fallback contract as getCurrentLocale().
+function getCurrentIntlTag(): string {
+  try {
+    return getLocaleDefinition(getLocale()).intlTag;
+  } catch {
+    return "en-US";
+  }
+}
+
+// formatTime() below runs per row in tables backing live/frequently-refreshing data
+// (options flow, dark pool, portfolio, alerts, watchlist). Constructing
+// Intl.DateTimeFormat does locale-data resolution and isn't free; there are at most a
+// handful of distinct intlTags in a session, so cache by tag instead of building one
+// per call.
+const timeFormatters = new Map<string, Intl.DateTimeFormat>();
+function getTimeFormatter(intlTag: string): Intl.DateTimeFormat {
+  let formatter = timeFormatters.get(intlTag);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(intlTag, {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC",
+    });
+    timeFormatters.set(intlTag, formatter);
+  }
+  return formatter;
 }
 
 export function cn(...inputs: ClassValue[]) {
@@ -666,20 +696,38 @@ export const computeGrowthSingleList = (data, actualList) => {
   }
 
  export const formatTime = (timeString) => {
+    // Most call sites pass `item?.time` with no `?? ""` fallback (only
+    // IntradayBarsChart guards it), so `undefined`/`null` reach this function
+    // routinely — e.g. an API row missing its time field. `.split` on a non-string
+    // throws TypeError before the NaN guard below ever runs, which is the exact
+    // "component blanks on bad input" failure this function exists to prevent.
+    if (typeof timeString !== "string") {
+      return String(timeString ?? "");
+    }
+
     // Split the time string into components
     const [hours, minutes, seconds] = timeString.split(":").map(Number);
+
+    // Intl.format() raises RangeError on an Invalid Date, where the old string concat
+    // merely printed "12:NaN AM". A throw here blanks the whole component, so a bad value
+    // from the API must degrade to something renderable instead.
+    if (!Number.isFinite(hours) || !Number.isFinite(minutes)) {
+      return timeString;
+    }
 
     const isGerman = getCurrentLocale() === "de";
 
     if (isGerman) {
-      // German: 24-hour format with "Uhr"
+      // German: 24-hour format with "Uhr", which Intl does not produce.
       return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} Uhr`;
     }
 
-    // English: 12-hour format with AM/PM
-    const period = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12; // Converts 0 to 12 for midnight
-    return `${formattedHours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${period}`;
+    // Every other locale gets its own clock convention rather than the hardcoded English
+    // AM/PM this used to emit for all of them. en-US output is unchanged ("02:30 PM").
+    // Built and formatted in UTC so the result never depends on the host's 1970 offset.
+    return getTimeFormatter(getCurrentIntlTag()).format(
+      new Date(Date.UTC(1970, 0, 1, hours, minutes)),
+    );
   }
 
 

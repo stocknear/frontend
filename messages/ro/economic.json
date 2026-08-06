@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Acasă",
+  "economic_breadcrumb_calendar": "Calendar economic",
+
+  "economic_seo_title": "Calendar economic - Evenimente care mișcă piața și publicări de date financiare",
+  "economic_seo_description": "Fii cu un pas înainte cu un calendar economic complet, care include evenimente financiare în timp real, indicatori economici și publicări de date care mișcă piața. Urmărește PIB, inflația, datele despre ocupare, ședințele băncilor centrale și anunțurile economice importante, cu ore exacte și prognoze. Un instrument esențial pentru traderi și investitori care vor să anticipeze volatilitatea.",
+  "economic_seo_keywords": "calendar economic, evenimente financiare, calendar de piață, indicatori economici, publicare PIB, date inflație, statistici ocupare, ședințe bănci centrale, știri economice, evenimente care mișcă piața, publicări de date financiare, anunțuri economice, calendar de trading, planificare investiții",
+  "economic_structured_name": "Calendar economic",
+  "economic_structured_description": "Calendar economic complet, care urmărește evenimente financiare globale, indicatori economici și publicări de date care mișcă piața",
+
+  "economic_main_name": "Calendar economic",
+  "economic_count_events": "{count} evenimente",
+  "economic_empty_day": "Nu există evenimente pentru ziua selectată.",
+
+  "economic_filter_country": "Filtrează după țară",
+  "economic_filter_importance": "Filtrează după importanță",
+  "economic_filter_reset": "Resetează tot",
+  "economic_filter_search": "Caută...",
+  "economic_filter_no_country": "Nicio țară găsită",
+  "economic_filters_label": "Filtre",
+
+  "economic_pagination_previous": "Înapoi",
+  "economic_pagination_next": "Înainte",
+  "economic_pagination_page_of": "Pagina {current} din {total}",
+  "economic_pagination_rows": "{count} rânduri",
+  "economic_back_to_top": "Sus",
+  "economic_search_placeholder": "Caută...",
+
+  "economic_source_label": "Sursă:",
+  "economic_source_text": "Calendar economic oferit de",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "iar orele sunt afișate în ET (ora Coastei de Est)."
+}

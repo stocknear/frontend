@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Oppimiskeskus - pörssitietoa ja sijoitusoppaita",
+  "learning_center_seo_description": "Opi sijoittamaan kattavassa oppimiskeskuksessamme. Ilmaisia oppaita kaupankäyntistrategioista, teknisestä ja fundamenttianalyysistä, salkunhallinnasta ja sijoittamisesta - aloittelijasta kokeneeseen kaupankävijään.",
+  "learning_center_seo_keywords": "pörssitieto, sijoitusoppaat, kaupankäyntistrategiat, opi sijoittamaan, osakeanalyysin oppaat, talousosaaminen, sijoitusopas, pörssin perusteet, salkunhallinta, tekninen analyysi kurssi",
+  "learning_center_structured_name": "Stocknear-oppimiskeskus",
+  "learning_center_structured_description": "Kattavaa pörssitietoa ja sijoitusoppaita",
+  "learning_center_structured_articles": "Opetusartikkelit",
+  "learning_center_structured_articles_description": "Pörssitietoa ja sijoitusoppaita käsittelevät artikkelit",
+  "learning_center_title": "Oppimiskeskus",
+  "learning_center_published": "Julkaistu:",
+  "learning_center_previous": "Edellinen",
+  "learning_center_next": "Seuraava",
+  "learning_center_alt_tutorial": "Oppaan taustakuva",
+
+  "learning_center_subtitle": "Opi pörssi haltuun, yksi käsite kerrallaan",
+
+  "learning_center_category_all": "Kaikki",
+  "learning_center_category_features": "Ominaisuudet",
+  "learning_center_category_fundamentals": "Perusteet",
+  "learning_center_category_terms": "Termit",
+
+  "learning_center_category_desc_features": "Näin käytät Stocknearia",
+  "learning_center_category_desc_fundamentals": "Aloita tästä, jos sijoittaminen on sinulle uutta",
+  "learning_center_category_desc_terms": "Talousalan termit ja määritelmät",
+
+  "learning_center_tag_all": "Kaikki tunnisteet",
+  "learning_center_tag_stocks": "Osakkeet",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Optiot",
+  "learning_center_tag_sentiment": "Tunnelma",
+  "learning_center_tag_prefix": "Tunniste",
+
+  "learning_center_view_all": "Näytä kaikki",
+  "learning_center_view_all_count": "Näytä kaikki {count}",
+  "learning_center_min_read": "{time} min luku",
+
+  "learning_center_no_articles_tag": "Tunnisteella \"{tag}\" ei löytynyt artikkeleita.",
+  "learning_center_clear_tag_filter": "Tyhjennä tunnistesuodatin",
+
+  "learning_center_page_of": "Sivu {currentPage} / {totalPages}",
+  "learning_center_items_count": "{count} kohdetta",
+
+  "learning_center_back_to_top": "Takaisin ylös",
+  "learning_center_no_terms_yet": "Termejä ei ole vielä saatavilla.",
+  "learning_center_no_articles_category": "Tässä kategoriassa ei ole vielä artikkeleita.",
+
+  "learning_center_table_of_contents": "Sisällys",
+  "learning_center_share_this_post": "Jaa tämä julkaisu",
+  "learning_center_back_to_all_posts": "Takaisin kaikkiin julkaisuihin",
+
+  "learning_center_quick_start": "Pika-aloitus",
+  "learning_center_sidebar_top_gainers": "Nousijat",
+  "learning_center_sidebar_top_losers": "Laskijat",
+  "learning_center_sidebar_analysts": "Analyytikot",
+  "learning_center_sidebar_stock_screener": "Osakeseulonta",
+  "learning_center_sidebar_options_flow": "Optiovirta",
+  "learning_center_sidebar_earnings_calendar": "Tuloskalenteri",
+  "learning_center_sidebar_dividends_calendar": "Osinkokalenteri",
+  "learning_center_sidebar_ipo_calendar": "IPO-kalenteri",
+
+  "learning_center_related_articles": "Aiheeseen liittyvät artikkelit",
+  "learning_center_view_all_articles": "Näytä kaikki artikkelit",
+  "learning_center_share_this_article": "Jaa tämä artikkeli",
+
+  "learning_center_link_copied": "Linkki kopioitu leikepöydälle",
+  "learning_center_link_copy_failed": "Linkin kopiointi epäonnistui",
+
+  "learning_center_sign_in_to_read": "Kirjaudu sisään lukeaksesi koko katsauksen.",
+  "learning_center_briefing_description": "Päivittäinen markkinakatsaus on Stocknearin jäsenten käytössä. Luo ilmainen tili tai kirjaudu sisään, niin saat koko analyysin.",
+  "learning_center_create_free_account": "Luo ilmainen tili",
+  "learning_center_sign_in": "Kirjaudu sisään",
+
+  "learning_center_click_to_close": "Sulje klikkaamalla mistä tahansa tai painamalla ESC",
+
+  "learning_center_search_placeholder": "Hae...",
+  "learning_center_no_search_results": "Haulle \"{query}\" ei löytynyt tuloksia.",
+  "learning_center_clear_search": "Tyhjennä haku"
+}

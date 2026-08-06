@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Главная",
+  "stock_screener_breadcrumb_stock_screener": "Скринер акций",
+
+  "stock_screener_seo_title": "Продвинутый скринер акций - бесплатный инструмент фильтрации и анализа",
+  "stock_screener_seo_description": "Мощный скринер акций с {count} критериями фильтрации. Отбирай акции по фундаментальным, техническим показателям, оценке стоимости и динамике. Данные в реальном времени, обновляются каждую минуту.",
+  "stock_screener_seo_keywords": "скринер акций, бесплатный скринер акций, фильтр акций, сканер акций, фундаментальный скринер, технический скринер, скринер стоимостных акций, скринер акций роста, скринер дивидендных акций, инструмент анализа акций",
+  "stock_screener_structured_name": "Инструмент скринера акций",
+  "stock_screener_structured_description": "Продвинутая платформа отбора и фильтрации акций с рыночными данными в реальном времени",
+
+  "stock_screener_main_title": "Скринер акций",
+  "stock_screener_matches_found": "Найдено совпадений: {count}",
+  "stock_screener_stocks_count": "{count} акций",
+
+  "stock_screener_popular_screens": "Популярные экраны",
+  "stock_screener_popular_strategies": "Популярные стратегии",
+  "stock_screener_select_popular": "Выбрать популярное",
+  "stock_screener_saved_screens": "Сохранённые экраны",
+  "stock_screener_select_screen": "Выбрать экран",
+  "stock_screener_new_screen": "Новый экран",
+
+  "stock_screener_filters_count": "{count} фильтров",
+  "stock_screener_add_filters": "Добавить фильтры",
+  "stock_screener_search_filters": "Поиск среди {count} фильтров...",
+  "stock_screener_select_filters_title": "Выбор фильтров скринера (всего {count})",
+  "stock_screener_nothing_found": "Ничего не найдено",
+
+  "stock_screener_search_placeholder": "Поиск...",
+  "stock_screener_search_input_placeholder": "Поиск...",
+  "stock_screener_input_min": "Мин",
+  "stock_screener_input_max": "Макс",
+  "stock_screener_input_value": "Значение",
+
+  "stock_screener_normal_width": "Обычная ширина",
+  "stock_screener_full_width": "На всю ширину",
+
+  "stock_screener_pagination_previous": "Назад",
+  "stock_screener_pagination_next": "Далее",
+  "stock_screener_pagination_page_of": "Страница {current} из {total}",
+  "stock_screener_rows_label": "{rows} строк",
+  "stock_screener_back_to_top": "Наверх",
+
+  "stock_screener_no_stocks_query": "Акции по запросу «{query}» не найдены",
+  "stock_screener_no_stocks": "Акции не найдены.",
+
+  "stock_screener_modal_new_title": "Новый скринер",
+  "stock_screener_modal_new_name_label": "Название скринера",
+  "stock_screener_modal_new_create": "Создать скринер",
+
+  "stock_screener_modal_delete_title": "Удалить скринер",
+  "stock_screener_modal_delete_message": "Ты уверен, что хочешь удалить этот скринер? Это действие нельзя отменить.",
+  "stock_screener_modal_delete_cancel": "Отмена",
+  "stock_screener_modal_delete_confirm": "Удалить",
+
+  "stock_screener_strategy_earnings_volatility": "Волатильность на отчётах",
+  "stock_screener_strategy_dividend_growth": "Рост дивидендов",
+  "stock_screener_strategy_monthly_dividends": "Ежемесячные дивиденды",
+  "stock_screener_strategy_top_gainers_1y": "Топ роста за 1 год",
+  "stock_screener_strategy_top_shorted": "Топ акций в шорте",
+  "stock_screener_strategy_momentum_ta": "Акции с моментумом (ТА)",
+  "stock_screener_strategy_undervalued": "Недооценённые акции",
+  "stock_screener_strategy_strong_cash_flow": "Сильный денежный поток",
+
+  "stock_screener_save": "Сохранить",
+  "stock_screener_save_as_new": "Сохранить как новый",
+  "stock_screener_reset_all": "Сбросить всё"
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Início",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedge Funds",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedge Fund",
+
+  "hedge_funds_seo_title": "Rastreador de Hedge Funds - Principais Posições e Formulários 13F",
+  "hedge_funds_seo_description": "Acompanhe as posições dos maiores hedge funds, os formulários 13F e as carteiras de investidores institucionais. Veja o que os fundos estão comprando e vendendo com análise detalhada de posições. Ferramenta gratuita de acompanhamento de hedge funds.",
+  "hedge_funds_seo_keywords": "rastreador de hedge funds, posições de hedge funds, formulários 13F, investidores institucionais, posições de fundos, maiores hedge funds, participações institucionais, carteiras de hedge funds, posições da berkshire hathaway",
+  "hedge_funds_structured_name": "Rastreador de Hedge Funds",
+  "hedge_funds_structured_description": "Acompanhamento completo das posições de hedge funds e investimentos institucionais",
+
+  "hedge_funds_main_title": "Maiores Hedge Funds dos EUA",
+  "hedge_funds_infobox": "Lista de todas as instituições de Wall Street com o maior patrimônio sob gestão.",
+  "hedge_funds_count_institutes": "{count} instituições",
+
+  "hedge_funds_search_placeholder": "Buscar...",
+  "hedge_funds_loading": "Carregando...",
+  "hedge_funds_no_data": "Nenhum dado disponível.",
+
+  "hedge_funds_pagination_previous": "Anterior",
+  "hedge_funds_pagination_next": "Próxima",
+  "hedge_funds_pagination_page_of": "Página {current} de {total}",
+  "hedge_funds_rows_label": "{rows} linhas",
+  "hedge_funds_back_to_top": "Voltar ao topo",
+
+  "hedge_funds_slug_seo_title": "Posições e Carteira da {companyName} - Análise dos Formulários 13F",
+  "hedge_funds_slug_seo_description": "Análise detalhada das posições, da carteira e da estratégia de investimento do hedge fund {companyName}. Acompanhe os formulários 13F mais recentes, as principais escolhas de ações, a alocação por setor e as métricas de desempenho.",
+  "hedge_funds_slug_seo_keywords": "posições {companyNameLower}, carteira {companyNameLower}, formulários 13F {companyNameLower}, posições de hedge funds, participações de investidores institucionais, ações escolhidas por {companyNameLower}, análise de hedge funds",
+  "hedge_funds_slug_structured_name": "Análise de Posições e Carteira da {companyName}",
+  "hedge_funds_slug_structured_description": "Análise completa das posições e investimentos do hedge fund {companyName}",
+
+  "hedge_funds_slug_cik_number": "Número CIK:",
+  "hedge_funds_slug_market_value": "Valor de Mercado",
+  "hedge_funds_slug_holdings": "Nº de Posições",
+  "hedge_funds_slug_avg_holding_period": "Prazo Médio de Posição",
+  "hedge_funds_slug_months": "meses",
+  "hedge_funds_slug_win_rate": "Taxa de Acerto",
+  "hedge_funds_slug_performance_3year": "Desempenho em 3 anos",
+
+  "hedge_funds_slug_main_sectors": "Principais setores:",
+  "hedge_funds_slug_top_industries": "Principais indústrias:",
+  "hedge_funds_slug_filing_date": "Data do registro:",
+  "hedge_funds_slug_no_data": "Os dados deste hedge fund não estão disponíveis no momento.",
+
+  "hedge_funds_column_rank": "Rank",
+  "hedge_funds_column_name": "Nome",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Posições",
+  "hedge_funds_column_turnover": "Giro",
+  "hedge_funds_column_3year_perf": "Desemp. 3 anos",
+  "hedge_funds_column_win_rate": "Taxa de Acerto"
+}

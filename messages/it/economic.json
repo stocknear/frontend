@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Home",
+  "economic_breadcrumb_calendar": "Calendario economico",
+
+  "economic_seo_title": "Calendario economico - Eventi che muovono i mercati e dati macro in tempo reale",
+  "economic_seo_description": "Resta un passo avanti con il nostro calendario economico completo, con eventi finanziari in tempo reale, indicatori macro e dati capaci di muovere i mercati. Segui PIL, inflazione, dati sull'occupazione, riunioni delle banche centrali e i principali annunci economici con orari precisi e previsioni. Uno strumento essenziale per trader e investitori che vogliono anticipare la volatilità.",
+  "economic_seo_keywords": "calendario economico, eventi finanziari, calendario dei mercati, indicatori economici, dati PIL, dati sull'inflazione, statistiche sull'occupazione, riunioni banche centrali, notizie economiche, eventi che muovono i mercati, pubblicazione dati finanziari, annunci economici, calendario di trading, pianificazione degli investimenti",
+  "economic_structured_name": "Calendario economico",
+  "economic_structured_description": "Calendario economico completo con eventi finanziari globali, indicatori macro e dati capaci di muovere i mercati",
+
+  "economic_main_name": "Calendario economico",
+  "economic_count_events": "{count} eventi",
+  "economic_empty_day": "Nessun evento disponibile per questa giornata.",
+
+  "economic_filter_country": "Filtra per paese",
+  "economic_filter_importance": "Filtra per importanza",
+  "economic_filter_reset": "Reimposta tutto",
+  "economic_filter_search": "Cerca...",
+  "economic_filter_no_country": "Nessun paese trovato",
+  "economic_filters_label": "Filtri",
+
+  "economic_pagination_previous": "Precedente",
+  "economic_pagination_next": "Successiva",
+  "economic_pagination_page_of": "Pagina {current} di {total}",
+  "economic_pagination_rows": "{count} righe",
+  "economic_back_to_top": "Torna su",
+  "economic_search_placeholder": "Cerca...",
+
+  "economic_source_label": "Fonte:",
+  "economic_source_text": "Calendario economico fornito da",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "e gli orari sono indicati in ET (Eastern Time)."
+}

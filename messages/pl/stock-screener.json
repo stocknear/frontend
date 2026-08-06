@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Start",
+  "stock_screener_breadcrumb_stock_screener": "Skaner akcji",
+
+  "stock_screener_seo_title": "Zaawansowany skaner akcji - darmowe filtrowanie i analiza spółek",
+  "stock_screener_seo_description": "Rozbudowany skaner akcji z {count} kryteriami filtrowania. Filtruj spółki według fundamentów, wskaźników technicznych, wyceny i wyników. Dane odświeżane co minutę.",
+  "stock_screener_seo_keywords": "skaner akcji, darmowy skaner akcji, filtr akcji, wyszukiwarka spółek, skaner fundamentalny, skaner techniczny, spółki niedowartościowane, spółki wzrostowe, spółki dywidendowe, narzędzie do analizy akcji",
+  "stock_screener_structured_name": "Skaner akcji",
+  "stock_screener_structured_description": "Zaawansowana platforma do skanowania i filtrowania akcji z danymi rynkowymi na żywo",
+
+  "stock_screener_main_title": "Skaner akcji",
+  "stock_screener_matches_found": "Znaleziono: {count}",
+  "stock_screener_stocks_count": "Spółki: {count}",
+
+  "stock_screener_popular_screens": "Popularne skany",
+  "stock_screener_popular_strategies": "Popularne strategie",
+  "stock_screener_select_popular": "Wybierz popularny",
+  "stock_screener_saved_screens": "Zapisane skany",
+  "stock_screener_select_screen": "Wybierz skan",
+  "stock_screener_new_screen": "Nowy skan",
+
+  "stock_screener_filters_count": "Filtry: {count}",
+  "stock_screener_add_filters": "Dodaj filtry",
+  "stock_screener_search_filters": "Szukaj wśród {count} filtrów...",
+  "stock_screener_select_filters_title": "Wybierz filtry skanera (łącznie {count})",
+  "stock_screener_nothing_found": "Nic nie znaleziono",
+
+  "stock_screener_search_placeholder": "Znajdź...",
+  "stock_screener_search_input_placeholder": "Szukaj...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Maks",
+  "stock_screener_input_value": "Wartość",
+
+  "stock_screener_normal_width": "Zwykła szerokość",
+  "stock_screener_full_width": "Pełna szerokość",
+
+  "stock_screener_pagination_previous": "Wstecz",
+  "stock_screener_pagination_next": "Dalej",
+  "stock_screener_pagination_page_of": "Strona {current} z {total}",
+  "stock_screener_rows_label": "Wiersze: {rows}",
+  "stock_screener_back_to_top": "Do góry",
+
+  "stock_screener_no_stocks_query": "Nie znaleziono spółek dla \"{query}\"",
+  "stock_screener_no_stocks": "Nie znaleziono spółek.",
+
+  "stock_screener_modal_new_title": "Nowy skaner",
+  "stock_screener_modal_new_name_label": "Nazwa skanera",
+  "stock_screener_modal_new_create": "Utwórz skaner",
+
+  "stock_screener_modal_delete_title": "Usuń skaner",
+  "stock_screener_modal_delete_message": "Na pewno chcesz usunąć ten skaner? Tej operacji nie da się cofnąć.",
+  "stock_screener_modal_delete_cancel": "Anuluj",
+  "stock_screener_modal_delete_confirm": "Usuń",
+
+  "stock_screener_strategy_earnings_volatility": "Zmienność po wynikach",
+  "stock_screener_strategy_dividend_growth": "Rosnące dywidendy",
+  "stock_screener_strategy_monthly_dividends": "Dywidendy miesięczne",
+  "stock_screener_strategy_top_gainers_1y": "Najlepsze wzrosty 1R",
+  "stock_screener_strategy_top_shorted": "Najbardziej shortowane spółki",
+  "stock_screener_strategy_momentum_ta": "Momentum wg analizy technicznej",
+  "stock_screener_strategy_undervalued": "Spółki niedowartościowane",
+  "stock_screener_strategy_strong_cash_flow": "Mocne przepływy pieniężne",
+
+  "stock_screener_save": "Zapisz",
+  "stock_screener_save_as_new": "Zapisz jako nowy",
+  "stock_screener_reset_all": "Resetuj wszystko"
+}

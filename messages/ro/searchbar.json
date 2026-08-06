@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Companie sau simbol...",
+  "searchbar_aria_label": "Companie sau simbol...",
+  "searchbar_search_label": "Caută",
+  "searchbar_suggestions": "Sugestii",
+  "searchbar_recent": "Recente",
+  "searchbar_popular": "Populare",
+  "searchbar_no_results": "Niciun rezultat"
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Domů",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedgeové fondy",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedgeový fond",
+
+  "hedge_funds_seo_title": "Sledovač hedgeových fondů - největší pozice a 13F reporty",
+  "hedge_funds_seo_description": "Sleduj pozice největších hedgeových fondů, 13F reporty a portfolia institucionálních investorů. Zjisti, co hedgeové fondy nakupují a prodávají, včetně detailní analýzy pozic. Bezplatný nástroj pro sledování hedgeových fondů.",
+  "hedge_funds_seo_keywords": "sledovač hedgeových fondů, pozice hedgeových fondů, 13F reporty, institucionální investoři, pozice hedge fondů, největší hedgeové fondy, institucionální držba, portfolia hedgeových fondů, pozice berkshire hathaway",
+  "hedge_funds_structured_name": "Sledovač hedgeových fondů",
+  "hedge_funds_structured_description": "Komplexní sledování pozic hedgeových fondů a institucionálních investic",
+
+  "hedge_funds_main_title": "Největší hedgeové fondy v USA",
+  "hedge_funds_infobox": "Seznam všech institucí z Wall Street s nejvyšším objemem spravovaného majetku.",
+  "hedge_funds_count_institutes": "{count} institucí",
+
+  "hedge_funds_search_placeholder": "Hledat...",
+  "hedge_funds_loading": "Načítám...",
+  "hedge_funds_no_data": "Žádná data k dispozici.",
+
+  "hedge_funds_pagination_previous": "Předchozí",
+  "hedge_funds_pagination_next": "Další",
+  "hedge_funds_pagination_page_of": "Strana {current} z {total}",
+  "hedge_funds_rows_label": "{rows} řádků",
+  "hedge_funds_back_to_top": "Zpět nahoru",
+
+  "hedge_funds_slug_seo_title": "{companyName} pozice a portfolio - analýza 13F reportů",
+  "hedge_funds_slug_seo_description": "Detailní analýza pozic, portfolia a investiční strategie fondu {companyName}. Sleduj jeho poslední 13F reporty, největší akciové sázky, alokaci podle sektorů a ukazatele výkonnosti.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} pozice, {companyNameLower} portfolio, {companyNameLower} 13F reporty, pozice hedgeových fondů, institucionální držba, {companyNameLower} akciové tipy, analýza hedgeových fondů",
+  "hedge_funds_slug_structured_name": "{companyName} analýza pozic a portfolia",
+  "hedge_funds_slug_structured_description": "Komplexní analýza pozic a investic hedgeového fondu {companyName}",
+
+  "hedge_funds_slug_cik_number": "Číslo CIK:",
+  "hedge_funds_slug_market_value": "Tržní hodnota",
+  "hedge_funds_slug_holdings": "Počet pozic",
+  "hedge_funds_slug_avg_holding_period": "Prům. doba držení",
+  "hedge_funds_slug_months": "měsíců",
+  "hedge_funds_slug_win_rate": "Úspěšnost",
+  "hedge_funds_slug_performance_3year": "Výkonnost za 3 roky",
+
+  "hedge_funds_slug_main_sectors": "Hlavní sektory:",
+  "hedge_funds_slug_top_industries": "Hlavní odvětví:",
+  "hedge_funds_slug_filing_date": "Datum podání:",
+  "hedge_funds_slug_no_data": "Data tohoto hedgeového fondu nejsou momentálně k dispozici.",
+
+  "hedge_funds_column_rank": "Pořadí",
+  "hedge_funds_column_name": "Název",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Pozice",
+  "hedge_funds_column_turnover": "Obrat",
+  "hedge_funds_column_3year_perf": "Výkon 3R",
+  "hedge_funds_column_win_rate": "Úspěšnost"
+}

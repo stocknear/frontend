@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Hubungi kami",
+  "contact_breadcrumb": "Hubungi Kami",
+  "contact_hero_title": "Hubungi Kami",
+  "contact_intro": "Kami senang mendengar dari Anda. Silakan kirim pesan lewat formulir kontak di bawah ini dan kami akan membalas secepatnya. Anda juga bisa mengirim email langsung ke {email}.",
+  "contact_email_label": "Email",
+  "contact_subject_label": "Subjek",
+  "contact_message_label": "Pesan",
+  "contact_send_button": "Kirim Pesan",
+  "contact_processing": "Memproses...",
+  "contact_success": "Pesan Anda berhasil dikirim. Kami akan segera membalas.",
+  "contact_sidebar_pro_title": "Langganan Pro",
+  "contact_sidebar_pro_desc": "Upgrade sekarang untuk akses tanpa batas ke semua data, tools, dan bebas iklan.",
+  "contact_sidebar_screener_title": "Stock Screener",
+  "contact_sidebar_screener_desc": "Filter, urutkan, dan analisis semua saham untuk menemukan investasi berikutnya.",
+  "contact_sidebar_watchlist_title": "Watchlist",
+  "contact_sidebar_watchlist_desc": "Pantau saham favorit Anda secara real-time."
+}

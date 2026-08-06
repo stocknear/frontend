@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Home",
+  "politicians_breadcrumb_politicians": "Politici",
+  "politicians_breadcrumb_flow": "Flusso del Congresso",
+
+  "politicians_seo_title": "Congress Trading Tracker - Operazioni dei politici in tempo reale",
+  "politicians_seo_description": "Segui in tempo reale le operazioni in borsa di membri del Congresso, senatori e politici USA. Monitora le operazioni di Nancy Pelosi, gli acquisti del Senato e il trading dei politici. Tracker gratuito con lo storico dettagliato delle transazioni.",
+  "politicians_seo_keywords": "trading del congresso, operazioni nancy pelosi, azioni comprate dai politici, operazioni del senato, trading congressuale, insider trading congresso, tracker politici borsa, politici usa trading, portafoglio pelosi, azioni comprate dal congresso",
+  "politicians_structured_name": "Tracker delle operazioni del Congresso",
+  "politicians_structured_description": "Monitoraggio in tempo reale delle operazioni in borsa di politici e membri del Congresso USA",
+
+  "politicians_main_title": "Tutti i politici USA",
+  "politicians_count_members": "{count} membri",
+  "politicians_search_placeholder": "Trova...",
+  "politicians_filter_party": "Partito",
+  "politicians_empty_search": "Nessun membro del Congresso trovato per \"{query}\"",
+  "politicians_empty_filter": "Nessun risultato per la ricerca o i filtri selezionati.",
+
+  "politicians_pagination_previous": "Precedente",
+  "politicians_pagination_next": "Successivo",
+  "politicians_pagination_page_of": "Pagina {current} di {total}",
+  "politicians_pagination_rows": "{count} righe",
+  "politicians_back_to_top": "Torna su",
+
+  "politicians_flow_seo_title": "Ultime operazioni del Congresso",
+  "politicians_flow_seo_description": "Scopri le ultime operazioni del Congresso e su cosa investe chi ha accesso alle decisioni normative.",
+
+  "politicians_flow_title": "Ultime operazioni dei politici",
+  "politicians_flow_description_intro": "Panoramica delle ultime operazioni del Congresso. Il rapporto tra acquisti e vendite mostra",
+  "politicians_flow_description_buys": "{percent}% di acquisti",
+  "politicians_flow_description_versus": "contro",
+  "politicians_flow_description_sells": "{percent}% di vendite",
+  "politicians_flow_description_active_party": "nelle ultime comunicazioni. Il partito più attivo è",
+  "politicians_flow_description_with": "con",
+  "politicians_flow_description_transactions": "operazioni, che indica un sentiment",
+  "politicians_flow_description_sentiment": "tra i membri del Congresso.",
+  "politicians_flow_sentiment_bullish": "rialzista",
+  "politicians_flow_sentiment_bearish": "ribassista",
+  "politicians_flow_sentiment_neutral": "neutrale",
+  "politicians_flow_count_trades": "{count} operazioni",
+  "politicians_flow_empty_search": "Nessun titolo trovato per \"{query}\"",
+
+  "politicians_detail_stats_rank": "Posizione",
+  "politicians_detail_stats_trades_scored": "Operazioni valutate",
+  "politicians_detail_stats_success_rate": "Tasso di successo",
+  "politicians_detail_stats_avg_return": "Rendimento medio",
+  "politicians_detail_stats_total_amount": "Importo totale",
+  "politicians_detail_stats_transaction": "Operazione",
+  "politicians_detail_stats_last_transaction": "Ultima operazione",
+  "politicians_detail_stats_buy_sell": "Acquisti/Vendite",
+
+  "politicians_detail_main_sectors": "Settori principali:",
+  "politicians_detail_top_industries": "Industrie principali:",
+  "politicians_detail_count_stocks": "{count} titoli",
+  "politicians_detail_empty_search": "Nessun dato disponibile per \"{query}\"",
+  "politicians_detail_empty": "Nessun dato disponibile per l'analista cercato.",
+
+  "politicians_detail_mobile_filed": "Depositata",
+  "politicians_detail_mobile_view_chart": "Vedi grafico",
+  "politicians_detail_mobile_amt": "Imp.",
+  "politicians_detail_mobile_trades": "{count} operazione",
+  "politicians_detail_mobile_trades_plural": "{count} operazioni"
+}

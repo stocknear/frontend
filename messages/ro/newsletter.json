@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Newsletter de piață: fii la curent în doar 2 minute pe zi",
+  "newsletter_seo_description": "Rămâi în față cu newsletterul nostru pro. Primești cele mai noi informații, tendințe și analize direct în inbox.",
+  "newsletter_label": "Newsletter",
+  "newsletter_title": "Fii la curent în doar 2 minute pe zi",
+  "newsletter_description": "Pre-market Report este un newsletter care îți face foarte ușoară urmărirea piețelor financiare.",
+  "newsletter_intro_1": "Rezumatele sunt scurte, la puncte, așa că cititul newsletterului nu o să pară niciodată o corvoadă.",
+  "newsletter_intro_2": "Citim știrile în locul tău și filtrăm zgomotul, apoi îți trimitem esențialul. Iată ce primești:",
+  "newsletter_feature_1": "Cele mai noi rapoarte ale analiștilor, cu concluziile-cheie extrase cu ajutorul AI.",
+  "newsletter_feature_2": "O imagine rapidă a raportărilor financiare recente și a celor care urmează.",
+  "newsletter_feature_3": "Evenimentele economice importante care pot mișca serios piața.",
+  "newsletter_feature_4": "Informații corecte și la zi, luate exclusiv din surse de top.",
+  "newsletter_closing": "Newsletterul este complet gratuit și ajunge în inboxul tău în fiecare dimineață înainte de deschiderea pieței, de luni până vineri (mai puțin în zilele libere).",
+  "newsletter_signup_button": "Abonează-te gratuit"
+}

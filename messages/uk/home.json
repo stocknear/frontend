@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Потік опціонів, світи та незвична активність у реальному часі",
+  "home_seo_description": "Живий потік опціонів, світи, блоки та незвична активність по акціях і ETF США. Знаходь короткострокові сетапи швидше зі Stocknear.",
+  "home_seo_keywords": "потік опціонів, незвична активність в опціонах, світ-ордери, блокові угоди, темний пул, імпліцитна волатильність, перекіс IV, відкритий інтерес, ланцюжок опціонів, короткострокові сетапи, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Потік опціонів і незвична активність у реальному часі для короткострокових сетапів",
+  "home_structured_feature_live_options_flow": "Живий потік опціонів і світи",
+  "home_structured_feature_unusual_options_activity": "Незвична активність в опціонах",
+  "home_structured_feature_dark_pool_monitoring": "Моніторинг темних пулів",
+  "home_structured_feature_implied_volatility": "Імпліцитна волатильність і перекіс",
+  "home_structured_feature_options_chain": "Ланцюжок опціонів і відкритий інтерес",
+  "home_structured_feature_earnings_volatility": "Волатильність навколо звітності",
+  "home_structured_feature_market_catalysts": "Ринкові каталізатори",
+  "home_hero_title": "Побач рух раніше за натовп",
+  "home_hero_subtitle": "Ціни в реальному часі, потік опціонів, ордери темних пулів, новини, фінанси, прогнози та графіки для кожної акції й ETF США. Дій швидше з чистим сигналом.",
+  "home_promo_pill_label": "Літній розпродаж",
+  "home_promo_pill_discount": "знижка {percent}",
+  "home_promo_pill_subtitle": "на всі річні тарифи"
+}

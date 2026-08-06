@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "サポート",
+  "support_breadcrumb_home": "ホーム",
+  "support_breadcrumb_current": "サポート",
+  "support_title": "サポート",
+  "support_description_1": "下のフォームからお問い合わせください。できるだけ早くご返信します。次のアドレスに直接メールを送っていただいても構いません。",
+  "support_description_2": "よくある質問への回答はこちらでご確認いただけます。",
+  "support_faq_link": "よくある質問",
+  "support_description_3": "不具合やデータの誤りについてご連絡いただく場合は、該当ページの正確なURLを添えてください。",
+  "support_label_email": "メールアドレス",
+  "support_label_subject": "件名",
+  "support_label_message": "メッセージ",
+  "support_button_send": "送信する",
+  "support_button_processing": "送信中...",
+  "support_success_message": "メッセージを送信しました。追ってご連絡します。",
+  "support_toast_error": "問題が発生しました。もう一度お試しください...",
+  "support_sidebar_pro_title": "Proプラン",
+  "support_sidebar_pro_description": "アップグレードすると、すべてのデータとツールが無制限に使え、広告も表示されません。",
+  "support_sidebar_screener_title": "銘柄スクリーナー",
+  "support_sidebar_screener_description": "全銘柄を絞り込み・並べ替え・分析して、次の投資先を見つけましょう。",
+  "support_sidebar_watchlist_title": "ウォッチリスト",
+  "support_sidebar_watchlist_description": "気になる銘柄をリアルタイムで追跡できます。"
+}

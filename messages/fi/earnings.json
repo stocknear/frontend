@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Etusivu",
+  "earnings_breadcrumb_calendar": "Tuloskalenteri",
+
+  "earnings_seo_title": "Tuloskalenteri - Volatiliteettiasetelmat optiotreidaajille",
+  "earnings_seo_description": "Seuraa tulospäiviä, odotettuja liikkeitä ja analyytikkoennusteita, kun suunnittelet optiokauppoja volatiliteetin ja IV-romahduksen varaan.",
+  "earnings_seo_keywords": "tuloskalenteri, optiokaupat tulosten ympärillä, odotettu liike, IV crush, tulosvolatiliteetti, EPS-ennusteet, liikevaihtoennusteet, tulosaikataulu",
+
+  "earnings_structured_name": "Tuloskalenteri",
+  "earnings_structured_description": "Tuloskalenteri optiotreidaajille, jotka keskittyvät volatiliteettiin ja odotettuihin liikkeisiin",
+
+  "earnings_main_name": "Tuloskalenteri",
+  "earnings_count": "{count} tulosta",
+  "earnings_empty": "Ei tulosraportteja tälle päivälle.",
+  "earnings_empty_scheduled": "Ei tuloksia aikataulussa",
+
+  "earnings_tab_daily": "Päivittäin",
+  "earnings_tab_weekly": "Viikoittain",
+  "earnings_tab_details": "Tiedot",
+  "earnings_tab_compact": "Tiivis",
+
+  "earnings_time_of_day": "Kellonaika",
+  "earnings_time_any": "Mikä tahansa",
+  "earnings_time_before_open": "Ennen avausta",
+  "earnings_time_after_close": "Sulkemisen jälkeen",
+
+  "earnings_expanded_reports": "Raportointi",
+  "earnings_expanded_market_cap": "Markkina-arvo",
+  "earnings_expanded_revenue_est": "Liikevaihtoenn.",
+  "earnings_expanded_revenue_estimate": "Liikevaihtoennuste",
+  "earnings_expanded_eps_est": "EPS-enn.",
+  "earnings_expanded_eps_estimate": "EPS-ennuste",
+
+  "earnings_pagination_previous": "Edellinen",
+  "earnings_pagination_next": "Seuraava",
+  "earnings_pagination_page_of": "Sivu {current} / {total}",
+  "earnings_pagination_rows": "{count} riviä",
+  "earnings_back_to_top": "Takaisin ylös",
+  "earnings_search_placeholder": "Etsi..."
+}

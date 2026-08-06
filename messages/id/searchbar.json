@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Nama perusahaan atau simbol saham...",
+  "searchbar_aria_label": "Nama perusahaan atau simbol saham...",
+  "searchbar_search_label": "Cari",
+  "searchbar_suggestions": "Saran",
+  "searchbar_recent": "Terbaru",
+  "searchbar_popular": "Populer",
+  "searchbar_no_results": "Tidak ada hasil"
+}

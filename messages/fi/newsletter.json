@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Markkinauutiskirje: pysy kartalla kahdessa minuutissa päivässä",
+  "newsletter_seo_description": "Pysy markkinoiden edellä pro-uutiskirjeellämme. Saat tuoreimmat päivitykset, trendit ja näkemykset suoraan sähköpostiisi.",
+  "newsletter_label": "Uutiskirje",
+  "newsletter_title": "Pysy kartalla kahdessa minuutissa päivässä",
+  "newsletter_description": "Pre-market Report on uutiskirje, jolla pysyt helposti perillä rahoitusmarkkinoista.",
+  "newsletter_intro_1": "Tiivistelmät ovat lyhyitä ranskalaisia viivoja, joten uutiskirjeen lukeminen ei tunnu työltä.",
+  "newsletter_intro_2": "Me luemme uutiset puolestasi ja suodatamme kohinan pois, ja lähetämme sinulle olennaisen. Näin saat:",
+  "newsletter_feature_1": "Tuoreimmat analyytikkoraportit, joiden ydinkohdat on poimittu tekoälyllä.",
+  "newsletter_feature_2": "Nopean katsauksen juuri julkaistuihin ja tuleviin tulosjulkistuksiin.",
+  "newsletter_feature_3": "Ajantasaiset tiedot suurista talousuutisista, jotka voivat liikuttaa markkinoita merkittävästi.",
+  "newsletter_feature_4": "Tarkkaa ja ajantasaista tietoa vain alan parhaista lähteistä.",
+  "newsletter_closing": "Uutiskirje on täysin ilmainen ja saapuu sähköpostiisi joka aamu ennen markkinoiden avautumista, maanantaista perjantaihin (pyhiä lukuun ottamatta).",
+  "newsletter_signup_button": "Tilaa ilmaiseksi"
+}

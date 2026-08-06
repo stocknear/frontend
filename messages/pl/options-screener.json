@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Start",
+  "options_screener_breadcrumb_options_screener": "Skaner opcji",
+
+  "options_screener_seo_title": "Skaner opcji - nietypowy przepływ i mocne setupy",
+  "options_screener_seo_description": "Filtruj opcje według nietypowej aktywności, zmienności implikowanej, otwartych pozycji, wolumenu, greków i terminu wygaśnięcia, żeby znaleźć krótkoterminowe okazje.",
+  "options_screener_seo_keywords": "skaner opcji, nietypowa aktywność opcyjna, wyszukiwarka opcji, skaner zmienności implikowanej, skos IV, otwarte pozycje, opcje o wysokim wolumenie, narzędzie do handlu opcjami, skaner greków",
+  "options_screener_structured_name": "Skaner opcji",
+  "options_screener_structured_description": "Skaner opcji skupiony na nietypowej aktywności, IV i otwartych pozycjach pod krótkoterminowe zagrania",
+
+  "options_screener_main_title": "Skaner opcji",
+  "options_screener_contracts_count": "Kontrakty: {count}",
+  "options_screener_expire_on": "Wszystkie kontrakty opcyjne wygasają {date}",
+
+  "options_screener_popular_screens": "Popularne skany",
+  "options_screener_popular_strategies": "Popularne strategie",
+  "options_screener_select_popular": "Wybierz popularny",
+  "options_screener_saved_screens": "Zapisane skany",
+  "options_screener_select_screen": "Wybierz skan",
+  "options_screener_new_screen": "Nowy skan",
+
+  "options_screener_filters_count": "Filtry: {count}",
+  "options_screener_add_filters": "Dodaj filtry",
+  "options_screener_search_filters": "Szukaj wśród {count} filtrów...",
+  "options_screener_select_filters_title": "Wybierz filtry skanera (łącznie {count})",
+  "options_screener_nothing_found": "Nic nie znaleziono",
+
+  "options_screener_tab_general": "Ogólne",
+  "options_screener_tab_filters": "Filtry",
+  "options_screener_tab_greeks": "Greki",
+
+  "options_screener_search_placeholder": "Znajdź...",
+  "options_screener_search_input_placeholder": "Szukaj...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Maks",
+  "options_screener_input_value": "Wartość",
+
+  "options_screener_normal_width": "Zwykła szerokość",
+  "options_screener_full_width": "Pełna szerokość",
+
+  "options_screener_pagination_previous": "Wstecz",
+  "options_screener_pagination_next": "Dalej",
+  "options_screener_pagination_page_of": "Strona {current} z {total}",
+  "options_screener_rows_label": "Wiersze: {rows}",
+  "options_screener_back_to_top": "Do góry",
+
+  "options_screener_no_contracts_query": "Nie znaleziono kontraktów dla \"{query}\"",
+  "options_screener_no_contracts": "Nie znaleziono kontraktów.",
+
+  "options_screener_modal_new_title": "Nowy skaner",
+  "options_screener_modal_new_name_label": "Nazwa skanera",
+  "options_screener_modal_new_create": "Utwórz skaner",
+
+  "options_screener_modal_delete_title": "Usuń skaner",
+  "options_screener_modal_delete_message": "Na pewno chcesz usunąć ten skaner? Tej operacji nie da się cofnąć.",
+  "options_screener_modal_delete_cancel": "Anuluj",
+  "options_screener_modal_delete_confirm": "Usuń",
+
+  "options_screener_strategy_high_iv_rank": "Wysoki IV Rank",
+  "options_screener_strategy_volume_surge": "Skok wolumenu",
+  "options_screener_strategy_itm_calls": "Opcje call ITM",
+  "options_screener_strategy_otm_puts": "Opcje put OTM",
+  "options_screener_strategy_high_premium_flow": "Przepływ o wysokiej premii",
+
+  "options_screener_save": "Zapisz",
+  "options_screener_save_as_new": "Zapisz jako nowy",
+  "options_screener_reset_all": "Resetuj wszystko"
+}

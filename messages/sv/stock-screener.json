@@ -1,0 +1,68 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "stock_screener_breadcrumb_home": "Hem",
+  "stock_screener_breadcrumb_stock_screener": "Aktiescreener",
+
+  "stock_screener_seo_title": "Avancerad aktiescreener - Gratis verktyg för att filtrera och analysera aktier",
+  "stock_screener_seo_description": "Kraftfull aktiescreener med {count} filterkriterier. Filtrera aktier efter fundamenta, teknisk analys, värderingsmått och utveckling. Data i realtid som uppdateras varje minut.",
+  "stock_screener_seo_keywords": "aktiescreener, gratis aktiescreener, aktiefilter, aktiescanner, fundamental screener, teknisk screener, screener för värdeaktier, screener för tillväxtaktier, screener för utdelningsaktier, verktyg för aktieanalys",
+  "stock_screener_structured_name": "Verktyg för aktiescreening",
+  "stock_screener_structured_description": "Avancerad plattform för aktiescreening och filtrering med marknadsdata i realtid",
+
+  "stock_screener_main_title": "Aktiescreener",
+  "stock_screener_matches_found": "{count} träffar",
+  "stock_screener_stocks_count": "{count} aktier",
+
+  "stock_screener_popular_screens": "Populära screens",
+  "stock_screener_popular_strategies": "Populära strategier",
+  "stock_screener_select_popular": "Välj populärt",
+  "stock_screener_saved_screens": "Sparade screens",
+  "stock_screener_select_screen": "Välj screen",
+  "stock_screener_new_screen": "Ny screen",
+
+  "stock_screener_filters_count": "{count} filter",
+  "stock_screener_add_filters": "Lägg till filter",
+  "stock_screener_search_filters": "Sök bland {count} filter...",
+  "stock_screener_select_filters_title": "Välj screenerfilter ({count} totalt)",
+  "stock_screener_nothing_found": "Inget hittades",
+
+  "stock_screener_search_placeholder": "Hitta...",
+  "stock_screener_search_input_placeholder": "Sök...",
+  "stock_screener_input_min": "Min",
+  "stock_screener_input_max": "Max",
+  "stock_screener_input_value": "Värde",
+
+  "stock_screener_normal_width": "Normal bredd",
+  "stock_screener_full_width": "Full bredd",
+
+  "stock_screener_pagination_previous": "Föregående",
+  "stock_screener_pagination_next": "Nästa",
+  "stock_screener_pagination_page_of": "Sida {current} av {total}",
+  "stock_screener_rows_label": "{rows} rader",
+  "stock_screener_back_to_top": "Till toppen",
+
+  "stock_screener_no_stocks_query": "Inga aktier hittades för \"{query}\"",
+  "stock_screener_no_stocks": "Inga aktier hittades.",
+
+  "stock_screener_modal_new_title": "Ny screener",
+  "stock_screener_modal_new_name_label": "Namn på screener",
+  "stock_screener_modal_new_create": "Skapa screener",
+
+  "stock_screener_modal_delete_title": "Ta bort screener",
+  "stock_screener_modal_delete_message": "Vill du ta bort den här screenern? Åtgärden går inte att ångra.",
+  "stock_screener_modal_delete_cancel": "Avbryt",
+  "stock_screener_modal_delete_confirm": "Ta bort",
+
+  "stock_screener_strategy_earnings_volatility": "Rapportvolatilitet",
+  "stock_screener_strategy_dividend_growth": "Utdelningstillväxt",
+  "stock_screener_strategy_monthly_dividends": "Månadsutdelning",
+  "stock_screener_strategy_top_gainers_1y": "Största vinnare 1 år",
+  "stock_screener_strategy_top_shorted": "Mest blankade aktier",
+  "stock_screener_strategy_momentum_ta": "Momentumaktier (TA)",
+  "stock_screener_strategy_undervalued": "Undervärderade aktier",
+  "stock_screener_strategy_strong_cash_flow": "Starkt kassaflöde",
+
+  "stock_screener_save": "Spara",
+  "stock_screener_save_as_new": "Spara som ny",
+  "stock_screener_reset_all": "Återställ allt"
+}

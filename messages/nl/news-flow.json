@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Home",
+  "news_flow_breadcrumb_news_flow": "Nieuwsflow",
+
+  "news_flow_seo_title": "Nieuwsflow - katalysatoren om op te handelen, in realtime",
+  "news_flow_seo_description": "Volg marktnieuws en katalysatoren die de koers bewegen, in realtime. Gemaakt voor optiehandelaren die snel context nodig hebben voor kortetermijnsetups.",
+  "news_flow_seo_keywords": "nieuwsflow markt, katalysatoren handelen, breaking marktnieuws, nieuws optiehandelaren, nieuws koersbewegingen, realtime marktupdates",
+  "news_flow_structured_name": "Marktnieuwsflow",
+  "news_flow_structured_description": "Marktnieuws en katalysatoren in realtime voor kortetermijnhandel",
+
+  "news_flow_main_title": "Nieuwsflow",
+  "news_flow_news_count": "{count} nieuwsberichten",
+  "news_flow_search_placeholder": "Zoeken...",
+
+  "news_flow_infobox": "Volg het laatste nieuws en zie in realtime waarom koersen bewegen",
+  "news_flow_no_news": "Er is nog geen belangrijk beursnieuws beschikbaar.",
+
+  "news_flow_sidebar_market_flow_title": "Market Flow",
+  "news_flow_sidebar_market_flow_description": "Volg het optiesentiment in realtime.",
+  "news_flow_sidebar_options_flow_title": "Options Flow",
+  "news_flow_sidebar_options_flow_description": "Volg opvallende optieactiviteit en flowpatronen in realtime",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Flow",
+  "news_flow_sidebar_dark_pool_description": "Analyseer verborgen institutionele flow en dark pool-data"
+}

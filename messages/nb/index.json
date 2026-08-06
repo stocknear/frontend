@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Oversikt",
+  "index_detail_nav_options": "Opsjoner",
+  "index_detail_nav_history": "Historikk",
+  "index_detail_nav_holdings": "Beholdninger",
+
+  "index_detail_watchlist": "Favorittliste",
+  "index_detail_price_alert": "Varsel",
+  "index_detail_add_to_watchlist": "Legg til i favorittlisten",
+  "index_detail_ticker_added": "Tickeren er lagt til i favorittlisten",
+  "index_detail_ticker_add_failed": "Klarte ikke å legge tickeren til i favorittlisten",
+  "index_detail_upgrade_watchlist": "Vil du legge til flere aksjer? Oppgrader til Plus eller Pro.",
+  "index_detail_companies": "Selskaper",
+  "index_detail_company": "Selskap",
+
+  "index_detail_no_data": "Ingen data tilgjengelig",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Kjøp",
+  "index_detail_ask": "Salg",
+  "index_detail_volume": "Volum",
+  "index_detail_avg_volume_20d": "Snittvolum (20d)",
+  "index_detail_50_day_ma": "50-dagers MA",
+  "index_detail_200_day_ma": "200-dagers MA",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "Utestående aksjer",
+  "index_detail_inception_date": "Oppstartsdato",
+  "index_detail_open": "Åpning",
+  "index_detail_prev_close": "Forrige slutt",
+  "index_detail_days_range": "Dagens intervall",
+  "index_detail_52w_range": "52-ukers intervall",
+  "index_detail_exchange": "Børs",
+  "index_detail_expense_ratio": "Kostnadsprosent",
+
+  "index_detail_chart_price": "Kurs",
+  "index_detail_chart_volume": "Volum",
+
+  "index_sidecard_about": "Om {ticker}",
+  "index_sidecard_top_sectors": "Topp 5 sektorer",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Vekt %",
+  "index_sidecard_view_all_sectors": "Vis alle sektorer"
+}

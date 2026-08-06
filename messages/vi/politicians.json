@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Trang chủ",
+  "politicians_breadcrumb_politicians": "Chính trị gia",
+  "politicians_breadcrumb_flow": "Giao dịch Quốc hội",
+
+  "politicians_seo_title": "Theo dõi giao dịch của Quốc hội Mỹ - Giao dịch cổ phiếu của chính trị gia theo thời gian thực",
+  "politicians_seo_description": "Theo dõi giao dịch cổ phiếu theo thời gian thực của các nghị sĩ, thượng nghị sĩ và chính trị gia Mỹ. Xem giao dịch của Nancy Pelosi, các lệnh mua của Thượng viện và hoạt động giao dịch nội bộ trong Quốc hội. Công cụ theo dõi miễn phí, kèm lịch sử giao dịch chi tiết.",
+  "politicians_seo_keywords": "giao dịch quốc hội, giao dịch của nancy pelosi, giao dịch cổ phiếu của chính trị gia, giao dịch thượng viện, giao dịch nghị sĩ, giao dịch nội bộ quốc hội, theo dõi cổ phiếu chính trị gia, chính trị gia mỹ giao dịch, danh mục của pelosi, cổ phiếu quốc hội mua bán",
+  "politicians_structured_name": "Theo dõi giao dịch của Quốc hội Mỹ",
+  "politicians_structured_description": "Theo dõi thời gian thực giao dịch cổ phiếu của chính trị gia và nghị sĩ Mỹ",
+
+  "politicians_main_title": "Tất cả chính trị gia Mỹ",
+  "politicians_count_members": "{count} thành viên",
+  "politicians_search_placeholder": "Tìm...",
+  "politicians_filter_party": "Đảng",
+  "politicians_empty_search": "Không tìm thấy nghị sĩ nào cho \"{query}\"",
+  "politicians_empty_filter": "Không có kết quả nào khớp với tìm kiếm hoặc bộ lọc của bạn.",
+
+  "politicians_pagination_previous": "Trước",
+  "politicians_pagination_next": "Sau",
+  "politicians_pagination_page_of": "Trang {current}/{total}",
+  "politicians_pagination_rows": "{count} dòng",
+  "politicians_back_to_top": "Lên đầu trang",
+
+  "politicians_flow_seo_title": "Giao dịch mới nhất của Quốc hội",
+  "politicians_flow_seo_description": "Xem các giao dịch mới nhất của Quốc hội và biết những người nắm quyền làm chính sách đang đầu tư vào đâu.",
+
+  "politicians_flow_title": "Giao dịch mới nhất của chính trị gia",
+  "politicians_flow_description_intro": "Tổng quan hoạt động giao dịch mới nhất của Quốc hội. Tỷ lệ mua-bán cho thấy",
+  "politicians_flow_description_buys": "{percent}% lệnh mua",
+  "politicians_flow_description_versus": "so với",
+  "politicians_flow_description_sells": "{percent}% lệnh bán",
+  "politicians_flow_description_active_party": "trong các báo cáo gần đây. Đảng giao dịch nhiều nhất là",
+  "politicians_flow_description_with": "với",
+  "politicians_flow_description_transactions": "giao dịch, cho thấy tâm lý",
+  "politicians_flow_description_sentiment": "trong giới nghị sĩ.",
+  "politicians_flow_sentiment_bullish": "lạc quan",
+  "politicians_flow_sentiment_bearish": "bi quan",
+  "politicians_flow_sentiment_neutral": "trung lập",
+  "politicians_flow_count_trades": "{count} giao dịch",
+  "politicians_flow_empty_search": "Không tìm thấy cổ phiếu nào cho \"{query}\"",
+
+  "politicians_detail_stats_rank": "Xếp hạng",
+  "politicians_detail_stats_trades_scored": "Giao dịch được chấm điểm",
+  "politicians_detail_stats_success_rate": "Tỷ lệ thành công",
+  "politicians_detail_stats_avg_return": "Lợi nhuận TB",
+  "politicians_detail_stats_total_amount": "Tổng giá trị",
+  "politicians_detail_stats_transaction": "Giao dịch",
+  "politicians_detail_stats_last_transaction": "Giao dịch gần nhất",
+  "politicians_detail_stats_buy_sell": "Mua/Bán",
+
+  "politicians_detail_main_sectors": "Nhóm ngành chính:",
+  "politicians_detail_top_industries": "Ngành nổi bật:",
+  "politicians_detail_count_stocks": "{count} cổ phiếu",
+  "politicians_detail_empty_search": "Không có dữ liệu cho \"{query}\"",
+  "politicians_detail_empty": "Không có dữ liệu cho chuyên gia phân tích đã tìm.",
+
+  "politicians_detail_mobile_filed": "Ngày báo cáo",
+  "politicians_detail_mobile_view_chart": "Xem biểu đồ",
+  "politicians_detail_mobile_amt": "Giá trị",
+  "politicians_detail_mobile_trades": "{count} giao dịch",
+  "politicians_detail_mobile_trades_plural": "{count} giao dịch"
+}

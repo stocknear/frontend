@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "Forside",
+  "hedge_funds_breadcrumb_hedge_funds": "Hedgefonde",
+  "hedge_funds_breadcrumb_hedge_fund": "Hedgefond",
+
+  "hedge_funds_seo_title": "Hedgefond-tracker - største beholdninger og 13F-indberetninger",
+  "hedge_funds_seo_description": "Følg de største hedgefondes beholdninger, 13F-indberetninger og institutionelle porteføljer. Se, hvad hedgefondene køber og sælger, med detaljeret positionsanalyse. Gratis værktøj til at følge hedgefonde.",
+  "hedge_funds_seo_keywords": "hedgefond tracker, hedgefond beholdninger, 13F-indberetninger, institutionelle investorer, hedgefond positioner, største hedgefonde, institutionelle beholdninger, hedgefond porteføljer, berkshire hathaway beholdninger",
+  "hedge_funds_structured_name": "Hedgefond-tracker",
+  "hedge_funds_structured_description": "Samlet overblik over hedgefondes beholdninger og institutionelle investeringer",
+
+  "hedge_funds_main_title": "Største hedgefonde i USA",
+  "hedge_funds_infobox": "Liste over alle Wall Street-institutioner med den største formue under forvaltning.",
+  "hedge_funds_count_institutes": "{count} institutioner",
+
+  "hedge_funds_search_placeholder": "Søg...",
+  "hedge_funds_loading": "Indlæser...",
+  "hedge_funds_no_data": "Ingen data tilgængelige.",
+
+  "hedge_funds_pagination_previous": "Forrige",
+  "hedge_funds_pagination_next": "Næste",
+  "hedge_funds_pagination_page_of": "Side {current} af {total}",
+  "hedge_funds_rows_label": "{rows} rækker",
+  "hedge_funds_back_to_top": "Til toppen",
+
+  "hedge_funds_slug_seo_title": "{companyName} beholdninger og portefølje - analyse af 13F-indberetninger",
+  "hedge_funds_slug_seo_description": "Detaljeret analyse af {companyName}s beholdninger, positioner og investeringsstrategi. Følg de seneste 13F-indberetninger, største aktieposter, sektorfordeling og nøgletal.",
+  "hedge_funds_slug_seo_keywords": "{companyNameLower} beholdninger, {companyNameLower} portefølje, {companyNameLower} 13F-indberetninger, hedgefond positioner, institutionelle beholdninger, {companyNameLower} aktievalg, hedgefond analyse",
+  "hedge_funds_slug_structured_name": "{companyName} beholdninger og porteføljeanalyse",
+  "hedge_funds_slug_structured_description": "Grundig analyse af {companyName}s beholdninger og investeringspositioner",
+
+  "hedge_funds_slug_cik_number": "CIK-nummer:",
+  "hedge_funds_slug_market_value": "Markedsværdi",
+  "hedge_funds_slug_holdings": "Antal beholdninger",
+  "hedge_funds_slug_avg_holding_period": "Gns. ejerperiode",
+  "hedge_funds_slug_months": "måneder",
+  "hedge_funds_slug_win_rate": "Træfsikkerhed",
+  "hedge_funds_slug_performance_3year": "Afkast 3 år",
+
+  "hedge_funds_slug_main_sectors": "Vigtigste sektorer:",
+  "hedge_funds_slug_top_industries": "Største brancher:",
+  "hedge_funds_slug_filing_date": "Indberetningsdato:",
+  "hedge_funds_slug_no_data": "Data for denne hedgefond er ikke tilgængelige lige nu.",
+
+  "hedge_funds_column_rank": "Nr.",
+  "hedge_funds_column_name": "Navn",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "Beholdninger",
+  "hedge_funds_column_turnover": "Omsætning",
+  "hedge_funds_column_3year_perf": "Afkast 3 år",
+  "hedge_funds_column_win_rate": "Træfsikkerhed"
+}

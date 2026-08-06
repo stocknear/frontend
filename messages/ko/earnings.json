@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "홈",
+  "earnings_breadcrumb_calendar": "실적 캘린더",
+
+  "earnings_seo_title": "실적 캘린더 - 옵션 트레이더를 위한 변동성 전략",
+  "earnings_seo_description": "실적 발표일, 예상 변동폭, 애널리스트 전망치를 확인하고 옵션 변동성 매매와 IV 크러시 전략을 준비하세요.",
+  "earnings_seo_keywords": "실적 캘린더, 실적 옵션 전략, 예상 변동폭, IV 크러시, 실적 변동성, EPS 전망치, 매출 전망, 실적 일정",
+
+  "earnings_structured_name": "실적 캘린더",
+  "earnings_structured_description": "변동성과 예상 변동폭에 집중한 옵션 트레이더용 실적 캘린더",
+
+  "earnings_main_name": "실적 캘린더",
+  "earnings_count": "실적 {count}건",
+  "earnings_empty": "해당 날짜에 실적 발표가 없습니다.",
+  "earnings_empty_scheduled": "예정된 실적 발표 없음",
+
+  "earnings_tab_daily": "일간",
+  "earnings_tab_weekly": "주간",
+  "earnings_tab_details": "상세",
+  "earnings_tab_compact": "간략",
+
+  "earnings_time_of_day": "발표 시점",
+  "earnings_time_any": "전체",
+  "earnings_time_before_open": "장 시작 전",
+  "earnings_time_after_close": "장 마감 후",
+
+  "earnings_expanded_reports": "발표",
+  "earnings_expanded_market_cap": "시가총액",
+  "earnings_expanded_revenue_est": "매출 전망",
+  "earnings_expanded_revenue_estimate": "매출 전망치",
+  "earnings_expanded_eps_est": "EPS 전망",
+  "earnings_expanded_eps_estimate": "EPS 전망치",
+
+  "earnings_pagination_previous": "이전",
+  "earnings_pagination_next": "다음",
+  "earnings_pagination_page_of": "{total}페이지 중 {current}페이지",
+  "earnings_pagination_rows": "{count}개씩",
+  "earnings_back_to_top": "맨 위로",
+  "earnings_search_placeholder": "검색..."
+}

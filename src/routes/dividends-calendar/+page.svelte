@@ -7,8 +7,9 @@
     subWeeks,
     differenceInWeeks,
   } from "date-fns";
-  import { de, enUS } from "date-fns/locale";
+  import { enUS } from "date-fns/locale";
   import { getLocale } from "$lib/paraglide/runtime.js";
+  import { getLocaleDefinition } from "$lib/i18n/locales";
   import { screenWidth } from "$lib/store";
   import { abbreviateNumber, getMarketToday } from "$lib/utils";
   import Infobox from "$lib/components/Infobox.svelte";
@@ -121,7 +122,7 @@
   // Get date-fns locale based on current language
   function getDateLocale() {
     try {
-      return getLocale() === "de" ? de : enUS;
+      return getLocaleDefinition(getLocale()).dateFns;
     } catch {
       return enUS;
     }

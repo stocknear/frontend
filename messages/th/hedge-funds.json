@@ -1,0 +1,53 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "hedge_funds_breadcrumb_home": "หน้าแรก",
+  "hedge_funds_breadcrumb_hedge_funds": "เฮดจ์ฟันด์",
+  "hedge_funds_breadcrumb_hedge_fund": "เฮดจ์ฟันด์",
+
+  "hedge_funds_seo_title": "ติดตามเฮดจ์ฟันด์ - พอร์ตถือครองและรายงาน 13F ของกองทุนชั้นนำ",
+  "hedge_funds_seo_description": "ติดตามพอร์ตถือครองของเฮดจ์ฟันด์ชั้นนำ รายงาน 13F และพอร์ตของนักลงทุนสถาบัน ดูว่ากองทุนกำลังซื้อและขายอะไร พร้อมการวิเคราะห์รายสถานะแบบละเอียด เครื่องมือติดตามเฮดจ์ฟันด์ฟรี",
+  "hedge_funds_seo_keywords": "ติดตามเฮดจ์ฟันด์, พอร์ตเฮดจ์ฟันด์, รายงาน 13F, นักลงทุนสถาบัน, สถานะของเฮดจ์ฟันด์, เฮดจ์ฟันด์ชั้นนำ, การถือครองของสถาบัน, พอร์ตกองทุน, พอร์ต berkshire hathaway",
+  "hedge_funds_structured_name": "เครื่องมือติดตามเฮดจ์ฟันด์",
+  "hedge_funds_structured_description": "ติดตามพอร์ตถือครองของเฮดจ์ฟันด์และการลงทุนของสถาบันอย่างครบถ้วน",
+
+  "hedge_funds_main_title": "เฮดจ์ฟันด์ชั้นนำในสหรัฐฯ",
+  "hedge_funds_infobox": "รายชื่อสถาบันใน Wall Street ทั้งหมดที่มีสินทรัพย์ภายใต้การบริหารสูงสุด",
+  "hedge_funds_count_institutes": "{count} สถาบัน",
+
+  "hedge_funds_search_placeholder": "ค้นหา...",
+  "hedge_funds_loading": "กำลังโหลด...",
+  "hedge_funds_no_data": "ไม่มีข้อมูล",
+
+  "hedge_funds_pagination_previous": "ก่อนหน้า",
+  "hedge_funds_pagination_next": "ถัดไป",
+  "hedge_funds_pagination_page_of": "หน้า {current} จาก {total}",
+  "hedge_funds_rows_label": "{rows} แถว",
+  "hedge_funds_back_to_top": "กลับขึ้นด้านบน",
+
+  "hedge_funds_slug_seo_title": "พอร์ตถือครองของ {companyName} - วิเคราะห์รายงาน 13F",
+  "hedge_funds_slug_seo_description": "วิเคราะห์พอร์ตถือครอง สถานะการลงทุน และกลยุทธ์ของเฮดจ์ฟันด์ {companyName} อย่างละเอียด ติดตามรายงาน 13F ล่าสุด หุ้นเด่นที่เลือก การจัดสรรตามกลุ่มธุรกิจ และตัวชี้วัดผลตอบแทน",
+  "hedge_funds_slug_seo_keywords": "พอร์ต {companyNameLower}, การถือครองของ {companyNameLower}, รายงาน 13F ของ {companyNameLower}, สถานะของเฮดจ์ฟันด์, การถือครองของนักลงทุนสถาบัน, หุ้นที่ {companyNameLower} เลือก, วิเคราะห์เฮดจ์ฟันด์",
+  "hedge_funds_slug_structured_name": "วิเคราะห์พอร์ตถือครองของ {companyName}",
+  "hedge_funds_slug_structured_description": "วิเคราะห์พอร์ตถือครองและสถานะการลงทุนของเฮดจ์ฟันด์ {companyName} อย่างครบถ้วน",
+
+  "hedge_funds_slug_cik_number": "เลข CIK:",
+  "hedge_funds_slug_market_value": "มูลค่าตลาด",
+  "hedge_funds_slug_holdings": "จำนวนหลักทรัพย์ที่ถือ",
+  "hedge_funds_slug_avg_holding_period": "ระยะเวลาถือครองเฉลี่ย",
+  "hedge_funds_slug_months": "เดือน",
+  "hedge_funds_slug_win_rate": "อัตราชนะ",
+  "hedge_funds_slug_performance_3year": "ผลตอบแทน 3 ปี",
+
+  "hedge_funds_slug_main_sectors": "กลุ่มธุรกิจหลัก:",
+  "hedge_funds_slug_top_industries": "อุตสาหกรรมเด่น:",
+  "hedge_funds_slug_filing_date": "วันที่ยื่นรายงาน:",
+  "hedge_funds_slug_no_data": "ขณะนี้ยังไม่มีข้อมูลของเฮดจ์ฟันด์รายนี้",
+
+  "hedge_funds_column_rank": "อันดับ",
+  "hedge_funds_column_name": "ชื่อ",
+  "hedge_funds_column_aum": "AUM",
+  "hedge_funds_column_holdings": "หลักทรัพย์ที่ถือ",
+  "hedge_funds_column_turnover": "อัตราหมุนเวียน",
+  "hedge_funds_column_3year_perf": "ผลตอบแทน 3 ปี",
+  "hedge_funds_column_win_rate": "อัตราชนะ"
+}

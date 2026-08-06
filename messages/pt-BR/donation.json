@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Seja um patrocinador da Stocknear",
+  "donation_seo_description": "Seu patrocínio nos ajuda a virar a plataforma de análise de ações número 1 do mundo, com os melhores preços.",
+  "donation_title": "Patrocínio",
+  "donation_intro_greeting": "Olá 👋,",
+  "donation_intro_paragraph_1": "Obrigado por considerar apoiar nossa missão. Como única pessoa por trás da Stocknear — cuidando de tudo, do desenvolvimento do backend ao atendimento — meu compromisso é manter a plataforma acessível para todos os investidores.",
+  "donation_intro_paragraph_2": "Nossos planos têm preços pensados para que dados de qualidade sobre ações fiquem ao alcance de qualquer investidor pessoa física.",
+  "donation_support_paragraph_1": "A assinatura sustenta a operação básica, mas seu apoio extra nos permite ir além. Ao patrocinar, você não apenas apoia uma plataforma: investe em uma ideia de análise financeira aberta, transparente e acessível.",
+  "donation_support_list_intro": "Seu apoio contribui diretamente para:",
+  "donation_support_list_item_1": "Manter nosso preço baixo",
+  "donation_support_list_item_2": "Melhorar a qualidade dos dados e os recursos",
+  "donation_support_list_item_3": "Avançar rumo ao objetivo de ser a plataforma de análise de ações nº 1 do setor",
+  "donation_cta_title": "Seja um patrocinador da Stocknear",
+  "donation_cta_paragraph_1": "Se você acredita na nossa missão e quer apoiar além da assinatura, contribua pelo GitHub Sponsors. Toda contribuição, de qualquer valor, faz diferença na nossa capacidade de atender você e a comunidade de investidores pessoa física.",
+  "donation_cta_paragraph_2": "Seu apoio significa muito para mim e ajuda a manter a Stocknear funcionando bem.",
+  "donation_sidebar_about_title": "Sobre nós",
+  "donation_iframe_title": "Patrocinar a Stocknear"
+}

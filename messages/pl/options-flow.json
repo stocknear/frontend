@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Skaner przepływu opcji - sweepy, bloki i nietypowa aktywność",
+  "options_flow_seo_description": "Obserwuj przepływ opcji na żywo, sweepy i zlecenia blokowe na amerykańskich akcjach i ETF-ach. Wyłapuj nietypową aktywność i krótkoterminowe okazje.",
+  "options_flow_seo_keywords": "przepływ opcji, skaner opcji, nietypowa aktywność opcyjna, zlecenia sweep, transakcje blokowe, smart money, przepływ call, przepływ put, alerty opcyjne, OPRA",
+  "options_flow_structured_name": "Skaner przepływu opcji",
+  "options_flow_structured_description": "Przepływ opcji na żywo ze sweepami, blokami i nietypową aktywnością pod krótkoterminowe zagrania",
+
+  "options_flow_main_title": "Przepływ opcji",
+
+  "options_flow_popular_filters": "Popularne filtry",
+  "options_flow_popular_strategies": "Popularne strategie",
+  "options_flow_select_popular": "Wybierz popularny",
+  "options_flow_saved_filters": "Zapisane filtry",
+  "options_flow_select_filter": "Wybierz filtr",
+  "options_flow_new_filter": "Nowy filtr",
+
+  "options_flow_filters_count": "Filtry: {count}",
+  "options_flow_add_filters": "Dodaj filtry",
+  "options_flow_search_filters": "Szukaj wśród {count} filtrów...",
+  "options_flow_select_filters_title": "Wybierz filtry przepływu (łącznie {count})",
+  "options_flow_nothing_found": "Nic nie znaleziono",
+  "options_flow_no_filters_found": "Brak dostępnych filtrów",
+
+  "options_flow_search_placeholder": "Znajdź...",
+  "options_flow_search_input_placeholder": "Szukaj...",
+  "options_flow_full_width": "Pełna szerokość",
+  "options_flow_normal_width": "Zwykła szerokość",
+
+  "options_flow_no_trades_query": "Brak transakcji opcyjnych dla \"{query}\"",
+  "options_flow_no_data_filters": "Brak danych dla wybranych filtrów. Zmień ustawienia i spróbuj ponownie.",
+
+  "options_flow_modal_new_title": "Nowy filtr",
+  "options_flow_modal_new_name_label": "Nazwa filtra",
+  "options_flow_modal_new_create": "Utwórz filtr",
+
+  "options_flow_modal_delete_title": "Usuń filtr",
+  "options_flow_modal_delete_message": "Na pewno chcesz usunąć ten filtr? Tej operacji nie da się cofnąć.",
+  "options_flow_modal_delete_cancel": "Anuluj",
+  "options_flow_modal_delete_confirm": "Usuń filtr",
+
+  "options_flow_strategy_bullish_sweeps": "Sweepy byków",
+  "options_flow_strategy_bearish_sweeps": "Sweepy niedźwiedzi",
+  "options_flow_strategy_high_premium_blocks": "Bloki z wysoką premią",
+  "options_flow_strategy_unusual_size_oi": "Nietypowy wolumen vs OI",
+  "options_flow_strategy_etf_index_flow": "Przepływ ETF i indeksów",
+  "options_flow_strategy_zero_dte_flow": "Przepływ 0DTE",
+  "options_flow_strategy_repeated_flow": "Powtarzalny przepływ",
+
+  "options_flow_save": "Zapisz",
+  "options_flow_save_as_new": "Zapisz jako nowy",
+  "options_flow_reset_all": "Resetuj wszystko",
+
+  "options_flow_market_closed": "Rynek zamknięty",
+  "options_flow_paused": "Wstrzymane",
+  "options_flow_live_flow": "Przepływ na żywo",
+  "options_flow_pick_date": "Wybierz datę",
+
+  "options_flow_realtime_data": "Dane opcyjne na żywo",
+  "options_flow_realtime_data_title": "Dane opcyjne na żywo z OPRA",
+  "options_flow_realtime_data_content": "Nasz przepływ opcji opiera się na danych OPRA w czasie rzeczywistym - oficjalnym skonsolidowanym feedzie wszystkich transakcji na opcjach notowanych w USA. Dzięki temu każda transakcja, którą widzisz, trafia do Ciebie prosto z OPRA na żywo, co daje instytucjonalny wgląd w duże zlecenia, sweepy, nietypową aktywność i przepływ premii w momencie, gdy się dzieją. Strumień transakcji OPRA oznacza szybsze wnioski, czystsze dane i dokładniejszy obraz tego, gdzie na rynku opcji przesuwa się smart money.",
+
+  "options_flow_hide_filter_area": "Ukryj panel filtrów",
+  "options_flow_show_filter_area": "Pokaż panel filtrów",
+
+  "options_flow_put_to_call": "Put/call",
+  "options_flow_call_flow": "Przepływ call",
+  "options_flow_put_flow": "Przepływ put"
+}

@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Головна",
+  "earnings_breadcrumb_calendar": "Календар звітності",
+
+  "earnings_seo_title": "Календар звітності — сетапи волатильності для трейдерів опціонами",
+  "earnings_seo_description": "Стеж за датами звітності, очікуваним рухом ціни та прогнозами аналітиків, щоб планувати угоди на волатильності та сетапи на падінні IV.",
+  "earnings_seo_keywords": "календар звітності, опціони на звітності, очікуваний рух, падіння IV, волатильність на звітності, прогнози EPS, прогнози виручки, графік звітності",
+
+  "earnings_structured_name": "Календар звітності",
+  "earnings_structured_description": "Календар звітності для трейдерів опціонами з фокусом на волатильність і очікуваний рух",
+
+  "earnings_main_name": "Календар звітності",
+  "earnings_count": "{count} звітів",
+  "earnings_empty": "На цей день звітів немає.",
+  "earnings_empty_scheduled": "Звітів не заплановано",
+
+  "earnings_tab_daily": "За день",
+  "earnings_tab_weekly": "За тиждень",
+  "earnings_tab_details": "Докладно",
+  "earnings_tab_compact": "Компактно",
+
+  "earnings_time_of_day": "Час дня",
+  "earnings_time_any": "Будь-коли",
+  "earnings_time_before_open": "До відкриття",
+  "earnings_time_after_close": "Після закриття",
+
+  "earnings_expanded_reports": "Звітує",
+  "earnings_expanded_market_cap": "Ринкова капіталізація",
+  "earnings_expanded_revenue_est": "Прогноз виручки",
+  "earnings_expanded_revenue_estimate": "Прогноз виручки",
+  "earnings_expanded_eps_est": "Прогноз EPS",
+  "earnings_expanded_eps_estimate": "Прогноз EPS",
+
+  "earnings_pagination_previous": "Назад",
+  "earnings_pagination_next": "Далі",
+  "earnings_pagination_page_of": "Сторінка {current} з {total}",
+  "earnings_pagination_rows": "{count} рядків",
+  "earnings_back_to_top": "Догори",
+  "earnings_search_placeholder": "Пошук..."
+}

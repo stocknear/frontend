@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Domů",
+  "ipos_breadcrumb_data": "Data o IPO",
+
+  "ipos_seo_title": "IPO kalendář - nedávné a nadcházející IPO | Primární úpisy akcií",
+  "ipos_seo_description": "Sleduj nedávné i nadcházející IPO (primární úpisy akcií) včetně detailní analýzy. Hlídej si výkonnost IPO, ceny, termíny a výnosy od uvedení na burzu. Bezplatný IPO kalendář a sledovač s kompletními daty.",
+  "ipos_seo_keywords": "IPO kalendář, nadcházející IPO, nedávné IPO, primární úpisy akcií, sledovač IPO, výkonnost IPO, ceny IPO, nové akcie na burze, veřejné úpisy",
+
+  "ipos_main_name_recent": "Nedávné IPO",
+  "ipos_main_name_statistics": "Statistiky IPO",
+  "ipos_count": "{count} akcií",
+  "ipos_tab_recent": "Nedávné",
+  "ipos_tab_statistics": "Statistiky",
+  "ipos_tab_latest": "Nejnovější",
+
+  "ipos_statistics_seo_title": "Statistiky IPO a historické grafy - data o trhu primárních úpisů",
+  "ipos_statistics_seo_description": "Kompletní statistiky IPO a interaktivní grafy primárních úpisů na americkém akciovém trhu. Sleduj roční i měsíční trendy IPO od roku {startYear} do {endYear}, analyzuj tržní cykly a objevuj vzorce ve výkonnosti IPO.",
+  "ipos_statistics_seo_keywords": "statistiky IPO, grafy primárních úpisů, data o IPO trhu, trendy IPO, analýza IPO, historická data IPO, výkonnost IPO, roční statistiky IPO, měsíční data IPO",
+  "ipos_statistics_infobox": "Tahle stránka nabízí statistiky a grafy primárních úpisů akcií (IPO) na americkém akciovém trhu. Roční a měsíční data jsou dostupná od roku {startYear} do {endYear}.",
+  "ipos_statistics_title": "Počet IPO podle roku",
+  "ipos_statistics_description": "Mezi lety {startYear} a {endYear} proběhlo {count} IPO. Nejméně jich bylo v roce {minYear}, jen {minCount}. Celý rok {maxYear} byl rekordní s počtem {maxCount} IPO.",
+  "ipos_statistics_stock_news": "Zprávy o akciích",
+  "ipos_statistics_more_news": "Další zprávy o akciích",
+
+  "ipos_year_seo_title": "Seznam IPO za rok {year} - kompletní přehled primárních úpisů",
+  "ipos_year_seo_description": "Kompletní seznam všech primárních úpisů akcií (IPO) na americkém trhu za rok {year}. Sleduj výkonnost IPO, ceny, výnosy od uvedení a vstupy na burzu včetně detailních informací o firmách a historických dat.",
+  "ipos_year_seo_keywords": "IPO {year}, primární úpisy akcií {year}, seznam IPO {year}, výkonnost IPO {year}, nedávné IPO, IPO kalendář {year}, nové veřejně obchodované firmy {year}",
+  "ipos_year_empty": "Žádné IPO nenalezeny. Uprav si prosím časové období pro nejnovější IPO roku {year}.",
+
+  "ipos_statistics_chart_title": "IPO za rok, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO",
+  "ipos_year_heading": "Primární úpisy akcií {year}",
+  "ipos_year_summary": "V roce {year} proběhlo {count} IPO.",
+  "ipos_year_extremes": "Nejrušnějším měsícem byl {maxMonth} s počtem {maxCount}, nejklidnějším {minMonth} s počtem {minCount}.",
+  "ipos_year_none": "V roce {year} neproběhlo žádné IPO."
+}

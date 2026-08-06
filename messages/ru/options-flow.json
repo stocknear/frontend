@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Сканер потока опционов — свипы, блоки и необычная активность",
+  "options_flow_seo_description": "Следи за потоком опционов, свипами и блоками по акциям США и ETF. Замечай необычную активность и краткосрочные сетапы в реальном времени.",
+  "options_flow_seo_keywords": "поток опционов, сканер потока опционов, необычная активность в опционах, свип-заявки, блочные сделки, крупные игроки, поток коллов, поток путов, оповещения по опционам, поток опционов OPRA",
+  "options_flow_structured_name": "Сканер потока опционов",
+  "options_flow_structured_description": "Поток опционов в реальном времени: свипы, блоки и необычная активность для краткосрочных сетапов",
+
+  "options_flow_main_title": "Поток опционов",
+
+  "options_flow_popular_filters": "Популярные фильтры",
+  "options_flow_popular_strategies": "Популярные стратегии",
+  "options_flow_select_popular": "Выбрать популярный",
+  "options_flow_saved_filters": "Сохранённые фильтры",
+  "options_flow_select_filter": "Выбрать фильтр",
+  "options_flow_new_filter": "Новый фильтр",
+
+  "options_flow_filters_count": "Фильтров: {count}",
+  "options_flow_add_filters": "Добавить фильтры",
+  "options_flow_search_filters": "Поиск среди {count} фильтров...",
+  "options_flow_select_filters_title": "Выбери фильтры потока (всего {count})",
+  "options_flow_nothing_found": "Ничего не найдено",
+  "options_flow_no_filters_found": "Доступных фильтров не найдено",
+
+  "options_flow_search_placeholder": "Найти...",
+  "options_flow_search_input_placeholder": "Поиск...",
+  "options_flow_full_width": "Во всю ширину",
+  "options_flow_normal_width": "Обычная ширина",
+
+  "options_flow_no_trades_query": "Сделок по опционам для «{query}» не найдено",
+  "options_flow_no_data_filters": "По выбранным фильтрам ничего нет. Измени фильтры и попробуй снова.",
+
+  "options_flow_modal_new_title": "Новый фильтр",
+  "options_flow_modal_new_name_label": "Название фильтра",
+  "options_flow_modal_new_create": "Создать фильтр",
+
+  "options_flow_modal_delete_title": "Удалить фильтр",
+  "options_flow_modal_delete_message": "Точно удалить этот фильтр? Отменить действие не получится.",
+  "options_flow_modal_delete_cancel": "Отмена",
+  "options_flow_modal_delete_confirm": "Удалить фильтр",
+
+  "options_flow_strategy_bullish_sweeps": "Бычьи свипы",
+  "options_flow_strategy_bearish_sweeps": "Медвежьи свипы",
+  "options_flow_strategy_high_premium_blocks": "Блоки с высокой премией",
+  "options_flow_strategy_unusual_size_oi": "Объём против OI",
+  "options_flow_strategy_etf_index_flow": "Поток по ETF и индексам",
+  "options_flow_strategy_zero_dte_flow": "Поток 0DTE",
+  "options_flow_strategy_repeated_flow": "Повторяющийся поток",
+
+  "options_flow_save": "Сохранить",
+  "options_flow_save_as_new": "Сохранить как новый",
+  "options_flow_reset_all": "Сбросить всё",
+
+  "options_flow_market_closed": "Рынок закрыт",
+  "options_flow_paused": "Пауза",
+  "options_flow_live_flow": "Поток в реальном времени",
+  "options_flow_pick_date": "Выбери дату",
+
+  "options_flow_realtime_data": "Данные по опционам в реальном времени",
+  "options_flow_realtime_data_title": "Данные по опционам в реальном времени от OPRA",
+  "options_flow_realtime_data_content": "Наш поток опционов работает на данных OPRA в реальном времени — это официальная консолидированная лента всех сделок по опционам, торгуемым в США. Значит, каждая сделка приходит напрямую из OPRA без задержки, и ты видишь крупные сделки, свипы, необычную активность и премиальный поток в момент их появления. Надёжная лента OPRA даёт более быстрые выводы, чистые данные и точную картину того, куда движутся деньги крупных игроков на рынке опционов.",
+
+  "options_flow_hide_filter_area": "Скрыть панель фильтров",
+  "options_flow_show_filter_area": "Показать панель фильтров",
+
+  "options_flow_put_to_call": "Put/Call",
+  "options_flow_call_flow": "Поток коллов",
+  "options_flow_put_flow": "Поток путов"
+}

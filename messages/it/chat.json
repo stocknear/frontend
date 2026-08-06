@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "Analisi del mercato azionario con l'AI - Agente finanziario e market intelligence",
+  "chat_seo_description": "Agente finanziario AI avanzato per analisi dei titoli in tempo reale, approfondimenti di mercato e ricerca sugli investimenti. Parla con agenti AI specializzati per screening dei titoli, analisi delle trimestrali, options flow, attività dark pool e sentiment di mercato. Ricevi indicazioni personalizzate e una visione completa del mercato.",
+  "chat_seo_keywords": "consulente finanziario AI, AI mercato azionario, agente finanziario AI, analisi investimenti AI, ricerca automatica sui titoli, indicazioni di trading AI, machine learning finanza, chatbot finanziario, analisi di mercato AI, trading algoritmico, analisi di portafoglio AI, investire con l'intelligenza artificiale",
+  "chat_title": "Il tuo amico per gli investimenti",
+  "chat_placeholder": "Chiedi quello che vuoi sui titoli e ricevi aggiornamenti in tempo reale",
+  "chat_placeholder_readonly": "Sola lettura: non hai i permessi per modificare questa chat.",
+  "chat_placeholder_editable": "Chiedi quello che vuoi",
+  "chat_credits_left": "Crediti rimasti",
+  "chat_stock_agents": "Agenti sui titoli",
+  "chat_how_to_use_agents": "Come usare bene gli agenti",
+  "chat_credits": "Crediti",
+  "chat_threads": "Conversazioni",
+  "chat_no_threads": "Sembra che non abbiamo ancora parlato.",
+  "chat_ready_to_analyze": "Pronto ad analizzare i titoli?",
+  "chat_ready_description": "Consulta dati finanziari dettagliati, rating degli analisti e analisi tecnica su migliaia di titoli.",
+  "chat_get_started": "Inizia ora",
+  "chat_delete_thread_title": "Elimina conversazione",
+  "chat_delete_thread_confirm": "Vuoi davvero eliminare questa conversazione? L'operazione non può essere annullata.",
+  "chat_cancel": "Annulla",
+  "chat_delete": "Elimina conversazione",
+  "chat_toast_deleted": "Conversazione eliminata.",
+  "chat_toast_error": "Qualcosa è andato storto. Riprova.",
+  "chat_toast_error_occurred": "Si è verificato un errore. Riprova più tardi.",
+  "chat_toast_insufficient_credits": "Crediti insufficienti. Il tuo saldo attuale è",
+  "chat_last_message": "Ultimo messaggio",
+  "chat_ago": "fa",
+  "chat_minutes": "minuti",
+  "chat_hour": "ora",
+  "chat_hours": "ore",
+  "chat_day": "giorno",
+  "chat_days": "giorni",
+  "chat_error_connect": "Connessione al servizio di chat non riuscita. Riprova più tardi.",
+
+  "chat_default_gainers_losers_label": "Migliori, peggiori e più scambiati",
+  "chat_default_gainers_losers_query": "Fammi un riepilogo dei titoli migliori di oggi, dei peggiori e di quelli più scambiati per volume. Includi metriche chiave come variazione percentuale e volume.",
+
+  "chat_default_options_flow_label": "Ordini di options flow in evidenza oggi",
+  "chat_default_options_flow_query": "Dammi una panoramica dell'options flow rilevante di oggi, con focus su grandi blocchi, picchi di volume anomali e sentiment direzionale.",
+
+  "chat_default_market_news_label": "Notizie di mercato di oggi",
+  "chat_default_market_news_query": "Fammi un riepilogo delle principali notizie di mercato e degli eventi finanziari chiave di oggi.",
+
+  "chat_default_bull_bear_label": "Tesi rialzista e ribassista su Nvidia",
+  "chat_default_bull_bear_query": "@BullvsBear per Nvidia",
+
+  "chat_default_value_investor_label": "Da value investor, comprerei Intel adesso?",
+  "chat_default_value_investor_query": "@WarrenBuffet dovrei comprare Intel adesso?",
+
+  "chat_default_cathie_wood_label": "Come valuta Cathie Wood Tesla in questo momento?",
+  "chat_default_cathie_wood_query": "@CathieWood valuta Tesla e dimmi se la compreresti o la venderesti",
+
+  "chat_default_options_data_label": "Ultimi dati sulle opzioni per SPY",
+  "chat_default_options_data_query": "@OptionsData ultimi aggiornamenti sui dati delle opzioni per SPY",
+
+  "chat_default_undervalued_label": "Trovami titoli sottovalutati",
+  "chat_default_undervalued_query": "@StockScreener trovami titoli sottovalutati con p/e sopra 0, crescita dei ricavi sopra il 5% e rapporto prezzo/valore contabile sopra 0",
+
+  "chat_default_gamestop_label": "Quanto è solida Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData quanto è solida Gamestop?",
+
+  "chat_default_spy_bullish_label": "SPY è rialzista in questo momento?",
+  "chat_default_spy_bullish_query": "SPY è rialzista in questo momento?",
+
+  "chat_default_nvidia_flow_label": "Options flow di Nvidia",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed options flow di Nvidia",
+
+  "chat_default_googl_flow_label": "Flusso ordini anomalo su GOOGL",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed flusso ordini di Google",
+
+  "chat_default_compare_aapl_msft_label": "Confronta Apple e Microsoft",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks confronta Apple e Microsoft",
+
+  "chat_default_analyst_ratings_label": "Cosa dicono gli analisti su Amazon?",
+  "chat_default_analyst_ratings_query": "@Analyst quali sono gli ultimi rating e target di prezzo degli analisti su Amazon?",
+
+  "chat_default_dark_pool_label": "Ci sono operazioni dark pool rilevanti oggi?",
+  "chat_default_dark_pool_query": "Mostrami le operazioni dark pool più rilevanti e l'attività di oggi",
+
+  "chat_default_dividend_label": "Migliori titoli da dividendo da comprare adesso",
+  "chat_default_dividend_query": "@StockScreener trovami titoli con alto rendimento da dividendo, payout ratio sotto l'80% e crescita dei ricavi sopra 0",
+
+  "chat_default_michael_burry_label": "Cosa penserebbe Michael Burry del mercato attuale?",
+  "chat_default_michael_burry_query": "@MichaelBurry analizza le condizioni attuali del mercato e dimmi cosa vedi",
+
+  "chat_default_peter_lynch_label": "Il parere di Peter Lynch su Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch considereresti Meta un buon investimento in questo momento?",
+
+  "chat_default_sector_performance_label": "Quali settori stanno andando meglio questa settimana?",
+  "chat_default_sector_performance_query": "Dammi un quadro della performance dei settori questa settimana e indica quali sono in testa e quali in ritardo",
+
+  "chat_default_earnings_label": "Quali società pubblicano i risultati questa settimana?",
+  "chat_default_earnings_query": "Quali sono le trimestrali più importanti in arrivo questa settimana e cosa dovrei guardare?"
+}

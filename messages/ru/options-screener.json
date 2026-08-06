@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Главная",
+  "options_screener_breadcrumb_options_screener": "Скринер опционов",
+
+  "options_screener_seo_title": "Скринер опционов - находи необычный флоу и убедительные сетапы",
+  "options_screener_seo_description": "Отбирай опционы по необычной активности, подразумеваемой волатильности, открытому интересу, объёму, грекам и экспирации, чтобы находить краткосрочные торговые сетапы.",
+  "options_screener_seo_keywords": "скринер опционов, необычная активность с опционами, сканер опционов, скринер подразумеваемой волатильности, IV skew, открытый интерес, опционы с высоким объёмом, инструмент торговли опционами, скринер греков",
+  "options_screener_structured_name": "Инструмент скринера опционов",
+  "options_screener_structured_description": "Скринер опционов с фокусом на необычную активность, IV и открытый интерес для краткосрочных сетапов",
+
+  "options_screener_main_title": "Скринер опционов",
+  "options_screener_contracts_count": "{count} контрактов",
+  "options_screener_expire_on": "Все опционные контракты истекают {date}",
+
+  "options_screener_popular_screens": "Популярные экраны",
+  "options_screener_popular_strategies": "Популярные стратегии",
+  "options_screener_select_popular": "Выбрать популярное",
+  "options_screener_saved_screens": "Сохранённые экраны",
+  "options_screener_select_screen": "Выбрать экран",
+  "options_screener_new_screen": "Новый экран",
+
+  "options_screener_filters_count": "{count} фильтров",
+  "options_screener_add_filters": "Добавить фильтры",
+  "options_screener_search_filters": "Поиск среди {count} фильтров...",
+  "options_screener_select_filters_title": "Выбор фильтров скринера (всего {count})",
+  "options_screener_nothing_found": "Ничего не найдено",
+
+  "options_screener_tab_general": "Общее",
+  "options_screener_tab_filters": "Фильтры",
+  "options_screener_tab_greeks": "Греки",
+
+  "options_screener_search_placeholder": "Поиск...",
+  "options_screener_search_input_placeholder": "Поиск...",
+  "options_screener_input_min": "Мин",
+  "options_screener_input_max": "Макс",
+  "options_screener_input_value": "Значение",
+
+  "options_screener_normal_width": "Обычная ширина",
+  "options_screener_full_width": "На всю ширину",
+
+  "options_screener_pagination_previous": "Назад",
+  "options_screener_pagination_next": "Далее",
+  "options_screener_pagination_page_of": "Страница {current} из {total}",
+  "options_screener_rows_label": "{rows} строк",
+  "options_screener_back_to_top": "Наверх",
+
+  "options_screener_no_contracts_query": "Контракты по запросу «{query}» не найдены",
+  "options_screener_no_contracts": "Контракты не найдены.",
+
+  "options_screener_modal_new_title": "Новый скринер",
+  "options_screener_modal_new_name_label": "Название скринера",
+  "options_screener_modal_new_create": "Создать скринер",
+
+  "options_screener_modal_delete_title": "Удалить скринер",
+  "options_screener_modal_delete_message": "Ты уверен, что хочешь удалить этот скринер? Это действие нельзя отменить.",
+  "options_screener_modal_delete_cancel": "Отмена",
+  "options_screener_modal_delete_confirm": "Удалить",
+
+  "options_screener_strategy_high_iv_rank": "Высокий IV ранк",
+  "options_screener_strategy_volume_surge": "Всплеск объёма",
+  "options_screener_strategy_itm_calls": "Коллы в деньгах",
+  "options_screener_strategy_otm_puts": "Путы вне денег",
+  "options_screener_strategy_high_premium_flow": "Флоу с высокой премией",
+
+  "options_screener_save": "Сохранить",
+  "options_screener_save_as_new": "Сохранить как новый",
+  "options_screener_reset_all": "Сбросить всё"
+}

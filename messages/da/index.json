@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Overblik",
+  "index_detail_nav_options": "Optioner",
+  "index_detail_nav_history": "Historik",
+  "index_detail_nav_holdings": "Beholdninger",
+
+  "index_detail_watchlist": "Watchliste",
+  "index_detail_price_alert": "Alarm",
+  "index_detail_add_to_watchlist": "Føj til watchliste",
+  "index_detail_ticker_added": "Ticker føjet til din watchliste",
+  "index_detail_ticker_add_failed": "Kunne ikke føje ticker til watchlisten",
+  "index_detail_upgrade_watchlist": "Vil du tilføje flere aktier? Skift til Plus eller Pro",
+  "index_detail_companies": "Selskaber",
+  "index_detail_company": "Selskab",
+
+  "index_detail_no_data": "Ingen data tilgængelige",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Købskurs",
+  "index_detail_ask": "Salgskurs",
+  "index_detail_volume": "Volumen",
+  "index_detail_avg_volume_20d": "Gns. volumen (20D)",
+  "index_detail_50_day_ma": "50-dages MA",
+  "index_detail_200_day_ma": "200-dages MA",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "Udestående aktier",
+  "index_detail_inception_date": "Startdato",
+  "index_detail_open": "Åbning",
+  "index_detail_prev_close": "Forrige lukkekurs",
+  "index_detail_days_range": "Dagens interval",
+  "index_detail_52w_range": "52-ugers interval",
+  "index_detail_exchange": "Børs",
+  "index_detail_expense_ratio": "Omkostningsprocent",
+
+  "index_detail_chart_price": "Kurs",
+  "index_detail_chart_volume": "Volumen",
+
+  "index_sidecard_about": "Om {ticker}",
+  "index_sidecard_top_sectors": "Top 5 sektorer",
+  "index_sidecard_sector": "Sektor",
+  "index_sidecard_weight_percent": "Vægt %",
+  "index_sidecard_view_all_sectors": "Se alle sektorer"
+}

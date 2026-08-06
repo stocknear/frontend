@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Опционный флоу, свипы и необычная активность в реальном времени",
+  "home_seo_description": "Живой опционный флоу, свипы, блочные сделки и необычная активность по акциям и ETF США. Находи краткосрочные торговые сетапы быстрее со Stocknear.",
+  "home_seo_keywords": "опционный флоу, необычная активность с опционами, свип-ордера, блочные сделки, тёмный пул, подразумеваемая волатильность, IV skew, открытый интерес, опционная цепочка, краткосрочные торговые сетапы, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Опционный флоу и необычная активность в реальном времени для краткосрочных торговых сетапов",
+  "home_structured_feature_live_options_flow": "Живой опционный флоу и свипы",
+  "home_structured_feature_unusual_options_activity": "Необычная активность с опционами",
+  "home_structured_feature_dark_pool_monitoring": "Мониторинг тёмных пулов",
+  "home_structured_feature_implied_volatility": "Подразумеваемая волатильность и skew",
+  "home_structured_feature_options_chain": "Опционная цепочка и открытый интерес",
+  "home_structured_feature_earnings_volatility": "Сетап волатильности на отчётах",
+  "home_structured_feature_market_catalysts": "Рыночные катализаторы",
+  "home_hero_title": "Увидь движение раньше толпы",
+  "home_hero_subtitle": "Цены, опционный флоу, ордера тёмных пулов, новости, финансы, прогнозы и графики в реальном времени по каждой акции и ETF США. Действуй быстрее с чистым сигналом.",
+  "home_promo_pill_label": "Летняя распродажа",
+  "home_promo_pill_discount": "скидка {percent}",
+  "home_promo_pill_subtitle": "на все годовые тарифы"
+}

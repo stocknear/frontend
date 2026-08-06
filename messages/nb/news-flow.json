@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Hjem",
+  "news_flow_breadcrumb_news_flow": "Nyhetsstrøm",
+
+  "news_flow_seo_title": "Nyhetsstrøm fra markedet - utløsere du kan handle på, i sanntid",
+  "news_flow_seo_description": "Følg markedsnyheter og utløsere som flytter kursene, i sanntid. Laget for opsjonstradere som trenger rask kontekst til kortsiktige oppsett.",
+  "news_flow_seo_keywords": "nyhetsstrøm marked, utløsere for handel, ferske markedsnyheter, nyheter for opsjonstradere, nyheter som flytter kursen, markedsoppdateringer i sanntid",
+  "news_flow_structured_name": "Nyhetsstrøm fra markedet",
+  "news_flow_structured_description": "Markedsnyheter og utløsere i sanntid for kortsiktig handelsplanlegging",
+
+  "news_flow_main_title": "Nyhetsstrøm",
+  "news_flow_news_count": "{count} nyheter",
+  "news_flow_search_placeholder": "Søk...",
+
+  "news_flow_infobox": "Følg ferske nyheter og se i sanntid hvorfor aksjekursene beveget seg",
+  "news_flow_no_news": "Det finnes ingen større markedsnyheter ennå.",
+
+  "news_flow_sidebar_market_flow_title": "Markedsflyt",
+  "news_flow_sidebar_market_flow_description": "Følg opsjonssentimentet i sanntid.",
+  "news_flow_sidebar_options_flow_title": "Opsjonsflyt",
+  "news_flow_sidebar_options_flow_description": "Følg uvanlig opsjonsaktivitet og flytmønstre i sanntid",
+  "news_flow_sidebar_dark_pool_title": "Dark pool-flyt",
+  "news_flow_sidebar_dark_pool_description": "Analyser skjult institusjonell flyt og handelsdata fra dark pools"
+}

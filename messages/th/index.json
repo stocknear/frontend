@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "ภาพรวม",
+  "index_detail_nav_options": "ออปชัน",
+  "index_detail_nav_history": "ประวัติ",
+  "index_detail_nav_holdings": "หลักทรัพย์ที่ถือ",
+
+  "index_detail_watchlist": "วอทช์ลิสต์",
+  "index_detail_price_alert": "แจ้งเตือน",
+  "index_detail_add_to_watchlist": "เพิ่มลงวอทช์ลิสต์",
+  "index_detail_ticker_added": "เพิ่มหุ้นลงวอทช์ลิสต์แล้ว",
+  "index_detail_ticker_add_failed": "เพิ่มหุ้นลงวอทช์ลิสต์ไม่สำเร็จ",
+  "index_detail_upgrade_watchlist": "อยากเพิ่มหุ้นได้มากขึ้น ลองอัปเกรดเป็น Plus หรือ Pro",
+  "index_detail_companies": "บริษัท",
+  "index_detail_company": "บริษัท",
+
+  "index_detail_no_data": "ไม่มีข้อมูล",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "ราคาเสนอซื้อ",
+  "index_detail_ask": "ราคาเสนอขาย",
+  "index_detail_volume": "ปริมาณการซื้อขาย",
+  "index_detail_avg_volume_20d": "ปริมาณเฉลี่ย (20 วัน)",
+  "index_detail_50_day_ma": "MA 50 วัน",
+  "index_detail_200_day_ma": "MA 200 วัน",
+  "index_detail_eps_ttm": "EPS (ย้อนหลัง 12 เดือน)",
+  "index_detail_pe_ratio_ttm": "P/E (ย้อนหลัง 12 เดือน)",
+  "index_detail_shares_out": "หุ้นที่ออกจำหน่าย",
+  "index_detail_inception_date": "วันจัดตั้ง",
+  "index_detail_open": "ราคาเปิด",
+  "index_detail_prev_close": "ราคาปิดก่อนหน้า",
+  "index_detail_days_range": "ช่วงราคาวันนี้",
+  "index_detail_52w_range": "ช่วงราคา 52 สัปดาห์",
+  "index_detail_exchange": "ตลาดหลักทรัพย์",
+  "index_detail_expense_ratio": "ค่าธรรมเนียมการจัดการ",
+
+  "index_detail_chart_price": "ราคา",
+  "index_detail_chart_volume": "ปริมาณการซื้อขาย",
+
+  "index_sidecard_about": "เกี่ยวกับ {ticker}",
+  "index_sidecard_top_sectors": "5 กลุ่มธุรกิจอันดับต้น",
+  "index_sidecard_sector": "กลุ่มธุรกิจ",
+  "index_sidecard_weight_percent": "สัดส่วน %",
+  "index_sidecard_view_all_sectors": "ดูกลุ่มธุรกิจทั้งหมด"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "contact_seo_title": "Зв'язатися з нами",
+  "contact_breadcrumb": "Контакти",
+  "contact_hero_title": "Зв'язатися з нами",
+  "contact_intro": "Будемо раді почути тебе. Надішли повідомлення через форму нижче, і ми відповімо якнайшвидше. Також можеш написати напряму на {email}.",
+  "contact_email_label": "Email",
+  "contact_subject_label": "Тема",
+  "contact_message_label": "Повідомлення",
+  "contact_send_button": "Надіслати",
+  "contact_processing": "Обробка...",
+  "contact_success": "Твоє повідомлення надіслано. Ми скоро відповімо.",
+  "contact_sidebar_pro_title": "Передплата Pro",
+  "contact_sidebar_pro_desc": "Оформи зараз і отримай необмежений доступ до всіх даних та інструментів без реклами.",
+  "contact_sidebar_screener_title": "Скринер акцій",
+  "contact_sidebar_screener_desc": "Фільтруй, сортуй та аналізуй усі акції, щоб знайти наступну інвестицію.",
+  "contact_sidebar_watchlist_title": "Списки спостереження",
+  "contact_sidebar_watchlist_desc": "Стеж за улюбленими акціями в реальному часі."
+}

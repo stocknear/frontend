@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Strona główna",
+  "earnings_breadcrumb_calendar": "Kalendarz wyników",
+
+  "earnings_seo_title": "Kalendarz wyników - setupy zmienności dla traderów opcji",
+  "earnings_seo_description": "Śledź daty publikacji wyników, oczekiwane ruchy i prognozy analityków, aby planować transakcje na zmienności i setupy pod spadek IV.",
+  "earnings_seo_keywords": "kalendarz wyników, opcje na wynikach, oczekiwany ruch, spadek IV, zmienność wokół wyników, prognozy EPS, prognozy przychodów, harmonogram publikacji wyników",
+
+  "earnings_structured_name": "Kalendarz wyników",
+  "earnings_structured_description": "Kalendarz wyników stworzony dla traderów opcji skupionych na zmienności i oczekiwanych ruchach",
+
+  "earnings_main_name": "Kalendarz wyników",
+  "earnings_count": "{count} publikacji wyników",
+  "earnings_empty": "Brak publikacji wyników na ten dzień.",
+  "earnings_empty_scheduled": "Brak zaplanowanych wyników",
+
+  "earnings_tab_daily": "Dzienny",
+  "earnings_tab_weekly": "Tygodniowy",
+  "earnings_tab_details": "Szczegóły",
+  "earnings_tab_compact": "Kompaktowy",
+
+  "earnings_time_of_day": "Pora dnia",
+  "earnings_time_any": "Dowolna pora",
+  "earnings_time_before_open": "Przed otwarciem",
+  "earnings_time_after_close": "Po zamknięciu",
+
+  "earnings_expanded_reports": "Raporty",
+  "earnings_expanded_market_cap": "Kapitalizacja rynkowa",
+  "earnings_expanded_revenue_est": "Prog. przychód",
+  "earnings_expanded_revenue_estimate": "Prognoza przychodu",
+  "earnings_expanded_eps_est": "Prog. EPS",
+  "earnings_expanded_eps_estimate": "Prognoza EPS",
+
+  "earnings_pagination_previous": "Wstecz",
+  "earnings_pagination_next": "Dalej",
+  "earnings_pagination_page_of": "Strona {current} z {total}",
+  "earnings_pagination_rows": "{count} wierszy",
+  "earnings_back_to_top": "Do góry",
+  "earnings_search_placeholder": "Szukaj..."
+}

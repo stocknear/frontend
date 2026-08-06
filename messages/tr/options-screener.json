@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Ana Sayfa",
+  "options_screener_breadcrumb_options_screener": "Opsiyon Tarayıcı",
+
+  "options_screener_seo_title": "Opsiyon Tarayıcı - Olağandışı Akış ve Güçlü Fırsatları Bul",
+  "options_screener_seo_description": "Opsiyonları olağandışı aktivite, implied volatilite, açık pozisyon, hacim, Greekler ve vadeye göre tarayarak kısa vadeli işlem fırsatlarını ortaya çıkar.",
+  "options_screener_seo_keywords": "opsiyon tarayıcı, olağandışı opsiyon aktivitesi, opsiyon tarama aracı, implied volatilite tarayıcı, IV skew, açık pozisyon, yüksek hacimli opsiyonlar, opsiyon işlem aracı, Greek tarayıcı",
+  "options_screener_structured_name": "Opsiyon Tarayıcı Aracı",
+  "options_screener_structured_description": "Kısa vadeli fırsatlar için olağandışı aktivite, IV ve açık pozisyona odaklanan opsiyon tarayıcı",
+
+  "options_screener_main_title": "Opsiyon Tarayıcı",
+  "options_screener_contracts_count": "{count} Kontrat",
+  "options_screener_expire_on": "Tüm opsiyon kontratları {date} tarihinde sona eriyor",
+
+  "options_screener_popular_screens": "Popüler Taramalar",
+  "options_screener_popular_strategies": "Popüler Stratejiler",
+  "options_screener_select_popular": "Popüler seç",
+  "options_screener_saved_screens": "Kayıtlı Taramalar",
+  "options_screener_select_screen": "Tarama seç",
+  "options_screener_new_screen": "Yeni Tarama",
+
+  "options_screener_filters_count": "{count} Filtre",
+  "options_screener_add_filters": "Filtre Ekle",
+  "options_screener_search_filters": "{count} filtre içinde ara...",
+  "options_screener_select_filters_title": "Tarayıcı filtrelerini seç (toplam {count})",
+  "options_screener_nothing_found": "Sonuç yok",
+
+  "options_screener_tab_general": "Genel",
+  "options_screener_tab_filters": "Filtreler",
+  "options_screener_tab_greeks": "Greekler",
+
+  "options_screener_search_placeholder": "Bul...",
+  "options_screener_search_input_placeholder": "Ara...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Maks",
+  "options_screener_input_value": "Değer",
+
+  "options_screener_normal_width": "Normal Genişlik",
+  "options_screener_full_width": "Tam Genişlik",
+
+  "options_screener_pagination_previous": "Önceki",
+  "options_screener_pagination_next": "Sonraki",
+  "options_screener_pagination_page_of": "Sayfa {current} / {total}",
+  "options_screener_rows_label": "{rows} Satır",
+  "options_screener_back_to_top": "Başa Dön",
+
+  "options_screener_no_contracts_query": "\"{query}\" için kontrat bulunamadı",
+  "options_screener_no_contracts": "Kontrat bulunamadı.",
+
+  "options_screener_modal_new_title": "Yeni Tarayıcı",
+  "options_screener_modal_new_name_label": "Tarayıcı Adı",
+  "options_screener_modal_new_create": "Tarayıcı Oluştur",
+
+  "options_screener_modal_delete_title": "Tarayıcıyı Sil",
+  "options_screener_modal_delete_message": "Bu tarayıcıyı silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "options_screener_modal_delete_cancel": "Vazgeç",
+  "options_screener_modal_delete_confirm": "Sil",
+
+  "options_screener_strategy_high_iv_rank": "Yüksek IV Rank",
+  "options_screener_strategy_volume_surge": "Hacim Patlaması",
+  "options_screener_strategy_itm_calls": "ITM Call'lar",
+  "options_screener_strategy_otm_puts": "OTM Put'lar",
+  "options_screener_strategy_high_premium_flow": "Yüksek Primli Akış",
+
+  "options_screener_save": "Kaydet",
+  "options_screener_save_as_new": "Yeni Olarak Kaydet",
+  "options_screener_reset_all": "Tümünü Sıfırla"
+}

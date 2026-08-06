@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Yleiskatsaus",
+  "index_detail_nav_options": "Optiot",
+  "index_detail_nav_history": "Historia",
+  "index_detail_nav_holdings": "Omistukset",
+
+  "index_detail_watchlist": "Seurantalista",
+  "index_detail_price_alert": "Hälytys",
+  "index_detail_add_to_watchlist": "Lisää seurantalistalle",
+  "index_detail_ticker_added": "Tunnus lisättiin seurantalistallesi",
+  "index_detail_ticker_add_failed": "Tunnuksen lisääminen seurantalistalle epäonnistui",
+  "index_detail_upgrade_watchlist": "Haluatko lisätä enemmän osakkeita? Siirry Plus- tai Pro-tilaukseen.",
+  "index_detail_companies": "Yhtiöt",
+  "index_detail_company": "Yhtiö",
+
+  "index_detail_no_data": "Ei tietoja saatavilla",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Osto",
+  "index_detail_ask": "Myynti",
+  "index_detail_volume": "Vaihto",
+  "index_detail_avg_volume_20d": "Keskim. vaihto (20 pv)",
+  "index_detail_50_day_ma": "50 pv liukuva ka.",
+  "index_detail_200_day_ma": "200 pv liukuva ka.",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "Osakemäärä",
+  "index_detail_inception_date": "Aloituspäivä",
+  "index_detail_open": "Avaus",
+  "index_detail_prev_close": "Edellinen päätös",
+  "index_detail_days_range": "Päivän vaihteluväli",
+  "index_detail_52w_range": "52 viikon vaihteluväli",
+  "index_detail_exchange": "Pörssi",
+  "index_detail_expense_ratio": "Kulusuhde",
+
+  "index_detail_chart_price": "Kurssi",
+  "index_detail_chart_volume": "Vaihto",
+
+  "index_sidecard_about": "Tietoa: {ticker}",
+  "index_sidecard_top_sectors": "5 suurinta sektoria",
+  "index_sidecard_sector": "Sektori",
+  "index_sidecard_weight_percent": "Paino %",
+  "index_sidecard_view_all_sectors": "Näytä kaikki sektorit"
+}

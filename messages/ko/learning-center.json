@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "러닝 센터 - 주식 투자 교육 및 튜토리얼",
+  "learning_center_seo_description": "러닝 센터에서 주식 투자를 제대로 배워보세요. 매매 전략, 기술적 분석, 기본적 분석, 포트폴리오 관리까지 초보자부터 숙련 투자자를 위한 무료 튜토리얼을 제공합니다.",
+  "learning_center_seo_keywords": "주식 투자 교육, 투자 튜토리얼, 매매 전략, 투자 배우기, 종목 분석 강의, 금융 교육, 투자 가이드, 주식 기초, 포트폴리오 관리, 기술적 분석 강의",
+  "learning_center_structured_name": "Stocknear 러닝 센터",
+  "learning_center_structured_description": "주식 투자 교육과 투자 튜토리얼 모음",
+  "learning_center_structured_articles": "교육 자료",
+  "learning_center_structured_articles_description": "주식 투자 교육 및 투자 튜토리얼 글",
+  "learning_center_title": "러닝 센터",
+  "learning_center_published": "게시일:",
+  "learning_center_previous": "이전",
+  "learning_center_next": "다음",
+  "learning_center_alt_tutorial": "튜토리얼 배경 이미지",
+
+  "learning_center_subtitle": "개념 하나씩, 시장을 익혀 나갑니다",
+
+  "learning_center_category_all": "전체",
+  "learning_center_category_features": "기능",
+  "learning_center_category_fundamentals": "기초",
+  "learning_center_category_terms": "용어",
+
+  "learning_center_category_desc_features": "Stocknear 사용법",
+  "learning_center_category_desc_fundamentals": "투자가 처음이라면 여기서 시작하세요",
+  "learning_center_category_desc_terms": "금융 용어와 정의",
+
+  "learning_center_tag_all": "전체 태그",
+  "learning_center_tag_stocks": "주식",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "옵션",
+  "learning_center_tag_sentiment": "투자심리",
+  "learning_center_tag_prefix": "태그",
+
+  "learning_center_view_all": "전체 보기",
+  "learning_center_view_all_count": "전체 {count}개 보기",
+  "learning_center_min_read": "{time}분 소요",
+
+  "learning_center_no_articles_tag": "\"{tag}\" 태그가 달린 글이 없습니다.",
+  "learning_center_clear_tag_filter": "태그 필터 해제",
+
+  "learning_center_page_of": "{totalPages}페이지 중 {currentPage}페이지",
+  "learning_center_items_count": "{count}개 항목",
+
+  "learning_center_back_to_top": "맨 위로",
+  "learning_center_no_terms_yet": "아직 등록된 용어가 없습니다.",
+  "learning_center_no_articles_category": "이 카테고리에는 아직 글이 없습니다.",
+
+  "learning_center_table_of_contents": "목차",
+  "learning_center_share_this_post": "이 글 공유하기",
+  "learning_center_back_to_all_posts": "전체 글로 돌아가기",
+
+  "learning_center_quick_start": "빠른 시작",
+  "learning_center_sidebar_top_gainers": "상승률 상위",
+  "learning_center_sidebar_top_losers": "하락률 상위",
+  "learning_center_sidebar_analysts": "애널리스트",
+  "learning_center_sidebar_stock_screener": "주식 스크리너",
+  "learning_center_sidebar_options_flow": "옵션 플로우",
+  "learning_center_sidebar_earnings_calendar": "실적 캘린더",
+  "learning_center_sidebar_dividends_calendar": "배당 캘린더",
+  "learning_center_sidebar_ipo_calendar": "IPO 캘린더",
+
+  "learning_center_related_articles": "관련 글",
+  "learning_center_view_all_articles": "전체 글 보기",
+  "learning_center_share_this_article": "이 글 공유하기",
+
+  "learning_center_link_copied": "링크를 클립보드에 복사했습니다",
+  "learning_center_link_copy_failed": "링크 복사에 실패했습니다",
+
+  "learning_center_sign_in_to_read": "전체 브리핑을 보려면 로그인하세요.",
+  "learning_center_briefing_description": "데일리 마켓 브리핑은 Stocknear 회원에게 제공됩니다. 무료 계정을 만들거나 로그인하면 전체 분석을 볼 수 있습니다.",
+  "learning_center_create_free_account": "무료 계정 만들기",
+  "learning_center_sign_in": "로그인",
+
+  "learning_center_click_to_close": "아무 곳이나 클릭하거나 ESC를 누르면 닫힙니다",
+
+  "learning_center_search_placeholder": "검색...",
+  "learning_center_no_search_results": "\"{query}\"에 대한 결과가 없습니다.",
+  "learning_center_clear_search": "검색 지우기"
+}

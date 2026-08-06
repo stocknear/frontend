@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Tổng quan",
+  "index_detail_nav_options": "Quyền chọn",
+  "index_detail_nav_history": "Lịch sử",
+  "index_detail_nav_holdings": "Danh mục nắm giữ",
+
+  "index_detail_watchlist": "Danh mục theo dõi",
+  "index_detail_price_alert": "Cảnh báo",
+  "index_detail_add_to_watchlist": "Thêm vào danh mục theo dõi",
+  "index_detail_ticker_added": "Đã thêm mã vào danh mục theo dõi",
+  "index_detail_ticker_add_failed": "Thêm mã vào danh mục theo dõi thất bại",
+  "index_detail_upgrade_watchlist": "Muốn thêm nhiều cổ phiếu hơn? Hãy lên gói Plus hoặc Pro.",
+  "index_detail_companies": "Công ty",
+  "index_detail_company": "Công ty",
+
+  "index_detail_no_data": "Không có dữ liệu",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Giá mua",
+  "index_detail_ask": "Giá bán",
+  "index_detail_volume": "Khối lượng",
+  "index_detail_avg_volume_20d": "KL trung bình (20N)",
+  "index_detail_50_day_ma": "MA 50 ngày",
+  "index_detail_200_day_ma": "MA 200 ngày",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "P/E (ttm)",
+  "index_detail_shares_out": "CP lưu hành",
+  "index_detail_inception_date": "Ngày thành lập",
+  "index_detail_open": "Giá mở cửa",
+  "index_detail_prev_close": "Đóng cửa trước",
+  "index_detail_days_range": "Biên độ ngày",
+  "index_detail_52w_range": "Biên độ 52 tuần",
+  "index_detail_exchange": "Sàn giao dịch",
+  "index_detail_expense_ratio": "Tỷ lệ chi phí",
+
+  "index_detail_chart_price": "Giá",
+  "index_detail_chart_volume": "Khối lượng",
+
+  "index_sidecard_about": "Giới thiệu về {ticker}",
+  "index_sidecard_top_sectors": "5 ngành lớn nhất",
+  "index_sidecard_sector": "Ngành",
+  "index_sidecard_weight_percent": "Tỷ trọng %",
+  "index_sidecard_view_all_sectors": "Xem tất cả các ngành"
+}

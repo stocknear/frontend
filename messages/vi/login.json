@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Đăng nhập Stocknear",
+  "login_seo_description": "Đăng nhập tài khoản Stocknear bằng email và mật khẩu của bạn.",
+  "login_title": "Đăng nhập tài khoản",
+  "login_title_logged_in": "Bạn đã đăng nhập",
+  "login_subtitle": "Chào mừng trở lại",
+  "login_email_label": "Email",
+  "login_password_label": "Mật khẩu",
+  "login_forgot_password": "Quên mật khẩu?",
+  "login_button": "Đăng nhập",
+  "login_button_loading": "Đang đăng nhập",
+  "login_divider": "Hoặc đăng nhập bằng",
+  "login_no_account": "Bạn chưa có tài khoản?",
+  "login_signup_link": "Đăng ký",
+  "login_logged_in_as": "Đang đăng nhập với {email}",
+  "login_logout_button": "Đăng xuất",
+  "login_toast_verify_email": "Vui lòng xác minh email trước",
+  "login_toast_success": "Đăng nhập thành công",
+  "login_toast_invalid": "Thông tin đăng nhập không hợp lệ",
+  "login_toast_auth_failed": "Email hoặc mật khẩu không đúng. Vui lòng thử lại.",
+  "login_toast_rate_limited": "Bạn đã thử đăng nhập quá nhiều lần. Vui lòng thử lại sau {minutes} phút."
+}

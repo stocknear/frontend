@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Domů",
+  "dividends_breadcrumb_calendar": "Dividendový kalendář",
+
+  "dividends_seo_title": "Dividendový kalendář - ex-dividendová data a termíny výplat akcií",
+  "dividends_seo_description": "Sleduj nadcházející ex-dividendová data a termíny výplat u akcií. Naplánuj si strategii sběru dividend díky přehlednému kalendáři s výší dividend, daty výplat a tržní kapitalizací.",
+  "dividends_seo_keywords": "dividendový kalendář, ex-dividendová data, termíny výplat dividend, sběr dividend, dividendy akcií, dividendové akcie, data výplat dividend, nadcházející dividendy",
+
+  "dividends_main_name": "Dividendový kalendář",
+  "dividends_count": "{count} dividend",
+  "dividends_empty_day": "Pro tento den nejsou k dispozici žádné dividendy.",
+  "dividends_empty_none": "Žádné dividendy",
+  "dividends_empty_scheduled": "Žádné naplánované dividendy",
+
+  "dividends_tab_daily": "Denní",
+  "dividends_tab_weekly": "Týdenní",
+  "dividends_tab_details": "Detaily",
+  "dividends_tab_compact": "Kompaktní",
+
+  "dividends_time_any": "Kdykoli",
+  "dividends_time_before_open": "Před otevřením",
+  "dividends_time_after_close": "Po zavření",
+
+  "dividends_expanded_ex_date": "Ex-datum",
+  "dividends_expanded_market_cap": "Tržní kapitalizace",
+  "dividends_expanded_amount": "Výše",
+  "dividends_expanded_revenue": "Tržby",
+  "dividends_expanded_payment_date": "Datum výplaty",
+  "dividends_expanded_date": "Datum",
+  "dividends_expanded_dividend": "Dividenda",
+
+  "dividends_pagination_previous": "Předchozí",
+  "dividends_pagination_next": "Další",
+  "dividends_pagination_page_of": "Strana {current} z {total}",
+  "dividends_pagination_rows": "{count} řádků",
+  "dividends_back_to_top": "Zpět nahoru",
+  "dividends_search_placeholder": "Hledat..."
+}

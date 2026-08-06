@@ -1,0 +1,8 @@
+{
+  "error_title": "Nie znaleziono strony - {status}",
+  "error_body_prefix": "Nie znaleziono tej strony. Jeśli błąd powtarza się regularnie, zgłoś go nam przez",
+  "error_body_suffix": "Naprawimy to jak najszybciej.",
+  "error_back_home": "Wróć na stronę główną",
+  "error_server_title": "Coś poszło nie tak - {status}",
+  "error_server_body_prefix": "To problem po naszej stronie, a nie brakująca strona. Spróbuj ponownie za chwilę. Jeśli będzie się powtarzać, daj nam znać na"
+}

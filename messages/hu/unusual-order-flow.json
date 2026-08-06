@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "Szokatlan megbízásáramlás - Dark pool kötések és blokkügyletek",
+  "unusual_order_flow_seo_description": "Kövesd valós időben a dark pool kötéseket és a blokkügyleteket, hogy kiszúrd az intézményi aktivitást, ami gyakran megelőzi a rövid távú mozgásokat.",
+  "unusual_order_flow_seo_keywords": "szokatlan megbízásáramlás, dark pool kötések, blokkügyletek, intézményi megbízásáramlás, okos pénz, rejtett likviditás, valós idejű megbízásáramlás, dark pool szkenner",
+  "unusual_order_flow_structured_name": "Szokatlan megbízásáramlás szkenner",
+  "unusual_order_flow_structured_description": "Valós idejű dark pool kötések és blokkügyletek rövid távú piaci jelzésekhez",
+
+  "unusual_order_flow_main_title": "Szokatlan megbízásáramlás",
+
+  "unusual_order_flow_popular_filters": "Népszerű szűrők",
+  "unusual_order_flow_select_popular": "Válassz népszerűt",
+  "unusual_order_flow_saved_filters": "Mentett szűrők",
+  "unusual_order_flow_select_filter": "Szűrő kiválasztása",
+  "unusual_order_flow_new_filter": "Új szűrő",
+
+  "unusual_order_flow_filters_count": "{count} szűrő",
+  "unusual_order_flow_add_filters": "Szűrők hozzáadása",
+  "unusual_order_flow_search_filters": "Keresés {count} szűrő között...",
+  "unusual_order_flow_select_filters_title": "Flow-szűrők kiválasztása (összesen {count})",
+  "unusual_order_flow_nothing_found": "Nincs találat",
+  "unusual_order_flow_no_filters_found": "Nincs elérhető szűrő",
+
+  "unusual_order_flow_search_placeholder": "Keresés...",
+  "unusual_order_flow_search_input_placeholder": "Keresés...",
+  "unusual_order_flow_full_width": "Teljes szélesség",
+  "unusual_order_flow_normal_width": "Normál szélesség",
+
+  "unusual_order_flow_no_trades_query": "Nincs szokatlan ügylet erre: \"{query}\"",
+  "unusual_order_flow_no_data_filters": "Úgy tűnik, egyedi az ízlésed. Egyelőre nincs találat.",
+
+  "unusual_order_flow_modal_new_title": "Új szűrő",
+  "unusual_order_flow_modal_new_name_label": "Szűrő neve",
+  "unusual_order_flow_modal_new_create": "Szűrő létrehozása",
+
+  "unusual_order_flow_modal_delete_title": "Szűrő törlése",
+  "unusual_order_flow_modal_delete_message": "Biztosan törlöd ezt a szűrőt? A művelet nem vonható vissza.",
+  "unusual_order_flow_modal_delete_cancel": "Mégse",
+  "unusual_order_flow_modal_delete_confirm": "Szűrő törlése",
+
+  "unusual_order_flow_save": "Mentés",
+  "unusual_order_flow_save_as_new": "Mentés újként",
+  "unusual_order_flow_reset_all": "Összes visszaállítása",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "Dark pool kötések",
+  "unusual_order_flow_strategy_block_orders": "Blokkmegbízások",
+  "unusual_order_flow_strategy_mega_premium": "Mega prémium",
+  "unusual_order_flow_strategy_etf_flow": "ETF flow",
+  "unusual_order_flow_strategy_high_volume": "Magas forgalom",
+  "unusual_order_flow_strategy_large_stock_flow": "Nagy részvényflow",
+
+  "unusual_order_flow_total_volume": "Teljes forgalom",
+  "unusual_order_flow_total_value": "Teljes érték",
+  "unusual_order_flow_transaction_type": "Ügylet típusa",
+  "unusual_order_flow_dark_pool": "Dark pool",
+  "unusual_order_flow_block": "Blokk",
+  "unusual_order_flow_asset_type": "Eszköztípus",
+  "unusual_order_flow_stock": "Részvény",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15 perc késleltetés",
+  "unusual_order_flow_delayed_title": "15 perccel késleltetett SIP-adatok",
+  "unusual_order_flow_delayed_content": "Az Intrinio SIP-feedje kiváló minőségű, konszolidált amerikai részvényadatokat ad az összes nagy tőzsdéről – ügyleteket, jegyzéseket és NBBO-t. A 15 perces késleltetés részletes piaci rálátást ad, teljes tőzsdei lefedettséggel.",
+
+  "unusual_order_flow_hide_filter_area": "Szűrők elrejtése",
+  "unusual_order_flow_show_filter_area": "Szűrők mutatása",
+  "unusual_order_flow_exit_full_width": "Kilépés a teljes szélességből",
+  "unusual_order_flow_expand_full_width": "Teljes szélességre nyitás",
+  "unusual_order_flow_reset_column_order": "Oszlopsorrend visszaállítása",
+  "unusual_order_flow_remove_filter": "Szűrő eltávolítása",
+
+  "unusual_order_flow_min": "Min",
+  "unusual_order_flow_max": "Max",
+  "unusual_order_flow_value": "Érték"
+}

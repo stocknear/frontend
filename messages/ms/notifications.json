@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Utama",
+  "notifications_breadcrumb_notifications": "Pemberitahuan",
+
+  "notifications_seo_title": "Pemberitahuan Pasaran Saham | Kemas Kini & Amaran Masa Nyata",
+  "notifications_seo_description": "Kekal termaklum dengan pemberitahuan pasaran saham masa nyata. Dapatkan amaran serta-merta tentang perubahan harga, aliran dan pergerakan pasaran untuk membuat keputusan pelaburan yang lebih bijak.",
+
+  "notifications_main_title": "Pemberitahuan",
+  "notifications_alerts_count": "{count} Amaran",
+
+  "notifications_mark_all_read": "Tanda semua sebagai dibaca",
+  "notifications_marking": "Sedang menanda...",
+  "notifications_settings": "Tetapan",
+  "notifications_customize": "Sesuaikan pemberitahuan anda",
+
+  "notifications_channel_earnings_surprise": "Kejutan Pendapatan",
+  "notifications_channel_wiim": "Sebab Harga Bergerak",
+  "notifications_channel_top_analyst": "Penarafan Penganalisis Teratas",
+  "notifications_channel_followed_analysts": "Penganalisis Diikuti",
+  "notifications_no_channels": "Tiada saluran pemberitahuan tersedia.",
+
+  "notifications_empty": "Anda belum mempunyai sebarang pemberitahuan.",
+
+  "notifications_pagination_previous": "Sebelum",
+  "notifications_pagination_next": "Seterusnya",
+  "notifications_pagination_page_of": "Halaman {current} daripada {total}",
+  "notifications_pagination_rows": "{count} Baris",
+  "notifications_back_to_top": "Kembali ke Atas",
+
+  "notifications_modal_delete_title": "Padam Semua Pemberitahuan",
+  "notifications_modal_delete_confirm": "Anda pasti mahu memadam semua pemberitahuan? Tindakan ini tidak boleh dibatalkan.",
+  "notifications_modal_delete_button": "Padam Pemberitahuan",
+  "notifications_modal_deleting": "Sedang memadam...",
+  "notifications_modal_cancel": "Batal",
+  "notifications_delete_error": "Gagal memadam pemberitahuan. Sila cuba lagi.",
+
+  "notifications_type_price_alert_triggered": "Amaran dicetuskan untuk",
+  "notifications_type_price_is": "Harga",
+  "notifications_type_is_condition": "adalah {condition} sasaran anda",
+  "notifications_type_breaking_news": "Berita TERGEMPAR untuk",
+  "notifications_type_wiim_new_data": "Data baharu untuk peristiwa \"Sebab Harga Bergerak\" telah keluar.",
+  "notifications_type_top_analyst_new": "Penarafan Penganalisis Teratas baharu untuk",
+  "notifications_type_top_analyst_rating": "Syarikat penarafan {analyst} telah mengeluarkan penarafan baharu \"{rating}\" dengan sasaran harga dikemas kini pada {price}.",
+  "notifications_type_followed_analyst_new": "Penarafan baharu daripada",
+  "notifications_type_followed_analyst_rating": "Menaraf {symbol} \"{rating}\" dengan sasaran harga {price}.",
+  "notifications_type_earnings_release": "Keluaran Pendapatan untuk",
+  "notifications_type_earnings_surprise_new": "Data baharu untuk peristiwa \"Kejutan Pendapatan\" telah keluar.",
+
+  "notifications_sidebar_watchlist": "Senarai Pantau",
+  "notifications_sidebar_watchlist_description": "Dapatkan kemas kini masa nyata saham kegemaran anda",
+  "notifications_sidebar_portfolio": "Penjejak Portfolio",
+  "notifications_sidebar_portfolio_description": "Dapatkan kemas kini masa nyata portfolio anda"
+}

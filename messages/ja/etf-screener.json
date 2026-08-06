@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "etf_screener_breadcrumb_home": "ホーム",
+  "etf_screener_breadcrumb_etf_screener": "ETF スクリーナー",
+
+  "etf_screener_seo_title": "無料の ETF スクリーナー - 条件で ETF を探す",
+  "etf_screener_seo_description": "{count} 本の ETF を純資産総額、経費率、分配金、パフォーマンス、テクニカルなどで絞り込めます。無料で使える高機能な ETF スクリーナーです。",
+  "etf_screener_seo_keywords": "etf スクリーナー, etf 絞り込み, etf 検索, etf を探す, etf スクリーニングツール, 経費率 フィルター, 純資産総額 フィルター, 分配金 etf スクリーナー",
+  "etf_screener_structured_name": "stocknear ETF スクリーナー",
+  "etf_screener_structured_description": "純資産総額、経費率、パフォーマンス、テクニカル、分配金などで絞り込める高機能な ETF スクリーニングツール",
+
+  "etf_screener_main_title": "ETF スクリーナー",
+  "etf_screener_matches_found": "{count} 件が該当",
+  "etf_screener_etfs_count": "{count} 本",
+
+  "etf_screener_popular_screens": "人気のスクリーン",
+  "etf_screener_popular_strategies": "人気の戦略",
+  "etf_screener_select_popular": "人気から選ぶ",
+  "etf_screener_saved_screens": "保存したスクリーン",
+  "etf_screener_select_screen": "スクリーンを選択",
+  "etf_screener_new_screen": "新しいスクリーン",
+
+  "etf_screener_filters_count": "フィルター {count} 件",
+  "etf_screener_add_filters": "フィルターを追加",
+  "etf_screener_search_filters": "{count} 件のフィルターを検索...",
+  "etf_screener_select_filters_title": "フィルターを選択（{count}）",
+  "etf_screener_nothing_found": "該当なし",
+
+  "etf_screener_search_placeholder": "ETF を検索...",
+  "etf_screener_search_input_placeholder": "検索...",
+  "etf_screener_input_min": "最小",
+  "etf_screener_input_max": "最大",
+  "etf_screener_input_value": "値",
+
+  "etf_screener_normal_width": "通常幅",
+  "etf_screener_full_width": "全幅表示",
+
+  "etf_screener_save": "保存",
+  "etf_screener_save_as_new": "新規として保存",
+  "etf_screener_reset_all": "すべてリセット",
+
+  "etf_screener_pagination_previous": "前へ",
+  "etf_screener_pagination_next": "次へ",
+  "etf_screener_pagination_page_of": "{current} / {total} ページ",
+  "etf_screener_rows_label": "{rows} 行",
+  "etf_screener_back_to_top": "トップへ戻る",
+
+  "etf_screener_no_etfs_query": "「{query}」に該当する ETF はありません",
+  "etf_screener_no_etfs": "該当する ETF はありません。",
+
+  "etf_screener_modal_new_title": "新しいスクリーン",
+  "etf_screener_modal_new_name_label": "スクリーン名",
+  "etf_screener_modal_new_create": "作成",
+
+  "etf_screener_modal_delete_title": "スクリーンを削除",
+  "etf_screener_modal_delete_message": "このスクリーンを削除しますか。",
+  "etf_screener_modal_delete_cancel": "キャンセル",
+  "etf_screener_modal_delete_confirm": "削除",
+
+  "etf_screener_strategy_low_cost_index": "低コストのインデックス ETF",
+  "etf_screener_strategy_high_dividend": "高分配 ETF",
+  "etf_screener_strategy_top_performers_1y": "1年騰落率 上位",
+  "etf_screener_strategy_oversold": "売られすぎの ETF",
+
+  "etf_screener_tab_filters": "フィルター",
+  "etf_screener_tab_technicals": "テクニカル",
+
+  "etf_screener_export_title": "ETF スクリーナーのデータを書き出す"
+}

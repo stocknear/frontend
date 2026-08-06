@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "app_installed_banner_title": "Hanki sovellus sujuvampaa käyttöä varten.",
+  "app_installed_button_install": "Asenna",
+  "app_installed_modal_title": "Asennusvaiheet",
+  "app_installed_platform_ios": "Apple (iOS)",
+  "app_installed_platform_android": "Android",
+  "app_installed_ios_step_1": "Napauta Safarin jakopainiketta.",
+  "app_installed_ios_step_2": "Napauta \"Lisää Koti-valikkoon\".",
+  "app_installed_ios_step_3": "Napauta \"Lisää\".",
+  "app_installed_ios_note": "Huomaa, että iOS:ssä verkkosovelluksia voi asentaa vain Safarilla.",
+  "app_installed_android_step_1": "Avaa Stocknear Chromessa.",
+  "app_installed_android_step_2": "Napauta kolmen pisteen valikkoa oikeassa yläkulmassa.",
+  "app_installed_android_step_3": "Napauta \"Asenna sovellus\" tai \"Lisää aloitusnäyttöön\".",
+  "app_installed_android_step_4": "Vahvista asennus.",
+  "app_installed_close": "Sulje"
+}

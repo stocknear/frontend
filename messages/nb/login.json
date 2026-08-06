@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Logg inn på Stocknear",
+  "login_seo_description": "Logg inn på Stocknear-kontoen din med e-post og passord.",
+  "login_title": "Logg inn på kontoen din",
+  "login_title_logged_in": "Du er logget inn",
+  "login_subtitle": "Velkommen tilbake",
+  "login_email_label": "E-post",
+  "login_password_label": "Passord",
+  "login_forgot_password": "Glemt passord?",
+  "login_button": "Logg inn",
+  "login_button_loading": "Logger inn",
+  "login_divider": "Eller logg inn med",
+  "login_no_account": "Har du ikke konto?",
+  "login_signup_link": "Registrer deg",
+  "login_logged_in_as": "Logget inn som {email}",
+  "login_logout_button": "Logg ut",
+  "login_toast_verify_email": "Bekreft e-postadressen din først",
+  "login_toast_success": "Du er logget inn",
+  "login_toast_invalid": "Ugyldig innlogging",
+  "login_toast_auth_failed": "Feil e-post eller passord. Prøv igjen.",
+  "login_toast_rate_limited": "For mange innloggingsforsøk. Prøv igjen om {minutes} minutter."
+}

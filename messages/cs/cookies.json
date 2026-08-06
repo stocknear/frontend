@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Záleží nám na tvém soukromí",
+  "cookies_banner_description": "Cookies používáme k lepšímu prohlížení, analýze návštěvnosti a personalizaci obsahu.",
+  "cookies_accept_all": "Přijmout vše",
+  "cookies_reject_all": "Odmítnout vše",
+  "cookies_customize": "Nastavit",
+  "cookies_preferences_title": "Nastavení cookies",
+  "cookies_preferences_description": "Spravuj své předvolby cookies. Nezbytné cookies vypnout nelze, web bez nich nefunguje.",
+  "cookies_necessary_title": "Nezbytné cookies",
+  "cookies_necessary_description": "Potřebné pro přihlášení, bezpečnost a základní funkce. Nejde je vypnout.",
+  "cookies_analytics_title": "Analytické cookies",
+  "cookies_analytics_description": "Pomáhají nám pochopit, jak návštěvníci web používají, abychom ho mohli zlepšovat.",
+  "cookies_marketing_title": "Marketingové cookies",
+  "cookies_marketing_description": "Slouží ke sledování návštěvníků napříč weby kvůli personalizované reklamě.",
+  "cookies_save_preferences": "Uložit nastavení"
+}

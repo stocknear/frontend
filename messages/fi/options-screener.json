@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Etusivu",
+  "options_screener_breadcrumb_options_screener": "Optioseulonta",
+
+  "options_screener_seo_title": "Optioseulonta - löydä poikkeava virta ja vahvat asetelmat",
+  "options_screener_seo_description": "Seulo optioita poikkeavan aktiivisuuden, implisiittisen volatiliteetin, avoimen position, vaihdon, kreikkalaisten ja erääntymisen perusteella ja löydä lyhyen aikavälin asetelmat.",
+  "options_screener_seo_keywords": "optioseulonta, poikkeava optioaktiivisuus, optioskanneri, implisiittisen volatiliteetin seulonta, IV-vinouma, avoin positio, suuren vaihdon optiot, optiokaupan työkalu, kreikkalaisten seulonta",
+  "options_screener_structured_name": "Optioseulontatyökalu",
+  "options_screener_structured_description": "Optioseulonta, joka keskittyy poikkeavaan aktiivisuuteen, IV:hen ja avoimeen positioon lyhyen aikavälin asetelmissa",
+
+  "options_screener_main_title": "Optioseulonta",
+  "options_screener_contracts_count": "{count} sopimusta",
+  "options_screener_expire_on": "Kaikki optiosopimukset erääntyvät {date}",
+
+  "options_screener_popular_screens": "Suositut seulonnat",
+  "options_screener_popular_strategies": "Suositut strategiat",
+  "options_screener_select_popular": "Valitse suosittu",
+  "options_screener_saved_screens": "Tallennetut seulonnat",
+  "options_screener_select_screen": "Valitse seulonta",
+  "options_screener_new_screen": "Uusi seulonta",
+
+  "options_screener_filters_count": "{count} suodatinta",
+  "options_screener_add_filters": "Lisää suodattimia",
+  "options_screener_search_filters": "Hae {count} suodattimesta...",
+  "options_screener_select_filters_title": "Valitse seulontasuodattimet (yhteensä {count})",
+  "options_screener_nothing_found": "Ei osumia",
+
+  "options_screener_tab_general": "Yleiset",
+  "options_screener_tab_filters": "Suodattimet",
+  "options_screener_tab_greeks": "Kreikkalaiset",
+
+  "options_screener_search_placeholder": "Etsi...",
+  "options_screener_search_input_placeholder": "Hae...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Arvo",
+
+  "options_screener_normal_width": "Normaali leveys",
+  "options_screener_full_width": "Koko leveys",
+
+  "options_screener_pagination_previous": "Edellinen",
+  "options_screener_pagination_next": "Seuraava",
+  "options_screener_pagination_page_of": "Sivu {current} / {total}",
+  "options_screener_rows_label": "{rows} riviä",
+  "options_screener_back_to_top": "Takaisin ylös",
+
+  "options_screener_no_contracts_query": "Haulle \"{query}\" ei löytynyt sopimuksia",
+  "options_screener_no_contracts": "Sopimuksia ei löytynyt.",
+
+  "options_screener_modal_new_title": "Uusi seulonta",
+  "options_screener_modal_new_name_label": "Seulonnan nimi",
+  "options_screener_modal_new_create": "Luo seulonta",
+
+  "options_screener_modal_delete_title": "Poista seulonta",
+  "options_screener_modal_delete_message": "Haluatko varmasti poistaa tämän seulonnan? Toimintoa ei voi peruuttaa.",
+  "options_screener_modal_delete_cancel": "Peruuta",
+  "options_screener_modal_delete_confirm": "Poista",
+
+  "options_screener_strategy_high_iv_rank": "Korkea IV-taso",
+  "options_screener_strategy_volume_surge": "Vaihdon piikki",
+  "options_screener_strategy_itm_calls": "ITM-ostooptiot",
+  "options_screener_strategy_otm_puts": "OTM-myyntioptiot",
+  "options_screener_strategy_high_premium_flow": "Suuren preemion virta",
+
+  "options_screener_save": "Tallenna",
+  "options_screener_save_as_new": "Tallenna uutena",
+  "options_screener_reset_all": "Nollaa kaikki"
+}

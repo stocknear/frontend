@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Forside",
+  "notifications_breadcrumb_notifications": "Notifikationer",
+
+  "notifications_seo_title": "Aktienotifikationer | Opdateringer og alarmer i realtid",
+  "notifications_seo_description": "Hold dig opdateret med aktienotifikationer i realtid. Få besked med det samme om kursændringer, tendenser og markedsbevægelser, så du kan træffe bedre beslutninger.",
+
+  "notifications_main_title": "Notifikation",
+  "notifications_alerts_count": "{count} alarmer",
+
+  "notifications_mark_all_read": "Markér alle som læst",
+  "notifications_marking": "Markerer...",
+  "notifications_settings": "Indstillinger",
+  "notifications_customize": "Tilpas dine notifikationer",
+
+  "notifications_channel_earnings_surprise": "Regnskabsoverraskelse",
+  "notifications_channel_wiim": "Hvorfor kursen bevægede sig",
+  "notifications_channel_top_analyst": "Topanalytikers vurdering",
+  "notifications_channel_followed_analysts": "Analytikere du følger",
+  "notifications_no_channels": "Ingen notifikationskanaler tilgængelige.",
+
+  "notifications_empty": "Du har ingen notifikationer endnu.",
+
+  "notifications_pagination_previous": "Forrige",
+  "notifications_pagination_next": "Næste",
+  "notifications_pagination_page_of": "Side {current} af {total}",
+  "notifications_pagination_rows": "{count} rækker",
+  "notifications_back_to_top": "Til toppen",
+
+  "notifications_modal_delete_title": "Slet alle notifikationer",
+  "notifications_modal_delete_confirm": "Er du sikker på, at du vil slette alle notifikationer? Handlingen kan ikke fortrydes.",
+  "notifications_modal_delete_button": "Slet notifikationer",
+  "notifications_modal_deleting": "Sletter...",
+  "notifications_modal_cancel": "Annuller",
+  "notifications_delete_error": "Notifikationerne kunne ikke slettes. Prøv igen.",
+
+  "notifications_type_price_alert_triggered": "Alarm udløst for",
+  "notifications_type_price_is": "Kursen på",
+  "notifications_type_is_condition": "er {condition} dit mål på",
+  "notifications_type_breaking_news": "BREAKING nyhed for",
+  "notifications_type_wiim_new_data": "Nye data til begivenheden \"Hvorfor kursen bevægede sig\" er klar.",
+  "notifications_type_top_analyst_new": "Ny topanalytiker-vurdering for",
+  "notifications_type_top_analyst_rating": "Analysehuset {analyst} har udsendt en ny vurdering på \"{rating}\" med et opdateret kursmål på {price}.",
+  "notifications_type_followed_analyst_new": "Ny vurdering fra",
+  "notifications_type_followed_analyst_rating": "Vurderede {symbol} til \"{rating}\" med et kursmål på {price}.",
+  "notifications_type_earnings_release": "Regnskab for",
+  "notifications_type_earnings_surprise_new": "Nye data til begivenheden \"Regnskabsoverraskelse\" er klar.",
+
+  "notifications_sidebar_watchlist": "Watchliste",
+  "notifications_sidebar_watchlist_description": "Få opdateringer i realtid på dine yndlingsaktier",
+  "notifications_sidebar_portfolio": "Porteføljetracker",
+  "notifications_sidebar_portfolio_description": "Få opdateringer i realtid på din portefølje"
+}

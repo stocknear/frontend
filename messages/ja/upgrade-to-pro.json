@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "upgrade_to_pro_title": "優位性を求めるアクティブトレーダーのために。",
+  "upgrade_to_pro_subtitle": "必要なのは見出しの数ではなく、株価を動かすフロー、材料、そして文脈です。Pro ならリアルタイムのオプションとダークプールのデータ、アナリストの動き、長期の履歴を一か所にまとめ、後追いではなく計画的にトレードできます。",
+  "upgrade_to_pro_feature_data_title": "すべてのデータを解放",
+  "upgrade_to_pro_feature_data_desc": "Stocknear の全データセットとツールを使い、仕掛けを素早く検証して確信を持って動けます。",
+  "upgrade_to_pro_feature_flow_title": "オプションとダークプールのフローをライブ表示",
+  "upgrade_to_pro_feature_flow_desc": "異常な取引や大口の約定をその場で捉え、周りより先に動けます。",
+  "upgrade_to_pro_feature_analyst_title": "株価を動かすアナリストの材料",
+  "upgrade_to_pro_feature_analyst_desc": "格上げ、格下げ、目標株価の変更を、ニュースを追いかけずに把握できます。",
+  "upgrade_to_pro_feature_history_title": "検証に使える長期データ",
+  "upgrade_to_pro_feature_history_desc": "プレミアムデータと最長30年の履歴でアイデアを検証できます。",
+  "upgrade_to_pro_cta": "Pro にアップグレード"
+}

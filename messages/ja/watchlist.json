@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "ホーム",
+  "watchlist_breadcrumb_watchlist": "ウォッチリスト",
+
+  "watchlist_seo_title": "株式ウォッチリスト - 保有銘柄と株価を追跡",
+  "watchlist_seo_description": "自分だけのウォッチリストを作成し、リアルタイムの株価で管理できます。気になる銘柄や ETF をアラートとパフォーマンス分析付きで追跡できる、無料のポートフォリオトラッカーです。",
+  "watchlist_seo_keywords": "株式ウォッチリスト, ポートフォリオ管理, 銘柄トラッカー, 投資管理, 株価モニタリング, アラート, ポートフォリオ分析, 運用成績, 投資ウォッチリスト",
+  "watchlist_structured_name": "株式ウォッチリスト トラッカー",
+  "watchlist_structured_description": "自分専用のウォッチリストとポートフォリオ管理ツール",
+
+  "watchlist_main_title": "ウォッチリスト",
+  "watchlist_create_watchlist": "ウォッチリストを作成",
+  "watchlist_new_watchlist": "新規ウォッチリスト",
+  "watchlist_delete_watchlist": "ウォッチリストを削除",
+
+  "watchlist_add_stock_placeholder": "銘柄を追加...",
+  "watchlist_no_results": "結果はありません",
+  "watchlist_edit_watchlist": "ウォッチリストを編集",
+  "watchlist_cancel": "キャンセル",
+  "watchlist_normal_width": "通常幅",
+  "watchlist_full_width": "全幅",
+  "watchlist_exit_full_width": "全幅表示を終了",
+  "watchlist_expand_full_width": "全幅で表示",
+
+  "watchlist_empty_title": "ウォッチリストは空です",
+  "watchlist_empty_description": "気になる銘柄を登録すると、リアルタイムのデータと最新ニュースをまとめて確認できます。",
+  "watchlist_get_started": "はじめる",
+
+  "watchlist_count_stocks": "{count} 銘柄",
+
+  "watchlist_tab_news": "ニュース",
+  "watchlist_tab_earnings": "決算発表",
+  "watchlist_no_news": "まだニュースはありません。ウォッチリストに銘柄を追加すると最新ニュースが表示されます。",
+  "watchlist_no_earnings": "決算データはありません。ウォッチリストに銘柄を追加すると最新の決算データが表示されます。",
+
+  "watchlist_modal_new_title": "新規ウォッチリスト",
+  "watchlist_modal_list_name": "リスト名",
+  "watchlist_modal_create_button": "ウォッチリストを作成",
+
+  "watchlist_modal_delete_title": "ウォッチリストを削除",
+  "watchlist_modal_delete_confirm": "このウォッチリストを削除してもよろしいですか。この操作は取り消せません。",
+  "watchlist_modal_delete_button": "ウォッチリストを削除",
+
+  "watchlist_toast_creating": "ウォッチリストを作成しています...",
+  "watchlist_toast_created": "ウォッチリストを作成しました",
+  "watchlist_toast_deleted": "ウォッチリストを削除しました",
+  "watchlist_toast_updating": "ウォッチリストを更新しています...",
+  "watchlist_toast_updated": "ウォッチリストを更新しました",
+  "watchlist_toast_error": "問題が発生しました。もう一度お試しください。",
+  "watchlist_toast_error_generic": "エラーが発生しました。しばらくしてからもう一度お試しください。",
+  "watchlist_toast_title_empty": "タイトルを入力してください",
+  "watchlist_toast_title_long": "タイトルが長すぎます。短くまとめてください。",
+  "watchlist_toast_already_in_list": "この銘柄はすでにウォッチリストにあります",
+  "watchlist_toast_select_symbols": "削除する銘柄を選択してください",
+
+  "watchlist_earnings_will_report": "は、",
+  "watchlist_earnings_after_close": "引け後に決算を発表します。",
+  "watchlist_earnings_before_open": "寄り付き前に決算を発表します。",
+  "watchlist_earnings_during_market": "取引時間中に決算を発表します。",
+  "watchlist_earnings_analysts_estimate": "アナリスト予想は",
+  "watchlist_earnings_in_revenue": "の売上高",
+  "watchlist_earnings_yoy": "前年同期比",
+  "watchlist_earnings_and": "、",
+  "watchlist_earnings_in_eps": "の1株当たり利益です",
+
+  "watchlist_note_add_title": "メモを追加",
+  "watchlist_note_edit_title": "メモを編集",
+  "watchlist_note_placeholder_new": "この銘柄をウォッチリストに追加した理由は何ですか",
+  "watchlist_note_placeholder_edit": "メモを更新...",
+  "watchlist_note_save": "保存",
+  "watchlist_note_add": "メモを追加",
+  "watchlist_note_update": "メモを更新",
+  "watchlist_note_created": "メモを作成しました",
+  "watchlist_note_updated": "メモを更新しました",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "残り {count} 文字",
+  "watchlist_note_chars_over": "{count} 文字オーバー",
+  "watchlist_note_exceeded": "メモは {max} 文字以内で入力してください",
+  "watchlist_added_price": "追加時の株価",
+
+  "watchlist_column_entry_price": "取得価格",
+  "watchlist_column_since_added": "追加時比 %"
+}

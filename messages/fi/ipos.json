@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Etusivu",
+  "ipos_breadcrumb_data": "IPO-data",
+
+  "ipos_seo_title": "IPO-kalenteri - Viimeisimmät ja tulevat listautumiset",
+  "ipos_seo_description": "Seuraa viimeisimpiä ja tulevia listautumisia (IPO) yksityiskohtaisella analyysillä. Tarkkaile listautumisten kehitystä, hintoja, päiviä ja tuottoja listautumisen jälkeen. Ilmainen IPO-kalenteri ja seuranta kattavalla datalla.",
+  "ipos_seo_keywords": "IPO-kalenteri, tulevat IPO:t, viimeisimmät IPO:t, listautumisannit, IPO-seuranta, IPO-kehitys, IPO-hinnat, uudet pörssilistaukset, listautumiset",
+
+  "ipos_main_name_recent": "Viimeisimmät IPO:t",
+  "ipos_main_name_statistics": "IPO-tilastot",
+  "ipos_count": "{count} osaketta",
+  "ipos_tab_recent": "Viimeisimmät",
+  "ipos_tab_statistics": "Tilastot",
+  "ipos_tab_latest": "Uusimmat",
+
+  "ipos_statistics_seo_title": "IPO-tilastot ja historialliset kaaviot - Listautumisantien markkinadata",
+  "ipos_statistics_seo_description": "Kattavat IPO-tilastot ja interaktiiviset kaaviot Yhdysvaltain osakemarkkinoiden listautumisanneista. Seuraa vuosi- ja kuukausitrendejä vuodesta {startYear} vuoteen {endYear}, analysoi markkinasyklejä ja tunnista listautumisten kehityskuvioita.",
+  "ipos_statistics_seo_keywords": "IPO-tilastot, listautumisantien kaaviot, IPO-markkinadata, IPO-trendit, IPO-analyysi, historiallinen IPO-data, IPO-kehitys, vuosittaiset IPO-tilastot, kuukausittainen IPO-data",
+  "ipos_statistics_infobox": "Tällä sivulla on tilastoja ja kaavioita Yhdysvaltain osakemarkkinoiden listautumisanneista (IPO). Vuosi- ja kuukausidata on saatavilla vuodesta {startYear} vuoteen {endYear}.",
+  "ipos_statistics_title": "IPO:iden määrä vuosittain",
+  "ipos_statistics_description": "Vuosien {startYear} ja {endYear} välillä on ollut {count} listautumista. Vähiten niitä oli vuonna {minYear}, jolloin määrä jäi lukuun {minCount}. Koko vuosi {maxYear} oli kaikkien aikojen ennätys {maxCount} listautumisella.",
+  "ipos_statistics_stock_news": "Osakeuutiset",
+  "ipos_statistics_more_news": "Lisää osakeuutisia",
+
+  "ipos_year_seo_title": "Vuoden {year} IPO-lista - Kattava listautumisantien hakemisto",
+  "ipos_year_seo_description": "Kattava lista kaikista vuoden {year} listautumisanneista (IPO) Yhdysvaltain osakemarkkinoilla. Seuraa listautumisten kehitystä, hinnoittelua, tuottoja listautumisen jälkeen ja pörssidebyyttejä yksityiskohtaisilla yhtiötiedoilla ja historiadatalla.",
+  "ipos_year_seo_keywords": "{year} IPO:t, listautumisannit {year}, IPO-lista {year}, {year} IPO-kehitys, viimeisimmät IPO:t, IPO-kalenteri {year}, uudet pörssiyhtiöt {year}",
+  "ipos_year_empty": "Listautumisia ei löytynyt. Säädä hakuaikaväliä nähdäksesi vuoden {year} tuoreimmat IPO:t.",
+
+  "ipos_statistics_chart_title": "IPO:t vuosittain, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO:t",
+  "ipos_year_heading": "Vuoden {year} listautumisannit",
+  "ipos_year_summary": "Vuonna {year} on ollut {count} listautumista.",
+  "ipos_year_extremes": "Vilkkain kuukausi oli {maxMonth} ({maxCount}), hiljaisin {minMonth} ({minCount}).",
+  "ipos_year_none": "Vuonna {year} ei ollut yhtään listautumista."
+}

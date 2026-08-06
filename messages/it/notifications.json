@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Home",
+  "notifications_breadcrumb_notifications": "Notifiche",
+
+  "notifications_seo_title": "Notifiche di borsa | Aggiornamenti e avvisi in tempo reale",
+  "notifications_seo_description": "Resta aggiornato con le notifiche di borsa in tempo reale. Ricevi avvisi immediati su variazioni di prezzo, tendenze e movimenti di mercato per decidere meglio i tuoi investimenti.",
+
+  "notifications_main_title": "Notifica",
+  "notifications_alerts_count": "{count} avvisi",
+
+  "notifications_mark_all_read": "Segna tutte come lette",
+  "notifications_marking": "Aggiornamento...",
+  "notifications_settings": "Impostazioni",
+  "notifications_customize": "Personalizza le tue notifiche",
+
+  "notifications_channel_earnings_surprise": "Sorpresa sugli utili",
+  "notifications_channel_wiim": "Perché il prezzo si è mosso",
+  "notifications_channel_top_analyst": "Rating dei migliori analisti",
+  "notifications_channel_followed_analysts": "Analisti seguiti",
+  "notifications_no_channels": "Nessun canale di notifica disponibile.",
+
+  "notifications_empty": "Non hai ancora notifiche.",
+
+  "notifications_pagination_previous": "Precedente",
+  "notifications_pagination_next": "Successiva",
+  "notifications_pagination_page_of": "Pagina {current} di {total}",
+  "notifications_pagination_rows": "{count} righe",
+  "notifications_back_to_top": "Torna su",
+
+  "notifications_modal_delete_title": "Elimina tutte le notifiche",
+  "notifications_modal_delete_confirm": "Vuoi davvero eliminare tutte le notifiche? L'operazione non può essere annullata.",
+  "notifications_modal_delete_button": "Elimina notifiche",
+  "notifications_modal_deleting": "Eliminazione...",
+  "notifications_modal_cancel": "Annulla",
+  "notifications_delete_error": "Eliminazione delle notifiche non riuscita. Riprova.",
+
+  "notifications_type_price_alert_triggered": "Avviso attivato per",
+  "notifications_type_price_is": "Il prezzo di",
+  "notifications_type_is_condition": "è {condition} il tuo obiettivo di",
+  "notifications_type_breaking_news": "Notizia URGENTE su",
+  "notifications_type_wiim_new_data": "Sono disponibili nuovi dati per l'evento \"Perché il prezzo si è mosso\".",
+  "notifications_type_top_analyst_new": "Nuovo rating dei migliori analisti per",
+  "notifications_type_top_analyst_rating": "La società di rating {analyst} ha emesso un nuovo giudizio \"{rating}\" con un prezzo obiettivo aggiornato di {price}.",
+  "notifications_type_followed_analyst_new": "Nuovo rating da",
+  "notifications_type_followed_analyst_rating": "Giudizio \"{rating}\" su {symbol} con un prezzo obiettivo di {price}.",
+  "notifications_type_earnings_release": "Pubblicazione dei risultati per",
+  "notifications_type_earnings_surprise_new": "Sono disponibili nuovi dati per l'evento \"Sorpresa sugli utili\".",
+
+  "notifications_sidebar_watchlist": "Watchlist",
+  "notifications_sidebar_watchlist_description": "Ricevi aggiornamenti in tempo reale sui tuoi titoli preferiti",
+  "notifications_sidebar_portfolio": "Portfolio Tracker",
+  "notifications_sidebar_portfolio_description": "Ricevi aggiornamenti in tempo reale sul tuo portafoglio"
+}

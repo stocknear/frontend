@@ -1,0 +1,109 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "covered_call_screener_breadcrumb_home": "Főoldal",
+  "covered_call_screener_breadcrumb_title": "Covered Call szűrő",
+
+  "covered_call_screener_seo_title": "Covered Call szűrő - Találd meg a legjobb covered call lehetőségeket",
+  "covered_call_screener_seo_description": "Szűrj több ezer opció között covered call lehetőségekre. Szűrhetsz prémiumhozamra, évesített hozamra, kötési árfolyamra, lejáratra és sok másra.",
+  "covered_call_screener_seo_keywords": "covered call szűrő, opciós szűrő, covered call, prémiumhozam, jövedelemstratégia",
+  "covered_call_screener_structured_name": "Covered Call szűrő",
+  "covered_call_screener_structured_description": "Opciók szűrése covered call lehetőségekre",
+
+  "covered_call_screener_main_title": "Covered Call szűrő",
+  "covered_call_screener_contracts_count": "{count} kontraktus",
+
+  "covered_call_screener_popular_screens": "Népszerű szűrők",
+  "covered_call_screener_popular_strategies": "Népszerű stratégiák",
+  "covered_call_screener_select_popular": "Népszerű kiválasztása",
+  "covered_call_screener_saved_screens": "Mentett szűrők",
+  "covered_call_screener_select_screen": "Szűrő kiválasztása",
+  "covered_call_screener_new_screen": "Új szűrő",
+
+  "covered_call_screener_strategy_high_yield": "Magas hozam",
+  "covered_call_screener_strategy_conservative": "Konzervatív",
+  "covered_call_screener_strategy_weekly_income": "Heti bevétel",
+  "covered_call_screener_strategy_high_protection": "Erős védelem",
+  "covered_call_screener_strategy_bluechip_cc": "Blue-chip covered callok",
+
+  "covered_call_screener_filters_count": "Szűrők ({count})",
+  "covered_call_screener_add_filters": "Szűrő hozzáadása",
+  "covered_call_screener_search_filters": "Keresés {count} szűrő között...",
+  "covered_call_screener_select_filters_title": "Szűrők kiválasztása ({count})",
+  "covered_call_screener_nothing_found": "Nincs találat.",
+
+  "covered_call_screener_save": "Mentés",
+  "covered_call_screener_save_as_new": "Mentés újként",
+  "covered_call_screener_reset_all": "Összes törlése",
+
+  "covered_call_screener_condition_over": "Felette",
+  "covered_call_screener_condition_under": "Alatta",
+  "covered_call_screener_condition_between": "Között",
+  "covered_call_screener_condition_exactly": "Pontosan",
+  "covered_call_screener_condition_any": "Bármely",
+
+  "covered_call_screener_input_min": "Min",
+  "covered_call_screener_input_max": "Max",
+  "covered_call_screener_input_value": "Érték",
+
+  "covered_call_screener_search_placeholder": "Keresés...",
+  "covered_call_screener_search_modal_placeholder": "Keresés...",
+
+  "covered_call_screener_normal_width": "Normál szélesség",
+  "covered_call_screener_full_width": "Teljes szélesség",
+
+  "covered_call_screener_tab_general": "Általános",
+  "covered_call_screener_tab_income": "Bevétel",
+  "covered_call_screener_tab_filters": "Szűrők",
+  "covered_call_screener_tab_greeks": "Görögök",
+
+  "covered_call_screener_pagination_previous": "Előző",
+  "covered_call_screener_pagination_next": "Következő",
+  "covered_call_screener_pagination_page_of": "{current}. oldal / {total}",
+  "covered_call_screener_rows_label": "{rows} sor",
+  "covered_call_screener_back_to_top": "Vissza a tetejére",
+
+  "covered_call_screener_no_results_query": "Nincs találat erre: \"{query}\"",
+  "covered_call_screener_no_contracts": "Nincs a feltételeidnek megfelelő kontraktus.",
+
+  "covered_call_screener_modal_new_title": "Új szűrő",
+  "covered_call_screener_modal_new_name_label": "Szűrő neve",
+  "covered_call_screener_modal_new_create": "Létrehozás",
+
+  "covered_call_screener_modal_delete_title": "Szűrő törlése",
+  "covered_call_screener_modal_delete_message": "Biztosan törlöd ezt a szűrőt? A művelet nem vonható vissza.",
+  "covered_call_screener_modal_delete_cancel": "Mégse",
+  "covered_call_screener_modal_delete_confirm": "Törlés",
+
+  "covered_call_screener_toast_deleting": "Szűrő törlése...",
+  "covered_call_screener_toast_deleted": "A szűrőt töröltük.",
+  "covered_call_screener_toast_delete_failed": "A törlés nem sikerült. Próbáld újra.",
+  "covered_call_screener_toast_title_too_long": "A cím túl hosszú. Maradj 100 karakter alatt.",
+  "covered_call_screener_toast_created": "A szűrő elkészült.",
+  "covered_call_screener_toast_creating": "Szűrő létrehozása...",
+  "covered_call_screener_toast_create_failed": "Valami hiba történt. Próbáld újra később.",
+  "covered_call_screener_toast_select_rule": "Válassz egy szabályt",
+  "covered_call_screener_toast_saving": "Szűrő mentése...",
+  "covered_call_screener_toast_saved": "A szűrőt elmentettük.",
+  "covered_call_screener_toast_save_failed": "A mentés nem sikerült. Próbáld újra.",
+
+  "covered_call_screener_chart_price_at_expiration": "Árfolyam lejáratkor ($)",
+  "covered_call_screener_chart_last_price_label": "Utolsó ár: {price}",
+  "covered_call_screener_chart_breakeven_label": "Nullszaldó: ${breakeven}",
+  "covered_call_screener_chart_profit_loss": "Nyereség/veszteség ($)",
+  "covered_call_screener_chart_tooltip_underlying": "Alaptermék ára:",
+  "covered_call_screener_chart_tooltip_profit_loss": "Nyereség vagy veszteség:",
+  "covered_call_screener_chart_modal_title": "Covered Call - {symbol}",
+  "covered_call_screener_chart_trade_setup": "Ügylet felépítése",
+  "covered_call_screener_chart_buy_stock": "Részvény vétele @",
+  "covered_call_screener_chart_sell_call": "{strike}C eladása @",
+  "covered_call_screener_chart_net_credit_debit": "Nettó (jóváírás/terhelés)",
+  "covered_call_screener_chart_breakeven": "Nullszaldó",
+  "covered_call_screener_chart_above": "Felette",
+  "covered_call_screener_chart_last_price": "Utolsó ár",
+  "covered_call_screener_chart_moneyness": "Moneyness",
+  "covered_call_screener_chart_return_if_flat": "Hozam oldalazás esetén",
+  "covered_call_screener_chart_return_if_assigned": "Hozam lehívás esetén",
+  "covered_call_screener_chart_probability_of_profit": "Nyereség valószínűsége",
+  "covered_call_screener_chart_annualized_abbr": "évesítve"
+}

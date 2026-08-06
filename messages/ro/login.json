@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Autentificare în Stocknear",
+  "login_seo_description": "Autentifică-te în contul tău Stocknear cu e-mailul și parola.",
+  "login_title": "Autentifică-te în cont",
+  "login_title_logged_in": "Ești autentificat",
+  "login_subtitle": "Bine ai revenit",
+  "login_email_label": "E-mail",
+  "login_password_label": "Parolă",
+  "login_forgot_password": "Ai uitat parola?",
+  "login_button": "Autentificare",
+  "login_button_loading": "Se conectează",
+  "login_divider": "Sau autentifică-te cu",
+  "login_no_account": "Nu ai cont?",
+  "login_signup_link": "Creează cont",
+  "login_logged_in_as": "Autentificat ca {email}",
+  "login_logout_button": "Deconectare",
+  "login_toast_verify_email": "Confirmă mai întâi adresa de e-mail",
+  "login_toast_success": "Autentificare reușită",
+  "login_toast_invalid": "Date de autentificare greșite",
+  "login_toast_auth_failed": "E-mail sau parolă greșită. Încearcă din nou.",
+  "login_toast_rate_limited": "Prea multe încercări de autentificare. Încearcă din nou peste {minutes} minute."
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "login_seo_title": "Masuk ke Stocknear",
+  "login_seo_description": "Masuk ke akun Stocknear Anda dengan email dan kata sandi.",
+  "login_title": "Masuk ke akun Anda",
+  "login_title_logged_in": "Anda sudah masuk",
+  "login_subtitle": "Selamat datang kembali",
+  "login_email_label": "Email",
+  "login_password_label": "Kata Sandi",
+  "login_forgot_password": "Lupa kata sandi?",
+  "login_button": "Masuk",
+  "login_button_loading": "Sedang masuk",
+  "login_divider": "Atau masuk dengan",
+  "login_no_account": "Belum punya akun?",
+  "login_signup_link": "Daftar",
+  "login_logged_in_as": "Masuk sebagai {email}",
+  "login_logout_button": "Keluar",
+  "login_toast_verify_email": "Verifikasi email Anda terlebih dahulu",
+  "login_toast_success": "Berhasil masuk",
+  "login_toast_invalid": "Kredensial tidak valid",
+  "login_toast_auth_failed": "Email atau kata sandi salah. Silakan coba lagi.",
+  "login_toast_rate_limited": "Terlalu banyak percobaan masuk. Coba lagi dalam {minutes} menit."
+}

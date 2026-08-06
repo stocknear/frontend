@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "searchbar_placeholder": "Şirket ya da hisse sembolü...",
+  "searchbar_aria_label": "Şirket ya da hisse sembolü...",
+  "searchbar_search_label": "Ara",
+  "searchbar_suggestions": "Öneriler",
+  "searchbar_recent": "Son aramalar",
+  "searchbar_popular": "Popüler",
+  "searchbar_no_results": "Sonuç bulunamadı"
+}

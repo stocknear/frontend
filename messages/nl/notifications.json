@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Home",
+  "notifications_breadcrumb_notifications": "Meldingen",
+
+  "notifications_seo_title": "Beursmeldingen | realtime updates en alerts",
+  "notifications_seo_description": "Blijf op de hoogte met realtime beursmeldingen. Ontvang direct alerts bij koersbewegingen, trends en marktontwikkelingen, zodat je beter onderbouwde keuzes maakt.",
+
+  "notifications_main_title": "Melding",
+  "notifications_alerts_count": "{count} alerts",
+
+  "notifications_mark_all_read": "Alles als gelezen markeren",
+  "notifications_marking": "Bezig...",
+  "notifications_settings": "Instellingen",
+  "notifications_customize": "Stel je meldingen in",
+
+  "notifications_channel_earnings_surprise": "Earnings surprise",
+  "notifications_channel_wiim": "Waarom de koers bewoog",
+  "notifications_channel_top_analyst": "Rating van topanalist",
+  "notifications_channel_followed_analysts": "Gevolgde analisten",
+  "notifications_no_channels": "Geen meldingskanalen beschikbaar.",
+
+  "notifications_empty": "Je hebt nog geen meldingen.",
+
+  "notifications_pagination_previous": "Vorige",
+  "notifications_pagination_next": "Volgende",
+  "notifications_pagination_page_of": "Pagina {current} van {total}",
+  "notifications_pagination_rows": "{count} rijen",
+  "notifications_back_to_top": "Terug naar boven",
+
+  "notifications_modal_delete_title": "Alle meldingen verwijderen",
+  "notifications_modal_delete_confirm": "Weet je zeker dat je alle meldingen wilt verwijderen? Dit kun je niet terugdraaien.",
+  "notifications_modal_delete_button": "Meldingen verwijderen",
+  "notifications_modal_deleting": "Verwijderen...",
+  "notifications_modal_cancel": "Annuleren",
+  "notifications_delete_error": "Meldingen verwijderen is mislukt. Probeer het opnieuw.",
+
+  "notifications_type_price_alert_triggered": "Alert geactiveerd voor",
+  "notifications_type_price_is": "De koers van",
+  "notifications_type_is_condition": "is {condition} je doel van",
+  "notifications_type_breaking_news": "BREAKING nieuws voor",
+  "notifications_type_wiim_new_data": "Er is nieuwe data voor het event \"Waarom de koers bewoog\".",
+  "notifications_type_top_analyst_new": "Nieuwe rating van een topanalist voor",
+  "notifications_type_top_analyst_rating": "Analistenhuis {analyst} heeft een nieuwe rating \"{rating}\" afgegeven met een bijgesteld koersdoel van {price}.",
+  "notifications_type_followed_analyst_new": "Nieuwe rating van",
+  "notifications_type_followed_analyst_rating": "{symbol} beoordeeld als \"{rating}\" met een koersdoel van {price}.",
+  "notifications_type_earnings_release": "Cijfers voor",
+  "notifications_type_earnings_surprise_new": "Er is nieuwe data voor het event \"Earnings surprise\".",
+
+  "notifications_sidebar_watchlist": "Watchlist",
+  "notifications_sidebar_watchlist_description": "Ontvang realtime updates van je favoriete aandelen",
+  "notifications_sidebar_portfolio": "Portefeuilletracker",
+  "notifications_sidebar_portfolio_description": "Ontvang realtime updates van je portefeuille"
+}

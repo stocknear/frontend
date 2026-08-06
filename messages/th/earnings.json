@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "หน้าแรก",
+  "earnings_breadcrumb_calendar": "ปฏิทินผลประกอบการ",
+
+  "earnings_seo_title": "ปฏิทินผลประกอบการ - จังหวะความผันผวนสำหรับเทรดเดอร์ออปชัน",
+  "earnings_seo_description": "ติดตามวันประกาศผลประกอบการ ระยะการเคลื่อนไหวที่ตลาดคาด และประมาณการของนักวิเคราะห์ เพื่อวางแผนเทรดออปชันตามความผันผวนและจังหวะ IV ยุบ",
+  "earnings_seo_keywords": "ปฏิทินผลประกอบการ, เทรดออปชันช่วงผลประกอบการ, ระยะเคลื่อนไหวที่คาด, IV crush, ความผันผวนช่วงผลประกอบการ, ประมาณการ EPS, คาดการณ์รายได้, ตารางประกาศผลประกอบการ",
+
+  "earnings_structured_name": "ปฏิทินผลประกอบการ",
+  "earnings_structured_description": "ปฏิทินผลประกอบการที่ออกแบบมาเพื่อเทรดเดอร์ออปชันที่โฟกัสความผันผวนและระยะการเคลื่อนไหวที่ตลาดคาด",
+
+  "earnings_main_name": "ปฏิทินผลประกอบการ",
+  "earnings_count": "{count} รายการ",
+  "earnings_empty": "ไม่มีรายงานผลประกอบการในวันนี้",
+  "earnings_empty_scheduled": "ไม่มีกำหนดประกาศผลประกอบการ",
+
+  "earnings_tab_daily": "รายวัน",
+  "earnings_tab_weekly": "รายสัปดาห์",
+  "earnings_tab_details": "รายละเอียด",
+  "earnings_tab_compact": "แบบย่อ",
+
+  "earnings_time_of_day": "ช่วงเวลา",
+  "earnings_time_any": "ทุกช่วงเวลา",
+  "earnings_time_before_open": "ก่อนตลาดเปิด",
+  "earnings_time_after_close": "หลังตลาดปิด",
+
+  "earnings_expanded_reports": "ประกาศ",
+  "earnings_expanded_market_cap": "มูลค่าตลาด",
+  "earnings_expanded_revenue_est": "คาดการณ์รายได้",
+  "earnings_expanded_revenue_estimate": "ประมาณการรายได้",
+  "earnings_expanded_eps_est": "คาดการณ์ EPS",
+  "earnings_expanded_eps_estimate": "ประมาณการ EPS",
+
+  "earnings_pagination_previous": "ก่อนหน้า",
+  "earnings_pagination_next": "ถัดไป",
+  "earnings_pagination_page_of": "หน้า {current} จาก {total}",
+  "earnings_pagination_rows": "{count} แถว",
+  "earnings_back_to_top": "กลับขึ้นด้านบน",
+  "earnings_search_placeholder": "ค้นหา..."
+}

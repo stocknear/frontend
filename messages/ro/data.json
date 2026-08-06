@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "data_seo_title": "Precizări privind datele | Surse și acuratețea datelor financiare",
+  "data_seo_description": "Informații complete despre sursele noastre de date financiare, standardele de acuratețe și regulile de utilizare pentru datele de piață, estimările analiștilor și indicatorii financiari.",
+  "data_breadcrumb": "Precizări privind datele",
+  "data_hero_title": "Precizări privind datele",
+  "data_intro": "Datele financiare prezentate pe Stocknear au doar scop informativ și educativ. Aceste informații nu trebuie interpretate ca recomandare de investiții și nici folosite ca unic temei pentru decizii de tranzacționare sau investiții.",
+  "data_contact": "Menținem standarde riguroase pentru acuratețea datelor și controlul calității. Dacă observi neconcordanțe sau ai nevoie de lămuriri, scrie-ne pe {discordLink} sau contactează echipa de suport la {email}.",
+  "data_market_title": "Date de piață și grafice",
+  "data_market_content": "Datele noastre de piață și graficele în timp real sunt furnizate de {fmpLink}, un furnizor important de date financiare. Acestea includ prețuri intraday, date istorice și indicatori tehnici.",
+  "data_coverage_title": "Acoperirea pieței",
+  "data_coverage_content": "Stocknear acoperă instrumentele listate la principalele burse din SUA, printre care NASDAQ, NYSE, NYSE American și NYSE Arca. Baza noastră de date cuprinde acțiuni, ETF-uri, ADR-uri și instrumente OTC selectate. Extindem activ acoperirea către alte burse internaționale și instrumente financiare.",
+  "data_fundamentals_title": "Date fundamentale",
+  "data_fundamentals_content": "Datele fundamentale provin de la {fmpLink} și sunt extrase din raportările oficiale către SEC (formularele 10-K, 10-Q și 8-K). Deși sistemele noastre actualizează aceste informații zilnic, pot exista întârzieri din cauza termenelor standard de raportare la SEC și a calendarelor de raportare ale companiilor. Toate datele financiare prezentate se bazează pe raportări oficiale, auditate, depuse de companii la autoritățile de reglementare.",
+  "data_business_title": "Indicatori operaționali",
+  "data_business_content": "Indicatorii operaționali, inclusiv KPI-urile de business și economia unitară non-GAAP, sunt furnizați prin partenerul nostru {mainStreetLink}. Echipa lor de cercetare agregă, normalizează și validează continuu aceste informații din raportările companiilor, prezentările pentru investitori și comentariile conducerii, pentru o acoperire de încredere a performanței operaționale pe întreaga platformă.",
+  "data_analyst_title": "Acoperirea analiștilor și proiecții de piață",
+  "data_analyst_content": "Acoperirea analiștilor combină date din mai multe surse de referință. Țintele de preț și ratingurile analiștilor vin de la Benzinga și reflectă consensul principalilor analiști de pe Wall Street. Estimările de venituri și prognozele EPS sunt agregate atât de la Benzinga, cât și de la {fmpLink}. Deși ne străduim să prezentăm cele mai exacte prognoze, ține cont că previziunile de piață sunt incerte prin natura lor și ar trebui privite ca parte dintr-un proces mai amplu de analiză.",
+  "data_etf_title": "Analize ETF",
+  "data_etf_content": "Datele despre dețineri ETF și analizele aferente sunt furnizate prin parteneriatul cu {fmpLink}, ceea ce asigură informații corecte și la zi despre componența fondurilor, alocări și indicatorii de performanță.",
+  "data_options_title": "Date de piață pentru opțiuni",
+  "data_options_content": "Infrastructura noastră de date pe opțiuni folosește mai mulți furnizori și le combină fluxurile într-un singur canal, pentru date OPRA (Options Price Reporting Authority) complete. Prin agregarea fluxului de opțiuni în timp real și a lanțurilor de opțiuni din mai multe surse, asigurăm acoperire completă a activității și a prețurilor la toate bursele importante de opțiuni din SUA."
+}

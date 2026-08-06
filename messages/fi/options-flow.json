@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Optiovirran skanneri - sweepit, blokit ja poikkeava aktiivisuus livenä",
+  "options_flow_seo_description": "Seuraa optiovirtaa, sweep-toimeksiantoja ja blokkikauppoja Yhdysvaltain osakkeissa ja ETF:issä. Huomaa poikkeava aktiivisuus ja lyhyen aikavälin asetelmat reaaliajassa.",
+  "options_flow_seo_keywords": "optiovirta, optiovirran skanneri, poikkeava optioaktiivisuus, sweep-toimeksiannot, blokkikaupat, smart money, call-virta, put-virta, optiohälytykset, OPRA-optiovirta",
+  "options_flow_structured_name": "Optiovirran skanneri",
+  "options_flow_structured_description": "Optiovirta livenä: sweepit, blokit ja poikkeava aktiivisuus lyhyen aikavälin asetelmiin",
+
+  "options_flow_main_title": "Optiovirta",
+
+  "options_flow_popular_filters": "Suositut suodattimet",
+  "options_flow_popular_strategies": "Suositut strategiat",
+  "options_flow_select_popular": "Valitse suosittu",
+  "options_flow_saved_filters": "Tallennetut suodattimet",
+  "options_flow_select_filter": "Valitse suodatin",
+  "options_flow_new_filter": "Uusi suodatin",
+
+  "options_flow_filters_count": "{count} suodatinta",
+  "options_flow_add_filters": "Lisää suodattimia",
+  "options_flow_search_filters": "Hae {count} suodattimesta...",
+  "options_flow_select_filters_title": "Valitse virtasuodattimet (yhteensä {count})",
+  "options_flow_nothing_found": "Ei osumia",
+  "options_flow_no_filters_found": "Suodattimia ei löytynyt",
+
+  "options_flow_search_placeholder": "Etsi...",
+  "options_flow_search_input_placeholder": "Hae...",
+  "options_flow_full_width": "Koko leveys",
+  "options_flow_normal_width": "Normaali leveys",
+
+  "options_flow_no_trades_query": "Haulle \"{query}\" ei löytynyt optiokauppoja",
+  "options_flow_no_data_filters": "Valituilla suodattimilla ei löytynyt tietoja. Säädä suodattimia ja yritä uudelleen.",
+
+  "options_flow_modal_new_title": "Uusi suodatin",
+  "options_flow_modal_new_name_label": "Suodattimen nimi",
+  "options_flow_modal_new_create": "Luo suodatin",
+
+  "options_flow_modal_delete_title": "Poista suodatin",
+  "options_flow_modal_delete_message": "Haluatko varmasti poistaa tämän suodattimen? Toimintoa ei voi peruuttaa.",
+  "options_flow_modal_delete_cancel": "Peruuta",
+  "options_flow_modal_delete_confirm": "Poista suodatin",
+
+  "options_flow_strategy_bullish_sweeps": "Nousuun viittaavat sweepit",
+  "options_flow_strategy_bearish_sweeps": "Laskuun viittaavat sweepit",
+  "options_flow_strategy_high_premium_blocks": "Suuren preemion blokit",
+  "options_flow_strategy_unusual_size_oi": "Poikkeava koko vs. OI",
+  "options_flow_strategy_etf_index_flow": "ETF- ja indeksivirta",
+  "options_flow_strategy_zero_dte_flow": "0DTE-virta",
+  "options_flow_strategy_repeated_flow": "Toistuva virta",
+
+  "options_flow_save": "Tallenna",
+  "options_flow_save_as_new": "Tallenna uutena",
+  "options_flow_reset_all": "Nollaa kaikki",
+
+  "options_flow_market_closed": "Pörssi kiinni",
+  "options_flow_paused": "Pysäytetty",
+  "options_flow_live_flow": "Virta livenä",
+  "options_flow_pick_date": "Valitse päivä",
+
+  "options_flow_realtime_data": "Reaaliaikainen optiodata",
+  "options_flow_realtime_data_title": "Reaaliaikainen optiodata OPRA:sta",
+  "options_flow_realtime_data_content": "Optiovirtamme perustuu reaaliaikaiseen OPRA-dataan, joka on Yhdysvaltain listattujen optiokauppojen virallinen konsolidoitu syöte. Jokainen näkemäsi kauppa tulee suoraan OPRA:sta reaaliajassa, joten näet suuret kaupat, sweepit, poikkeavan aktiivisuuden ja preemiovirran samalla hetkellä kuin ne tapahtuvat. Luotettava kauppadata tarkoittaa nopeampia havaintoja, siistimpää dataa ja tarkempaa kuvaa siitä, minne raha optiomarkkinoilla liikkuu.",
+
+  "options_flow_hide_filter_area": "Piilota suodatinalue",
+  "options_flow_show_filter_area": "Näytä suodatinalue",
+
+  "options_flow_put_to_call": "Put/call-suhde",
+  "options_flow_call_flow": "Call-virta",
+  "options_flow_put_flow": "Put-virta"
+}

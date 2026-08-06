@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Acasă",
+  "earnings_breadcrumb_calendar": "Calendar raportări",
+
+  "earnings_seo_title": "Calendar raportări - Setup-uri de volatilitate pentru traderii de opțiuni",
+  "earnings_seo_description": "Urmărește datele raportărilor, mișcările așteptate și estimările analiștilor ca să planifici tranzacții pe volatilitate și setup-uri de IV crush.",
+  "earnings_seo_keywords": "calendar raportări, tranzacții pe opțiuni la raportări, mișcare așteptată, IV crush, volatilitate la raportări, estimări EPS, prognoze de venituri, program raportări",
+
+  "earnings_structured_name": "Calendar raportări",
+  "earnings_structured_description": "Calendar de raportări gândit pentru traderii de opțiuni, axat pe volatilitate și mișcări așteptate",
+
+  "earnings_main_name": "Calendar raportări",
+  "earnings_count": "{count} raportări",
+  "earnings_empty": "Nu există raportări pentru ziua selectată.",
+  "earnings_empty_scheduled": "Nicio raportare programată",
+
+  "earnings_tab_daily": "Zilnic",
+  "earnings_tab_weekly": "Săptămânal",
+  "earnings_tab_details": "Detalii",
+  "earnings_tab_compact": "Compact",
+
+  "earnings_time_of_day": "Momentul zilei",
+  "earnings_time_any": "Oricând",
+  "earnings_time_before_open": "Înainte de deschidere",
+  "earnings_time_after_close": "După închidere",
+
+  "earnings_expanded_reports": "Raportează",
+  "earnings_expanded_market_cap": "Capitalizare bursieră",
+  "earnings_expanded_revenue_est": "Est. venituri",
+  "earnings_expanded_revenue_estimate": "Estimare venituri",
+  "earnings_expanded_eps_est": "Est. EPS",
+  "earnings_expanded_eps_estimate": "Estimare EPS",
+
+  "earnings_pagination_previous": "Înapoi",
+  "earnings_pagination_next": "Înainte",
+  "earnings_pagination_page_of": "Pagina {current} din {total}",
+  "earnings_pagination_rows": "{count} rânduri",
+  "earnings_back_to_top": "Sus",
+  "earnings_search_placeholder": "Caută..."
+}

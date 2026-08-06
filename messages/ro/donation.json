@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Devino sponsor Stocknear",
+  "donation_seo_description": "Sponsorizarea ta ne ajută să devenim platforma numărul 1 de analiză bursieră din lume, cu cele mai bune prețuri.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Salut 👋,",
+  "donation_intro_paragraph_1": "Mulțumesc că te gândești să ne susții misiunea. Fiind singurul om din spatele Stocknear — de la dezvoltarea backendului până la relația cu utilizatorii — țin să păstrez platforma accesibilă, ca preț și ca utilizare, pentru toți investitorii.",
+  "donation_intro_paragraph_2": "Planurile noastre sunt gândite ca datele bursiere de calitate să fie la îndemâna investitorilor de retail, indiferent de bugetul lor.",
+  "donation_support_paragraph_1": "Abonamentul acoperă costurile de bază, dar sprijinul tău suplimentar ne poate duce mult mai departe. Când devii sponsor, nu susții doar o platformă; investești într-o viziune de analiză financiară deschisă, transparentă și accesibilă.",
+  "donation_support_list_intro": "Sprijinul tău merge direct către:",
+  "donation_support_list_item_1": "Menținerea prețurilor mici",
+  "donation_support_list_item_2": "Date mai bune și funcții noi",
+  "donation_support_list_item_3": "Obiectivul de a deveni platforma nr. 1 de analiză bursieră din industrie",
+  "donation_cta_title": "Devino sponsor Stocknear",
+  "donation_cta_paragraph_1": "Dacă crezi în misiunea noastră și vrei să ne susții dincolo de abonament, o poți face prin GitHub Sponsors. Fiecare contribuție, oricât de mică, are un impact real asupra a ceea ce putem oferi ție și comunității de investitori de retail.",
+  "donation_cta_paragraph_2": "Sprijinul tău înseamnă enorm pentru mine și ajută Stocknear să meargă bine mai departe.",
+  "donation_sidebar_about_title": "Despre noi",
+  "donation_iframe_title": "Sponsorizează Stocknear"
+}

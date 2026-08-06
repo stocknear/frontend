@@ -1,0 +1,75 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "unusual_order_flow_seo_title": "비정상 주문 플로우 - 다크풀 체결 및 블록 거래",
+  "unusual_order_flow_seo_description": "다크풀 체결과 블록 거래를 실시간으로 추적해 단기 주가 흐름에 앞서 나타나는 기관 움직임을 포착하세요.",
+  "unusual_order_flow_seo_keywords": "비정상 주문 플로우, 다크풀 체결, 블록 거래, 기관 주문 플로우, 스마트 머니, 숨은 유동성, 실시간 주문 플로우, 다크풀 스캐너",
+  "unusual_order_flow_structured_name": "비정상 주문 플로우 스캐너",
+  "unusual_order_flow_structured_description": "단기 시장 신호를 위한 실시간 다크풀 체결 및 블록 거래",
+
+  "unusual_order_flow_main_title": "비정상 주문 플로우",
+
+  "unusual_order_flow_popular_filters": "인기 필터",
+  "unusual_order_flow_select_popular": "인기 항목 선택",
+  "unusual_order_flow_saved_filters": "저장한 필터",
+  "unusual_order_flow_select_filter": "필터 선택",
+  "unusual_order_flow_new_filter": "새 필터",
+
+  "unusual_order_flow_filters_count": "필터 {count}개",
+  "unusual_order_flow_add_filters": "필터 추가",
+  "unusual_order_flow_search_filters": "필터 {count}개 검색...",
+  "unusual_order_flow_select_filters_title": "플로우 필터 선택 (총 {count}개)",
+  "unusual_order_flow_nothing_found": "결과 없음",
+  "unusual_order_flow_no_filters_found": "사용 가능한 필터가 없습니다",
+
+  "unusual_order_flow_search_placeholder": "찾기...",
+  "unusual_order_flow_search_input_placeholder": "검색...",
+  "unusual_order_flow_full_width": "전체 너비",
+  "unusual_order_flow_normal_width": "기본 너비",
+
+  "unusual_order_flow_no_trades_query": "\"{query}\"에 해당하는 비정상 거래가 없습니다",
+  "unusual_order_flow_no_data_filters": "조건에 맞는 결과가 아직 없습니다. 필터를 조정해 보세요.",
+
+  "unusual_order_flow_modal_new_title": "새 필터",
+  "unusual_order_flow_modal_new_name_label": "필터 이름",
+  "unusual_order_flow_modal_new_create": "필터 만들기",
+
+  "unusual_order_flow_modal_delete_title": "필터 삭제",
+  "unusual_order_flow_modal_delete_message": "이 필터를 삭제하시겠습니까? 삭제한 뒤에는 되돌릴 수 없습니다.",
+  "unusual_order_flow_modal_delete_cancel": "취소",
+  "unusual_order_flow_modal_delete_confirm": "필터 삭제",
+
+  "unusual_order_flow_save": "저장",
+  "unusual_order_flow_save_as_new": "새로 저장",
+  "unusual_order_flow_reset_all": "전체 초기화",
+
+  "unusual_order_flow_strategy_dark_pool_prints": "다크풀 체결",
+  "unusual_order_flow_strategy_block_orders": "블록 주문",
+  "unusual_order_flow_strategy_mega_premium": "초대형 프리미엄",
+  "unusual_order_flow_strategy_etf_flow": "ETF 플로우",
+  "unusual_order_flow_strategy_high_volume": "대량 거래",
+  "unusual_order_flow_strategy_large_stock_flow": "대형 주식 플로우",
+
+  "unusual_order_flow_total_volume": "총 거래량",
+  "unusual_order_flow_total_value": "총 거래대금",
+  "unusual_order_flow_transaction_type": "거래 유형",
+  "unusual_order_flow_dark_pool": "다크풀",
+  "unusual_order_flow_block": "블록",
+  "unusual_order_flow_asset_type": "자산 유형",
+  "unusual_order_flow_stock": "주식",
+  "unusual_order_flow_etf": "ETF",
+
+  "unusual_order_flow_delayed": "15분 지연",
+  "unusual_order_flow_delayed_title": "15분 지연 SIP 데이터",
+  "unusual_order_flow_delayed_content": "Intrinio의 SIP 피드는 미국 주요 거래소의 체결, 호가, NBBO를 통합한 고품질 데이터를 제공합니다. 15분 지연이지만 전 거래소를 아우르는 폭넓은 시장 정보를 확인할 수 있습니다.",
+
+  "unusual_order_flow_hide_filter_area": "필터 영역 숨기기",
+  "unusual_order_flow_show_filter_area": "필터 영역 보기",
+  "unusual_order_flow_exit_full_width": "전체 너비 해제",
+  "unusual_order_flow_expand_full_width": "전체 너비로 확장",
+  "unusual_order_flow_reset_column_order": "열 순서 초기화",
+  "unusual_order_flow_remove_filter": "필터 삭제",
+
+  "unusual_order_flow_min": "최소",
+  "unusual_order_flow_max": "최대",
+  "unusual_order_flow_value": "값"
+}

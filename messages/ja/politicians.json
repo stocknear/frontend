@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "ホーム",
+  "politicians_breadcrumb_politicians": "政治家",
+  "politicians_breadcrumb_flow": "議員の売買",
+
+  "politicians_seo_title": "議会取引トラッカー - 米国政治家の株式売買をリアルタイム表示",
+  "politicians_seo_description": "米国の連邦議員や上院議員による株式売買をリアルタイムで追跡できます。ナンシー・ペロシ氏の取引、上院議員の買い付け、議会関係者の売買を無料で確認でき、取引履歴も詳しく見られます。",
+  "politicians_seo_keywords": "議会 株取引, ペロシ 取引, 政治家 株式売買, 上院議員 取引, 議会 インサイダー取引, 政治家 株 トラッカー, 米国議員 投資, ペロシ ポートフォリオ, 議会 銘柄",
+  "politicians_structured_name": "議会取引トラッカー",
+  "politicians_structured_description": "米国の政治家と議員による株式売買をリアルタイムで追跡",
+
+  "politicians_main_title": "米国の政治家一覧",
+  "politicians_count_members": "{count} 名",
+  "politicians_search_placeholder": "検索...",
+  "politicians_filter_party": "政党",
+  "politicians_empty_search": "「{query}」に該当する議員はいません",
+  "politicians_empty_filter": "検索条件や絞り込みに一致する結果はありません。",
+
+  "politicians_pagination_previous": "前へ",
+  "politicians_pagination_next": "次へ",
+  "politicians_pagination_page_of": "{current} / {total} ページ",
+  "politicians_pagination_rows": "{count} 行",
+  "politicians_back_to_top": "トップへ戻る",
+
+  "politicians_flow_seo_title": "議会の最新取引",
+  "politicians_flow_seo_description": "議会の最新の売買を確認し、規制情報に近い立場の人物が何に投資しているかを見られます。",
+
+  "politicians_flow_title": "政治家の最新取引",
+  "politicians_flow_description_intro": "議会内取引の最新状況です。直近の届出では、買いと売りの比率は",
+  "politicians_flow_description_buys": "買い {percent}%",
+  "politicians_flow_description_versus": "対",
+  "politicians_flow_description_sells": "売り {percent}%",
+  "politicians_flow_description_active_party": "です。最も活発な政党は",
+  "politicians_flow_description_with": "で、",
+  "politicians_flow_description_transactions": "件の取引があり、議員の間では",
+  "politicians_flow_description_sentiment": "な見方が優勢です。",
+  "politicians_flow_sentiment_bullish": "強気",
+  "politicians_flow_sentiment_bearish": "弱気",
+  "politicians_flow_sentiment_neutral": "中立",
+  "politicians_flow_count_trades": "{count} 件",
+  "politicians_flow_empty_search": "「{query}」に該当する銘柄はありません",
+
+  "politicians_detail_stats_rank": "順位",
+  "politicians_detail_stats_trades_scored": "評価済み取引",
+  "politicians_detail_stats_success_rate": "勝率",
+  "politicians_detail_stats_avg_return": "平均リターン",
+  "politicians_detail_stats_total_amount": "取引総額",
+  "politicians_detail_stats_transaction": "取引",
+  "politicians_detail_stats_last_transaction": "最終取引",
+  "politicians_detail_stats_buy_sell": "買い/売り",
+
+  "politicians_detail_main_sectors": "主なセクター:",
+  "politicians_detail_top_industries": "上位の業種:",
+  "politicians_detail_count_stocks": "{count} 銘柄",
+  "politicians_detail_empty_search": "「{query}」のデータはありません",
+  "politicians_detail_empty": "検索したアナリストのデータはありません。",
+
+  "politicians_detail_mobile_filed": "届出日",
+  "politicians_detail_mobile_view_chart": "チャートを見る",
+  "politicians_detail_mobile_amt": "金額",
+  "politicians_detail_mobile_trades": "{count} 件",
+  "politicians_detail_mobile_trades_plural": "{count} 件"
+}

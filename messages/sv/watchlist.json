@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "Hem",
+  "watchlist_breadcrumb_watchlist": "Bevakningslista",
+
+  "watchlist_seo_title": "Bevakningslista - följ din portfölj och håll koll på kurserna",
+  "watchlist_seo_description": "Skapa och hantera din egen bevakningslista med kurser i realtid. Håll koll på dina favoritaktier, ETF:er och innehav med bevakningar och utvecklingsstatistik. Gratis portföljverktyg med avancerade funktioner.",
+  "watchlist_seo_keywords": "bevakningslista aktier, portföljverktyg, aktiebevakning, följa innehav, kursbevakning, aviseringar, portföljhantering, aktieutveckling, bevakningslista investeringar",
+  "watchlist_structured_name": "Bevakningslista för aktier",
+  "watchlist_structured_description": "Personlig bevakningslista och verktyg för att följa portföljen",
+
+  "watchlist_main_title": "Bevakningslista",
+  "watchlist_create_watchlist": "Skapa bevakningslista",
+  "watchlist_new_watchlist": "Ny bevakningslista",
+  "watchlist_delete_watchlist": "Ta bort bevakningslista",
+
+  "watchlist_add_stock_placeholder": "Lägg till aktie...",
+  "watchlist_no_results": "Inga träffar",
+  "watchlist_edit_watchlist": "Redigera bevakningslista",
+  "watchlist_cancel": "Avbryt",
+  "watchlist_normal_width": "Normal bredd",
+  "watchlist_full_width": "Full bredd",
+  "watchlist_exit_full_width": "Lämna full bredd",
+  "watchlist_expand_full_width": "Visa i full bredd",
+
+  "watchlist_empty_title": "Tom bevakningslista",
+  "watchlist_empty_description": "Fyll den med dina favoritaktier och få data i realtid och de senaste nyheterna samlat på ett ställe.",
+  "watchlist_get_started": "Kom igång",
+
+  "watchlist_count_stocks": "{count} aktier",
+
+  "watchlist_tab_news": "Nyheter",
+  "watchlist_tab_earnings": "Rapporter",
+  "watchlist_no_news": "Inga nyheter än. Lägg till aktier i bevakningslistan för att se de senaste nyheterna.",
+  "watchlist_no_earnings": "Inga rapportdata finns. Lägg till aktier i bevakningslistan för att se de senaste rapporterna.",
+
+  "watchlist_modal_new_title": "Ny bevakningslista",
+  "watchlist_modal_list_name": "Listans namn",
+  "watchlist_modal_create_button": "Skapa bevakningslista",
+
+  "watchlist_modal_delete_title": "Ta bort bevakningslista",
+  "watchlist_modal_delete_confirm": "Vill du ta bort den här bevakningslistan? Det går inte att ångra.",
+  "watchlist_modal_delete_button": "Ta bort bevakningslista",
+
+  "watchlist_toast_creating": "Skapar bevakningslista...",
+  "watchlist_toast_created": "Bevakningslistan är skapad.",
+  "watchlist_toast_deleted": "Bevakningslistan är borttagen.",
+  "watchlist_toast_updating": "Uppdaterar bevakningslistan...",
+  "watchlist_toast_updated": "Bevakningslistan är uppdaterad.",
+  "watchlist_toast_error": "Något gick fel. Försök igen.",
+  "watchlist_toast_error_generic": "Ett fel uppstod. Försök igen senare.",
+  "watchlist_toast_title_empty": "Titeln kan inte vara tom.",
+  "watchlist_toast_title_long": "Titeln är för lång. Håll den kort och enkel.",
+  "watchlist_toast_already_in_list": "Symbolen finns redan i din bevakningslista",
+  "watchlist_toast_select_symbols": "Du måste välja symboler innan du kan ta bort dem",
+
+  "watchlist_earnings_will_report": "rapporterar",
+  "watchlist_earnings_after_close": "efter börsens stängning.",
+  "watchlist_earnings_before_open": "före börsens öppning.",
+  "watchlist_earnings_during_market": "under börsdagen.",
+  "watchlist_earnings_analysts_estimate": "Analytikerna räknar med",
+  "watchlist_earnings_in_revenue": "i omsättning",
+  "watchlist_earnings_yoy": "mot i fjol",
+  "watchlist_earnings_and": "och",
+  "watchlist_earnings_in_eps": "i vinst per aktie",
+
+  "watchlist_note_add_title": "Lägg till anteckning",
+  "watchlist_note_edit_title": "Redigera anteckning",
+  "watchlist_note_placeholder_new": "Varför lade du till aktien i bevakningslistan?",
+  "watchlist_note_placeholder_edit": "Uppdatera din anteckning...",
+  "watchlist_note_save": "Spara",
+  "watchlist_note_add": "Lägg till anteckning",
+  "watchlist_note_update": "Uppdatera anteckning",
+  "watchlist_note_created": "Anteckningen är skapad",
+  "watchlist_note_updated": "Anteckningen är uppdaterad",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "{count} tecken kvar",
+  "watchlist_note_chars_over": "{count} tecken över gränsen",
+  "watchlist_note_exceeded": "Anteckningen får inte överstiga {max} tecken",
+  "watchlist_added_price": "Kurs vid tillägg",
+
+  "watchlist_column_entry_price": "Ingångskurs",
+  "watchlist_column_since_added": "% sedan tillagd"
+}

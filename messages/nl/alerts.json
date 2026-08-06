@@ -1,0 +1,42 @@
+{
+  "price_alert_breadcrumb_home": "Home",
+  "price_alert_breadcrumb_price_alert": "Alert",
+
+  "price_alert_seo_title": "Aandelenalerts - realtime meldingen en marktupdates",
+  "price_alert_seo_description": "Maak eigen aandelenalerts en krijg direct een melding zodra je voorwaarden worden geraakt. Volg cijfers, nieuws en koersbewegingen van je watchlist met realtime marktdata.",
+  "price_alert_seo_keywords": "aandelenalerts, koersmeldingen, marktalerts, koerstriggers, cijferagenda, aandelennieuws, realtime alerts, beursmeldingen, watchlist, koersbewaking",
+  "price_alert_structured_name": "Alerts - Stocknear",
+  "price_alert_structured_description": "Realtime alertsysteem voor aandelen met directe meldingen",
+
+  "price_alert_main_title": "Alerts",
+
+  "price_alert_search_placeholder": "Zoeken...",
+  "price_alert_no_results": "Geen resultaten gevonden",
+  "price_alert_edit_alert": "Alert bewerken",
+  "price_alert_cancel": "Annuleren",
+
+  "price_alert_empty_title": "Geen alerts ingesteld",
+  "price_alert_empty_description": "Zet alerts op de aandelen waar jij het meeste potentieel in ziet.",
+  "price_alert_get_started": "Aan de slag",
+
+  "price_alert_tab_news": "Nieuws",
+  "price_alert_tab_earnings": "Cijfers",
+  "price_alert_no_news": "Nog geen nieuws. Voeg aandelen toe aan je alertlijst om het laatste nieuws te zien.",
+  "price_alert_no_earnings": "Nog geen cijfers. Voeg aandelen toe aan je alertlijst om de laatste cijfers te zien.",
+
+  "price_alert_toast_deleted": "Alerts verwijderd",
+  "price_alert_toast_select_symbols": "Selecteer eerst symbolen voordat je ze verwijdert",
+
+  "price_alert_earnings_will_report_today": "komt vandaag met cijfers",
+  "price_alert_earnings_will_report_tomorrow": "komt morgen met cijfers",
+  "price_alert_earnings_will_report_monday": "komt maandag met cijfers",
+  "price_alert_earnings_will_report": "komt met cijfers",
+  "price_alert_earnings_after_close": "na het sluiten van de beurs.",
+  "price_alert_earnings_before_open": "voor de opening van de beurs.",
+  "price_alert_earnings_during_market": "tijdens de handelsuren.",
+  "price_alert_earnings_analysts_estimate": "Analisten verwachten",
+  "price_alert_earnings_in_revenue": "aan omzet",
+  "price_alert_earnings_yoy": "j-o-j",
+  "price_alert_earnings_and": "en",
+  "price_alert_earnings_in_eps": "winst per aandeel"
+}

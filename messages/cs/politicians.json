@@ -1,0 +1,63 @@
+{
+  "politicians_breadcrumb_home": "Domů",
+  "politicians_breadcrumb_politicians": "Politici",
+  "politicians_breadcrumb_flow": "Flow Kongresu",
+
+  "politicians_seo_title": "Sledování obchodů Kongresu - akciové obchody politiků v reálném čase",
+  "politicians_seo_description": "Sleduj v reálném čase akciové obchody členů Kongresu USA, senátorů a politiků. Obchody Nancy Pelosi, nákupy senátorů i insider obchodování v Kongresu. Sledování obchodů politiků zdarma s podrobnou historií transakcí.",
+  "politicians_seo_keywords": "obchodování kongresu, obchody nancy pelosi, akciové obchody politiků, obchody senátorů, obchodování v kongresu, insider obchodování kongres, sledování obchodů politiků, politici usa obchodování, portfolio pelosi, akciové obchody kongresu",
+  "politicians_structured_name": "Sledování obchodů Kongresu",
+  "politicians_structured_description": "Sledování akciových obchodů amerických politiků a členů Kongresu v reálném čase",
+
+  "politicians_main_title": "Všichni američtí politici",
+  "politicians_count_members": "{count} členů",
+  "politicians_search_placeholder": "Najít...",
+  "politicians_filter_party": "Strana",
+  "politicians_empty_search": "Pro \"{query}\" jsme nenašli žádného člena Kongresu",
+  "politicians_empty_filter": "Tvému hledání nebo filtrům nic neodpovídá.",
+
+  "politicians_pagination_previous": "Předchozí",
+  "politicians_pagination_next": "Další",
+  "politicians_pagination_page_of": "Stránka {current} z {total}",
+  "politicians_pagination_rows": "{count} řádků",
+  "politicians_back_to_top": "Zpět nahoru",
+
+  "politicians_flow_seo_title": "Nejnovější obchody Kongresu",
+  "politicians_flow_seo_description": "Podívej se na nejnovější obchody Kongresu a zjisti, do čeho investují lidé s přístupem k regulacím.",
+
+  "politicians_flow_title": "Nejnovější obchody politiků",
+  "politicians_flow_description_intro": "Přehled nejnovější obchodní aktivity Kongresu. Poměr nákupů a prodejů ukazuje",
+  "politicians_flow_description_buys": "{percent} % nákupů",
+  "politicians_flow_description_versus": "oproti",
+  "politicians_flow_description_sells": "{percent} % prodejů",
+  "politicians_flow_description_active_party": "v posledních hlášeních. Nejaktivnější stranou je",
+  "politicians_flow_description_with": "s",
+  "politicians_flow_description_transactions": "transakcemi, což naznačuje",
+  "politicians_flow_description_sentiment": "sentiment mezi členy Kongresu.",
+  "politicians_flow_sentiment_bullish": "býčí",
+  "politicians_flow_sentiment_bearish": "medvědí",
+  "politicians_flow_sentiment_neutral": "neutrální",
+  "politicians_flow_count_trades": "{count} obchodů",
+  "politicians_flow_empty_search": "Pro \"{query}\" jsme nenašli žádné akcie",
+
+  "politicians_detail_stats_rank": "Pořadí",
+  "politicians_detail_stats_trades_scored": "Hodnocené obchody",
+  "politicians_detail_stats_success_rate": "Úspěšnost",
+  "politicians_detail_stats_avg_return": "Prům. výnos",
+  "politicians_detail_stats_total_amount": "Celková částka",
+  "politicians_detail_stats_transaction": "Transakce",
+  "politicians_detail_stats_last_transaction": "Poslední transakce",
+  "politicians_detail_stats_buy_sell": "Nákup/prodej",
+
+  "politicians_detail_main_sectors": "Hlavní sektory:",
+  "politicians_detail_top_industries": "Hlavní odvětví:",
+  "politicians_detail_count_stocks": "{count} akcií",
+  "politicians_detail_empty_search": "Pro \"{query}\" nejsou dostupná žádná data",
+  "politicians_detail_empty": "Pro hledaného analytika nejsou dostupná žádná data.",
+
+  "politicians_detail_mobile_filed": "Podáno",
+  "politicians_detail_mobile_view_chart": "Zobrazit graf",
+  "politicians_detail_mobile_amt": "Částka",
+  "politicians_detail_mobile_trades": "{count} obchod",
+  "politicians_detail_mobile_trades_plural": "{count} obchodů"
+}

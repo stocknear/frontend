@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Vzdělávací centrum - vzdělávání o akciovém trhu a investiční návody",
+  "learning_center_seo_description": "Nauč se investovat na akciovém trhu s naším vzdělávacím centrem. Návody zdarma na obchodní strategie, technickou analýzu, fundamentální analýzu, správu portfolia a investiční vzdělávání pro začátečníky i pokročilé obchodníky.",
+  "learning_center_seo_keywords": "vzdělávání akciový trh, investiční návody, obchodní strategie, naučit se investovat, návody na analýzu akcií, finanční vzdělávání, průvodce investováním, základy akciového trhu, správa portfolia, kurz technické analýzy",
+  "learning_center_structured_name": "Vzdělávací centrum Stocknear",
+  "learning_center_structured_description": "Komplexní vzdělávání o akciovém trhu a investiční návody",
+  "learning_center_structured_articles": "Vzdělávací články",
+  "learning_center_structured_articles_description": "Články o akciovém trhu a návody k investování",
+  "learning_center_title": "Vzdělávací centrum",
+  "learning_center_published": "Publikováno:",
+  "learning_center_previous": "Předchozí",
+  "learning_center_next": "Další",
+  "learning_center_alt_tutorial": "Pozadí návodu",
+
+  "learning_center_subtitle": "Zvládni akciový trh, jeden pojem po druhém",
+
+  "learning_center_category_all": "Vše",
+  "learning_center_category_features": "Funkce",
+  "learning_center_category_fundamentals": "Základy",
+  "learning_center_category_terms": "Pojmy",
+
+  "learning_center_category_desc_features": "Jak používat Stocknear",
+  "learning_center_category_desc_fundamentals": "Začni tady, pokud jsi v investování nový",
+  "learning_center_category_desc_terms": "Finanční pojmy a definice",
+
+  "learning_center_tag_all": "Všechny štítky",
+  "learning_center_tag_stocks": "Akcie",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opce",
+  "learning_center_tag_sentiment": "Sentiment",
+  "learning_center_tag_prefix": "Štítek",
+
+  "learning_center_view_all": "Zobrazit vše",
+  "learning_center_view_all_count": "Zobrazit vše {count}",
+  "learning_center_min_read": "{time} min čtení",
+
+  "learning_center_no_articles_tag": "Nenašli jsme žádné články se štítkem \"{tag}\".",
+  "learning_center_clear_tag_filter": "Zrušit filtr štítků",
+
+  "learning_center_page_of": "Stránka {currentPage} z {totalPages}",
+  "learning_center_items_count": "{count} položek",
+
+  "learning_center_back_to_top": "Zpět nahoru",
+  "learning_center_no_terms_yet": "Zatím tu nejsou žádné pojmy.",
+  "learning_center_no_articles_category": "V této kategorii zatím nejsou žádné články.",
+
+  "learning_center_table_of_contents": "Obsah",
+  "learning_center_share_this_post": "Sdílet příspěvek",
+  "learning_center_back_to_all_posts": "Zpět na všechny příspěvky",
+
+  "learning_center_quick_start": "Rychlý start",
+  "learning_center_sidebar_top_gainers": "Největší růsty",
+  "learning_center_sidebar_top_losers": "Největší propady",
+  "learning_center_sidebar_analysts": "Analytici",
+  "learning_center_sidebar_stock_screener": "Screener akcií",
+  "learning_center_sidebar_options_flow": "Opční flow",
+  "learning_center_sidebar_earnings_calendar": "Kalendář výsledků",
+  "learning_center_sidebar_dividends_calendar": "Kalendář dividend",
+  "learning_center_sidebar_ipo_calendar": "Kalendář IPO",
+
+  "learning_center_related_articles": "Související články",
+  "learning_center_view_all_articles": "Zobrazit všechny články",
+  "learning_center_share_this_article": "Sdílet tento článek",
+
+  "learning_center_link_copied": "Odkaz zkopírován do schránky",
+  "learning_center_link_copy_failed": "Odkaz se nepodařilo zkopírovat",
+
+  "learning_center_sign_in_to_read": "Přihlas se a přečti si celý přehled.",
+  "learning_center_briefing_description": "Denní tržní přehled je dostupný členům Stocknear. Založ si účet zdarma nebo se přihlas a odemkni celou analýzu.",
+  "learning_center_create_free_account": "Založit účet zdarma",
+  "learning_center_sign_in": "Přihlásit se",
+
+  "learning_center_click_to_close": "Klikni kamkoli nebo stiskni ESC pro zavření",
+
+  "learning_center_search_placeholder": "Hledat...",
+  "learning_center_no_search_results": "Pro \"{query}\" jsme nic nenašli.",
+  "learning_center_clear_search": "Zrušit hledání"
+}

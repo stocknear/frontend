@@ -1,0 +1,16 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "newsletter_seo_title": "Newsletter di mercato: resta aggiornato in soli 2 minuti al giorno",
+  "newsletter_seo_description": "Resta un passo avanti sui mercati con la nostra newsletter pro. Ricevi aggiornamenti, tendenze e analisi direttamente nella tua casella di posta.",
+  "newsletter_label": "Newsletter",
+  "newsletter_title": "Resta aggiornato in soli 2 minuti al giorno",
+  "newsletter_description": "Pre-market Report è la newsletter che rende semplicissimo seguire i mercati finanziari.",
+  "newsletter_intro_1": "I nostri riepiloghi sono in forma di elenchi puntati e brevi, così leggere la newsletter non sarà mai un peso.",
+  "newsletter_intro_2": "Leggiamo le notizie al posto tuo e filtriamo il rumore, poi ti mandiamo i punti essenziali. Ecco cosa ricevi:",
+  "newsletter_feature_1": "Accesso agli ultimi report degli analisti, con i punti chiave estratti tramite AI.",
+  "newsletter_feature_2": "Una panoramica rapida delle trimestrali appena pubblicate e di quelle in arrivo.",
+  "newsletter_feature_3": "Aggiornamenti sui principali eventi economici che possono muovere il mercato.",
+  "newsletter_feature_4": "Informazioni accurate e aggiornate, tratte esclusivamente da fonti di primo livello.",
+  "newsletter_closing": "La newsletter è completamente gratuita e arriva nella tua casella ogni mattina prima dell'apertura dei mercati, dal lunedì al venerdì (festivi esclusi).",
+  "newsletter_signup_button": "Iscriviti gratis"
+}

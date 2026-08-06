@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "ホーム",
+  "dividends_breadcrumb_calendar": "配当カレンダー",
+
+  "dividends_seo_title": "配当カレンダー - 権利落ち日と支払スケジュール",
+  "dividends_seo_description": "今後の権利落ち日と配当支払スケジュールを追跡できます。配当金額、支払日、時価総額まで一覧できるカレンダーで、配当取り戦略を組み立てられます。",
+  "dividends_seo_keywords": "配当カレンダー, 権利落ち日, 配当支払日, 配当取り, 株式配当, 高配当株, 配当スケジュール, 今後の配当",
+
+  "dividends_main_name": "配当カレンダー",
+  "dividends_count": "{count} 件の配当",
+  "dividends_empty_day": "この日の配当はありません。",
+  "dividends_empty_none": "配当なし",
+  "dividends_empty_scheduled": "予定されている配当はありません",
+
+  "dividends_tab_daily": "日次",
+  "dividends_tab_weekly": "週次",
+  "dividends_tab_details": "詳細",
+  "dividends_tab_compact": "簡易",
+
+  "dividends_time_any": "指定なし",
+  "dividends_time_before_open": "寄り付き前",
+  "dividends_time_after_close": "引け後",
+
+  "dividends_expanded_ex_date": "権利落ち日",
+  "dividends_expanded_market_cap": "時価総額",
+  "dividends_expanded_amount": "金額",
+  "dividends_expanded_revenue": "売上高",
+  "dividends_expanded_payment_date": "支払日",
+  "dividends_expanded_date": "日付",
+  "dividends_expanded_dividend": "配当",
+
+  "dividends_pagination_previous": "前へ",
+  "dividends_pagination_next": "次へ",
+  "dividends_pagination_page_of": "{current} / {total} ページ",
+  "dividends_pagination_rows": "{count} 行",
+  "dividends_back_to_top": "先頭へ戻る",
+  "dividends_search_placeholder": "検索..."
+}

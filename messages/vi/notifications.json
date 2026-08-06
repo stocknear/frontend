@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Trang chủ",
+  "notifications_breadcrumb_notifications": "Thông báo",
+
+  "notifications_seo_title": "Thông báo thị trường chứng khoán | Cập nhật và cảnh báo theo thời gian thực",
+  "notifications_seo_description": "Luôn cập nhật với thông báo thị trường chứng khoán theo thời gian thực. Nhận cảnh báo tức thì về biến động giá, xu hướng và chuyển động thị trường để ra quyết định đầu tư tốt hơn.",
+
+  "notifications_main_title": "Thông báo",
+  "notifications_alerts_count": "{count} cảnh báo",
+
+  "notifications_mark_all_read": "Đánh dấu tất cả đã đọc",
+  "notifications_marking": "Đang xử lý...",
+  "notifications_settings": "Cài đặt",
+  "notifications_customize": "Tùy chỉnh thông báo của bạn",
+
+  "notifications_channel_earnings_surprise": "Bất ngờ lợi nhuận",
+  "notifications_channel_wiim": "Vì sao giá biến động",
+  "notifications_channel_top_analyst": "Đánh giá từ chuyên gia hàng đầu",
+  "notifications_channel_followed_analysts": "Chuyên gia đang theo dõi",
+  "notifications_no_channels": "Không có kênh thông báo nào.",
+
+  "notifications_empty": "Bạn chưa có thông báo nào.",
+
+  "notifications_pagination_previous": "Trước",
+  "notifications_pagination_next": "Sau",
+  "notifications_pagination_page_of": "Trang {current} / {total}",
+  "notifications_pagination_rows": "{count} dòng",
+  "notifications_back_to_top": "Lên đầu trang",
+
+  "notifications_modal_delete_title": "Xóa tất cả thông báo",
+  "notifications_modal_delete_confirm": "Bạn chắc chắn muốn xóa tất cả thông báo? Hành động này không thể hoàn tác.",
+  "notifications_modal_delete_button": "Xóa thông báo",
+  "notifications_modal_deleting": "Đang xóa...",
+  "notifications_modal_cancel": "Hủy",
+  "notifications_delete_error": "Xóa thông báo thất bại. Vui lòng thử lại.",
+
+  "notifications_type_price_alert_triggered": "Cảnh báo được kích hoạt cho",
+  "notifications_type_price_is": "Giá của",
+  "notifications_type_is_condition": "đang {condition} mức mục tiêu của bạn là",
+  "notifications_type_breaking_news": "Tin nóng về",
+  "notifications_type_wiim_new_data": "Đã có dữ liệu mới cho sự kiện \"Vì sao giá biến động\".",
+  "notifications_type_top_analyst_new": "Đánh giá mới từ chuyên gia hàng đầu cho",
+  "notifications_type_top_analyst_rating": "Công ty đánh giá {analyst} vừa đưa ra khuyến nghị mới \"{rating}\" với giá mục tiêu cập nhật là {price}.",
+  "notifications_type_followed_analyst_new": "Đánh giá mới từ",
+  "notifications_type_followed_analyst_rating": "Khuyến nghị {symbol} \"{rating}\" với giá mục tiêu {price}.",
+  "notifications_type_earnings_release": "Công bố kết quả kinh doanh của",
+  "notifications_type_earnings_surprise_new": "Đã có dữ liệu mới cho sự kiện \"Bất ngờ lợi nhuận\".",
+
+  "notifications_sidebar_watchlist": "Danh mục theo dõi",
+  "notifications_sidebar_watchlist_description": "Nhận cập nhật thời gian thực cho các cổ phiếu bạn quan tâm",
+  "notifications_sidebar_portfolio": "Theo dõi danh mục",
+  "notifications_sidebar_portfolio_description": "Nhận cập nhật thời gian thực cho danh mục của bạn"
+}

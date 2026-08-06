@@ -1,0 +1,44 @@
+{
+  "index_detail_nav_overview": "Panoramica",
+  "index_detail_nav_options": "Opzioni",
+  "index_detail_nav_history": "Storico",
+  "index_detail_nav_holdings": "Composizione",
+
+  "index_detail_watchlist": "Watchlist",
+  "index_detail_price_alert": "Avviso",
+  "index_detail_add_to_watchlist": "Aggiungi alla watchlist",
+  "index_detail_ticker_added": "Ticker aggiunto alla tua watchlist",
+  "index_detail_ticker_add_failed": "Impossibile aggiungere il ticker alla watchlist",
+  "index_detail_upgrade_watchlist": "Vuoi aggiungere altri titoli? Passa a Plus o Pro.",
+  "index_detail_companies": "Società",
+  "index_detail_company": "Società",
+
+  "index_detail_no_data": "Nessun dato disponibile",
+  "index_detail_na": "n/a",
+
+  "index_detail_bid": "Denaro",
+  "index_detail_ask": "Lettera",
+  "index_detail_volume": "Volume",
+  "index_detail_avg_volume_20d": "Volume medio (20g)",
+  "index_detail_50_day_ma": "MM 50 giorni",
+  "index_detail_200_day_ma": "MM 200 giorni",
+  "index_detail_eps_ttm": "EPS (ttm)",
+  "index_detail_pe_ratio_ttm": "Rapporto P/E (ttm)",
+  "index_detail_shares_out": "Azioni in circolazione",
+  "index_detail_inception_date": "Data di lancio",
+  "index_detail_open": "Apertura",
+  "index_detail_prev_close": "Chiusura precedente",
+  "index_detail_days_range": "Range del giorno",
+  "index_detail_52w_range": "Range 52 settimane",
+  "index_detail_exchange": "Mercato",
+  "index_detail_expense_ratio": "Spese correnti",
+
+  "index_detail_chart_price": "Prezzo",
+  "index_detail_chart_volume": "Volume",
+
+  "index_sidecard_about": "Informazioni su {ticker}",
+  "index_sidecard_top_sectors": "Primi 5 settori",
+  "index_sidecard_sector": "Settore",
+  "index_sidecard_weight_percent": "Peso %",
+  "index_sidecard_view_all_sectors": "Vedi tutti i settori"
+}

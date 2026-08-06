@@ -1,0 +1,20 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "home_seo_title": "Gerçek Zamanlı Opsiyon Akışı, Sweep'ler ve Olağan Dışı Hareketler",
+  "home_seo_description": "ABD hisseleri ve ETF'lerinde canlı opsiyon akışı, sweep'ler, blok işlemler ve olağan dışı hareketler. Stocknear ile kısa vadeli işlem kurulumlarını daha hızlı bul.",
+  "home_seo_keywords": "opsiyon akışı, olağan dışı opsiyon hareketi, sweep emirleri, blok işlemler, dark pool, örtük volatilite, IV çarpıklığı, açık pozisyon, opsiyon zinciri, kısa vadeli işlem kurulumları, stocknear",
+  "home_structured_name": "Stocknear",
+  "home_structured_description": "Kısa vadeli işlem kurulumları için gerçek zamanlı opsiyon akışı ve olağan dışı hareketler",
+  "home_structured_feature_live_options_flow": "Canlı opsiyon akışı ve sweep'ler",
+  "home_structured_feature_unusual_options_activity": "Olağan dışı opsiyon hareketleri",
+  "home_structured_feature_dark_pool_monitoring": "Dark pool takibi",
+  "home_structured_feature_implied_volatility": "Örtük volatilite ve çarpıklık",
+  "home_structured_feature_options_chain": "Opsiyon zinciri ve açık pozisyon",
+  "home_structured_feature_earnings_volatility": "Bilanço volatilitesi kurulumu",
+  "home_structured_feature_market_catalysts": "Piyasa katalizörleri",
+  "home_hero_title": "Hareketi kalabalıktan önce gör",
+  "home_hero_subtitle": "Her ABD hissesi ve ETF'i için gerçek zamanlı fiyatlar, opsiyon akışı, dark pool emirleri, haberler, finansallar, tahminler ve grafikler. Net sinyalle daha hızlı hareket et.",
+  "home_promo_pill_label": "Yaz İndirimi",
+  "home_promo_pill_discount": "{percent} indirim",
+  "home_promo_pill_subtitle": "tüm yıllık planlarda"
+}

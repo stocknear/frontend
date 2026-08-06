@@ -1,0 +1,40 @@
+{
+  "earnings_breadcrumb_home": "Hjem",
+  "earnings_breadcrumb_calendar": "Resultatkalender",
+
+  "earnings_seo_title": "Resultatkalender - volatilitetsoppsett for opsjonstradere",
+  "earnings_seo_description": "Følg resultatdatoer, forventet bevegelse og analytikerestimater for å planlegge volatilitetshandler i opsjoner og IV crush-oppsett.",
+  "earnings_seo_keywords": "resultatkalender, opsjoner rundt resultater, forventet bevegelse, IV crush, resultatvolatilitet, EPS-estimater, omsetningsprognoser, rapporteringsplan",
+
+  "earnings_structured_name": "Resultatkalender",
+  "earnings_structured_description": "Resultatkalender laget for opsjonstradere som følger volatilitet og forventet bevegelse",
+
+  "earnings_main_name": "Resultatkalender",
+  "earnings_count": "{count} rapporter",
+  "earnings_empty": "Ingen resultatrapporter denne dagen.",
+  "earnings_empty_scheduled": "Ingen rapporter planlagt",
+
+  "earnings_tab_daily": "Daglig",
+  "earnings_tab_weekly": "Ukentlig",
+  "earnings_tab_details": "Detaljer",
+  "earnings_tab_compact": "Kompakt",
+
+  "earnings_time_of_day": "Tidspunkt",
+  "earnings_time_any": "Når som helst",
+  "earnings_time_before_open": "Før åpning",
+  "earnings_time_after_close": "Etter stenging",
+
+  "earnings_expanded_reports": "Rapporterer",
+  "earnings_expanded_market_cap": "Markedsverdi",
+  "earnings_expanded_revenue_est": "Est. oms.",
+  "earnings_expanded_revenue_estimate": "Estimert omsetning",
+  "earnings_expanded_eps_est": "Est. EPS",
+  "earnings_expanded_eps_estimate": "Estimert EPS",
+
+  "earnings_pagination_previous": "Forrige",
+  "earnings_pagination_next": "Neste",
+  "earnings_pagination_page_of": "Side {current} av {total}",
+  "earnings_pagination_rows": "{count} rader",
+  "earnings_back_to_top": "Til toppen",
+  "earnings_search_placeholder": "Søk..."
+}

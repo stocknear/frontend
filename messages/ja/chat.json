@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "AI による株式市場分析 - 金融AIエージェントとマーケットインテリジェンス",
+  "chat_seo_description": "高度な金融AIエージェントが、リアルタイムの銘柄分析、相場の見方、投資リサーチを提供します。銘柄スクリーニング、決算分析、オプションフローの追跡、ダークプールの動き、市場センチメント分析に特化したエージェントと対話できます。自分に合った投資のヒントと幅広い市場情報が得られます。",
+  "chat_seo_keywords": "AI 投資アドバイザー, 株式市場 AI, 金融AIエージェント, AI 投資分析, 自動 株式リサーチ, AI トレード分析, 機械学習 金融, 金融チャットボット, AI マーケット分析, アルゴリズム取引 分析, AI ポートフォリオ分析, 人工知能 投資",
+  "chat_title": "投資の相棒",
+  "chat_placeholder": "銘柄について何でも聞いてください。リアルタイムの情報でお答えします",
+  "chat_placeholder_readonly": "閲覧のみ: このチャットを編集する権限がありません。",
+  "chat_placeholder_editable": "何でも聞いてください",
+  "chat_credits_left": "残りクレジット",
+  "chat_stock_agents": "銘柄エージェント",
+  "chat_how_to_use_agents": "エージェントの正しい使い方",
+  "chat_credits": "クレジット",
+  "chat_threads": "スレッド",
+  "chat_no_threads": "まだ会話の履歴はありません。",
+  "chat_ready_to_analyze": "銘柄を分析してみませんか",
+  "chat_ready_description": "数千銘柄の詳しい財務データ、アナリスト評価、テクニカル指標を確認できます。",
+  "chat_get_started": "はじめる",
+  "chat_delete_thread_title": "スレッドを削除",
+  "chat_delete_thread_confirm": "このスレッドを削除してもよろしいですか。この操作は取り消せません。",
+  "chat_cancel": "キャンセル",
+  "chat_delete": "スレッドを削除",
+  "chat_toast_deleted": "スレッドを削除しました",
+  "chat_toast_error": "問題が発生しました。もう一度お試しください。",
+  "chat_toast_error_occurred": "エラーが発生しました。しばらくしてからもう一度お試しください。",
+  "chat_toast_insufficient_credits": "クレジットが足りません。現在の残高は",
+  "chat_last_message": "最終メッセージ",
+  "chat_ago": "前",
+  "chat_minutes": "分",
+  "chat_hour": "時間",
+  "chat_hours": "時間",
+  "chat_day": "日",
+  "chat_days": "日",
+  "chat_error_connect": "チャットサービスに接続できませんでした。しばらくしてからもう一度お試しください。",
+
+  "chat_default_gainers_losers_label": "値上がり・値下がり・出来高上位",
+  "chat_default_gainers_losers_query": "本日の値上がり率上位、値下がり率上位、出来高が多い銘柄をまとめてください。騰落率や出来高などの主要な数値も含めてください。",
+
+  "chat_default_options_flow_label": "本日のオプションフロー注目注文",
+  "chat_default_options_flow_query": "本日の注目すべきオプションフローについて、大口のブロック取引、出来高の急増、強気か弱気かの傾向を中心にまとめてください。",
+
+  "chat_default_market_news_label": "本日のマーケットニュース",
+  "chat_default_market_news_query": "本日の主要なマーケットニュースと重要な金融イベントをまとめてください。",
+
+  "chat_default_bull_bear_label": "Nvidia の強気材料と弱気材料",
+  "chat_default_bull_bear_query": "@BullvsBear Nvidia について",
+
+  "chat_default_value_investor_label": "バリュー投資家として今 Intel を買うべきですか",
+  "chat_default_value_investor_query": "@WarrenBuffet 今 Intel を買うべきですか",
+
+  "chat_default_cathie_wood_label": "Cathie Wood は今 Tesla をどう見ていますか",
+  "chat_default_cathie_wood_query": "@CathieWood Tesla を評価して、買いか売りかを教えてください",
+
+  "chat_default_options_data_label": "SPY の最新オプションデータ",
+  "chat_default_options_data_query": "@OptionsData SPY の最新のオプションデータを教えてください",
+
+  "chat_default_undervalued_label": "割安な銘柄を探す",
+  "chat_default_undervalued_query": "@StockScreener P/E が 0 より大きく、増収率 5% 超、PBR が 0 より大きい割安銘柄を探してください",
+
+  "chat_default_gamestop_label": "Gamestop の財務状態は健全ですか",
+  "chat_default_gamestop_query": "@FundamentalData Gamestop の財務状態はどうですか",
+
+  "chat_default_spy_bullish_label": "SPY は今強気ですか",
+  "chat_default_spy_bullish_query": "SPY は今強気ですか",
+
+  "chat_default_nvidia_flow_label": "Nvidia のオプションフロー",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidia のオプションフロー",
+
+  "chat_default_googl_flow_label": "GOOGL の異常な注文フロー",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Google の注文フロー",
+
+  "chat_default_compare_aapl_msft_label": "Apple と Microsoft を比較",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks Apple と Microsoft を比較してください",
+
+  "chat_default_analyst_ratings_label": "アナリストは Amazon をどう見ていますか",
+  "chat_default_analyst_ratings_query": "@Analyst Amazon の最新のアナリストレーティングと目標株価を教えてください",
+
+  "chat_default_dark_pool_label": "本日目立つダークプールの動きはありますか",
+  "chat_default_dark_pool_query": "本日の中で特に目立つダークプールの取引と動きを見せてください",
+
+  "chat_default_dividend_label": "今買える高配当銘柄",
+  "chat_default_dividend_query": "@StockScreener 配当性向 80% 未満、増収率 0% 超の高配当利回り銘柄を探してください",
+
+  "chat_default_michael_burry_label": "Michael Burry は今の相場をどう見ますか",
+  "chat_default_michael_burry_query": "@MichaelBurry 今の相場環境を分析して、どう見ているか教えてください",
+
+  "chat_default_peter_lynch_label": "Peter Lynch から見た Meta",
+  "chat_default_peter_lynch_query": "@PeterLynch 今の Meta は良い投資先だと思いますか",
+
+  "chat_default_sector_performance_label": "今週好調なセクターはどこですか",
+  "chat_default_sector_performance_query": "今週のセクター別パフォーマンスを整理して、好調なセクターと不調なセクターを教えてください",
+
+  "chat_default_earnings_label": "今週決算を発表する企業は",
+  "chat_default_earnings_query": "今週予定されている重要な決算発表と、注目すべきポイントを教えてください"
+}

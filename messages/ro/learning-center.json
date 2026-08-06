@@ -1,0 +1,79 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "learning_center_seo_title": "Centru de învățare - Educație bursieră și tutoriale de investiții",
+  "learning_center_seo_description": "Învață să investești la bursă cu Centrul nostru de învățare. Tutoriale gratuite despre strategii de tranzacționare, analiză tehnică, analiză fundamentală, administrarea portofoliului și educație financiară, de la începători la traderi avansați.",
+  "learning_center_seo_keywords": "educație bursieră, tutoriale de investiții, strategii de tranzacționare, învață să investești, tutoriale de analiză a acțiunilor, educație financiară, ghid de investiții, noțiuni de bază despre bursă, administrarea portofoliului, curs de analiză tehnică",
+  "learning_center_structured_name": "Centrul de învățare Stocknear",
+  "learning_center_structured_description": "Educație bursieră completă și tutoriale de investiții",
+  "learning_center_structured_articles": "Articole educaționale",
+  "learning_center_structured_articles_description": "Articole de educație bursieră și tutoriale de investiții",
+  "learning_center_title": "Centru de învățare",
+  "learning_center_published": "Publicat:",
+  "learning_center_previous": "Anterior",
+  "learning_center_next": "Următor",
+  "learning_center_alt_tutorial": "Imagine de fundal tutorial",
+
+  "learning_center_subtitle": "Învață bursa, concept cu concept",
+
+  "learning_center_category_all": "Toate",
+  "learning_center_category_features": "Funcții",
+  "learning_center_category_fundamentals": "Noțiuni de bază",
+  "learning_center_category_terms": "Termeni",
+
+  "learning_center_category_desc_features": "Cum folosești Stocknear",
+  "learning_center_category_desc_fundamentals": "Începe aici dacă ești nou în investiții",
+  "learning_center_category_desc_terms": "Termeni financiari și definiții",
+
+  "learning_center_tag_all": "Toate etichetele",
+  "learning_center_tag_stocks": "Acțiuni",
+  "learning_center_tag_etf": "ETF",
+  "learning_center_tag_options": "Opțiuni",
+  "learning_center_tag_sentiment": "Sentiment",
+  "learning_center_tag_prefix": "Etichetă",
+
+  "learning_center_view_all": "Vezi toate",
+  "learning_center_view_all_count": "Vezi toate cele {count}",
+  "learning_center_min_read": "{time} min de citit",
+
+  "learning_center_no_articles_tag": "Niciun articol cu eticheta \"{tag}\".",
+  "learning_center_clear_tag_filter": "Șterge filtrul de etichete",
+
+  "learning_center_page_of": "Pagina {currentPage} din {totalPages}",
+  "learning_center_items_count": "{count} elemente",
+
+  "learning_center_back_to_top": "Înapoi sus",
+  "learning_center_no_terms_yet": "Nu există termeni disponibili încă.",
+  "learning_center_no_articles_category": "Nu există articole în această categorie încă.",
+
+  "learning_center_table_of_contents": "Cuprins",
+  "learning_center_share_this_post": "Distribuie articolul",
+  "learning_center_back_to_all_posts": "Înapoi la toate articolele",
+
+  "learning_center_quick_start": "Start rapid",
+  "learning_center_sidebar_top_gainers": "Top creșteri",
+  "learning_center_sidebar_top_losers": "Top scăderi",
+  "learning_center_sidebar_analysts": "Analiști",
+  "learning_center_sidebar_stock_screener": "Screener acțiuni",
+  "learning_center_sidebar_options_flow": "Flux de opțiuni",
+  "learning_center_sidebar_earnings_calendar": "Calendar rezultate",
+  "learning_center_sidebar_dividends_calendar": "Calendar dividende",
+  "learning_center_sidebar_ipo_calendar": "Calendar IPO",
+
+  "learning_center_related_articles": "Articole similare",
+  "learning_center_view_all_articles": "Vezi toate articolele",
+  "learning_center_share_this_article": "Distribuie acest articol",
+
+  "learning_center_link_copied": "Link copiat",
+  "learning_center_link_copy_failed": "Linkul nu a putut fi copiat",
+
+  "learning_center_sign_in_to_read": "Autentifică-te ca să citești analiza completă.",
+  "learning_center_briefing_description": "Briefingul zilnic de piață este disponibil membrilor Stocknear. Creează un cont gratuit sau autentifică-te ca să deblochezi analiza completă.",
+  "learning_center_create_free_account": "Creează cont gratuit",
+  "learning_center_sign_in": "Autentifică-te",
+
+  "learning_center_click_to_close": "Dă clic oriunde sau apasă ESC ca să închizi",
+
+  "learning_center_search_placeholder": "Caută...",
+  "learning_center_no_search_results": "Niciun rezultat pentru \"{query}\".",
+  "learning_center_clear_search": "Șterge căutarea"
+}

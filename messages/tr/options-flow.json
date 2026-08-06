@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Opsiyon Akışı Tarayıcısı - Canlı Sweep, Blok ve Olağandışı Aktivite",
+  "options_flow_seo_description": "ABD hisseleri ve ETF'lerinde canlı opsiyon akışını, sweep ve blok emirleri izle. Olağandışı aktiviteyi ve kısa vadeli işlem fırsatlarını anlık yakala.",
+  "options_flow_seo_keywords": "opsiyon akışı, opsiyon akışı tarayıcısı, olağandışı opsiyon aktivitesi, sweep emirler, blok işlemler, akıllı para, call akışı, put akışı, opsiyon uyarıları, OPRA opsiyon akışı",
+  "options_flow_structured_name": "Opsiyon Akışı Tarayıcısı",
+  "options_flow_structured_description": "Kısa vadeli işlem fırsatları için sweep, blok ve olağandışı aktivite içeren canlı opsiyon akışı",
+
+  "options_flow_main_title": "Opsiyon Akışı",
+
+  "options_flow_popular_filters": "Popüler Filtreler",
+  "options_flow_popular_strategies": "Popüler Stratejiler",
+  "options_flow_select_popular": "Popüler seç",
+  "options_flow_saved_filters": "Kayıtlı Filtreler",
+  "options_flow_select_filter": "Filtre Seç",
+  "options_flow_new_filter": "Yeni Filtre",
+
+  "options_flow_filters_count": "{count} Filtre",
+  "options_flow_add_filters": "Filtre Ekle",
+  "options_flow_search_filters": "{count} filtre içinde ara...",
+  "options_flow_select_filters_title": "Akış filtrelerini seç (toplam {count})",
+  "options_flow_nothing_found": "Sonuç yok",
+  "options_flow_no_filters_found": "Uygun filtre bulunamadı",
+
+  "options_flow_search_placeholder": "Bul...",
+  "options_flow_search_input_placeholder": "Ara...",
+  "options_flow_full_width": "Tam Genişlik",
+  "options_flow_normal_width": "Normal Genişlik",
+
+  "options_flow_no_trades_query": "\"{query}\" için opsiyon işlemi bulunamadı",
+  "options_flow_no_data_filters": "Seçtiğin filtrelere uyan veri yok. Filtreleri güncelleyip tekrar dene.",
+
+  "options_flow_modal_new_title": "Yeni Filtre",
+  "options_flow_modal_new_name_label": "Filtre Adı",
+  "options_flow_modal_new_create": "Filtre Oluştur",
+
+  "options_flow_modal_delete_title": "Filtreyi Sil",
+  "options_flow_modal_delete_message": "Bu filtreyi silmek istediğine emin misin? Bu işlem geri alınamaz.",
+  "options_flow_modal_delete_cancel": "Vazgeç",
+  "options_flow_modal_delete_confirm": "Filtreyi Sil",
+
+  "options_flow_strategy_bullish_sweeps": "Yükseliş Sweep'leri",
+  "options_flow_strategy_bearish_sweeps": "Düşüş Sweep'leri",
+  "options_flow_strategy_high_premium_blocks": "Yüksek Primli Bloklar",
+  "options_flow_strategy_unusual_size_oi": "Olağandışı Büyüklük / OI",
+  "options_flow_strategy_etf_index_flow": "ETF ve Endeks Akışı",
+  "options_flow_strategy_zero_dte_flow": "0DTE Akışı",
+  "options_flow_strategy_repeated_flow": "Tekrarlayan Akış",
+
+  "options_flow_save": "Kaydet",
+  "options_flow_save_as_new": "Yeni Olarak Kaydet",
+  "options_flow_reset_all": "Tümünü Sıfırla",
+
+  "options_flow_market_closed": "Piyasa Kapalı",
+  "options_flow_paused": "Duraklatıldı",
+  "options_flow_live_flow": "Canlı Akış",
+  "options_flow_pick_date": "Tarih seç",
+
+  "options_flow_realtime_data": "Anlık Opsiyon Verisi",
+  "options_flow_realtime_data_title": "OPRA'dan Anlık Opsiyon Verisi",
+  "options_flow_realtime_data_content": "Opsiyon akışımız, ABD'de işlem gören tüm opsiyonların resmi konsolide kaynağı olan OPRA'nın anlık verisiyle çalışır. Böylece gördüğün her işlem doğrudan OPRA'dan anlık olarak gelir; büyük işlemler, sweep'ler, olağandışı aktivite ve prim akışı gerçekleştiği anda kurumsal seviyede görünür olur. OPRA'nın güvenilir işlem akışı sayesinde daha hızlı içgörü, daha temiz veri ve akıllı paranın opsiyon piyasasında nereye gittiğine dair daha doğru bir görünüm elde edersin.",
+
+  "options_flow_hide_filter_area": "Filtre Alanını Gizle",
+  "options_flow_show_filter_area": "Filtre Alanını Göster",
+
+  "options_flow_put_to_call": "Put/Call",
+  "options_flow_call_flow": "Call akışı",
+  "options_flow_put_flow": "Put akışı"
+}

@@ -1,0 +1,83 @@
+{
+  "watchlist_breadcrumb_home": "หน้าแรก",
+  "watchlist_breadcrumb_watchlist": "วอทช์ลิสต์",
+
+  "watchlist_seo_title": "วอทช์ลิสต์หุ้น - ติดตามพอร์ตและราคาหุ้นของคุณ",
+  "watchlist_seo_description": "สร้างและจัดการวอทช์ลิสต์หุ้นส่วนตัวพร้อมราคาแบบเรียลไทม์ ติดตามหุ้น ETF และการลงทุนที่คุณสนใจ พร้อมการแจ้งเตือนและการวิเคราะห์ผลตอบแทน เครื่องมือติดตามพอร์ตหุ้นฟรีพร้อมฟีเจอร์ครบครัน",
+  "watchlist_seo_keywords": "วอทช์ลิสต์หุ้น, ติดตามพอร์ต, ติดตามหุ้น, ติดตามการลงทุน, เฝ้าดูราคาหุ้น, การแจ้งเตือน, บริหารพอร์ต, ผลตอบแทนหุ้น, รายการหุ้นที่ติดตาม",
+  "watchlist_structured_name": "เครื่องมือติดตามวอทช์ลิสต์หุ้น",
+  "watchlist_structured_description": "วอทช์ลิสต์หุ้นส่วนตัวและเครื่องมือติดตามพอร์ต",
+
+  "watchlist_main_title": "วอทช์ลิสต์",
+  "watchlist_create_watchlist": "สร้างวอทช์ลิสต์",
+  "watchlist_new_watchlist": "วอทช์ลิสต์ใหม่",
+  "watchlist_delete_watchlist": "ลบวอทช์ลิสต์",
+
+  "watchlist_add_stock_placeholder": "เพิ่มหุ้น...",
+  "watchlist_no_results": "ไม่พบผลลัพธ์",
+  "watchlist_edit_watchlist": "แก้ไขวอทช์ลิสต์",
+  "watchlist_cancel": "ยกเลิก",
+  "watchlist_normal_width": "ความกว้างปกติ",
+  "watchlist_full_width": "เต็มความกว้าง",
+  "watchlist_exit_full_width": "ออกจากโหมดเต็มความกว้าง",
+  "watchlist_expand_full_width": "ขยายเต็มความกว้าง",
+
+  "watchlist_empty_title": "วอทช์ลิสต์ว่างเปล่า",
+  "watchlist_empty_description": "เพิ่มหุ้นที่คุณสนใจ แล้วดูข้อมูลเรียลไทม์และข่าวล่าสุดได้ในที่เดียว",
+  "watchlist_get_started": "เริ่มต้นใช้งาน",
+
+  "watchlist_count_stocks": "{count} หุ้น",
+
+  "watchlist_tab_news": "ข่าว",
+  "watchlist_tab_earnings": "ประกาศผลประกอบการ",
+  "watchlist_no_news": "ยังไม่มีข่าว เพิ่มหุ้นลงในวอทช์ลิสต์เพื่อดูข่าวล่าสุด",
+  "watchlist_no_earnings": "ยังไม่มีข้อมูลผลประกอบการ เพิ่มหุ้นลงในวอทช์ลิสต์เพื่อดูข้อมูลผลประกอบการล่าสุด",
+
+  "watchlist_modal_new_title": "วอทช์ลิสต์ใหม่",
+  "watchlist_modal_list_name": "ชื่อรายการ",
+  "watchlist_modal_create_button": "สร้างวอทช์ลิสต์",
+
+  "watchlist_modal_delete_title": "ลบวอทช์ลิสต์",
+  "watchlist_modal_delete_confirm": "คุณแน่ใจหรือไม่ว่าต้องการลบวอทช์ลิสต์นี้ การลบไม่สามารถย้อนกลับได้",
+  "watchlist_modal_delete_button": "ลบวอทช์ลิสต์",
+
+  "watchlist_toast_creating": "กำลังสร้างวอทช์ลิสต์...",
+  "watchlist_toast_created": "สร้างวอทช์ลิสต์เรียบร้อยแล้ว",
+  "watchlist_toast_deleted": "ลบวอทช์ลิสต์เรียบร้อยแล้ว",
+  "watchlist_toast_updating": "กำลังอัปเดตวอทช์ลิสต์...",
+  "watchlist_toast_updated": "อัปเดตวอทช์ลิสต์เรียบร้อยแล้ว",
+  "watchlist_toast_error": "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+  "watchlist_toast_error_generic": "เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง",
+  "watchlist_toast_title_empty": "ชื่อต้องไม่เว้นว่าง",
+  "watchlist_toast_title_long": "ชื่อยาวเกินไป กรุณาใช้ชื่อสั้นและกระชับ",
+  "watchlist_toast_already_in_list": "หุ้นตัวนี้อยู่ในวอทช์ลิสต์ของคุณแล้ว",
+  "watchlist_toast_select_symbols": "กรุณาเลือกหุ้นก่อนทำการลบ",
+
+  "watchlist_earnings_will_report": "จะประกาศผลประกอบการ",
+  "watchlist_earnings_after_close": "หลังตลาดปิด",
+  "watchlist_earnings_before_open": "ก่อนตลาดเปิด",
+  "watchlist_earnings_during_market": "ระหว่างเวลาซื้อขาย",
+  "watchlist_earnings_analysts_estimate": "นักวิเคราะห์คาดการณ์",
+  "watchlist_earnings_in_revenue": "เป็นรายได้",
+  "watchlist_earnings_yoy": "เทียบปีต่อปี",
+  "watchlist_earnings_and": "และ",
+  "watchlist_earnings_in_eps": "เป็นกำไรต่อหุ้น",
+
+  "watchlist_note_add_title": "เพิ่มโน้ต",
+  "watchlist_note_edit_title": "แก้ไขโน้ต",
+  "watchlist_note_placeholder_new": "ทำไมคุณถึงเพิ่มหุ้นตัวนี้ลงวอทช์ลิสต์",
+  "watchlist_note_placeholder_edit": "อัปเดตโน้ตของคุณ...",
+  "watchlist_note_save": "บันทึก",
+  "watchlist_note_add": "เพิ่มโน้ต",
+  "watchlist_note_update": "อัปเดตโน้ต",
+  "watchlist_note_created": "สร้างโน้ตแล้ว",
+  "watchlist_note_updated": "อัปเดตโน้ตแล้ว",
+  "watchlist_note_char_limit": "{count}/{max}",
+  "watchlist_note_chars_remaining": "เหลืออีก {count} ตัวอักษร",
+  "watchlist_note_chars_over": "เกินมา {count} ตัวอักษร",
+  "watchlist_note_exceeded": "โน้ตต้องไม่เกิน {max} ตัวอักษร",
+  "watchlist_added_price": "ราคาตอนเพิ่ม",
+
+  "watchlist_column_entry_price": "ราคาที่เข้าซื้อ",
+  "watchlist_column_since_added": "% ตั้งแต่เพิ่ม"
+}

@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Ügyfélszolgálat",
+  "support_breadcrumb_home": "Főoldal",
+  "support_breadcrumb_current": "Ügyfélszolgálat",
+  "support_title": "Ügyfélszolgálat",
+  "support_description_1": "Küldd el a kérdésedet az alábbi űrlapon, és a lehető leghamarabb válaszolunk. E-mailt is írhatsz közvetlenül ide:",
+  "support_description_2": "A gyakori kérdésekre itt találsz választ:",
+  "support_faq_link": "Gyakori kérdések",
+  "support_description_3": "Ha hibát vagy adathibát jelentesz, add meg annak az oldalnak a pontos URL-jét, ahol találtad.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Tárgy",
+  "support_label_message": "Üzenet",
+  "support_button_send": "Üzenet küldése",
+  "support_button_processing": "Feldolgozás...",
+  "support_success_message": "Az üzenetedet elküldtük. Hamarosan jelentkezünk.",
+  "support_toast_error": "Valami hiba történt. Próbáld meg újra...",
+  "support_sidebar_pro_title": "Pro előfizetés",
+  "support_sidebar_pro_description": "Válts most, és korlátlanul használd az összes adatot és eszközt, reklámok nélkül.",
+  "support_sidebar_screener_title": "Részvényszűrő",
+  "support_sidebar_screener_description": "Szűrd, rendezd és elemezd az összes részvényt, hogy megtaláld a következő befektetésed.",
+  "support_sidebar_watchlist_title": "Figyelőlisták",
+  "support_sidebar_watchlist_description": "Kövesd valós időben a kedvenc részvényeidet."
+}

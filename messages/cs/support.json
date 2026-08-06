@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Podpora",
+  "support_breadcrumb_home": "Domů",
+  "support_breadcrumb_current": "Podpora",
+  "support_title": "Podpora",
+  "support_description_1": "Pošli nám svůj dotaz přes formulář níže a my se ozveme co nejdřív. Napsat můžeš i přímo na e-mail",
+  "support_description_2": "Odpovědi na běžné otázky najdeš tady:",
+  "support_faq_link": "Časté dotazy",
+  "support_description_3": "Pokud řešíš chybu nebo nepřesnost v datech, přilož prosím přesnou URL stránky, kde ses s tím setkal.",
+  "support_label_email": "E-mail",
+  "support_label_subject": "Předmět",
+  "support_label_message": "Zpráva",
+  "support_button_send": "Odeslat zprávu",
+  "support_button_processing": "Zpracovává se...",
+  "support_success_message": "Zpráva byla odeslána. Brzy se ti ozveme.",
+  "support_toast_error": "Něco se pokazilo. Zkus to prosím znovu...",
+  "support_sidebar_pro_title": "Předplatné Pro",
+  "support_sidebar_pro_description": "Přejdi na Pro a získej neomezený přístup ke všem datům a nástrojům bez reklam.",
+  "support_sidebar_screener_title": "Screener akcií",
+  "support_sidebar_screener_description": "Filtruj, řaď a analyzuj všechny akcie a najdi svou další investici.",
+  "support_sidebar_watchlist_title": "Watchlisty",
+  "support_sidebar_watchlist_description": "Sleduj své oblíbené akcie v reálném čase."
+}

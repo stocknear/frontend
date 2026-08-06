@@ -1,0 +1,19 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "donation_seo_title": "Stocknear'a sponsor ol",
+  "donation_seo_description": "Sponsorluğun, en iyi fiyat planlarıyla dünyanın bir numaralı hisse analiz platformu olmamıza yardım ediyor.",
+  "donation_title": "Sponsor",
+  "donation_intro_greeting": "Selam 👋,",
+  "donation_intro_paragraph_1": "Misyonumuzu desteklemeyi düşündüğün için teşekkürler. Backend geliştirmeden müşteri hizmetlerine kadar her şeyi tek başına yürüten kişi olarak, platformu her yatırımcı için uygun fiyatlı ve erişilebilir tutmaya kararlıyım.",
+  "donation_intro_paragraph_2": "Planlarımız, kaliteli hisse verisinin her kesimden bireysel yatırımcının erişebileceği bir fiyatta kalması için belirlendi.",
+  "donation_support_paragraph_1": "Üyelik temel giderlerimizi karşılamak için tasarlandı; ancak ek desteğin bizi çok daha ileri taşıyabilir. Sponsor olarak sadece bir platformu değil, açık, şeffaf ve uygun fiyatlı finansal analiz vizyonunu desteklemiş oluyorsun.",
+  "donation_support_list_intro": "Desteğin doğrudan şunlara katkı sağlayacak:",
+  "donation_support_list_item_1": "Fiyatlarımızı düşük tutmak",
+  "donation_support_list_item_2": "Daha iyi veri kalitesi ve yeni özellikler",
+  "donation_support_list_item_3": "Sektörün 1 numaralı hisse analiz platformu olma hedefimize ilerlemek",
+  "donation_cta_title": "Stocknear'a sponsor ol",
+  "donation_cta_paragraph_1": "Misyonumuza inanıyor ve aboneliğinin ötesinde destek olmak istiyorsan, GitHub Sponsors üzerinden bize destek olabilirsin. Miktarı ne olursa olsun her katkı, sana ve bireysel yatırımcı topluluğuna hizmet etme gücümüzde büyük fark yaratıyor.",
+  "donation_cta_paragraph_2": "Desteğin benim için çok değerli ve Stocknear'ın sorunsuz çalışmasını sağlıyor.",
+  "donation_sidebar_about_title": "Hakkımızda",
+  "donation_iframe_title": "Stocknear'a sponsor ol"
+}

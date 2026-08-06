@@ -1,0 +1,23 @@
+{
+  "support_seo_title": "Bantuan",
+  "support_breadcrumb_home": "Beranda",
+  "support_breadcrumb_current": "Bantuan",
+  "support_title": "Bantuan",
+  "support_description_1": "Silakan kirim permintaan bantuan Anda lewat formulir di bawah ini dan kami akan membalas secepatnya. Anda juga bisa mengirim email langsung ke",
+  "support_description_2": "Jawaban untuk beberapa pertanyaan umum bisa Anda temukan di sini:",
+  "support_faq_link": "Pertanyaan yang Sering Diajukan",
+  "support_description_3": "Jika Anda butuh bantuan soal error atau data yang tidak akurat, sertakan URL persis halaman tempat Anda menemukannya.",
+  "support_label_email": "Email",
+  "support_label_subject": "Subjek",
+  "support_label_message": "Pesan",
+  "support_button_send": "Kirim Pesan",
+  "support_button_processing": "Memproses...",
+  "support_success_message": "Pesan Anda berhasil dikirim. Kami akan segera membalas.",
+  "support_toast_error": "Terjadi kesalahan. Silakan coba lagi...",
+  "support_sidebar_pro_title": "Langganan Pro",
+  "support_sidebar_pro_description": "Upgrade sekarang untuk akses tanpa batas ke semua data, tools, dan bebas iklan.",
+  "support_sidebar_screener_title": "Stock Screener",
+  "support_sidebar_screener_description": "Filter, urutkan, dan analisis semua saham untuk menemukan investasi berikutnya.",
+  "support_sidebar_watchlist_title": "Watchlist",
+  "support_sidebar_watchlist_description": "Pantau saham favorit Anda secara real-time."
+}

@@ -1,0 +1,8 @@
+{
+  "error_title": "Pagina non trovata - {status}",
+  "error_body_prefix": "La pagina non è stata trovata. Se l'errore continua a comparire, segnalacelo tramite",
+  "error_body_suffix": "Lo risolveremo il prima possibile.",
+  "error_back_home": "Torna alla home",
+  "error_server_title": "Qualcosa è andato storto - {status}",
+  "error_server_body_prefix": "Il problema è dalla nostra parte, non è una pagina mancante. Riprova tra poco. Se continua a succedere, scrivici a"
+}

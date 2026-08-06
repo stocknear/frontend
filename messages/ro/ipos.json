@@ -1,0 +1,36 @@
+{
+  "ipos_breadcrumb_home": "Acasă",
+  "ipos_breadcrumb_data": "Date IPO",
+
+  "ipos_seo_title": "Calendar IPO - Listări recente și viitoare | Oferte publice inițiale",
+  "ipos_seo_description": "Urmărește listările IPO recente și viitoare cu analiză detaliată. Vezi performanța, prețurile, datele și randamentele de la listare. Calendar și monitor IPO gratuit, cu date complete.",
+  "ipos_seo_keywords": "calendar IPO, IPO-uri viitoare, IPO-uri recente, oferte publice inițiale, monitor IPO, performanță IPO, prețuri IPO, listări noi, oferte publice",
+
+  "ipos_main_name_recent": "IPO-uri recente",
+  "ipos_main_name_statistics": "Statistici IPO",
+  "ipos_count": "{count} acțiuni",
+  "ipos_tab_recent": "Recente",
+  "ipos_tab_statistics": "Statistici",
+  "ipos_tab_latest": "Cele mai noi",
+
+  "ipos_statistics_seo_title": "Statistici IPO și grafice istorice - Date despre piața ofertelor publice inițiale",
+  "ipos_statistics_seo_description": "Statistici complete și grafice interactive despre ofertele publice inițiale de pe bursa din SUA. Urmărește tendințele anuale și lunare ale IPO-urilor din {startYear} până în {endYear}, analizează ciclurile de piață și descoperă tipare de performanță.",
+  "ipos_statistics_seo_keywords": "statistici IPO, grafice oferte publice inițiale, date piață IPO, tendințe IPO, analiză IPO, date istorice IPO, performanță IPO, statistici anuale IPO, date lunare IPO",
+  "ipos_statistics_infobox": "Această pagină oferă statistici și grafice despre ofertele publice inițiale (IPO) de pe bursa din SUA. Datele anuale și lunare sunt disponibile din {startYear} până în {endYear}.",
+  "ipos_statistics_title": "Numărul de IPO-uri pe an",
+  "ipos_statistics_description": "Au existat {count} IPO-uri între {startYear} și {endYear}. Cel mai slab an a fost {minYear}, cu doar {minCount}. Anul {maxYear} a fost un record absolut, cu {maxCount} IPO-uri.",
+  "ipos_statistics_stock_news": "Știri despre acțiuni",
+  "ipos_statistics_more_news": "Mai multe știri despre acțiuni",
+
+  "ipos_year_seo_title": "Lista IPO-urilor din {year} - Director complet al ofertelor publice inițiale",
+  "ipos_year_seo_description": "Lista completă a tuturor ofertelor publice inițiale (IPO) din {year} de pe bursa din SUA. Urmărește performanța, prețul, randamentele de la listare și debuturile pe piață, cu informații detaliate despre companii și date istorice.",
+  "ipos_year_seo_keywords": "IPO-uri {year}, oferte publice inițiale {year}, listă IPO {year}, performanță IPO {year}, IPO-uri recente, calendar IPO {year}, companii nou listate {year}",
+  "ipos_year_empty": "Nu am găsit IPO-uri. Ajustează intervalul de căutare pentru cele mai recente IPO-uri din {year}.",
+
+  "ipos_statistics_chart_title": "IPO-uri pe an, {startYear}-{endYear}",
+  "ipos_chart_series": "IPO-uri",
+  "ipos_year_heading": "Oferte publice inițiale în {year}",
+  "ipos_year_summary": "Au avut loc {count} IPO-uri în {year}.",
+  "ipos_year_extremes": "Cea mai aglomerată lună a fost {maxMonth}, cu {maxCount}, iar cea mai liniștită a fost {minMonth}, cu {minCount}.",
+  "ipos_year_none": "Nu a avut loc niciun IPO în {year}."
+}

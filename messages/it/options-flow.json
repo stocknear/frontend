@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_flow_seo_title": "Scanner Options Flow - Sweep, block e attività insolita in tempo reale",
+  "options_flow_seo_description": "Monitora in tempo reale il flusso di opzioni, gli sweep e i block su azioni ed ETF USA. Individua attività insolite e setup di trading di breve periodo.",
+  "options_flow_seo_keywords": "options flow, scanner options flow, attività insolita sulle opzioni, ordini sweep, block trade, smart money, flusso call, flusso put, avvisi opzioni, options flow OPRA",
+  "options_flow_structured_name": "Scanner Options Flow",
+  "options_flow_structured_description": "Flusso di opzioni in tempo reale con sweep, block e attività insolita per setup di breve periodo",
+
+  "options_flow_main_title": "Options Flow",
+
+  "options_flow_popular_filters": "Filtri popolari",
+  "options_flow_popular_strategies": "Strategie popolari",
+  "options_flow_select_popular": "Scegli tra i popolari",
+  "options_flow_saved_filters": "Filtri salvati",
+  "options_flow_select_filter": "Seleziona filtro",
+  "options_flow_new_filter": "Nuovo filtro",
+
+  "options_flow_filters_count": "{count} filtri",
+  "options_flow_add_filters": "Aggiungi filtri",
+  "options_flow_search_filters": "Cerca tra {count} filtri...",
+  "options_flow_select_filters_title": "Seleziona i filtri del flusso ({count} in totale)",
+  "options_flow_nothing_found": "Nessun risultato",
+  "options_flow_no_filters_found": "Nessun filtro disponibile",
+
+  "options_flow_search_placeholder": "Trova...",
+  "options_flow_search_input_placeholder": "Cerca...",
+  "options_flow_full_width": "Larghezza piena",
+  "options_flow_normal_width": "Larghezza normale",
+
+  "options_flow_no_trades_query": "Nessuna operazione su opzioni trovata per \"{query}\"",
+  "options_flow_no_data_filters": "Nessun dato per i filtri selezionati. Modifica i filtri e riprova.",
+
+  "options_flow_modal_new_title": "Nuovo filtro",
+  "options_flow_modal_new_name_label": "Nome del filtro",
+  "options_flow_modal_new_create": "Crea filtro",
+
+  "options_flow_modal_delete_title": "Elimina filtro",
+  "options_flow_modal_delete_message": "Vuoi davvero eliminare questo filtro? L'azione non può essere annullata.",
+  "options_flow_modal_delete_cancel": "Annulla",
+  "options_flow_modal_delete_confirm": "Elimina filtro",
+
+  "options_flow_strategy_bullish_sweeps": "Sweep rialzisti",
+  "options_flow_strategy_bearish_sweeps": "Sweep ribassisti",
+  "options_flow_strategy_high_premium_blocks": "Block ad alto premio",
+  "options_flow_strategy_unusual_size_oi": "Size insolita vs OI",
+  "options_flow_strategy_etf_index_flow": "Flusso ETF e indici",
+  "options_flow_strategy_zero_dte_flow": "Flusso 0DTE",
+  "options_flow_strategy_repeated_flow": "Flusso ripetuto",
+
+  "options_flow_save": "Salva",
+  "options_flow_save_as_new": "Salva come nuovo",
+  "options_flow_reset_all": "Reimposta tutto",
+
+  "options_flow_market_closed": "Mercato chiuso",
+  "options_flow_paused": "In pausa",
+  "options_flow_live_flow": "Flusso live",
+  "options_flow_pick_date": "Scegli una data",
+
+  "options_flow_realtime_data": "Dati opzioni in tempo reale",
+  "options_flow_realtime_data_title": "Dati opzioni in tempo reale da OPRA",
+  "options_flow_realtime_data_content": "Il nostro options flow si basa sui dati OPRA in tempo reale, il feed consolidato ufficiale di tutte le operazioni sulle opzioni quotate negli USA. Ogni print che vedi arriva direttamente da OPRA in tempo reale e ti dà una visibilità di livello istituzionale su grandi operazioni, sweep, attività insolita e flusso di premi mentre accadono. Grazie all'affidabilità del flusso OPRA ottieni informazioni più rapide, dati più puliti e una visione più precisa di dove si sta muovendo lo smart money sul mercato delle opzioni.",
+
+  "options_flow_hide_filter_area": "Nascondi area filtri",
+  "options_flow_show_filter_area": "Mostra area filtri",
+
+  "options_flow_put_to_call": "Put/call",
+  "options_flow_call_flow": "Flusso call",
+  "options_flow_put_flow": "Flusso put"
+}

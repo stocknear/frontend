@@ -1,0 +1,8 @@
+{
+  "error_title": "Pagina niet gevonden - {status}",
+  "error_body_prefix": "De pagina is niet gevonden. Blijft deze fout terugkomen, meld het dan bij ons via",
+  "error_body_suffix": "We lossen het zo snel mogelijk op.",
+  "error_back_home": "Terug naar de homepage",
+  "error_server_title": "Er ging iets mis - {status}",
+  "error_server_body_prefix": "Dit ligt aan ons, niet aan een ontbrekende pagina. Probeer het zo nog eens. Blijft het gebeuren, laat het ons weten via"
+}

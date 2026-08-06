@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Forside",
+  "economic_breadcrumb_calendar": "Økonomisk kalender",
+
+  "economic_seo_title": "Økonomisk kalender - markedsbevægende begivenheder og nøgletal live",
+  "economic_seo_description": "Vær på forkant med vores økonomiske kalender, der samler finansielle begivenheder i realtid, økonomiske nøgletal og markedsbevægende dataudgivelser. Følg BNP, inflation, beskæftigelse, centralbankmøder og andre vigtige meldinger med præcise tidspunkter og prognoser. Et must for tradere og investorer, der vil være forberedt på volatilitet.",
+  "economic_seo_keywords": "økonomisk kalender, finansielle begivenheder, markedskalender, økonomiske nøgletal, BNP-tal, inflationstal, beskæftigelsestal, centralbankmøder, økonomiske nyheder, markedsbevægende begivenheder, nøgletalsudgivelser, økonomiske meldinger, tradingkalender, investeringsplanlægning",
+  "economic_structured_name": "Økonomisk kalender",
+  "economic_structured_description": "Omfattende økonomisk kalender med globale finansielle begivenheder, økonomiske nøgletal og markedsbevægende dataudgivelser",
+
+  "economic_main_name": "Økonomisk kalender",
+  "economic_count_events": "{count} begivenheder",
+  "economic_empty_day": "Ingen begivenheder tilgængelige for dagen.",
+
+  "economic_filter_country": "Filtrér land",
+  "economic_filter_importance": "Filtrér vigtighed",
+  "economic_filter_reset": "Nulstil alt",
+  "economic_filter_search": "Søg...",
+  "economic_filter_no_country": "Intet land fundet",
+  "economic_filters_label": "Filtre",
+
+  "economic_pagination_previous": "Forrige",
+  "economic_pagination_next": "Næste",
+  "economic_pagination_page_of": "Side {current} af {total}",
+  "economic_pagination_rows": "{count} rækker",
+  "economic_back_to_top": "Til toppen",
+  "economic_search_placeholder": "Søg...",
+
+  "economic_source_label": "Kilde:",
+  "economic_source_text": "Økonomisk kalender leveret af",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "og tidspunkter vises i ET (Eastern Time)."
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "ホーム",
+  "options_screener_breadcrumb_options_screener": "オプションスクリーナー",
+
+  "options_screener_seo_title": "オプションスクリーナー - 異常なフローと有望なセットアップを探す",
+  "options_screener_seo_description": "異常な取引、IV、建玉、出来高、グリークス、満期日でオプションを絞り込み、短期のセットアップを見つけられます。",
+  "options_screener_seo_keywords": "オプションスクリーナー, 異常なオプション取引, オプション スキャナー, IV スクリーナー, IV スキュー, 建玉, 出来高の多いオプション, オプション取引ツール, グリークス スクリーナー",
+  "options_screener_structured_name": "オプションスクリーナー",
+  "options_screener_structured_description": "異常な取引、IV、建玉に注目したオプションスクリーニングツール",
+
+  "options_screener_main_title": "オプションスクリーナー",
+  "options_screener_contracts_count": "{count} 銘柄",
+  "options_screener_expire_on": "すべてのオプションは {date} 満期です",
+
+  "options_screener_popular_screens": "人気のスクリーン",
+  "options_screener_popular_strategies": "人気の戦略",
+  "options_screener_select_popular": "人気から選ぶ",
+  "options_screener_saved_screens": "保存したスクリーン",
+  "options_screener_select_screen": "スクリーンを選択",
+  "options_screener_new_screen": "新しいスクリーン",
+
+  "options_screener_filters_count": "フィルター {count} 件",
+  "options_screener_add_filters": "フィルターを追加",
+  "options_screener_search_filters": "{count} 件のフィルターを検索...",
+  "options_screener_select_filters_title": "スクリーナーのフィルターを選択（全 {count} 件）",
+  "options_screener_nothing_found": "該当なし",
+
+  "options_screener_tab_general": "基本",
+  "options_screener_tab_filters": "フィルター",
+  "options_screener_tab_greeks": "グリークス",
+
+  "options_screener_search_placeholder": "検索...",
+  "options_screener_search_input_placeholder": "検索...",
+  "options_screener_input_min": "最小",
+  "options_screener_input_max": "最大",
+  "options_screener_input_value": "値",
+
+  "options_screener_normal_width": "通常幅",
+  "options_screener_full_width": "全幅表示",
+
+  "options_screener_pagination_previous": "前へ",
+  "options_screener_pagination_next": "次へ",
+  "options_screener_pagination_page_of": "{current} / {total} ページ",
+  "options_screener_rows_label": "{rows} 行",
+  "options_screener_back_to_top": "トップへ戻る",
+
+  "options_screener_no_contracts_query": "「{query}」に該当する銘柄はありません",
+  "options_screener_no_contracts": "該当する銘柄はありません。",
+
+  "options_screener_modal_new_title": "新しいスクリーナー",
+  "options_screener_modal_new_name_label": "スクリーナー名",
+  "options_screener_modal_new_create": "スクリーナーを作成",
+
+  "options_screener_modal_delete_title": "スクリーナーを削除",
+  "options_screener_modal_delete_message": "このスクリーナーを削除しますか。この操作は取り消せません。",
+  "options_screener_modal_delete_cancel": "キャンセル",
+  "options_screener_modal_delete_confirm": "削除",
+
+  "options_screener_strategy_high_iv_rank": "IV ランク上位",
+  "options_screener_strategy_volume_surge": "出来高急増",
+  "options_screener_strategy_itm_calls": "ITM コール",
+  "options_screener_strategy_otm_puts": "OTM プット",
+  "options_screener_strategy_high_premium_flow": "高プレミアムのフロー",
+
+  "options_screener_save": "保存",
+  "options_screener_save_as_new": "新規として保存",
+  "options_screener_reset_all": "すべてリセット"
+}

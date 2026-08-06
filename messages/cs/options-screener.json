@@ -1,0 +1,69 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "options_screener_breadcrumb_home": "Domů",
+  "options_screener_breadcrumb_options_screener": "Screener opcí",
+
+  "options_screener_seo_title": "Screener opcí - najdi neobvyklý flow a silné příležitosti",
+  "options_screener_seo_description": "Filtruj opce podle neobvyklé aktivity, implikované volatility, otevřeného zájmu, objemu, řeckých písmen a expirace a najdi krátkodobé obchodní příležitosti.",
+  "options_screener_seo_keywords": "screener opcí, neobvyklá opční aktivita, skener opcí, screener implikované volatility, IV skew, otevřený zájem, opce s vysokým objemem, nástroj pro obchodování opcí, screener řeckých písmen",
+  "options_screener_structured_name": "Nástroj screener opcí",
+  "options_screener_structured_description": "Screener opcí zaměřený na neobvyklou aktivitu, IV a otevřený zájem pro krátkodobé obchody",
+
+  "options_screener_main_title": "Screener opcí",
+  "options_screener_contracts_count": "{count} kontraktů",
+  "options_screener_expire_on": "Všechny opční kontrakty expirují {date}",
+
+  "options_screener_popular_screens": "Oblíbené screeny",
+  "options_screener_popular_strategies": "Oblíbené strategie",
+  "options_screener_select_popular": "Vyber oblíbený",
+  "options_screener_saved_screens": "Uložené screeny",
+  "options_screener_select_screen": "Vyber screen",
+  "options_screener_new_screen": "Nový screen",
+
+  "options_screener_filters_count": "{count} filtrů",
+  "options_screener_add_filters": "Přidat filtry",
+  "options_screener_search_filters": "Hledat mezi {count} filtry...",
+  "options_screener_select_filters_title": "Vyber filtry screeneru (celkem {count})",
+  "options_screener_nothing_found": "Nic nenalezeno",
+
+  "options_screener_tab_general": "Obecné",
+  "options_screener_tab_filters": "Filtry",
+  "options_screener_tab_greeks": "Řecká písmena",
+
+  "options_screener_search_placeholder": "Najít...",
+  "options_screener_search_input_placeholder": "Hledat...",
+  "options_screener_input_min": "Min",
+  "options_screener_input_max": "Max",
+  "options_screener_input_value": "Hodnota",
+
+  "options_screener_normal_width": "Normální šířka",
+  "options_screener_full_width": "Celá šířka",
+
+  "options_screener_pagination_previous": "Předchozí",
+  "options_screener_pagination_next": "Další",
+  "options_screener_pagination_page_of": "Stránka {current} z {total}",
+  "options_screener_rows_label": "{rows} řádků",
+  "options_screener_back_to_top": "Zpět nahoru",
+
+  "options_screener_no_contracts_query": "Pro \"{query}\" jsme nenašli žádné kontrakty",
+  "options_screener_no_contracts": "Žádné kontrakty nenalezeny.",
+
+  "options_screener_modal_new_title": "Nový screener",
+  "options_screener_modal_new_name_label": "Název screeneru",
+  "options_screener_modal_new_create": "Vytvořit screener",
+
+  "options_screener_modal_delete_title": "Smazat screener",
+  "options_screener_modal_delete_message": "Opravdu chceš tento screener smazat? Tuto akci nelze vrátit zpět.",
+  "options_screener_modal_delete_cancel": "Zrušit",
+  "options_screener_modal_delete_confirm": "Smazat",
+
+  "options_screener_strategy_high_iv_rank": "Vysoký IV rank",
+  "options_screener_strategy_volume_surge": "Skok objemu",
+  "options_screener_strategy_itm_calls": "ITM cally",
+  "options_screener_strategy_otm_puts": "OTM puty",
+  "options_screener_strategy_high_premium_flow": "Flow s vysokou prémií",
+
+  "options_screener_save": "Uložit",
+  "options_screener_save_as_new": "Uložit jako nový",
+  "options_screener_reset_all": "Resetovat vše"
+}

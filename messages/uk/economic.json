@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Головна",
+  "economic_breadcrumb_calendar": "Економічний календар",
+
+  "economic_seo_title": "Економічний календар - ринкові події та публікації даних у реальному часі",
+  "economic_seo_description": "Будьте в курсі завдяки нашому повному економічному календарю з фінансовими подіями, економічними показниками та публікаціями даних у реальному часі. Відстежуйте ВВП, інфляцію, дані щодо зайнятості, засідання центробанків та ключові оголошення з точним часом і прогнозами.",
+  "economic_seo_keywords": "економічний календар, фінансові події, ринковий календар, економічні показники, публікація ВВП, дані інфляції, статистика зайнятості, засідання центробанків, економічні новини, ринкові події, публікації фінансових даних, економічні оголошення, торговий календар, планування інвестицій",
+  "economic_structured_name": "Економічний календар",
+  "economic_structured_description": "Повний економічний календар глобальних фінансових подій, економічних показників і публікацій даних, що впливають на ринок",
+
+  "economic_main_name": "Економічний календар",
+  "economic_count_events": "{count} подій",
+  "economic_empty_day": "На цей день подій немає.",
+
+  "economic_filter_country": "Фільтр за країною",
+  "economic_filter_importance": "Фільтр за важливістю",
+  "economic_filter_reset": "Скинути все",
+  "economic_filter_search": "Пошук...",
+  "economic_filter_no_country": "Країну не знайдено",
+  "economic_filters_label": "Фільтри",
+
+  "economic_pagination_previous": "Назад",
+  "economic_pagination_next": "Далі",
+  "economic_pagination_page_of": "Сторінка {current} з {total}",
+  "economic_pagination_rows": "{count} рядків",
+  "economic_back_to_top": "Нагору",
+  "economic_search_placeholder": "Пошук...",
+
+  "economic_source_label": "Джерело:",
+  "economic_source_text": "Економічний календар надано",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "час вказано за східним часом США (ET)."
+}

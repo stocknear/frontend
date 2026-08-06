@@ -1,0 +1,33 @@
+{
+  "economic_breadcrumb_home": "Beranda",
+  "economic_breadcrumb_calendar": "Kalender Ekonomi",
+
+  "economic_seo_title": "Kalender Ekonomi - Peristiwa Penggerak Pasar & Rilis Data Keuangan",
+  "economic_seo_description": "Selangkah lebih siap dengan kalender ekonomi lengkap kami yang memuat peristiwa keuangan real-time, indikator ekonomi, dan rilis data penggerak pasar. Pantau PDB, inflasi, data ketenagakerjaan, rapat bank sentral, dan pengumuman ekonomi penting lengkap dengan waktu dan proyeksinya. Alat penting bagi trader dan investor untuk mengantisipasi volatilitas pasar.",
+  "economic_seo_keywords": "kalender ekonomi, peristiwa keuangan, kalender pasar, indikator ekonomi, rilis PDB, data inflasi, statistik ketenagakerjaan, rapat bank sentral, berita ekonomi, peristiwa penggerak pasar, rilis data keuangan, pengumuman ekonomi, kalender trading, perencanaan investasi",
+  "economic_structured_name": "Kalender Ekonomi",
+  "economic_structured_description": "Kalender ekonomi lengkap yang memantau peristiwa keuangan global, indikator ekonomi, dan rilis data penggerak pasar",
+
+  "economic_main_name": "Kalender Ekonomi",
+  "economic_count_events": "{count} Peristiwa",
+  "economic_empty_day": "Tidak ada peristiwa untuk hari ini.",
+
+  "economic_filter_country": "Filter Negara",
+  "economic_filter_importance": "Filter Tingkat Kepentingan",
+  "economic_filter_reset": "Atur Ulang Semua",
+  "economic_filter_search": "Cari...",
+  "economic_filter_no_country": "Negara tidak ditemukan",
+  "economic_filters_label": "Filter",
+
+  "economic_pagination_previous": "Sebelumnya",
+  "economic_pagination_next": "Berikutnya",
+  "economic_pagination_page_of": "Halaman {current} dari {total}",
+  "economic_pagination_rows": "{count} Baris",
+  "economic_back_to_top": "Kembali ke Atas",
+  "economic_search_placeholder": "Cari...",
+
+  "economic_source_label": "Sumber:",
+  "economic_source_text": "Kalender Ekonomi disediakan oleh",
+  "economic_source_provider": "Financial Modeling Prep",
+  "economic_source_times": "dan waktu ditampilkan dalam ET (Eastern Time)."
+}

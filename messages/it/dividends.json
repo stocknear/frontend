@@ -1,0 +1,38 @@
+{
+  "dividends_breadcrumb_home": "Home",
+  "dividends_breadcrumb_calendar": "Calendario dividendi",
+
+  "dividends_seo_title": "Calendario dividendi - Date di stacco e pagamento dei dividendi",
+  "dividends_seo_description": "Segui le prossime date di stacco cedola e i calendari di pagamento dei dividendi. Pianifica la tua strategia di dividend capture con un calendario completo di importi, date di pagamento e capitalizzazione di mercato.",
+  "dividends_seo_keywords": "calendario dividendi, date di stacco cedola, calendario pagamento dividendi, dividend capture, dividendi azionari, titoli con dividendo, date di pagamento dividendi, prossimi dividendi",
+
+  "dividends_main_name": "Calendario dividendi",
+  "dividends_count": "{count} dividendi",
+  "dividends_empty_day": "Nessun dividendo disponibile per questa giornata.",
+  "dividends_empty_none": "Nessun dividendo",
+  "dividends_empty_scheduled": "Nessun dividendo in programma",
+
+  "dividends_tab_daily": "Giornaliero",
+  "dividends_tab_weekly": "Settimanale",
+  "dividends_tab_details": "Dettagli",
+  "dividends_tab_compact": "Compatto",
+
+  "dividends_time_any": "Qualsiasi orario",
+  "dividends_time_before_open": "Prima dell'apertura",
+  "dividends_time_after_close": "Dopo la chiusura",
+
+  "dividends_expanded_ex_date": "Data di stacco",
+  "dividends_expanded_market_cap": "Capitalizzazione",
+  "dividends_expanded_amount": "Importo",
+  "dividends_expanded_revenue": "Ricavi",
+  "dividends_expanded_payment_date": "Data di pagamento",
+  "dividends_expanded_date": "Data",
+  "dividends_expanded_dividend": "Dividendo",
+
+  "dividends_pagination_previous": "Precedente",
+  "dividends_pagination_next": "Successiva",
+  "dividends_pagination_page_of": "Pagina {current} di {total}",
+  "dividends_pagination_rows": "{count} righe",
+  "dividends_back_to_top": "Torna su",
+  "dividends_search_placeholder": "Cerca..."
+}

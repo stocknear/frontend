@@ -1,0 +1,110 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+
+  "cash_secured_put_screener_breadcrumb_home": "ホーム",
+  "cash_secured_put_screener_breadcrumb_title": "キャッシュ・セキュアード・プット スクリーナー",
+
+  "cash_secured_put_screener_seo_title": "キャッシュ・セキュアード・プット スクリーナー - 有望なCSP銘柄を探す",
+  "cash_secured_put_screener_seo_description": "数千のオプションからキャッシュ・セキュアード・プットの候補を絞り込みます。プレミアム利回り、年率リターン、権利行使価格、満期日などで抽出できます。",
+  "cash_secured_put_screener_seo_keywords": "キャッシュ・セキュアード・プット スクリーナー, オプション スクリーナー, キャッシュ・セキュアード・プット, プレミアム利回り, インカム戦略",
+  "cash_secured_put_screener_structured_name": "キャッシュ・セキュアード・プット スクリーナー",
+  "cash_secured_put_screener_structured_description": "キャッシュ・セキュアード・プット向けにオプションを絞り込みます",
+
+  "cash_secured_put_screener_main_title": "キャッシュ・セキュアード・プット スクリーナー",
+  "cash_secured_put_screener_contracts_count": "{count} 銘柄",
+
+  "cash_secured_put_screener_popular_screens": "人気のスクリーン",
+  "cash_secured_put_screener_popular_strategies": "人気の戦略",
+  "cash_secured_put_screener_select_popular": "人気から選ぶ",
+  "cash_secured_put_screener_saved_screens": "保存したスクリーン",
+  "cash_secured_put_screener_select_screen": "スクリーンを選択",
+  "cash_secured_put_screener_new_screen": "新規スクリーン",
+
+  "cash_secured_put_screener_strategy_high_yield": "高利回り",
+  "cash_secured_put_screener_strategy_conservative": "保守的",
+  "cash_secured_put_screener_strategy_weekly_income": "週次インカム",
+  "cash_secured_put_screener_strategy_high_protection": "下値保護重視",
+  "cash_secured_put_screener_strategy_bluechip_csp": "優良株のCSP",
+
+  "cash_secured_put_screener_filters_count": "フィルター（{count}）",
+  "cash_secured_put_screener_add_filters": "フィルターを追加",
+  "cash_secured_put_screener_search_filters": "{count} 件のフィルターを検索...",
+  "cash_secured_put_screener_select_filters_title": "フィルターを選択（{count}）",
+  "cash_secured_put_screener_nothing_found": "該当なし。",
+
+  "cash_secured_put_screener_save": "保存",
+  "cash_secured_put_screener_save_as_new": "新規として保存",
+  "cash_secured_put_screener_reset_all": "すべてリセット",
+
+  "cash_secured_put_screener_condition_over": "超",
+  "cash_secured_put_screener_condition_under": "未満",
+  "cash_secured_put_screener_condition_between": "範囲",
+  "cash_secured_put_screener_condition_exactly": "一致",
+  "cash_secured_put_screener_condition_any": "指定なし",
+
+  "cash_secured_put_screener_input_min": "最小",
+  "cash_secured_put_screener_input_max": "最大",
+  "cash_secured_put_screener_input_value": "値",
+
+  "cash_secured_put_screener_search_placeholder": "検索...",
+  "cash_secured_put_screener_search_modal_placeholder": "検索...",
+
+  "cash_secured_put_screener_normal_width": "通常幅",
+  "cash_secured_put_screener_full_width": "全幅",
+
+  "cash_secured_put_screener_tab_general": "基本",
+  "cash_secured_put_screener_tab_income": "インカム",
+  "cash_secured_put_screener_tab_filters": "フィルター",
+  "cash_secured_put_screener_tab_greeks": "グリークス",
+
+  "cash_secured_put_screener_pagination_previous": "前へ",
+  "cash_secured_put_screener_pagination_next": "次へ",
+  "cash_secured_put_screener_pagination_page_of": "{current} / {total} ページ",
+  "cash_secured_put_screener_rows_label": "{rows} 行",
+  "cash_secured_put_screener_back_to_top": "先頭へ戻る",
+
+  "cash_secured_put_screener_no_results_query": "「{query}」の結果は見つかりませんでした",
+  "cash_secured_put_screener_no_contracts": "条件に合う契約はありません。",
+
+  "cash_secured_put_screener_modal_new_title": "新規スクリーン",
+  "cash_secured_put_screener_modal_new_name_label": "スクリーン名",
+  "cash_secured_put_screener_modal_new_create": "作成",
+
+  "cash_secured_put_screener_modal_delete_title": "スクリーナーを削除",
+  "cash_secured_put_screener_modal_delete_message": "このスクリーナーを削除してもよろしいですか。この操作は取り消せません。",
+  "cash_secured_put_screener_modal_delete_cancel": "キャンセル",
+  "cash_secured_put_screener_modal_delete_confirm": "削除",
+
+  "cash_secured_put_screener_toast_deleting": "スクリーナーを削除しています...",
+  "cash_secured_put_screener_toast_deleted": "スクリーナーを削除しました",
+  "cash_secured_put_screener_toast_delete_failed": "削除に失敗しました。もう一度お試しください。",
+  "cash_secured_put_screener_toast_title_too_long": "タイトルが長すぎます。100文字以内にしてください。",
+  "cash_secured_put_screener_toast_created": "スクリーナーを作成しました",
+  "cash_secured_put_screener_toast_creating": "スクリーナーを作成しています...",
+  "cash_secured_put_screener_toast_create_failed": "問題が発生しました。しばらくしてからもう一度お試しください。",
+  "cash_secured_put_screener_toast_select_rule": "条件を選択してください",
+  "cash_secured_put_screener_toast_saving": "スクリーナーを保存しています...",
+  "cash_secured_put_screener_toast_saved": "スクリーナーを保存しました",
+  "cash_secured_put_screener_toast_save_failed": "保存に失敗しました。もう一度お試しください。",
+
+  "cash_secured_put_screener_chart_price_at_expiration": "満期時の株価（$）",
+  "cash_secured_put_screener_chart_last_price_label": "現在値: {price}",
+  "cash_secured_put_screener_chart_breakeven_label": "損益分岐点: ${breakeven}",
+  "cash_secured_put_screener_chart_profit_loss": "損益（$）",
+  "cash_secured_put_screener_chart_tooltip_underlying": "原資産価格:",
+  "cash_secured_put_screener_chart_tooltip_profit_loss": "損益:",
+  "cash_secured_put_screener_chart_modal_title": "キャッシュ・セキュアード・プット - {symbol}",
+  "cash_secured_put_screener_chart_trade_setup": "取引の内容",
+  "cash_secured_put_screener_chart_sell_put": "{strike}P 売り @",
+  "cash_secured_put_screener_chart_cash_secured": "必要現金",
+  "cash_secured_put_screener_chart_net_credit": "受取プレミアム",
+  "cash_secured_put_screener_chart_breakeven": "損益分岐点",
+  "cash_secured_put_screener_chart_below": "下落余地",
+  "cash_secured_put_screener_chart_last_price": "現在値",
+  "cash_secured_put_screener_chart_moneyness": "マネーネス",
+  "cash_secured_put_screener_chart_return_if_flat": "横ばい時リターン",
+  "cash_secured_put_screener_chart_return_if_assigned": "権利行使時リターン",
+  "cash_secured_put_screener_chart_probability_of_profit": "利益確率",
+  "cash_secured_put_screener_chart_annualized_abbr": "年率",
+  "cash_secured_put_screener_chart_discount": "権利行使時の割引率"
+}

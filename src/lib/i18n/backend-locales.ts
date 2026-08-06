@@ -33,6 +33,10 @@ const candidateByUiLocale: Record<Locale, BackendLocale> = {
   "zh-TW": "en",
   es: "en",
   fr: "en",
+  ja: "en",
+  ko: "en",
+  ru: "en",
+  uk: "en",
 };
 
 const hasNativeBackendContent: Record<Locale, boolean> = {
@@ -42,6 +46,10 @@ const hasNativeBackendContent: Record<Locale, boolean> = {
   "zh-TW": false,
   es: false,
   fr: false,
+  ja: false,
+  ko: false,
+  ru: false,
+  uk: false,
 };
 
 export function resolveBackendLocale(

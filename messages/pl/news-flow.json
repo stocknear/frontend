@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Start",
+  "news_flow_breadcrumb_news_flow": "Przepływ newsów",
+
+  "news_flow_seo_title": "Przepływ newsów rynkowych - katalizatory pod trading w czasie rzeczywistym",
+  "news_flow_seo_description": "Śledź w czasie rzeczywistym newsy i katalizatory, które ruszają kursami. Zbudowane dla traderów opcji, którzy potrzebują szybkiego kontekstu do krótkoterminowych setupów.",
+  "news_flow_seo_keywords": "przepływ newsów rynkowych, katalizatory rynkowe, najnowsze newsy rynkowe, newsy dla traderów opcji, newsy o ruchach cen, aktualizacje rynkowe w czasie rzeczywistym",
+  "news_flow_structured_name": "Przepływ newsów rynkowych",
+  "news_flow_structured_description": "Newsy i katalizatory rynkowe w czasie rzeczywistym do planowania krótkoterminowych transakcji",
+
+  "news_flow_main_title": "Przepływ newsów",
+  "news_flow_news_count": "{count} newsów",
+  "news_flow_search_placeholder": "Szukaj...",
+
+  "news_flow_infobox": "Śledź najświeższe newsy i sprawdzaj na bieżąco, dlaczego kursy się ruszyły",
+  "news_flow_no_news": "Nie ma jeszcze ważnych newsów z rynku akcji.",
+
+  "news_flow_sidebar_market_flow_title": "Przepływ rynkowy",
+  "news_flow_sidebar_market_flow_description": "Śledź nastroje na opcjach w czasie rzeczywistym.",
+  "news_flow_sidebar_options_flow_title": "Przepływ opcji",
+  "news_flow_sidebar_options_flow_description": "Monitoruj nietypową aktywność na opcjach i wzorce przepływu w czasie rzeczywistym",
+  "news_flow_sidebar_dark_pool_title": "Przepływ w dark poolach",
+  "news_flow_sidebar_dark_pool_description": "Analizuj ukryty przepływ instytucjonalny i dane z dark poolów"
+}

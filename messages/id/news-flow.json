@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Beranda",
+  "news_flow_breadcrumb_news_flow": "News Flow",
+
+  "news_flow_seo_title": "Market News Flow - Katalis Siap Trading secara Real-Time",
+  "news_flow_seo_description": "Ikuti berita pasar dan katalis yang menggerakkan harga secara real-time. Dibuat untuk trader opsi yang butuh konteks cepat untuk setup jangka pendek.",
+  "news_flow_seo_keywords": "market news flow, katalis trading, berita pasar terkini, berita trader opsi, berita penggerak harga, update pasar real-time",
+  "news_flow_structured_name": "Market News Flow",
+  "news_flow_structured_description": "Berita pasar dan katalis real-time untuk perencanaan trading jangka pendek",
+
+  "news_flow_main_title": "News Flow",
+  "news_flow_news_count": "{count} Berita",
+  "news_flow_search_placeholder": "Cari...",
+
+  "news_flow_infobox": "Pantau berita terbaru dan pahami alasan pergerakan harga saham secara real-time",
+  "news_flow_no_news": "Belum ada berita pasar saham yang penting.",
+
+  "news_flow_sidebar_market_flow_title": "Market Flow",
+  "news_flow_sidebar_market_flow_description": "Pantau sentimen opsi secara real-time.",
+  "news_flow_sidebar_options_flow_title": "Options Flow",
+  "news_flow_sidebar_options_flow_description": "Pantau aktivitas opsi tidak biasa dan pola flow secara real-time",
+  "news_flow_sidebar_dark_pool_title": "Dark Pool Flow",
+  "news_flow_sidebar_dark_pool_description": "Analisis flow institusi tersembunyi dan data transaksi dark pool"
+}

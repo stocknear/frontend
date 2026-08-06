@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "cookies_banner_title": "Vi passer på dine data",
+  "cookies_banner_description": "Vi bruger cookies til at forbedre din oplevelse, analysere trafikken på sitet og tilpasse indholdet.",
+  "cookies_accept_all": "Accepter alle",
+  "cookies_reject_all": "Afvis alle",
+  "cookies_customize": "Tilpas",
+  "cookies_preferences_title": "Cookieindstillinger",
+  "cookies_preferences_description": "Administrer dine cookieindstillinger. Nødvendige cookies kan ikke slås fra, da sitet ikke fungerer uden dem.",
+  "cookies_necessary_title": "Nødvendige cookies",
+  "cookies_necessary_description": "Nødvendige for login, sikkerhed og grundlæggende funktioner. De kan ikke slås fra.",
+  "cookies_analytics_title": "Statistikcookies",
+  "cookies_analytics_description": "Hjælper os med at forstå, hvordan besøgende bruger sitet, så vi kan gøre det bedre.",
+  "cookies_marketing_title": "Marketingcookies",
+  "cookies_marketing_description": "Bruges til at følge besøgende på tværs af websites med henblik på målrettede annoncer.",
+  "cookies_save_preferences": "Gem indstillinger"
+}

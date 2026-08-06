@@ -1,0 +1,94 @@
+{
+  "chat_seo_title": "AI-alapú tőzsdei elemzés - Pénzügyi AI ügynök és piaci intelligencia",
+  "chat_seo_description": "Fejlett pénzügyi AI ügynök valós idejű részvényelemzéssel, piaci betekintéssel és befektetési kutatással. Beszélgess szakosodott AI ügynökökkel részvényszűrésről, gyorsjelentésekről, opciós flow-ról, dark pool aktivitásról és piaci hangulatról. Kapj személyre szabott befektetési javaslatokat és átfogó piaci elemzést.",
+  "chat_seo_keywords": "AI pénzügyi tanácsadó, tőzsdei AI, pénzügyi AI ügynök, AI befektetési elemzés, automatizált részvénykutatás, AI kereskedési betekintés, gépi tanulás a pénzügyekben, pénzügyi chatbot, AI piacelemzés, algoritmikus kereskedési betekintés, AI portfólióelemzés, mesterséges intelligencia a befektetésben",
+  "chat_title": "A befektetőtársad",
+  "chat_placeholder": "Kérdezz bármit a részvényekről, és valós idejű választ kapsz",
+  "chat_placeholder_readonly": "Csak olvasható: nincs jogosultságod szerkeszteni ezt a beszélgetést.",
+  "chat_placeholder_editable": "Kérdezz bármit",
+  "chat_credits_left": "Hátralévő kredit",
+  "chat_stock_agents": "Részvényügynökök",
+  "chat_how_to_use_agents": "Így használd jól az ügynököket",
+  "chat_credits": "Kredit",
+  "chat_threads": "Beszélgetések",
+  "chat_no_threads": "Úgy tűnik, még nem beszélgettünk.",
+  "chat_ready_to_analyze": "Készen állsz a részvényelemzésre?",
+  "chat_ready_description": "Nézz meg részletes pénzügyi adatokat, elemzői ajánlásokat és technikai mutatókat több ezer részvényhez.",
+  "chat_get_started": "Kezdés",
+  "chat_delete_thread_title": "Beszélgetés törlése",
+  "chat_delete_thread_confirm": "Biztosan törlöd ezt a beszélgetést? A művelet nem vonható vissza.",
+  "chat_cancel": "Mégse",
+  "chat_delete": "Beszélgetés törlése",
+  "chat_toast_deleted": "A beszélgetést töröltük.",
+  "chat_toast_error": "Valami hiba történt. Próbáld újra.",
+  "chat_toast_error_occurred": "Hiba történt. Próbáld újra később.",
+  "chat_toast_insufficient_credits": "Nincs elég kredit. A jelenlegi egyenleged",
+  "chat_last_message": "Utolsó üzenet",
+  "chat_ago": "ezelőtt",
+  "chat_minutes": "perce",
+  "chat_hour": "órája",
+  "chat_hours": "órája",
+  "chat_day": "napja",
+  "chat_days": "napja",
+  "chat_error_connect": "Nem sikerült csatlakozni a chat szolgáltatáshoz. Próbáld újra később.",
+
+  "chat_default_gainers_losers_label": "Legnagyobb nyertesek, vesztesek és legaktívabbak",
+  "chat_default_gainers_losers_query": "Foglald össze a mai legjobban teljesítő részvényeket (nyertesek), a legnagyobb esőket (vesztesek) és a forgalom alapján legaktívabban kereskedett részvényeket. Térj ki a fontosabb mutatókra, például a százalékos változásra és a forgalomra.",
+
+  "chat_default_options_flow_label": "A mai opciós flow kiemelt megbízásai",
+  "chat_default_options_flow_query": "Adj áttekintést a mai figyelemre méltó opciós flow-ról, kiemelve a nagy blokk ügyleteket, a szokatlan forgalmi kiugrásokat és az irányultságot.",
+
+  "chat_default_market_news_label": "Mai piaci hírek",
+  "chat_default_market_news_query": "Foglald össze a mai legfontosabb piaci híreket és pénzügyi eseményeket.",
+
+  "chat_default_bull_bear_label": "Bull és bear érvek az Nvidiára",
+  "chat_default_bull_bear_query": "@BullvsBear Nvidia",
+
+  "chat_default_value_investor_label": "Vegyek most Intelt értékalapú befektetőként?",
+  "chat_default_value_investor_query": "@WarrenBuffet vegyek most Intelt?",
+
+  "chat_default_cathie_wood_label": "Hogyan értékeli most Cathie Wood a Teslát?",
+  "chat_default_cathie_wood_query": "@CathieWood értékeld a Teslát, és mondd meg, vennéd vagy eladnád",
+
+  "chat_default_options_data_label": "Friss opciós adatok a SPY-ra",
+  "chat_default_options_data_query": "@OptionsData friss opciós adatok a SPY-ra",
+
+  "chat_default_undervalued_label": "Keress alulértékelt részvényeket",
+  "chat_default_undervalued_query": "@StockScreener keress alulértékelt részvényeket 0 feletti p/e mutatóval, 5% feletti árbevétel-növekedéssel és 0 feletti ár/könyv szerinti értékkel",
+
+  "chat_default_gamestop_label": "Mennyire erős a Gamestop?",
+  "chat_default_gamestop_query": "@FundamentalData mennyire erős a Gamestop?",
+
+  "chat_default_spy_bullish_label": "Emelkedő most a SPY?",
+  "chat_default_spy_bullish_query": "Emelkedő most a SPY?",
+
+  "chat_default_nvidia_flow_label": "Nvidia opciós flow",
+  "chat_default_nvidia_flow_query": "@OptionsFlowFeed Nvidia opciós flow",
+
+  "chat_default_googl_flow_label": "GOOGL szokatlan megbízások",
+  "chat_default_googl_flow_query": "@UnusualOrderFeed Google megbízási flow",
+
+  "chat_default_compare_aapl_msft_label": "Apple és Microsoft összehasonlítása",
+  "chat_default_compare_aapl_msft_query": "@CompareStocks hasonlítsd össze az Apple-t és a Microsoftot",
+
+  "chat_default_analyst_ratings_label": "Mit mondanak az elemzők az Amazonról?",
+  "chat_default_analyst_ratings_query": "@Analyst mik a legfrissebb elemzői ajánlások és célárak az Amazonra?",
+
+  "chat_default_dark_pool_label": "Volt ma jelentős dark pool aktivitás?",
+  "chat_default_dark_pool_query": "Mutasd meg a mai legjelentősebb dark pool ügyleteket és aktivitást",
+
+  "chat_default_dividend_label": "A legjobb osztalékrészvények most",
+  "chat_default_dividend_query": "@StockScreener keress magas osztalékhozamú részvényeket 80% alatti kifizetési rátával és 0 feletti árbevétel-növekedéssel",
+
+  "chat_default_michael_burry_label": "Mit gondolna Michael Burry a jelenlegi piacról?",
+  "chat_default_michael_burry_query": "@MichaelBurry elemezd a jelenlegi piaci helyzetet, és mondd el, mit látsz",
+
+  "chat_default_peter_lynch_label": "Peter Lynch véleménye a Metáról",
+  "chat_default_peter_lynch_query": "@PeterLynch jó befektetésnek tartanád most a Metát?",
+
+  "chat_default_sector_performance_label": "Mely szektorok teljesítenek jól ezen a héten?",
+  "chat_default_sector_performance_query": "Bontsd le a szektorok teljesítményét ezen a héten, és emeld ki, melyek vezetnek és melyek maradnak le",
+
+  "chat_default_earnings_label": "Mely cégek jelentenek ezen a héten?",
+  "chat_default_earnings_query": "Mik a legfontosabb gyorsjelentések ezen a héten, és mire érdemes figyelnem?"
+}

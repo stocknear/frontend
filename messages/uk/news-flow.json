@@ -1,0 +1,25 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "news_flow_breadcrumb_home": "Головна",
+  "news_flow_breadcrumb_news_flow": "Потік новин",
+
+  "news_flow_seo_title": "Ринковий потік новин — готові до торгівлі каталізатори в реальному часі",
+  "news_flow_seo_description": "Стеж за ринковими новинами й каталізаторами, які рухають ціну, в реальному часі. Зроблено для опціонних трейдерів, яким потрібен швидкий контекст для короткострокових сетапів.",
+  "news_flow_seo_keywords": "потік ринкових новин, торгові каталізатори, термінові ринкові новини, новини для опціонних трейдерів, новини про рух цін, оновлення ринку в реальному часі",
+  "news_flow_structured_name": "Ринковий потік новин",
+  "news_flow_structured_description": "Ринкові новини та каталізатори в реальному часі для планування короткострокових угод",
+
+  "news_flow_main_title": "Потік новин",
+  "news_flow_news_count": "Новин: {count}",
+  "news_flow_search_placeholder": "Пошук...",
+
+  "news_flow_infobox": "Стеж за терміновими новинами й розумій, чому ціни акцій рухаються, у реальному часі",
+  "news_flow_no_news": "Поки що немає важливих новин фондового ринку.",
+
+  "news_flow_sidebar_market_flow_title": "Ринковий потік",
+  "news_flow_sidebar_market_flow_description": "Стеж за настроями в опціонах у реальному часі.",
+  "news_flow_sidebar_options_flow_title": "Потік опціонів",
+  "news_flow_sidebar_options_flow_description": "Відстежуй незвичну активність в опціонах і патерни потоку в реальному часі",
+  "news_flow_sidebar_dark_pool_title": "Потік темних пулів",
+  "news_flow_sidebar_dark_pool_description": "Аналізуй приховані інституційні потоки та дані торгів у темних пулах"
+}

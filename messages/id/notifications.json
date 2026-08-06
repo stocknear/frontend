@@ -1,0 +1,53 @@
+{
+  "notifications_breadcrumb_home": "Beranda",
+  "notifications_breadcrumb_notifications": "Notifikasi",
+
+  "notifications_seo_title": "Notifikasi Pasar Saham | Pembaruan & Peringatan Real-Time",
+  "notifications_seo_description": "Tetap terinformasi dengan notifikasi pasar saham real-time. Dapatkan peringatan langsung soal perubahan harga, tren, dan pergerakan pasar untuk keputusan investasi yang lebih baik.",
+
+  "notifications_main_title": "Notifikasi",
+  "notifications_alerts_count": "{count} Peringatan",
+
+  "notifications_mark_all_read": "Tandai semua sudah dibaca",
+  "notifications_marking": "Menandai...",
+  "notifications_settings": "Pengaturan",
+  "notifications_customize": "Sesuaikan notifikasi Anda",
+
+  "notifications_channel_earnings_surprise": "Kejutan Laba",
+  "notifications_channel_wiim": "Alasan Harga Bergerak",
+  "notifications_channel_top_analyst": "Rating Analis Teratas",
+  "notifications_channel_followed_analysts": "Analis yang Diikuti",
+  "notifications_no_channels": "Tidak ada kanal notifikasi yang tersedia.",
+
+  "notifications_empty": "Anda belum punya notifikasi.",
+
+  "notifications_pagination_previous": "Sebelumnya",
+  "notifications_pagination_next": "Berikutnya",
+  "notifications_pagination_page_of": "Halaman {current} dari {total}",
+  "notifications_pagination_rows": "{count} Baris",
+  "notifications_back_to_top": "Kembali ke Atas",
+
+  "notifications_modal_delete_title": "Hapus Semua Notifikasi",
+  "notifications_modal_delete_confirm": "Yakin ingin menghapus semua notifikasi? Tindakan ini tidak dapat dibatalkan.",
+  "notifications_modal_delete_button": "Hapus Notifikasi",
+  "notifications_modal_deleting": "Menghapus...",
+  "notifications_modal_cancel": "Batal",
+  "notifications_delete_error": "Gagal menghapus notifikasi. Silakan coba lagi.",
+
+  "notifications_type_price_alert_triggered": "Peringatan aktif untuk",
+  "notifications_type_price_is": "Harga",
+  "notifications_type_is_condition": "{condition} target Anda sebesar",
+  "notifications_type_breaking_news": "Berita TERKINI untuk",
+  "notifications_type_wiim_new_data": "Data baru untuk peristiwa \"Alasan Harga Bergerak\" sudah tersedia.",
+  "notifications_type_top_analyst_new": "Rating Analis Teratas baru untuk",
+  "notifications_type_top_analyst_rating": "Lembaga rating {analyst} mengeluarkan rating baru \"{rating}\" dengan target harga terbaru {price}.",
+  "notifications_type_followed_analyst_new": "Rating baru dari",
+  "notifications_type_followed_analyst_rating": "Memberi {symbol} rating \"{rating}\" dengan target harga {price}.",
+  "notifications_type_earnings_release": "Rilis Laba untuk",
+  "notifications_type_earnings_surprise_new": "Data baru untuk peristiwa \"Kejutan Laba\" sudah tersedia.",
+
+  "notifications_sidebar_watchlist": "Watchlist",
+  "notifications_sidebar_watchlist_description": "Dapatkan pembaruan real-time saham favorit Anda",
+  "notifications_sidebar_portfolio": "Pelacak Portofolio",
+  "notifications_sidebar_portfolio_description": "Dapatkan pembaruan real-time portofolio Anda"
+}
