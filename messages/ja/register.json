@@ -36,6 +36,7 @@
   "register_step1_label": "ステップ 1 / 2",
   "register_step1_title": "アカウントを作成",
   "register_step1_subtitle": "7日間の無料トライアルを始めましょう",
+  "register_step1_subtitle_no_trial": "数秒で準備完了。すぐに銘柄分析を始められます。",
   "register_step1_google": "Google で続ける",
   "register_step1_email_divider": "またはメールアドレスで登録",
   "register_step1_next": "次へ",

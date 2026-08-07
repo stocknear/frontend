@@ -14,7 +14,22 @@
     chat_toast_deleted,
     chat_toast_error,
     chat_toast_error_occurred,
+    chat_history_my_chats,
+    chat_history_open_my_chats,
+    chat_history_close_my_chats,
+    chat_history_close_tooltip,
+    chat_history_new_chat,
+    chat_history_search_placeholder,
+    chat_history_no_results,
+    chat_aria_open_sidebar_history,
+    chat_aria_close_sidebar_history,
+    chat_aria_open_my_chats_sidebar,
+    chat_aria_close_sidebar,
+    chat_aria_delete_chat,
+    chat_aria_close_modal,
   } from "$lib/paraglide/messages";
+  import { formatRelativeTimeStrict } from "$lib/i18n/format";
+  import { dateGroupLabel } from "$lib/chat/labels";
   import { chatSidebarOpen, chatDeleteTargetId, screenWidth } from "$lib/store";
 
   export let data;
@@ -75,19 +90,13 @@
     return groups;
   })();
 
-  function formatRelativeTime(dateString: string) {
-    const isoDateString = dateString.replace(" ", "T");
-    const date = DateTime.fromISO(isoDateString, { zone: "utc" });
-    const now = DateTime.utc();
-    const diffMinutes = Math.abs(now.diff(date, "minutes").minutes);
-
-    if (diffMinutes < 60) return `${Math.round(diffMinutes)}m ago`;
-    if (diffMinutes < 1440) {
-      const hours = Math.round(diffMinutes / 60);
-      return `${hours}h ago`;
-    }
-    const days = Math.round(diffMinutes / 1440);
-    return `${days}d ago`;
+  function relativeUpdated(dateString: string) {
+    // formatRelativeTimeStrict throws RangeError on an Invalid Date, and a throw here takes
+    // out the whole sidebar list — not just this row.
+    const date = DateTime.fromISO(String(dateString ?? "").replace(" ", "T"), {
+      zone: "utc",
+    });
+    return date.isValid ? formatRelativeTimeStrict(date.toJSDate()) : "";
   }
 
   function truncate(text: string, max = 80) {
@@ -233,9 +242,11 @@
           ? 'bg-gray-50 dark:bg-zinc-900'
           : ''}"
         aria-label={$chatSidebarOpen
-          ? "Close chat history sidebar"
-          : "Open chat history sidebar"}
-        title={$chatSidebarOpen ? "Close My Chats" : "Open My Chats"}
+          ? chat_aria_close_sidebar_history()
+          : chat_aria_open_sidebar_history()}
+        title={$chatSidebarOpen
+          ? chat_history_close_my_chats()
+          : chat_history_open_my_chats()}
       >
         <div
           class="h-[50px] flex items-center justify-center border-b border-gray-200/60 dark:border-zinc-700/20"
@@ -267,7 +278,7 @@
           <span
             class="-rotate-90 text-[13px] font-medium text-fg-muted tracking-[0.02em] whitespace-nowrap"
           >
-            My Chats
+            {chat_history_my_chats()}
           </span>
         </div>
       </button>
@@ -278,8 +289,8 @@
     <button
       on:click={toggleChatSidebar}
       class="cursor-pointer inline-flex lg:hidden fixed top-20 left-3 z-40 items-center gap-2 rounded-full border border-line bg-surface-card px-3 py-1.5 text-xs font-medium text-fg sm:hover:bg-gray-100 dark:sm:hover:bg-zinc-800 transition-colors"
-      aria-label="Open My Chats sidebar"
-      title="Open My Chats"
+      aria-label={chat_aria_open_my_chats_sidebar()}
+      title={chat_history_open_my_chats()}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -294,7 +305,7 @@
         <rect width="18" height="18" x="3" y="3" rx="2" />
         <path d="M9 3v18" />
       </svg>
-      My Chats
+      {chat_history_my_chats()}
     </button>
   {/if}
 
@@ -303,7 +314,7 @@
     <button
       class="cursor-pointer block lg:hidden fixed inset-0 bg-black/40 z-40"
       on:click={() => setChatSidebarOpen(false)}
-      aria-label="Close sidebar"
+      aria-label={chat_aria_close_sidebar()}
     />
   {/if}
 
@@ -335,15 +346,15 @@
               <path d="M5 12h14" />
               <path d="M12 5v14" />
             </svg>
-            New Chat
+            {chat_history_new_chat()}
           </a>
 
           <!-- Close button (mobile only) -->
           <button
             on:click={() => setChatSidebarOpen(false)}
             class="cursor-pointer lg:hidden p-2 ml-auto rounded-container text-fg"
-            aria-label="Close sidebar"
-            title="Close chat history"
+            aria-label={chat_aria_close_sidebar()}
+            title={chat_history_close_tooltip()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -378,7 +389,7 @@
           </svg>
           <input
             type="text"
-            placeholder="Search chats..."
+            placeholder={chat_history_search_placeholder()}
             value={searchQuery}
             on:input={handleSearch}
             class="w-full pl-8 pr-3 py-2 text-sm rounded-container border border-line bg-surface-card text-fg placeholder:text-fg-subtle dark:placeholder:text-zinc-500 outline-none focus:border-gray-400 dark:focus:border-zinc-600 transition"
@@ -390,7 +401,7 @@
       <nav class="flex-1 overflow-y-auto px-2 pb-4 scroller">
         {#if filteredChats.length === 0}
           <p class="px-3 py-6 text-sm text-center text-fg">
-            {filteredSearch ? "No chats found" : chat_no_threads()}
+            {filteredSearch ? chat_history_no_results() : chat_no_threads()}
           </p>
         {:else if groupedChats}
           <!-- Grouped by date -->
@@ -400,7 +411,7 @@
                 <h3
                   class="px-3 py-1.5 text-xs font-semibold text-fg-subtle uppercase tracking-wide"
                 >
-                  {group}
+                  {dateGroupLabel(group)}
                 </h3>
                 {#each groupedChats[group] as item}
                   <a
@@ -419,7 +430,7 @@
                         openDeleteModal(item.id);
                       }}
                       class="cursor-pointer flex-shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:opacity-100 p-1 rounded-control text-fg sm:hover:text-red-500 dark:sm:hover:text-red-400 transition"
-                      aria-label="Delete chat"
+                      aria-label={chat_aria_delete_chat()}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -456,7 +467,7 @@
                 {truncate(item.message)}
               </span>
               <span class="flex-shrink-0 text-xs text-fg">
-                {formatRelativeTime(item.updated)}
+                {relativeUpdated(item.updated)}
               </span>
             </a>
           {/each}
@@ -485,7 +496,7 @@
     <label
       for="deleteThreadModal"
       class="inline-block cursor-pointer absolute right-4 top-4 text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
+      aria-label={chat_aria_close_modal()}
     >
       <svg
         class="w-6 h-6"

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { agentCategoryLabel } from "$lib/chat/labels";
   import { onMount } from "svelte";
 
   import Arrow from "lucide-svelte/icons/arrow-up";
@@ -23,6 +24,25 @@
     chat_stock_agents,
     chat_title,
     chat_toast_insufficient_credits,
+    chat_toast_error,
+    chat_reasoning,
+    chat_msg_logo_alt,
+    chat_index_suggested_questions,
+    chat_aria_refresh_suggestions,
+    chat_index_jsonld_description,
+    chat_index_jsonld_browser_req,
+    chat_index_jsonld_ai_agent,
+    chat_jsonld_home,
+    chat_index_feature_analysis,
+    chat_index_feature_realtime,
+    chat_index_feature_agents,
+    chat_index_feature_natural_language,
+    chat_index_feature_recommendations,
+    chat_index_feature_dark_pool,
+    chat_index_feature_options_flow,
+    chat_index_feature_sentiment,
+    chat_index_feature_earnings,
+    chat_index_feature_portfolio,
   } from "$lib/paraglide/messages";
 
   import { schema } from "prosemirror-schema-basic";
@@ -305,7 +325,7 @@
 
       if (!response.ok) {
         toast.error(
-          output?.error || "Something went wrong. Please try again!",
+          output?.error || chat_toast_error(),
           {
             style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
           },
@@ -433,25 +453,24 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Stocknear AI Financial Agent",
-    description:
-      "AI-powered financial analysis platform providing real-time market insights, stock research, and investment recommendations through conversational AI",
+    description: chat_index_jsonld_description(),
     url: "https://stocknear.com/chat",
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web Browser",
-    browserRequirements: "Modern web browser with JavaScript enabled",
+    browserRequirements: chat_index_jsonld_browser_req(),
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: chat_jsonld_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "AI Financial Agent",
+          name: chat_index_jsonld_ai_agent(),
           item: "https://stocknear.com/chat",
         },
       ],
@@ -463,16 +482,16 @@
       availability: "https://schema.org/InStock",
     },
     featureList: [
-      "AI-powered stock market analysis",
-      "Real-time financial data processing",
-      "Specialized AI agents for different market sectors",
-      "Natural language financial queries",
-      "Personalized investment recommendations",
-      "Dark pool activity analysis",
-      "Options flow tracking and analysis",
-      "Market sentiment analysis",
-      "Earnings and financial statement analysis",
-      "Portfolio optimization suggestions",
+      chat_index_feature_analysis(),
+      chat_index_feature_realtime(),
+      chat_index_feature_agents(),
+      chat_index_feature_natural_language(),
+      chat_index_feature_recommendations(),
+      chat_index_feature_dark_pool(),
+      chat_index_feature_options_flow(),
+      chat_index_feature_sentiment(),
+      chat_index_feature_earnings(),
+      chat_index_feature_portfolio(),
     ],
     creator: {
       "@type": "Organization",
@@ -501,7 +520,7 @@
         <img
           class="w-12 sm:w-14 rounded-full"
           src="/pwa-192x192.png"
-          alt="Stocknear Logo"
+          alt={chat_msg_logo_alt()}
         />
         <h1
           class="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-fg text-center"
@@ -605,7 +624,7 @@
                                   }}
                                   class="inline-flex justify-between w-full items-center cursor-pointer"
                                 >
-                                  <span class="mr-1 text-sm">Reasoning</span>
+                                  <span class="mr-1 text-sm">{chat_reasoning()}</span>
 
                                   <div class="relative ml-auto">
                                     <input
@@ -686,7 +705,7 @@
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
-                                  >{option} ({agentOptions?.filter(
+                                  >{agentCategoryLabel(option)} ({agentOptions?.filter(
                                     (item) => item?.group === option,
                                   )?.length})</span
                                 >
@@ -817,13 +836,13 @@
       >
         <div class="flex items-center justify-between px-5 pt-4 pb-2">
           <span class="text-sm font-semibold text-fg"
-            >Suggested questions</span
+            >{chat_index_suggested_questions()}</span
           >
           <button
             type="button"
             on:click={refreshSuggestions}
             class="cursor-pointer p-1.5 rounded-container text-fg sm:hover:text-gray-600 dark:sm:hover:text-zinc-300 transition-colors"
-            aria-label="Refresh suggestions"
+            aria-label={chat_aria_refresh_suggestions()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

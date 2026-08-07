@@ -25,6 +25,11 @@
     formatPrice,
   } from "$lib/constants/promo";
   import {
+    FREE_TRIAL_ENABLED,
+    offersFreeTrial,
+    checkoutVariantId,
+  } from "$lib/constants/freeTrial";
+  import {
     register_seo_title,
     register_seo_description,
     register_email_label,
@@ -53,6 +58,7 @@
     register_step2_title,
     register_step2_subtitle,
     register_step2_subtitle_no_trial,
+    register_step1_subtitle_no_trial,
     register_step2_monthly,
     register_step2_annual,
     register_step2_save,
@@ -218,21 +224,18 @@
     const isPro = subscriptionType?.toLowerCase() === "pro";
     const isPlus = subscriptionType?.toLowerCase() === "plus";
     const isAnnual = Boolean(pricingAnnual);
-    const isFreeTrial = !data?.user?.freeTrial;
 
-    let plan = "";
+    if (!isPro && !isPlus) return;
 
-    if (isPro) {
-      plan = isAnnual ? "ANNUAL_ID_PRO" : "MONTHLY_ID_PRO";
-    } else if (isPlus) {
-      plan = isAnnual ? "ANNUAL_ID_PLUS" : "MONTHLY_ID_PLUS";
+    const subId = checkoutVariantId(
+      data?.user,
+      isPro ? "pro" : "plus",
+      isAnnual,
+    );
+
+    if (!subId) {
+      return;
     }
-
-    const prefix = isFreeTrial
-      ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
-      : "VITE_LEMON_SQUEEZY_";
-
-    const subId = import.meta.env[`${prefix}${plan}`];
 
     const isDarkMode =
       window.matchMedia &&
@@ -305,7 +308,9 @@
           {register_step1_title()}
         </h1>
         <p class="text-center text-sm text-fg mt-2 mb-8">
-          {register_step1_subtitle()}
+          {FREE_TRIAL_ENABLED
+            ? register_step1_subtitle()
+            : register_step1_subtitle_no_trial()}
         </p>
 
         <!-- Google OAuth (prominent) -->
@@ -456,9 +461,9 @@
           {register_step2_title()}
         </h1>
         <p class="text-center text-sm text-fg mt-2 mb-8">
-          {data?.user?.freeTrial
-            ? register_step2_subtitle_no_trial()
-            : register_step2_subtitle()}
+          {offersFreeTrial(data?.user)
+            ? register_step2_subtitle()
+            : register_step2_subtitle_no_trial()}
         </p>
 
         <!-- Monthly / Annual toggle -->
@@ -583,9 +588,9 @@
               on:click={() => purchasePlan("Plus")}
               class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm cursor-pointer"
             >
-              {data?.user?.freeTrial
-                ? pricing_get_plus()
-                : pricing_start_trial()}
+              {offersFreeTrial(data?.user)
+                ? pricing_start_trial()
+                : pricing_get_plus()}
               <svg
                 class="w-4 h-4 ml-2"
                 fill="none"
@@ -676,9 +681,9 @@
               on:click={() => purchasePlan("Pro")}
               class="w-full py-3 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 text-white rounded-full font-semibold transition flex items-center justify-center text-sm cursor-pointer"
             >
-              {data?.user?.freeTrial
-                ? pricing_unlock_pro()
-                : pricing_start_trial()}
+              {offersFreeTrial(data?.user)
+                ? pricing_start_trial()
+                : pricing_unlock_pro()}
               <svg
                 class="w-4 h-4 ml-2"
                 fill="none"

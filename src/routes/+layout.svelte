@@ -5,6 +5,7 @@
   import "@bprogress/core/css";
   import { BProgress } from "@bprogress/core";
   import { GTM_EVENT_SIGNUP } from "$lib/constants/tracking";
+  import { FREE_TRIAL_ENABLED } from "$lib/constants/freeTrial";
 
   import { ModeWatcher } from "mode-watcher";
   import { page } from "$app/stores";
@@ -118,6 +119,7 @@
     layout_etf_reverse_lookup,
     layout_screener,
     layout_start_trial,
+    layout_sign_up,
     layout_stock_lists,
     layout_stock_screener,
     layout_stocks,
@@ -1518,7 +1520,7 @@
                 href={localHref("/register")}
                 class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-control bg-accent px-4 text-sm font-medium text-accent-fg transition-colors hover:bg-accent-hover"
               >
-                {layout_start_trial()}
+                {FREE_TRIAL_ENABLED ? layout_start_trial() : layout_sign_up()}
               </a>
             </div>
           {/if}

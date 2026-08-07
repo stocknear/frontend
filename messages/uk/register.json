@@ -36,6 +36,7 @@
   "register_step1_label": "Крок 1 з 2",
   "register_step1_title": "Створи акаунт",
   "register_step1_subtitle": "Почни 7-денний безплатний період",
+  "register_step1_subtitle_no_trial": "Кілька секунд — і можна аналізувати акції.",
   "register_step1_google": "Продовжити з Google",
   "register_step1_email_divider": "Або зареєструйся через пошту",
   "register_step1_next": "Далі",

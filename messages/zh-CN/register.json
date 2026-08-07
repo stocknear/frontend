@@ -36,6 +36,7 @@
   "register_step1_label": "第 1 步，共 2 步",
   "register_step1_title": "创建你的账户",
   "register_step1_subtitle": "开启 7 天免费试用",
+  "register_step1_subtitle_no_trial": "几秒完成设置，立即开始分析股票。",
   "register_step1_google": "使用 Google 继续",
   "register_step1_email_divider": "或使用邮箱注册",
   "register_step1_next": "下一步",

@@ -34,12 +34,37 @@
 
   import { onMount, afterUpdate, tick, onDestroy } from "svelte";
   import SEO from "$lib/components/SEO.svelte";
+  import { agentCategoryLabel } from "$lib/chat/labels";
+  import {
+    chat_toast_error,
+    chat_msg_link_copied,
+    chat_slug_greeting,
+    chat_reasoning,
+    chat_slug_untitled,
+    chat_slug_unknown_error,
+    chat_slug_seo_title,
+    chat_slug_seo_description,
+    chat_slug_seo_keywords,
+    chat_slug_jsonld_name,
+    chat_slug_jsonld_description,
+    chat_jsonld_home,
+    chat_slug_jsonld_ai_chat,
+    chat_slug_jsonld_conversation,
+    chat_slug_jsonld_about,
+    chat_slug_jsonld_investor,
+    chat_slug_jsonld_action,
+    chat_aria_open_history,
+    chat_aria_back_to_chat,
+    chat_aria_share_chat,
+    chat_aria_delete_chat,
+    chat_aria_scroll_bottom,
+  } from "$lib/paraglide/messages";
 
   export let data;
   let selectedGroup = "overview";
   // Initialize messages with default or data
   let messages = data?.getChat?.messages || [
-    { content: "Hello! How can I help you today?", role: "system" },
+    { content: chat_slug_greeting(), role: "system" },
   ];
 
   let relatedQuestions = [];
@@ -199,7 +224,7 @@
     resetActiveStreamState();
     chatId = data.getChat.id;
     messages = data.getChat.messages || [
-      { content: "Hello! How can I help you today?", role: "system" },
+      { content: chat_slug_greeting(), role: "system" },
     ];
     editable = data.getChat.editable ?? false;
     relatedQuestions = [];
@@ -210,7 +235,7 @@
   // Chat title from first user message
   $: chatTitle = (() => {
     const first = messages?.find((m) => m.role === "user");
-    if (!first?.content) return "Chat";
+    if (!first?.content) return chat_slug_untitled();
     return first.content.length > 50
       ? first.content.slice(0, 50) + "..."
       : first.content;
@@ -221,12 +246,12 @@
     navigator.clipboard
       ?.writeText(url)
       ?.then(() => {
-        toast?.success("Link copied. Paste to share", {
+        toast?.success(chat_msg_link_copied(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       })
       ?.catch(() => {
-        toast?.error("Something went wrong. Please try again!", {
+        toast?.error(chat_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       });
@@ -603,7 +628,7 @@
           return;
         }
 
-        const errorMessage = errorPayload?.error || "Unknown error";
+        const errorMessage = errorPayload?.error || chat_slug_unknown_error();
         messages = [...messages, { content: errorMessage, role: "system" }];
         isLoading = false;
         return;
@@ -637,7 +662,7 @@
 
             if (json?.event === "error") {
               const streamError =
-                json?.message || json?.error || "Unknown error";
+                json?.message || json?.error || chat_slug_unknown_error();
               console.error("Stream error:", streamError);
               if (messages[idx]) {
                 messages[idx].content = assistantText || streamError;
@@ -1037,15 +1062,14 @@
 </script>
 
 <SEO
-  title="AI Financial Conversation - Personalized Stock Analysis & Investment Insights"
-  description="Continue your personalized AI-powered financial analysis conversation. Review detailed stock research, market insights, and investment recommendations from your AI financial advisor. Access conversation history, follow-up questions, and comprehensive market analysis tailored to your investment needs."
-  keywords="AI financial conversation, personalized stock analysis, AI investment advisor, financial chat history, personalized market insights, AI portfolio review, investment conversation, financial AI assistant, stock market consultation, AI trading advice"
+  title={chat_slug_seo_title()}
+  description={chat_slug_seo_description()}
+  keywords={chat_slug_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "AI Financial Conversation",
-    description:
-      "Personalized AI financial analysis conversation with detailed stock research and investment insights",
+    name: chat_slug_jsonld_name(),
+    description: chat_slug_jsonld_description(),
     url: "https://stocknear.com/chat",
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -1053,19 +1077,19 @@
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: chat_jsonld_home(),
           item: "https://stocknear.com",
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "AI Chat",
+          name: chat_slug_jsonld_ai_chat(),
           item: "https://stocknear.com/chat",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Conversation",
+          name: chat_slug_jsonld_conversation(),
           item: "https://stocknear.com/chat",
         },
       ],
@@ -1074,7 +1098,7 @@
       "@type": "Conversation",
       about: {
         "@type": "Thing",
-        name: "Stock Market Analysis and Investment Research",
+        name: chat_slug_jsonld_about(),
       },
       participant: [
         {
@@ -1083,7 +1107,7 @@
         },
         {
           "@type": "Person",
-          name: "Investor",
+          name: chat_slug_jsonld_investor(),
         },
       ],
     },
@@ -1100,7 +1124,7 @@
       },
       object: {
         "@type": "Thing",
-        name: "Financial Analysis Request",
+        name: chat_slug_jsonld_action(),
       },
     },
   }}
@@ -1118,7 +1142,7 @@
       <button
         on:click={() => ($chatSidebarOpen = true)}
         class="cursor-pointer inline-flex lg:hidden p-2 text-fg"
-        aria-label="Open chat history"
+        aria-label={chat_aria_open_history()}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1139,7 +1163,7 @@
       <a
         href="/chat"
         class="hidden lg:block p-2 text-fg"
-        aria-label="Back to chat"
+        aria-label={chat_aria_back_to_chat()}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1166,7 +1190,7 @@
       <button
         on:click={handleHeaderShare}
         class="cursor-pointer p-2 text-fg"
-        aria-label="Share chat"
+        aria-label={chat_aria_share_chat()}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1188,7 +1212,7 @@
         <button
           on:click={handleHeaderDelete}
           class="cursor-pointer p-2 text-fg sm:hover:text-red-500 dark:sm:hover:text-red-400"
-          aria-label="Delete chat"
+          aria-label={chat_aria_delete_chat()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1266,7 +1290,7 @@
           class="cursor-pointer fixed bottom-32 sm:bottom-44 left-1/2 transform -translate-x-1/2 z-50 bg-surface-card text-fg-muted rounded-full p-2 shadow-lg border border-line hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors {$chatSidebarOpen
             ? 'lg:left-[calc(50%+164px)]'
             : 'lg:left-[calc(50%+24px)]'}"
-          aria-label="Scroll to bottom"
+          aria-label={chat_aria_scroll_bottom()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -1363,7 +1387,7 @@
                             }}
                             class="inline-flex justify-between w-full items-center cursor-pointer"
                           >
-                            <span class="mr-1 text-sm">Reasoning</span>
+                            <span class="mr-1 text-sm">{chat_reasoning()}</span>
 
                             <div class="relative ml-auto">
                               <input
@@ -1444,7 +1468,7 @@
                             >
                               <div class="flex flex-row items-center w-full">
                                 <span
-                                  >{option} ({agentOptions?.filter(
+                                  >{agentCategoryLabel(option)} ({agentOptions?.filter(
                                     (item) => item?.group === option,
                                   )?.length})</span
                                 >

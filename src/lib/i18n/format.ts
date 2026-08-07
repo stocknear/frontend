@@ -1,4 +1,4 @@
-import { format as formatDateFns, formatDistanceToNow, type FormatOptions } from "date-fns";
+import { format as formatDateFns, formatDistanceToNow, formatDistanceToNowStrict, type FormatOptions } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { getLocale } from "$lib/paraglide/runtime.js";
 import { getLocaleDefinition, type Locale } from "$lib/i18n/locales";
@@ -77,6 +77,16 @@ export function formatDatePattern(
 export function formatRelativeTime(value: Date | number, locale?: Locale): string {
   const resolved = localeOrCurrent(locale);
   return formatDistanceToNow(value, {
+    addSuffix: true,
+    locale: getLocaleDefinition(resolved).dateFns,
+  });
+}
+
+// Same, minus the "about"/"etwa"/"около" hedge. For narrow columns where the fuzzy
+// qualifier costs width without telling the reader anything.
+export function formatRelativeTimeStrict(value: Date | number, locale?: Locale): string {
+  const resolved = localeOrCurrent(locale);
+  return formatDistanceToNowStrict(value, {
     addSuffix: true,
     locale: getLocaleDefinition(resolved).dateFns,
   });

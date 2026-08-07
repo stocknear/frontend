@@ -36,6 +36,7 @@
   "register_step1_label": "Step 1 of 2",
   "register_step1_title": "Create your account",
   "register_step1_subtitle": "Start your 7-day free trial",
+  "register_step1_subtitle_no_trial": "Set up in seconds and start analyzing stocks.",
   "register_step1_google": "Continue with Google",
   "register_step1_email_divider": "Or sign up with email",
   "register_step1_next": "Next",

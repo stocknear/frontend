@@ -12,6 +12,20 @@
   import TickerGraph from "$lib/components/Plot/TickerGraph.svelte";
   import SourcesSection from "$lib/components/Chat/SourcesSection.svelte";
   import Related from "$lib/components/Chat/Related.svelte";
+  import {
+    chat_toast_error,
+    chat_msg_link_copied,
+    chat_msg_copied,
+    chat_msg_copy_failed,
+    chat_msg_logo_alt,
+    chat_msg_thinking_hard,
+    chat_msg_gathering_data,
+    chat_msg_edit_placeholder,
+    chat_cancel,
+    chat_msg_save_regenerate,
+    chat_aria_copy,
+    chat_aria_edit_message,
+  } from "$lib/paraglide/messages";
 
   export let message: {
     content: string;
@@ -146,12 +160,12 @@
     navigator.clipboard
       ?.writeText(url)
       ?.then(() => {
-        toast?.success("Link copied. Paste to share", {
+        toast?.success(chat_msg_link_copied(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       })
       ?.catch((err) => {
-        toast?.error("Something went wrong. Please try again!", {
+        toast?.error(chat_toast_error(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       });
@@ -165,12 +179,12 @@
     navigator.clipboard
       ?.writeText(content)
       ?.then(() => {
-        toast?.success("Copied!", {
+        toast?.success(chat_msg_copied(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       })
       ?.catch((err) => {
-        toast?.error("Failed to copy prompt", {
+        toast?.error(chat_msg_copy_failed(), {
           style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
         });
       });
@@ -215,7 +229,7 @@
         ? 'hidden'
         : ''}"
       src="/pwa-192x192.png"
-      alt="Stocknear Logo"
+      alt={chat_msg_logo_alt()}
       loading="lazy"
     />
     <div
@@ -233,8 +247,8 @@
             class="text-sm sm:text-[1rem] text-fg shimmer-text"
           >
             {$chatReasoning
-              ? "Thinking very hard..."
-              : "Gathering relevant data..."}
+              ? chat_msg_thinking_hard()
+              : chat_msg_gathering_data()}
           </div>
         </div>
       {:else}
@@ -247,7 +261,7 @@
                 bind:this={textareaElement}
                 bind:value={editedContent}
                 class="w-full min-w-[240px] h-auto resize-none border-0 bg-transparent text-sm text-fg placeholder-gray-400 dark:placeholder-zinc-500 focus:outline-none overflow-hidden transition-[height] duration-150"
-                placeholder="Edit your message..."
+                placeholder={chat_msg_edit_placeholder()}
                 on:input={(e) => autoResize(e.target)}
                 use:focus
               ></textarea>
@@ -258,7 +272,7 @@
                     editedContent = "";
                   }}
                   class="cursor-pointer px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-line bg-surface-card text-fg transition sm:hover:text-accent"
-                  >Cancel</button
+                  >{chat_cancel()}</button
                 >
                 <button
                   on:click={() => {
@@ -270,7 +284,7 @@
                     }
                   }}
                   class="cursor-pointer px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold relative border border-line bg-gray-900 text-white dark:bg-zinc-100 dark:text-zinc-900 transition hover:opacity-90"
-                  >Save & Regenerate</button
+                  >{chat_msg_save_regenerate()}</button
                 >
               </div>
             </div>
@@ -348,7 +362,7 @@
               <button
                 on:click={handleCopyPrompt}
                 class="cursor-pointer rounded-full border border-line bg-surface-card text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
-                aria-label="Copy"
+                aria-label={chat_aria_copy()}
                 aria-selected="false"
                 data-testid="copy-turn-action-button"
                 data-state="closed"
@@ -379,7 +393,7 @@
                     editedContent = message?.content || "";
                   }}
                   class="cursor-pointer rounded-full border border-line bg-surface-card text-fg transition hover:bg-gray-50/70 dark:hover:bg-zinc-900/60 hover:text-accent"
-                  aria-label="Edit message"
+                  aria-label={chat_aria_edit_message()}
                   aria-selected="false"
                   data-state="closed"
                 >

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { chat_related_title } from "$lib/paraglide/messages";
 
   export let questions: string[] = [];
 
@@ -16,7 +17,7 @@
 {#if questions && questions.length > 0}
   <div class=" mt-5">
     <div class="flex items-center gap-3">
-      <h3 class="text-[1rem] sm:type-h3 text-fg">Related</h3>
+      <h3 class="text-[1rem] sm:type-h3 text-fg">{chat_related_title()}</h3>
     </div>
 
     <div class="flex flex-col gap-0.5">

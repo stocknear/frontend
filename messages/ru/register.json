@@ -36,6 +36,7 @@
   "register_step1_label": "Шаг 1 из 2",
   "register_step1_title": "Создай аккаунт",
   "register_step1_subtitle": "Начни с 7 дней бесплатно",
+  "register_step1_subtitle_no_trial": "Пара секунд — и можно анализировать акции.",
   "register_step1_google": "Продолжить с Google",
   "register_step1_email_divider": "Или зарегистрируйся по email",
   "register_step1_next": "Далее",

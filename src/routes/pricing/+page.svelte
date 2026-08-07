@@ -10,6 +10,11 @@
     discounted,
     formatPrice,
   } from "$lib/constants/promo";
+  import {
+    FREE_TRIAL_ENABLED,
+    offersFreeTrial,
+    checkoutVariantId,
+  } from "$lib/constants/freeTrial";
   import { onMount } from "svelte";
 
   import SEO from "$lib/components/SEO.svelte";
@@ -17,6 +22,7 @@
   import {
     pricing_seo_title,
     pricing_seo_description,
+    pricing_seo_description_no_trial,
     pricing_investors,
     pricing_trustpilot,
     pricing_reviews,
@@ -76,6 +82,7 @@
     pricing_manage_subscription,
     pricing_faq_title,
     pricing_faq_subtitle,
+    pricing_faq_subtitle_no_trial,
     pricing_faq_q1_title,
     pricing_faq_q1_answer,
     pricing_faq_q2_title,
@@ -195,21 +202,14 @@
         const isPro = subscriptionType?.toLowerCase() === "pro";
         const isPlus = subscriptionType?.toLowerCase() === "plus";
         const isAnnual = Boolean(mode); // true = annual, false = monthly
-        const isFreeTrial = !data?.user?.freeTrial;
 
-        let plan = "";
-
-        if (isPro) {
-          plan = isAnnual ? "ANNUAL_ID_PRO" : "MONTHLY_ID_PRO";
-        } else if (isPlus) {
-          plan = isAnnual ? "ANNUAL_ID_PLUS" : "MONTHLY_ID_PLUS";
+        if (isPro || isPlus) {
+          subId = checkoutVariantId(
+            data?.user,
+            isPro ? "pro" : "plus",
+            isAnnual,
+          );
         }
-
-        const prefix = isFreeTrial
-          ? "VITE_LEMON_SQUEEZY_FREE_TRIAL_"
-          : "VITE_LEMON_SQUEEZY_";
-
-        subId = String(import.meta.env[`${prefix}${plan}`] ?? "").trim();
       }
 
       if (!subId) {
@@ -256,7 +256,9 @@
 
 <SEO
   title={pricing_seo_title()}
-  description={pricing_seo_description()}
+  description={FREE_TRIAL_ENABLED
+    ? pricing_seo_description()
+    : pricing_seo_description_no_trial()}
   keywords={pricing_seo_keywords()}
   structuredData={{
     "@context": "https://schema.org",
@@ -375,10 +377,12 @@
       <div
         class="mt-6 flex flex-wrap items-center justify-center gap-2 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.18em]"
       >
-        <span
-          class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
-          >{pricing_free_trial()}</span
-        >
+        {#if FREE_TRIAL_ENABLED}
+          <span
+            class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
+            >{pricing_free_trial()}</span
+          >
+        {/if}
         <span
           class="rounded-full border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-3 py-1"
           >{pricing_cancel_anytime()}</span
@@ -1835,9 +1839,9 @@
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("plus")}
               class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
-              >{data?.user?.freeTrial
-                ? pricing_get_plus()
-                : pricing_start_trial()}<svg
+              >{offersFreeTrial(data?.user)
+                ? pricing_start_trial()
+                : pricing_get_plus()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -2139,9 +2143,9 @@
               for={!data?.user ? "userLogin" : ""}
               on:click={() => purchasePlan("pro")}
               class="text-white cursor-pointer w-full py-3 px-4 rounded-full font-semibold transition bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 flex items-center justify-center"
-              >{data?.user?.freeTrial
-                ? pricing_unlock_pro()
-                : pricing_start_trial()}<svg
+              >{offersFreeTrial(data?.user)
+                ? pricing_start_trial()
+                : pricing_unlock_pro()}<svg
                 class="w-5 h-5 ml-2"
                 fill="none"
                 stroke="currentColor"
@@ -2253,7 +2257,9 @@
               {pricing_faq_title()}
             </h2>
             <p class="mt-3 text-sm sm:text-base">
-              {pricing_faq_subtitle()}
+              {FREE_TRIAL_ENABLED
+                ? pricing_faq_subtitle()
+                : pricing_faq_subtitle_no_trial()}
             </p>
           </div>
 
@@ -2317,24 +2323,26 @@
             </li>
 
             <!-- 2. Getting Started -->
-            <li
-              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
-            >
-              <details class="collapse collapse-arrow">
-                <summary
-                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
-                >
-                  {pricing_faq_q4_title()}
-                </summary>
-                <div class="collapse-content">
-                  <p
-                    class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
+            {#if FREE_TRIAL_ENABLED}
+              <li
+                class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+              >
+                <details class="collapse collapse-arrow">
+                  <summary
+                    class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
                   >
-                    {pricing_faq_q4_answer()}
-                  </p>
-                </div>
-              </details>
-            </li>
+                    {pricing_faq_q4_title()}
+                  </summary>
+                  <div class="collapse-content">
+                    <p
+                      class="text-sm sm:text-base pb-5 transition-all duration-300 ease-in-out"
+                    >
+                      {pricing_faq_q4_answer()}
+                    </p>
+                  </div>
+                </details>
+              </li>
+            {/if}
 
             <!-- 3. Payment & Pricing -->
             <li

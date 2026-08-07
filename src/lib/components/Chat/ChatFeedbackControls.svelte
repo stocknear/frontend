@@ -5,6 +5,27 @@
   import { mode } from "mode-watcher";
   import Like from "lucide-svelte/icons/thumbs-up";
   import Dislike from "lucide-svelte/icons/thumbs-down";
+  import {
+    chat_cancel,
+    chat_feedback_describe_issue,
+    chat_feedback_sign_in,
+    chat_feedback_no_url,
+    chat_feedback_send_failed_retry,
+    chat_feedback_thanks_like,
+    chat_feedback_thanks_dislike,
+    chat_feedback_send_failed,
+    chat_feedback_rewrite,
+    chat_feedback_recorded,
+    chat_feedback_title,
+    chat_feedback_help_text,
+    chat_feedback_placeholder,
+    chat_feedback_send,
+    chat_aria_rewrite,
+    chat_aria_like,
+    chat_aria_dislike,
+    chat_aria_dismiss_feedback_modal,
+    chat_aria_close_modal,
+  } from "$lib/paraglide/messages";
 
   const dispatch = createEventDispatcher();
 
@@ -56,7 +77,7 @@
   async function handleDislikeSubmit() {
     if (isStreaming || isSubmitting || selectedRating) return;
     if (!description.trim()) {
-      toast.error("Describe what went wrong.", { style: toastStyle() });
+      toast.error(chat_feedback_describe_issue(), { style: toastStyle() });
       return;
     }
 
@@ -78,14 +99,14 @@
 
   async function submitFeedback({ rating, note }: FeedbackPayload) {
     if (!userId) {
-      toast.error("Please sign in before giving feedback.", {
+      toast.error(chat_feedback_sign_in(), {
         style: toastStyle(),
       });
       return false;
     }
 
     if (!pageUrl) {
-      toast.error("Unable to detect the current page URL.", {
+      toast.error(chat_feedback_no_url(), {
         style: toastStyle(),
       });
       return false;
@@ -108,14 +129,14 @@
       if (!response.ok) {
         const message =
           result?.error ??
-          "Something went wrong sending feedback. Please try again.";
+          chat_feedback_send_failed_retry();
         throw new Error(message);
       }
 
       toast.success(
         rating === "like"
-          ? "Thanks for the thumbs up!"
-          : "Thanks! Your feedback helps us improve.",
+          ? chat_feedback_thanks_like()
+          : chat_feedback_thanks_dislike(),
         { style: toastStyle() },
       );
 
@@ -128,7 +149,7 @@
       const message =
         err instanceof Error
           ? err.message
-          : "Something went wrong sending feedback.";
+          : chat_feedback_send_failed();
       toast.error(message, { style: toastStyle() });
       return false;
     } finally {
@@ -142,7 +163,7 @@
     type="button"
     class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center gap-1 rounded-full border border-line bg-surface-card px-3 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
     on:click={handleRewrite}
-    aria-label="Rewrite response"
+    aria-label={chat_aria_rewrite()}
     disabled={isStreaming || isSubmitting}
   >
     <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
@@ -164,7 +185,7 @@
         </svg>
       </div>
       <div class="text-align-center relative truncate leading-none">
-        Rewrite
+        {chat_feedback_rewrite()}
       </div>
     </div>
   </button>
@@ -174,7 +195,7 @@
       type="button"
       class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-surface-card px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
       on:click={handleLike}
-      aria-label="Like response"
+      aria-label={chat_aria_like()}
       disabled={isStreaming || isSubmitting}
     >
       <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
@@ -188,7 +209,7 @@
       type="button"
       class="cursor-pointer mr-1 sm:mr-0 inline-flex items-center rounded-full border border-line bg-surface-card px-2.5 py-1.5 text-xs font-semibold text-fg transition sm:hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
       on:click={openDislikeModal}
-      aria-label="Dislike response"
+      aria-label={chat_aria_dislike()}
       disabled={isStreaming || isSubmitting}
     >
       <div class="flex flex-row items-center min-w-0 gap-1 justify-center">
@@ -211,7 +232,7 @@
           />
         {/if}
       </div>
-      <span>Feedback recorded</span>
+      <span>{chat_feedback_recorded()}</span>
     </div>
   {/if}
 </div>
@@ -224,7 +245,7 @@
   >
     <button
       class="cursor-pointer modal-backdrop"
-      aria-label="Dismiss dislike feedback modal"
+      aria-label={chat_aria_dismiss_feedback_modal()}
       on:click={closeModal}
       disabled={isSubmitting}
     ></button>
@@ -236,7 +257,7 @@
         type="button"
         class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
         on:click={closeModal}
-        aria-label="Close modal"
+        aria-label={chat_aria_close_modal()}
         disabled={isSubmitting}
       >
         <svg
@@ -253,17 +274,17 @@
         <h2
           class="text-base sm:type-h3 text-fg tracking-tight text-gray-900 dark:text-zinc-100"
         >
-          Provide Feedback
+          {chat_feedback_title()}
         </h2>
       </div>
 
       <div class="mt-3 space-y-3">
         <p class="text-xs text-fg-muted">
-          Help us improve by sharing what could be better with this response.
+          {chat_feedback_help_text()}
         </p>
         <textarea
           class="textarea w-full h-48 max-h-[600px] resize-vertical rounded-container border border-line bg-gray-50/80 dark:bg-zinc-900/60 text-sm text-fg placeholder-gray-400 dark:placeholder-zinc-500 focus-visible:outline-none focus-visible:border-violet-400/60"
-          placeholder="Tell us what could be improved..."
+          placeholder={chat_feedback_placeholder()}
           bind:value={description}
           disabled={isSubmitting}
         />
@@ -276,7 +297,7 @@
           on:click={closeModal}
           disabled={isSubmitting}
         >
-          Cancel
+          {chat_cancel()}
         </button>
         <button
           type="button"
@@ -287,7 +308,7 @@
           {#if isSubmitting}
             <span class="loading loading-infinity loading-sm"></span>
           {/if}
-          Send feedback
+          {chat_feedback_send()}
         </button>
       </div>
     </div>

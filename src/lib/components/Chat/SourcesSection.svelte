@@ -1,4 +1,12 @@
 <script lang="ts">
+  import {
+    chat_sources_title,
+    chat_sources_logo_alt,
+    chat_sources_live_data,
+    chat_sources_view_all,
+    chat_sources_show_less,
+  } from "$lib/paraglide/messages";
+
   export let sources: Array<{
     name: string;
     description?: string;
@@ -38,7 +46,7 @@
       <h3
         class="text-[0.9rem] sm:text-base font-semibold tracking-tight text-gray-900 dark:text-zinc-100"
       >
-        Sources
+        {chat_sources_title()}
       </h3>
       <span class="text-xs text-fg tabular-nums">
         ({sources?.length})
@@ -77,7 +85,9 @@
               src={source.ticker?.length > 0 && source.ticker !== "General"
                 ? `https://financialmodelingprep.com/image-stock/${source.ticker}.png`
                 : "/pwa-192x192.png"}
-              alt={`${source?.ticker || "Stocknear"} logo`}
+              alt={chat_sources_logo_alt({
+                name: source?.ticker || "Stocknear",
+              })}
               class="shrink-0 w-4 h-4 rounded-full"
             />
           </div>
@@ -89,7 +99,7 @@
               {source.name}
             </h5>
             <p class="text-[0.72rem] text-fg-muted mt-1">
-              {source.description || "Live data from Stocknear"}
+              {source.description || chat_sources_live_data()}
             </p>
           </div>
         </a>
@@ -105,7 +115,7 @@
         <span class="relative">
           {#if !isExpanded}
             <span class="flex items-center gap-1.5">
-              <span>View all {sources.length} sources</span>
+              <span>{chat_sources_view_all({ count: sources.length })}</span>
               <svg
                 class="w-4 h-4 transition-transform group-hover:translate-y-0.5"
                 fill="none"
@@ -122,7 +132,7 @@
             </span>
           {:else}
             <span class="flex items-center gap-1.5">
-              <span>Show less</span>
+              <span>{chat_sources_show_less()}</span>
               <svg
                 class="w-4 h-4 transition-transform group-hover:-translate-y-0.5"
                 fill="none"

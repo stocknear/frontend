@@ -4,6 +4,23 @@
   import { getCache, setCache } from "$lib/store";
   import highcharts from "$lib/highcharts.ts";
   import { onMount, tick } from "svelte";
+  import { getIntlLocale, formatNumber } from "$lib/i18n/format";
+  import {
+    chat_graph_updated,
+    chat_sources_logo_alt,
+    chat_graph_prev_close,
+    chat_graph_day_range,
+    chat_graph_pe_ratio,
+    chat_graph_open,
+    chat_graph_52w_range,
+    chat_graph_dividend_yield,
+    chat_graph_volume,
+    chat_graph_market_cap,
+    chat_graph_eps,
+    chat_graph_more_about,
+    chat_graph_show_less,
+    chat_graph_show_all,
+  } from "$lib/paraglide/messages";
 
   export let tickerList = [];
   export let sources = [];
@@ -35,19 +52,32 @@
   let stockQuotes = {};
   let priceData = {};
 
+  // ponytail: locale-neutral em dash beats translating "n/a" into 10 languages.
+  const NA = "\u2014";
+
+  // Locale-aware replacement for `x?.toFixed(2) || "n/a"` — de/fr/ru need a comma decimal
+  // separator, and the chart tooltip already formats that way.
+  function stat(value: unknown, digits = 2): string {
+    return typeof value === "number" && Number.isFinite(value)
+      ? formatNumber(value, {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
+        })
+      : NA;
+  }
+
   function convertTimestamp(unixSeconds: number | string): string {
     if (!unixSeconds) return "";
 
     const date = new Date(Number(unixSeconds) * 1000); // convert seconds → ms
 
-    const formatted = new Intl.DateTimeFormat("en-US", {
+    const formatted = new Intl.DateTimeFormat(getIntlLocale(), {
       timeZone: "America/New_York",
       year: "numeric",
       month: "short",
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
     }).format(date);
 
     return `${formatted} ET`; // explicitly mark Eastern Time
@@ -307,13 +337,13 @@
         borderRadius: 4,
         formatter: function () {
           const date = new Date(this.x);
-          const formattedTime = date.toLocaleTimeString("en-US", {
+          const formattedTime = date.toLocaleTimeString(getIntlLocale(), {
             hour: "2-digit",
             minute: "2-digit",
           });
 
           // Currency formatter for prices
-          const currency = new Intl.NumberFormat("en-US", {
+          const currency = new Intl.NumberFormat(getIntlLocale(), {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 2,
@@ -329,7 +359,7 @@
               const priceFormatted =
                 rawPrice !== null ? ` ${currency.format(rawPrice)}` : "";
 
-              content += `<div style="color: ${point.series.color}; margin-bottom: 4px;">${point.series.name} ${priceFormatted} (<span class="${point?.y > 0 ? "text-up" : point?.y < 0 ? "text-down" : ""}">${point.y >= 0 ? "+" : ""}${point.y?.toFixed(2)}%</span>)</div>`;
+              content += `<div style="color: ${point.series.color}; margin-bottom: 4px;">${point.series.name} ${priceFormatted} (<span class="${point?.y > 0 ? "text-up" : point?.y < 0 ? "text-down" : ""}">${point.y >= 0 ? "+" : ""}${stat(point.y)}%</span>)</div>`;
             }
           });
           content += `<div style="color: ${$mode === "light" ? "#6b7280" : "#fff"}; font-size: 12px; margin-top: 4px;">${formattedTime}</div></div>`;
@@ -356,12 +386,12 @@
           formatter: function () {
             const date = new Date(this.value);
             if (selectedPlotPeriod === "1D") {
-              return date.toLocaleTimeString("en-US", {
+              return date.toLocaleTimeString(getIntlLocale(), {
                 hour: "numeric",
                 minute: "2-digit",
               });
             } else {
-              return date.toLocaleDateString("en-US", {
+              return date.toLocaleDateString(getIntlLocale(), {
                 month: "short",
                 day: "numeric",
               });
@@ -389,7 +419,7 @@
           },
           formatter: function () {
             return (
-              (this.value >= 0 ? "" : "") + this.value.toFixed(1) + " " + "%"
+              (this.value >= 0 ? "" : "") + stat(this.value, 1) + " " + "%"
             );
           },
         },
@@ -451,7 +481,9 @@
             {@const firstTicker = displayTickerList[0]}
             {@const firstQuote = stockQuotes[firstTicker]}
             {#if firstQuote}
-              Updated {convertTimestamp(firstQuote?.timestamp)}
+              {chat_graph_updated({
+                time: convertTimestamp(firstQuote?.timestamp),
+              })}
             {/if}
           {/if}
         </div>
@@ -470,7 +502,7 @@
                   >
                     <img
                       src={`https://financialmodelingprep.com/image-stock/${ticker}.png`}
-                      alt="logo"
+                      alt={chat_sources_logo_alt({ name: ticker })}
                       class="size-4 avatar rounded-full"
                     />
                   </div>
@@ -486,7 +518,7 @@
                   <span
                     class="text-2xl font-semibold text-gray-900 dark:text-zinc-100 tabular-nums"
                   >
-                    {quote?.price?.toFixed(2) || "n/a"}
+                    {stat(quote?.price)}
                   </span>
                   <span
                     class={`text-sm sm:text-base font-semibold tabular-nums ${
@@ -495,12 +527,12 @@
                         : "text-down"
                     }`}
                   >
-                    {(quote?.changesPercentage || 0) >= 0 ? "+" : "-"}{Math.abs(
-                      quote?.change || 0,
-                    ).toFixed(2)}
+                    {(quote?.changesPercentage || 0) >= 0 ? "+" : "-"}{stat(
+                      Math.abs(quote?.change || 0),
+                    )}
                     ({(quote?.changesPercentage || 0) >= 0
                       ? "+"
-                      : ""}{quote?.changesPercentage?.toFixed(2) || "0.00"}%)
+                      : ""}{stat(quote?.changesPercentage ?? 0)}%)
                   </span>
                 </div>
               </div>
@@ -528,89 +560,85 @@
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >Prev Close</span
+                      >{chat_graph_prev_close()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{quote?.previousClose?.toFixed(2) || "n/a"}</span
+                      >{stat(quote?.previousClose)}</span
                     >
                   </div>
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >Day Range</span
+                      >{chat_graph_day_range()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{quote?.dayLow?.toFixed(2)} - {quote?.dayHigh?.toFixed(
-                        2,
-                      )}</span
+                      >{stat(quote?.dayLow)} - {stat(quote?.dayHigh)}</span
                     >
                   </div>
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >P/E Ratio</span
+                      >{chat_graph_pe_ratio()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{quote?.pe?.toFixed(2) || "n/a"}</span
+                      >{stat(quote?.pe)}</span
                     >
                   </div>
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >Open</span
+                      >{chat_graph_open()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{quote?.open?.toFixed(2) || "n/a"}</span
+                      >{stat(quote?.open)}</span
                     >
                   </div>
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >52W Range</span
+                      >{chat_graph_52w_range()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{quote?.yearLow?.toFixed(2)} - {quote?.yearHigh?.toFixed(
-                        2,
-                      )}</span
+                      >{stat(quote?.yearLow)} - {stat(quote?.yearHigh)}</span
                     >
                   </div>
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >Dividend Yield</span
+                      >{chat_graph_dividend_yield()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
                       >{quote?.dividendYield
-                        ? `${(quote.dividendYield * 100).toFixed(3)}%`
-                        : "n/a"}</span
+                        ? `${stat(quote.dividendYield * 100, 3)}%`
+                        : NA}</span
                     >
                   </div>
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >Volume</span
+                      >{chat_graph_volume()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{abbreviateNumber(quote?.volume) || "n/a"}</span
+                      >{abbreviateNumber(quote?.volume) || NA}</span
                     >
                   </div>
 
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >Market Cap</span
+                      >{chat_graph_market_cap()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
@@ -621,11 +649,11 @@
                   <div class="flex items-baseline justify-between gap-4">
                     <span
                       class="text-[0.65rem] uppercase tracking-[0.2em] text-fg-subtle whitespace-nowrap"
-                      >EPS</span
+                      >{chat_graph_eps()}</span
                     >
                     <span
                       class="text-gray-900 dark:text-zinc-100 tabular-nums font-medium"
-                      >{quote?.eps?.toFixed(2) || "n/a"}</span
+                      >{stat(quote?.eps)}</span
                     >
                   </div>
                 </div>
@@ -636,7 +664,7 @@
                       href={tickerUrlMap[ticker]}
                       class="text-xs font-medium text-fg transition-colors hover:text-accent transition"
                     >
-                      More about {ticker?.toUpperCase()}
+                      {chat_graph_more_about({ ticker: ticker?.toUpperCase() })}
                     </a>
                   </div>
                 {/if}
@@ -668,7 +696,7 @@
                       d="M4.5 15.75l7.5-7.5 7.5 7.5"
                     />
                   </svg>
-                  Show Less Details
+                  {chat_graph_show_less()}
                 </span>
               {:else}
                 <span class="flex items-center gap-2">
@@ -686,7 +714,7 @@
                       d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                     />
                   </svg>
-                  Show Details for All {displayTickerList.length} Tickers
+                  {chat_graph_show_all({ count: displayTickerList.length })}
                 </span>
               {/if}
             </button>

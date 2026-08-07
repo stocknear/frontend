@@ -35,6 +35,7 @@
   "register_step1_label": "Étape 1 sur 2",
   "register_step1_title": "Crée ton compte",
   "register_step1_subtitle": "Commence ton essai gratuit de 7 jours",
+  "register_step1_subtitle_no_trial": "Prêt en quelques secondes pour analyser les actions.",
   "register_step1_google": "Continuer avec Google",
   "register_step1_email_divider": "Ou inscris-toi par e-mail",
   "register_step1_next": "Suivant",
