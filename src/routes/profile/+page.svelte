@@ -7,6 +7,7 @@
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
 
   import { enhance } from "$app/forms";
+  import { localizedHref } from "$lib/i18n/navigation";
   import { isPWAInstalled } from "$lib/utils";
   import {
     requestNotificationPermission,
@@ -146,7 +147,7 @@
       setTimeout(() => {
         if (result.type === "redirect") {
           const anchor = document.createElement("a");
-          anchor.href = "/profile";
+          anchor.href = localizedHref("/profile");
           anchor.dataset.sveltekitReload = true;
           document.body.appendChild(anchor);
           anchor.dispatchEvent(new MouseEvent("click"));
@@ -188,7 +189,7 @@
       setTimeout(() => {
         if (result.type) {
           const anchor = document.createElement("a");
-          anchor.href = "/profile";
+          anchor.href = localizedHref("/profile");
           anchor.dataset.sveltekitReload = true;
           document.body.appendChild(anchor);
           anchor.dispatchEvent(new MouseEvent("click"));
@@ -230,7 +231,7 @@
       setTimeout(() => {
         if (result.type === "redirect") {
           const anchor = document.createElement("a");
-          anchor.href = "/profile";
+          anchor.href = localizedHref("/profile");
           anchor.dataset.sveltekitReload = true;
           document.body.appendChild(anchor);
           anchor.dispatchEvent(new MouseEvent("click"));

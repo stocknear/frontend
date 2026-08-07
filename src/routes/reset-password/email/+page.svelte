@@ -4,6 +4,7 @@
     import { mode } from "mode-watcher";
     import Input from "$lib/components/Input.svelte";
     import SEO from "$lib/components/SEO.svelte";
+    import { localizedHref } from "$lib/i18n/navigation";
     import { page } from "$app/stores";
 
     export let data;
@@ -22,7 +23,7 @@
 
                 setTimeout(() => {
                     const anchor = document.createElement("a");
-                    anchor.href = "/login";
+                    anchor.href = localizedHref("/login");
                     anchor.dataset.sveltekitReload = true;
                     document.body.appendChild(anchor);
                     anchor.dispatchEvent(new MouseEvent("click"));

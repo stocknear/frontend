@@ -123,6 +123,44 @@ function localeRedirectResponse(redirect: LocaleRedirect): Response {
   return new Response(null, { status: redirect.status, headers });
 }
 
+/**
+ * `use:enhance` form actions answer with a 200 JSON body — {type:"redirect",location} — instead
+ * of a Location header, so the header-based localization below never sees them. The client then
+ * navigates to a bare path, +layout.svelte's beforeNavigate cancels it to add the locale prefix,
+ * and a cancelled navigation loses the `invalidateAll` that applyAction relies on to refresh
+ * auth and subscription state.
+ */
+async function localizeActionRedirect(
+  response: Response,
+  locale: Locale,
+  event: RequestEvent,
+): Promise<Response> {
+  // Gate before cloning — every other response on this path is a streamed HTML document.
+  if (event.request.headers.get("x-sveltekit-action") !== "true") return response;
+
+  let payload: { type?: string; location?: string } | null = null;
+  try {
+    payload = await response.clone().json();
+  } catch {
+    return response;
+  }
+  if (payload?.type !== "redirect" || typeof payload.location !== "string") {
+    return response;
+  }
+
+  payload.location = localizeInternalRedirect(payload.location, locale);
+
+  const body = JSON.stringify(payload);
+  const headers = new Headers(response.headers);
+  headers.set("content-length", String(new TextEncoder().encode(body).byteLength));
+
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 function appendVary(headers: Headers, value: string): void {
   const current = headers.get("vary");
   if (!current) {
@@ -304,7 +342,7 @@ export const handle = sequence(async ({ event, resolve }) => {
       }
     }
 
-    const response = await resolve(
+    let response = await resolve(
       { ...event, request: isSafeMethod ? request : event.request },
       {
         transformPageChunk: ({ html }) =>
@@ -342,6 +380,8 @@ export const handle = sequence(async ({ event, resolve }) => {
         "location",
         localizeInternalRedirect(redirectLocation, resolvedLocale),
       );
+    } else {
+      response = await localizeActionRedirect(response, resolvedLocale, event);
     }
 
     const isOAuthCallback =

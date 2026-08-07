@@ -66,7 +66,13 @@ async function getDailyBriefing(pb: any) {
   return cachedDaily;
 }
 
-export const load = async ({ locals, cookies, request }) => {
+export const load = async ({ locals, cookies, request, url }) => {
+  // `user` comes from `locals`, which SvelteKit cannot track — with no tracked dependency this
+  // load is cached for the whole SPA session. Any navigation that loses its `invalidateAll`
+  // flag (beforeNavigate cancels and re-issues one in +layout.svelte) would then keep serving
+  // the pre-login `user: undefined`. Touching `url` marks the load URL-dependent so it re-runs.
+  void url.pathname;
+
   // Check for signup conversion flag (httpOnly — set by registration handlers)
   let signupConversion = false;
   if (cookies.get(SIGNUP_COOKIE)) {
