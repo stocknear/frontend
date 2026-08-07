@@ -135,8 +135,14 @@ async function localizeActionRedirect(
   locale: Locale,
   event: RequestEvent,
 ): Promise<Response> {
-  // Gate before cloning — every other response on this path is a streamed HTML document.
+  // Gate before cloning. `x-sveltekit-action` alone is not enough — it is a client-supplied
+  // header, and a forged one on a GET would make us buffer a whole SSR document just to fail
+  // the JSON parse. Mirror SvelteKit's own is_action_json_request: POST answered with JSON.
+  if (event.request.method !== "POST") return response;
   if (event.request.headers.get("x-sveltekit-action") !== "true") return response;
+  if (!response.headers.get("content-type")?.includes("application/json")) {
+    return response;
+  }
 
   let payload: { type?: string; location?: string } | null = null;
   try {
@@ -148,11 +154,15 @@ async function localizeActionRedirect(
     return response;
   }
 
-  payload.location = localizeInternalRedirect(payload.location, locale);
+  const localized = localizeInternalRedirect(payload.location, locale);
+  // Base-locale traffic is the common case and needs no rewrite — leave the response alone
+  // rather than round-tripping its Set-Cookie headers through a new Headers for nothing.
+  if (localized === payload.location) return response;
+  payload.location = localized;
 
   const body = JSON.stringify(payload);
   const headers = new Headers(response.headers);
-  headers.set("content-length", String(new TextEncoder().encode(body).byteLength));
+  headers.set("content-length", String(Buffer.byteLength(body)));
 
   return new Response(body, {
     status: response.status,

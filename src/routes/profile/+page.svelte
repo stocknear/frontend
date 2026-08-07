@@ -187,7 +187,7 @@
       }
 
       setTimeout(() => {
-        if (result.type) {
+        if (result.type === "redirect") {
           const anchor = document.createElement("a");
           anchor.href = localizedHref("/profile");
           anchor.dataset.sveltekitReload = true;

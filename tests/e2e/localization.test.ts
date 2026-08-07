@@ -114,3 +114,40 @@ test("browser language does not override Cloudflare's English fallback", async (
     await context.close();
   }
 });
+
+// A client-side navigation that loses its `invalidateAll` (beforeNavigate cancels and re-issues
+// one in +layout.svelte) must still refresh auth state. Two invariants hold that together, and
+// both fail silently — every page still returns 200, only the logged-in state is wrong.
+
+test("the root layout load stays URL-tracked", async ({ request }) => {
+  // Guards `void url.pathname` in +layout.server.ts. Without it `uses` is `{}` and SvelteKit
+  // serves the pre-login layout data for the rest of the SPA session.
+  const response = await request.get("/de/__data.json?x-sveltekit-invalidated=11");
+  expect(response.status()).toBe(200);
+  expect((await response.json())?.nodes?.[0]?.uses).toEqual({ url: 1 });
+});
+
+test("a non-redirect action response passes through untouched", async ({ request }) => {
+  // use:enhance posts get a 200 JSON body instead of a Location header, and the hook rewrites
+  // the redirect ones. Everything else — including the devalue-encoded `data` and the auth
+  // cookie the hook appends — has to survive that path unchanged.
+  const enhanced = await request.post("/de/login?/login", {
+    headers: { "x-sveltekit-action": "true", accept: "application/json" },
+    form: { email: "nobody@example.com", password: "definitely-wrong" },
+  });
+  expect(enhanced.status()).toBe(200);
+  expect(await enhanced.json()).toMatchObject({ type: "failure" });
+  expect(enhanced.headers()["set-cookie"]).toContain("pb_auth=");
+});
+
+test("a forged x-sveltekit-action header cannot change a page response", async ({ request }) => {
+  // The header is client-supplied. Without a method/content-type gate it would make the server
+  // buffer a whole SSR document (~600KB here) just to fail a JSON parse.
+  const [plain, forged] = await Promise.all([
+    request.get("/de/about"),
+    request.get("/de/about", { headers: { "x-sveltekit-action": "true" } }),
+  ]);
+  expect(forged.status()).toBe(plain.status());
+  // Byte length, not body equality — melt-ui emits fresh element ids on every render.
+  expect((await forged.body()).length).toBe((await plain.body()).length);
+});
