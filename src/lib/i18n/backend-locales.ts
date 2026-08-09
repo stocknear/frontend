@@ -8,8 +8,8 @@ import {
 export const backendLocaleCapabilities = {
   dashboardInfo: ["en"],
   stockBulkData: ["en", "de", "zh"],
-  stockProfile: ["en", "de", "zh"],
-  analystInsight: ["en", "de"],
+  stockProfile: ["en"],
+  analystInsight: ["en"],
   insiderSummary: ["en", "de"],
   transcriptSummary: ["en", "de"],
   portfolioSummary: ["en", "de"],

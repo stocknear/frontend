@@ -3,20 +3,17 @@ import { getNativeContentLocales, resolveBackendLocale } from "$lib/i18n/backend
 import { supportedLocales } from "$lib/i18n/locales";
 
 describe("backend locale capabilities", () => {
-  it.each([
-    ["en", "en"],
-    ["de", "de"],
-    ["zh-CN", "zh"],
-    ["zh-TW", "en"],
-    ["es", "en"],
-    ["fr", "en"],
-    ["ja", "en"],
-    ["ko", "en"],
-    ["ru", "en"],
-    ["uk", "en"],
-  ] as const)("maps stock profile %s to %s", (requested, effective) => {
-    expect(resolveBackendLocale("stockProfile", requested).effectiveLocale).toBe(effective);
-  });
+  it.each(["stockProfile", "analystInsight"] as const)(
+    "resolves %s to English for every supported UI locale",
+    (capability) => {
+      for (const locale of supportedLocales) {
+        expect(resolveBackendLocale(capability, locale)).toMatchObject({
+          effectiveLocale: "en",
+          fallbackApplied: locale !== "en",
+        });
+      }
+    },
+  );
 
   it("keeps English-only capabilities on one shared effective cache language", () => {
     for (const locale of supportedLocales) {
@@ -32,6 +29,6 @@ describe("backend locale capabilities", () => {
   });
 
   it("exposes only genuinely localized profile prose to SEO", () => {
-    expect(getNativeContentLocales("stockProfile")).toEqual(["en", "de", "zh-CN"]);
+    expect(getNativeContentLocales("stockProfile")).toEqual(["en"]);
   });
 });
