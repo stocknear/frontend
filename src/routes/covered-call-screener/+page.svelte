@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { clearCache } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
   import ChartNoAxesCombined from "lucide-svelte/icons/chart-no-axes-combined";
   import { goto } from "$app/navigation";
@@ -1535,7 +1534,6 @@
     if (_ruleFetchTimeout) clearTimeout(_ruleFetchTimeout);
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
     if (includeTickerTimeout) clearTimeout(includeTickerTimeout);
-    clearCache();
   });
 
   async function handleSave(showMessage) {
@@ -3476,7 +3474,7 @@
                   {:else if column.key === "delta" || column.key === "gamma" || column.key === "theta" || column.key === "vega"}
                     <td class="text-end text-sm whitespace-nowrap">
                       {#if item[column.key] != null}
-                        {item[column.key]}
+                        {item[column.key]?.toFixed(4) ?? "n/a"}
                       {:else if !(column.key in item)}
                         <span
                           class="inline-block h-4 w-10 animate-pulse rounded-control bg-gray-200 dark:bg-zinc-700"

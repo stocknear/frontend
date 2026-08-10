@@ -38,6 +38,7 @@
   "options_screener_back_to_top": "回頂部",
   "options_screener_no_contracts_query": "找不到「{query}」的合約",
   "options_screener_no_contracts": "未找到合約。",
+  "options_screener_load_failed": "無法載入合約，請稍後重試。",
   "options_screener_modal_new_title": "新增篩選器",
   "options_screener_modal_new_name_label": "篩選器名稱",
   "options_screener_modal_new_create": "建立篩選器",

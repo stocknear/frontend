@@ -47,6 +47,7 @@
 
   "options_screener_no_contracts_query": "「{query}」に該当する銘柄はありません",
   "options_screener_no_contracts": "該当する銘柄はありません。",
+  "options_screener_load_failed": "契約データを読み込めませんでした。しばらくしてからもう一度お試しください。",
 
   "options_screener_modal_new_title": "新しいスクリーナー",
   "options_screener_modal_new_name_label": "スクリーナー名",

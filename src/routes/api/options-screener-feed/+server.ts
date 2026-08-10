@@ -13,7 +13,10 @@ const allowedParams = [
 
 const MAX_PAGE_SIZE = 500;
 const MIN_PAGE_SIZE = 1;
-const allowedDisplayColumns = new Set([
+export const MAX_DISPLAY_COLUMNS = 50;
+// Exported so +page.server.ts sanitises its SSR pre-fetch the same way; the two
+// paths hit the same backend and must not drift.
+export const allowedDisplayColumns = new Set([
   "symbol",
   "name",
   "expiration",
@@ -64,7 +67,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
           .split(",")
           .map((column) => column.trim())
           .filter((column) => allowedDisplayColumns.has(column))
-          .slice(0, 50);
+          .slice(0, MAX_DISPLAY_COLUMNS);
 
         if (safeColumns.length > 0) {
           params.set(param, safeColumns.join(","));
@@ -94,6 +97,12 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   }
 
   return new Response(response.body, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      // Per-user (tier gates the payload), and the underlying file is rewritten
+      // every 10 minutes on trading days. A short private window absorbs
+      // preload-on-hover and rapid back/forward without serving stale data.
+      "Cache-Control": "private, max-age=30",
+    },
   });
 };

@@ -38,6 +38,7 @@
   "options_screener_back_to_top": "Retour en haut",
   "options_screener_no_contracts_query": "Aucun contrat trouvé pour « {query} »",
   "options_screener_no_contracts": "Aucun contrat trouvé.",
+  "options_screener_load_failed": "Impossible de charger les contrats. Veuillez réessayer dans un instant.",
   "options_screener_modal_new_title": "Nouveau screener",
   "options_screener_modal_new_name_label": "Nom du screener",
   "options_screener_modal_new_create": "Créer le screener",
