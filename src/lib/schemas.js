@@ -14,8 +14,9 @@ export const loginUserSchema = z.object({
 // - At least one letter (a-z, A-Z)
 // - At least one number (0-9)
 // - At least one special character
-const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_])[A-Za-z\d@$!%*#?&+\-,.\[\]{};':"\\|/=\(\)\^_]{8,128}$/;
-const passwordErrorMessage = "Password must be 8-128 characters with at least one letter, one number, and one special character.";
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,128}$/;
+const passwordErrorMessage =
+  "Password must be 8-128 characters with at least one letter, one number, and one special character.";
 
 export const registerUserSchema = z
   .object({
@@ -224,8 +225,7 @@ export const updatePasswordSchema = z
     }
   });
 
-
-  export const newPasswordSchema = z
+export const newPasswordSchema = z
   .object({
     token: z.string({ required_error: "Valid Token is required" }),
     password: z
