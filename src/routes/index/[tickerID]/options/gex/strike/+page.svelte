@@ -74,6 +74,7 @@
         <GreekByStrike
           {data}
           title={stock_detail_options_gex_title_gamma()}
+          greek="gamma"
           ticker={$indexTicker?.toUpperCase()}
         />
       {:else}

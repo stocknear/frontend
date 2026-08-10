@@ -976,9 +976,14 @@
     return options;
   }
 
-  const getContractHistory = async (contractId) => {
+  // An expiration can belong to a different OCC root than the page ticker: SPX
+  // weeklies (every 0DTE) are SPXW. The lookup payload records the root per date,
+  // and that root is both the contract-id prefix and the folder it is filed under.
+  const rootForDate = (date) => data?.getData?.roots?.[date] ?? ticker;
+
+  const getContractHistory = async (contractRoot, contractId) => {
     const postData = {
-      ticker: ticker,
+      ticker: contractRoot,
       contract: contractId,
     };
 
@@ -1190,8 +1195,9 @@
         sortOrders[key].order = "none";
       }
 
+      const contractRoot = rootForDate(selectedDate);
       optionSymbol = buildOptionSymbol(
-        ticker,
+        contractRoot,
         selectedDate,
         selectedOptionType,
         selectedStrike,
@@ -1201,7 +1207,7 @@
       // Fetch contract history; stock history is cached per ticker — only fetch once
       const stockFetchNeeded = stockHistory.length === 0;
       const [output, stockData] = await Promise.all([
-        getContractHistory(optionSymbol),
+        getContractHistory(contractRoot, optionSymbol),
         stockFetchNeeded
           ? fetch("/api/historical-price", {
               method: "POST",

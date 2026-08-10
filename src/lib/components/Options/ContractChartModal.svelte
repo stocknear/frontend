@@ -13,6 +13,7 @@
   import { screenWidth } from "$lib/store";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
+  import { resolveContractPath } from "$lib/utils";
 
   export let item: any = null;
   export let isOpen = false;
@@ -79,21 +80,28 @@
     chartConfig = null;
     latestStats = null;
     try {
-      const isIndex = item?.underlying_type === "index";
+      // A weekly root (SPXW) is its own caret-free contract folder but prices off
+      // its underlying (^SPX), so the two requests below take different tickers.
+      const { folder, contract: contractId, quoteTicker: priceTicker } =
+        resolveContractPath(
+          item?.ticker,
+          item?.option_symbol,
+          item?.underlying_type === "index",
+        );
       const [contractRes, stockRes] = await Promise.all([
         fetch("/api/options-contract-history", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            ticker: isIndex ? "^" + item?.ticker : item?.ticker,
-            contract: isIndex ? "^" + item.option_symbol : item.option_symbol,
+            ticker: folder,
+            contract: contractId,
           }),
         }),
         fetch("/api/historical-price", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            ticker: isIndex ? "^" + item?.ticker : item?.ticker,
+            ticker: priceTicker,
             timePeriod: "one-year",
           }),
         }),

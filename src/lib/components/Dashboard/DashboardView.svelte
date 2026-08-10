@@ -127,7 +127,11 @@
                     href="/etf/{symbol}"
                     class="block overflow-hidden rounded-container border border-line bg-surface-card transition-colors hover:border-line-strong"
                 >
-                    <MiniPlot plotData={plotData[symbol]} {symbol} />
+                    <MiniPlot
+                        plotData={plotData[symbol]}
+                        {symbol}
+                        wsURL={data?.wsURL}
+                    />
                 </a>
             {/each}
         </div>

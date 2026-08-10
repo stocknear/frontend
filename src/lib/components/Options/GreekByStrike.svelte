@@ -71,6 +71,13 @@
   export let data;
   export let title = "Gamma";
   export let ticker;
+  // Which greek this instance renders. Must NOT be derived from `title`: that is
+  // a translated string, so comparing it to the literal "Gamma" was false in
+  // every locale that translates it, and the GEX page then read call_dex/put_dex
+  // out of a GEX payload and rendered an all-zero chart.
+  // No default on purpose — a caller that forgets it should fail loudly rather
+  // than silently render a DEX payload as gamma.
+  export let greek: "gamma" | "delta";
   let currentPrice = null;
 
   // Chart type state
@@ -98,12 +105,12 @@
     config = plotData() || null;
   }
 
-  $: isGamma = title === "Gamma";
+  $: isGamma = greek === "gamma";
 
   // Cache for DTE calculations to avoid recalculating
   const dteCache = new Map();
 
-  // Calculate DTE (Days to Expiration) for each date, excluding weekends
+  // Calculate DTE (Days to Expiration) for each date, in calendar days
   function calculateDTE(dateStr) {
     // Return cached value if available
     if (dteCache.has(dateStr)) {
@@ -127,19 +134,10 @@
       // If expiry is before today, return -1 (expired)
       result = -1;
     } else {
-      // Count business days between today and expiry
-      let businessDays = 0;
-      let currentDate = new Date(today);
-
-      while (currentDate < expiryDate) {
-        currentDate.setDate(currentDate.getDate() + 1);
-        const dayOfWeek = currentDate.getDay();
-        // 0 = Sunday, 6 = Saturday
-        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-          businessDays++;
-        }
-      }
-      result = businessDays;
+      // Calendar days, the convention every other options tool uses. This used
+      // to count business days, so "5 DTE" silently meant ~7 calendar days.
+      // Both dates are local midnight, so rounding absorbs any DST shift.
+      result = Math.round((expiryDate.getTime() - today.getTime()) / 86_400_000);
     }
 
     // Cache the result
@@ -151,6 +149,7 @@
   let dteOptions = [
     "All",
     "0 DTE",
+    "1 DTE",
     "5 DTE",
     "10 DTE",
     "20 DTE",
@@ -171,8 +170,9 @@
   let isCustomSelected = false;
 
   // LocalStorage key based on page type (gex-strike or dex-strike)
-  $: dteStorageKey =
-    title === "Gamma" ? "dte_settings_gex_strike" : "dte_settings_dex_strike";
+  $: dteStorageKey = isGamma
+    ? "dte_settings_gex_strike"
+    : "dte_settings_dex_strike";
 
   // Save DTE settings to localStorage (only for Pro users)
   function saveDTESettings() {
@@ -583,7 +583,7 @@
     }
 
     rawData = rawData?.map((item) => {
-      if (title === "Gamma") {
+      if (isGamma) {
         return {
           ...item,
           net_gex: (item?.call_gex || 0) + (item?.put_gex || 0),
@@ -660,7 +660,6 @@
     const map = new Map();
 
     // pick which keys to accumulate
-    const isGamma = title === "Gamma";
     const callKey = isGamma ? "call_gex" : "call_dex";
     const putKey = isGamma ? "put_gex" : "put_dex";
 
@@ -694,7 +693,6 @@
   function plotData() {
     currentPrice = Number(data?.getStockQuote?.price?.toFixed(2));
 
-    const isGamma = title === "Gamma"; // Don't delete this; isGamma is used below.
     const processedData = rawData
       ?.map((d) => ({
         strike: d?.strike,
@@ -904,11 +902,25 @@
     return options;
   }
 
+  let hasLoadedSettings = false;
+
   onMount(() => {
     loadRowsPerPage();
     loadDTESettings();
-    updateDataForSelectedDTEs(); // Initialize data
+    // Flipping this runs the block below, which is what initialises rawData.
+    hasLoadedSettings = true;
   });
+
+  // Recompute whenever the payload changes, not only on mount. SvelteKit reuses
+  // this component across a param change, so navigating between two tickers used
+  // to leave the previous ticker's chart on screen until the DTE dropdown was
+  // touched. Gated on hasLoadedSettings so it cannot run before loadDTESettings().
+  $: if (hasLoadedSettings && data?.getData) {
+    // DTE is relative to today and the cache is keyed only by expiration date, so
+    // a session left open across midnight would otherwise keep yesterday's counts.
+    dteCache.clear();
+    updateDataForSelectedDTEs();
+  }
 
   $: {
     if (pagePathName) {
@@ -1277,7 +1289,7 @@
         <h2
           class="text-start whitespace-nowrap type-h2 text-fg w-full"
         >
-          {title === "Gamma"
+          {isGamma
             ? stock_detail_options_gex_table()
             : stock_detail_options_dex_table()}
         </h2>
@@ -1288,7 +1300,7 @@
             <DownloadData
               {data}
               rawData={rawData?.map((item) => {
-                if (title === "Gamma") {
+                if (isGamma) {
                   return {
                     strike: item?.strike,
                     call_gex: item?.call_gex,
@@ -1306,7 +1318,7 @@
                   };
                 }
               })}
-              title={`${ticker}_${title === "Gamma" ? "gex" : "dex"}_by_strike`}
+              title={`${ticker}_${isGamma ? "gex" : "dex"}_by_strike`}
             />
           </div>
         </div>

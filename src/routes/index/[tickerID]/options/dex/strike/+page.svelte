@@ -74,6 +74,7 @@
         <GreekByStrike
           {data}
           title={stock_detail_options_dex_title_delta()}
+          greek="delta"
           ticker={$indexTicker?.toUpperCase()}
         />
       {:else}

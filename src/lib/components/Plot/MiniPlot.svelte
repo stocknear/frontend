@@ -2,10 +2,16 @@
     import { onDestroy, onMount } from "svelte";
     import { mode } from "mode-watcher";
     import { init, dispose, type KLineData } from "klinecharts";
-    import { abbreviateNumber } from "$lib/utils";
+    import { abbreviateNumber, computeLiveChangePercent } from "$lib/utils";
+    import {
+        attachLiveQuotes,
+        type LiveQuote,
+        type LiveQuotesHandle,
+    } from "$lib/realtime/liveQuotes";
 
     export let plotData = {};
     export let symbol = "";
+    export let wsURL: string | null | undefined = undefined;
 
     const nameDict = {
         SPY: "S&P 500",
@@ -31,7 +37,17 @@
     let isPositive = true;
     let currentBarCount = 0;
 
-    $: changesPercentage = plotData?.changesPercentage || 0;
+    // Live quote state, fed by the shared realtime feed (liveQuotes.ts) while
+    // the market is open (or pre/post). Kept off the plotData reactive path on
+    // purpose: a 1s tick must not rebuild the ~390-bar series.
+    let liveQuote: { price: number | null; changesPercentage: number | null } | null =
+        null;
+    let liveHandle: LiveQuotesHandle | null = null;
+    let lastBars: KLineData[] = [];
+    let liveBarCallback: ((data: KLineData) => void) | null = null;
+
+    $: baseChangesPercentage = plotData?.changesPercentage || 0;
+    $: changesPercentage = liveQuote?.changesPercentage ?? baseChangesPercentage;
     $: priceData = plotData?.price || [];
     $: relativeVolume = plotData?.relativeVolume || 0;
     $: bullPercentage = plotData?.bullPercentage || 0;
@@ -50,11 +66,14 @@
 
     // Hiding the chart axes also removed klinecharts' last-price pill, which was
     // the one number on the card worth reading. It belongs in the header anyway,
-    // next to the change it explains. Explicit length-1, never [-1].
+    // next to the change it explains. Explicit length-1, never [-1]. A live
+    // quote overrides the snapshot's last bar close.
     $: lastPrice =
-        priceData?.length > 0
-            ? toNumber(priceData[priceData.length - 1]?.close)
-            : null;
+        liveQuote?.price != null && Number.isFinite(liveQuote.price)
+            ? liveQuote.price
+            : priceData?.length > 0
+              ? toNumber(priceData[priceData.length - 1]?.close)
+              : null;
 
     const toNumber = (value: unknown): number | null => {
         const n =
@@ -327,10 +346,55 @@
         });
     };
 
+    const handleLiveQuote = (quote: LiveQuote) => {
+        const price =
+            typeof quote.price === "number" && Number.isFinite(quote.price)
+                ? quote.price
+                : null;
+        let liveCp: number | null =
+            typeof quote.changesPercentage === "number" &&
+            Number.isFinite(quote.changesPercentage)
+                ? quote.changesPercentage
+                : null;
+        // The price-data scope has no reference close in its ticks; derive the
+        // change against the snapshot's own price/change pair (same math as
+        // Table's calculateChange, via computeLiveChangePercent).
+        if (liveCp === null && price !== null) {
+            const basePrice = toNumber(priceData?.[priceData.length - 1]?.close);
+            liveCp = computeLiveChangePercent(
+                basePrice,
+                plotData?.changesPercentage,
+                price,
+            );
+        }
+        liveQuote = { price, changesPercentage: liveCp };
+        if (chart && price !== null) {
+            updateLiveLastBar(price);
+        }
+    };
+
+    // Pushes one updated bar into the live series. klinecharts v10 has no
+    // updateData; after the loader's init, the subscribeBar callback merges a
+    // bar by timestamp — same timestamp replaces the last bar in place, so the
+    // area line's tip tracks the tick without rebuilding the series.
+    const updateLiveLastBar = (price: number) => {
+        if (!chart || lastBars.length === 0) return;
+        const last = lastBars[lastBars.length - 1];
+        liveBarCallback?.({
+            timestamp: last.timestamp,
+            open: last.open,
+            high: Math.max(last.high, price),
+            low: Math.min(last.low, price),
+            close: price,
+            volume: 0,
+        });
+    };
+
     const updateChartData = (rawData: any[], ticker: string) => {
         if (!chart) return;
         const bars = buildMiniBars(rawData);
         currentBarCount = bars.length;
+        lastBars = bars;
 
         if (!bars.length) {
             chart.setOffsetRightDistance(0);
@@ -355,6 +419,9 @@
                     return;
                 }
                 callback([], { backward: false, forward: false });
+            },
+            subscribeBar: ({ callback }) => {
+                liveBarCallback = callback;
             },
         });
         updateBarSpace();
@@ -414,9 +481,23 @@
             });
         });
         resizeObserver.observe(chartContainer);
+
+        // One shared connection for all four cards (refcounted in
+        // liveQuotes.ts); without a wsURL this is a silent no-op and the card
+        // keeps its snapshot values.
+        if (wsURL) {
+            liveHandle = attachLiveQuotes({
+                wsURL,
+                symbols: [symbol],
+                onQuote: handleLiveQuote,
+            });
+        }
     });
 
     onDestroy(() => {
+        liveHandle?.detach();
+        liveHandle = null;
+        liveBarCallback = null;
         if (resizeRaf !== null) {
             cancelAnimationFrame(resizeRaf);
             resizeRaf = null;

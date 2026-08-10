@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { WEEKLY_ROOT_UNDERLYING } from "$lib/utils";
+
   export let symbol: string = "";
   export let optionSymbol: string = "";
 
@@ -32,20 +34,20 @@
 
     if (!clean || isNumericStart(clean)) return "";
 
-    const lower = clean.toLowerCase();
-
     const encodedOptionQuery =
       optionSymbol && optionSymbol.length > 0
         ? `/options/contract-lookup?contract=${encodeURIComponent(optionSymbol)}`
         : "";
 
     if (assetType?.toLowerCase() === "index") {
-      // SPXW SPECIAL CASE — ALWAYS redirect to plain ^SPX index page
-      if (lower === "spxw") {
-        const s = "^SPX";
-
-        // ALWAYS ignore optionSymbol for SPXW
-        return `/index/${s}${link ? `/${link}` : ""}`;
+      // A weekly option root has no index page of its own — SPXW/NDXP/RUTW all
+      // redirect to the index they are written on. Driven by the shared map so a
+      // new root does not silently produce a link to a route that doesn't exist.
+      const upper = clean.toUpperCase();
+      if (upper in WEEKLY_ROOT_UNDERLYING) {
+        // Ignore optionSymbol: the contract belongs to the weekly root, not to
+        // the underlying's own chain, so contract-lookup could not resolve it.
+        return `/index/${WEEKLY_ROOT_UNDERLYING[upper]}${link ? `/${link}` : ""}`;
       }
 
       const s = symbolWithIndexCaret(clean).toUpperCase();

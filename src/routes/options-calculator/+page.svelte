@@ -773,18 +773,19 @@
             item.strike = selectedStrike;
           }
 
-          // Get option price
+          // Get option price. An expiration can belong to a different OCC root
+          // than the ticker (SPX weeklies are SPXW); that root is both the
+          // contract-id prefix and the folder the contract is filed under.
+          const contractRoot =
+            rawData?.getData?.roots?.[item?.date] ?? tickerAtLoadStart;
           optionSymbol = buildOptionSymbol(
-            tickerAtLoadStart,
+            contractRoot,
             item?.date,
             item?.optionType,
             item?.strike,
           );
 
-          const output = await getContractHistory(
-            tickerAtLoadStart,
-            optionSymbol,
-          );
+          const output = await getContractHistory(contractRoot, optionSymbol);
           if (
             loadRequestId !== latestLoadRequestId ||
             tickerAtLoadStart !== selectedTicker
@@ -832,18 +833,17 @@
           }, strikeList[0]);
         }
 
-        // Get option price
+        // Get option price (see the root note above).
+        const contractRoot =
+          rawData?.getData?.roots?.[selectedDate] ?? tickerAtLoadStart;
         optionSymbol = buildOptionSymbol(
-          tickerAtLoadStart,
+          contractRoot,
           selectedDate,
           selectedOptionType,
           selectedStrike,
         );
 
-        const output = await getContractHistory(
-          tickerAtLoadStart,
-          optionSymbol,
-        );
+        const output = await getContractHistory(contractRoot, optionSymbol);
         if (
           loadRequestId !== latestLoadRequestId ||
           tickerAtLoadStart !== selectedTicker

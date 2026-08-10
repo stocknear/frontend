@@ -174,6 +174,50 @@ if (!name) return "";
     return wordsToRemove?.reduce((acc, word) => acc.replace(word, "").trim(), name);
 }
 
+// Weekly/daily index option roots. SPX third-Friday contracts are AM-settled
+// under root SPX; every weekly and daily expiration is PM-settled under SPXW.
+// Mirrors backend/app/utils/option_roots.py — keep the two in step.
+export const WEEKLY_ROOT_UNDERLYING: Record<string, string> = {
+  SPXW: "^SPX",
+  NDXP: "^NDX",
+  RUTW: "^RUT",
+};
+
+/**
+ * Where a contract's files live, and what its underlying is priced as.
+ *
+ * `root` is the contract's OWN OCC root — what the options flow puts in `ticker`
+ * (`"SPXW"`, `"SPX"`, `"AAPL"`), not the underlying. Index contracts carry a caret
+ * in BOTH the folder and the filename (`^SPX/^SPX260821C…`); weekly roots are
+ * ingested as their own caret-free folder (`SPXW/SPXW260810C…`) but price off the
+ * index they are written on. Returned together so the three can never disagree.
+ *
+ * Mirrors contract_location() in backend/app/utils/option_roots.py.
+ */
+export function resolveContractPath(
+  root: string,
+  optionSymbol: string,
+  isIndex: boolean,
+): { folder: string; contract: string; quoteTicker: string } {
+  const caret = (s: string) => (!s || s.startsWith("^") ? s : `^${s}`);
+
+  if (root in WEEKLY_ROOT_UNDERLYING) {
+    return {
+      folder: root,
+      contract: optionSymbol,
+      quoteTicker: WEEKLY_ROOT_UNDERLYING[root],
+    };
+  }
+  if (!isIndex) {
+    return { folder: root, contract: optionSymbol, quoteTicker: root };
+  }
+  return {
+    folder: caret(root),
+    contract: caret(optionSymbol),
+    quoteTicker: caret(root),
+  };
+}
+
 export function buildOptionSymbol(ticker, dateExpiration, optionType, strikePrice) {
   // Parse the date and pull UTC components
   const date = new Date(dateExpiration);
@@ -961,6 +1005,40 @@ export const calculateChange = (oldList = [], newList = []) => {
   }
 
   return oldList;
+};
+
+export const computeLiveChangePercent = (
+  price: unknown,
+  changesPercentage: unknown,
+  newPrice: unknown,
+): number | null => {
+  // Mirrors calculateChange: infer the reference close from the REST snapshot
+  // (price / (1 + cp/100)), then express the live price against it. One
+  // definition of "change" for the whole product.
+  const basePrice = typeof price === "string" ? +price : price;
+  const baseCp =
+    typeof changesPercentage === "string"
+      ? +changesPercentage
+      : changesPercentage;
+  const live = typeof newPrice === "string" ? +newPrice : newPrice;
+
+  if (
+    typeof basePrice !== "number" ||
+    !Number.isFinite(basePrice) ||
+    basePrice <= 0 ||
+    typeof baseCp !== "number" ||
+    !Number.isFinite(baseCp) ||
+    typeof live !== "number" ||
+    !Number.isFinite(live)
+  ) {
+    return null;
+  }
+
+  const baseLine = basePrice / (1 + baseCp / 100);
+  if (!Number.isFinite(baseLine) || baseLine <= 0) {
+    return null;
+  }
+  return (live / baseLine - 1) * 100;
 };
 
 

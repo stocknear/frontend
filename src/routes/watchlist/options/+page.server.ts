@@ -1,4 +1,5 @@
 import { postAPI } from "$lib/server/api";
+import { resolveContractPath } from "$lib/utils";
 
 function parseDataArray(raw: any): any[] {
   if (Array.isArray(raw)) return raw;
@@ -89,10 +90,15 @@ export const load = async ({ locals }) => {
     for (const item of toEnrich) {
       if (item.option_symbol && !seen.has(item.option_symbol)) {
         seen.add(item.option_symbol);
-        uniqueContracts.push({
-          ticker: item.ticker,
-          contract: item.option_symbol,
-        });
+        // Index contracts are filed with a caret in both folder and filename
+        // (^SPX/^SPX260821C...); weekly roots like SPXW get their own caret-free
+        // folder. Sending the raw root missed the file and left the row unenriched.
+        const { folder, contract } = resolveContractPath(
+          item.ticker,
+          item.option_symbol,
+          item.underlying_type === "index",
+        );
+        uniqueContracts.push({ ticker: folder, contract });
       }
     }
 
