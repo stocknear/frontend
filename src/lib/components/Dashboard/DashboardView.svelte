@@ -1,6 +1,13 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { screenWidth } from "$lib/store";
+    import {
+        screenWidth,
+        isOpen,
+        isWeekend,
+        isHoliday,
+        isBeforeMarketOpen,
+        isAfterMarketClose,
+    } from "$lib/store";
     import SEO from "$lib/components/SEO.svelte";
     import MarketMover from "$lib/components/Dashboard/MarketMover.svelte";
     import UpcomingEarnings from "$lib/components/Dashboard/UpcomingEarnings.svelte";
@@ -26,6 +33,12 @@
         home_structured_feature_unusual_options_activity,
         home_structured_name,
     } from "$lib/paraglide/messages.js";
+    import {
+        dashboard_stock_index_title,
+        dashboard_stock_index_session_pre,
+        dashboard_stock_index_session_after,
+    } from "$lib/paraglide/messages.js";
+    import { resolveStockIndexSession } from "$lib/utils";
 
     export let data;
     export let form;
@@ -41,6 +54,30 @@
     let analystReport = data?.getDashboard?.analystReport || {};
 
     $: charNumber = $screenWidth < 640 ? 20 : 30;
+
+    // Same gates the realtime feed uses (liveQuotes.resolveMode): the session
+    // suffix only appears while a live pre/post feed actually exists, so the
+    // heading never claims a session the cards cannot show. Weekend and
+    // holiday close with no suffix. The market clock refreshes every 30s
+    // (see checkMarketHour in +layout.svelte), so the label stays current
+    // across 9:30 / 16:00 ET transitions while the page is open.
+    $: stockIndexSessionKey = resolveStockIndexSession({
+        isOpen: $isOpen,
+        isWeekend: $isWeekend,
+        isHoliday: $isHoliday,
+        isBeforeMarketOpen: $isBeforeMarketOpen,
+        isAfterMarketClose: $isAfterMarketClose,
+    });
+
+    $: stockIndexSession = stockIndexSessionKey
+        ? stockIndexSessionKey === "pre"
+            ? dashboard_stock_index_session_pre()
+            : dashboard_stock_index_session_after()
+        : null;
+
+    $: stockIndexHeading = stockIndexSession
+        ? `${dashboard_stock_index_title()} — ${stockIndexSession}`
+        : dashboard_stock_index_title();
 </script>
 
 <SEO
@@ -121,6 +158,12 @@
         <!-- Full width, so this row shares its left edge with everything below.
              It used to be max-w-[1150px] against the content grid's 1200px,
              which put the cards 5px right of the tables beneath them. -->
+        <div class="mb-3">
+            <h2 class="type-h3 text-fg tracking-tight">
+                {stockIndexHeading}
+            </h2>
+        </div>
+
         <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {#each Object.keys(plotData) as symbol}
                 <a

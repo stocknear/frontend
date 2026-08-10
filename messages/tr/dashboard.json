@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Ajanlar nasıl doğru kullanılır",
   "dashboard_ai_credits_unit": "Kredi",
   "dashboard_ai_upgrade_toast": "Bu özelliği açmak için hesabını yükselt",
-  "dashboard_ai_insufficient_credits": "Yetersiz kredi. Mevcut bakiyen {credits}."
+  "dashboard_ai_insufficient_credits": "Yetersiz kredi. Mevcut bakiyen {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

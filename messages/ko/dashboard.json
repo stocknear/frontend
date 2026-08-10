@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "에이전트 제대로 쓰는 법",
   "dashboard_ai_credits_unit": "크레딧",
   "dashboard_ai_upgrade_toast": "이 기능을 사용하려면 계정을 업그레이드하세요",
-  "dashboard_ai_insufficient_credits": "크레딧이 부족합니다. 현재 잔액은 {credits}입니다."
+  "dashboard_ai_insufficient_credits": "크레딧이 부족합니다. 현재 잔액은 {credits}입니다.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "エージェントの正しい使い方",
   "dashboard_ai_credits_unit": "クレジット",
   "dashboard_ai_upgrade_toast": "この機能を使うにはプランをアップグレードしてください",
-  "dashboard_ai_insufficient_credits": "クレジットが足りません。現在の残高は {credits} です。"
+  "dashboard_ai_insufficient_credits": "クレジットが足りません。現在の残高は {credits} です。",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

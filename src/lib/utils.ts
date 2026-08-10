@@ -1041,6 +1041,28 @@ export const computeLiveChangePercent = (
   return (live / baseLine - 1) * 100;
 };
 
+/**
+ * Which session label the "Stock Index" dashboard heading should carry, given
+ * the market-clock store booleans. Pure decision (no i18n, no stores): the
+ * caller maps the returned key to its localized string. Mirrors the gates in
+ * checkMarketHour (src/routes/+layout.svelte): the suffix only appears outside
+ * regular hours, and never on weekends or holidays.
+ */
+export function resolveStockIndexSession(options: {
+  isOpen: boolean;
+  isWeekend: boolean;
+  isHoliday: boolean;
+  isBeforeMarketOpen: boolean;
+  isAfterMarketClose: boolean;
+}): "pre" | "after" | null {
+  const { isOpen, isWeekend, isHoliday, isBeforeMarketOpen, isAfterMarketClose } =
+    options;
+  if (isOpen || isWeekend || isHoliday) return null;
+  if (isBeforeMarketOpen) return "pre";
+  if (isAfterMarketClose) return "after";
+  return null;
+}
+
 
 export function updateStockList(stockList = [], originalData = []) {
   // Create a Map for fast O(1) lookups of original data by symbol

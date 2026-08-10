@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Cara memakai Agen dengan benar",
   "dashboard_ai_credits_unit": "Kredit",
   "dashboard_ai_upgrade_toast": "Tingkatkan akun Anda untuk membuka fitur ini",
-  "dashboard_ai_insufficient_credits": "Kredit tidak cukup. Saldo Anda saat ini {credits}."
+  "dashboard_ai_insufficient_credits": "Kredit tidak cukup. Saldo Anda saat ini {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

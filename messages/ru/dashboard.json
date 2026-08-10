@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Как правильно пользоваться агентами",
   "dashboard_ai_credits_unit": "Кредиты",
   "dashboard_ai_upgrade_toast": "Обнови аккаунт, чтобы получить доступ к этой функции",
-  "dashboard_ai_insufficient_credits": "Недостаточно кредитов. Твой текущий баланс — {credits}."
+  "dashboard_ai_insufficient_credits": "Недостаточно кредитов. Твой текущий баланс — {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

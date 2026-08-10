@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Cách dùng trợ lý đúng cách",
   "dashboard_ai_credits_unit": "Tín dụng",
   "dashboard_ai_upgrade_toast": "Nâng cấp tài khoản để mở khóa tính năng này",
-  "dashboard_ai_insufficient_credits": "Không đủ tín dụng. Số dư hiện tại của bạn là {credits}."
+  "dashboard_ai_insufficient_credits": "Không đủ tín dụng. Số dư hiện tại của bạn là {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

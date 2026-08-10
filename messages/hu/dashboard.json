@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Így használd jól az ügynököket",
   "dashboard_ai_credits_unit": "Kredit",
   "dashboard_ai_upgrade_toast": "Válts nagyobb csomagra a funkció eléréséhez",
-  "dashboard_ai_insufficient_credits": "Nincs elég kredit. A jelenlegi egyenleged {credits}."
+  "dashboard_ai_insufficient_credits": "Nincs elég kredit. A jelenlegi egyenleged {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

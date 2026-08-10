@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Näin käytät agentteja oikein",
   "dashboard_ai_credits_unit": "Krediitit",
   "dashboard_ai_upgrade_toast": "Päivitä tilisi, niin saat tämän ominaisuuden käyttöön",
-  "dashboard_ai_insufficient_credits": "Krediitit eivät riitä. Saldosi on {credits}."
+  "dashboard_ai_insufficient_credits": "Krediitit eivät riitä. Saldosi on {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

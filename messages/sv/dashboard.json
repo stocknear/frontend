@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Så använder du agenterna rätt",
   "dashboard_ai_credits_unit": "Krediter",
   "dashboard_ai_upgrade_toast": "Uppgradera ditt konto för att låsa upp funktionen",
-  "dashboard_ai_insufficient_credits": "Otillräckligt med krediter. Ditt saldo är {credits}."
+  "dashboard_ai_insufficient_credits": "Otillräckligt med krediter. Ditt saldo är {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

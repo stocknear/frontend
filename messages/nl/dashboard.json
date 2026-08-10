@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Zo gebruik je agents goed",
   "dashboard_ai_credits_unit": "Credits",
   "dashboard_ai_upgrade_toast": "Upgrade je account om deze functie te gebruiken",
-  "dashboard_ai_insufficient_credits": "Niet genoeg credits. Je huidige saldo is {credits}."
+  "dashboard_ai_insufficient_credits": "Niet genoeg credits. Je huidige saldo is {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

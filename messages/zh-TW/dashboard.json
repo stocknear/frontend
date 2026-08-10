@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "如何使用 AI 助手",
   "dashboard_ai_credits_unit": "點數",
   "dashboard_ai_upgrade_toast": "升級你的帳戶以解鎖此功能",
-  "dashboard_ai_insufficient_credits": "點數不足，目前餘額為 {credits} 點。"
+  "dashboard_ai_insufficient_credits": "點數不足，目前餘額為 {credits} 點。",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Sådan bruger du agenterne rigtigt",
   "dashboard_ai_credits_unit": "Credits",
   "dashboard_ai_upgrade_toast": "Opgradér din konto for at låse op for denne funktion",
-  "dashboard_ai_insufficient_credits": "Ikke nok credits. Din nuværende saldo er {credits}."
+  "dashboard_ai_insufficient_credits": "Ikke nok credits. Din nuværende saldo er {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

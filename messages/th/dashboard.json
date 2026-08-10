@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "วิธีใช้ AI ผู้ช่วยให้ถูกต้อง",
   "dashboard_ai_credits_unit": "เครดิต",
   "dashboard_ai_upgrade_toast": "อัปเกรดบัญชีเพื่อปลดล็อกฟีเจอร์นี้",
-  "dashboard_ai_insufficient_credits": "เครดิตไม่พอ ยอดคงเหลือปัจจุบันของคุณคือ {credits}"
+  "dashboard_ai_insufficient_credits": "เครดิตไม่พอ ยอดคงเหลือปัจจุบันของคุณคือ {credits}",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }

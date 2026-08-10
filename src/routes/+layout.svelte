@@ -249,10 +249,12 @@
   let marketingScriptTimer: ReturnType<typeof setTimeout> | undefined =
     undefined;
   let workerLoadTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+  let marketHourInterval: ReturnType<typeof setInterval> | undefined = undefined;
   let hasMarketingConsent = data?.cookieConsent?.marketing === true;
 
   // GTM loading delay in milliseconds (3 seconds for better PageSpeed scores)
   const GTM_LOAD_DELAY = 3000;
+  const MARKET_HOUR_CHECK_INTERVAL = 30_000;
 
   // Add preconnect hint dynamically when we're about to load GTM
   function addPreconnectHint() {
@@ -323,6 +325,8 @@
     checkMarketHour();
 
     if (!browser) return;
+
+    marketHourInterval = setInterval(checkMarketHour, MARKET_HOUR_CHECK_INTERVAL);
 
     isStandalonePWA =
       window.matchMedia?.("(display-mode: standalone)").matches ||
@@ -410,6 +414,7 @@
       if (cookieConsentDelayTimer) clearTimeout(cookieConsentDelayTimer);
       if (marketingScriptTimer) clearTimeout(marketingScriptTimer);
       if (workerLoadTimer) clearTimeout(workerLoadTimer);
+      if (marketHourInterval) clearInterval(marketHourInterval);
 
       // Remove interaction listeners on cleanup
       interactionEvents.forEach((event) => {

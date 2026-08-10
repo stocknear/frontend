@@ -71,5 +71,8 @@
   "dashboard_ai_how_to_use_agents": "Come usare bene gli agenti",
   "dashboard_ai_credits_unit": "Crediti",
   "dashboard_ai_upgrade_toast": "Aggiorna il tuo account per sbloccare questa funzione",
-  "dashboard_ai_insufficient_credits": "Crediti insufficienti. Il tuo saldo attuale è {credits}."
+  "dashboard_ai_insufficient_credits": "Crediti insufficienti. Il tuo saldo attuale è {credits}.",
+  "dashboard_stock_index_title": "Stock Index",
+  "dashboard_stock_index_session_pre": "Premarket",
+  "dashboard_stock_index_session_after": "Aftermarket"
 }
