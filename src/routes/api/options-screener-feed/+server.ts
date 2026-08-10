@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { sanitizeDisplayColumns } from "$lib/server/optionsScreenerColumns";
 
 const allowedParams = [
   "page",
@@ -13,37 +14,6 @@ const allowedParams = [
 
 const MAX_PAGE_SIZE = 500;
 const MIN_PAGE_SIZE = 1;
-export const MAX_DISPLAY_COLUMNS = 50;
-// Exported so +page.server.ts sanitises its SSR pre-fetch the same way; the two
-// paths hit the same backend and must not drift.
-export const allowedDisplayColumns = new Set([
-  "symbol",
-  "name",
-  "expiration",
-  "strike",
-  "optionType",
-  "iv",
-  "ivRank",
-  "close",
-  "moneynessPercentage",
-  "volume",
-  "oi",
-  "delta",
-  "gamma",
-  "theta",
-  "vega",
-  "totalPrem",
-  "changesPercentageOI",
-  "assetType",
-  "optionSymbol",
-  "dte",
-  "indexMembership",
-  "marketCap",
-  "marketCapGroup",
-  "earningsDate",
-  "earningsTime",
-  "earningsGap",
-]);
 
 export const GET: RequestHandler = async ({ url, locals }) => {
   const { apiURL, apiKey, user } = locals;
@@ -63,11 +33,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
       }
 
       if (param === "displayColumns") {
-        const safeColumns = value
-          .split(",")
-          .map((column) => column.trim())
-          .filter((column) => allowedDisplayColumns.has(column))
-          .slice(0, MAX_DISPLAY_COLUMNS);
+        const safeColumns = sanitizeDisplayColumns(value.split(","));
 
         if (safeColumns.length > 0) {
           params.set(param, safeColumns.join(","));

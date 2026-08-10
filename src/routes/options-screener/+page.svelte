@@ -1470,6 +1470,9 @@
       // changes actually land, and which are referenced above. The key guard is
       // what stops this re-fetching on every keystroke and on every pass of the
       // self-reassignment above.
+      // Checkbox rules are the exception: handleChangeValue mutates the Set
+      // inside checkedItems in place, which Svelte cannot see at all, so its
+      // explicit debouncedRuleFetch() call is load-bearing. Do not remove it.
       const nextRuleQueryKey = JSON.stringify([
         buildActiveRules(),
         projectedColumnNames(),

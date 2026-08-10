@@ -1,9 +1,6 @@
 import { getAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
-import {
-  allowedDisplayColumns,
-  MAX_DISPLAY_COLUMNS,
-} from "../api/options-screener-feed/+server";
+import { sanitizeDisplayColumns } from "$lib/server/optionsScreenerColumns";
 
 const ROWS_COOKIE_NAME = "options_screener_rows";
 const ALLOWED_PAGE_SIZES = new Set(["20", "50", "100"]);
@@ -77,17 +74,10 @@ export const load = async ({ locals, cookies }) => {
   if (isPro && rules.length > 0) {
     params.set("rules", JSON.stringify(rules));
   }
-  // Sanitise exactly like the proxy: unfiltered saved rule names can exceed the
-  // backend's max_length on displayColumns, which is a 422 and a blank first paint.
-  const displayColumns = savedRules
-    .map((r: any) => r?.name)
-    .filter(
-      (name: string) =>
-        name && name !== "excludeTickers" && name !== "includeTickers",
-    )
-    .filter((name: string) => allowedDisplayColumns.has(name))
-    .slice(0, MAX_DISPLAY_COLUMNS)
-    .join(",");
+  // Sanitised through the same helper the proxy uses.
+  const displayColumns = sanitizeDisplayColumns(
+    savedRules.map((r: any) => r?.name),
+  ).join(",");
   if (displayColumns) {
     params.set("displayColumns", displayColumns);
   }
