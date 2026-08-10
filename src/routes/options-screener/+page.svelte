@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { goto } from "$app/navigation";
-  import { clearCache, screenWidth } from "$lib/store";
+  import { screenWidth } from "$lib/store";
   import Copy from "lucide-svelte/icons/copy";
   import {
     options_screener_add_filters,
@@ -22,6 +22,7 @@
     options_screener_new_screen,
     options_screener_no_contracts,
     options_screener_no_contracts_query,
+    options_screener_load_failed,
     options_screener_normal_width,
     options_screener_nothing_found,
     options_screener_pagination_next,
@@ -76,7 +77,11 @@
   export let form;
 
   let showFilters = true;
+  // isLoaded doubles as "the client is live", which gates the reactive fetch
+  // triggers below — it must stay false during SSR. hasInitialFeed is the
+  // separate render gate so an SSR payload paints instead of a spinner.
   let isLoaded = false;
+  const hasInitialFeed = Array.isArray(data?.getScreenerFeed?.items);
   let isFullWidth = false;
   let isDataLoading = false;
   let removeList = false;
@@ -97,6 +102,8 @@
   let requestId = 0;
   let lastRequestedFeedQuery = "";
   let lastFetchedTab = "general";
+  let lastRuleQueryKey: string | null = null;
+  let hasFetchError = false;
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -629,6 +636,19 @@
       });
   }
 
+  // Columns the API must project for the active rules. Ticker filters are
+  // predicates, not columns.
+  function projectedColumnNames() {
+    return (
+      ruleOfList
+        ?.map((r) => r?.name)
+        .filter(Boolean)
+        .filter(
+          (name) => name !== "excludeTickers" && name !== "includeTickers",
+        ) ?? []
+    );
+  }
+
   function buildFeedParams({
     page = currentPage,
     pageSize = rowsPerPage,
@@ -649,11 +669,7 @@
       params.set("rules", JSON.stringify(activeRules));
     }
 
-    const allRuleNames = ruleOfList
-      ?.map((r) => r.name)
-      .filter(Boolean)
-      .filter((name) => name !== "excludeTickers" && name !== "includeTickers")
-      .join(",");
+    const allRuleNames = projectedColumnNames().join(",");
     if (allRuleNames) params.set("displayColumns", allRuleNames);
 
     return params;
@@ -689,6 +705,12 @@
         signal,
       });
       if (signal.aborted) return;
+      // The proxy answers errors with {message} and the upstream status. Without
+      // this check that body parses as a successful empty feed and the table
+      // silently renders as "no contracts".
+      if (!response.ok) {
+        throw new Error(`options-screener-feed responded ${response.status}`);
+      }
 
       const result = await response.json();
       if (invocationId !== requestId) return;
@@ -699,17 +721,20 @@
       currentPage = result?.page ?? page;
       rowsPerPage = result?.pageSize ?? pageSize;
       totalPages = result?.totalPages ?? 1;
-      totalContracts = result?.totalContracts ?? totalContracts;
+      if (result?.totalContracts != null) totalContracts = result.totalContracts;
       activeSortKey = sortKey;
       activeSortOrder = sortOrder;
+      hasFetchError = false;
     } catch (e) {
       if (e?.name === "AbortError") return;
       console.error("fetchTableData failed:", e);
       lastRequestedFeedQuery = "";
       if (invocationId === requestId) {
+        filteredData = [];
         displayResults = [];
         totalItems = 0;
         totalPages = 1;
+        hasFetchError = true;
       }
     } finally {
       if (invocationId === requestId) {
@@ -903,6 +928,8 @@
 
   async function switchStrategy(item) {
     isDataLoading = true;
+    // Claim the tab switch so the tab watcher does not fire a second fetch.
+    lastFetchedTab = "general";
     displayTableTab = "general";
     ruleName = "";
     selectedPopularStrategy = "";
@@ -1106,6 +1133,11 @@
 
   async function handleResetAll() {
     selectedPopularStrategy = "";
+    // Claim the tab switch before assigning it, otherwise the tab watcher fires a
+    // competing fetch that still carries the pre-reset sort.
+    lastFetchedTab = "general";
+    activeSortKey = "totalPrem";
+    activeSortOrder = "desc";
     displayTableTab = "general";
     inputValue = "";
     ruleOfList = [];
@@ -1325,17 +1357,12 @@
 
     groupedRules = groupScreenerRules(allRows);
     lastFetchedTab = displayTableTab;
-    const hasInitialFeed = Array.isArray(data?.getScreenerFeed?.items);
-    if (hasInitialFeed) {
-      lastRequestedFeedQuery = buildFeedParams({
-        page: currentPage,
-        pageSize: rowsPerPage,
-        sortKey: activeSortKey,
-        sortOrder: activeSortOrder,
-      }).toString();
-    } else {
-      lastRequestedFeedQuery = "";
-    }
+    // Dedupe against the query the server actually sent, not a locally rebuilt
+    // guess — a guess that differs from the real request (e.g. displayColumns)
+    // makes us skip a fetch we genuinely still need.
+    lastRequestedFeedQuery = hasInitialFeed
+      ? (data?.getScreenerFeedQuery ?? "")
+      : "";
     isLoaded = true;
 
     if (
@@ -1352,7 +1379,6 @@
     if (_searchFetchTimeout) clearTimeout(_searchFetchTimeout);
     if (excludeTickerTimeout) clearTimeout(excludeTickerTimeout);
     if (includeTickerTimeout) clearTimeout(includeTickerTimeout);
-    clearCache();
   });
 
   async function handleSave(showMessage) {
@@ -1437,7 +1463,22 @@
         ruleOfList?.some((rule) => rule.name === row.rule),
       );
 
-      if (isLoaded) {
+      // The refetch trigger has to live in THIS block. Svelte does not trace
+      // into function bodies, so a separate `$:` calling buildActiveRules()
+      // would depend on ruleOfList alone and would miss edits to
+      // valueMappings / ruleCondition / checkedItems — which is where filter
+      // changes actually land, and which are referenced above. The key guard is
+      // what stops this re-fetching on every keystroke and on every pass of the
+      // self-reassignment above.
+      // Checkbox rules are the exception: handleChangeValue mutates the Set
+      // inside checkedItems in place, which Svelte cannot see at all, so its
+      // explicit debouncedRuleFetch() call is load-bearing. Do not remove it.
+      const nextRuleQueryKey = JSON.stringify([
+        buildActiveRules(),
+        projectedColumnNames(),
+      ]);
+      if (isLoaded && nextRuleQueryKey !== lastRuleQueryKey) {
+        lastRuleQueryKey = nextRuleQueryKey;
         debouncedRuleFetch();
       }
     }
@@ -3167,8 +3208,10 @@
   </div>
 
   <!--Start Matching Preview-->
-  {#if isLoaded}
-    {#if filteredData?.length !== 0}
+  {#if isLoaded || hasInitialFeed}
+    {#if hasFetchError}
+      <Infobox text={options_screener_load_failed()} />
+    {:else if displayResults?.length !== 0}
       {#if displayTableTab === "general"}
         <div
           class="w-full rounded-container border border-line bg-surface-card overflow-x-auto"
@@ -3485,19 +3528,19 @@
                       </td>
                     {:else if column.key === "delta"}
                       <td class="whitespace-nowrap text-sm text-end">
-                        {item?.delta}
+                        {item?.delta?.toFixed(4) ?? "n/a"}
                       </td>
                     {:else if column.key === "gamma"}
                       <td class="whitespace-nowrap text-sm text-end">
-                        {item?.gamma}
+                        {item?.gamma?.toFixed(4) ?? "n/a"}
                       </td>
                     {:else if column.key === "theta"}
                       <td class="whitespace-nowrap text-sm text-end">
-                        {item?.theta}
+                        {item?.theta?.toFixed(4) ?? "n/a"}
                       </td>
                     {:else if column.key === "vega"}
                       <td class="whitespace-nowrap text-sm text-end">
-                        {item?.vega}
+                        {item?.vega?.toFixed(4) ?? "n/a"}
                       </td>
                     {/if}
                   {/each}

@@ -38,6 +38,7 @@
   "options_screener_back_to_top": "Volver al principio",
   "options_screener_no_contracts_query": "No se encontraron contratos para \"{query}\"",
   "options_screener_no_contracts": "No se encontraron contratos.",
+  "options_screener_load_failed": "No se pudieron cargar los contratos. Vuelve a intentarlo en un momento.",
   "options_screener_modal_new_title": "Nuevo screener",
   "options_screener_modal_new_name_label": "Nombre del screener",
   "options_screener_modal_new_create": "Crear evaluador",

@@ -47,6 +47,7 @@
 
   "options_screener_no_contracts_query": "\"{query}\"에 해당하는 계약이 없습니다",
   "options_screener_no_contracts": "계약이 없습니다.",
+  "options_screener_load_failed": "계약을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
 
   "options_screener_modal_new_title": "새 스크리너",
   "options_screener_modal_new_name_label": "스크리너 이름",

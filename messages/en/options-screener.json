@@ -47,6 +47,7 @@
 
   "options_screener_no_contracts_query": "No Contracts found for \"{query}\"",
   "options_screener_no_contracts": "No Contracts found.",
+  "options_screener_load_failed": "Contracts could not be loaded. Please try again in a moment.",
 
   "options_screener_modal_new_title": "New Screener",
   "options_screener_modal_new_name_label": "Screener Name",

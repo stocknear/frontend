@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { sanitizeDisplayColumns } from "$lib/server/optionsScreenerColumns";
 
 const allowedParams = [
   "page",
@@ -13,34 +14,6 @@ const allowedParams = [
 
 const MAX_PAGE_SIZE = 500;
 const MIN_PAGE_SIZE = 1;
-const allowedDisplayColumns = new Set([
-  "symbol",
-  "name",
-  "expiration",
-  "strike",
-  "optionType",
-  "iv",
-  "ivRank",
-  "close",
-  "moneynessPercentage",
-  "volume",
-  "oi",
-  "delta",
-  "gamma",
-  "theta",
-  "vega",
-  "totalPrem",
-  "changesPercentageOI",
-  "assetType",
-  "optionSymbol",
-  "dte",
-  "indexMembership",
-  "marketCap",
-  "marketCapGroup",
-  "earningsDate",
-  "earningsTime",
-  "earningsGap",
-]);
 
 export const GET: RequestHandler = async ({ url, locals }) => {
   const { apiURL, apiKey, user } = locals;
@@ -60,11 +33,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
       }
 
       if (param === "displayColumns") {
-        const safeColumns = value
-          .split(",")
-          .map((column) => column.trim())
-          .filter((column) => allowedDisplayColumns.has(column))
-          .slice(0, 50);
+        const safeColumns = sanitizeDisplayColumns(value.split(","));
 
         if (safeColumns.length > 0) {
           params.set(param, safeColumns.join(","));
@@ -94,6 +63,12 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   }
 
   return new Response(response.body, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      // Per-user (tier gates the payload), and the underlying file is rewritten
+      // every 10 minutes on trading days. A short private window absorbs
+      // preload-on-hover and rapid back/forward without serving stale data.
+      "Cache-Control": "private, max-age=30",
+    },
   });
 };

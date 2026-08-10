@@ -47,6 +47,7 @@
 
   "options_screener_no_contracts_query": "Контракты по запросу «{query}» не найдены",
   "options_screener_no_contracts": "Контракты не найдены.",
+  "options_screener_load_failed": "Не удалось загрузить контракты. Попробуйте ещё раз через минуту.",
 
   "options_screener_modal_new_title": "Новый скринер",
   "options_screener_modal_new_name_label": "Название скринера",

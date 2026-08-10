@@ -38,6 +38,7 @@
   "options_screener_back_to_top": "返回顶部",
   "options_screener_no_contracts_query": "未找到“{query}”的合约",
   "options_screener_no_contracts": "未找到合约。",
+  "options_screener_load_failed": "无法加载合约，请稍后重试。",
   "options_screener_modal_new_title": "新筛选器",
   "options_screener_modal_new_name_label": "筛选器名称",
   "options_screener_modal_new_create": "创建筛选器",
