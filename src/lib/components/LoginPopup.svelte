@@ -236,7 +236,7 @@
     <button
       type="button"
       on:click={closeModal}
-      class="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-line bg-surface-page/90 text-fg shadow-sm transition hover:bg-gray-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"
+      class="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-line bg-surface-page/90 text-fg shadow-sm transition hover:bg-gray-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"
       aria-label={common_close()}
       title={common_close()}
     >

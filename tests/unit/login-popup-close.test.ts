@@ -16,6 +16,7 @@ describe("LoginPopup close control", () => {
     expect(closeButton).toContain('type="button"');
     expect(closeButton).toMatch(/\bh-12\b/);
     expect(closeButton).toMatch(/\bw-12\b/);
+    expect(closeButton).toContain("cursor-pointer");
     expect(closeButton).toContain("bg-surface-page/90");
     expect(closeButton).toContain("dark:hover:bg-zinc-800");
     expect(closeButton).toContain("focus-visible:ring-2");

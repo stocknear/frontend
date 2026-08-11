@@ -181,7 +181,7 @@
 <div class={`flex items-center ${className}`}>
   <Button
     on:click={openModal}
-    class="group transition-all duration-700 ease-out border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
+    class="group transition-all duration-700 ease-out border border-line text-fg bg-surface-card dark:bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex items-center p-2.5 rounded-full text-xs sm:text-sm"
   >
     <DownloadIcon class="size-5 flex-shrink-0" />
     <span
