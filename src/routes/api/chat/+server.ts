@@ -133,12 +133,15 @@ function applyGeneratedSystemMessage(
 
 function extractStreamStateFromLine(
   line: string,
-  state: { fullResponse: string; collectedSources: unknown[] },
+  state: { fullResponse: string; collectedSources: unknown[]; sawError: boolean },
 ) {
   if (!line.trim()) return;
 
   try {
     const parsed = JSON.parse(line);
+    if (parsed?.event === "error") {
+      state.sawError = true;
+    }
     if (typeof parsed?.content === "string") {
       state.fullResponse = parsed.content;
     } else if (
@@ -276,6 +279,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const streamState = {
       fullResponse: "",
       collectedSources: [] as unknown[],
+      sawError: false,
     };
     let parseBuffer = "";
     let clientDisconnected = false;
@@ -288,7 +292,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
           if (finalized) return;
           finalized = true;
 
-          if (streamState.fullResponse && streamState.fullResponse.trim()) {
+          // An error event means the backend abandoned the turn. Partial text may already
+          // have streamed, and charging for a half-written answer we also persist is worse
+          // than refunding: treat it the same as no content at all.
+          if (
+            !streamState.sawError &&
+            streamState.fullResponse &&
+            streamState.fullResponse.trim()
+          ) {
             try {
               let latestMessages = initialStoredMessages;
               try {
@@ -347,7 +358,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
             }
           } else {
             await refundCredits(pb, userId, costOfCredit);
-            markChatGenerationFailed(chatId, userId, "No content was generated");
+            markChatGenerationFailed(
+              chatId,
+              userId,
+              streamState.sawError
+                ? "Generation failed before it finished"
+                : "No content was generated",
+            );
           }
         };
 
