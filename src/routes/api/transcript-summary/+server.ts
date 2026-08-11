@@ -1,9 +1,10 @@
 import type { RequestHandler } from "./$types";
 import { canonicalizeLocale } from "$lib/i18n/locales";
 import { resolveBackendLocale } from "$lib/i18n/backend-locales";
+import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb } = locals;
+  const { apiURL, apiKey, user } = locals;
 
   if (!["Plus", "Pro"]?.includes(user?.tier)) {
     return new Response(
@@ -68,22 +69,18 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const result = await response.json();
 
     // Deduct credits after successful response
-    await pb?.collection("users")?.update(user?.id, {
-      credits: user?.credits - costOfCredit,
+    await adjustPocketBaseCredits({
+      userId: user.id,
+      creditsDelta: -costOfCredit,
     });
 
-    return new Response(
-      JSON.stringify({ data: result, ...localeResolution }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Content-Language": localeResolution.effectiveLocale,
-          "X-Stocknear-Locale-Fallback": String(
-            localeResolution.fallbackApplied,
-          ),
-        },
+    return new Response(JSON.stringify({ data: result, ...localeResolution }), {
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Language": localeResolution.effectiveLocale,
+        "X-Stocknear-Locale-Fallback": String(localeResolution.fallbackApplied),
       },
-    );
+    });
   } catch (err) {
     console.error("Handler error:", err);
     return new Response(

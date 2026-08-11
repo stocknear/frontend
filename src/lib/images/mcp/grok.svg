@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Grok</title>
+  <rect width="48" height="48" rx="12" fill="#111"/>
+  <path fill="#fff" d="M12 11h7.2l5.5 8 7.1-8H37L27 22.7 37 37h-7.2l-6.6-9.6L15 37h-5l10.7-12.6L12 11Zm3.9 3 14.7 20h2L17.9 14h-2Z"/>
+</svg>

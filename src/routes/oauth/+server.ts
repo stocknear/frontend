@@ -20,9 +20,8 @@ export const GET = async ({ locals, url, cookies }) => {
   const state = url.searchParams.get("state");
   const code = url.searchParams.get("code");
 
-  const authMethods = (
-    await locals.pb?.collection("users")?.listAuthMethods()
-  )?.oauth2;
+  const authMethods = (await locals.pb?.collection("users")?.listAuthMethods())
+    ?.oauth2;
 
   if (!authMethods?.providers) {
     clearOAuthCookies(cookies);
@@ -63,14 +62,6 @@ export const GET = async ({ locals, url, cookies }) => {
         sameSite: "lax",
         secure: !import.meta.env.DEV,
       });
-
-      try {
-        await locals.pb.collection("users").update(userLogin.record.id, {
-          credits: 10,
-        });
-      } catch (creditsErr) {
-        console.warn("Failed to set OAuth welcome credits", creditsErr);
-      }
     }
   } catch (err) {
     console.log("Error logging in with OAuth2 user", err);

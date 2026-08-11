@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 export const GET: RequestHandler = async ({ locals }) => {
   const {user, pb, clientIp } = locals;
@@ -18,8 +19,9 @@ export const GET: RequestHandler = async ({ locals }) => {
 
 try {
   // 1) Update user downloadCredits
-  await pb.collection('users').update(user.id, {
-    downloadCredits: (user.downloadCredits ?? 0) + 1,
+  await adjustPocketBaseCredits({
+    userId: user.id,
+    downloadCreditsDelta: 1,
   });
 
   // 2) Check if userInfo already exists for this user

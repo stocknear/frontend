@@ -1,8 +1,13 @@
 import { error, fail, redirect } from "@sveltejs/kit";
-import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
+import {
+  validateData,
+  checkDisposableEmail,
+  validateReturnUrl,
+} from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
+import { registerPocketBaseUser } from "$lib/server/pocketbasePrivate";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -176,13 +181,12 @@ export const registerAction = async ({
   }
 
   try {
-    const newUser = await locals.pb.collection("users").create(formData);
-    await locals.pb.collection("users").update(newUser?.id, {
-      credits: 10,
+    const newUser = await registerPocketBaseUser({
+      email: formData.email,
+      password: formData.password,
+      passwordConfirm: formData.passwordConfirm,
     });
-    await locals.pb
-      .collection("users")
-      .requestVerification(formData.email);
+    await locals.pb.collection("users").requestVerification(formData.email);
     await locals.pb
       .collection("users")
       .authWithPassword(formData.email, formData.password);
@@ -259,15 +263,9 @@ export const registerAction = async ({
 /**
  * Shared OAuth2 action for all pages using LoginPopup.
  */
-export const oauth2Action = async ({
-  url,
-  locals,
-  request,
-  cookies,
-}: any) => {
-  const authMethods = (
-    await locals?.pb?.collection("users")?.listAuthMethods()
-  )?.oauth2;
+export const oauth2Action = async ({ url, locals, request, cookies }: any) => {
+  const authMethods = (await locals?.pb?.collection("users")?.listAuthMethods())
+    ?.oauth2;
 
   const data = await request?.formData();
   const providerSelected = data?.get("provider");

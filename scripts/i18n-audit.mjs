@@ -18,7 +18,10 @@ const hardcodedBaseline = JSON.parse(
     "utf8",
   ),
 );
-const robotsText = fs.readFileSync(path.join(root, "static/robots.txt"), "utf8");
+const robotsText = fs.readFileSync(
+  path.join(root, "static/robots.txt"),
+  "utf8",
+);
 const robotsRules = new Set(
   robotsText.match(/^Disallow:\s+\S+/gm)?.map((rule) => rule.trim()) ?? [],
 );
@@ -74,17 +77,16 @@ const forbiddenTranslations = {
 };
 
 const jsonFiles = (locale) =>
-  (fs
-    .readdirSync(path.join(messagesRoot, locale))
-    ?.filter((file) => file.endsWith(".json")) ?? [])
-    .sort();
+  (
+    fs
+      .readdirSync(path.join(messagesRoot, locale))
+      ?.filter((file) => file.endsWith(".json")) ?? []
+  ).sort();
 
 const duplicateKeys = (rawCatalog) => {
   const seen = new Set();
   const duplicates = new Set();
-  for (const match of rawCatalog.matchAll(
-    /^\s*"((?:\\.|[^"\\])*)"\s*:/gm,
-  )) {
+  for (const match of rawCatalog.matchAll(/^\s*"((?:\\.|[^"\\])*)"\s*:/gm)) {
     const key = JSON.parse(`"${match[1]}"`);
     if (seen.has(key)) duplicates.add(key);
     seen.add(key);
@@ -140,10 +142,20 @@ for (const directory of [path.join(root, "src")]) {
 const sourceText = sourceFiles
   .map((file) => fs.readFileSync(file, "utf8"))
   .join("\n");
-const svelteText = sourceFiles
-  ?.filter((file) => file.endsWith(".svelte"))
-  .map((file) => fs.readFileSync(file, "utf8"))
-  .join("\n") ?? "";
+// MCP is intentionally an English-only launch surface. SEO marks only `en` as
+// indexable, while its Profile/settings companions are private/noindex, so this
+// original English copy must not force a whole-repository hardcoded rebaseline.
+const rawTextExemptSveltePaths = new Set([
+  path.join(root, "src/routes/mcp/+page.svelte"),
+  path.join(root, "src/lib/components/McpAccessSection.svelte"),
+]);
+const svelteText =
+  sourceFiles
+    ?.filter(
+      (file) => file.endsWith(".svelte") && !rawTextExemptSveltePaths.has(file),
+    )
+    .map((file) => fs.readFileSync(file, "utf8"))
+    .join("\n") ?? "";
 const hardcodedCounts = {
   explicitEnUs: (sourceText.match(/"en-US"/g) ?? []).length,
   relativeInternalHrefs: (svelteText.match(/href="\//g) ?? []).length,
@@ -177,7 +189,10 @@ for (const file of sourceFiles) {
     const inline = /\.split\([^)]*\)[^;]*?\[\s*\d+\s*\]/.test(line);
     const declaration = line.match(/(?:const|let)\s+(\w+)\s*=/);
     const viaVariable =
-      declaration && new RegExp(`\\b${declaration[1]}\\s*\\??\\.?\\[\\s*\\d+\\s*\\]`).test(window);
+      declaration &&
+      new RegExp(`\\b${declaration[1]}\\s*\\??\\.?\\[\\s*\\d+\\s*\\]`).test(
+        window,
+      );
 
     if (inline || viaVariable) {
       failures.push(

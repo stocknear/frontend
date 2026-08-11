@@ -114,6 +114,7 @@ const pages = [
   // Educational and tools
   { path: "/learning-center", priority: 0.75, changefreq: "weekly" },
   { path: "/options-calculator", priority: 0.65, changefreq: "monthly" },
+  { path: "/mcp", priority: 0.7, changefreq: "monthly" },
 
   // Info pages
   { path: "/pricing", priority: 0.4, changefreq: "monthly" },

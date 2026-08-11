@@ -1,5 +1,63 @@
-import { redirect, error } from "@sveltejs/kit";
+import { redirect, fail } from "@sveltejs/kit";
 import { LEMON_SQUEEZY_API_KEY } from "$env/static/private";
+import {
+  getMcpAccount,
+  revokeMcpToken,
+  rotateMcpToken,
+  unlinkMcpOAuth,
+} from "$lib/server/mcpAccount";
+
+const setPrivateNoStore = (setHeaders) => {
+  setHeaders({
+    "cache-control": "private, no-store, max-age=0",
+    pragma: "no-cache",
+  });
+};
+
+export const _subscriptionIdFromPayment = (record) => {
+  const payload = record?.data;
+  const candidates = [
+    payload?.data?.type === "subscriptions" ? payload?.data?.id : null,
+    payload?.data?.attributes?.first_subscription_item?.subscription_id,
+    payload?.data?.attributes?.first_order_item?.subscription_id,
+  ];
+  return (
+    candidates.find(
+      (value) => typeof value === "string" && /^\d+$/.test(value),
+    ) ?? null
+  );
+};
+
+const getOwnedSubscriptionId = async (locals) => {
+  if (!locals.pb.authStore.isValid || !locals.user?.id) return null;
+  const payments = await locals.pb.collection("payments").getList(1, 20, {
+    filter: `user="${locals.user.id}"`,
+    sort: "-created",
+  });
+  return payments.items.map(_subscriptionIdFromPayment).find(Boolean) ?? null;
+};
+
+const updateLemonSubscription = async (subscriptionId, method, attributes) => {
+  const response = await fetch(
+    `https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`,
+    {
+      method,
+      headers: {
+        Accept: "application/vnd.api+json",
+        "Content-Type": "application/vnd.api+json",
+        Authorization: `Bearer ${LEMON_SQUEEZY_API_KEY}`,
+      },
+      body: attributes
+        ? JSON.stringify({
+            data: { type: "subscriptions", id: subscriptionId, attributes },
+          })
+        : undefined,
+      signal: AbortSignal.timeout(15_000),
+    },
+  );
+  if (!response.ok)
+    throw new Error(`Lemon Squeezy returned ${response.status}`);
+};
 
 export const load = async ({ locals }) => {
   const { pb, user } = locals;
@@ -7,29 +65,28 @@ export const load = async ({ locals }) => {
     redirect(303, "/login");
   }
 
+  const getPushSubscriptionData = async () => {
+    let output = {};
+    try {
+      output = await pb.collection("pushSubscription").getFullList({
+        filter: `user="${user?.id}"`,
+        sort: "-created", // Sorts newest first
+      });
 
-
-const getPushSubscriptionData = async () => {
-  let output = {};
-  try {
-    output = await pb.collection("pushSubscription").getFullList({
-      filter: `user="${user?.id}"`,
-      sort: "-created", // Sorts newest first
-    });
-
-    if (output?.length > 1) {
-      const [, ...toDelete] = output; // Keep the first item, delete the rest
-      await Promise.all(
-        toDelete.map((item) => pb.collection("pushSubscription").delete(item?.id))
-      );
+      if (output?.length > 1) {
+        const [, ...toDelete] = output; // Keep the first item, delete the rest
+        await Promise.all(
+          toDelete.map((item) =>
+            pb.collection("pushSubscription").delete(item?.id),
+          ),
+        );
+      }
+    } catch (err) {
+      console.log(err);
     }
-  } catch (err) {
-    console.log(err);
-  }
 
-  return output?.at(0) || null; // Return only the latest item
-};
-
+    return output?.at(0) || null; // Return only the latest item
+  };
 
   const getSubscriptionData = async () => {
     const output =
@@ -46,148 +103,175 @@ const getPushSubscriptionData = async () => {
   };
 
   const getDiscordAccount = async () => {
-    const userDiscordId = (await pb.collection('users')
-      ?.listExternalAuths(pb?.authStore?.model?.id))
-      ?.find(item => item?.provider === 'discord')?.providerId;
-    
-    
+    const userDiscordId = (
+      await pb.collection("users")?.listExternalAuths(pb?.authStore?.model?.id)
+    )?.find((item) => item?.provider === "discord")?.providerId;
+
     return !!userDiscordId;
   };
-  
 
+  const getMcpAccountData = async () => {
+    if (user?.tier !== "Pro") return { account: null, unavailable: false };
+    try {
+      return {
+        account: await getMcpAccount(pb),
+        unavailable: false,
+      };
+    } catch (err) {
+      console.warn("MCP account status unavailable", {
+        status:
+          typeof err === "object" && err !== null && "status" in err
+            ? (err as { status?: unknown }).status
+            : undefined,
+      });
+      return { account: null, unavailable: true };
+    }
+  };
 
-  const [subscriptionData, pushSubscriptionData, discordAccount] = await Promise.all([
+  const [
+    subscriptionData,
+    pushSubscriptionData,
+    discordAccount,
+    mcpAccountData,
+  ] = await Promise.all([
     getSubscriptionData(),
     getPushSubscriptionData(),
     getDiscordAccount(),
+    getMcpAccountData(),
   ]);
 
   return {
     getSubscriptionData: subscriptionData,
     getPushSubscriptionData: pushSubscriptionData,
     getDiscordAccount: discordAccount,
+    mcpAccount: mcpAccountData.account,
+    mcpAccountUnavailable: mcpAccountData.unavailable,
   };
-
 };
 
 export const actions = {
-  cancelSubscription: async ({ request, locals }) => {
-    const formData = await request?.formData();
-
-    const apiKey = LEMON_SQUEEZY_API_KEY;
-    const subscriptionId = formData?.get("subscriptionId");
-
-    try {
-      const url = `https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`;
-      const headers = {
-        Accept: "application/vnd.api+json",
-        "Content-Type": "application/vnd.api+json",
-        Authorization: `Bearer ${apiKey}`,
-      };
-
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: headers,
-      });
-
-      console.log(await response.json());
-
-    } catch (err) {
-      console.log("Error: ", err);
-      error(err.status, err.message);
+  generateMcpToken: async ({ locals, setHeaders }) => {
+    setPrivateNoStore(setHeaders);
+    if (!locals.pb.authStore.isValid) {
+      return fail(401, { mcpError: "Please sign in again." });
     }
+    try {
+      const created = await rotateMcpToken(locals.pb);
+      return {
+        mcpTokenGenerated: true,
+        mcpRawToken: created.token,
+        mcpTokenInfo: created.tokenInfo,
+      };
+    } catch (err) {
+      const status =
+        typeof err === "object" && err !== null && "status" in err
+          ? Number((err as { status?: unknown }).status)
+          : 0;
+      if (status === 403) {
+        return fail(403, {
+          mcpError: "MCP access requires an active Pro account.",
+        });
+      }
+      return fail(502, {
+        mcpError: "MCP token generation is temporarily unavailable.",
+      });
+    }
+  },
 
+  revokeMcpToken: async ({ locals, setHeaders }) => {
+    setPrivateNoStore(setHeaders);
+    if (!locals.pb.authStore.isValid) {
+      return fail(401, { mcpError: "Please sign in again." });
+    }
+    try {
+      await revokeMcpToken(locals.pb);
+      return { mcpTokenRevoked: true };
+    } catch {
+      return fail(502, {
+        mcpError: "MCP token revocation is temporarily unavailable.",
+      });
+    }
+  },
+
+  unlinkMcpOAuth: async ({ locals, setHeaders }) => {
+    setPrivateNoStore(setHeaders);
+    if (!locals.pb.authStore.isValid) {
+      return fail(401, { mcpError: "Please sign in again." });
+    }
+    try {
+      await unlinkMcpOAuth(locals.pb);
+      return { mcpOAuthUnlinked: true };
+    } catch {
+      return fail(502, {
+        mcpError: "OAuth unlink is temporarily unavailable.",
+      });
+    }
+  },
+
+  cancelSubscription: async ({ locals }) => {
+    if (!locals.pb.authStore.isValid)
+      return fail(401, { subscriptionError: true });
+    try {
+      const subscriptionId = await getOwnedSubscriptionId(locals);
+      if (!subscriptionId) return fail(404, { subscriptionError: true });
+      await updateLemonSubscription(subscriptionId, "DELETE");
+    } catch {
+      return fail(502, { subscriptionError: true });
+    }
     redirect(302, "/profile");
   },
 
-  reactivateSubscription: async ({ request }) => {
-    const formData = await request?.formData();
-
-    const apiKey = LEMON_SQUEEZY_API_KEY;
-    const subscriptionId = formData?.get("subscriptionId");
-
+  reactivateSubscription: async ({ locals }) => {
+    if (!locals.pb.authStore.isValid)
+      return fail(401, { subscriptionError: true });
     try {
-      const url = `https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`;
-      const headers = {
-        Accept: "application/vnd.api+json",
-        "Content-Type": "application/vnd.api+json",
-        Authorization: `Bearer ${apiKey}`,
-      };
-
-      const payload = {
-        data: {
-          type: "subscriptions",
-          id: `${subscriptionId}`,
-          attributes: {
-            cancelled: false,
-          },
-        },
-      };
-
-      const response = await fetch(url, {
-        method: "PATCH",
-        headers: headers,
-        body: JSON.stringify(payload),
+      const subscriptionId = await getOwnedSubscriptionId(locals);
+      if (!subscriptionId) return fail(404, { subscriptionError: true });
+      await updateLemonSubscription(subscriptionId, "PATCH", {
+        cancelled: false,
       });
-
-      console.log(await response.json());
-
-    } catch (err) {
-      console.log("Error: ", err);
-      error(err.status, err.message);
+    } catch {
+      return fail(502, { subscriptionError: true });
     }
-
     redirect(302, "/profile");
   },
 
-  changeSubscription: async ({ request }) => {
+  changeSubscription: async ({ request, locals }) => {
+    if (!locals.pb.authStore.isValid)
+      return fail(401, { subscriptionError: true });
     const formData = await request?.formData();
-
-    const apiKey = LEMON_SQUEEZY_API_KEY;
-    const subscriptionId = formData?.get("subscriptionId");
-    const newPlan = formData?.get("newPlan")
-
-    const variantID = newPlan === 'plusAnnual' ? import.meta.env.VITE_LEMON_SQUEEZY_PLUS_ANNUAL_VARIANT_ID : newPlan === 'proAnnual' ? import.meta.env.VITE_LEMON_SQUEEZY_PRO_ANNUAL_VARIANT_ID : '';
+    const newPlan = formData?.get("newPlan");
+    const variants = {
+      plusAnnual: import.meta.env.VITE_LEMON_SQUEEZY_PLUS_ANNUAL_VARIANT_ID,
+      proAnnual: import.meta.env.VITE_LEMON_SQUEEZY_PRO_ANNUAL_VARIANT_ID,
+    };
+    const variantID =
+      newPlan === "plusAnnual"
+        ? variants.plusAnnual
+        : newPlan === "proAnnual"
+          ? variants.proAnnual
+          : "";
+    if (!variantID) {
+      return fail(400, { subscriptionError: true });
+    }
 
     try {
-      const url = `https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`;
-      const headers = {
-        Accept: "application/vnd.api+json",
-        "Content-Type": "application/vnd.api+json",
-        Authorization: `Bearer ${apiKey}`,
-      };
-
-      // Create the data payload
-      const payload = {
-        data: {
-          type: "subscriptions",
-          id: subscriptionId,
-          attributes: {
-            variant_id: variantID, // Change from monthly to annually plan
-          },
-        },
-      };
-
-      const response = await fetch(url, {
-        method: "PATCH",
-        headers: headers,
-        body: JSON.stringify(payload),
+      const subscriptionId = await getOwnedSubscriptionId(locals);
+      if (!subscriptionId) return fail(404, { subscriptionError: true });
+      await updateLemonSubscription(subscriptionId, "PATCH", {
+        variant_id: variantID,
       });
-
-      console.log(await response.json());
-    } catch (err) {
-      console.log("Error: ", err);
-      error(err.status, err.message);
+    } catch {
+      return fail(502, { subscriptionError: true });
     }
 
     redirect(302, "/profile");
   },
 
   oauth2: async ({ url, locals, request, cookies }) => {
-    const authMethods = (await locals?.pb
-      ?.collection("users")
-      ?.listAuthMethods())?.oauth2;
-
+    const authMethods = (
+      await locals?.pb?.collection("users")?.listAuthMethods()
+    )?.oauth2;
 
     const data = await request?.formData();
     const providerSelected = data?.get("provider");
@@ -203,15 +287,12 @@ export const actions = {
     const targetItem = authMethods?.providers?.findIndex(
       (item) => item?.name === providerSelected,
     );
-  
 
     const provider = authMethods.providers[targetItem];
     const authProviderRedirect = `${provider.authUrl}${redirectURL}`;
     const state = provider.state;
     const verifier = provider.codeVerifier;
 
-    
-    
     cookies.set("state", state, {
       httpOnly: true,
       sameSite: "lax",

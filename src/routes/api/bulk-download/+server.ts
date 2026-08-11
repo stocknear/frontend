@@ -1,18 +1,21 @@
 import type { RequestHandler } from "./$types";
+import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 // Server-side credit costs - DO NOT trust client-provided values
 const BULK_DOWNLOAD_CREDIT_COSTS: Record<string, number> = {
   "Stock Price": 1,
-  "Dividends": 1,
-  "Options": 1,
+  Dividends: 1,
+  Options: 1,
   "Dark Pool": 1,
 };
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb } = locals;
+  const { apiURL, apiKey, user } = locals;
 
   if (!user) {
-    return new Response(JSON.stringify({ error: "Authentication required" }), { status: 401 });
+    return new Response(JSON.stringify({ error: "Authentication required" }), {
+      status: 401,
+    });
   }
 
   const data = await request.json();
@@ -21,13 +24,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   // Validate inputs
   if (!Array.isArray(tickers) || tickers.length === 0) {
-    return new Response(JSON.stringify({ error: "No tickers provided" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "No tickers provided" }), {
+      status: 400,
+    });
   }
 
   if (!Array.isArray(bulkData) || bulkData.length === 0) {
-    return new Response(JSON.stringify({ error: "No bulk data items provided" }), { status: 400 });
+    return new Response(
+      JSON.stringify({ error: "No bulk data items provided" }),
+      { status: 400 },
+    );
   }
-
 
   let selectedCredits = 0;
   for (const item of bulkData) {
@@ -39,7 +46,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       if (serverCreditCost === undefined) {
         return new Response(
           JSON.stringify({ error: `Unknown bulk download item: ${itemName}` }),
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -51,7 +58,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   // Check if user has enough credits
   if (user?.credits < totalCreditCost) {
-    return new Response(JSON.stringify({ error: "Insufficient credits" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "Insufficient credits" }), {
+      status: 400,
+    });
   }
 
   const postData = { tickers, bulkData };
@@ -64,9 +73,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     body: JSON.stringify(postData),
   });
 
-  // Deduct credits after a successful request
-  await pb.collection('users').update(user?.id, {
-    'credits': user?.credits - totalCreditCost
+  if (!response.ok) {
+    return new Response(await response.arrayBuffer(), {
+      status: response.status,
+      headers: {
+        "Content-Type":
+          response.headers.get("content-type") || "application/json",
+      },
+    });
+  }
+
+  await adjustPocketBaseCredits({
+    userId: user.id,
+    creditsDelta: -totalCreditCost,
   });
 
   const contentType = response.headers.get("content-type") || "";
@@ -76,14 +95,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return new Response(response.body, {
       headers: {
         "Content-Type": "application/zip",
-        "Content-Disposition": "attachment; filename=bulk_data.zip"
-      }
+        "Content-Disposition": "attachment; filename=bulk_data.zip",
+      },
     });
   } else {
     // Otherwise, assume a JSON response
     const json = await response.json();
     return new Response(JSON.stringify(json), {
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
   }
 };

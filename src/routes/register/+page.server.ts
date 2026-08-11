@@ -8,6 +8,7 @@ import {
   register_turnstile_failed,
   register_turnstile_error,
 } from "$lib/paraglide/messages.js";
+import { registerPocketBaseUser } from "$lib/server/pocketbasePrivate";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -116,8 +117,7 @@ export const actions = {
             data: safeFormData,
             errors: {
               turnstile: [
-                turnstileVerification?.message ??
-                  register_turnstile_failed(),
+                turnstileVerification?.message ?? register_turnstile_failed(),
               ],
             },
           });
@@ -127,9 +127,7 @@ export const actions = {
         return fail(400, {
           data: safeFormData,
           errors: {
-            turnstile: [
-              register_turnstile_error(),
-            ],
+            turnstile: [register_turnstile_error()],
           },
         });
       }
@@ -145,15 +143,13 @@ export const actions = {
     }
 
     try {
-      const newUser = await locals.pb.collection("users").create(formData);
-
-      await locals.pb.collection("users").update(newUser?.id, {
-        credits: 10,
+      const newUser = await registerPocketBaseUser({
+        email: formData.email,
+        password: formData.password,
+        passwordConfirm: formData.passwordConfirm,
       });
 
-      await locals.pb
-        .collection("users")
-        .requestVerification(formData.email);
+      await locals.pb.collection("users").requestVerification(formData.email);
     } catch (err: any) {
       // SECURITY: Don't log full error object, only safe message
       console.error(

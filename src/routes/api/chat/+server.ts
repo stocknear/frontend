@@ -17,11 +17,13 @@ import {
   markChatGenerationCompleted,
   markChatGenerationFailed,
 } from "$lib/server/chatGenerationRegistry";
+import {
+  adjustPocketBaseCredits,
+  PocketBasePrivateError,
+} from "$lib/server/pocketbasePrivate";
 
 const INSUFFICIENT_CREDITS_ERROR =
   "Insufficient credits. Credits are reset at the start of each month.";
-
-const userCreditLocks = new Map<string, Promise<void>>();
 
 function jsonResponse(payload: unknown, status = 200): Response {
   return new Response(JSON.stringify(payload), {
@@ -30,77 +32,35 @@ function jsonResponse(payload: unknown, status = 200): Response {
   });
 }
 
-async function withUserCreditLock<T>(userId: string, task: () => Promise<T>): Promise<T> {
-  const previous = userCreditLocks.get(userId) ?? Promise.resolve();
-  let release: () => void = () => {};
-  const current = new Promise<void>((resolve) => {
-    release = resolve;
-  });
-
-  userCreditLocks.set(userId, previous.then(() => current));
-
-  await previous;
-  try {
-    return await task();
-  } finally {
-    release();
-    if (userCreditLocks.get(userId) === current) {
-      userCreditLocks.delete(userId);
-    }
-  }
-}
-
 async function reserveCredits(
-  pb: App.Locals["pb"],
   userId: string,
   costOfCredit: number,
 ): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
-  return withUserCreditLock(userId, async () => {
-    try {
-      const latestUser = await pb.collection("users").getOne(userId, {
-        fields: "id,credits",
-      });
-
-      const currentCredits = Number(latestUser?.credits ?? 0);
-      if (!Number.isFinite(currentCredits) || currentCredits < costOfCredit) {
-        return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
-      }
-
-      const updatedUser = await pb.collection("users").update(
-        userId,
-        {
-          "credits-": costOfCredit,
-        },
-        { fields: "id,credits" },
-      );
-
-      const remainingCredits = Number(updatedUser?.credits ?? 0);
-      if (Number.isFinite(remainingCredits) && remainingCredits < 0) {
-        await pb.collection("users").update(userId, {
-          "credits+": costOfCredit,
-        });
-        return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
-      }
-
-      return { ok: true };
-    } catch (e) {
-      console.error("Credit reservation error:", e);
-      return {
-        ok: false,
-        status: 500,
-        error: "Failed to process credits",
-      };
+  try {
+    await adjustPocketBaseCredits({ userId, creditsDelta: -costOfCredit });
+    return { ok: true };
+  } catch (error) {
+    if (error instanceof PocketBasePrivateError && error.status === 409) {
+      return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
     }
-  });
+    console.error("Credit reservation failed", {
+      status:
+        error instanceof PocketBasePrivateError ? error.status : undefined,
+    });
+    return { ok: false, status: 500, error: "Failed to process credits" };
+  }
 }
 
-async function refundCredits(pb: App.Locals["pb"], userId: string, costOfCredit: number) {
+async function refundCredits(userId: string, costOfCredit: number) {
   try {
-    await pb.collection("users").update(userId, {
-      "credits+": costOfCredit,
-    });
+    await adjustPocketBaseCredits({ userId, creditsDelta: costOfCredit });
   } catch (refundError) {
-    console.error("Credit refund error:", refundError);
+    console.error("Credit refund failed", {
+      status:
+        refundError instanceof PocketBasePrivateError
+          ? refundError.status
+          : undefined,
+    });
   }
 }
 
@@ -133,7 +93,11 @@ function applyGeneratedSystemMessage(
 
 function extractStreamStateFromLine(
   line: string,
-  state: { fullResponse: string; collectedSources: unknown[]; sawError: boolean },
+  state: {
+    fullResponse: string;
+    collectedSources: unknown[];
+    sawError: boolean;
+  },
 ) {
   if (!line.trim()) return;
 
@@ -146,7 +110,8 @@ function extractStreamStateFromLine(
       state.fullResponse = parsed.content;
     } else if (
       typeof parsed?.delta === "string" &&
-      (parsed?.event === "response_delta" || typeof parsed?.event === "undefined")
+      (parsed?.event === "response_delta" ||
+        typeof parsed?.event === "undefined")
     ) {
       state.fullResponse += parsed.delta;
     }
@@ -166,7 +131,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return jsonResponse({ error: "Authentication required" }, 401);
   }
 
-  const rateLimit = checkRateLimit(clientIp, "chatMessage", RATE_LIMITS.chatMessage);
+  const rateLimit = checkRateLimit(
+    clientIp,
+    "chatMessage",
+    RATE_LIMITS.chatMessage,
+  );
   if (!rateLimit.allowed) {
     return jsonResponse(
       { error: "Too many requests. Please try again later." },
@@ -199,14 +168,20 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     return jsonResponse({ error: "Input text is too long" }, 400);
   }
 
-  if (typeof requestData.chatId !== "string" || !CHAT_ID_REGEX.test(requestData.chatId)) {
+  if (
+    typeof requestData.chatId !== "string" ||
+    !CHAT_ID_REGEX.test(requestData.chatId)
+  ) {
     return jsonResponse({ error: "Invalid chat ID" }, 400);
   }
 
   const chatId = requestData.chatId;
   const existingGeneration = getChatGenerationSnapshot(chatId, userId);
   if (existingGeneration.status === "running") {
-    return jsonResponse({ error: "A response is already generating for this chat" }, 409);
+    return jsonResponse(
+      { error: "A response is already generating for this chat" },
+      409,
+    );
   }
 
   const reasoning = requestData.reasoning === true;
@@ -220,9 +195,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   try {
     chat = await pb.collection("chat").getOne(chatId);
   } catch (chatError) {
-    const status = typeof (chatError as { status?: number })?.status === "number"
-      ? (chatError as { status?: number }).status
-      : 500;
+    const status =
+      typeof (chatError as { status?: number })?.status === "number"
+        ? (chatError as { status?: number }).status
+        : 500;
     if (status === 404) {
       return jsonResponse({ error: "Chat not found" }, 404);
     }
@@ -242,9 +218,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     ? storedMessagesValidation.messages
     : recoverChatMessages(chat?.messages);
 
-  const creditReservation = await reserveCredits(pb, userId, costOfCredit);
+  const creditReservation = await reserveCredits(userId, costOfCredit);
   if (!creditReservation.ok) {
-    return jsonResponse({ error: creditReservation.error }, creditReservation.status);
+    return jsonResponse(
+      { error: creditReservation.error },
+      creditReservation.status,
+    );
   }
 
   markChatGenerationRunning(chatId, userId);
@@ -268,10 +247,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     });
 
     if (!upstream.ok || !upstream.body) {
-      await refundCredits(pb, userId, costOfCredit);
-      markChatGenerationFailed(chatId, userId, "Failed to connect to AI service");
+      await refundCredits(userId, costOfCredit);
+      markChatGenerationFailed(
+        chatId,
+        userId,
+        "Failed to connect to AI service",
+      );
       console.error("Upstream error:", upstream.status);
-      return jsonResponse({ error: "Failed to connect to AI service" }, upstream.status);
+      return jsonResponse(
+        { error: "Failed to connect to AI service" },
+        upstream.status,
+      );
     }
 
     const decoder = new TextDecoder();
@@ -307,7 +293,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                   fields: "messages,user",
                 });
                 if (latestChat?.user === userId) {
-                  const latestValidation = validateStoredChatMessages(latestChat.messages);
+                  const latestValidation = validateStoredChatMessages(
+                    latestChat.messages,
+                  );
                   if (latestValidation.ok) {
                     latestMessages = latestValidation.messages;
                   } else {
@@ -320,7 +308,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                   }
                 }
               } catch (latestChatError) {
-                console.error("Failed to load latest chat before save:", latestChatError);
+                console.error(
+                  "Failed to load latest chat before save:",
+                  latestChatError,
+                );
               }
 
               const systemMessage: ChatMessage = {
@@ -329,7 +320,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
               };
 
               // Sanitize sources leniently — convert non-string values instead of failing
-              const sanitizedSources = sanitizeSourcesLenient(streamState.collectedSources);
+              const sanitizedSources = sanitizeSourcesLenient(
+                streamState.collectedSources,
+              );
               if (sanitizedSources) {
                 systemMessage.sources = sanitizedSources;
               }
@@ -342,7 +335,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
               // Trim to max stored messages, then validate before writing
               const trimmedMessages = trimToMaxMessages(updatedMessages);
-              const finalValidation = validateStoredChatMessages(trimmedMessages);
+              const finalValidation =
+                validateStoredChatMessages(trimmedMessages);
               const messagesToSave = finalValidation.ok
                 ? finalValidation.messages
                 : recoverChatMessages(trimmedMessages);
@@ -354,10 +348,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
               markChatGenerationCompleted(chatId, userId);
             } catch (saveErr) {
               console.error("Server-side save error:", saveErr);
-              markChatGenerationFailed(chatId, userId, "Failed to save generated response");
+              markChatGenerationFailed(
+                chatId,
+                userId,
+                "Failed to save generated response",
+              );
             }
           } else {
-            await refundCredits(pb, userId, costOfCredit);
+            await refundCredits(userId, costOfCredit);
             markChatGenerationFailed(
               chatId,
               userId,
@@ -453,7 +451,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       },
     });
   } catch (err) {
-    await refundCredits(pb, userId, costOfCredit);
+    await refundCredits(userId, costOfCredit);
     markChatGenerationFailed(chatId, userId, "Request handler failed");
     console.error("Handler error:", err);
     return jsonResponse({ error: "An error occurred. Please try again." }, 500);

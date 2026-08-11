@@ -5,6 +5,7 @@
   import Crown from "lucide-svelte/icons/crown";
   import Link from "lucide-svelte/icons/link";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import McpAccessSection from "$lib/components/McpAccessSection.svelte";
 
   import { enhance } from "$app/forms";
   import { localizedHref } from "$lib/i18n/navigation";
@@ -105,8 +106,10 @@
   let pwaInstalled;
   let loading = false;
 
-  let notificationPermissionState: NotificationPermission | "unsupported" | null =
-    null;
+  let notificationPermissionState:
+    | NotificationPermission
+    | "unsupported"
+    | null = null;
   let isPushSubscribed = data?.getPushSubscriptionData !== null ? true : false;
 
   let subscriptionData = data?.getSubscriptionData;
@@ -361,14 +364,9 @@
 <section
   class="text-fg w-full max-w-3xl sm:max-w-[1400px] overflow-hidden min-h-screen pb-20 pt-5 px-4 lg:px-3"
 >
-  <BreadCrumb
-    containerClass="text-sm sm:text-[1rem] breadcrumbs text-fg"
-  >
+  <BreadCrumb containerClass="text-sm sm:text-[1rem] breadcrumbs text-fg">
     <li>
-      <a
-        href="/"
-        class="text-fg hover:text-accent transition"
-      >
+      <a href="/" class="text-fg hover:text-accent transition">
         {profile_breadcrumb_home()}
       </a>
     </li>
@@ -384,9 +382,7 @@
       >
         <main class="w-full lg:w-3/4 lg:mr-auto">
           <div class="mb-6 border-b border-line pb-2">
-            <h1
-              class="mb-1 type-h1 text-fg"
-            >
+            <h1 class="mb-1 type-h1 text-fg">
               {profile_page_title()}
             </h1>
           </div>
@@ -394,9 +390,7 @@
           <div
             class="rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
-            <h2
-              class="type-h2 text-fg mb-3"
-            >
+            <h2 class="type-h2 text-fg mb-3">
               {profile_user_info_title()}
             </h2>
             <div class="mt-1 text-sm text-fg-muted">
@@ -422,9 +416,7 @@
           <div
             class="mt-6 rounded-container border border-line bg-surface-card p-4 pb-4"
           >
-            <h2
-              class="type-h2 text-fg mb-3"
-            >
+            <h2 class="type-h2 text-fg mb-3">
               {profile_discord_title()}
             </h2>
             <p class="text-sm text-fg-muted leading-relaxed">
@@ -466,9 +458,7 @@
           <div
             class="mt-6 rounded-container border border-line bg-surface-card p-4 pb-6"
           >
-            <h3
-              class="type-h2 text-fg tracking-tight text-fg mb-2"
-            >
+            <h3 class="type-h2 text-fg tracking-tight text-fg mb-2">
               {profile_push_title()}
             </h3>
             {#if pwaInstalled}
@@ -546,9 +536,7 @@
                       class="cursor-not-allowed border border-line w-fit px-5 py-2 bg-white/60 dark:bg-zinc-950/50 text-fg text-sm font-semibold rounded-full transition"
                       ><div class="flex flex-row m-auto items-center">
                         <span class="loading loading-infinity"></span>
-                        <span class=" ml-1.5"
-                          >{profile_push_activating()}</span
-                        >
+                        <span class=" ml-1.5">{profile_push_activating()}</span>
                       </div></button
                     >
                   {/if}
@@ -573,18 +561,21 @@
             {/if}
           </div>
 
+          <McpAccessSection
+            initialAccount={data?.mcpAccount}
+            unavailable={data?.mcpAccountUnavailable}
+            isPro={data?.user?.tier === "Pro"}
+            actionData={form}
+          />
+
           <div
             class="mt-6 rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
-            <h2
-              class="type-h2 text-fg mb-3"
-            >
+            <h2 class="type-h2 text-fg mb-3">
               {profile_subscription_title()}
             </h2>
             <div class="flex flex-row items-center">
-              <span
-                class="text-sm sm:text-[1rem] text-fg-muted"
-              >
+              <span class="text-sm sm:text-[1rem] text-fg-muted">
                 {profile_subscription_status()}
               </span>
               <div class="ml-2 flex flex-row items-center">
@@ -764,9 +755,7 @@
           <div
             class="mt-6 rounded-container border border-line bg-surface-card p-4 xs:p-4"
           >
-            <h2
-              class="type-h2 text-fg mb-3"
-            >
+            <h2 class="type-h2 text-fg mb-3">
               {profile_help_title()}
             </h2>
             <div class="mt-1 text-sm text-fg-muted">
@@ -883,9 +872,7 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3
-        class="font-semibold tracking-tight text-2xl text-fg mb-5"
-      >
+      <h3 class="font-semibold tracking-tight text-2xl text-fg mb-5">
         {profile_modal_cancel_title()}
       </h3>
       <span class="text-sm text-fg-muted font-normal">
@@ -900,11 +887,6 @@
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       {profile_modal_proceed()}
-      <input
-        class="hidden"
-        name="subscriptionId"
-        value={subscriptionData?.first_subscription_item?.subscription_id}
-      />
     </button>
     {#if isClicked === true}
       <label
@@ -956,9 +938,7 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3
-        class="font-semibold tracking-tight text-2xl text-fg mb-5"
-      >
+      <h3 class="font-semibold tracking-tight text-2xl text-fg mb-5">
         {profile_modal_reactivate_title()}
       </h3>
       <span class="text-sm text-fg-muted font-normal">
@@ -973,11 +953,6 @@
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       {profile_modal_proceed()}
-      <input
-        class="hidden"
-        name="subscriptionId"
-        value={subscriptionData?.first_subscription_item?.subscription_id}
-      />
     </button>
     {#if isClicked === true}
       <label
@@ -1035,9 +1010,7 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3
-        class="font-semibold tracking-tight text-2xl text-fg mb-5"
-      >
+      <h3 class="font-semibold tracking-tight text-2xl text-fg mb-5">
         {profile_modal_upgrade_plus_title()}
       </h3>
       <span class="text-sm text-fg-muted font-normal">
@@ -1052,11 +1025,6 @@
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       {profile_modal_upgrade_plus_button()}
-      <input
-        class="hidden"
-        name="subscriptionId"
-        value={subscriptionData?.first_subscription_item?.subscription_id}
-      />
       <input class="hidden" name="newPlan" value={"plusAnnual"} />
     </button>
     {#if isClicked === true}
@@ -1112,9 +1080,7 @@
       >
     </label>
     <div class=" mb-5 text-center">
-      <h3
-        class="font-semibold tracking-tight text-2xl text-fg mb-5"
-      >
+      <h3 class="font-semibold tracking-tight text-2xl text-fg mb-5">
         {profile_modal_upgrade_pro_title()}
       </h3>
       <span class="text-sm text-fg-muted font-normal">
@@ -1129,11 +1095,6 @@
         : 'hidden'} cursor-pointer px-7 py-2 mb-5 rounded-full bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-zinc-200 ease-out duration-150 text-center text-white dark:text-gray-900 text-[1rem] font-normal transition"
     >
       {profile_modal_upgrade_pro_button()}
-      <input
-        class="hidden"
-        name="subscriptionId"
-        value={subscriptionData?.first_subscription_item?.subscription_id}
-      />
       <input class="hidden" name="newPlan" value={"proAnnual"} />
     </button>
     {#if isClicked === true}

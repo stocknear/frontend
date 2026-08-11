@@ -1,7 +1,8 @@
 import type { RequestHandler } from "./$types";
+import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user, pb } = locals;
+  const { apiURL, apiKey, user } = locals;
 
   if (user?.tier !== "Pro") {
     return new Response(
@@ -58,8 +59,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
 
     // Deduct credits on successful response
-    await pb?.collection("users")?.update(user?.id, {
-      credits: user?.credits - costOfCredit,
+    await adjustPocketBaseCredits({
+      userId: user.id,
+      creditsDelta: -costOfCredit,
     });
 
     return new Response(JSON.stringify(result), {

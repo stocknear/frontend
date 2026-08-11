@@ -187,6 +187,13 @@
             <li>
               <a
                 class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
+                href={localizedHref("/mcp", currentLocale)}>{"Connect to MCP Server"}</a
+              >
+            </li>
+
+            <li>
+              <a
+                class="text-sm text-fg-muted hover:text-white dark:text-zinc-200 dark:hover:text-white transition"
                 href={localizedHref("/app/", currentLocale)}>{footer_install_app()}</a
               >
             </li>

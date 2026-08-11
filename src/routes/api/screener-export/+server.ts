@@ -1,16 +1,21 @@
 import type { RequestHandler } from "./$types";
+import {
+  adjustPocketBaseCredits,
+  PocketBasePrivateError,
+} from "$lib/server/pocketbasePrivate";
 
 const MAX_DOWNLOAD_CREDITS = 500;
 
-const SCREENER_CONFIG: Record<string, { tiers: string[]; creditCost: number }> = {
-  "stock": { tiers: ["Pro", "Plus"], creditCost: 0 },
-  "etf": { tiers: ["Pro", "Plus"], creditCost: 0 },
-  "options": { tiers: ["Pro"], creditCost: 3 },
-  "covered-call": { tiers: ["Pro"], creditCost: 3 },
-  "cash-secured-put": { tiers: ["Pro"], creditCost: 3 },
-  "options-flow": { tiers: ["Pro"], creditCost: 3 },
-  "unusual-order-flow": { tiers: ["Pro"], creditCost: 3 },
-};
+const SCREENER_CONFIG: Record<string, { tiers: string[]; creditCost: number }> =
+  {
+    stock: { tiers: ["Pro", "Plus"], creditCost: 0 },
+    etf: { tiers: ["Pro", "Plus"], creditCost: 0 },
+    options: { tiers: ["Pro"], creditCost: 3 },
+    "covered-call": { tiers: ["Pro"], creditCost: 3 },
+    "cash-secured-put": { tiers: ["Pro"], creditCost: 3 },
+    "options-flow": { tiers: ["Pro"], creditCost: 3 },
+    "unusual-order-flow": { tiers: ["Pro"], creditCost: 3 },
+  };
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -42,7 +47,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   }
 
   if (!allowedTiers.includes(user?.tier)) {
-    const tierLabel = allowedTiers.length === 1 ? allowedTiers[0] : allowedTiers.join(" or ");
+    const tierLabel =
+      allowedTiers.length === 1 ? allowedTiers[0] : allowedTiers.join(" or ");
     return json(
       { error: `This feature is available for ${tierLabel} members only.` },
       403,
@@ -63,129 +69,43 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     );
   }
 
-  let updatedUser: Record<string, any> | undefined;
-
-  if (creditCost > 0) {
-    const currentCredits = Number(user?.credits ?? 0);
-    if (!Number.isFinite(currentCredits) || currentCredits < creditCost) {
+  let updatedUser;
+  try {
+    updatedUser = await adjustPocketBaseCredits({
+      userId: user.id,
+      creditsDelta: -creditCost,
+      downloadCreditsDelta: 1,
+    });
+  } catch (error) {
+    if (error instanceof PocketBasePrivateError && error.status === 409) {
       return json(
-        {
-          error: `Insufficient credits. Your current balance is ${Number.isFinite(currentCredits) ? currentCredits : 0}. This export costs ${creditCost} credits.`,
-        },
+        { error: `Insufficient credits. You need ${creditCost} credits.` },
         400,
       );
     }
-
-    let updatedCreditsUser;
-    try {
-      updatedCreditsUser = await pb.collection("users").update(user.id, {
-        "credits-": creditCost,
-      });
-    } catch (error) {
-      const statusCode = (error as { status?: number })?.status;
-      const originalMessage = (error as { message?: string })?.message ?? "";
-      const rawMessage = originalMessage.toLowerCase();
-      const validationData = (error as { data?: Record<string, unknown> })?.data;
-      const hasCreditsValidationError =
-        typeof validationData === "object" &&
-        validationData !== null &&
-        "credits" in validationData;
-
-      if (
-        statusCode === 400 &&
-        (hasCreditsValidationError || rawMessage.includes("credit"))
-      ) {
-        return json(
-          {
-            error: `Insufficient credits. Your current balance is ${currentCredits}. This export costs ${creditCost} credits.`,
-          },
-          400,
-        );
-      }
-
-      if (statusCode === 403) {
-        return json(
-          {
-            error:
-              "Permission denied while updating credits. Please sign in again and retry.",
-          },
-          403,
-        );
-      }
-
-      if (statusCode === 400 && originalMessage.trim().length > 0) {
-        return json({ error: originalMessage }, 400);
-      }
-
-      console.error(
-        `Failed to deduct ${screener} screener export credits:`,
-        error,
-      );
-      return json(
-        {
-          error:
-            originalMessage.trim().length > 0
-              ? originalMessage
-              : "Failed to process export. Please try again.",
-        },
-        500,
-      );
-    }
-
-    if ((updatedCreditsUser?.credits ?? 0) < 0) {
-      try {
-        await pb.collection("users").update(user.id, {
-          "credits+": creditCost,
-        });
-      } catch (rollbackError) {
-        console.error(
-          `Failed to rollback ${screener} screener export credits:`,
-          rollbackError,
-        );
-      }
-
-      return json(
-        {
-          error: `Insufficient credits. You need ${creditCost} credits.`,
-        },
-        400,
-      );
-    }
-
-    updatedUser = updatedCreditsUser;
+    console.error(`Failed to account for ${screener} screener export`, {
+      status:
+        error instanceof PocketBasePrivateError ? error.status : undefined,
+    });
+    return json({ error: "Failed to process export. Please try again." }, 500);
   }
 
-  try {
-    updatedUser = await pb.collection("users").update(user.id, {
-      "downloadCredits+": 1,
-    });
-
-    if ((updatedUser?.downloadCredits ?? 0) > MAX_DOWNLOAD_CREDITS) {
-      try {
-        const rollbackFields: Record<string, number> = { "downloadCredits-": 1 };
-        if (creditCost > 0) {
-          rollbackFields["credits+"] = creditCost;
-        }
-        await pb.collection("users").update(user.id, rollbackFields);
-      } catch (rollbackError) {
-        console.error(
-          `Failed to rollback ${screener} screener export after downloadCredits limit:`,
-          rollbackError,
-        );
-      }
-
-      return json(
-        {
-          error:
-            "Abusive usage detected. Please read our Terms of Service to understand more.",
-        },
-        400,
-      );
+  if (updatedUser.downloadCredits > MAX_DOWNLOAD_CREDITS) {
+    try {
+      await adjustPocketBaseCredits({
+        userId: user.id,
+        creditsDelta: creditCost,
+        downloadCreditsDelta: -1,
+      });
+    } catch {
+      console.error(`Failed to rollback ${screener} export accounting`);
     }
-  } catch (downloadCreditError) {
-    console.error(
-      `Failed to update ${screener} screener downloadCredits:`,
-      downloadCreditError,
+    return json(
+      {
+        error:
+          "Abusive usage detected. Please read our Terms of Service to understand more.",
+      },
+      400,
     );
   }
 

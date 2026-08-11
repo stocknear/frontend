@@ -1,247 +1,133 @@
 import crypto from "node:crypto";
 import { LEMON_SQUEEZY_SECRET_KEY } from "$env/static/private";
+import { applyPocketBaseBilling } from "$lib/server/pocketbasePrivate";
 
-// Your secret key provided by Lemon Squeezy
 const SECRET_KEY = LEMON_SQUEEZY_SECRET_KEY;
+const BILLING_EVENTS = new Set([
+  "order_created",
+  "order_refunded",
+  "subscription_created",
+  "subscription_updated",
+  "subscription_cancelled",
+  "subscription_resumed",
+  "subscription_expired",
+  "subscription_paused",
+  "subscription_unpaused",
+  "subscription_plan_changed",
+]);
 
-if (!SECRET_KEY) {
-  throw new Error("Missing Lemon Squeezy secret key.");
+if (!SECRET_KEY) throw new Error("Missing Lemon Squeezy secret key.");
+
+function isValidSignature(payload: string, signatureHeader: string): boolean {
+  if (!/^[a-f0-9]{64}$/i.test(signatureHeader)) return false;
+  const expected = crypto
+    .createHmac("sha256", SECRET_KEY)
+    .update(payload)
+    .digest();
+  const received = Buffer.from(signatureHeader, "hex");
+  return (
+    received.length === expected.length &&
+    crypto.timingSafeEqual(expected, received)
+  );
 }
 
-/**
- * Verifies that the provided signature matches the HMAC digest for the given payload.
- *
- * @param {string} payload - The raw request body.
- * @param {string} signatureHeader - The signature from the request header.
- * @returns {boolean} - True if the signature is valid; otherwise, false.
- */
-function isValidSignature(payload, signatureHeader) {
-  const hmac = crypto.createHmac("sha256", SECRET_KEY);
-  const computedDigestHex = hmac.update(payload).digest("hex");
-
-  // Convert both values to buffers for timing-safe comparison
-  const computedBuffer = Buffer.from(computedDigestHex, "utf8");
-  const signatureBuffer = Buffer.from(signatureHeader, "utf8");
-
-  // Ensure the buffers are the same length; if not, they can't be equal.
-  if (computedBuffer.length !== signatureBuffer.length) {
-    return false;
-  }
-
-  return crypto.timingSafeEqual(computedBuffer, signatureBuffer);
-}
-
-/**
- * Determines the user's tier based on the payment status and refund flag.
- *
- * @param {string} status - The payment status.
- * @param {boolean} refunded - Whether the payment was refunded.
- * @returns {string} - "Pro" if conditions match, otherwise "Free".
- */
-function determineTier(productName, status, refunded) {
-  // Define statuses that qualify for the "Pro" tier if not refunded.
-  const condition = new Set(["paid", "active", "cancelled", "on_trial"]);
-  // First, ensure the product is not refunded and the status qualifies.
-  if (refunded || !condition.has(status)) {
+function tierForPayment(
+  productName: unknown,
+  status: unknown,
+  refunded: unknown,
+): "Free" | "Plus" | "Pro" {
+  if (
+    refunded === true ||
+    typeof status !== "string" ||
+    !new Set(["paid", "active", "cancelled", "on_trial"]).has(
+      status.toLowerCase(),
+    ) ||
+    typeof productName !== "string"
+  ) {
     return "Free";
   }
-
-  // At this point, refunded is false and the status qualifies.
-  // Check productName for tier-specific keywords.
-  if (productName) {
-    if (productName.includes("Plus")) {
-      return "Plus";
-    }
-    if (productName.includes("Pro") || productName.includes("Life Time")) {
-      return "Pro";
-    }
-  }
-
-  // Fallback: if no product name conditions are met, default to "Pro" (per the original logic).
-  return "Pro";
+  if (/\bPlus\b/.test(productName)) return "Plus";
+  if (/\bPro\b/.test(productName) || /\bLife Time\b/.test(productName))
+    return "Pro";
+  return "Free";
 }
 
+function json(payload: Record<string, unknown>, status: number): Response {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: { "content-type": "application/json" },
+  });
+}
 
-export const POST = async ({ request, locals }) => {
-  try {
-    const bodyText = await request.text();
-
-    // Retrieve the signature header; return early if missing.
-    const signatureHeader = request.headers.get("x-Signature");
-    if (!signatureHeader) {
-      console.error("Missing x-Signature header.");
-      return new Response(
-        JSON.stringify({ error: "Missing signature header" }),
-        {
-          status: 403,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-
-    if (!isValidSignature(bodyText, signatureHeader)) {
-      console.error("Signature verification failed.");
-      return new Response(
-        JSON.stringify({ error: "Invalid signature" }),
-        {
-          status: 403,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-
-    // Parse the JSON payload
-    const payload = JSON.parse(bodyText);
-    const eventName = payload?.meta?.event_name;
-    let userId = payload?.meta?.custom_data?.userId;
-    const { status, refunded, user_email } = payload?.data?.attributes || {};
-    const productName = payload?.data?.attributes?.first_order_item?.product_name;
-
-    // For subscription lifecycle events (expired, cancelled, etc.), userId may not be in custom_data
-    // In these cases, look up the user by their email address
-    if (!userId && user_email) {
-      try {
-        const users = await locals.pb.collection("users").getList(1, 1, {
-          filter: `email = "${user_email}"`,
-        });
-        if (users.items.length > 0) {
-          userId = users.items[0].id;
-        }
-      } catch (lookupError) {
-        console.error("Error looking up user by email:", lookupError);
-      }
-    }
-
-    // Handle subscription_expired event - downgrade user to Free
-    if (eventName === "subscription_expired" && userId) {
-      try {
-        await locals.pb.collection("users").update(userId, {
-          tier: "Free",
-          freeTrial: true,
-          credits: 10,
-        });
-
-        const paymentData = { user: userId, data: payload };
-        await locals.pb.collection("payments").create(paymentData);
-
-        return new Response(
-          JSON.stringify({ message: "Subscription expired - user downgraded to Free" }),
-          {
-            status: 200,
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-      } catch (dbError) {
-        console.error("Database error handling subscription_expired:", dbError);
-        return new Response(JSON.stringify({ error: "Pocketbase error" }), {
-          status: 500,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-    }
-
-    if (!userId || status === undefined) {
-      console.error("Missing userId or status in payload:", payload);
-      return new Response(
-        JSON.stringify({ error: "Invalid payload structure" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-
-
-    //for order created update the AI credit
-    if (eventName === "order_created") {
-      const tier = determineTier(productName, status, refunded);
-
-      // Define credits for tiers
-      let credits = 10;
-      if (tier === "Plus") credits = 150;
-      if (tier === "Pro") credits = 1000;
-
-      try {
-        const freeTrial = true;
-        await locals.pb.collection("users").update(userId, {
-          tier,
-          freeTrial,
-          credits,
-          lifetime: productName?.includes("Life Time"),
-        });
-
-
-        const paymentData = { user: userId, data: payload };
-        await locals.pb.collection("payments").create(paymentData);
-
-        return new Response(
-          JSON.stringify({ message: "Payment data received and credit score updated!" }),
-          {
-            status: 200,
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
-      } catch (dbError) {
-        console.error("Database error:", dbError);
-        return new Response(JSON.stringify({ error: "Pocketbase error" }), {
-          status: 500,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-    }
-
-    //=========================
-  
-    const tier = determineTier(payload?.data?.attributes?.product_name, status, refunded);
-    //console.log(tier, payload?.data?.attributes?.product_name)
-    
-    // Update the user and log the payment
-
-    try {
-
-        const freeTrial = true;
-
-      await locals.pb.collection("users").update(userId, {
-        tier,
-         freeTrial,
-        //credits: tier === 'Pro' ? 1000 : tier === 'Plus' ? 500 : 10,
-        credits: tier === 'Free' ? 10 : userId?.credits,
-        lifetime: productName?.includes("Life Time"),
-      });
-
-      const paymentData = { user: userId, data: payload };
-      await locals.pb.collection("payments").create(paymentData);
-    } catch (dbError) {
-      console.error("Database error:", dbError);
-      
-      return new Response(
-      JSON.stringify({ error: "Pocketbase error" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-
-    );
-
-
-    }
-
-    return new Response(
-      JSON.stringify({ message: "Payment data received successfully" }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-  } catch (error) {
-    console.error("Error processing request:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+export const POST = async ({ request }) => {
+  const rawBody = await request.text();
+  const signature = request.headers.get("x-signature");
+  if (!signature || !isValidSignature(rawBody, signature)) {
+    return json({ error: "Invalid signature" }, 403);
   }
+
+  let payload: Record<string, any>;
+  try {
+    payload = JSON.parse(rawBody);
+  } catch {
+    return json({ error: "Invalid JSON" }, 400);
+  }
+
+  const eventName = payload?.meta?.event_name;
+  if (typeof eventName === "string" && !BILLING_EVENTS.has(eventName)) {
+    return json({ message: "Webhook ignored" }, 200);
+  }
+  const userId = payload?.meta?.custom_data?.userId;
+  const attributes = payload?.data?.attributes;
+  const userEmail = attributes?.user_email;
+  const productName =
+    attributes?.first_order_item?.product_name ?? attributes?.product_name;
+
+  if (
+    typeof eventName !== "string" ||
+    (typeof userId !== "string" && typeof userEmail !== "string") ||
+    !attributes ||
+    typeof attributes.status !== "string"
+  ) {
+    return json({ error: "Invalid payload" }, 400);
+  }
+
+  const tier =
+    eventName === "subscription_expired"
+      ? "Free"
+      : tierForPayment(productName, attributes.status, attributes.refunded);
+  const lifetime =
+    tier === "Pro" &&
+    typeof productName === "string" &&
+    /\bLife Time\b/.test(productName);
+  const credits =
+    eventName === "order_created"
+      ? tier === "Pro"
+        ? 1000
+        : tier === "Plus"
+          ? 150
+          : 10
+      : tier === "Free"
+        ? 10
+        : null;
+
+  try {
+    await applyPocketBaseBilling({
+      ...(typeof userId === "string" ? { userId } : {}),
+      ...(typeof userEmail === "string" ? { userEmail } : {}),
+      tier,
+      lifetime,
+      credits,
+      freeTrial: true,
+      paymentData: payload,
+    });
+  } catch (error) {
+    console.error("Billing apply failed", {
+      eventName,
+      kind: error instanceof Error ? error.name : "unknown",
+    });
+    return json({ error: "Billing update failed" }, 502);
+  }
+
+  return json({ message: "Payment data received" }, 200);
 };
