@@ -220,6 +220,8 @@
 
   async function purchasePlan(subscriptionType: string) {
     if (!data?.user) return;
+    if (!data?.checkoutBinding?.accountEmail ||
+        !data?.checkoutBinding?.accountProof) return;
 
     const isPro = subscriptionType?.toLowerCase() === "pro";
     const isPlus = subscriptionType?.toLowerCase() === "plus";
@@ -248,6 +250,8 @@
         "checkout[email]": data?.user?.email,
         "checkout[name]": data?.user?.username,
         "checkout[custom][userId]": data?.user?.id,
+        "checkout[custom][accountEmail]": data?.checkoutBinding?.accountEmail,
+        "checkout[custom][accountProof]": data?.checkoutBinding?.accountProof,
       })?.toString();
 
     // Store purchase value for Google Ads conversion tracking via GTM on /welcome

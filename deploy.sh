@@ -83,19 +83,8 @@ if [ "$(readlink build)" != "$FINAL_DIR" ]; then
   exit 1
 fi
 
-# Reload PM2
-MCP_FRONTEND_ENV="/etc/stocknear-mcp/frontend.env"
-if [ -f "$MCP_FRONTEND_ENV" ]; then
-  if [ ! -r "$MCP_FRONTEND_ENV" ]; then
-    echo "❌ $MCP_FRONTEND_ENV exists but is not readable by $(id -un)"
-    exit 1
-  fi
-  set -a
-  # Root-owned, installer-generated shell assignments; never print this file.
-  # shellcheck disable=SC1091
-  . "$MCP_FRONTEND_ENV"
-  set +a
-fi
+# Reload PM2. MCP credentials are backend-only and must never enter the public
+# frontend deployment environment.
 pm2 reload frontend --update-env
 
 trap - EXIT

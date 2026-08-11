@@ -7,6 +7,7 @@ import {
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
+import { ensureWelcomeCredits } from "$lib/server/pocketbaseUserWrite";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -181,9 +182,11 @@ export const registerAction = async ({
 
   try {
     const newUser = await locals.pb.collection("users").create(formData);
-    await locals.pb.collection("users").update(newUser?.id, {
-      credits: 10,
-    });
+    try {
+      await ensureWelcomeCredits(locals.pb, newUser);
+    } catch {
+      console.warn("Failed to apply legacy PocketBase welcome credits");
+    }
   } catch (err: any) {
     console.error(
       "Registration error for email:",
@@ -230,7 +233,8 @@ export const registerAction = async ({
     });
   }
 
-  // Account creation is already committed. Email delivery and automatic login
+  // PocketBase applies all signup defaults in the create hook atomically.
+  // Email delivery and automatic login
   // are best-effort follow-up work and must not turn a successful signup into a
   // misleading registration failure that the user retries.
   try {

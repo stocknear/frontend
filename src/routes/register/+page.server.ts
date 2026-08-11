@@ -3,6 +3,8 @@ import { registerUserSchema } from "$lib/schemas";
 import { validateData, checkDisposableEmail } from "$lib/utils";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
+import { createBillingAccountProof } from "$lib/server/billingAccountProof";
+import { ensureWelcomeCredits } from "$lib/server/pocketbaseUserWrite";
 import {
   register_turnstile_required,
   register_turnstile_failed,
@@ -32,6 +34,7 @@ export async function load({ locals, url }) {
     return {
       user: locals.user,
       step: 2,
+      checkoutBinding: createBillingAccountProof(locals.user),
     };
   }
 
@@ -48,6 +51,7 @@ export async function load({ locals, url }) {
   return {
     user: null,
     step: 1,
+    checkoutBinding: null,
   };
 }
 
@@ -143,9 +147,11 @@ export const actions = {
 
     try {
       const newUser = await locals.pb.collection("users").create(formData);
-      await locals.pb.collection("users").update(newUser?.id, {
-        credits: 10,
-      });
+      try {
+        await ensureWelcomeCredits(locals.pb, newUser);
+      } catch {
+        console.warn("Failed to apply legacy PocketBase welcome credits");
+      }
     } catch (err: any) {
       console.error(
         "Registration error for email:",

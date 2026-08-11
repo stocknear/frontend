@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 // Server-side credit costs - DO NOT trust client-provided values
 const BULK_DOWNLOAD_CREDIT_COSTS: Record<string, number> = {
@@ -73,8 +74,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   });
 
   // Deduct credits after a successful request
-  await pb.collection("users").update(user?.id, {
-    credits: user?.credits - totalCreditCost,
+  const creditBody = { "credits-": totalCreditCost };
+  await pb.collection("users").update(user.id, creditBody, {
+    headers: protectedUserWriteHeaders(user.id, creditBody),
   });
 
   const contentType = response.headers.get("content-type") || "";

@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 export const GET: RequestHandler = async ({ locals }) => {
   const { user, pb, clientIp } = locals;
@@ -11,7 +12,7 @@ export const GET: RequestHandler = async ({ locals }) => {
       ? clientIp?.trim()
       : undefined;
 
-  if (user?.downloadCredits > 500) {
+  if (user?.downloadCredits >= 500) {
     return new Response(
       JSON.stringify({
         error:
@@ -23,8 +24,11 @@ export const GET: RequestHandler = async ({ locals }) => {
 
   try {
     // 1) Update user downloadCredits
-    await pb.collection("users").update(user.id, {
-      downloadCredits: (user.downloadCredits ?? 0) + 1,
+    const downloadBody = {
+      "downloadCredits+": 1,
+    };
+    await pb.collection("users").update(user.id, downloadBody, {
+      headers: protectedUserWriteHeaders(user.id, downloadBody),
     });
 
     // 2) Check if userInfo already exists for this user

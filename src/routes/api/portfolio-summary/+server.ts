@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 import { canonicalizeLocale } from "$lib/i18n/locales";
 import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
@@ -113,8 +114,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
 
     // Deduct credits after successful response
-    await pb?.collection("users")?.update(user?.id, {
-      credits: user?.credits - costOfCredit,
+    const creditBody = {
+      "credits-": costOfCredit,
+    };
+    await pb?.collection("users")?.update(user?.id, creditBody, {
+      headers: protectedUserWriteHeaders(user.id, creditBody),
     });
 
     return new Response(JSON.stringify({ data: result, ...localeResolution }), {

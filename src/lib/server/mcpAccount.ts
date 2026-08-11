@@ -17,13 +17,6 @@ type McpOwnerClient = Pick<PocketBase, "send">;
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-const hasExactKeys = (
-  value: Record<string, unknown>,
-  keys: readonly string[],
-) =>
-  Object.keys(value).length === keys.length &&
-  keys.every((key) => key in value);
-
 const isRfc3339 = (value: unknown): value is string =>
   typeof value === "string" &&
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(
@@ -34,7 +27,6 @@ const isRfc3339 = (value: unknown): value is string =>
 export function parseMcpTokenInfo(value: unknown): McpTokenInfo {
   if (!isObject(value)) throw new Error("Invalid MCP token metadata");
   if (
-    !hasExactKeys(value, ["prefix", "createdAt", "expiresAt", "status"]) ||
     typeof value.prefix !== "string" ||
     !/^sn_mcp_[A-Za-z0-9_-]{1,24}$/.test(value.prefix) ||
     !isRfc3339(value.createdAt) ||
@@ -54,7 +46,6 @@ export function parseMcpTokenInfo(value: unknown): McpTokenInfo {
 export function parseMcpAccount(value: unknown): McpAccount {
   if (
     !isObject(value) ||
-    !hasExactKeys(value, ["eligible", "token", "oauth"]) ||
     typeof value.eligible !== "boolean"
   ) {
     throw new Error("Invalid MCP account response");
@@ -64,7 +55,6 @@ export function parseMcpAccount(value: unknown): McpAccount {
   if (value.oauth !== null) {
     if (
       !isObject(value.oauth) ||
-      !hasExactKeys(value.oauth, ["issuer", "linkedAt"]) ||
       typeof value.oauth.issuer !== "string" ||
       value.oauth.issuer.length === 0 ||
       !isRfc3339(value.oauth.linkedAt)
@@ -87,7 +77,6 @@ export function parseMcpAccount(value: unknown): McpAccount {
 export function parseMcpTokenCreated(value: unknown): McpTokenCreated {
   if (
     !isObject(value) ||
-    !hasExactKeys(value, ["token", "tokenInfo"]) ||
     typeof value.token !== "string" ||
     !/^sn_mcp_[A-Za-z0-9_-]{43}$/.test(value.token)
   ) {

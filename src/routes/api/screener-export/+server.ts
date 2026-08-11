@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 const MAX_DOWNLOAD_CREDITS = 500;
 
@@ -54,7 +55,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   const latestDownloadCredits = Number(user?.downloadCredits ?? 0);
   if (
     Number.isFinite(latestDownloadCredits) &&
-    latestDownloadCredits > MAX_DOWNLOAD_CREDITS
+    latestDownloadCredits >= MAX_DOWNLOAD_CREDITS
   ) {
     return json(
       {
@@ -80,8 +81,11 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
     let updatedCreditsUser;
     try {
-      updatedCreditsUser = await pb.collection("users").update(user.id, {
+      const debitBody = {
         "credits-": creditCost,
+      };
+      updatedCreditsUser = await pb.collection("users").update(user.id, debitBody, {
+        headers: protectedUserWriteHeaders(user.id, debitBody),
       });
     } catch (error) {
       const statusCode = (error as { status?: number })?.status;
@@ -137,8 +141,11 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
     if ((updatedCreditsUser?.credits ?? 0) < 0) {
       try {
-        await pb.collection("users").update(user.id, {
+        const creditRollbackBody = {
           "credits+": creditCost,
+        };
+        await pb.collection("users").update(user.id, creditRollbackBody, {
+          headers: protectedUserWriteHeaders(user.id, creditRollbackBody),
         });
       } catch (rollbackError) {
         console.error(
@@ -159,8 +166,11 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   }
 
   try {
-    updatedUser = await pb.collection("users").update(user.id, {
+    const downloadBody = {
       "downloadCredits+": 1,
+    };
+    updatedUser = await pb.collection("users").update(user.id, downloadBody, {
+      headers: protectedUserWriteHeaders(user.id, downloadBody),
     });
 
     if ((updatedUser?.downloadCredits ?? 0) > MAX_DOWNLOAD_CREDITS) {
@@ -171,7 +181,9 @@ export const POST: RequestHandler = async ({ locals, request }) => {
         if (creditCost > 0) {
           rollbackFields["credits+"] = creditCost;
         }
-        await pb.collection("users").update(user.id, rollbackFields);
+        await pb.collection("users").update(user.id, rollbackFields, {
+          headers: protectedUserWriteHeaders(user.id, rollbackFields),
+        });
       } catch (rollbackError) {
         console.error(
           `Failed to rollback ${screener} screener export after downloadCredits limit:`,
@@ -191,6 +203,28 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     console.error(
       `Failed to update ${screener} screener downloadCredits:`,
       downloadCreditError,
+    );
+    if (creditCost > 0) {
+      try {
+        const rollbackBody = { "credits+": creditCost };
+        await pb.collection("users").update(user.id, rollbackBody, {
+          headers: protectedUserWriteHeaders(user.id, rollbackBody),
+        });
+      } catch (rollbackError) {
+        console.error(
+          `Failed to rollback ${screener} screener credits after download limit failure:`,
+          rollbackError,
+        );
+      }
+    }
+    const status = (downloadCreditError as { status?: number })?.status;
+    return json(
+      {
+        error: status === 400
+          ? "Abusive usage detected. Please read our Terms of Service to understand more."
+          : "Failed to process export. Please try again.",
+      },
+      status === 400 ? 400 : 500,
     );
   }
 

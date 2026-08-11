@@ -2,9 +2,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const state = vi.hoisted(() => ({
   create: vi.fn(),
-  update: vi.fn(),
   requestVerification: vi.fn(),
   authWithPassword: vi.fn(),
+  update: vi.fn(),
+}));
+
+vi.mock("$env/static/private", () => ({
+  LEMON_SQUEEZY_SECRET_KEY: "registration-test-secret-0123456789",
 }));
 
 vi.mock("$lib/utils", () => ({
@@ -36,9 +40,9 @@ function event() {
     if (name !== "users") throw new Error(`Unexpected collection: ${name}`);
     return {
       create: state.create,
-      update: state.update,
       requestVerification: state.requestVerification,
       authWithPassword: state.authWithPassword,
+      update: state.update,
     };
   });
   return {
@@ -55,10 +59,10 @@ function event() {
 
 describe("direct PocketBase registration", () => {
   beforeEach(() => {
-    state.create.mockReset().mockResolvedValue({ id: "a".repeat(15) });
-    state.update.mockReset().mockResolvedValue(undefined);
+    state.create.mockReset().mockResolvedValue({ id: "a".repeat(15), credits: 10 });
     state.requestVerification.mockReset().mockResolvedValue(undefined);
     state.authWithPassword.mockReset().mockResolvedValue(undefined);
+    state.update.mockReset().mockResolvedValue(undefined);
   });
 
   it("creates and initializes popup registrations without a private service route", async () => {
@@ -72,7 +76,6 @@ describe("direct PocketBase registration", () => {
       password: "Correct-password1!",
       passwordConfirm: "Correct-password1!",
     });
-    expect(state.update).toHaveBeenCalledWith("a".repeat(15), { credits: 10 });
     expect(state.requestVerification).toHaveBeenCalledWith(
       "new-user@example.com",
     );
@@ -80,6 +83,7 @@ describe("direct PocketBase registration", () => {
       "new-user@example.com",
       "Correct-password1!",
     );
+    expect(state.update).not.toHaveBeenCalled();
   });
 
   it("creates and initializes dedicated-page registrations directly", async () => {
@@ -88,7 +92,6 @@ describe("direct PocketBase registration", () => {
     ).rejects.toMatchObject({ status: 302, location: "/register?step=2" });
 
     expect(state.create).toHaveBeenCalledTimes(1);
-    expect(state.update).toHaveBeenCalledWith("a".repeat(15), { credits: 10 });
   });
 
   it("does not turn committed signup into failure when follow-up work fails", async () => {
@@ -100,6 +103,22 @@ describe("direct PocketBase registration", () => {
       location: "/register?step=2",
     });
     expect(state.create).toHaveBeenCalledTimes(1);
-    expect(state.update).toHaveBeenCalledTimes(1);
+  });
+
+  it("tops up welcome credits only when an old PocketBase returns less than ten", async () => {
+    state.create.mockResolvedValue({ id: "a".repeat(15), credits: 0 });
+    await expect(registerAction(event() as any)).rejects.toMatchObject({
+      status: 302,
+      location: "/register?step=2",
+    });
+    expect(state.update).toHaveBeenCalledWith(
+      "a".repeat(15),
+      { "credits+": 10 },
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "X-Stocknear-User-Write-Operation": '{"credits+":10}',
+        }),
+      }),
+    );
   });
 });

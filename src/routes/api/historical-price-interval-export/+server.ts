@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 import { calculateIntradayExportCredits } from "$lib/utils";
 
 const ALLOWED_TIERS = new Set(["Plus", "Pro"]);
@@ -36,7 +37,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     );
   }
 
-  if ((user?.downloadCredits ?? 0) > 500) {
+  if ((user?.downloadCredits ?? 0) >= 500) {
     return new Response(
       JSON.stringify({
         error:
@@ -167,12 +168,27 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const payload = await response.arrayBuffer();
 
     try {
-      await pb?.collection("users")?.update(user?.id, {
-        credits: user?.credits - creditCost,
-        downloadCredits: (user?.downloadCredits ?? 0) + 1,
+      const creditBody = {
+        "credits-": creditCost,
+        "downloadCredits+": 1,
+      };
+      await pb?.collection("users")?.update(user?.id, creditBody, {
+        headers: protectedUserWriteHeaders(user.id, creditBody),
       });
     } catch (error) {
       console.error("Failed to deduct credits:", error);
+      const status = (error as { status?: number })?.status;
+      return new Response(
+        JSON.stringify({
+          error: status === 400
+            ? "Download limit reached."
+            : "Failed to process export. Please try again.",
+        }),
+        {
+          status: status === 400 ? 400 : 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
 
     let userInfo;

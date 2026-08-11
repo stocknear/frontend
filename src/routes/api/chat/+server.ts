@@ -17,6 +17,7 @@ import {
   markChatGenerationCompleted,
   markChatGenerationFailed,
 } from "$lib/server/chatGenerationRegistry";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 const INSUFFICIENT_CREDITS_ERROR =
   "Insufficient credits. Credits are reset at the start of each month.";
@@ -56,7 +57,7 @@ async function withUserCreditLock<T>(
   }
 }
 
-async function reserveCredits(
+export async function reserveCredits(
   pb: App.Locals["pb"],
   userId: string,
   costOfCredit: number,
@@ -72,18 +73,21 @@ async function reserveCredits(
         return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
       }
 
+      const creditBody = { "credits-": costOfCredit };
       const updatedUser = await pb.collection("users").update(
         userId,
+        creditBody,
         {
-          "credits-": costOfCredit,
+          fields: "id,credits",
+          headers: protectedUserWriteHeaders(userId, creditBody),
         },
-        { fields: "id,credits" },
       );
 
       const remainingCredits = Number(updatedUser?.credits ?? 0);
       if (Number.isFinite(remainingCredits) && remainingCredits < 0) {
-        await pb.collection("users").update(userId, {
-          "credits+": costOfCredit,
+        const rollbackBody = { "credits+": costOfCredit };
+        await pb.collection("users").update(userId, rollbackBody, {
+          headers: protectedUserWriteHeaders(userId, rollbackBody),
         });
         return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
       }
@@ -91,6 +95,11 @@ async function reserveCredits(
       return { ok: true };
     } catch (e) {
       console.error("Credit reservation error:", e);
+      const status = (e as { status?: number })?.status;
+      const message = String((e as { message?: string })?.message ?? "");
+      if (status === 400 && message.toLowerCase().includes("credit")) {
+        return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
+      }
       return {
         ok: false,
         status: 500,
@@ -106,8 +115,9 @@ async function refundCredits(
   costOfCredit: number,
 ) {
   try {
-    await pb.collection("users").update(userId, {
-      "credits+": costOfCredit,
+    const refundBody = { "credits+": costOfCredit };
+    await pb.collection("users").update(userId, refundBody, {
+      headers: protectedUserWriteHeaders(userId, refundBody),
     });
   } catch (refundError) {
     console.error("Credit refund error:", refundError);

@@ -85,12 +85,15 @@ describe("MCP owner account client", () => {
       ...accountResponse,
       token: { ...accountResponse.token, status: "revoked" },
     },
-    { ...accountResponse, unexpected: true },
-    {
-      ...accountResponse,
-      oauth: { ...accountResponse.oauth, unexpected: true },
-    },
   ])("fails closed on malformed owner metadata", (value) => {
     expect(() => parseMcpAccount(value)).toThrow();
+  });
+
+  it("ignores additive response metadata while validating the known contract", () => {
+    expect(parseMcpAccount({
+      ...accountResponse,
+      serverVersion: 2,
+      oauth: { ...accountResponse.oauth, provider: "keycloak" },
+    })).toEqual(accountResponse);
   });
 });

@@ -1,6 +1,7 @@
 import type { RequestHandler } from "./$types";
 import { canonicalizeLocale } from "$lib/i18n/locales";
 import { resolveBackendLocale } from "$lib/i18n/backend-locales";
+import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { apiURL, apiKey, user, pb } = locals;
@@ -66,8 +67,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const result = await response.json();
 
     // Deduct credits after successful response
-    await pb?.collection("users")?.update(user?.id, {
-      credits: user?.credits - costOfCredit,
+    const creditBody = {
+      "credits-": costOfCredit,
+    };
+    await pb?.collection("users")?.update(user?.id, creditBody, {
+      headers: protectedUserWriteHeaders(user.id, creditBody),
     });
 
     return new Response(JSON.stringify({ data: result, ...localeResolution }), {
