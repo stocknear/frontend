@@ -698,6 +698,8 @@
                       class="avatar w-9 sm:w-10 rounded-full"
                       src="/pwa-192x192.png"
                       alt={layout_logo_alt()}
+                      width="40"
+                      height="40"
                     />
                     Stocknear
                   </a>
@@ -1502,6 +1504,8 @@
             class="avatar w-9 3xl:w-10 rounded-full"
             src="/pwa-192x192.png"
             alt={layout_logo_alt()}
+            width="40"
+            height="40"
           />
           <span
             class="text-fg sm:hover:text-accent transition font-semibold tracking-tight ml-2 text-xl"

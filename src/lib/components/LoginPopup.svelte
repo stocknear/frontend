@@ -44,6 +44,7 @@
     register_toast_weak_password,
     register_toast_invalid_email,
     register_toast_rate_limited,
+    common_close,
   } from "$lib/paraglide/messages";
 
   export let form;
@@ -51,6 +52,11 @@
   let oauthLoading = false;
   let isClicked = false;
   let loading = false;
+  let loginToggle: HTMLInputElement;
+
+  const closeModal = () => {
+    if (loginToggle) loginToggle.checked = false;
+  };
 
   // Password state for real-time validation
   let password = "";
@@ -200,15 +206,24 @@
   $: currentPathWithSearch = $page.url.pathname + $page.url.search;
 </script>
 
-<input type="checkbox" id="userLogin" class="modal-toggle" />
+<input
+  bind:this={loginToggle}
+  type="checkbox"
+  id="userLogin"
+  class="modal-toggle"
+  aria-hidden="true"
+  tabindex="-1"
+/>
 
 <dialog
-  id="userLogin"
+  id="userLoginDialog"
+  aria-labelledby={displaySection === "login"
+    ? "user-login-title"
+    : "user-register-title"}
   class="modal modal-bottom sm:modal-middle rounded-none sm:rounded-control"
 >
   <label
     on:click={() => (form = [])}
-    id="userLogin"
     for="userLogin"
     class="cursor-pointer modal-backdrop"
   ></label>
@@ -218,25 +233,29 @@
       ? 'min-h-screen'
       : ''} relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
   >
-    <label
-      for="userLogin"
-      class="inline-block cursor-pointer absolute right-4 top-4 text-[1.3rem] sm:text-[1.6rem] text-fg-muted hover:text-gray-900 dark:hover:text-white transition"
-      aria-label="Close modal"
+    <button
+      type="button"
+      on:click={closeModal}
+      class="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-line bg-surface-page/90 text-fg shadow-sm transition hover:bg-gray-100 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card"
+      aria-label={common_close()}
+      title={common_close()}
     >
       <svg
-        class="w-6 h-6 sm:w-7 sm:h-7"
+        class="h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
-        ><path
-          fill="currentColor"
-          d="m6.4 18.308l-.708-.708l5.6-5.6l-5.6-5.6l.708-.708l5.6 5.6l5.6-5.6l.708.708l-5.6 5.6l5.6 5.6l-.708.708l-5.6-5.6z"
-        /></svg
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg
       >
-    </label>
+    </button>
     {#if displaySection === "login"}
       <div class="grid grid-cols-1 animate-fade-in-once">
         <div class="relative">
           <h2
+            id="user-login-title"
             class="text-center text-2xl sm:text-3xl pt-8 sm:pt-4 font-semibold tracking-tight"
           >
             {login_popup_sign_in_title()}
@@ -319,6 +338,7 @@
       <div class="grid grid-cols-1 gap-4 animate-fade-in-once">
         <div class="relative">
           <h2
+            id="user-register-title"
             class="text-center text-2xl sm:text-3xl pt-8 sm:pt-4 font-semibold tracking-tight"
           >
             {register_popup_title()}

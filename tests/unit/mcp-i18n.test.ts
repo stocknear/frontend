@@ -49,6 +49,7 @@ describe("MCP localization", () => {
         "mcp_hero_title",
         "mcp_example_1",
         "mcp_profile_revoke",
+        "mcp_profile_upgrade_button",
         "mcp_footer_link",
       ]) {
         expect(catalogs[locale][key], `${locale}:${key}`).not.toBe(
@@ -95,5 +96,19 @@ describe("MCP localization", () => {
     expect(profile.match(/cursor-pointer/g)?.length).toBeGreaterThanOrEqual(2);
     expect(page).toContain("dark:bg-violet-500/15");
     expect(page).not.toContain("dark:bg-violet-500 dark:hover:bg-violet-600");
+  });
+
+  it("routes non-Pro MCP conversion actions to localized Pricing", () => {
+    const page = readFileSync(
+      new URL("src/routes/mcp/+page.svelte", root),
+      "utf8",
+    );
+    expect(page).toContain('localizedHref("/pricing", currentLocale)');
+    expect(page).toContain(
+      "data?.isPro ? mcp_get_token() : mcp_profile_upgrade_button()",
+    );
+    expect(page).toContain(
+      "data?.isPro ? mcp_cta_button() : mcp_profile_upgrade_button()",
+    );
   });
 });

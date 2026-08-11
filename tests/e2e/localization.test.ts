@@ -35,12 +35,22 @@ test("legacy Chinese and prefixed English URLs redirect permanently", async ({ r
   expect(english.headers().location).toBe("/about/");
 });
 
-test("the footer dropdown switches from German back to durable English", async ({ context, page }) => {
+test("the footer dropdown switches from German back to durable English", async ({
+  context,
+  page,
+}) => {
   await page.goto("/de/about/?from=locale-test");
-  const selector = page?.locator(
-    'footer summary[aria-label="Sprache wechseln"]',
-  );
+  const disclosure = page.locator("footer details");
+  const selector = disclosure.locator("summary");
   await expect(selector).toBeVisible();
+  await selector.click();
+  await expect(disclosure).toHaveAttribute("open", "");
+
+  // Selecting the active locale does not navigate, so this directly verifies
+  // that the disclosure itself closes instead of relying on a page reload.
+  await page.getByRole("menuitem", { name: "Deutsch" }).click();
+  await expect(disclosure).not.toHaveAttribute("open", "");
+
   await selector.click();
   await page.getByRole("menuitem", { name: "English" }).click();
 

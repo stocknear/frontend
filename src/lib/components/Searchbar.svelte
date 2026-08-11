@@ -610,6 +610,8 @@
   type="checkbox"
   id="searchBarModal"
   class="modal-toggle"
+  aria-hidden="true"
+  tabindex="-1"
   bind:checked={searchBarModalChecked}
 />
 

@@ -86,6 +86,7 @@
   }
 
   function switchLanguage(locale: Locale) {
+    closeLanguageMenu();
     if (locale === currentLocale) return;
     setLanguage(
       locale,
@@ -108,6 +109,8 @@
         <img
           src="/pwa-192x192.png"
           alt="logo"
+          width="44"
+          height="44"
           class="w-11 h-11 rounded-container"
         />
         <div>
@@ -122,11 +125,11 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full">
         <!-- Repeat this block for each section -->
         <nav class="space-y-3">
-          <h6
+          <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-white dark:text-zinc-300"
           >
             {footer_sections()}
-          </h6>
+          </p>
           <ul class="space-y-2">
             <li>
               <a
@@ -164,11 +167,11 @@
           </ul>
         </nav>
         <nav class="space-y-3">
-          <h6
+          <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-white dark:text-zinc-300"
           >
             {footer_services()}
-          </h6>
+          </p>
           <ul class="space-y-2">
             <li>
               <a
@@ -212,11 +215,11 @@
           </ul>
         </nav>
         <nav class="space-y-3">
-          <h6
+          <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-white dark:text-zinc-300"
           >
             {footer_website()}
-          </h6>
+          </p>
           <ul class="space-y-2">
             <li>
               <a
@@ -260,9 +263,9 @@
             <li>
               <details class="group relative w-fit" bind:this={langDetails}>
                 <summary
-                  aria-label={common_language_switch()}
                   class="mt-3 flex list-none items-center gap-2 rounded-full border border-zinc-600 bg-white/5 px-3 py-1.5 text-xs text-zinc-300 transition-all hover:bg-white/10 hover:text-white cursor-pointer [&::-webkit-details-marker]:hidden"
                 >
+                  <span class="sr-only">{common_language_switch()}</span>
                   <span aria-hidden="true">{flagEmoji[currentLocale]}</span>
                   <span class="uppercase font-medium">{currentLocale}</span>
                   <svg
@@ -346,11 +349,11 @@
           </ul>
         </nav>
         <nav class="space-y-3">
-          <h6
+          <p
             class="text-xs font-semibold uppercase tracking-[0.2em] text-white dark:text-zinc-300"
           >
             {footer_company()}
-          </h6>
+          </p>
           <ul class="space-y-2">
             <li>
               <a

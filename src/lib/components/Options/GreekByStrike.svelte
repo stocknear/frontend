@@ -1109,7 +1109,7 @@
         align="end"
         sideOffset={10}
         alignOffset={0}
-        class="min-w-56 w-auto max-w-96 max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
+        class="w-[min(20rem,calc(100vw-2rem))] max-h-[400px] overflow-y-auto scroller relative rounded-container border border-line bg-surface-card p-2 text-fg shadow-none"
       >
         <DropdownMenu.Group class="pb-2">
           {#each dteOptions as item, index}
@@ -1161,60 +1161,68 @@
           <!-- Custom Range Option -->
           {#if data?.user?.tier === "Pro"}
             <div
-              class="relative flex cursor-default select-none items-center rounded-control px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+              class="relative mx-1 mt-1 cursor-default select-none rounded-xl border border-line bg-surface-raised/50 p-2.5 text-sm text-fg outline-none"
               on:click|stopPropagation
               on:keydown|stopPropagation
               on:keyup|stopPropagation
               on:keypress|stopPropagation
             >
-              <div class="flex items-center gap-2 w-full">
+              <div class="flex w-full flex-col gap-2">
                 <div
-                  class="cursor-pointer flex items-center"
+                  class="flex w-fit cursor-pointer items-center"
                   on:click|preventDefault|stopPropagation={handleCustomToggle}
                 >
                   <input
                     type="checkbox"
                     checked={isCustomSelected}
+                    aria-label={stock_detail_options_greek_custom()}
                     on:click|preventDefault|stopPropagation={handleCustomToggle}
                   />
-                  <span class="ml-2">{stock_detail_options_greek_custom()}</span
+                  <span class="ml-2 font-medium"
+                    >{stock_detail_options_greek_custom()}</span
                   >
                 </div>
-                <input
-                  type="number"
-                  bind:value={customMin}
-                  on:input={() => {
-                    selectCustomIfNeeded();
-                    applyCustomRange();
-                  }}
-                  on:click|stopPropagation
-                  on:keydown|stopPropagation
-                  on:keyup|stopPropagation
-                  on:keypress|stopPropagation
-                  on:focus|stopPropagation
-                  placeholder={stock_detail_options_greek_min()}
-                  min="0"
-                  class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-fg focus:outline-none focus:ring-1 focus:ring-violet-500"
-                />
-                <span class="text-fg"
-                  >{stock_detail_options_greek_to()}</span
+                <div
+                  class="grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2"
                 >
-                <input
-                  type="number"
-                  bind:value={customMax}
-                  on:input={() => {
-                    selectCustomIfNeeded();
-                    applyCustomRange();
-                  }}
-                  on:click|stopPropagation
-                  on:keydown|stopPropagation
-                  on:keyup|stopPropagation
-                  on:keypress|stopPropagation
-                  on:focus|stopPropagation
-                  placeholder={stock_detail_options_greek_max()}
-                  min="0"
-                  class="w-16 px-2 py-1 text-sm rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-fg focus:outline-none focus:ring-1 focus:ring-violet-500"
-                />
+                  <input
+                    type="number"
+                    bind:value={customMin}
+                    on:input={() => {
+                      selectCustomIfNeeded();
+                      applyCustomRange();
+                    }}
+                    on:click|stopPropagation
+                    on:keydown|stopPropagation
+                    on:keyup|stopPropagation
+                    on:keypress|stopPropagation
+                    on:focus|stopPropagation
+                    placeholder={stock_detail_options_greek_min()}
+                    aria-label={stock_detail_options_greek_min()}
+                    min="0"
+                    class="min-w-0 w-full rounded-lg border border-line bg-surface-card px-2.5 py-1.5 text-sm text-fg placeholder:text-fg-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  />
+                  <span class="text-xs font-medium text-fg-muted"
+                    >{stock_detail_options_greek_to()}</span
+                  >
+                  <input
+                    type="number"
+                    bind:value={customMax}
+                    on:input={() => {
+                      selectCustomIfNeeded();
+                      applyCustomRange();
+                    }}
+                    on:click|stopPropagation
+                    on:keydown|stopPropagation
+                    on:keyup|stopPropagation
+                    on:keypress|stopPropagation
+                    on:focus|stopPropagation
+                    placeholder={stock_detail_options_greek_max()}
+                    aria-label={stock_detail_options_greek_max()}
+                    min="0"
+                    class="min-w-0 w-full rounded-lg border border-line bg-surface-card px-2.5 py-1.5 text-sm text-fg placeholder:text-fg-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  />
+                </div>
               </div>
             </div>
           {:else}

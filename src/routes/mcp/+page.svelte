@@ -51,6 +51,9 @@
     mcp_merged_example,
     mcp_open_settings,
     mcp_other_clients,
+    mcp_profile_upgrade_button,
+    mcp_profile_upgrade_description,
+    mcp_profile_upgrade_title,
     mcp_quick_description,
     mcp_quick_fallback,
     mcp_quick_title,
@@ -78,7 +81,7 @@
     mcp_verify_title,
   } from "$lib/paraglide/messages.js";
 
-  export let data: { mcpTools: PublicMcpTool[] };
+  export let data: { mcpTools: PublicMcpTool[]; isPro: boolean };
 
   const quickConnectLogos = {
     claude: claudeLogo,
@@ -140,6 +143,9 @@
     MCP_CLIENTS.find((client) => client.id === selectedId) ?? MCP_CLIENTS[0];
   $: currentLocale = extractLocaleFromUrl($page.url) ?? baseLocale;
   $: profileHref = `${localizedHref("/profile", currentLocale)}#mcp-access`;
+  $: conversionHref = data?.isPro
+    ? profileHref
+    : localizedHref("/pricing", currentLocale);
   $: toolGroups = Object.entries(
     (data?.mcpTools ?? []).reduce<Record<string, PublicMcpTool[]>>(
       (groups, tool) => {
@@ -164,8 +170,12 @@
       {
         "@type": "HowToStep",
         position: 1,
-        name: mcp_step_1_title(),
-        text: mcp_step_1_description(),
+        name: data?.isPro
+          ? mcp_step_1_title()
+          : mcp_profile_upgrade_title(),
+        text: data?.isPro
+          ? mcp_step_1_description()
+          : mcp_profile_upgrade_description(),
       },
       {
         "@type": "HowToStep",
@@ -233,9 +243,9 @@
       <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
         <a
           class="inline-flex min-h-11 items-center justify-center rounded-full bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:border dark:border-violet-500/20 dark:bg-violet-500/15 dark:text-violet-200 dark:hover:bg-violet-500/25"
-          href={profileHref}
+          href={conversionHref}
         >
-          {mcp_get_token()}
+          {data?.isPro ? mcp_get_token() : mcp_profile_upgrade_button()}
         </a>
         <button
           class="inline-flex min-h-11 min-w-0 cursor-pointer items-center justify-between gap-3 rounded-full border border-line bg-surface-card px-4 py-2.5 text-left text-sm transition hover:border-violet-300 dark:hover:border-violet-700 sm:max-w-md"
@@ -288,7 +298,7 @@
       {mcp_setup_title()}
     </h2>
     <ol class="mt-8 grid gap-4 md:grid-cols-3">
-      {#each [{ title: mcp_step_1_title(), description: mcp_step_1_description() }, { title: mcp_step_2_title(), description: mcp_step_2_description() }, { title: mcp_step_3_title(), description: mcp_step_3_description() }] as step, index}
+      {#each [{ title: data?.isPro ? mcp_step_1_title() : mcp_profile_upgrade_title(), description: data?.isPro ? mcp_step_1_description() : mcp_profile_upgrade_description() }, { title: mcp_step_2_title(), description: mcp_step_2_description() }, { title: mcp_step_3_title(), description: mcp_step_3_description() }] as step, index}
         <li class="rounded-2xl border border-line bg-surface-card p-6">
           <span
             class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-semibold text-white dark:border dark:border-violet-500/20 dark:bg-violet-500/15 dark:text-violet-300"
@@ -560,14 +570,17 @@
     class="rounded-2xl border border-line bg-surface-card px-6 py-10 text-center sm:px-10 sm:py-12"
   >
     <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-      {mcp_cta_title()}
+      {data?.isPro ? mcp_cta_title() : mcp_profile_upgrade_title()}
     </h2>
     <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-fg-muted">
-      {mcp_cta_description()}
+      {data?.isPro
+        ? mcp_cta_description()
+        : mcp_profile_upgrade_description()}
     </p>
     <a
       class="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700 dark:border dark:border-violet-500/20 dark:bg-violet-500/15 dark:text-violet-200 dark:hover:bg-violet-500/25"
-      href={profileHref}>{mcp_cta_button()}</a
+      href={conversionHref}
+      >{data?.isPro ? mcp_cta_button() : mcp_profile_upgrade_button()}</a
     >
   </section>
 </main>

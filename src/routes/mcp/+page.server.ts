@@ -41,9 +41,11 @@ export function _parsePublicMcpCatalog(value: unknown): PublicMcpTool[] {
   });
 }
 
-export const load = async ({ fetch }) => {
+export const load = async ({ fetch, locals }) => {
   const now = Date.now();
-  if (cache && cache.expiresAt > now) return { mcpTools: cache.tools };
+  const isPro = locals?.user?.tier === "Pro";
+  if (cache && cache.expiresAt > now)
+    return { mcpTools: cache.tools, isPro };
 
   try {
     const response = await fetch(CATALOG_URL, {
@@ -56,12 +58,12 @@ export const load = async ({ fetch }) => {
       throw new Error(`MCP catalog returned ${response.status}`);
     const tools = _parsePublicMcpCatalog(await response.json());
     cache = { tools, expiresAt: now + CATALOG_TTL_MS };
-    return { mcpTools: tools };
+    return { mcpTools: tools, isPro };
   } catch {
     cache = {
       tools: cache?.tools ?? [],
       expiresAt: now + CATALOG_FAILURE_TTL_MS,
     };
-    return { mcpTools: cache.tools };
+    return { mcpTools: cache.tools, isPro };
   }
 };

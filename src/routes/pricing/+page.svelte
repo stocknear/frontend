@@ -69,6 +69,7 @@
     pricing_feature_options_flow,
     pricing_feature_unusual_orders,
     pricing_feature_discord,
+    pricing_feature_mcp_support,
     pricing_feature_everything_plus,
     pricing_feature_options_realtime,
     pricing_feature_pro_chart_unlimited,
@@ -91,6 +92,8 @@
     pricing_faq_q3_answer,
     pricing_faq_q4_title,
     pricing_faq_q4_answer,
+    pricing_faq_q5_title,
+    pricing_faq_q5_answer,
     pricing_faq_q6_title,
     pricing_faq_q6_answer,
     pricing_faq_q7_title,
@@ -2087,6 +2090,23 @@
 
             <span class="">{pricing_feature_discord()}</span>
           </li>
+          <li class="flex items-start text-fg">
+            <svg
+              class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path></svg
+            >
+
+            <span class="">{pricing_feature_mcp_support()}</span>
+          </li>
         </ul>
         <!--
         {#if !["Pro", "Plus"]?.includes(data?.user?.tier)  === true}
@@ -2343,6 +2363,25 @@
                 </details>
               </li>
             {/if}
+
+            <li
+              class="rounded-container border border-[rgb(var(--pricing-border)/0.45)] bg-[rgb(var(--pricing-card)/0.7)] px-4 sm:px-6"
+            >
+              <details class="collapse collapse-arrow">
+                <summary
+                  class="font-semibold collapse-title text-base sm:text-lg flex items-center justify-between w-full text-left py-4 text-[rgb(var(--pricing-ink))]"
+                >
+                  {pricing_faq_q5_title()}
+                </summary>
+                <div class="collapse-content">
+                  <p
+                    class="text-sm sm:text-base pb-5 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    {pricing_faq_q5_answer()}
+                  </p>
+                </div>
+              </details>
+            </li>
 
             <!-- 3. Payment & Pricing -->
             <li

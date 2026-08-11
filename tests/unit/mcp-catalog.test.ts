@@ -56,15 +56,24 @@ describe("public MCP catalog", () => {
       .mockReturnValueOnce(1)
       .mockReturnValueOnce(300_002);
 
-    await expect(load({ fetch } as never)).resolves.toEqual({
+    await expect(
+      load({ fetch, locals: { user: { tier: "Free" } } } as never),
+    ).resolves.toEqual({
       mcpTools: [{ name: "get_ticker_quote", category: "quote" }],
+      isPro: false,
     });
-    await expect(load({ fetch } as never)).resolves.toEqual({
+    await expect(
+      load({ fetch, locals: { user: { tier: "Pro" } } } as never),
+    ).resolves.toEqual({
       mcpTools: [{ name: "get_ticker_quote", category: "quote" }],
+      isPro: true,
     });
     expect(fetch).toHaveBeenCalledTimes(2);
-    await expect(load({ fetch } as never)).resolves.toEqual({
+    await expect(
+      load({ fetch, locals: { user: { tier: "Plus" } } } as never),
+    ).resolves.toEqual({
       mcpTools: [{ name: "get_ticker_quote", category: "quote" }],
+      isPro: false,
     });
     expect(fetch).toHaveBeenCalledTimes(2);
     now.mockRestore();
