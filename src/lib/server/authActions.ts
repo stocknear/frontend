@@ -7,7 +7,6 @@ import {
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
-import { registerPocketBaseUser } from "$lib/server/pocketbasePrivate";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -181,26 +180,11 @@ export const registerAction = async ({
   }
 
   try {
-    const newUser = await registerPocketBaseUser({
-      email: formData.email,
-      password: formData.password,
-      passwordConfirm: formData.passwordConfirm,
-    });
-    await locals.pb.collection("users").requestVerification(formData.email);
-    await locals.pb
-      .collection("users")
-      .authWithPassword(formData.email, formData.password);
-
-    // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
-    cookies.set(SIGNUP_COOKIE, "1", {
-      path: "/",
-      maxAge: 120,
-      httpOnly: true,
-      sameSite: "lax",
-      secure: !import.meta.env.DEV,
+    const newUser = await locals.pb.collection("users").create(formData);
+    await locals.pb.collection("users").update(newUser?.id, {
+      credits: 10,
     });
   } catch (err: any) {
-    // SECURITY: Don't log full error object, only safe message
     console.error(
       "Registration error for email:",
       formData?.email?.substring(0, 3) + "***",
@@ -240,12 +224,36 @@ export const registerAction = async ({
       });
     }
 
-    // Generic registration error
     return fail(400, {
       data: safeFormData,
       registrationFailed: true,
     });
   }
+
+  // Account creation is already committed. Email delivery and automatic login
+  // are best-effort follow-up work and must not turn a successful signup into a
+  // misleading registration failure that the user retries.
+  try {
+    await locals.pb.collection("users").requestVerification(formData.email);
+  } catch {
+    console.warn("Registration verification request failed");
+  }
+  try {
+    await locals.pb
+      .collection("users")
+      .authWithPassword(formData.email, formData.password);
+  } catch {
+    console.warn("Registration auto-login failed");
+  }
+
+  // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
+  cookies.set(SIGNUP_COOKIE, "1", {
+    path: "/",
+    maxAge: 120,
+    httpOnly: true,
+    sameSite: "lax",
+    secure: !import.meta.env.DEV,
+  });
 
   // Get return URL from query or cookie, default to step 2 of registration
   const returnUrl =

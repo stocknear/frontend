@@ -62,6 +62,14 @@ export const GET = async ({ locals, url, cookies }) => {
         sameSite: "lax",
         secure: !import.meta.env.DEV,
       });
+
+      try {
+        await locals.pb.collection("users").update(userLogin.record.id, {
+          credits: 10,
+        });
+      } catch (creditsErr) {
+        console.warn("Failed to set OAuth welcome credits", creditsErr);
+      }
     }
   } catch (err) {
     console.log("Error logging in with OAuth2 user", err);

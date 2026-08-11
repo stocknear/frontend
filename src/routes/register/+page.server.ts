@@ -8,7 +8,6 @@ import {
   register_turnstile_failed,
   register_turnstile_error,
 } from "$lib/paraglide/messages.js";
-import { registerPocketBaseUser } from "$lib/server/pocketbasePrivate";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -143,15 +142,11 @@ export const actions = {
     }
 
     try {
-      const newUser = await registerPocketBaseUser({
-        email: formData.email,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
+      const newUser = await locals.pb.collection("users").create(formData);
+      await locals.pb.collection("users").update(newUser?.id, {
+        credits: 10,
       });
-
-      await locals.pb.collection("users").requestVerification(formData.email);
     } catch (err: any) {
-      // SECURITY: Don't log full error object, only safe message
       console.error(
         "Registration error for email:",
         formData?.email?.substring(0, 3) + "***",
@@ -191,11 +186,17 @@ export const actions = {
         });
       }
 
-      // Generic registration error
       return fail(400, {
         data: safeFormData,
         registrationFailed: true,
       });
+    }
+
+    try {
+      await locals.pb.collection("users").requestVerification(formData.email);
+    } catch {
+      // Account creation has already committed; don't invite a duplicate retry.
+      console.warn("Registration verification request failed");
     }
 
     // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)

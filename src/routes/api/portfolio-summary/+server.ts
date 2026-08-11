@@ -1,7 +1,6 @@
 import type { RequestHandler } from "./$types";
 import { canonicalizeLocale } from "$lib/i18n/locales";
 import { resolveBackendLocale } from "$lib/i18n/backend-locales";
-import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { apiURL, apiKey, user, pb } = locals;
@@ -114,9 +113,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
 
     // Deduct credits after successful response
-    await adjustPocketBaseCredits({
-      userId: user.id,
-      creditsDelta: -costOfCredit,
+    await pb?.collection("users")?.update(user?.id, {
+      credits: user?.credits - costOfCredit,
     });
 
     return new Response(JSON.stringify({ data: result, ...localeResolution }), {

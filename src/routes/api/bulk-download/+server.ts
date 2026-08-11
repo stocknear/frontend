@@ -1,5 +1,4 @@
 import type { RequestHandler } from "./$types";
-import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 // Server-side credit costs - DO NOT trust client-provided values
 const BULK_DOWNLOAD_CREDIT_COSTS: Record<string, number> = {
@@ -10,7 +9,7 @@ const BULK_DOWNLOAD_CREDIT_COSTS: Record<string, number> = {
 };
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user } = locals;
+  const { apiURL, apiKey, user, pb } = locals;
 
   if (!user) {
     return new Response(JSON.stringify({ error: "Authentication required" }), {
@@ -73,19 +72,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     body: JSON.stringify(postData),
   });
 
-  if (!response.ok) {
-    return new Response(await response.arrayBuffer(), {
-      status: response.status,
-      headers: {
-        "Content-Type":
-          response.headers.get("content-type") || "application/json",
-      },
-    });
-  }
-
-  await adjustPocketBaseCredits({
-    userId: user.id,
-    creditsDelta: -totalCreditCost,
+  // Deduct credits after a successful request
+  await pb.collection("users").update(user?.id, {
+    credits: user?.credits - totalCreditCost,
   });
 
   const contentType = response.headers.get("content-type") || "";

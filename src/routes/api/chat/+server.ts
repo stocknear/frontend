@@ -17,13 +17,11 @@ import {
   markChatGenerationCompleted,
   markChatGenerationFailed,
 } from "$lib/server/chatGenerationRegistry";
-import {
-  adjustPocketBaseCredits,
-  PocketBasePrivateError,
-} from "$lib/server/pocketbasePrivate";
 
 const INSUFFICIENT_CREDITS_ERROR =
   "Insufficient credits. Credits are reset at the start of each month.";
+
+const userCreditLocks = new Map<string, Promise<void>>();
 
 function jsonResponse(payload: unknown, status = 200): Response {
   return new Response(JSON.stringify(payload), {
@@ -32,35 +30,87 @@ function jsonResponse(payload: unknown, status = 200): Response {
   });
 }
 
-async function reserveCredits(
+async function withUserCreditLock<T>(
   userId: string,
-  costOfCredit: number,
-): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
+  task: () => Promise<T>,
+): Promise<T> {
+  const previous = userCreditLocks.get(userId) ?? Promise.resolve();
+  let release: () => void = () => {};
+  const current = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+
+  userCreditLocks.set(
+    userId,
+    previous.then(() => current),
+  );
+
+  await previous;
   try {
-    await adjustPocketBaseCredits({ userId, creditsDelta: -costOfCredit });
-    return { ok: true };
-  } catch (error) {
-    if (error instanceof PocketBasePrivateError && error.status === 409) {
-      return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
+    return await task();
+  } finally {
+    release();
+    if (userCreditLocks.get(userId) === current) {
+      userCreditLocks.delete(userId);
     }
-    console.error("Credit reservation failed", {
-      status:
-        error instanceof PocketBasePrivateError ? error.status : undefined,
-    });
-    return { ok: false, status: 500, error: "Failed to process credits" };
   }
 }
 
-async function refundCredits(userId: string, costOfCredit: number) {
+async function reserveCredits(
+  pb: App.Locals["pb"],
+  userId: string,
+  costOfCredit: number,
+): Promise<{ ok: true } | { ok: false; status: number; error: string }> {
+  return withUserCreditLock(userId, async () => {
+    try {
+      const latestUser = await pb.collection("users").getOne(userId, {
+        fields: "id,credits",
+      });
+
+      const currentCredits = Number(latestUser?.credits ?? 0);
+      if (!Number.isFinite(currentCredits) || currentCredits < costOfCredit) {
+        return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
+      }
+
+      const updatedUser = await pb.collection("users").update(
+        userId,
+        {
+          "credits-": costOfCredit,
+        },
+        { fields: "id,credits" },
+      );
+
+      const remainingCredits = Number(updatedUser?.credits ?? 0);
+      if (Number.isFinite(remainingCredits) && remainingCredits < 0) {
+        await pb.collection("users").update(userId, {
+          "credits+": costOfCredit,
+        });
+        return { ok: false, status: 400, error: INSUFFICIENT_CREDITS_ERROR };
+      }
+
+      return { ok: true };
+    } catch (e) {
+      console.error("Credit reservation error:", e);
+      return {
+        ok: false,
+        status: 500,
+        error: "Failed to process credits",
+      };
+    }
+  });
+}
+
+async function refundCredits(
+  pb: App.Locals["pb"],
+  userId: string,
+  costOfCredit: number,
+) {
   try {
-    await adjustPocketBaseCredits({ userId, creditsDelta: costOfCredit });
-  } catch (refundError) {
-    console.error("Credit refund failed", {
-      status:
-        refundError instanceof PocketBasePrivateError
-          ? refundError.status
-          : undefined,
+    await pb.collection("users").update(userId, {
+      "credits+": costOfCredit,
     });
+  } catch (refundError) {
+    console.error("Credit refund error:", refundError);
   }
 }
 
@@ -218,7 +268,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     ? storedMessagesValidation.messages
     : recoverChatMessages(chat?.messages);
 
-  const creditReservation = await reserveCredits(userId, costOfCredit);
+  const creditReservation = await reserveCredits(pb, userId, costOfCredit);
   if (!creditReservation.ok) {
     return jsonResponse(
       { error: creditReservation.error },
@@ -247,7 +297,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     });
 
     if (!upstream.ok || !upstream.body) {
-      await refundCredits(userId, costOfCredit);
+      await refundCredits(pb, userId, costOfCredit);
       markChatGenerationFailed(
         chatId,
         userId,
@@ -355,7 +405,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
               );
             }
           } else {
-            await refundCredits(userId, costOfCredit);
+            await refundCredits(pb, userId, costOfCredit);
             markChatGenerationFailed(
               chatId,
               userId,
@@ -451,7 +501,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       },
     });
   } catch (err) {
-    await refundCredits(userId, costOfCredit);
+    await refundCredits(pb, userId, costOfCredit);
     markChatGenerationFailed(chatId, userId, "Request handler failed");
     console.error("Handler error:", err);
     return jsonResponse({ error: "An error occurred. Please try again." }, 500);

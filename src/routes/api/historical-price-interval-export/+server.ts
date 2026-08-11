@@ -1,6 +1,5 @@
 import type { RequestHandler } from "./$types";
 import { calculateIntradayExportCredits } from "$lib/utils";
-import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 const ALLOWED_TIERS = new Set(["Plus", "Pro"]);
 const ALLOWED_INTERVALS = new Set(["1min", "5min", "15min", "30min", "1hour"]);
@@ -168,10 +167,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const payload = await response.arrayBuffer();
 
     try {
-      await adjustPocketBaseCredits({
-        userId: user.id,
-        creditsDelta: -creditCost,
-        downloadCreditsDelta: 1,
+      await pb?.collection("users")?.update(user?.id, {
+        credits: user?.credits - creditCost,
+        downloadCredits: (user?.downloadCredits ?? 0) + 1,
       });
     } catch (error) {
       console.error("Failed to deduct credits:", error);

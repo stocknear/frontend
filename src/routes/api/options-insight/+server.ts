@@ -1,15 +1,14 @@
 import type { RequestHandler } from "./$types";
-import { adjustPocketBaseCredits } from "$lib/server/pocketbasePrivate";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  const { apiURL, apiKey, user } = locals;
+  const { apiURL, apiKey, user, pb } = locals;
 
   if (user?.tier !== "Pro") {
     return new Response(
       JSON.stringify({
         error: "This feature is available exclusively for Pro members.",
       }),
-      { status: 403, headers: { "Content-Type": "application/json" } }
+      { status: 403, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -20,7 +19,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       JSON.stringify({
         error: `Insufficient credits. Your current balance is ${user?.credits}. Your prompt would cost ${costOfCredit} credits. Credits are reset at the start of each month.`,
       }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
+      { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
 
@@ -40,11 +39,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     if (!response.ok) {
       console.error("Upstream error:", response.status);
       return new Response(
-        JSON.stringify({ error: "Failed to analyze options flow. Please try again." }),
+        JSON.stringify({
+          error: "Failed to analyze options flow. Please try again.",
+        }),
         {
           status: 500,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
 
@@ -59,9 +60,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
 
     // Deduct credits on successful response
-    await adjustPocketBaseCredits({
-      userId: user.id,
-      creditsDelta: -costOfCredit,
+    await pb?.collection("users")?.update(user?.id, {
+      credits: user?.credits - costOfCredit,
     });
 
     return new Response(JSON.stringify(result), {
@@ -71,7 +71,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     console.error("Handler error:", err);
     return new Response(
       JSON.stringify({ error: "Failed to get options insight" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 };
