@@ -153,7 +153,7 @@ export const actions = {
   generateMcpToken: async ({ locals, setHeaders }) => {
     setPrivateNoStore(setHeaders);
     if (!locals.pb.authStore.isValid) {
-      return fail(401, { mcpError: "Please sign in again." });
+      return fail(401, { mcpErrorCode: "sign_in" });
     }
     try {
       const created = await rotateMcpToken(locals.pb);
@@ -169,11 +169,11 @@ export const actions = {
           : 0;
       if (status === 403) {
         return fail(403, {
-          mcpError: "MCP access requires an active Pro account.",
+          mcpErrorCode: "pro_required",
         });
       }
       return fail(502, {
-        mcpError: "MCP token generation is temporarily unavailable.",
+        mcpErrorCode: "unavailable",
       });
     }
   },
@@ -181,14 +181,14 @@ export const actions = {
   revokeMcpToken: async ({ locals, setHeaders }) => {
     setPrivateNoStore(setHeaders);
     if (!locals.pb.authStore.isValid) {
-      return fail(401, { mcpError: "Please sign in again." });
+      return fail(401, { mcpErrorCode: "sign_in" });
     }
     try {
       await revokeMcpToken(locals.pb);
       return { mcpTokenRevoked: true };
     } catch {
       return fail(502, {
-        mcpError: "MCP token revocation is temporarily unavailable.",
+        mcpErrorCode: "unavailable",
       });
     }
   },
@@ -196,14 +196,14 @@ export const actions = {
   unlinkMcpOAuth: async ({ locals, setHeaders }) => {
     setPrivateNoStore(setHeaders);
     if (!locals.pb.authStore.isValid) {
-      return fail(401, { mcpError: "Please sign in again." });
+      return fail(401, { mcpErrorCode: "sign_in" });
     }
     try {
       await unlinkMcpOAuth(locals.pb);
       return { mcpOAuthUnlinked: true };
     } catch {
       return fail(502, {
-        mcpError: "OAuth unlink is temporarily unavailable.",
+        mcpErrorCode: "unavailable",
       });
     }
   },

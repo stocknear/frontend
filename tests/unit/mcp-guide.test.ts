@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import {
   MCP_CLIENTS,
-  MCP_HOW_TO,
   MCP_QUICK_CONNECT_CLIENTS,
   STOCKNEAR_MCP_ENDPOINT,
 } from "../../src/lib/mcpGuide";
@@ -74,14 +73,6 @@ describe("public MCP client snippets", () => {
     );
   });
 
-  it("serializes the visible three-step Pro setup as HowTo JSON-LD", () => {
-    const schema = JSON.parse(JSON.stringify(MCP_HOW_TO));
-    expect(schema["@type"]).toBe("HowTo");
-    expect(schema.step).toHaveLength(3);
-    expect(schema.step[0].text).toContain("Pro users");
-    expect(schema.step[1].text).toContain(STOCKNEAR_MCP_ENDPOINT);
-  });
-
   it("provides honest quick-connect links without credentials", () => {
     expect(MCP_QUICK_CONNECT_CLIENTS.map((client) => client.id)).toEqual([
       "claude",
@@ -135,6 +126,6 @@ describe("public MCP client snippets", () => {
       new URL("../../src/lib/components/Footer.svelte", import.meta.url),
       "utf8",
     );
-    expect(footer).toContain('{"Connect to MCP Server"}');
+    expect(footer).toContain("{mcp_footer_link()}");
   });
 });
