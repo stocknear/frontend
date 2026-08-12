@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "トークンを生成しました。今すぐコピーしてください。",
   "mcp_profile_token_title": "個人用トークン",
   "mcp_profile_status_active": "有効",
-  "mcp_profile_created_never_expires": "作成日 {created} · 有効期限なし",
+  "mcp_profile_created": "作成日 {created}",
   "mcp_profile_no_token": "トークンはまだ生成されていません。",
   "mcp_profile_generate": "トークンを生成",
   "mcp_profile_rotate": "トークンを更新",

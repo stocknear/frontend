@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "Token generado. Cópialo ahora.",
   "mcp_profile_token_title": "Token personal",
   "mcp_profile_status_active": "Activo",
-  "mcp_profile_created_never_expires": "Creado {created} · No caduca",
+  "mcp_profile_created": "Creado el {created}",
   "mcp_profile_no_token": "Todavía no se ha generado ningún token.",
   "mcp_profile_generate": "Generar token",
   "mcp_profile_rotate": "Rotar token",

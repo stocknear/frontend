@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "Jeton généré. Copiez-le maintenant.",
   "mcp_profile_token_title": "Jeton personnel",
   "mcp_profile_status_active": "Actif",
-  "mcp_profile_created_never_expires": "Créé le {created} · N’expire jamais",
+  "mcp_profile_created": "Créé le {created}",
   "mcp_profile_no_token": "Aucun jeton n'a été généré.",
   "mcp_profile_generate": "Générer un jeton",
   "mcp_profile_rotate": "Renouveler le jeton",

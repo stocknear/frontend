@@ -45,7 +45,7 @@
     mcp_profile_upgrade_description,
     mcp_profile_upgrade_title,
     mcp_profile_working,
-    mcp_profile_created_never_expires,
+    mcp_profile_created,
   } from "$lib/paraglide/messages.js";
   import { toast } from "svelte-sonner";
 
@@ -245,7 +245,7 @@
               {account.token.prefix}…
             </p>
             <p class="mt-1 text-xs text-fg-muted">
-              {mcp_profile_created_never_expires({
+              {mcp_profile_created({
                 created: displayDate(account.token.createdAt),
               })}
             </p>

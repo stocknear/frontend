@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "權杖已產生，請立即複製。",
   "mcp_profile_token_title": "個人權杖",
   "mcp_profile_status_active": "有效",
-  "mcp_profile_created_never_expires": "建立於 {created} · 永不過期",
+  "mcp_profile_created": "建立於 {created}",
   "mcp_profile_no_token": "尚未產生權杖。",
   "mcp_profile_generate": "產生權杖",
   "mcp_profile_rotate": "更換權杖",

@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "Токен створено. Скопіюйте його зараз.",
   "mcp_profile_token_title": "Особистий токен",
   "mcp_profile_status_active": "Активний",
-  "mcp_profile_created_never_expires": "Створено {created} · Не має терміну дії",
+  "mcp_profile_created": "Створено {created}",
   "mcp_profile_no_token": "Токен ще не створено.",
   "mcp_profile_generate": "Створити токен",
   "mcp_profile_rotate": "Оновити токен",

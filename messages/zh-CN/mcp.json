@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "令牌已生成，请立即复制。",
   "mcp_profile_token_title": "个人令牌",
   "mcp_profile_status_active": "有效",
-  "mcp_profile_created_never_expires": "创建于 {created} · 永不过期",
+  "mcp_profile_created": "创建于 {created}",
   "mcp_profile_no_token": "尚未生成令牌。",
   "mcp_profile_generate": "生成令牌",
   "mcp_profile_rotate": "更换令牌",

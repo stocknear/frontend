@@ -56,7 +56,7 @@ describe("MCP localization", () => {
         "mcp_claude_title",
         "mcp_claude_step_3_description",
         "mcp_example_1",
-        "mcp_profile_created_never_expires",
+        "mcp_profile_created",
         "mcp_profile_revoke",
         "mcp_profile_upgrade_button",
         "mcp_footer_link",
@@ -147,7 +147,7 @@ describe("MCP localization", () => {
       new URL("src/lib/components/McpAccessSection.svelte", root),
       "utf8",
     );
-    expect(component).toContain("mcp_profile_created_never_expires");
+    expect(component).toContain("mcp_profile_created");
     expect(component).not.toContain("mcp_profile_status_expired");
     expect(component).not.toContain("account.token.expiresAt");
   });

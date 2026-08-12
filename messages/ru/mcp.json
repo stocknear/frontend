@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "Токен создан. Скопируйте его сейчас.",
   "mcp_profile_token_title": "Личный токен",
   "mcp_profile_status_active": "Активен",
-  "mcp_profile_created_never_expires": "Создан {created} · Не истекает",
+  "mcp_profile_created": "Создан {created}",
   "mcp_profile_no_token": "Токен ещё не создан.",
   "mcp_profile_generate": "Создать токен",
   "mcp_profile_rotate": "Обновить токен",

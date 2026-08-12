@@ -112,7 +112,7 @@
   "mcp_profile_token_generated": "토큰이 생성되었습니다. 지금 복사하세요.",
   "mcp_profile_token_title": "개인 토큰",
   "mcp_profile_status_active": "활성",
-  "mcp_profile_created_never_expires": "생성 {created} · 만료되지 않음",
+  "mcp_profile_created": "생성일 {created}",
   "mcp_profile_no_token": "생성된 토큰이 없습니다.",
   "mcp_profile_generate": "토큰 생성",
   "mcp_profile_rotate": "토큰 교체",
