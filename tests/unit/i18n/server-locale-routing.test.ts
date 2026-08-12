@@ -141,6 +141,17 @@ describe("server locale routing", () => {
     });
   });
 
+  it("uses the saved locale without prefixing the fixed consent endpoint", () => {
+    expect(
+      route("/oauth/authorize?request=opaque_request_123456", "fr", "DE"),
+    ).toMatchObject({
+      locale: "fr",
+      source: "cookie",
+      excluded: true,
+      redirect: null,
+    });
+  });
+
   it("keeps SvelteKit data requests attached to their localized page", () => {
     expect(route("/fr/stocks/AAPL/__data.json?x-sveltekit-invalidated=1", "de"))
       .toMatchObject({
@@ -182,6 +193,7 @@ describe("server redirect localization", () => {
     "//accounts.google.com/oauth",
     "/api/quote",
     "/oauth?code=x",
+    "/oauth/authorize?request=opaque_request_123456",
   ])("leaves external and excluded target %s unchanged", (target) => {
     expect(localizeInternalRedirect(target, "es")).toBe(target);
   });

@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import {
+  CODEX_MCP_COMMAND,
   MCP_CLIENTS,
   MCP_QUICK_CONNECT_CLIENTS,
+  getMcpClientCatalog,
   STOCKNEAR_MCP_ENDPOINT,
 } from "../../src/lib/mcpGuide";
 
 describe("public MCP client snippets", () => {
-  it("covers every supported client with the production endpoint and bearer header", () => {
+  it("covers OAuth Codex and every supported personal-token client", () => {
     expect(MCP_CLIENTS.map((client) => client.id)).toEqual([
+      "codex",
       "claude-code",
       "cursor",
       "vscode",
@@ -19,7 +22,15 @@ describe("public MCP client snippets", () => {
       "generic",
     ]);
 
-    for (const client of MCP_CLIENTS) {
+    const codex = MCP_CLIENTS.find((client) => client.id === "codex")!;
+    expect(codex.config).toBe(CODEX_MCP_COMMAND);
+    expect(codex.config).toContain(STOCKNEAR_MCP_ENDPOINT);
+    expect(codex.config).toContain("codex mcp login stocknear");
+    expect(codex.config).not.toMatch(/authorization|bearer|token/i);
+
+    for (const client of MCP_CLIENTS.filter(
+      (client) => client.id !== "codex",
+    )) {
       expect(client.config).toContain(STOCKNEAR_MCP_ENDPOINT);
       expect(client.config).toContain("Authorization");
       expect(client.config).not.toContain("sn_mcp_");
@@ -105,6 +116,21 @@ describe("public MCP client snippets", () => {
     expect(claude.href).toBe("https://claude.ai/customize/connectors");
     expect(claude.search).toBe("");
     expect(claude.hash).toBe("");
+  });
+
+  it("derives every visible client surface from the same authentication capability", () => {
+    const withoutOauth = getMcpClientCatalog({ oauth: false, pat: true });
+    expect(withoutOauth.quickConnect).toEqual([]);
+    expect(withoutOauth.guides.some((client) => client.id === "codex")).toBe(
+      false,
+    );
+    expect(
+      withoutOauth.guides.every((client) => client.authentication === "pat"),
+    ).toBe(true);
+
+    const withOauth = getMcpClientCatalog({ oauth: true, pat: true });
+    expect(withOauth.quickConnect).toEqual(MCP_QUICK_CONNECT_CLIENTS);
+    expect(withOauth.guides.some((client) => client.id === "codex")).toBe(true);
   });
 
   it("encodes only the public endpoint in install payloads", () => {

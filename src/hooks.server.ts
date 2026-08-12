@@ -32,6 +32,7 @@ const PRIVATE_INDEX_PATHS = [
   "/chat",
   "/login",
   "/notifications",
+  "/oauth",
   "/portfolio",
   "/profile",
   "/register",

@@ -1,7 +1,16 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { validateData } from "$lib/utils";
+import { validateData, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema } from "$lib/schemas";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
+
+export const load = ({ url }) => {
+  const requestedReturnUrl = url.searchParams.get("returnUrl");
+  return {
+    loginReturnUrl: requestedReturnUrl
+      ? validateReturnUrl(requestedReturnUrl, url.origin)
+      : "",
+  };
+};
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -13,7 +22,7 @@ function sanitizeFormData(formData: Record<string, unknown>) {
 }
 
 export const actions = {
-  login: async ({ request, locals, fetch }) => {
+  login: async ({ request, locals, fetch, url, cookies }) => {
     // SECURITY: Rate limiting based on client IP
     const clientIp = locals.clientIp;
     const rateLimitResult = checkRateLimit(
@@ -119,13 +128,16 @@ export const actions = {
       });
     }
 
-    redirect(303, "/");
+    const returnUrl =
+      url.searchParams.get("returnUrl") || cookies.get("returnUrl") || "/";
+    cookies.delete("returnUrl", { path: "/" });
+    redirect(303, validateReturnUrl(returnUrl, url.origin));
   },
 
   oauth2: async ({ url, locals, request, cookies }) => {
-    const authMethods = (await locals?.pb
-      ?.collection("users")
-      ?.listAuthMethods())?.oauth2;
+    const authMethods = (
+      await locals?.pb?.collection("users")?.listAuthMethods()
+    )?.oauth2;
 
     const data = await request?.formData();
     const providerSelected = data?.get("provider");
@@ -174,7 +186,20 @@ export const actions = {
       maxAge: 60 * 10,
     });
 
-    cookies.set("path", "/profile", {
+    const returnUrl = validateReturnUrl(
+      url.searchParams.get("returnUrl") || "/profile",
+      url.origin,
+    );
+
+    cookies.set("returnUrl", returnUrl, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: true,
+      path: "/",
+      maxAge: 60 * 5,
+    });
+
+    cookies.set("path", returnUrl, {
       httpOnly: true,
       sameSite: "lax",
       secure: true,

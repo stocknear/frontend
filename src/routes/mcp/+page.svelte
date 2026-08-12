@@ -2,8 +2,8 @@
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
   import {
-    MCP_CLIENTS,
-    MCP_QUICK_CONNECT_CLIENTS,
+    CODEX_MCP_COMMAND,
+    getMcpClientCatalog,
     STOCKNEAR_MCP_ENDPOINT,
   } from "$lib/mcpGuide";
   import { localizedHref } from "$lib/i18n/navigation";
@@ -15,6 +15,8 @@
   import type { PublicMcpTool } from "./+page.server";
   import {
     mcp_badge,
+    mcp_browser_oauth_description,
+    mcp_browser_oauth_title,
     mcp_category_analyst,
     mcp_category_company,
     mcp_category_financials,
@@ -41,27 +43,21 @@
     mcp_claude_team_note,
     mcp_claude_title,
     mcp_chatgpt_description,
-    mcp_chatgpt_field_authentication,
-    mcp_chatgpt_field_header_scheme,
-    mcp_chatgpt_field_name,
-    mcp_chatgpt_field_server_url,
-    mcp_chatgpt_field_token,
+    mcp_chatgpt_availability_note,
     mcp_chatgpt_open_plugins,
-    mcp_chatgpt_security,
-    mcp_chatgpt_step_1_alt,
     mcp_chatgpt_step_1_description,
     mcp_chatgpt_step_1_title,
-    mcp_chatgpt_step_2_alt,
     mcp_chatgpt_step_2_description,
     mcp_chatgpt_step_2_title,
-    mcp_chatgpt_step_3_alt,
     mcp_chatgpt_step_3_description,
     mcp_chatgpt_step_3_title,
-    mcp_chatgpt_token_value,
     mcp_chatgpt_title,
     mcp_clients_description,
     mcp_clients_title,
     mcp_configuration,
+    mcp_codex_command_label,
+    mcp_codex_description,
+    mcp_codex_title,
     mcp_copied,
     mcp_copy,
     mcp_copy_failed,
@@ -172,47 +168,27 @@
       tools: ["get_all_sector_overview", "get_fear_and_greed_index"],
     },
   ];
-  const chatgptSteps = [
-    {
-      title: mcp_chatgpt_step_1_title,
-      description: mcp_chatgpt_step_1_description,
-      alt: mcp_chatgpt_step_1_alt,
-      image: "/img/mcp/chatgpt-developer-mode.png",
-      width: 1514,
-      height: 1309,
-    },
-    {
-      title: mcp_chatgpt_step_2_title,
-      description: mcp_chatgpt_step_2_description,
-      alt: mcp_chatgpt_step_2_alt,
-      image: "/img/mcp/chatgpt-plugins-add.png",
-      width: 1645,
-      height: 511,
-    },
-    {
-      title: mcp_chatgpt_step_3_title,
-      description: mcp_chatgpt_step_3_description,
-      alt: mcp_chatgpt_step_3_alt,
-      image: "/img/mcp/chatgpt-plugin-form.png",
-      width: 1001,
-      height: 1622,
-    },
-  ];
-
-  let selectedId = MCP_CLIENTS[0].id;
+  let selectedId = "";
   let copied = "";
   let copyFailed = false;
 
+  $: clientCatalog = getMcpClientCatalog({
+    oauth: data?.oauthAvailable === true,
+    pat: true,
+  });
+  $: quickConnectClients = clientCatalog.quickConnect;
+  $: visibleClients = clientCatalog.guides;
+  $: if (!visibleClients.some((client) => client.id === selectedId)) {
+    selectedId = visibleClients[0]?.id ?? "";
+  }
   $: selectedClient =
-    MCP_CLIENTS.find((client) => client.id === selectedId) ?? MCP_CLIENTS[0];
+    visibleClients.find((client) => client.id === selectedId) ??
+    visibleClients[0];
   $: currentLocale = extractLocaleFromUrl($page.url) ?? baseLocale;
   $: profileHref = `${localizedHref("/profile", currentLocale)}#mcp-access`;
   $: conversionHref = data?.isPro
     ? profileHref
     : localizedHref("/pricing", currentLocale);
-  $: quickConnectClients = data?.oauthAvailable
-    ? MCP_QUICK_CONNECT_CLIENTS
-    : MCP_QUICK_CONNECT_CLIENTS.filter((client) => client.id !== "claude");
   $: toolGroups = Object.entries(
     (data?.mcpTools ?? []).reduce<Record<string, PublicMcpTool[]>>(
       (groups, tool) => {
@@ -237,9 +213,7 @@
       {
         "@type": "HowToStep",
         position: 1,
-        name: data?.isPro
-          ? mcp_step_1_title()
-          : mcp_profile_upgrade_title(),
+        name: data?.isPro ? mcp_step_1_title() : mcp_profile_upgrade_title(),
         text: data?.isPro
           ? mcp_step_1_description()
           : mcp_profile_upgrade_description(),
@@ -378,10 +352,11 @@
     </ol>
   </section>
 
-  <section
-    class="border-b border-line py-14 lg:py-20"
-    aria-labelledby="quick-connect-heading"
-  >
+  {#if quickConnectClients.length > 0}
+    <section
+      class="border-b border-line py-14 lg:py-20"
+      aria-labelledby="quick-connect-heading"
+    >
     <div class="max-w-2xl">
       <h2
         id="quick-connect-heading"
@@ -393,9 +368,7 @@
         {mcp_quick_description()}
       </p>
     </div>
-    <div
-      class={`mt-7 grid gap-3 sm:grid-cols-2 ${data?.oauthAvailable ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
-    >
+    <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {#each quickConnectClients as client}
         <a
           class="group flex min-h-28 items-center gap-4 rounded-2xl border border-line bg-surface-card p-4 transition hover:-translate-y-0.5 hover:border-violet-300 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
@@ -452,10 +425,8 @@
             target="_blank"
             rel="noreferrer"
           >
-            {mcp_claude_open_connectors()} <span
-              class="ml-1"
-              aria-hidden="true">↗</span
-            >
+            {mcp_claude_open_connectors()}
+            <span class="ml-1" aria-hidden="true">↗</span>
           </a>
         </div>
 
@@ -535,85 +506,110 @@
         </p>
       </article>
     {/if}
-  </section>
+    </section>
+  {/if}
 
-  <section
-    class="border-b border-line py-14 lg:py-20"
-    aria-labelledby="chatgpt-heading"
-  >
-    <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-      <div class="max-w-2xl">
+  {#if data?.oauthAvailable}
+    <section
+      class="border-b border-line py-14 lg:py-20"
+      aria-labelledby="chatgpt-heading"
+    >
+      <div class="max-w-3xl">
         <h2
           id="chatgpt-heading"
           class="text-3xl font-semibold tracking-tight sm:text-4xl"
         >
-          {mcp_chatgpt_title()}
+          {mcp_browser_oauth_title()}
         </h2>
         <p class="mt-3 text-sm leading-6 text-fg-muted sm:text-base">
-          {mcp_chatgpt_description()}
+          {mcp_browser_oauth_description()}
         </p>
       </div>
-      <a
-        class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-line bg-surface-card px-5 py-2.5 text-sm font-semibold transition hover:border-violet-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
-        href="https://chatgpt.com/plugins"
-        target="_blank"
-        rel="noreferrer"
-      >
-        {mcp_chatgpt_open_plugins()} <span class="ml-1" aria-hidden="true">↗</span>
-      </a>
-    </div>
 
-    <ol class="mt-8 space-y-5">
-      {#each chatgptSteps as step, index}
-        <li
-          class="grid overflow-hidden rounded-2xl border border-line bg-surface-card lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)]"
+      <div class="mt-8 grid gap-4 lg:grid-cols-2">
+        <article
+          class="rounded-2xl border border-line bg-surface-card p-5 sm:p-7"
         >
-          <div class="p-5 sm:p-7">
-            <span
-              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-semibold text-white dark:border dark:border-violet-500/20 dark:bg-violet-500/15 dark:text-violet-300"
-              >{index + 1}</span
-            >
-            <h3 class="mt-5 text-lg font-semibold">{step.title()}</h3>
-            <p class="mt-2 text-sm leading-6 text-fg-muted">
-              {step.description()}
-            </p>
-            {#if index === 2}
-              <dl class="mt-5 divide-y divide-line rounded-xl border border-line">
-                {#each [
-                  [mcp_chatgpt_field_name(), "Stocknear"],
-                  [mcp_chatgpt_field_server_url(), STOCKNEAR_MCP_ENDPOINT],
-                  [mcp_chatgpt_field_authentication(), "Access token / API key"],
-                  [mcp_chatgpt_field_header_scheme(), "Bearer"],
-                  [mcp_chatgpt_field_token(), mcp_chatgpt_token_value()],
-                ] as field}
-                  <div class="grid gap-1 px-4 py-3 sm:grid-cols-[135px_minmax(0,1fr)] sm:gap-3">
-                    <dt class="text-xs font-semibold text-fg-muted">{field[0]}</dt>
-                    <dd class="break-all font-mono text-xs text-fg">{field[1]}</dd>
-                  </div>
-                {/each}
-              </dl>
-              <p class="mt-4 text-xs leading-5 text-fg-muted">
-                {mcp_chatgpt_security()}
-              </p>
-            {/if}
-          </div>
-          <figure
-            class="flex items-center justify-center border-t border-line bg-black p-2 lg:border-l lg:border-t-0"
+          <h3 class="text-xl font-semibold">{mcp_chatgpt_title()}</h3>
+          <p class="mt-2 text-sm leading-6 text-fg-muted">
+            {mcp_chatgpt_description()}
+          </p>
+          <ol class="mt-5 grid gap-3">
+            {#each [{ title: mcp_chatgpt_step_1_title(), description: mcp_chatgpt_step_1_description() }, { title: mcp_chatgpt_step_2_title(), description: mcp_chatgpt_step_2_description() }, { title: mcp_chatgpt_step_3_title(), description: mcp_chatgpt_step_3_description() }] as step, index}
+              <li class="flex gap-3 rounded-xl bg-surface-raised p-3">
+                <span
+                  class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-600 text-xs font-semibold text-white"
+                  aria-hidden="true"
+                >
+                  {index + 1}
+                </span>
+                <div>
+                  <h4 class="text-sm font-semibold">{step.title}</h4>
+                  <p class="mt-1 text-xs leading-5 text-fg-muted">
+                    {step.description}
+                  </p>
+                </div>
+              </li>
+            {/each}
+          </ol>
+          <div
+            class="mt-5 flex min-w-0 items-center gap-2 rounded-xl bg-surface-raised p-3"
           >
-            <img
-              class="max-h-[760px] h-auto w-full rounded-xl object-contain"
-              src={step.image}
-              alt={step.alt()}
-              width={step.width}
-              height={step.height}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </li>
-      {/each}
-    </ol>
-  </section>
+            <code class="min-w-0 flex-1 break-all text-xs"
+              >{STOCKNEAR_MCP_ENDPOINT}</code
+            >
+            <button
+              class="min-h-10 shrink-0 cursor-pointer rounded-full border border-line px-3 py-2 text-xs font-semibold text-accent"
+              type="button"
+              onclick={() => copy("chatgpt-endpoint", STOCKNEAR_MCP_ENDPOINT)}
+            >
+              {copied === "chatgpt-endpoint" ? mcp_copied() : mcp_copy()}
+            </button>
+          </div>
+          <a
+            class="mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-line px-5 py-2.5 text-sm font-semibold transition hover:border-violet-300 hover:text-accent"
+            href="https://chatgpt.com/plugins"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {mcp_chatgpt_open_plugins()}
+            <span class="ml-1" aria-hidden="true">↗</span>
+          </a>
+          <p class="mt-4 text-xs leading-5 text-fg-muted">
+            {mcp_chatgpt_availability_note()}
+          </p>
+        </article>
+
+        <article
+          class="rounded-2xl border border-line bg-surface-card p-5 sm:p-7"
+        >
+          <h3 class="text-xl font-semibold">{mcp_codex_title()}</h3>
+          <p class="mt-2 text-sm leading-6 text-fg-muted">
+            {mcp_codex_description()}
+          </p>
+          <div class="mt-5 rounded-xl bg-zinc-950 p-4 text-zinc-100">
+            <div class="mb-3 flex items-center justify-between gap-3">
+              <span
+                class="text-xs font-medium uppercase tracking-wide text-zinc-400"
+                >{mcp_codex_command_label()}</span
+              >
+              <button
+                class="cursor-pointer rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold transition hover:bg-white/20"
+                type="button"
+                onclick={() => copy("codex-command", CODEX_MCP_COMMAND)}
+              >
+                {copied === "codex-command" ? mcp_copied() : mcp_copy()}
+              </button>
+            </div>
+            <pre
+              class="whitespace-pre-wrap break-all text-xs leading-6 sm:text-sm"><code
+                >{CODEX_MCP_COMMAND}</code
+              ></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+  {/if}
 
   <section
     class="border-b border-line py-14 lg:py-20"
@@ -635,7 +631,7 @@
       role="tablist"
       aria-label={mcp_clients_title()}
     >
-      {#each MCP_CLIENTS as client}
+      {#each visibleClients as client}
         <button
           id={`client-tab-${client.id}`}
           class={`shrink-0 cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition ${
@@ -652,8 +648,9 @@
         >
       {/each}
     </div>
-    <div
-      id="client-panel"
+    {#if selectedClient}
+      <div
+        id="client-panel"
       class="mt-3 max-w-5xl overflow-hidden rounded-2xl border border-line bg-surface-card"
       role="tabpanel"
       aria-labelledby={`client-tab-${selectedClient.id}`}
@@ -705,8 +702,9 @@
           </p>
         </div>
       </div>
-    </div>
-    {#if selectedClient.mergeConfig}
+      </div>
+    {/if}
+    {#if selectedClient?.mergeConfig}
       <details
         class="mt-3 max-w-5xl rounded-2xl border border-line bg-surface-card p-5"
       >
@@ -828,9 +826,7 @@
       {data?.isPro ? mcp_cta_title() : mcp_profile_upgrade_title()}
     </h2>
     <p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-fg-muted">
-      {data?.isPro
-        ? mcp_cta_description()
-        : mcp_profile_upgrade_description()}
+      {data?.isPro ? mcp_cta_description() : mcp_profile_upgrade_description()}
     </p>
     <a
       class="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-700 dark:border dark:border-violet-500/20 dark:bg-violet-500/15 dark:text-violet-200 dark:hover:bg-violet-500/25"

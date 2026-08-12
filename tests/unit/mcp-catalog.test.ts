@@ -11,7 +11,6 @@ describe("public MCP catalog", () => {
       _parseMcpOAuthReadiness({
         status: "ready",
         authentication: "oauth-and-pat",
-        oauth_jwks: true,
       }),
     ).toBe(true);
     for (const value of [
@@ -21,12 +20,10 @@ describe("public MCP catalog", () => {
       {
         status: "not_ready",
         authentication: "oauth-and-pat",
-        oauth_jwks: true,
       },
       {
         status: "ready",
-        authentication: "oauth-and-pat",
-        oauth_jwks: false,
+        authentication: "pat",
       },
     ]) {
       expect(_parseMcpOAuthReadiness(value)).toBe(false);
@@ -72,7 +69,6 @@ describe("public MCP catalog", () => {
           JSON.stringify({
             status: "ready",
             authentication: "oauth-and-pat",
-            oauth_jwks: true,
           }),
           { status: 200, headers: { "content-type": "application/json" } },
         );

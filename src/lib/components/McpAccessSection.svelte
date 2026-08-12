@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { enhance } from "$app/forms";
   import { localizedHref } from "$lib/i18n/navigation";
   import { STOCKNEAR_MCP_ENDPOINT } from "$lib/mcpGuide";
   import type { McpAccount, McpTokenInfo } from "$lib/mcpAccount";
-  import { baseLocale, extractLocaleFromUrl } from "$lib/paraglide/runtime.js";
+  import { getLocale } from "$lib/paraglide/runtime.js";
   import {
     mcp_copy,
     mcp_endpoint,
     mcp_profile_confirm_revoke,
     mcp_profile_confirm_rotate,
-    mcp_profile_confirm_unlink,
+    mcp_profile_confirm_revoke_all_sessions,
+    mcp_profile_confirm_revoke_session,
     mcp_profile_copy_error,
     mcp_profile_copy_success,
     mcp_profile_copy_token,
@@ -19,8 +19,9 @@
     mcp_profile_generate_error,
     mcp_profile_limit,
     mcp_profile_no_token,
-    mcp_profile_oauth_linked,
-    mcp_profile_oauth_title,
+    mcp_profile_oauth_sessions_description,
+    mcp_profile_oauth_sessions_empty,
+    mcp_profile_oauth_sessions_title,
     mcp_profile_pro,
     mcp_profile_pro_required,
     mcp_profile_revoke,
@@ -37,10 +38,17 @@
     mcp_profile_token_generated,
     mcp_profile_token_title,
     mcp_profile_unavailable,
-    mcp_profile_unlink,
-    mcp_profile_unlink_error,
-    mcp_profile_unlink_success,
-    mcp_profile_unlinking,
+    mcp_profile_session_connected,
+    mcp_profile_session_expires,
+    mcp_profile_session_last_used,
+    mcp_profile_session_revoke,
+    mcp_profile_session_revoke_all,
+    mcp_profile_session_revoke_error,
+    mcp_profile_session_revoke_success,
+    mcp_profile_session_revoking,
+    mcp_oauth_source_cimd,
+    mcp_oauth_source_dcr,
+    mcp_oauth_source_predefined,
     mcp_profile_upgrade_button,
     mcp_profile_upgrade_description,
     mcp_profile_upgrade_title,
@@ -58,9 +66,9 @@
   let loadedAccount = initialAccount;
   let rawToken =
     typeof actionData?.mcpRawToken === "string" ? actionData.mcpRawToken : null;
-  let busyAction: "generate" | "revoke" | "unlink" | null = null;
+  let busyAction: string | null = null;
 
-  $: currentLocale = extractLocaleFromUrl($page.url) ?? baseLocale;
+  $: currentLocale = getLocale();
   $: pricingHref = localizedHref("/pricing", currentLocale);
   $: if (initialAccount !== loadedAccount) {
     loadedAccount = initialAccount;
@@ -82,6 +90,13 @@
     if (code === "unavailable") return mcp_profile_temporarily_unavailable();
     return fallback();
   };
+
+  const clientSourceLabel = (source: "predefined" | "dcr" | "cimd") =>
+    source === "predefined"
+      ? mcp_oauth_source_predefined()
+      : source === "dcr"
+        ? mcp_oauth_source_dcr()
+        : mcp_oauth_source_cimd();
 
   async function copy(value: string, label: string) {
     try {
@@ -128,16 +143,45 @@
     };
   };
 
-  const enhanceUnlink = () => {
-    busyAction = "unlink";
+  const enhanceSessionRevoke = (sessionId: string) => () => {
+    busyAction = `session:${sessionId}`;
     return async ({ result }: { result: any }) => {
       busyAction = null;
-      if (result.type === "success" && result.data?.mcpOAuthUnlinked) {
-        if (account) account = { ...account, oauth: null };
-        toast.success(mcp_profile_unlink_success());
+      if (result.type === "success" && result.data?.mcpOAuthSessionRevoked) {
+        if (account?.oauth)
+          account = {
+            ...account,
+            oauth: {
+              sessions: account.oauth.sessions.filter(
+                (session) => session.sessionId !== sessionId,
+              ),
+            },
+          };
+        toast.success(mcp_profile_session_revoke_success());
       } else {
         toast.error(
-          actionError(result.data?.mcpErrorCode, mcp_profile_unlink_error),
+          actionError(
+            result.data?.mcpErrorCode,
+            mcp_profile_session_revoke_error,
+          ),
+        );
+      }
+    };
+  };
+
+  const enhanceAllSessionsRevoke = () => {
+    busyAction = "sessions:all";
+    return async ({ result }: { result: any }) => {
+      busyAction = null;
+      if (result.type === "success" && result.data?.mcpOAuthSessionsRevoked) {
+        if (account?.oauth) account = { ...account, oauth: { sessions: [] } };
+        toast.success(mcp_profile_session_revoke_success());
+      } else {
+        toast.error(
+          actionError(
+            result.data?.mcpErrorCode,
+            mcp_profile_session_revoke_error,
+          ),
         );
       }
     };
@@ -300,34 +344,103 @@
     </div>
 
     {#if account.oauth}
-      <div
-        class="flex flex-col justify-between gap-3 border-t border-line p-5 sm:flex-row sm:items-center sm:p-6"
-      >
-        <div>
-          <h3 class="font-semibold text-fg">{mcp_profile_oauth_title()}</h3>
-          <p class="mt-1 text-xs text-fg-muted">
-            {mcp_profile_oauth_linked({
-              date: displayDate(account.oauth.linkedAt),
-              issuer: account.oauth.issuer,
-            })}
-          </p>
-        </div>
-        <form
-          method="POST"
-          action="?/unlinkMcpOAuth"
-          use:enhance={enhanceUnlink}
-          onsubmit={(event) =>
-            confirmTokenChange(event, mcp_profile_confirm_unlink())}
+      <div class="border-t border-line p-5 sm:p-6">
+        <div
+          class="flex flex-col justify-between gap-4 sm:flex-row sm:items-start"
         >
-          <button
-            class="inline-flex min-h-10 items-center justify-center rounded-full border border-line px-4 py-2 text-sm font-semibold text-fg transition hover:border-violet-400 hover:text-violet-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:border-violet-600 dark:hover:text-violet-300"
-            type="submit"
-            disabled={busyAction !== null}
-            >{busyAction === "unlink"
-              ? mcp_profile_unlinking()
-              : mcp_profile_unlink()}</button
+          <div>
+            <h3 class="font-semibold text-fg">
+              {mcp_profile_oauth_sessions_title()}
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm leading-6 text-fg-muted">
+              {mcp_profile_oauth_sessions_description()}
+            </p>
+          </div>
+          {#if account.oauth.sessions.length > 1}
+            <form
+              method="POST"
+              action="?/revokeAllMcpOAuthSessions"
+              use:enhance={enhanceAllSessionsRevoke}
+              onsubmit={(event) =>
+                confirmTokenChange(
+                  event,
+                  mcp_profile_confirm_revoke_all_sessions(),
+                )}
+            >
+              <button
+                class="inline-flex min-h-10 items-center justify-center rounded-full border border-line px-4 py-2 text-sm font-semibold text-fg transition hover:border-red-400 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:border-red-600 dark:hover:text-red-300"
+                type="submit"
+                disabled={busyAction !== null}
+              >
+                {busyAction === "sessions:all"
+                  ? mcp_profile_session_revoking()
+                  : mcp_profile_session_revoke_all()}
+              </button>
+            </form>
+          {/if}
+        </div>
+
+        {#if account.oauth.sessions.length === 0}
+          <p class="mt-4 text-sm text-fg-muted">
+            {mcp_profile_oauth_sessions_empty()}
+          </p>
+        {:else}
+          <ul
+            class="mt-5 divide-y divide-line overflow-hidden rounded-xl border border-line"
           >
-        </form>
+            {#each account.oauth.sessions as session (session.sessionId)}
+              <li
+                class="flex flex-col justify-between gap-4 p-4 sm:flex-row sm:items-center"
+              >
+                <div class="min-w-0">
+                  <p class="truncate font-semibold text-fg">
+                    {session.clientName}
+                  </p>
+                  <p class="mt-1 text-xs text-fg-muted">
+                    {clientSourceLabel(session.clientSource)}
+                  </p>
+                  <p class="mt-2 text-xs text-fg-muted">
+                    {mcp_profile_session_connected({
+                      date: displayDate(session.createdAt),
+                    })}
+                    · {mcp_profile_session_last_used({
+                      date: displayDate(session.lastRefreshedAt),
+                    })}
+                    · {mcp_profile_session_expires({
+                      date: displayDate(session.expiresAt),
+                    })}
+                  </p>
+                </div>
+                <form
+                  method="POST"
+                  action="?/revokeMcpOAuthSession"
+                  use:enhance={enhanceSessionRevoke(session.sessionId)}
+                  onsubmit={(event) =>
+                    confirmTokenChange(
+                      event,
+                      mcp_profile_confirm_revoke_session(),
+                    )}
+                >
+                  <input
+                    type="hidden"
+                    name="sessionId"
+                    value={session.sessionId}
+                  />
+                  <button
+                    data-testid="mcp-session-revoke"
+                    class="inline-flex min-h-10 items-center justify-center rounded-full border border-line px-4 py-2 text-sm font-semibold text-fg transition hover:border-red-400 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:border-red-600 dark:hover:text-red-300"
+                    type="submit"
+                    disabled={busyAction !== null}
+                  >
+                    {busyAction === `session:${session.sessionId}`
+                      ? mcp_profile_session_revoking()
+                      : mcp_profile_session_revoke()}
+                  </button>
+                </form>
+              </li>
+            {/each}
+          </ul>
+        {/if}
       </div>
     {/if}
   {/if}

@@ -4,9 +4,20 @@ export type McpTokenInfo = {
   status: "active";
 };
 
+export type McpOAuthSession = {
+  sessionId: string;
+  clientId: string;
+  clientName: string;
+  clientSource: "predefined" | "dcr" | "cimd";
+  scopes: string[];
+  resource: string;
+  createdAt: string;
+  lastRefreshedAt: string;
+  expiresAt: string;
+};
+
 export type McpOAuthInfo = {
-  issuer: string;
-  linkedAt: string;
+  sessions: McpOAuthSession[];
 };
 
 export type McpAccount = {

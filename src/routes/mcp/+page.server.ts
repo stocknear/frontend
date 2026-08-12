@@ -49,8 +49,7 @@ export function _parseMcpOAuthReadiness(value: unknown): boolean {
   return (
     isObject(value) &&
     value.status === "ready" &&
-    value.authentication === "oauth-and-pat" &&
-    value.oauth_jwks === true
+    value.authentication === "oauth-and-pat"
   );
 }
 

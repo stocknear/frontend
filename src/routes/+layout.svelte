@@ -156,6 +156,7 @@
     path === prefix || path.startsWith(`${prefix}/`);
 
   let isLandingPage = false;
+  let isSensitiveOAuthRoute = false;
   let currentLocale: Locale = data?.locale ?? baseLocale;
   let bottomNavState = {
     home: false,
@@ -172,6 +173,8 @@
 
   $: currentLocale =
     extractLocaleFromUrl($page.url) ?? data?.locale ?? baseLocale;
+  $: isSensitiveOAuthRoute =
+    deLocalizeUrl($page.url).pathname === "/oauth/authorize";
 
   let localHref: (href: string) => string;
   $: localHref = (href: string) => localizedHref(href, currentLocale);
@@ -322,20 +325,7 @@
   let isStandalonePWA = false;
 
   onMount(() => {
-    checkMarketHour();
-
     if (!browser) return;
-
-    marketHourInterval = setInterval(checkMarketHour, MARKET_HOUR_CHECK_INTERVAL);
-
-    isStandalonePWA =
-      window.matchMedia?.("(display-mode: standalone)").matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true;
-
-    // Delay mounting the cookie consent component to keep initial load snappy
-    cookieConsentDelayTimer = setTimeout(() => {
-      showCookieConsentAfterDelay = true;
-    }, 2000);
 
     // Force auth state synchronization in production
     // This fixes the hydration mismatch where server/client auth states differ
@@ -347,6 +337,22 @@
       // Server says logged out but client thinks logged in - clear client state
       $loginData = undefined;
     }
+
+    // Keep the consent document isolated from the product shell, workers,
+    // persistence, market timers, and analytics. Consent exits use full loads.
+    if (isSensitiveOAuthRoute) return;
+
+    checkMarketHour();
+    marketHourInterval = setInterval(checkMarketHour, MARKET_HOUR_CHECK_INTERVAL);
+
+    isStandalonePWA =
+      window.matchMedia?.("(display-mode: standalone)").matches ||
+      (navigator as Navigator & { standalone?: boolean }).standalone === true;
+
+    // Delay mounting the cookie consent component to keep initial load snappy
+    cookieConsentDelayTimer = setTimeout(() => {
+      showCookieConsentAfterDelay = true;
+    }, 2000);
 
     // Use optimized service worker registration
     registerServiceWorker();
@@ -527,7 +533,8 @@
   $: isLandingPage =
     (deLocalizeUrl($page.url).pathname === "/" && !data?.user) ||
     deLocalizeUrl($page.url).pathname === "/register" ||
-    deLocalizeUrl($page.url).pathname === "/login";
+    deLocalizeUrl($page.url).pathname === "/login" ||
+    isSensitiveOAuthRoute;
 
   $: {
     const path = deLocalizeUrl($page.url).pathname;
@@ -575,7 +582,12 @@
   // GTM signup conversion (server-validated via httpOnly cookie in +layout.server.ts)
   // Reactive so it fires when data updates after form action, not just on initial mount
   let signupConversionFired = false;
-  $: if (browser && data.signupConversion && !signupConversionFired) {
+  $: if (
+    browser &&
+    !isSensitiveOAuthRoute &&
+    data.signupConversion &&
+    !signupConversionFired
+  ) {
     signupConversionFired = true;
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: GTM_EVENT_SIGNUP });
@@ -641,7 +653,7 @@
 <ModeWatcher defaultMode={data?.themeMode} defaultTheme={data?.themeMode} />
 
 <!-- Google Tag Manager (noscript) -->
-{#if data?.cookieConsent?.marketing === true}
+{#if data?.cookieConsent?.marketing === true && !isSensitiveOAuthRoute}
   <noscript>
     <iframe
       src="https://www.googletagmanager.com/ns.html?id=GTM-NZBJ9W63"
@@ -653,7 +665,7 @@
   </noscript>
 {/if}
 
-{#if isStandalonePWA}
+{#if isStandalonePWA && !isSensitiveOAuthRoute}
   {#await import("$lib/components/PullToRefresh.svelte") then { default: PullToRefresh }}
     <PullToRefresh />
   {:catch _err}
@@ -664,9 +676,10 @@
 <div class="app text-fg">
   <div class="flex min-h-screen w-full flex-col bg-surface-page">
     <div class="w-full">
-      <div
-        class="w-full navbar sticky top-0 z-40 bg-surface-card border-b border-line flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
-      >
+      {#if !isSensitiveOAuthRoute}
+        <div
+          class="w-full navbar sticky top-0 z-40 bg-surface-card border-b border-line flex h-14 items-center gap-4 px-4 sm:h-auto sm:px-6"
+        >
         <Sheet.Root>
           <Sheet.Trigger asChild let:builder>
             <Button
@@ -1616,10 +1629,11 @@
             {/if}
           </div>
         </div>
-      </div>
+        </div>
+      {/if}
       <div>
         <div class="flex w-full">
-          {#if !isChartRoute}
+          {#if !isChartRoute && !isSensitiveOAuthRoute}
             <div class="hidden 3xl:block 3xl:w-[300px] 3xl:shrink-0">
               <aside
                 class="sidebar-scroll sticky top-[64px] z-30 3xl:flex w-64 h-full self-start max-h-[calc(100dvh-84px)] overflow-x-hidden overflow-y-auto overscroll-contain flex-col bg-white/90 dark:bg-[#131214] backdrop-blur"
@@ -2127,7 +2141,7 @@
           <div class="w-full">
             <main
               class={`w-full ${
-                isChartRoute
+                isChartRoute || isSensitiveOAuthRoute
                   ? "overflow-hidden p-0"
                   : deLocalizeHref($page.url.pathname).startsWith("/chat")
                     ? "overflow-y-auto sm:p-4"
@@ -2149,7 +2163,7 @@
         </div>
       </div>
       <div>
-        {#if !$page?.url?.pathname?.startsWith("/chat") && !isChartRoute}
+        {#if !$page?.url?.pathname?.startsWith("/chat") && !isChartRoute && !isSensitiveOAuthRoute}
           <Footer />
         {/if}
       </div>
@@ -2167,14 +2181,14 @@
 
 -->
 
-{#if data?.user?.id && !isChartRoute}
+{#if data?.user?.id && !isChartRoute && !isSensitiveOAuthRoute}
   {#await import("$lib/components/Feedback.svelte") then { default: Comp }}
     <svelte:component this={Comp} {data} />
   {/await}
 {/if}
 
 <!-- Bottom Navigation Bar -->
-{#if !isChartRoute && !isLandingPage}
+{#if !isChartRoute && !isLandingPage && !isSensitiveOAuthRoute}
   <!-- Floating dock on mobile and desktop. It used to occlude table rows and
        the pricing tiers because it floats over the canvas while pages set
        `sm:pb-0`; the fix is the reserved clearance below, not deleting it.
@@ -2299,10 +2313,12 @@
   </nav>
 {/if}
 
-<LanguageSuggestion initialLocale={data?.suggestedLocale ?? null} />
+{#if !isSensitiveOAuthRoute}
+  <LanguageSuggestion initialLocale={data?.suggestedLocale ?? null} />
+{/if}
 
 <!-- Cookie Consent Banner -->
-{#if showCookieConsentAfterDelay}
+{#if showCookieConsentAfterDelay && !isSensitiveOAuthRoute}
   {#await import("$lib/components/CookieConsent.svelte") then { default: Comp }}
     <svelte:component
       this={Comp}

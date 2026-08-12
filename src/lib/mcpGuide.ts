@@ -1,6 +1,14 @@
 export const STOCKNEAR_MCP_ENDPOINT = "https://mcp.stocknear.com/mcp";
+export const CODEX_MCP_COMMAND = `codex mcp add stocknear --url ${STOCKNEAR_MCP_ENDPOINT}
+codex mcp login stocknear`;
 
-export type McpQuickConnectClient = {
+export type McpAuthentication = "oauth" | "pat";
+
+type McpClientCapability = {
+  authentication: McpAuthentication;
+};
+
+export type McpQuickConnectClient = McpClientCapability & {
   id: "claude" | "cursor" | "vscode" | "grok";
   name: string;
   href: string;
@@ -19,31 +27,35 @@ const vscodeRemoteConfig =
 export const MCP_QUICK_CONNECT_CLIENTS: readonly McpQuickConnectClient[] = [
   {
     id: "claude",
+    authentication: "oauth",
     name: "Claude",
     href: "https://claude.ai/customize/connectors",
     behavior: "settings",
   },
   {
     id: "cursor",
+    authentication: "oauth",
     name: "Cursor",
     href: `https://cursor.com/en/install-mcp?name=stocknear&config=${cursorRemoteConfig}`,
     behavior: "install",
   },
   {
     id: "vscode",
+    authentication: "oauth",
     name: "VS Code",
     href: `https://vscode.dev/redirect?url=vscode:mcp/install?${vscodeRemoteConfig}`,
     behavior: "install",
   },
   {
     id: "grok",
+    authentication: "oauth",
     name: "Grok",
     href: "https://grok.com/connectors",
     behavior: "settings",
   },
 ] as const;
 
-export type McpClientGuide = {
+export type McpClientGuide = McpClientCapability & {
   id: string;
   name: string;
   format: "command" | "json" | "yaml";
@@ -78,13 +90,22 @@ const json = (value: unknown) => JSON.stringify(value, null, 2);
 
 export const MCP_CLIENTS: readonly McpClientGuide[] = [
   {
+    id: "codex",
+    authentication: "oauth",
+    name: "Codex",
+    format: "command",
+    config: CODEX_MCP_COMMAND,
+  },
+  {
     id: "claude-code",
+    authentication: "pat",
     name: "Claude Code",
     format: "command",
     config: `bash -c 'read -rsp "MCP token: " STOCKNEAR_MCP_TOKEN; echo; claude mcp add --transport http --scope user stocknear ${STOCKNEAR_MCP_ENDPOINT} --header "Authorization: Bearer $STOCKNEAR_MCP_TOKEN"; unset STOCKNEAR_MCP_TOKEN'`,
   },
   {
     id: "cursor",
+    authentication: "pat",
     name: "Cursor",
     format: "json",
     config: json({ mcpServers: { stocknear: cursorEntry } }),
@@ -97,6 +118,7 @@ export const MCP_CLIENTS: readonly McpClientGuide[] = [
   },
   {
     id: "vscode",
+    authentication: "pat",
     name: "VS Code",
     format: "json",
     config: json({
@@ -127,6 +149,7 @@ export const MCP_CLIENTS: readonly McpClientGuide[] = [
   },
   {
     id: "windsurf",
+    authentication: "pat",
     name: "Windsurf",
     format: "json",
     config: json({ mcpServers: { stocknear: windsurfEntry } }),
@@ -139,12 +162,14 @@ export const MCP_CLIENTS: readonly McpClientGuide[] = [
   },
   {
     id: "gemini",
+    authentication: "pat",
     name: "Gemini CLI",
     format: "command",
     config: `bash -c 'read -rsp "MCP token: " STOCKNEAR_MCP_TOKEN; echo; gemini mcp add stocknear ${STOCKNEAR_MCP_ENDPOINT} --transport http --scope user --header "Authorization: Bearer $STOCKNEAR_MCP_TOKEN"; unset STOCKNEAR_MCP_TOKEN'`,
   },
   {
     id: "opencode",
+    authentication: "pat",
     name: "OpenCode",
     format: "json",
     config: json({
@@ -163,6 +188,7 @@ export const MCP_CLIENTS: readonly McpClientGuide[] = [
   },
   {
     id: "hermes",
+    authentication: "pat",
     name: "Hermes",
     format: "yaml",
     config: `mcp_servers:
@@ -174,6 +200,7 @@ export const MCP_CLIENTS: readonly McpClientGuide[] = [
   },
   {
     id: "generic",
+    authentication: "pat",
     name: "Other clients",
     format: "yaml",
     config: `transport: streamable-http
@@ -183,4 +210,27 @@ headers:
   },
 ] as const;
 
-export const PAT_CLIENTS = MCP_CLIENTS;
+export type McpClientCapabilities = {
+  oauth: boolean;
+  pat: boolean;
+};
+
+const supportsCapabilities = (
+  client: McpClientCapability,
+  capabilities: McpClientCapabilities,
+) => capabilities[client.authentication];
+
+export function getMcpClientCatalog(capabilities: McpClientCapabilities) {
+  return {
+    quickConnect: MCP_QUICK_CONNECT_CLIENTS.filter((client) =>
+      supportsCapabilities(client, capabilities),
+    ),
+    guides: MCP_CLIENTS.filter((client) =>
+      supportsCapabilities(client, capabilities),
+    ),
+  };
+}
+
+export const PAT_CLIENTS = MCP_CLIENTS.filter(
+  (client) => client.authentication === "pat",
+);

@@ -4,7 +4,8 @@ import {
   getMcpAccount,
   revokeMcpToken,
   rotateMcpToken,
-  unlinkMcpOAuth,
+  revokeAllMcpOAuthSessions,
+  revokeMcpOAuthSession,
 } from "$lib/server/mcpAccount";
 
 const setPrivateNoStore = (setHeaders) => {
@@ -193,14 +194,29 @@ export const actions = {
     }
   },
 
-  unlinkMcpOAuth: async ({ locals, setHeaders }) => {
+  revokeMcpOAuthSession: async ({ locals, request, setHeaders }) => {
     setPrivateNoStore(setHeaders);
     if (!locals.pb.authStore.isValid) {
       return fail(401, { mcpErrorCode: "sign_in" });
     }
     try {
-      await unlinkMcpOAuth(locals.pb);
-      return { mcpOAuthUnlinked: true };
+      const sessionId =
+        (await request.formData()).get("sessionId")?.toString() ?? "";
+      await revokeMcpOAuthSession(locals.pb, sessionId);
+      return { mcpOAuthSessionRevoked: true, mcpOAuthSessionId: sessionId };
+    } catch {
+      return fail(502, { mcpErrorCode: "unavailable" });
+    }
+  },
+
+  revokeAllMcpOAuthSessions: async ({ locals, setHeaders }) => {
+    setPrivateNoStore(setHeaders);
+    if (!locals.pb.authStore.isValid) {
+      return fail(401, { mcpErrorCode: "sign_in" });
+    }
+    try {
+      await revokeAllMcpOAuthSessions(locals.pb);
+      return { mcpOAuthSessionsRevoked: true };
     } catch {
       return fail(502, {
         mcpErrorCode: "unavailable",

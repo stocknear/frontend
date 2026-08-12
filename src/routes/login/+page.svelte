@@ -39,6 +39,12 @@
   let loading = false;
   let oauthLoading = false;
   let showTurnstile = true;
+  $: encodedReturnUrl = data?.loginReturnUrl
+    ? encodeURIComponent(data.loginReturnUrl)
+    : "";
+  $: loginAction = encodedReturnUrl
+    ? `?/login&returnUrl=${encodedReturnUrl}`
+    : "?/login";
 
   async function resetTurnstile() {
     showTurnstile = false;
@@ -64,10 +70,15 @@
             break;
           }
         case "redirect":
+          const target = new URL(result.location, window.location.href);
+          if (target.origin !== window.location.origin) {
+            toast.error(login_toast_invalid(), { style: toastStyle });
+            break;
+          }
           isClicked = true;
           toast.success(login_toast_success(), { style: toastStyle });
-          await update();
-          break;
+          window.location.assign(target.href);
+          return;
         case "failure":
           if (result.data?.rateLimited) {
             toast.error(
@@ -99,9 +110,7 @@
 
 <SEO title={login_seo_title()} description={login_seo_description()} />
 
-<div
-  class="min-h-screen bg-surface-page text-fg"
->
+<div class="min-h-screen bg-surface-page text-fg">
   <div class="mx-auto max-w-lg px-4 sm:px-6 py-8 sm:py-16">
     <!-- Logo -->
     <div class="text-center mb-8">
@@ -117,9 +126,7 @@
     {#if !data?.user}
       <div>
         <!-- Heading -->
-        <h1
-          class="text-center type-h1 text-fg"
-        >
+        <h1 class="text-center type-h1 text-fg">
           {login_title()}
         </h1>
         <p class="text-center text-sm text-fg mt-2 mb-8">
@@ -128,7 +135,10 @@
 
         <!-- Google OAuth (prominent, at top) -->
         <div class="mb-6">
-          <OAuthButtons on:click={() => (oauthLoading = !oauthLoading)} />
+          <OAuthButtons
+            returnUrl={encodedReturnUrl}
+            on:click={() => (oauthLoading = !oauthLoading)}
+          />
         </div>
 
         <!-- Divider -->
@@ -140,7 +150,7 @@
 
         <!-- Email + Password form -->
         <form
-          action="?/login"
+          action={loginAction}
           method="POST"
           use:enhance={submitLogin}
           class="flex flex-col items-center space-y-3 w-full max-w-md mx-auto"
@@ -205,9 +215,7 @@
     {:else}
       <!-- Already logged in -->
       <div class="text-center">
-        <h1
-          class="type-h1 text-fg"
-        >
+        <h1 class="type-h1 text-fg">
           {login_title_logged_in()}
         </h1>
         <p class="mt-3 text-sm text-fg">
@@ -235,9 +243,7 @@
     <div
       class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex justify-center items-center shadow-lg"
     >
-      <span
-        class="loading loading-spinner loading-md text-fg"
-      ></span>
+      <span class="loading loading-spinner loading-md text-fg"></span>
     </div>
   </div>
 {/if}
