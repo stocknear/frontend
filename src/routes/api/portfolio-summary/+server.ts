@@ -1,5 +1,4 @@
 import type { RequestHandler } from "./$types";
-import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 import { canonicalizeLocale } from "$lib/i18n/locales";
 import { resolveBackendLocale } from "$lib/i18n/backend-locales";
 
@@ -31,10 +30,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   const { portfolioId, holdings, lang } = data;
 
   if (!portfolioId) {
-    return new Response(JSON.stringify({ error: "Portfolio ID is required" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Portfolio ID is required" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
   }
 
   const checkOwner = await pb?.collection("portfolio")?.getOne(portfolioId, {
@@ -49,10 +48,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   }
 
   if (!holdings || !Array.isArray(holdings) || holdings?.length === 0) {
-    return new Response(JSON.stringify({ error: "Holdings are required" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Holdings are required" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
   }
 
   const requestedLocale = canonicalizeLocale(lang);
@@ -114,20 +113,22 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
 
     // Deduct credits after successful response
-    const creditBody = {
-      "credits-": costOfCredit,
-    };
-    await pb?.collection("users")?.update(user?.id, creditBody, {
-      headers: protectedUserWriteHeaders(user.id, creditBody),
+    await pb?.collection("users")?.update(user?.id, {
+      credits: user?.credits - costOfCredit,
     });
 
-    return new Response(JSON.stringify({ data: result, ...localeResolution }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Content-Language": localeResolution.effectiveLocale,
-        "X-Stocknear-Locale-Fallback": String(localeResolution.fallbackApplied),
+    return new Response(
+      JSON.stringify({ data: result, ...localeResolution }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Language": localeResolution.effectiveLocale,
+          "X-Stocknear-Locale-Fallback": String(
+            localeResolution.fallbackApplied,
+          ),
+        },
       },
-    });
+    );
   } catch (err) {
     console.error("Handler error:", err);
     return new Response(

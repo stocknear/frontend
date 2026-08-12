@@ -195,8 +195,6 @@
 
   async function purchasePlan(subscriptionType: string = "") {
     if (data?.user) {
-      if (!data?.checkoutBinding?.accountEmail ||
-          !data?.checkoutBinding?.accountProof) return;
       let subId = "";
 
       if (subscriptionType?.toLowerCase() === "lifetime") {
@@ -230,8 +228,6 @@
         "checkout[email]": data?.user?.email,
         "checkout[name]": data?.user?.username,
         "checkout[custom][userId]": data?.user?.id,
-        "checkout[custom][accountEmail]": data?.checkoutBinding?.accountEmail,
-        "checkout[custom][accountProof]": data?.checkoutBinding?.accountProof,
       });
       const checkoutUrl = buildCheckoutUrl(subId, checkoutParams);
 

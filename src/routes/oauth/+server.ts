@@ -1,7 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import { validateReturnUrl } from "$lib/utils";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
-import { ensureWelcomeCredits } from "$lib/server/pocketbaseUserWrite";
 
 const REGISTER_STEP_2_URL = "/register?step=2";
 
@@ -21,8 +20,9 @@ export const GET = async ({ locals, url, cookies }) => {
   const state = url.searchParams.get("state");
   const code = url.searchParams.get("code");
 
-  const authMethods = (await locals.pb?.collection("users")?.listAuthMethods())
-    ?.oauth2;
+  const authMethods = (
+    await locals.pb?.collection("users")?.listAuthMethods()
+  )?.oauth2;
 
   if (!authMethods?.providers) {
     clearOAuthCookies(cookies);
@@ -53,12 +53,8 @@ export const GET = async ({ locals, url, cookies }) => {
 
     isNewUser = Boolean(userLogin?.meta?.isNew);
 
+    // Don't block signup completion if welcome credits update fails.
     if (isNewUser && userLogin?.record?.id) {
-      try {
-        await ensureWelcomeCredits(locals.pb, userLogin.record);
-      } catch {
-        console.warn("Failed to apply legacy PocketBase OAuth welcome credits");
-      }
       // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
       cookies.set(SIGNUP_COOKIE, "1", {
         path: "/",
@@ -67,6 +63,14 @@ export const GET = async ({ locals, url, cookies }) => {
         sameSite: "lax",
         secure: !import.meta.env.DEV,
       });
+
+      try {
+        await locals.pb.collection("users").update(userLogin.record.id, {
+          credits: 10,
+        });
+      } catch (creditsErr) {
+        console.warn("Failed to set OAuth welcome credits", creditsErr);
+      }
     }
   } catch (err) {
     console.log("Error logging in with OAuth2 user", err);

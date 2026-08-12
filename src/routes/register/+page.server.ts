@@ -3,8 +3,6 @@ import { registerUserSchema } from "$lib/schemas";
 import { validateData, checkDisposableEmail } from "$lib/utils";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
-import { createBillingAccountProof } from "$lib/server/billingAccountProof";
-import { ensureWelcomeCredits } from "$lib/server/pocketbaseUserWrite";
 import {
   register_turnstile_required,
   register_turnstile_failed,
@@ -34,7 +32,6 @@ export async function load({ locals, url }) {
     return {
       user: locals.user,
       step: 2,
-      checkoutBinding: createBillingAccountProof(locals.user),
     };
   }
 
@@ -51,7 +48,6 @@ export async function load({ locals, url }) {
   return {
     user: null,
     step: 1,
-    checkoutBinding: null,
   };
 }
 
@@ -120,7 +116,8 @@ export const actions = {
             data: safeFormData,
             errors: {
               turnstile: [
-                turnstileVerification?.message ?? register_turnstile_failed(),
+                turnstileVerification?.message ??
+                  register_turnstile_failed(),
               ],
             },
           });
@@ -130,7 +127,9 @@ export const actions = {
         return fail(400, {
           data: safeFormData,
           errors: {
-            turnstile: [register_turnstile_error()],
+            turnstile: [
+              register_turnstile_error(),
+            ],
           },
         });
       }
@@ -147,12 +146,16 @@ export const actions = {
 
     try {
       const newUser = await locals.pb.collection("users").create(formData);
-      try {
-        await ensureWelcomeCredits(locals.pb, newUser);
-      } catch {
-        console.warn("Failed to apply legacy PocketBase welcome credits");
-      }
+
+      await locals.pb.collection("users").update(newUser?.id, {
+        credits: 10,
+      });
+
+      await locals.pb
+        .collection("users")
+        .requestVerification(formData.email);
     } catch (err: any) {
+      // SECURITY: Don't log full error object, only safe message
       console.error(
         "Registration error for email:",
         formData?.email?.substring(0, 3) + "***",
@@ -192,17 +195,11 @@ export const actions = {
         });
       }
 
+      // Generic registration error
       return fail(400, {
         data: safeFormData,
         registrationFailed: true,
       });
-    }
-
-    try {
-      await locals.pb.collection("users").requestVerification(formData.email);
-    } catch {
-      // Account creation has already committed; don't invite a duplicate retry.
-      console.warn("Registration verification request failed");
     }
 
     // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)

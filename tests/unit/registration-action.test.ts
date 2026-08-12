@@ -83,7 +83,7 @@ describe("direct PocketBase registration", () => {
       "new-user@example.com",
       "Correct-password1!",
     );
-    expect(state.update).not.toHaveBeenCalled();
+    expect(state.update).toHaveBeenCalledWith("a".repeat(15), { credits: 10 });
   });
 
   it("creates and initializes dedicated-page registrations directly", async () => {
@@ -94,31 +94,22 @@ describe("direct PocketBase registration", () => {
     expect(state.create).toHaveBeenCalledTimes(1);
   });
 
-  it("does not turn committed signup into failure when follow-up work fails", async () => {
+  it("preserves the existing registration failure when follow-up work fails", async () => {
     state.requestVerification.mockRejectedValue(new Error("smtp unavailable"));
     state.authWithPassword.mockRejectedValue(new Error("auth unavailable"));
 
-    await expect(registerAction(event() as any)).rejects.toMatchObject({
-      status: 302,
-      location: "/register?step=2",
+    await expect(registerAction(event() as any)).resolves.toMatchObject({
+      status: 400,
     });
     expect(state.create).toHaveBeenCalledTimes(1);
   });
 
-  it("tops up welcome credits only when an old PocketBase returns less than ten", async () => {
+  it("sets the existing welcome credit balance after registration", async () => {
     state.create.mockResolvedValue({ id: "a".repeat(15), credits: 0 });
     await expect(registerAction(event() as any)).rejects.toMatchObject({
       status: 302,
       location: "/register?step=2",
     });
-    expect(state.update).toHaveBeenCalledWith(
-      "a".repeat(15),
-      { "credits+": 10 },
-      expect.objectContaining({
-        headers: expect.objectContaining({
-          "X-Stocknear-User-Write-Operation": '{"credits+":10}',
-        }),
-      }),
-    );
+    expect(state.update).toHaveBeenCalledWith("a".repeat(15), { credits: 10 });
   });
 });

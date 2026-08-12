@@ -1,18 +1,16 @@
 import type { RequestHandler } from "./$types";
-import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 const MAX_DOWNLOAD_CREDITS = 500;
 
-const SCREENER_CONFIG: Record<string, { tiers: string[]; creditCost: number }> =
-  {
-    stock: { tiers: ["Pro", "Plus"], creditCost: 0 },
-    etf: { tiers: ["Pro", "Plus"], creditCost: 0 },
-    options: { tiers: ["Pro"], creditCost: 3 },
-    "covered-call": { tiers: ["Pro"], creditCost: 3 },
-    "cash-secured-put": { tiers: ["Pro"], creditCost: 3 },
-    "options-flow": { tiers: ["Pro"], creditCost: 3 },
-    "unusual-order-flow": { tiers: ["Pro"], creditCost: 3 },
-  };
+const SCREENER_CONFIG: Record<string, { tiers: string[]; creditCost: number }> = {
+  "stock": { tiers: ["Pro", "Plus"], creditCost: 0 },
+  "etf": { tiers: ["Pro", "Plus"], creditCost: 0 },
+  "options": { tiers: ["Pro"], creditCost: 3 },
+  "covered-call": { tiers: ["Pro"], creditCost: 3 },
+  "cash-secured-put": { tiers: ["Pro"], creditCost: 3 },
+  "options-flow": { tiers: ["Pro"], creditCost: 3 },
+  "unusual-order-flow": { tiers: ["Pro"], creditCost: 3 },
+};
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -44,8 +42,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   }
 
   if (!allowedTiers.includes(user?.tier)) {
-    const tierLabel =
-      allowedTiers.length === 1 ? allowedTiers[0] : allowedTiers.join(" or ");
+    const tierLabel = allowedTiers.length === 1 ? allowedTiers[0] : allowedTiers.join(" or ");
     return json(
       { error: `This feature is available for ${tierLabel} members only.` },
       403,
@@ -55,7 +52,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   const latestDownloadCredits = Number(user?.downloadCredits ?? 0);
   if (
     Number.isFinite(latestDownloadCredits) &&
-    latestDownloadCredits >= MAX_DOWNLOAD_CREDITS
+    latestDownloadCredits > MAX_DOWNLOAD_CREDITS
   ) {
     return json(
       {
@@ -81,18 +78,14 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
     let updatedCreditsUser;
     try {
-      const debitBody = {
+      updatedCreditsUser = await pb.collection("users").update(user.id, {
         "credits-": creditCost,
-      };
-      updatedCreditsUser = await pb.collection("users").update(user.id, debitBody, {
-        headers: protectedUserWriteHeaders(user.id, debitBody),
       });
     } catch (error) {
       const statusCode = (error as { status?: number })?.status;
       const originalMessage = (error as { message?: string })?.message ?? "";
       const rawMessage = originalMessage.toLowerCase();
-      const validationData = (error as { data?: Record<string, unknown> })
-        ?.data;
+      const validationData = (error as { data?: Record<string, unknown> })?.data;
       const hasCreditsValidationError =
         typeof validationData === "object" &&
         validationData !== null &&
@@ -141,11 +134,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
     if ((updatedCreditsUser?.credits ?? 0) < 0) {
       try {
-        const creditRollbackBody = {
+        await pb.collection("users").update(user.id, {
           "credits+": creditCost,
-        };
-        await pb.collection("users").update(user.id, creditRollbackBody, {
-          headers: protectedUserWriteHeaders(user.id, creditRollbackBody),
         });
       } catch (rollbackError) {
         console.error(
@@ -166,24 +156,17 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   }
 
   try {
-    const downloadBody = {
+    updatedUser = await pb.collection("users").update(user.id, {
       "downloadCredits+": 1,
-    };
-    updatedUser = await pb.collection("users").update(user.id, downloadBody, {
-      headers: protectedUserWriteHeaders(user.id, downloadBody),
     });
 
     if ((updatedUser?.downloadCredits ?? 0) > MAX_DOWNLOAD_CREDITS) {
       try {
-        const rollbackFields: Record<string, number> = {
-          "downloadCredits-": 1,
-        };
+        const rollbackFields: Record<string, number> = { "downloadCredits-": 1 };
         if (creditCost > 0) {
           rollbackFields["credits+"] = creditCost;
         }
-        await pb.collection("users").update(user.id, rollbackFields, {
-          headers: protectedUserWriteHeaders(user.id, rollbackFields),
-        });
+        await pb.collection("users").update(user.id, rollbackFields);
       } catch (rollbackError) {
         console.error(
           `Failed to rollback ${screener} screener export after downloadCredits limit:`,
@@ -203,28 +186,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     console.error(
       `Failed to update ${screener} screener downloadCredits:`,
       downloadCreditError,
-    );
-    if (creditCost > 0) {
-      try {
-        const rollbackBody = { "credits+": creditCost };
-        await pb.collection("users").update(user.id, rollbackBody, {
-          headers: protectedUserWriteHeaders(user.id, rollbackBody),
-        });
-      } catch (rollbackError) {
-        console.error(
-          `Failed to rollback ${screener} screener credits after download limit failure:`,
-          rollbackError,
-        );
-      }
-    }
-    const status = (downloadCreditError as { status?: number })?.status;
-    return json(
-      {
-        error: status === 400
-          ? "Abusive usage detected. Please read our Terms of Service to understand more."
-          : "Failed to process export. Please try again.",
-      },
-      status === 400 ? 400 : 500,
     );
   }
 

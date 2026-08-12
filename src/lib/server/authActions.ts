@@ -1,13 +1,8 @@
 import { error, fail, redirect } from "@sveltejs/kit";
-import {
-  validateData,
-  checkDisposableEmail,
-  validateReturnUrl,
-} from "$lib/utils";
+import { validateData, checkDisposableEmail, validateReturnUrl } from "$lib/utils";
 import { loginUserSchema, registerUserSchema } from "$lib/schemas";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
 import { SIGNUP_COOKIE } from "$lib/constants/tracking";
-import { ensureWelcomeCredits } from "$lib/server/pocketbaseUserWrite";
 
 /**
  * Sanitize form data to remove sensitive fields before returning to client
@@ -182,12 +177,26 @@ export const registerAction = async ({
 
   try {
     const newUser = await locals.pb.collection("users").create(formData);
-    try {
-      await ensureWelcomeCredits(locals.pb, newUser);
-    } catch {
-      console.warn("Failed to apply legacy PocketBase welcome credits");
-    }
+    await locals.pb.collection("users").update(newUser?.id, {
+      credits: 10,
+    });
+    await locals.pb
+      .collection("users")
+      .requestVerification(formData.email);
+    await locals.pb
+      .collection("users")
+      .authWithPassword(formData.email, formData.password);
+
+    // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
+    cookies.set(SIGNUP_COOKIE, "1", {
+      path: "/",
+      maxAge: 120,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: !import.meta.env.DEV,
+    });
   } catch (err: any) {
+    // SECURITY: Don't log full error object, only safe message
     console.error(
       "Registration error for email:",
       formData?.email?.substring(0, 3) + "***",
@@ -227,37 +236,12 @@ export const registerAction = async ({
       });
     }
 
+    // Generic registration error
     return fail(400, {
       data: safeFormData,
       registrationFailed: true,
     });
   }
-
-  // PocketBase applies all signup defaults in the create hook atomically.
-  // Email delivery and automatic login
-  // are best-effort follow-up work and must not turn a successful signup into a
-  // misleading registration failure that the user retries.
-  try {
-    await locals.pb.collection("users").requestVerification(formData.email);
-  } catch {
-    console.warn("Registration verification request failed");
-  }
-  try {
-    await locals.pb
-      .collection("users")
-      .authWithPassword(formData.email, formData.password);
-  } catch {
-    console.warn("Registration auto-login failed");
-  }
-
-  // Signal GTM conversion tracking (httpOnly — cannot be spoofed by client JS)
-  cookies.set(SIGNUP_COOKIE, "1", {
-    path: "/",
-    maxAge: 120,
-    httpOnly: true,
-    sameSite: "lax",
-    secure: !import.meta.env.DEV,
-  });
 
   // Get return URL from query or cookie, default to step 2 of registration
   const returnUrl =
@@ -275,9 +259,15 @@ export const registerAction = async ({
 /**
  * Shared OAuth2 action for all pages using LoginPopup.
  */
-export const oauth2Action = async ({ url, locals, request, cookies }: any) => {
-  const authMethods = (await locals?.pb?.collection("users")?.listAuthMethods())
-    ?.oauth2;
+export const oauth2Action = async ({
+  url,
+  locals,
+  request,
+  cookies,
+}: any) => {
+  const authMethods = (
+    await locals?.pb?.collection("users")?.listAuthMethods()
+  )?.oauth2;
 
   const data = await request?.formData();
   const providerSelected = data?.get("provider");

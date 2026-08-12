@@ -1,5 +1,4 @@
 import type { RequestHandler } from "./$types";
-import { protectedUserWriteHeaders } from "$lib/server/pocketbaseUserWrite";
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   const { apiURL, apiKey, user, pb } = locals;
@@ -51,11 +50,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     const result = await response.json();
 
     // Deduct credits after successful response
-    const creditBody = {
-      "credits-": costOfCredit,
-    };
-    await pb?.collection("users")?.update(user?.id, creditBody, {
-      headers: protectedUserWriteHeaders(user.id, creditBody),
+    await pb?.collection("users")?.update(user?.id, {
+      credits: user?.credits - costOfCredit,
     });
 
     return new Response(JSON.stringify(result), {
