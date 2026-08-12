@@ -8,19 +8,6 @@ if (!SECRET_KEY) {
   throw new Error("Missing Lemon Squeezy secret key.");
 }
 
-function billingTierWriteHeaders(userId: string, tier: string) {
-  const timestamp = String(Math.floor(Date.now() / 1000));
-  const canonical = ["v1", timestamp, userId, tier].join("\n");
-
-  return {
-    "X-Stocknear-Billing-Timestamp": timestamp,
-    "X-Stocknear-Billing-Signature": crypto
-      .createHmac("sha256", SECRET_KEY)
-      .update(canonical, "utf8")
-      .digest("hex"),
-  };
-}
-
 /**
  * Verifies that the provided signature matches the HMAC digest for the given payload.
  *
@@ -128,15 +115,11 @@ export const POST = async ({ request, locals }) => {
     // Handle subscription_expired event - downgrade user to Free
     if (eventName === "subscription_expired" && userId) {
       try {
-        await locals.pb.collection("users").update(
-          userId,
-          {
-            tier: "Free",
-            freeTrial: true,
-            credits: 10,
-          },
-          { headers: billingTierWriteHeaders(userId, "Free") },
-        );
+        await locals.pb.collection("users").update(userId, {
+          tier: "Free",
+          freeTrial: true,
+          credits: 10,
+        });
 
         const paymentData = { user: userId, data: payload };
         await locals.pb.collection("payments").create(paymentData);
@@ -180,16 +163,12 @@ export const POST = async ({ request, locals }) => {
 
       try {
         const freeTrial = true;
-        await locals.pb.collection("users").update(
-          userId,
-          {
-            tier,
-            freeTrial,
-            credits,
-            lifetime: productName?.includes("Life Time"),
-          },
-          { headers: billingTierWriteHeaders(userId, tier) },
-        );
+        await locals.pb.collection("users").update(userId, {
+          tier,
+          freeTrial,
+          credits,
+          lifetime: productName?.includes("Life Time"),
+        });
 
 
         const paymentData = { user: userId, data: payload };
@@ -213,33 +192,29 @@ export const POST = async ({ request, locals }) => {
     }
 
     //=========================
-
+  
     const tier = determineTier(payload?.data?.attributes?.product_name, status, refunded);
     //console.log(tier, payload?.data?.attributes?.product_name)
-
+    
     // Update the user and log the payment
 
     try {
 
         const freeTrial = true;
 
-      await locals.pb.collection("users").update(
-        userId,
-        {
-          tier,
-          freeTrial,
-          //credits: tier === 'Pro' ? 1000 : tier === 'Plus' ? 500 : 10,
-          credits: tier === 'Free' ? 10 : userId?.credits,
-          lifetime: productName?.includes("Life Time"),
-        },
-        { headers: billingTierWriteHeaders(userId, tier) },
-      );
+      await locals.pb.collection("users").update(userId, {
+        tier,
+         freeTrial,
+        //credits: tier === 'Pro' ? 1000 : tier === 'Plus' ? 500 : 10,
+        credits: tier === 'Free' ? 10 : userId?.credits,
+        lifetime: productName?.includes("Life Time"),
+      });
 
       const paymentData = { user: userId, data: payload };
       await locals.pb.collection("payments").create(paymentData);
     } catch (dbError) {
       console.error("Database error:", dbError);
-
+      
       return new Response(
       JSON.stringify({ error: "Pocketbase error" }),
       {
