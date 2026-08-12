@@ -1,3 +1,5 @@
+import { redirect } from "@sveltejs/kit";
+
 export type PublicMcpTool = {
   name: string;
   category: string;
@@ -41,9 +43,13 @@ export function _parsePublicMcpCatalog(value: unknown): PublicMcpTool[] {
   });
 }
 
-export const load = async ({ fetch, locals }) => {
+export const load = async ({ fetch, locals, url }) => {
   const now = Date.now();
   const isPro = locals?.user?.tier === "Pro";
+  if (locals?.user && !isPro) {
+    const pricingPath = url.pathname.replace(/\/mcp\/?$/, "/pricing");
+    throw redirect(303, `${pricingPath}${url.search}`);
+  }
   if (cache && cache.expiresAt > now)
     return { mcpTools: cache.tools, isPro };
 
