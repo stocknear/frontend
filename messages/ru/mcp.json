@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "mcp_seo_title": "MCP-сервер Stocknear | Подключите ИИ-ассистента",
   "mcp_seo_description": "Подключите рыночные данные Stocknear к Claude Code, Cursor, VS Code, Grok, Gemini CLI, OpenCode, Hermes и другим MCP-клиентам.",
-  "mcp_footer_link": "Получить MCP-сервер",
+  "mcp_footer_link": "Установить MCP-сервер",
   "mcp_badge": "MCP-сервер",
   "mcp_hero_title": "Добавьте исследования Stocknear в свой ИИ-процесс",
   "mcp_hero_description": "Изучайте акции, отчётность, опционы, прогнозы аналитиков, настроения рынка и другие данные прямо в выбранном ИИ-клиенте.",

@@ -15,7 +15,7 @@
   <a
     href="/notifications"
     on:click={toggle}
-    class="relative flex-shrink-0 inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white/70 dark:bg-zinc-900/50 text-fg transition hover:bg-white dark:hover:bg-zinc-900/70 hover:text-accent"
+    class="relative inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-line bg-surface-raised/60 text-fg transition hover:bg-surface-raised hover:text-accent"
   >
     <Bell class="h-[20px] w-[20px] " />
 

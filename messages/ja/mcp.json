@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "mcp_seo_title": "Stocknear MCP サーバー | AI アシスタントに接続",
   "mcp_seo_description": "Stocknear の市場データを Claude Code、Cursor、VS Code、Grok、Gemini CLI、OpenCode、Hermes などの MCP クライアントに接続できます。",
-  "mcp_footer_link": "MCP サーバーを取得",
+  "mcp_footer_link": "MCP サーバーをインストール",
   "mcp_badge": "MCP サーバー",
   "mcp_hero_title": "Stocknear のリサーチを AI ワークフローへ",
   "mcp_hero_description": "使い慣れた AI クライアントから、株式、財務諸表、オプション、アナリスト予想、市場センチメントなどを調査できます。",

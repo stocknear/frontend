@@ -24,7 +24,7 @@ const placeholders = (value: string) =>
 
 describe("MCP localization", () => {
   it("uses the requested footer CTA", () => {
-    expect(catalogs.en.mcp_footer_link).toBe("Get MCP Server");
+    expect(catalogs.en.mcp_footer_link).toBe("Install MCP Server");
   });
 
   it("uses the requested non-Pro MCP CTA", () => {

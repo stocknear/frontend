@@ -685,7 +685,7 @@
             <Button
               builders={[builder]}
               size="icon"
-              class="group rounded-full bg-transparent dark:bg-[#131214] text-fg-muted sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 border-none transition 3xl:hidden"
+              class="group rounded-full border-none bg-transparent text-fg-muted transition hover:bg-surface-raised dark:bg-transparent dark:hover:bg-surface-raised 3xl:hidden"
             >
               <Menu
                 class="h-5.5 w-5.5 sm:w-7 sm:h-7 text-fg-muted transition group-hover:text-accent"
@@ -1554,7 +1554,7 @@
                   <Button
                     size="icon"
                     aria-label={layout_my_account()}
-                    class="overflow-hidden rounded-full bg-white/70 dark:bg-zinc-900/50 hover:bg-white dark:hover:bg-zinc-900/70 border border-line w-10 h-10 transition"
+                    class="h-10 w-10 overflow-hidden rounded-full border border-line bg-surface-raised/60 transition hover:bg-surface-raised dark:bg-surface-raised/60 dark:hover:bg-surface-raised"
                     builders={[builder]}
                   >
                     <svg

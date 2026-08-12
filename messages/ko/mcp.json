@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "mcp_seo_title": "Stocknear MCP 서버 | AI 어시스턴트 연결",
   "mcp_seo_description": "Stocknear 시장 데이터를 Claude Code, Cursor, VS Code, Grok, Gemini CLI, OpenCode, Hermes 및 기타 MCP 클라이언트에 연결하세요.",
-  "mcp_footer_link": "MCP 서버 받기",
+  "mcp_footer_link": "MCP 서버 설치",
   "mcp_badge": "MCP 서버",
   "mcp_hero_title": "Stocknear 리서치를 AI 워크플로에 연결하세요",
   "mcp_hero_description": "선호하는 AI 클라이언트에서 주식, 재무제표, 옵션, 애널리스트 전망, 시장 심리 등을 바로 분석할 수 있습니다.",

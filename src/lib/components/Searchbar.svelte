@@ -601,7 +601,7 @@
 
 <label
   for="searchBarModal"
-  class="sm:hidden rounded-full border border-line bg-surface-raised/60 text-fg hover:text-accent transition cursor-pointer p-2 shrink-0 flex items-center justify-center"
+  class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-line bg-surface-raised/60 text-fg transition hover:bg-surface-raised hover:text-accent sm:hidden"
 >
   <Search class="h-[20px] w-[20px]" />
 </label>

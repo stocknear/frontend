@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "mcp_seo_title": "Stocknear MCP-Server | KI-Assistent verbinden",
   "mcp_seo_description": "Verbinde Stocknear-Marktdaten mit Claude Code, Cursor, VS Code, Grok, Gemini CLI, OpenCode, Hermes und weiteren MCP-Clients.",
-  "mcp_footer_link": "MCP-Server holen",
+  "mcp_footer_link": "MCP-Server installieren",
   "mcp_badge": "MCP-Server",
   "mcp_hero_title": "Stocknear-Research direkt in deinem KI-Workflow",
   "mcp_hero_description": "Analysiere Aktien, Finanzdaten, Optionen, Analystenschätzungen, Marktstimmung und mehr, ohne deinen bevorzugten KI-Client zu verlassen.",

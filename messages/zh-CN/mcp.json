@@ -2,7 +2,7 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "mcp_seo_title": "Stocknear MCP 服务器 | 连接你的 AI 助手",
   "mcp_seo_description": "将 Stocknear 市场数据连接到 Claude Code、Cursor、VS Code、Grok、Gemini CLI、OpenCode、Hermes 及其他 MCP 客户端。",
-  "mcp_footer_link": "获取 MCP 服务器",
+  "mcp_footer_link": "安装 MCP 服务器",
   "mcp_badge": "MCP 服务器",
   "mcp_hero_title": "把 Stocknear 研究能力带入你的 AI 工作流",
   "mcp_hero_description": "无需离开常用的 AI 客户端，即可研究股票、财务报表、期权、分析师预期、市场情绪等数据。",
