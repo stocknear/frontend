@@ -44,5 +44,12 @@
   "common_language_close": "关闭语言建议",
   "common_close": "关闭",
   "common_reset": "重置",
-  "common_reset_title": "将筛选、排序和列恢复为默认"
+  "common_reset_title": "将筛选、排序和列恢复为默认",
+  "common_chart_price": "价格",
+  "common_chart_change": "涨跌",
+  "common_chart_loading": "正在加载图表",
+  "common_chart_empty": "暂无图表数据",
+  "common_chart_error": "无法显示图表",
+  "common_chart_retry": "重试",
+  "common_chart_summary": "{symbol} 的 {range} 价格图表"
 }

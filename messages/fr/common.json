@@ -44,5 +44,12 @@
   "common_language_close": "Fermer la suggestion de langue",
   "common_close": "Fermer",
   "common_reset": "Réinitialiser",
-  "common_reset_title": "Réinitialiser les filtres, le tri et les colonnes"
+  "common_reset_title": "Réinitialiser les filtres, le tri et les colonnes",
+  "common_chart_price": "Prix",
+  "common_chart_change": "Variation",
+  "common_chart_loading": "Chargement du graphique",
+  "common_chart_empty": "Aucune donnée de graphique disponible",
+  "common_chart_error": "Impossible d’afficher le graphique",
+  "common_chart_retry": "Réessayer",
+  "common_chart_summary": "Graphique du prix de {symbol} sur {range}"
 }

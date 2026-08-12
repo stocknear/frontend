@@ -44,5 +44,12 @@
   "common_language_close": "언어 추천 닫기",
   "common_close": "닫기",
   "common_reset": "초기화",
-  "common_reset_title": "필터, 정렬, 열을 기본값으로 초기화"
+  "common_reset_title": "필터, 정렬, 열을 기본값으로 초기화",
+  "common_chart_price": "가격",
+  "common_chart_change": "변동",
+  "common_chart_loading": "차트 불러오는 중",
+  "common_chart_empty": "차트 데이터가 없습니다",
+  "common_chart_error": "차트를 표시할 수 없습니다",
+  "common_chart_retry": "다시 시도",
+  "common_chart_summary": "{symbol} {range} 가격 차트"
 }

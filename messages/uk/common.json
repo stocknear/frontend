@@ -44,5 +44,12 @@
   "common_language_close": "Закрити пропозицію мови",
   "common_close": "Закрити",
   "common_reset": "Скинути",
-  "common_reset_title": "Скинути фільтри, сортування та стовпці до початкових"
+  "common_reset_title": "Скинути фільтри, сортування та стовпці до початкових",
+  "common_chart_price": "Ціна",
+  "common_chart_change": "Зміна",
+  "common_chart_loading": "Завантаження графіка",
+  "common_chart_empty": "Немає даних для графіка",
+  "common_chart_error": "Не вдалося відобразити графік",
+  "common_chart_retry": "Спробувати ще раз",
+  "common_chart_summary": "Графік ціни {symbol} за {range}"
 }

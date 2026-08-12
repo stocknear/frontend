@@ -44,5 +44,12 @@
   "common_language_close": "Закрыть подсказку о языке",
   "common_close": "Закрыть",
   "common_reset": "Сбросить",
-  "common_reset_title": "Сбросить фильтры, сортировку и колонки к настройкам по умолчанию"
+  "common_reset_title": "Сбросить фильтры, сортировку и колонки к настройкам по умолчанию",
+  "common_chart_price": "Цена",
+  "common_chart_change": "Изменение",
+  "common_chart_loading": "Загрузка графика",
+  "common_chart_empty": "Нет данных для графика",
+  "common_chart_error": "Не удалось отобразить график",
+  "common_chart_retry": "Повторить",
+  "common_chart_summary": "График цены {symbol} за {range}"
 }

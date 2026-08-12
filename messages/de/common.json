@@ -44,5 +44,12 @@
   "common_language_close": "Sprachvorschlag schließen",
   "common_close": "Schließen",
   "common_reset": "Zurücksetzen",
-  "common_reset_title": "Filter, Sortierung und Spalten zurücksetzen"
+  "common_reset_title": "Filter, Sortierung und Spalten zurücksetzen",
+  "common_chart_price": "Preis",
+  "common_chart_change": "Änderung",
+  "common_chart_loading": "Diagramm wird geladen",
+  "common_chart_empty": "Keine Chartdaten verfügbar",
+  "common_chart_error": "Das Diagramm kann nicht angezeigt werden",
+  "common_chart_retry": "Erneut versuchen",
+  "common_chart_summary": "{symbol}-Kursdiagramm für {range}"
 }

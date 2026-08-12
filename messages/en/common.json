@@ -44,5 +44,12 @@
   "common_language_close": "Close language suggestion",
   "common_close": "Close",
   "common_reset": "Reset",
-  "common_reset_title": "Reset filters, sorting and columns to defaults"
+  "common_reset_title": "Reset filters, sorting and columns to defaults",
+  "common_chart_price": "Price",
+  "common_chart_change": "Change",
+  "common_chart_loading": "Loading chart",
+  "common_chart_empty": "No chart data available",
+  "common_chart_error": "Unable to display the chart",
+  "common_chart_retry": "Try again",
+  "common_chart_summary": "{symbol} price chart for {range}"
 }

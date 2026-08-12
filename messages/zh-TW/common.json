@@ -44,5 +44,12 @@
   "common_language_close": "關閉",
   "common_close": "關閉",
   "common_reset": "重設",
-  "common_reset_title": "將篩選、排序與欄位恢復為預設"
+  "common_reset_title": "將篩選、排序與欄位恢復為預設",
+  "common_chart_price": "價格",
+  "common_chart_change": "漲跌",
+  "common_chart_loading": "正在載入圖表",
+  "common_chart_empty": "暫無圖表資料",
+  "common_chart_error": "無法顯示圖表",
+  "common_chart_retry": "再試一次",
+  "common_chart_summary": "{symbol} 的 {range} 價格圖表"
 }

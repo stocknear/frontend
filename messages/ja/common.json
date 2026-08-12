@@ -44,5 +44,12 @@
   "common_language_close": "言語の提案を閉じる",
   "common_close": "閉じる",
   "common_reset": "リセット",
-  "common_reset_title": "フィルター、並び替え、列を初期状態に戻します"
+  "common_reset_title": "フィルター、並び替え、列を初期状態に戻します",
+  "common_chart_price": "価格",
+  "common_chart_change": "変動",
+  "common_chart_loading": "チャートを読み込み中",
+  "common_chart_empty": "チャートデータがありません",
+  "common_chart_error": "チャートを表示できません",
+  "common_chart_retry": "再試行",
+  "common_chart_summary": "{symbol} の {range} 価格チャート"
 }

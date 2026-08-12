@@ -1,58 +1,95 @@
+<script context="module" lang="ts">
+  import { registerXAxis } from "klinecharts";
+
+  const SESSION_START_MIN = 9 * 60 + 30;
+  const SESSION_END_MIN = 16 * 60;
+  const SESSION_RANGE_MIN = SESSION_END_MIN - SESSION_START_MIN;
+  const ONE_DAY_X_AXIS_NAME = "oneDayXAxis";
+  const wideAxisLabels = [
+    { label: "10 AM", minutes: 600 },
+    { label: "11 AM", minutes: 660 },
+    { label: "12 PM", minutes: 720 },
+    { label: "1 PM", minutes: 780 },
+    { label: "2 PM", minutes: 840 },
+    { label: "3 PM", minutes: 900 },
+    { label: "4 PM", minutes: 960 },
+  ];
+  const narrowAxisLabels = [
+    { label: "10 AM", minutes: 600 },
+    { label: "1 PM", minutes: 780 },
+    { label: "4 PM", minutes: 960 },
+  ];
+  let oneDayXAxisRegistered = false;
+
+  const ensureOneDayXAxis = () => {
+    if (oneDayXAxisRegistered) return;
+    registerXAxis({
+      name: ONE_DAY_X_AXIS_NAME,
+      createTicks: ({ bounding }) => {
+        const width = Math.max(bounding.width, 0);
+        if (width <= 0) return [];
+        const leftPad = 6;
+        const rightPad = 20;
+        const usableWidth = Math.max(width - leftPad - rightPad, 1);
+        const labels = width > 640 ? wideAxisLabels : narrowAxisLabels;
+        return labels.map((tick) => ({
+          coord:
+            leftPad +
+            usableWidth *
+              ((tick.minutes - SESSION_START_MIN) / SESSION_RANGE_MIN),
+          value: tick.minutes,
+          text: tick.label,
+        }));
+      },
+    });
+    oneDayXAxisRegistered = true;
+  };
+</script>
+
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import { mode } from "mode-watcher";
-  import { init, dispose, registerXAxis, type KLineData } from "klinecharts";
-  import { screenWidth } from "$lib/store";
+  import { init, dispose, type Crosshair } from "klinecharts";
+  import {
+    adjacentRealPointIndex,
+    buildHoverSummary,
+    chartSamplingTarget,
+    downsampleChartPoints,
+    formatEtTimestamp,
+    normalizeChartData,
+    sessionPointCount,
+    type ChartPoint,
+    type HoverSummary,
+    type RawChartPoint,
+  } from "./stockPriceChartData";
+  import {
+    common_chart_change,
+    common_chart_empty,
+    common_chart_error,
+    common_chart_loading,
+    common_chart_price,
+    common_chart_retry,
+    common_chart_summary,
+  } from "$lib/paraglide/messages";
 
   // ============================================================================
   // CONSTANTS & CACHED FORMATTERS (avoid creating new instances repeatedly)
   // ============================================================================
   const NY_TIMEZONE = "America/New_York";
-  const SESSION_START_MIN = 9 * 60 + 30;
-  const SESSION_END_MIN = 16 * 60;
-  const SESSION_RANGE_MIN = SESSION_END_MIN - SESSION_START_MIN;
   const KLINE_MIN_BAR_SPACE = 1;
   const DRAG_THRESHOLD_PX = 6;
-  const ONE_DAY_X_AXIS_NAME = "oneDayXAxis";
-
-  // Cache formatters to avoid repeated instantiation
-  const dateFormatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone: NY_TIMEZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-
-  const tzFormatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: NY_TIMEZONE,
-    timeZoneName: "longOffset",
-  });
-
-  // Cached NY offset (recalculated only when needed)
-  let cachedNyOffset: number | null = null;
-  const getNyOffset = (date: Date): number => {
-    const tzPart =
-      tzFormatter.formatToParts(date).find((p) => p.type === "timeZoneName")
-        ?.value || "GMT-05:00";
-    const match = tzPart.match(/GMT([+-])(\d{2}):(\d{2})/);
-    if (!match) return -5 * 60 * 60 * 1000;
-    const sign = match[1] === "-" ? -1 : 1;
-    return sign * (parseInt(match[2]) * 60 + parseInt(match[3])) * 60 * 1000;
-  };
-
-  // ============================================================================
-  // STATIC REGISTRATIONS (done once globally)
-  // ============================================================================
-  let oneDayXAxisRegistered = false;
 
   // ============================================================================
   // PROPS
   // ============================================================================
-  export let priceData: any[] = [];
+  export let priceData: RawChartPoint[] = [];
   export let displayRange: string = "1D";
   export let previousClose: number | null = null;
   export let isNegative: boolean = false;
   export let isLoading: boolean = false;
+  export let symbol: string = "";
+  export let errorMessage: string | null = null;
+  export let onRetry: (() => void) | null = null;
 
   // ============================================================================
   // STATE
@@ -63,12 +100,21 @@
   let resizeRaf: number | null = null;
   let styleRaf: number | null = null;
   let lastContainerWidth = 0;
-  let currentBars: KLineData[] = [];
+  let lastSamplingTarget = 0;
+  let currentBars: ChartPoint[] = [];
   let currentBarCount = 0;
   let sessionStart: number | null = null;
   let sessionEnd: number | null = null;
   let sessionBarCount = 0;
   let missingRightBars = 0;
+  let hoverSummary: HoverSummary | null = null;
+  let chartError = "";
+  let dataGeneration = 0;
+  let layoutRaf: number | null = null;
+  let layoutTimer: ReturnType<typeof setTimeout> | null = null;
+  let selectionTimer: ReturnType<typeof setTimeout> | null = null;
+  let rangeUpdateTimer: ReturnType<typeof setTimeout> | null = null;
+  let unsubscribeWheel: (() => void) | null = null;
 
   // Range selection state
   let isSelecting = false;
@@ -93,253 +139,14 @@
   let lastAppliedMode: string | null = null;
   let lastAppliedNegative: boolean | null = null;
   let lastDisplayRange: string | null = null;
-  let pendingStyleTimeout: ReturnType<typeof setTimeout> | null = null;
   let dataUpdateRaf: number | null = null;
-
-  // ============================================================================
-  // AXIS LABELS (reactive to screen width)
-  // ============================================================================
-  $: axisLabels =
-    $screenWidth > 640
-      ? [
-          { label: "10 AM", minutes: 600 },
-          { label: "11 AM", minutes: 660 },
-          { label: "12 PM", minutes: 720 },
-          { label: "1 PM", minutes: 780 },
-          { label: "2 PM", minutes: 840 },
-          { label: "3 PM", minutes: 900 },
-          { label: "4 PM", minutes: 960 },
-        ]
-      : [
-          { label: "10 AM", minutes: 600 },
-          { label: "1 PM", minutes: 780 },
-          { label: "4 PM", minutes: 960 },
-        ];
-
-  const ensureOneDayXAxis = () => {
-    if (oneDayXAxisRegistered) return;
-    registerXAxis({
-      name: ONE_DAY_X_AXIS_NAME,
-      createTicks: ({ bounding }) => {
-        const width = Math.max(bounding.width, 0);
-        if (width <= 0) return [];
-        const leftPad = 6,
-          rightPad = 20;
-        const usableWidth = Math.max(width - leftPad - rightPad, 1);
-        return axisLabels.map((tick) => ({
-          coord:
-            leftPad +
-            usableWidth *
-              ((tick.minutes - SESSION_START_MIN) / SESSION_RANGE_MIN),
-          value: tick.minutes,
-          text: tick.label,
-        }));
-      },
-    });
-    oneDayXAxisRegistered = true;
-  };
 
   // ============================================================================
   // UTILITY FUNCTIONS (optimized)
   // ============================================================================
-  const toNumber = (value: unknown): number | null => {
-    if (typeof value === "number") return Number.isFinite(value) ? value : null;
-    if (typeof value === "string") {
-      const n = Number(value);
-      return Number.isFinite(n) ? n : null;
-    }
-    return null;
-  };
-
-  const parseTimestamp = (value: unknown): number | null => {
-    if (typeof value === "number" && Number.isFinite(value)) {
-      return value > 1e12
-        ? Math.floor(value)
-        : value > 1e9
-          ? Math.floor(value * 1000)
-          : null;
-    }
-    if (typeof value === "string") {
-      const raw = value.trim();
-      if (!raw) return null;
-
-      // Handle date-only strings (YYYY-MM-DD) explicitly for Safari compatibility.
-      const dateOnlyMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})Z?$/);
-      if (dateOnlyMatch) {
-        const year = Number(dateOnlyMatch[1]);
-        const month = Number(dateOnlyMatch[2]) - 1;
-        const day = Number(dateOnlyMatch[3]);
-        const asUtc = new Date(Date.UTC(year, month, day, 0, 0, 0));
-        return asUtc.getTime() - getNyOffset(asUtc);
-      }
-
-      const normalized = raw.includes("T") ? raw : raw.replace(" ", "T");
-      const asUtc = new Date(`${normalized}Z`);
-      if (isNaN(asUtc.getTime())) return null;
-      return asUtc.getTime() - getNyOffset(asUtc);
-    }
-    return null;
-  };
-
-  const buildSessionTimestamp = (
-    baseTimestamp: number,
-    hours: number,
-    minutes: number,
-  ): number => {
-    const dateStr = dateFormatter.format(new Date(baseTimestamp));
-    const timeStr = `${dateStr}T${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00Z`;
-    const asUtc = new Date(timeStr);
-    return asUtc.getTime() - getNyOffset(asUtc);
-  };
-
-  // Optimized median calculation without full sort
-  const computeIntervalMs = (bars: KLineData[]): number => {
-    if (bars.length < 2) return 60000;
-    const diffs: number[] = [];
-    for (let i = 1; i < Math.min(bars.length, 50); i++) {
-      const diff = bars[i].timestamp - bars[i - 1].timestamp;
-      if (diff > 0) diffs.push(diff);
-    }
-    if (!diffs.length) return 60000;
-    // Quick select for median (faster than full sort)
-    diffs.sort((a, b) => a - b);
-    return diffs[Math.floor(diffs.length / 2)];
-  };
-
-  // LTTB downsampling (optimized)
-  const downsampleBars = (
-    bars: KLineData[],
-    targetCount: number,
-  ): KLineData[] => {
-    const len = bars.length;
-    if (len <= targetCount || targetCount < 3) return bars;
-
-    const result: KLineData[] = [bars[0]];
-    const bucketSize = (len - 2) / (targetCount - 2);
-
-    for (let i = 0; i < targetCount - 2; i++) {
-      const bucketStart = Math.floor(i * bucketSize) + 1;
-      const bucketEnd = Math.floor((i + 1) * bucketSize) + 1;
-      const nextBucketStart = bucketEnd;
-      const nextBucketEnd = Math.min(
-        Math.floor((i + 2) * bucketSize) + 1,
-        len - 1,
-      );
-
-      let avgX = 0,
-        avgY = 0,
-        count = 0;
-      for (let j = nextBucketStart; j < nextBucketEnd; j++) {
-        avgX += j;
-        avgY += bars[j].close;
-        count++;
-      }
-      if (count > 0) {
-        avgX /= count;
-        avgY /= count;
-      }
-
-      const prevX = result.length - 1;
-      const prevY = result[result.length - 1].close;
-      let maxArea = -1,
-        maxIndex = bucketStart;
-
-      for (let j = bucketStart; j < bucketEnd && j < len - 1; j++) {
-        const area = Math.abs(
-          (prevX - avgX) * (bars[j].close - prevY) -
-            (prevX - j) * (avgY - prevY),
-        );
-        if (area > maxArea) {
-          maxArea = area;
-          maxIndex = j;
-        }
-      }
-      result.push(bars[maxIndex]);
-    }
-    result.push(bars[len - 1]);
-    return result;
-  };
-
   // ============================================================================
   // CHART FUNCTIONS
   // ============================================================================
-  const buildBars = (rawData: any[]): KLineData[] => {
-    if (!Array.isArray(rawData) || !rawData.length) return [];
-
-    const parsed: KLineData[] = [];
-    for (const item of rawData) {
-      const timestamp = parseTimestamp(item?.time ?? item?.date);
-      const close = toNumber(item?.close);
-      if (timestamp === null || close === null) continue;
-      parsed.push({
-        timestamp,
-        close,
-        open: toNumber(item?.open) ?? close,
-        high: toNumber(item?.high) ?? close,
-        low: toNumber(item?.low) ?? close,
-        volume: 0,
-      });
-    }
-
-    if (!parsed.length) return [];
-    parsed.sort((a, b) => a.timestamp - b.timestamp);
-
-    if (displayRange === "1D") {
-      const baseTs = parsed[0].timestamp;
-      sessionStart = buildSessionTimestamp(baseTs, 9, 30);
-      sessionEnd = buildSessionTimestamp(baseTs, 16, 0);
-
-      const sessionBars = parsed.filter(
-        (bar) => bar.timestamp >= sessionStart! && bar.timestamp <= sessionEnd!,
-      );
-      if (!sessionBars.length) return parsed;
-
-      // Fill gaps with synthetic bars to align bar indices with time positions
-      // Only fill gaps WITHIN actual data range, not beyond (to avoid showing stale data for future times)
-      const filledBars: KLineData[] = [];
-      const ONE_MINUTE_MS = 60000;
-      let barIndex = 0;
-      const lastActualTimestamp = sessionBars[sessionBars.length - 1].timestamp;
-
-      for (let ts = sessionStart; ts <= sessionEnd; ts += ONE_MINUTE_MS) {
-        // Find bar at this timestamp (within 30 second tolerance)
-        while (
-          barIndex < sessionBars.length &&
-          sessionBars[barIndex].timestamp < ts - 30000
-        ) {
-          barIndex++;
-        }
-
-        if (
-          barIndex < sessionBars.length &&
-          Math.abs(sessionBars[barIndex].timestamp - ts) < 30000
-        ) {
-          // Use actual bar, normalize timestamp to exact minute
-          filledBars.push({ ...sessionBars[barIndex], timestamp: ts });
-          barIndex++;
-        } else if (filledBars.length > 0 && ts <= lastActualTimestamp) {
-          // Only forward-fill gaps WITHIN actual data range, not beyond
-          const prev = filledBars[filledBars.length - 1];
-          filledBars.push({
-            timestamp: ts,
-            open: prev.close,
-            high: prev.close,
-            low: prev.close,
-            close: prev.close,
-            volume: 0,
-          });
-        }
-        // Skip if no previous bar exists (gap at start) or timestamp is beyond actual data
-      }
-
-      return filledBars;
-    }
-
-    sessionStart = null;
-    sessionEnd = null;
-    return parsed;
-  };
-
   // Same tokens the tables use, so the green in the chart matches the green in
   // the header. Chart only renders client-side, so the document always exists.
   const CHART_FALLBACK = "#808080";
@@ -586,10 +393,36 @@
     chart.setOffsetRightDistance(rightOffset);
   };
 
-  const updateChartData = (rawData: any[]) => {
-    if (!chart || !chartContainer) return;
+  const clearLayoutWork = () => {
+    if (layoutRaf !== null) cancelAnimationFrame(layoutRaf);
+    if (layoutTimer !== null) clearTimeout(layoutTimer);
+    layoutRaf = null;
+    layoutTimer = null;
+  };
 
-    let bars = buildBars(rawData);
+  const scheduleBarSpace = (generation: number) => {
+    clearLayoutWork();
+    layoutRaf = requestAnimationFrame(() => {
+      layoutRaf = null;
+      if (generation !== dataGeneration || !chart) return;
+      updateBarSpace();
+      layoutTimer = setTimeout(() => {
+        layoutTimer = null;
+        if (generation === dataGeneration && chart) updateBarSpace();
+      }, 16);
+    });
+  };
+
+  const updateChartData = (rawData: RawChartPoint[]) => {
+    if (!chart || !chartContainer) return;
+    const generation = ++dataGeneration;
+    clearLayoutWork();
+    const normalized = normalizeChartData(rawData, displayRange);
+    let bars = normalized.points;
+    sessionStart = normalized.sessionStart;
+    sessionEnd = normalized.sessionEnd;
+    chartError = "";
+    hoverSummary = null;
     if (!bars.length) {
       currentBars = [];
       currentBarCount = 0;
@@ -602,16 +435,12 @@
       return;
     }
 
-    const intervalMs = computeIntervalMs(bars);
-    const width =
-      chart.getSize("candle_pane", "main")?.width ||
-      chartContainer?.clientWidth ||
-      300;
-    const maxBars = Math.max(100, Math.floor(width));
+    const intervalMs = normalized.intervalMs;
+    const maxBars = chartSamplingTarget(chartContainer.clientWidth);
+    lastSamplingTarget = maxBars;
 
     if (displayRange === "1D" && sessionStart !== null && sessionEnd !== null) {
-      const fullCount =
-        Math.round((sessionEnd - sessionStart) / intervalMs) + 1;
+      const fullCount = sessionPointCount(sessionStart, sessionEnd, intervalMs);
       const lastTs = bars[bars.length - 1].timestamp;
       const rawMissing =
         lastTs < sessionEnd
@@ -620,7 +449,7 @@
 
       if (fullCount > maxBars) {
         const ratio = maxBars / fullCount;
-        bars = downsampleBars(
+        bars = downsampleChartPoints(
           bars,
           Math.max(2, Math.floor(bars.length * ratio)),
         );
@@ -633,11 +462,12 @@
     } else {
       sessionBarCount = 0;
       missingRightBars = 0;
-      if (bars.length > maxBars) bars = downsampleBars(bars, maxBars);
+      if (bars.length > maxBars) bars = downsampleChartPoints(bars, maxBars);
     }
 
     currentBars = bars;
     currentBarCount = bars.length;
+    showSummaryAtIndex(bars.length - 1);
 
     const periodType =
       intervalMs >= 86400000
@@ -656,30 +486,16 @@
 
     // Capture bars in closure to avoid race conditions when updateChartData is called rapidly
     const barsToLoad = bars;
-    const barCount = bars.length;
-
     // Use setDataLoader - klinecharts will call getBars with type "init"
     chart.setDataLoader({
       getBars: async ({ type, callback }) => {
+        if (generation !== dataGeneration) {
+          callback([], { backward: false, forward: false });
+          return;
+        }
         if (type === "init") {
           callback(barsToLoad, { backward: false, forward: false });
-          // Multiple passes to ensure bar space is set correctly on mobile
-          requestAnimationFrame(() => {
-            if (currentBarCount === barCount) {
-              updateBarSpace();
-              requestAnimationFrame(() => {
-                if (currentBarCount === barCount) {
-                  updateBarSpace();
-                  // Third pass with small delay for slower mobile devices
-                  setTimeout(() => {
-                    if (currentBarCount === barCount) {
-                      updateBarSpace();
-                    }
-                  }, 16);
-                }
-              });
-            }
-          });
+          scheduleBarSpace(generation);
         } else {
           callback([], { backward: false, forward: false });
         }
@@ -802,6 +618,58 @@
     };
   };
 
+  const showSummaryAtIndex = (index: number) => {
+    hoverSummary = buildHoverSummary(
+      currentBars,
+      index,
+      displayRange,
+      previousClose,
+    );
+  };
+
+  const onCrosshairChange = (data?: unknown) => {
+    const crosshair = data as Crosshair | undefined;
+    if (typeof crosshair?.dataIndex === "number") {
+      showSummaryAtIndex(crosshair.dataIndex);
+    }
+  };
+
+  const onChartPointerMove = (evt: PointerEvent) => {
+    const data = getDataFromPoint(evt.clientX, evt.clientY);
+    if (data) showSummaryAtIndex(data.index);
+    onPointerMove(evt);
+  };
+
+  const onChartPointerLeave = () => {
+    if (!isSelecting && currentBars.length > 0) {
+      showSummaryAtIndex(currentBars.length - 1);
+    }
+  };
+
+  const onChartKeyDown = (evt: KeyboardEvent) => {
+    if (!currentBars.length) return;
+    const currentIndex = hoverSummary?.pointIndex ?? currentBars.length - 1;
+    if (evt.key === "ArrowLeft" || evt.key === "ArrowRight") {
+      const nextIndex = adjacentRealPointIndex(
+        currentBars,
+        currentIndex,
+        evt.key === "ArrowLeft" ? -1 : 1,
+      );
+      if (nextIndex !== null) showSummaryAtIndex(nextIndex);
+      evt.preventDefault();
+    } else if (evt.key === "Home") {
+      showSummaryAtIndex(0);
+      evt.preventDefault();
+    } else if (evt.key === "End") {
+      showSummaryAtIndex(currentBars.length - 1);
+      evt.preventDefault();
+    } else if (evt.key === "Escape") {
+      hoverSummary = null;
+    }
+  };
+
+  const stopChartWheel = (evt: WheelEvent) => evt.stopPropagation();
+
   const onPointerDown = (evt: PointerEvent) => {
     if (evt.button !== 0) return;
     const data = getDataFromPoint(evt.clientX, evt.clientY);
@@ -836,7 +704,9 @@
     try {
       (evt.target as HTMLElement)?.releasePointerCapture(evt.pointerId);
     } catch {}
-    setTimeout(() => {
+    if (selectionTimer !== null) clearTimeout(selectionTimer);
+    selectionTimer = setTimeout(() => {
+      selectionTimer = null;
       isSelecting = false;
       selectionStart = selectionEnd = null;
       startPointerId = startChartX = null;
@@ -851,15 +721,35 @@
 
     ensureOneDayXAxis();
 
-    chart = init(chartContainer);
-    if (!chart) return;
+    try {
+      chart = init(chartContainer);
+    } catch (error) {
+      console.error("Unable to initialize stock price chart", error);
+      chartError = common_chart_error();
+      return;
+    }
+    if (!chart) {
+      chartError = common_chart_error();
+      return;
+    }
 
+    chartContainer.addEventListener("wheel", stopChartWheel, {
+      capture: true,
+      passive: true,
+    });
+    unsubscribeWheel = () =>
+      chartContainer?.removeEventListener("wheel", stopChartWheel, true);
     chart.setZoomEnabled(false);
     chart.setScrollEnabled(false);
     chart.setOffsetRightDistance(0);
     chart.setLeftMinVisibleBarCount(0);
     chart.setRightMinVisibleBarCount(0);
-    chart.setSymbol({ ticker: "STOCK", pricePrecision: 2, volumePrecision: 0 });
+    chart.setSymbol({
+      ticker: symbol.trim().toUpperCase() || "INSTRUMENT",
+      pricePrecision: 2,
+      volumePrecision: 0,
+    });
+    chart.subscribeAction("onCrosshairChange", onCrosshairChange);
 
     chart.setPaneOptions({
       id: "candle_pane",
@@ -890,27 +780,40 @@
     resizeObserver = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect.width ?? 0;
       if (Math.abs(width - lastContainerWidth) < 1) return;
-      const changed = Math.round(width) !== Math.round(lastContainerWidth);
+      const previousWidth = lastContainerWidth;
       lastContainerWidth = width;
+      const samplingTarget = chartSamplingTarget(width);
 
       if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
       resizeRaf = requestAnimationFrame(() => {
         resizeRaf = null;
         chart?.resize();
-        if (changed && priceData?.length > 0) updateChartData(priceData);
-        else updateBarSpace();
+        if (
+          previousWidth > 0 &&
+          priceData.length > 0 &&
+          samplingTarget !== lastSamplingTarget
+        ) {
+          updateChartData(priceData);
+        } else {
+          updateBarSpace();
+        }
       });
     });
     resizeObserver.observe(chartContainer);
   });
 
   onDestroy(() => {
+    dataGeneration += 1;
     if (resizeRaf !== null) cancelAnimationFrame(resizeRaf);
     if (styleRaf !== null) cancelAnimationFrame(styleRaf);
     if (dataUpdateRaf !== null) cancelAnimationFrame(dataUpdateRaf);
-    if (pendingStyleTimeout !== null) clearTimeout(pendingStyleTimeout);
+    if (selectionTimer !== null) clearTimeout(selectionTimer);
+    if (rangeUpdateTimer !== null) clearTimeout(rangeUpdateTimer);
+    clearLayoutWork();
+    unsubscribeWheel?.();
     resizeObserver?.disconnect();
     if (chart) {
+      chart.unsubscribeAction("onCrosshairChange", onCrosshairChange);
       dispose(chart);
       chart = null;
     }
@@ -940,25 +843,13 @@
   // React to isNegative changes
   $: if (chart && isNegative !== lastAppliedNegative) scheduleStyleUpdate();
 
-  // Helper to schedule style reapplication after async operations
-  const scheduleDelayedStyleUpdate = () => {
-    if (pendingStyleTimeout !== null) clearTimeout(pendingStyleTimeout);
-    pendingStyleTimeout = setTimeout(() => {
-      pendingStyleTimeout = null;
-      if (chart) {
-        applyStyles($mode === "light", isNegative);
-      }
-    }, 50);
-  };
-
   // Debounced data update to handle rapid range switching
   const scheduleDataUpdate = () => {
     if (dataUpdateRaf !== null) cancelAnimationFrame(dataUpdateRaf);
     dataUpdateRaf = requestAnimationFrame(() => {
       dataUpdateRaf = null;
-      if (!chart || !priceData?.length) return;
+      if (!chart) return;
       updateChartData(priceData);
-      scheduleDelayedStyleUpdate();
     });
   };
 
@@ -987,7 +878,9 @@
     // If priceData will change, let the priceData reactive handle the update to avoid race conditions
     if (lastProcessedDisplayRange !== displayRange && priceData?.length > 0) {
       // Small delay to allow priceData reactive to fire first if data is changing
-      setTimeout(() => {
+      if (rangeUpdateTimer !== null) clearTimeout(rangeUpdateTimer);
+      rangeUpdateTimer = setTimeout(() => {
+        rangeUpdateTimer = null;
         if (
           lastProcessedDisplayRange !== displayRange &&
           priceData?.length > 0
@@ -998,18 +891,41 @@
       }, 10);
     }
   }
+
+  $: if (chart && symbol) {
+    chart.setSymbol({
+      ticker: symbol.trim().toUpperCase() || "INSTRUMENT",
+      pricePrecision: 2,
+      volumePrecision: 0,
+    });
+  }
+
+  $: effectiveError = errorMessage || chartError;
+  $: hoverDateTime = hoverSummary
+    ? formatEtTimestamp(hoverSummary.timestamp)
+    : { date: "", time: "" };
+  $: chartLabel = common_chart_summary({
+    symbol: symbol.trim().toUpperCase() || "Instrument",
+    range: displayRange,
+  });
 </script>
 
 <div class="relative w-full h-[320px]">
   {#if isLoading}
-    <div class="absolute inset-0 flex items-center justify-center z-10">
+    <div
+      class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
+      role="status"
+      aria-live="polite"
+    >
       <div
         class="bg-white/90 dark:bg-zinc-900/80 border border-line rounded-full h-14 w-14 flex items-center justify-center"
       >
         <span
           class="loading loading-spinner loading-md text-fg"
+          aria-hidden="true"
         ></span>
       </div>
+      <span class="sr-only">{common_chart_loading()}</span>
     </div>
   {/if}
 
@@ -1017,12 +933,70 @@
     bind:this={chartContainer}
     class="w-full h-full touch-pan-y"
     on:pointerdown={onPointerDown}
-    on:pointermove={onPointerMove}
+    on:pointermove={onChartPointerMove}
+    on:pointerleave={onChartPointerLeave}
     on:pointerup={onPointerUp}
     on:pointercancel={onPointerUp}
-    role="img"
-    aria-label="Stock price chart"
+    on:keydown={onChartKeyDown}
+    role="group"
+    tabindex="0"
+    aria-label={chartLabel}
   ></div>
+
+  {#if effectiveError}
+    <div
+      class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-surface-card/90 px-4 text-center"
+      role="alert"
+    >
+      <p class="type-body text-fg">{effectiveError}</p>
+      {#if onRetry}
+        <button class="btn btn-sm" type="button" on:click={onRetry}>
+          {common_chart_retry()}
+        </button>
+      {/if}
+    </div>
+  {:else if !isLoading && currentBars.length === 0}
+    <div
+      class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-fg-subtle"
+      role="status"
+    >
+      {common_chart_empty()}
+    </div>
+  {/if}
+
+  {#if hoverSummary && !isSelecting && !effectiveError}
+    <div
+      class="absolute left-3 top-3 z-10 pointer-events-none rounded-control border border-line bg-surface-card/95 px-3 py-2 shadow-sm"
+      aria-hidden="true"
+    >
+      <div class="type-meta text-fg-subtle">
+        {hoverDateTime.date} · {hoverDateTime.time}
+      </div>
+      <div class="mt-1 flex items-baseline gap-3">
+        <span class="type-data-em text-fg">
+          {common_chart_price()}: {hoverSummary.price.toFixed(2)}
+        </span>
+        {#if hoverSummary.absoluteChange !== null}
+          <span
+            class={hoverSummary.absoluteChange >= 0 ? "text-up" : "text-down"}
+          >
+            {common_chart_change()}:
+            {hoverSummary.absoluteChange >= 0 ? "+" : ""}{hoverSummary.absoluteChange.toFixed(2)}
+            {#if hoverSummary.percentChange !== null}
+              ({hoverSummary.percentChange >= 0 ? "+" : ""}{hoverSummary.percentChange.toFixed(2)}%)
+            {/if}
+          </span>
+        {/if}
+      </div>
+    </div>
+    <span class="sr-only" aria-live="polite">
+      {hoverDateTime.date}, {hoverDateTime.time}. {common_chart_price()}
+      {hoverSummary.price.toFixed(2)}.
+      {#if hoverSummary.absoluteChange !== null}
+        {common_chart_change()} {hoverSummary.absoluteChange.toFixed(2)}.
+      {/if}
+    </span>
+  {/if}
 
   {#if isSelecting && selectionRect && selectionStart && selectionEnd}
     <div class="absolute inset-0 pointer-events-none z-10">

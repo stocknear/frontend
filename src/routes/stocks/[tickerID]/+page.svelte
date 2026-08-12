@@ -1,6 +1,11 @@
 <script lang="ts">
   import StockPriceChart from "$lib/components/Plot/StockPriceChart.svelte";
-  import { mode } from "mode-watcher";
+  import {
+    createPriceHistoryLoader,
+    isPriceHistoryPoint,
+    mergeLatestPricePoint,
+    type PriceHistoryPoint,
+  } from "$lib/priceHistory";
 
   import {
     getCache,
@@ -57,6 +62,7 @@
     stock_detail_total_equity_ttm,
     stock_detail_total_liabilities_ttm,
     stock_detail_volume,
+    common_chart_error,
   } from "$lib/paraglide/messages";
 
   import {
@@ -411,6 +417,10 @@
     switch (state) {
       case "1D":
         displayData = "1D";
+        cancelHistoricalPriceRequest();
+        chartErrorMessage = null;
+        failedTimePeriod = null;
+        isLoadingChart = false;
         if (oneDayPrice?.length !== 0) {
           displayLastLogicalRangeValue = oneDayPrice?.at(0)?.close; //previousClose
           lastValue = oneDayPrice?.at(-1)?.close;
@@ -421,7 +431,8 @@
         break;
       case "1W":
         displayData = "1W";
-        await historicalPrice("one-week");
+        if (!(await historicalPrice("one-week")) || displayData !== "1W")
+          return;
         if (oneWeekPrice?.length !== 0) {
           displayLastLogicalRangeValue = oneWeekPrice?.at(0)?.close;
           lastValue = oneWeekPrice?.slice(-1)?.at(0)?.close;
@@ -433,7 +444,8 @@
         break;
       case "1M":
         displayData = "1M";
-        await historicalPrice("one-month");
+        if (!(await historicalPrice("one-month")) || displayData !== "1M")
+          return;
         if (oneMonthPrice?.length !== 0) {
           displayLastLogicalRangeValue = oneMonthPrice?.at(0)?.close;
           lastValue = oneMonthPrice.slice(-1)?.at(0)?.close;
@@ -444,7 +456,7 @@
         break;
       case "YTD":
         displayData = "YTD";
-        await historicalPrice("ytd");
+        if (!(await historicalPrice("ytd")) || displayData !== "YTD") return;
         if (ytdPrice?.length !== 0) {
           displayLastLogicalRangeValue = ytdPrice?.at(0)?.close;
           lastValue = ytdPrice.slice(-1)?.at(0)?.close;
@@ -455,7 +467,8 @@
         break;
       case "6M":
         displayData = "6M";
-        await historicalPrice("six-months");
+        if (!(await historicalPrice("six-months")) || displayData !== "6M")
+          return;
         if (sixMonthPrice?.length !== 0) {
           displayLastLogicalRangeValue = sixMonthPrice?.at(0)?.close;
           lastValue = sixMonthPrice?.slice(-1)?.at(0)?.close;
@@ -466,7 +479,8 @@
         break;
       case "1Y":
         displayData = "1Y";
-        await historicalPrice("one-year");
+        if (!(await historicalPrice("one-year")) || displayData !== "1Y")
+          return;
 
         if (oneYearPrice?.length !== 0) {
           displayLastLogicalRangeValue = oneYearPrice?.at(0)?.close;
@@ -479,7 +493,7 @@
         break;
       case "MAX":
         displayData = "MAX";
-        await historicalPrice("max");
+        if (!(await historicalPrice("max")) || displayData !== "MAX") return;
         if (maxPrice?.length !== 0) {
           displayLastLogicalRangeValue = maxPrice?.at(0)?.close;
           lastValue = maxPrice.slice(-1)?.at(0)?.close;
@@ -504,97 +518,117 @@
   let maxPrice = [];
 
   let isLoadingChart = true; // Track if chart data is still loading
+  let chartErrorMessage: string | null = null;
+  let failedTimePeriod: string | null = null;
+  let historyGeneration = 0;
+  let initializedTicker: string | null = null;
+  const priceHistoryLoader = createPriceHistoryLoader();
+  let activeHistoryRequest: {
+    key: string;
+    controller: AbortController;
+    promise: Promise<boolean>;
+  } | null = null;
 
-  async function historicalPrice(timePeriod: string) {
-    const cachedData = getCache($stockTicker, "historicalPrice" + timePeriod);
-    if (cachedData) {
-      switch (timePeriod) {
-        case "one-week":
-          oneWeekPrice = cachedData;
-          break;
-        case "one-month":
-          oneMonthPrice = cachedData;
-          break;
-        case "ytd":
-          ytdPrice = cachedData;
-          break;
-        case "six-months":
-          sixMonthPrice = cachedData;
-          break;
-        case "one-year":
-          oneYearPrice = cachedData;
-          break;
-        case "max":
-          maxPrice = cachedData;
-          break;
-        default:
-          console.log(`Unsupported time period: ${timePeriod}`);
-      }
-      isLoadingChart = false;
-    } else {
-      output = null;
-      isLoadingChart = true;
+  const normalizeTicker = (value: unknown) =>
+    String(value ?? "")
+      .trim()
+      .toUpperCase();
 
-      const postData = {
-        ticker: $stockTicker,
-        timePeriod: timePeriod,
-      };
-
-      const response = await fetch("/api/historical-price", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      output = (await response?.json()) ?? [];
-
-      const lastHistoric = output[output?.length - 1];
-      const lastOneDay = oneDayPrice[oneDayPrice?.length - 1];
-
-      // parse into Date objects
-      const historicDate = new Date(lastHistoric?.time);
-      const oneDayDate = new Date(lastOneDay?.time);
-
-      // if historicData is not newer than oneDayPrice, push it
-      // i.e. if historicDate <= oneDayDate
-      if (historicDate <= oneDayDate) {
-        output?.push(lastOneDay);
-      }
-
-      try {
-        switch (timePeriod) {
-          case "one-week":
-            oneWeekPrice = output;
-            break;
-          case "one-month":
-            oneMonthPrice = output;
-            break;
-          case "ytd":
-            ytdPrice = output;
-            break;
-          case "six-months":
-            sixMonthPrice = output;
-            break;
-          case "one-year":
-            oneYearPrice = output;
-            break;
-          case "max":
-            maxPrice = output;
-            break;
-          default:
-            console.log(`Unsupported time period: ${timePeriod}`);
-        }
-
-        setCache($stockTicker, output, "historicalPrice" + timePeriod);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        isLoadingChart = false;
-      }
+  function setHistoricalPrice(timePeriod: string, value: PriceHistoryPoint[]) {
+    switch (timePeriod) {
+      case "one-week":
+        oneWeekPrice = value;
+        break;
+      case "one-month":
+        oneMonthPrice = value;
+        break;
+      case "ytd":
+        ytdPrice = value;
+        break;
+      case "six-months":
+        sixMonthPrice = value;
+        break;
+      case "one-year":
+        oneYearPrice = value;
+        break;
+      case "max":
+        maxPrice = value;
     }
   }
+
+  function cancelHistoricalPriceRequest() {
+    historyGeneration += 1;
+    activeHistoryRequest?.controller.abort();
+    activeHistoryRequest = null;
+  }
+
+  function historicalPrice(timePeriod: string): Promise<boolean> {
+    const ticker = normalizeTicker($stockTicker);
+    const requestedRange = displayData;
+    const key = `${ticker}\u0000${timePeriod}`;
+    if (activeHistoryRequest?.key === key) return activeHistoryRequest.promise;
+
+    cancelHistoricalPriceRequest();
+    const generation = historyGeneration;
+    const isCurrent = () =>
+      generation === historyGeneration &&
+      ticker === normalizeTicker($stockTicker) &&
+      requestedRange === displayData;
+    const latest = oneDayPrice.at(-1);
+    const cacheName = "historicalPrice" + timePeriod;
+    const cachedData = getCache(ticker, cacheName);
+    if (Array.isArray(cachedData) && cachedData.every(isPriceHistoryPoint)) {
+      const merged = mergeLatestPricePoint(cachedData, latest);
+      if (isCurrent()) {
+        setHistoricalPrice(timePeriod, merged);
+        output = merged;
+        chartErrorMessage = null;
+        failedTimePeriod = null;
+        isLoadingChart = false;
+      }
+      return Promise.resolve(isCurrent());
+    }
+
+    const controller = new AbortController();
+    chartErrorMessage = null;
+    failedTimePeriod = null;
+    isLoadingChart = true;
+    const promise = (async () => {
+      try {
+        let result = await priceHistoryLoader.load(
+          ticker,
+          timePeriod,
+          latest,
+          controller.signal,
+        );
+        if (!isCurrent()) return false;
+        result = mergeLatestPricePoint(result, oneDayPrice.at(-1));
+        setHistoricalPrice(timePeriod, result);
+        output = result;
+        setCache(ticker, result, cacheName);
+        chartErrorMessage = null;
+        failedTimePeriod = null;
+        return true;
+      } catch {
+        if (!controller.signal.aborted && isCurrent()) {
+          chartErrorMessage = common_chart_error();
+          failedTimePeriod = timePeriod;
+        }
+        return false;
+      } finally {
+        if (activeHistoryRequest?.promise === promise) {
+          activeHistoryRequest = null;
+        }
+        if (isCurrent()) isLoadingChart = false;
+      }
+    })();
+    activeHistoryRequest = { key, controller, promise };
+    return promise;
+  }
+
+  const retryHistoricalPrice = () => {
+    if (failedTimePeriod) void changeData(displayData);
+  };
 
   async function initializePrice() {
     output = null;
@@ -608,7 +642,7 @@
       displayData =
         oneDayPrice?.length === 0 && sixMonthPrice?.length !== 0 ? "6M" : "1D";
       if (displayData === "1D") {
-        lastValue = oneDayPrice?.at(-0)?.close;
+        lastValue = oneDayPrice?.at(-1)?.close;
       } else if (displayData === "6M") {
         lastValue = sixMonthPrice?.at(-1)?.close;
       }
@@ -636,9 +670,10 @@
 
   let displayLastLogicalRangeValue;
 
-  onDestroy(async () => {
+  onDestroy(() => {
     $priceIncrease = null;
     $globalForm = [];
+    cancelHistoricalPriceRequest();
     disconnectOneDayPriceWebSocket();
   });
 
@@ -659,15 +694,22 @@
   }
 
   $: {
-    if ($stockTicker || $mode) {
+    const ticker = normalizeTicker($stockTicker);
+    if (ticker && ticker !== initializedTicker) {
+      initializedTicker = ticker;
+      cancelHistoricalPriceRequest();
       // add a check to see if running on client-side
       oneDayPrice = [];
       oneWeekPrice = [];
       oneMonthPrice = [];
       ytdPrice = [];
+      sixMonthPrice = [];
       oneYearPrice = [];
       maxPrice = [];
       output = null;
+      displayData = "1D";
+      chartErrorMessage = null;
+      failedTimePeriod = null;
 
       stockDeck = data?.getStockDeck;
       initializePrice();
@@ -731,9 +773,7 @@
   }}
 />
 
-<section
-  class="text-fg min-h-screen pb-40 overflow-hidden w-full"
->
+<section class="text-fg min-h-screen pb-40 overflow-hidden w-full">
   <h2 class="sr-only">
     {data?.companyName} ({$stockTicker}) Stock Price, Analysis & Data
   </h2>
@@ -795,15 +835,18 @@
                 </div>
               </div>
 
-              {#if currentChartData?.length > 0}
+              {#if currentChartData?.length > 0 || isLoadingChart || chartErrorMessage}
                 <StockPriceChart
-                  priceData={currentChartData}
+                  priceData={currentChartData ?? []}
                   displayRange={displayData}
                   previousClose={data?.getStockQuote?.previousClose}
                   isNegative={chartIsNegative}
                   isLoading={isLoadingChart}
+                  symbol={$stockTicker}
+                  errorMessage={chartErrorMessage}
+                  onRetry={chartErrorMessage ? retryHistoricalPrice : null}
                 />
-              {:else if !isLoadingChart}
+              {:else}
                 <div
                   class="flex justify-center w-full sm:w-[650px] h-[300px] sm:h-[320px] items-center"
                 >
@@ -811,14 +854,6 @@
                     {stock_detail_no_data()}
                   </p>
                 </div>
-              {:else}
-                <StockPriceChart
-                  priceData={[]}
-                  displayRange={displayData}
-                  previousClose={null}
-                  isNegative={false}
-                  isLoading={true}
-                />
               {/if}
             </div>
 

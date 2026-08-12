@@ -44,5 +44,12 @@
   "common_language_close": "Cerrar sugerencia de idioma",
   "common_close": "Cerrar",
   "common_reset": "Restablecer",
-  "common_reset_title": "Restablecer filtros, orden y columnas"
+  "common_reset_title": "Restablecer filtros, orden y columnas",
+  "common_chart_price": "Precio",
+  "common_chart_change": "Cambio",
+  "common_chart_loading": "Cargando gráfico",
+  "common_chart_empty": "No hay datos del gráfico disponibles",
+  "common_chart_error": "No se puede mostrar el gráfico",
+  "common_chart_retry": "Intentar de nuevo",
+  "common_chart_summary": "Gráfico de precios de {symbol} para {range}"
 }
