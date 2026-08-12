@@ -1,5 +1,6 @@
 <script lang="ts">
   import { abbreviateNumber } from "$lib/utils";
+  import { compareFlowDte } from "$lib/flow-page-state";
   import { onDestroy, onMount } from "svelte";
 
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
@@ -253,6 +254,14 @@
       "/" +
       dateString.substring(2, 4)
     );
+  }
+
+  function formatDte(value: unknown): string {
+    return typeof value === "number" && Number.isFinite(value)
+      ? value < 0
+        ? "expired"
+        : `${value}d`
+      : "—";
   }
   async function addToWatchlist(item) {
     if (data?.user?.tier !== "Pro") {
@@ -751,9 +760,7 @@ ${insightData.traderTakeaway}
         return sortOrder === "asc" ? timeA - timeB : timeB - timeA;
       },
       dte: (a, b) => {
-        const timeA = new Date(a.date_expiration);
-        const timeB = new Date(b.date_expiration);
-        return sortOrder === "asc" ? timeA - timeB : timeB - timeA;
+        return compareFlowDte(a.dte, b.dte, sortOrder);
       },
       strike: (a, b) => {
         const strikeA = parseFloat(a.strike_price);
@@ -871,9 +878,7 @@ ${insightData.traderTakeaway}
         return sortOrder === "asc" ? timeA - timeB : timeB - timeA;
       },
       dte: (a, b) => {
-        const timeA = new Date(a.date_expiration);
-        const timeB = new Date(b.date_expiration);
-        return sortOrder === "asc" ? timeA - timeB : timeB - timeA;
+        return compareFlowDte(a.dte, b.dte, sortOrder);
       },
       strike: (a, b) => {
         const strikeA = parseFloat(a.strike_price);
@@ -1175,7 +1180,7 @@ ${insightData.traderTakeaway}
                 </td>
               {:else if column.key === "dte"}
                 <td class="text-end text-sm whitespace-nowrap">
-                  {item?.dte < 0 ? "expired" : item?.dte + "d"}
+                  {formatDte(item?.dte)}
                 </td>
               {:else if column.key === "strike"}
                 <td class="text-end text-sm whitespace-nowrap">

@@ -1,5 +1,10 @@
 import { getAPI } from "$lib/server/api";
 import { issueWsToken } from "$lib/server/ws-token";
+import {
+  OPTIONS_FLOW_CATEGORICAL_RULES,
+  OPTIONS_FLOW_NUMERIC_RULES,
+  normalizeFlowRules,
+} from "$lib/flow-page-state";
 
 export const load = async ({ locals, url }) => {
   const { pb, user, wsURL } = locals;
@@ -7,7 +12,7 @@ export const load = async ({ locals, url }) => {
   const getAllStrategies = async () => {
     let output = [];
 
-     if (user?.tier !== "Pro") {
+    if (user?.tier !== "Pro") {
       return [];
     }
 
@@ -56,11 +61,12 @@ export const load = async ({ locals, url }) => {
     });
   };
 
-  const [getAllStrategiesData, getOptionsWatchlistData, wsTokenData] = await Promise.all([
-    getAllStrategies(),
-    getOptionsWatchlist(),
-    getWsToken(),
-  ]);
+  const [getAllStrategiesData, getOptionsWatchlistData, wsTokenData] =
+    await Promise.all([
+      getAllStrategies(),
+      getOptionsWatchlist(),
+      getWsToken(),
+    ]);
 
   // Build paginated request from URL params + saved strategy rules
   const isSubscriber = user?.tier === "Pro";
@@ -81,8 +87,10 @@ export const load = async ({ locals, url }) => {
   }
 
   // Pass saved strategy rules to backend for server-side filtering
-  const activeRules = rules.filter((r: any) =>
-    r.value !== "any" && !(Array.isArray(r.value) && r.value.length === 1 && r.value[0] === "any")
+  const activeRules = normalizeFlowRules(
+    rules,
+    OPTIONS_FLOW_NUMERIC_RULES,
+    OPTIONS_FLOW_CATEGORICAL_RULES,
   );
   if (activeRules.length > 0) {
     params.set("rules", JSON.stringify(activeRules));
@@ -93,7 +101,14 @@ export const load = async ({ locals, url }) => {
       return await getAPI(locals, `/options-flow-feed?${params.toString()}`);
     } catch (e) {
       console.error("Failed to fetch options flow feed:", e);
-      return { items: [], total: 0, page: 1, pageSize: 50, sort: { key: "time", order: "desc" }, stats: null };
+      return {
+        items: [],
+        total: 0,
+        page: 1,
+        pageSize: 50,
+        sort: { key: "time", order: "desc" },
+        stats: null,
+      };
     }
   };
 

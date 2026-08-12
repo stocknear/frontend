@@ -63,6 +63,7 @@
 
   import { abbreviateNumber, groupScreenerRules } from "$lib/utils";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import ScreenerFilterMenuContent from "$lib/components/ScreenerFilterMenuContent.svelte";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import TableHeader from "$lib/components/Table/TableHeader.svelte";
   import ScreenerExport from "$lib/components/ScreenerExport.svelte";
@@ -2548,19 +2549,19 @@
                           </svg>
                         </Button>
                       </DropdownMenu.Trigger>
-                      <DropdownMenu.Content
-                        side="bottom"
-                        align="end"
-                        sideOffset={10}
-                        alignOffset={0}
-                        class="h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none {row?.rule ===
+                      <ScreenerFilterMenuContent
+                        showHeader={row?.rule === "excludeTickers" ||
+                          row?.rule === "includeTickers" ||
+                          !checkedRules?.includes(row?.rule)}
+                        contentClass="{row?.rule ===
                           'excludeTickers' || row?.rule === 'includeTickers'
                           ? 'w-64 max-w-64'
                           : 'w-56 max-w-56'}"
                       >
+                        <svelte:fragment slot="header">
                         {#if row?.rule === "excludeTickers"}
                           <DropdownMenu.Label
-                            class="sticky -top-1 z-20 bg-surface-card pb-1.5"
+                            class="bg-popover p-1.5"
                           >
                             <div class="relative">
                               <div
@@ -2602,7 +2603,7 @@
                           </DropdownMenu.Label>
                         {:else if row?.rule === "includeTickers"}
                           <DropdownMenu.Label
-                            class="sticky -top-1 z-20 bg-surface-card pb-1.5"
+                            class="bg-popover p-1.5"
                           >
                             <div class="relative">
                               <div
@@ -2645,7 +2646,7 @@
                         {/if}
                         {#if row?.rule !== "excludeTickers" && row?.rule !== "includeTickers" && !checkedRules?.includes(row?.rule)}
                           <DropdownMenu.Label
-                            class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-surface-card"
+                            class="flex h-12 items-center bg-popover p-1.5"
                           >
                             <div
                               class="flex items-center justify-start gap-x-1"
@@ -2658,7 +2659,7 @@
                                   <DropdownMenu.Trigger asChild let:builder
                                     ><Button
                                       builders={[builder]}
-                                      class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-fg hover:text-accent transition"
+                                      class="w-fit -ml-2 flex flex-row items-center justify-between bg-transparent text-fg transition hover:bg-surface-raised hover:text-fg dark:bg-transparent"
                                     >
                                       <span class="truncate ml-2 text-sm">
                                         {ruleCondition[ruleName]
@@ -2794,12 +2795,13 @@
                             </div>
                           </DropdownMenu.Label>
                         {/if}
-                        <DropdownMenu.Group class="min-h-10 mt-2">
+                        </svelte:fragment>
+                        <DropdownMenu.Group class="min-h-10">
                           {#if row?.rule === "excludeTickers"}
                             {#if excludeTickerInput.trim().length > 0 && excludeTickerResults.length > 0}
                               {#each excludeTickerResults as result}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-accent"
+                                  class="text-fg"
                                 >
                                   <div
                                     class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
@@ -2876,7 +2878,7 @@
                             {#if includeTickerInput.trim().length > 0 && includeTickerResults.length > 0}
                               {#each includeTickerResults as result}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-accent"
+                                  class="text-fg"
                                 >
                                   <div
                                     class="flex items-center w-full px-2 py-0.5 text-sm cursor-pointer"
@@ -2954,7 +2956,7 @@
                               {#if ruleCondition[row?.rule] === "between"}
                                 {#if newValue && row?.step[index + 1]}
                                   <DropdownMenu.Item
-                                    class="sm:hover:text-accent"
+                                    class="text-fg"
                                   >
                                     <button
                                       on:click={() => {
@@ -2977,7 +2979,7 @@
                                 {/if}
                               {:else}
                                 <DropdownMenu.Item
-                                  class="sm:hover:text-accent"
+                                  class="text-fg"
                                 >
                                   <button
                                     on:click={() => {
@@ -2997,7 +2999,7 @@
                           {:else if checkedRules?.includes(row?.rule)}
                             {#each row?.step as item}
                               <DropdownMenu.Item
-                                class="sm:hover:text-accent"
+                                class="text-fg"
                               >
                                 <div
                                   class="flex items-center cursor-pointer"
@@ -3016,7 +3018,7 @@
                             {/each}
                           {/if}
                         </DropdownMenu.Group>
-                      </DropdownMenu.Content>
+                      </ScreenerFilterMenuContent>
                     </DropdownMenu.Root>
                   </div>
                 </div>

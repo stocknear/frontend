@@ -1,6 +1,16 @@
 <script lang="ts">
   import notifySound from "$lib/audio/options-flow-reader.mp3";
   import { isOpen } from "$lib/store";
+  import {
+    UNUSUAL_ORDER_FLOW_LIVE_STORAGE_KEY,
+    UNUSUAL_FLOW_CATEGORICAL_RULES,
+    UNUSUAL_FLOW_NUMERIC_RULES,
+    isValidFlowNumericFilterValue,
+    normalizeFlowRules,
+    parseFlowNumber,
+    readStoredBoolean,
+    writeStoredBoolean,
+  } from "$lib/flow-page-state";
   import { fetchInfoText } from "$lib/i18n/info-text";
 
   import { goto } from "$app/navigation";
@@ -18,6 +28,7 @@
     getLocalTimeZone,
   } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import ScreenerFilterMenuContent from "$lib/components/ScreenerFilterMenuContent.svelte";
   import * as Popover from "$lib/components/shadcn/popover/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { Calendar } from "$lib/components/shadcn/calendar/index.js";
@@ -108,6 +119,7 @@
   let audio: HTMLAudioElement | null = null;
 
   let modeStatus = data?.user?.tier === "Pro" ? true : false;
+  let livePreferenceLoaded = false;
 
   let strategyList = data?.getAllStrategies || [];
   let selectedStrategy = strategyList?.at(0)?.id ?? "";
@@ -1321,14 +1333,10 @@
   };
 
   function buildActiveRules(): any[] {
-    return ruleOfList.filter(
-      (r) =>
-        r.value !== "any" &&
-        !(
-          Array.isArray(r.value) &&
-          r.value.length === 1 &&
-          r.value[0] === "any"
-        ),
+    return normalizeFlowRules(
+      ruleOfList,
+      UNUSUAL_FLOW_NUMERIC_RULES,
+      UNUSUAL_FLOW_CATEGORICAL_RULES,
     );
   }
 
@@ -1340,14 +1348,11 @@
       filters.tickers = filterQuery;
     }
 
-    for (const rule of ruleOfList) {
-      if (!rule.value || rule.value === "any") continue;
-      if (
-        Array.isArray(rule.value) &&
-        rule.value.length === 1 &&
-        rule.value[0] === "any"
-      )
-        continue;
+    for (const rule of normalizeFlowRules(
+      ruleOfList,
+      UNUSUAL_FLOW_NUMERIC_RULES,
+      UNUSUAL_FLOW_CATEGORICAL_RULES,
+    )) {
 
       if (rule.name === "transactionType" && Array.isArray(rule.value)) {
         filters.transactionType = rule.value.map(
@@ -1360,13 +1365,12 @@
         filters[rule.name] = rule.value;
       } else if (
         ["size", "volume", "premium"].includes(rule.name) &&
-        rule.condition &&
-        rule.value
+        isValidFlowNumericFilterValue(rule.value, rule.condition)
       ) {
         // Supports all conditions: over, under, between, exactly
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo = rule.value[0] != null ? parseValue(rule.value[0]) : null;
-          const hi = rule.value[1] != null ? parseValue(rule.value[1]) : null;
+          const lo = parseFlowNumber(rule.value[0]);
+          const hi = parseFlowNumber(rule.value[1]);
           if (lo != null || hi != null) {
             filters[`${rule.name}_filter`] = {
               condition: "between",
@@ -1374,8 +1378,8 @@
             };
           }
         } else {
-          const parsed = parseValue(rule.value);
-          if (!isNaN(parsed)) {
+          const parsed = parseFlowNumber(rule.value);
+          if (parsed != null) {
             filters[`${rule.name}_filter`] = {
               condition: rule.condition,
               value: parsed,
@@ -1387,18 +1391,11 @@
       // Supports all conditions: over, under, between, exactly
       if (
         (rule.name === "sizeVolRatio" || rule.name === "sizeAvgVolRatio") &&
-        rule.condition &&
-        rule.value
+        isValidFlowNumericFilterValue(rule.value, rule.condition)
       ) {
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo =
-            rule.value[0] != null
-              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
-              : null;
-          const hi =
-            rule.value[1] != null
-              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
-              : null;
+          const lo = parseFlowNumber(rule.value[0]);
+          const hi = parseFlowNumber(rule.value[1]);
           if (lo != null || hi != null) {
             filters[`${rule.name}_filter`] = {
               condition: "between",
@@ -1406,11 +1403,13 @@
             };
           }
         } else {
-          const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
-          filters[`${rule.name}_filter`] = {
-            condition: rule.condition,
-            value: v,
-          };
+          const v = parseFlowNumber(rule.value);
+          if (v != null) {
+            filters[`${rule.name}_filter`] = {
+              condition: rule.condition,
+              value: v,
+            };
+          }
         }
       }
 
@@ -1675,6 +1674,11 @@
       // Pro members can toggle freely
       if (data?.user?.tier === "Pro") {
         modeStatus = !modeStatus;
+        writeStoredBoolean(
+          localStorage,
+          UNUSUAL_ORDER_FLOW_LIVE_STORAGE_KEY,
+          modeStatus,
+        );
         if (modeStatus === true) {
           if (selectedDate !== undefined) {
             selectedDate = undefined;
@@ -1805,7 +1809,13 @@
         );
         socket = null;
 
-        if (!$isOpen || !modeStatus || isComponentDestroyed) return;
+        if (
+          !livePreferenceLoaded ||
+          !$isOpen ||
+          !modeStatus ||
+          isComponentDestroyed
+        )
+          return;
 
         if (event.code === 4001) {
           console.log("Token expired, refreshing...");
@@ -1846,9 +1856,17 @@
 
   // Reactive statement for automatic WebSocket connection
   // Only connect when market is open — no live trades arrive when market is closed
-  $: if (data?.user?.tier === "Pro" && modeStatus && $isOpen) {
+  $: if (
+    livePreferenceLoaded &&
+    data?.user?.tier === "Pro" &&
+    modeStatus &&
+    $isOpen
+  ) {
     connectWebSocket();
-  } else if (data?.user?.tier !== "Pro" || !modeStatus || !$isOpen) {
+  } else if (
+    livePreferenceLoaded &&
+    (data?.user?.tier !== "Pro" || !modeStatus || !$isOpen)
+  ) {
     disconnectWebSocket();
   }
 
@@ -1866,6 +1884,16 @@
   }
 
   onMount(async () => {
+    const isPro = data?.user?.tier === "Pro";
+    modeStatus = isPro
+      ? readStoredBoolean(
+          localStorage,
+          UNUSUAL_ORDER_FLOW_LIVE_STORAGE_KEY,
+          true,
+        )
+      : false;
+    livePreferenceLoaded = true;
+
     // Load full width preference
     const savedFullWidth = localStorage.getItem(
       "unusual-order-flow-full-width",
@@ -3026,16 +3054,13 @@
                               </svg>
                             </Button>
                           </DropdownMenu.Trigger>
-                          <DropdownMenu.Content
-                            side="bottom"
-                            align="end"
-                            sideOffset={10}
-                            alignOffset={0}
-                            class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
+                          <ScreenerFilterMenuContent
+                            showHeader={!categoricalRules?.includes(row?.rule)}
                           >
+                            <svelte:fragment slot="header">
                             {#if !categoricalRules?.includes(row?.rule)}
                               <DropdownMenu.Label
-                                class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-surface-card"
+                                class="flex h-12 items-center bg-popover p-1.5"
                               >
                                 <div
                                   class="flex items-center justify-start gap-x-1"
@@ -3048,7 +3073,7 @@
                                       <DropdownMenu.Trigger asChild let:builder
                                         ><Button
                                           builders={[builder]}
-                                          class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-fg-muted"
+                                          class="w-fit -ml-2 flex flex-row items-center justify-between bg-transparent text-fg transition hover:bg-surface-raised hover:text-fg dark:bg-transparent"
                                         >
                                           <span
                                             class="truncate ml-2 text-sm sm:text-[1rem]"
@@ -3187,21 +3212,15 @@
                                   <!--End Dropdown for Condition-->
                                 </div>
                               </DropdownMenu.Label>
-                            {:else}
-                              <div
-                                class="relative sticky z-40 focus:outline-hidden -top-1"
-                                tabindex="0"
-                                role="menu"
-                                style=""
-                              ></div>
                             {/if}
-                            <DropdownMenu.Group class="min-h-10 mt-2">
+                            </svelte:fragment>
+                            <DropdownMenu.Group class="min-h-10">
                               {#if !categoricalRules?.includes(row?.rule)}
                                 {#each row?.step as newValue, index}
                                   {#if ruleCondition[row?.rule] === "between"}
                                     {#if newValue && row?.step[index + 1]}
                                       <DropdownMenu.Item
-                                        class="hover:text-violet-800 dark:hover:text-violet-300 rounded-container"
+                                        class="rounded-container text-fg"
                                       >
                                         <button
                                           on:click={() => {
@@ -3224,7 +3243,7 @@
                                     {/if}
                                   {:else}
                                     <DropdownMenu.Item
-                                      class="hover:text-violet-800 dark:hover:text-violet-300 rounded-container"
+                                      class="rounded-container text-fg"
                                     >
                                       <button
                                         on:click={() => {
@@ -3244,7 +3263,7 @@
                               {:else if categoricalRules?.includes(row?.rule)}
                                 {#each row?.step as item}
                                   <DropdownMenu.Item
-                                    class="hover:text-violet-800 dark:hover:text-violet-300 rounded-container"
+                                    class="rounded-container text-fg"
                                   >
                                     <div
                                       class="flex items-center cursor-pointer"
@@ -3265,7 +3284,7 @@
                                 {/each}
                               {/if}
                             </DropdownMenu.Group>
-                          </DropdownMenu.Content>
+                          </ScreenerFilterMenuContent>
                         </DropdownMenu.Root>
                       </div>
                     </div>

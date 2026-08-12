@@ -1,6 +1,17 @@
 <script lang="ts">
   import notifySound from "$lib/audio/options-flow-reader.mp3";
   import { isOpen } from "$lib/store";
+  import {
+    OPTIONS_FLOW_LIVE_STORAGE_KEY,
+    OPTIONS_FLOW_CATEGORICAL_RULES,
+    OPTIONS_FLOW_NUMERIC_RULES,
+    calendarDayDifference,
+    isValidFlowNumericFilterValue,
+    normalizeFlowRules,
+    parseFlowNumber,
+    readStoredBoolean,
+    writeStoredBoolean,
+  } from "$lib/flow-page-state";
 
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
@@ -16,6 +27,7 @@
     getLocalTimeZone,
   } from "@internationalized/date";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
+  import ScreenerFilterMenuContent from "$lib/components/ScreenerFilterMenuContent.svelte";
   import * as Popover from "$lib/components/shadcn/popover/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
   import { Calendar } from "$lib/components/shadcn/calendar/index.js";
@@ -137,16 +149,14 @@
   }
 
   function buildActiveRules() {
-    return ruleOfList.filter(
-      (r) =>
-        r.value !== "any" &&
-        !(
-          Array.isArray(r.value) &&
-          r.value.length === 1 &&
-          r.value[0] === "any"
-        ) &&
-        // Skip trackContract when paused so user can browse all rows
-        !(trackingPaused && r.name === "trackContract"),
+    return normalizeFlowRules(
+      ruleOfList,
+      OPTIONS_FLOW_NUMERIC_RULES,
+      OPTIONS_FLOW_CATEGORICAL_RULES,
+    ).filter(
+      (rule) =>
+        // Skip trackContract when paused so user can browse all rows.
+        !(trackingPaused && rule.name === "trackContract"),
     );
   }
 
@@ -354,31 +364,15 @@
     return 50;
   }
 
-  function parseWsNumeric(raw: any): number {
-    const cleaned = String(raw).replace(/[%$,]/g, "").trim().toUpperCase();
-    const multipliers: Record<string, number> = {
-      K: 1_000,
-      M: 1_000_000,
-      B: 1_000_000_000,
-    };
-    const suffix = cleaned.slice(-1);
-    return multipliers[suffix]
-      ? parseFloat(cleaned.slice(0, -1)) * multipliers[suffix]
-      : parseFloat(cleaned) || 0;
-  }
-
   function buildWsFilters() {
     const filters: Record<string, any> = {};
     if (filterQuery) filters.tickers = filterQuery;
 
-    for (const rule of ruleOfList || []) {
-      if (!rule.value || rule.value === "any") continue;
-      if (
-        Array.isArray(rule.value) &&
-        rule.value.length === 1 &&
-        rule.value[0] === "any"
-      )
-        continue;
+    for (const rule of normalizeFlowRules(
+      ruleOfList,
+      OPTIONS_FLOW_NUMERIC_RULES,
+      OPTIONS_FLOW_CATEGORICAL_RULES,
+    )) {
 
       // --- Categorical filters (set-membership on the server) ---
       if (
@@ -404,14 +398,11 @@
       // Supports all conditions: over, under, between, exactly
       if (
         ["cost_basis", "size", "volume", "open_interest"].includes(rule.name) &&
-        rule.condition &&
-        rule.value
+        isValidFlowNumericFilterValue(rule.value, rule.condition)
       ) {
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo =
-            rule.value[0] != null ? parseWsNumeric(rule.value[0]) : null;
-          const hi =
-            rule.value[1] != null ? parseWsNumeric(rule.value[1]) : null;
+          const lo = parseFlowNumber(rule.value[0]);
+          const hi = parseFlowNumber(rule.value[1]);
           if (lo != null || hi != null) {
             filters[`${rule.name}_filter`] = {
               condition: "between",
@@ -419,11 +410,13 @@
             };
           }
         } else {
-          const v = parseWsNumeric(rule.value);
-          filters[`${rule.name}_filter`] = {
-            condition: rule.condition,
-            value: v,
-          };
+          const v = parseFlowNumber(rule.value);
+          if (v != null) {
+            filters[`${rule.name}_filter`] = {
+              condition: rule.condition,
+              value: v,
+            };
+          }
         }
       }
 
@@ -431,25 +424,20 @@
       // Same shape as ratio filters; server reads per-ticker aggregates.
       if (
         (rule.name === "bullish_premium_pct" || rule.name === "bearish_premium_pct") &&
-        rule.condition &&
-        rule.value
+        isValidFlowNumericFilterValue(rule.value, rule.condition)
       ) {
         const key = `${rule.name}_filter`;
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo =
-            rule.value[0] != null
-              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
-              : null;
-          const hi =
-            rule.value[1] != null
-              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
-              : null;
+          const lo = parseFlowNumber(rule.value[0]);
+          const hi = parseFlowNumber(rule.value[1]);
           if (lo != null || hi != null) {
             filters[key] = { condition: "between", value: [lo, hi] };
           }
         } else {
-          const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
-          filters[key] = { condition: rule.condition, value: v };
+          const v = parseFlowNumber(rule.value);
+          if (v != null) {
+            filters[key] = { condition: rule.condition, value: v };
+          }
         }
       }
 
@@ -457,49 +445,41 @@
       // Supports all conditions: over, under, between, exactly
       if (
         (rule.name === "volumeOIRatio" || rule.name === "sizeOIRatio") &&
-        rule.condition &&
-        rule.value
+        isValidFlowNumericFilterValue(rule.value, rule.condition)
       ) {
         const key =
           rule.name === "volumeOIRatio"
             ? "volume_oi_ratio_filter"
             : "size_oi_ratio_filter";
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo =
-            rule.value[0] != null
-              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
-              : null;
-          const hi =
-            rule.value[1] != null
-              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
-              : null;
+          const lo = parseFlowNumber(rule.value[0]);
+          const hi = parseFlowNumber(rule.value[1]);
           if (lo != null || hi != null) {
             filters[key] = { condition: "between", value: [lo, hi] };
           }
         } else {
-          const v = parseFloat(String(rule.value).replace(/[%$,]/g, "")) || 0;
-          filters[key] = { condition: rule.condition, value: v };
+          const v = parseFlowNumber(rule.value);
+          if (v != null) {
+            filters[key] = { condition: rule.condition, value: v };
+          }
         }
       }
 
       // --- DTE (Days To Expiration) filter ---
-      if (rule.name === "date_expiration" && rule.condition && rule.value) {
+      if (
+        rule.name === "date_expiration" &&
+        isValidFlowNumericFilterValue(rule.value, rule.condition)
+      ) {
         if (rule.condition === "between" && Array.isArray(rule.value)) {
-          const lo =
-            rule.value[0] != null
-              ? parseFloat(String(rule.value[0]).replace(/[%$,]/g, ""))
-              : null;
-          const hi =
-            rule.value[1] != null
-              ? parseFloat(String(rule.value[1]).replace(/[%$,]/g, ""))
-              : null;
+          const lo = parseFlowNumber(rule.value[0]);
+          const hi = parseFlowNumber(rule.value[1]);
           if (lo != null || hi != null) {
             filters.dte_condition = "between";
             filters.dte_value = [lo, hi];
           }
         } else {
-          const v = parseFloat(String(rule.value).replace(/[%$,]/g, ""));
-          if (!isNaN(v)) {
+          const v = parseFlowNumber(rule.value);
+          if (v != null) {
             filters.dte_condition = rule.condition; // "over" | "under" | "exactly"
             filters.dte_value = v;
           }
@@ -1126,7 +1106,7 @@
       if (!item) {
         return;
       }
-      item.dte = daysLeft(item?.date_expiration);
+      item.dte = calendarDayDifference(item?.date_expiration, item?.date);
 
       // Pre-compute ratio percentages so the table can display & sort them
       const vol = parseFloat(item?.volume) || 0;
@@ -2035,11 +2015,6 @@
     }
   }
 
-  // daysLeft() subtracts this from a real epoch, so it must be a real epoch. The old
-  // format-then-reparse shifted it by the host's offset, so the server and client
-  // disagreed about how many days were left on a contract.
-  const currentTime = Date.now();
-
   const initialFeed = data?.getOptionsFlowFeed?.items ?? [];
   const initialStats = data?.getOptionsFlowFeed?.stats ?? null;
 
@@ -2065,9 +2040,9 @@
   let notFound = false;
   let isLoaded = false;
 
-  // Pro users start with modeStatus=true to fetch historical data via WebSocket
-  // When market is closed, WebSocket disconnects after historical data is received
+  // Hydration must load the saved preference before a Pro WebSocket can open.
   let modeStatus = data?.user?.tier === "Pro" ? true : false;
+  let livePreferenceLoaded = false;
 
   async function toggleMode() {
     if ($isOpen) {
@@ -2082,6 +2057,11 @@
       // Pro members can toggle freely
       if (data?.user?.tier === "Pro") {
         modeStatus = !modeStatus;
+        writeStoredBoolean(
+          localStorage,
+          OPTIONS_FLOW_LIVE_STORAGE_KEY,
+          modeStatus,
+        );
         if (modeStatus === true) {
           // Switching to live mode — re-fetch current page from server
           if (selectedDate !== undefined) {
@@ -2239,7 +2219,13 @@
         console.log("Options Flow WebSocket closed:", event.code, event.reason);
         socket = null;
 
-        if (!$isOpen || !modeStatus || isComponentDestroyed) return;
+        if (
+          !livePreferenceLoaded ||
+          !$isOpen ||
+          !modeStatus ||
+          isComponentDestroyed
+        )
+          return;
 
         if (event.code === 4001) {
           console.log("Token expired, refreshing...");
@@ -2280,9 +2266,17 @@
 
   // --- Reactive statement handles WebSocket connection based on market status and mode ---
   // Only connect when market is open — no live trades arrive when market is closed
-  $: if (data?.user?.tier === "Pro" && modeStatus && $isOpen) {
+  $: if (
+    livePreferenceLoaded &&
+    data?.user?.tier === "Pro" &&
+    modeStatus &&
+    $isOpen
+  ) {
     connectWebSocket();
-  } else if (data?.user?.tier !== "Pro" || !modeStatus || !$isOpen) {
+  } else if (
+    livePreferenceLoaded &&
+    (data?.user?.tier !== "Pro" || !modeStatus || !$isOpen)
+  ) {
     disconnectWebSocket();
   }
 
@@ -2298,16 +2292,6 @@
     // No real-time updates for non-Pro users
   }
 
-  function daysLeft(targetDate) {
-    const targetTime = new Date(targetDate).getTime();
-    const difference = targetTime - currentTime;
-
-    const millisecondsPerDay = 1000 * 60 * 60 * 24;
-    const daysLeft = Math?.ceil(difference / millisecondsPerDay);
-
-    return daysLeft;
-  }
-
   // Toggle full width mode
   function toggleFullWidth() {
     isFullWidth = !isFullWidth;
@@ -2319,6 +2303,12 @@
   }
 
   onMount(async () => {
+    const isPro = data?.user?.tier === "Pro";
+    modeStatus = isPro
+      ? readStoredBoolean(localStorage, OPTIONS_FLOW_LIVE_STORAGE_KEY, true)
+      : false;
+    livePreferenceLoaded = true;
+
     // Load full width preference
     const savedFullWidth = localStorage.getItem("options-flow-full-width");
     if (savedFullWidth !== null) {
@@ -3570,16 +3560,15 @@
                                 </svg>
                               </Button>
                             </DropdownMenu.Trigger>
-                            <DropdownMenu.Content
-                              side="bottom"
-                              align="end"
-                              sideOffset={10}
-                              alignOffset={0}
-                              class="w-fit  h-fit max-h-72 overflow-hidden overflow-y-auto scroller rounded-container border border-line bg-surface-card p-1.5 text-fg shadow-none"
+                            <ScreenerFilterMenuContent
+                              showHeader={!categoricalRules?.includes(
+                                row?.rule,
+                              ) && !textInputRules?.includes(row?.rule)}
                             >
+                              <svelte:fragment slot="header">
                               {#if !categoricalRules?.includes(row?.rule) && !textInputRules?.includes(row?.rule)}
                                 <DropdownMenu.Label
-                                  class="absolute mt-2 h-11 border-line border-b -top-1 z-20 fixed sticky bg-surface-card"
+                                  class="flex h-12 items-center bg-popover p-1.5"
                                 >
                                   <div
                                     class="flex items-center justify-start gap-x-1"
@@ -3594,7 +3583,7 @@
                                           let:builder
                                           ><Button
                                             builders={[builder]}
-                                            class="w-fit -mt-1 -ml-2 flex flex-row justify-between items-center text-fg hover:text-accent transition"
+                                            class="w-fit -ml-2 flex flex-row items-center justify-between bg-transparent text-fg transition hover:bg-surface-raised hover:text-fg dark:bg-transparent"
                                           >
                                             <span
                                               class="truncate ml-2 text-sm sm:text-[1rem]"
@@ -3738,21 +3727,15 @@
                                     <!--End Dropdown for Condition-->
                                   </div>
                                 </DropdownMenu.Label>
-                              {:else}
-                                <div
-                                  class="relative sticky z-40 focus:outline-hidden -top-1"
-                                  tabindex="0"
-                                  role="menu"
-                                  style=""
-                                ></div>
                               {/if}
-                              <DropdownMenu.Group class="min-h-10 mt-2">
+                              </svelte:fragment>
+                              <DropdownMenu.Group class="min-h-10">
                                 {#if !categoricalRules?.includes(row?.rule)}
                                   {#each row?.step as newValue, index}
                                     {#if ruleCondition[row?.rule] === "between"}
                                       {#if newValue && row?.step[index + 1]}
                                         <DropdownMenu.Item
-                                          class="sm:hover:text-accent"
+                                          class="text-fg"
                                         >
                                           <button
                                             on:click={() => {
@@ -3775,7 +3758,7 @@
                                       {/if}
                                     {:else}
                                       <DropdownMenu.Item
-                                        class="sm:hover:text-accent"
+                                        class="text-fg"
                                       >
                                         <button
                                           on:click={() => {
@@ -3795,7 +3778,7 @@
                                 {:else if categoricalRules?.includes(row?.rule)}
                                   {#each row?.step as item}
                                     <DropdownMenu.Item
-                                      class="sm:hover:text-accent"
+                                      class="text-fg"
                                     >
                                       <div
                                         class="flex items-center cursor-pointer"
@@ -3816,7 +3799,7 @@
                                   {/each}
                                 {/if}
                               </DropdownMenu.Group>
-                            </DropdownMenu.Content>
+                            </ScreenerFilterMenuContent>
                           </DropdownMenu.Root>
                         </div>
                       </div>

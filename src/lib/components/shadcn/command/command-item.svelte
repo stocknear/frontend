@@ -13,7 +13,7 @@
 <CommandPrimitive.Item
   {asChild}
   class={cn(
-    "text-fg sm:hover:bg-primary sm:hover:text-fg aria-selected:bg-primary aria-selected:text-fg relative flex cursor-default select-none items-center rounded-control px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none data-disabled:opacity-50",
+    "text-fg sm:hover:bg-surface-raised sm:hover:text-fg aria-selected:bg-surface-raised aria-selected:text-fg relative flex cursor-default select-none items-center rounded-control px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none data-disabled:opacity-50",
     className,
   )}
   {...$$restProps}

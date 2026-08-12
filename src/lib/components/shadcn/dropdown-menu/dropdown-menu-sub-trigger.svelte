@@ -15,7 +15,7 @@
 
 <DropdownMenuPrimitive.SubTrigger
 	class={cn(
-		"flex cursor-default select-none items-center rounded-control px-2 py-1.5 text-sm outline-hidden data-highlighted:bg-accent data-[state=open]:bg-accent data-highlighted:text-accent-foreground data-[state=open]:text-accent-foreground",
+		"flex cursor-default select-none items-center rounded-control px-2 py-1.5 text-sm outline-hidden data-highlighted:bg-surface-raised data-[state=open]:bg-surface-raised data-highlighted:text-fg data-[state=open]:text-fg",
 		inset && "pl-8",
 		className
 	)}
