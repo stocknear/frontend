@@ -2,21 +2,18 @@
   import { page } from "$app/stores";
   import SEO from "$lib/components/SEO.svelte";
   import {
-    CODEX_MCP_COMMAND,
     getMcpClientCatalog,
+    MCP_CLIENTS,
     STOCKNEAR_MCP_ENDPOINT,
   } from "$lib/mcpGuide";
   import { localizedHref } from "$lib/i18n/navigation";
   import { baseLocale, extractLocaleFromUrl } from "$lib/paraglide/runtime.js";
-  import claudeLogo from "$lib/images/mcp/claude.svg";
   import cursorLogo from "$lib/images/mcp/cursor.svg";
   import vscodeLogo from "$lib/images/mcp/vscode.svg";
   import grokLogo from "$lib/images/mcp/grok.svg";
   import type { PublicMcpTool } from "./+page.server";
   import {
     mcp_badge,
-    mcp_browser_oauth_description,
-    mcp_browser_oauth_title,
     mcp_category_analyst,
     mcp_category_company,
     mcp_category_financials,
@@ -27,37 +24,9 @@
     mcp_category_other,
     mcp_category_platform,
     mcp_category_quote,
-    mcp_claude_description,
-    mcp_claude_field_client_id,
-    mcp_claude_field_client_secret,
-    mcp_claude_field_name,
-    mcp_claude_field_server_url,
-    mcp_claude_open_connectors,
-    mcp_claude_secret_blank,
-    mcp_claude_step_1_description,
-    mcp_claude_step_1_title,
-    mcp_claude_step_2_description,
-    mcp_claude_step_2_title,
-    mcp_claude_step_3_description,
-    mcp_claude_step_3_title,
-    mcp_claude_team_note,
-    mcp_claude_title,
-    mcp_chatgpt_description,
-    mcp_chatgpt_availability_note,
-    mcp_chatgpt_open_plugins,
-    mcp_chatgpt_step_1_description,
-    mcp_chatgpt_step_1_title,
-    mcp_chatgpt_step_2_description,
-    mcp_chatgpt_step_2_title,
-    mcp_chatgpt_step_3_description,
-    mcp_chatgpt_step_3_title,
-    mcp_chatgpt_title,
     mcp_clients_description,
     mcp_clients_title,
     mcp_configuration,
-    mcp_codex_command_label,
-    mcp_codex_description,
-    mcp_codex_title,
     mcp_copied,
     mcp_copy,
     mcp_copy_failed,
@@ -118,7 +87,6 @@
   };
 
   const quickConnectLogos = {
-    claude: claudeLogo,
     cursor: cursorLogo,
     vscode: vscodeLogo,
     grok: grokLogo,
@@ -177,7 +145,7 @@
     pat: true,
   });
   $: quickConnectClients = clientCatalog.quickConnect;
-  $: visibleClients = clientCatalog.guides;
+  $: visibleClients = MCP_CLIENTS;
   $: if (!visibleClients.some((client) => client.id === selectedId)) {
     selectedId = visibleClients[0]?.id ?? "";
   }
@@ -368,7 +336,7 @@
         {mcp_quick_description()}
       </p>
     </div>
-    <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {#each quickConnectClients as client}
         <a
           class="group flex min-h-28 items-center gap-4 rounded-2xl border border-line bg-surface-card p-4 transition hover:-translate-y-0.5 hover:border-violet-300 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
@@ -389,9 +357,7 @@
           <span class="min-w-0">
             <span class="block truncate font-semibold">{client.name}</span>
             <span class="mt-1 block text-sm font-medium text-accent"
-              >{client.id === "claude"
-                ? mcp_claude_open_connectors()
-                : client.behavior === "install"
+              >{client.behavior === "install"
                   ? mcp_install()
                   : mcp_open_settings()} <span aria-hidden="true">↗</span></span
             >
@@ -403,211 +369,6 @@
       {mcp_quick_fallback()}
     </p>
 
-    {#if data?.oauthAvailable}
-      <article
-        class="mt-8 rounded-2xl border border-line bg-surface-card p-5 sm:p-7"
-        aria-labelledby="claude-connect-heading"
-      >
-        <div
-          class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
-        >
-          <div class="max-w-2xl">
-            <h3 id="claude-connect-heading" class="text-xl font-semibold">
-              {mcp_claude_title()}
-            </h3>
-            <p class="mt-2 text-sm leading-6 text-fg-muted">
-              {mcp_claude_description()}
-            </p>
-          </div>
-          <a
-            class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-line px-5 py-2.5 text-sm font-semibold transition hover:border-violet-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
-            href="https://claude.ai/customize/connectors"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {mcp_claude_open_connectors()}
-            <span class="ml-1" aria-hidden="true">↗</span>
-          </a>
-        </div>
-
-        <ol class="mt-6 grid gap-4 lg:grid-cols-3">
-          <li class="rounded-xl bg-surface-raised p-4 sm:p-5">
-            <span class="text-xs font-semibold text-accent" aria-hidden="true"
-              >1</span
-            >
-            <h4 class="mt-2 font-semibold">{mcp_claude_step_1_title()}</h4>
-            <p class="mt-2 text-sm leading-6 text-fg-muted">
-              {mcp_claude_step_1_description()}
-            </p>
-          </li>
-          <li class="rounded-xl bg-surface-raised p-4 sm:p-5">
-            <span class="text-xs font-semibold text-accent" aria-hidden="true"
-              >2</span
-            >
-            <h4 class="mt-2 font-semibold">{mcp_claude_step_2_title()}</h4>
-            <p class="mt-2 text-sm leading-6 text-fg-muted">
-              {mcp_claude_step_2_description()}
-            </p>
-            <dl
-              class="mt-4 divide-y divide-line rounded-xl border border-line bg-surface-card"
-            >
-              <div class="px-3 py-2.5">
-                <dt class="text-xs font-semibold text-fg-muted">
-                  {mcp_claude_field_name()}
-                </dt>
-                <dd class="mt-1 text-sm">Stocknear</dd>
-              </div>
-              <div class="px-3 py-2.5">
-                <dt class="text-xs font-semibold text-fg-muted">
-                  {mcp_claude_field_server_url()}
-                </dt>
-                <dd class="mt-1 flex min-w-0 items-center gap-2">
-                  <code class="min-w-0 flex-1 break-all text-xs"
-                    >{STOCKNEAR_MCP_ENDPOINT}</code
-                  >
-                  <button
-                    class="min-h-11 shrink-0 cursor-pointer rounded-full border border-line px-3 py-2 text-xs font-semibold text-accent transition hover:border-violet-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
-                    type="button"
-                    onclick={() =>
-                      copy("claude-endpoint", STOCKNEAR_MCP_ENDPOINT)}
-                  >
-                    {copied === "claude-endpoint" ? mcp_copied() : mcp_copy()}
-                  </button>
-                </dd>
-              </div>
-              <div class="px-3 py-2.5">
-                <dt class="text-xs font-semibold text-fg-muted">
-                  {mcp_claude_field_client_id()}
-                </dt>
-                <dd class="mt-1 break-all font-mono text-xs">
-                  stocknear-claude-web
-                </dd>
-              </div>
-              <div class="px-3 py-2.5">
-                <dt class="text-xs font-semibold text-fg-muted">
-                  {mcp_claude_field_client_secret()}
-                </dt>
-                <dd class="mt-1 text-sm">{mcp_claude_secret_blank()}</dd>
-              </div>
-            </dl>
-          </li>
-          <li class="rounded-xl bg-surface-raised p-4 sm:p-5">
-            <span class="text-xs font-semibold text-accent" aria-hidden="true"
-              >3</span
-            >
-            <h4 class="mt-2 font-semibold">{mcp_claude_step_3_title()}</h4>
-            <p class="mt-2 text-sm leading-6 text-fg-muted">
-              {mcp_claude_step_3_description()}
-            </p>
-          </li>
-        </ol>
-        <p class="mt-4 text-xs leading-5 text-fg-muted">
-          {mcp_claude_team_note()}
-        </p>
-      </article>
-    {/if}
-    </section>
-  {/if}
-
-  {#if data?.oauthAvailable}
-    <section
-      class="border-b border-line py-14 lg:py-20"
-      aria-labelledby="chatgpt-heading"
-    >
-      <div class="max-w-3xl">
-        <h2
-          id="chatgpt-heading"
-          class="text-3xl font-semibold tracking-tight sm:text-4xl"
-        >
-          {mcp_browser_oauth_title()}
-        </h2>
-        <p class="mt-3 text-sm leading-6 text-fg-muted sm:text-base">
-          {mcp_browser_oauth_description()}
-        </p>
-      </div>
-
-      <div class="mt-8 grid gap-4 lg:grid-cols-2">
-        <article
-          class="rounded-2xl border border-line bg-surface-card p-5 sm:p-7"
-        >
-          <h3 class="text-xl font-semibold">{mcp_chatgpt_title()}</h3>
-          <p class="mt-2 text-sm leading-6 text-fg-muted">
-            {mcp_chatgpt_description()}
-          </p>
-          <ol class="mt-5 grid gap-3">
-            {#each [{ title: mcp_chatgpt_step_1_title(), description: mcp_chatgpt_step_1_description() }, { title: mcp_chatgpt_step_2_title(), description: mcp_chatgpt_step_2_description() }, { title: mcp_chatgpt_step_3_title(), description: mcp_chatgpt_step_3_description() }] as step, index}
-              <li class="flex gap-3 rounded-xl bg-surface-raised p-3">
-                <span
-                  class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-600 text-xs font-semibold text-white"
-                  aria-hidden="true"
-                >
-                  {index + 1}
-                </span>
-                <div>
-                  <h4 class="text-sm font-semibold">{step.title}</h4>
-                  <p class="mt-1 text-xs leading-5 text-fg-muted">
-                    {step.description}
-                  </p>
-                </div>
-              </li>
-            {/each}
-          </ol>
-          <div
-            class="mt-5 flex min-w-0 items-center gap-2 rounded-xl bg-surface-raised p-3"
-          >
-            <code class="min-w-0 flex-1 break-all text-xs"
-              >{STOCKNEAR_MCP_ENDPOINT}</code
-            >
-            <button
-              class="min-h-10 shrink-0 cursor-pointer rounded-full border border-line px-3 py-2 text-xs font-semibold text-accent"
-              type="button"
-              onclick={() => copy("chatgpt-endpoint", STOCKNEAR_MCP_ENDPOINT)}
-            >
-              {copied === "chatgpt-endpoint" ? mcp_copied() : mcp_copy()}
-            </button>
-          </div>
-          <a
-            class="mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-line px-5 py-2.5 text-sm font-semibold transition hover:border-violet-300 hover:text-accent"
-            href="https://chatgpt.com/plugins"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {mcp_chatgpt_open_plugins()}
-            <span class="ml-1" aria-hidden="true">↗</span>
-          </a>
-          <p class="mt-4 text-xs leading-5 text-fg-muted">
-            {mcp_chatgpt_availability_note()}
-          </p>
-        </article>
-
-        <article
-          class="rounded-2xl border border-line bg-surface-card p-5 sm:p-7"
-        >
-          <h3 class="text-xl font-semibold">{mcp_codex_title()}</h3>
-          <p class="mt-2 text-sm leading-6 text-fg-muted">
-            {mcp_codex_description()}
-          </p>
-          <div class="mt-5 rounded-xl bg-zinc-950 p-4 text-zinc-100">
-            <div class="mb-3 flex items-center justify-between gap-3">
-              <span
-                class="text-xs font-medium uppercase tracking-wide text-zinc-400"
-                >{mcp_codex_command_label()}</span
-              >
-              <button
-                class="cursor-pointer rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold transition hover:bg-white/20"
-                type="button"
-                onclick={() => copy("codex-command", CODEX_MCP_COMMAND)}
-              >
-                {copied === "codex-command" ? mcp_copied() : mcp_copy()}
-              </button>
-            </div>
-            <pre
-              class="whitespace-pre-wrap break-all text-xs leading-6 sm:text-sm"><code
-                >{CODEX_MCP_COMMAND}</code
-              ></pre>
-          </div>
-        </article>
-      </div>
     </section>
   {/if}
 

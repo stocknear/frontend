@@ -86,7 +86,6 @@ describe("public MCP client snippets", () => {
 
   it("provides honest quick-connect links without credentials", () => {
     expect(MCP_QUICK_CONNECT_CLIENTS.map((client) => client.id)).toEqual([
-      "claude",
       "cursor",
       "vscode",
       "grok",
@@ -108,14 +107,7 @@ describe("public MCP client snippets", () => {
       MCP_QUICK_CONNECT_CLIENTS.filter(
         (client) => client.behavior === "settings",
       ).map((client) => client.id),
-    ).toEqual(["claude", "grok"]);
-
-    const claude = new URL(
-      MCP_QUICK_CONNECT_CLIENTS.find((client) => client.id === "claude")!.href,
-    );
-    expect(claude.href).toBe("https://claude.ai/customize/connectors");
-    expect(claude.search).toBe("");
-    expect(claude.hash).toBe("");
+    ).toEqual(["grok"]);
   });
 
   it("derives every visible client surface from the same authentication capability", () => {

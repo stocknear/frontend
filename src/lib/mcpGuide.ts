@@ -9,7 +9,7 @@ type McpClientCapability = {
 };
 
 export type McpQuickConnectClient = McpClientCapability & {
-  id: "claude" | "cursor" | "vscode" | "grok";
+  id: "cursor" | "vscode" | "grok";
   name: string;
   href: string;
   behavior: "install" | "settings";
@@ -25,13 +25,6 @@ const vscodeRemoteConfig =
  * server is added, so credentials must never be added to these URLs.
  */
 export const MCP_QUICK_CONNECT_CLIENTS: readonly McpQuickConnectClient[] = [
-  {
-    id: "claude",
-    authentication: "oauth",
-    name: "Claude",
-    href: "https://claude.ai/customize/connectors",
-    behavior: "settings",
-  },
   {
     id: "cursor",
     authentication: "oauth",
