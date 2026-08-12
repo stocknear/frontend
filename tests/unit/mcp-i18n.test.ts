@@ -27,6 +27,10 @@ describe("MCP localization", () => {
     expect(catalogs.en.mcp_footer_link).toBe("Get MCP Server");
   });
 
+  it("uses the requested non-Pro MCP CTA", () => {
+    expect(catalogs.en.mcp_profile_upgrade_button).toBe("Get Pro");
+  });
+
   it("ships a complete catalog for every supported locale", () => {
     const baseKeys = messageKeys(catalogs.en);
     expect(baseKeys.length).toBeGreaterThan(100);

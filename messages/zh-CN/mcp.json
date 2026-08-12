@@ -69,7 +69,7 @@
   "mcp_profile_description": "直接在你常用的 AI 客户端中使用 Stocknear 市场研究工具。",
   "mcp_profile_upgrade_title": "Pro 已包含 MCP。",
   "mcp_profile_upgrade_description": "升级后即可生成个人令牌。如果 Pro 订阅结束，所有 MCP 凭据会立即失效。",
-  "mcp_profile_upgrade_button": "查看 Pro",
+  "mcp_profile_upgrade_button": "获取 Pro",
   "mcp_profile_unavailable": "MCP 账户信息暂时不可用。更改权限前请刷新页面。",
   "mcp_profile_limit": "任意连续 1 分钟内 120 次请求 · 4 个并发调用",
   "mcp_profile_token_copy_title": "立即复制令牌",

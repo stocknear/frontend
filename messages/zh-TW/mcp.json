@@ -69,7 +69,7 @@
   "mcp_profile_description": "直接在你偏好的 AI 用戶端中使用 Stocknear 市場研究工具。",
   "mcp_profile_upgrade_title": "Pro 已包含 MCP。",
   "mcp_profile_upgrade_description": "升級後即可產生個人權杖。如果 Pro 訂閱結束，所有 MCP 憑證會立即失效。",
-  "mcp_profile_upgrade_button": "查看 Pro",
+  "mcp_profile_upgrade_button": "取得 Pro",
   "mcp_profile_unavailable": "MCP 帳戶資料暫時無法使用。變更存取權前請重新整理頁面。",
   "mcp_profile_limit": "任意連續 1 分鐘內 120 次請求 · 4 個同時呼叫",
   "mcp_profile_token_copy_title": "立即複製權杖",

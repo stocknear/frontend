@@ -69,7 +69,7 @@
   "mcp_profile_description": "お好みの AI クライアントから Stocknear の市場調査ツールを直接利用できます。",
   "mcp_profile_upgrade_title": "MCP は Pro に含まれます。",
   "mcp_profile_upgrade_description": "Pro にアップグレードすると個人用トークンを生成できます。Pro 契約が終了すると、すべての MCP 認証情報は直ちに無効になります。",
-  "mcp_profile_upgrade_button": "Pro を見る",
+  "mcp_profile_upgrade_button": "Pro を利用する",
   "mcp_profile_unavailable": "MCP アカウント情報を一時的に取得できません。アクセスを変更する前にページを更新してください。",
   "mcp_profile_limit": "直近1分間に120リクエスト · 同時4呼び出し",
   "mcp_profile_token_copy_title": "今すぐトークンをコピー",

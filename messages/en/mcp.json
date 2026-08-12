@@ -69,7 +69,7 @@
   "mcp_profile_description": "Use Stocknear market research tools directly in your preferred AI client.",
   "mcp_profile_upgrade_title": "MCP is included with Pro.",
   "mcp_profile_upgrade_description": "Upgrade to generate a personal token. If your Pro subscription ends, all MCP credentials stop working immediately.",
-  "mcp_profile_upgrade_button": "View Pro",
+  "mcp_profile_upgrade_button": "Get Pro",
   "mcp_profile_unavailable": "MCP account details are temporarily unavailable. Refresh this page before changing access.",
   "mcp_profile_limit": "120 requests per rolling minute · 4 concurrent calls",
   "mcp_profile_token_copy_title": "Copy your token now",

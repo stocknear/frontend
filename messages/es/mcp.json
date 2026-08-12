@@ -69,7 +69,7 @@
   "mcp_profile_description": "Usa las herramientas de análisis de mercado de Stocknear directamente en tu cliente de IA preferido.",
   "mcp_profile_upgrade_title": "MCP está incluido con Pro.",
   "mcp_profile_upgrade_description": "Actualiza a Pro para generar un token personal. Si termina tu suscripción Pro, todas las credenciales MCP dejan de funcionar de inmediato.",
-  "mcp_profile_upgrade_button": "Ver Pro",
+  "mcp_profile_upgrade_button": "Obtener Pro",
   "mcp_profile_unavailable": "Los datos de la cuenta MCP no están disponibles temporalmente. Actualiza la página antes de cambiar el acceso.",
   "mcp_profile_limit": "120 solicitudes por cada ventana móvil de un minuto · 4 llamadas simultáneas",
   "mcp_profile_token_copy_title": "Copia tu token ahora",

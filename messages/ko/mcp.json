@@ -69,7 +69,7 @@
   "mcp_profile_description": "선호하는 AI 클라이언트에서 Stocknear 시장 리서치 도구를 바로 사용하세요.",
   "mcp_profile_upgrade_title": "MCP는 Pro에 포함됩니다.",
   "mcp_profile_upgrade_description": "Pro로 업그레이드하면 개인 토큰을 생성할 수 있습니다. Pro 구독이 종료되면 모든 MCP 인증 정보가 즉시 중지됩니다.",
-  "mcp_profile_upgrade_button": "Pro 보기",
+  "mcp_profile_upgrade_button": "Pro 이용하기",
   "mcp_profile_unavailable": "MCP 계정 정보를 일시적으로 불러올 수 없습니다. 이용 권한을 변경하기 전에 페이지를 새로고침하세요.",
   "mcp_profile_limit": "최근 1분당 120개 요청 · 동시 호출 4개",
   "mcp_profile_token_copy_title": "지금 토큰을 복사하세요",

@@ -69,7 +69,7 @@
   "mcp_profile_description": "Utilisez les outils de recherche de marché Stocknear directement dans votre client IA préféré.",
   "mcp_profile_upgrade_title": "MCP est inclus dans Pro.",
   "mcp_profile_upgrade_description": "Passez à Pro pour générer un jeton personnel. Si votre abonnement Pro prend fin, tous les identifiants MCP cessent immédiatement de fonctionner.",
-  "mcp_profile_upgrade_button": "Voir Pro",
+  "mcp_profile_upgrade_button": "Passer à Pro",
   "mcp_profile_unavailable": "Les informations du compte MCP sont temporairement indisponibles. Actualisez la page avant de modifier l'accès.",
   "mcp_profile_limit": "120 requêtes par minute glissante · 4 appels simultanés",
   "mcp_profile_token_copy_title": "Copiez votre jeton maintenant",

@@ -124,15 +124,14 @@
         <div class="pt-8 sm:pt-12 pb-8">
             <PromoBanner user={data?.user} />
 
-            <!--
             <div class="flex justify-center mb-5 whitespace-nowrap">
                 <div class=" flex justify-center lg:mb-3">
-                    <a href="/stocks/AMD/statistics/earnings"
+                    <a href="/mcp"
                         ><div
                             class="flex items-center justify-center font-medium text-fg transition-colors hover:text-accent transition"
                         >
                             <div class="text-lg sm:text-xl font-semibold">
-                                Earnings Guidance
+                                MCP-Support
                             </div>
                             <div
                                 class="-mt-2 ml-1 -rotate-6 rounded-control bg-red-500 px-1 py-0.5 text-xs font-semibold text-white"
@@ -143,7 +142,6 @@
                     >
                 </div>
             </div>
-            -->
 
             <div class="mx-auto max-w-2xl text-center">
                 <h1 class="type-display mb-4 text-fg">

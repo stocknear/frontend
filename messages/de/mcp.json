@@ -69,7 +69,7 @@
   "mcp_profile_description": "Nutze Stocknear-Tools für Marktanalysen direkt in deinem bevorzugten KI-Client.",
   "mcp_profile_upgrade_title": "MCP ist in Pro enthalten.",
   "mcp_profile_upgrade_description": "Mit Pro kannst du einen persönlichen Token erstellen. Endet dein Pro-Abo, funktionieren alle MCP-Zugangsdaten sofort nicht mehr.",
-  "mcp_profile_upgrade_button": "Pro ansehen",
+  "mcp_profile_upgrade_button": "Pro holen",
   "mcp_profile_unavailable": "MCP-Kontodaten sind vorübergehend nicht verfügbar. Aktualisiere die Seite, bevor du den Zugang änderst.",
   "mcp_profile_limit": "120 Anfragen je gleitendem 1-Minuten-Fenster · 4 gleichzeitige Aufrufe",
   "mcp_profile_token_copy_title": "Token jetzt kopieren",

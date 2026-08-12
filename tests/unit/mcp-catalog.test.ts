@@ -81,20 +81,23 @@ describe("public MCP catalog", () => {
   });
 
   it.each(["Free", "Plus"])(
-    "redirects an authenticated %s user to localized pricing",
+    "shows the MCP guide to an authenticated %s user",
     async (tier) => {
-      const fetch = vi.fn();
+      const fetch = vi.fn().mockResolvedValue(
+        new Response(JSON.stringify({ tools: [] }), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+      );
       await expect(
         load({
           fetch,
           locals: { user: { tier } },
           url: new URL("https://stocknear.com/de/mcp?source=profile"),
         } as never),
-      ).rejects.toMatchObject({
-        status: 303,
-        location: "/de/pricing?source=profile",
+      ).resolves.toMatchObject({
+        isPro: false,
       });
-      expect(fetch).not.toHaveBeenCalled();
     },
   );
 });

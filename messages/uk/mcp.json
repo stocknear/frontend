@@ -69,7 +69,7 @@
   "mcp_profile_description": "Використовуйте інструменти Stocknear для дослідження ринку безпосередньо у вибраному ШІ-клієнті.",
   "mcp_profile_upgrade_title": "MCP включено до Pro.",
   "mcp_profile_upgrade_description": "Перейдіть на Pro, щоб створити особистий токен. Після завершення підписки Pro усі MCP-дані доступу негайно перестануть працювати.",
-  "mcp_profile_upgrade_button": "Переглянути Pro",
+  "mcp_profile_upgrade_button": "Отримати Pro",
   "mcp_profile_unavailable": "Дані MCP-облікового запису тимчасово недоступні. Оновіть сторінку перед зміною доступу.",
   "mcp_profile_limit": "120 запитів за ковзну хвилину · 4 одночасні виклики",
   "mcp_profile_token_copy_title": "Скопіюйте токен зараз",
