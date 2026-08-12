@@ -30,7 +30,6 @@
     mcp_profile_rotate,
     mcp_profile_sign_in,
     mcp_profile_status_active,
-    mcp_profile_status_expired,
     mcp_profile_temporarily_unavailable,
     mcp_profile_title,
     mcp_profile_token_copy_description,
@@ -46,7 +45,7 @@
     mcp_profile_upgrade_description,
     mcp_profile_upgrade_title,
     mcp_profile_working,
-    mcp_profile_created_expires,
+    mcp_profile_created_never_expires,
   } from "$lib/paraglide/messages.js";
   import { toast } from "svelte-sonner";
 
@@ -235,15 +234,9 @@
             <h3 class="font-semibold text-fg">{mcp_profile_token_title()}</h3>
             {#if account.token}
               <span
-                class={`rounded-full px-2.5 py-1 text-xs font-semibold ${
-                  account.token.status === "active"
-                    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300"
-                    : "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300"
-                }`}
+                class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300"
               >
-                {account.token.status === "active"
-                  ? mcp_profile_status_active()
-                  : mcp_profile_status_expired()}
+                {mcp_profile_status_active()}
               </span>
             {/if}
           </div>
@@ -252,9 +245,8 @@
               {account.token.prefix}…
             </p>
             <p class="mt-1 text-xs text-fg-muted">
-              {mcp_profile_created_expires({
+              {mcp_profile_created_never_expires({
                 created: displayDate(account.token.createdAt),
-                expires: displayDate(account.token.expiresAt),
               })}
             </p>
           {:else}

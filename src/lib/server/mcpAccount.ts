@@ -30,15 +30,13 @@ export function parseMcpTokenInfo(value: unknown): McpTokenInfo {
     typeof value.prefix !== "string" ||
     !/^sn_mcp_[A-Za-z0-9_-]{1,24}$/.test(value.prefix) ||
     !isRfc3339(value.createdAt) ||
-    !isRfc3339(value.expiresAt) ||
-    (value.status !== "active" && value.status !== "expired")
+    value.status !== "active"
   ) {
     throw new Error("Invalid MCP token metadata");
   }
   return {
     prefix: value.prefix,
     createdAt: value.createdAt,
-    expiresAt: value.expiresAt,
     status: value.status,
   };
 }
@@ -69,7 +67,11 @@ export function parseMcpAccount(value: unknown): McpAccount {
 
   return {
     eligible: value.eligible,
-    token: value.token === null ? null : parseMcpTokenInfo(value.token),
+    token:
+      value.token === null ||
+      (isObject(value.token) && value.token.status === "expired")
+        ? null
+        : parseMcpTokenInfo(value.token),
     oauth,
   };
 }

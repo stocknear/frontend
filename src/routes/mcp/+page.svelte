@@ -25,6 +25,40 @@
     mcp_category_other,
     mcp_category_platform,
     mcp_category_quote,
+    mcp_claude_description,
+    mcp_claude_field_client_id,
+    mcp_claude_field_client_secret,
+    mcp_claude_field_name,
+    mcp_claude_field_server_url,
+    mcp_claude_open_connectors,
+    mcp_claude_secret_blank,
+    mcp_claude_step_1_description,
+    mcp_claude_step_1_title,
+    mcp_claude_step_2_description,
+    mcp_claude_step_2_title,
+    mcp_claude_step_3_description,
+    mcp_claude_step_3_title,
+    mcp_claude_team_note,
+    mcp_claude_title,
+    mcp_chatgpt_description,
+    mcp_chatgpt_field_authentication,
+    mcp_chatgpt_field_header_scheme,
+    mcp_chatgpt_field_name,
+    mcp_chatgpt_field_server_url,
+    mcp_chatgpt_field_token,
+    mcp_chatgpt_open_plugins,
+    mcp_chatgpt_security,
+    mcp_chatgpt_step_1_alt,
+    mcp_chatgpt_step_1_description,
+    mcp_chatgpt_step_1_title,
+    mcp_chatgpt_step_2_alt,
+    mcp_chatgpt_step_2_description,
+    mcp_chatgpt_step_2_title,
+    mcp_chatgpt_step_3_alt,
+    mcp_chatgpt_step_3_description,
+    mcp_chatgpt_step_3_title,
+    mcp_chatgpt_token_value,
+    mcp_chatgpt_title,
     mcp_clients_description,
     mcp_clients_title,
     mcp_configuration,
@@ -81,7 +115,11 @@
     mcp_verify_title,
   } from "$lib/paraglide/messages.js";
 
-  export let data: { mcpTools: PublicMcpTool[]; isPro: boolean };
+  export let data: {
+    mcpTools: PublicMcpTool[];
+    isPro: boolean;
+    oauthAvailable: boolean;
+  };
 
   const quickConnectLogos = {
     claude: claudeLogo,
@@ -134,6 +172,32 @@
       tools: ["get_all_sector_overview", "get_fear_and_greed_index"],
     },
   ];
+  const chatgptSteps = [
+    {
+      title: mcp_chatgpt_step_1_title,
+      description: mcp_chatgpt_step_1_description,
+      alt: mcp_chatgpt_step_1_alt,
+      image: "/img/mcp/chatgpt-developer-mode.png",
+      width: 1514,
+      height: 1309,
+    },
+    {
+      title: mcp_chatgpt_step_2_title,
+      description: mcp_chatgpt_step_2_description,
+      alt: mcp_chatgpt_step_2_alt,
+      image: "/img/mcp/chatgpt-plugins-add.png",
+      width: 1645,
+      height: 511,
+    },
+    {
+      title: mcp_chatgpt_step_3_title,
+      description: mcp_chatgpt_step_3_description,
+      alt: mcp_chatgpt_step_3_alt,
+      image: "/img/mcp/chatgpt-plugin-form.png",
+      width: 1001,
+      height: 1622,
+    },
+  ];
 
   let selectedId = MCP_CLIENTS[0].id;
   let copied = "";
@@ -146,6 +210,9 @@
   $: conversionHref = data?.isPro
     ? profileHref
     : localizedHref("/pricing", currentLocale);
+  $: quickConnectClients = data?.oauthAvailable
+    ? MCP_QUICK_CONNECT_CLIENTS
+    : MCP_QUICK_CONNECT_CLIENTS.filter((client) => client.id !== "claude");
   $: toolGroups = Object.entries(
     (data?.mcpTools ?? []).reduce<Record<string, PublicMcpTool[]>>(
       (groups, tool) => {
@@ -326,8 +393,10 @@
         {mcp_quick_description()}
       </p>
     </div>
-    <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      {#each MCP_QUICK_CONNECT_CLIENTS as client}
+    <div
+      class={`mt-7 grid gap-3 sm:grid-cols-2 ${data?.oauthAvailable ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
+    >
+      {#each quickConnectClients as client}
         <a
           class="group flex min-h-28 items-center gap-4 rounded-2xl border border-line bg-surface-card p-4 transition hover:-translate-y-0.5 hover:border-violet-300 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
           href={client.href}
@@ -347,9 +416,11 @@
           <span class="min-w-0">
             <span class="block truncate font-semibold">{client.name}</span>
             <span class="mt-1 block text-sm font-medium text-accent"
-              >{client.behavior === "install"
-                ? mcp_install()
-                : mcp_open_settings()} <span aria-hidden="true">↗</span></span
+              >{client.id === "claude"
+                ? mcp_claude_open_connectors()
+                : client.behavior === "install"
+                  ? mcp_install()
+                  : mcp_open_settings()} <span aria-hidden="true">↗</span></span
             >
           </span>
         </a>
@@ -358,6 +429,190 @@
     <p class="mt-4 max-w-3xl text-xs leading-5 text-fg-muted">
       {mcp_quick_fallback()}
     </p>
+
+    {#if data?.oauthAvailable}
+      <article
+        class="mt-8 rounded-2xl border border-line bg-surface-card p-5 sm:p-7"
+        aria-labelledby="claude-connect-heading"
+      >
+        <div
+          class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
+        >
+          <div class="max-w-2xl">
+            <h3 id="claude-connect-heading" class="text-xl font-semibold">
+              {mcp_claude_title()}
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-fg-muted">
+              {mcp_claude_description()}
+            </p>
+          </div>
+          <a
+            class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-line px-5 py-2.5 text-sm font-semibold transition hover:border-violet-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
+            href="https://claude.ai/customize/connectors"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {mcp_claude_open_connectors()} <span
+              class="ml-1"
+              aria-hidden="true">↗</span
+            >
+          </a>
+        </div>
+
+        <ol class="mt-6 grid gap-4 lg:grid-cols-3">
+          <li class="rounded-xl bg-surface-raised p-4 sm:p-5">
+            <span class="text-xs font-semibold text-accent" aria-hidden="true"
+              >1</span
+            >
+            <h4 class="mt-2 font-semibold">{mcp_claude_step_1_title()}</h4>
+            <p class="mt-2 text-sm leading-6 text-fg-muted">
+              {mcp_claude_step_1_description()}
+            </p>
+          </li>
+          <li class="rounded-xl bg-surface-raised p-4 sm:p-5">
+            <span class="text-xs font-semibold text-accent" aria-hidden="true"
+              >2</span
+            >
+            <h4 class="mt-2 font-semibold">{mcp_claude_step_2_title()}</h4>
+            <p class="mt-2 text-sm leading-6 text-fg-muted">
+              {mcp_claude_step_2_description()}
+            </p>
+            <dl
+              class="mt-4 divide-y divide-line rounded-xl border border-line bg-surface-card"
+            >
+              <div class="px-3 py-2.5">
+                <dt class="text-xs font-semibold text-fg-muted">
+                  {mcp_claude_field_name()}
+                </dt>
+                <dd class="mt-1 text-sm">Stocknear</dd>
+              </div>
+              <div class="px-3 py-2.5">
+                <dt class="text-xs font-semibold text-fg-muted">
+                  {mcp_claude_field_server_url()}
+                </dt>
+                <dd class="mt-1 flex min-w-0 items-center gap-2">
+                  <code class="min-w-0 flex-1 break-all text-xs"
+                    >{STOCKNEAR_MCP_ENDPOINT}</code
+                  >
+                  <button
+                    class="min-h-11 shrink-0 cursor-pointer rounded-full border border-line px-3 py-2 text-xs font-semibold text-accent transition hover:border-violet-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
+                    type="button"
+                    onclick={() =>
+                      copy("claude-endpoint", STOCKNEAR_MCP_ENDPOINT)}
+                  >
+                    {copied === "claude-endpoint" ? mcp_copied() : mcp_copy()}
+                  </button>
+                </dd>
+              </div>
+              <div class="px-3 py-2.5">
+                <dt class="text-xs font-semibold text-fg-muted">
+                  {mcp_claude_field_client_id()}
+                </dt>
+                <dd class="mt-1 break-all font-mono text-xs">
+                  stocknear-claude-web
+                </dd>
+              </div>
+              <div class="px-3 py-2.5">
+                <dt class="text-xs font-semibold text-fg-muted">
+                  {mcp_claude_field_client_secret()}
+                </dt>
+                <dd class="mt-1 text-sm">{mcp_claude_secret_blank()}</dd>
+              </div>
+            </dl>
+          </li>
+          <li class="rounded-xl bg-surface-raised p-4 sm:p-5">
+            <span class="text-xs font-semibold text-accent" aria-hidden="true"
+              >3</span
+            >
+            <h4 class="mt-2 font-semibold">{mcp_claude_step_3_title()}</h4>
+            <p class="mt-2 text-sm leading-6 text-fg-muted">
+              {mcp_claude_step_3_description()}
+            </p>
+          </li>
+        </ol>
+        <p class="mt-4 text-xs leading-5 text-fg-muted">
+          {mcp_claude_team_note()}
+        </p>
+      </article>
+    {/if}
+  </section>
+
+  <section
+    class="border-b border-line py-14 lg:py-20"
+    aria-labelledby="chatgpt-heading"
+  >
+    <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl">
+        <h2
+          id="chatgpt-heading"
+          class="text-3xl font-semibold tracking-tight sm:text-4xl"
+        >
+          {mcp_chatgpt_title()}
+        </h2>
+        <p class="mt-3 text-sm leading-6 text-fg-muted sm:text-base">
+          {mcp_chatgpt_description()}
+        </p>
+      </div>
+      <a
+        class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-line bg-surface-card px-5 py-2.5 text-sm font-semibold transition hover:border-violet-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:hover:border-violet-700"
+        href="https://chatgpt.com/plugins"
+        target="_blank"
+        rel="noreferrer"
+      >
+        {mcp_chatgpt_open_plugins()} <span class="ml-1" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <ol class="mt-8 space-y-5">
+      {#each chatgptSteps as step, index}
+        <li
+          class="grid overflow-hidden rounded-2xl border border-line bg-surface-card lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)]"
+        >
+          <div class="p-5 sm:p-7">
+            <span
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-semibold text-white dark:border dark:border-violet-500/20 dark:bg-violet-500/15 dark:text-violet-300"
+              >{index + 1}</span
+            >
+            <h3 class="mt-5 text-lg font-semibold">{step.title()}</h3>
+            <p class="mt-2 text-sm leading-6 text-fg-muted">
+              {step.description()}
+            </p>
+            {#if index === 2}
+              <dl class="mt-5 divide-y divide-line rounded-xl border border-line">
+                {#each [
+                  [mcp_chatgpt_field_name(), "Stocknear"],
+                  [mcp_chatgpt_field_server_url(), STOCKNEAR_MCP_ENDPOINT],
+                  [mcp_chatgpt_field_authentication(), "Access token / API key"],
+                  [mcp_chatgpt_field_header_scheme(), "Bearer"],
+                  [mcp_chatgpt_field_token(), mcp_chatgpt_token_value()],
+                ] as field}
+                  <div class="grid gap-1 px-4 py-3 sm:grid-cols-[135px_minmax(0,1fr)] sm:gap-3">
+                    <dt class="text-xs font-semibold text-fg-muted">{field[0]}</dt>
+                    <dd class="break-all font-mono text-xs text-fg">{field[1]}</dd>
+                  </div>
+                {/each}
+              </dl>
+              <p class="mt-4 text-xs leading-5 text-fg-muted">
+                {mcp_chatgpt_security()}
+              </p>
+            {/if}
+          </div>
+          <figure
+            class="flex items-center justify-center border-t border-line bg-black p-2 lg:border-l lg:border-t-0"
+          >
+            <img
+              class="max-h-[760px] h-auto w-full rounded-xl object-contain"
+              src={step.image}
+              alt={step.alt()}
+              width={step.width}
+              height={step.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        </li>
+      {/each}
+    </ol>
   </section>
 
   <section

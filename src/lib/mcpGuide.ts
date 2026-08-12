@@ -20,7 +20,7 @@ export const MCP_QUICK_CONNECT_CLIENTS: readonly McpQuickConnectClient[] = [
   {
     id: "claude",
     name: "Claude",
-    href: "https://claude.ai/settings/connectors",
+    href: "https://claude.ai/customize/connectors",
     behavior: "settings",
   },
   {

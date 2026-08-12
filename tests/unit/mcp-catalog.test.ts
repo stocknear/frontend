@@ -1,10 +1,38 @@
 import { describe, expect, it, vi } from "vitest";
 import {
+  _parseMcpOAuthReadiness,
   _parsePublicMcpCatalog,
   load,
 } from "../../src/routes/mcp/+page.server";
 
 describe("public MCP catalog", () => {
+  it("advertises browser OAuth only for the complete ready contract", () => {
+    expect(
+      _parseMcpOAuthReadiness({
+        status: "ready",
+        authentication: "oauth-and-pat",
+        oauth_jwks: true,
+      }),
+    ).toBe(true);
+    for (const value of [
+      null,
+      {},
+      { status: "ready", authentication: "pat" },
+      {
+        status: "not_ready",
+        authentication: "oauth-and-pat",
+        oauth_jwks: true,
+      },
+      {
+        status: "ready",
+        authentication: "oauth-and-pat",
+        oauth_jwks: false,
+      },
+    ]) {
+      expect(_parseMcpOAuthReadiness(value)).toBe(false);
+    }
+  });
+
   it("accepts the narrow metadata contract", () => {
     expect(
       _parsePublicMcpCatalog({
@@ -36,20 +64,27 @@ describe("public MCP catalog", () => {
   });
 
   it("serves the last validated catalog during a temporary outage", async () => {
-    const fetch = vi
-      .fn()
-      .mockResolvedValueOnce(
-        new Response(
+    let online = true;
+    const fetch = vi.fn(async (input: RequestInfo | URL) => {
+      if (!online) throw new Error("offline");
+      if (String(input).endsWith("/readyz")) {
+        return new Response(
           JSON.stringify({
-            tools: [{ name: "get_ticker_quote", category: "quote" }],
+            status: "ready",
+            authentication: "oauth-and-pat",
+            oauth_jwks: true,
           }),
-          {
-            status: 200,
-            headers: { "content-type": "application/json" },
-          },
-        ),
-      )
-      .mockRejectedValueOnce(new Error("offline"));
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }
+      online = false;
+      return new Response(
+        JSON.stringify({
+          tools: [{ name: "get_ticker_quote", category: "quote" }],
+        }),
+        { status: 200, headers: { "content-type": "application/json" } },
+      );
+    });
     const now = vi
       .spyOn(Date, "now")
       .mockReturnValue(300_003)
@@ -65,6 +100,7 @@ describe("public MCP catalog", () => {
     ).resolves.toEqual({
       mcpTools: [{ name: "get_ticker_quote", category: "quote" }],
       isPro: false,
+      oauthAvailable: true,
     });
     await expect(
       load({
@@ -75,8 +111,9 @@ describe("public MCP catalog", () => {
     ).resolves.toEqual({
       mcpTools: [{ name: "get_ticker_quote", category: "quote" }],
       isPro: true,
+      oauthAvailable: false,
     });
-    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch).toHaveBeenCalledTimes(4);
     now.mockRestore();
   });
 
@@ -97,6 +134,7 @@ describe("public MCP catalog", () => {
         } as never),
       ).resolves.toMatchObject({
         isPro: false,
+        oauthAvailable: false,
       });
     },
   );

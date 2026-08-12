@@ -98,6 +98,13 @@ describe("public MCP client snippets", () => {
         (client) => client.behavior === "settings",
       ).map((client) => client.id),
     ).toEqual(["claude", "grok"]);
+
+    const claude = new URL(
+      MCP_QUICK_CONNECT_CLIENTS.find((client) => client.id === "claude")!.href,
+    );
+    expect(claude.href).toBe("https://claude.ai/customize/connectors");
+    expect(claude.search).toBe("");
+    expect(claude.hash).toBe("");
   });
 
   it("encodes only the public endpoint in install payloads", () => {

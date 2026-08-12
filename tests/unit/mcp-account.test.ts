@@ -11,14 +11,11 @@ import {
 } from "../../src/lib/server/mcpAccount";
 
 const now = "2026-08-11T12:00:00Z";
-const later = "2027-08-11T12:00:00Z";
-
 const accountResponse = {
   eligible: true,
   token: {
     prefix: "sn_mcp_abcd1234",
     createdAt: now,
-    expiresAt: later,
     status: "active",
   },
   oauth: {
@@ -93,7 +90,19 @@ describe("MCP owner account client", () => {
     expect(parseMcpAccount({
       ...accountResponse,
       serverVersion: 2,
+      token: { ...accountResponse.token, expiresAt: "2027-08-11T12:00:00Z" },
       oauth: { ...accountResponse.oauth, provider: "keycloak" },
     })).toEqual(accountResponse);
+  });
+
+  it("treats legacy expired metadata as no active token during rollout", () => {
+    expect(parseMcpAccount({
+      ...accountResponse,
+      token: {
+        ...accountResponse.token,
+        expiresAt: "2026-08-10T12:00:00Z",
+        status: "expired",
+      },
+    }).token).toBeNull();
   });
 });

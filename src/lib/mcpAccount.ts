@@ -1,8 +1,7 @@
 export type McpTokenInfo = {
   prefix: string;
   createdAt: string;
-  expiresAt: string;
-  status: "active" | "expired";
+  status: "active";
 };
 
 export type McpOAuthInfo = {
