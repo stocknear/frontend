@@ -13,6 +13,7 @@ import {
 } from "../../src/lib/server/mcpAccount";
 
 const now = "2026-08-11T12:00:00Z";
+const claudeClientId = "https://claude.ai/oauth/mcp-oauth-client-metadata";
 const accountResponse = {
   eligible: true,
   token: {
@@ -24,9 +25,9 @@ const accountResponse = {
     sessions: [
       {
         sessionId: "session_abcd1234",
-        clientId: "stocknear-claude-web",
+        clientId: claudeClientId,
         clientName: "Claude",
-        clientSource: "predefined",
+        clientSource: "cimd",
         scopes: ["mcp:tools"],
         resource: "https://mcp.stocknear.com/mcp",
         createdAt: now,
@@ -46,6 +47,10 @@ describe("MCP owner account client", () => {
     expect(send).toHaveBeenCalledWith(MCP_ACCOUNT_PATH, { method: "GET" });
     expect(account.token?.prefix).toBe("sn_mcp_abcd1234");
     expect(account.token?.status).toBe("active");
+    expect(account.oauth?.sessions[0]).toMatchObject({
+      clientId: claudeClientId,
+      clientSource: "cimd",
+    });
   });
 
   it("rotates through the exact empty-body owner route and returns the secret once", async () => {
@@ -120,6 +125,37 @@ describe("MCP owner account client", () => {
         oauth: { ...accountResponse.oauth, provider: "stocknear" },
       }),
     ).toEqual(accountResponse);
+  });
+
+  it("accepts the legacy predefined client and the backend client-name bound", () => {
+    const session = accountResponse.oauth.sessions[0];
+    expect(
+      parseMcpAccount({
+        ...accountResponse,
+        oauth: {
+          sessions: [
+            {
+              ...session,
+              clientId: "stocknear-claude-web",
+              clientName: "C".repeat(160),
+              clientSource: "predefined",
+            },
+          ],
+        },
+      }).oauth?.sessions[0],
+    ).toMatchObject({
+      clientId: "stocknear-claude-web",
+      clientName: "C".repeat(160),
+      clientSource: "predefined",
+    });
+    expect(() =>
+      parseMcpAccount({
+        ...accountResponse,
+        oauth: {
+          sessions: [{ ...session, clientName: "C".repeat(161) }],
+        },
+      }),
+    ).toThrow();
   });
 
   it("accepts null OAuth metadata for an ineligible account", () => {

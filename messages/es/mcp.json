@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "Declarado mediante metadatos del cliente",
   "mcp_oauth_unverified_client": "Cliente no verificado",
   "mcp_oauth_unverified_description": "Esta aplicación proporcionó su propio nombre e identidad; Stocknear no los ha verificado. Confirma el host de retorno antes de permitir el acceso.",
+  "mcp_oauth_verified_claude": "Claude verificado",
   "mcp_oauth_permissions": "Acceso solicitado",
   "mcp_oauth_signed_in_as": "Sesión iniciada como {email}",
   "mcp_oauth_cancel": "Cancelar",

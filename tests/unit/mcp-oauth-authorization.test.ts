@@ -9,11 +9,15 @@ import {
 import { actions, load } from "../../src/routes/oauth/authorize/+page.server";
 
 const requestId = "oauth_request_1234567890";
+const claudeClientId = "https://claude.ai/oauth/mcp-oauth-client-metadata";
+const claudeCallback =
+  "https://claude.ai/api/mcp/auth_callback?code=one&state=opaque-state";
 const authorization = {
   request: requestId,
-  clientId: "stocknear-claude-web",
+  clientId: claudeClientId,
   clientName: "Claude",
-  clientSource: "predefined",
+  clientSource: "cimd",
+  clientTrust: "verified",
   redirectHost: "claude.ai",
   scopes: ["mcp:tools"],
   resource: "https://mcp.stocknear.com/mcp",
@@ -45,6 +49,12 @@ describe("Stocknear OAuth consent bridge", () => {
         clientSource: "verified",
       }),
     ).toThrow();
+    expect(() =>
+      parseMcpAuthorizationRequest({
+        ...authorization,
+        clientTrust: "trusted",
+      }),
+    ).toThrow();
     expect(
       parseMcpAuthorizationRequest({
         ...authorization,
@@ -57,6 +67,29 @@ describe("Stocknear OAuth consent bridge", () => {
         clientName: "C".repeat(161),
       }),
     ).toThrow();
+  });
+
+  it("derives conservative trust for legacy responses without clientTrust", () => {
+    const { clientTrust: _, ...withoutTrust } = authorization;
+    expect(
+      parseMcpAuthorizationRequest({
+        ...withoutTrust,
+        clientId: "stocknear-claude-web",
+        clientSource: "predefined",
+      }).clientTrust,
+    ).toBe("verified");
+    expect(parseMcpAuthorizationRequest(withoutTrust).clientTrust).toBe(
+      "unverified",
+    );
+    expect(
+      parseMcpAuthorizationRequest({
+        ...withoutTrust,
+        clientId: "123e4567-e89b-42d3-a456-426614174000",
+        clientName: "Dynamic client",
+        clientSource: "dcr",
+        redirectHost: "client.example",
+      }).clientTrust,
+    ).toBe("unverified");
   });
 
   it("validates the opaque request over loopback without credentials", async () => {
@@ -76,7 +109,7 @@ describe("Stocknear OAuth consent bridge", () => {
   it("sends the PB user token only in the server-to-server completion body", async () => {
     const fetcher = vi.fn().mockResolvedValue(
       jsonResponse({
-        redirectUrl: "https://claude.ai/api/mcp/auth_callback?code=one",
+        redirectUrl: claudeCallback,
       }),
     );
     await expect(
@@ -86,7 +119,7 @@ describe("Stocknear OAuth consent bridge", () => {
         "pb-secret-token",
         "approve",
       ),
-    ).resolves.toBe("https://claude.ai/api/mcp/auth_callback?code=one");
+    ).resolves.toBe(claudeCallback);
     const options = fetcher.mock.calls[0][1];
     expect(JSON.parse(options.body)).toEqual({
       request: requestId,
@@ -101,6 +134,7 @@ describe("Stocknear OAuth consent bridge", () => {
     "https://client.example/callback#code=fragment",
     "http://client.example/callback",
     "javascript:alert(1)",
+    "http://127.attacker.example/callback",
   ])("rejects an unsafe completion redirect: %s", async (redirectUrl) => {
     const fetcher = vi.fn().mockResolvedValue(jsonResponse({ redirectUrl }));
     await expect(
@@ -112,6 +146,26 @@ describe("Stocknear OAuth consent bridge", () => {
       ),
     ).rejects.toThrow("Invalid MCP authorization redirect");
   });
+
+  it.each([
+    "http://localhost/callback?code=one",
+    "http://127.0.0.1/callback?code=one",
+    "http://127.255.255.254:4567/callback?code=one",
+    "http://[::1]:4567/callback?code=one",
+  ])(
+    "accepts an exact loopback HTTP completion redirect: %s",
+    async (redirectUrl) => {
+      const fetcher = vi.fn().mockResolvedValue(jsonResponse({ redirectUrl }));
+      await expect(
+        completeMcpAuthorization(
+          fetcher,
+          requestId,
+          "pb-secret-token",
+          "approve",
+        ),
+      ).resolves.toBe(redirectUrl);
+    },
+  );
 
   it("redirects a signed-out user to login with the exact internal continuation", async () => {
     const setHeaders = vi.fn();
@@ -246,6 +300,9 @@ describe("Stocknear OAuth consent bridge", () => {
     expect(source).toContain("?/approve&request=");
     expect(source).toContain("?/deny&request=");
     expect(source).toContain("data.authorization.clientId");
+    expect(source).toContain('clientTrust === "verified"');
+    expect(source).toContain('clientTrust === "unverified"');
+    expect(source).toContain("mcp_oauth_verified_claude");
     expect(source).toContain("mcp_oauth_unverified_client");
   });
 

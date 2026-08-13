@@ -95,7 +95,7 @@ export function parseMcpAccount(value: unknown): McpAccount {
       typeof session.clientId !== "string" ||
       !MCP_CLIENT_ID.test(session.clientId) ||
       UNSAFE_DISPLAY_CHARACTERS.test(session.clientId) ||
-      !isSafeDisplayText(session.clientName, 128) ||
+      !isSafeDisplayText(session.clientName, 160) ||
       !isClientSource(session.clientSource) ||
       !Array.isArray(session.scopes) ||
       session.scopes.length !== 1 ||

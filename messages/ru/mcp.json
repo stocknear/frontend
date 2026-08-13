@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "Заявлен в метаданных клиента",
   "mcp_oauth_unverified_client": "Непроверенный клиент",
   "mcp_oauth_unverified_description": "Это приложение само указало название и идентификатор; Stocknear их не проверял. Перед разрешением доступа проверьте хост обратного вызова.",
+  "mcp_oauth_verified_claude": "Проверенный Claude",
   "mcp_oauth_permissions": "Запрошенный доступ",
   "mcp_oauth_signed_in_as": "Выполнен вход: {email}",
   "mcp_oauth_cancel": "Отмена",

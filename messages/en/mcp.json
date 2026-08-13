@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "Declared by client metadata",
   "mcp_oauth_unverified_client": "Unverified client",
   "mcp_oauth_unverified_description": "This app supplied its own name and identity; Stocknear has not verified them. Confirm the callback host before allowing access.",
+  "mcp_oauth_verified_claude": "Verified Claude",
   "mcp_oauth_permissions": "Requested access",
   "mcp_oauth_signed_in_as": "Signed in as {email}",
   "mcp_oauth_cancel": "Cancel",

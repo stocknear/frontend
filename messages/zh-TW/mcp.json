@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "由用戶端中繼資料宣告",
   "mcp_oauth_unverified_client": "未經驗證的用戶端",
   "mcp_oauth_unverified_description": "此應用程式自行提供了名稱和身分；Stocknear 尚未驗證這些資訊。允許存取前，請確認回呼主機。",
+  "mcp_oauth_verified_claude": "已驗證的 Claude",
   "mcp_oauth_permissions": "要求的存取權限",
   "mcp_oauth_signed_in_as": "登入帳號：{email}",
   "mcp_oauth_cancel": "取消",

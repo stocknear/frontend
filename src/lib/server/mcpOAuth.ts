@@ -1,3 +1,5 @@
+import { isIP } from "node:net";
+
 const MCP_OAUTH_ORIGIN = "http://127.0.0.1:8001";
 const OPAQUE_REQUEST = /^[A-Za-z0-9_-]{16,128}$/;
 const CLIENT_ID = /^[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]{1,512}$/;
@@ -5,6 +7,7 @@ const UNSAFE_DISPLAY_CHARACTERS =
   /[\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/u;
 
 export type McpOAuthClientSource = "predefined" | "dcr" | "cimd";
+export type McpOAuthClientTrust = "verified" | "unverified";
 
 export type McpOAuthErrorCode =
   | "access_denied"
@@ -30,6 +33,7 @@ export type McpAuthorizationRequest = {
   clientId: string;
   clientName: string;
   clientSource: McpOAuthClientSource;
+  clientTrust: McpOAuthClientTrust;
   redirectHost: string;
   scopes: string[];
   resource: string;
@@ -48,6 +52,9 @@ const isSafeDisplayText = (value: unknown, max: number): value is string =>
 
 const isClientSource = (value: unknown): value is McpOAuthClientSource =>
   value === "predefined" || value === "dcr" || value === "cimd";
+
+const isClientTrust = (value: unknown): value is McpOAuthClientTrust =>
+  value === "verified" || value === "unverified";
 
 const isRedirectHost = (value: unknown): value is string =>
   isSafeDisplayText(value, 253) &&
@@ -72,6 +79,7 @@ export function parseMcpAuthorizationRequest(
     UNSAFE_DISPLAY_CHARACTERS.test(value.clientId) ||
     !isSafeDisplayText(value.clientName, 160) ||
     !isClientSource(value.clientSource) ||
+    (value.clientTrust !== undefined && !isClientTrust(value.clientTrust)) ||
     !isRedirectHost(value.redirectHost) ||
     !Array.isArray(value.scopes) ||
     value.scopes.length === 0 ||
@@ -81,11 +89,15 @@ export function parseMcpAuthorizationRequest(
   ) {
     throw new Error("Invalid MCP authorization request");
   }
+  const clientTrust =
+    value.clientTrust ??
+    (value.clientSource === "predefined" ? "verified" : "unverified");
   return {
     request: value.request,
     clientId: value.clientId,
     clientName: value.clientName,
     clientSource: value.clientSource,
+    clientTrust,
     redirectHost: value.redirectHost,
     scopes: [...value.scopes] as string[],
     resource: value.resource,
@@ -97,12 +109,12 @@ function parseRedirectUrl(value: unknown): string {
     throw new Error("Invalid MCP authorization completion");
   }
   const redirectUrl = new URL(value.redirectUrl);
+  const hostname = redirectUrl.hostname.replace(/^\[|\]$/g, "");
   const isLoopbackHttp =
     redirectUrl.protocol === "http:" &&
-    (redirectUrl.hostname === "localhost" ||
-      redirectUrl.hostname === "::1" ||
-      redirectUrl.hostname === "[::1]" ||
-      redirectUrl.hostname.startsWith("127."));
+    (hostname === "localhost" ||
+      (isIP(hostname) === 4 && hostname.split(".")[0] === "127") ||
+      (isIP(hostname) === 6 && hostname === "::1"));
   if (
     (redirectUrl.protocol !== "https:" && !isLoopbackHttp) ||
     redirectUrl.username ||

@@ -223,6 +223,17 @@ describe("shared chart integration contracts", () => {
     expect(chartSource).toContain("clearLayoutWork()");
   });
 
+  it("shows a clamped summary only while the crosshair is inspected", () => {
+    expect(chartSource).toContain("const positionTooltip =");
+    expect(chartSource).toContain("tooltipVisible = true");
+    expect(chartSource).toContain("tooltipVisible = false");
+    expect(chartSource).toContain("pointerX - width - TOOLTIP_GAP_PX");
+    expect(chartSource).toContain("rect.height - height - TOOLTIP_MARGIN_PX");
+    expect(chartSource).toContain("hoverSummary && tooltipVisible");
+    expect(chartSource).toContain("bind:this={hoverTooltip}");
+    expect(chartSource).toContain("on:blur={onChartBlur}");
+  });
+
   it("keeps interval controls horizontally scrollable on every consumer", () => {
     for (const route of ["stocks", "etf", "index"]) {
       const source = readFileSync(

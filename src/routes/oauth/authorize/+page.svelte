@@ -21,6 +21,7 @@
     mcp_oauth_title,
     mcp_oauth_unverified_client,
     mcp_oauth_unverified_description,
+    mcp_oauth_verified_claude,
     mcp_profile_upgrade_button,
   } from "$lib/paraglide/messages.js";
 
@@ -45,9 +46,11 @@
         : oauthError
           ? mcp_oauth_error_unavailable()
           : "";
-  $: isUnverifiedClient =
-    data.authorization?.clientSource === "dcr" ||
-    data.authorization?.clientSource === "cimd";
+  $: isVerifiedClaude =
+    data.authorization?.clientTrust === "verified" &&
+    data.authorization?.clientId ===
+      "https://claude.ai/oauth/mcp-oauth-client-metadata";
+  $: isUnverifiedClient = data.authorization?.clientTrust === "unverified";
   $: clientSourceLabel =
     data.authorization?.clientSource === "predefined"
       ? mcp_oauth_source_predefined()
@@ -107,7 +110,15 @@
     </div>
     <div class="p-6 sm:p-8">
       {#if data.authorization}
-        {#if isUnverifiedClient}
+        {#if isVerifiedClaude}
+          <div
+            class="mb-4 rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-emerald-950 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-100"
+          >
+            <p class="text-sm font-semibold">
+              {mcp_oauth_verified_claude()}
+            </p>
+          </div>
+        {:else if isUnverifiedClient}
           <div
             class="mb-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-950 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-100"
           >

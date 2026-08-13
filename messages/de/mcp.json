@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "Durch Client-Metadaten angegeben",
   "mcp_oauth_unverified_client": "Nicht verifizierter Client",
   "mcp_oauth_unverified_description": "Diese App hat ihren Namen und ihre Identität selbst angegeben; Stocknear hat sie nicht verifiziert. Prüfe den Callback-Host, bevor du den Zugriff erlaubst.",
+  "mcp_oauth_verified_claude": "Verifiziertes Claude",
   "mcp_oauth_permissions": "Angeforderter Zugriff",
   "mcp_oauth_signed_in_as": "Angemeldet als {email}",
   "mcp_oauth_cancel": "Abbrechen",

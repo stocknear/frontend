@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "クライアントメタデータによる宣言",
   "mcp_oauth_unverified_client": "未確認のクライアント",
   "mcp_oauth_unverified_description": "このアプリは名前と ID を自身で提示しており、Stocknear は確認していません。アクセスを許可する前にコールバックホストを確認してください。",
+  "mcp_oauth_verified_claude": "検証済みの Claude",
   "mcp_oauth_permissions": "要求されたアクセス権",
   "mcp_oauth_signed_in_as": "{email}としてログイン中",
   "mcp_oauth_cancel": "キャンセル",

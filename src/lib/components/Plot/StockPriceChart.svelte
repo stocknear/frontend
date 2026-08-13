@@ -78,6 +78,10 @@
   const NY_TIMEZONE = "America/New_York";
   const KLINE_MIN_BAR_SPACE = 1;
   const DRAG_THRESHOLD_PX = 6;
+  const TOOLTIP_GAP_PX = 12;
+  const TOOLTIP_MARGIN_PX = 8;
+  const TOOLTIP_FALLBACK_WIDTH_PX = 320;
+  const TOOLTIP_FALLBACK_HEIGHT_PX = 84;
 
   // ============================================================================
   // PROPS
@@ -108,6 +112,10 @@
   let sessionBarCount = 0;
   let missingRightBars = 0;
   let hoverSummary: HoverSummary | null = null;
+  let hoverTooltip: HTMLDivElement | null = null;
+  let tooltipVisible = false;
+  let tooltipX = TOOLTIP_MARGIN_PX;
+  let tooltipY = TOOLTIP_MARGIN_PX;
   let chartError = "";
   let dataGeneration = 0;
   let layoutRaf: number | null = null;
@@ -634,16 +642,57 @@
     }
   };
 
+  const positionTooltip = (clientX: number, clientY: number) => {
+    if (!chartContainer) return;
+    const rect = chartContainer.getBoundingClientRect();
+    const width = Math.min(
+      hoverTooltip?.offsetWidth ?? TOOLTIP_FALLBACK_WIDTH_PX,
+      Math.max(rect.width - TOOLTIP_MARGIN_PX * 2, 0),
+    );
+    const height = Math.min(
+      hoverTooltip?.offsetHeight ?? TOOLTIP_FALLBACK_HEIGHT_PX,
+      Math.max(rect.height - TOOLTIP_MARGIN_PX * 2, 0),
+    );
+    const pointerX = clientX - rect.left;
+    const pointerY = clientY - rect.top;
+    const preferredX = pointerX + TOOLTIP_GAP_PX;
+    tooltipX = Math.max(
+      TOOLTIP_MARGIN_PX,
+      Math.min(
+        preferredX + width > rect.width - TOOLTIP_MARGIN_PX
+          ? pointerX - width - TOOLTIP_GAP_PX
+          : preferredX,
+        rect.width - width - TOOLTIP_MARGIN_PX,
+      ),
+    );
+    tooltipY = Math.max(
+      TOOLTIP_MARGIN_PX,
+      Math.min(
+        pointerY - height / 2,
+        rect.height - height - TOOLTIP_MARGIN_PX,
+      ),
+    );
+  };
+
   const onChartPointerMove = (evt: PointerEvent) => {
     const data = getDataFromPoint(evt.clientX, evt.clientY);
-    if (data) showSummaryAtIndex(data.index);
+    if (data && evt.pointerType !== "touch") {
+      showSummaryAtIndex(data.index);
+      tooltipVisible = true;
+      positionTooltip(evt.clientX, evt.clientY);
+    }
     onPointerMove(evt);
   };
 
   const onChartPointerLeave = () => {
+    tooltipVisible = false;
     if (!isSelecting && currentBars.length > 0) {
       showSummaryAtIndex(currentBars.length - 1);
     }
+  };
+
+  const onChartBlur = () => {
+    tooltipVisible = false;
   };
 
   const onChartKeyDown = (evt: KeyboardEvent) => {
@@ -655,16 +704,21 @@
         currentIndex,
         evt.key === "ArrowLeft" ? -1 : 1,
       );
-      if (nextIndex !== null) showSummaryAtIndex(nextIndex);
+      if (nextIndex !== null) {
+        showSummaryAtIndex(nextIndex);
+        tooltipVisible = true;
+      }
       evt.preventDefault();
     } else if (evt.key === "Home") {
       showSummaryAtIndex(0);
+      tooltipVisible = true;
       evt.preventDefault();
     } else if (evt.key === "End") {
       showSummaryAtIndex(currentBars.length - 1);
+      tooltipVisible = true;
       evt.preventDefault();
     } else if (evt.key === "Escape") {
-      hoverSummary = null;
+      tooltipVisible = false;
     }
   };
 
@@ -938,6 +992,7 @@
     on:pointerup={onPointerUp}
     on:pointercancel={onPointerUp}
     on:keydown={onChartKeyDown}
+    on:blur={onChartBlur}
     role="group"
     tabindex="0"
     aria-label={chartLabel}
@@ -964,9 +1019,11 @@
     </div>
   {/if}
 
-  {#if hoverSummary && !isSelecting && !effectiveError}
+  {#if hoverSummary && tooltipVisible && !isSelecting && !effectiveError}
     <div
-      class="absolute left-3 top-3 z-10 pointer-events-none rounded-control border border-line bg-surface-card/95 px-3 py-2 shadow-sm"
+      bind:this={hoverTooltip}
+      class="absolute z-10 max-w-[calc(100%_-_1rem)] pointer-events-none rounded-control border border-line bg-surface-card/95 px-3 py-2 shadow-sm backdrop-blur-sm"
+      style="left:{tooltipX}px;top:{tooltipY}px"
       aria-hidden="true"
     >
       <div class="type-meta text-fg-subtle">

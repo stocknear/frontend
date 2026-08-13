@@ -107,6 +107,7 @@
   "mcp_oauth_source_cimd": "由客户端元数据声明",
   "mcp_oauth_unverified_client": "未经验证的客户端",
   "mcp_oauth_unverified_description": "此应用自行提供了名称和身份；Stocknear 尚未验证这些信息。允许访问前，请确认回调主机。",
+  "mcp_oauth_verified_claude": "已验证的 Claude",
   "mcp_oauth_permissions": "请求的访问权限",
   "mcp_oauth_signed_in_as": "登录账号：{email}",
   "mcp_oauth_cancel": "取消",
