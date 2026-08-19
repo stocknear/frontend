@@ -37,11 +37,10 @@
 
   type HeatmapCustom = {
     symbol?: string;
-    performance?: string;
+    change?: number;
     aum?: number;
     currentPrice?: number;
     referencePrice?: number;
-    referenceDate?: string | null;
     timePeriod?: string;
   };
 
@@ -67,7 +66,6 @@
 
   type HeatmapPointUpdate = {
     symbol: string;
-    colorValue: number;
     custom: HeatmapCustom;
   };
 
@@ -93,6 +91,9 @@
     : null;
   let selectedTimePeriod = heatmapData?.timePeriod || "1D";
   let heatmapLeafMap = new Map<string, HeatmapNode>();
+  // Guards against a slow response for a previously selected period landing after a
+  // faster one and repainting the chart with data the heading no longer describes.
+  let etfHeatmapRequestId = 0;
 
   $: heatmapLeafMap = buildHeatmapLeafMap(heatmapData);
 
@@ -128,13 +129,6 @@
 
   function getSubscriptionSymbols(): string[] {
     return Array.from(heatmapLeafMap.keys());
-  }
-
-  function formatPerformance(value: number): string {
-    if (!Number.isFinite(value)) {
-      return "0.00%";
-    }
-    return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
   }
 
   function clearPendingQuoteUpdates() {
@@ -239,17 +233,15 @@
     const nextCustom: HeatmapCustom = {
       ...(node.custom ?? {}),
       currentPrice: Number(livePrice.toFixed(4)),
-      performance: formatPerformance(changeValue),
+      change: roundedChangeValue,
     };
 
     node.colorValue = roundedChangeValue;
     node.custom = nextCustom;
 
-    return {
-      symbol,
-      colorValue: roundedChangeValue,
-      custom: nextCustom,
-    };
+    // No colorValue here: the chart derives the tile colour from custom.change, so
+    // sending one would be silently ignored and the tile would freeze.
+    return { symbol, custom: nextCustom };
   }
 
   function flushRealtimeQuoteUpdates() {
@@ -458,15 +450,19 @@
       return;
     }
 
+    // Same optimistic-then-restore contract as the stock heatmap: the heading reads
+    // selectedTimePeriod, so a failed switch must not leave it describing other data.
+    const previousPeriod = selectedTimePeriod;
     selectedTimePeriod = timePeriod;
     isLoading = true;
+    const requestId = ++etfHeatmapRequestId;
 
     try {
       const cacheKey = `etf_heatmap_${timePeriod}_v2`;
       const cachedData = getCache(cacheKey, "getETFHeatmap");
 
       if (cachedData?.data) {
-        heatmapData = cachedData;
+        if (requestId === etfHeatmapRequestId) heatmapData = cachedData;
       } else {
         const response = await fetch("/api/etf-heatmap", {
           method: "POST",
@@ -474,18 +470,24 @@
           body: JSON.stringify({ params: timePeriod }),
         });
 
-        heatmapData = await response.json();
-        if (heatmapData?.data) {
-          setCache(cacheKey, heatmapData, "getETFHeatmap");
+        if (!response?.ok) {
+          throw new Error(`etf heatmap request failed: ${response?.status}`);
         }
+
+        const payload = await response.json();
+        if (payload?.data) {
+          setCache(cacheKey, payload, "getETFHeatmap");
+        }
+        if (requestId === etfHeatmapRequestId) heatmapData = payload;
       }
     } catch (error) {
       console.error("Error loading ETF heatmap:", error);
+      if (requestId === etfHeatmapRequestId) selectedTimePeriod = previousPeriod;
       toast.error(etf_heatmap_error_load(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } finally {
-      isLoading = false;
+      if (requestId === etfHeatmapRequestId) isLoading = false;
     }
   }
 </script>

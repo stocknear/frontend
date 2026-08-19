@@ -52,6 +52,7 @@
   "mcp_category_platform": "Stocknear 說明",
   "mcp_category_quote": "即時報價",
   "mcp_category_other": "其他工具",
+  "mcp_category_personal": "個人數據",
   "mcp_examples_title": "查詢範例",
   "mcp_examples_description": "用自然語言描述需求，你的 AI 用戶端會選擇相關的 Stocknear 工具。",
   "mcp_example_1": "比較 AAPL 與 MSFT 的營收成長、利潤率和估值。",

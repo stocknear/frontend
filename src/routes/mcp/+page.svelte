@@ -22,6 +22,7 @@
     mcp_category_market,
     mcp_category_options,
     mcp_category_other,
+    mcp_category_personal,
     mcp_category_platform,
     mcp_category_quote,
     mcp_clients_description,
@@ -100,6 +101,7 @@
     "options",
     "flow",
     "lists",
+    "personal",
     "platform",
   ];
   const categoryLabels = {
@@ -110,6 +112,7 @@
     lists: mcp_category_lists,
     market: mcp_category_market,
     options: mcp_category_options,
+    personal: mcp_category_personal,
     platform: mcp_category_platform,
     quote: mcp_category_quote,
   } as const;

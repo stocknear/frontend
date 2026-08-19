@@ -52,6 +52,7 @@
   "mcp_category_platform": "Допомога Stocknear",
   "mcp_category_quote": "Котирування",
   "mcp_category_other": "Інші інструменти",
+  "mcp_category_personal": "Ваші дані",
   "mcp_examples_title": "Приклади запитів",
   "mcp_examples_description": "Опишіть завдання звичайною мовою. ШІ-клієнт вибере потрібні інструменти Stocknear.",
   "mcp_example_1": "Порівняй зростання виручки, маржу й оцінку AAPL та MSFT.",

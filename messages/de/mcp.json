@@ -52,6 +52,7 @@
   "mcp_category_platform": "Stocknear-Hilfe",
   "mcp_category_quote": "Kurse",
   "mcp_category_other": "Weitere Tools",
+  "mcp_category_personal": "Deine Daten",
   "mcp_examples_title": "Beispielfragen",
   "mcp_examples_description": "Beschreibe in natürlicher Sprache, was du suchst. Dein KI-Client wählt die passenden Stocknear-Tools.",
   "mcp_example_1": "Vergleiche Umsatzwachstum, Margen und Bewertung von AAPL und MSFT.",

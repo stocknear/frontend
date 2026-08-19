@@ -8,7 +8,24 @@
   import { mode } from "mode-watcher";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
   import HeatmapChart from "$lib/components/Plot/HeatmapChart.svelte";
+  import CustomizeIndexesModal from "$lib/components/Heatmap/CustomizeIndexesModal.svelte";
   import { Download } from "lucide-svelte";
+  import { browser } from "$app/environment";
+  import { page } from "$app/stores";
+  import { changeClass, changeSign } from "$lib/utils";
+  import {
+    DEFAULT_INDEX,
+    DEFAULT_METRIC,
+    DEFAULT_PERIOD,
+    DEFAULT_TABS,
+    HEATMAP_METRICS,
+    HEATMAP_PERIODS,
+    canUseIndex,
+    loadTabs,
+    metricLabel,
+    saveTabs,
+    type HeatmapIndex,
+  } from "$lib/heatmap";
   import {
     buildAuthenticatedWsUrl,
     getPublicWsClosePolicy,
@@ -26,8 +43,12 @@
     heatmap_feature_rotation,
     heatmap_feature_timeframes,
     heatmap_feature_trend,
+    heatmap_constituents_note,
+    heatmap_customize_button,
     heatmap_heading,
+    heatmap_heading_metric,
     heatmap_no_data,
+    common_download,
     heatmap_seo_description,
     heatmap_seo_keywords,
     heatmap_seo_title,
@@ -39,12 +60,12 @@
 
   type HeatmapCustom = {
     symbol?: string;
-    performance?: string;
-    marketCap?: number;
+    change?: number;
     currentPrice?: number;
     referencePrice?: number;
-    referenceDate?: string | null;
-    timePeriod?: string;
+    revenue?: number | null;
+    netIncome?: number | null;
+    pe?: number | null;
   };
 
   type HeatmapNode = {
@@ -70,7 +91,6 @@
 
   type HeatmapPointUpdate = {
     symbol: string;
-    colorValue: number;
     custom: HeatmapCustom;
   };
 
@@ -94,17 +114,32 @@
   let heatmapData: HeatmapPayload | null = data?.getHeatMap?.data
     ? data.getHeatMap
     : null;
-  let selectedTimePeriod = heatmapData?.timePeriod || "1D";
-  let selectedETF = "SPY";
+  let selectedTimePeriod = data?.params || DEFAULT_PERIOD;
+  let selectedETF = data?.etf || DEFAULT_INDEX;
+  let selectedMetric = data?.metric || DEFAULT_METRIC;
+  let savedTabs: string[] = DEFAULT_TABS;
+  // Guards against a slow response for a previously selected index landing after a
+  // faster one and repainting the chart with data the header no longer describes.
+  let heatmapRequestId = 0;
   let heatmapLeafMap = new Map<string, HeatmapNode>();
 
-  const INDEX_LABELS: Record<string, string> = {
-    SPY: "S&P 500",
-    DIA: "Dow Jones",
-    QQQ: "Nasdaq 100",
-  };
+  $: catalog = (data?.indexes ?? []) as HeatmapIndex[];
+  $: indexBySymbol = new Map(catalog?.map((index) => [index?.symbol, index]));
+  $: selectedIndexLabel = indexBySymbol.get(selectedETF)?.name ?? selectedETF;
+  // The period control is hidden for metrics it does not apply to, so the tab chips fall
+  // back to the default rather than reporting a window the user cannot see or change.
+  $: chipPeriod =
+    selectedMetric === DEFAULT_METRIC ? selectedTimePeriod : DEFAULT_PERIOD;
 
-  $: selectedIndexLabel = INDEX_LABELS[selectedETF] ?? selectedETF;
+  // The active index always has a tab, even when it was deep-linked or has just been
+  // switched on, so a deselected or empty saved list can never leave an empty bar.
+  $: visibleTabs = [
+    ...savedTabs.filter((symbol) =>
+      canUseIndex(indexBySymbol.get(symbol), data?.entitled),
+    ),
+    ...(savedTabs.includes(selectedETF) ? [] : [selectedETF]),
+  ];
+
   $: heatmapLeafMap = buildHeatmapLeafMap(heatmapData);
 
   function getHeatmapLeafNodes(payload: HeatmapPayload | null): HeatmapNode[] {
@@ -139,13 +174,6 @@
 
   function getSubscriptionSymbols(): string[] {
     return Array.from(heatmapLeafMap.keys());
-  }
-
-  function formatPerformance(value: number): string {
-    if (!Number.isFinite(value)) {
-      return "0.00%";
-    }
-    return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
   }
 
   function clearPendingQuoteUpdates() {
@@ -250,17 +278,15 @@
     const nextCustom: HeatmapCustom = {
       ...(node.custom ?? {}),
       currentPrice: Number(livePrice.toFixed(4)),
-      performance: formatPerformance(changeValue),
+      change: roundedChangeValue,
     };
 
     node.colorValue = roundedChangeValue;
     node.custom = nextCustom;
 
-    return {
-      symbol,
-      colorValue: roundedChangeValue,
-      custom: nextCustom,
-    };
+    // No colorValue here: the chart derives the tile colour from whichever metric is
+    // selected, so a price tick must not repaint a revenue view.
+    return { symbol, custom: nextCustom };
   }
 
   function flushRealtimeQuoteUpdates() {
@@ -440,6 +466,9 @@
 
   onMount(() => {
     hasMounted = true;
+    savedTabs = loadTabs();
+    // Canonicalises the address after a rejected or defaulted ?i=.
+    silentUpdateUrl();
     syncPriceSubscription();
   });
 
@@ -461,6 +490,40 @@
     syncPriceSubscription();
   }
 
+  /**
+   * Mirrors the current view into the address bar without going through `goto`, so no
+   * `load` re-runs and no ~30 KB payload is re-shipped for data the client already has.
+   * Defaults are omitted to keep the shareable URL clean.
+   */
+  function buildUrl() {
+    const params = new URLSearchParams();
+    if (selectedETF !== DEFAULT_INDEX) params.set("i", selectedETF);
+    if (selectedTimePeriod !== DEFAULT_PERIOD) params.set("t", selectedTimePeriod);
+    if (selectedMetric !== DEFAULT_METRIC) params.set("d", selectedMetric);
+
+    const query = params.toString();
+    return `${$page?.url?.pathname}${query ? `?${query}` : ""}`;
+  }
+
+  function silentUpdateUrl() {
+    // history.state has to be passed through -- replacing it with {} drops SvelteKit's
+    // router state key and breaks the next real navigation.
+    if (browser) history.replaceState(history.state, "", buildUrl());
+  }
+
+  function selectMetric(metric: string) {
+    // No fetch: every metric is already baked into the tiles.
+    selectedMetric = metric;
+    silentUpdateUrl();
+  }
+
+  function toggleTab(symbol: string) {
+    savedTabs = savedTabs.includes(symbol)
+      ? savedTabs.filter((tab) => tab !== symbol)
+      : [...savedTabs, symbol];
+    saveTabs(savedTabs);
+  }
+
   async function getHeatMap(timePeriod: string, etf: string = selectedETF) {
     if (
       timePeriod === selectedTimePeriod &&
@@ -470,16 +533,22 @@
       return;
     }
 
+    // Applied optimistically so the active tab moves immediately, and rolled back below
+    // if the fetch fails -- otherwise the heading, footnote and URL describe an index the
+    // chart is not showing.
+    const previous = { etf: selectedETF, period: selectedTimePeriod };
     selectedTimePeriod = timePeriod;
     selectedETF = etf;
+    silentUpdateUrl();
     isLoading = true;
+    const requestId = ++heatmapRequestId;
 
     try {
-      const cacheKey = `heatmap_${etf}_${timePeriod}_v3`;
+      const cacheKey = `heatmap_${etf}_${timePeriod}_v4`;
       const cachedData = getCache(cacheKey, "getHeatmap");
 
       if (cachedData?.data) {
-        heatmapData = cachedData;
+        if (requestId === heatmapRequestId) heatmapData = cachedData;
       } else {
         const postData = { params: timePeriod, etf };
         const response = await fetch("/api/heatmap", {
@@ -488,18 +557,28 @@
           body: JSON.stringify(postData),
         });
 
-        heatmapData = await response.json();
-        if (heatmapData?.data) {
-          setCache(cacheKey, heatmapData, "getHeatmap");
+        if (!response?.ok) {
+          throw new Error(`heatmap request failed: ${response?.status}`);
         }
+
+        const payload = await response.json();
+        if (payload?.data) {
+          setCache(cacheKey, payload, "getHeatmap");
+        }
+        if (requestId === heatmapRequestId) heatmapData = payload;
       }
     } catch (error) {
       console.error("Error loading heatmap:", error);
+      if (requestId === heatmapRequestId) {
+        selectedETF = previous.etf;
+        selectedTimePeriod = previous.period;
+        silentUpdateUrl();
+      }
       toast.error(heatmap_error_load(), {
         style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
       });
     } finally {
-      isLoading = false;
+      if (requestId === heatmapRequestId) isLoading = false;
     }
   }
 </script>
@@ -582,21 +661,83 @@
         class="relative flex justify-center items-start overflow-hidden w-full"
       >
         <main class="w-full">
-          <div class="mb-6 border-b border-line">
-            <h1
-              class="mb-1 type-h1 text-fg"
+          <div
+            class="mb-5 flex flex-row flex-wrap items-stretch gap-2.5 border-b border-line pb-5"
+          >
+            {#each visibleTabs as symbol (symbol)}
+              {@const indexChange = indexBySymbol.get(symbol)?.changes?.[
+                chipPeriod
+              ]}
+              <button
+                on:click={() => getHeatMap(selectedTimePeriod, symbol)}
+                disabled={isLoading}
+                class="flex min-w-[8.5rem] cursor-pointer flex-col items-start gap-1 rounded-container border px-4 py-3 text-left transition disabled:opacity-60 disabled:cursor-not-allowed {symbol ===
+                selectedETF
+                  ? 'border-accent bg-surface-raised'
+                  : 'border-line bg-surface-card hover:border-line-strong'}"
+              >
+                <span class="type-h3 leading-none text-fg">{symbol}</span>
+                <span class="text-sm leading-tight text-fg-muted"
+                  >{indexBySymbol.get(symbol)?.name ?? symbol}</span
+                >
+                <span
+                  class="mt-1 flex w-fit items-center gap-0.5 rounded-control py-px pl-1 pr-1.5 text-xs font-semibold leading-tight {changeClass(
+                    indexChange,
+                  )} {indexChange > 0
+                    ? 'bg-up/10'
+                    : indexChange < 0
+                      ? 'bg-down/10'
+                      : 'bg-surface-sunken'}"
+                >
+                  {#if indexChange}
+                    <svg
+                      class="h-3.5 w-3.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d={indexChange > 0
+                          ? "M7 11l5-5m0 0l5 5m-5-5v12"
+                          : "M17 13l-5 5m0 0l-5-5m5 5V6"}
+                      ></path>
+                    </svg>
+                  {/if}
+                  {Number.isFinite(indexChange)
+                    ? `${changeSign(indexChange)}${indexChange?.toFixed(2)}%`
+                    : "-"}
+                </span>
+              </button>
+            {/each}
+
+            <label
+              for="heatmapIndexModal"
+              class="flex cursor-pointer items-center rounded-container border border-dashed border-line bg-surface-card px-5 text-sm font-medium text-fg-muted transition hover:border-line-strong hover:text-accent"
             >
-              {heatmap_heading({
-                index: selectedIndexLabel,
-                period: selectedTimePeriod,
-              })}
-            </h1>
+              {heatmap_customize_button()}
+            </label>
           </div>
 
-          <div class="flex flex-row items-center gap-2.5 w-fit">
-            <div
-              class="grid grid-cols-2 sm:grid-cols-2 gap-y-3 sm:gap-y-0 gap-x-2.5 lg:grid-cols-2 w-full"
-            >
+          <div
+            class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <h1 class="type-h1 text-fg">
+              {selectedMetric === DEFAULT_METRIC
+                ? heatmap_heading({
+                    index: selectedIndexLabel,
+                    period: selectedTimePeriod,
+                  })
+                : heatmap_heading_metric({
+                    index: selectedIndexLabel,
+                    metric: metricLabel(selectedMetric),
+                  })}
+            </h1>
+
+            <div class="flex flex-row items-center gap-2.5">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
@@ -605,7 +746,7 @@
                     disabled={isLoading}
                   >
                     <span class="truncate">
-                      {selectedIndexLabel}
+                      {metricLabel(selectedMetric)}
                     </span>
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
@@ -636,27 +777,30 @@
                     style=""
                   ></div>
                   <DropdownMenu.Group>
-                    {#each [{ value: "SPY", label: "S&P 500" }, { value: "DIA", label: "Dow Jones" }, { value: "QQQ", label: "Nasdaq 100" }] as item}
+                    {#each HEATMAP_METRICS as item}
                       <DropdownMenu.Item
-                        on:click={() =>
-                          getHeatMap(selectedTimePeriod, item.value)}
+                        on:click={() => selectMetric(item?.id)}
                         class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition cursor-pointer"
                       >
-                        <span class="mr-8">{item.label}</span>
+                        <span class="mr-8">{item?.label()}</span>
                       </DropdownMenu.Item>
                     {/each}
                   </DropdownMenu.Group>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
 
+              <!-- Price change is the only metric a period applies to; the others are
+                   point-in-time TTM figures identical across every period file. -->
+              {#if selectedMetric === DEFAULT_METRIC}
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild let:builder>
                   <Button
                     builders={[builder]}
                     class="transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex flex-row justify-between items-center px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={isLoading}
+                    title={heatmap_time_period_label()}
                   >
-                    <span class="truncate">{heatmap_time_period_label()}</span>
+                    <span class="truncate">{selectedTimePeriod}</span>
                     <svg
                       class="-mr-1 ml-1 h-5 w-5 xs:ml-2 inline-block"
                       viewBox="0 0 20 20"
@@ -686,7 +830,7 @@
                     style=""
                   ></div>
                   <DropdownMenu.Group>
-                    {#each ["1D", "1W", "1M", "3M", "6M", "1Y", "3Y"] as item}
+                    {#each HEATMAP_PERIODS as item}
                       <DropdownMenu.Item
                         on:click={() => getHeatMap(item, selectedETF)}
                         class="sm:hover:bg-gray-100/70 dark:sm:hover:bg-zinc-900/60 sm:hover:text-accent transition cursor-pointer"
@@ -697,16 +841,18 @@
                   </DropdownMenu.Group>
                 </DropdownMenu.Content>
               </DropdownMenu.Root>
-            </div>
+              {/if}
 
-            <button
-              on:click={handleDownload}
-              disabled={isLoading || !heatmapData?.data}
-              class="cursor-pointer transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center justify-center px-3 py-2 rounded-full disabled:opacity-60 disabled:cursor-not-allowed"
-              title="Download heatmap as PNG"
-            >
-              <Download class="h-5 w-5" />
-            </button>
+              <button
+                on:click={handleDownload}
+                disabled={isLoading || !heatmapData?.data}
+                class="cursor-pointer transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-white dark:hover:bg-zinc-900 flex items-center justify-center gap-2 px-3 py-2 rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                title="Download heatmap as PNG"
+              >
+                <Download class="h-4 w-4" />
+                <span>{common_download()}</span>
+              </button>
+            </div>
           </div>
 
           <div class="w-full mt-6">
@@ -725,11 +871,21 @@
                 </div>
               </div>
             {:else if heatmapData?.data}
-              <HeatmapChart bind:this={heatmapChartRef} data={heatmapData} />
+              <HeatmapChart
+                bind:this={heatmapChartRef}
+                data={heatmapData}
+                metric={selectedMetric}
+              />
             {:else}
               <div class="flex justify-center items-center h-80">
                 <p class="">{heatmap_no_data()}</p>
               </div>
+            {/if}
+
+            {#if heatmapData?.data}
+              <p class="mt-3 text-xs text-fg-subtle">
+                {heatmap_constituents_note({ symbol: selectedETF })}
+              </p>
             {/if}
           </div>
         </main>
@@ -737,3 +893,11 @@
     </div>
   </div>
 </section>
+
+<CustomizeIndexesModal
+  indexes={catalog}
+  selected={savedTabs}
+  activeSymbol={selectedETF}
+  entitled={data?.entitled === true}
+  on:toggle={(event) => toggleTab(event?.detail?.symbol)}
+/>

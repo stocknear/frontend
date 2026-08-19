@@ -52,6 +52,7 @@
   "mcp_category_platform": "Stocknear 도움말",
   "mcp_category_quote": "시세",
   "mcp_category_other": "기타 도구",
+  "mcp_category_personal": "개인 데이터",
   "mcp_examples_title": "질문 예시",
   "mcp_examples_description": "원하는 내용을 자연어로 설명하면 AI 클라이언트가 관련 Stocknear 도구를 선택합니다.",
   "mcp_example_1": "AAPL과 MSFT의 매출 성장률, 마진, 밸류에이션을 비교해 줘.",

@@ -15,10 +15,18 @@
   "heatmap_feature_rotation": "Seguimiento de la rotación del sector",
   "heatmap_feature_momentum": "Visualización del impulso del mercado",
   "heatmap_breadcrumb_label": "Mapa de calor",
-  "heatmap_heading": "Rendimiento {index} - {period}",
+  "heatmap_heading": "{index} - Variación de precio ({period})",
   "heatmap_time_period_label": "Período de tiempo",
   "heatmap_error_load": "No se pudo cargar el mapa de calor. Por favor inténtalo de nuevo.",
   "heatmap_no_data": "No hay datos disponibles",
+  "heatmap_heading_metric": "{index} - {metric}",
+  "heatmap_metric_price_change": "Variación de precio",
+  "heatmap_customize_button": "+ Índices",
+  "heatmap_customize_title": "Personalizar mapas de calor",
+  "heatmap_customize_description": "Elige qué índices aparecen como pestañas.",
+  "heatmap_customize_filter_placeholder": "Filtrar índices",
+  "heatmap_based_on_etf": "Basado en el ETF {symbol}",
+  "heatmap_constituents_note": "Los componentes se basan en las posiciones del ETF {symbol}. El tamaño del recuadro es la capitalización de mercado y el color corresponde a la métrica seleccionada.",
   "etf_heatmap_seo_title": "Mapa de calor ETF: visualización del rendimiento en tiempo real ETF",
   "etf_heatmap_seo_description": "Mapa de calor interactivo ETF con datos de rendimiento en tiempo real en EE. UU. de renta variable, sector, internacional, renta fija, materias primas y ETFs temático. Realiza un seguimiento del rendimiento de ETF mediante AUM con devoluciones codificadas por colores en múltiples períodos de tiempo.",
   "etf_heatmap_seo_keywords": "Mapa de calor ETF, rendimiento ETF, visualización ETF, sector ETFs, enlace ETFs, productos básicos ETFs, rastreador ETF, mapa de mercado ETF, Herramienta de análisis ETF, comparación ETF, datos ETF en tiempo real",
@@ -34,4 +42,3 @@
   "etf_heatmap_feature_aum": "Dimensionamiento de ETF por activos bajo gestión (AUM)",
   "etf_heatmap_feature_timeframes": "Análisis de múltiples períodos de tiempo (1D, 1W, 1M, 3M, 6M, 1Y, 3Y)"
 }
-

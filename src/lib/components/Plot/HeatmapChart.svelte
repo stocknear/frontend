@@ -5,9 +5,20 @@
     import { goto } from "$app/navigation";
     import { ensureHighcharts } from "$lib/highcharts";
     import { abbreviateNumber } from "$lib/utils";
+    import {
+        DEFAULT_METRIC,
+        formatMetric,
+        metricLabel,
+        metricValue,
+    } from "$lib/heatmap";
 
     export let data: any = null;
     export let isETF = false;
+    export let metric = DEFAULT_METRIC;
+
+    // The group aggregates as they arrived, so switching back to price change can restore
+    // bands that a fundamental metric blanked out.
+    let groupColorValues = new Map<string, number | null>();
 
     let container: HTMLDivElement;
     let chart: any = null;
@@ -21,9 +32,7 @@
         groupBorder: string;
         text: string;
         subtleText: string;
-        labelChipBackground: string;
-        labelChipBorder: string;
-        labelChipText: string;
+        groupFill: string;
         breadcrumbHoverFill: string;
         colorStops: Array<[number, string]>;
         minColor: string;
@@ -32,16 +41,17 @@
 
     type HeatmapPointUpdate = {
         symbol: string;
-        colorValue: number;
         custom: Record<string, any>;
     };
 
     const SHARED_HEATMAP_COLORS = {
         minColor: "#f73539",
         maxColor: "#2ecc59",
+        // The neutral is a true grey. The old #414555 was blue-violet, which tinted every
+        // near-flat tile purple and made the whole board read dusty rather than red/green.
         colorStops: [
             [0, "#f73539"],
-            [0.5, "#414555"],
+            [0.5, "#3f4045"],
             [1, "#2ecc59"],
         ] as Array<[number, string]>,
     };
@@ -135,9 +145,7 @@
                 groupBorder: "#09090B",
                 text: "#ffffff",
                 subtleText: "#a1a1aa",
-                labelChipBackground: "rgba(63, 63, 70, 0.92)",
-                labelChipBorder: "#18181b",
-                labelChipText: "#ffffff",
+                groupFill: "#27272a",
                 breadcrumbHoverFill: "#333333",
                 minColor: SHARED_HEATMAP_COLORS.minColor,
                 maxColor: SHARED_HEATMAP_COLORS.maxColor,
@@ -151,14 +159,33 @@
             groupBorder: "#09090B",
             text: "#0f172a",
             subtleText: "#475569",
-            labelChipBackground: "rgba(63, 63, 70, 0.92)",
-            labelChipBorder: "#18181b",
-            labelChipText: "#ffffff",
+            groupFill: "#cbd5e1",
             breadcrumbHoverFill: "#e2e8f0",
             minColor: SHARED_HEATMAP_COLORS.minColor,
             maxColor: SHARED_HEATMAP_COLORS.maxColor,
             colorStops: SHARED_HEATMAP_COLORS.colorStops,
         };
+    }
+
+    /**
+     * The single owner of what a tile prints: the hide threshold, the two-line
+     * threshold, the font ramp, and which number is shown. Both the live chart and the
+     * PNG export call it, because the export has to redraw these labels by hand -- it
+     * strips foreignObject, which browsers refuse to rasterise.
+     */
+    function getTileLabel(point: any, width: number, height: number) {
+        if (width < 40 || height < 30) return null;
+
+        const fontSize = Math.min(
+            24,
+            Math.max(10, 7 + Math.round(width * height * 0.0006)),
+        );
+        const secondary =
+            width >= 60 && height >= 45
+                ? formatMetric(point?.custom, point?.value, metric)
+                : "";
+
+        return { primary: point?.name ?? "", secondary, fontSize };
     }
 
     export async function downloadChart() {
@@ -271,34 +298,27 @@
 
                     const w = s.width || 0;
                     const h = s.height || 0;
-                    if (w < 40 || h < 30) continue;
+                    const label = getTileLabel(point, w, h);
+                    if (!label) continue;
 
                     const cx = s.x + w / 2;
                     const cy = s.y + h / 2 + watermarkH;
-
-                    const area = w * h;
-                    const fontSize = Math.min(
-                        24,
-                        Math.max(10, 7 + Math.round(area * 0.0006)),
-                    );
+                    const fontSize = label.fontSize;
                     const labelColors = getPointLabelColors(point, isDark);
 
                     // Draw ticker name
                     ctx.font = `600 ${fontSize}px 'Space Grotesk', sans-serif`;
                     ctx.fillStyle = labelColors.primary;
 
-                    const perf = point.custom?.performance || "";
-                    const showPerf = w >= 60 && h >= 45 && perf;
-
-                    if (showPerf) {
-                        // Ticker above center, perf below
-                        ctx.fillText(point.name, cx, cy - fontSize * 0.35);
-                        const perfSize = Math.max(9, fontSize * 0.65);
-                        ctx.font = `400 ${perfSize}px 'Space Grotesk', sans-serif`;
+                    if (label.secondary) {
+                        // Ticker above center, metric below
+                        ctx.fillText(label.primary, cx, cy - fontSize * 0.35);
+                        const secondarySize = Math.max(9, fontSize * 0.65);
+                        ctx.font = `400 ${secondarySize}px 'Space Grotesk', sans-serif`;
                         ctx.fillStyle = labelColors.secondary;
-                        ctx.fillText(perf, cx, cy + fontSize * 0.55);
+                        ctx.fillText(label.secondary, cx, cy + fontSize * 0.55);
                     } else {
-                        ctx.fillText(point.name, cx, cy);
+                        ctx.fillText(label.primary, cx, cy);
                     }
                 }
             }
@@ -308,9 +328,13 @@
             const link = document.createElement("a");
             link.href = url;
             const ts = new Date().toISOString().slice(0, 10);
+            // Price change is the only metric a period applies to, so it is the only one
+            // the filename carries one for; the rest would claim a window they do not have.
+            const view =
+                metric === DEFAULT_METRIC ? data?.timePeriod || "1D" : metric;
             const label = isETF
                 ? `etf_heatmap_${data?.timePeriod || "1D"}`
-                : `${(data?.etfName || "market").replace(/[^a-zA-Z0-9]/g, "_")}_heatmap_${data?.timePeriod || "1D"}`;
+                : `${(data?.etfName || "market").replace(/[^a-zA-Z0-9]/g, "_")}_heatmap_${view}`;
             link.download = `${label}_${ts}.png`;
             document.body.appendChild(link);
             link.click();
@@ -331,6 +355,11 @@
     }
 
     function rebuildPointIndex() {
+        groupColorValues = new Map(
+            (data?.data ?? [])
+                .filter((node: any) => node?.id && !("custom" in node))
+                .map((node: any) => [node.id, node.colorValue]),
+        );
         pointIndex = new Map();
         const points = chart?.series?.[0]?.points ?? [];
         for (const point of points) {
@@ -363,9 +392,11 @@
                 ...(update.custom ?? {}),
             };
 
+            // Derived, never taken from the update: a live tick must not repaint tiles
+            // with price colour while a fundamental metric is selected.
             point.update(
                 {
-                    colorValue: update.colorValue,
+                    colorValue: colorValueFor(nextCustom, point?.value),
                     custom: nextCustom,
                 },
                 false,
@@ -443,7 +474,11 @@
                     const point = this.point as any;
                     if (!point.custom) return false;
 
-                    const perf = point.custom.performance || "";
+                    const perf = formatMetric(
+                        point.custom,
+                        point.value,
+                        DEFAULT_METRIC,
+                    );
                     const value = point.value || 0;
 
                     let s = `<span class="text-white font-[501]">${point.name}</span><br>`;
@@ -453,6 +488,19 @@
                     if (perf) {
                         s += `<span class="text-white font-semibold text-sm">Change:</span> `;
                         s += `<span class="text-white font-normal text-sm">${perf}</span>`;
+                    }
+                    // Market cap is already the row above, so only add a row when the
+                    // selected metric would say something new.
+                    if (metric !== DEFAULT_METRIC && metric !== "market-cap") {
+                        const selected = formatMetric(
+                            point.custom,
+                            point.value,
+                            metric,
+                        );
+                        if (selected) {
+                            s += `<br><span class="text-white font-semibold text-sm">${metricLabel(metric)}:</span> `;
+                            s += `<span class="text-white font-normal text-sm">${selected}</span>`;
+                        }
                     }
                     return s;
                 },
@@ -466,8 +514,10 @@
                     animationLimit: 0,
                     animation: false,
                     borderColor: theme.cellBorder,
-                    color: theme.cellBorder,
-                    opacity: 0.01,
+                    // Parents carry a cap-weighted colorValue, so they paint their own
+                    // group frame and header band. The old `opacity: 0.01` was there to
+                    // hide colourless parents and would now grey the whole thing out.
+                    color: theme.groupFill,
                     nodeSizeBy: "leaf",
                     turboThreshold: 0,
                     dataLabels: {
@@ -484,19 +534,23 @@
                             dataLabels: {
                                 enabled: true,
                                 headers: true,
-                                align: "left",
+                                align: "center",
                                 style: {
-                                    fontWeight: "bold",
-                                    fontSize: "0.7em",
+                                    fontWeight: "600",
+                                    fontSize: "0.8em",
                                     lineClamp: 1,
-                                    textTransform: "uppercase",
-                                    color: theme.text,
-                                    textOutline: "none",
+                                    // Band fills come from the colour axis and are identical
+                                    // in both themes, so the header is too. The outline is
+                                    // what keeps white legible on a bright green band --
+                                    // Highcharts' own "contrast" washes out on mid-tones.
+                                    color: "#ffffff",
+                                    textOutline: "1px rgba(0, 0, 0, 0.55)",
                                 },
-                                padding: 3,
+                                padding: 4,
                             },
                             borderWidth: 3,
                             borderColor: theme.groupBorder,
+                            groupPadding: 3,
                             levelIsConstant: false,
                         },
                         {
@@ -505,21 +559,18 @@
                                 enabled: true,
                                 headers: true,
                                 align: "center",
-                                shape: "callout",
-                                backgroundColor: theme.labelChipBackground,
-                                borderWidth: 1,
-                                borderColor: theme.labelChipBorder,
-                                padding: 2,
+                                padding: 3,
                                 style: {
-                                    color: theme.labelChipText,
+                                    color: "#ffffff",
                                     fontWeight: "600",
-                                    fontSize: "0.6em",
+                                    fontSize: "0.7em",
                                     lineClamp: 1,
-                                    textOutline: "none",
-                                    textTransform: "uppercase",
+                                    textOutline: "1px rgba(0, 0, 0, 0.55)",
                                 },
                             },
-                            groupPadding: 1,
+                            borderWidth: 2,
+                            borderColor: theme.groupBorder,
+                            groupPadding: 2,
                         },
                         {
                             level: 3,
@@ -533,36 +584,28 @@
                                     const shapeArgs = point.shapeArgs;
                                     if (!shapeArgs) return "";
 
-                                    const w = shapeArgs.width || 0;
-                                    const h = shapeArgs.height || 0;
-
-                                    // Hide label for very small cells
-                                    if (w < 40 || h < 30) return "";
-
-                                    const area = w * h;
-                                    const fontSize = Math.min(
-                                        24,
-                                        Math.max(
-                                            10,
-                                            7 + Math.round(area * 0.0006),
-                                        ),
+                                    const label = getTileLabel(
+                                        point,
+                                        shapeArgs.width || 0,
+                                        shapeArgs.height || 0,
                                     );
-                                    const perf =
-                                        point.custom?.performance || "";
+                                    if (!label) return "";
+
+                                    const fontSize = label.fontSize;
                                     const labelColors = getPointLabelColors(
                                         point,
                                         isDark,
                                     );
 
                                     // Only show ticker for medium cells
-                                    if (w < 60 || h < 45) {
-                                        return `<span style="font-size:${fontSize}px;font-weight:600;color:${labelColors.primary}">${point.name}</span>`;
+                                    if (!label.secondary) {
+                                        return `<span style="font-size:${fontSize}px;font-weight:600;color:${labelColors.primary}">${label.primary}</span>`;
                                     }
 
-                                    // Show ticker + performance for larger cells
+                                    // Show ticker + selected metric for larger cells
                                     return `<div style="text-align:center;line-height:1.2">
-                                    <div style="font-size:${fontSize}px;font-weight:600;color:${labelColors.primary}">${point.name}</div>
-                                    <div style="font-size:${Math.max(9, fontSize * 0.65)}px;color:${labelColors.secondary}">${perf}</div>
+                                    <div style="font-size:${fontSize}px;font-weight:600;color:${labelColors.primary}">${label.primary}</div>
+                                    <div style="font-size:${Math.max(9, fontSize * 0.65)}px;color:${labelColors.secondary}">${label.secondary}</div>
                                 </div>`;
                                 },
                             },
@@ -606,11 +649,72 @@
 
         rebuildPointIndex();
 
+        // The payload is coloured by price change, so a chart built while a fundamental
+        // metric is selected -- a ?d= deep link, or a rebuild on index/theme change -- has
+        // to be recoloured before the first paint. For price change nothing moves and this
+        // is a no-op scan.
+        if (applyMetricColors()) {
+            chart.redraw();
+        }
+
         isInitializing = false;
     }
 
     $: if (browser && data?.data && container) {
         initChart();
+    }
+
+    // Redraw, not rebuild: a rebuild would reset any drill-down the user is inside.
+    // No "previous metric" state to go stale -- applyMetricColors reports whether the
+    // repaint was a no-op, which is what decides the redraw.
+    $: if (chart && metric) {
+        if (applyMetricColors()) chart.redraw();
+    }
+
+    /**
+     * The single owner of metric -> tile colour.
+     *
+     * Price change keeps its gradient. Every other metric is scaled to the axis by SIGN
+     * only: the axis spans +/- a few percent while a fundamental is in the billions, so
+     * feeding the raw value would make colour depend on the selected period -- a P/E of 35
+     * saturating on 1D (axis +/-2) and reading a third green on 3Y (axis +/-100). Sign
+     * scaling is also exactly the product rule: positive green, negative red, market cap
+     * always green because it is always positive.
+     *
+     * `data?.colorRange` is read here rather than captured, so it can never go stale.
+     */
+    function colorValueFor(custom: any, pointValue?: number) {
+        const value = metricValue(custom, pointValue, metric);
+        if (value === null || metric === DEFAULT_METRIC) return value;
+
+        return Math.sign(value) * (data?.colorRange || 10);
+    }
+
+    /**
+     * Repaints every point for the current metric and reports whether anything moved, so
+     * callers can skip the redraw. Sector and industry bands only carry a price aggregate,
+     * so they fall back to neutral for any other metric rather than contradicting the
+     * tiles underneath them.
+     */
+    function applyMetricColors(): boolean {
+        const isPerformance = metric === DEFAULT_METRIC;
+        let changed = false;
+
+        for (const point of chart?.series?.[0]?.points ?? []) {
+            const colorValue =
+                point?.node?.level === 3
+                    ? colorValueFor(point?.custom, point?.value)
+                    : isPerformance
+                      ? (groupColorValues.get(point?.options?.id) ?? null)
+                      : null;
+
+            if (point?.colorValue === colorValue) continue;
+
+            point.update({ colorValue }, false);
+            changed = true;
+        }
+
+        return changed;
     }
 
     onMount(() => {

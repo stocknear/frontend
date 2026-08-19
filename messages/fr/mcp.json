@@ -52,6 +52,7 @@
   "mcp_category_platform": "Aide Stocknear",
   "mcp_category_quote": "Cotations",
   "mcp_category_other": "Autres outils",
+  "mcp_category_personal": "Vos données",
   "mcp_examples_title": "Exemples de requêtes",
   "mcp_examples_description": "Décrivez votre recherche en langage naturel. Votre client IA sélectionnera les outils Stocknear pertinents.",
   "mcp_example_1": "Compare la croissance du chiffre d'affaires, les marges et la valorisation d'AAPL et MSFT.",

@@ -262,6 +262,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         messages: messagesForModel,
         reasoning,
         lang,
+        // From the server-side session only, never the client payload: it lets
+        // the agent read this user's own watchlist and portfolio.
+        user_id: userId,
       }),
       // The provider can queue before inference starts; fail loudly rather than at an
       // undici default we didn't choose. The backend pings to keep this connection alive.

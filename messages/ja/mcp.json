@@ -52,6 +52,7 @@
   "mcp_category_platform": "Stocknear ヘルプ",
   "mcp_category_quote": "株価",
   "mcp_category_other": "その他のツール",
+  "mcp_category_personal": "個人データ",
   "mcp_examples_title": "質問例",
   "mcp_examples_description": "知りたいことを自然な言葉で説明してください。AI クライアントが関連する Stocknear ツールを選びます。",
   "mcp_example_1": "AAPL と MSFT の売上成長率、利益率、バリュエーションを比較して。",

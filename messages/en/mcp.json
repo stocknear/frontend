@@ -52,6 +52,7 @@
   "mcp_category_platform": "Stocknear help",
   "mcp_category_quote": "Quotes",
   "mcp_category_other": "Other tools",
+  "mcp_category_personal": "Your data",
   "mcp_examples_title": "Example queries",
   "mcp_examples_description": "Describe what you want in natural language. Your AI client chooses the relevant Stocknear tools.",
   "mcp_example_1": "Compare AAPL and MSFT revenue growth, margins, and valuation.",

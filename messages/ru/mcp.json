@@ -52,6 +52,7 @@
   "mcp_category_platform": "Помощь Stocknear",
   "mcp_category_quote": "Котировки",
   "mcp_category_other": "Другие инструменты",
+  "mcp_category_personal": "Ваши данные",
   "mcp_examples_title": "Примеры запросов",
   "mcp_examples_description": "Опишите задачу обычным языком. ИИ-клиент выберет нужные инструменты Stocknear.",
   "mcp_example_1": "Сравни рост выручки, маржу и оценку AAPL и MSFT.",
