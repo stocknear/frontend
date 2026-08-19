@@ -517,6 +517,16 @@
     silentUpdateUrl();
   }
 
+  function resetTabs() {
+    savedTabs = [...DEFAULT_TABS];
+    saveTabs(savedTabs);
+    // Leaving a Pro index active would keep its tab on screen via the visibleTabs
+    // invariant, so "reset" would not look like it reset.
+    if (!DEFAULT_TABS.includes(selectedETF)) {
+      getHeatMap(selectedTimePeriod, DEFAULT_INDEX);
+    }
+  }
+
   function toggleTab(symbol: string) {
     savedTabs = savedTabs.includes(symbol)
       ? savedTabs.filter((tab) => tab !== symbol)
@@ -897,7 +907,7 @@
 <CustomizeIndexesModal
   indexes={catalog}
   selected={savedTabs}
-  activeSymbol={selectedETF}
   entitled={data?.entitled === true}
   on:toggle={(event) => toggleTab(event?.detail?.symbol)}
+  on:reset={resetTabs}
 />

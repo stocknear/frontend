@@ -14,7 +14,7 @@
     import MarketNews from "$lib/components/Dashboard/MarketNews.svelte";
     import AnalystReport from "$lib/components/Dashboard/AnalystReport.svelte";
     import MiniPlot from "$lib/components/Plot/MiniPlot.svelte";
-    //import PromoBanner from "$lib/components/PromoBanner.svelte";
+    import PromoBanner from "$lib/components/PromoBanner.svelte";
 
     import {
         home_hero_subtitle,
@@ -121,9 +121,9 @@
              minus the grid's -mt-16 put the rule 64px below the card tops. Both
              magic numbers are gone along with the border. -->
         <div class="pt-8 sm:pt-12 pb-8">
-            <!--
             <PromoBanner user={data?.user} />
 
+            <!--
             <div class="flex justify-center mb-5 whitespace-nowrap">
                 <div class=" flex justify-center lg:mb-3">
                     <a href="/mcp"

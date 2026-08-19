@@ -29,10 +29,13 @@ export const PLAN_PRICING: Record<
 
 const PROMOTIONS: Promotion[] = [
   {
-    id: "summer-sale-2026-08",
-    percentOff: 75,
+    id: "summer-sale-2026-08b",
+    percentOff: 50,
     scope: ["annual"],
-    endsAt: "2026-08-10T23:59:59+02:00",
+    // Armed ahead of launch so the deploy and the Lemon Squeezy price change
+    // don't have to happen at midnight — every surface stays dark until then.
+    startsAt: "2026-08-23T00:00:00+02:00",
+    endsAt: "2026-09-06T23:59:59+02:00",
   },
 ];
 

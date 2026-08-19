@@ -3,6 +3,7 @@
   import { localizedHref } from "$lib/i18n/navigation";
   import type { HeatmapIndex } from "$lib/heatmap";
   import {
+    common_reset,
     heatmap_based_on_etf,
     heatmap_customize_description,
     heatmap_customize_filter_placeholder,
@@ -13,7 +14,6 @@
 
   export let indexes: HeatmapIndex[] = [];
   export let selected: string[] = [];
-  export let activeSymbol = "";
   export let entitled = false;
 
   const dispatch = createEventDispatcher();
@@ -31,7 +31,7 @@
 
 <input type="checkbox" id="heatmapIndexModal" class="modal-toggle" />
 
-<dialog id="heatmapIndexModal" class="modal p-2 lg:p-0">
+<dialog id="heatmapIndexModal" class="modal p-0 sm:p-2 lg:p-0">
   <label
     for="heatmapIndexModal"
     on:click={() => (searchTerm = "")}
@@ -39,7 +39,7 @@
   ></label>
 
   <div
-    class="modal-box z-20 mx-2 max-h-[80vh] sm:max-h-[32rem] sm:mx-4 w-full max-w-lg overflow-y-auto relative bg-surface-card text-fg border border-line rounded-t-2xl sm:rounded-container shadow-2xl"
+    class="modal-box relative z-20 h-full max-h-none w-full max-w-none overflow-y-auto rounded-none border-0 bg-surface-card text-fg shadow-2xl sm:mx-4 sm:h-auto sm:max-h-[42rem] sm:max-w-2xl sm:rounded-container sm:border sm:border-line"
   >
     <div class="relative flex flex-col w-full">
       <div
@@ -71,34 +71,43 @@
           {heatmap_customize_description()}
         </p>
 
-        <div class="relative w-full max-w-sm">
-          <div
-            class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-          >
-            <svg
-              class="w-4 h-4 text-fg-subtle"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
+        <div class="flex flex-row items-center gap-2.5">
+          <div class="relative grow">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
             >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
+              <svg
+                class="w-4 h-4 text-fg-subtle"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+
+            <input
+              autocomplete="off"
+              id="heatmapIndexFilter"
+              class="focus:outline-none placeholder:text-fg-subtle block w-full p-2 ps-10 text-sm border border-line rounded-full bg-surface-page/60"
+              placeholder={heatmap_customize_filter_placeholder()}
+              bind:value={searchTerm}
+            />
           </div>
 
-          <input
-            autocomplete="off"
-            id="heatmapIndexFilter"
-            class="focus:outline-none placeholder:text-fg-subtle block w-full p-2 ps-10 text-sm border border-line rounded-full bg-surface-page/60"
-            placeholder={heatmap_customize_filter_placeholder()}
-            bind:value={searchTerm}
-          />
+          <button
+            on:click={() => dispatch("reset")}
+            class="shrink-0 cursor-pointer rounded-full border border-line bg-surface-card px-4 py-2 text-sm font-medium text-fg-muted transition hover:border-line-strong hover:text-accent"
+          >
+            {common_reset()}
+          </button>
         </div>
       </div>
 
@@ -139,9 +148,8 @@
                 id={`heatmap-index-${index?.symbol}`}
                 type="checkbox"
                 checked={selected?.includes(index?.symbol)}
-                disabled={index?.symbol === activeSymbol}
                 on:click={() => dispatch("toggle", { symbol: index?.symbol })}
-                class="h-[18px] w-[18px] shrink-0 cursor-pointer rounded-control ring-offset-0 border border-line bg-surface-card disabled:cursor-not-allowed disabled:opacity-60"
+                class="h-[18px] w-[18px] shrink-0 cursor-pointer rounded-control ring-offset-0 border border-line bg-surface-card"
               />
               <span class="flex grow flex-col leading-tight">
                 <span class="text-[0.95rem] text-fg">{index?.name}</span>
