@@ -7,9 +7,9 @@ import {
 
 // Guards the live sale window. If PROMOTIONS is edited, these assertions are the
 // thing that fails first — before a customer sees a price the checkout won't honour.
-const BEFORE = new Date("2026-08-22T12:00:00+02:00");
-const DURING = new Date("2026-08-30T12:00:00+02:00");
-const AFTER = new Date("2026-09-07T00:00:00+02:00");
+const LAUNCH = new Date("2026-08-19T16:00:00+02:00");
+const DURING = new Date("2026-08-25T12:00:00+02:00");
+const AFTER = new Date("2026-09-03T00:00:00+02:00");
 
 describe("summer sale 2026-08b", () => {
   it("is 50% off annual while the window is open", () => {
@@ -18,21 +18,20 @@ describe("summer sale 2026-08b", () => {
     expect(promo?.scope).toEqual(["annual"]);
   });
 
-  it("stays dark until startsAt, so the code can ship before the sale", () => {
-    expect(getActivePromotion(BEFORE)).toBeNull();
+  it("is live immediately, with no scheduled start", () => {
+    expect(getActivePromotion(LAUNCH)).not.toBeNull();
+    expect(getActivePromotion(LAUNCH)?.startsAt).toBeUndefined();
   });
 
   it("self-terminates past endsAt", () => {
     expect(getActivePromotion(AFTER)).toBeNull();
   });
 
-  it("runs for the advertised 14 days", () => {
-    const promo = getActivePromotion(DURING);
-    const startsAt = new Date(promo?.startsAt ?? "").getTime();
-    const endsAt = new Date(promo?.endsAt ?? "").getTime();
+  it("runs for the advertised 14 days from launch", () => {
+    const endsAt = new Date(getActivePromotion(LAUNCH)?.endsAt ?? "").getTime();
     // The countdown floors to whole days, so this is the number its Days cell
-    // shows at launch — the "ends in 14 days" promise, pinned.
-    expect(Math.floor((endsAt - startsAt) / 86_400_000)).toBe(14);
+    // shows at launch — the "14 days" promise, pinned.
+    expect(Math.floor((endsAt - LAUNCH.getTime()) / 86_400_000)).toBe(14);
   });
 
   it("discounts annual but leaves monthly alone", () => {
@@ -43,8 +42,8 @@ describe("summer sale 2026-08b", () => {
     expect(getPurchaseValue("Plus", "monthly", promo)).toBe(10);
   });
 
-  it("charges full price before the sale opens", () => {
-    const promo = getActivePromotion(BEFORE);
+  it("charges full price once the sale is over", () => {
+    const promo = getActivePromotion(AFTER);
     expect(getPurchaseValue("Pro", "annual", promo)).toBe(180);
     expect(getPurchaseValue("Plus", "annual", promo)).toBe(90);
   });

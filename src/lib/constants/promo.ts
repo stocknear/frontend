@@ -32,10 +32,8 @@ const PROMOTIONS: Promotion[] = [
     id: "summer-sale-2026-08b",
     percentOff: 50,
     scope: ["annual"],
-    // Armed ahead of launch so the deploy and the Lemon Squeezy price change
-    // don't have to happen at midnight — every surface stays dark until then.
-    startsAt: "2026-08-23T00:00:00+02:00",
-    endsAt: "2026-09-06T23:59:59+02:00",
+    // No startsAt: live the moment this deploys. Ends midnight CEST 14 days on.
+    endsAt: "2026-09-02T23:59:59+02:00",
   },
 ];
 
