@@ -9,6 +9,7 @@ import {
   calendarDayDifference,
   compareFlowDte,
   isActiveFlowFilterValue,
+  isLiveFlowDate,
   isValidFlowNumericFilterValue,
   normalizeFlowRules,
   parseFlowNumber,
@@ -16,6 +17,7 @@ import {
   readStoredBoolean,
   writeStoredBoolean,
 } from "../../src/lib/flow-page-state";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 describe("flow page state", () => {
   it.each([0, "0", -1, [0, ""], ["", 5], ["Calls", "Puts"]])(
@@ -88,6 +90,35 @@ describe("flow page state", () => {
       { name: "cost_basis", condition: "between", value: [null, 5_000_000] },
       { name: "sentiment", value: ["Bullish"] },
     ]);
+  });
+
+  it("keeps real picks when a stale \"any\" sentinel rides along", () => {
+    expect(
+      normalizeFlowRules(
+        [
+          { name: "sentiment", value: ["any", "Bullish"] },
+          { name: "put_call", value: ["any", "Calls", "Puts"] },
+          { name: "moneyness", value: ["any"] },
+          { name: "execution_estimate", value: "any" },
+          { name: "underlying_type", value: ["Any"] },
+          { name: "flowType", value: [] },
+          { name: "option_activity_type", value: ["any", 5] },
+        ],
+        OPTIONS_FLOW_NUMERIC_RULES,
+        OPTIONS_FLOW_CATEGORICAL_RULES,
+      ),
+    ).toEqual([
+      { name: "sentiment", value: ["Bullish"] },
+      { name: "put_call", value: ["Calls", "Puts"] },
+    ]);
+  });
+
+  it("treats today and later as live, earlier dates as historical", () => {
+    const now = today(getLocalTimeZone());
+    expect(isLiveFlowDate(now)).toBe(true);
+    expect(isLiveFlowDate(now.add({ days: 1 }))).toBe(true);
+    expect(isLiveFlowDate(now.subtract({ days: 1 }))).toBe(false);
+    expect(isLiveFlowDate(now.subtract({ days: 365 }))).toBe(false);
   });
 
   it("parses only explicit stored booleans", () => {

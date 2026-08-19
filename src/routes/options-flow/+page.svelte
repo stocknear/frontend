@@ -11,6 +11,7 @@
     parseFlowNumber,
     readStoredBoolean,
     writeStoredBoolean,
+    isLiveFlowDate,
   } from "$lib/flow-page-state";
 
   import { onMount, onDestroy } from "svelte";
@@ -165,7 +166,7 @@
   function getFormattedSelectedDate(
     dateValue: DateValue | undefined = selectedDate,
   ) {
-    if (!dateValue) return null;
+    if (!dateValue || isLiveFlowDate(dateValue)) return null;
     // Use calendar value directly to avoid locale/timezone conversion drift.
     return dateValue.toString();
   }
@@ -797,7 +798,7 @@
   // Calendar date range: last 365 days only (historical data retention period)
   const todayDate = today(getLocalTimeZone());
   const calendarMinDate = todayDate.subtract({ days: 365 });
-  const calendarMaxDate = todayDate.subtract({ days: 1 }); // Exclude today (live data)
+  const calendarMaxDate = todayDate; // Today is selectable; it routes to the live feed.
 
   const allRules = {
     size: {
@@ -1885,6 +1886,15 @@
     return itemSet ? itemSet.has(item) : false;
   }
 
+  // Categorical values carry an "any" no-selection sentinel that must never
+  // render beside a real pick (it used to show as "any,Bullish").
+  function formatRuleValue(value) {
+    if (!Array.isArray(value)) return value;
+    return value
+      .filter((entry) => String(entry).trim().toLowerCase() !== "any")
+      .join(", ");
+  }
+
   function parseValue(val) {
     if (typeof val === "string") {
       // Handle percentage values
@@ -1939,10 +1949,13 @@
 
     // Specific rule handling for options-related rules
     if (categoricalRules?.includes(ruleName)) {
-      // Ensure valueMappings[ruleName] is initialized as an array
-      if (!Array.isArray(valueMappings[ruleName])) {
-        valueMappings[ruleName] = [];
-      }
+      // "any" is the no-selection sentinel; a restored strategy seeds it in as
+      // ["any"], and appending to it produced ["any", "Bullish"].
+      valueMappings[ruleName] = Array.isArray(valueMappings[ruleName])
+        ? valueMappings[ruleName].filter(
+            (entry) => String(entry).trim().toLowerCase() !== "any",
+          )
+        : [];
 
       // Similar logic to the original function for adding/removing values
       const index = valueMappings[ruleName].indexOf(value);
@@ -2453,30 +2466,33 @@
   }
 
   const getHistoricalFlow = async (nextDate?: DateValue) => {
-    if (data?.user?.tier === "Pro") {
-      const dateToLoad = nextDate ?? selectedDate;
-      if (!dateToLoad) return;
-      selectedDate = dateToLoad;
+    const dateToLoad = nextDate ?? selectedDate;
+    if (!dateToLoad) return;
 
-      // Guard against accidental no-date transitions.
-      modeStatus = false;
-      isLoaded = false;
-
-      // Disconnect WebSocket when viewing historical data
-      disconnectWebSocket();
-
-      displayRules = allRows?.filter((row) =>
-        ruleOfList.some((rule) => rule.name === row.rule),
-      );
-      displayedData = [];
-
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      // fetchTableData checks selectedDate and routes to historical endpoint
-      await fetchTableData({ page: 1, selectedDateOverride: dateToLoad });
-    } else {
+    // Today routes to the live feed, so only past dates are Pro-gated.
+    const isLive = isLiveFlowDate(dateToLoad);
+    if (!isLive && data?.user?.tier !== "Pro") {
       goto("/pricing");
+      return;
     }
+
+    selectedDate = dateToLoad;
+    modeStatus = isLive && data?.user?.tier === "Pro";
+    isLoaded = false;
+
+    // The $: WebSocket block reconnects when modeStatus flips and the market is
+    // open; only the historical direction needs an explicit teardown.
+    if (!isLive) disconnectWebSocket();
+
+    displayRules = allRows?.filter((row) =>
+      ruleOfList.some((rule) => rule.name === row.rule),
+    );
+    displayedData = [];
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    // fetchTableData checks selectedDate and routes to historical endpoint
+    await fetchTableData({ page: 1, selectedDateOverride: dateToLoad });
   };
 
   $: {
@@ -3531,7 +3547,7 @@
                                 class="h-[40px] border border-line bg-surface-page/60 text-fg flex flex-row justify-between items-center w-[150px] xs:w-[140px] sm:w-[150px] px-3 rounded-full truncate hover:text-accent transition"
                               >
                                 <span class="truncate ml-2 text-sm">
-                                  {#if valueMappings[row?.rule] === "any" || (Array.isArray(valueMappings[row?.rule]) && valueMappings[row?.rule].length === 1 && valueMappings[row?.rule][0] === "any")}
+                                  {#if valueMappings[row?.rule] === "any" || (Array.isArray(valueMappings[row?.rule]) && !formatRuleValue(valueMappings[row?.rule]))}
                                     Any
                                   {:else if ruleCondition[row?.rule] === "between"}
                                     {Array.isArray(valueMappings[row?.rule])
@@ -3542,7 +3558,7 @@
                                       ?.replace("under", "Under")
                                       ?.replace("over", "Over")
                                       ?.replace("exactly", "Exactly") ?? ""}
-                                    {valueMappings[row?.rule]}
+                                    {formatRuleValue(valueMappings[row?.rule])}
                                   {/if}
                                 </span>
                                 <svg

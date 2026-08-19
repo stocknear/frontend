@@ -1,4 +1,19 @@
+import {
+  getLocalTimeZone,
+  today,
+  type DateValue,
+} from "@internationalized/date";
+
 const MS_PER_DAY = 86_400_000;
+
+/**
+ * Today (and anything later) is served by the live feed, not the historical
+ * endpoint. Reads "today" fresh on every call so a tab left open past midnight
+ * stops treating yesterday as live.
+ */
+export function isLiveFlowDate(value: DateValue): boolean {
+  return value.compare(today(getLocalTimeZone())) >= 0;
+}
 
 export const OPTIONS_FLOW_LIVE_STORAGE_KEY = "options-flow-live-enabled";
 export const UNUSUAL_ORDER_FLOW_LIVE_STORAGE_KEY =
@@ -150,14 +165,18 @@ export function normalizeFlowRules(
     }
 
     if (categoricalRules.has(name) || Array.isArray(rule.value)) {
-      const values = Array.isArray(rule.value) ? rule.value : [rule.value];
+      const rawValues = Array.isArray(rule.value) ? rule.value : [rule.value];
+      // "any" is the UI's no-selection sentinel. Drop it per entry so a stale
+      // ["any", "Bullish"] still filters on Bullish; malformed entries still
+      // reject the whole rule.
+      const values = rawValues.filter(
+        (value) =>
+          typeof value !== "string" || value.trim().toLowerCase() !== "any",
+      );
       if (
         values.length === 0 ||
         !values.every(
-          (value) =>
-            typeof value === "string" &&
-            value.trim() !== "" &&
-            value.trim().toLowerCase() !== "any",
+          (value) => typeof value === "string" && value.trim() !== "",
         )
       ) {
         continue;

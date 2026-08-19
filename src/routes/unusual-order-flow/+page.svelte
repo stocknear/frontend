@@ -10,6 +10,7 @@
     parseFlowNumber,
     readStoredBoolean,
     writeStoredBoolean,
+    isLiveFlowDate,
   } from "$lib/flow-page-state";
   import { fetchInfoText } from "$lib/i18n/info-text";
 
@@ -322,12 +323,12 @@
   let selectedDate: DateValue | undefined = undefined;
   const todayDate = today(getLocalTimeZone());
   const calendarMinDate = todayDate.subtract({ days: 30 });
-  const calendarMaxDate = todayDate.subtract({ days: 1 }); // Exclude today (live data)
+  const calendarMaxDate = todayDate; // Today is selectable; it routes to the live feed.
 
   function getFormattedSelectedDate(
     dateValue: DateValue | undefined = selectedDate,
   ) {
-    if (!dateValue) return null;
+    if (!dateValue || isLiveFlowDate(dateValue)) return null;
     return dateValue.toString();
   }
 
@@ -1944,29 +1945,33 @@
   });
 
   const getHistoricalFlow = async (nextDate?: DateValue) => {
-    if (data?.user?.tier === "Pro") {
-      const dateToLoad = nextDate ?? selectedDate;
-      if (!dateToLoad) return;
-      selectedDate = dateToLoad;
+    const dateToLoad = nextDate ?? selectedDate;
+    if (!dateToLoad) return;
 
-      modeStatus = false;
-      isLoaded = false;
-
-      // Disconnect WebSocket when viewing historical data
-      disconnectWebSocket();
-
-      displayRules = allRows?.filter((row) =>
-        ruleOfList.some((rule) => rule.name === row.rule),
-      );
-      displayedData = [];
-
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      // fetchTableData checks selectedDate and routes to historical endpoint
-      await fetchTableData({ page: 1, selectedDateOverride: dateToLoad });
-    } else {
+    // Today routes to the live feed, so only past dates are Pro-gated.
+    const isLive = isLiveFlowDate(dateToLoad);
+    if (!isLive && data?.user?.tier !== "Pro") {
       goto("/pricing");
+      return;
     }
+
+    selectedDate = dateToLoad;
+    modeStatus = isLive && data?.user?.tier === "Pro";
+    isLoaded = false;
+
+    // The $: WebSocket block reconnects when modeStatus flips and the market is
+    // open; only the historical direction needs an explicit teardown.
+    if (!isLive) disconnectWebSocket();
+
+    displayRules = allRows?.filter((row) =>
+      ruleOfList.some((rule) => rule.name === row.rule),
+    );
+    displayedData = [];
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    // fetchTableData checks selectedDate and routes to historical endpoint
+    await fetchTableData({ page: 1, selectedDateOverride: dateToLoad });
   };
 
   $: {
