@@ -6,7 +6,10 @@ const buttonVariants = tv({
   base: " cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded text-sm  ring-offset-background  focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   variants: {
     variant: {
-      default: " bg-white dark:bg-default text-fg ",
+      // One theme-aware token, never a theme-prefixed background: twMerge keeps a
+      // prefixed background against a caller's plain `bg-*`, so the variant used to
+      // win in dark mode no matter what the call site authored.
+      default: "bg-surface-card text-fg",
       destructive: "bg-destructive text-destructive-foreground",
       outline:
         "border border-input bg-background hover:bg-surface-raised hover:text-fg",

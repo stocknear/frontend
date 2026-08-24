@@ -5,6 +5,9 @@
     UNUSUAL_ORDER_FLOW_LIVE_STORAGE_KEY,
     UNUSUAL_FLOW_CATEGORICAL_RULES,
     UNUSUAL_FLOW_NUMERIC_RULES,
+    accumulateUnusualStats,
+    createUnusualStatTotals,
+    deriveUnusualStatDisplays,
     isValidFlowNumericFilterValue,
     normalizeFlowRules,
     parseFlowNumber,
@@ -115,6 +118,7 @@
   // WebSocket variables
   let socket: WebSocket | null = null;
   let reconnectAttempts = 0;
+  let hasConnectedOnce = false;
   let reconnectInterval: ReturnType<typeof setTimeout> | null = null;
   let muted = false;
   let audio: HTMLAudioElement | null = null;
@@ -1301,31 +1305,43 @@
     sendFiltersToWebSocket();
   }
 
-  // Stats variables - populated from server-side stats
-  let totalVolume = ssrFlowData?.stats?.totalVolume ?? 0;
-  let totalValue = ssrFlowData?.stats?.totalValue ?? 0;
-  let darkPoolCount = ssrFlowData?.stats?.darkPoolCount ?? 0;
-  let blockOrderCount = ssrFlowData?.stats?.blockOrderCount ?? 0;
-  let darkPoolPercentage = ssrFlowData?.stats?.darkPoolPercentage ?? 0;
-  let blockOrderPercentage = ssrFlowData?.stats?.blockOrderPercentage ?? 0;
-  let stockCount = ssrFlowData?.stats?.stockCount ?? 0;
-  let etfCount = ssrFlowData?.stats?.etfCount ?? 0;
-  let stockPercentage = ssrFlowData?.stats?.stockPercentage ?? 0;
-  let etfPercentage = ssrFlowData?.stats?.etfPercentage ?? 0;
+  // Dataset-wide totals behind the summary cards: seeded from the server on every
+  // fetch, then folded forward as live trades arrive so the cards keep ticking
+  // without a refetch. Every rule this page offers is a per-row predicate the live
+  // socket mirrors, so the filtered set only ever grows and the totals stay exact.
+  const statTotals = createUnusualStatTotals();
+
+  let totalVolume = 0;
+  let totalValue = 0;
+  let darkPoolPercentage = 0;
+  let blockOrderPercentage = 0;
+  let stockPercentage = 0;
+  let etfPercentage = 0;
 
   function updateStatsFromResponse(stats: any) {
     if (!stats) return;
-    totalVolume = stats.totalVolume ?? 0;
-    totalValue = stats.totalValue ?? 0;
-    darkPoolCount = stats.darkPoolCount ?? 0;
-    blockOrderCount = stats.blockOrderCount ?? 0;
-    darkPoolPercentage = stats.darkPoolPercentage ?? 0;
-    blockOrderPercentage = stats.blockOrderPercentage ?? 0;
-    stockCount = stats.stockCount ?? 0;
-    etfCount = stats.etfCount ?? 0;
-    stockPercentage = stats.stockPercentage ?? 0;
-    etfPercentage = stats.etfPercentage ?? 0;
+    for (const key in statTotals) statTotals[key] = stats[key] ?? 0;
+    renderStats();
   }
+
+  // Fold a live WebSocket batch into the totals — O(batch), no refetch.
+  function accumulateStats(rows: any[]) {
+    accumulateUnusualStats(statTotals, rows);
+    renderStats();
+  }
+
+  function renderStats() {
+    totalVolume = statTotals.totalVolume;
+    totalValue = statTotals.totalValue;
+
+    const derived = deriveUnusualStatDisplays(statTotals);
+    darkPoolPercentage = derived.darkPoolPercentage;
+    blockOrderPercentage = derived.blockOrderPercentage;
+    stockPercentage = derived.stockPercentage;
+    etfPercentage = derived.etfPercentage;
+  }
+
+  updateStatsFromResponse(ssrFlowData?.stats);
 
   // Map display transaction type values to data values for WS filters
   const TRANSACTION_TYPE_MAP: Record<string, string> = {
@@ -1746,10 +1762,20 @@
           filters: buildWsFilters(),
         };
         socket.send(JSON.stringify(message));
+
+        // The server marks its whole cache as sent on "init", so trades that landed
+        // while we were disconnected are never pushed. Every open past the first
+        // pulls the gap — and fresh stats — from the API.
+        if (hasConnectedOnce) fetchTableData();
+        hasConnectedOnce = true;
       });
 
       socket.addEventListener("message", async (event) => {
         try {
+          // close() is async, so frames can still land after the user switched to
+          // a historical date or turned live off. Those must not touch live state.
+          if (!modeStatus || selectedDate) return;
+
           const message = JSON.parse(event.data);
 
           const newData = Array.isArray(message) ? message : null;
@@ -1783,6 +1809,9 @@
 
             if (trulyNew.length === 0) return;
 
+            // Stats are dataset-wide, so they update on every page and sort order —
+            // not just where rows get prepended below.
+            accumulateStats(trulyNew);
             totalItems = (totalItems || 0) + trulyNew.length;
             totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
 
@@ -1844,6 +1873,7 @@
   }
 
   function disconnectWebSocket() {
+    reconnectAttempts = 0;
     if (reconnectInterval) {
       clearTimeout(reconnectInterval);
       reconnectInterval = null;

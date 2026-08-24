@@ -355,3 +355,65 @@ export function deriveFlowStatDisplays(totals: FlowStatTotals) {
     bearishPercentage: directionalPremium !== 0 ? 100 - bullishPercentage : 0,
   };
 }
+
+export type UnusualStatTotals = {
+  totalVolume: number;
+  totalValue: number;
+  darkPoolCount: number;
+  blockOrderCount: number;
+  stockCount: number;
+  etfCount: number;
+};
+
+export function createUnusualStatTotals(): UnusualStatTotals {
+  return {
+    totalVolume: 0,
+    totalValue: 0,
+    darkPoolCount: 0,
+    blockOrderCount: 0,
+    stockCount: 0,
+    etfCount: 0,
+  };
+}
+
+/**
+ * Folds unusual orders into `totals` in place. Mirrors `compute_stats()` in
+ * backend/app/utils/unusual_order_filter.py, including its exact-case comparisons
+ * against the stored `DP` / `B` and `Stock` / `ETF` values.
+ */
+export function accumulateUnusualStats(
+  totals: UnusualStatTotals,
+  rows: any[] = [],
+): UnusualStatTotals {
+  for (const item of rows) {
+    totals.totalVolume += Number(item?.size) || 0;
+    totals.totalValue += Number(item?.premium) || 0;
+
+    if (item?.transactionType === "DP") totals.darkPoolCount += 1;
+    else if (item?.transactionType === "B") totals.blockOrderCount += 1;
+
+    if (item?.assetType === "Stock") totals.stockCount += 1;
+    else if (item?.assetType === "ETF") totals.etfCount += 1;
+  }
+  return totals;
+}
+
+/** Percentages the unusual-order-flow split bars render. */
+export function deriveUnusualStatDisplays(totals: UnusualStatTotals) {
+  const transactions = totals.darkPoolCount + totals.blockOrderCount;
+  const darkPoolPercentage =
+    transactions !== 0
+      ? Math.floor((totals.darkPoolCount / transactions) * 100)
+      : 0;
+
+  const assets = totals.stockCount + totals.etfCount;
+  const stockPercentage =
+    assets !== 0 ? Math.floor((totals.stockCount / assets) * 100) : 0;
+
+  return {
+    darkPoolPercentage,
+    blockOrderPercentage: transactions !== 0 ? 100 - darkPoolPercentage : 0,
+    stockPercentage,
+    etfPercentage: assets !== 0 ? 100 - stockPercentage : 0,
+  };
+}
