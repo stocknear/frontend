@@ -278,3 +278,80 @@ export function calendarDayDifference(
   if (later == null || earlier == null) return null;
   return (later - earlier) / MS_PER_DAY;
 }
+
+export type FlowStatTotals = {
+  callVolumeSum: number;
+  putVolumeSum: number;
+  callPremiumSum: number;
+  putPremiumSum: number;
+  bullishPremiumSum: number;
+  bearishPremiumSum: number;
+};
+
+export function createFlowStatTotals(): FlowStatTotals {
+  return {
+    callVolumeSum: 0,
+    putVolumeSum: 0,
+    callPremiumSum: 0,
+    putPremiumSum: 0,
+    bullishPremiumSum: 0,
+    bearishPremiumSum: 0,
+  };
+}
+
+/**
+ * Folds trades into `totals` in place. Mirrors `compute_stats()` in
+ * backend/app/utils/options_flow_filter.py field for field, so totals seeded from a
+ * server payload and advanced with live trades stay equal to a full server recompute.
+ */
+export function accumulateFlowStats(
+  totals: FlowStatTotals,
+  rows: any[] = [],
+): FlowStatTotals {
+  for (const item of rows) {
+    const volume = Number(item?.size) || 0;
+    const premium = Number(item?.cost_basis) || 0;
+
+    if (item?.put_call === "Calls") {
+      totals.callVolumeSum += volume;
+      totals.callPremiumSum += premium;
+    } else if (item?.put_call === "Puts") {
+      totals.putVolumeSum += volume;
+      totals.putPremiumSum += premium;
+    }
+
+    if (item?.sentiment === "Bullish") {
+      totals.bullishPremiumSum += premium;
+    } else if (item?.sentiment === "Bearish") {
+      totals.bearishPremiumSum += premium;
+    }
+  }
+  return totals;
+}
+
+/** Ratios and percentages the options-flow summary cards render. */
+export function deriveFlowStatDisplays(totals: FlowStatTotals) {
+  const totalVolume = totals.callVolumeSum + totals.putVolumeSum;
+  const callPercentage =
+    totalVolume !== 0
+      ? Math.floor((totals.callVolumeSum / totalVolume) * 100)
+      : 0;
+
+  const directionalPremium =
+    totals.bullishPremiumSum + totals.bearishPremiumSum;
+  const bullishPercentage =
+    directionalPremium !== 0
+      ? Math.round((totals.bullishPremiumSum / directionalPremium) * 100)
+      : 0;
+
+  return {
+    putCallRatio:
+      totals.callVolumeSum !== 0
+        ? totals.putVolumeSum / totals.callVolumeSum
+        : 0,
+    callPercentage,
+    putPercentage: totalVolume !== 0 ? 100 - callPercentage : 0,
+    bullishPercentage,
+    bearishPercentage: directionalPremium !== 0 ? 100 - bullishPercentage : 0,
+  };
+}

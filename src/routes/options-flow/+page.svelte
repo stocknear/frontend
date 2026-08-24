@@ -5,7 +5,10 @@
     OPTIONS_FLOW_LIVE_STORAGE_KEY,
     OPTIONS_FLOW_CATEGORICAL_RULES,
     OPTIONS_FLOW_NUMERIC_RULES,
+    accumulateFlowStats,
     calendarDayDifference,
+    createFlowStatTotals,
+    deriveFlowStatDisplays,
     isValidFlowNumericFilterValue,
     normalizeFlowRules,
     parseFlowNumber,
@@ -111,42 +114,49 @@
   let requestId = 0;
   let isFetchingPage = false;
 
+  // Dataset-wide totals behind the summary cards: seeded from the server on every
+  // fetch, then folded forward as live trades arrive so the cards keep ticking
+  // without a refetch. Mutated in place — the template reads the derived vars, not
+  // this object.
+  const statTotals = createFlowStatTotals();
+
+  // Rules the running totals cannot track: "Repeated Flow" is a whole-dataset
+  // grouping the live socket does not mirror at all, and the premium-% rules rank
+  // tickers on aggregates the server rebuilds every poll, so rows enter and leave
+  // the filtered set retroactively. Under those, leave the cards on the last
+  // server payload rather than drifting.
+  const NON_INCREMENTAL_RULES = new Set([
+    "flowType",
+    "bullish_premium_pct",
+    "bearish_premium_pct",
+  ]);
+
   function applyServerStats(stats) {
     if (!stats) return;
-    displayCallVolume = stats.callVolumeSum || 0;
-    displayPutVolume = stats.putVolumeSum || 0;
-    displayCallPremium = stats.callPremiumSum || 0;
-    displayPutPremium = stats.putPremiumSum || 0;
-    displayBullishPremium = stats.bullishPremiumSum || 0;
-    displayBearishPremium = stats.bearishPremiumSum || 0;
+    for (const key in statTotals) statTotals[key] = stats[key] || 0;
+    renderStats();
+  }
 
-    const bCount = stats.bullishCount || 0;
-    const beCount = stats.bearishCount || 0;
-    const nCount = stats.neutralCount || 0;
+  // Fold a live WebSocket batch into the totals — O(batch), no refetch.
+  function accumulateStats(rows) {
+    accumulateFlowStats(statTotals, rows);
+    renderStats();
+  }
 
-    if (bCount > beCount) flowSentiment = "Bullish";
-    else if (bCount < beCount) flowSentiment = "Bearish";
-    else if (nCount > beCount && nCount > bCount) flowSentiment = "Neutral";
-    else flowSentiment = "-";
+  function renderStats() {
+    displayCallVolume = statTotals.callVolumeSum;
+    displayPutVolume = statTotals.putVolumeSum;
+    displayCallPremium = statTotals.callPremiumSum;
+    displayPutPremium = statTotals.putPremiumSum;
+    displayBullishPremium = statTotals.bullishPremiumSum;
+    displayBearishPremium = statTotals.bearishPremiumSum;
 
-    putCallRatio =
-      displayCallVolume !== 0 ? displayPutVolume / displayCallVolume : 0;
-    callPercentage =
-      displayCallVolume + displayPutVolume !== 0
-        ? Math.floor(
-            (displayCallVolume / (displayCallVolume + displayPutVolume)) * 100,
-          )
-        : 0;
-    putPercentage =
-      displayCallVolume + displayPutVolume !== 0 ? 100 - callPercentage : 0;
-
-    const totalSentimentPremium = displayBullishPremium + displayBearishPremium;
-    bullishPercentage =
-      totalSentimentPremium !== 0
-        ? Math.round((displayBullishPremium / totalSentimentPremium) * 100)
-        : 0;
-    bearishPercentage =
-      totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
+    const derived = deriveFlowStatDisplays(statTotals);
+    putCallRatio = derived.putCallRatio;
+    callPercentage = derived.callPercentage;
+    putPercentage = derived.putPercentage;
+    bullishPercentage = derived.bullishPercentage;
+    bearishPercentage = derived.bearishPercentage;
   }
 
   function buildActiveRules() {
@@ -160,6 +170,12 @@
         !(trackingPaused && rule.name === "trackContract"),
     );
   }
+
+  $: canAccumulateStats = !normalizeFlowRules(
+    ruleOfList,
+    OPTIONS_FLOW_NUMERIC_RULES,
+    OPTIONS_FLOW_CATEGORICAL_RULES,
+  ).some((rule) => NON_INCREMENTAL_RULES.has(rule.name));
 
   let currentAbortController: AbortController | null = null;
 
@@ -788,6 +804,7 @@
   let socket = null;
   let reconnectInterval = null;
   let reconnectAttempts = 0;
+  let hasConnectedOnce = false;
   const df = new DateFormatter("en-US", {
     day: "2-digit",
     month: "short",
@@ -2035,7 +2052,6 @@
 
   let displayedData = [...rawData];
 
-  let flowSentiment;
   let putCallRatio;
   let displayCallVolume;
   let displayPutVolume;
@@ -2171,10 +2187,20 @@
           filters: buildWsFilters(),
         };
         socket.send(JSON.stringify(message));
+
+        // The server marks its whole cache as sent on "init", so trades that landed
+        // while we were disconnected are never pushed. Every open past the first
+        // pulls the gap — and fresh stats — from the API.
+        if (hasConnectedOnce) fetchTableData();
+        hasConnectedOnce = true;
       });
 
       socket.addEventListener("message", async (event) => {
         try {
+          // close() is async, so frames can still land after the user switched to
+          // a historical date or turned live off. Those must not touch live state.
+          if (!modeStatus || selectedDate) return;
+
           const message = JSON.parse(event.data);
 
           const newData = Array.isArray(message) ? message : null;
@@ -2209,6 +2235,9 @@
 
             if (trulyNew.length === 0) return;
 
+            // Stats are dataset-wide, so they update on every page and sort order —
+            // not just where rows get prepended below.
+            if (canAccumulateStats) accumulateStats(trulyNew);
             totalItems = (totalItems || 0) + trulyNew.length;
             totalPages = Math.max(1, Math.ceil(totalItems / rowsPerPage));
 
@@ -2266,6 +2295,7 @@
   }
 
   function disconnectWebSocket() {
+    reconnectAttempts = 0;
     if (reconnectInterval) {
       clearTimeout(reconnectInterval);
       reconnectInterval = null;
@@ -2380,90 +2410,6 @@
       audio = null;
     }
   });
-
-  function calculateStats(data) {
-    const {
-      callVolumeSum,
-      putVolumeSum,
-      callPremiumSum,
-      putPremiumSum,
-      bullishCount,
-      bearishCount,
-      neutralCount,
-      bullishPremiumSum,
-      bearishPremiumSum,
-    } = data?.reduce(
-      (acc, item) => {
-        const volume = parseInt(item?.size) || 0;
-        const premium = parseFloat(item?.cost_basis) || 0;
-
-        if (item?.put_call === "Calls") {
-          acc.callVolumeSum += volume;
-          acc.callPremiumSum += premium;
-        } else if (item?.put_call === "Puts") {
-          acc.putVolumeSum += volume;
-          acc.putPremiumSum += premium;
-        }
-
-        if (item?.sentiment === "Bullish") {
-          acc.bullishCount += 1;
-          acc.bullishPremiumSum += premium;
-        } else if (item?.sentiment === "Bearish") {
-          acc.bearishCount += 1;
-          acc.bearishPremiumSum += premium;
-        } else if (item?.sentiment === "Neutral") {
-          acc.neutralCount += 1;
-        }
-
-        return acc;
-      },
-      {
-        callVolumeSum: 0,
-        putVolumeSum: 0,
-        callPremiumSum: 0,
-        putPremiumSum: 0,
-        bullishCount: 0,
-        bearishCount: 0,
-        neutralCount: 0,
-        bullishPremiumSum: 0,
-        bearishPremiumSum: 0,
-      },
-    );
-
-    if (bullishCount > bearishCount) {
-      flowSentiment = "Bullish";
-    } else if (bullishCount < bearishCount) {
-      flowSentiment = "Bearish";
-    } else if (neutralCount > bearishCount && neutralCount > bullishCount) {
-      flowSentiment = "Neutral";
-    } else {
-      flowSentiment = "-";
-    }
-
-    putCallRatio = callVolumeSum !== 0 ? putVolumeSum / callVolumeSum : 0;
-
-    callPercentage =
-      callVolumeSum + putVolumeSum !== 0
-        ? Math.floor((callVolumeSum / (callVolumeSum + putVolumeSum)) * 100)
-        : 0;
-    putPercentage =
-      callVolumeSum + putVolumeSum !== 0 ? 100 - callPercentage : 0;
-
-    displayCallVolume = callVolumeSum;
-    displayPutVolume = putVolumeSum;
-    displayCallPremium = callPremiumSum;
-    displayPutPremium = putPremiumSum;
-    displayBullishPremium = bullishPremiumSum;
-    displayBearishPremium = bearishPremiumSum;
-
-    const totalSentimentPremium = bullishPremiumSum + bearishPremiumSum;
-    bullishPercentage =
-      totalSentimentPremium !== 0
-        ? Math.round((bullishPremiumSum / totalSentimentPremium) * 100)
-        : 0;
-    bearishPercentage =
-      totalSentimentPremium !== 0 ? 100 - bullishPercentage : 0;
-  }
 
   const getHistoricalFlow = async (nextDate?: DateValue) => {
     const dateToLoad = nextDate ?? selectedDate;
