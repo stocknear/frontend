@@ -114,15 +114,16 @@
             </thead>
             <tbody>
               {#each panel.rows as item (item?.symbol)}
-                <!-- The whole row is the target; previously only the 4-character
-                     symbol was clickable, so ~90% of the row was dead. -->
-                <tr
-                  class="group relative cursor-pointer transition-colors hover:bg-surface-raised"
-                >
+                <!-- Link stays on the symbol. A stretched link cannot anchor to a
+                     <tr>: position:relative on an internal table element is undefined
+                     in CSS 2.1 and WebKit ignores it, so every row's inset-0 overlay
+                     escaped to daisyUI's position:relative on .table, covered the whole
+                     table, and the bottom row swallowed every tap on iOS. -->
+                <tr class="group transition-colors hover:bg-surface-raised">
                   <td class="type-data-em px-4 py-2.5 text-left">
                     <a
                       href={`/stocks/${item?.symbol}`}
-                      class="text-fg after:absolute after:inset-0 after:content-[''] group-hover:text-accent group-hover:underline group-hover:underline-offset-2"
+                      class="text-fg group-hover:text-accent group-hover:underline group-hover:underline-offset-2"
                       >{item?.symbol}</a
                     >
                   </td>
