@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { applyOrder } from "$lib/reorder";
 import { serialize } from "object-to-formdata";
 
 // Type for the new watchlist ticker format
@@ -105,7 +106,7 @@ export const POST = (async ({ request, locals }) => {
   }
 
   const watchListId = data?.watchListId;
-  const mode = data?.mode; // 'add', 'delete', 'note', or undefined (legacy toggle)
+  const mode = data?.mode; // 'add', 'delete', 'note', 'reorder', or undefined (legacy toggle)
   let output;
 
   // Security: Validate watchListId format
@@ -174,6 +175,30 @@ export const POST = (async ({ request, locals }) => {
           { status: 404 }
         );
       }
+    } else if (mode === "reorder") {
+      // tickerInput is the desired symbol order. Re-map against the stored rows
+      // rather than accepting objects: the client only holds light tickers, so a
+      // sent array would carry no `note` and sanitizeNote(undefined) would wipe
+      // every note in the list.
+      const tickerInput = data?.ticker;
+      if (
+        !Array.isArray(tickerInput) ||
+        tickerInput.length > currentTickers.length ||
+        !tickerInput?.every((sym) => isValidSymbol(sym)) ||
+        new Set(tickerInput).size !== tickerInput.length
+      ) {
+        return new Response(JSON.stringify({ error: "Invalid ticker data" }), {
+          status: 400,
+        });
+      }
+
+      output = await pb.collection("watchlist").update(watchListId, {
+        ticker: applyOrder(
+          currentTickers,
+          tickerInput as string[],
+          (item) => item.symbol,
+        ),
+      });
     } else if (mode === "delete") {
       // Delete mode: tickerInput is the new array (already filtered)
       const tickerInput = data?.ticker || [];
@@ -321,6 +346,11 @@ export const POST = (async ({ request, locals }) => {
       }
     }
   } catch (e) {
+    // Only the legacy add/toggle call may fall back to creating a watchlist. For
+    // an explicit mode a transient failure must surface, not silently mint a
+    // second list whose rows have lost every note and addedPrice.
+    if (mode) throw e;
+
     // If the watchlist doesn't exist, create a new one
     const tickerInput = data?.ticker;
     const addedPrice = data?.price ?? null;

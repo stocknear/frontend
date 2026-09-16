@@ -26,6 +26,10 @@
   import Input from "$lib/components/Input.svelte";
   import SEO from "$lib/components/SEO.svelte";
   import {
+    SAVED_FILTER_COOKIE,
+    rememberSavedFilter,
+  } from "$lib/saved-filter";
+  import {
     common_tab_general,
     common_tab_performance,
     common_tab_financials,
@@ -120,8 +124,12 @@
   $: testList = [];
 
   let strategyList = data?.getAllStrategies;
-  let selectedStrategy = strategyList?.at(0)?.id ?? "";
-  let ruleOfList = strategyList?.at(0)?.rules ?? [];
+  let selectedStrategy = data?.activeStrategyId ?? "";
+  let ruleOfList =
+    strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+  // Covers every assignment to selectedStrategy: switch, create and delete.
+  $: rememberSavedFilter(SAVED_FILTER_COOKIE.stocksScreener, selectedStrategy);
   let groupedRules = {};
   $: displayRules =
     allRows?.filter((row) =>

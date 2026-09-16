@@ -1,13 +1,14 @@
 import { error } from "@sveltejs/kit";
 import { postAPI } from "$lib/server/api";
 import type { PageServerLoad } from "./$types";
+import { SAVED_FILTER_COOKIE, activeSavedFilter } from "$lib/saved-filter";
 
 // Ticker validation: allows ^SPX, AAPL, BRK.A, BTC-USD formats
 const TICKER_REGEX = /^[\^]?[A-Z0-9][A-Z0-9.\-]{0,19}$/;
 const isValidTicker = (ticker: unknown): ticker is string =>
   typeof ticker === "string" && ticker.length >= 1 && ticker.length <= 20 && TICKER_REGEX.test(ticker.toUpperCase());
 
-export const load: PageServerLoad = async ({ locals, params }) => {
+export const load: PageServerLoad = async ({ locals, params, cookies }) => {
   const { wsURL, user, pb } = locals;
 
   // Validate ticker format
@@ -48,6 +49,12 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     }
   };
 
+  const strategyList = await getAllStrategies();
+  const activeStrategy = activeSavedFilter(
+    strategyList,
+    cookies.get(SAVED_FILTER_COOKIE.chart),
+  );
+
   return {
     ticker,
     historical,
@@ -56,7 +63,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
     companyName: getStockDeck?.companyName ?? "",
     assetType,
     wsURL,
-    getAllStrategies: await getAllStrategies(),
+    getAllStrategies: strategyList,
+    activeStrategyId: activeStrategy?.id ?? "",
     isSubscribed,
   };
 };

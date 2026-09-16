@@ -1,3 +1,4 @@
+import { applyOrder } from "$lib/reorder";
 import type { RequestHandler } from "./$types";
 import { serialize } from "object-to-formdata";
 import { checkRateLimit, RATE_LIMITS } from "$lib/server/rateLimit";
@@ -128,6 +129,43 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       );
     } catch (e) {
       return new Response(JSON.stringify({ error: "Failed to delete items" }), { status: 500 });
+    }
+  }
+
+  // ─── MODE: "reorder" ─── Rearrange rows without touching their contents ───
+  if (mode === "reorder") {
+    const itemIds: string[] = body?.itemIds;
+    const watchlistId = body?.id;
+
+    if (!Array.isArray(itemIds) || !watchlistId) {
+      return new Response(JSON.stringify({ error: "Invalid reorder request" }), { status: 400 });
+    }
+
+    try {
+      const watchList = await pb.collection("optionsWatchlist").getOne(watchlistId);
+      if (watchList.user !== user.id) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+      }
+
+      const currentData = parseDataArray(watchList.data);
+      if (itemIds.length > currentData.length || new Set(itemIds).size !== itemIds.length) {
+        return new Response(JSON.stringify({ error: "Invalid reorder request" }), { status: 400 });
+      }
+
+      // Only ids cross the wire. The stored rows keep their note and addedDate,
+      // neither of which the client ever holds.
+      const output = await pb.collection("optionsWatchlist").update(watchlistId, {
+        data: applyOrder(currentData, itemIds, (item: any) => item?.id),
+      });
+
+      return new Response(
+        JSON.stringify({
+          watchlistId: output?.id,
+          data: stripNotes(parseDataArray(output?.data)),
+        }),
+      );
+    } catch (e) {
+      return new Response(JSON.stringify({ error: "Failed to reorder items" }), { status: 500 });
     }
   }
 

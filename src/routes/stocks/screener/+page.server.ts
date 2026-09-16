@@ -1,7 +1,8 @@
 import { getAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
+import { SAVED_FILTER_COOKIE, activeSavedFilter } from "$lib/saved-filter";
 
-export const load = async ({ locals }) => {
+export const load = async ({ locals, cookies }) => {
   const { user, pb } = locals;
 
   const getAllStrategies = async () => {
@@ -24,7 +25,10 @@ export const load = async ({ locals }) => {
   };
 
   const strategyList = await getAllStrategies();
-  const strategy = strategyList?.at(0);
+  const strategy = activeSavedFilter(
+    strategyList,
+    cookies.get(SAVED_FILTER_COOKIE.stocksScreener),
+  );
   const subscriber = 'Pro' // load all data
 
   // Build active rules from saved strategy (skip "any" / null / undefined values)
@@ -50,6 +54,7 @@ export const load = async ({ locals }) => {
   return {
     getScreenerFeed: await getAPI(locals, `/stock-screener-feed?${params}`),
     getAllStrategies: strategyList,
+    activeStrategyId: strategy?.id ?? "",
   };
 };
 

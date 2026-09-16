@@ -70,6 +70,7 @@
   import { Combobox } from "bits-ui";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import Table from "$lib/components/Table/Table.svelte";
+  import { applyOrder, saveOrder } from "$lib/reorder";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
 
@@ -649,6 +650,24 @@
   }
 
   let isAddingTicker = false;
+
+  async function handleRowReorder(order: string[]) {
+    // The table already shows the new order; mirror it locally so a later
+    // tableKey bump remounts from the same order, and keep the old list to
+    // restore if the write fails.
+    const previous = watchList;
+    watchList = applyOrder(watchList, order, (item) => item?.symbol);
+
+    try {
+      await saveOrder("watchlist", displayWatchList?.id, order);
+    } catch {
+      watchList = previous;
+      tableKey++;
+      toast.error(watchlist_toast_error_generic(), {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
+  }
 
   async function handleAddTicker(event, ticker) {
     // Prevent multiple simultaneous calls
@@ -1335,6 +1354,7 @@
                 includePrePostData={true}
                 onNoteClick={handleNoteClick}
                 onNoteHover={handleNoteHover}
+                onRowReorder={handleRowReorder}
               />
 
               <div

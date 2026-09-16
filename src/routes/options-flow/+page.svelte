@@ -16,6 +16,10 @@
     writeStoredBoolean,
     isLiveFlowDate,
   } from "$lib/flow-page-state";
+  import {
+    SAVED_FILTER_COOKIE,
+    rememberSavedFilter,
+  } from "$lib/saved-filter";
 
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";
@@ -599,9 +603,13 @@
 
   let optionsWatchlist = data?.getOptionsWatchlist;
   let strategyList = data?.getAllStrategies || [];
-  let selectedStrategy = strategyList?.at(0)?.id ?? "";
+  let selectedStrategy = data?.activeStrategyId ?? "";
 
-  let ruleOfList = strategyList?.at(0)?.rules ?? [];
+  let ruleOfList =
+    strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+  // Covers every assignment to selectedStrategy: switch, create and delete.
+  $: rememberSavedFilter(SAVED_FILTER_COOKIE.optionsFlow, selectedStrategy);
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
     { key: "bullishSweeps", label: options_flow_strategy_bullish_sweeps() },

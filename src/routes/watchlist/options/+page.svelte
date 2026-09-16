@@ -20,6 +20,9 @@
   import DownloadData from "$lib/components/DownloadData.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
   import Pagination from "$lib/components/Table/Pagination.svelte";
+  import GripVertical from "lucide-svelte/icons/grip-vertical";
+  import { createRowDrag } from "$lib/actions/rowDrag";
+  import { moveByKey, saveOrder } from "$lib/reorder";
   import * as DropdownMenu from "$lib/components/shadcn/dropdown-menu/index.js";
   import { Button } from "$lib/components/shadcn/button/index.js";
 
@@ -540,6 +543,39 @@
       return dir === "asc" ? va - vb : vb - va;
     });
   })();
+
+  // ── Row reorder ──
+  // A manual order only means anything in the natural, unfiltered view, and
+  // dragging would fight the bulk-delete checkboxes in edit mode.
+  $: rowDragEnabled =
+    !editMode &&
+    debouncedSearchQuery.length === 0 &&
+    !Object.keys(sortOrders)?.some((key) => sortOrders[key] !== "none");
+
+  const rowDrag = createRowDrag(async (fromKey, toKey) => {
+    const previous = watchList;
+    const next = moveByKey(watchList, fromKey, toKey, (item) => item?.id);
+    if (next === previous) return;
+
+    watchList = next;
+    // loadWatchlistData() re-reads this, so it has to move too.
+    if (optionsWatchlist) optionsWatchlist.data = next;
+
+    try {
+      await saveOrder(
+        "optionsWatchlist",
+        optionsWatchlist?.id,
+        next?.map((item) => item?.id),
+      );
+    } catch {
+      watchList = previous;
+      if (optionsWatchlist) optionsWatchlist.data = previous;
+      toast.error("Could not save the new order. Please try again.", {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
+  });
+  const dragState = rowDrag.state;
 
   // ── Pagination ──
   let currentPage = 1;
@@ -1630,10 +1666,18 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200/70 dark:divide-zinc-800/80">
-              {#each paginatedList as item}
+              {#each paginatedList as item (item.id)}
                 {@const enriched = enrichmentMap.get(item.id)}
                 <tr
-                  class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50"
+                  use:rowDrag.row={{ key: item.id, enabled: rowDragEnabled }}
+                  class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {$dragState.dragging ===
+                  item.id
+                    ? 'opacity-50'
+                    : ''} {$dragState.overKey === item.id
+                    ? $dragState.overBelow
+                      ? 'border-b-2 border-b-accent'
+                      : 'border-t-2 border-t-accent'
+                    : ''}"
                 >
                   {#if editMode}
                     <td class="text-center">
@@ -1655,6 +1699,19 @@
                     class="text-start text-sm whitespace-nowrap"
                   >
                     <div class="flex items-center">
+                      <span
+                        use:rowDrag.handle={{
+                          key: item.id,
+                          enabled: rowDragEnabled,
+                        }}
+                        aria-hidden="true"
+                        title="Drag to reorder"
+                        class="shrink-0 mr-1.5 text-fg-muted/50 transition-colors {rowDragEnabled
+                          ? 'cursor-move hover:text-fg-muted'
+                          : 'invisible'}"
+                      >
+                        <GripVertical class="h-4 w-4" />
+                      </span>
                       <HoverStockChart
                         symbol={item?.ticker}
                         assetType={item?.underlying_type}

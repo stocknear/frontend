@@ -284,6 +284,10 @@
   import SEO from "$lib/components/SEO.svelte";
   import ChartRightSidebar from "$lib/components/Chart/RightSidebar.svelte";
   import {
+    SAVED_FILTER_COOKIE,
+    rememberSavedFilter,
+  } from "$lib/saved-filter";
+  import {
     ChartMobileNav,
     ChartToolbar,
     toolIcons as sharedToolIcons,
@@ -1829,8 +1833,13 @@
   const getStrategyRules = (strategy): ChartRule[] =>
     Array.isArray(strategy?.rules) ? strategy.rules : [];
   let strategyList = data?.getAllStrategies ?? [];
-  let selectedStrategy = strategyList?.at(0)?.id ?? "";
-  let ruleOfList: ChartRule[] = getStrategyRules(strategyList?.at(0));
+  let selectedStrategy = data?.activeStrategyId ?? "";
+  let ruleOfList: ChartRule[] = getStrategyRules(
+    strategyList?.find((item) => item.id === selectedStrategy),
+  );
+
+  // Covers every assignment to selectedStrategy: switch, create and delete.
+  $: rememberSavedFilter(SAVED_FILTER_COOKIE.chart, selectedStrategy);
   let selectedStrategyTitle = "";
   let lastAppliedStrategyId = "";
   let lastAppliedStrategySignature = "";

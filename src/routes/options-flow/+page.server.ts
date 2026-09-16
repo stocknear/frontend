@@ -5,8 +5,9 @@ import {
   OPTIONS_FLOW_NUMERIC_RULES,
   normalizeFlowRules,
 } from "$lib/flow-page-state";
+import { SAVED_FILTER_COOKIE, activeSavedFilter } from "$lib/saved-filter";
 
-export const load = async ({ locals, url }) => {
+export const load = async ({ locals, url, cookies }) => {
   const { pb, user, wsURL } = locals;
 
   const getAllStrategies = async () => {
@@ -70,7 +71,10 @@ export const load = async ({ locals, url }) => {
 
   // Build paginated request from URL params + saved strategy rules
   const isSubscriber = user?.tier === "Pro";
-  const activeStrategy = getAllStrategiesData?.at(0);
+  const activeStrategy = activeSavedFilter(
+    getAllStrategiesData,
+    cookies.get(SAVED_FILTER_COOKIE.optionsFlow),
+  );
   const rules = activeStrategy?.rules || [];
   const search = url.searchParams.get("query") || "";
 
@@ -118,6 +122,7 @@ export const load = async ({ locals, url }) => {
     getOptionsFlowFeed: getOptionsFlowFeedData,
     getOptionsWatchlist: getOptionsWatchlistData,
     getAllStrategies: getAllStrategiesData,
+    activeStrategyId: activeStrategy?.id ?? "",
     watchlistFull: (getOptionsWatchlistData?.data?.length ?? 0) >= 300,
     wsURL: wsURL,
     wsToken: wsTokenData,

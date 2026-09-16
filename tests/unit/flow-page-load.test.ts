@@ -13,6 +13,10 @@ vi.mock("$lib/server/ws-token", () => ({
 import { load as loadOptionsFlow } from "../../src/routes/options-flow/+page.server";
 import { load as loadUnusualFlow } from "../../src/routes/unusual-order-flow/+page.server";
 
+function noCookies() {
+  return { get: () => undefined };
+}
+
 function requestPath(): URL {
   const path = serverMocks.getAPI.mock.calls.at(-1)?.[1];
   return new URL(path, "https://stocknear.com");
@@ -46,6 +50,7 @@ describe("flow page server loads", () => {
     await loadOptionsFlow({
       locals,
       url: new URL("https://stocknear.com/options-flow?query=AAPL"),
+      cookies: noCookies(),
     } as any);
 
     const request = requestPath();
@@ -78,6 +83,7 @@ describe("flow page server loads", () => {
     await loadUnusualFlow({
       locals,
       url: new URL("https://stocknear.com/unusual-order-flow?query=MSFT"),
+      cookies: noCookies(),
     } as any);
 
     const request = requestPath();
@@ -86,5 +92,62 @@ describe("flow page server loads", () => {
       { name: "size", condition: "exactly", value: 0 },
       { name: "premium", condition: "exactly", value: 1_000 },
     ]);
+  });
+
+  describe("remembered filter", () => {
+    const strategies = [
+      {
+        id: "newest00000001",
+        updated: "2026-08-12T12:00:00Z",
+        rules: [{ name: "cost_basis", condition: "over", value: "500K" }],
+      },
+      {
+        id: "older000000002",
+        updated: "2026-01-01T12:00:00Z",
+        rules: [{ name: "cost_basis", condition: "over", value: "1M" }],
+      },
+    ];
+
+    function localsWith() {
+      return {
+        user: { id: "user-1", tier: "Pro" },
+        wsURL: "wss://example.test",
+        pb: {
+          collection: () => ({ getFullList: async () => [...strategies] }),
+        },
+      };
+    }
+
+    async function loadWithCookie(value: string | undefined) {
+      return (await loadOptionsFlow({
+        locals: localsWith(),
+        url: new URL("https://stocknear.com/options-flow"),
+        cookies: { get: () => value },
+      } as any)) as any;
+    }
+
+    it("loads the remembered filter instead of the most recently saved one", async () => {
+      const result = await loadWithCookie("older000000002");
+
+      expect(result.activeStrategyId).toBe("older000000002");
+      expect(
+        JSON.parse(requestPath().searchParams.get("rules") ?? "[]"),
+      ).toEqual([{ name: "cost_basis", condition: "over", value: 1_000_000 }]);
+    });
+
+    it("falls back to the first filter when the remembered one is gone", async () => {
+      const result = await loadWithCookie("deleted0000000");
+
+      expect(result.activeStrategyId).toBe("newest00000001");
+      expect(
+        JSON.parse(requestPath().searchParams.get("rules") ?? "[]"),
+      ).toEqual([{ name: "cost_basis", condition: "over", value: 500_000 }]);
+    });
+
+    it("falls back to the first filter when nothing is remembered", async () => {
+      const result = await loadWithCookie(undefined);
+
+      expect(result.activeStrategyId).toBe("newest00000001");
+    });
   });
 });

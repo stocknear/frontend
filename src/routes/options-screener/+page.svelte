@@ -73,6 +73,10 @@
   import InfoModal from "$lib/components/InfoModal.svelte";
   import UpgradeToPro from "$lib/components/UpgradeToPro.svelte";
   import BreadCrumb from "$lib/components/BreadCrumb.svelte";
+  import {
+    SAVED_FILTER_COOKIE,
+    rememberSavedFilter,
+  } from "$lib/saved-filter";
 
   export let data;
   export let form;
@@ -107,8 +111,12 @@
   let hasFetchError = false;
 
   let strategyList = data?.getAllStrategies || [];
-  let selectedStrategy = strategyList?.at(0)?.id ?? "";
-  let ruleOfList = strategyList?.at(0)?.rules ?? [];
+  let selectedStrategy = data?.activeStrategyId ?? "";
+  let ruleOfList =
+    strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+  // Covers every assignment to selectedStrategy: switch, create and delete.
+  $: rememberSavedFilter(SAVED_FILTER_COOKIE.optionsScreener, selectedStrategy);
   let groupedRules = {};
   let displayRules = [];
   let inputValue = "";

@@ -107,7 +107,8 @@
     }
   }
 
-  const enhanceGenerate = () => {
+  const enhanceGenerate = ({ cancel }) => {
+    if (account?.token && !confirmed(mcp_profile_confirm_rotate(), cancel)) return;
     busyAction = "generate";
     return async ({ result }: { result: any }) => {
       busyAction = null;
@@ -127,7 +128,8 @@
     };
   };
 
-  const enhanceRevoke = () => {
+  const enhanceRevoke = ({ cancel }) => {
+    if (!confirmed(mcp_profile_confirm_revoke(), cancel)) return;
     busyAction = "revoke";
     return async ({ result }: { result: any }) => {
       busyAction = null;
@@ -143,7 +145,8 @@
     };
   };
 
-  const enhanceSessionRevoke = (sessionId: string) => () => {
+  const enhanceSessionRevoke = (sessionId: string) => ({ cancel }) => {
+    if (!confirmed(mcp_profile_confirm_revoke_session(), cancel)) return;
     busyAction = `session:${sessionId}`;
     return async ({ result }: { result: any }) => {
       busyAction = null;
@@ -169,7 +172,8 @@
     };
   };
 
-  const enhanceAllSessionsRevoke = () => {
+  const enhanceAllSessionsRevoke = ({ cancel }) => {
+    if (!confirmed(mcp_profile_confirm_revoke_all_sessions(), cancel)) return;
     busyAction = "sessions:all";
     return async ({ result }: { result: any }) => {
       busyAction = null;
@@ -187,8 +191,12 @@
     };
   };
 
-  function confirmTokenChange(event: SubmitEvent, message: string) {
-    if (!window.confirm(message)) event.preventDefault();
+  // use:enhance never looks at event.defaultPrevented, so preventDefault() on the
+  // form does not stop its fetch. cancel() is the only way to abort a submit.
+  function confirmed(message: string, cancel: () => void) {
+    if (window.confirm(message)) return true;
+    cancel();
+    return false;
   }
 </script>
 
@@ -305,9 +313,6 @@
             method="POST"
             action="?/generateMcpToken"
             use:enhance={enhanceGenerate}
-            onsubmit={(event) =>
-              account?.token &&
-              confirmTokenChange(event, mcp_profile_confirm_rotate())}
           >
             <button
               class="inline-flex min-h-10 items-center justify-center rounded-full border border-line bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-zinc-200 dark:focus-visible:ring-zinc-300"
@@ -326,8 +331,6 @@
               method="POST"
               action="?/revokeMcpToken"
               use:enhance={enhanceRevoke}
-              onsubmit={(event) =>
-                confirmTokenChange(event, mcp_profile_confirm_revoke())}
             >
               <button
                 class="inline-flex min-h-10 items-center justify-center rounded-full border border-line bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-red-500/20 dark:bg-red-500/15 dark:text-red-300 dark:hover:bg-red-500/25 dark:focus-visible:ring-red-500/50"
@@ -361,11 +364,6 @@
               method="POST"
               action="?/revokeAllMcpOAuthSessions"
               use:enhance={enhanceAllSessionsRevoke}
-              onsubmit={(event) =>
-                confirmTokenChange(
-                  event,
-                  mcp_profile_confirm_revoke_all_sessions(),
-                )}
             >
               <button
                 class="inline-flex min-h-10 items-center justify-center rounded-full border border-line px-4 py-2 text-sm font-semibold text-fg transition hover:border-red-400 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:border-red-600 dark:hover:text-red-300"
@@ -415,11 +413,6 @@
                   method="POST"
                   action="?/revokeMcpOAuthSession"
                   use:enhance={enhanceSessionRevoke(session.sessionId)}
-                  onsubmit={(event) =>
-                    confirmTokenChange(
-                      event,
-                      mcp_profile_confirm_revoke_session(),
-                    )}
                 >
                   <input
                     type="hidden"

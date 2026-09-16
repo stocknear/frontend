@@ -70,6 +70,7 @@
   import { Combobox } from "bits-ui";
   import HoverStockChart from "$lib/components/HoverStockChart.svelte";
   import Table from "$lib/components/Table/Table.svelte";
+  import { applyOrder, saveOrder } from "$lib/reorder";
   import SEO from "$lib/components/SEO.svelte";
   import Infobox from "$lib/components/Infobox.svelte";
 
@@ -532,6 +533,22 @@
     }
   }
 
+  async function handleRowReorder(order: string[]) {
+    // The table already shows the new order; mirror it so a later remount keeps
+    // it, and restore the old one if the write fails.
+    const previous = portfolio;
+    portfolio = applyOrder(portfolio, order, (item) => item?.symbol);
+
+    try {
+      await saveOrder("portfolio", displayPortfolio?.id, order);
+    } catch {
+      portfolio = previous;
+      toast.error(portfolio_toast_save_failed(), {
+        style: `border-radius: 5px; background: #fff; color: #000; border-color: ${$mode === "light" ? "#F9FAFB" : "#4B5563"}; font-size: 15px;`,
+      });
+    }
+  }
+
   // Debounced save function for portfolio updates (shares/avgPrice changes)
   async function savePortfolioData(updatedPortfolio) {
     // Clear any existing timeout
@@ -542,34 +559,14 @@
     // Set a new timeout to save after 1 second of no changes
     saveTimeoutId = setTimeout(async () => {
       try {
-        // Calculate total portfolio value for weight calculation
-        const totalValue = updatedPortfolio?.reduce((sum, item) => {
-          const price = parseFloat(item?.price) || 0;
-          const shares = parseFloat(item?.shares) || 0;
-          return sum + price * shares;
-        }, 0);
-
-        // Prepare ticker data with weight calculation and sort by weight (highest to lowest)
-        const tickerData = updatedPortfolio
-          ?.map((item) => {
-            const price = parseFloat(item?.price) || 0;
-            const shares = parseFloat(item?.shares) || 0;
-            const value = price * shares;
-            const weight = totalValue > 0 ? (value / totalValue) * 100 : 0;
-
-            return {
-              symbol: item?.symbol,
-              shares: item?.shares ?? null,
-              avgPrice: item?.avgPrice ?? null,
-              _weight: weight, // Temporary field for sorting
-            };
-          })
-          ?.sort((a, b) => (b._weight || 0) - (a._weight || 0)) // Sort by weight descending
-          ?.map(({ symbol, shares, avgPrice }) => ({
-            symbol,
-            shares,
-            avgPrice,
-          })); // Remove _weight
+        // Row order is the user's to set by dragging, so an edit to shares or
+        // avg. price must persist the order as-is. This used to re-sort by
+        // weight, which silently discarded any manual arrangement.
+        const tickerData = updatedPortfolio?.map((item) => ({
+          symbol: item?.symbol,
+          shares: item?.shares ?? null,
+          avgPrice: item?.avgPrice ?? null,
+        }));
 
         const postData = {
           ticker: tickerData,
@@ -1311,6 +1308,7 @@
                       {deleteTickerList}
                       onToggleDeleteTicker={handleFilter}
                       onPortfolioUpdate={savePortfolioData}
+                      onRowReorder={handleRowReorder}
                     />
                   {/key}
 

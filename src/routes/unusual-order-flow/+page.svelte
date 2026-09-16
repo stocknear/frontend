@@ -108,6 +108,10 @@
 
   import UnusualOrderFlowTable from "$lib/components/Table/UnusualOrderFlowTable.svelte";
   import ScreenerExport from "$lib/components/ScreenerExport.svelte";
+  import {
+    SAVED_FILTER_COOKIE,
+    rememberSavedFilter,
+  } from "$lib/saved-filter";
   export let data;
 
   let isComponentDestroyed = false;
@@ -127,9 +131,16 @@
   let livePreferenceLoaded = false;
 
   let strategyList = data?.getAllStrategies || [];
-  let selectedStrategy = strategyList?.at(0)?.id ?? "";
+  let selectedStrategy = data?.activeStrategyId ?? "";
 
-  let ruleOfList = strategyList?.at(0)?.rules ?? [];
+  let ruleOfList =
+    strategyList?.find((item) => item.id === selectedStrategy)?.rules ?? [];
+
+  // Covers every assignment to selectedStrategy: switch, create and delete.
+  $: rememberSavedFilter(
+    SAVED_FILTER_COOKIE.unusualOrderFlow,
+    selectedStrategy,
+  );
   let selectedPopularStrategy = "";
   $: popularStrategyList = [
     {

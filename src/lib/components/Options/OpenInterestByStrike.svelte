@@ -281,15 +281,17 @@
       : stock_detail_options_oi_bias_bullish();
 
   // Get display text for selected dates
-  function getSelectedDatesText() {
-    if (selectedDates.has("All")) {
+  // Takes the set as an argument on purpose: a zero-argument call compiles to
+  // untrack(), so the label would stay frozen on its initial value.
+  function getSelectedDatesText(dates: Set<string>) {
+    if (dates.has("All")) {
       return stock_detail_options_oi_all_expiries();
-    } else if (selectedDates.size === 1) {
-      const singleDate = Array.from(selectedDates)[0];
+    } else if (dates.size === 1) {
+      const singleDate = Array.from(dates)[0];
       return formatDate(singleDate);
     } else {
       return stock_detail_options_oi_expiries_selected({
-        count: selectedDates.size,
+        count: dates.size,
       });
     }
   }
@@ -329,16 +331,44 @@
       ?.sort((a, b) => a.strike - b.strike);
 
     const strikes = processedData?.map((d) => d.strike);
+    // A missing quote gives NaN and a dead feed gives 0; neither belongs on the
+    // strike axis, and findIndex would never locate NaN for the plot line.
+    const hasPrice = Number.isFinite(currentPrice) && currentPrice > 0;
     const allStrikes = Array.from(
-      new Set([...strikes, ...[currentPrice]]),
+      new Set(hasPrice ? [...strikes, currentPrice] : strikes),
     )?.sort((a, b) => a - b);
 
-    const callValues = processedData?.map((d) =>
-      parseFloat((d.callValue ?? 0).toFixed(2)),
-    );
-    const putValues = processedData?.map((d) =>
-      parseFloat((d.putValue ?? 0).toFixed(2)),
-    );
+    // Align series data to allStrikes so xAxis categories and data indices stay
+    // in sync (allStrikes carries currentPrice as an extra slot between real
+    // strikes, for the plot line at `plotLines` below).
+    const strikeToData = new Map(processedData?.map((d) => [d.strike, d]));
+    const toNum = (v) => parseFloat((v ?? 0).toFixed(2));
+    const callValues = allStrikes?.map((s) => {
+      const d = strikeToData?.get(s);
+      return d ? toNum(d.callValue) : null;
+    });
+    const putValues = allStrikes?.map((s) => {
+      const d = strikeToData?.get(s);
+      return d ? toNum(d.putValue) : null;
+    });
+
+    const priceLine = hasPrice
+      ? [
+          {
+            value: allStrikes?.findIndex((s) => s === currentPrice),
+            color: $mode === "light" ? "#000" : "#fff",
+            dashStyle: "Dash",
+            width: 1.5,
+            label: {
+              text: stock_detail_options_chart_current_price({
+                price: currentPrice,
+              }),
+              style: { color: $mode === "light" ? "#000" : "#fff" },
+            },
+            zIndex: 5,
+          },
+        ]
+      : [];
 
     const options = {
       chart: {
@@ -395,21 +425,7 @@
           width: 1,
           dashStyle: "Solid",
         },
-        plotLines: [
-          {
-            value: allStrikes?.findIndex((s) => s === currentPrice),
-            color: $mode === "light" ? "#000" : "#fff",
-            dashStyle: "Dash",
-            width: 1.5,
-            label: {
-              text: stock_detail_options_chart_current_price({
-                price: currentPrice,
-              }),
-              style: { color: $mode === "light" ? "#000" : "#fff" },
-            },
-            zIndex: 5,
-          },
-        ],
+        plotLines: priceLine,
         labels: {
           style: {
             color: $mode === "light" ? "#545454" : "white",
@@ -445,7 +461,7 @@
           const strike =
             this.points?.[0]?.key ?? this.key ?? this.category ?? this.x;
           let tooltipContent = `<span class="text-white m-auto text-black text-[1rem] font-[501]">Strike ${strike}</span><br>`;
-          this.points.forEach((point) => {
+          (this.points ?? [this])?.forEach((point) => {
             tooltipContent += `
         <span style="display:inline-block; width:10px; height:10px; background-color:${point.color}; border-radius:50%; margin-right:5px;"></span>
         <span class="text-white font-semibold text-sm">${point.series.name}:</span> 
@@ -456,6 +472,11 @@
       },
       plotOptions: {
         animation: false,
+        // The current-price slot has no strike, so both series are null there.
+        // Without this the line chart breaks in two at exactly that point.
+        series: {
+          connectNulls: true,
+        },
         column: {
           grouping: true,
           shadow: false,
@@ -658,7 +679,9 @@
           class="w-fit transition-all duration-150 border border-line text-fg bg-surface-card hover:bg-[#f8fbfb] dark:hover:bg-zinc-900/70 flex flex-row justify-between items-center px-2 sm:px-3 py-2 rounded-full truncate disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span class="truncate text-sm">
-            {stock_detail_options_oi_date_expiration()} | {getSelectedDatesText()}
+            {stock_detail_options_oi_date_expiration()} | {getSelectedDatesText(
+              selectedDates,
+            )}
           </span>
           <svg
             class="-mr-1 ml-2 h-5 w-5 inline-block"

@@ -5,8 +5,9 @@ import {
   UNUSUAL_FLOW_NUMERIC_RULES,
   normalizeFlowRules,
 } from "$lib/flow-page-state";
+import { SAVED_FILTER_COOKIE, activeSavedFilter } from "$lib/saved-filter";
 
-export const load = async ({ locals, url }) => {
+export const load = async ({ locals, url, cookies }) => {
   const { pb, user, wsURL } = locals;
 
   const getAllStrategies = async () => {
@@ -52,9 +53,13 @@ export const load = async ({ locals, url }) => {
   };
 
   const getAllStrategiesResult = await getAllStrategies();
-  const savedRules = Array.isArray(getAllStrategiesResult?.[0]?.rules)
+  const activeStrategy = activeSavedFilter(
+    getAllStrategiesResult,
+    cookies.get(SAVED_FILTER_COOKIE.unusualOrderFlow),
+  );
+  const savedRules = Array.isArray(activeStrategy?.rules)
     ? normalizeFlowRules(
-        getAllStrategiesResult[0].rules,
+        activeStrategy.rules,
         UNUSUAL_FLOW_NUMERIC_RULES,
         UNUSUAL_FLOW_CATEGORICAL_RULES,
       )
@@ -69,6 +74,7 @@ export const load = async ({ locals, url }) => {
   return {
     getFlowData: getFlowDataResult,
     getAllStrategies: getAllStrategiesResult,
+    activeStrategyId: activeStrategy?.id ?? "",
     wsURL: wsURL,
     wsToken: wsTokenResult,
   };

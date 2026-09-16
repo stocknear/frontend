@@ -1,4 +1,5 @@
 import type { RequestHandler } from "./$types";
+import { applyOrder } from "$lib/reorder";
 import { serialize } from "object-to-formdata";
 
 export const POST = (async ({ request, locals }) => {
@@ -48,7 +49,25 @@ export const POST = (async ({ request, locals }) => {
 
     if (Array.isArray(tickerInput)) {
       // When replacing the entire ticker list (delete mode or bulk update):
-      if(data?.mode === 'delete') {
+      if (data?.mode === "reorder") {
+        // Only the symbol order crosses the wire; shares and avgPrice are read
+        // back off the stored rows so a reorder can never overwrite them.
+        const order = data?.ticker;
+        if (
+          !Array.isArray(order) ||
+          order.length > currentTickers.length ||
+          !order?.every((symbol) => typeof symbol === "string" && symbol) ||
+          new Set(order).size !== order.length
+        ) {
+          return new Response(JSON.stringify({ error: "Invalid ticker data" }), {
+            status: 400,
+          });
+        }
+
+        output = await pb.collection("portfolio").update(portfolioId, {
+          ticker: applyOrder(currentTickers, order, (item: any) => item?.symbol),
+        });
+      } else if(data?.mode === 'delete') {
          output = await pb.collection("portfolio").update(portfolioId, {
         ticker: tickerInput,
       });
@@ -105,6 +124,11 @@ export const POST = (async ({ request, locals }) => {
       }
     }
   } catch (e) {
+    // Only the legacy add path may fall back to creating a portfolio. For an
+    // explicit mode a transient failure must surface, not silently mint a
+    // second portfolio whose rows have lost their shares and avg. price.
+    if (data?.mode) throw e;
+
     // If the portfolio doesn't exist, create a new one.
     const tickersArray = Array.isArray(tickerInput)
       ? tickerInput

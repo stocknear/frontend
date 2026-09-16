@@ -24,6 +24,34 @@ test("rendering an OAuth session does not start or disable revoke", async ({
   await expect(page.getByTestId("mcp-session-revoke")).toHaveText("Disconnect");
 });
 
+test("dismissing the confirm dialog does not disconnect the app", async ({
+  page,
+}) => {
+  await page.goto("/oauth/authorize?request=invalid");
+  await page.evaluate(async () => {
+    const target = document.createElement("div");
+    target.id = "mcp-access-test-root";
+    document.body.append(target);
+    const { mountMcpAccessHarness } =
+      await import("/src/test-fixtures/mcp-access-harness.ts");
+    mountMcpAccessHarness(target);
+  });
+
+  const posts: string[] = [];
+  page.on("request", (request) => {
+    if (request.method() === "POST") posts.push(request.url());
+  });
+  page.on("dialog", (dialog) => dialog.dismiss());
+
+  const revoke = page.getByTestId("mcp-session-revoke");
+  await revoke.click();
+
+  // The action must not fire, and the button must not be left spinning.
+  await expect(revoke).toBeEnabled();
+  await expect(revoke).toHaveText("Disconnect");
+  expect(posts).toEqual([]);
+});
+
 test("rendered password and social login forms retain the OAuth continuation", async ({
   page,
 }) => {

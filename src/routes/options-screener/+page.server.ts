@@ -1,6 +1,7 @@
 import { getAPI } from "$lib/server/api";
 import { loginAction, registerAction, oauth2Action } from "$lib/server/authActions";
 import { sanitizeDisplayColumns } from "$lib/server/optionsScreenerColumns";
+import { SAVED_FILTER_COOKIE, activeSavedFilter } from "$lib/saved-filter";
 
 const ROWS_COOKIE_NAME = "options_screener_rows";
 const ALLOWED_PAGE_SIZES = new Set(["20", "50", "100"]);
@@ -30,7 +31,10 @@ export const load = async ({ locals, cookies }) => {
   };
 
   const strategyList = await getAllStrategies();
-  const strategy = strategyList?.at(0);
+  const strategy = activeSavedFilter(
+    strategyList,
+    cookies.get(SAVED_FILTER_COOKIE.optionsScreener),
+  );
   // Normalise exactly like the client proxy (api/options-screener-feed) so the
   // first paint and the first client fetch can never disagree for e.g. "Plus".
   const subscriber = isPro ? "Pro" : "Free";
@@ -99,6 +103,7 @@ export const load = async ({ locals, cookies }) => {
     // was really requested instead of a locally reconstructed guess.
     getScreenerFeedQuery: initialFeed ? feedQuery : null,
     getAllStrategies: strategyList,
+    activeStrategyId: strategy?.id ?? "",
   };
 };
 

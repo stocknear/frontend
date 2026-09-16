@@ -24,6 +24,9 @@
   import { mode } from "mode-watcher";
   import Infobox from "$lib/components/Infobox.svelte";
   import Pencil from "lucide-svelte/icons/pencil";
+  import GripVertical from "lucide-svelte/icons/grip-vertical";
+  import { createRowDrag } from "$lib/actions/rowDrag";
+  import { moveByKey } from "$lib/reorder";
   import {
     buildAuthenticatedWsUrl,
     getPublicWsClosePolicy,
@@ -321,6 +324,7 @@
     null; // Callback for note editing (watchlist)
   export let onNoteHover: ((symbol: string, hasNote: boolean) => void) | null =
     null; // Callback for prefetching note on hover
+  export let onRowReorder: ((order: string[]) => void) | null = null; // Opt-in row drag (watchlist)
 
   let originalData = [...rawData]; // Unaltered copy of raw data
   let initialRawData = [...rawData]; // Store the truly initial data
@@ -2732,6 +2736,27 @@
     return orderedCols;
   }
 
+  // Row drag-and-drop. Keyed on the row identifier, never the loop index:
+  // `stockList` is one page of `originalData`, so indices are page-relative.
+  // A manual order is only meaningful in the unsorted, unfiltered view.
+  $: rowDragEnabled =
+    !!onRowReorder &&
+    !inputValue?.length &&
+    !hasQuickFilter &&
+    Object.values(sortOrders ?? {}).every(
+      (entry: any) => (entry?.order ?? "none") === "none",
+    );
+
+  const rowDrag = createRowDrag((fromKey, toKey) => {
+    const next = moveByKey(originalData, fromKey, toKey, getRowIdentifier);
+    if (next === originalData) return;
+    originalData = next;
+    registerInitialOrder(next, true);
+    updatePaginatedData();
+    onRowReorder?.(next?.map((row, i) => getRowIdentifier(row, i)));
+  });
+  const dragState = rowDrag.state;
+
   function handleColumnReorder(fromIndex: number, toIndex: number): void {
     if (fromIndex === toIndex) return;
 
@@ -3311,10 +3336,17 @@
            divide-y here stacked a second line in a different colour. -->
       <tbody>
         {#each stockList as item, index}
+          {@const rowKey = getRowIdentifier(item, index)}
           <tr
-            class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {index +
-              1 ===
-              rawData?.length &&
+            use:rowDrag.row={{ key: rowKey, enabled: rowDragEnabled }}
+            class="group transition-colors hover:bg-gray-50/60 dark:hover:bg-zinc-900/50 {$dragState.dragging ===
+            rowKey
+              ? 'opacity-50'
+              : ''} {$dragState.overKey === rowKey
+              ? $dragState.overBelow
+                ? 'border-b-2 border-b-accent'
+                : 'border-t-2 border-t-accent'
+              : ''} {index + 1 === rawData?.length &&
             !['Pro', 'Plus']?.includes(data?.user?.tier) &&
             hideLastRow
               ? 'opacity-[0.1]'
@@ -3438,6 +3470,21 @@
                     </div>
                   {:else}
                     <div class="flex items-center gap-1.5">
+                      {#if onRowReorder}
+                        <span
+                          use:rowDrag.handle={{
+                            key: rowKey,
+                            enabled: rowDragEnabled,
+                          }}
+                          aria-hidden="true"
+                          title="Drag to reorder"
+                          class="shrink-0 text-fg-muted/50 transition-colors {rowDragEnabled
+                            ? 'cursor-move hover:text-fg-muted'
+                            : 'invisible'}"
+                        >
+                          <GripVertical class="h-4 w-4" />
+                        </span>
+                      {/if}
                       <HoverStockChart
                         symbol={item[column.key]}
                         assetType={item?.type || item?.assetType}
